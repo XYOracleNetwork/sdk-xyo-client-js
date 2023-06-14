@@ -34,7 +34,7 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
   q: '04779dd197a5df977ed2cf6cb31d82d43328b790dc6b3b7d4437a427bd5847dfcde94b724a555b6d017bb7607c3e3281daf5b1699d6ef4124975c9237b917d426f',
 }*/
 
-describe('XyoAccount', () => {
+describe('Account', () => {
   test('Address from Phrase', () => {
     const wallet = Account.fromPhrase('test')
     expect(wallet.private).toHaveLength(32)

@@ -1,7 +1,7 @@
 import { WitnessConfig } from '@xyo-network/witness'
 
-import { XyoEthereumGasBlocknativeWitnessConfigSchema } from './Schema'
+import { EthereumGasBlocknativeWitnessConfigSchema } from './Schema'
 
-export type XyoEthereumGasBlocknativeWitnessConfig = WitnessConfig<{
-  schema: XyoEthereumGasBlocknativeWitnessConfigSchema
+export type EthereumGasBlocknativeWitnessConfig = WitnessConfig<{
+  schema: EthereumGasBlocknativeWitnessConfigSchema
 }>

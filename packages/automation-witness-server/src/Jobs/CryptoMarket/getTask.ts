@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { getDefaultLogger } from '@xylabs/sdk-api-express-ecs'
-import { XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
+import { CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Task } from '@xyo-network/shared'
 
@@ -18,8 +18,8 @@ export const getTask = (): Task => {
       logger.log('Divining Aggregated Crypto Prices')
       const diviner = await getDiviner()
       const results = await DivinerWrapper.wrap(diviner).divine(payloads)
-      const result = results.find((p) => p.schema === XyoCryptoMarketAssetSchema)
-      const answer = assertEx(result, 'Empty XyoCryptoMarketAssetPayload response from diviner')
+      const result = results.find((p) => p.schema === CryptoMarketAssetSchema)
+      const answer = assertEx(result, 'Empty CryptoMarketAssetPayload response from diviner')
       logger.log('Divined Aggregated Crypto Prices')
       logger.log('Reporting Aggregated Crypto Prices')
       await reportDivinerResult(answer)

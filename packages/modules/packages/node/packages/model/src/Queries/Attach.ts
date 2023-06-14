@@ -1,10 +1,10 @@
 import { Query } from '@xyo-network/module-model'
 
-export type XyoNodeAttachQuerySchema = 'network.xyo.query.node.attach'
-export const XyoNodeAttachQuerySchema: XyoNodeAttachQuerySchema = 'network.xyo.query.node.attach'
+export type NodeAttachQuerySchema = 'network.xyo.query.node.attach'
+export const NodeAttachQuerySchema: NodeAttachQuerySchema = 'network.xyo.query.node.attach'
 
-export type XyoNodeAttachQuery = Query<{
+export type NodeAttachQuery = Query<{
   external?: boolean
   nameOrAddress: string
-  schema: XyoNodeAttachQuerySchema
+  schema: NodeAttachQuerySchema
 }>

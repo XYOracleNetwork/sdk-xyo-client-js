@@ -1,10 +1,10 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { XyoPentairScreenlogicPayloadPlugin } from '../Plugin'
+import { PentairScreenlogicPayloadPlugin } from '../Plugin'
 
-describe('XyoPentairScreenlogicPayloadPlugin', () => {
+describe('PentairScreenlogicPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const plugin = XyoPentairScreenlogicPayloadPlugin()
+    const plugin = PentairScreenlogicPayloadPlugin()
     const resolver = new PayloadPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.schema)).toBeObject()
   })

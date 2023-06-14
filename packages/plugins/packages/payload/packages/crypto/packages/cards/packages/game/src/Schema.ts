@@ -1,2 +1,2 @@
-export type XyoCryptoCardsGameSchema = 'network.xyo.crypto.cards.game'
-export const XyoCryptoCardsGameSchema: XyoCryptoCardsGameSchema = 'network.xyo.crypto.cards.game'
+export type CryptoCardsGameSchema = 'network.xyo.crypto.cards.game'
+export const CryptoCardsGameSchema: CryptoCardsGameSchema = 'network.xyo.crypto.cards.game'

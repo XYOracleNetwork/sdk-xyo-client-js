@@ -11,5 +11,5 @@ export interface PrivateKeyInstance extends EllipticKeyInstance {
 
 export interface PrivateKeyStatic {
   new (value?: DataLike): PrivateKeyInstance
-  isXyoPrivateKey(value: unknown): boolean
+  isPrivateKey(value: unknown): boolean
 }

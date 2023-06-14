@@ -1,4 +1,4 @@
-import { XyoApiConfig } from '@xyo-network/api-models'
+import { ApiConfig } from '@xyo-network/api-models'
 
 import { LocationHeatmapQuery, LocationHeatmapQuerySchema } from './LocationHeatmapQuery'
 import { LocationQuadkeyHeatmapQuery, LocationQuadkeyHeatmapQuerySchema } from './LocationQuadkeyHeatmapQuery'
@@ -11,10 +11,10 @@ export interface LocationQueryCreationRequest<
 > {
   query: TQuery
   resultArchive: string
-  resultArchivist: XyoApiConfig
+  resultArchivist: ApiConfig
   schema: TSchema
   sourceArchive: string
-  sourceArchivist: XyoApiConfig
+  sourceArchivist: ApiConfig
 }
 
 export type LocationTimeRangeQueryCreationRequest = LocationQueryCreationRequest<LocationTimeRangeQuerySchema, LocationTimeRangeQuery>

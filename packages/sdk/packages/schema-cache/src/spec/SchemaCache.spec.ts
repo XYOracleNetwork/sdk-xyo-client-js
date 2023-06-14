@@ -1,15 +1,15 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoDomainPayload, XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
-import { XyoNetworkNodeSchema, XyoNetworkSchema } from '@xyo-network/network'
+import { DomainPayload, DomainSchema } from '@xyo-network/domain-payload-plugin'
+import { NetworkNodeSchema, NetworkSchema } from '@xyo-network/network'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
-import { XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
+import { SchemaSchema } from '@xyo-network/schema-payload-plugin'
 
 import { SchemaCache } from '../SchemaCache'
 
-const exampleDomainConfig: XyoDomainPayload = {
+const exampleDomainConfig: DomainPayload = {
   aliases: {
-    [XyoSchemaSchema]: {
+    [SchemaSchema]: {
       huri: '548476cc8388e97c7a724c77ffc89b8b858b66ee009750797405d264c570b260',
     },
   },
@@ -19,25 +19,25 @@ const exampleDomainConfig: XyoDomainPayload = {
       nodes: [
         {
           name: 'XYO Archivist',
-          schema: XyoNetworkNodeSchema,
+          schema: NetworkNodeSchema,
           slug: 'xyo',
           type: 'archivist',
           uri: 'https://api.archivist.xyo.network',
           web: 'https://archivist.xyo.network',
         },
       ],
-      schema: XyoNetworkSchema,
+      schema: NetworkSchema,
       slug: 'main',
     },
   ],
-  schema: XyoDomainSchema,
+  schema: DomainSchema,
 }
 
 describe('SchemaCache', () => {
   test('Valid', async () => {
     const cache = SchemaCache.instance
-    const fetchedPayload = await cache.get(XyoSchemaSchema)
-    expect(fetchedPayload?.payload.schema).toBe(XyoSchemaSchema)
+    const fetchedPayload = await cache.get(SchemaSchema)
+    expect(fetchedPayload?.payload.schema).toBe(SchemaSchema)
   })
 
   describe('validator', () => {
@@ -57,15 +57,15 @@ describe('SchemaCache', () => {
         const valid: Payload[] = payloads.filter(validator)
         expect(valid.length).toBe(payloads.length)
       })
-      test('XyoDomainConfig', async () => {
-        const schema = XyoDomainSchema
+      test('DomainConfig', async () => {
+        const schema = DomainSchema
         const cache = SchemaCache.instance
         const fetchedPayload = await cache.get(schema)
         expect(fetchedPayload).toBeTruthy()
-        const payloads = [new PayloadBuilder<XyoDomainPayload>({ schema }).fields(exampleDomainConfig).build()]
+        const payloads = [new PayloadBuilder<DomainPayload>({ schema }).fields(exampleDomainConfig).build()]
         const validator = assertEx(cache.validators[schema])
         // Strongly typing variable to ensure TypeScript inferred type from validator matches
-        const valid: XyoDomainPayload[] = payloads.filter(validator)
+        const valid: DomainPayload[] = payloads.filter(validator)
         expect(valid.length).toBe(payloads.length)
       })
     })

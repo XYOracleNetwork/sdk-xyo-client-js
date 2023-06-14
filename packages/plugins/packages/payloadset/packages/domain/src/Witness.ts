@@ -1,20 +1,20 @@
-import { XyoDomainSchema } from '@xyo-network/domain-payload-plugin'
+import { DomainSchema } from '@xyo-network/domain-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
-import { XyoDomainWitnessConfig, XyoDomainWitnessConfigSchema } from './Config'
+import { DomainWitnessConfig, DomainWitnessConfigSchema } from './Config'
 
-export type DomainWitnessParams = WitnessParams<AnyConfigSchema<XyoDomainWitnessConfig>>
-export class XyoDomainWitness<TParams extends DomainWitnessParams = DomainWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
-  static override configSchema = XyoDomainWitnessConfigSchema
+export type DomainWitnessParams = WitnessParams<AnyConfigSchema<DomainWitnessConfig>>
+export class DomainWitness<TParams extends DomainWitnessParams = DomainWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
+  static override configSchema = DomainWitnessConfigSchema
   static dmarc = '_xyo'
 
   static generateDmarc(domain: string) {
-    return `${XyoDomainWitness.dmarc}.${domain}`
+    return `${DomainWitness.dmarc}.${domain}`
   }
 
   override async observe(_payload?: Payload[]): Promise<Payload[]> {
-    return await super.observe([{ schema: XyoDomainSchema }])
+    return await super.observe([{ schema: DomainSchema }])
   }
 }

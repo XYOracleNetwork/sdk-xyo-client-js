@@ -1,10 +1,10 @@
-import { XyoEthereumGasEthgasstationPlugin } from './Plugin'
+import { EthereumGasEthgasstationPlugin } from './Plugin'
 
 export * from './Config'
 export * from './Schema'
 export * from './Witness'
 
-export { XyoEthereumGasEthgasstationPlugin }
+export { EthereumGasEthgasstationPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoEthereumGasEthgasstationPlugin
+export default EthereumGasEthgasstationPlugin

@@ -1,11 +1,11 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { XyoNodeSystemInfoPayload } from './Payload'
-import { XyoNodeSystemInfoSchema } from './Schema'
+import { NodeSystemInfoPayload } from './Payload'
+import { NodeSystemInfoSchema } from './Schema'
 import { systemInfoNodeWitnessTemplate } from './Template'
 
 export const NodeSystemInfoPayloadPlugin = () =>
-  createPayloadPlugin<XyoNodeSystemInfoPayload>({
-    schema: XyoNodeSystemInfoSchema,
+  createPayloadPlugin<NodeSystemInfoPayload>({
+    schema: NodeSystemInfoSchema,
     template: systemInfoNodeWitnessTemplate,
   })

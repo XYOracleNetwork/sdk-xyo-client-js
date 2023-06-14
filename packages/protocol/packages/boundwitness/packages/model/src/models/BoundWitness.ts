@@ -12,13 +12,9 @@ export type BoundWitnessFields = {
   timestamp?: number
 }
 
-export type XyoBoundWitnessFields = BoundWitnessFields
-
 export type BoundWitness<T extends Payload | void = void> = Payload<
   T extends Payload ? BoundWitnessFields & T : BoundWitnessFields,
   T extends Payload ? T['schema'] : BoundWitnessSchema
 >
-
-export type XyoBoundWitness<T extends Payload | void = void> = BoundWitness<T>
 
 export const isBoundWitness = (x?: Payload | null): x is BoundWitness => x?.schema === BoundWitnessSchema

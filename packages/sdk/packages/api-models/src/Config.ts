@@ -1,6 +1,6 @@
-import { XyoApiReportable } from './Reportable'
+import { ApiReportable } from './Reportable'
 
-interface XyoApiConfig extends XyoApiReportable {
+interface ApiConfig extends ApiReportable {
   /** @description The domain where the api is located */
   apiDomain: string
 
@@ -17,7 +17,7 @@ interface XyoApiConfig extends XyoApiReportable {
   query?: string
 
   /** @description Parent that should also report events from this api */
-  reportableParent?: XyoApiReportable
+  reportableParent?: ApiReportable
 
   /** @description The location in the API tree where this API object is mounted */
   root?: string
@@ -32,4 +32,4 @@ interface XyoApiConfig extends XyoApiReportable {
   userid?: string
 }
 
-export type { XyoApiConfig }
+export type { ApiConfig }

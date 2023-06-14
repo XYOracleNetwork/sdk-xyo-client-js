@@ -1,8 +1,8 @@
-import { XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
+import { CryptoMarketAssetPayload, CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoCryptoMarketAssetDiviner } from '../Diviner'
+import { CryptoMarketAssetDiviner } from '../Diviner'
 import { sampleCoinGeckoPayload, sampleUniswapPayload } from '../test'
 
 const coinGeckoPayload = sampleCoinGeckoPayload
@@ -16,17 +16,17 @@ describe('Diviner', () => {
     ['no inputs', 'empty observation', []],
   ]
   test.each(cases)('with %s returns %s', async (_input: string, _expected: string, data: Payload[]) => {
-    const module = await XyoCryptoMarketAssetDiviner.create()
+    const module = await CryptoMarketAssetDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)
     const payloads = await wrapper.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
     payloads.map((payload) => {
-      if (payload?.schema === XyoCryptoMarketAssetSchema) {
-        const assetPayload = payload as XyoCryptoMarketAssetPayload
+      if (payload?.schema === CryptoMarketAssetSchema) {
+        const assetPayload = payload as CryptoMarketAssetPayload
         expect(assetPayload).toBeObject()
         expect(assetPayload?.assets).toBeObject()
-        expect(assetPayload?.schema).toBe(XyoCryptoMarketAssetSchema)
+        expect(assetPayload?.schema).toBe(CryptoMarketAssetSchema)
         expect(assetPayload?.timestamp).toBeNumber()
       }
     })

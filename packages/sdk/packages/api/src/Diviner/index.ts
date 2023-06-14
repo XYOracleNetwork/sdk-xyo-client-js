@@ -1,2 +1,2 @@
 export * from './LocationDiviner'
-export * from './XyoRemoteDivinerConfig'
+export * from './RemoteDivinerConfig'

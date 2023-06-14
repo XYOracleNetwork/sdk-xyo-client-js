@@ -1,11 +1,11 @@
+import { ApiConfig } from '@xyo-network/api-models'
 import { axios, RawAxiosRequestConfig } from '@xyo-network/axios'
 
-import { ApiConfig } from './ApiConfig'
 import { getLocationDivinerApiResponseTransformer } from './LocationDivinerApiResponseTransformer'
 import { GetLocationQueryResponse } from './models'
 import { LocationQueryCreationResponse, SupportedLocationQueryCreationRequest } from './Queries'
 
-class XyoLocationDivinerApi {
+class LocationDivinerApi {
   config: ApiConfig
   constructor(config: ApiConfig) {
     this.config = config
@@ -26,4 +26,4 @@ class XyoLocationDivinerApi {
   }
 }
 
-export { XyoLocationDivinerApi }
+export { LocationDivinerApi }

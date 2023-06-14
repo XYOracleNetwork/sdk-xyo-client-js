@@ -1,10 +1,10 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoCryptoAssetPrices } from './lib'
-import { XyoCoingeckoCryptoMarketSchema } from './Schema'
+import { CryptoAssetPrices } from './lib'
+import { CoingeckoCryptoMarketSchema } from './Schema'
 
-export type XyoCoingeckoCryptoMarketPayload = Payload<{
-  assets: XyoCryptoAssetPrices
-  schema: XyoCoingeckoCryptoMarketSchema
+export type CoingeckoCryptoMarketPayload = Payload<{
+  assets: CryptoAssetPrices
+  schema: CoingeckoCryptoMarketSchema
   timestamp: number
 }>

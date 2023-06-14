@@ -1,6 +1,6 @@
-import { XyoCoingeckoCryptoMarketPayload } from './Payload'
-import { XyoCoingeckoCryptoMarketSchema } from './Schema'
+import { CoingeckoCryptoMarketPayload } from './Payload'
+import { CoingeckoCryptoMarketSchema } from './Schema'
 
-export const coingeckoCryptoMarketPayloadTemplate = (): Partial<XyoCoingeckoCryptoMarketPayload> => ({
-  schema: XyoCoingeckoCryptoMarketSchema,
+export const coingeckoCryptoMarketPayloadTemplate = (): Partial<CoingeckoCryptoMarketPayload> => ({
+  schema: CoingeckoCryptoMarketSchema,
 })

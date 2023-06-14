@@ -4,7 +4,7 @@ import { axios } from '@xyo-network/axios'
 import { DataLike } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
-export type XyoObjectCategory = 'block' | 'payload'
+export type ObjectCategory = 'block' | 'payload'
 
 export type HuriFetchFunction = (huri: Huri) => Promise<Payload | undefined>
 

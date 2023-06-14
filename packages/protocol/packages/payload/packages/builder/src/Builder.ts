@@ -43,5 +43,3 @@ export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>
     } as T
   }
 }
-
-export class XyoPayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> extends PayloadBuilder<T> {}

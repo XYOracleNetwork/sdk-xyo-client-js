@@ -1,21 +1,21 @@
 import { testIf } from '@xylabs/jest-helpers'
-import { XyoEthereumGasEtherscanPayload, XyoEthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
+import { EthereumGasEtherscanPayload, EthereumGasEtherscanSchema } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { XyoEthereumGasEtherscanWitnessConfigSchema } from '../Schema'
-import { XyoEthereumGasEtherscanWitness } from '../Witness'
+import { EthereumGasEtherscanWitnessConfigSchema } from '../Schema'
+import { EthereumGasEtherscanWitness } from '../Witness'
 
 const apiKey = process.env.ETHERSCAN_API_KEY || ''
 
-describe('XyoEthereumGasEtherscanWitness', () => {
+describe('EthereumGasEtherscanWitness', () => {
   testIf(apiKey)('returns observation', async () => {
-    const sut = await XyoEthereumGasEtherscanWitness.create({
+    const sut = await EthereumGasEtherscanWitness.create({
       config: {
         apiKey,
-        schema: XyoEthereumGasEtherscanWitnessConfigSchema,
+        schema: EthereumGasEtherscanWitnessConfigSchema,
       },
     })
-    const [actual] = (await sut.observe()) as XyoEthereumGasEtherscanPayload[]
+    const [actual] = (await sut.observe()) as EthereumGasEtherscanPayload[]
     expect(actual.result).toBeObject()
     expect(actual.result.FastGasPrice).toBeString()
     expect(actual.result.gasUsedRatio).toBeString()
@@ -25,7 +25,7 @@ describe('XyoEthereumGasEtherscanWitness', () => {
     expect(actual.result.suggestBaseFee).toBeString()
 
     expect(actual.timestamp).toBeNumber()
-    expect(actual.schema).toBe(XyoEthereumGasEtherscanSchema)
+    expect(actual.schema).toBe(EthereumGasEtherscanSchema)
 
     const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
@@ -33,7 +33,7 @@ describe('XyoEthereumGasEtherscanWitness', () => {
 
   /*describe('create', () => {
     it('throws if no params provided', async () => {
-      await expect(XyoEthereumGasEtherscanWitness.create()).toReject()
+      await expect(EthereumGasEtherscanWitness.create()).toReject()
     })
   })*/
 })

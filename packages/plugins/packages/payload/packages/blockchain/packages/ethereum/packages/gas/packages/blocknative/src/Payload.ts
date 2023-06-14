@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoEthereumGasBlocknativeSchema } from './Schema'
+import { EthereumGasBlocknativeSchema } from './Schema'
 
 export type WithConfidence<T> = T & {
   confidence: number
@@ -39,9 +39,9 @@ export interface EthereumGasBlocknativeResponse {
   unit: 'gwei'
 }
 
-export type XyoEthereumGasBlocknativePayload = Payload<
+export type EthereumGasBlocknativePayload = Payload<
   EthereumGasBlocknativeResponse & {
-    schema: XyoEthereumGasBlocknativeSchema
+    schema: EthereumGasBlocknativeSchema
     timestamp: number
   }
 >

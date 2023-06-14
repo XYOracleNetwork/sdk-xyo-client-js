@@ -14,6 +14,3 @@ export class WitnessWrapper extends ModuleWrapper implements Witness {
     return this.sendQuery(queryPayload, [queryPayload.payload(), ...(payloads ?? [])])
   }
 }
-
-/** @deprecated use WitnessWrapper instead */
-export class XyoWitnessWrapper extends WitnessWrapper {}

@@ -1,13 +1,13 @@
 import { AxiosResponse } from '@xyo-network/axios'
 
-import { XyoApiEnvelope } from './Envelope'
+import { ApiEnvelope } from './Envelope'
 
-export type XyoApiResponse<T = unknown, D = unknown> = AxiosResponse<T, D>
+export type ApiResponse<T = unknown, D = unknown> = AxiosResponse<T, D>
 
-export type XyoApiResponseBody<T> = T | undefined
+export type ApiResponseBody<T> = T | undefined
 
-export type XyoApiResponseTuple<T> = [T | undefined, XyoApiEnvelope<T | undefined>, XyoApiResponse<XyoApiEnvelope<T | undefined>>]
+export type ApiResponseTuple<T> = [T | undefined, ApiEnvelope<T | undefined>, ApiResponse<ApiEnvelope<T | undefined>>]
 
-export type XyoApiResponseTupleOrBody<T> = XyoApiResponseTuple<T> | XyoApiResponseBody<T>
+export type ApiResponseTupleOrBody<T> = ApiResponseTuple<T> | ApiResponseBody<T>
 
-export type XyoApiResponseType = 'body' | 'tuple'
+export type ApiResponseType = 'body' | 'tuple'

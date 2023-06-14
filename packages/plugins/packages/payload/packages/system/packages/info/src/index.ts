@@ -4,7 +4,7 @@ import { BowserSystemInfoPayloadPlugin } from '@xyo-network/bowser-system-info-p
 import { NodeSystemInfoPayloadPlugin } from '@xyo-network/node-system-info-payload-plugin'
 import { PayloadPluginFunc } from '@xyo-network/payload-plugin'
 
-export const XyoSystemInfoPayloadPlugins: PayloadPluginFunc[] = [BowserSystemInfoPayloadPlugin, NodeSystemInfoPayloadPlugin]
+export const SystemInfoPayloadPlugins: PayloadPluginFunc[] = [BowserSystemInfoPayloadPlugin, NodeSystemInfoPayloadPlugin]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoSystemInfoPayloadPlugins
+export default SystemInfoPayloadPlugins

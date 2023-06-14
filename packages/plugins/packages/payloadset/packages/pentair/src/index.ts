@@ -1,8 +1,8 @@
-import { XyoPentairScreenlogicPlugin } from './Plugin'
+import { PentairScreenlogicPlugin } from './Plugin'
 
 export * from './Witness'
 
-export { XyoPentairScreenlogicPlugin }
+export { PentairScreenlogicPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoPentairScreenlogicPlugin
+export default PentairScreenlogicPlugin

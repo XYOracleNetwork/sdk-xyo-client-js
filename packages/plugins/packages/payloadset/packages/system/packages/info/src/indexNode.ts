@@ -1,9 +1,9 @@
 export * from '@xyo-network/node-system-info-plugin'
 
-import { XyoNodeSystemInfoPlugin } from '@xyo-network/node-system-info-plugin'
+import { NodeSystemInfoPlugin } from '@xyo-network/node-system-info-plugin'
 import { PayloadSetPluginFunc } from '@xyo-network/payloadset-plugin'
 
-export const XyoSystemInfoPlugins: PayloadSetPluginFunc[] = [XyoNodeSystemInfoPlugin]
+export const SystemInfoPlugins: PayloadSetPluginFunc[] = [NodeSystemInfoPlugin]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoSystemInfoPlugins
+export default SystemInfoPlugins

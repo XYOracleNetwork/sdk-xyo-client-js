@@ -7,14 +7,14 @@ import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
-import { XyoHuriPayloadDivinerConfig, XyoHuriPayloadDivinerConfigSchema } from './Config'
+import { HuriPayload, HuriSchema } from '../XyoHuriPayload'
+import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config'
 
-export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<XyoHuriPayloadDivinerConfig> = AnyConfigSchema<XyoHuriPayloadDivinerConfig>> =
+export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
   DivinerParams<TConfig>
 
 export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
-  static override configSchema = XyoHuriPayloadDivinerConfigSchema
+  static override configSchema = HuriPayloadDivinerConfigSchema
 
   protected get options() {
     return this.config?.options
@@ -22,7 +22,7 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
-      payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
+      payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const huriList = huriPayloads

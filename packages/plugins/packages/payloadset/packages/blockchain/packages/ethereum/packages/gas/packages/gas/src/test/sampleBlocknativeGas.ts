@@ -1,10 +1,6 @@
-import {
-  EstimatedBaseFee,
-  XyoEthereumGasBlocknativePayload,
-  XyoEthereumGasBlocknativeSchema,
-} from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
+import { EstimatedBaseFee, EthereumGasBlocknativePayload, EthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 
-export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
+export const sampleBlocknativeGas: EthereumGasBlocknativePayload = {
   blockPrices: [
     {
       baseFeePerGas: 13.691764456,
@@ -90,7 +86,7 @@ export const sampleBlocknativeGas: XyoEthereumGasBlocknativePayload = {
   maxPrice: 36,
   msSinceLastBlock: 3643,
   network: 'main',
-  schema: XyoEthereumGasBlocknativeSchema,
+  schema: EthereumGasBlocknativeSchema,
   system: 'ethereum',
   timestamp: 1668697958837,
   unit: 'gwei',

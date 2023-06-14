@@ -1,2 +1,2 @@
-export type XyoPentairScreenlogicSchema = 'network.xyo.pentair.screenlogic'
-export const XyoPentairScreenlogicSchema: XyoPentairScreenlogicSchema = 'network.xyo.pentair.screenlogic'
+export type PentairScreenlogicSchema = 'network.xyo.pentair.screenlogic'
+export const PentairScreenlogicSchema: PentairScreenlogicSchema = 'network.xyo.pentair.screenlogic'

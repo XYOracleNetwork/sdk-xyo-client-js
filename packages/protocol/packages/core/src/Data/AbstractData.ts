@@ -1,8 +1,8 @@
 import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
 
-export abstract class XyoAbstractData {
-  private _isXyoData = true
+export abstract class AbstractData {
+  private _isData = true
 
   get length() {
     return this.bytes.length
@@ -18,7 +18,7 @@ export abstract class XyoAbstractData {
 
   abstract get keccak256(): Buffer
 
-  static isXyoData(value: unknown) {
-    return (value as XyoAbstractData)._isXyoData
+  static isData(value: unknown) {
+    return (value as AbstractData)._isData
   }
 }

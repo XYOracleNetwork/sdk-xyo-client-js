@@ -1,8 +1,8 @@
-import { XyoCoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-market-payload-plugin'
-import { AssetInfo, XyoCryptoMarketAssetPayload, XyoCryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
+import { CoingeckoCryptoMarketPayload } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { AssetInfo, CryptoMarketAssetPayload, CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-const schema = XyoCryptoMarketAssetSchema
+const schema = CryptoMarketAssetSchema
 
 const valuationExists = (value: [string, Partial<Record<string, number>> | undefined]): value is [string, Partial<Record<string, number>>] => {
   return !!value[1]
@@ -13,7 +13,7 @@ const otherValueExists = (value: [string, number | undefined]): value is [string
   return typeof possiblyNumber === 'number' && !isNaN(possiblyNumber)
 }
 
-export const divineCoinGeckoPrices = (payload: XyoCoingeckoCryptoMarketPayload | undefined): XyoCryptoMarketAssetPayload => {
+export const divineCoinGeckoPrices = (payload: CoingeckoCryptoMarketPayload | undefined): CryptoMarketAssetPayload => {
   const assets: Record<string, AssetInfo> =
     payload && payload?.assets
       ? Object.fromEntries(
@@ -30,5 +30,5 @@ export const divineCoinGeckoPrices = (payload: XyoCoingeckoCryptoMarketPayload |
         )
       : {}
   const timestamp = Date.now()
-  return new PayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
+  return new PayloadBuilder<CryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
 }

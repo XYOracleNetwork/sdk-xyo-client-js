@@ -1,1 +1,1 @@
-export type XyoApiWarning = Error
+export type ApiWarning = Error

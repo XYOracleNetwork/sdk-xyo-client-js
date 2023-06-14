@@ -5,11 +5,11 @@ import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivistPayloadDiviner,
+  ArchivistPayloadDivinerConfigSchema,
   DivinerModule,
   DivinerWrapper,
-  XyoArchivistPayloadDivinerConfigSchema,
-  XyoHuriPayload,
-  XyoHuriSchema,
+  HuriPayload,
+  HuriSchema,
 } from '@xyo-network/diviner'
 import { AbstractModule, Module, ModuleDescription } from '@xyo-network/module'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
@@ -38,11 +38,11 @@ describe('MemoryNode', () => {
   })
   describe('create', () => {
     it('Creates MemoryNode', async () => {
-      const XyoMemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
+      const MemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
       const node = await MemoryNode.create()
-      const archivist = await XyoMemoryArchivist.create()
+      const archivist = await MemoryArchivist.create()
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
-        config: { archivist: archivist.address, schema: XyoArchivistPayloadDivinerConfigSchema },
+        config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
       })
       await node.register(archivist)
       await node.attach(archivist.address, true)
@@ -68,7 +68,7 @@ describe('MemoryNode', () => {
 
       if (payloads && payloads[0]) {
         const huri = await PayloadWrapper.hashAsync(payloads[0])
-        const huriPayload: XyoHuriPayload = { huri: [huri], schema: XyoHuriSchema }
+        const huriPayload: HuriPayload = { huri: [huri], schema: HuriSchema }
         const module = (await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)) as DivinerModule | undefined
         const foundDiviner = module ? DivinerWrapper.wrap(module) : null
         expect(foundDiviner).toBeDefined()

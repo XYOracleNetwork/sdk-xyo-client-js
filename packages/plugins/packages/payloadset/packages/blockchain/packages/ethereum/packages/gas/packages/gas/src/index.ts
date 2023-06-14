@@ -1,9 +1,9 @@
-import { XyoEthereumGasPlugin } from './Plugin'
+import { EthereumGasPlugin } from './Plugin'
 
 export * from './Diviner'
 export * from './Schema'
 
-export { XyoEthereumGasPlugin }
+export { EthereumGasPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoEthereumGasPlugin
+export default EthereumGasPlugin

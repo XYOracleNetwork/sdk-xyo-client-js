@@ -1,3 +1,2 @@
-export type XyoCoingeckoCryptoMarketWitnessConfigSchema = 'network.xyo.crypto.market.coingecko.witness.config'
-export const XyoCoingeckoCryptoMarketWitnessConfigSchema: XyoCoingeckoCryptoMarketWitnessConfigSchema =
-  'network.xyo.crypto.market.coingecko.witness.config'
+export type CoingeckoCryptoMarketWitnessConfigSchema = 'network.xyo.crypto.market.coingecko.witness.config'
+export const CoingeckoCryptoMarketWitnessConfigSchema: CoingeckoCryptoMarketWitnessConfigSchema = 'network.xyo.crypto.market.coingecko.witness.config'

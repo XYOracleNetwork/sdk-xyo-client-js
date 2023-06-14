@@ -1,8 +1,8 @@
 import { WitnessConfig } from '@xyo-network/witness'
 
-export type XyoBowserSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.bowser.config'
-export const XyoBowserSystemInfoWitnessConfigSchema: XyoBowserSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.bowser.config'
+export type BowserSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.bowser.config'
+export const BowserSystemInfoWitnessConfigSchema: BowserSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.bowser.config'
 
-export type XyoBowserSystemInfoWitnessConfig = WitnessConfig<{
-  schema: XyoBowserSystemInfoWitnessConfigSchema
+export type BowserSystemInfoWitnessConfig = WitnessConfig<{
+  schema: BowserSystemInfoWitnessConfigSchema
 }>

@@ -10,5 +10,3 @@ export abstract class ObjectWrapper<T extends EmptyObject = EmptyObject> {
     return this.obj as StringKeyObject
   }
 }
-
-export class XyoObjectWrapper extends ObjectWrapper {}

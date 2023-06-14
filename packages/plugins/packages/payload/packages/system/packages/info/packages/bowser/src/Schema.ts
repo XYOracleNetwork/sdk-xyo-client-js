@@ -1,2 +1,2 @@
-export type XyoBowserSystemInfoSchema = 'network.xyo.system.info.bowser'
-export const XyoBowserSystemInfoSchema: XyoBowserSystemInfoSchema = 'network.xyo.system.info.bowser'
+export type BowserSystemInfoSchema = 'network.xyo.system.info.bowser'
+export const BowserSystemInfoSchema: BowserSystemInfoSchema = 'network.xyo.system.info.bowser'

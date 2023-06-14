@@ -1,25 +1,25 @@
 import {
-  XyoEthereumGasEthgasstationPayload,
-  XyoEthereumGasEthgasstationSchema,
-  XyoEthereumGasEthgasstationWitnessConfigSchema,
+  EthereumGasEthgasstationPayload,
+  EthereumGasEthgasstationSchema,
+  EthereumGasEthgasstationWitnessConfigSchema,
 } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { TimestampWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
-import { XyoEthereumGasEthgasstationWitnessConfig } from './Config'
+import { EthereumGasEthgasstationWitnessConfig } from './Config'
 import { getGasFromEthgasstation } from './lib'
 
-export type XyoEthereumGasEthgasstationWitnessParams = WitnessParams<AnyConfigSchema<XyoEthereumGasEthgasstationWitnessConfig>>
-export class XyoEthereumGasEthgasstationWitness<TParams extends XyoEthereumGasEthgasstationWitnessParams = XyoEthereumGasEthgasstationWitnessParams>
+export type EthereumGasEthgasstationWitnessParams = WitnessParams<AnyConfigSchema<EthereumGasEthgasstationWitnessConfig>>
+export class EthereumGasEthgasstationWitness<TParams extends EthereumGasEthgasstationWitnessParams = EthereumGasEthgasstationWitnessParams>
   extends TimestampWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema: string = XyoEthereumGasEthgasstationWitnessConfigSchema
+  static override configSchema: string = EthereumGasEthgasstationWitnessConfigSchema
 
   override async observe(): Promise<Payload[]> {
-    const payload = new PayloadBuilder<XyoEthereumGasEthgasstationPayload>({ schema: XyoEthereumGasEthgasstationSchema })
+    const payload = new PayloadBuilder<EthereumGasEthgasstationPayload>({ schema: EthereumGasEthgasstationSchema })
       .fields(await getGasFromEthgasstation())
       .build()
     return super.observe([payload])

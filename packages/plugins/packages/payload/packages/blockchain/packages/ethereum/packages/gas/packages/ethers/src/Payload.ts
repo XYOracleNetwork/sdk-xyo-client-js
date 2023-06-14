@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoEthereumGasEthersSchema } from './Schema'
+import { EthereumGasEthersSchema } from './Schema'
 
 /**
  * https://docs.ethers.io/v5/api/providers/types/#providers-FeeData
@@ -24,9 +24,9 @@ export interface EthereumGasEthersResponse {
   maxPriorityFeePerGas: null | number
 }
 
-export type XyoEthereumGasEthersPayload = Payload<
+export type EthereumGasEthersPayload = Payload<
   EthereumGasEthersResponse & {
-    schema: XyoEthereumGasEthersSchema
+    schema: EthereumGasEthersSchema
     timestamp: number
   }
 >

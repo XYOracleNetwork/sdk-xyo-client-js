@@ -1,9 +1,9 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { XyoPentairScreenlogicPayload } from './Payload'
-import { XyoPentairScreenlogicSchema } from './Schema'
+import { PentairScreenlogicPayload } from './Payload'
+import { PentairScreenlogicSchema } from './Schema'
 
-export const XyoPentairScreenlogicPayloadPlugin = () =>
-  createPayloadPlugin<XyoPentairScreenlogicPayload>({
-    schema: XyoPentairScreenlogicSchema,
+export const PentairScreenlogicPayloadPlugin = () =>
+  createPayloadPlugin<PentairScreenlogicPayload>({
+    schema: PentairScreenlogicSchema,
   })

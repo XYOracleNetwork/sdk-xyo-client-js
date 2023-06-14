@@ -4,7 +4,7 @@ import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
 import { WitnessObserveQuerySchema } from '@xyo-network/witness'
 
-describe('XyoModuleResolver', () => {
+describe('ModuleResolver', () => {
   let archivist: AbstractModule
   let witness: AbstractModule
   let resolver: CompositeModuleResolver

@@ -1,16 +1,9 @@
 import { exists } from '@xylabs/exists'
-import {
-  AssetInfo,
-  Currency,
-  Token,
-  ValueBasis,
-  XyoCryptoMarketAssetPayload,
-  XyoCryptoMarketAssetSchema,
-} from '@xyo-network/crypto-asset-payload-plugin'
+import { AssetInfo, CryptoMarketAssetPayload, CryptoMarketAssetSchema, Currency, Token, ValueBasis } from '@xyo-network/crypto-asset-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoPair, XyoUniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { UniswapCryptoMarketPayload, UniswapCryptoPair, UniswapCryptoToken } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-const schema = XyoCryptoMarketAssetSchema
+const schema = CryptoMarketAssetSchema
 
 const mapUniswapToken = (symbol: string): Token | Currency => {
   // TODO: Actually calculate the value of the token/stablecoin based on others
@@ -21,21 +14,21 @@ const mapUniswapToken = (symbol: string): Token | Currency => {
   return symbol.toLowerCase() as Token
 }
 
-const pairsContainingToken = (uniswapPayload: XyoUniswapCryptoMarketPayload, token: Token) => {
+const pairsContainingToken = (uniswapPayload: UniswapCryptoMarketPayload, token: Token) => {
   return uniswapPayload?.pairs
     .map((p) => p.tokens)
     .filter((p) => p.some((x) => x.symbol.toLowerCase() === token))
     .filter(exists)
 }
 
-const tokensFromPairs = (pairs: XyoUniswapCryptoPair[]) => {
+const tokensFromPairs = (pairs: UniswapCryptoPair[]) => {
   return pairs
     .map((p) => p.tokens)
     .flat()
     .map((t) => t.symbol.toLowerCase() as Token)
 }
 
-const valuesFromTokenPairs = (tokensPairs: XyoUniswapCryptoToken[][], token: Token): ValueBasis => {
+const valuesFromTokenPairs = (tokensPairs: UniswapCryptoToken[][], token: Token): ValueBasis => {
   return Object.fromEntries(
     tokensPairs
       .map((pair) => {
@@ -47,7 +40,7 @@ const valuesFromTokenPairs = (tokensPairs: XyoUniswapCryptoToken[][], token: Tok
   )
 }
 
-export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayload | undefined): XyoCryptoMarketAssetPayload => {
+export const divineUniswapPrices = (uniswapPayload: UniswapCryptoMarketPayload | undefined): CryptoMarketAssetPayload => {
   let assets: Partial<Record<Token, AssetInfo | undefined>> = {}
   if (uniswapPayload) {
     const tokens: Set<Token> = new Set(tokensFromPairs(uniswapPayload.pairs))
@@ -61,5 +54,5 @@ export const divineUniswapPrices = (uniswapPayload: XyoUniswapCryptoMarketPayloa
     )
   }
   const timestamp = Date.now()
-  return new PayloadBuilder<XyoCryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
+  return new PayloadBuilder<CryptoMarketAssetPayload>({ schema }).fields({ assets, timestamp }).build()
 }

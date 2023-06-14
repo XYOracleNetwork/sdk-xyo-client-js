@@ -25,7 +25,7 @@ describe.skip('MemoryCoinUserLocationsDiviner', () => {
         expect(result).toBeArrayOfSize(0)
         //const actual = result[0] as Payload
         //expect(actual).toBeObject()
-        //expect(actual.schema).toBe(XyoLocationSchema)
+        //expect(actual.schema).toBe(LocationSchema)
       })
     })
   })

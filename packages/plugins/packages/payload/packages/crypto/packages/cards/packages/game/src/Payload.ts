@@ -1,8 +1,8 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoCryptoCardsGameSchema } from './Schema'
+import { CryptoCardsGameSchema } from './Schema'
 
-export type XyoCryptoCardsGamePayload = Payload<{
+export type CryptoCardsGamePayload = Payload<{
   /** @field The set of weights to pick from */
   allowedWeights: number[]
   /** @field The length [ms] of the game */
@@ -12,7 +12,7 @@ export type XyoCryptoCardsGamePayload = Payload<{
 
   /** @field The Huri of the Oracle Pointer that will determine the winner */
   oraclePointer: string
-  schema: XyoCryptoCardsGameSchema
+  schema: CryptoCardsGameSchema
   /** @field The Sequence of payloads the are required for completion */
   sequence: string[]
   /** @field The Address of the Sequencer that will be used */

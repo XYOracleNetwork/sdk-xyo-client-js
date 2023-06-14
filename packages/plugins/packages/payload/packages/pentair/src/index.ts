@@ -1,9 +1,9 @@
-import { XyoPentairScreenlogicPayloadPlugin } from './Plugin'
+import { PentairScreenlogicPayloadPlugin } from './Plugin'
 
 export * from './Payload'
 export * from './Schema'
 
-export { XyoPentairScreenlogicPayloadPlugin }
+export { PentairScreenlogicPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoPentairScreenlogicPayloadPlugin
+export default PentairScreenlogicPayloadPlugin

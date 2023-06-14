@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 
-import { XyoWalletBase } from '../../Wallet'
+import { WalletBase } from '../../Wallet'
 
-export class XyoWebWallet extends XyoWalletBase {
+export class WebWallet extends WalletBase {
   static load(name = 'xyoWallet') {
-    return new XyoWalletBase(assertEx(localStorage.getItem(name), 'No stored wallet found'), name)
+    return new WalletBase(assertEx(localStorage.getItem(name), 'No stored wallet found'), name)
   }
 
   save() {

@@ -1,21 +1,16 @@
-import { XyoApiConfig, XyoApiResponseBody, XyoApiResponseTuple, XyoApiResponseTupleOrBody, XyoApiResponseType } from '@xyo-network/api-models'
+import { ApiConfig, ApiResponseBody, ApiResponseTuple, ApiResponseTupleOrBody, ApiResponseType } from '@xyo-network/api-models'
 import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
 
-import { XyoApiBase } from './Base'
+import { ApiBase } from './Base'
 import { objToQuery } from './objToQuery'
 
-export type XyoApiSimpleQuery = PayloadFindFilter
+export type ApiSimpleQuery = PayloadFindFilter
 
-export class XyoApiSimple<
-  T = Payload,
-  D = T,
-  Q extends XyoApiSimpleQuery = XyoApiSimpleQuery,
-  C extends XyoApiConfig = XyoApiConfig,
-> extends XyoApiBase<C> {
-  async delete(): Promise<XyoApiResponseBody<T>>
-  async delete(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  async delete(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  async delete(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQuery, C extends ApiConfig = ApiConfig> extends ApiBase<C> {
+  async delete(): Promise<ApiResponseBody<T>>
+  async delete(responseType?: 'body'): Promise<ApiResponseBody<T>>
+  async delete(responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
+  async delete(responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.deleteEndpoint(undefined, 'tuple')
@@ -24,10 +19,10 @@ export class XyoApiSimple<
     }
   }
 
-  async find(query?: Q): Promise<XyoApiResponseBody<T>>
-  async find(query?: Q, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  async find(query?: Q, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  async find(query = {}, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async find(query?: Q): Promise<ApiResponseBody<T>>
+  async find(query?: Q, responseType?: 'body'): Promise<ApiResponseBody<T>>
+  async find(query?: Q, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
+  async find(query = {}, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.getEndpoint(objToQuery(query), 'tuple')
@@ -36,10 +31,10 @@ export class XyoApiSimple<
     }
   }
 
-  async get(): Promise<XyoApiResponseBody<T>>
-  async get(responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  async get(responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  async get(responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async get(): Promise<ApiResponseBody<T>>
+  async get(responseType?: 'body'): Promise<ApiResponseBody<T>>
+  async get(responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
+  async get(responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.getEndpoint(undefined, 'tuple')
@@ -48,10 +43,10 @@ export class XyoApiSimple<
     }
   }
 
-  async post(data?: D): Promise<XyoApiResponseBody<T>>
-  async post(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  async post(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  async post(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async post(data?: D): Promise<ApiResponseBody<T>>
+  async post(data?: D, responseType?: 'body'): Promise<ApiResponseBody<T>>
+  async post(data?: D, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
+  async post(data?: D, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.postEndpoint(undefined, data, 'tuple')
@@ -60,10 +55,10 @@ export class XyoApiSimple<
     }
   }
 
-  async put(data?: D): Promise<XyoApiResponseBody<T>>
-  async put(data?: D, responseType?: 'body'): Promise<XyoApiResponseBody<T>>
-  async put(data?: D, responseType?: 'tuple'): Promise<XyoApiResponseTuple<T>>
-  async put(data?: D, responseType?: XyoApiResponseType): Promise<XyoApiResponseTupleOrBody<T>> {
+  async put(data?: D): Promise<ApiResponseBody<T>>
+  async put(data?: D, responseType?: 'body'): Promise<ApiResponseBody<T>>
+  async put(data?: D, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
+  async put(data?: D, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
       case 'tuple':
         return await this.putEndpoint(undefined, data, 'tuple')

@@ -1,2 +1,2 @@
-export * from './XyoUniswapCryptoPair'
-export * from './XyoUniswapCryptoToken'
+export * from './UniswapCryptoPair'
+export * from './UniswapCryptoToken'

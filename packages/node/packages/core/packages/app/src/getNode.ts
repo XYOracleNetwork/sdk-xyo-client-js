@@ -4,7 +4,7 @@ import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
-import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
+import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { configureEnvironment, configureTransports } from './configuration'
 
@@ -18,7 +18,7 @@ export const getNode = async (account?: AccountInstance): Promise<MemoryNode> =>
     const path = WALLET_PATHS.Nodes.Node
     account = HDWallet.fromMnemonic(mnemonic).derivePath(path)
   }
-  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
+  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new SchemaNameValidator(schema))
   const params: MemoryNodeParams = { account, config }
   const node = await MemoryNode.create(params)
   await configureTransports(node)

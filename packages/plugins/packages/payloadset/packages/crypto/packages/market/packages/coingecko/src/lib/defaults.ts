@@ -1,6 +1,6 @@
-import { XyoCryptoAsset } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { CryptoAsset } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 
-export const defaultCoins: XyoCryptoAsset[] = [
+export const defaultCoins: CryptoAsset[] = [
   { name: 'bitcoin' },
   { name: 'binance-usd' },
   { name: 'bnb' },
@@ -16,4 +16,4 @@ export const defaultCoins: XyoCryptoAsset[] = [
   { name: 'xyo-network' },
 ]
 
-export const defaultCurrencies: XyoCryptoAsset[] = [{ symbol: 'usd' }, { symbol: 'eur' }, { symbol: 'btc' }, { symbol: 'eth' }]
+export const defaultCurrencies: CryptoAsset[] = [{ symbol: 'usd' }, { symbol: 'eur' }, { symbol: 'btc' }, { symbol: 'eth' }]

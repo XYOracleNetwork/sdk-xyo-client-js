@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoEthereumGasEtherscanSchema } from './Schema'
+import { EthereumGasEtherscanSchema } from './Schema'
 
 /**
  * https://docs.etherscan.io/api-endpoints/gas-tracker#get-gas-oracle
@@ -36,9 +36,9 @@ export interface EthereumGasEtherscanResponse {
   status: string
 }
 
-export type XyoEthereumGasEtherscanPayload = Payload<
+export type EthereumGasEtherscanPayload = Payload<
   EthereumGasEtherscanResponse & {
-    schema: XyoEthereumGasEtherscanSchema
+    schema: EthereumGasEtherscanSchema
     timestamp: number
   }
 >

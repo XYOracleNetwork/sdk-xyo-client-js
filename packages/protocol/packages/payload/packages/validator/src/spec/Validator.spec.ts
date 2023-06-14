@@ -1,10 +1,10 @@
 import { dumpErrors } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
-import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
+import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { PayloadValidator } from '../Validator'
 
-PayloadValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
+PayloadValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))
 
 const testPayloadNoSchema: Payload = {} as Payload
 const testPayloadMixedCase: Payload = {

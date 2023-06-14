@@ -1,11 +1,11 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { XyoCryptoCardsGamePayload } from './Payload'
-import { XyoCryptoCardsGameSchema } from './Schema'
+import { CryptoCardsGamePayload } from './Payload'
+import { CryptoCardsGameSchema } from './Schema'
 import { cryptoCardsGamePayloadTemplate } from './Template'
 
 export const CryptoCardsGamePayloadPlugin = () =>
-  createPayloadPlugin<XyoCryptoCardsGamePayload>({
-    schema: XyoCryptoCardsGameSchema,
+  createPayloadPlugin<CryptoCardsGamePayload>({
+    schema: CryptoCardsGameSchema,
     template: cryptoCardsGamePayloadTemplate,
   })

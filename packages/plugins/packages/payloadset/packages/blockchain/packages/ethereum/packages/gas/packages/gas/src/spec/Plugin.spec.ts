@@ -1,10 +1,10 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasPlugin } from '../Plugin'
+import { EthereumGasPlugin } from '../Plugin'
 
-describe('XyoCryptoMarketCoinGeckoPlugin', () => {
+describe('CryptoMarketCoinGeckoPlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = XyoEthereumGasPlugin()
+    const plugin = EthereumGasPlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeDefined()
   })

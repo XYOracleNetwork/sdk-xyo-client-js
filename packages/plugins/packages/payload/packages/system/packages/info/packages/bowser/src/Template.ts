@@ -1,6 +1,6 @@
-import { XyoBowserSystemInfoPayload } from './Payload'
-import { XyoBowserSystemInfoSchema } from './Schema'
+import { BowserSystemInfoPayload } from './Payload'
+import { BowserSystemInfoSchema } from './Schema'
 
-export const bowserSystemInfoPayloadTemplate = (): XyoBowserSystemInfoPayload => ({
-  schema: XyoBowserSystemInfoSchema,
+export const bowserSystemInfoPayloadTemplate = (): BowserSystemInfoPayload => ({
+  schema: BowserSystemInfoSchema,
 })

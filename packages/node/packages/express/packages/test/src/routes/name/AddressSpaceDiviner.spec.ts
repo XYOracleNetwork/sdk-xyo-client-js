@@ -19,7 +19,7 @@ describe(`/${divinerName}`, () => {
       validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
-  describe('XyoDivinerDivineQuerySchema', () => {
+  describe('DivinerDivineQuerySchema', () => {
     const accounts: AccountInstance[] = []
     beforeAll(async () => {
       for (let i = 0; i < 5; i++) {

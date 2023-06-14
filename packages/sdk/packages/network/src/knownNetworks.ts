@@ -1,41 +1,41 @@
-import { XyoNetworkNodePayload } from './XyoNetworkNodePayload'
-import { XyoNetworkNodePayloadWrapper } from './XyoNetworkNodePayloadWrapper'
-import { XyoNetworkPayload, XyoNetworkSchema } from './XyoNetworkPayload'
+import { NetworkNodePayload } from './NetworkNodePayload'
+import { NetworkNodePayloadWrapper } from './NetworkNodePayloadWrapper'
+import { NetworkPayload, NetworkSchema } from './NetworkPayload'
 
-const kerplunk = async (): Promise<XyoNetworkPayload> => {
+const kerplunk = async (): Promise<NetworkPayload> => {
   return {
     name: 'Kerplunk',
     nodes: [
-      (await XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
-      (await XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkSchema,
+      (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
+      (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
+    ].filter((item) => item) as NetworkNodePayload[],
+    schema: NetworkSchema,
     slug: 'kerplunk',
   }
 }
 
-const main = async (): Promise<XyoNetworkPayload> => {
+const main = async (): Promise<NetworkPayload> => {
   return {
     name: 'Main',
     nodes: [
-      (await XyoNetworkNodePayloadWrapper.known('main-archivist-xyo-network'))?.payload(),
-      (await XyoNetworkNodePayloadWrapper.known('location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkSchema,
+      (await NetworkNodePayloadWrapper.known('main-archivist-xyo-network'))?.payload(),
+      (await NetworkNodePayloadWrapper.known('location-diviner-xyo-network'))?.payload(),
+    ].filter((item) => item) as NetworkNodePayload[],
+    schema: NetworkSchema,
     slug: 'main',
   }
 }
 
-const local = async (): Promise<XyoNetworkPayload> => {
+const local = async (): Promise<NetworkPayload> => {
   return {
     name: 'Local',
     nodes: [
-      (await XyoNetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
-      (await XyoNetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as XyoNetworkNodePayload[],
-    schema: XyoNetworkSchema,
+      (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
+      (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
+    ].filter((item) => item) as NetworkNodePayload[],
+    schema: NetworkSchema,
     slug: 'local',
   }
 }
 
-export const knownNetworks = async (): Promise<XyoNetworkPayload[]> => [await kerplunk(), await main(), await local()]
+export const knownNetworks = async (): Promise<NetworkPayload[]> => [await kerplunk(), await main(), await local()]

@@ -1,5 +1,5 @@
-export type XyoCryptoMarketAssetDivinerQuerySchema = 'network.xyo.crypto.asset.diviner.query'
-export const XyoCryptoMarketAssetDivinerQuerySchema: XyoCryptoMarketAssetDivinerQuerySchema = 'network.xyo.crypto.asset.diviner.query'
+export type CryptoMarketAssetDivinerQuerySchema = 'network.xyo.crypto.asset.diviner.query'
+export const CryptoMarketAssetDivinerQuerySchema: CryptoMarketAssetDivinerQuerySchema = 'network.xyo.crypto.asset.diviner.query'
 
-export type XyoCryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'
-export const XyoCryptoMarketAssetDivinerConfigSchema: XyoCryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'
+export type CryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'
+export const CryptoMarketAssetDivinerConfigSchema: CryptoMarketAssetDivinerConfigSchema = 'network.xyo.crypto.asset.diviner.config'

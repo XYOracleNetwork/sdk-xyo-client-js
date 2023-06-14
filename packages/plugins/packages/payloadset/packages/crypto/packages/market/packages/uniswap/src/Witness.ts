@@ -3,26 +3,26 @@ import { assertEx } from '@xylabs/assert'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import {
-  XyoUniswapCryptoMarketPayload,
-  XyoUniswapCryptoMarketSchema,
-  XyoUniswapCryptoMarketWitnessConfigSchema,
+  UniswapCryptoMarketPayload,
+  UniswapCryptoMarketSchema,
+  UniswapCryptoMarketWitnessConfigSchema,
 } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { XyoUniswapCryptoMarketWitnessConfig } from './Config'
+import { UniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'
 
-export type XyoUniswapCryptoMarketWitnessParams = WitnessParams<
-  AnyConfigSchema<XyoUniswapCryptoMarketWitnessConfig>,
+export type UniswapCryptoMarketWitnessParams = WitnessParams<
+  AnyConfigSchema<UniswapCryptoMarketWitnessConfig>,
   {
     provider?: Provider
   }
 >
 
-export class XyoUniswapCryptoMarketWitness<
-  TParams extends XyoUniswapCryptoMarketWitnessParams = XyoUniswapCryptoMarketWitnessParams,
+export class UniswapCryptoMarketWitness<
+  TParams extends UniswapCryptoMarketWitnessParams = UniswapCryptoMarketWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = XyoUniswapCryptoMarketWitnessConfigSchema
+  static override configSchema = UniswapCryptoMarketWitnessConfigSchema
 
   protected pairs?: EthersUniSwap3Pair[]
   protected get provider() {
@@ -34,9 +34,9 @@ export class XyoUniswapCryptoMarketWitness<
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
 
-    const payload: XyoUniswapCryptoMarketPayload = {
+    const payload: UniswapCryptoMarketPayload = {
       pairs,
-      schema: XyoUniswapCryptoMarketSchema,
+      schema: UniswapCryptoMarketSchema,
       timestamp,
     }
 

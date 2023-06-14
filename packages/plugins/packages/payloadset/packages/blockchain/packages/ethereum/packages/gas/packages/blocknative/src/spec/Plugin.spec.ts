@@ -1,16 +1,16 @@
-import { XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
+import { EthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoEthereumGasBlocknativePlugin } from '../Plugin'
-import { XyoEthereumGasBlocknativeWitness } from '../Witness'
+import { EthereumGasBlocknativePlugin } from '../Plugin'
+import { EthereumGasBlocknativeWitness } from '../Witness'
 
-describe('XyoEthereumGasBlocknativePlugin', () => {
+describe('EthereumGasBlocknativePlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = XyoEthereumGasBlocknativePlugin()
+    const plugin = EthereumGasBlocknativePlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin, {
-      config: { schema: XyoEthereumGasBlocknativeWitness.configSchema },
+      config: { schema: EthereumGasBlocknativeWitness.configSchema },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
-    expect(resolver.witness(XyoEthereumGasBlocknativeSchema)).toBeObject()
+    expect(resolver.witness(EthereumGasBlocknativeSchema)).toBeObject()
   })
 })

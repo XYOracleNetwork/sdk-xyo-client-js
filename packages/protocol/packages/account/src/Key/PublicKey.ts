@@ -8,7 +8,7 @@ import { EllipticKey } from './EllipticKey'
 @staticImplements<PublicKeyStatic>()
 export class PublicKey extends EllipticKey implements PublicKeyInstance {
   private _address?: AddressValue
-  private _isXyoPublicKey = true
+  private _isPublicKey = true
   constructor(bytes: DataLike) {
     super(64, bytes)
   }
@@ -18,8 +18,8 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return this._address
   }
 
-  static isXyoPublicKey(value: unknown) {
-    return (value as PublicKey)._isXyoPublicKey
+  static isPublicKey(value: unknown) {
+    return (value as PublicKey)._isPublicKey
   }
 
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {

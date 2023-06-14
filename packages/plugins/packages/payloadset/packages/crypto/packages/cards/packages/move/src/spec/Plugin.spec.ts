@@ -1,10 +1,10 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { XyoCryptoCardsMovePlugin } from '../Plugin'
+import { CryptoCardsMovePlugin } from '../Plugin'
 
-describe('XyoCryptoCardsMovePlugin', () => {
+describe('CryptoCardsMovePlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = XyoCryptoCardsMovePlugin()
+    const plugin = CryptoCardsMovePlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeObject()
     const witness = await resolver.witness(plugin.set)

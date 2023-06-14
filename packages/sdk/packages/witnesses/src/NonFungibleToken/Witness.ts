@@ -1,9 +1,9 @@
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-network/witness'
 
-import { XyoNonFungibleTokenPayload } from './Config'
+import { NonFungibleTokenPayload } from './Config'
 
-export class XyoNonFungibleTokenWitness extends AbstractWitness<WitnessParams<XyoNonFungibleTokenPayload>> {
+export class NonFungibleTokenWitness extends AbstractWitness<WitnessParams<NonFungibleTokenPayload>> {
   static override configSchema = WitnessConfigSchema
 
   override observe(_payloads?: Payload[]): Promise<Payload[]> {

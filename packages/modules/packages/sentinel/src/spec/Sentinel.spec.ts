@@ -8,7 +8,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node'
-import { XyoNodeSystemInfoWitness, XyoNodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
+import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
@@ -18,7 +18,7 @@ import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 import { SentinelReportEndEventArgs } from '../SentinelModel'
 
-describe('XyoPanel', () => {
+describe('Panel', () => {
   test('all [simple panel send]', async () => {
     const node = await MemoryNode.create()
     const archivist = await MemoryArchivist.create()
@@ -27,12 +27,12 @@ describe('XyoPanel', () => {
 
     const witnesses: AbstractWitness[] = [
       await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } }),
-      await XyoNodeSystemInfoWitness.create({
+      await NodeSystemInfoWitness.create({
         config: {
           nodeValues: {
             osInfo: '*',
           },
-          schema: XyoNodeSystemInfoWitnessConfigSchema,
+          schema: NodeSystemInfoWitnessConfigSchema,
         },
       }),
     ]

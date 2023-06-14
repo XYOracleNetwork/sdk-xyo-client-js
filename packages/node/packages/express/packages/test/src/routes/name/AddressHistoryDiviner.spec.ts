@@ -24,7 +24,7 @@ describe(`/${divinerName}`, () => {
       validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
-  describe('XyoDivinerDivineQuerySchema', () => {
+  describe('DivinerDivineQuerySchema', () => {
     const limit = 10
     const account = Account.random()
     let dataHashes: string[]

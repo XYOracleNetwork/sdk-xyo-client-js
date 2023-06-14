@@ -33,7 +33,7 @@ export interface OpenSeaMeta extends Payload, Erc721Meta {
   youtube_url?: string
 }
 
-export interface XyoNonFungibleTokenMetaPayload extends Payload, Erc721Meta, OpenSeaMeta {
+export interface NonFungibleTokenMetaPayload extends Payload, Erc721Meta, OpenSeaMeta {
   /** @field The token that this meta data applies to */
   address: string
 }

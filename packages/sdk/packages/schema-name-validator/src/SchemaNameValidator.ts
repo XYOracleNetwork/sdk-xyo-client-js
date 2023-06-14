@@ -3,7 +3,7 @@ import { domainExists } from '@xyo-network/dns'
 /**
  * Validates a XYO schema structure and existence
  */
-export class XyoSchemaNameValidator {
+export class SchemaNameValidator {
   schema?: string
   private _parts?: string[]
   private _rootDomain?: string

@@ -1,19 +1,19 @@
-import { XyoDomainWitnessConfigSchema } from '../Config'
-import { XyoDomainWitness } from '../Witness'
+import { DomainWitnessConfigSchema } from '../Config'
+import { DomainWitness } from '../Witness'
 
-describe('XyoDomainConfigWitness', () => {
+describe('DomainConfigWitness', () => {
   test('valid-instantiation', async () => {
-    const witness = await XyoDomainWitness.create({
+    const witness = await DomainWitness.create({
       config: {
         domain: 'xyo.network',
-        schema: XyoDomainWitnessConfigSchema,
+        schema: DomainWitnessConfigSchema,
       },
     })
     expect(witness).toBeTruthy()
-    expect(XyoDomainWitness.dmarc).toBe('_xyo')
+    expect(DomainWitness.dmarc).toBe('_xyo')
   })
 
   test('generatesDmarc', () => {
-    expect(XyoDomainWitness.generateDmarc('foo')).toBe('_xyo.foo')
+    expect(DomainWitness.generateDmarc('foo')).toBe('_xyo.foo')
   })
 })

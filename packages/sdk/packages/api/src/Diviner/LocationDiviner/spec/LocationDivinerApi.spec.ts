@@ -1,8 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { XyoApiConfig } from '@xyo-network/api-models'
+import { ApiConfig } from '@xyo-network/api-models'
 
-import { ApiConfig } from '../ApiConfig'
-import { XyoLocationDivinerApi } from '../LocationDivinerApi'
+import { LocationDivinerApi } from '../LocationDivinerApi'
 import {
   LocationHeatmapQueryCreationRequest,
   locationHeatmapQuerySchema,
@@ -17,7 +16,7 @@ const getLocationApiConfig = (): ApiConfig => {
   }
 }
 
-const getArchiveConfig = (): XyoApiConfig => {
+const getArchiveConfig = (): ApiConfig => {
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   return { apiDomain }
 }
@@ -56,22 +55,22 @@ const getLocationHeatmapQueryCreationRequest = (): LocationHeatmapQueryCreationR
   }
 }
 
-describeIf(process.env.LOCATION_API_DOMAIN)('XyoLocationDivinerApi', () => {
+describeIf(process.env.LOCATION_API_DOMAIN)('LocationDivinerApi', () => {
   describe('constructor', () => {
-    it('returns a new XyoLocationDivinerApi', () => {
-      const api = new XyoLocationDivinerApi(getLocationApiConfig())
+    it('returns a new LocationDivinerApi', () => {
+      const api = new LocationDivinerApi(getLocationApiConfig())
       expect(api).toBeDefined()
     })
   })
   describe('postLocationQuery', () => {
     it('posts a location heatmap query', async () => {
-      const api = new XyoLocationDivinerApi(getLocationApiConfig())
+      const api = new LocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationHeatmapQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)
     })
     it('posts a location time range query', async () => {
-      const api = new XyoLocationDivinerApi(getLocationApiConfig())
+      const api = new LocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)
@@ -79,7 +78,7 @@ describeIf(process.env.LOCATION_API_DOMAIN)('XyoLocationDivinerApi', () => {
   })
   describe('getLocationQuery', function () {
     it('gets the status of a previously posted location query', async () => {
-      const api = new XyoLocationDivinerApi(getLocationApiConfig())
+      const api = new LocationDivinerApi(getLocationApiConfig())
       const locationQuery = await api.postLocationQuery(getLocationTimeRangeQueryCreationRequest())
       const response = await api.getLocationQuery(locationQuery.hash)
       expect(response.queryHash).toBe(locationQuery.hash)

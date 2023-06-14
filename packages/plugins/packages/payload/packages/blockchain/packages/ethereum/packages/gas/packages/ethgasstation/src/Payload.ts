@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoEthereumGasEthgasstationSchema } from './Schema'
+import { EthereumGasEthgasstationSchema } from './Schema'
 
 export interface EthereumGasEthgasstationResponse {
   baseFee: number
@@ -19,9 +19,9 @@ export interface EthereumGasEthgasstationResponse {
   }
 }
 
-export type XyoEthereumGasEthgasstationPayload = Payload<
+export type EthereumGasEthgasstationPayload = Payload<
   EthereumGasEthgasstationResponse & {
-    schema: XyoEthereumGasEthgasstationSchema
+    schema: EthereumGasEthgasstationSchema
     timestamp: number
   }
 >

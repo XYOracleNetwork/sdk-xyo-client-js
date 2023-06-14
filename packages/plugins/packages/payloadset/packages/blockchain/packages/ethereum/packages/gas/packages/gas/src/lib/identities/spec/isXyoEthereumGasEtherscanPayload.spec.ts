@@ -1,28 +1,28 @@
 import { sampleEtherscanGas } from '../../../test'
-import { isXyoEthereumGasEtherscanPayload } from '../isXyoEthereumGasEtherscanPayload'
+import { isEthereumGasEtherscanPayload } from '../isEthereumGasEtherscanPayload'
 
-describe('isXyoEthereumGasEtherscanPayload', () => {
+describe('isEthereumGasEtherscanPayload', () => {
   describe('returns true', () => {
-    it('when payload schema is XyoEthereumGasEtherscanSchema', () => {
-      const result = isXyoEthereumGasEtherscanPayload(sampleEtherscanGas)
+    it('when payload schema is EthereumGasEtherscanSchema', () => {
+      const result = isEthereumGasEtherscanPayload(sampleEtherscanGas)
       expect(result).toBeTrue()
     })
   })
   describe('returns false', () => {
-    it('when payload schema is not XyoEthereumGasEtherscanSchema', () => {
-      const result = isXyoEthereumGasEtherscanPayload({ schema: 'network.xyo.debug' })
+    it('when payload schema is not EthereumGasEtherscanSchema', () => {
+      const result = isEthereumGasEtherscanPayload({ schema: 'network.xyo.debug' })
       expect(result).toBeFalse()
     })
     it('when payload is missing', () => {
-      const result = isXyoEthereumGasEtherscanPayload()
+      const result = isEthereumGasEtherscanPayload()
       expect(result).toBeFalse()
     })
     it('when payload is undefined', () => {
-      const result = isXyoEthereumGasEtherscanPayload(undefined)
+      const result = isEthereumGasEtherscanPayload(undefined)
       expect(result).toBeFalse()
     })
     it('when payload is null', () => {
-      const result = isXyoEthereumGasEtherscanPayload(null)
+      const result = isEthereumGasEtherscanPayload(null)
       expect(result).toBeFalse()
     })
   })

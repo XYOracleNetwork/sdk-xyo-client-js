@@ -1,6 +1,6 @@
-import { XyoDomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
+import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { FetchedPayload } from '@xyo-network/huri'
-import { XyoSchemaPayload, XyoSchemaSchema } from '@xyo-network/schema-payload-plugin'
+import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
 import { LRUCache } from 'lru-cache'
 
@@ -13,14 +13,14 @@ const getSchemaNameFromSchema = (schema: SchemaObject) => {
   }
 }
 
-export type SchemaCacheEntry = FetchedPayload<XyoSchemaPayload>
+export type SchemaCacheEntry = FetchedPayload<SchemaPayload>
 
 export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValidatorMap> {
   /**
    * Object representing `null` since LRU Cache types
    * only allow for types that derive from object
    */
-  protected static readonly NULL: SchemaCacheEntry = { payload: { definition: {}, schema: XyoSchemaSchema } }
+  protected static readonly NULL: SchemaCacheEntry = { payload: { definition: {}, schema: SchemaSchema } }
 
   private static _instance?: SchemaCache
 
@@ -85,14 +85,14 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
 
   private cacheSchemas(aliasEntries?: FetchedPayload[] | null) {
     aliasEntries
-      ?.filter((entry) => entry.payload.schema === XyoSchemaSchema)
+      ?.filter((entry) => entry.payload.schema === SchemaSchema)
       .forEach((entry) => {
         this.cacheSchemaIfValid(entry as SchemaCacheEntry)
       })
   }
 
   private async fetchSchema(schema: string) {
-    const domain = await XyoDomainPayloadWrapper.discover(schema, this.proxy)
+    const domain = await DomainPayloadWrapper.discover(schema, this.proxy)
     await domain?.fetch()
     this.cacheSchemas(domain?.aliases)
 

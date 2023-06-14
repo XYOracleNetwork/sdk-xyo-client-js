@@ -4,22 +4,22 @@ jest.useFakeTimers().setSystemTime(now)
 
 import { InfuraProvider } from '@ethersproject/providers'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { XyoUniswapCryptoMarketPayload, XyoUniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { UniswapCryptoMarketPayload, UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { UniswapPoolContracts } from '../lib'
-import { XyoUniswapCryptoMarketWitness } from '../Witness'
+import { UniswapCryptoMarketWitness } from '../Witness'
 
-describe('XyoUniswapCryptoMarketWitness', () => {
+describe('UniswapCryptoMarketWitness', () => {
   test('observe', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
-    const witness = await XyoUniswapCryptoMarketWitness.create({
+    const witness = await UniswapCryptoMarketWitness.create({
       config: {
         pools: UniswapPoolContracts,
-        schema: XyoUniswapCryptoMarketWitnessConfigSchema,
+        schema: UniswapCryptoMarketWitnessConfigSchema,
       },
       provider,
     })
-    const [observation] = (await witness.observe()) as XyoUniswapCryptoMarketPayload[]
+    const [observation] = (await witness.observe()) as UniswapCryptoMarketPayload[]
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 
@@ -28,14 +28,14 @@ describe('XyoUniswapCryptoMarketWitness', () => {
   })
   test('observe [no config]', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
-    const witness = await XyoUniswapCryptoMarketWitness.create({
+    const witness = await UniswapCryptoMarketWitness.create({
       config: {
         pools: UniswapPoolContracts,
-        schema: XyoUniswapCryptoMarketWitnessConfigSchema,
+        schema: UniswapCryptoMarketWitnessConfigSchema,
       },
       provider,
     })
-    const [observation] = (await witness.observe()) as XyoUniswapCryptoMarketPayload[]
+    const [observation] = (await witness.observe()) as UniswapCryptoMarketPayload[]
     expect(observation.pairs.length).toBeGreaterThan(1)
     expect(observation.timestamp).toBe(+now)
 
@@ -45,7 +45,7 @@ describe('XyoUniswapCryptoMarketWitness', () => {
   test('observe [no params]', async () => {
     const didThrow = async () => {
       try {
-        await XyoUniswapCryptoMarketWitness.create()
+        await UniswapCryptoMarketWitness.create()
         return false
       } catch {
         return true

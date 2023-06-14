@@ -8,7 +8,7 @@ import { PublicKey } from './PublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
-  protected _isXyoPrivateKey = true
+  protected _isPrivateKey = true
   protected _keyPair: EC.ec.KeyPair
   protected _privateKeyBytes: Uint8Array
   protected _public?: PublicKeyInstance
@@ -23,7 +23,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
       } catch {
         //this catch is for the few browsers that do not have crypto random
         this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
-        console.warn('XyoAccount created without browser crypto')
+        console.warn('Account created without browser crypto')
       }
     }
     this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'))
@@ -38,8 +38,8 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
     return this._public
   }
 
-  static isXyoPrivateKey(value: unknown) {
-    return (value as PrivateKey)._isXyoPrivateKey
+  static isPrivateKey(value: unknown) {
+    return (value as PrivateKey)._isPrivateKey
   }
 
   sign(hash: DataLike): Uint8Array | Promise<Uint8Array> {

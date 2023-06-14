@@ -1,4 +1,4 @@
-export interface XyoUniswapCryptoToken {
+export interface UniswapCryptoToken {
   address: string
   symbol: string
   value: number

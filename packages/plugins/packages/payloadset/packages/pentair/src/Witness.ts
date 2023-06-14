@@ -1,23 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { XyoPentairScreenlogicPayload, XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
+import { PentairScreenlogicPayload, PentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 import { FindUnits, SchedTypes, screenlogic } from 'node-screenlogic'
 
-export type XyoPentairScreenlogicWitnessConfigSchema = 'network.xyo.pentair.screenlogic.witness.config'
-export const XyoPentairScreenlogicWitnessConfigSchema: XyoPentairScreenlogicWitnessConfigSchema = 'network.xyo.pentair.screenlogic.witness.config'
+export type PentairScreenlogicWitnessConfigSchema = 'network.xyo.pentair.screenlogic.witness.config'
+export const PentairScreenlogicWitnessConfigSchema: PentairScreenlogicWitnessConfigSchema = 'network.xyo.pentair.screenlogic.witness.config'
 
-export type XyoPentairScreenlogicWitnessConfig = WitnessConfig<{
-  schema: XyoPentairScreenlogicWitnessConfigSchema
+export type PentairScreenlogicWitnessConfig = WitnessConfig<{
+  schema: PentairScreenlogicWitnessConfigSchema
 }>
 
-export type XyoPentairScreenlogicWitnessParams = WitnessParams<AnyConfigSchema<XyoPentairScreenlogicWitnessConfig>>
+export type PentairScreenlogicWitnessParams = WitnessParams<AnyConfigSchema<PentairScreenlogicWitnessConfig>>
 
-export class XyoPentairScreenlogicWitness<
-  TParams extends XyoPentairScreenlogicWitnessParams = XyoPentairScreenlogicWitnessParams,
+export class PentairScreenlogicWitness<
+  TParams extends PentairScreenlogicWitnessParams = PentairScreenlogicWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = XyoPentairScreenlogicWitnessConfigSchema
+  static override configSchema = PentairScreenlogicWitnessConfigSchema
 
   override async observe(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
     const finder = new FindUnits()
@@ -42,9 +42,9 @@ export class XyoPentairScreenlogicWitness<
           once: await screenlogic.schedule.getScheduleDataAsync(SchedTypes.RUNONCE),
           recurring: await screenlogic.schedule.getScheduleDataAsync(SchedTypes.RECURRING),
         },
-        schema: XyoPentairScreenlogicSchema,
+        schema: PentairScreenlogicSchema,
         version: await screenlogic.getVersionAsync(),
       },
-    ] as XyoPentairScreenlogicPayload[])
+    ] as PentairScreenlogicPayload[])
   }
 }

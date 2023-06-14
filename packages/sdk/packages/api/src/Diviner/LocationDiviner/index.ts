@@ -1,4 +1,3 @@
-export * from './ApiConfig'
 export * from './LocationDivinerApi'
 export * from './models'
 export * from './Queries'

@@ -3,16 +3,16 @@ import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
-import { XyoCryptoCardsGameWitnessConfigSchema } from './Schema'
+import { CryptoCardsGameWitnessConfigSchema } from './Schema'
 
-export type XyoCryptoCardsGameWitnessConfig = WitnessConfig<{
-  schema: XyoCryptoCardsGameWitnessConfigSchema
+export type CryptoCardsGameWitnessConfig = WitnessConfig<{
+  schema: CryptoCardsGameWitnessConfigSchema
 }>
 
-export type XyoCryptoCardsGameWitnessParams = WitnessParams<AnyConfigSchema<XyoCryptoCardsGameWitnessConfig>>
+export type CryptoCardsGameWitnessParams = WitnessParams<AnyConfigSchema<CryptoCardsGameWitnessConfig>>
 
-export class XyoCryptoCardsGameWitness extends AbstractWitness<XyoCryptoCardsGameWitnessParams> implements WitnessModule {
-  static override configSchema = XyoCryptoCardsGameWitnessConfigSchema
+export class CryptoCardsGameWitness extends AbstractWitness<CryptoCardsGameWitnessParams> implements WitnessModule {
+  static override configSchema = CryptoCardsGameWitnessConfigSchema
 
   override observe(payloads?: Payload[]): Promisable<Payload[]> {
     return super.observe(payloads)

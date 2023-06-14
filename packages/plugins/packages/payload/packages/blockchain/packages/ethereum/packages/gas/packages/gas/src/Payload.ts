@@ -1,11 +1,11 @@
 import { Payload } from '@xyo-network/payload-model'
 
 import { FeeData } from './Model'
-import { XyoEthereumGasSchema } from './Schema'
+import { EthereumGasSchema } from './Schema'
 
-export type XyoEthereumGasPayload = Payload<
+export type EthereumGasPayload = Payload<
   FeeData & {
-    schema: XyoEthereumGasSchema
+    schema: EthereumGasSchema
     timestamp: number
   }
 >

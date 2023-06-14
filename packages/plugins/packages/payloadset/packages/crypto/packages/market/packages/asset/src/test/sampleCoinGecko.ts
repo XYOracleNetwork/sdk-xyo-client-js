@@ -1,6 +1,6 @@
-import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { CoingeckoCryptoMarketPayload, CoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 
-export const sampleCoinGeckoPayload: XyoCoingeckoCryptoMarketPayload = {
+export const sampleCoinGeckoPayload: CoingeckoCryptoMarketPayload = {
   assets: {
     ada: {
       btc: 0.00002163,
@@ -69,6 +69,6 @@ export const sampleCoinGeckoPayload: XyoCoingeckoCryptoMarketPayload = {
       usd: 0.01439307,
     },
   },
-  schema: XyoCoingeckoCryptoMarketSchema,
+  schema: CoingeckoCryptoMarketSchema,
   timestamp: 1659012060785,
 }

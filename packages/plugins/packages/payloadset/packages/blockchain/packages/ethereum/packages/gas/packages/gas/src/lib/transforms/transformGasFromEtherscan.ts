@@ -1,13 +1,13 @@
-import { XyoEthereumGasEtherscanPayload } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
+import { EthereumGasEtherscanPayload } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 import { FeeData, FeePerGas } from '@xyo-network/gas-price-payload-plugin'
 import { linear } from 'regression'
 
-const getBaseFee = (payload: XyoEthereumGasEtherscanPayload): number | undefined => {
+const getBaseFee = (payload: EthereumGasEtherscanPayload): number | undefined => {
   const { suggestBaseFee } = payload.result
   return parseFloat(suggestBaseFee)
 }
 
-const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): Partial<FeePerGas> => {
+const getFeePerGas = (payload: EthereumGasEtherscanPayload): Partial<FeePerGas> => {
   const { FastGasPrice, ProposeGasPrice, SafeGasPrice } = payload.result
   const low = parseFloat(SafeGasPrice)
   const medium = parseFloat(ProposeGasPrice)
@@ -20,7 +20,7 @@ const getFeePerGas = (payload: XyoEthereumGasEtherscanPayload): Partial<FeePerGa
   return { high, low, medium, veryHigh }
 }
 
-export const transformGasFromEtherscan = (payload: XyoEthereumGasEtherscanPayload): FeeData => {
+export const transformGasFromEtherscan = (payload: EthereumGasEtherscanPayload): FeeData => {
   const baseFee = getBaseFee(payload)
   const feePerGas = getFeePerGas(payload)
   const priorityFeePerGas = {}

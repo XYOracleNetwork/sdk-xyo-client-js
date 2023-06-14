@@ -1,2 +1,2 @@
-export type XyoEthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
-export const XyoEthereumGasEtherchainV2Schema: XyoEthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
+export type EthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'
+export const EthereumGasEtherchainV2Schema: EthereumGasEtherchainV2Schema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2'

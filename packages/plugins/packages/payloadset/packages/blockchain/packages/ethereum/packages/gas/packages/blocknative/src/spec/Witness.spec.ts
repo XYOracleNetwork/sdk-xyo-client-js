@@ -1,19 +1,19 @@
-import { XyoEthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
+import { EthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { XyoEthereumGasBlocknativeWitnessConfigSchema } from '../Schema'
-import { XyoEthereumGasBlocknativeWitness } from '../Witness'
+import { EthereumGasBlocknativeWitnessConfigSchema } from '../Schema'
+import { EthereumGasBlocknativeWitness } from '../Witness'
 
-describe('XyoEthereumGasBlocknativeWitness', () => {
+describe('EthereumGasBlocknativeWitness', () => {
   it('returns observation', async () => {
-    const sut = await XyoEthereumGasBlocknativeWitness.create({
+    const sut = await EthereumGasBlocknativeWitness.create({
       config: {
-        schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
+        schema: EthereumGasBlocknativeWitnessConfigSchema,
       },
     })
     const [actual] = await sut.observe()
     expect(actual.timestamp).toBeNumber()
-    expect(actual.schema).toBe(XyoEthereumGasBlocknativeSchema)
+    expect(actual.schema).toBe(EthereumGasBlocknativeSchema)
     const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })

@@ -1,24 +1,24 @@
-import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { CoingeckoCryptoMarketPayload, CoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { XyoCoingeckoCryptoMarketWitnessConfig } from './Config'
+import { CoingeckoCryptoMarketWitnessConfig } from './Config'
 import { pricesFromCoingecko } from './lib'
-import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
+import { CoingeckoCryptoMarketWitnessConfigSchema } from './Schema'
 
-export type XyoCoingeckoCryptoMarketWitnessParams = WitnessParams<AnyConfigSchema<XyoCoingeckoCryptoMarketWitnessConfig>>
+export type CoingeckoCryptoMarketWitnessParams = WitnessParams<AnyConfigSchema<CoingeckoCryptoMarketWitnessConfig>>
 
-export class XyoCoingeckoCryptoMarketWitness<
-  TParams extends XyoCoingeckoCryptoMarketWitnessParams = XyoCoingeckoCryptoMarketWitnessParams,
+export class CoingeckoCryptoMarketWitness<
+  TParams extends CoingeckoCryptoMarketWitnessParams = CoingeckoCryptoMarketWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = XyoCoingeckoCryptoMarketWitnessConfigSchema
+  static override configSchema = CoingeckoCryptoMarketWitnessConfigSchema
 
   override async observe(): Promise<Payload[]> {
-    const assets: XyoCoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
-    const payload: XyoCoingeckoCryptoMarketPayload = {
+    const assets: CoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
+    const payload: CoingeckoCryptoMarketPayload = {
       assets,
-      schema: XyoCoingeckoCryptoMarketSchema,
+      schema: CoingeckoCryptoMarketSchema,
       timestamp: Date.now(),
     }
 

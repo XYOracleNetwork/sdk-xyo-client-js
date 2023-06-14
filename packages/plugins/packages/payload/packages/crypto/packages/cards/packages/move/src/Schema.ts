@@ -1,2 +1,2 @@
-export type XyoCryptoCardsMoveSchema = 'network.xyo.crypto.cards.move'
-export const XyoCryptoCardsMoveSchema: XyoCryptoCardsMoveSchema = 'network.xyo.crypto.cards.move'
+export type CryptoCardsMoveSchema = 'network.xyo.crypto.cards.move'
+export const CryptoCardsMoveSchema: CryptoCardsMoveSchema = 'network.xyo.crypto.cards.move'

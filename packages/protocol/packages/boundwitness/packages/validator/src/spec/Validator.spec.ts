@@ -1,6 +1,6 @@
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { dumpErrors } from '@xyo-network/core'
-import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
+import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { BoundWitnessValidator } from '../Validator'
 
@@ -14,7 +14,7 @@ const testBoundWitness: BoundWitness = {
 }
 
 test('all', async () => {
-  BoundWitnessValidator.setSchemaNameValidatorFactory((schema) => new XyoSchemaNameValidator(schema))
+  BoundWitnessValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))
   const validator = new BoundWitnessValidator(testBoundWitness)
   const errors = await validator.validate()
   dumpErrors(errors)

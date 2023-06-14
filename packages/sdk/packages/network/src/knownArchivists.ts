@@ -1,10 +1,10 @@
-import { XyoNetworkNodePayload, XyoNetworkNodeSchema } from './XyoNetworkNodePayload'
+import { NetworkNodePayload, NetworkNodeSchema } from './NetworkNodePayload'
 
-const kerplunkArchivist = (): XyoNetworkNodePayload => {
+const kerplunkArchivist = (): NetworkNodePayload => {
   return {
     docs: 'https://beta.archivist.xyo.network/api',
     name: 'XYO Shared Archivist (kerplunk)',
-    schema: XyoNetworkNodeSchema,
+    schema: NetworkNodeSchema,
     slug: 'kerplunk',
     type: 'archivist',
     uri: 'https://beta.api.archivist.xyo.network',
@@ -12,11 +12,11 @@ const kerplunkArchivist = (): XyoNetworkNodePayload => {
   }
 }
 
-const mainArchivist = (): XyoNetworkNodePayload => {
+const mainArchivist = (): NetworkNodePayload => {
   return {
     docs: 'https://archivist.xyo.network/api',
     name: 'XYO Shared Archivist (main)',
-    schema: XyoNetworkNodeSchema,
+    schema: NetworkNodeSchema,
     slug: 'main',
     type: 'archivist',
     uri: 'https://api.archivist.xyo.network',
@@ -24,11 +24,11 @@ const mainArchivist = (): XyoNetworkNodePayload => {
   }
 }
 
-const localArchivist = (): XyoNetworkNodePayload => {
+const localArchivist = (): NetworkNodePayload => {
   return {
     docs: 'http://localhost:8080/api',
     name: 'XYO Shared Archivist (local)',
-    schema: XyoNetworkNodeSchema,
+    schema: NetworkNodeSchema,
     slug: 'local',
     type: 'archivist',
     uri: 'http://localhost:8080',
@@ -36,4 +36,4 @@ const localArchivist = (): XyoNetworkNodePayload => {
   }
 }
 
-export const knownArchivists = (): XyoNetworkNodePayload[] => [kerplunkArchivist(), mainArchivist(), localArchivist()]
+export const knownArchivists = (): NetworkNodePayload[] => [kerplunkArchivist(), mainArchivist(), localArchivist()]

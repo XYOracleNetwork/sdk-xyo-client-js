@@ -1,5 +1,5 @@
 import { BigNumber } from '@xylabs/bignumber'
 
-import { XyoAbstractData } from './AbstractData'
+import { AbstractData } from './AbstractData'
 
-export type DataLike = string | BigNumber | Uint8Array | XyoAbstractData
+export type DataLike = string | BigNumber | Uint8Array | AbstractData

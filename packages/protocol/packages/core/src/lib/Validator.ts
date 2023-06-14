@@ -7,6 +7,6 @@ export interface Validator<T extends AnyObject = AnyObject> {
   validate(payload: T): Promisable<Error[]>
 }
 
-export abstract class XyoValidatorBase<T extends AnyObject = AnyObject> extends ObjectWrapper<T> implements Validator<T> {
+export abstract class ValidatorBase<T extends AnyObject = AnyObject> extends ObjectWrapper<T> implements Validator<T> {
   abstract validate(payload: T): Promisable<Error[]>
 }

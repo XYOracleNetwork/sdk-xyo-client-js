@@ -4,7 +4,7 @@ import shajs from 'sha.js'
 
 import { Words } from '../../Words'
 
-export class XyoWalletBase {
+export class WalletBase {
   protected _name: string
   protected _phrase: string
 
@@ -21,7 +21,7 @@ export class XyoWalletBase {
       const index = Math.floor(Math.random() * Words.words.length)
       wordList.push(Words.words[index])
     }
-    return new XyoWalletBase(wordList.join(' '))
+    return new WalletBase(wordList.join(' '))
   }
 
   getAccount(index: number, salt?: string) {

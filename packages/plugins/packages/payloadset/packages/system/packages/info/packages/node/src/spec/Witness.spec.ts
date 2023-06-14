@@ -1,12 +1,12 @@
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { XyoNodeSystemInfoWitnessConfigSchema } from '../Config'
-import { XyoNodeSystemInfoWitness } from '../Witness'
+import { NodeSystemInfoWitnessConfigSchema } from '../Config'
+import { NodeSystemInfoWitness } from '../Witness'
 
-describe('XyoSystemInfoWitness', () => {
+describe('SystemInfoWitness', () => {
   test('observe', async () => {
-    const witness = await XyoNodeSystemInfoWitness.create({
-      config: { schema: XyoNodeSystemInfoWitnessConfigSchema },
+    const witness = await NodeSystemInfoWitness.create({
+      config: { schema: NodeSystemInfoWitnessConfigSchema },
     })
 
     const [observation] = await witness.observe()
@@ -14,7 +14,7 @@ describe('XyoSystemInfoWitness', () => {
     expect(await PayloadWrapper.wrap(observation).getValid()).toBe(true)
   }, 60000)
   test('observe [no config]', async () => {
-    const witness = await XyoNodeSystemInfoWitness.create()
+    const witness = await NodeSystemInfoWitness.create()
 
     const [observation] = await witness.observe()
     expect(observation.schema).toBe('network.xyo.system.info.node')

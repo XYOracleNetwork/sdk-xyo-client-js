@@ -10,7 +10,7 @@ export * from '@xyo-network/query-payload-plugin'
 export * from '@xyo-network/schema-payload-plugin'
 
 import { AddressPayloadPlugin } from '@xyo-network/address-payload-plugin'
-import { XyoBlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
+import { BlockchainPayloadPlugins } from '@xyo-network/blockchain-payload-plugins'
 import { ConfigPayloadPlugin } from '@xyo-network/config-payload-plugin'
 import { CryptoPayloadPlugins } from '@xyo-network/crypto-payload-plugins'
 import { DomainPayloadPlugin } from '@xyo-network/domain-payload-plugin'
@@ -32,7 +32,7 @@ export const PayloadPlugins: PayloadPluginFunc[] = [
   ModuleInstancePayloadPlugin,
   ConfigPayloadPlugin,
   QueryPayloadPlugin,
-  ...XyoBlockchainPayloadPlugins,
+  ...BlockchainPayloadPlugins,
   ...CryptoPayloadPlugins,
 ]
 

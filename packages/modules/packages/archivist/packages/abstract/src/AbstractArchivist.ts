@@ -22,7 +22,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-export interface XyoArchivistParentWrappers {
+export interface ArchivistParentWrappers {
   commit?: Record<string, ArchivistWrapper>
   read?: Record<string, ArchivistWrapper>
   write?: Record<string, ArchivistWrapper>
@@ -36,7 +36,7 @@ export abstract class AbstractArchivist<
   implements ArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
-  private _parents?: XyoArchivistParentWrappers
+  private _parents?: ArchivistParentWrappers
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]

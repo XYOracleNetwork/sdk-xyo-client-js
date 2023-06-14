@@ -10,5 +10,5 @@ export interface PublicKeyInstance extends EllipticKeyInstance {
 
 export interface PublicKeyStatic {
   new (bytes: DataLike): PublicKeyInstance
-  isXyoPublicKey(value: unknown): boolean
+  isPublicKey(value: unknown): boolean
 }

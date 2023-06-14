@@ -10,6 +10,6 @@ export interface AddressValueStatic {
   new (address: DataLike): AddressValueInstance
   addressFromAddressOrPublicKey(bytes: DataLike): Uint8Array | string
   addressFromPublicKey(key: DataLike): string
-  isXyoAddress(value: unknown): boolean
+  isAddress(value: unknown): boolean
   verify(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike): boolean
 }

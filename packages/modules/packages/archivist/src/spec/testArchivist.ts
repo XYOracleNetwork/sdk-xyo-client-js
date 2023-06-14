@@ -13,7 +13,7 @@ import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
 export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, name: string) => {
-  test(`XyoArchivist RoundTrip [${name}]`, async () => {
+  test(`Archivist RoundTrip [${name}]`, async () => {
     const idPayload: Payload<{ salt: string }> = {
       salt: Date.now().toString(),
       schema: IdSchema,
@@ -22,7 +22,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
 
     const archivistWrapper = ArchivistWrapper.wrap(await archivist)
     const insertResult = await archivistWrapper.insert([idPayload])
-    const insertResultWrappers = insertResult.map((bw) => new BoundWitnessWrapper(bw))
+    const insertResultWrappers = insertResult.map((bw) => BoundWitnessWrapper.wrap(bw))
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
     expect(insertResultPayload).toBeDefined()
 
@@ -39,7 +39,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
 }
 
 export const testArchivistAll = (archivist: Promisable<ArchivistModule>, name: string) => {
-  test(`XyoArchivist All [${name}]`, async () => {
+  test(`Archivist All [${name}]`, async () => {
     const idPayload = {
       salt: Date.now().toString(),
       schema: IdSchema,

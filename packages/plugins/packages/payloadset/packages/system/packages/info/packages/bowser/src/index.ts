@@ -1,9 +1,9 @@
-import { XyoBowserSystemInfoPlugin } from './Plugin'
+import { BowserSystemInfoPlugin } from './Plugin'
 
 export * from './Config'
 export * from './Witness'
 
-export { XyoBowserSystemInfoPlugin }
+export { BowserSystemInfoPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoBowserSystemInfoPlugin
+export default BowserSystemInfoPlugin

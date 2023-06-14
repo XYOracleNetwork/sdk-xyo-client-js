@@ -1,18 +1,18 @@
-import { XyoBowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
+import { BowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 import Bowser from 'bowser'
 import merge from 'lodash/merge'
 
-import { XyoBowserSystemInfoWitnessConfig, XyoBowserSystemInfoWitnessConfigSchema } from './Config'
+import { BowserSystemInfoWitnessConfig, BowserSystemInfoWitnessConfigSchema } from './Config'
 
-export type XyoBowserSystemInfoWitnessParams = WitnessParams<AnyConfigSchema<XyoBowserSystemInfoWitnessConfig>>
-export class XyoBowserSystemInfoWitness<TParams extends XyoBowserSystemInfoWitnessParams = XyoBowserSystemInfoWitnessParams>
+export type BowserSystemInfoWitnessParams = WitnessParams<AnyConfigSchema<BowserSystemInfoWitnessConfig>>
+export class BowserSystemInfoWitness<TParams extends BowserSystemInfoWitnessParams = BowserSystemInfoWitnessParams>
   extends AbstractWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema = XyoBowserSystemInfoWitnessConfigSchema
+  static override configSchema = BowserSystemInfoWitnessConfigSchema
 
   protected get bowser() {
     // we do this to fix importing in node-esm
@@ -21,6 +21,6 @@ export class XyoBowserSystemInfoWitness<TParams extends XyoBowserSystemInfoWitne
   }
 
   override observe(payloads?: Payload[]) {
-    return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: XyoBowserSystemInfoSchema })])
+    return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: BowserSystemInfoSchema })])
   }
 }

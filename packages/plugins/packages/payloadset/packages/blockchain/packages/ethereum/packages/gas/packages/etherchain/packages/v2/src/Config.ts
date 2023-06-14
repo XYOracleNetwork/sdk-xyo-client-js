@@ -1,7 +1,7 @@
 import { WitnessConfig } from '@xyo-network/witness'
 
-import { XyoEthereumGasEtherchainV2WitnessConfigSchema } from './Schema'
+import { EthereumGasEtherchainV2WitnessConfigSchema } from './Schema'
 
-export type XyoEthereumGasEtherchainV2WitnessConfig = WitnessConfig<{
-  schema: XyoEthereumGasEtherchainV2WitnessConfigSchema
+export type EthereumGasEtherchainV2WitnessConfig = WitnessConfig<{
+  schema: EthereumGasEtherchainV2WitnessConfigSchema
 }>

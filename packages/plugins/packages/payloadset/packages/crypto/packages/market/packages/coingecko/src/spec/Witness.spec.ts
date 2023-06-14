@@ -1,22 +1,22 @@
-import { XyoCoingeckoCryptoMarketPayload, XyoCoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
+import { CoingeckoCryptoMarketPayload, CoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { defaultCoins, defaultCurrencies } from '../lib'
-import { XyoCoingeckoCryptoMarketWitnessConfigSchema } from '../Schema'
-import { XyoCoingeckoCryptoMarketWitness } from '../Witness'
+import { CoingeckoCryptoMarketWitnessConfigSchema } from '../Schema'
+import { CoingeckoCryptoMarketWitness } from '../Witness'
 
-describe('XyoCoingeckoCryptoMarketWitness', () => {
+describe('CoingeckoCryptoMarketWitness', () => {
   test('returns observation', async () => {
-    const sut = await XyoCoingeckoCryptoMarketWitness.create({
+    const sut = await CoingeckoCryptoMarketWitness.create({
       config: {
         coins: defaultCoins,
         currencies: defaultCurrencies,
-        schema: XyoCoingeckoCryptoMarketWitnessConfigSchema,
+        schema: CoingeckoCryptoMarketWitnessConfigSchema,
       },
     })
     const [actual] = await sut.observe()
-    expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
-    const answerWrapper = PayloadWrapper.wrap(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
+    expect(actual.schema).toBe(CoingeckoCryptoMarketSchema)
+    const answerWrapper = PayloadWrapper.wrap(actual) as PayloadWrapper<CoingeckoCryptoMarketPayload>
     expect(await answerWrapper.getValid()).toBe(true)
     expect(answerWrapper.body().assets).toBeObject()
     const assets = Object.keys(answerWrapper.body().assets)
@@ -25,10 +25,10 @@ describe('XyoCoingeckoCryptoMarketWitness', () => {
   })
 
   test('returns observation [no config]', async () => {
-    const sut = await XyoCoingeckoCryptoMarketWitness.create()
+    const sut = await CoingeckoCryptoMarketWitness.create()
     const [actual] = await sut.observe()
-    expect(actual.schema).toBe(XyoCoingeckoCryptoMarketSchema)
-    const answerWrapper = PayloadWrapper.wrap(actual) as PayloadWrapper<XyoCoingeckoCryptoMarketPayload>
+    expect(actual.schema).toBe(CoingeckoCryptoMarketSchema)
+    const answerWrapper = PayloadWrapper.wrap(actual) as PayloadWrapper<CoingeckoCryptoMarketPayload>
     expect(await answerWrapper.getValid()).toBe(true)
     expect(answerWrapper.body().assets).toBeObject()
     const assets = Object.keys(answerWrapper.body().assets)

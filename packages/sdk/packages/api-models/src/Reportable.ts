@@ -1,10 +1,10 @@
-import { XyoApiError } from './Error'
-import { XyoApiResponse } from './Response'
+import { ApiError } from './Error'
+import { ApiResponse } from './Response'
 
-export interface XyoApiReportable {
-  onError?: (error: XyoApiError, depth: number) => void
+export interface ApiReportable {
+  onError?: (error: ApiError, depth: number) => void
 
-  onFailure?: (response: XyoApiResponse, depth: number) => void
+  onFailure?: (response: ApiResponse, depth: number) => void
 
-  onSuccess?: (response: XyoApiResponse, depth: number) => void
+  onSuccess?: (response: ApiResponse, depth: number) => void
 }

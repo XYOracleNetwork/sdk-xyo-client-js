@@ -1,9 +1,9 @@
 import { WitnessConfig } from '@xyo-network/witness'
 
-export type XyoNodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'
-export const XyoNodeSystemInfoWitnessConfigSchema: XyoNodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'
+export type NodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'
+export const NodeSystemInfoWitnessConfigSchema: NodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'
 
-export type XyoNodeSystemInfoWitnessConfig = WitnessConfig<{
+export type NodeSystemInfoWitnessConfig = WitnessConfig<{
   nodeValues?: Record<string, string>
-  schema: XyoNodeSystemInfoWitnessConfigSchema
+  schema: NodeSystemInfoWitnessConfigSchema
 }>

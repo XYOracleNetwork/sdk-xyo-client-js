@@ -1,3 +1,3 @@
-export declare type WithArchive<XyoArchivistApiConfig> = XyoArchivistApiConfig & {
+export declare type WithArchive<ArchivistApiConfig> = ArchivistApiConfig & {
   _archive?: string
 }

@@ -33,7 +33,7 @@ describe(`/${moduleName}`, () => {
       validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
-  describe('XyoDivinerDivineQuerySchema', () => {
+  describe('DivinerDivineQuerySchema', () => {
     const accountA = Account.random()
     const accountB = Account.random()
     describe.skip('address', () => {

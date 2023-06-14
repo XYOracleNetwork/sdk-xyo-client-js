@@ -7,7 +7,7 @@ import { MemoryNode, MemoryNodeParams } from '@xyo-network/modules'
 import { canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PayloadValidator } from '@xyo-network/payload-validator'
-import { XyoSchemaNameValidator } from '@xyo-network/schema-name-validator'
+import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { Express } from 'express'
 import { Config } from 'jest'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
@@ -66,7 +66,7 @@ const setupNode = async () => {
  */
 module.exports = async (_globalConfig: Config, _projectConfig: Config) => {
   console.log('')
-  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new XyoSchemaNameValidator(schema))
+  PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new SchemaNameValidator(schema))
   if (canAddMongoModules()) await setupMongo()
   await setupNode()
 }

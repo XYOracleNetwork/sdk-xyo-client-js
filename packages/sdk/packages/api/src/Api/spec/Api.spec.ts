@@ -3,7 +3,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { getApi } from '../ApiUtil.spec'
 
-describe('XyoArchivistApi', () => {
+describe('ArchivistApi', () => {
   describe('get', () => {
     it('returns Node Discover', async () => {
       const api = getApi()

@@ -1,18 +1,18 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
-import { XyoPentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
+import { PentairScreenlogicSchema } from '@xyo-network/pentair-payload-plugin'
 
-import { XyoPentairScreenlogicPlugin } from '../Plugin'
-import { XyoPentairScreenlogicWitnessConfigSchema } from '../Witness'
+import { PentairScreenlogicPlugin } from '../Plugin'
+import { PentairScreenlogicWitnessConfigSchema } from '../Witness'
 
-describe('XyoPentairScreenlogicPlugin', () => {
+describe('PentairScreenlogicPlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = XyoPentairScreenlogicPlugin()
+    const plugin = PentairScreenlogicPlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin, {
       config: {
-        schema: XyoPentairScreenlogicWitnessConfigSchema,
+        schema: PentairScreenlogicWitnessConfigSchema,
       },
     })
     expect(resolver.resolve(plugin.set)).toBeObject()
-    expect(resolver.witness(XyoPentairScreenlogicSchema)).toBeObject()
+    expect(resolver.witness(PentairScreenlogicSchema)).toBeObject()
   })
 })

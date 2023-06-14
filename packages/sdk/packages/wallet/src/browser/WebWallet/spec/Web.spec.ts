@@ -1,7 +1,7 @@
-import { XyoWebWallet } from '../Web'
+import {WebWallet } from '../Web'
 
 test('all', () => {
-  const wallet = new XyoWebWallet('test phrase')
+  const wallet = newWebWallet('test phrase')
   const account = wallet.getAccount(5)
 
   expect(account).toBeDefined()

@@ -1,2 +1,2 @@
-export type XyoSchemaSchema = 'network.xyo.schema'
-export const XyoSchemaSchema: XyoSchemaSchema = 'network.xyo.schema'
+export type SchemaSchema = 'network.xyo.schema'
+export const SchemaSchema: SchemaSchema = 'network.xyo.schema'

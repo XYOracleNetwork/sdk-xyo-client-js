@@ -1,6 +1,6 @@
-import { XyoCryptoCardsMovePayload } from './Payload'
-import { XyoCryptoCardsMoveSchema } from './Schema'
+import { CryptoCardsMovePayload } from './Payload'
+import { CryptoCardsMoveSchema } from './Schema'
 
-export const cryptoCardsMovePayloadTemplate = (): Partial<XyoCryptoCardsMovePayload> => ({
-  schema: XyoCryptoCardsMoveSchema,
+export const cryptoCardsMovePayloadTemplate = (): Partial<CryptoCardsMovePayload> => ({
+  schema: CryptoCardsMoveSchema,
 })

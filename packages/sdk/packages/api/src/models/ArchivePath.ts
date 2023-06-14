@@ -1,3 +1,3 @@
-export interface XyoArchivePath {
+export interface ArchivePath {
   archive: string
 }

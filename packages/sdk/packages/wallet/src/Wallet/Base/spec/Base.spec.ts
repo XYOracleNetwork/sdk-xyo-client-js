@@ -1,7 +1,7 @@
-import { XyoWalletBase } from '../Base'
+import {WalletBase } from '../Base'
 
 test('all', () => {
-  const wallet = new XyoWalletBase('test phrase')
+  const wallet = newWalletBase('test phrase')
   const account0 = wallet.getAccount(0)
   const account999999WithSalt = wallet.getAccount(999999, 'test')
 

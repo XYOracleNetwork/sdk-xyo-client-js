@@ -14,9 +14,9 @@ import type {
   SLWeatherForecastData,
 } from 'node-screenlogic'
 
-import { XyoPentairScreenlogicSchema } from './Schema'
+import { PentairScreenlogicSchema } from './Schema'
 
-export type XyoPentairScreenlogicPayload = Payload<
+export type PentairScreenlogicPayload = Payload<
   {
     chem: SLChemData
     chlor: SLIntellichlorData
@@ -38,5 +38,5 @@ export type XyoPentairScreenlogicPayload = Payload<
     }
     version?: SLVersionData
   },
-  XyoPentairScreenlogicSchema
+  PentairScreenlogicSchema
 >

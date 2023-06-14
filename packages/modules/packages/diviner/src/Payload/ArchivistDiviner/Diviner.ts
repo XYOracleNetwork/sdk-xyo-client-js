@@ -8,19 +8,19 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { XyoHuriPayload, XyoHuriSchema } from '../XyoHuriPayload'
-import { XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from './Config'
+import { HuriPayload, HuriSchema } from '../XyoHuriPayload'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config'
 
 export type ArchivistPayloadDivinerParams<
-  TConfig extends AnyConfigSchema<XyoArchivistPayloadDivinerConfig> = AnyConfigSchema<XyoArchivistPayloadDivinerConfig>,
+  TConfig extends AnyConfigSchema<ArchivistPayloadDivinerConfig> = AnyConfigSchema<ArchivistPayloadDivinerConfig>,
 > = DivinerParams<TConfig>
 
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = ArchivistPayloadDivinerConfigSchema
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
-      payloads?.filter((payload): payload is XyoHuriPayload => payload?.schema === XyoHuriSchema),
+      payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()

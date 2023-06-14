@@ -1,6 +1,6 @@
-import { XyoEthereumGasEthgasstationPayload, XyoEthereumGasEthgasstationSchema } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
+import { EthereumGasEthgasstationPayload, EthereumGasEthgasstationSchema } from '@xyo-network/ethgasstation-ethereum-gas-payload-plugin'
 
-export const sampleEthgasstationGas: XyoEthereumGasEthgasstationPayload = {
+export const sampleEthgasstationGas: EthereumGasEthgasstationPayload = {
   baseFee: 10,
   blockNumber: 16028883,
   blockTime: 11.88,
@@ -15,6 +15,6 @@ export const sampleEthgasstationGas: XyoEthereumGasEthgasstationPayload = {
     instant: 2,
     standard: 2,
   },
-  schema: XyoEthereumGasEthgasstationSchema,
+  schema: EthereumGasEthgasstationSchema,
   timestamp: 1668697958837,
 }

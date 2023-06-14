@@ -1,38 +1,35 @@
 import { InfuraProvider } from '@ethersproject/providers'
-import { XyoEthereumGasBlocknativeWitness, XyoEthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
+import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import {
-  XyoEtherchainEthereumGasWitnessV2,
-  XyoEthereumGasEtherchainV2WitnessConfigSchema,
-} from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
-import { XyoEthereumGasEthersWitness, XyoEthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
-import { XyoEthereumGasEtherscanWitness, XyoEthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
-import { XyoEthereumGasEthgasstationWitness, XyoEthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
-import { XyoEthereumGasPayload, XyoEthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
+import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
+import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
+import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
+import { EthereumGasEthgasstationWitness, EthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
+import { EthereumGasPayload, EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoEthereumGasDiviner } from '../Diviner'
+import { EthereumGasDiviner } from '../Diviner'
 import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from '../test'
 
 describe('Diviner', () => {
   const cases: [title: string, data: Payload[]][] = [
-    ['XyoEthereumGasBlocknativePayload', [sampleBlocknativeGas]],
-    ['XyoEthereumGasEtherchainV2Payload', [sampleEtherchainGasV2]],
-    ['XyoEthereumGasEtherscanPayload', [sampleEtherscanGas]],
-    ['XyoEthereumGasEthersPayload', [sampleEthersGas]],
-    ['XyoEthereumGasEthgasstationPayload', [sampleEthgasstationGas]],
+    ['EthereumGasBlocknativePayload', [sampleBlocknativeGas]],
+    ['EthereumGasEtherchainV2Payload', [sampleEtherchainGasV2]],
+    ['EthereumGasEtherscanPayload', [sampleEtherscanGas]],
+    ['EthereumGasEthersPayload', [sampleEthersGas]],
+    ['EthereumGasEthgasstationPayload', [sampleEthgasstationGas]],
     ['no gas payloads', []],
     ['all supported gas payloads', [sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas]],
   ]
   test.each(cases)('with %s returns divined gas price', async (_title: string, data: Payload[]) => {
-    const module = await XyoEthereumGasDiviner.create()
+    const module = await EthereumGasDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)
     const payloads = await wrapper.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
-    const gasPayload = payloads.pop() as XyoEthereumGasPayload
+    const gasPayload = payloads.pop() as EthereumGasPayload
     expect(gasPayload).toBeObject()
-    expect(gasPayload.schema).toBe(XyoEthereumGasSchema)
+    expect(gasPayload.schema).toBe(EthereumGasSchema)
     expect(gasPayload.timestamp).toBeNumber()
     expect(gasPayload.feePerGas).toBeObject()
     expect(gasPayload.priorityFeePerGas).toBeObject()
@@ -42,37 +39,37 @@ describe('Diviner', () => {
     // results for diviner weighting/calibration
     const blocknativeGas = (
       await (
-        await XyoEthereumGasBlocknativeWitness.create({
+        await EthereumGasBlocknativeWitness.create({
           config: {
-            schema: XyoEthereumGasBlocknativeWitnessConfigSchema,
+            schema: EthereumGasBlocknativeWitnessConfigSchema,
           },
         })
       ).observe()
     )?.[0]
     const etherchainGasV2 = (
       await (
-        await XyoEtherchainEthereumGasWitnessV2.create({
+        await EtherchainEthereumGasWitnessV2.create({
           config: {
-            schema: XyoEthereumGasEtherchainV2WitnessConfigSchema,
+            schema: EthereumGasEtherchainV2WitnessConfigSchema,
           },
         })
       ).observe()
     )?.[0]
     const etherscanGas = (
       await (
-        await XyoEthereumGasEtherscanWitness.create({
+        await EthereumGasEtherscanWitness.create({
           config: {
             apiKey: process.env.ETHERSCAN_API_KEY || '',
-            schema: XyoEthereumGasEtherscanWitnessConfigSchema,
+            schema: EthereumGasEtherscanWitnessConfigSchema,
           },
         })
       ).observe()
     )?.[0]
     const ethersGas = (
       await (
-        await XyoEthereumGasEthersWitness.create({
+        await EthereumGasEthersWitness.create({
           config: {
-            schema: XyoEthereumGasEthersWitnessConfigSchema,
+            schema: EthereumGasEthersWitnessConfigSchema,
           },
           provider: new InfuraProvider('homestead', {
             projectId: process.env.INFURA_PROJECT_ID,
@@ -83,16 +80,16 @@ describe('Diviner', () => {
     )?.[0]
     const ethgasstationGas = (
       await (
-        await XyoEthereumGasEthgasstationWitness.create({
+        await EthereumGasEthgasstationWitness.create({
           config: {
-            schema: XyoEthereumGasEthgasstationWitnessConfigSchema,
+            schema: EthereumGasEthgasstationWitnessConfigSchema,
           },
         })
       ).observe()
     )?.[0]
     const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
-    const module = await XyoEthereumGasDiviner.create()
+    const module = await EthereumGasDiviner.create()
     const wrapper = DivinerWrapper.wrap(module)
 
     const payloads = await wrapper.divine(observations)
@@ -100,10 +97,10 @@ describe('Diviner', () => {
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
     payloads.map((payload) => {
-      if (payload?.schema === XyoEthereumGasSchema) {
-        const gasPayload = payload as XyoEthereumGasPayload
+      if (payload?.schema === EthereumGasSchema) {
+        const gasPayload = payload as EthereumGasPayload
         expect(gasPayload).toBeObject()
-        expect(gasPayload.schema).toBe(XyoEthereumGasSchema)
+        expect(gasPayload.schema).toBe(EthereumGasSchema)
         expect(gasPayload.timestamp).toBeNumber()
       }
     })

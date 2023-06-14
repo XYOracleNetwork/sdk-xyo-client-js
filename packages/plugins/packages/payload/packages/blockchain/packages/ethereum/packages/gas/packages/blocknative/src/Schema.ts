@@ -1,2 +1,2 @@
-export type XyoEthereumGasBlocknativeSchema = 'network.xyo.blockchain.ethereum.gas.blocknative'
-export const XyoEthereumGasBlocknativeSchema: XyoEthereumGasBlocknativeSchema = 'network.xyo.blockchain.ethereum.gas.blocknative'
+export type EthereumGasBlocknativeSchema = 'network.xyo.blockchain.ethereum.gas.blocknative'
+export const EthereumGasBlocknativeSchema: EthereumGasBlocknativeSchema = 'network.xyo.blockchain.ethereum.gas.blocknative'

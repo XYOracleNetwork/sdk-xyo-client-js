@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { XyoApiConfig } from '@xyo-network/api-models'
+import { ApiConfig } from '@xyo-network/api-models'
 import { ArchivistModule } from '@xyo-network/archivist-model'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { ArchivistWrapper } from '@xyo-network/modules'
@@ -9,7 +9,7 @@ import { getApiConfig } from './getApiConfig'
 const schema = HttpBridgeConfigSchema
 const security = { allowAnonymous: true }
 
-export const getArchivists = async (configs: XyoApiConfig[] = [getApiConfig()]): Promise<ArchivistModule[]> => {
+export const getArchivists = async (configs: ApiConfig[] = [getApiConfig()]): Promise<ArchivistModule[]> => {
   const archivists: ArchivistModule[] = []
   for (let i = 0; i < configs.length; i++) {
     const nodeUrl = `${configs[i].apiDomain}/node`

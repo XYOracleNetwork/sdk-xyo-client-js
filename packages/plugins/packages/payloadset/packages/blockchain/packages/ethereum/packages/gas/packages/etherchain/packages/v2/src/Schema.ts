@@ -1,3 +1,3 @@
-export type XyoEthereumGasEtherchainV2WitnessConfigSchema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2.witness.config'
-export const XyoEthereumGasEtherchainV2WitnessConfigSchema: XyoEthereumGasEtherchainV2WitnessConfigSchema =
+export type EthereumGasEtherchainV2WitnessConfigSchema = 'network.xyo.blockchain.ethereum.gas.etherchain.v2.witness.config'
+export const EthereumGasEtherchainV2WitnessConfigSchema: EthereumGasEtherchainV2WitnessConfigSchema =
   'network.xyo.blockchain.ethereum.gas.etherchain.v2.witness.config'

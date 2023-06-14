@@ -1,6 +1,6 @@
 import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike, toUint8Array, WasmSupport, XyoData } from '@xyo-network/core'
+import { Data, DataLike, toUint8Array, WasmSupport } from '@xyo-network/core'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
@@ -16,7 +16,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     .then(() => instantiateSecp256k1())
     .catch(() => null)
 
-  private _isXyoAddress = true
+  private _isAddress = true
   constructor(address: DataLike) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
@@ -27,11 +27,11 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   }
 
   static addressFromPublicKey(key: DataLike) {
-    return new XyoData(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
+    return new Data(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
   }
 
-  static isXyoAddress(value: unknown) {
-    return (value as AddressValue)._isXyoAddress
+  static isAddress(value: unknown) {
+    return (value as AddressValue)._isAddress
   }
 
   //there has to be a better way to do this other than trying all four numbers

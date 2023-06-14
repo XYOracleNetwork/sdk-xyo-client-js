@@ -1,9 +1,9 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { XyoEthereumGasEtherscanPayload } from './Payload'
-import { XyoEthereumGasEtherscanSchema } from './Schema'
+import { EthereumGasEtherscanPayload } from './Payload'
+import { EthereumGasEtherscanSchema } from './Schema'
 
-export const XyoEthereumGasEtherscanPayloadPlugin = () =>
-  createPayloadPlugin<XyoEthereumGasEtherscanPayload>({
-    schema: XyoEthereumGasEtherscanSchema,
+export const EthereumGasEtherscanPayloadPlugin = () =>
+  createPayloadPlugin<EthereumGasEtherscanPayload>({
+    schema: EthereumGasEtherscanSchema,
   })

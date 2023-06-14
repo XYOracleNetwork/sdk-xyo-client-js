@@ -1,3 +1,3 @@
 export * from './AssetSymbol'
-export * from './XyoCryptoAsset'
-export * from './XyoCryptoAssets'
+export * from './CryptoAsset'
+export * from './CryptoAssets'

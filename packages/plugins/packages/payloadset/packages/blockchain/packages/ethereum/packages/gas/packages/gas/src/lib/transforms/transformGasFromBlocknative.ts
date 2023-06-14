@@ -1,13 +1,13 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import { XyoEthereumGasBlocknativePayload } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
+import { EthereumGasBlocknativePayload } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { FeeData, FeePerGas, PriorityFeePerGas } from '@xyo-network/gas-price-payload-plugin'
 import { linear } from 'regression'
 
-const getBaseFee = (payload: XyoEthereumGasBlocknativePayload): number | undefined => {
+const getBaseFee = (payload: EthereumGasBlocknativePayload): number | undefined => {
   return payload?.blockPrices?.[0]?.baseFeePerGas
 }
 
-const getFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partial<FeePerGas> => {
+const getFeePerGas = (payload: EthereumGasBlocknativePayload): Partial<FeePerGas> => {
   const sorted = payload.blockPrices?.[0].estimatedPrices?.sort((a, b) => a.confidence - b.confidence)
   const trend = linear([
     [0, sorted?.[0].price],
@@ -25,7 +25,7 @@ const getFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partial<FeePer
   return feePerGas
 }
 
-const getPriorityFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partial<PriorityFeePerGas> => {
+const getPriorityFeePerGas = (payload: EthereumGasBlocknativePayload): Partial<PriorityFeePerGas> => {
   const sorted = payload.blockPrices?.[0].estimatedPrices?.sort((a, b) => a.confidence - b.confidence)
   const trend = linear([
     [0, sorted?.[0].maxPriorityFeePerGas],
@@ -43,7 +43,7 @@ const getPriorityFeePerGas = (payload: XyoEthereumGasBlocknativePayload): Partia
   return priorityFeePerGas
 }
 
-export const transformGasFromBlocknative = (payload: XyoEthereumGasBlocknativePayload): FeeData => {
+export const transformGasFromBlocknative = (payload: EthereumGasBlocknativePayload): FeeData => {
   const baseFee = getBaseFee(payload)
   const feePerGas = getFeePerGas(payload)
   const priorityFeePerGas = getPriorityFeePerGas(payload)

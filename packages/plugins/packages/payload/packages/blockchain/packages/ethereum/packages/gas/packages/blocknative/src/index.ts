@@ -1,9 +1,9 @@
-import { XyoEthereumGasBlocknativePayloadPlugin } from './Plugin'
+import { EthereumGasBlocknativePayloadPlugin } from './Plugin'
 
 export * from './Payload'
 export * from './Schema'
 
-export { XyoEthereumGasBlocknativePayloadPlugin }
+export { EthereumGasBlocknativePayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoEthereumGasBlocknativePayloadPlugin
+export default EthereumGasBlocknativePayloadPlugin

@@ -1,8 +1,8 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { XyoNodeSystemInfoSchema } from './Schema'
+import { NodeSystemInfoSchema } from './Schema'
 
-export type XyoNodeSystemInfoPayload = Payload<{
-  schema: XyoNodeSystemInfoSchema
+export type NodeSystemInfoPayload = Payload<{
+  schema: NodeSystemInfoSchema
   systeminfo?: Record<string, unknown>
 }>

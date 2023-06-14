@@ -1,9 +1,9 @@
-import { XyoDomainPayload } from '@xyo-network/domain-payload-plugin'
+import { DomainPayload } from '@xyo-network/domain-payload-plugin'
 import { StatusCodes } from 'http-status-codes'
 
 import { getRequestClient } from '../Server'
 
-export const getDomain = async (domain: string): Promise<XyoDomainPayload> => {
+export const getDomain = async (domain: string): Promise<DomainPayload> => {
   const path = `/domain/${domain}`
   const client = getRequestClient()
   const response = await client.get(path)

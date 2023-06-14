@@ -1,5 +1,5 @@
 import { exists } from '@xylabs/exists'
-import { AssetInfo, Currency, Token, XyoCryptoMarketAssetPayload } from '@xyo-network/crypto-asset-payload-plugin'
+import { AssetInfo, CryptoMarketAssetPayload, Currency, Token } from '@xyo-network/crypto-asset-payload-plugin'
 
 const isNumber = (val: number | undefined): val is number => {
   return val !== undefined
@@ -16,7 +16,7 @@ const averageStringifiedNumbers = (...prices: (string | undefined)[]): number | 
   return numbers.length ? numbers.reduce((sum, n) => sum + n, 0) / numbers.length : undefined
 }
 
-export const average = (...input: (XyoCryptoMarketAssetPayload | undefined)[]): Record<string, AssetInfo> => {
+export const average = (...input: (CryptoMarketAssetPayload | undefined)[]): Record<string, AssetInfo> => {
   // Get all the assets represented
   const payloads = input.filter(exists)
   const tokens = new Set<Token>(payloads.map((payload) => Object.keys(payload.assets).map<Token>((t) => t as Token)).flatMap((t) => t))

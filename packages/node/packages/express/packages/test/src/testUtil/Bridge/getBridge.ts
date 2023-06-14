@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { HttpBridge, HttpBridgeConfig, HttpBridgeConfigSchema, XyoHttpBridgeParams } from '@xyo-network/http-bridge'
+import { HttpBridge, HttpBridgeConfig, HttpBridgeConfigSchema, HttpBridgeParams } from '@xyo-network/http-bridge'
 import path from 'path'
 
 let bridge: HttpBridge
@@ -10,7 +10,7 @@ export const getBridge = async (): Promise<HttpBridge> => {
   const schema = HttpBridgeConfigSchema
   const security = { allowAnonymous: true }
   const config: HttpBridgeConfig = { nodeUrl, schema, security }
-  const params: XyoHttpBridgeParams = { config }
+  const params: HttpBridgeParams = { config }
   bridge = await HttpBridge.create(params)
   return bridge
 }

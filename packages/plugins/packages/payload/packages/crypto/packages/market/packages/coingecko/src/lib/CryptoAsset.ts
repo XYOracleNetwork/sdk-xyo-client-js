@@ -1,4 +1,4 @@
-export interface XyoCryptoAsset {
+export interface CryptoAsset {
   name?: string
   symbol?: string
 }

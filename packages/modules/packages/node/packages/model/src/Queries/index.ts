@@ -1,15 +1,15 @@
 import { ModuleQuery, ModuleQueryBase, Query } from '@xyo-network/module-model'
 
-import { XyoNodeAttachQuery } from './Attach'
-import { XyoNodeAttachedQuery } from './Attached'
-import { XyoNodeDetachQuery } from './Detach'
-import { XyoNodeRegisteredQuery } from './Registered'
+import { NodeAttachQuery } from './Attach'
+import { NodeAttachedQuery } from './Attached'
+import { NodeDetachQuery } from './Detach'
+import { NodeRegisteredQuery } from './Registered'
 
 export * from './Attach'
 export * from './Attached'
 export * from './Detach'
 export * from './Registered'
 
-export type XyoNodeQueryBase = XyoNodeAttachQuery | XyoNodeDetachQuery | XyoNodeAttachedQuery | XyoNodeRegisteredQuery
-export type XyoNodeModuleQueries = ModuleQueryBase | XyoNodeQueryBase
-export type XyoNodeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? XyoNodeQueryBase | T : XyoNodeQueryBase>
+export type NodeQueryBase = NodeAttachQuery | NodeDetachQuery | NodeAttachedQuery | NodeRegisteredQuery
+export type NodeModuleQueries = ModuleQueryBase | NodeQueryBase
+export type NodeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? NodeQueryBase | T : NodeQueryBase>

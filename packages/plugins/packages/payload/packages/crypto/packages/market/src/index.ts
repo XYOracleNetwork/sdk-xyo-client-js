@@ -7,11 +7,11 @@ import { CryptoMarketAssetPayloadPlugin } from '@xyo-network/crypto-asset-payloa
 import { PayloadPluginFunc } from '@xyo-network/payload-plugin'
 import { UniswapCryptoMarketPayloadPlugin } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
-export const XyoCryptoMarketPayloadPlugins: PayloadPluginFunc[] = [
+export const CryptoMarketPayloadPlugins: PayloadPluginFunc[] = [
   CoingeckoCryptoMarketPayloadPlugin,
   UniswapCryptoMarketPayloadPlugin,
   CryptoMarketAssetPayloadPlugin,
 ]
 
 // eslint-disable-next-line import/no-default-export
-export default XyoCryptoMarketPayloadPlugins
+export default CryptoMarketPayloadPlugins

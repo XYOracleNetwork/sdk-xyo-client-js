@@ -2,7 +2,7 @@ import { GetValidator, PayloadWithPartialMeta } from '@xyo-network/node-core-mod
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { SchemaCache } from '@xyo-network/schema-cache'
-import { XyoSchemaPayload } from '@xyo-network/schema-payload-plugin'
+import { SchemaPayload } from '@xyo-network/schema-payload-plugin'
 // eslint-disable-next-line import/no-named-as-default
 import Ajv from 'ajv'
 
@@ -10,7 +10,7 @@ const ajv = new Ajv()
 
 export const getPayloadValidatorFromSchemaCache: GetValidator<Payload> = async (payload) => {
   // Get the schema from the schema cache
-  const schemaPayload: PayloadWithPartialMeta<XyoSchemaPayload> | undefined = (await SchemaCache.instance.get(payload.schema))?.payload
+  const schemaPayload: PayloadWithPartialMeta<SchemaPayload> | undefined = (await SchemaCache.instance.get(payload.schema))?.payload
   // If it doesn't exist return undefined
   if (!schemaPayload) return undefined
   const { definition, _hash } = schemaPayload

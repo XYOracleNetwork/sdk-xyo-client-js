@@ -1,10 +1,10 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { XyoEthereumGasEthersPayloadPlugin } from './Plugin'
+import { EthereumGasEthersPayloadPlugin } from './Plugin'
 
-describe('XyoEthereumGasEthersPayloadPlugin', () => {
+describe('EthereumGasEthersPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const plugin = XyoEthereumGasEthersPayloadPlugin()
+    const plugin = EthereumGasEthersPayloadPlugin()
     const resolver = new PayloadPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.schema)).toBeObject()
   })

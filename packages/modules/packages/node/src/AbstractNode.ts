@@ -14,16 +14,16 @@ import {
   QueryBoundWitnessWrapper,
 } from '@xyo-network/module'
 import {
+  NodeAttachedQuerySchema,
+  NodeAttachQuerySchema,
   NodeConfigSchema,
+  NodeDetachQuerySchema,
   NodeModule,
   NodeModuleEventData,
   NodeModuleParams,
-  XyoNodeAttachedQuerySchema,
-  XyoNodeAttachQuerySchema,
-  XyoNodeDetachQuerySchema,
-  XyoNodeQuery,
-  XyoNodeQueryBase,
-  XyoNodeRegisteredQuerySchema,
+  NodeQuery,
+  NodeQueryBase,
+  NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -44,10 +44,10 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   }
 
   override get queries(): string[] {
-    return [XyoNodeAttachQuerySchema, XyoNodeDetachQuerySchema, XyoNodeAttachedQuerySchema, XyoNodeRegisteredQuerySchema, ...super.queries]
+    return [NodeAttachQuerySchema, NodeDetachQuerySchema, NodeAttachedQuerySchema, NodeRegisteredQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<XyoNodeQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<NodeQueryBase['schema'], string> {
     return {
       'network.xyo.query.node.attach': '1/1',
       'network.xyo.query.node.attached': '1/2',
@@ -98,14 +98,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<XyoNodeQuery>(query, payloads)
+    const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = new Account()
     const resultPayloads: Payload[] = []
     try {
       switch (queryPayload.schema) {
-        case XyoNodeAttachQuerySchema: {
+        case NodeAttachQuerySchema: {
           const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
           if (address) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
@@ -113,7 +113,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           }
           break
         }
-        case XyoNodeDetachQuerySchema: {
+        case NodeDetachQuerySchema: {
           const address = await this.detach(queryPayload.nameOrAddress)
           if (address) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
@@ -121,7 +121,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           }
           break
         }
-        case XyoNodeAttachedQuerySchema: {
+        case NodeAttachedQuerySchema: {
           const addresses = await this.attached()
           for (const address of addresses) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
@@ -129,7 +129,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           }
           break
         }
-        case XyoNodeRegisteredQuerySchema: {
+        case NodeRegisteredQuerySchema: {
           const addresses = await this.registered()
           for (const address of addresses) {
             const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()

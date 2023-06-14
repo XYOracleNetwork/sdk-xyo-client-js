@@ -1,18 +1,18 @@
-import { XyoApiError } from './Error'
-import { XyoApiWarning } from './Warning'
+import { ApiError } from './Error'
+import { ApiWarning } from './Warning'
 
-export interface XyoApiEnvelopeBase {
-  warning?: XyoApiWarning[]
+export interface ApiEnvelopeBase {
+  warning?: ApiWarning[]
 }
 
-export interface XyoApiEnvelopeSuccess<T> extends XyoApiEnvelopeBase {
+export interface ApiEnvelopeSuccess<T> extends ApiEnvelopeBase {
   data: T
   errors: never
 }
 
-export interface XyoApiEnvelopeError extends XyoApiEnvelopeBase {
+export interface ApiEnvelopeError extends ApiEnvelopeBase {
   data: never
-  errors: XyoApiError[]
+  errors: ApiError[]
 }
 
-export type XyoApiEnvelope<T> = XyoApiEnvelopeSuccess<T> | XyoApiEnvelopeError
+export type ApiEnvelope<T> = ApiEnvelopeSuccess<T> | ApiEnvelopeError

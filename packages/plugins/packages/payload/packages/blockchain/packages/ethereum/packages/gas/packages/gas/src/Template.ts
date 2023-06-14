@@ -1,6 +1,6 @@
-import { XyoEthereumGasPayload } from './Payload'
-import { XyoEthereumGasSchema } from './Schema'
+import { EthereumGasPayload } from './Payload'
+import { EthereumGasSchema } from './Schema'
 
-export const ethereumGasPayloadTemplate = (): Partial<XyoEthereumGasPayload> => ({
-  schema: XyoEthereumGasSchema,
+export const ethereumGasPayloadTemplate = (): Partial<EthereumGasPayload> => ({
+  schema: EthereumGasSchema,
 })

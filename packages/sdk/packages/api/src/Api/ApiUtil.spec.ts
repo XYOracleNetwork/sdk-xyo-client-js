@@ -1,15 +1,15 @@
-import { XyoApiConfig } from '@xyo-network/api-models'
+import { ApiConfig } from '@xyo-network/api-models'
 import { uuid } from '@xyo-network/core'
 
-import { XyoArchivistApi } from './Api'
+import { ArchivistApi } from './Api'
 
 test('Must have tests defined', () => {
   expect(true).toBeTruthy()
 })
 
-export const getApiConfig = (configData: Partial<XyoApiConfig> = {}): XyoApiConfig => {
+export const getApiConfig = (configData: Partial<ApiConfig> = {}): ApiConfig => {
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
-  const defaults: XyoApiConfig = {
+  const defaults: ApiConfig = {
     apiDomain,
     onError: (error) => error,
     onFailure: (response) => response,
@@ -18,8 +18,8 @@ export const getApiConfig = (configData: Partial<XyoApiConfig> = {}): XyoApiConf
   return Object.assign({}, defaults, configData)
 }
 
-export const getApi = (configData: Partial<XyoApiConfig> = {}): XyoArchivistApi => {
-  return new XyoArchivistApi(getApiConfig(configData))
+export const getApi = (configData: Partial<ApiConfig> = {}): ArchivistApi => {
+  return new ArchivistApi(getApiConfig(configData))
 }
 
 export const testSchemaPrefix = 'network.xyo.schema.test.'

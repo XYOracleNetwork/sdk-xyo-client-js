@@ -1,2 +1,2 @@
-export type XyoDomainSchema = 'network.xyo.domain'
-export const XyoDomainSchema: XyoDomainSchema = 'network.xyo.domain'
+export type DomainSchema = 'network.xyo.domain'
+export const DomainSchema: DomainSchema = 'network.xyo.domain'

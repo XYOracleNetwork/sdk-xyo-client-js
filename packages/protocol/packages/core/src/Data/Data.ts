@@ -4,11 +4,11 @@ import { BigNumber } from '@xylabs/bignumber'
 import { Buffer, bufferPolyfill } from '@xylabs/buffer'
 import keccak256 from 'keccak256'
 
-import { XyoAbstractData } from './AbstractData'
+import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
 import { toUint8ArrayOptional } from './toUint8Array'
 
-export class XyoData extends XyoAbstractData {
+export class Data extends AbstractData {
   private _bytes?: Uint8Array
   private _length: number
 
@@ -36,7 +36,7 @@ export class XyoData extends XyoAbstractData {
   }
 
   get bytes() {
-    return assertEx(this._bytes, 'XyoData uninitialized')
+    return assertEx(this._bytes, 'Data uninitialized')
   }
 
   get hex() {

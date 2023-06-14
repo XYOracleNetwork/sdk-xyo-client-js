@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { XyoApiEnvelope } from '@xyo-network/api-models'
+import { ApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
@@ -17,7 +17,7 @@ import {
   ModuleWrapper,
   QueryBoundWitness,
 } from '@xyo-network/module'
-import { XyoNodeAttachQuerySchema } from '@xyo-network/node'
+import { NodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -28,11 +28,11 @@ import Url from 'url-parse'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 
-export type XyoHttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
+export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
 
 @creatableModule()
 export class HttpBridge<
-    TParams extends XyoHttpBridgeParams = XyoHttpBridgeParams,
+    TParams extends HttpBridgeParams = HttpBridgeParams,
     TEventData extends ModuleEventData = ModuleEventData,
     TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
   >
@@ -105,7 +105,7 @@ export class HttpBridge<
 
     await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
 
-    const parentNodes = await this.upResolver.resolve({ query: [[XyoNodeAttachQuerySchema]] })
+    const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
     //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
     parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
@@ -160,7 +160,7 @@ export class HttpBridge<
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
-      const result = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
+      const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
       if (result.status === 404) {
         return undefined
       }
@@ -184,7 +184,7 @@ export class HttpBridge<
   private async initRootAddress() {
     const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
-    const response = await this.axios.post<XyoApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
+    const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
     this._rootAddress = AxiosJson.finalPath(response)
     return this._rootAddress
   }

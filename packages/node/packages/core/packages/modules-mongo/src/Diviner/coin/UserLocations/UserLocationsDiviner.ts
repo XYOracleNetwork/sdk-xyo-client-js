@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { assertEx } from '@xylabs/assert'
 import { ArchivistModule } from '@xyo-network/archivist'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { DivinerWrapper, XyoArchivistPayloadDivinerConfig, XyoArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, DivinerWrapper } from '@xyo-network/diviner'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
@@ -42,7 +42,7 @@ export type CoinCurrentLocationWitnessPayload = Payload<{
 export const isLocationPayload = (x?: Payload | null): x is LocationPayload => x?.schema === LocationSchema
 
 export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = DivinerParams<
-  AnyConfigSchema<XyoArchivistPayloadDivinerConfig<T>>,
+  AnyConfigSchema<ArchivistPayloadDivinerConfig<T>>,
   {
     bws: BoundWitnessDiviner
     payloads: ArchivistModule
@@ -52,7 +52,7 @@ export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = Divine
 export class MemoryCoinUserLocationsDiviner<
   TParams extends CoinUserLocationsDivinerParams = CoinUserLocationsDivinerParams,
 > extends CoinUserLocationsDiviner<TParams> {
-  static override configSchema = XyoArchivistPayloadDivinerConfigSchema
+  static override configSchema = ArchivistPayloadDivinerConfigSchema
 
   async divine(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(

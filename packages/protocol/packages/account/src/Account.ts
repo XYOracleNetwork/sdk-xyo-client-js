@@ -9,7 +9,7 @@ import {
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
-import { DataLike, toUint8Array, XyoData } from '@xyo-network/core'
+import { Data, DataLike, toUint8Array } from '@xyo-network/core'
 import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
@@ -34,7 +34,7 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 export class Account extends KeyPair implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
   protected _node: HDNode | undefined = undefined
-  protected _previousHash?: XyoData
+  protected _previousHash?: Data
   private _isXyoWallet = true
   private readonly _signingLock = new Lock()
 
@@ -54,7 +54,7 @@ export class Account extends KeyPair implements AccountInstance {
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
     this._node = node
-    if (opts?.previousHash) this._previousHash = new XyoData(32, opts.previousHash)
+    if (opts?.previousHash) this._previousHash = new Data(32, opts.previousHash)
   }
 
   get addressValue() {
@@ -95,7 +95,7 @@ export class Account extends KeyPair implements AccountInstance {
     await this._signingLock.acquire()
     try {
       const signature = this.private.sign(hash)
-      this._previousHash = new XyoData(32, hash)
+      this._previousHash = new Data(32, hash)
       if (Account.previousHashStore) {
         await Account.previousHashStore.setItem(this.addressValue.hex, this._previousHash.hex)
       }

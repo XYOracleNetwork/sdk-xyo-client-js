@@ -1,11 +1,11 @@
-import { XyoEthereumGasPayloadPlugin } from './Plugin'
+import { EthereumGasPayloadPlugin } from './Plugin'
 
 export * from './Model'
 export * from './Payload'
 export * from './Schema'
 export * from './Template'
 
-export { XyoEthereumGasPayloadPlugin }
+export { EthereumGasPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default XyoEthereumGasPayloadPlugin
+export default EthereumGasPayloadPlugin

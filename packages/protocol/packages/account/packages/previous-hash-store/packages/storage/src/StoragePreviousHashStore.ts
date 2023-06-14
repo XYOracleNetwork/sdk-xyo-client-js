@@ -1,20 +1,22 @@
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import store, { StoreBase } from 'store2'
 
-export type StorageKind = 'local' | 'session' | 'page'
+export type Storage = 'local' | 'session' | 'page'
 
 export type StoragePreviousHashOpts = {
   namespace?: string
-  type?: StorageKind
+  type?: Storage
 }
 
 export class StoragePreviousHashStore implements PreviousHashStore {
+  static readonly DefaultNamespace = 'xyo-previous-hash-store'
+  static readonly DefaultStorageType: Storage = 'local'
   keyPrefix?: string | undefined
-  private _namespace = 'xyo-previous-hash-store'
+  private _namespace = StoragePreviousHashStore.DefaultNamespace
   private _storage: StoreBase | undefined
-  private _type: StorageKind = 'local'
+  private _type: Storage = StoragePreviousHashStore.DefaultStorageType
 
-  constructor(opts: StoragePreviousHashOpts) {
+  constructor(opts?: StoragePreviousHashOpts) {
     if (opts?.namespace) this._namespace = opts.namespace
     if (opts?.type) this._type = opts.type
     this._storage = store[this.type].namespace(this.namespace)
@@ -24,7 +26,7 @@ export class StoragePreviousHashStore implements PreviousHashStore {
     return this._namespace
   }
 
-  get type(): StorageKind {
+  get type(): Storage {
     return this._type
   }
 

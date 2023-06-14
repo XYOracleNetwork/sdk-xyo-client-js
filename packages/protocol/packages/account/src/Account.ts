@@ -10,11 +10,11 @@ import {
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
 import { Data, DataLike, toUint8Array } from '@xyo-network/core'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Lock } from 'semaphore-async-await'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
-import { PreviousHashStore } from './PreviousHashStore'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 

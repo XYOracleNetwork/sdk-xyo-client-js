@@ -11,7 +11,6 @@ export type StoragePreviousHashOpts = {
 export class StoragePreviousHashStore implements PreviousHashStore {
   static readonly DefaultNamespace = 'xyo-previous-hash-store'
   static readonly DefaultStorageType: Storage = 'local'
-  keyPrefix?: string | undefined
   private _namespace = StoragePreviousHashStore.DefaultNamespace
   private _storage: StoreBase | undefined
   private _type: Storage = StoragePreviousHashStore.DefaultStorageType

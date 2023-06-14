@@ -3,8 +3,11 @@
  */
 
 import { uuid } from '@xyo-network/core'
+import { indexedDB } from 'fake-indexeddb'
 
 import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore'
+
+window.indexedDB = indexedDB
 
 describe('IndexedDbPreviousHashStore', () => {
   const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'

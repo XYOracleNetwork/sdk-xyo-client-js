@@ -7939,6 +7939,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.17.13
+    "@xylabs/tsconfig": ^2.17.13
+    "@xyo-network/previous-hash-store-model": "workspace:^"
+    typescript: ^5.1.3
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store":
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store"

@@ -24,13 +24,19 @@ describe('StoragePreviousHashStore', () => {
       expect(store.type).toBe(type)
     })
   })
+  describe('getItem', () => {
+    it('with no value returns null', async () => {
+      const store = new StoragePreviousHashStore()
+      const address = uuid()
+      expect(await store.getItem(address)).toBe(null)
+    })
+  })
   describe('round trip storage', () => {
     it('sets/retrieves an item', async () => {
       const store = new StoragePreviousHashStore()
       const address = uuid()
       await store.setItem(address, previousHash)
-      const value = await store.getItem(address)
-      expect(value).toBe(previousHash)
+      expect(await store.getItem(address)).toBe(previousHash)
     })
   })
   describe('removeItem', () => {
@@ -38,10 +44,9 @@ describe('StoragePreviousHashStore', () => {
       const store = new StoragePreviousHashStore()
       const address = uuid()
       await store.setItem(address, previousHash)
-      const value = await store.getItem(address)
-      expect(value).toBe(previousHash)
+      expect(await store.getItem(address)).toBe(previousHash)
       await store.removeItem(address)
-      expect(value).toBe(null)
+      expect(await store.getItem(address)).toBe(null)
     })
   })
 })

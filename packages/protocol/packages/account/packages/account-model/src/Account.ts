@@ -1,7 +1,6 @@
 import { DataLike, XyoData } from '@xyo-network/core'
 import { AddressValueInstance, KeyPairInstance } from '@xyo-network/key-model'
-
-import { PreviousHashStore } from './PreviousHashStore'
+import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 

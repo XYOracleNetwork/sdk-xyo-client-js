@@ -5116,6 +5116,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/core": "workspace:^"
     "@xyo-network/key-model": "workspace:^"
+    "@xyo-network/previous-hash-store-model": "workspace:^"
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -7639,6 +7640,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/previous-hash-store-model": "workspace:^"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:^"
     "@xyo-network/shared": "workspace:^"
     agenda: ^5.0.0

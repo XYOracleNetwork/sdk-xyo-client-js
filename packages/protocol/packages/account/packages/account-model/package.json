@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/key-model": "workspace:^"
+    "@xyo-network/key-model": "workspace:^",
+    "@xyo-network/previous-hash-store-model": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

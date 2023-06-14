@@ -1,0 +1,4 @@
+ignores:
+  [
+    "fake-indexeddb"
+  ]

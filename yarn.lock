@@ -5137,6 +5137,7 @@ __metadata:
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/key-model": "workspace:^"
+    "@xyo-network/previous-hash-store-model": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
     elliptic: ^6.5.4
     semaphore-async-await: ^1.5.1
@@ -5463,6 +5464,7 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.195
     "@xylabs/assert": ^2.9.1
+    "@xylabs/exists": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -7933,6 +7935,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
+    "@xylabs/assert": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/previous-hash-store-model": "workspace:^"

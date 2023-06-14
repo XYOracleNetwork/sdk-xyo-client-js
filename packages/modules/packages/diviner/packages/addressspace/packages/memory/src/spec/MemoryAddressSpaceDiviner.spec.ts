@@ -17,9 +17,9 @@ describe('MemoryAddressSpaceDiviner', () => {
         account,
       )
 
-      const payload1 = PayloadWrapper.parse({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = PayloadWrapper.parse({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = PayloadWrapper.parse({ index: 3, schema: 'network.xyo.test' })
+      const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
+      const payload2 = PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
+      const payload3 = PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
       await archivist.insert([payload1.payload()])
       await archivist.insert([payload2.payload()])
@@ -42,7 +42,7 @@ describe('MemoryAddressSpaceDiviner', () => {
         expect(payload.schema).toBe(AddressSchema)
       })
       const addresses = results
-        .map((payload) => PayloadWrapper.parse<AddressPayload>(payload as AddressPayload))
+        .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)
       expect(addresses).toEqual([account.addressValue.hex, diviner.address])
     })

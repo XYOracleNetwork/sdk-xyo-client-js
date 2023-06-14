@@ -24,25 +24,25 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
   }
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachQuery>({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<XyoNodeAttachQuery>({ external, nameOrAddress, schema: XyoNodeAttachQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async attached(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<XyoNodeAttachedQuery>({ schema: XyoNodeAttachedQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }
 
   async detach(nameOrAddress: string): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeDetachQuery>({ nameOrAddress, schema: XyoNodeDetachQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<XyoNodeDetachQuery>({ nameOrAddress, schema: XyoNodeDetachQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async registered(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.parse<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<XyoNodeRegisteredQuery>({ schema: XyoNodeRegisteredQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }

@@ -22,11 +22,11 @@ describe(`/${moduleName}`, () => {
   ]
   beforeAll(async () => {
     archivist = await getArchivist()
-    const payloadWrapperA = PayloadWrapper.parse(getNewPayload())
-    const payloadWrapperB = PayloadWrapper.parse(getNewPayload())
-    const payloadWrapperC = PayloadWrapper.parse(getNewPayload())
-    const payloadWrapperD = PayloadWrapper.parse(getNewPayload())
-    const payloadWrapperE = PayloadWrapper.parse(getNewPayload())
+    const payloadWrapperA = PayloadWrapper.wrap(getNewPayload())
+    const payloadWrapperB = PayloadWrapper.wrap(getNewPayload())
+    const payloadWrapperC = PayloadWrapper.wrap(getNewPayload())
+    const payloadWrapperD = PayloadWrapper.wrap(getNewPayload())
+    const payloadWrapperE = PayloadWrapper.wrap(getNewPayload())
     payloadWrappers.push(payloadWrapperA, payloadWrapperB, payloadWrapperC, payloadWrapperD, payloadWrapperE)
     const boundWitnessWrapperA = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperA.payload()]))[0])
     const boundWitnessWrapperB = BoundWitnessWrapper.parse((await getNewBoundWitness([account], [payloadWrapperB.payload()]))[0])

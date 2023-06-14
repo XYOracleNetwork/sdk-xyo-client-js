@@ -31,24 +31,24 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   start?: (() => Promisable<void>) | undefined
 
   async all(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return compact(result)
   }
 
   async clear(): Promise<void> {
-    const queryPayload = PayloadWrapper.parse<ArchivistClearQuery>({ schema: ArchivistClearQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ArchivistClearQuery>({ schema: ArchivistClearQuerySchema })
     await this.sendQuery(queryPayload)
   }
 
   async commit(): Promise<BoundWitness[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistCommitQuery>({ schema: ArchivistCommitQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ArchivistCommitQuery>({ schema: ArchivistCommitQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result.filter(isBoundWitnessPayload)
   }
 
   async delete(hashes: string[]) {
-    const queryPayload = PayloadWrapper.parse<ArchivistDeleteQuery>({ hashes, schema: ArchivistDeleteQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ArchivistDeleteQuery>({ hashes, schema: ArchivistDeleteQuerySchema })
     const query = await this.bindQuery(queryPayload)
     const result = await this.module.query(query[0], query[1])
     await this.throwErrors(query, result)
@@ -56,13 +56,13 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   }
 
   async get(hashes: string[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
     const result = await this.sendQuery(queryPayload)
     return result
   }
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
+    const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
       payloads: await PayloadHasher.hashes(payloads),
       schema: ArchivistInsertQuerySchema,
     })

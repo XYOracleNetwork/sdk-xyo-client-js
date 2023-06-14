@@ -19,7 +19,7 @@ export class BoundWitnessWrapper<
 
   constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
     super(boundwitness)
-    this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.parse<TPayload>(payload))) : []
+    this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.wrap<TPayload>(payload))) : []
   }
 
   get addresses() {
@@ -46,7 +46,11 @@ export class BoundWitnessWrapper<
     return this.boundwitness.previous_hashes
   }
 
-  static override async load(address: DataLike) {
+  static as<T extends BoundWitness = BoundWitness>(value: unknown) {
+    return value instanceof BoundWitnessWrapper ? (value as BoundWitnessWrapper<T>) : null
+  }
+
+  static async load(address: DataLike) {
     const wrapper = await PayloadWrapper.load(address)
     const payload = wrapper?.payload()
     assertEx(payload && isBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
@@ -80,12 +84,12 @@ export class BoundWitnessWrapper<
         }),
       )
     ).reduce((map, [payload, payloadHash]) => {
-      map[payloadHash] = PayloadWrapper.parse(payload)
+      map[payloadHash] = PayloadWrapper.wrap(payload)
       return map
     }, {} as Record<string, PayloadWrapper<TPayload>>)
   }
 
-  static override parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
+  static parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
     const hydratedObj = typeof obj === 'string' ? JSON.parse(obj) : obj
     assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
     switch (typeof hydratedObj) {
@@ -101,7 +105,28 @@ export class BoundWitnessWrapper<
     throw Error(`Unable to parse [${typeof obj}]`)
   }
 
-  static async toWrappedMap<T extends BoundWitness>(boundWitnesses: (T | BoundWitnessWrapper<T>)[]): Promise<Record<string, BoundWitnessWrapper<T>>> {
+  static tryParse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> | undefined {
+    if (obj === undefined) return undefined
+    try {
+      return this.parse(obj, payloads)
+    } catch (_ex) {
+      return undefined
+    }
+  }
+
+  static wrap<T extends BoundWitness, P extends Payload>(obj: PayloadWrapperBase<T> | T, payloads?: P[]): BoundWitnessWrapper<T, P> {
+    switch (typeof obj) {
+      case 'object': {
+        const newWrapper = new BoundWitnessWrapper(assertEx(PayloadWrapperBase.unwrap<T>(obj)), payloads)
+        /*if (!newWrapper.getValid()) {
+          console.warn('Wrapped invalid BoundWitness')
+        }*/
+        return newWrapper
+      }
+    }
+  }
+
+  static async wrappedMap<T extends BoundWitness>(boundWitnesses: (T | BoundWitnessWrapper<T>)[]): Promise<Record<string, BoundWitnessWrapper<T>>> {
     const result: Record<string, BoundWitnessWrapper<T>> = {}
     await Promise.all(
       boundWitnesses.map(async (payload) => {
@@ -109,15 +134,6 @@ export class BoundWitnessWrapper<
       }),
     )
     return result
-  }
-
-  static override tryParse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> | undefined {
-    if (obj === undefined) return undefined
-    try {
-      return this.parse(obj, payloads)
-    } catch (_ex) {
-      return undefined
-    }
   }
 
   async allPayloadMap(): Promise<Record<string, TPayload>> {
@@ -193,13 +209,6 @@ export class BoundWitnessWrapper<
   prev(address: string) {
     return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
   }
-
-  /*
-  setPayloads(payloads: (TPayload | PayloadWrapper<TPayload>)[]) {
-    this._payloadMap = undefined
-    this._payloads = compact(payloads.map((payload) => PayloadWrapper.parse<TPayload>(payload)))
-  }
-  */
 
   toResult() {
     return [this.boundwitness, this.payloadsArray.map((payload) => payload.body())]

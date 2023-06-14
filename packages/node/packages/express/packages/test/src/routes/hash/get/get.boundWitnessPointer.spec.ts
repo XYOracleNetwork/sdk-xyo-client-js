@@ -78,7 +78,7 @@ describe('/:hash', () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      expect(await PayloadWrapper.parse(response).getValid()).toBeTrue()
+      expect(await PayloadWrapper.wrap(response).getValid()).toBeTrue()
       expect(response).toEqual(expected)
     })
     it(`${ReasonPhrases.NOT_FOUND} if no BoundWitnesses match the criteria`, async () => {
@@ -147,11 +147,11 @@ describe('/:hash', () => {
       const payloadBaseA = getNewPayload()
       const schemaA = getTestSchemaName()
       payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadA: PayloadWrapper = PayloadWrapper.wrap(payloadBaseA)
       const payloadBaseB = getNewPayload()
       const schemaB = getTestSchemaName()
       payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const payloadB: PayloadWrapper = PayloadWrapper.wrap(payloadBaseB)
       const schemas = [schemaA, schemaB]
       const boundWitnesses: BoundWitness[] = []
       beforeAll(async () => {

@@ -84,7 +84,7 @@ describe('/:hash', () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      expect(await PayloadWrapper.parse(response).getValid()).toBeTrue()
+      expect(await PayloadWrapper.wrap(response).getValid()).toBeTrue()
       expect(response).toEqual(expected)
     })
     it(`${ReasonPhrases.NOT_FOUND} if no Payloads match the criteria`, async () => {
@@ -155,10 +155,10 @@ describe('/:hash', () => {
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadA: PayloadWrapper = PayloadWrapper.wrap(payloadBaseA)
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const payloadB: PayloadWrapper = PayloadWrapper.wrap(payloadBaseB)
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
         const payloadResponse = await insertPayload([payloadA.payload(), payloadB.payload()], account)

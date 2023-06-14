@@ -72,7 +72,7 @@ export class MemoryArchivist<
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-          const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
+          const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
             payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
             schema: ArchivistInsertQuerySchema,
           })

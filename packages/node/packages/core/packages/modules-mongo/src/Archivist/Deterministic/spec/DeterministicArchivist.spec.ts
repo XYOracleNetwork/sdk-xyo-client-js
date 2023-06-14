@@ -51,10 +51,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     const payload2 = { nonce: 2, schema: 'network.xyo.test' }
     const payload3 = { nonce: 3, schema: 'network.xyo.debug' }
     const payload4 = { nonce: 4, schema: 'network.xyo.test' }
-    const payloadWrapper1 = PayloadWrapper.parse(payload1)
-    const payloadWrapper2 = PayloadWrapper.parse(payload2)
-    const payloadWrapper3 = PayloadWrapper.parse(payload3)
-    const payloadWrapper4 = PayloadWrapper.parse(payload4)
+    const payloadWrapper1 = PayloadWrapper.wrap(payload1)
+    const payloadWrapper2 = PayloadWrapper.wrap(payload2)
+    const payloadWrapper3 = PayloadWrapper.wrap(payload3)
+    const payloadWrapper4 = PayloadWrapper.wrap(payload4)
     payloadWrappers.push(payloadWrapper1, payloadWrapper2, payloadWrapper3, payloadWrapper4)
     const boundWitness1 = (await new BoundWitnessBuilder().payload(payloadWrapper1.payload()).witness(userAccount).build())[0]
     const boundWitness2 = (await new BoundWitnessBuilder().payload(payloadWrapper2.payload()).witness(userAccount).build())[0]
@@ -134,7 +134,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       const results = await archivist.get(payloads.map((p) => p.hash))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
-      const resultPayloads = results.map((result) => PayloadWrapper.parse(result))
+      const resultPayloads = results.map((result) => PayloadWrapper.wrap(result))
       const resultHashes = await Promise.all(resultPayloads.map((p) => p.hashAsync()))
       payloads.map((p) => {
         expect(resultHashes).toInclude(p.hash)

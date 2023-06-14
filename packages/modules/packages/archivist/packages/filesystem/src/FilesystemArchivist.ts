@@ -58,7 +58,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
 
   private static payloadsFromRawPayloads(rawPayloads: Payload[]) {
     //validation should be done in here.  I don't believe parse does much validation yet.
-    return rawPayloads.map((payload) => PayloadWrapper.parse(payload).payload())
+    return rawPayloads.map((payload) => PayloadWrapper.wrap(payload).payload())
   }
 
   override all(): PromisableArray<Payload> {

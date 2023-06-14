@@ -46,9 +46,9 @@ const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundW
 const toReturnValue = (value: Payload | BoundWitness): Payload => {
   const _signatures = (value as BoundWitness)?._signatures
   if (_signatures) {
-    return { ...PayloadWrapper.parse(value).body(), _signatures } as BoundWitness
+    return { ...PayloadWrapper.wrap(value).body(), _signatures } as BoundWitness
   } else {
-    return { ...PayloadWrapper.parse(value).body() }
+    return { ...PayloadWrapper.wrap(value).body() }
   }
 }
 
@@ -79,7 +79,7 @@ export class MongoDBDeterministicArchivist<
 
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
-    return head[0] ? PayloadWrapper.parse(head[0]).body() : undefined
+    return head[0] ? PayloadWrapper.wrap(head[0]).body() : undefined
   }
 
   insert(_items: Payload[]): Promise<BoundWitness[]> {

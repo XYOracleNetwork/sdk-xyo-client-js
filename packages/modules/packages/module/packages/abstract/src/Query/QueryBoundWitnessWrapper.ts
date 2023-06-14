@@ -58,7 +58,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
             (await super.getWrappedPayloads()).map((wrapper) => wrapper.payload()),
             this.payload().query,
           )
-        ).map((payload) => PayloadWrapper.parse(payload)),
+        ).map((payload) => PayloadWrapper.wrap(payload)),
       )
     return this._payloadsWithoutQuery
   }

@@ -2,12 +2,12 @@ import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-mode
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { BoundWitnessWrapper } from '../Wrapper'
+import { BoundWitnessWrapper } from '../BoundWitnessWrapper'
 
 describe('BoundWitnessWrapper', () => {
   describe('ctor', () => {
     it('handles missing payloads', async () => {
-      const payloads = [PayloadWrapper.parse({ schema: 'network.xyo.test' })]
+      const payloads = [PayloadWrapper.wrap({ schema: 'network.xyo.test' })]
       const bw = BoundWitnessWrapper.parse({
         _signatures: [],
         addresses: [],
@@ -21,9 +21,9 @@ describe('BoundWitnessWrapper', () => {
     })
   })
   describe('payloads', () => {
-    const included1 = PayloadWrapper.parse({ schema: 'network.xyo.test.1' })
-    const included2 = PayloadWrapper.parse({ schema: 'network.xyo.test.2' })
-    //const excluded1 = PayloadWrapper.parse({ schema: 'network.xyo.test.3' })
+    const included1 = PayloadWrapper.wrap({ schema: 'network.xyo.test.1' })
+    const included2 = PayloadWrapper.wrap({ schema: 'network.xyo.test.2' })
+    //const excluded1 = PayloadWrapper.wrap({ schema: 'network.xyo.test.3' })
     const payloads = [included1, included2]
     const bw: () => Promise<BoundWitness> = async () =>
       BoundWitnessWrapper.parse({

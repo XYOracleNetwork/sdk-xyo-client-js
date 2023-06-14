@@ -16,7 +16,7 @@ export const validByType = async (payloads: Payload[] = []) => {
           results[0].push(bw)
         }
       } else {
-        const payloadWrapper = PayloadWrapper.parse(payload)
+        const payloadWrapper = PayloadWrapper.wrap(payload)
         if (await payloadWrapper.getValid()) {
           results[1].push(payloadWrapper)
         }

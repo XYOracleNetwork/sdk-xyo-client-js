@@ -93,7 +93,7 @@ export abstract class AbstractArchivist<
       const results = compact(
         await Promise.all(
           Object.values(parents.read ?? {}).map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
+            const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
             const query = await this.bindQuery(queryPayload)
             const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
             const wrapper = payloads?.[0] ? new PayloadWrapper(payloads?.[0]) : undefined

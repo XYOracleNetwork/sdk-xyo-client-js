@@ -38,7 +38,7 @@ describe(`/${moduleName}`, () => {
     const accountB = Account.random()
     describe.skip('address', () => {
       it('divines Payloads by address', async () => {
-        const wrapper: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+        const wrapper: PayloadWrapper = PayloadWrapper.wrap(getNewPayload())
         const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA], [wrapper.payload()]))[0])
         await archivist.insert([boundWitness.payload(), wrapper.payload()])
 
@@ -50,7 +50,7 @@ describe(`/${moduleName}`, () => {
         expect(response.length).toBeGreaterThan(0)
       })
       it('divines Payloads by addresses', async () => {
-        const wrapper: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+        const wrapper: PayloadWrapper = PayloadWrapper.wrap(getNewPayload())
         const boundWitness: BoundWitnessWrapper = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA, accountB], [wrapper.payload()]))[0])
         await archivist.insert([boundWitness.payload(), wrapper.payload()])
         const address = [accountA.addressValue.hex, accountB.addressValue.hex] as unknown as (string | string[]) & (string | [string])
@@ -61,7 +61,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('hash', () => {
-      const payload: PayloadWrapper = PayloadWrapper.parse(getNewPayload())
+      const payload: PayloadWrapper = PayloadWrapper.wrap(getNewPayload())
       beforeAll(async () => await archivist.insert([payload.payload()]))
       it('divines Payloads by hash', async () => {
         const hash = await payload.hashAsync()
@@ -83,10 +83,10 @@ describe(`/${moduleName}`, () => {
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadA: PayloadWrapper = PayloadWrapper.wrap(payloadBaseA)
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const payloadB: PayloadWrapper = PayloadWrapper.wrap(payloadBaseB)
       beforeAll(async () => {
         await archivist.insert([payloadA.payload(), payloadB.payload()])
       })
@@ -117,10 +117,10 @@ describe(`/${moduleName}`, () => {
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA)
+      const payloadA: PayloadWrapper = PayloadWrapper.wrap(payloadBaseA)
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB)
+      const payloadB: PayloadWrapper = PayloadWrapper.wrap(payloadBaseB)
       beforeAll(async () => {
         await archivist.insert([payloadA.payload(), payloadB.payload()])
       })

@@ -100,7 +100,7 @@ export class CookieArchivist<
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.parse<ArchivistInsertQuery>({
+            const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
               payloads: await PayloadHasher.hashes(payloads),
               schema: ArchivistInsertQuerySchema,
             })

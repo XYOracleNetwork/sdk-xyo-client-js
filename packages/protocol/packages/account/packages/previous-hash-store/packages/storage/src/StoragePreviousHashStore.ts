@@ -37,7 +37,7 @@ export class StoragePreviousHashStore implements PreviousHashStore {
 
   async getItem(address: string): Promise<string | null> {
     const value = await this.storage.get(address)
-    return value?.previousHash ?? null
+    return value ?? null
   }
   async removeItem(address: string): Promise<void> {
     await this.storage.remove(address)

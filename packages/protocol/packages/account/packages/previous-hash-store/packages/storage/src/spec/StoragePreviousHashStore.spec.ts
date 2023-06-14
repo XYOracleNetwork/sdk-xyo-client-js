@@ -2,9 +2,12 @@
  * @jest-environment jsdom
  */
 
+import { uuid } from '@xyo-network/core'
+
 import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore'
 
 describe('StoragePreviousHashStore', () => {
+  const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'
   describe('ctor', () => {
     it('with no opts', () => {
       const store = new StoragePreviousHashStore()
@@ -24,8 +27,7 @@ describe('StoragePreviousHashStore', () => {
   describe('round trip storage', () => {
     it('sets/retrieves an item', async () => {
       const store = new StoragePreviousHashStore()
-      const address = 'test'
-      const previousHash = 'test'
+      const address = uuid()
       await store.setItem(address, previousHash)
       const value = await store.getItem(address)
       expect(value).toBe(previousHash)
@@ -34,8 +36,7 @@ describe('StoragePreviousHashStore', () => {
   describe('removeItem', () => {
     it('removes an item', async () => {
       const store = new StoragePreviousHashStore()
-      const address = 'test'
-      const previousHash = 'test'
+      const address = uuid()
       await store.setItem(address, previousHash)
       const value = await store.getItem(address)
       expect(value).toBe(previousHash)

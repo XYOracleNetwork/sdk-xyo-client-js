@@ -21,4 +21,26 @@ describe('StoragePreviousHashStore', () => {
       expect(store.type).toBe(type)
     })
   })
+  describe('round trip storage', () => {
+    it('sets/retrieves an item', async () => {
+      const store = new StoragePreviousHashStore()
+      const address = 'test'
+      const previousHash = 'test'
+      await store.setItem(address, previousHash)
+      const value = await store.getItem(address)
+      expect(value).toBe(previousHash)
+    })
+  })
+  describe('removeItem', () => {
+    it('removes an item', async () => {
+      const store = new StoragePreviousHashStore()
+      const address = 'test'
+      const previousHash = 'test'
+      await store.setItem(address, previousHash)
+      const value = await store.getItem(address)
+      expect(value).toBe(previousHash)
+      await store.removeItem(address)
+      expect(value).toBe(null)
+    })
+  })
 })

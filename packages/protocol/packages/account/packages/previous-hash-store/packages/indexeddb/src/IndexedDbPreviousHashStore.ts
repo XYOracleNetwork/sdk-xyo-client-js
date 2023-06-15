@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import { createStore, del, get, set, UseStore } from 'idb-keyval'
+import { IDBPDatabase, openDB } from 'idb'
 
 export type IndexedDbPreviousHashStoreOpts = {
   /**
@@ -17,10 +17,16 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
   static readonly DefaultDbName = 'xyo'
   static readonly DefaultStoreName = 'previous-hash-store'
 
-  private _db: UseStore | undefined
+  private readonly _db: Promise<IDBPDatabase<unknown>>
 
   constructor(protected readonly opts?: IndexedDbPreviousHashStoreOpts) {
-    this._db = createStore(this.dbName, this.storeName)
+    const dbName = this.dbName
+    const storeName = this.storeName
+    this._db = openDB(dbName, 1, {
+      upgrade(db) {
+        db.createObjectStore(storeName)
+      },
+    })
   }
 
   /**
@@ -45,18 +51,14 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
     return this.opts?.storeName ?? IndexedDbPreviousHashStore.DefaultStoreName
   }
 
-  private get db(): UseStore {
-    return assertEx(this._db, 'DB not initialized')
-  }
-
   async getItem(address: string): Promise<string | null> {
-    const value = await get(address, this.db)
+    const value = (await this._db).get(this.storeName, address)
     return value ?? null
   }
   async removeItem(address: string): Promise<void> {
-    await del(address, this.db)
+    await (await this._db).delete(this.storeName, address)
   }
   async setItem(address: string, previousHash: string): Promise<void> {
-    await set(address, previousHash, this.db)
+    await (await this._db).put(this.storeName, previousHash, address)
   }
 }

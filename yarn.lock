@@ -7719,7 +7719,6 @@ __metadata:
     "@xyo-network/previous-hash-store-model": "workspace:^"
     fake-indexeddb: ^4.0.1
     idb: ^7.1.1
-    idb-keyval: ^6.2.1
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft

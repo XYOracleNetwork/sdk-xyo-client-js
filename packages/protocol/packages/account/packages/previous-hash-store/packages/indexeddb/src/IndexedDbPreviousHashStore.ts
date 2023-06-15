@@ -7,7 +7,6 @@ export type IndexedDbPreviousHashStoreOpts = {
    * The database name
    */
   dbName?: string
-  //namespace?: string
   /**
    * The name of the object store
    */
@@ -15,7 +14,6 @@ export type IndexedDbPreviousHashStoreOpts = {
 }
 
 export class IndexedDbPreviousHashStore implements PreviousHashStore {
-  // static readonly DefaultNamespace = 'xyo-previous-hash-store'
   static readonly DefaultDbName = 'xyo'
   static readonly DefaultStoreName = 'previous-hash-store'
 

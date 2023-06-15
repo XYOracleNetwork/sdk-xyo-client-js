@@ -52,7 +52,7 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
   }
 
   async getItem(address: string): Promise<string | null> {
-    const value = (await this._db).get(this.storeName, address)
+    const value = await (await this._db).get(this.storeName, address)
     return value ?? null
   }
   async removeItem(address: string): Promise<void> {

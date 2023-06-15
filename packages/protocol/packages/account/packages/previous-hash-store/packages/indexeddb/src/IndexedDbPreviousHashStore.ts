@@ -1,7 +1,7 @@
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { DBSchema, IDBPDatabase, openDB } from 'idb'
 
-interface PreviousHashStoreSchema extends DBSchema {
+interface PreviousHashStoreSchemaV1 extends DBSchema {
   'previous-hash': {
     key: string
     value: string
@@ -9,10 +9,10 @@ interface PreviousHashStoreSchema extends DBSchema {
 }
 
 export class IndexedDbPreviousHashStore implements PreviousHashStore {
-  private readonly db: Promise<IDBPDatabase<PreviousHashStoreSchema>>
+  private readonly db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>>
 
   constructor() {
-    this.db = openDB<PreviousHashStoreSchema>(this.dbName, 1, {
+    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, 1, {
       upgrade: (db) => db.createObjectStore(this.storeName),
     })
   }

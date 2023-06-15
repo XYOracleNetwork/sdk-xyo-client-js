@@ -33,6 +33,7 @@
     "hdnode",
     "healthz",
     "huri",
+    "IDBP",
     "indexeddb",
     "Initializable",
     "initializables",

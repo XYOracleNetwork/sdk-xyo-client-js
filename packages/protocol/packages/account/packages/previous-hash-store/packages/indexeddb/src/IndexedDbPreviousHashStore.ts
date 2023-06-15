@@ -31,7 +31,7 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
 
   /**
    * The database name. If not supplied via opts, it defaults
-   * to `xyo`.
+   * to DefaultDbName.
    */
   get dbName() {
     return this.opts?.dbName ?? IndexedDbPreviousHashStore.DefaultDbName
@@ -39,13 +39,7 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
 
   /**
    * The name of the object store. If not supplied via opts, it defaults
-   * to `previous-hash-store`. The limitation of the current IndexedDB wrapper we're
-   * using is that it only supports a single object store per DB. See here:
-   * https://github.com/jakearchibald/idb-keyval/blob/main/custom-stores.md#defining-a-custom-database--store-name
-   * If this becomes a problem or we need migrations/transactions, we can
-   * move to this more-flexible library, which they recommend (and who
-   * recommends them for our simple use case of key-value storage):
-   * https://www.npmjs.com/package/idb
+   * to DefaultStoreName.
    */
   get storeName() {
     return this.opts?.storeName ?? IndexedDbPreviousHashStore.DefaultStoreName

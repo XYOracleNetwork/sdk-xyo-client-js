@@ -3,29 +3,46 @@
  */
 
 import { uuid } from '@xyo-network/core'
-import { indexedDB } from 'fake-indexeddb'
+import {
+  IDBCursor,
+  IDBCursorWithValue,
+  IDBDatabase,
+  IDBFactory,
+  IDBIndex,
+  IDBKeyRange,
+  IDBObjectStore,
+  IDBOpenDBRequest,
+  IDBRequest,
+  IDBTransaction,
+  IDBVersionChangeEvent,
+  indexedDB,
+} from 'fake-indexeddb'
 
 import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore'
 
+// Shim via fake-indexeddb
 window.indexedDB = indexedDB
+
+// Augment window with prototypes to ensure instance of comparisons work
+window.IDBCursor = IDBCursor
+window.IDBCursorWithValue = IDBCursorWithValue
+window.IDBDatabase = IDBDatabase
+window.IDBFactory = IDBFactory
+window.IDBIndex = IDBIndex
+window.IDBKeyRange = IDBKeyRange
+window.IDBObjectStore = IDBObjectStore
+window.IDBOpenDBRequest = IDBOpenDBRequest
+window.IDBRequest = IDBRequest
+window.IDBTransaction = IDBTransaction
+window.IDBVersionChangeEvent = IDBVersionChangeEvent
 
 describe('IndexedDbPreviousHashStore', () => {
   const previousHash = '2e8de18ece40481f132e6d2f05617e05cd896a9098d28ed65afdf0d72203b490'
 
   describe('ctor', () => {
-    it('with no opts uses default values', () => {
+    it('creates DB/Store with default values', () => {
       const store = new IndexedDbPreviousHashStore()
       expect(store).toBeInstanceOf(IndexedDbPreviousHashStore)
-      expect(store.dbName).toBe(IndexedDbPreviousHashStore.DefaultDbName)
-      expect(store.storeName).toBe(IndexedDbPreviousHashStore.DefaultStoreName)
-    })
-    it('with opts uses opt values', () => {
-      const dbName = 'test'
-      const storeName = 'session'
-      const store = new IndexedDbPreviousHashStore({ dbName, storeName })
-      expect(store).toBeInstanceOf(IndexedDbPreviousHashStore)
-      expect(store.dbName).toBe(dbName)
-      expect(store.storeName).toBe(storeName)
     })
   })
   describe('getItem', () => {

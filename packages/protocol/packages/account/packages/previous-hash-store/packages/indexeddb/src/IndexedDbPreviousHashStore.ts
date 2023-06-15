@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { DBSchema, IDBPDatabase, openDB } from 'idb'
 
@@ -13,8 +12,8 @@ export type IndexedDbPreviousHashStoreOpts = {
   storeName?: string
 }
 
-interface PreviousHashStoreSchema {
-  'previous-hash-store': {
+interface PreviousHashStoreSchema extends DBSchema {
+  'previous-hash': {
     key: string
     value: string
   }
@@ -22,7 +21,6 @@ interface PreviousHashStoreSchema {
 
 export class IndexedDbPreviousHashStore implements PreviousHashStore {
   static readonly DefaultDbName = 'xyo'
-  static readonly DefaultStoreName = 'previous-hash-store'
 
   private readonly _db: Promise<IDBPDatabase<PreviousHashStoreSchema>>
 
@@ -37,19 +35,17 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
   }
 
   /**
-   * The database name. If not supplied via opts, it defaults
-   * to DefaultDbName.
+   * The database name.
    */
   get dbName() {
-    return this.opts?.dbName ?? IndexedDbPreviousHashStore.DefaultDbName
+    return 'xyo' as const
   }
 
   /**
-   * The name of the object store. If not supplied via opts, it defaults
-   * to DefaultStoreName.
+   * The name of the object store.
    */
   get storeName() {
-    return this.opts?.storeName ?? IndexedDbPreviousHashStore.DefaultStoreName
+    return 'previous-hash' as const
   }
 
   async getItem(address: string): Promise<string | null> {

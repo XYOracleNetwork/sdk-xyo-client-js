@@ -9,10 +9,11 @@ interface PreviousHashStoreSchemaV1 extends DBSchema {
 }
 
 export class IndexedDbPreviousHashStore implements PreviousHashStore {
+  static readonly CurrentSchemaVersion = 1
   private readonly db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>>
 
   constructor() {
-    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, 1, {
+    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, IndexedDbPreviousHashStore.CurrentSchemaVersion, {
       upgrade: (db) => db.createObjectStore(this.storeName),
     })
   }

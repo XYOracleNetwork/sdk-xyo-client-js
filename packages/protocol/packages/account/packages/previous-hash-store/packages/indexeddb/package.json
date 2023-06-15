@@ -11,7 +11,6 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^2.9.1",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "idb": "^7.1.1"
   },

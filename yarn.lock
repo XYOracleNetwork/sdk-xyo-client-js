@@ -7713,7 +7713,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@xylabs/assert": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.13
     "@xylabs/tsconfig": ^2.17.13
     "@xyo-network/previous-hash-store-model": "workspace:^"

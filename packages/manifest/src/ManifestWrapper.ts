@@ -7,6 +7,10 @@ import { standardCreatableModules } from './ModuleFactory'
 import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
+  constructor(payload: ManifestPayload) {
+    super(payload)
+  }
+
   dAppManifest(id: string) {
     return this.payload().dapps?.find((dapp) => dapp.id === id)
   }

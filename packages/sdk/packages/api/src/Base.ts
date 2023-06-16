@@ -88,7 +88,7 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
   }
 
   protected handleMonitorResponseError<T>(error: ApiError, trapAxiosException: boolean) {
-    if (!error.isXyoError) {
+    if (!error.isError) {
       throw error
     }
 

@@ -8,7 +8,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { HuriPayload, HuriSchema } from '../XyoHuriPayload'
+import { HuriPayload, HuriSchema } from '../HuriPayload'
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config'
 
 export type ArchivistPayloadDivinerParams<

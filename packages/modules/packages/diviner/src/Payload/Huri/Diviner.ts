@@ -7,7 +7,7 @@ import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { HuriPayload, HuriSchema } from '../XyoHuriPayload'
+import { HuriPayload, HuriSchema } from '../HuriPayload'
 import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config'
 
 export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =

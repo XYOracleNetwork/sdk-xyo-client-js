@@ -338,7 +338,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       const error: WrapperError = {
         errors,
         message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),
-        name: 'XyoError',
+        name: 'Error',
         query,
         result,
       }

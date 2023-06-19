@@ -1,7 +1,7 @@
 {
   "files.eol": "\n",
   "files.exclude": {
-    "**/.tsconfig.*": true,
+    "**/.tsconfig.*": false,
     "**/node_modules": true
   },
   "editor.formatOnSave": true,

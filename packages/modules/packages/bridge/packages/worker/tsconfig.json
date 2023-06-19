@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declarationDir": "./dist/types",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["WebWorker"],
+    "typeRoots": []
+  },
+
+  "extends": "@xylabs/tsconfig"
+}

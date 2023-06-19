@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "typeRoots": [],
+    "lib": ["WebWorker"]
+  },
+  "exclude": [
+    ".yarn",
+    "src/*.spec.ts",
+    "node_modules",
+    "build"
+  ],
+  "extends": "@xylabs/tsconfig"
+}

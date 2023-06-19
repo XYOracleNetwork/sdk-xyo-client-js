@@ -77,8 +77,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
-    "@xylabs/ts-scripts-yarn3": "^2.17.13",
-    "@xylabs/tsconfig": "^2.17.13",
+    "@xylabs/ts-scripts-yarn3": "^2.17.17",
+    "@xylabs/tsconfig": "^2.17.17",
     "jest": "^29.5.0",
     "jest-mock-extended": "^3.0.4",
     "typescript": "^5.1.3"

@@ -50,15 +50,15 @@
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
-    "dotenv": "^16.1.4",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "http-status-codes": "^2.2.0",
     "supertest": "^6.3.3"
   },
   "devDependencies": {
     "@types/jest": "^29.5.2",
-    "@xylabs/ts-scripts-yarn3": "^2.17.13",
-    "@xylabs/tsconfig-jest": "^2.17.13",
+    "@xylabs/ts-scripts-yarn3": "^2.17.17",
+    "@xylabs/tsconfig-jest": "^2.17.17",
     "jest": "^29.5.0",
     "mongodb-memory-server": "^8.13.0",
     "typescript": "^5.1.3"

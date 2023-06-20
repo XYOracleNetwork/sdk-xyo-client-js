@@ -20,7 +20,8 @@ export const getNftsOwnedByAddress = async (
    */
   privateKey: string,
   /**
-   * The maximum number of NFTs to return
+   * The maximum number of NFTs to return. Configurable to prevent
+   * large wallets from exhausting Infura API credits.
    */
   maxNftCount = 1000,
 ): Promise<NftInfo[]> => {

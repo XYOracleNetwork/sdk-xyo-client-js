@@ -16,6 +16,10 @@ export type CryptoWalletNftPayload = Payload<{
    */
   address: string
   /**
+   * The chain ID for the network (e.g. 1 for Ethereum, 137 for Polygon, etc.)
+   */
+  chainId: string
+  /**
    * The chain (e.g. Ethereum, Polygon, etc.) the NFT is listed on
    */
   network: string

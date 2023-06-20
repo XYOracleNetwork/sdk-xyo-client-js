@@ -1,7 +1,9 @@
-import { UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
+import { CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { WitnessConfig } from '@xyo-network/witness'
 
 export type CryptoWalletNftWitnessConfig = WitnessConfig<{
-  pools?: string[]
-  schema: UniswapCryptoMarketWitnessConfigSchema
+  address?: string
+  chainId?: string
+  network?: string
+  schema: CryptoWalletNftWitnessConfigSchema
 }>

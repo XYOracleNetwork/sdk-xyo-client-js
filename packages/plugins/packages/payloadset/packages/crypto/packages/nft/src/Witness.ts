@@ -1,5 +1,6 @@
 import { Provider } from '@ethersproject/providers'
-import {} from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { assertEx } from '@xylabs/assert'
+import { CryptoWalletNftPayload, CryptoWalletNftSchema, CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
@@ -15,7 +16,7 @@ export type CryptoWalletNftWitnessParams = WitnessParams<
 >
 
 export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = 'TODO'
+  static override configSchema = CryptoWalletNftWitnessConfigSchema
 
   protected get provider() {
     return this.params.provider
@@ -23,14 +24,14 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   override async observe(): Promise<Payload[]> {
     this.started('throw')
-    const nfts = await getNftsOwnedByAddress('ADDRESS', 'CHAIN')
+    const address = assertEx(this.config.address, 'params.address is required')
+    const chainId = assertEx(this.config.chainId, 'params.chain is required')
+    const network = assertEx(this.config.network, 'params.network is required')
+    const provider = assertEx(this.provider, 'params.provider is required')
+    const nfts = await getNftsOwnedByAddress(address, network, chainId, provider)
     const timestamp = Date.now()
 
-    const payload = {
-      nfts,
-      schema: 'TODO',
-      timestamp,
-    }
+    const payload: CryptoWalletNftPayload = { address, chainId, network, nfts, schema: CryptoWalletNftSchema, timestamp }
 
     return super.observe([payload])
   }

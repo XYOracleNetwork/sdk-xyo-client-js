@@ -9,6 +9,8 @@ import { getNftsOwnedByAddress } from './lib'
 
 export type CryptoWalletNftWitnessParams = WitnessParams<AnyConfigSchema<CryptoWalletNftWitnessConfig>>
 
+const schema = CryptoWalletNftSchema
+
 export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = CryptoWalletNftWitnessConfigSchema
 
@@ -18,9 +20,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
     const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex)
     const timestamp = Date.now()
-
-    const payload: CryptoWalletNftPayload = { address, chainId, nfts, schema: CryptoWalletNftSchema, timestamp }
-
+    const payload: CryptoWalletNftPayload = { address, chainId, nfts, schema, timestamp }
     return super.observe([payload])
   }
 

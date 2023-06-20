@@ -13,6 +13,8 @@ export class SentinelIntervalAutomationWrapper<
     const frequency = this.payload().frequency
     if (frequency === undefined) return Infinity
     switch (this.payload().frequencyUnits ?? 'hour') {
+      case 'second':
+        return frequency * 1000
       case 'minute':
         return frequency * 60 * 1000
       case 'hour':

@@ -3,7 +3,7 @@ import { Buffer } from '@xylabs/buffer'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { PayloadHasher, sortFields } from '@xyo-network/core'
+import { Data, PayloadHasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
@@ -36,9 +36,13 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
     const hashableFields = await this.hashableFields()
     const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
+
+    /* get all the previousHashes to verify atomic signing */
+    const previousHashes = this._accounts.map((account) => account.previousHash?.hex)
+
     const ret: TBoundWitness = {
       ...hashableFields,
-      _signatures: await this.signatures(_hash),
+      _signatures: await this.signatures(_hash, previousHashes),
     }
     if (meta ?? this.config?.meta) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -117,9 +121,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected async signatures(_hash: string) {
+  protected async signatures(_hash: string, previousHashes: (string | Data | undefined)[]) {
     const hash = Buffer.from(_hash, 'hex')
-    return await Promise.all(this._accounts.map(async (account) => Buffer.from(await account.sign(hash)).toString('hex')))
+    return await Promise.all(
+      this._accounts.map(async (account, index) => Buffer.from(await account.sign(hash, previousHashes[index])).toString('hex')),
+    )
   }
 
   private async getPayloadHashes(): Promise<string[]> {

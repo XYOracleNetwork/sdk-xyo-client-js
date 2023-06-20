@@ -55,21 +55,24 @@ describe('Account', () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = await wallet.verify(testVectorHash, signature)
     expect(valid).toBeTrue()
   })
 
   test('Sign-testVectors', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash))).toString('hex')
+    const previousHash = wallet.previousHash
+    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash), previousHash)).toString('hex')
     const expectedSignature = testVectorSignature
 
     expect(signature).toEqual(expectedSignature)
@@ -87,7 +90,8 @@ describe('Account', () => {
 
   test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {
@@ -121,7 +125,8 @@ describe('Account', () => {
     const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
     it('returns last signed hash', async () => {
       const account = Account.random()
-      await account.sign(hash)
+      const previousHash = account.previousHash
+      await account.sign(hash, previousHash)
       expect(account.previousHash?.hex).toEqual(account.previousHash?.hex)
     })
     it('returns undefined if no previous signings', () => {
@@ -131,7 +136,8 @@ describe('Account', () => {
     })
     it('allows setting value via constructor', async () => {
       const accountA = Account.random()
-      await accountA.sign(hash)
+      const oldPreviousHash = accountA.previousHash
+      await accountA.sign(hash, oldPreviousHash)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
       const accountB = new Account({ privateKey, previousHash })

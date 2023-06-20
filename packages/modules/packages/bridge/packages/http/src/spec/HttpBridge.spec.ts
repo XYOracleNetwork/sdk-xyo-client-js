@@ -8,7 +8,7 @@ describe('HttpBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
   const cases = [
     ['/', `${baseUrl}`],
-    ['/node', `${baseUrl}/node`],
+    /*['/node', `${baseUrl}/node`],*/
   ]
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create()

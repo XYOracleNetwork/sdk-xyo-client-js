@@ -36,7 +36,7 @@ describe('SentinelRunner', () => {
   it('should output interval results', async () => {
     const intervalAutomation: SentinelIntervalAutomationPayload = {
       frequency: 1,
-      frequencyUnits: 'minute',
+      frequencyUnits: 'second',
       remaining: 1,
       schema: SentinelAutomationSchema,
       start: Date.now() - 1,

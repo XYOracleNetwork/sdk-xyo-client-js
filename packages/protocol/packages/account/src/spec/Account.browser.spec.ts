@@ -57,21 +57,24 @@ describe('Account', () => {
 
   test('Sign-fromPrivateKey', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = wallet.verify(testVectorHash, signature)
     expect(valid).toBeTruthy()
   })
 
   test('Sign-fromPhrase', async () => {
     const wallet = Account.fromPhrase('test')
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = wallet.verify(testVectorHash, signature)
     expect(valid).toBeTruthy()
   })
 
   test('Sign-testVectors', async () => {
     const wallet = Account.fromPrivateKey(testVectorPrivateKey)
-    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash))).toString('hex')
+    const previousHash = wallet.previousHash
+    const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash), previousHash)).toString('hex')
     const expectedSignature = testVectorSignature
 
     expect(signature).toEqual(expectedSignature)
@@ -89,7 +92,8 @@ describe('Account', () => {
 
   test('Sign-random-string', async () => {
     const wallet = Account.random()
-    const signature = await wallet.sign(testVectorHash)
+    const previousHash = wallet.previousHash
+    const signature = await wallet.sign(testVectorHash, previousHash)
     const signaturePrime = toUint8Array(signature)
     expect(signature.length).toBe(signaturePrime.length)
     for (let i = 0; i < signature.length; i++) {

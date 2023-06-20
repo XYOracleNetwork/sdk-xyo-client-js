@@ -18,7 +18,7 @@ import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 import { SentinelReportEndEventArgs } from '../SentinelModel'
 
-describe('Panel', () => {
+describe('Sentinel', () => {
   test('all [simple panel send]', async () => {
     const node = await MemoryNode.create()
     const archivist = await MemoryArchivist.create()
@@ -50,11 +50,11 @@ describe('Panel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const panel = (await MemorySentinel.create({ config })) as MemorySentinel
-    await node.register(panel)
-    await node.attach(panel.address)
-    expect(await panel.getArchivists()).toBeArrayOfSize(1)
-    expect(await panel.getWitnesses()).toBeArrayOfSize(2)
+    const sentinel = (await MemorySentinel.create({ config })) as MemorySentinel
+    await node.register(sentinel)
+    await node.attach(sentinel.address)
+    expect(await sentinel.getArchivists()).toBeArrayOfSize(1)
+    expect(await sentinel.getWitnesses()).toBeArrayOfSize(2)
     const adhocWitness = (await AdhocWitness.create({
       config: {
         payload: {
@@ -75,15 +75,15 @@ describe('Panel', () => {
 
     const adhocObserved = await adhocWitness.observe(adhocWitness.config.payload ? [adhocWitness.config.payload] : [])
 
-    const report1Result = await panel.report(adhocObserved)
+    const report1Result = await sentinel.report(adhocObserved)
     const report1 = BoundWitnessWrapper.parse(report1Result[0])
     expect(report1.schema()).toBe(BoundWitnessSchema)
     expect(report1.payloadHashes).toBeArrayOfSize(3)
-    const report2 = BoundWitnessWrapper.parse((await panel.report())[0])
+    const report2 = BoundWitnessWrapper.parse((await sentinel.report())[0])
     expect(report2.schema()).toBeDefined()
     expect(report2.payloadHashes).toBeArrayOfSize(2)
     expect(report2.hash !== report1.hash).toBe(true)
-    expect(report2.prev(panel.address)).toBeDefined()
+    expect(report2.prev(sentinel.address)).toBeDefined()
     //expect(report2.prev(panel.address)).toBe(report1.hash)
     expect(await report1.getValid()).toBe(true)
     expect(await report2.getValid()).toBe(true)

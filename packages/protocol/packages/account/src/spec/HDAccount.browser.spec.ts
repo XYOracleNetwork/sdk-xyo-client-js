@@ -30,7 +30,7 @@ describe('HDAccount', () => {
     it('signs hashes', async () => {
       const sut = new HDAccount(node)
       expect(sut).toBeDefined()
-      const signature = await sut.sign(hash)
+      const signature = await sut.sign(hash, sut.previousHash)
       expect(signature).toBeDefined()
       expect(signature.length).toBe(64)
     })
@@ -45,7 +45,7 @@ describe('HDAccount', () => {
     describe('when something signed before', () => {
       it('returns last signed value', async () => {
         const sut = new HDAccount(node)
-        await sut.sign(hash)
+        await sut.sign(hash, sut.previousHash)
         expect(sut.previousHash?.hex).toBe(hash)
       })
     })

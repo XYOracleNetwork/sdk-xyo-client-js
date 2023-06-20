@@ -90,9 +90,21 @@ export class Account extends KeyPair implements AccountInstance {
     return new Account()
   }
 
-  async sign(hash: Uint8Array | string): Promise<Uint8Array> {
+  async sign(hash: Uint8Array | string, previousHash: string | Data | undefined): Promise<Uint8Array> {
+    try {
+      throw 1
+    } catch (ex) {
+      const error = ex as Error
+      JSON.stringify(error.stack, null, 2)
+    }
     await KeyPair.wasmInitialized
     await this._signingLock.acquire()
+    /*const currentPreviousHash = this.previousHash?.hex
+    const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash?.hex
+    assertEx(
+      currentPreviousHash === passedCurrentHash,
+      `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
+    )*/
     try {
       const signature = this.private.sign(hash)
       this._previousHash = new Data(32, hash)

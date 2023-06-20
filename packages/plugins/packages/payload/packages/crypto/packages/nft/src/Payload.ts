@@ -4,9 +4,12 @@ import { CryptoWalletNftSchema } from './Schema'
 
 export interface NftInfo {
   contract: string
-  name: string | null
-  symbol: string | null
-  tokenType: string
+  metadata?: {
+    [key: string]: unknown
+  }
+  supply: string
+  tokenId: string
+  type: string
 }
 
 export type CryptoWalletNftPayload = Payload<{

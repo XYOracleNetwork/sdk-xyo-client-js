@@ -10,12 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/address": "^5.7.0",
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/networks": "^5.7.1",
-    "@ethersproject/providers": "^5.7.2",
-    "@ethersproject/solidity": "^5.7.0",
     "@infura/sdk": "^2.4.3",
     "@xylabs/assert": "^2.9.1",
     "@xylabs/bignumber": "^2.9.1",

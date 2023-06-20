@@ -1,16 +1,18 @@
 import { Auth, SDK } from '@infura/sdk'
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-type GetCollectionsByWallet = {
+type PublicAddressOptions = {
   cursor?: string
-  walletAddress: string
+  includeMetadata?: boolean
+  publicAddress: string
+  tokenAddresses?: string[]
 }
 
 export const getNftsOwnedByAddress = async (
   /**
    * The address of the wallet to search for NFTs
    */
-  walletAddress: string,
+  publicAddress: string,
   /**
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
@@ -40,17 +42,14 @@ export const getNftsOwnedByAddress = async (
     }),
   )
   const nfts: NftInfo[] = []
-  let nextCursor: string | undefined = undefined
-  let searchDepth = 0
+  let cursor: string | undefined = undefined
   do {
-    const opts: GetCollectionsByWallet = { walletAddress }
-    if (nextCursor) opts.cursor = nextCursor
-    const { collections, cursor, pageSize, total } = await sdk.api.getCollectionsByWallet(opts)
-    const valid = Math.min(pageSize, total - nfts.length)
-    nfts.push(...collections.slice(0, valid))
-    nextCursor = cursor
-    searchDepth += valid
+    const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
+    const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTs(opts)
+    const batch: NftInfo[] = assets.slice(0, Math.min(pageSize, total - nfts.length))
+    nfts.push(...batch)
+    cursor = nextCursor
     if (nfts.length >= total || !cursor) break
-  } while (searchDepth < maxNftCount)
+  } while (nfts.length < maxNftCount)
   return nfts
 }

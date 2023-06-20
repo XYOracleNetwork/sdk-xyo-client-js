@@ -11,8 +11,21 @@ export interface NftInfo {
 }
 
 export type CryptoWalletNftPayload = Payload<{
+  /**
+   * The address of the wallet
+   */
   address: string
+  /**
+   * The chain (e.g. Ethereum, Polygon, etc.) the NFT is listed on
+   */
+  network: string
+  /**
+   * A list of NFTs owned by the wallet
+   */
   nfts: NftInfo[]
   schema: CryptoWalletNftSchema
+  /**
+   * The time at which the data was collected
+   */
   timestamp: number
 }>

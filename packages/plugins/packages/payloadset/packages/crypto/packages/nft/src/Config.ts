@@ -4,6 +4,5 @@ import { WitnessConfig } from '@xyo-network/witness'
 export type CryptoWalletNftWitnessConfig = WitnessConfig<{
   address?: string
   chainId?: number
-  network?: string
   schema: CryptoWalletNftWitnessConfigSchema
 }>

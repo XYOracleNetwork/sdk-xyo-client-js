@@ -6,7 +6,24 @@ type GetCollectionsByWallet = {
   walletAddress: string
 }
 
-export const getNftsOwnedByAddress = async (walletAddress: string, chainId: number, privateKey: string, maxSearchDepth = 100): Promise<NftInfo[]> => {
+export const getNftsOwnedByAddress = async (
+  /**
+   * The address of the wallet to search for NFTs
+   */
+  walletAddress: string,
+  /**
+   * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
+   */
+  chainId: number,
+  /**
+   * The private key of the wallet to use to search for NFTs
+   */
+  privateKey: string,
+  /**
+   * The maximum number of NFTs to return
+   */
+  maxNftCount = 1000,
+): Promise<NftInfo[]> => {
   // Instantiate SDK
   const sdk = new SDK(
     new Auth({
@@ -22,14 +39,17 @@ export const getNftsOwnedByAddress = async (walletAddress: string, chainId: numb
     }),
   )
   const nfts: NftInfo[] = []
-  let cursor: string | undefined = undefined
-  for (let searchDepth = 0; searchDepth < maxSearchDepth; searchDepth++) {
+  let nextCursor: string | undefined = undefined
+  let searchDepth = 0
+  do {
     const opts: GetCollectionsByWallet = { walletAddress }
-    if (cursor) opts.cursor = cursor
-    const result = await sdk.api.getCollectionsByWallet(opts)
-    nfts.push(...result.collections.map<NftInfo>((collection) => collection))
-    cursor = result.cursor
-    if (!cursor || searchDepth > maxSearchDepth) break
-  }
+    if (nextCursor) opts.cursor = nextCursor
+    const { collections, cursor, pageSize, total } = await sdk.api.getCollectionsByWallet(opts)
+    const valid = Math.min(pageSize, total - nfts.length)
+    nfts.push(...collections.slice(0, valid))
+    nextCursor = cursor
+    searchDepth += valid
+    if (nfts.length >= total || !cursor) break
+  } while (searchDepth < maxNftCount)
   return nfts
 }

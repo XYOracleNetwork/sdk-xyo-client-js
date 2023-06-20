@@ -4,8 +4,8 @@ import { CryptoWalletNftSchema } from './Schema'
 
 export interface NftInfo {
   contract: string
-  name: string
-  symbol: string
+  name: string | null
+  symbol: string | null
   tokenType: string
 }
 

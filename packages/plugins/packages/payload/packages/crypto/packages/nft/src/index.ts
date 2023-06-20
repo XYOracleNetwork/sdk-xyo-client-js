@@ -1,11 +1,10 @@
-import { UniswapCryptoMarketPayloadPlugin } from './Plugin'
+import { CryptoWalletNftPayloadPlugin } from './Plugin'
 
-export * from './lib'
 export * from './Payload'
 export * from './Schema'
 export * from './Template'
 
-export { UniswapCryptoMarketPayloadPlugin }
+export { CryptoWalletNftPayloadPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default UniswapCryptoMarketPayloadPlugin
+export default CryptoWalletNftPayloadPlugin

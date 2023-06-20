@@ -1,10 +1,10 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { UniswapCryptoMarketPayloadPlugin } from '../Plugin'
+import { CryptoWalletNftPayloadPlugin } from '../Plugin'
 
-describe('UniswapCryptoMarketPayloadPlugin', () => {
+describe('CryptoWalletNftPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const plugin = UniswapCryptoMarketPayloadPlugin()
+    const plugin = CryptoWalletNftPayloadPlugin()
     const resolver = new PayloadPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.schema)).toBeObject()
   })

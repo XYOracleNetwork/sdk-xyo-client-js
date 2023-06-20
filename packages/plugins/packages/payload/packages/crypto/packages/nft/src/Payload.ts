@@ -1,10 +1,18 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { UniswapCryptoPair } from './lib'
-import { UniswapCryptoMarketSchema } from './Schema'
+import { CryptoWalletNftSchema } from './Schema'
 
-export type UniswapCryptoMarketPayload = Payload<{
-  pairs: UniswapCryptoPair[]
-  schema: UniswapCryptoMarketSchema
+
+export interface NftInfo {
+  contract: string,
+  tokenType: string,
+  name: string,
+  symbol: string
+}
+
+export type CryptoWalletNftPayload = Payload<{
+  address: string
+  nfts: NftInfo[]
+  schema: CryptoWalletNftSchema
   timestamp: number
 }>

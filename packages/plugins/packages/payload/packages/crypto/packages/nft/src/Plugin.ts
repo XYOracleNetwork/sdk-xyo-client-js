@@ -1,11 +1,11 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { UniswapCryptoMarketPayload } from './Payload'
-import { UniswapCryptoMarketSchema } from './Schema'
-import { uniswapCryptoMarketPayloadTemplate } from './Template'
+import { CryptoWalletNftPayload } from './Payload'
+import { CryptoWalletNftSchema } from './Schema'
+import { cryptoWalletNftPayloadTemplate } from './Template'
 
-export const UniswapCryptoMarketPayloadPlugin = () =>
-  createPayloadPlugin<UniswapCryptoMarketPayload>({
-    schema: UniswapCryptoMarketSchema,
-    template: uniswapCryptoMarketPayloadTemplate,
+export const CryptoWalletNftPayloadPlugin = () =>
+  createPayloadPlugin<CryptoWalletNftPayload>({
+    schema: CryptoWalletNftSchema,
+    template: cryptoWalletNftPayloadTemplate,
   })

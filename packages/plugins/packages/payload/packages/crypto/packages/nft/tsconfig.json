@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declarationDir": "./dist/types",
+    "typeRoots": []
+  },
+
+  "extends": "@xylabs/tsconfig"
+}
+

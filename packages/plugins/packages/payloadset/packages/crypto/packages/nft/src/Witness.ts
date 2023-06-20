@@ -1,23 +1,21 @@
 import { Provider } from '@ethersproject/providers'
+import {} from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
-import { UniswapCryptoMarketSchema, UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { UniswapCryptoMarketWitnessConfig } from './Config'
+import { CryptoWalletNftWitnessConfig } from './Config'
 import { getNftsOwnedByAddress } from './lib'
 
-export type UniswapCryptoMarketWitnessParams = WitnessParams<
-  AnyConfigSchema<UniswapCryptoMarketWitnessConfig>,
+export type CryptoWalletNftWitnessParams = WitnessParams<
+  AnyConfigSchema<CryptoWalletNftWitnessConfig>,
   {
     provider?: Provider
   }
 >
 
-export class UniswapCryptoMarketWitness<
-  TParams extends UniswapCryptoMarketWitnessParams = UniswapCryptoMarketWitnessParams,
-> extends AbstractWitness<TParams> {
-  static override configSchema = UniswapCryptoMarketWitnessConfigSchema
+export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
+  static override configSchema = 'TODO'
 
   protected get provider() {
     return this.params.provider
@@ -29,7 +27,8 @@ export class UniswapCryptoMarketWitness<
     const timestamp = Date.now()
 
     const payload = {
-      schema: UniswapCryptoMarketSchema,
+      nfts,
+      schema: 'TODO',
       timestamp,
     }
 

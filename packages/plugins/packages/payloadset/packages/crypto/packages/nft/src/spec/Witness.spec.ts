@@ -7,12 +7,12 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { UniswapCryptoMarketPayload, UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
 import { UniswapPoolContracts } from '../lib'
-import { UniswapCryptoMarketWitness } from '../Witness'
+import { CryptoWalletNftWitness } from '../Witness'
 
 describe('UniswapCryptoMarketWitness', () => {
   test('observe', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
-    const witness = await UniswapCryptoMarketWitness.create({
+    const witness = await CryptoWalletNftWitness.create({
       config: {
         pools: UniswapPoolContracts,
         schema: UniswapCryptoMarketWitnessConfigSchema,
@@ -28,7 +28,7 @@ describe('UniswapCryptoMarketWitness', () => {
   })
   test('observe [no config]', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
-    const witness = await UniswapCryptoMarketWitness.create({
+    const witness = await CryptoWalletNftWitness.create({
       config: {
         pools: UniswapPoolContracts,
         schema: UniswapCryptoMarketWitnessConfigSchema,
@@ -45,7 +45,7 @@ describe('UniswapCryptoMarketWitness', () => {
   test('observe [no params]', async () => {
     const didThrow = async () => {
       try {
-        await UniswapCryptoMarketWitness.create()
+        await CryptoWalletNftWitness.create()
         return false
       } catch {
         return true

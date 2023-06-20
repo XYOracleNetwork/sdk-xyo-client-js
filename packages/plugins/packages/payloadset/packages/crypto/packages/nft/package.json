@@ -10,11 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@infura/sdk": "^2.4.3",
+    "@ethersproject/providers": "^5.7.2",
     "@xylabs/assert": "^2.9.1",
-    "@xylabs/bignumber": "^2.9.1",
-    "@xylabs/delay": "^2.9.1",
-    "@xylabs/promise": "^2.9.1",
     "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:^",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",

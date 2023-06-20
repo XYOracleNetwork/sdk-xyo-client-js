@@ -16,7 +16,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     this.started('throw')
     const address = assertEx(this.config.address, 'params.address is required')
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
-    const nfts = await getNftsOwnedByAddress(address, chainId)
+    const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex)
     const timestamp = Date.now()
 
     const payload: CryptoWalletNftPayload = { address, chainId, nfts, schema: CryptoWalletNftSchema, timestamp }
@@ -26,6 +26,5 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   override async start() {
     await super.start()
-    // TODO: Auth with Infura here or each time we need to make a request?
   }
 }

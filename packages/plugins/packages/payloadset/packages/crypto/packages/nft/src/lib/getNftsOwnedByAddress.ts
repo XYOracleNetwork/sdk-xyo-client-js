@@ -19,7 +19,7 @@ type AuthOptions = {
   secretId: string | undefined
 }
 
-export const getNftsOwnedByAddress = async (address: string, chainId: number, provider?: ProviderType): Promise<NftInfo[]> => {
+export const getNftsOwnedByAddress = async (address: string, chainId: number, privateKey?: string, provider?: ProviderType): Promise<NftInfo[]> => {
   // Create Auth object
   const opts: AuthOptions = {
     chainId,
@@ -27,12 +27,16 @@ export const getNftsOwnedByAddress = async (address: string, chainId: number, pr
     //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,
     //   projectId: process.env.INFURA_IPFS_PROJECT_ID,
     // },
-    // privateKey: process.env.WALLET_PRIVATE_KEY,
+    privateKey,
     projectId: process.env.INFURA_PROJECT_ID,
     provider,
     // rpcUrl: process.env.EVM_RPC_URL,
     secretId: process.env.INFURA_PROJECT_SECRET,
   }
+
+  if (privateKey) opts.privateKey = privateKey
+  if (provider) opts.provider = provider
+
   const auth = new Auth(opts)
 
   // Instantiate SDK

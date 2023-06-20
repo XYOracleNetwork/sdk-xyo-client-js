@@ -3,6 +3,7 @@ import { delay } from '@xylabs/delay'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { ManifestPayload } from '@xyo-network/manifest'
 import {
   AnyConfigSchema,
   Module,
@@ -23,9 +24,10 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 
-import { MessageBridgeConfig, MessageBridgeConfigSchema } from './MessageBridgeConfig'
+import {defaultNodeManifest} from './defaultNodeManifest'
+import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig'
 
-export type MessageBridgeParams<TConfig extends AnyConfigSchema<MessageBridgeConfig> = AnyConfigSchema<MessageBridgeConfig>> = ModuleParams<
+export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
   TConfig,
   {
     worker?: Worker
@@ -36,28 +38,28 @@ export interface Message<T extends string = string> {
   type: T
 }
 
-export interface MessageQueryData extends Message<'xyoQuery'> {
+export interface QueryMessage extends Message<'xyoQuery'> {
   address: string
   msgId?: string
   payloads?: Payload[]
   query: QueryBoundWitness
 }
 
-export interface MessageResultData {
+export interface QueryResultMessage {
   address: string
   msgId?: string
   result: ModuleQueryResult
 }
 
-export class MessageBridge<
-    TParams extends MessageBridgeParams = MessageBridgeParams,
+export class WorkerBridge<
+    TParams extends WorkerBridgeParams = WorkerBridgeParams,
     TEventData extends ModuleEventData = ModuleEventData,
     TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
   >
   extends AbstractBridge<TParams, TEventData, TModule>
   implements BridgeModule<TParams, TEventData, TModule>
 {
-  static override configSchema = MessageBridgeConfigSchema
+  static override configSchema = WorkerBridgeConfigSchema
 
   private _discoverCache?: LRUCache<string, Payload[]>
   private _targetConfigs: Record<string, ModuleConfig> = {}
@@ -76,6 +78,39 @@ export class MessageBridge<
 
   get worker(): Worker {
     return assertEx(this.params.worker)
+  }
+
+  static async createWorkerNode(manifest: ManifestPayload = defaultNodeManifest as ManifestPayload) {
+    const worker = new Worker(new URL('./worker/Worker.ts', import.meta.url))
+    worker.postMessage({ manifest, type: 'createNode' })
+
+    await new Promise((resolve, reject) => {
+      const eventFunc = (event: MessageEvent) => {
+        const timeout = setTimeout(() => {
+          console.log('Node creation timeout')
+          worker.removeEventListener('message', eventFunc)
+          reject('Timeout')
+        }, 1000)
+        switch (event.data.type) {
+          case 'nodeCreated': {
+            clearTimeout(timeout)
+            worker.removeEventListener('message', eventFunc)
+            resolve(true)
+            break
+          }
+          default: {
+            const message: Message = event.data
+            console.log(`Unknown Event (nodeCreated listener) [${JSON.stringify(event)}]: ${JSON.stringify(message, null, 2)}`)
+            break
+          }
+        }
+      }
+      worker.addEventListener('message', eventFunc)
+    })
+
+    const bridge = new WorkerBridge({ config: { schema: WorkerBridgeConfigSchema }, worker })
+    await bridge.start()
+    return bridge
   }
 
   connect(): Promisable<boolean> {
@@ -164,7 +199,7 @@ export class MessageBridge<
     console.log(`targetQuery: ${msgId}`)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
-        const message: MessageQueryData = {
+        const message: QueryMessage = {
           address,
           msgId,
           payloads,
@@ -175,7 +210,7 @@ export class MessageBridge<
         const receiveFunc = (message: MessageEvent) => {
           if (message.data.msgId === msgId) {
             this.worker.removeEventListener('message', receiveFunc)
-            resolve((message.data as MessageResultData).result)
+            resolve((message.data as QueryResultMessage).result)
           }
         }
 

@@ -1,1 +1,1 @@
-export * from './BrowserNodeServiceWorker'
+export * from './WorkerNodeHost'

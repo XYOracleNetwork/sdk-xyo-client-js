@@ -64,6 +64,9 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
+  },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
   "type": "module",

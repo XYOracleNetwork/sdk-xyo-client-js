@@ -1,4 +1,4 @@
-export * from './BrowserNodeServiceWorkerClient'
-export * from './MessageBridge'
-export * from './MessageBridgeConfig'
+export * from './defaultNodeManifest'
 export * from './worker'
+export * from './WorkerBridge'
+export * from './WorkerBridgeConfig'

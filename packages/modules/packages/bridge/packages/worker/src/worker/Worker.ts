@@ -1,5 +1,3 @@
-import { BrowserNodeServiceWorker } from './BrowserNodeServiceWorker'
+import { WorkerNodeHost } from './WorkerNodeHost'
 
-console.log('Worker Started')
-
-BrowserNodeServiceWorker.start()
+WorkerNodeHost.start()

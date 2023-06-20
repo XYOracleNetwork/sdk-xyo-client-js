@@ -8638,6 +8638,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
+    jest: ^29.5.0
     lodash: ^4.17.21
     lru-cache: ^9.1.2
     typescript: ^5.1.3

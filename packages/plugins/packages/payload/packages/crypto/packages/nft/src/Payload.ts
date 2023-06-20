@@ -2,12 +2,11 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { CryptoWalletNftSchema } from './Schema'
 
-
 export interface NftInfo {
-  contract: string,
-  tokenType: string,
-  name: string,
+  contract: string
+  name: string
   symbol: string
+  tokenType: string
 }
 
 export type CryptoWalletNftPayload = Payload<{
@@ -18,11 +17,7 @@ export type CryptoWalletNftPayload = Payload<{
   /**
    * The chain ID for the network (e.g. 1 for Ethereum, 137 for Polygon, etc.)
    */
-  chainId: string
-  /**
-   * The chain (e.g. Ethereum, Polygon, etc.) the NFT is listed on
-   */
-  network: string
+  chainId: number
   /**
    * A list of NFTs owned by the wallet
    */

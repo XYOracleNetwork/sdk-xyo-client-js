@@ -1,50 +1,35 @@
-import { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { Auth, SDK } from '@infura/sdk'
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-export type ProviderType = ExternalProvider | JsonRpcFetchFunc
-
-type IPFSType = {
-  apiKeySecret: string | undefined
-  projectId: string | undefined
+type GetCollectionsByWallet = {
+  cursor?: string
+  walletAddress: string
 }
 
-type AuthOptions = {
-  chainId: number | undefined
-  ipfs?: IPFSType
-  privateKey?: string | undefined
-  projectId: string | undefined
-  provider?: ProviderType
-  rpcUrl?: string | undefined
-  secretId: string | undefined
-}
-
-export const getNftsOwnedByAddress = async (address: string, chainId: number, privateKey?: string, provider?: ProviderType): Promise<NftInfo[]> => {
-  // Create Auth object
-  const opts: AuthOptions = {
-    chainId,
-    // ipfs: {
-    //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,
-    //   projectId: process.env.INFURA_IPFS_PROJECT_ID,
-    // },
-    privateKey,
-    projectId: process.env.INFURA_PROJECT_ID,
-    provider,
-    // rpcUrl: process.env.EVM_RPC_URL,
-    secretId: process.env.INFURA_PROJECT_SECRET,
-  }
-
-  if (privateKey) opts.privateKey = privateKey
-  if (provider) opts.provider = provider
-
-  const auth = new Auth(opts)
-
+export const getNftsOwnedByAddress = async (walletAddress: string, chainId: number, privateKey: string, maxSearchDepth = 100): Promise<NftInfo[]> => {
   // Instantiate SDK
-  const sdk = new SDK(auth)
-  // TODO: Handle pagination
-  const result = await sdk.api.getCollectionsByWallet({
-    walletAddress: address,
-  })
-  const nfts = result.collections.map<NftInfo>((collection) => collection)
+  const sdk = new SDK(
+    new Auth({
+      chainId,
+      // ipfs: {
+      //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,
+      //   projectId: process.env.INFURA_IPFS_PROJECT_ID,
+      // },
+      privateKey,
+      projectId: process.env.INFURA_PROJECT_ID,
+      // rpcUrl: process.env.EVM_RPC_URL,
+      secretId: process.env.INFURA_PROJECT_SECRET,
+    }),
+  )
+  const nfts: NftInfo[] = []
+  let cursor: string | undefined = undefined
+  for (let searchDepth = 0; searchDepth < maxSearchDepth; searchDepth++) {
+    const opts: GetCollectionsByWallet = { walletAddress }
+    if (cursor) opts.cursor = cursor
+    const result = await sdk.api.getCollectionsByWallet(opts)
+    nfts.push(...result.collections.map<NftInfo>((collection) => collection))
+    cursor = result.cursor
+    if (!cursor || searchDepth > maxSearchDepth) break
+  }
   return nfts
 }

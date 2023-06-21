@@ -19,10 +19,6 @@ export const getNftsOwnedByAddress = async (
    */
   chainId: number,
   /**
-   * The private key of the wallet to use to search for NFTs
-   */
-  privateKey: string,
-  /**
    * The ethers provider to use to search for NFTs
    */
   provider: ExternalProvider | JsonRpcFetchFunc,
@@ -36,7 +32,7 @@ export const getNftsOwnedByAddress = async (
   const sdk = new SDK(
     new Auth({
       chainId,
-      privateKey,
+      // privateKey,
       projectId: process.env.INFURA_PROJECT_ID,
       // ipfs: {
       //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,

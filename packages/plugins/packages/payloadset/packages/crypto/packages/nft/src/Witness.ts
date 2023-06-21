@@ -1,4 +1,4 @@
-import { ExternalProvider, getDefaultProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
+import { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { CryptoWalletNftPayload, CryptoWalletNftSchema, CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'

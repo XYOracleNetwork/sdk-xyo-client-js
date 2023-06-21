@@ -36,12 +36,13 @@ describe('HDAccount', () => {
     })
   })
   describe('previousHash', () => {
-    describe('when nothing signed before', () => {
+    //Removed this since we are now storing previousHash state
+    /*describe('when nothing signed before', () => {
       it('returns undefined', async () => {
         const sut = await HDAccount.create(node)
         expect(sut.previousHash?.hex).toBe(undefined)
       })
-    })
+    })*/
     describe('when something signed before', () => {
       it('returns last signed value', async () => {
         const sut = await HDAccount.create(node)

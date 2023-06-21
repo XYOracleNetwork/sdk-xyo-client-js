@@ -70,7 +70,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   static async create(opts?: AccountConfig): Promise<AccountInstance> {
-    return (await new Account(opts).loadPreviousHash()).verifyUniqueAddress()
+    return (await new Account(opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress()
   }
 
   static async fromMnemonic(mnemonic: string, path?: string): Promise<AccountInstance> {
@@ -98,10 +98,10 @@ export class Account extends KeyPair implements AccountInstance {
     return new Account()
   }
 
-  async loadPreviousHash(previousHash?: Data): Promise<AccountInstance> {
+  async loadPreviousHash(previousHash?: Uint8Array | string): Promise<AccountInstance> {
     return await this._signingMutex.runExclusive(async () => {
       if (previousHash) {
-        this._previousHash = previousHash
+        this._previousHash = previousHash ? new Data(32, previousHash) : undefined
       } else {
         const previousHashStoreValue = await Account.previousHashStore?.getItem(this.addressValue.hex)
         if (previousHashStoreValue) {

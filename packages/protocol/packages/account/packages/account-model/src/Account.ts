@@ -25,7 +25,7 @@ export type AccountConfig = InitializationConfig & AccountOptions
 export interface AccountInstance extends KeyPairInstance {
   address: string
   derivePath?: (path: string) => Promise<AccountInstance>
-  loadPreviousHash: (previousHash?: Data) => Promise<AccountInstance>
+  loadPreviousHash: (previousHash?: Uint8Array | string) => Promise<AccountInstance>
   get addressValue(): AddressValueInstance
   get previousHash(): Data | undefined
   sign(hash: Uint8Array | string, previousHash: string | Data | undefined): Uint8Array | Promise<Uint8Array>

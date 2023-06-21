@@ -158,8 +158,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
       this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.addressValue.hex}`) : undefined
       this._account = account ?? Account.random()
-      this.downResolver.add(this as Module)
     }
+    this.downResolver.add(this as Module)
     return this._account
   }
 

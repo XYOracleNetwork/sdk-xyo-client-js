@@ -1,5 +1,6 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history'
@@ -14,8 +15,8 @@ import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
 
 describeIf(canAddMongoModules())('MongoDBAddressHistoryDiviner', () => {
   const phrase = 'temp'
-  const account = Account.create({ phrase })
-  const address = account.addressValue.hex
+  let account: AccountInstance
+  let address: string
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -23,6 +24,8 @@ describeIf(canAddMongoModules())('MongoDBAddressHistoryDiviner', () => {
   })
   let sut: MongoDBAddressHistoryDiviner
   beforeAll(async () => {
+    account = await Account.create({ phrase })
+    address = account.addressValue.hex
     sut = await MongoDBAddressHistoryDiviner.create({
       boundWitnessSdk,
       config: { schema: AddressHistoryDivinerConfigSchema },

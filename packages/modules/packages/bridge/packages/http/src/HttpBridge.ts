@@ -117,7 +117,7 @@ export class HttpBridge<
 
   async targetDiscover(address?: string): Promise<Payload[]> {
     //if caching, return cached result if exists
-    const cachedResult = this.discoverCache?.get(address ?? 'root')
+    const cachedResult = this.discoverCache?.get(address ?? 'root ')
     if (cachedResult) {
       return cachedResult
     }

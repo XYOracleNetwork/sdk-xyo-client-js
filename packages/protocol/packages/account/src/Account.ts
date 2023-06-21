@@ -58,7 +58,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get address() {
-    return this.addressValue.hex
+    return this.addressValue.hex.toLowerCase()
   }
 
   get addressValue() {

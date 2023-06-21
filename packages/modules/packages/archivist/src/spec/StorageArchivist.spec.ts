@@ -46,18 +46,21 @@ testArchivistAll(
 )
 
 test('Archivist Private Key Save', async () => {
+  const account = Account.random()
   const storage = await StorageArchivist.create({
+    account,
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
   const address = storage.address
   const storage2 = await StorageArchivist.create({
+    account,
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })
   expect(storage2.address).toBe(address)
 })
 
 test('Archivist passed account', async () => {
-  const account = Account.create({ phrase: 'temp' })
+  const account = await Account.create({ phrase: 'temp' })
 
   const storage = (await StorageArchivist.create({
     account,

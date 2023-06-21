@@ -8,8 +8,7 @@ import { HDAccount } from './HDAccount'
 @staticImplements<WalletStatic<AccountInstance>>()
 export class HDWallet extends HDAccount implements AccountInstance {
   override get address(): string {
-    //assertEx(super.address === this.node.address, 'Address consistency failure')
-    return this.node.address
+    return this.node.address.toLowerCase().replace('0x', '')
   }
 
   get chainCode(): string {

@@ -1,5 +1,6 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   BoundWitnessStatsDivinerConfigSchema,
@@ -18,8 +19,8 @@ import { MongoDBBoundWitnessStatsDiviner } from '../MongoDBBoundWitnessStatsDivi
 
 describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
-  const account = Account.create({ phrase })
-  const address = account.addressValue.hex
+  let account: AccountInstance
+  let address: string
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -28,6 +29,8 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
+    account = await Account.create({ phrase })
+    address = account.addressValue.hex
     sut = (await MongoDBBoundWitnessStatsDiviner.create({
       boundWitnessSdk,
       config: { schema: BoundWitnessStatsDivinerConfigSchema },

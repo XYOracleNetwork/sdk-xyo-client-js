@@ -151,7 +151,6 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
         const sectionInfo = await this.getSectionInfo(assertEx(sectionToUse, 'Unsupported Area'))
 
         const bb = quadkey.boundingBox
-        console.log(`BB: ${JSON.stringify(bb)}`)
         const window = [
           Math.ceil(-(sectionInfo.origin[0] - bb.getWest()) / infoW.resolution[0]),
           Math.ceil(-(sectionInfo.origin[1] - bb.getNorth()) / sectionInfo.resolution[1]),
@@ -167,7 +166,6 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
 
         const elevation = JSON.parse(JSON.stringify(data.at(0)))?.['0']
 
-        console.log(`Elevation: ${JSON.stringify(elevation)}`)
         return { elevation, schema: ElevationSchema }
       }),
     )

@@ -2,7 +2,6 @@
 const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
-import { ExternalProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
 import { CryptoWalletNftPayload, CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -16,7 +15,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
   const network = 'homestead'
   test('observe', async () => {
     const apiKey = process.env.INFURA_PROJECT_ID
-    const provider = new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`) as unknown as ExternalProvider
+    const { sendAsync, ...provider } = new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`)
     const witness = await CryptoWalletNftWitness.create({ config: { address, chainId, schema: CryptoWalletNftWitnessConfigSchema }, provider })
     const [observation] = (await witness.observe()) as CryptoWalletNftPayload[]
     expect(observation.nfts.length).toBeGreaterThan(1)

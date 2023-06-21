@@ -4,7 +4,7 @@ import { ArchivistModule, ArchivistWrapper } from '@xyo-network/archivist'
 import { unitTestSigningAccount } from '../Account'
 import { getModuleByName } from '../Node'
 
-export const getArchivist = async (account: AccountInstance = unitTestSigningAccount): Promise<ArchivistWrapper> => {
+export const getArchivist = async (account?: AccountInstance): Promise<ArchivistWrapper> => {
   const module = await getModuleByName<ArchivistModule>('Archivist')
-  return new ArchivistWrapper({ account, module })
+  return new ArchivistWrapper({ account: account ?? (await unitTestSigningAccount()), module })
 }

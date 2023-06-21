@@ -11,12 +11,13 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModule,
   ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { Logger, PayloadHasher } from '@xyo-network/core'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -36,11 +37,13 @@ export type StorageArchivistConfig = ArchivistConfig<{
 }>
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
-@creatableModule()
 export class StorageArchivist<
-  TParams extends StorageArchivistParams = StorageArchivistParams,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+    TParams extends StorageArchivistParams = StorageArchivistParams,
+    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+  >
+  extends AbstractArchivist<TParams, TEventData>
+  implements ArchivistModule
+{
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
@@ -156,7 +159,7 @@ export class StorageArchivist<
         return wrapper.payload()
       }),
     )
-    const [storageBoundWitness] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
+    const [[storageBoundWitness]] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
     const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
@@ -169,32 +172,34 @@ export class StorageArchivist<
     return boundWitnesses
   }
 
+  override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
+    if (!this._account) {
+      if (persistAccount) {
+        const privateKey = privateStorage?.get('privateKey')
+        if (privateKey) {
+          try {
+            this._account = await Account.create({ privateKey })
+            return this._account
+          } catch (ex) {
+            console.error(`Error reading Account from storage [${ex}] - Recreating Account`)
+            privateStorage?.remove('privateKey')
+          }
+        }
+      }
+    }
+    return await super.loadAccount()
+  }
+
   override async start() {
     await super.start()
     this.saveAccount()
   }
 
-  protected override loadAccount(account?: AccountInstance) {
-    if (this.persistAccount) {
-      const privateKey = this.privateStorage.get('privateKey')
-      if (privateKey) {
-        try {
-          const account = new Account({ privateKey })
-          this.logger?.log(account.addressValue.hex)
-          return account
-        } catch (ex) {
-          console.error(`Error reading Account from storage [${this.type}, ${ex}] - Recreating Account`)
-          this.privateStorage.remove('privateKey')
-        }
-      }
-    }
-    return super.loadAccount(account)
-  }
-
   protected saveAccount() {
     if (this.persistAccount) {
-      this.logger?.log(this.account.addressValue.hex)
-      this.privateStorage.set('privateKey', this.account.private.hex)
+      const account = this.account
+      this.logger?.log(account.addressValue.hex)
+      this.privateStorage.set('privateKey', account.private.hex)
     }
   }
 }

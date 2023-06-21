@@ -128,7 +128,7 @@ export abstract class AbstractArchivist<
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    const queryAccount = new Account()
+    const queryAccount = Account.random()
     if (this.config.storeQueries) {
       await this.insert([query])
     }
@@ -181,7 +181,7 @@ export abstract class AbstractArchivist<
           .build(),
       )
     }
-    return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
@@ -206,10 +206,12 @@ export abstract class AbstractArchivist<
     const resolvedModules = await this.resolve({ address: archivists })
     const downResolvedModules = await this.downResolver.resolve({ address: archivists })
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
-    modules.forEach((module) => {
-      const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })
-      resolvedWrappers[wrapper.address] = wrapper
-    })
+    await Promise.all(
+      modules.map((module) => {
+        const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })
+        resolvedWrappers[wrapper.address] = wrapper
+      }),
+    )
     return resolvedWrappers
   }
 

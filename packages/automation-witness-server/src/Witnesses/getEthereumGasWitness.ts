@@ -13,26 +13,26 @@ import { WitnessProvider } from './WitnessProvider'
 export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessModule[]> => {
   const witnesses: WitnessModule[] = [
     await EthereumGasBlocknativeWitness.create({
-      account: getAccount(WalletPaths.EthereumGas.Witness.Blocknative),
+      account: await getAccount(WalletPaths.EthereumGas.Witness.Blocknative),
       config: {
         schema: EthereumGasBlocknativeWitnessConfigSchema,
       },
     }),
     await EtherchainEthereumGasWitnessV2.create({
-      account: getAccount(WalletPaths.EthereumGas.Witness.EtherchainV2),
+      account: await getAccount(WalletPaths.EthereumGas.Witness.EtherchainV2),
       config: {
         schema: EthereumGasEtherchainV2WitnessConfigSchema,
       },
     }),
     await EthereumGasEthersWitness.create({
-      account: getAccount(WalletPaths.EthereumGas.Witness.Ethers),
+      account: await getAccount(WalletPaths.EthereumGas.Witness.Ethers),
       config: {
         schema: EthereumGasEthersWitnessConfigSchema,
       },
       provider,
     }),
     await EthereumGasEthgasstationWitness.create({
-      account: getAccount(WalletPaths.EthereumGas.Witness.Ethgasstation),
+      account: await getAccount(WalletPaths.EthereumGas.Witness.Ethgasstation),
       config: {
         schema: EthereumGasEthgasstationWitnessConfigSchema,
       },
@@ -42,7 +42,7 @@ export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider 
     const apiKey = getEtherscanProviderConfig()
     witnesses.push(
       await EthereumGasEtherscanWitness.create({
-        account: getAccount(WalletPaths.EthereumGas.Witness.Etherscan),
+        account: await getAccount(WalletPaths.EthereumGas.Witness.Etherscan),
         config: {
           apiKey,
           schema: EthereumGasEtherscanWitnessConfigSchema,

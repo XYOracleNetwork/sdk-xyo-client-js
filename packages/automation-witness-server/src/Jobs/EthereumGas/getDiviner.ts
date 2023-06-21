@@ -5,7 +5,7 @@ import { getAccount, WalletPaths } from '../../Account'
 
 export const getDiviner = async (): Promise<DivinerModule> => {
   return await EthereumGasDiviner.create({
-    account: getAccount(WalletPaths.EthereumGas.Diviner.Price),
+    account: await getAccount(WalletPaths.EthereumGas.Diviner.Price),
     config: {
       schema: EthereumGasDivinerConfigSchema,
     },

@@ -1,5 +1,6 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
@@ -15,7 +16,7 @@ import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
 describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {
   const phrase = 'temp'
-  const account = new Account({ phrase })
+  let account: AccountInstance
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -23,6 +24,7 @@ describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {
   })
   let sut: MongoDBAddressSpaceDiviner
   beforeAll(async () => {
+    account = await Account.create({ phrase })
     sut = await MongoDBAddressSpaceDiviner.create({
       account,
       boundWitnessSdk,

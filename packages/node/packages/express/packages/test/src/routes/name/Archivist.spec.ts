@@ -8,8 +8,6 @@ import { getArchivist, getNewBoundWitness, getNewPayload, nonExistentHash, unitT
 const moduleName = 'Archivist'
 
 describe(`/${moduleName}`, () => {
-  const account = unitTestSigningAccount
-
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
   const payloadWrappers: PayloadWrapper[] = []
   let archivist: ArchivistWrapper
@@ -21,6 +19,7 @@ describe(`/${moduleName}`, () => {
     ['Payloads & BoundWitnesses', []],
   ]
   beforeAll(async () => {
+    const account = await unitTestSigningAccount()
     archivist = await getArchivist()
     const payloadWrapperA = PayloadWrapper.wrap(getNewPayload())
     const payloadWrapperB = PayloadWrapper.wrap(getNewPayload())

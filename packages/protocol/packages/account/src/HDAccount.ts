@@ -1,15 +1,22 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
-import { AccountOptions } from '@xyo-network/account-model'
-import { Data, DataLike, toUint8Array } from '@xyo-network/core'
+import { AccountInstance, AccountOptions } from '@xyo-network/account-model'
+import { DataLike, toUint8Array } from '@xyo-network/core'
 
 import { Account } from './Account'
 
+export interface HDAccountOptions extends AccountOptions {
+  node: HDNode
+}
+
 export class HDAccount extends Account {
-  constructor(protected readonly node: HDNode, opts?: AccountOptions) {
+  protected constructor(protected readonly node: HDNode, opt?: AccountOptions) {
     const privateKey: DataLike = toUint8Array(node.privateKey.replace('0x', ''))
     assertEx(!privateKey || privateKey?.length === 32, `Private key must be 32 bytes [${privateKey?.length}]`)
-    super({ privateKey })
-    if (opts?.previousHash) this._previousHash = new Data(32, opts.previousHash)
+    super({ ...opt, privateKey })
+  }
+
+  static override async create(node: HDNode, opt?: AccountOptions): Promise<AccountInstance> {
+    return await new HDAccount(node, opt).verifyUniqueAddress().loadPreviousHash()
   }
 }

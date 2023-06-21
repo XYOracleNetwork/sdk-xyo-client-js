@@ -48,7 +48,6 @@ export class WorkerNodeHost {
   }
 
   private attachNode(node: NodeModule) {
-    console.log('init')
     self.addEventListener('message', async (event: MessageEvent) => {
       const message = event.data as Message
       switch (message.type) {

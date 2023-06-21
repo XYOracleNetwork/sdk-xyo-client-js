@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "typeRoots": [],
-    "lib": ["WebWorker"]
+    "lib": ["WebWorker"],
+    "typeRoots": []
   },
   "exclude": [
     ".yarn",

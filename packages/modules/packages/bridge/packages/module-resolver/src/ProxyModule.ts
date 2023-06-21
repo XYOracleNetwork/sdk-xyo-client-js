@@ -34,7 +34,7 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
   }
 
   get address() {
-    return this.params.address
+    return this.params.address.toLowerCase()
   }
 
   get bridge() {

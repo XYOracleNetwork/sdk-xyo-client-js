@@ -101,7 +101,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
+    const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
     try {
       switch (queryPayload.schema) {
@@ -149,7 +149,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           .build(),
       )
     }
-    return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

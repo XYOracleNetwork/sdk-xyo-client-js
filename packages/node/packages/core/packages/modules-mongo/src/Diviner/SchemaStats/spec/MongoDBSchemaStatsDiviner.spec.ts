@@ -17,7 +17,7 @@ import { MongoDBSchemaStatsDiviner } from '../MongoDBSchemaStatsDiviner'
 
 describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
   const phrase = 'temp'
-  const address = new Account({ phrase }).addressValue.hex
+  let address: string
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -30,6 +30,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBSchemaStatsDiviner
   beforeAll(async () => {
+    address = (await Account.create({ phrase })).addressValue.hex
     sut = await MongoDBSchemaStatsDiviner.create({
       boundWitnessSdk,
       config: { schema: SchemaStatsDivinerConfigSchema },

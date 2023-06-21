@@ -29,6 +29,6 @@ export class WalletBase {
       .update(`${index}${this._phrase}${salt ?? ''}`)
       .digest()
       .toString('hex')
-    return new Account({ privateKey: hash })
+    return Account.create({ privateKey: hash })
   }
 }

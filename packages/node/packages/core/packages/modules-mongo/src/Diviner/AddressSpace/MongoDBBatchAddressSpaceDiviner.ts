@@ -32,7 +32,7 @@ export class MongoDBBatchAddressSpaceDiviner<
   // TODO: Get via config or default
   protected readonly batchSize = 50
   protected currentlyRunning = false
-  protected readonly paginationAccount: AccountInstance = new Account()
+  protected readonly paginationAccount: AccountInstance = Account.random()
   protected response: BoundWitnessPointerPayload | undefined
   protected witnessedAddresses: Set<string> = new Set<string>()
 

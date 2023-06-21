@@ -56,10 +56,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 }
 
 @constructableModuleWrapper()
-export class ModuleWrapper<TWrappedModule extends Module = Module>
-  extends Base<TWrappedModule['params']>
-  implements Module<TWrappedModule['params'], TWrappedModule['eventData']>
-{
+export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<TWrappedModule['params']> {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
@@ -127,7 +124,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module?: Module,
-    account?: AccountInstance,
+    account: AccountInstance = Account.random(),
   ): TModuleWrapper | undefined {
     if (this.canWrap(module)) {
       if (!account) {

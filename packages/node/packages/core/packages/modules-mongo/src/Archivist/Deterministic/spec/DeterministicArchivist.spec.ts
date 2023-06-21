@@ -4,6 +4,7 @@ Date.now = jest.fn(() => timestamp)
 
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -19,13 +20,10 @@ import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
 describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
-  const archiveAccount: Account = new Account({ phrase: 'temp' })
-  // 0x10ca1959336ea208bcdf00dd6d6637aec91a4c0e
-  const userAccount: Account = new Account({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
-  // 0xdaddab0e0468c920bd5aff4b14fd94c20a598055
-  const moduleAccount: Account = new Account({ privateKey: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
-  // 0xbabe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c
-  const randomAccount: Account = new Account({ privateKey: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
+  let archiveAccount: AccountInstance
+  let userAccount: AccountInstance
+  let moduleAccount: AccountInstance
+  let randomAccount: AccountInstance
 
   const payloadWrappers: PayloadWrapper[] = []
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
@@ -35,7 +33,15 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   let insertResult3: BoundWitness[]
   const insertResults: BoundWitness[][] = []
   beforeAll(async () => {
-    jest.spyOn(Account, 'random').mockImplementation(() => randomAccount)
+    archiveAccount = await Account.create({ phrase: 'temp' })
+    // 0x10ca1959336ea208bcdf00dd6d6637aec91a4c0e
+    userAccount = await Account.create({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
+    // 0xdaddab0e0468c920bd5aff4b14fd94c20a598055
+    moduleAccount = await Account.create({ privateKey: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
+    // 0xbabe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c
+    randomAccount = await Account.create({ privateKey: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
+
+    jest.spyOn(Account, 'random').mockImplementation(() => randomAccount as Account)
     boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     const boundWitnesses: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk(boundWitnessesConfig)

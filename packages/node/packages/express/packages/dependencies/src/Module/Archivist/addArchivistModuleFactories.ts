@@ -3,9 +3,9 @@ import { ArchivistConfigSchema, CreatableModuleDictionary, MemoryArchivist, Modu
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
-const getMongoDBArchivistFactory = (container: Container) => {
+const getMongoDBArchivistFactory = async (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const wallet = HDWallet.fromMnemonic(mnemonic)
+  const wallet = await HDWallet.fromMnemonic(mnemonic)
   const accountDerivationPath = WALLET_PATHS.Archivists.Archivist
   return new ModuleFactory(MemoryArchivist, {
     accountDerivationPath,
@@ -14,8 +14,8 @@ const getMongoDBArchivistFactory = (container: Container) => {
   })
 }
 
-export const addArchivistModuleFactories = (container: Container) => {
+export const addArchivistModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[ArchivistConfigSchema] = getMongoDBArchivistFactory(container)
-  dictionary[MemoryArchivist.configSchema] = getMongoDBArchivistFactory(container)
+  dictionary[ArchivistConfigSchema] = await getMongoDBArchivistFactory(container)
+  dictionary[MemoryArchivist.configSchema] = await getMongoDBArchivistFactory(container)
 }

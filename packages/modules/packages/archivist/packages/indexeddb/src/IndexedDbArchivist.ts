@@ -102,7 +102,7 @@ export class IndexedDbArchivist<
       }),
     )
     await setMany(entries, this.db)
-    const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
+    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
   }
 

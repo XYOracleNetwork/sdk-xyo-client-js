@@ -24,7 +24,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 
-import {defaultNodeManifest} from './defaultNodeManifest'
+import { defaultNodeManifest } from './defaultNodeManifest'
 import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig'
 
 export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
@@ -108,7 +108,7 @@ export class WorkerBridge<
       worker.addEventListener('message', eventFunc)
     })
 
-    const bridge = new WorkerBridge({ config: { schema: WorkerBridgeConfigSchema }, worker })
+    const bridge = await WorkerBridge.create({ config: { schema: WorkerBridgeConfigSchema }, worker })
     await bridge.start()
     return bridge
   }
@@ -122,7 +122,6 @@ export class WorkerBridge<
   }
 
   override async start() {
-    console.log('Starting...')
     if (this._started) return
     await super.start()
 
@@ -154,7 +153,6 @@ export class WorkerBridge<
   }
 
   async targetDiscover(address?: string): Promise<Payload[]> {
-    console.log('targetDiscover')
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root')
     if (cachedResult) {
@@ -196,7 +194,6 @@ export class WorkerBridge<
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
     const msgId = await PayloadWrapper.hashAsync(query)
-    console.log(`targetQuery: ${msgId}`)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
         const message: QueryMessage = {

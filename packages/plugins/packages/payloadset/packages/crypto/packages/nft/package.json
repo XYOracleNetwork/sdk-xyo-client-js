@@ -17,7 +17,8 @@
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^"
+    "@xyo-network/witness": "workspace:^",
+    "web3-providers-http": "^4.0.1"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.9.1",

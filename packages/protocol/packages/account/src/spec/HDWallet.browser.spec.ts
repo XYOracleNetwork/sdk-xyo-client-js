@@ -14,23 +14,23 @@ describe('HDWallet', () => {
   })
   describe('derivePath', () => {
     const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
-    it.each(paths)('works repeatably & interoperably', (path: string) => {
-      const sutA = await HDWallet.fromMnemonic(mnemonic)
-      const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
-      const accountA = sutA.derivePath(path)
-      const accountB = sutB.derivePath(path)
+    it.each(paths)('works repeatably & interoperably', async (path: string) => {
+      const sutA = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      const sutB = (await HDWallet.fromExtendedKey(sutA.extendedKey)) as HDWallet
+      const accountA = await sutA.derivePath(path)
+      const accountB = await sutB.derivePath(path)
       expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)
     })
-    it('works when paths provided incrementally', () => {
+    it('works when paths provided incrementally', async () => {
       const base = 'm'
       const parent = "44'/60'/0'"
       const child = '0/1'
-      const sutA = HDWallet.fromMnemonic(mnemonic)
-      const sutB = HDWallet.fromMnemonic(mnemonic)
-      const accountA = sutA.derivePath(base).derivePath(parent).derivePath(child)
-      const accountB = sutB.derivePath([base, parent, child].join('/'))
+      const sutA = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      const sutB = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      const accountA = await ((await ((await sutA.derivePath(base)) as HDWallet).derivePath(parent)) as HDWallet).derivePath(child)
+      const accountB = await sutB.derivePath([base, parent, child].join('/'))
       expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)

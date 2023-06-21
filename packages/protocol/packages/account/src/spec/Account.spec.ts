@@ -31,8 +31,8 @@ const testAddress = '2a260a110bc7b03f19c40a0bd04ff2c5dcb57594'
 }*/
 
 describe('Account', () => {
-  test('Address from Phrase', () => {
-    const wallet = Account.fromPhrase('test')
+  test('Address from Phrase', async () => {
+    const wallet = await Account.fromPhrase('test')
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
     expect(wallet.addressValue).toHaveLength(20)
@@ -41,8 +41,8 @@ describe('Account', () => {
     expect(wallet.addressValue.hex).toEqual(testAddress)
   })
 
-  test('Address from Key', () => {
-    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
+  test('Address from Key', async () => {
+    const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
     expect(wallet.addressValue).toHaveLength(20)
@@ -52,7 +52,7 @@ describe('Account', () => {
   })
 
   test('Sign-fromPrivateKey', async () => {
-    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
+    const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
     expect(wallet.addressValue.hex).toBeDefined()
     const previousHash = wallet.previousHash
@@ -62,7 +62,7 @@ describe('Account', () => {
   })
 
   test('Sign-fromPhrase', async () => {
-    const wallet = Account.fromPhrase('test')
+    const wallet = await Account.fromPhrase('test')
     const previousHash = wallet.previousHash
     const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = await wallet.verify(testVectorHash, signature)
@@ -70,7 +70,7 @@ describe('Account', () => {
   })
 
   test('Sign-testVectors', async () => {
-    const wallet = Account.fromPrivateKey(testVectorPrivateKey)
+    const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     const previousHash = wallet.previousHash
     const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash), previousHash)).toString('hex')
     const expectedSignature = testVectorSignature
@@ -81,9 +81,9 @@ describe('Account', () => {
     expect(valid).toBeTrue()
   })
 
-  test('Constructor', () => {
+  test('Constructor', async () => {
     const wallet1 = Account.random()
-    const wallet2 = Account.create({ privateKey: wallet1.private.bytes })
+    const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })
@@ -110,13 +110,13 @@ describe('Account', () => {
       'food cream bacon divorce bring gravity employ taste hub fish tennis put',
     ]
     const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
-    it.each(mnemonics)('generates account from mnemonic', (mnemonic: string) => {
-      const account = Account.fromMnemonic(mnemonic)
+    it.each(mnemonics)('generates account from mnemonic', async (mnemonic: string) => {
+      const account = await Account.fromMnemonic(mnemonic)
       expect(account).toBeObject()
       expect(account.addressValue.hex).toBeString()
     })
-    it.each(paths)('generates account from mnemonic & path', (path: string) => {
-      const account = Account.fromMnemonic(mnemonics[0], path)
+    it.each(paths)('generates account from mnemonic & path', async (path: string) => {
+      const account = await Account.fromMnemonic(mnemonics[0], path)
       expect(account).toBeObject()
       expect(account.addressValue.hex).toBeString()
     })
@@ -140,12 +140,12 @@ describe('Account', () => {
       await accountA.sign(hash, oldPreviousHash)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
-      const accountB = Account.create({ privateKey, previousHash })
+      const accountB = await Account.create({ privateKey, previousHash })
       expect(accountA.previousHash).toEqual(accountB.previousHash)
       expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
     })
-    it('handles undefined value in constructor', () => {
-      const account = Account.create({ phrase: 'test', previousHash: undefined })
+    it('handles undefined value in constructor', async () => {
+      const account = await Account.create({ phrase: 'test', previousHash: undefined })
       expect(account.previousHash).toBeUndefined()
       expect(account.previousHash?.hex).toBeUndefined()
     })

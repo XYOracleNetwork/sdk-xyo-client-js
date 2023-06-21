@@ -1,5 +1,4 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { Promisable } from '@xyo-network/promise'
 export interface Mnemonic {
   readonly locale: string
   readonly path: string
@@ -10,7 +9,6 @@ export interface WalletInstance extends AccountInstance {
   readonly address: string
   readonly chainCode: string
   readonly depth: number
-  readonly derivePath: (path: string) => Promisable<WalletInstance>
   readonly extendedKey: string
   readonly fingerprint: string
   readonly index: number

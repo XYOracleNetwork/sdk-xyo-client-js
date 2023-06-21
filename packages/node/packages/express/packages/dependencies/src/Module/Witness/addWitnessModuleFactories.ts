@@ -6,7 +6,7 @@ import { Container } from 'inversify'
 
 const getPrometheusNodeWitness = async (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = await (await HDWallet.fromMnemonic(mnemonic)).derivePath(WALLET_PATHS.Witnesses.Prometheus)
+  const account = await (await HDWallet.fromMnemonic(mnemonic)).derivePath?.(WALLET_PATHS.Witnesses.Prometheus)
   return new ModuleFactory(PrometheusNodeWitness, {
     account,
     config: { name: TYPES.PrometheusWitness.description, schema: PrometheusNodeWitness.configSchema },

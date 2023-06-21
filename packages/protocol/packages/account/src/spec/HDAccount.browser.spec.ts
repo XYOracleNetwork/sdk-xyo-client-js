@@ -13,14 +13,14 @@ describe('HDAccount', () => {
   const node = HDNode.fromMnemonic(mnemonic)
 
   describe('constructor', () => {
-    it('can be created from HDNode', () => {
-      const sut = new HDAccount(node)
+    it('can be created from HDNode', async () => {
+      const sut = await HDAccount.create(node)
       expect(sut).toBeDefined()
     })
-    it('is compatible with legacy Account', () => {
-      const sut = new HDAccount(node)
+    it('is compatible with legacy Account', async () => {
+      const sut = await HDAccount.create(node)
       const privateKey = sut.private.hex
-      const legacy = Account.create({ privateKey })
+      const legacy = await Account.create({ privateKey })
       expect(sut.public.hex).toBe(legacy.public.hex)
       expect(sut.private.hex).toBe(legacy.private.hex)
       expect(sut.addressValue.hex).toBe(legacy.addressValue.hex)
@@ -28,7 +28,7 @@ describe('HDAccount', () => {
   })
   describe('sign', () => {
     it('signs hashes', async () => {
-      const sut = new HDAccount(node)
+      const sut = await HDAccount.create(node)
       expect(sut).toBeDefined()
       const signature = await sut.sign(hash, sut.previousHash)
       expect(signature).toBeDefined()
@@ -37,21 +37,21 @@ describe('HDAccount', () => {
   })
   describe('previousHash', () => {
     describe('when nothing signed before', () => {
-      it('returns undefined', () => {
-        const sut = new HDAccount(node)
+      it('returns undefined', async () => {
+        const sut = await HDAccount.create(node)
         expect(sut.previousHash?.hex).toBe(undefined)
       })
     })
     describe('when something signed before', () => {
       it('returns last signed value', async () => {
-        const sut = new HDAccount(node)
+        const sut = await HDAccount.create(node)
         await sut.sign(hash, sut.previousHash)
         expect(sut.previousHash?.hex).toBe(hash)
       })
     })
     describe('when set via ctor', () => {
-      it('returns last signed value', () => {
-        const sut = new HDAccount(node, { previousHash: hash })
+      it('returns last signed value', async () => {
+        const sut = await HDAccount.create(node, { previousHash: hash })
         expect(sut.previousHash?.hex).toBe(hash)
       })
     })

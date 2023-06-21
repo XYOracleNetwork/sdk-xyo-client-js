@@ -77,7 +77,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     super(mutatedParams)
-    this.downResolver.add(this as Module)
+
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
@@ -135,10 +135,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ModuleFactory.withParams(this, params)
   }
 
-  protected static loadAccount(account?: AccountInstance): Promisable<AccountInstance> {
-    return account ?? Account.random()
-  }
-
   discover(): Promisable<Payload[]> {
     const config = this.config
     const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
@@ -158,11 +154,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       let { account } = this.params as AccountModuleParams<TParams['config']>
       const { wallet, accountDerivationPath } = this.params as WalletModuleParams<TParams['config']>
       if (wallet) {
-        account = accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet
+        account = assertEx(accountDerivationPath ? await wallet.derivePath?.(accountDerivationPath) : wallet, 'Failed to derive account from path')
       }
       this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.addressValue.hex}`) : undefined
-      assertEx(this.address === account.addressValue.hex, 'Address passed in params and account address have to match')
-      this._account = account
+      this._account = account ?? Account.random()
+      this.downResolver.add(this as Module)
     }
     return this._account
   }
@@ -317,7 +313,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           const query = key as ModuleQueryBase['schema']
           const queryAccountPath = this.queryAccountPaths[query]
           if (queryAccountPath) {
-            this._queryAccounts[query] = await wallet.derivePath(queryAccountPath)
+            this._queryAccounts[query] = await wallet.derivePath?.(queryAccountPath)
           }
         }
       }

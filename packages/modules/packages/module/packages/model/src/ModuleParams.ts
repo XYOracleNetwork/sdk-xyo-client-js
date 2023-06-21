@@ -1,6 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { AnyObject, BaseParams, WithAdditional } from '@xyo-network/core'
-import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { AnyConfigSchema, ModuleConfig } from './Config'
 
@@ -32,7 +31,7 @@ export type WalletModuleParams<
   WithAdditional<
     {
       accountDerivationPath: string
-      wallet: WalletInstance
+      wallet: AccountInstance
     },
     TAdditionalParams
   >

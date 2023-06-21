@@ -1,5 +1,6 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   SchemaListDivinerConfigSchema,
@@ -17,9 +18,9 @@ import { COLLECTIONS } from '../../../collections'
 import { MongoDBSchemaListDiviner } from '../MongoDBSchemaListDiviner'
 
 describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
+  let account: AccountInstance
+  let address: string
   const phrase = 'temp'
-  const account = Account.create({ phrase })
-  const address = account.addressValue.hex
   const logger = mock<Console>()
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -27,6 +28,8 @@ describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
   })
   let sut: MongoDBSchemaListDiviner
   beforeAll(async () => {
+    account = await Account.create({ phrase })
+    address = account.address
     sut = await MongoDBSchemaListDiviner.create({
       boundWitnessSdk,
       config: { schema: SchemaListDivinerConfigSchema },

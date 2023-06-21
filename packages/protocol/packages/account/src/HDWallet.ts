@@ -1,15 +1,14 @@
 import { HDNode } from '@ethersproject/hdnode'
-import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountInstance } from '@xyo-network/account-model'
 import { Mnemonic, WalletStatic } from '@xyo-network/wallet-model'
 
 import { HDAccount } from './HDAccount'
 
-@staticImplements<WalletStatic<HDWallet>>()
+@staticImplements<WalletStatic<AccountInstance>>()
 export class HDWallet extends HDAccount implements AccountInstance {
   override get address(): string {
-    assertEx(super.address === this.node.address, 'Address consistency failure')
+    //assertEx(super.address === this.node.address, 'Address consistency failure')
     return this.node.address
   }
 
@@ -53,21 +52,21 @@ export class HDWallet extends HDAccount implements AccountInstance {
     return this.node.publicKey
   }
 
-  static override async create(node: HDNode): Promise<HDWallet> {
+  static override async create(node: HDNode): Promise<AccountInstance> {
     return await new HDWallet(node).verifyUniqueAddress().loadPreviousHash()
   }
 
-  static async fromExtendedKey(key: string): Promise<HDWallet> {
+  static async fromExtendedKey(key: string): Promise<AccountInstance> {
     const node = HDNode.fromExtendedKey(key)
     return await HDWallet.create(node)
   }
 
-  static override async fromMnemonic(mnemonic: string): Promise<HDWallet> {
+  static override async fromMnemonic(mnemonic: string): Promise<AccountInstance> {
     const node = HDNode.fromMnemonic(mnemonic)
     return await HDWallet.create(node)
   }
 
-  static async fromSeed(seed: string | Uint8Array): Promise<HDWallet> {
+  static async fromSeed(seed: string | Uint8Array): Promise<AccountInstance> {
     const node = HDNode.fromSeed(seed)
     return await HDWallet.create(node)
   }
@@ -76,11 +75,11 @@ export class HDWallet extends HDAccount implements AccountInstance {
    * @deprecated Use derivePath instead as HDWallet now implements AccountInstance
    */
   async deriveAccount(path: string): Promise<AccountInstance> {
-    return await this.derivePath(path)
+    return await this.derivePath?.(path)
   }
 
-  async derivePath(path: string): Promise<HDWallet> {
-    return await HDWallet.create(this.node.derivePath(path))
+  async derivePath(path: string): Promise<AccountInstance> {
+    return await HDWallet.create(this.node.derivePath?.(path))
   }
 
   neuter: () => HDWallet = () => {

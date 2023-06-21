@@ -41,7 +41,7 @@ describe('BoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', async (payload) => {
-        const address = Account.fromPhrase('test1')
+        const address = await Account.fromPhrase('test1')
         let builder = new BoundWitnessBuilder({ timestamp: false })
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -61,7 +61,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', async () => {
-        const address = Account.fromPhrase('test2')
+        const address = await Account.fromPhrase('test2')
         const builder = new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
@@ -69,7 +69,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', async () => {
-        const address = Account.fromPhrase('test3')
+        const address = await Account.fromPhrase('test3')
         const builder = new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()

@@ -11,6 +11,7 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistModule,
   ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
@@ -37,9 +38,12 @@ export type StorageArchivistConfig = ArchivistConfig<{
 
 export type StorageArchivistParams = ArchivistParams<AnyConfigSchema<StorageArchivistConfig>>
 export class StorageArchivist<
-  TParams extends StorageArchivistParams = StorageArchivistParams,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+    TParams extends StorageArchivistParams = StorageArchivistParams,
+    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+  >
+  extends AbstractArchivist<TParams, TEventData>
+  implements ArchivistModule
+{
   static override configSchema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
@@ -86,23 +90,6 @@ export class StorageArchivist<
   private get storage(): StoreBase {
     this._storage = this._storage ?? store[this.type].namespace(this.namespace)
     return this._storage
-  }
-
-  protected static override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, logger?: Logger) {
-    if (persistAccount) {
-      const privateKey = privateStorage?.get('privateKey')
-      if (privateKey) {
-        try {
-          const account = await Account.create({ privateKey })
-          logger?.log(account.addressValue.hex)
-          return account
-        } catch (ex) {
-          console.error(`Error reading Account from storage [${ex}] - Recreating Account`)
-          privateStorage?.remove('privateKey')
-        }
-      }
-    }
-    return await super.loadAccount(account)
   }
 
   override all(): PromisableArray<Payload> {
@@ -183,6 +170,24 @@ export class StorageArchivist<
     const boundWitnesses = [storageBoundWitness, ...parentBoundWitnesses]
     await this.emit('inserted', { boundWitnesses, module: this })
     return boundWitnesses
+  }
+
+  override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
+    if (!this._account) {
+      if (persistAccount) {
+        const privateKey = privateStorage?.get('privateKey')
+        if (privateKey) {
+          try {
+            this._account = await Account.create({ privateKey })
+            return this._account
+          } catch (ex) {
+            console.error(`Error reading Account from storage [${ex}] - Recreating Account`)
+            privateStorage?.remove('privateKey')
+          }
+        }
+      }
+    }
+    return await super.loadAccount()
   }
 
   override async start() {

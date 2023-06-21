@@ -1,9 +1,9 @@
 import { WalletBase } from '../Base'
 
-test('all', () => {
+test('all', async () => {
   const wallet = new WalletBase('test phrase')
-  const account0 = wallet.getAccount(0)
-  const account999999WithSalt = wallet.getAccount(999999, 'test')
+  const account0 = await wallet.getAccount(0)
+  const account999999WithSalt = await wallet.getAccount(999999, 'test')
 
   expect(account0).toBeDefined()
   expect(account0.addressValue.length).toBe(20)

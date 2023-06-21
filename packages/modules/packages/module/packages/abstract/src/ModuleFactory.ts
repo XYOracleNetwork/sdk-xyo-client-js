@@ -29,8 +29,6 @@ export class ModuleFactory<TModule extends Module> implements CreatableModuleFac
     const factory = this as ModuleFactory<T>
     const schema: CreatableModuleFactory<TModule>['configSchema'] = factory.creatableModule.configSchema
     const mergedParams: TModule['params'] = merge(factory.defaultParams ?? {}, params, { config: { schema } })
-    console.log(`ModuleFactory:create:config: ${JSON.stringify(mergedParams.config, null, 2)}`)
-    console.log(`ModuleFactory:create:address ${(mergedParams as any)?.account?.address}`)
     return factory.creatableModule.create<T>(mergedParams)
   }
 

@@ -1,8 +1,8 @@
 import { WebWallet } from '../Web'
 
-test('all', () => {
+test('all', async () => {
   const wallet = new WebWallet('test phrase')
-  const account = wallet.getAccount(5)
+  const account = await wallet.getAccount(5)
 
   expect(account).toBeDefined()
   expect(account.addressValue.length).toBe(20)

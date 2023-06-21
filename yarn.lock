@@ -6532,6 +6532,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-wallet-nft-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft"
   dependencies:
+    "@ethersproject/providers": ^5.7.2
     "@infura/sdk": ^2.4.3
     "@xylabs/assert": ^2.9.1
     "@xylabs/jest-helpers": ^2.9.1

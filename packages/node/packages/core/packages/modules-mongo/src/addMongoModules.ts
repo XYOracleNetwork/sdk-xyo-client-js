@@ -9,7 +9,7 @@ import { addPreviousHashStore } from './PreviousHashStore'
 export const addMongoModules = async (container: Container) => {
   await initializeDatabase()
   container.load(JobQueueContainerModule)
-  addArchivistModuleFactories(container)
-  addDivinerModuleFactories(container)
+  await addArchivistModuleFactories(container)
+  await addDivinerModuleFactories(container)
   addPreviousHashStore()
 }

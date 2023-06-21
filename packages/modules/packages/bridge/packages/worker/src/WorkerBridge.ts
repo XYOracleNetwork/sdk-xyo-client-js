@@ -24,7 +24,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 
-import {defaultNodeManifest} from './defaultNodeManifest'
+import { defaultNodeManifest } from './defaultNodeManifest'
 import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig'
 
 export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
@@ -108,7 +108,7 @@ export class WorkerBridge<
       worker.addEventListener('message', eventFunc)
     })
 
-    const bridge = new WorkerBridge({ config: { schema: WorkerBridgeConfigSchema }, worker })
+    const bridge = await WorkerBridge.create({ config: { schema: WorkerBridgeConfigSchema }, worker })
     await bridge.start()
     return bridge
   }

@@ -4,7 +4,7 @@ import { getAccount, WalletPaths } from '../../Account'
 
 export const getDiviner = async () => {
   return await CryptoMarketAssetDiviner.create({
-    account: getAccount(WalletPaths.CryptoMarket.Diviner.Asset),
+    account: await getAccount(WalletPaths.CryptoMarket.Diviner.Asset),
     config: {
       schema: CryptoMarketAssetDivinerConfigSchema,
     },

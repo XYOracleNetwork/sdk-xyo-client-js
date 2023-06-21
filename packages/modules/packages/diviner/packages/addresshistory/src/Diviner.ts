@@ -20,8 +20,9 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
-    const archivists =
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? []
+    const archivists = await Promise.all(
+      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? [],
+    )
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(

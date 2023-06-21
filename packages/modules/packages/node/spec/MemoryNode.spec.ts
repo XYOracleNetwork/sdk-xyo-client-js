@@ -19,11 +19,11 @@ import { Account, Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from 
 import { MemoryNode } from '../src'
 
 describe('MemoryNode', () => {
-  const testAccount0 = new Account({ phrase: 'testPhrase0' })
-  const testAccount1 = new Account({ phrase: 'testPhrase1' })
-  const testAccount2 = new Account({ phrase: 'testPhrase2' })
-  const testAccount3 = new Account({ phrase: 'testPhrase3' })
-  const testAccount4 = new Account({ phrase: 'testPhrase4' })
+  const testAccount0 = Account.create({ phrase: 'testPhrase0' })
+  const testAccount1 = Account.create({ phrase: 'testPhrase1' })
+  const testAccount2 = Account.create({ phrase: 'testPhrase2' })
+  const testAccount3 = Account.create({ phrase: 'testPhrase3' })
+  const testAccount4 = Account.create({ phrase: 'testPhrase4' })
   const archivistConfig = { schema: MemoryArchivist.configSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode

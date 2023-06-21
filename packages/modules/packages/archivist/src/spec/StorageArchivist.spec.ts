@@ -57,7 +57,7 @@ test('Archivist Private Key Save', async () => {
 })
 
 test('Archivist passed account', async () => {
-  const account = new Account({ phrase: 'temp' })
+  const account = Account.create({ phrase: 'temp' })
 
   const storage = (await StorageArchivist.create({
     account,

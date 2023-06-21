@@ -16,7 +16,7 @@ import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
 describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
-  const address = new Account({ phrase }).addressValue.hex
+  const address = Account.create({ phrase }).addressValue.hex
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,

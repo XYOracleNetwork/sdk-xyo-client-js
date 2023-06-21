@@ -95,7 +95,7 @@ export abstract class AbstractSentinel<
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
+    const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
     try {
       switch (queryPayload.schema) {
@@ -111,18 +111,20 @@ export abstract class AbstractSentinel<
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindQueryResult(
-        queryPayload,
-        [
-          new ModuleErrorBuilder()
-            .sources([await wrapper.hashAsync()])
-            .message(error.message)
-            .build(),
-        ],
-        [queryAccount],
-      )
+      return (
+        await this.bindQueryResult(
+          queryPayload,
+          [
+            new ModuleErrorBuilder()
+              .sources([await wrapper.hashAsync()])
+              .message(error.message)
+              .build(),
+          ],
+          [queryAccount],
+        )
+      )[0]
     }
-    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 
   abstract report(payloads?: Payload[]): Promise<Payload[]>

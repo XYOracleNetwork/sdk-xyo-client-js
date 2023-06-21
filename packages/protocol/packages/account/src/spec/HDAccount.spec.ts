@@ -16,7 +16,7 @@ describe('HDAccount', () => {
     it('is compatible with legacy Account', () => {
       const sut = new HDAccount(node)
       const privateKey = sut.private.hex
-      const legacy = new Account({ privateKey })
+      const legacy = Account.create({ privateKey })
       expect(sut.public.hex).toBe(legacy.public.hex)
       expect(sut.private.hex).toBe(legacy.private.hex)
       expect(sut.addressValue.hex).toBe(legacy.addressValue.hex)

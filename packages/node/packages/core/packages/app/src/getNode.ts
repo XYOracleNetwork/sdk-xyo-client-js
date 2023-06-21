@@ -16,7 +16,7 @@ export const getNode = async (account?: AccountInstance): Promise<MemoryNode> =>
   if (!account) {
     const mnemonic = process.env.MNEMONIC || ''
     const path = WALLET_PATHS.Nodes.Node
-    account = HDWallet.fromMnemonic(mnemonic).derivePath(path)
+    account = await (await HDWallet.fromMnemonic(mnemonic)).derivePath(path)
   }
   PayloadValidator.setSchemaNameValidatorFactory((schema: string) => new SchemaNameValidator(schema))
   const params: MemoryNodeParams = { account, config }

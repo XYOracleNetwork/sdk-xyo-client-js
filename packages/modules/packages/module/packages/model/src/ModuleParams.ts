@@ -41,4 +41,9 @@ export type WalletModuleParams<
 export type ModuleParams<
   TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
   TAdditionalParams extends AnyObject | undefined = undefined,
-> = AccountModuleParams<TConfig, TAdditionalParams> | WalletModuleParams<TConfig, TAdditionalParams> | BasicModuleParams<TConfig, TAdditionalParams>
+> = (
+  | AccountModuleParams<TConfig, TAdditionalParams>
+  | WalletModuleParams<TConfig, TAdditionalParams>
+  | BasicModuleParams<TConfig, TAdditionalParams>
+) &
+  BasicModuleParams<TConfig, TAdditionalParams>

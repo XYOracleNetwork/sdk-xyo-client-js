@@ -1,3 +1,4 @@
+
 import {
   ArchivistAllQuery,
   ArchivistAllQuerySchema,
@@ -18,7 +19,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable } from '@xyo-network/promise'
+
 import compact from 'lodash/compact'
 
 constructableModuleWrapper()
@@ -27,8 +28,6 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   implements ArchivistModule
 {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
-
-  start?: (() => Promisable<void>) | undefined
 
   async all(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.wrap<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })

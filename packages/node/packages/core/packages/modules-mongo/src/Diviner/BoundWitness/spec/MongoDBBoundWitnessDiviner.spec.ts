@@ -18,7 +18,7 @@ import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
 
 describeIf(canAddMongoModules())('MongoDBBoundWitnessDiviner', () => {
   const phrase = 'temp'
-  const account = new Account({ phrase })
+  const account = Account.create({ phrase })
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,

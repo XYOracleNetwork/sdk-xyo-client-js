@@ -1,7 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import {
+  AbstractModule,
+  creatableModule,
+  ModuleConfig,
+  ModuleErrorBuilder,
+  ModuleQueryResult,
+  QueryBoundWitness,
+  QueryBoundWitnessWrapper,
+} from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -9,6 +17,7 @@ import { WitnessConfigSchema } from './Config'
 import { WitnessObserveQuerySchema, WitnessQuery, WitnessQueryBase } from './Queries'
 import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
 
+creatableModule()
 export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
   extends AbstractModule<TParams, TEventData>
   implements WitnessModule<TParams, TEventData>
@@ -47,14 +56,14 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = await PayloadHasher.filterExclude(payloads, query.query)
-    const queryAccount = new Account()
+    const queryAccount = Account.random()
     try {
       switch (queryPayload.schema) {
         case WitnessObserveQuerySchema: {
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+          return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
         }
         default: {
           return super.queryHandler(query, payloads)
@@ -62,7 +71,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      return this.bindQueryResult(
+      const [result] = await this.bindQueryResult(
         queryPayload,
         [
           new ModuleErrorBuilder()
@@ -72,6 +81,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
         ],
         [queryAccount],
       )
+      return result
     }
   }
 }

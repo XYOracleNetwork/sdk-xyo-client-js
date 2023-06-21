@@ -18,7 +18,7 @@ import { MongoDBSchemaListDiviner } from '../MongoDBSchemaListDiviner'
 
 describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
   const phrase = 'temp'
-  const account = new Account({ phrase })
+  const account = Account.create({ phrase })
   const address = account.addressValue.hex
   const logger = mock<Console>()
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk<BoundWitnessWithMeta>({

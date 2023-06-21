@@ -82,8 +82,8 @@ describe('Account', () => {
   })
 
   test('Constructor', () => {
-    const wallet1 = new Account()
-    const wallet2 = new Account({ privateKey: wallet1.private.bytes })
+    const wallet1 = Account.random()
+    const wallet2 = Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })
@@ -140,12 +140,12 @@ describe('Account', () => {
       await accountA.sign(hash, oldPreviousHash)
       const privateKey = accountA.private.hex
       const previousHash = accountA.previousHash?.hex
-      const accountB = new Account({ privateKey, previousHash })
+      const accountB = Account.create({ privateKey, previousHash })
       expect(accountA.previousHash).toEqual(accountB.previousHash)
       expect(accountA.previousHash?.hex).toEqual(accountB.previousHash?.hex)
     })
     it('handles undefined value in constructor', () => {
-      const account = new Account({ phrase: 'test', previousHash: undefined })
+      const account = Account.create({ phrase: 'test', previousHash: undefined })
       expect(account.previousHash).toBeUndefined()
       expect(account.previousHash?.hex).toBeUndefined()
     })

@@ -84,8 +84,8 @@ describe('Account', () => {
   })
 
   test('Constructor', () => {
-    const wallet1 = new Account()
-    const wallet2 = new Account({ privateKey: wallet1.private.bytes })
+    const wallet1 = Account.random()
+    const wallet2 = Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
   })

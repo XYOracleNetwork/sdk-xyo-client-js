@@ -45,7 +45,7 @@ export class MemorySentinel<
       errors.push(e as Error)
     }
 
-    const [boundWitness] = await this.bindQueryResult({ schema: SentinelReportQuerySchema }, resultPayloads)
+    const [[boundWitness]] = await this.bindQueryResult({ schema: SentinelReportQuerySchema }, resultPayloads)
     this.history.push(assertEx(boundWitness))
     await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: resultPayloads })
     return [boundWitness, ...resultPayloads]
@@ -59,7 +59,7 @@ export class MemorySentinel<
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = new Account()
+    const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
     try {
       switch (queryPayload.schema) {
@@ -79,7 +79,7 @@ export class MemorySentinel<
           .build(),
       )
     }
-    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {

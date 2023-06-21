@@ -1,4 +1,4 @@
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 import { createServer, Server } from 'http'
@@ -18,6 +18,7 @@ export type PrometheusNodeWitnessConfig = WitnessConfig<{
 
 export type PrometheusNodeWitnessParams = WitnessParams<AnyConfigSchema<PrometheusNodeWitnessConfig>>
 
+creatableModule()
 export class PrometheusNodeWitness<TParams extends PrometheusNodeWitnessParams = PrometheusNodeWitnessParams> extends AbstractWitness<TParams> {
   static override configSchema = PrometheusNodeWitnessConfigSchema
   protected _registry = new Registry()

@@ -1,4 +1,5 @@
 import { exists } from '@xylabs/exists'
+import { Account } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
@@ -44,8 +45,8 @@ const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnes
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 
-export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode) => {
-  const node = memoryNode ?? ((await MemoryNode.create({ config })) as MemoryNode)
+export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode, account = Account.random()) => {
+  const node = memoryNode ?? ((await MemoryNode.create({ account, config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addModulesToNodeByConfig(container, node, configs)
   const configHashes = process.env.CONFIG_HASHES
@@ -79,10 +80,11 @@ const addModuleToNodeFromConfig = async (
   node: MemoryNode,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
+  account = Account.random(),
 ) => {
   const configModuleFactory = creatableModuleDictionary[config.schema]
   if (configModuleFactory) {
-    const mod = await configModuleFactory.create({ config })
+    const mod = await configModuleFactory.create({ account, config })
     const { address } = mod
     await node.register(mod)
     await node.attach(address, visibility)

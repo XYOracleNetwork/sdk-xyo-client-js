@@ -9,10 +9,10 @@ import { mock } from 'jest-mock-extended'
 import { getQueryConfig } from '../getQueryConfig'
 
 const req = mock<Request>()
-const testAccount1 = new Account({ phrase: 'testPhrase1' })
-const testAccount2 = new Account({ phrase: 'testPhrase2' })
-const testAccount3 = new Account({ phrase: 'testPhrase3' })
-const testAccount4 = new Account({ phrase: 'testPhrase4' })
+const testAccount1 = Account.create({ phrase: 'testPhrase1' })
+const testAccount2 = Account.create({ phrase: 'testPhrase2' })
+const testAccount3 = Account.create({ phrase: 'testPhrase3' })
+const testAccount4 = Account.create({ phrase: 'testPhrase4' })
 
 describe('getQueryConfig', () => {
   describe('with module', () => {

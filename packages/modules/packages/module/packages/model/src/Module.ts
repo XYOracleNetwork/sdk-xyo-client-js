@@ -1,3 +1,4 @@
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
@@ -48,11 +49,14 @@ export interface ModuleEventData extends EventData {
 }
 
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
+  account?: AccountInstance
   address: string
   config: TParams['config']
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
+
+  loadAccount?: () => Promisable<AccountInstance>
 
   params: TParams
 

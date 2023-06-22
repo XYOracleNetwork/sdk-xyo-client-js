@@ -14,7 +14,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -33,7 +33,7 @@ export type CookieArchivistConfig = ArchivistConfig<{
 }>
 
 export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchivistConfig>>
-@creatableModule()
+
 export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
@@ -157,7 +157,7 @@ export class CookieArchivist<
           return wrapper.payload()
         }),
       )
-      const result = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
+      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
       const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()
       if (Object.entries(parents.write ?? {}).length) {

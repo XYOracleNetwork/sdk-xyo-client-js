@@ -110,7 +110,7 @@ export class MongoDBDeterministicArchivist<
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
-    const result = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())])
+    const [result] = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())])
     return [result[0]]
   }
 
@@ -125,7 +125,7 @@ export class MongoDBDeterministicArchivist<
     const resultPayloads: Payload[] = []
     // TODO: Use new Account once we mock Account.new in Jest
     const queryAccount = Account.random()
-    // const queryAccount = new Account()
+    // const queryAccount = Account.random()
     try {
       switch (queryPayload.schema) {
         case ArchivistGetQuerySchema: {
@@ -148,6 +148,6 @@ export class MongoDBDeterministicArchivist<
           .build(),
       )
     }
-    return this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 }

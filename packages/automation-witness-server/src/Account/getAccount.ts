@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 
-export const getAccount = (path?: string): Account => {
+export const getAccount = async (path?: string): Promise<AccountInstance> => {
   const mnemonic = assertEx(process.env.MNEMONIC, 'Missing mnemonic for wallet creation')
-  return Account.fromMnemonic(mnemonic, path)
+  return await Account.fromMnemonic(mnemonic, path)
 }

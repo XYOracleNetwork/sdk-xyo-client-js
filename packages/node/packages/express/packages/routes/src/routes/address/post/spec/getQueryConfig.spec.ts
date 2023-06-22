@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { AbstractModule, ModuleConfig, ModuleConfigSchema, ModuleDiscoverQuerySchema, QueryBoundWitnessBuilder } from '@xyo-network/module'
 import { AbstractArchivist } from '@xyo-network/modules'
@@ -9,10 +10,6 @@ import { mock } from 'jest-mock-extended'
 import { getQueryConfig } from '../getQueryConfig'
 
 const req = mock<Request>()
-const testAccount1 = new Account({ phrase: 'testPhrase1' })
-const testAccount2 = new Account({ phrase: 'testPhrase2' })
-const testAccount3 = new Account({ phrase: 'testPhrase3' })
-const testAccount4 = new Account({ phrase: 'testPhrase4' })
 
 describe('getQueryConfig', () => {
   describe('with module', () => {
@@ -21,6 +18,10 @@ describe('getQueryConfig', () => {
     const mod = mock<AbstractModule>({
       config,
       queries,
+    })
+    let testAccount1: AccountInstance
+    beforeAll(async () => {
+      testAccount1 = await Account.create({ phrase: 'testPhrase1' })
     })
     it('generates query config for current query', async () => {
       const query = await new QueryBoundWitnessBuilder().query({ schema: ModuleDiscoverQuerySchema }).witness(testAccount1).build()
@@ -40,7 +41,15 @@ describe('getQueryConfig', () => {
       queries,
     })
     describe('when request can access archive', () => {
-      beforeAll(() => {
+      let testAccount1: AccountInstance
+      let testAccount2: AccountInstance
+      let testAccount3: AccountInstance
+      let testAccount4: AccountInstance
+      beforeAll(async () => {
+        testAccount1 = await Account.create({ phrase: 'testPhrase1' })
+        testAccount2 = await Account.create({ phrase: 'testPhrase2' })
+        testAccount3 = await Account.create({ phrase: 'testPhrase3' })
+        testAccount4 = await Account.create({ phrase: 'testPhrase4' })
         // canAccess = true
       })
       it('generates config for single-signer requests', async () => {

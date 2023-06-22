@@ -5,10 +5,10 @@ import { Mnemonic, WalletStatic } from '@xyo-network/wallet-model'
 
 import { HDAccount } from './HDAccount'
 
-@staticImplements<WalletStatic<HDWallet>>()
+@staticImplements<WalletStatic<AccountInstance>>()
 export class HDWallet extends HDAccount implements AccountInstance {
-  get address(): string {
-    return this.node.address
+  override get address(): string {
+    return this.node.address.toLowerCase().replace('0x', '')
   }
 
   get chainCode(): string {
@@ -51,30 +51,34 @@ export class HDWallet extends HDAccount implements AccountInstance {
     return this.node.publicKey
   }
 
-  static fromExtendedKey(key: string) {
+  static override async create(node: HDNode): Promise<AccountInstance> {
+    return await new HDWallet(node).verifyUniqueAddress().loadPreviousHash()
+  }
+
+  static async fromExtendedKey(key: string): Promise<AccountInstance> {
     const node = HDNode.fromExtendedKey(key)
-    return new HDWallet(node)
+    return await HDWallet.create(node)
   }
 
-  static override fromMnemonic(mnemonic: string) {
+  static override async fromMnemonic(mnemonic: string): Promise<AccountInstance> {
     const node = HDNode.fromMnemonic(mnemonic)
-    return new HDWallet(node)
+    return await HDWallet.create(node)
   }
 
-  static fromSeed(seed: string | Uint8Array) {
+  static async fromSeed(seed: string | Uint8Array): Promise<AccountInstance> {
     const node = HDNode.fromSeed(seed)
-    return new HDWallet(node)
+    return await HDWallet.create(node)
   }
 
   /**
    * @deprecated Use derivePath instead as HDWallet now implements AccountInstance
    */
-  deriveAccount: (path: string) => AccountInstance = (path: string) => {
-    return this.derivePath(path)
+  async deriveAccount(path: string): Promise<AccountInstance> {
+    return await this.derivePath?.(path)
   }
 
-  derivePath: (path: string) => HDWallet = (path: string) => {
-    return new HDWallet(this.node.derivePath(path))
+  async derivePath(path: string): Promise<AccountInstance> {
+    return await HDWallet.create(this.node.derivePath?.(path))
   }
 
   neuter: () => HDWallet = () => {

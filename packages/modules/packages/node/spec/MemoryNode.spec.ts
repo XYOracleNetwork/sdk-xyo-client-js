@@ -1,5 +1,6 @@
 /* eslint-disable max-statements */
 import { delay } from '@xylabs/delay'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -19,15 +20,20 @@ import { Account, Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from 
 import { MemoryNode } from '../src'
 
 describe('MemoryNode', () => {
-  const testAccount0 = new Account({ phrase: 'testPhrase0' })
-  const testAccount1 = new Account({ phrase: 'testPhrase1' })
-  const testAccount2 = new Account({ phrase: 'testPhrase2' })
-  const testAccount3 = new Account({ phrase: 'testPhrase3' })
-  const testAccount4 = new Account({ phrase: 'testPhrase4' })
+  let testAccount0: AccountInstance
+  let testAccount1: AccountInstance
+  let testAccount2: AccountInstance
+  let testAccount3: AccountInstance
+  let testAccount4: AccountInstance
   const archivistConfig = { schema: MemoryArchivist.configSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
-  beforeAll(() => {
+  beforeAll(async () => {
+    testAccount0 = await Account.create({ phrase: 'testPhrase0' })
+    testAccount1 = await Account.create({ phrase: 'testPhrase1' })
+    testAccount2 = await Account.create({ phrase: 'testPhrase2' })
+    testAccount3 = await Account.create({ phrase: 'testPhrase3' })
+    testAccount4 = await Account.create({ phrase: 'testPhrase4' })
     //jest.spyOn(console, 'log').mockImplementation(() => {
     // Stop expected logs from being generated during tests
     //})
@@ -40,7 +46,7 @@ describe('MemoryNode', () => {
     it('Creates MemoryNode', async () => {
       const MemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
       const node = await MemoryNode.create()
-      const archivist = await MemoryArchivist.create()
+      const archivist = await MemoryArchivist.create({ config: { name: 'Archivist', schema: 'network.xyo.module.config.archivist.memory' } })
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
       })
@@ -52,6 +58,8 @@ describe('MemoryNode', () => {
       expect(await node.attached()).toBeArrayOfSize(2)
       const foundArchivist = await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address)
       expect(foundArchivist).toBeDefined()
+      const foundNamedArchivist = await NodeWrapper.wrap(node, testAccount0).resolve('Archivist')
+      expect(foundNamedArchivist).toBeDefined()
       expect(foundArchivist?.address).toBe(archivist.address)
       const testPayload = new PayloadBuilder<Payload<{ schema: PayloadSchema; test: boolean }>>({ schema: PayloadSchema })
         .fields({ test: true })

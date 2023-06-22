@@ -7,6 +7,7 @@ import { Data, PayloadHasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
+import { Mutex } from 'async-mutex'
 
 export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
@@ -16,6 +17,7 @@ export interface BoundWitnessBuilderConfig {
 }
 
 export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness, TPayload extends Payload = Payload> {
+  private static readonly _buildMutex = new Mutex()
   private _accounts: AccountInstance[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
@@ -34,30 +36,32 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
-    const hashableFields = await this.hashableFields()
-    const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
+    return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
+      const hashableFields = await this.hashableFields()
+      const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
 
-    /* get all the previousHashes to verify atomic signing */
-    const previousHashes = this._accounts.map((account) => account.previousHash?.hex)
+      /* get all the previousHashes to verify atomic signing */
+      const previousHashes = this._accounts.map((account) => account.previousHash?.hex)
 
-    const ret: TBoundWitness = {
-      ...hashableFields,
-      _signatures: await this.signatures(_hash, previousHashes),
-    }
-    if (meta ?? this.config?.meta) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const bwWithMeta = ret as any
-      bwWithMeta._client = 'js'
-      bwWithMeta._hash = _hash
-      bwWithMeta._timestamp = this._timestamp
-    }
-    if (this.config.inlinePayloads) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const anyRet = ret as any
-      //leaving this in here to prevent breaking code (for now)
-      anyRet._payloads = this.inlinePayloads()
-    }
-    return [ret, this._payloads]
+      const ret: TBoundWitness = {
+        ...hashableFields,
+        _signatures: await this.signatures(_hash, previousHashes),
+      }
+      if (meta ?? this.config?.meta) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const bwWithMeta = ret as any
+        bwWithMeta._client = 'js'
+        bwWithMeta._hash = _hash
+        bwWithMeta._timestamp = this._timestamp
+      }
+      if (this.config.inlinePayloads) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const anyRet = ret as any
+        //leaving this in here to prevent breaking code (for now)
+        anyRet._payloads = this.inlinePayloads()
+      }
+      return [ret, this._payloads]
+    })
   }
 
   async hashableFields(): Promise<TBoundWitness> {

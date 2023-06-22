@@ -16,7 +16,7 @@ import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
 describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
-  const address = new Account({ phrase }).addressValue.hex
+  let address: string
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,
@@ -29,6 +29,7 @@ describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
+    address = (await Account.create({ phrase })).addressValue.hex
     sut = await MongoDBPayloadStatsDiviner.create({
       boundWitnessSdk,
       config: { schema: PayloadStatsDivinerConfigSchema },

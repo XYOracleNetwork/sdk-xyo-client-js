@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -22,11 +23,12 @@ const schema = BoundWitnessDivinerQuerySchema
 
 const moduleName = 'BoundWitnessDiviner'
 describe(`/${moduleName}`, () => {
-  const account = unitTestSigningAccount
+  let account: AccountInstance
   let diviner: DivinerWrapper
   let archivist: ArchivistWrapper
 
   beforeAll(async () => {
+    account = await unitTestSigningAccount()
     diviner = await getDivinerByName(moduleName)
     archivist = await getArchivist()
   })

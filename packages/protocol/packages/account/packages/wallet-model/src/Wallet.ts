@@ -9,7 +9,6 @@ export interface WalletInstance extends AccountInstance {
   readonly address: string
   readonly chainCode: string
   readonly depth: number
-  readonly derivePath: (path: string) => WalletInstance
   readonly extendedKey: string
   readonly fingerprint: string
   readonly index: number
@@ -22,7 +21,7 @@ export interface WalletInstance extends AccountInstance {
 }
 
 export interface WalletStatic<T> {
-  fromExtendedKey(key: string): T
-  fromMnemonic(mnemonic: string): T
-  fromSeed(seed: string | Uint8Array): T
+  fromExtendedKey(key: string): Promise<T>
+  fromMnemonic(mnemonic: string): Promise<T>
+  fromSeed(seed: string | Uint8Array): Promise<T>
 }

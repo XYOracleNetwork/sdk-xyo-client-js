@@ -47,16 +47,17 @@ import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-// @creatableModule()
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
   static configSchema: string
+  protected static privateConstructorKey = Date.now().toString()
 
   readonly downResolver = new CompositeModuleResolver()
   readonly upResolver = new CompositeModuleResolver()
 
+  protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
     'network.xyo.query.module.account': '1',
     'network.xyo.query.module.discover': '2',
@@ -68,29 +69,25 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     'network.xyo.query.module.subscribe': undefined,
   }
   protected _started = false
-  protected readonly account: AccountInstance
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
-  constructor(params: TParams) {
+  constructor(privateConstructorKey: string, params: TParams) {
+    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
-    const activeLogger = params.logger ?? AbstractModule.defaultLogger
-    let { account } = mutatedParams as AccountModuleParams<TParams['config']>
-    const { wallet, accountDerivationPath } = mutatedParams as WalletModuleParams<TParams['config']>
-    if (wallet) {
-      account = accountDerivationPath ? wallet.derivePath(accountDerivationPath) : wallet
-    }
-    mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${this.account.addressValue.hex}`) : undefined
     super(mutatedParams)
-    this.account = this.loadAccount(account)
-    this.downResolver.add(this as Module)
+
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
+  get account() {
+    return assertEx(this._account, 'Missing account')
+  }
+
   get address() {
-    return this.account.addressValue.hex
+    return this.account.address
   }
 
   get allowAnonymous() {
@@ -128,7 +125,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
     const mutatedConfig = { ...params?.config, schema } as TModule['params']['config']
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
-    const newModule = new this(mutatedParams)
+    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams)
+    await newModule.loadAccount?.()
     await newModule.start?.()
     return newModule
   }
@@ -150,6 +148,21 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
+  async loadAccount() {
+    if (!this._account) {
+      const activeLogger = this.params.logger ?? AbstractModule.defaultLogger
+      let { account } = this.params as AccountModuleParams<TParams['config']>
+      const { wallet, accountDerivationPath } = this.params as WalletModuleParams<TParams['config']>
+      if (wallet) {
+        account = assertEx(accountDerivationPath ? await wallet.derivePath?.(accountDerivationPath) : wallet, 'Failed to derive account from path')
+      }
+      this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.addressValue.hex}`) : undefined
+      this._account = account ?? Account.random()
+    }
+    this.downResolver.add(this as Module)
+    return this._account
+  }
+
   moduleAccountQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
@@ -164,9 +177,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           { address, previousHash, schema: AddressPreviousHashSchema },
         ]
       })
-    const address = this.account.addressValue.hex
+    const address = this.address
     const name = this.config.name
-    const previousHash = this.account.previousHash?.hex
+    const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
     const moduleAccountPreviousHash = previousHash
       ? { address, previousHash, schema: AddressPreviousHashSchema }
@@ -202,9 +215,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return validators.every((validator) => validator(query, payloads))
   }
 
-  start(_timeout?: number): Promisable<void> {
+  async start(_timeout?: number): Promise<void> {
     this.validateConfig()
-    this.initializeQueryAccounts()
+    await this.initializeQueryAccounts()
     this._started = true
   }
 
@@ -272,25 +285,22 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return result
   }
 
-  protected bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+  protected async bindQueryResult<T extends Query | PayloadWrapper<Query>>(
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
-  ): PromiseEx<ModuleQueryResult, AccountInstance[]> {
+  ): Promise<[ModuleQueryResult, AccountInstance[]]> {
     const builder = new BoundWitnessBuilder().payloads(payloads)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
-    return new PromiseEx<ModuleQueryResult, AccountInstance[]>(async (resolve) => {
-      const result: ModuleQueryResult = [(await builder.build())[0], payloads]
-      resolve?.(result)
-      return result
-    }, witnesses)
+    const result: ModuleQueryResult = [(await builder.build())[0], payloads]
+    return [result, witnesses]
   }
 
   protected commitArchivist = () => this.getArchivist('commit')
 
-  protected initializeQueryAccounts() {
+  protected async initializeQueryAccounts() {
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
     const distinctPaths = new Set<string>(paths)
@@ -303,15 +313,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           const query = key as ModuleQueryBase['schema']
           const queryAccountPath = this.queryAccountPaths[query]
           if (queryAccountPath) {
-            this._queryAccounts[query] = wallet.derivePath(queryAccountPath)
+            this._queryAccounts[query] = await wallet.derivePath?.(queryAccountPath)
           }
         }
       }
     }
-  }
-
-  protected loadAccount(account?: AccountInstance): AccountInstance {
-    return account ?? new Account()
   }
 
   protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -329,7 +335,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    const queryAccount = new Account()
+    const queryAccount = await Account.random()
     try {
       switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {
@@ -356,7 +362,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           .build(),
       )
     }
-    return await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount])
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }
 
   protected readArchivist = () => this.getArchivist('read')

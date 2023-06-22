@@ -23,18 +23,22 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 export type AccountConfig = InitializationConfig & AccountOptions
 
 export interface AccountInstance extends KeyPairInstance {
+  address: string
+  derivePath?: (path: string) => Promise<AccountInstance>
+  loadPreviousHash: (previousHash?: Uint8Array | string) => Promise<AccountInstance>
   get addressValue(): AddressValueInstance
   get previousHash(): Data | undefined
   sign(hash: Uint8Array | string, previousHash: string | Data | undefined): Uint8Array | Promise<Uint8Array>
   verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean>
+  verifyUniqueAddress(): AccountInstance
 }
 
 export interface AccountStatic {
   previousHashStore?: PreviousHashStore
-  new (opts?: AccountConfig): AccountInstance
-  fromMnemonic(mnemonic: string, path?: string): AccountInstance
-  fromPhrase(phrase: string): AccountInstance
-  fromPrivateKey(key: Uint8Array | string): AccountInstance
+  create(opts?: AccountConfig): Promise<AccountInstance>
+  fromMnemonic(mnemonic: string, path?: string): Promise<AccountInstance>
+  fromPhrase(phrase: string): Promise<AccountInstance>
+  fromPrivateKey(key: Uint8Array | string): Promise<AccountInstance>
   isXyoWallet(value: unknown): boolean
   random(): AccountInstance
 }

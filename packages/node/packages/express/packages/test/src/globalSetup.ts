@@ -48,7 +48,7 @@ const setupNode = async () => {
   console.log('Node: Starting')
   const mnemonic = process.env.MNEMONIC || ''
   const path = WALLET_PATHS.Nodes.Node
-  const account = Account.fromMnemonic(mnemonic, path)
+  const account = await Account.fromMnemonic(mnemonic, path)
   const config = { schema: MemoryNode.configSchema }
   const params: MemoryNodeParams = { account, config }
   const node = await MemoryNode.create(params)

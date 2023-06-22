@@ -94,7 +94,7 @@ export class SimpleModuleResolver implements ModuleRepository {
       ? compact(
           flatten(
             address?.map((address) => {
-              return modules.filter((module) => module.address === address)
+              return modules.filter((modules) => modules.address === address)
             }),
           ),
         )

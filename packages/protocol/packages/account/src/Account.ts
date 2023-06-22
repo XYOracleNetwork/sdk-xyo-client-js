@@ -11,7 +11,7 @@ import {
 } from '@xyo-network/account-model'
 import { Data, DataLike, toUint8Array } from '@xyo-network/core'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import { Lock } from 'semaphore-async-await'
+import { Mutex } from 'async-mutex'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
@@ -22,7 +22,7 @@ const nameOf = <T>(name: keyof T) => name
 
 const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
   const node = HDNode.fromMnemonic(mnemonic)
-  const wallet = path ? node.derivePath(path) : node
+  const wallet = path ? node.derivePath?.(path) : node
   return wallet.privateKey.padStart(64, '0')
 }
 
@@ -33,12 +33,13 @@ const getPrivateKeyFromPhrase = (phrase: string) => {
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
+  protected static _addressMap: Record<string, WeakRef<Account>> = {}
   protected _node: HDNode | undefined = undefined
   protected _previousHash?: Data
   private _isXyoWallet = true
-  private readonly _signingLock = new Lock()
+  private readonly _signingMutex = new Mutex()
 
-  constructor(opts?: AccountConfig) {
+  protected constructor(opts?: AccountConfig) {
     let privateKeyToUse: DataLike | undefined = undefined
     let node: HDNode | undefined = undefined
     if (opts) {
@@ -48,13 +49,16 @@ export class Account extends KeyPair implements AccountInstance {
         privateKeyToUse = toUint8Array(opts.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
         privateKeyToUse = getPrivateKeyFromMnemonic(opts.mnemonic, opts?.path)
-        node = opts?.path ? HDNode.fromMnemonic(opts.mnemonic).derivePath(opts.path) : HDNode.fromMnemonic(opts.mnemonic)
+        node = opts?.path ? HDNode.fromMnemonic(opts.mnemonic).derivePath?.(opts.path) : HDNode.fromMnemonic(opts.mnemonic)
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
     super(privateKeyToUse)
     this._node = node
-    if (opts?.previousHash) this._previousHash = new Data(32, opts.previousHash)
+  }
+
+  get address() {
+    return this.addressValue.hex.toLowerCase()
   }
 
   get addressValue() {
@@ -65,17 +69,21 @@ export class Account extends KeyPair implements AccountInstance {
     return this._previousHash
   }
 
-  static fromMnemonic = (mnemonic: string, path?: string): Account => {
-    return Account.fromPrivateKey(getPrivateKeyFromMnemonic(mnemonic, path))
+  static async create(opts?: AccountConfig): Promise<AccountInstance> {
+    return (await new Account(opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress()
   }
 
-  static fromPhrase(phrase: string) {
-    return Account.fromPrivateKey(getPrivateKeyFromPhrase(phrase))
+  static async fromMnemonic(mnemonic: string, path?: string): Promise<AccountInstance> {
+    return await Account.fromPrivateKey(getPrivateKeyFromMnemonic(mnemonic, path))
   }
 
-  static fromPrivateKey(key: Uint8Array | string) {
+  static async fromPhrase(phrase: string): Promise<AccountInstance> {
+    return await Account.fromPrivateKey(getPrivateKeyFromPhrase(phrase))
+  }
+
+  static async fromPrivateKey(key: Uint8Array | string): Promise<AccountInstance> {
     const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
-    return new Account({ privateKey })
+    return await Account.create({ privateKey })
   }
 
   static isAddress(address: string) {
@@ -86,39 +94,57 @@ export class Account extends KeyPair implements AccountInstance {
     return (value as Account)?._isXyoWallet || false
   }
 
-  static random() {
+  static random(): Account {
     return new Account()
   }
 
+  async loadPreviousHash(previousHash?: Uint8Array | string): Promise<AccountInstance> {
+    return await this._signingMutex.runExclusive(async () => {
+      if (previousHash) {
+        this._previousHash = previousHash ? new Data(32, previousHash) : undefined
+      } else {
+        const previousHashStoreValue = await Account.previousHashStore?.getItem(this.addressValue.hex)
+        if (previousHashStoreValue) {
+          this._previousHash = new Data(32, previousHashStoreValue)
+        }
+      }
+      return this
+    })
+  }
+
   async sign(hash: Uint8Array | string, previousHash: string | Data | undefined): Promise<Uint8Array> {
-    try {
-      throw 1
-    } catch (ex) {
-      const error = ex as Error
-      JSON.stringify(error.stack, null, 2)
-    }
     await KeyPair.wasmInitialized
-    await this._signingLock.acquire()
-    /*const currentPreviousHash = this.previousHash?.hex
-    const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash?.hex
-    assertEx(
-      currentPreviousHash === passedCurrentHash,
-      `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
-    )*/
-    try {
+    return await this._signingMutex.runExclusive(async () => {
+      const currentPreviousHash = this.previousHash?.hex
+      const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash?.hex
+      assertEx(
+        currentPreviousHash === passedCurrentHash,
+        `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
+      )
+
       const signature = this.private.sign(hash)
       this._previousHash = new Data(32, hash)
       if (Account.previousHashStore) {
         await Account.previousHashStore.setItem(this.addressValue.hex, this._previousHash.hex)
       }
       return signature
-    } finally {
-      this._signingLock.release()
-    }
+    })
   }
 
   async verify(msg: Uint8Array | string, signature: Uint8Array | string): Promise<boolean> {
     await KeyPair.wasmInitialized
     return this.public.address.verify(msg, signature)
+  }
+
+  verifyUniqueAddress() {
+    const address = this.addressValue.hex
+    const currentAddressObject = Account._addressMap[address]?.deref()
+    if (currentAddressObject === undefined) {
+      Account._addressMap[address] = new WeakRef(this)
+    } else {
+      //assertEx(this === currentAddressObject, `Two Accounts have the same address [${address}]`)
+      return currentAddressObject
+    }
+    return this
   }
 }

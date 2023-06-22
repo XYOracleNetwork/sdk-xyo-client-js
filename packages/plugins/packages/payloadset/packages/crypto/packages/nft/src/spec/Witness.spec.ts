@@ -3,7 +3,7 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { describeIf } from '@xylabs/jest-helpers'
-import { CryptoWalletNftPayload, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { isNftInfoPayload, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HttpProvider } from 'web3-providers-http'
 
@@ -18,10 +18,13 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
     const apiKey = process.env.INFURA_PROJECT_ID
     const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
     const witness = await CryptoWalletNftWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema }, provider })
-    const [observation] = (await witness.observe()) as CryptoWalletNftPayload[]
-    expect(observation.nfts.length).toBeGreaterThan(1)
-    expect(observation.timestamp).toBe(+now)
-    const answerWrapper = PayloadWrapper.wrap(observation)
-    expect(await answerWrapper.getValid()).toBe(true)
+    const observation = await witness.observe()
+    const nfts = observation.filter(isNftInfoPayload)
+    expect(nfts.length).toBeGreaterThan(0)
+    expect(observation.length).toEqual(nfts.length)
+    for (const nft of nfts) {
+      const wrapped = PayloadWrapper.wrap(nft)
+      expect(await wrapped.getValid()).toBe(true)
+    }
   })
 })

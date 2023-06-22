@@ -1,4 +1,4 @@
-import { AddressTransactionHistorySchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { AddressTransactionHistorySchema } from '@xyo-network/crypto-address-transaction-history-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 

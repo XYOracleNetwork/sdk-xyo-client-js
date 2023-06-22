@@ -20,6 +20,7 @@
     "@xyo-network/key-model": "workspace:^",
     "@xyo-network/previous-hash-store-model": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
+    "async-mutex": "^0.4.0",
     "elliptic": "^6.5.4",
     "sha.js": "^2.4.11"
   },

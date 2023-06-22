@@ -13,8 +13,6 @@
     "@xylabs/assert": "^2.9.1",
     "@xylabs/delay": "^2.9.1",
     "@xyo-network/abstract-bridge": "workspace:^",
-    "@xyo-network/api-models": "workspace:^",
-    "@xyo-network/axios": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/core": "workspace:^",
@@ -26,11 +24,9 @@
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/query-payload-plugin": "workspace:^",
     "lodash": "^4.17.21",
-    "lru-cache": "^9.1.2",
-    "url-parse": "^1.5.10"
+    "lru-cache": "^9.1.2"
   },
   "devDependencies": {
-    "@types/url-parse": "^1.4.8",
     "@xylabs/ts-scripts-yarn3": "^2.17.17",
     "@xylabs/tsconfig": "^2.17.17",
     "typescript": "^5.1.3"

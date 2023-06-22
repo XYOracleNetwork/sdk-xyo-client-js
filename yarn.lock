@@ -6084,6 +6084,7 @@ __metadata:
     "@xyo-network/key-model": "workspace:^"
     "@xyo-network/previous-hash-store-model": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
+    async-mutex: ^0.4.0
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     typescript: ^5.1.3
@@ -6186,7 +6187,6 @@ __metadata:
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/promise": "workspace:^"
     lodash: ^4.17.21
     typescript: ^5.1.3
   languageName: unknown
@@ -6247,6 +6247,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.17
     "@xylabs/tsconfig-jest": ^2.17.17
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/blocknative-ethereum-gas-plugin": "workspace:^"
@@ -6370,6 +6371,7 @@ __metadata:
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
+    async-mutex: ^0.4.0
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -6542,6 +6544,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.17
     "@xylabs/tsconfig-jest": ^2.17.17
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/http-bridge": "workspace:^"
     "@xyo-network/module": "workspace:^"
@@ -8432,7 +8435,6 @@ __metadata:
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
-    "@xyo-network/wallet-model": "workspace:^"
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -9167,7 +9169,6 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/schema-cache": "workspace:^"
     "@xyo-network/schema-name-validator": "workspace:^"
-    "@xyo-network/wallet": "workspace:^"
     "@xyo-network/witnesses": "workspace:^"
     typescript: ^5.1.3
   languageName: unknown
@@ -9374,22 +9375,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/wallet@workspace:^, @xyo-network/wallet@workspace:packages/sdk/packages/wallet":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/wallet@workspace:packages/sdk/packages/wallet"
-  dependencies:
-    "@types/sha.js": ^2.4.0
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
-    "@xylabs/ts-scripts-yarn3": ^2.17.17
-    "@xylabs/tsconfig-dom": ^2.17.17
-    "@xyo-network/account": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
-    sha.js: ^2.4.11
-    typescript: ^5.1.3
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/witness@workspace:^, @xyo-network/witness@workspace:packages/modules/packages/witness":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
@@ -9429,14 +9414,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/worker-bridge@workspace:packages/modules/packages/bridge/packages/worker"
   dependencies:
-    "@types/url-parse": ^1.4.8
     "@xylabs/assert": ^2.9.1
     "@xylabs/delay": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-bridge": "workspace:^"
-    "@xyo-network/api-models": "workspace:^"
-    "@xyo-network/axios": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/core": "workspace:^"
@@ -9450,7 +9432,6 @@ __metadata:
     lodash: ^4.17.21
     lru-cache: ^9.1.2
     typescript: ^5.1.3
-    url-parse: ^1.5.10
   languageName: unknown
   linkType: soft
 

@@ -19,7 +19,6 @@
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/schema-cache": "workspace:^",
     "@xyo-network/schema-name-validator": "workspace:^",
-    "@xyo-network/wallet": "workspace:^",
     "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {

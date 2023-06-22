@@ -2,29 +2,33 @@
 const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
+import { EtherscanProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
-import { AddressTransactionHistoryPayload, AddressTransactionHistoryWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import {
+  AddressTransactionHistoryWitnessConfigSchema,
+  isAddressTransactionHistoryPayload,
+} from '@xyo-network/crypto-address-transaction-history-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { HttpProvider } from 'web3-providers-http'
 
-import { getExternalProviderFromHttpProvider } from '../lib'
 import { AddressTransactionHistoryWitness } from '../Witness'
 
-describeIf(process.env.INFURA_PROJECT_ID)('AddressTransactionHistoryWitness', () => {
-  const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
-  const chainId = 1
+describeIf(process.env.ETHERSCAN_API_KEY)('AddressTransactionHistoryWitness', () => {
+  const address = '0x35C556C8e97509Bf1f6D286BB0137512E11711a6'
   const network = 'homestead'
+  const apiKey = process.env.ETHERSCAN_API_KEY
+  const provider = new EtherscanProvider(network, apiKey)
   test('observe', async () => {
-    const apiKey = process.env.INFURA_PROJECT_ID
-    const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
     const witness = await AddressTransactionHistoryWitness.create({
-      config: { address, chainId, schema: AddressTransactionHistoryWitnessConfigSchema },
+      config: { address, schema: AddressTransactionHistoryWitnessConfigSchema },
       provider,
     })
-    const [observation] = (await witness.observe()) as AddressTransactionHistoryPayload[]
-    expect(observation.nfts.length).toBeGreaterThan(1)
-    expect(observation.timestamp).toBe(+now)
-    const answerWrapper = PayloadWrapper.wrap(observation)
-    expect(await answerWrapper.getValid()).toBe(true)
+    const observation = await witness.observe()
+    const transactions = observation.filter(isAddressTransactionHistoryPayload)
+    expect(transactions.length).toBeGreaterThan(0)
+    expect(observation.length).toEqual(transactions.length)
+    for (const transaction of transactions) {
+      const wrapped = PayloadWrapper.wrap(transaction)
+      expect(await wrapped.getValid()).toBe(true)
+    }
   })
 })

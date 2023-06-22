@@ -7,6 +7,7 @@ import { CryptoWalletNftPayload, CryptoWalletNftWitnessConfigSchema } from '@xyo
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HttpProvider } from 'web3-providers-http'
 
+import { getExternalProviderFromHttpProvider } from '../lib'
 import { CryptoWalletNftWitness } from '../Witness'
 
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
@@ -15,7 +16,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
   const network = 'homestead'
   test('observe', async () => {
     const apiKey = process.env.INFURA_PROJECT_ID
-    const { sendAsync, ...provider } = new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`)
+    const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
     const witness = await CryptoWalletNftWitness.create({ config: { address, chainId, schema: CryptoWalletNftWitnessConfigSchema }, provider })
     const [observation] = (await witness.observe()) as CryptoWalletNftPayload[]
     expect(observation.nfts.length).toBeGreaterThan(1)

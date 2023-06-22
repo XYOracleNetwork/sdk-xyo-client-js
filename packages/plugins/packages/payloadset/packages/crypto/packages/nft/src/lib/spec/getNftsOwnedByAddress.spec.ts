@@ -1,7 +1,7 @@
-import { ExternalProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
 import { HttpProvider } from 'web3-providers-http'
 
+import { getExternalProviderFromHttpProvider } from '../getExternalProviderFromHttpProvider'
 import { getNftsOwnedByAddress } from '../getNftsOwnedByAddress'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
@@ -9,7 +9,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
   const chainId = 1
   const network = 'homestead'
   const apiKey = process.env.INFURA_PROJECT_ID
-  const { sendAsync, ...provider } = new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`)
+  const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
   test('observe', async () => {
     const nfts = await getNftsOwnedByAddress(address, chainId, provider)
     expect(nfts.length).toBeGreaterThan(1)

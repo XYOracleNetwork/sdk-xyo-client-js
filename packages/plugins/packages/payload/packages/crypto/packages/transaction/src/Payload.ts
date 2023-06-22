@@ -51,3 +51,7 @@ export type AddressTransactionHistoryPayload = Payload<
     schema: AddressTransactionHistorySchema
   }
 >
+
+export const isAddressTransactionHistoryPayload = (payload: Payload): payload is AddressTransactionHistoryPayload => {
+  return payload.schema === AddressTransactionHistorySchema
+}

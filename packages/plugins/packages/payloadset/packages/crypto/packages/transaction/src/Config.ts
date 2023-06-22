@@ -3,6 +3,5 @@ import { WitnessConfig } from '@xyo-network/witness'
 
 export type AddressTransactionHistoryWitnessConfig = WitnessConfig<{
   address?: string
-  chainId?: number
   schema: AddressTransactionHistoryWitnessConfigSchema
 }>

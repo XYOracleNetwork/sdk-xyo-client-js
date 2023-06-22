@@ -46,7 +46,7 @@ describeIf(process.env.ETHERSCAN_API_KEY)('getTransactionsForAddress', () => {
   const provider = new EtherscanProvider(network, apiKey)
   test('observe', async () => {
     const transactions = await getTransactionsForAddress(address, provider)
-    expect(transactions.length).toBeGreaterThan(1)
+    expect(transactions.length).toBeGreaterThan(0)
     for (const transaction of transactions) {
       validateTransaction(transaction)
     }

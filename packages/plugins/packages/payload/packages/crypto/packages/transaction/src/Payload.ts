@@ -3,41 +3,46 @@ import { Payload } from '@xyo-network/payload-model'
 import { AddressTransactionHistorySchema } from './Schema'
 
 export interface Transaction {
-  accessList: null
-  blockHash: string
-  blockNumber: number
+  /**
+   * EIP-2930; Type 1 & EIP-1559; Type 2
+   */
+  accessList?: Array<{ address: string; storageKeys: Array<string> }>
+  blockHash?: string
+  /**
+   * The block number of the transaction if mined
+   */
+  blockNumber?: number
   chainId: number
   confirmations: number
-  creates: null
   data: string
   from: string
   gasLimit: string
-  gasPrice: string
+  gasPrice?: string
   hash: string
-  nonce: 57
-  timestamp: number
-  to: string
-  transactionIndex: number
-  type: 0
+  maxFeePerGas?: string
+  /**
+   * EIP-1559; Type 2
+   */
+  maxPriorityFeePerGas?: string
+  nonce: number
+  r?: string
+  /**
+   * The raw transaction
+   */
+  raw?: string
+  s?: string
+  timestamp?: number
+  to?: string
+  /**
+   * Typed-Transaction features
+   */
+  type?: number | null
+  v?: number
   value: string
 }
 
-export type AddressTransactionHistoryPayload = Payload<{
-  /**
-   * The address of the account
-   */
-  address: string
-  /**
-   * The chain ID for the network (e.g. 1 for Ethereum, 137 for Polygon, etc.)
-   */
-  chainId: number
-  /**
-   * A list of Transaction by the account
-   */
-  nfts: Transaction[]
-  schema: AddressTransactionHistorySchema
-  /**
-   * The time at which the data was collected
-   */
-  timestamp: number
-}>
+export type AddressTransactionHistoryPayload = Payload<
+  Transaction & {
+    schema: AddressTransactionHistorySchema
+  }
+>

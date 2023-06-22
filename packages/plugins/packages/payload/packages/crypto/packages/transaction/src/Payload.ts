@@ -2,30 +2,29 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { AddressTransactionHistorySchema } from './Schema'
 
-export interface NftAttribute {
-  [key: string]: unknown
-  display_type?: unknown
-  trait_type?: unknown
-  value?: unknown
-}
-
-export interface NftInfo {
-  contract: string
-  metadata?: {
-    [key: string]: unknown
-    attributes?: NftAttribute[] | unknown
-    description?: unknown
-    image?: unknown
-    name?: unknown
-  }
-  supply: string
-  tokenId: string
-  type: string
+export interface Transaction {
+  accessList: null
+  blockHash: string
+  blockNumber: number
+  chainId: number
+  confirmations: number
+  creates: null
+  data: string
+  from: string
+  gasLimit: string
+  gasPrice: string
+  hash: string
+  nonce: 57
+  timestamp: number
+  to: string
+  transactionIndex: number
+  type: 0
+  value: string
 }
 
 export type AddressTransactionHistoryPayload = Payload<{
   /**
-   * The address of the wallet
+   * The address of the account
    */
   address: string
   /**
@@ -33,9 +32,9 @@ export type AddressTransactionHistoryPayload = Payload<{
    */
   chainId: number
   /**
-   * A list of NFTs owned by the wallet
+   * A list of Transaction by the account
    */
-  nfts: NftInfo[]
+  nfts: Transaction[]
   schema: AddressTransactionHistorySchema
   /**
    * The time at which the data was collected

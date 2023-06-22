@@ -1,5 +1,5 @@
-export type CryptoWalletNftSchema = 'network.xyo.crypto.wallet.nft'
-export const CryptoWalletNftSchema: CryptoWalletNftSchema = 'network.xyo.crypto.wallet.nft'
+export type NftSchema = 'network.xyo.crypto.nft'
+export const NftSchema: NftSchema = 'network.xyo.crypto.nft'
 
-export type CryptoWalletNftWitnessConfigSchema = `${CryptoWalletNftSchema}.witness.config`
-export const CryptoWalletNftWitnessConfigSchema: CryptoWalletNftWitnessConfigSchema = `${CryptoWalletNftSchema}.witness.config`
+export type NftWitnessConfigSchema = `${NftSchema}.witness.config`
+export const NftWitnessConfigSchema: NftWitnessConfigSchema = `${NftSchema}.witness.config`

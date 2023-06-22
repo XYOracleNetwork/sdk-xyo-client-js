@@ -4,7 +4,7 @@ import {
   AddressTransactionHistoryPayload,
   AddressTransactionHistorySchema,
   AddressTransactionHistoryWitnessConfigSchema,
-} from '@xyo-network/crypto-wallet-nft-payload-plugin'
+} from '@xyo-network/crypto-address-transaction-history-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'

@@ -2,11 +2,16 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { AddressTransactionHistorySchema } from './Schema'
 
+export type AccessList = {
+  address: string
+  storageKeys: string[]
+}[]
+
 export interface Transaction {
   /**
    * EIP-2930; Type 1 & EIP-1559; Type 2
    */
-  accessList?: Array<{ address: string; storageKeys: Array<string> }>
+  accessList?: AccessList
   blockHash?: string
   /**
    * The block number of the transaction if mined

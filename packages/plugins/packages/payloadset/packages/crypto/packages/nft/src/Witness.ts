@@ -1,6 +1,6 @@
 import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { CryptoWalletNftPayload, CryptoWalletNftSchema, CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { CryptoWalletNftPayload, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
@@ -15,10 +15,10 @@ export type CryptoWalletNftWitnessParams = WitnessParams<
   }
 >
 
-const schema = CryptoWalletNftSchema
+const schema = NftSchema
 
 export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = CryptoWalletNftWitnessConfigSchema
+  static override configSchema = NftWitnessConfigSchema
 
   protected get provider() {
     return assertEx(this.params.provider, 'Provider Required')

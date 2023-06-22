@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { CryptoWalletNftSchema } from './Schema'
+import { NftSchema } from './Schema'
 
 export interface NftAttribute {
   [key: string]: unknown
@@ -23,4 +23,4 @@ export interface NftInfo {
   type: string
 }
 
-export type CryptoWalletNftPayload = Payload<NftInfo & { schema: CryptoWalletNftSchema }>
+export type CryptoWalletNftPayload = Payload<NftInfo & { schema: NftSchema }>

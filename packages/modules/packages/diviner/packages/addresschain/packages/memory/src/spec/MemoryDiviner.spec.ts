@@ -34,7 +34,7 @@ describe('MemoryAddressHistoryDiviner', () => {
       await node.attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({
         config: {
-          address: account.addressValue.hex,
+          address: account.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
           startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),

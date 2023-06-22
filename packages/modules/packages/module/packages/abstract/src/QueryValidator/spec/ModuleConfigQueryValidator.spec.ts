@@ -24,13 +24,9 @@ describe('ModuleConfigQueryValidator', () => {
   const other = Account.random()
   const queryPayload = new PayloadBuilder({ schema }).build()
   const allowed: Record<SchemaString, (AddressString | CosigningAddressSet)[]> = {}
-  allowed[ModuleDiscoverQuerySchema] = [
-    allowed1.addressValue.hex.toUpperCase(),
-    allowed2.addressValue.hex,
-    [allowedCosigner1.addressValue.hex, allowedCosigner2.addressValue.hex],
-  ]
+  allowed[ModuleDiscoverQuerySchema] = [allowed1.address.toUpperCase(), allowed2.address, [allowedCosigner1.address, allowedCosigner2.address]]
   const disallowed: Record<SchemaString, AddressString[]> = {}
-  disallowed[ModuleDiscoverQuerySchema] = [disallowed1.addressValue.hex.toUpperCase(), disallowed2.addressValue.hex]
+  disallowed[ModuleDiscoverQuerySchema] = [disallowed1.address.toUpperCase(), disallowed2.address]
   describe('queryable', () => {
     describe('allowed', () => {
       const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed } }

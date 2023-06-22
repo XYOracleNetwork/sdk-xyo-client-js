@@ -50,6 +50,20 @@ export class Data extends AbstractData {
     return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))
   }
 
+  static from(data: DataLike | undefined) {
+    return data ? new Data(Data.lengthOf(data), data) : undefined
+  }
+
+  static lengthOf(data: DataLike): number {
+    if (typeof data === 'string') {
+      return data.length / 2
+    } else if (data instanceof AbstractData) {
+      return data.length
+    } else {
+      return typeof data.byteLength === 'function' ? data.byteLength() : data.byteLength
+    }
+  }
+
   private checkLength() {
     assertEx(this.bytes.length === this._length, `Length Mismatch: ${this.bytes.length} !== ${this._length}`)
   }

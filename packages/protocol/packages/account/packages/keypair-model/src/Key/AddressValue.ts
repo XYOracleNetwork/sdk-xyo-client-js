@@ -3,7 +3,7 @@ import { DataLike } from '@xyo-network/core'
 import { EllipticKeyInstance } from './EllipticKey'
 
 export interface AddressValueInstance extends EllipticKeyInstance {
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean
+  verify(msg: DataLike, signature: DataLike): boolean
 }
 
 export interface AddressValueStatic {

@@ -1,12 +1,21 @@
 import { HDNode } from '@ethersproject/hdnode'
+import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
-import { AccountInstance } from '@xyo-network/account-model'
-import { Mnemonic, WalletStatic } from '@xyo-network/wallet-model'
+import { toUint8Array } from '@xyo-network/core'
+import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 
-import { HDAccount } from './HDAccount'
+import { Account } from './Account'
 
-@staticImplements<WalletStatic<AccountInstance>>()
-export class HDWallet extends HDAccount implements AccountInstance {
+@staticImplements<WalletStatic>()
+export class HDWallet extends Account implements WalletInstance {
+  protected static override _addressMap: Record<string, WeakRef<HDWallet>> = {}
+
+  constructor(key: unknown, protected readonly node: HDNode) {
+    const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
+    assertEx(!privateKey || privateKey?.length === 32, `Private key must be 32 bytes [${privateKey?.length}]`)
+    super(key, privateKey ? { privateKey } : undefined)
+  }
+
   override get address(): string {
     return this.node.address.toLowerCase().replace('0x', '')
   }
@@ -51,33 +60,31 @@ export class HDWallet extends HDAccount implements AccountInstance {
     return this.node.publicKey
   }
 
-  static override async create(node: HDNode): Promise<AccountInstance> {
-    return await new HDWallet(node).verifyUniqueAddress().loadPreviousHash()
+  static override async create(node: HDNode, previousHash?: string): Promise<WalletInstance> {
+    const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
+    return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 
-  static async fromExtendedKey(key: string): Promise<AccountInstance> {
+  static async fromExtendedKey(key: string): Promise<WalletInstance> {
     const node = HDNode.fromExtendedKey(key)
     return await HDWallet.create(node)
   }
 
-  static override async fromMnemonic(mnemonic: string): Promise<AccountInstance> {
+  static override async fromMnemonic(mnemonic: string): Promise<WalletInstance> {
     const node = HDNode.fromMnemonic(mnemonic)
     return await HDWallet.create(node)
   }
 
-  static async fromSeed(seed: string | Uint8Array): Promise<AccountInstance> {
+  static async fromSeed(seed: string | Uint8Array): Promise<WalletInstance> {
     const node = HDNode.fromSeed(seed)
     return await HDWallet.create(node)
   }
 
-  /**
-   * @deprecated Use derivePath instead as HDWallet now implements AccountInstance
-   */
-  async deriveAccount(path: string): Promise<AccountInstance> {
-    return await this.derivePath?.(path)
+  static override is(value: unknown): HDWallet | undefined {
+    return value instanceof HDWallet ? value : undefined
   }
 
-  async derivePath(path: string): Promise<AccountInstance> {
+  async derivePath(path: string): Promise<WalletInstance> {
     return await HDWallet.create(this.node.derivePath?.(path))
   }
 

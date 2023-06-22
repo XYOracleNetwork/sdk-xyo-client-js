@@ -48,8 +48,7 @@
   },
   "resolutions": {
     "bn.js": "^5",
-    "quick-lru": "^5",
-    "typedoc": "^0.24.7"
+    "quick-lru": "^5"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -100,7 +99,7 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.63.0",
+  "version": "2.63.1",
   "packageManager": "yarn@3.5.1",
   "volta": {
     "node": "18.13.0",

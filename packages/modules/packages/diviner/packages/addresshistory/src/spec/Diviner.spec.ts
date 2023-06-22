@@ -31,7 +31,7 @@ describe('AddressHistoryDiviner', () => {
       await node.register(archivistWrapper)
       await node.attach(archivistWrapper.address)
       diviner = await AddressHistoryDiviner.create({
-        config: { address: account.addressValue.hex, schema: AddressHistoryDivinerConfigSchema },
+        config: { address: account.address, schema: AddressHistoryDivinerConfigSchema },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
@@ -39,7 +39,7 @@ describe('AddressHistoryDiviner', () => {
     })
     describe.skip('with query payload', () => {
       it('returns divined result for queried addresses', async () => {
-        const query = { address: account.addressValue.hex, schema: AddressHistoryQuerySchema }
+        const query = { address: account.address, schema: AddressHistoryQuerySchema }
         const result = await divinerWrapper.divine([query])
         expect(result.length).toBe(1)
       })

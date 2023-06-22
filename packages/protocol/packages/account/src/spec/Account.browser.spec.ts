@@ -39,20 +39,20 @@ describe('Account', () => {
     const wallet = await Account.fromPhrase('test')
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
-    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.addressBytes).toHaveLength(20)
     expect(wallet.private.hex).toEqual(testPrivateKey)
     expect(wallet.public.hex).toEqual(testPublicKey)
-    expect(wallet.addressValue.hex).toEqual(testAddress)
+    expect(wallet.address).toEqual(testAddress)
   })
 
   test('Address from Key', async () => {
     const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
-    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.addressBytes).toHaveLength(20)
     expect(wallet.private.hex).toEqual(testVectorPrivateKey)
     expect(wallet.public.hex).toEqual(testVectorPublicKey)
-    expect(wallet.addressValue.hex).toEqual(testVectorAddress)
+    expect(wallet.address).toEqual(testVectorAddress)
   })
 
   test('Sign-fromPrivateKey', async () => {
@@ -87,7 +87,7 @@ describe('Account', () => {
     const wallet1 = Account.random()
     const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
-    expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
+    expect(wallet1.address).toEqual(wallet2.address)
   })
 
   test('Sign-random-string', async () => {
@@ -116,12 +116,12 @@ describe('Account', () => {
     it.each(mnemonics)('generates account from mnemonic', async (mnemonic: string) => {
       const account = await Account.fromMnemonic(mnemonic)
       expect(account).toBeObject()
-      expect(account.addressValue.hex).toBeString()
+      expect(account.address).toBeString()
     })
     it.each(paths)('generates account from mnemonic & path', async (path: string) => {
       const account = await Account.fromMnemonic(mnemonics[0], path)
       expect(account).toBeObject()
-      expect(account.addressValue.hex).toBeString()
+      expect(account.address).toBeString()
     })
   })
 })

@@ -154,9 +154,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       let { account } = this.params as AccountModuleParams<TParams['config']>
       const { wallet, accountDerivationPath } = this.params as WalletModuleParams<TParams['config']>
       if (wallet) {
-        account = assertEx(accountDerivationPath ? await wallet.derivePath?.(accountDerivationPath) : wallet, 'Failed to derive account from path')
+        account = assertEx(accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet, 'Failed to derive account from path')
       }
-      this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.addressValue.hex}`) : undefined
+      this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.address}`) : undefined
       this._account = account ?? Account.random()
     }
     this.downResolver.add(this as Module)
@@ -170,8 +170,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         return exists(value[1])
       })
       .map(([name, account]) => {
-        const address = account.addressValue.hex
-        const previousHash = account.previousHash?.hex
+        const address = account.address
+        const previousHash = account.previousHash
         return [
           { address, name, schema: AddressSchema },
           { address, previousHash, schema: AddressPreviousHashSchema },

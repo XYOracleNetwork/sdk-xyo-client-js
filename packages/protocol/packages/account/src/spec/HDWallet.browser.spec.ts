@@ -19,7 +19,7 @@ describe('HDWallet', () => {
       const sutB = (await HDWallet.fromExtendedKey(sutA.extendedKey)) as HDWallet
       const accountA = await sutA.derivePath(path)
       const accountB = await sutB.derivePath(path)
-      expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
+      expect(accountA.address).toBe(accountB.address)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)
     })
@@ -31,7 +31,7 @@ describe('HDWallet', () => {
       const sutB = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
       const accountA = await ((await ((await sutA.derivePath(base)) as HDWallet).derivePath(parent)) as HDWallet).derivePath(child)
       const accountB = await sutB.derivePath([base, parent, child].join('/'))
-      expect(accountA.addressValue.hex).toBe(accountB.addressValue.hex)
+      expect(accountA.address).toBe(accountB.address)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)
     })

@@ -198,7 +198,7 @@ export class StorageArchivist<
   protected saveAccount() {
     if (this.persistAccount) {
       const account = this.account
-      this.logger?.log(account.addressValue.hex)
+      this.logger?.log(account.address)
       this.privateStorage.set('privateKey', account.private.hex)
     }
   }

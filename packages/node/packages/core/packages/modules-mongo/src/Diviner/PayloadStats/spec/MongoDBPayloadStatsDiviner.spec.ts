@@ -29,7 +29,7 @@ describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
-    address = (await Account.create({ phrase })).addressValue.hex
+    address = (await Account.create({ phrase })).address
     sut = await MongoDBPayloadStatsDiviner.create({
       boundWitnessSdk,
       config: { schema: PayloadStatsDivinerConfigSchema },

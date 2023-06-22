@@ -28,7 +28,7 @@ describe('getQueryConfig', () => {
       const config = await getQueryConfig(mod, req, query[0], query[1])
       expect(config?.security?.allowed).toContainKey(ModuleDiscoverQuerySchema)
       expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema]).toBeArrayOfSize(1)
-      expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema][0]).toEqual([testAccount1.addressValue.hex])
+      expect(config?.security?.allowed?.[ModuleDiscoverQuerySchema][0]).toEqual([testAccount1.address])
       expect(config).toMatchSnapshot()
     })
   })

@@ -36,7 +36,7 @@ describe(`/${divinerName}`, () => {
       const addresses = addressPayloads.map((p) => p.address)
       expect(addresses).toBeArray()
       expect(addresses.length).toBeGreaterThan(0)
-      expect(addresses).toIncludeAllMembers(accounts.map((account) => account.addressValue.hex))
+      expect(addresses).toIncludeAllMembers(accounts.map((account) => account.address))
     })
   })
 })

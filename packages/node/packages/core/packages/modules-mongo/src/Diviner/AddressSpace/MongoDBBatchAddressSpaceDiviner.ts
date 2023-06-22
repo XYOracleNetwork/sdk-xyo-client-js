@@ -47,7 +47,7 @@ export class MongoDBBatchAddressSpaceDiviner<
     assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
     // Pre-mint response payloads for dereferencing later
     const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
-      .fields({ reference: [[{ address: this.paginationAccount.addressValue.hex }], [{ schema: AddressSchema }]] })
+      .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
       .build()
     // Save the appropriate collection pointer response to the respective archivist
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)

@@ -30,7 +30,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
   let sut: MongoDBBoundWitnessStatsDiviner
   beforeAll(async () => {
     account = await Account.create({ phrase })
-    address = account.addressValue.hex
+    address = account.address
     sut = (await MongoDBBoundWitnessStatsDiviner.create({
       boundWitnessSdk,
       config: { schema: BoundWitnessStatsDivinerConfigSchema },

@@ -25,7 +25,7 @@ describeIf(canAddMongoModules())('MongoDBAddressHistoryDiviner', () => {
   let sut: MongoDBAddressHistoryDiviner
   beforeAll(async () => {
     account = await Account.create({ phrase })
-    address = account.addressValue.hex
+    address = account.address
     sut = await MongoDBAddressHistoryDiviner.create({
       boundWitnessSdk,
       config: { schema: AddressHistoryDivinerConfigSchema },

@@ -1,4 +1,5 @@
-import { AccountInstance } from '@xyo-network/account-model'
+import type { HDNode } from '@ethersproject/hdnode'
+import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 export interface Mnemonic {
   readonly locale: string
   readonly path: string
@@ -9,6 +10,7 @@ export interface WalletInstance extends AccountInstance {
   readonly address: string
   readonly chainCode: string
   readonly depth: number
+  readonly derivePath: (path: string) => Promise<WalletInstance>
   readonly extendedKey: string
   readonly fingerprint: string
   readonly index: number
@@ -20,7 +22,8 @@ export interface WalletInstance extends AccountInstance {
   readonly publicKey: string
 }
 
-export interface WalletStatic<T> {
+export interface WalletStatic<T extends WalletInstance = WalletInstance> extends Omit<AccountStatic<T>, 'new'> {
+  new (key: unknown, node: HDNode): T
   fromExtendedKey(key: string): Promise<T>
   fromMnemonic(mnemonic: string): Promise<T>
   fromSeed(seed: string | Uint8Array): Promise<T>

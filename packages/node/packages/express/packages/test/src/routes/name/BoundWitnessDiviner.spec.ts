@@ -52,16 +52,12 @@ describe(`/${moduleName}`, () => {
     })
     describe('address', () => {
       const cases: [title: string, addresses: string[], expected: () => BoundWitnessWrapper[]][] = [
-        ['single address returns boundWitnesses signed by address', [accountA.addressValue.hex], () => [boundWitnesses[0], boundWitnesses[2]]],
-        ['single address returns boundWitnesses signed by address', [accountB.addressValue.hex], () => [boundWitnesses[1], boundWitnesses[2]]],
-        [
-          'multiple addresses returns boundWitnesses signed by both addresses',
-          [accountA.addressValue.hex, accountB.addressValue.hex],
-          () => [boundWitnesses[2]],
-        ],
+        ['single address returns boundWitnesses signed by address', [accountA.address], () => [boundWitnesses[0], boundWitnesses[2]]],
+        ['single address returns boundWitnesses signed by address', [accountB.address], () => [boundWitnesses[1], boundWitnesses[2]]],
+        ['multiple addresses returns boundWitnesses signed by both addresses', [accountA.address, accountB.address], () => [boundWitnesses[2]]],
         [
           'multiple addresses returns boundWitnesses signed by both addresses (independent of order)',
-          [accountB.addressValue.hex, accountA.addressValue.hex],
+          [accountB.address, accountA.address],
           () => [boundWitnesses[2]],
         ],
       ]
@@ -111,7 +107,7 @@ describe(`/${moduleName}`, () => {
     })
     describe('offset', () => {
       const account = Account.random()
-      const address = account.addressValue.hex
+      const address = account.address
       let boundWitnesses: BoundWitnessWrapper[]
       beforeAll(async () => {
         boundWitnesses = [(await getNewBoundWitness([account]))[0], (await getNewBoundWitness([account]))[0]].map((bw) =>

@@ -44,7 +44,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       const addresses = results
         .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)
-      expect(addresses).toEqual([account.addressValue.hex, diviner.address])
+      expect(addresses).toEqual([account.address, diviner.address])
     })
   })
 })

@@ -67,7 +67,7 @@ test('Archivist passed account', async () => {
     config: { namespace: 'main', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
   })) as StorageArchivist
 
-  expect(storage['account'].addressValue.hex).toBe(account.addressValue.hex)
+  expect(storage['account'].address).toBe(account.address)
 })
 
 test('Archivist Parent Write Through', async () => {

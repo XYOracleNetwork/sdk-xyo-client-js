@@ -41,7 +41,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
       const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
 
       /* get all the previousHashes to verify atomic signing */
-      const previousHashes = this._accounts.map((account) => account.previousHash?.hex)
+      const previousHashes = this._accounts.map((account) => account.previousHash)
 
       const ret: TBoundWitness = {
         ...hashableFields,
@@ -65,8 +65,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   async hashableFields(): Promise<TBoundWitness> {
-    const addresses = this._accounts.map((account) => account.addressValue.hex)
-    const previous_hashes = this._accounts.map((account) => account.previousHash?.hex ?? null)
+    const addresses = this._accounts.map((account) => account.address)
+    const previous_hashes = this._accounts.map((account) => account.previousHash ?? null)
     const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes')
     const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
     const result: TBoundWitness = {

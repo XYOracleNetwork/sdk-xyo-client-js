@@ -40,7 +40,7 @@ export const toUint8Array = (value: DataLike, padLength?: number, base?: number)
     ifTypeOf<string, Uint8Array>('string', value as string, (value) => stringToUint8Array(value, base)) ??
     ifTypeOf<BigNumber, Uint8Array | undefined>('object', value as BigNumber, bigNumberToUint8Array, BigNumber.isBN) ??
     ifTypeOf<Buffer, Uint8Array | undefined>('object', value as Buffer, bufferToUint8Array, Buffer.isBuffer) ??
-    ifTypeOf<AbstractData, Uint8Array | undefined>('object', value as Buffer, xyoDataToUint8Array, AbstractData.isData) ??
+    ifTypeOf<AbstractData, Uint8Array | undefined>('object', value as Buffer, xyoDataToUint8Array, AbstractData.is) ??
     (value as Uint8Array)
 
   if (padLength && result.length < padLength) {

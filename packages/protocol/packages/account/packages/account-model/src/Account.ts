@@ -1,5 +1,5 @@
 import { Data, DataLike } from '@xyo-network/core'
-import { AddressValueInstance, KeyPairInstance } from '@xyo-network/key-model'
+import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
@@ -24,21 +24,20 @@ export type AccountConfig = InitializationConfig & AccountOptions
 
 export interface AccountInstance extends KeyPairInstance {
   address: string
-  derivePath?: (path: string) => Promise<AccountInstance>
-  loadPreviousHash: (previousHash?: Uint8Array | string) => Promise<AccountInstance>
-  get addressValue(): AddressValueInstance
-  get previousHash(): Data | undefined
-  sign(hash: Uint8Array | string, previousHash: string | Data | undefined): Uint8Array | Promise<Uint8Array>
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean>
-  verifyUniqueAddress(): AccountInstance
+  addressBytes: Data | undefined
+  previousHash: string | undefined
+  previousHashBytes: Data | undefined
+  sign: (hash: DataLike, previousHash: DataLike | undefined) => Uint8Array | Promise<Uint8Array>
+  verify: (msg: DataLike, signature: DataLike) => boolean | Promise<boolean>
 }
 
-export interface AccountStatic {
+export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   previousHashStore?: PreviousHashStore
-  create(opts?: AccountConfig): Promise<AccountInstance>
-  fromMnemonic(mnemonic: string, path?: string): Promise<AccountInstance>
+  new (key: unknown, params?: AccountConfig): T
+  create(opts?: AccountConfig): Promise<T>
+  fromMnemonic(mnemonic: string, path?: string): Promise<T>
   fromPhrase(phrase: string): Promise<AccountInstance>
-  fromPrivateKey(key: Uint8Array | string): Promise<AccountInstance>
-  isXyoWallet(value: unknown): boolean
+  fromPrivateKey(key: DataLike): Promise<AccountInstance>
+  is(value: unknown): T | undefined
   random(): AccountInstance
 }

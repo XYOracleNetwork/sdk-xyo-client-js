@@ -2,8 +2,6 @@ import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
 
 export abstract class AbstractData {
-  private _isData = true
-
   get length() {
     return this.bytes.length
   }
@@ -18,7 +16,7 @@ export abstract class AbstractData {
 
   abstract get keccak256(): Buffer
 
-  static isData(value: unknown) {
-    return (value as AbstractData)._isData
+  static is(value: unknown): value is AbstractData {
+    return value instanceof AbstractData
   }
 }

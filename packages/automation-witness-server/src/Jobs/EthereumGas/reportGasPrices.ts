@@ -26,7 +26,7 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
   const account = await getAccount(WalletPaths.EthereumGas.Sentinel.Gas)
   const sentinel = await MemorySentinel.create({ account, config })
   await node.register(sentinel)
-  await node.attach(account.addressValue.hex, true)
+  await node.attach(account.address, true)
   const report = await sentinel.report()
   return report
 }

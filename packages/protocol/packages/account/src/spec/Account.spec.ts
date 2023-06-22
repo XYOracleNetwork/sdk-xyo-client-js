@@ -35,26 +35,26 @@ describe('Account', () => {
     const wallet = await Account.fromPhrase('test')
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
-    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.addressBytes).toHaveLength(20)
     expect(wallet.private.hex).toEqual(testPrivateKey)
     expect(wallet.public.hex).toEqual(testPublicKey)
-    expect(wallet.addressValue.hex).toEqual(testAddress)
+    expect(wallet.address).toEqual(testAddress)
   })
 
   test('Address from Key', async () => {
     const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.private).toHaveLength(32)
     expect(wallet.public).toHaveLength(64)
-    expect(wallet.addressValue).toHaveLength(20)
+    expect(wallet.addressBytes).toHaveLength(20)
     expect(wallet.private.hex).toEqual(testVectorPrivateKey)
     expect(wallet.public.hex).toEqual(testVectorPublicKey)
-    expect(wallet.addressValue.hex).toEqual(testVectorAddress)
+    expect(wallet.address).toEqual(testVectorAddress)
   })
 
   test('Sign-fromPrivateKey', async () => {
     const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
     expect(wallet.public).toBeDefined()
-    expect(wallet.addressValue.hex).toBeDefined()
+    expect(wallet.address).toBeDefined()
     const previousHash = wallet.previousHash
     const signature = await wallet.sign(testVectorHash, previousHash)
     const valid = await wallet.verify(testVectorHash, signature)
@@ -85,7 +85,7 @@ describe('Account', () => {
     const wallet1 = Account.random()
     const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
-    expect(wallet1.addressValue.hex).toEqual(wallet2.addressValue.hex)
+    expect(wallet1.address).toEqual(wallet2.address)
   })
 
   test('Sign-random-string', async () => {
@@ -113,12 +113,12 @@ describe('Account', () => {
     it.each(mnemonics)('generates account from mnemonic', async (mnemonic: string) => {
       const account = await Account.fromMnemonic(mnemonic)
       expect(account).toBeObject()
-      expect(account.addressValue.hex).toBeString()
+      expect(account.address).toBeString()
     })
     it.each(paths)('generates account from mnemonic & path', async (path: string) => {
       const account = await Account.fromMnemonic(mnemonics[0], path)
       expect(account).toBeObject()
-      expect(account.addressValue.hex).toBeString()
+      expect(account.address).toBeString()
     })
   })
   describe('previousHash', () => {
@@ -127,29 +127,29 @@ describe('Account', () => {
       const account = Account.random()
       const previousHash = account.previousHash
       await account.sign(hash, previousHash)
-      expect(account.previousHash?.hex).toEqual(account.previousHash?.hex)
+      expect(account.previousHash).toEqual(account.previousHash)
     })
     it('returns undefined if no previous signings', () => {
       const account = Account.random()
       expect(account.previousHash).toBeUndefined()
-      expect(account.previousHash?.hex).toBeUndefined()
+      expect(account.previousHash).toBeUndefined()
     })
     it('allows setting value via constructor', async () => {
       const accountA = Account.random()
       const oldPreviousHash = accountA.previousHash
       await accountA.sign(hash, oldPreviousHash)
       const privateKey = accountA.private.hex
-      const previousHash = accountA.previousHash?.hex
+      const previousHash = accountA.previousHash
       expect(previousHash).toBeDefined()
       const accountB = await Account.create({ privateKey, previousHash })
       expect(accountB.previousHash).toEqual(accountA.previousHash)
-      expect(accountB.previousHash?.hex).toEqual(accountA.previousHash?.hex)
+      expect(accountB.previousHash).toEqual(accountA.previousHash)
     })
     /*
     it('handles undefined value in constructor', async () => {
       const account = await Account.create({ phrase: 'test', previousHash: undefined })
       expect(account.previousHash).toBeUndefined()
-      expect(account.previousHash?.hex).toBeUndefined()
+      expect(account.previousHash).toBeUndefined()
     })
     */
   })

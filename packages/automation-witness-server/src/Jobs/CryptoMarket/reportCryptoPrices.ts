@@ -26,7 +26,7 @@ export const reportCryptoPrices = async (provider = getProvider()): Promise<Payl
   const account = await getAccount(WalletPaths.CryptoMarket.Sentinel.Market)
   const sentinel = await MemorySentinel.create({ account, config })
   await node.register(sentinel)
-  await node.attach(account.addressValue.hex, true)
+  await node.attach(account.address, true)
   const report = await sentinel.report()
   return report
 }

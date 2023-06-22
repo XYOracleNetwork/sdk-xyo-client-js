@@ -1,11 +1,11 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { CryptoWalletNftPayload } from './Payload'
+import { NftInfoPayload } from './Payload'
 import { NftSchema } from './Schema'
 import { cryptoWalletNftPayloadTemplate } from './Template'
 
-export const CryptoWalletNftPayloadPlugin = () =>
-  createPayloadPlugin<CryptoWalletNftPayload>({
+export const NftInfoPayloadPlugin = () =>
+  createPayloadPlugin<NftInfoPayload>({
     schema: NftSchema,
     template: cryptoWalletNftPayloadTemplate,
   })

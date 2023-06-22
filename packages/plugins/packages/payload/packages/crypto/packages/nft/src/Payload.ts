@@ -23,4 +23,8 @@ export interface NftInfo {
   type: string
 }
 
-export type CryptoWalletNftPayload = Payload<NftInfo & { schema: NftSchema }>
+export type NftInfoPayload = Payload<NftInfo & { schema: NftSchema }>
+
+export const isNftInfoPayload = (payload: Payload): payload is NftInfoPayload => {
+  return payload.schema === NftSchema
+}

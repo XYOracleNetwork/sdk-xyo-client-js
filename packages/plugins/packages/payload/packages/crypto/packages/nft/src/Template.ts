@@ -1,6 +1,6 @@
-import { CryptoWalletNftPayload } from './Payload'
+import { NftInfoPayload } from './Payload'
 import { NftSchema } from './Schema'
 
-export const cryptoWalletNftPayloadTemplate = (): Partial<CryptoWalletNftPayload> => ({
+export const cryptoWalletNftPayloadTemplate = (): Partial<NftInfoPayload> => ({
   schema: NftSchema,
 })

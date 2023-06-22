@@ -1,6 +1,6 @@
 import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { CryptoWalletNftPayload, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftInfoPayload, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
@@ -29,7 +29,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     const address = assertEx(this.config.address, 'params.address is required')
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
     const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
-    const payloads = nfts.map<CryptoWalletNftPayload>((nft) => {
+    const payloads = nfts.map<NftInfoPayload>((nft) => {
       return { ...nft, schema }
     })
     return super.observe(payloads)

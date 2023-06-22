@@ -1,4 +1,4 @@
-import { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
+import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { Auth, SDK } from '@infura/sdk'
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 

@@ -15,7 +15,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
-    "systeminformation": "^5.18.3"
+    "systeminformation": "^5.18.4"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.17",

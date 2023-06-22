@@ -1,6 +1,6 @@
-import { CryptoWalletNftPayload } from './Payload'
-import { CryptoWalletNftSchema } from './Schema'
+import { AddressTransactionHistoryPayload } from './Payload'
+import { AddressTransactionHistorySchema } from './Schema'
 
-export const cryptoWalletNftPayloadTemplate = (): Partial<CryptoWalletNftPayload> => ({
-  schema: CryptoWalletNftSchema,
+export const cryptoWalletNftPayloadTemplate = (): Partial<AddressTransactionHistoryPayload> => ({
+  schema: AddressTransactionHistorySchema,
 })

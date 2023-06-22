@@ -1,10 +1,10 @@
-import { CryptoWalletNftPlugin } from './Plugin'
+import { AddressTransactionHistoryPlugin } from './Plugin'
 
 export * from './Config'
 export * from './lib'
 export * from './Witness'
 
-export { CryptoWalletNftPlugin }
+export { AddressTransactionHistoryPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default CryptoWalletNftPlugin
+export default AddressTransactionHistoryPlugin

@@ -1,10 +1,10 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { CryptoWalletNftPayloadPlugin } from '../Plugin'
+import { AddressTransactionHistoryPayloadPlugin } from '../Plugin'
 
-describe('CryptoWalletNftPayloadPlugin', () => {
+describe('AddressTransactionHistoryPayloadPlugin', () => {
   test('Add to Resolver', () => {
-    const plugin = CryptoWalletNftPayloadPlugin()
+    const plugin = AddressTransactionHistoryPayloadPlugin()
     const resolver = new PayloadPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.schema)).toBeObject()
   })

@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { CryptoWalletNftSchema } from './Schema'
+import { AddressTransactionHistorySchema } from './Schema'
 
 export interface NftAttribute {
   [key: string]: unknown
@@ -23,7 +23,7 @@ export interface NftInfo {
   type: string
 }
 
-export type CryptoWalletNftPayload = Payload<{
+export type AddressTransactionHistoryPayload = Payload<{
   /**
    * The address of the wallet
    */
@@ -36,7 +36,7 @@ export type CryptoWalletNftPayload = Payload<{
    * A list of NFTs owned by the wallet
    */
   nfts: NftInfo[]
-  schema: CryptoWalletNftSchema
+  schema: AddressTransactionHistorySchema
   /**
    * The time at which the data was collected
    */

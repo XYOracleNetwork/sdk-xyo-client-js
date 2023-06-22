@@ -1,24 +1,30 @@
 import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { CryptoWalletNftPayload, CryptoWalletNftSchema, CryptoWalletNftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import {
+  AddressTransactionHistoryPayload,
+  AddressTransactionHistorySchema,
+  AddressTransactionHistoryWitnessConfigSchema,
+} from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { CryptoWalletNftWitnessConfig } from './Config'
+import { AddressTransactionHistoryWitnessConfig } from './Config'
 import { getNftsOwnedByAddress } from './lib'
 
-export type CryptoWalletNftWitnessParams = WitnessParams<
-  AnyConfigSchema<CryptoWalletNftWitnessConfig>,
+export type AddressTransactionHistoryWitnessParams = WitnessParams<
+  AnyConfigSchema<AddressTransactionHistoryWitnessConfig>,
   {
     provider?: ExternalProvider | JsonRpcFetchFunc
   }
 >
 
-const schema = CryptoWalletNftSchema
+const schema = AddressTransactionHistorySchema
 
-export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = CryptoWalletNftWitnessConfigSchema
+export class AddressTransactionHistoryWitness<
+  TParams extends AddressTransactionHistoryWitnessParams = AddressTransactionHistoryWitnessParams,
+> extends AbstractWitness<TParams> {
+  static override configSchema = AddressTransactionHistoryWitnessConfigSchema
 
   protected get provider() {
     return assertEx(this.params.provider, 'Provider Required')
@@ -30,7 +36,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
     const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
     const timestamp = Date.now()
-    const payload: CryptoWalletNftPayload = { address, chainId, nfts, schema, timestamp }
+    const payload: AddressTransactionHistoryPayload = { address, chainId, nfts, schema, timestamp }
     return super.observe([payload])
   }
 

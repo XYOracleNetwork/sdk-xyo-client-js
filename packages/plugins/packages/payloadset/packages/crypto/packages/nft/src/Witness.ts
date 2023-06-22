@@ -29,9 +29,10 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     const address = assertEx(this.config.address, 'params.address is required')
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
     const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
-    const timestamp = Date.now()
-    const payload: CryptoWalletNftPayload = { address, chainId, nfts, schema, timestamp }
-    return super.observe([payload])
+    const payloads = nfts.map<CryptoWalletNftPayload>((nft) => {
+      return { ...nft, schema }
+    })
+    return super.observe(payloads)
   }
 
   override async start() {

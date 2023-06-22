@@ -2,7 +2,7 @@ import { describeIf } from '@xylabs/jest-helpers'
 import { HttpProvider } from 'web3-providers-http'
 
 import { getExternalProviderFromHttpProvider } from '../getExternalProviderFromHttpProvider'
-import { getNftsOwnedByAddress } from '../getNftsOwnedByAddress'
+import { getNftsOwnedByAddress } from '../getTransactionsForAddress'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
   const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'

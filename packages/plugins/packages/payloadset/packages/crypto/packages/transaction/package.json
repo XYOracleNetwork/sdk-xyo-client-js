@@ -13,7 +13,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@infura/sdk": "^2.4.3",
     "@xylabs/assert": "^2.9.1",
-    "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:^",
+    "@xyo-network/crypto-address-transaction-history-payload-plugin": "workspace:^",
     "@xyo-network/modules": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",

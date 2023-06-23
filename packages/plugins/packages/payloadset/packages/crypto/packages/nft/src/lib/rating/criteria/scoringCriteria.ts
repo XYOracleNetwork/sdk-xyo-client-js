@@ -1,6 +1,12 @@
 import { WeightedScoringCriteria } from '../score'
-import { scoreFormat } from './scoring'
+import { scoreContractHash, scoreSupply, scoreTokenId, scoreType } from './scoring'
+
+const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {}
 
 export const scoringCriteria: Record<string, WeightedScoringCriteria> = {
-  format: { score: scoreFormat, weight: 1 },
+  'Contract.Hash': { score: scoreContractHash, weight: 1 },
+  Supply: { score: scoreSupply, weight: 1 },
+  'Token Id': { score: scoreTokenId, weight: 1 },
+  Type: { score: scoreType, weight: 1 },
+  ...metadataScoringCriteria,
 }

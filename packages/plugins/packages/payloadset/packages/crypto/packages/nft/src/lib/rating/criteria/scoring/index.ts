@@ -1,5 +1,4 @@
 export * from './contract'
-export * from './format'
 export * from './supply'
 export * from './tokenId'
 export * from './type'

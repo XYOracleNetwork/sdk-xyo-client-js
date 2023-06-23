@@ -23,6 +23,14 @@ export interface NftInfo {
   type: string
 }
 
+export interface OpenSeaNftAttribute {
+  [key: string]: unknown
+  display_type?: 'date' | 'boost_number' | 'boost_percentage' | 'number'
+  max_value?: number
+  trait_type?: string
+  value?: string | number
+}
+
 export interface OpenSeaNftInfo extends NftInfo {
   contract: string
   /**
@@ -35,9 +43,9 @@ export interface OpenSeaNftInfo extends NftInfo {
      */
     animation_url: string
     /**
-     * These are the attributes for the item, which will show up on the OpenSea page for the item. (see below)
+     * These are the attributes for the item, which will show up on the OpenSea page for the item.
      */
-    attributes?: NftAttribute[] | unknown
+    attributes?: OpenSeaNftAttribute[]
     /**
      * Background color of the item on OpenSea. Must be a six-character hexadecimal without a pre-pended #.
      */

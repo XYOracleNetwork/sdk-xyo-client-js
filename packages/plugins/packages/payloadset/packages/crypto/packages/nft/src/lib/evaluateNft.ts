@@ -1,6 +1,12 @@
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-type RatingFunction = (nft: NftInfo) => boolean | Promise<boolean>
+export type PassFailScore = [amount: number, possible: 1]
+export type ScaledScore = [amount: number, possible: number]
+export type Score = ScaledScore | PassFailScore
+
+export type PassFailRatingFunction = (nft: NftInfo) => PassFailScore | Promise<PassFailScore>
+export type ScoreRatingFunction = (nft: NftInfo) => Score | Promise<Score>
+export type RatingFunction = PassFailRatingFunction | ScoreRatingFunction
 
 interface WeightedRating {
   criteria: RatingFunction
@@ -8,11 +14,10 @@ interface WeightedRating {
 }
 
 export const ratingCriteria: Record<string, WeightedRating> = {}
-
 export const maxPossibleRating = Object.values(ratingCriteria).reduce((sum, { weight }) => sum + weight, 0)
 
-export type Rating = {
-  [key: keyof typeof ratingCriteria]: boolean
+export type Ratings = {
+  [key: keyof typeof ratingCriteria]: Score
 }
 
 export const evaluateNft = async (
@@ -20,14 +25,14 @@ export const evaluateNft = async (
    * The NFT
    */
   nft: NftInfo,
-): Promise<number> => {
-  const score = (
+): Promise<Ratings> => {
+  return Object.fromEntries(
     await Promise.all(
-      Object.entries(ratingCriteria).map(([key, { criteria, weight }]) => {
-        return [criteria(nft), weight] as const
+      Object.entries(ratingCriteria).map(async ([key, { criteria, weight }]) => {
+        const score = await criteria(nft)
+        const weighted = score.map((v) => v * weight) as Score
+        return [key, weighted] as const
       }),
-    )
-  ).reduce((sum, [passed, weight]) => (passed ? sum + weight : sum), 0)
-  const rating = score / maxPossibleRating
-  return rating
+    ),
+  )
 }

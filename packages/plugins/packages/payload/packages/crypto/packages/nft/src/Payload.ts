@@ -58,7 +58,7 @@ export interface OpenSeaNftMetadata extends NftMetadata {
   /**
    * Background color of the item on OpenSea. Must be a six-character hexadecimal without a pre-pended #.
    */
-  background_color: string
+  background_color?: string
   /**
    * A human readable description of the item. Markdown is supported.
    */
@@ -67,7 +67,8 @@ export interface OpenSeaNftMetadata extends NftMetadata {
    * This is the URL that will appear below the asset's image on OpenSea and will allow users to leave OpenSea and view the item
    * on your site.
    */
-  external_url: string
+  external_url?: string
+  // TODO: this property is conditional based on the presence of the image_data property
   /**
    * This is the URL to the image of the item. Can be just about any type of image (including SVGs, which will be cached into PNGs
    * by OpenSea), and can be IPFS URLs or paths. We recommend using a 350 x 350 image.
@@ -77,7 +78,7 @@ export interface OpenSeaNftMetadata extends NftMetadata {
    * Raw SVG image data, if you want to generate images on the fly (not recommended). Only use this if you're not including the
    * image parameter.
    */
-  image_data: string
+  image_data?: string
 
   /**
    * Name of the item.
@@ -87,7 +88,7 @@ export interface OpenSeaNftMetadata extends NftMetadata {
   /**
    * A URL to a YouTube video.
    */
-  youtube_url: string
+  youtube_url?: string
 }
 
 export interface OpenSeaNftInfo extends NftInfo {

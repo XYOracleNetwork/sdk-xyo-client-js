@@ -3,7 +3,9 @@ import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { FAIL, PASS, PassFailScoringFunction } from '../../score'
 
 export const scoreType: PassFailScoringFunction = (nft: NftInfo) => {
-  if (nft instanceof Array) return FAIL
-  if (nft.constructor === Object) return PASS
-  return FAIL
+  if (!nft.type) return FAIL
+  if (typeof nft.type !== 'string') return FAIL
+  const type = nft.type.toUpperCase()
+  if (type !== 'ERC721' && type !== 'ERC1155') return FAIL
+  return PASS
 }

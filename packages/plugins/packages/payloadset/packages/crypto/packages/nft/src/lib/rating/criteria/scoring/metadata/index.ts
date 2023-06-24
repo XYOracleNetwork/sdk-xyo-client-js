@@ -1,4 +1,5 @@
 export * from './animationUrl'
+export * from './attributes'
 export * from './backgroundColor'
 export * from './description'
 export * from './externalUrl'

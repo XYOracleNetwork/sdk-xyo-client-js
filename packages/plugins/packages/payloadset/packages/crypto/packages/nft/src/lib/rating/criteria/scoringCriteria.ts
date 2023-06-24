@@ -1,5 +1,6 @@
 import { WeightedScoringCriteria } from '../score'
 import {
+  evaluateAttributes,
   scoreAnimationUrl,
   scoreBackgroundColor,
   scoreContractAddress,
@@ -14,7 +15,9 @@ import {
   scoreYoutubeUrl,
 } from './scoring'
 
-const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {}
+const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {
+  Attributes: { score: evaluateAttributes, weight: 1 },
+}
 
 const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {
   'Animation URL': { score: scoreAnimationUrl, weight: 1 },

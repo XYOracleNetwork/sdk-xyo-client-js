@@ -1,29 +1,37 @@
+import { PASS } from '../../../../score'
 import { scoreBackgroundColor } from '../backgroundColor'
 
 const valid = ['ffffff', 'FFFFFF']
-const invalid = ['#ffffff', '#FFFFFF', '', undefined, null]
+const invalid = ['#ffffff', '#FFFFFF', '']
+const missing = [undefined, null]
 
 describe('scoreBackgroundColor', () => {
-  describe('with valid color', () => {
-    it.each(valid)('returns score', (color) => {
+  describe('with valid background_color', () => {
+    it.each(valid)('returns max possible score', (color) => {
       const score = scoreBackgroundColor(color)
       const [total, possible] = score
       expect(total).toBeNumber()
-      expect(total).not.toBeNegative()
+      expect(total).toBePositive()
       expect(possible).toBeNumber()
-      expect(possible).not.toBeNegative()
-      expect(total).toBeLessThanOrEqual(possible)
+      expect(possible).toBePositive()
+      expect(total).toEqual(possible)
     })
   })
-  describe('with invalid color', () => {
-    it.each(invalid)('returns score', (color) => {
+  describe('with invalid background_color', () => {
+    it.each(invalid)('returns lowered score', (color) => {
       const score = scoreBackgroundColor(color)
       const [total, possible] = score
       expect(total).toBeNumber()
       expect(total).not.toBeNegative()
       expect(possible).toBeNumber()
-      expect(possible).not.toBeNegative()
-      expect(total).toBeLessThanOrEqual(possible)
+      expect(possible).toBePositive()
+      expect(total).toBeLessThan(possible)
+    })
+  })
+  describe('with missing background_color', () => {
+    it.each(missing)('returns no score', (color) => {
+      const score = scoreBackgroundColor(color)
+      expect(score).toEqual(PASS)
     })
   })
 })

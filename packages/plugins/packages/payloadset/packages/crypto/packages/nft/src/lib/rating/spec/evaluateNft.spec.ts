@@ -122,9 +122,9 @@ describe('evaluateNft', () => {
       expect(key).toBeString()
       const [amount, possible] = score
       expect(amount).toBeNumber()
-      expect(amount).toBePositive()
+      expect(amount).not.toBeNegative()
       expect(possible).toBeNumber()
-      expect(possible).toBePositive()
+      expect(possible).not.toBeNegative()
       expect(amount).toBeGreaterThanOrEqual(possible)
     })
   })

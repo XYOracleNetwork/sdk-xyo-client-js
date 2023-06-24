@@ -25,3 +25,9 @@ export const incrementPossible = (score: ScaledScore): ScaledScore => {
   score[1]++
   return score
 }
+
+export const incrementTotalAndPossible = (score: ScaledScore): ScaledScore => {
+  score[0]++
+  score[1]++
+  return score
+}

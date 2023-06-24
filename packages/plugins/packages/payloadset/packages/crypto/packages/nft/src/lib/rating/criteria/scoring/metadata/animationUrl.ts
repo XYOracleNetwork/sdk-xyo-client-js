@@ -1,6 +1,6 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-import { incrementPossible, incrementTotalAndPossible, ScaledScore } from '../../../score'
+import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '../../../score'
 import { isSecure, isValidUrl, isWeb3 } from './lib'
 
 export const scoreNftAnimationUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
@@ -9,7 +9,7 @@ export const scoreNftAnimationUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore
 
 export const scoreAnimationUrl = (animation_url: unknown): ScaledScore => {
   const score: ScaledScore = [0, 0]
-  if (!animation_url) return score
+  if (!animation_url) return PASS
   incrementPossible(score)
   if (typeof animation_url !== 'string') return score
   incrementTotalAndPossible(score)
@@ -18,6 +18,5 @@ export const scoreAnimationUrl = (animation_url: unknown): ScaledScore => {
   if (!isSecure(animation_url)) return score
   incrementTotalAndPossible(score)
   if (!isWeb3(animation_url)) return score
-  incrementTotalAndPossible(score)
-  return score
+  return incrementTotal(score)
 }

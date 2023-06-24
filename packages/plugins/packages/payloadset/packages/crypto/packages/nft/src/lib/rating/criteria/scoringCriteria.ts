@@ -1,7 +1,6 @@
 import { WeightedScoringCriteria } from '../score'
 import {
   evaluateAttributes,
-  scoreAnimationUrl,
   scoreBackgroundColor,
   scoreContractAddress,
   scoreDescription,
@@ -9,6 +8,7 @@ import {
   scoreImage,
   scoreImageData,
   scoreName,
+  scoreNftAnimationUrl,
   scoreSupply,
   scoreTokenId,
   scoreType,
@@ -20,7 +20,7 @@ const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {
 }
 
 const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {
-  'Animation URL': { score: scoreAnimationUrl, weight: 1 },
+  'Animation URL': { score: scoreNftAnimationUrl, weight: 1 },
   'Background Color': { score: scoreBackgroundColor, weight: 1 },
   Description: { score: scoreDescription, weight: 1 },
   'External Url': { score: scoreExternalUrl, weight: 1 },

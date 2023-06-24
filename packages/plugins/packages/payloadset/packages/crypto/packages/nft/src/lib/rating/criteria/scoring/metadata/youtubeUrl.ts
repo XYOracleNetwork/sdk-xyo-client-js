@@ -10,7 +10,7 @@ const evaluateProtocol = (url: URL, score: ScaledScore): ScaledScore => {
   return score
 }
 
-export const scoreMetadataYoutubeUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreYoutubeUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
   if (!nft.metadata?.youtube_url) return SKIP
   const score: ScaledScore = [0, 0]
   incrementPossible(score)

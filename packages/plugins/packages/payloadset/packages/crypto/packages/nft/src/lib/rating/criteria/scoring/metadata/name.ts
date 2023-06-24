@@ -1,7 +1,12 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-import { PASS, ScaledScore } from '../../../score'
+import { incrementPossible, incrementTotalAndPossible, ScaledScore } from '../../../score'
 
 export const scoreName = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
-  return PASS
+  const score: ScaledScore = [0, 0]
+  if (!nft.metadata?.description) return score
+  incrementPossible(score)
+  if (typeof nft.metadata.description !== 'string') return score
+  incrementTotalAndPossible(score)
+  return score
 }

@@ -1,4 +1,3 @@
-import { PASS, ScaledScore } from '../../../../score'
 import { scoreAnimationUrl } from '../animationUrl'
 import { expectLoweredScore, expectMaxPossibleScore, expectNoScore } from './testHelpers'
 

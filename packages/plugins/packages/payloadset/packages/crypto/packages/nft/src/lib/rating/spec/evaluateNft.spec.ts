@@ -120,12 +120,12 @@ describe('evaluateNft', () => {
     expect(rating).toBeObject()
     Object.entries(rating).map(([key, score]) => {
       expect(key).toBeString()
-      const [amount, possible] = score
-      expect(amount).toBeNumber()
-      expect(amount).not.toBeNegative()
+      const [total, possible] = score
+      expect(total).toBeNumber()
+      expect(total).not.toBeNegative()
       expect(possible).toBeNumber()
       expect(possible).not.toBeNegative()
-      expect(amount).toBeGreaterThanOrEqual(possible)
+      expect(total).toBeLessThanOrEqual(possible)
     })
   })
 })

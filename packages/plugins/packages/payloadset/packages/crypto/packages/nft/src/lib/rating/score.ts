@@ -1,9 +1,9 @@
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-export type PassFailScore = [amount: number, possible: 1]
+export type PassFailScore = [total: number, possible: 1]
 export const PASS: PassFailScore = [1, 1]
 export const FAIL: PassFailScore = [0, 1]
-export type ScaledScore = [amount: number, possible: number]
+export type ScaledScore = [total: number, possible: number]
 export const SKIP: ScaledScore = [0, 0]
 export type Score = ScaledScore | PassFailScore
 
@@ -14,4 +14,14 @@ export type ScoringFunction = PassFailScoringFunction | ScaledScoringFunction
 export interface WeightedScoringCriteria {
   score: ScoringFunction
   weight: number
+}
+
+export const incrementTotal = (score: ScaledScore): ScaledScore => {
+  score[0]++
+  return score
+}
+
+export const incrementPossible = (score: ScaledScore): ScaledScore => {
+  score[1]++
+  return score
 }

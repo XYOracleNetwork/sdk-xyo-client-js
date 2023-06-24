@@ -4,13 +4,17 @@ import { incrementPossible, incrementTotalAndPossible, ScaledScore } from '../..
 
 const isHexColor = /^[0-9A-F]{6}$/i
 
-export const scoreBackgroundColor = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreNftBackgroundColor = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+  return scoreBackgroundColor(nft.metadata?.background_color)
+}
+
+export const scoreBackgroundColor = (background_color: unknown): ScaledScore => {
   const score: ScaledScore = [0, 0]
-  if (!nft.metadata?.background_color) return score
+  if (!background_color) return score
   incrementPossible(score)
-  if (typeof nft.metadata.background_color !== 'string') return score
+  if (typeof background_color !== 'string') return score
   incrementTotalAndPossible(score)
-  if (!nft.metadata.background_color.toUpperCase().match(isHexColor)) return score
+  if (!background_color.toUpperCase().match(isHexColor)) return score
   incrementTotalAndPossible(score)
   return score
 }

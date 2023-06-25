@@ -18,6 +18,12 @@ export const expectLoweredScore = (score: ScaledScore) => {
   expect(total).toBeLessThan(possible)
 }
 
+export const expectMiniumScore = (score: ScaledScore) => {
+  const [total] = score
+  expectLoweredScore(score)
+  expect(total).toBe(0)
+}
+
 export const expectNoScore = (score: ScaledScore) => {
   expect(score).toEqual(PASS)
 }

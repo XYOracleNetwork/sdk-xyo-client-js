@@ -1,11 +1,18 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { parse } from 'svg-parser'
 
 import { incrementTotal, PASS, ScaledScore } from '../../../score'
 
 const MaxPossibleImageDataScore = 1
 
 const isValidImageData = (image_data: string): boolean => {
-  return false
+  if (!image_data.startsWith('<svg')) return false
+  try {
+    parse(image_data)
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 export const scoreNftImageData = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {

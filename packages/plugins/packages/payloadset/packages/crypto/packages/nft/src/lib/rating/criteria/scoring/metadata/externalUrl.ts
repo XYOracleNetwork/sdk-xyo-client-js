@@ -1,17 +1,15 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-import { incrementPossible, incrementTotalAndPossible, PASS, ScaledScore } from '../../../score'
+import { incrementTotal, ScaledScore } from '../../../score'
 import { isSecure, isValidUrl } from './lib'
 
-export const scoreExternalUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
-  const score: ScaledScore = [0, 0]
-  if (!nft.metadata?.external_url) return score
-  incrementPossible(score)
-  if (typeof nft.metadata.external_url !== 'string') return score
-  incrementTotalAndPossible(score)
-  if (!isValidUrl(nft.metadata.external_url)) return score
-  incrementTotalAndPossible(score)
-  if (!isSecure(nft.metadata.external_url)) return score
-  incrementTotalAndPossible(score)
-  return score
+export const scoreNftExternalUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+  return scoreExternalUrl(nft?.metadata?.external_url)
+}
+export const scoreExternalUrl = (external_url: unknown): ScaledScore => {
+  const score: ScaledScore = [0, 2]
+  if (external_url === undefined || external_url === null || typeof external_url !== 'string' || !isValidUrl(external_url)) return score
+  incrementTotal(score)
+  if (!isSecure(external_url)) return score
+  return incrementTotal(score)
 }

@@ -9,7 +9,7 @@ export const scoreNftAnimationUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore
 
 export const scoreAnimationUrl = (animation_url: unknown): ScaledScore => {
   const score: ScaledScore = [0, 0]
-  if (!animation_url) return PASS
+  if (animation_url === undefined || animation_url === null) return PASS
   incrementPossible(score)
   if (typeof animation_url !== 'string') return score
   incrementTotalAndPossible(score)

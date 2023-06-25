@@ -2,7 +2,7 @@ import { scoreBackgroundColor } from '../backgroundColor'
 import { expectLoweredScore, expectMaxPossibleScore, expectNoScore } from './testHelpers'
 
 const valid = ['ffffff', 'FFFFFF']
-const invalid = ['#ffffff', '#FFFFFF', '']
+const invalid = ['#ffffff', '#FFFFFF', '', 'not a color', {}]
 const missing = [undefined, null]
 
 describe('scoreBackgroundColor', () => {

@@ -24,11 +24,13 @@ export interface NftInfo {
   type: string
 }
 
+export type DisplayType = 'date' | 'boost_number' | 'boost_percentage' | 'number' | 'string'
+
 export interface OpenSeaNftAttribute extends NftAttribute {
   /**
    * A field indicating how you would like it to be displayed. For string traits, you don't have to worry about display_type.
    */
-  display_type?: 'date' | 'boost_number' | 'boost_percentage' | 'number'
+  display_type?: DisplayType
   max_value?: number
   /**
    * The name of the trait

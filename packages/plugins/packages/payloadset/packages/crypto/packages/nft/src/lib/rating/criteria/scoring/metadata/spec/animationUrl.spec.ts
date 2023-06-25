@@ -7,20 +7,20 @@ const missingUrls = ['', undefined, null]
 
 describe('scoreAnimationUrl', () => {
   describe('with valid web3 Url', () => {
-    it.each(web3Urls)('return max possible score', (url) => {
-      const score = scoreAnimationUrl(url)
+    it.each(web3Urls)('return max possible score', (value) => {
+      const score = scoreAnimationUrl(value)
       expectMaxPossibleScore(score)
     })
   })
   describe('with valid web2 Url', () => {
-    it.each(web2Urls)('evaluates the URL', (url) => {
-      const score = scoreAnimationUrl(url)
+    it.each(web2Urls)('evaluates the URL', (value) => {
+      const score = scoreAnimationUrl(value)
       expectLoweredScore(score)
     })
   })
   describe('scoreAnimationUrl', () => {
-    it.each(missingUrls)('evaluates the URL', (url) => {
-      const score = scoreAnimationUrl(url)
+    it.each(missingUrls)('evaluates the URL', (value) => {
+      const score = scoreAnimationUrl(value)
       expectNoScore(score)
     })
   })

@@ -19,9 +19,11 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^",
+    "svg-parser": "^2.0.4",
     "web3-providers-http": "^4.0.1"
   },
   "devDependencies": {
+    "@types/svg-parser": "^2.0.3",
     "@xylabs/jest-helpers": "^2.9.1",
     "@xylabs/ts-scripts-yarn3": "^2.17.17",
     "@xylabs/tsconfig": "^2.17.17",

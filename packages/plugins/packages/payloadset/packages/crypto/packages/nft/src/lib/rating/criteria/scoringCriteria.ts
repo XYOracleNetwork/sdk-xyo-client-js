@@ -1,6 +1,6 @@
 import { WeightedScoringCriteria } from '../score'
 import {
-  evaluateAttributes,
+  evaluateNftAttributes,
   scoreContractAddress,
   scoreNftAnimationUrl,
   scoreNftBackgroundColor,
@@ -16,7 +16,7 @@ import {
 } from './scoring'
 
 const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {
-  Attributes: { score: evaluateAttributes, weight: 1 },
+  Attributes: { score: evaluateNftAttributes, weight: 1 },
 }
 
 const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {

@@ -1,6 +1,7 @@
 import { CryptoWalletNftPlugin } from './Plugin'
 
 export * from './Config'
+export * from './Diviner'
 export * from './lib'
 export * from './Witness'
 

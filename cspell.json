@@ -28,6 +28,8 @@
     "ethersproject",
     "ethgasstation",
     "geomines",
+    "GLTF",
+    "gten",
     "hashable",
     "Hasher",
     "hdnode",

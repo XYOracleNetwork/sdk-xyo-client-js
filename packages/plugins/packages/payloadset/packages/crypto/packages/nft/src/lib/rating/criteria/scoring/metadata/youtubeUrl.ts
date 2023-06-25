@@ -1,22 +1,16 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
-import { URL } from 'url'
 
-import { incrementPossible, incrementTotal, ScaledScore, SKIP } from '../../../score'
-import { toUrl } from './lib'
+import { incrementTotal, PASS, ScaledScore } from '../../../score'
+import { isSecure, isValidUrl } from './lib'
 
-const evaluateProtocol = (url: URL, score: ScaledScore): ScaledScore => {
-  incrementPossible(score)
-  if (url.protocol === 'https:') score[0]++
-  return score
+export const scoreNftYoutubeUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+  return scoreYoutubeUrl(nft?.metadata?.youtube_url)
 }
-
-export const scoreYoutubeUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
-  if (!nft.metadata?.youtube_url) return SKIP
-  const score: ScaledScore = [0, 0]
-  incrementPossible(score)
-  const url = toUrl((nft as OpenSeaNftInfo).metadata.youtube_url)
-  if (!url) return score
+export const scoreYoutubeUrl = (youtube_url: unknown): ScaledScore => {
+  if (youtube_url === undefined || youtube_url === null) return PASS
+  const score: ScaledScore = [0, 2]
+  if (typeof youtube_url !== 'string' || !isValidUrl(youtube_url)) return score
   incrementTotal(score)
-  evaluateProtocol(url, score)
-  return score
+  if (!isSecure(youtube_url)) return score
+  return incrementTotal(score)
 }

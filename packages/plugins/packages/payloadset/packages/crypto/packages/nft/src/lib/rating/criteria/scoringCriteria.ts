@@ -9,10 +9,10 @@ import {
   scoreNftDescription,
   scoreNftExternalUrl,
   scoreNftName,
+  scoreNftYoutubeUrl,
   scoreSupply,
   scoreTokenId,
   scoreType,
-  scoreYoutubeUrl,
 } from './scoring'
 
 const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {
@@ -27,7 +27,7 @@ const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {
   Image: { score: scoreImage, weight: 1 },
   'Image Data': { score: scoreImageData, weight: 1 },
   Name: { score: scoreNftName, weight: 1 },
-  'YouTube URL': { score: scoreYoutubeUrl, weight: 1 },
+  'YouTube URL': { score: scoreNftYoutubeUrl, weight: 1 },
   ...attributesScoringCriteria,
 }
 

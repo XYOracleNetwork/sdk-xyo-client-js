@@ -329,9 +329,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
   }
 
   protected async throwErrors(query: [QueryBoundWitness, Payload[]], result?: ModuleQueryResult) {
+    const logError = (error: ModuleError) => {
+      console.log(`ModuleWrapper Error:  ${error.message} [${error.schema}, ${JSON.stringify(error.sources)}]`)
+    }
+
     const errors = result ? await this.filterErrors(result) : []
     if (errors?.length > 0) {
-      console.log(`Errors: ${JSON.stringify(errors, null, 2)}`)
+      errors.map((error) => logError(error))
       const error: WrapperError = {
         errors,
         message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),

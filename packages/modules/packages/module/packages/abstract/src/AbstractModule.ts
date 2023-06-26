@@ -18,6 +18,7 @@ import {
   ModuleAccountQuerySchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
+  ModuleError,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
@@ -40,7 +41,7 @@ import { IdLogger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
-import { ModuleError, ModuleErrorBuilder } from './Error'
+import { ModuleErrorBuilder } from './Error'
 import { duplicateModules, serializableField } from './lib'
 import { ModuleFactory } from './ModuleFactory'
 import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'

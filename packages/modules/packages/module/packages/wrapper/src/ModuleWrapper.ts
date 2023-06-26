@@ -330,7 +330,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
 
   protected async throwErrors(query: [QueryBoundWitness, Payload[]], result?: ModuleQueryResult) {
     const logError = (error: ModuleError) => {
-      console.log(`ModuleWrapper Error:  ${error.message} [${error.schema}, ${JSON.stringify(error)}]`)
+      console.log(`ModuleWrapper Error:  ${error.message} /n ${JSON.stringify(error, null, 2)}`)
     }
 
     const errors = result ? await this.filterErrors(result) : []

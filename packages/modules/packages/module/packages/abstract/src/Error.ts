@@ -6,6 +6,7 @@ export const ModuleErrorSchema: ModuleErrorSchema = 'network.xyo.error.module'
 
 export type ModuleError = Payload<{
   message?: string
+  name?: string
   query?: string
   schema: ModuleErrorSchema
   sources?: string[]
@@ -23,6 +24,8 @@ export class ModuleErrorBuilder extends PayloadBuilder {
   override build(): ModuleError {
     return {
       message: this._message,
+      name: this._name,
+      query: this._query,
       schema: ModuleErrorSchema,
       sources: this._sources,
     }

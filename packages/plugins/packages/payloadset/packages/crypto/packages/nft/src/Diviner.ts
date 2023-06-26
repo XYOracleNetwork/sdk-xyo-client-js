@@ -6,11 +6,11 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { evaluateNft, Ratings } from './lib'
 
-type NftScoreSchema = `${NftSchema}.score`
-const NftScoreSchema: NftScoreSchema = `${NftSchema}.score`
+export type NftScoreSchema = `${NftSchema}.score`
+export const NftScoreSchema: NftScoreSchema = `${NftSchema}.score`
 
-type NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
-const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
+export type NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
+export const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
 
 export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>

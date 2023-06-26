@@ -6251,11 +6251,14 @@ __metadata:
     "@infura/sdk": ^2.4.3
     "@types/svg-parser": ^2.0.3
     "@xylabs/assert": ^2.9.1
+    "@xylabs/bignumber": ^2.9.1
     "@xylabs/jest-helpers": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
+    "@xyo-network/abstract-diviner": "workspace:^"
     "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:^"
-    "@xyo-network/modules": "workspace:^"
+    "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"

@@ -15,9 +15,13 @@ export const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftSc
 export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
 
-const toNftScorePayload = (rating: NftAnalysis): Payload => {
-  return { ...rating, schema: NftScoreSchema }
+export type NftScorePayload = Payload<NftAnalysis & { schema: NftScoreSchema }>
+
+const toNftScorePayload = (rating: NftAnalysis): NftScorePayload => {
+  return { ...rating, schema: NftScoreSchema } as NftScorePayload
 }
+
+export const isNftScorePayload = (payload: Payload): payload is NftScorePayload => payload.schema === NftScoreSchema
 
 export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchema = NftScoreDivinerConfigSchema

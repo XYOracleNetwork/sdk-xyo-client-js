@@ -19,3 +19,5 @@ cspell.json
 node_modules
 swagger.json
 packages
+
+**/testData.json

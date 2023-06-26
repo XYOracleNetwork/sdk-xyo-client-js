@@ -1,7 +1,7 @@
 import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { NftInfoPayload, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 

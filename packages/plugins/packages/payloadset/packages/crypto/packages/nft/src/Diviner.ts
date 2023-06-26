@@ -15,7 +15,7 @@ export const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftSc
 export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
 
-export type NftScorePayload = Payload<NftAnalysis & { schema: NftScoreSchema }>
+export type NftScorePayload = Payload<{ schema: NftScoreSchema } & Partial<Omit<NftAnalysis, 'schema'>>>
 
 const toNftScorePayload = (rating: NftAnalysis): NftScorePayload => {
   return { ...rating, schema: NftScoreSchema } as NftScorePayload

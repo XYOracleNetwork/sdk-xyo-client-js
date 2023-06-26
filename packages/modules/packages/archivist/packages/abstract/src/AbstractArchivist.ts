@@ -177,6 +177,8 @@ export abstract class AbstractArchivist<
       resultPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrappedQuery.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
           .message(error.message)
           .build(),
       )

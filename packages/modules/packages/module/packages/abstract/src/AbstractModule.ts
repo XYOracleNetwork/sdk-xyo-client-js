@@ -358,6 +358,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       resultPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
           .message(error.message)
           .build(),
       )

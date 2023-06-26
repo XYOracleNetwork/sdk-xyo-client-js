@@ -1,0 +1,19 @@
+releases:
+  "@xyo-network/abstract-archivist": patch
+  "@xyo-network/archivist": patch
+  "@xyo-network/automation-witness-server": patch
+  "@xyo-network/cli": patch
+  "@xyo-network/filesystem-archivist": patch
+  "@xyo-network/manifest": patch
+  "@xyo-network/modules": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+
+undecided:
+  - "@xyo-network/abstract-bridge"
+  - "@xyo-network/abstract-diviner"
+  - "@xyo-network/module-abstract"
+  - "@xyo-network/module-wrapper"
+  - "@xyo-network/node"
+  - "@xyo-network/sentinel"
+  - "@xyo-network/witness"
+  - "@xyo-network/node-core-modules-mongo"

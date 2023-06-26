@@ -76,6 +76,8 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
         [
           new ModuleErrorBuilder()
             .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
             .message(error.message)
             .build(),
         ],

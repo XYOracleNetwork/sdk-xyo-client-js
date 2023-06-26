@@ -117,6 +117,8 @@ export abstract class AbstractSentinel<
           [
             new ModuleErrorBuilder()
               .sources([await wrapper.hashAsync()])
+              .name(this.config.name ?? '<Unknown>')
+              .query(query.schema)
               .message(error.message)
               .build(),
           ],

@@ -1,22 +1,27 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { NftSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { isNftInfoPayload, NftSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 
-type NftScoreDivinerConfigSchema = `${NftSchema}.diviner.config`
-const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftSchema}.diviner.config`
+import { evaluateNft, Ratings } from './lib'
+
+type NftScoreSchema = `${NftSchema}.score`
+const NftScoreSchema: NftScoreSchema = `${NftSchema}.score`
+
+type NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
+const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
 
 export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
 
-export type HuriPayloadDivinerParams<TConfig extends NftScoreDivinerConfig = NftScoreDivinerConfig> = DivinerParams<TConfig>
+const toNftScore = (rating: Ratings): Payload => {
+  return { ...rating, schema: NftScoreSchema }
+}
 
-export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractDiviner<TParams> {
+export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchema = NftScoreDivinerConfigSchema
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
-    await Promise.resolve()
-    throw new Error('not implemented')
-  }
+  override divine = async (payloads?: Payload[]): Promise<Payload[]> =>
+    (await Promise.all(payloads?.filter(isNftInfoPayload).map(evaluateNft) ?? [])).map(toNftScore)
 }

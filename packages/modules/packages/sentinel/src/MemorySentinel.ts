@@ -4,6 +4,7 @@ import { Account } from '@xyo-network/account'
 import {
   AnyConfigSchema,
   ModuleConfig,
+  ModuleError,
   ModuleErrorBuilder,
   ModuleQueryResult,
   QueryBoundWitness,
@@ -61,6 +62,7 @@ export class MemorySentinel<
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
+    const errorPayloads: ModuleError[] = []
     try {
       switch (queryPayload.schema) {
         case SentinelReportQuerySchema: {
@@ -72,7 +74,7 @@ export class MemorySentinel<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
           .name(this.config.name ?? '<Unknown>')
@@ -81,7 +83,7 @@ export class MemorySentinel<
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
   private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {

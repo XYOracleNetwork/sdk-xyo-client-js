@@ -73,6 +73,8 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       const error = ex as Error
       const [result] = await this.bindQueryResult(
         queryPayload,
+        [],
+        [queryAccount],
         [
           new ModuleErrorBuilder()
             .sources([await wrapper.hashAsync()])
@@ -81,7 +83,6 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
             .message(error.message)
             .build(),
         ],
-        [queryAccount],
       )
       return result
     }

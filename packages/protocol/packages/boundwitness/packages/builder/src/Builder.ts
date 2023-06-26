@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Data, PayloadHasher, sortFields } from '@xyo-network/core'
+import { ModuleError } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
@@ -19,6 +20,8 @@ export interface BoundWitnessBuilderConfig {
 export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness, TPayload extends Payload = Payload> {
   private static readonly _buildMutex = new Mutex()
   private _accounts: AccountInstance[] = []
+  private _errorHashes: string[] | undefined
+  private _errors: ModuleError[] = []
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
@@ -35,7 +38,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     )
   }
 
-  async build(meta = false): Promise<[TBoundWitness, TPayload[]]> {
+  async build(meta = false): Promise<[TBoundWitness, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const hashableFields = await this.hashableFields()
       const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
@@ -60,8 +63,26 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
         //leaving this in here to prevent breaking code (for now)
         anyRet._payloads = this.inlinePayloads()
       }
-      return [ret, this._payloads]
+      return [ret, this._payloads, this._errors]
     })
+  }
+
+  error(payload?: ModuleError) {
+    const unwrappedPayload = PayloadWrapper.unwrap(payload)
+    assertEx(this._errorHashes === undefined, 'Can not set errors when hashes already set')
+    if (unwrappedPayload) {
+      this._errors.push(assertEx(sortFields(unwrappedPayload)))
+    }
+    return this
+  }
+
+  errors(errors?: (ModuleError | null)[]) {
+    errors?.forEach((error) => {
+      if (error !== null) {
+        this.error(error)
+      }
+    })
+    return this
   }
 
   async hashableFields(): Promise<TBoundWitness> {

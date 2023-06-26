@@ -18,6 +18,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AnyConfigSchema,
   ModuleConfig,
+  ModuleError,
   ModuleErrorBuilder,
   ModuleQueryResult,
   QueryBoundWitness,
@@ -123,6 +124,7 @@ export class MongoDBDeterministicArchivist<
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
+    const errorPayloads: ModuleError[] = []
     // TODO: Use new Account once we mock Account.new in Jest
     const queryAccount = Account.random()
     // const queryAccount = Account.random()
@@ -141,7 +143,7 @@ export class MongoDBDeterministicArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
           .name(this.config.name ?? '<Unknown>')
@@ -150,6 +152,6 @@ export class MongoDBDeterministicArchivist<
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 }

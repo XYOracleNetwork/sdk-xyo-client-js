@@ -16,7 +16,15 @@ import {
 } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import {
+  AbstractModule,
+  ModuleConfig,
+  ModuleError,
+  ModuleErrorBuilder,
+  ModuleQueryResult,
+  QueryBoundWitness,
+  QueryBoundWitnessWrapper,
+} from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -128,6 +136,7 @@ export abstract class AbstractArchivist<
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
+    const errorPayloads: ModuleError[] = []
     const queryAccount = Account.random()
     if (this.config.storeQueries) {
       await this.insert([query])
@@ -174,7 +183,7 @@ export abstract class AbstractArchivist<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrappedQuery.hashAsync()])
           .name(this.config.name ?? '<Unknown>')
@@ -183,7 +192,7 @@ export abstract class AbstractArchivist<
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {

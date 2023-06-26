@@ -28,7 +28,7 @@ import { ModuleWrapperParams } from './models'
 
 export interface WrapperError extends Error {
   errors: (ModuleError | null)[]
-  query: [QueryBoundWitness, Payload[]]
+  query: [QueryBoundWitness, Payload[], ModuleError[]]
   result: ModuleQueryResult | undefined
 }
 
@@ -282,8 +282,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     query: T,
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
-  ): PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance> {
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>(async (resolve) => {
+  ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
+    const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -295,7 +295,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     query: T,
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
-  ): Promise<[QueryBoundWitness, Payload[]]> {
+  ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
@@ -328,7 +328,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return result[1]
   }
 
-  protected async throwErrors(query: [QueryBoundWitness, Payload[]], result?: ModuleQueryResult) {
+  protected async throwErrors(query: [QueryBoundWitness, Payload[], ModuleError[]], result?: ModuleQueryResult) {
     const logError = (error: ModuleError) => {
       console.log(`ModuleWrapper Error:  ${error.message} \n ${JSON.stringify(error, null, 2)}`)
     }

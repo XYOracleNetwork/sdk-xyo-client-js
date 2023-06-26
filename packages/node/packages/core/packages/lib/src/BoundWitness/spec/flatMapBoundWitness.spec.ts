@@ -1,5 +1,6 @@
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { ModuleError } from '@xyo-network/modules'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -11,8 +12,8 @@ describe('flatMapBoundWitness', () => {
   const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
   const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
-    let inner: [BoundWitness, Payload[]]
-    let outer: [BoundWitness, Payload[]]
+    let inner: [BoundWitness, Payload[], ModuleError[]]
+    let outer: [BoundWitness, Payload[], ModuleError[]]
     let result: BoundWitnessMapResult
     beforeAll(async () => {
       inner = await new BoundWitnessBuilder(config).payload(payload2).build()
@@ -32,7 +33,7 @@ describe('flatMapBoundWitness', () => {
     })
   })
   describe('BoundWitness with Payloads', () => {
-    let outer: [BoundWitness, Payload[]]
+    let outer: [BoundWitness, Payload[], ModuleError[]]
     let result: BoundWitnessMapResult
     beforeAll(async () => {
       outer = await new BoundWitnessBuilder(config).payloads([payload1, payload2]).build()
@@ -51,7 +52,7 @@ describe('flatMapBoundWitness', () => {
     })
   })
   describe('BoundWitness without Payloads', () => {
-    let outer: [BoundWitness, Payload[]]
+    let outer: [BoundWitness, Payload[], ModuleError[]]
     let result: BoundWitnessMapResult
     beforeAll(async () => {
       outer = await new BoundWitnessBuilder(config).build()

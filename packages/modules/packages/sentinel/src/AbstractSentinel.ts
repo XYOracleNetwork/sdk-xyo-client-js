@@ -114,6 +114,8 @@ export abstract class AbstractSentinel<
       return (
         await this.bindQueryResult(
           queryPayload,
+          [],
+          [queryAccount],
           [
             new ModuleErrorBuilder()
               .sources([await wrapper.hashAsync()])
@@ -122,7 +124,6 @@ export abstract class AbstractSentinel<
               .message(error.message)
               .build(),
           ],
-          [queryAccount],
         )
       )[0]
     }

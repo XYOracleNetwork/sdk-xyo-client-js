@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike, PayloadHasher } from '@xyo-network/core'
+import { ModuleError } from '@xyo-network/modules'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
@@ -13,13 +14,19 @@ export class BoundWitnessWrapper<
   TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
   private _allPayloadMap: Record<string, TPayload> | undefined
+  private _moduleErrors: PayloadWrapper<ModuleError>[]
   private _payloadMap: Record<string, TPayload> | undefined
   private _payloads: PayloadWrapper<TPayload>[]
   private isBoundWitnessWrapper = true
 
-  protected constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
+  protected constructor(
+    boundwitness: TBoundWitness,
+    payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[],
+    moduleErrors?: (ModuleError | PayloadWrapper<ModuleError> | undefined)[],
+  ) {
     super(boundwitness)
     this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.wrap<TPayload>(payload))) : []
+    this._moduleErrors = moduleErrors ? compact(moduleErrors.filter(exists).map((error) => PayloadWrapper.wrap<ModuleError>(error))) : []
   }
 
   get addresses() {
@@ -180,6 +187,10 @@ export class BoundWitnessWrapper<
 
   async getPayloads(): Promise<TPayload[]> {
     return (await this.getWrappedPayloads()).map((wrapper) => wrapper.payload())
+  }
+
+  getWrappedModuleErrors(): Promisable<PayloadWrapper<ModuleError>[]> {
+    return this._moduleErrors
   }
 
   getWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {

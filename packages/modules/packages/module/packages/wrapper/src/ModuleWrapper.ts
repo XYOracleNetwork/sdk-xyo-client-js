@@ -4,7 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base } from '@xyo-network/core'
-import { duplicateModules, ModuleErrorSchema, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
+import { duplicateModules, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   Module,
@@ -14,6 +14,7 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleError,
+  ModuleErrorSchema,
   ModuleFilter,
   ModuleQueryResult,
   Query,

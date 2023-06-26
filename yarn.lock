@@ -5732,6 +5732,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/shared": "workspace:^"
@@ -6243,6 +6244,7 @@ __metadata:
     "@infura/sdk": ^2.4.3
     "@types/svg-parser": ^2.0.3
     "@xylabs/assert": ^2.9.1
+    "@xylabs/bignumber": ^2.9.1
     "@xylabs/jest-helpers": ^2.9.1
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17

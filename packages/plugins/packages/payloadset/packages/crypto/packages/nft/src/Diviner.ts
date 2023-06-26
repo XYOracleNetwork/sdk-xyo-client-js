@@ -4,7 +4,7 @@ import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 
-import { evaluateNft, Ratings } from './lib'
+import { analyzeNft, NftAnalysis } from './lib'
 
 export type NftScoreSchema = `${NftSchema}.score`
 export const NftScoreSchema: NftScoreSchema = `${NftSchema}.score`
@@ -15,7 +15,7 @@ export const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftSc
 export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
 
-const toNftScore = (rating: Ratings): Payload => {
+const toNftScorePayload = (rating: NftAnalysis): Payload => {
   return { ...rating, schema: NftScoreSchema }
 }
 
@@ -23,5 +23,5 @@ export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDiv
   static override configSchema = NftScoreDivinerConfigSchema
 
   override divine = async (payloads?: Payload[]): Promise<Payload[]> =>
-    (await Promise.all(payloads?.filter(isNftInfoPayload).map(evaluateNft) ?? [])).map(toNftScore)
+    (await Promise.all(payloads?.filter(isNftInfoPayload).map(analyzeNft) ?? [])).map(toNftScorePayload)
 }

@@ -1,2 +1,2 @@
-export * from './evaluateNft'
+export * from './analyzeNft'
 export * from './score'

@@ -1,6 +1,6 @@
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
-import { evaluateNft } from '../evaluateNft'
+import { analyzeNft } from '../analyzeNft'
 
 const nfts: NftInfo[] = [
   {
@@ -116,7 +116,7 @@ const nfts: NftInfo[] = [
 
 describe('evaluateNft', () => {
   it.each(nfts)('evaluates the NFT', async (nft) => {
-    const rating = await evaluateNft(nft)
+    const rating = await analyzeNft(nft)
     expect(rating).toBeObject()
     Object.entries(rating).map(([key, score]) => {
       expect(key).toBeString()

@@ -3,16 +3,16 @@ import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { scoringCriteria } from './criteria'
 import { Score } from './score'
 
-export type Ratings = {
+export type NftAnalysis = {
   [key: keyof typeof scoringCriteria]: Score
 }
 
-export const evaluateNft = async (
+export const analyzeNft = async (
   /**
-   * The NFT
+   * The NFT to evaluate
    */
   nft: NftInfo,
-): Promise<Ratings> => {
+): Promise<NftAnalysis> => {
   return Object.fromEntries(
     await Promise.all(
       Object.entries(scoringCriteria).map(async ([key, { score, weight }]) => {

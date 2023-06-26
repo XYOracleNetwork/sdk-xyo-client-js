@@ -15,11 +15,11 @@ import {
   scoreType,
 } from './scoring'
 
-const attributesScoringCriteria: Record<string, WeightedScoringCriteria> = {
+const attributesScoringCriteria = {
   Attributes: { score: evaluateNftAttributes, weight: 1 },
 }
 
-const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {
+const metadataScoringCriteria = {
   'Animation URL': { score: scoreNftAnimationUrl, weight: 1 },
   'Background Color': { score: scoreNftBackgroundColor, weight: 1 },
   Description: { score: scoreNftDescription, weight: 1 },
@@ -31,7 +31,7 @@ const metadataScoringCriteria: Record<string, WeightedScoringCriteria> = {
   ...attributesScoringCriteria,
 }
 
-export const scoringCriteria: Record<string, WeightedScoringCriteria> = {
+export const scoringCriteria = {
   'Contract Address': { score: scoreContractAddress, weight: 1 },
   Supply: { score: scoreSupply, weight: 1 },
   'Token Id': { score: scoreTokenId, weight: 1 },

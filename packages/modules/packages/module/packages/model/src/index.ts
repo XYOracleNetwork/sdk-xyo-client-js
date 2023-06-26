@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './CreatableModule'
+export * from './Error'
 export * from './Module'
 export * from './ModuleDescription'
 export * from './ModuleFilter'

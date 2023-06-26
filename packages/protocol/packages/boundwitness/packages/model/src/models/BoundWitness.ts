@@ -6,6 +6,7 @@ export type BoundWitnessFields = {
   _signatures: string[]
   addresses: string[]
   blockNumber?: number
+  error_hashes?: string[]
   payload_hashes: string[]
   payload_schemas: string[]
   previous_hashes: (string | null)[]

@@ -13,13 +13,19 @@ export class BoundWitnessWrapper<
   TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
   private _allPayloadMap: Record<string, TPayload> | undefined
+  private _moduleErrors: PayloadWrapper[]
   private _payloadMap: Record<string, TPayload> | undefined
   private _payloads: PayloadWrapper<TPayload>[]
   private isBoundWitnessWrapper = true
 
-  protected constructor(boundwitness: TBoundWitness, payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[]) {
+  protected constructor(
+    boundwitness: TBoundWitness,
+    payloads?: (TPayload | PayloadWrapper<TPayload> | undefined)[],
+    moduleErrors?: (Payload | PayloadWrapper | undefined)[],
+  ) {
     super(boundwitness)
     this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.wrap<TPayload>(payload))) : []
+    this._moduleErrors = moduleErrors ? compact(moduleErrors.filter(exists).map((error) => PayloadWrapper.wrap<Payload>(error))) : []
   }
 
   get addresses() {
@@ -180,6 +186,10 @@ export class BoundWitnessWrapper<
 
   async getPayloads(): Promise<TPayload[]> {
     return (await this.getWrappedPayloads()).map((wrapper) => wrapper.payload())
+  }
+
+  getWrappedModuleErrors(): Promisable<PayloadWrapper[]> {
+    return this._moduleErrors
   }
 
   getWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {

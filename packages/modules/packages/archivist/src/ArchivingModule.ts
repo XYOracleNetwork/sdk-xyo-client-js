@@ -2,7 +2,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult, Query } from '@xyo-network/module'
+import { AbstractModule, Module, ModuleConfig, ModuleError, ModuleEventData, ModuleParams, ModuleQueryResult, Query } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
@@ -25,8 +25,9 @@ export abstract class ArchivingModule<
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
+    errorPayloads: ModuleError[] = [],
   ): Promise<[ModuleQueryResult, AccountInstance[]]> {
-    const [result, witnesses] = await super.bindQueryResult(query, payloads, additionalWitnesses)
+    const [result, witnesses] = await super.bindQueryResult(query, payloads, additionalWitnesses, errorPayloads)
     await this.storeToArchivists([result[0], ...result[1]])
     return [result, witnesses]
   }

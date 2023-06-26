@@ -10,7 +10,15 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult, QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/module'
+import {
+  AbstractModule,
+  ModuleConfig,
+  ModuleError,
+  ModuleErrorBuilder,
+  ModuleQueryResult,
+  QueryBoundWitness,
+  QueryBoundWitnessWrapper,
+} from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -46,6 +54,7 @@ export abstract class AbstractDiviner<
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
+    const errorPayloads: ModuleError[] = []
     try {
       switch (queryPayload.schema) {
         case DivinerDivineQuerySchema:
@@ -58,14 +67,16 @@ export abstract class AbstractDiviner<
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
           .message(error.message)
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

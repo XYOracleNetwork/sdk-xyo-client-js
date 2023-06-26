@@ -18,6 +18,7 @@ import {
   ModuleAccountQuerySchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
+  ModuleError,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
@@ -266,8 +267,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
-  ): PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance> {
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[]], AccountInstance>(async (resolve) => {
+  ): PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance> {
+    const promise = new PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -279,7 +280,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
-  ): Promise<[QueryBoundWitness, Payload[]]> {
+  ): Promise<[QueryBoundWitness, Payload[], Payload[]]> {
     const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
@@ -289,12 +290,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
+    errors?: ModuleError[],
   ): Promise<[ModuleQueryResult, AccountInstance[]]> {
-    const builder = new BoundWitnessBuilder().payloads(payloads)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
-    const result: ModuleQueryResult = [(await builder.build())[0], payloads]
+    const result: ModuleQueryResult = [(await builder.build())[0], payloads, errors ?? []]
     return [result, witnesses]
   }
 
@@ -335,7 +337,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    const queryAccount = await Account.random()
+    const errorPayloads: ModuleError[] = []
+    const queryAccount = Account.random()
     try {
       switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {
@@ -355,14 +358,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
           .message(error.message)
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
   protected readArchivist = () => this.getArchivist('read')

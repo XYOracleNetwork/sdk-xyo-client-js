@@ -40,7 +40,7 @@ export type ModuleQueriedEventArgs = ModuleEventArgs<
   {
     payloads?: Payload[]
     query: QueryBoundWitness
-    result: [BoundWitness, Payload[]]
+    result: ModuleQueryResult
   }
 >
 

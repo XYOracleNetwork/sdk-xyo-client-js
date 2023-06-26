@@ -7,6 +7,7 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
+  ModuleError,
   ModuleErrorBuilder,
   ModuleFilter,
   ModuleQueryResult,
@@ -103,6 +104,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     assertEx(this.queryable(query, payloads, queryConfig))
     const queryAccount = Account.random()
     const resultPayloads: Payload[] = []
+    const errorPayloads: ModuleError[] = []
     try {
       switch (queryPayload.schema) {
         case NodeAttachQuerySchema: {
@@ -142,14 +144,16 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       }
     } catch (ex) {
       const error = ex as Error
-      resultPayloads.push(
+      errorPayloads.push(
         new ModuleErrorBuilder()
           .sources([await wrapper.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
           .message(error.message)
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
   protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {

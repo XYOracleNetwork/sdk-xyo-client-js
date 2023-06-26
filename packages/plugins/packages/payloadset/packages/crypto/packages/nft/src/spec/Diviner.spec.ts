@@ -8,7 +8,7 @@ import { isNftScorePayload, NftScoreDiviner, NftScoreDivinerConfigSchema } from 
 describe('NftScoreDiviner', () => {
   let data: NftInfoPayload[]
   beforeAll(async () => {
-    const filePath = join(__dirname, 'nft-dump.json')
+    const filePath = join(__dirname, 'testData.json')
     const fileContents = await readFile(filePath, 'utf8')
     const nfts = JSON.parse(fileContents)
     expect(nfts).toBeArray()

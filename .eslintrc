@@ -9,6 +9,7 @@
     "**/docs",
     "coverage",
     "docker",
+    "**/testData.json",
     "swagger.json",
     ".yarn"
   ],

@@ -22,3 +22,5 @@ coverage
 cspell.json
 node_modules
 swagger.json
+
+**/testData.json

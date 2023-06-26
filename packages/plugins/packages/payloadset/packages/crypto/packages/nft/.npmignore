@@ -20,4 +20,4 @@ node_modules
 swagger.json
 packages
 
-**/nft-dump.json
+**/testData.json

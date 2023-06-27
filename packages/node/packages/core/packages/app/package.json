@@ -23,8 +23,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.358.0",
-    "@xylabs/assert": "^2.9.1",
+    "@aws-sdk/client-secrets-manager": "^3.360.0",
+    "@xylabs/assert": "^2.9.2",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",

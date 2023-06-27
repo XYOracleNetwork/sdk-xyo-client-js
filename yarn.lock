@@ -92,15 +92,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-cognito-identity@npm:3.359.0":
-  version: 3.359.0
-  resolution: "@aws-sdk/client-cognito-identity@npm:3.359.0"
+"@aws-sdk/client-cognito-identity@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/client-cognito-identity@npm:3.360.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.359.0
+    "@aws-sdk/client-sts": 3.360.0
     "@aws-sdk/config-resolver": 3.357.0
-    "@aws-sdk/credential-provider-node": 3.358.0
+    "@aws-sdk/credential-provider-node": 3.360.0
     "@aws-sdk/fetch-http-handler": 3.357.0
     "@aws-sdk/hash-node": 3.357.0
     "@aws-sdk/invalid-dependency": 3.357.0
@@ -115,15 +115,15 @@ __metadata:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/middleware-user-agent": 3.357.0
     "@aws-sdk/node-config-provider": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
-    "@aws-sdk/smithy-client": 3.358.0
+    "@aws-sdk/node-http-handler": 3.360.0
+    "@aws-sdk/smithy-client": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/url-parser": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-body-length-browser": 3.310.0
     "@aws-sdk/util-body-length-node": 3.310.0
-    "@aws-sdk/util-defaults-mode-browser": 3.358.0
-    "@aws-sdk/util-defaults-mode-node": 3.358.0
+    "@aws-sdk/util-defaults-mode-browser": 3.360.0
+    "@aws-sdk/util-defaults-mode-node": 3.360.0
     "@aws-sdk/util-endpoints": 3.357.0
     "@aws-sdk/util-retry": 3.357.0
     "@aws-sdk/util-user-agent-browser": 3.357.0
@@ -132,19 +132,19 @@ __metadata:
     "@smithy/protocol-http": ^1.0.1
     "@smithy/types": ^1.0.0
     tslib: ^2.5.0
-  checksum: 87fdb0c33f307acb764eec07a3f17ad787640df9b51cb9641d9a3c47d7470abf9de6ec752b8339642d2b0d29df66cdd6c8932b6cdfd2610d8a69b1e801427d32
+  checksum: 9c71622926b8030edce874630f0e83e6fb2e19e81c819e759dd2124ed321ae6ce0a8f2749447bdf8fda987d4976a7f427940ef36a4c153c03ac0fef80dab6144
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.358.0":
-  version: 3.359.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.359.0"
+"@aws-sdk/client-secrets-manager@npm:^3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/client-secrets-manager@npm:3.360.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.359.0
+    "@aws-sdk/client-sts": 3.360.0
     "@aws-sdk/config-resolver": 3.357.0
-    "@aws-sdk/credential-provider-node": 3.358.0
+    "@aws-sdk/credential-provider-node": 3.360.0
     "@aws-sdk/fetch-http-handler": 3.357.0
     "@aws-sdk/hash-node": 3.357.0
     "@aws-sdk/invalid-dependency": 3.357.0
@@ -159,15 +159,15 @@ __metadata:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/middleware-user-agent": 3.357.0
     "@aws-sdk/node-config-provider": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
-    "@aws-sdk/smithy-client": 3.358.0
+    "@aws-sdk/node-http-handler": 3.360.0
+    "@aws-sdk/smithy-client": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/url-parser": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-body-length-browser": 3.310.0
     "@aws-sdk/util-body-length-node": 3.310.0
-    "@aws-sdk/util-defaults-mode-browser": 3.358.0
-    "@aws-sdk/util-defaults-mode-node": 3.358.0
+    "@aws-sdk/util-defaults-mode-browser": 3.360.0
+    "@aws-sdk/util-defaults-mode-node": 3.360.0
     "@aws-sdk/util-endpoints": 3.357.0
     "@aws-sdk/util-retry": 3.357.0
     "@aws-sdk/util-user-agent-browser": 3.357.0
@@ -177,13 +177,13 @@ __metadata:
     "@smithy/types": ^1.0.0
     tslib: ^2.5.0
     uuid: ^8.3.2
-  checksum: 0ec5c3aec84f8f2e4b448e0803774a112062ae47903d597faeba9389c636ce7b5fa7a288de5e0ffb357fe27d58e791b363d48c675a15fdce27e789d22eaaa16c
+  checksum: df9f8a02d3c2aa9306e93e8589f8dc52a704493e37929df3caea9d968618d502649cfc85e660a7ab184b555fcbbdce6bcb90e8d3d284014eac838fecb995f5bb
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sso-oidc@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/client-sso-oidc@npm:3.358.0"
+"@aws-sdk/client-sso-oidc@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/client-sso-oidc@npm:3.360.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
@@ -201,15 +201,15 @@ __metadata:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/middleware-user-agent": 3.357.0
     "@aws-sdk/node-config-provider": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
-    "@aws-sdk/smithy-client": 3.358.0
+    "@aws-sdk/node-http-handler": 3.360.0
+    "@aws-sdk/smithy-client": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/url-parser": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-body-length-browser": 3.310.0
     "@aws-sdk/util-body-length-node": 3.310.0
-    "@aws-sdk/util-defaults-mode-browser": 3.358.0
-    "@aws-sdk/util-defaults-mode-node": 3.358.0
+    "@aws-sdk/util-defaults-mode-browser": 3.360.0
+    "@aws-sdk/util-defaults-mode-node": 3.360.0
     "@aws-sdk/util-endpoints": 3.357.0
     "@aws-sdk/util-retry": 3.357.0
     "@aws-sdk/util-user-agent-browser": 3.357.0
@@ -218,13 +218,13 @@ __metadata:
     "@smithy/protocol-http": ^1.0.1
     "@smithy/types": ^1.0.0
     tslib: ^2.5.0
-  checksum: 0453c965fef264f0d73789dbd7288813075e13d91d0992a3871e370f1fb1016c8d8bc0e8d1adef9edc658243047782d0438eac8fabc3e99661b8281858316fa5
+  checksum: 17550b273f3c828b1eefeef39d2a611e6d8ebc9652e5d4c646aebaea6083eb3aaca37530a70881e3593ff4c3b1f682be93d976104f0d451cb2c3de220a5ab164
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sso@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/client-sso@npm:3.358.0"
+"@aws-sdk/client-sso@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/client-sso@npm:3.360.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
@@ -242,15 +242,15 @@ __metadata:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/middleware-user-agent": 3.357.0
     "@aws-sdk/node-config-provider": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
-    "@aws-sdk/smithy-client": 3.358.0
+    "@aws-sdk/node-http-handler": 3.360.0
+    "@aws-sdk/smithy-client": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/url-parser": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-body-length-browser": 3.310.0
     "@aws-sdk/util-body-length-node": 3.310.0
-    "@aws-sdk/util-defaults-mode-browser": 3.358.0
-    "@aws-sdk/util-defaults-mode-node": 3.358.0
+    "@aws-sdk/util-defaults-mode-browser": 3.360.0
+    "@aws-sdk/util-defaults-mode-node": 3.360.0
     "@aws-sdk/util-endpoints": 3.357.0
     "@aws-sdk/util-retry": 3.357.0
     "@aws-sdk/util-user-agent-browser": 3.357.0
@@ -259,18 +259,18 @@ __metadata:
     "@smithy/protocol-http": ^1.0.1
     "@smithy/types": ^1.0.0
     tslib: ^2.5.0
-  checksum: ee3371ad673ad69bbde5694396d7804a6e2c2a6144a095233e47eec325c17fc5f706909508fa9d7d93c2bef8a1a8849f99486f6c91b230d3fa0a9892135ff93b
+  checksum: 4da68ae89e0ca8b6df0049d7d95fd57e29aa5359347b5c2e6900a3caa1990c1ff4b7f2d210007d5d12f11b5272d8c9691a22e4f7e03c64ba8f04ce74affa3329
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sts@npm:3.359.0":
-  version: 3.359.0
-  resolution: "@aws-sdk/client-sts@npm:3.359.0"
+"@aws-sdk/client-sts@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/client-sts@npm:3.360.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
     "@aws-sdk/config-resolver": 3.357.0
-    "@aws-sdk/credential-provider-node": 3.358.0
+    "@aws-sdk/credential-provider-node": 3.360.0
     "@aws-sdk/fetch-http-handler": 3.357.0
     "@aws-sdk/hash-node": 3.357.0
     "@aws-sdk/invalid-dependency": 3.357.0
@@ -286,15 +286,15 @@ __metadata:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/middleware-user-agent": 3.357.0
     "@aws-sdk/node-config-provider": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
-    "@aws-sdk/smithy-client": 3.358.0
+    "@aws-sdk/node-http-handler": 3.360.0
+    "@aws-sdk/smithy-client": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/url-parser": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-body-length-browser": 3.310.0
     "@aws-sdk/util-body-length-node": 3.310.0
-    "@aws-sdk/util-defaults-mode-browser": 3.358.0
-    "@aws-sdk/util-defaults-mode-node": 3.358.0
+    "@aws-sdk/util-defaults-mode-browser": 3.360.0
+    "@aws-sdk/util-defaults-mode-node": 3.360.0
     "@aws-sdk/util-endpoints": 3.357.0
     "@aws-sdk/util-retry": 3.357.0
     "@aws-sdk/util-user-agent-browser": 3.357.0
@@ -304,7 +304,7 @@ __metadata:
     "@smithy/types": ^1.0.0
     fast-xml-parser: 4.2.5
     tslib: ^2.5.0
-  checksum: 12b6ac49dca0eb782802c0eb32e9af31bf0235daf9303458fc6f5f3a55cc0bda0d4f2f965389775e83cbd9ef4ba0e5573c484535faea2ff101ef4e06e1956c9e
+  checksum: 18897969e72e9baab6420d3e7ad6a018e55aa524183b842e5e88f12bc21a7996ee088d67aeec8778c3093348d2c8ef7e45ff6555b95d6245999206897f59fefb
   languageName: node
   linkType: hard
 
@@ -320,15 +320,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-cognito-identity@npm:3.359.0":
-  version: 3.359.0
-  resolution: "@aws-sdk/credential-provider-cognito-identity@npm:3.359.0"
+"@aws-sdk/credential-provider-cognito-identity@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/credential-provider-cognito-identity@npm:3.360.0"
   dependencies:
-    "@aws-sdk/client-cognito-identity": 3.359.0
+    "@aws-sdk/client-cognito-identity": 3.360.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: f9bbfa3efea269a6dd31b74c634c893d9608fb8bdcb5f5576e77fba8753b7cb0732ef6a11f00741754f8365d1fba3690a91ff8fddf4ff0c83a6bef5b01071cb8
+  checksum: 72a7f6a820b0874a7f7b0eed48c5c6300bcb9b81961df6e8050b791242bf00ffce0245e7576b6d8bb5db2ed658f71816c4459d83560ea02efc987c9cd5e72628
   languageName: node
   linkType: hard
 
@@ -356,38 +356,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-ini@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/credential-provider-ini@npm:3.358.0"
+"@aws-sdk/credential-provider-ini@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/credential-provider-ini@npm:3.360.0"
   dependencies:
     "@aws-sdk/credential-provider-env": 3.357.0
     "@aws-sdk/credential-provider-imds": 3.357.0
     "@aws-sdk/credential-provider-process": 3.357.0
-    "@aws-sdk/credential-provider-sso": 3.358.0
+    "@aws-sdk/credential-provider-sso": 3.360.0
     "@aws-sdk/credential-provider-web-identity": 3.357.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/shared-ini-file-loader": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: f7637e518ce98654c4c06d3cf01f35d7cdc22893b8a37fc522479b7324ba63f7362ea0b60dbb142573fa1148fa0b900791ad8a8361227170055122fec72e9b78
+  checksum: 87283ebda4dac20d1f322864b613d70048b1303ec3584f41016709f5c4e5aab4681df06a55e328802af50f76989554bd17b9074302f341d46fcc7f10662c0038
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-node@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/credential-provider-node@npm:3.358.0"
+"@aws-sdk/credential-provider-node@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/credential-provider-node@npm:3.360.0"
   dependencies:
     "@aws-sdk/credential-provider-env": 3.357.0
     "@aws-sdk/credential-provider-imds": 3.357.0
-    "@aws-sdk/credential-provider-ini": 3.358.0
+    "@aws-sdk/credential-provider-ini": 3.360.0
     "@aws-sdk/credential-provider-process": 3.357.0
-    "@aws-sdk/credential-provider-sso": 3.358.0
+    "@aws-sdk/credential-provider-sso": 3.360.0
     "@aws-sdk/credential-provider-web-identity": 3.357.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/shared-ini-file-loader": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: 5459a864680bb377a43625ce7af915bd9298251119df693a73324adcd2b3753aed20460a9c6cc146b796db00970d2bc6f3887c0ade217568d0e5dba043f7b21d
+  checksum: 5b130bc0b2039258319618fd0fe7324f443d41bd5b3eb2d8910b5d9b124bcb72ae9c06288e4ddae97ccc14eabb5ccd0afcf1d13c164dca3038c90742c73d7860
   languageName: node
   linkType: hard
 
@@ -403,17 +403,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/credential-provider-sso@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/credential-provider-sso@npm:3.358.0"
+"@aws-sdk/credential-provider-sso@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/credential-provider-sso@npm:3.360.0"
   dependencies:
-    "@aws-sdk/client-sso": 3.358.0
+    "@aws-sdk/client-sso": 3.360.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/shared-ini-file-loader": 3.357.0
-    "@aws-sdk/token-providers": 3.358.0
+    "@aws-sdk/token-providers": 3.360.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: a817f23af990765b511fb63889aa46beb624af7b95ffdef05a98e31b68eb3f8bfd8c7831c7eb92613e90d729e392cc5e6d055181785193c7fad75d65f239b72c
+  checksum: c39a810b1b2dadabd7e2cba761f489d2457c9b107f760d8467b49085399dde76d713ba5a6afee19a4604b113ced44831f31b3184c8d4eb359830cfabb69f13d8
   languageName: node
   linkType: hard
 
@@ -429,24 +429,24 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/credential-providers@npm:^3.186.0":
-  version: 3.359.0
-  resolution: "@aws-sdk/credential-providers@npm:3.359.0"
+  version: 3.360.0
+  resolution: "@aws-sdk/credential-providers@npm:3.360.0"
   dependencies:
-    "@aws-sdk/client-cognito-identity": 3.359.0
-    "@aws-sdk/client-sso": 3.358.0
-    "@aws-sdk/client-sts": 3.359.0
-    "@aws-sdk/credential-provider-cognito-identity": 3.359.0
+    "@aws-sdk/client-cognito-identity": 3.360.0
+    "@aws-sdk/client-sso": 3.360.0
+    "@aws-sdk/client-sts": 3.360.0
+    "@aws-sdk/credential-provider-cognito-identity": 3.360.0
     "@aws-sdk/credential-provider-env": 3.357.0
     "@aws-sdk/credential-provider-imds": 3.357.0
-    "@aws-sdk/credential-provider-ini": 3.358.0
-    "@aws-sdk/credential-provider-node": 3.358.0
+    "@aws-sdk/credential-provider-ini": 3.360.0
+    "@aws-sdk/credential-provider-node": 3.360.0
     "@aws-sdk/credential-provider-process": 3.357.0
-    "@aws-sdk/credential-provider-sso": 3.358.0
+    "@aws-sdk/credential-provider-sso": 3.360.0
     "@aws-sdk/credential-provider-web-identity": 3.357.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: 5b48b536d56c0df1130581cd270acef9929567f88942f82fffc2cf487bb2b96b0c50839956871e3cb3aeae2ff21c478e8fe8a9d01383ebc15f259348cea6c3cf
+  checksum: 00a6a54df6c054365e1420a84934c28a3466c5955d25fec707b3cc9594e0cca040e7a1bfbc17b42a6c5e35c53eb1d96a362fc5c25a3a9542e5adf79f4a20fe67
   languageName: node
   linkType: hard
 
@@ -645,16 +645,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/node-http-handler@npm:3.357.0":
-  version: 3.357.0
-  resolution: "@aws-sdk/node-http-handler@npm:3.357.0"
+"@aws-sdk/node-http-handler@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/node-http-handler@npm:3.360.0"
   dependencies:
     "@aws-sdk/abort-controller": 3.357.0
     "@aws-sdk/protocol-http": 3.357.0
     "@aws-sdk/querystring-builder": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: 535fe5699b1013f84c47fdefe99659c9eebda6bdac09a83d486438a3c4a3c2b5985a6e5f9184ba49624615d5886013c1c6bfe5e7bd4063f31b95665797c98fb6
+  checksum: 8355f260881faf16c6548d66db201251e0552ae3cf844daec864ea8e53146eed25365b05ec1bfe698264a2dfaad6a521838b0cf81d70d4bb67fdc93290c068bc
   languageName: node
   linkType: hard
 
@@ -732,29 +732,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/smithy-client@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/smithy-client@npm:3.358.0"
+"@aws-sdk/smithy-client@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/smithy-client@npm:3.360.0"
   dependencies:
     "@aws-sdk/middleware-stack": 3.357.0
     "@aws-sdk/types": 3.357.0
-    "@aws-sdk/util-stream": 3.358.0
+    "@aws-sdk/util-stream": 3.360.0
     "@smithy/types": ^1.0.0
     tslib: ^2.5.0
-  checksum: 3db71a638ef10fb05e5e10d578014594cd77ccd0b6fba5771e7314b6f1e1d1fcee0ba61ffb9dd6f964480764ef9d0b6af091f6522cb8c44754a767c9d0629087
+  checksum: cc9ca8afbef0ca07d291d26e26e4db74f0e7884da4b2b2b79e4d1f0b2e6594ace93d3a6eca37c3f3be762cb460e53fc440076a9092c8a8be11ccc18da9d6cb4e
   languageName: node
   linkType: hard
 
-"@aws-sdk/token-providers@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/token-providers@npm:3.358.0"
+"@aws-sdk/token-providers@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/token-providers@npm:3.360.0"
   dependencies:
-    "@aws-sdk/client-sso-oidc": 3.358.0
+    "@aws-sdk/client-sso-oidc": 3.360.0
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/shared-ini-file-loader": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: 3038d2be78dade462c52761e37154231e5a5a531f732ecb7f7074ea7b7a84af91917113133539c85e08e262dc9d41257c22ca9d2233221e531709413c23b55d1
+  checksum: e8c68295e2609b8af9ad934dcbc1c932d6884682d65b4d9ff1c8612143abb5a5fdc8b9628619ed81ebca1ed82e7e1e4cb1d57f5cd236314dcec4dfb95702b2ce
   languageName: node
   linkType: hard
 
@@ -825,21 +825,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/util-defaults-mode-browser@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/util-defaults-mode-browser@npm:3.358.0"
+"@aws-sdk/util-defaults-mode-browser@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/util-defaults-mode-browser@npm:3.360.0"
   dependencies:
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/types": 3.357.0
     bowser: ^2.11.0
     tslib: ^2.5.0
-  checksum: 39af5ddcac5411cdacbc477f0f9c61c51a73d967c376dc97c0e6b5ef0b5b6948e73d67118b3d8594d0fdbd99a47c62c0a5b3a832bcf64fd7cab8dc4e9fb52a98
+  checksum: 6c976621a374ad02eb49fb440a69f9dd453eb5ab834e4fb7a165e65cf9632d4f5e8d16db357c7154d32986bae5c821be7182fb0c53f52ab8e8de8fd3c6be3a63
   languageName: node
   linkType: hard
 
-"@aws-sdk/util-defaults-mode-node@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/util-defaults-mode-node@npm:3.358.0"
+"@aws-sdk/util-defaults-mode-node@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/util-defaults-mode-node@npm:3.360.0"
   dependencies:
     "@aws-sdk/config-resolver": 3.357.0
     "@aws-sdk/credential-provider-imds": 3.357.0
@@ -847,7 +847,7 @@ __metadata:
     "@aws-sdk/property-provider": 3.357.0
     "@aws-sdk/types": 3.357.0
     tslib: ^2.5.0
-  checksum: 04c046290b515aec7dd27b1b6a45274922e714d96ffc21b02775e2f1053d907e12080a009d504bf6265df0c9db48b99ea3d06e2e2790c8b6131c7e426b22cb59
+  checksum: 9fa8a279b874382e9e3b6237dd8b783dc51bae9ac6dce3655fc2cc07ae7285cf14a5951330cc872ebed9059bb883d6ed2659e40304ae5377266db2d58e398df4
   languageName: node
   linkType: hard
 
@@ -898,19 +898,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/util-stream@npm:3.358.0":
-  version: 3.358.0
-  resolution: "@aws-sdk/util-stream@npm:3.358.0"
+"@aws-sdk/util-stream@npm:3.360.0":
+  version: 3.360.0
+  resolution: "@aws-sdk/util-stream@npm:3.360.0"
   dependencies:
     "@aws-sdk/fetch-http-handler": 3.357.0
-    "@aws-sdk/node-http-handler": 3.357.0
+    "@aws-sdk/node-http-handler": 3.360.0
     "@aws-sdk/types": 3.357.0
     "@aws-sdk/util-base64": 3.310.0
     "@aws-sdk/util-buffer-from": 3.310.0
     "@aws-sdk/util-hex-encoding": 3.310.0
     "@aws-sdk/util-utf8": 3.310.0
     tslib: ^2.5.0
-  checksum: 6bb0beba2aa7f93e00b304545072529118327f136ddb9a9eafdd36c82626d71435566cb7471547dff56629cd82e501a0451254b510206d568c1ad50ba0a8b2cc
+  checksum: a151f5c2683feb88c30e84ae10c137019d7e7a7f9ba11ee1c01e24b257d121b9d4de4de682feb7c6552a59cd48298a5dede13a16928b55a9855d41e89f2c408f
   languageName: node
   linkType: hard
 
@@ -3377,7 +3377,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.2.0, @noble/hashes@npm:~1.3.0":
+"@noble/hashes@npm:^1.2.0, @noble/hashes@npm:~1.3.0, @noble/hashes@npm:~1.3.1":
   version: 1.3.1
   resolution: "@noble/hashes@npm:1.3.1"
   checksum: 7fdefc0f7a0c1ec27acc6ff88841793e3f93ec4ce6b8a6a12bfc0dd70ae6b7c4c82fe305fdfeda1735d5ad4a9eebe761e6693b3d355689c559e91242f4bc95b1
@@ -3831,7 +3831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0":
+"@scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0, @scure/base@npm:~1.1.1":
   version: 1.1.1
   resolution: "@scure/base@npm:1.1.1"
   checksum: b4fc810b492693e7e8d0107313ac74c3646970c198bbe26d7332820886fa4f09441991023ec9aa3a2a51246b74409ab5ebae2e8ef148bbc253da79ac49130309
@@ -4555,10 +4555,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.3.1":
-  version: 20.3.1
-  resolution: "@types/node@npm:20.3.1"
-  checksum: 63a393ab6d947be17320817b35d7277ef03728e231558166ed07ee30b09fd7c08861be4d746f10fdc63ca7912e8cd023939d4eab887ff6580ff704ff24ed810c
+"@types/node@npm:*, @types/node@npm:^20.3.2":
+  version: 20.3.2
+  resolution: "@types/node@npm:20.3.2"
+  checksum: 5929ce2b9b12b1e2a2304a0921a953c72a81f5753ad39ac43b99ce6312fbb2b4fb5bc6b60d64a2550704e3223cd5de1299467d36085ac69888899db978f2653a
   languageName: node
   linkType: hard
 
@@ -4791,7 +4791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.60.0":
+"@typescript-eslint/eslint-plugin@npm:^5.60.0, @typescript-eslint/eslint-plugin@npm:^5.60.1":
   version: 5.60.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.60.1"
   dependencies:
@@ -4815,7 +4815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.49.0, @typescript-eslint/parser@npm:^5.60.0":
+"@typescript-eslint/parser@npm:^5.49.0, @typescript-eslint/parser@npm:^5.60.0, @typescript-eslint/parser@npm:^5.60.1":
   version: 5.60.1
   resolution: "@typescript-eslint/parser@npm:5.60.1"
   dependencies:
@@ -4919,7 +4919,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/sdk-core@npm:^3.0.1, @uniswap/sdk-core@npm:^3.2.6":
+"@uniswap/sdk-core@npm:^3.0.1":
+  version: 3.2.3
+  resolution: "@uniswap/sdk-core@npm:3.2.3"
+  dependencies:
+    "@ethersproject/address": ^5.0.2
+    big.js: ^5.2.2
+    decimal.js-light: ^2.5.0
+    jsbi: ^3.1.4
+    tiny-invariant: ^1.1.0
+    toformat: ^2.0.0
+  checksum: a19367c7e1d7b391b1664f59b808836cbaed9a12880bdf6b9a31e6c3b63f2edce2966bdda65144a3003e4c3cd96085b86129c174971330a9766194c404263346
+  languageName: node
+  linkType: hard
+
+"@uniswap/sdk-core@npm:^3.2.6":
   version: 3.2.6
   resolution: "@uniswap/sdk-core@npm:3.2.6"
   dependencies:
@@ -5113,44 +5127,44 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/array@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/array@npm:2.9.1"
+"@xylabs/array@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/array@npm:2.9.2"
   dependencies:
-    "@xylabs/exists": ^2.9.1
-  checksum: a6047da35683ea0eb4015cfee328ef2112e68596f804291728e0c441dfa783030861a7a0677e2d96f144c402da2b2eeadb3434e0d5577c7907e9a7524d3e4ed8
+    "@xylabs/exists": ^2.9.2
+  checksum: 779f925125f89d11842905c197fd7e87819112ddd5ecdc37cc7f200272a719d533d0a315e559e502aba04efbbc8667f038f24271c208daca2a9bcd8fabe3f605
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/assert@npm:2.9.1"
-  checksum: 993de9c4acefec9ccee860068ba28ba709117db02253e7691ea12f7c8059ecf9923d335161b50b0e0b05b1b06b99d1fce2163514a1a734c13a46a1f598f47a90
+"@xylabs/assert@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/assert@npm:2.9.2"
+  checksum: b4ae12e8ff4bb8fb40696d60e99caa2ab2abe937ae025a44708b4de2e42c7e164039c95a8818b98f893cd0bf0fa7dd3e8ded43ae7eb051cf5d417322581b0570
   languageName: node
   linkType: hard
 
-"@xylabs/bignumber@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/bignumber@npm:2.9.1"
+"@xylabs/bignumber@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/bignumber@npm:2.9.2"
   dependencies:
     bn.js: ^5.2.1
-  checksum: a4757a275edb59a0a7af6d63937748f49d4ddf7fc2cfcc9165b40bea90ac6c3ebff6509b33c5ab8af555498e0deee811e26ec26f010ca18b12228bfe6a2f4b42
+  checksum: 5bacc144b8b837d3b1b3a8ff7ec3a240941ee3aa3d713a5e0fa00272ad0d4064a28a050177e9237dee7ce21dff5710f6828e9a2732900bf99f7f9a59e087fac1
   languageName: node
   linkType: hard
 
-"@xylabs/buffer@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/buffer@npm:2.9.1"
+"@xylabs/buffer@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/buffer@npm:2.9.2"
   dependencies:
     buffer: ^6.0.3
-  checksum: 609dad516b51e4e6779429bee97848d8b98c7066dad88ae42e6091e17d52c550ad1bfd982e4b916b45e81cc0c46c4414445e122d94f06ea454b65b3a89870339
+  checksum: 7f445c2f1ad5a1af716e76907e97831529c6f37e2e4c4933a8a55e4db3c621e6352ca893e2ccb34033e88ea8b7f365169d273f50d3eeb14d299911e89de2c74d
   languageName: node
   linkType: hard
 
-"@xylabs/delay@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/delay@npm:2.9.1"
-  checksum: ba839121b04d5bcd0aee56fca544d77947cc7cf734142f990dad735a6c2d4607554602ceb226d8c8a070f4d2f913484d2466ce8e646459bc1f03e2acdd85395a
+"@xylabs/delay@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/delay@npm:2.9.2"
+  checksum: 050800f2b0f5ca1b7d5ca79201e29e2ce58f1d9a72b3a2d10bc0bb3ad063a9835d3b24f9de39e184782449f26eb5165149eac99ba70044a2b2e6d9eac2cd7627
   languageName: node
   linkType: hard
 
@@ -5184,35 +5198,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/exists@npm:2.9.1"
-  checksum: ec69f615170bcf90c05e62432ddf35fcd06372ed9b04ed0095b525590993b6a12ad943c6350bb2b938bcea00e47469f749b95fc88f8d68e89a043ce937905680
+"@xylabs/exists@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/exists@npm:2.9.2"
+  checksum: 24a47369d8fe549e2bba5f40e7d0ef90dc9ae5a38b9a10df3d260af5db6a97a4622b198bb89683e6e53b29e432ad66a4b5bb9f25c389fec984f2d4b06dc3ebff
   languageName: node
   linkType: hard
 
-"@xylabs/forget@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/forget@npm:2.9.1"
+"@xylabs/forget@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/forget@npm:2.9.2"
   dependencies:
-    "@xylabs/delay": ^2.9.1
-  checksum: 789f525a365a7adbe033a15ecf70c9a89f5e005c73e5e77f6c59b7833065082b0fe41db8397cb1bee543e09a725c87d670ea322e10ed72747d8cedfecea67486
+    "@xylabs/delay": ^2.9.2
+  checksum: 139adffd387de3183db73f249fbe48e9e197b28525fd287bc9637d88fc97e66047cfa8a7471d7ce00154703e6f720e883b6ec27bf7189717fe13606e19a34d23
   languageName: node
   linkType: hard
 
-"@xylabs/jest-helpers@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/jest-helpers@npm:2.9.1"
+"@xylabs/jest-helpers@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/jest-helpers@npm:2.9.2"
   peerDependencies:
     jest: "*"
-  checksum: 7dc1f39db7ee598556d0326219eb9724d97620c039ff4d6e190ecf4a8e920182e0005f6191754869272f57af5b34ed22a363049dbc0ecccf5283f8eeaf0be8e9
+  checksum: 10ab4b0c29877a5ef46324897a1b8ffd134ef26291060ed05834a60c82a9bfb302921154ccc1f57419f68565a2dc82fffd11b1df89d0ea3fd16a62e3267e0489
   languageName: node
   linkType: hard
 
-"@xylabs/promise@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/promise@npm:2.9.1"
-  checksum: 24f77ef57b24ba14efb411b95dabb3fbda7581ab0960a365efc6b0ba49906dc97610d3b4a1b8d36bdc1f18936f1d7e88a7c47dcfffab28aa3d0b15662001d5d6
+"@xylabs/promise@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/promise@npm:2.9.2"
+  checksum: 9393b21003519cc0d5763de075cc5ccce7186b8c04e45d629efcf4a0cfdbeb2945e9bc216fd818d89d36db4296b7026687a59c45233d95e770aed35256d26a3e
   languageName: node
   linkType: hard
 
@@ -5234,10 +5248,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/static-implements@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@xylabs/static-implements@npm:2.9.1"
-  checksum: f1261c854bbf48cccc430470d509448689886568dfa3edbee7a38b982312e5091037f4e42a679fde39fa9dea970ceaee7f1b889f77006d08962a3661eaa43e69
+"@xylabs/static-implements@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/static-implements@npm:2.9.2"
+  checksum: 6ac98a27a9951738ec43bc1fab1e278086c974d0f1ba5032d4bfc0f53b085d22fba89033d1482529a5982cc115dcaf245230938415b900e7ba956f7cd9f5f7e2
   languageName: node
   linkType: hard
 
@@ -5376,7 +5390,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -5412,7 +5426,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-diviner@workspace:packages/modules/packages/diviner/packages/abstract"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -5446,9 +5460,9 @@ __metadata:
     "@ethersproject/hdnode": ^5.7.0
     "@types/elliptic": ^6.4.14
     "@types/sha.js": ^2.4.0
-    "@xylabs/array": ^2.9.1
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/static-implements": ^2.9.1
+    "@xylabs/array": ^2.9.2
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/static-implements": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account-model": "workspace:^"
@@ -5490,7 +5504,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
-    "@xylabs/jest-helpers": ^2.9.1
+    "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/api-models": "workspace:^"
@@ -5509,8 +5523,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -5570,9 +5584,9 @@ __metadata:
   dependencies:
     "@types/js-cookie": ^3.0.3
     "@types/lodash": ^4.14.195
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -5600,7 +5614,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
+    "@aws-sdk/client-secrets-manager": ^3.360.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/networks": ^5.7.1
@@ -5612,8 +5626,8 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.6
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/jest-helpers": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -5679,8 +5693,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
   dependencies:
-    "@noble/hashes": ~1.3.0
-    "@scure/base": ~1.1.0
+    "@noble/hashes": ~1.3.1
+    "@scure/base": ~1.1.1
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     typescript: ^5.1.3
@@ -5744,8 +5758,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-builder@workspace:packages/protocol/packages/boundwitness/packages/builder"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/buffer": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/buffer": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account-model": "workspace:^"
@@ -5794,8 +5808,8 @@ __metadata:
   resolution: "@xyo-network/boundwitness-wrapper@workspace:packages/protocol/packages/boundwitness/packages/wrapper"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/boundwitness-model": "workspace:^"
@@ -5873,7 +5887,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-module-resolver@workspace:packages/modules/packages/bridge/packages/module-resolver"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/address-payload-plugin": "workspace:^"
@@ -5920,11 +5934,11 @@ __metadata:
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@types/node": ^20.3.1
+    "@types/node": ^20.3.2
     "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xylabs/tsconfig-jest": ^2.17.17
@@ -6000,9 +6014,9 @@ __metadata:
     "@types/lodash": ^4.14.195
     "@types/sha.js": ^2.4.0
     "@types/uuid": ^9.0.2
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/bignumber": ^2.9.1
-    "@xylabs/buffer": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/bignumber": ^2.9.2
+    "@xylabs/buffer": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/promise": "workspace:^"
@@ -6034,8 +6048,8 @@ __metadata:
   resolution: "@xyo-network/crypto-address-transaction-history-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/transaction"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/jest-helpers": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/crypto-address-transaction-history-payload-plugin": "workspace:^"
@@ -6073,7 +6087,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.6
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.9.1
+    "@xylabs/exists": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -6263,9 +6277,9 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@infura/sdk": ^2.4.3
     "@types/svg-parser": ^2.0.3
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/bignumber": ^2.9.1
-    "@xylabs/jest-helpers": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/bignumber": ^2.9.2
+    "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -6279,7 +6293,7 @@ __metadata:
     jest: ^29.5.0
     svg-parser: ^2.0.4
     typescript: ^5.1.3
-    web3-providers-http: ^4.0.1
+    web3-providers-http: ^4.0.2
   languageName: unknown
   linkType: soft
 
@@ -6299,7 +6313,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-memory@workspace:packages/modules/packages/diviner/packages/addresschain/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6357,7 +6371,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -6388,7 +6402,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-memory@workspace:packages/modules/packages/diviner/packages/addressspace/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -6444,8 +6458,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-memory@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/memory"
   dependencies:
-    "@xylabs/array": ^2.9.1
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/array": ^2.9.2
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6489,7 +6503,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-memory@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6611,8 +6625,8 @@ __metadata:
   resolution: "@xyo-network/diviner-forecasting-memory@workspace:packages/modules/packages/diviner/packages/forecasting/packages/memory"
   dependencies:
     "@types/jsonpath": ^0.2.0
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6720,7 +6734,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6761,7 +6775,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-memory@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6829,8 +6843,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-memory@workspace:packages/modules/packages/diviner/packages/schemalist/packages/memory"
   dependencies:
-    "@xylabs/array": ^2.9.1
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/array": ^2.9.2
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6885,7 +6899,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-memory@workspace:packages/modules/packages/diviner/packages/schemastats/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/archivist-wrapper": "workspace:^"
@@ -6943,8 +6957,8 @@ __metadata:
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -7036,8 +7050,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/elevation-plugin@workspace:packages/plugins/packages/payloadset/packages/elevation"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/jest-helpers": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/elevation-payload-plugin": "workspace:^"
@@ -7147,7 +7161,7 @@ __metadata:
   resolution: "@xyo-network/ethers-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
     "@ethersproject/providers": ^5.7.2
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:^"
@@ -7176,7 +7190,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherscan-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherscan"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/axios": "workspace:^"
@@ -7223,9 +7237,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
+    "@aws-sdk/client-secrets-manager": ^3.360.0
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -7265,9 +7279,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
+    "@aws-sdk/client-secrets-manager": ^3.360.0
     "@types/express": 4.17.17
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -7290,11 +7304,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
+    "@aws-sdk/client-secrets-manager": ^3.360.0
     "@types/express": 4.17.17
     "@types/express-mung": ^0.5.2
     "@types/swagger-ui-express": ^4.1.3
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -7306,7 +7320,7 @@ __metadata:
     http-status-codes: ^2.2.0
     node-cache: ^5.1.2
     rollbar: ^2.26.1
-    swagger-autogen: ^2.23.2
+    swagger-autogen: ^2.23.4
     swagger-ui-express: ^4.6.3
     typescript: ^5.1.3
     winston: ^3.9.0
@@ -7318,10 +7332,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
+    "@aws-sdk/client-secrets-manager": ^3.360.0
     "@types/express": 4.17.17
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -7362,12 +7376,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
+    "@aws-sdk/client-secrets-manager": ^3.360.0
     "@types/compression": ^1.7.2
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
     "@types/nconf": ^0.10.3
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -7398,7 +7412,7 @@ __metadata:
   resolution: "@xyo-network/express-node-test@workspace:packages/node/packages/express/packages/test"
   dependencies:
     "@types/jest": ^29.5.2
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig-jest": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -7452,7 +7466,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -7518,7 +7532,7 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.6
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/exists": ^2.9.1
+    "@xylabs/exists": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -7553,7 +7567,7 @@ __metadata:
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
     "@types/url-parse": ^1.4.8
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-bridge": "workspace:^"
@@ -7579,7 +7593,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/huri@workspace:packages/protocol/packages/payload/packages/huri"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -7703,7 +7717,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-plugin@workspace:packages/plugins/packages/payloadset/packages/location"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig-dom": ^2.17.17
     "@xyo-network/location-payload-plugin": "workspace:^"
@@ -7719,7 +7733,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/http-bridge": "workspace:^"
@@ -7738,8 +7752,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -7771,9 +7785,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-abstract@workspace:packages/modules/packages/module/packages/abstract"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -7805,8 +7819,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-events@workspace:packages/modules/packages/module/packages/events"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/forget": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/forget": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xylabs/tsconfig-jest": ^2.17.17
@@ -7867,7 +7881,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -7922,7 +7936,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/network@workspace:packages/sdk/packages/network"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/core": "workspace:^"
@@ -7936,8 +7950,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.358.0
-    "@xylabs/assert": ^2.9.1
+    "@aws-sdk/client-secrets-manager": ^3.360.0
+    "@xylabs/assert": ^2.9.2
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -8005,11 +8019,11 @@ __metadata:
   resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/array": ^2.9.1
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
-    "@xylabs/exists": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/array": ^2.9.2
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
+    "@xylabs/exists": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-diviner": "workspace:^"
@@ -8108,7 +8122,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payloadset-plugin": "workspace:^"
     "@xyo-network/witness": "workspace:^"
-    systeminformation: ^5.18.4
+    systeminformation: ^5.18.5
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -8133,9 +8147,9 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/exists": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/exists": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -8177,7 +8191,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugin@workspace:packages/sdk/packages/payload-plugin"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/core": "workspace:^"
@@ -8229,7 +8243,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/core": "workspace:^"
@@ -8310,7 +8324,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-plugin@workspace:packages/plugins/packages/payloadset/packages/pentair"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/module": "workspace:^"
@@ -8437,9 +8451,9 @@ __metadata:
   resolution: "@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey"
   dependencies:
     "@types/mapbox-gl": ^2.7.11
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/bignumber": ^2.9.1
-    "@xylabs/buffer": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/bignumber": ^2.9.2
+    "@xylabs/buffer": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/sdk-geo": ^2.8.1
@@ -8464,7 +8478,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-cache@workspace:packages/sdk/packages/schema-cache"
   dependencies:
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig-dom": ^2.17.17
     "@xyo-network/domain-payload-plugin": "workspace:^"
@@ -8504,7 +8518,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-plugin@workspace:packages/plugins/packages/payloadset/packages/schema"
   dependencies:
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/module": "workspace:^"
@@ -8534,8 +8548,8 @@ __metadata:
     "@babel/preset-env": ^7.22.5
     "@types/jest": ^29.5.2
     "@types/supertest": ^2.0.12
-    "@typescript-eslint/eslint-plugin": ^5.60.0
-    "@typescript-eslint/parser": ^5.60.0
+    "@typescript-eslint/eslint-plugin": ^5.60.1
+    "@typescript-eslint/parser": ^5.60.1
     "@xylabs/eslint-config": ^2.17.17
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
@@ -8567,9 +8581,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk-xyo-mongo-js@workspace:packages/mongo"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
-    "@xylabs/forget": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
+    "@xylabs/forget": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     async-mutex: ^0.4.0
@@ -8603,8 +8617,8 @@ __metadata:
   resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -8715,11 +8729,11 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^3.2.6
     "@uniswap/v3-sdk": ^3.9.0
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/bignumber": ^2.9.1
-    "@xylabs/delay": ^2.9.1
-    "@xylabs/jest-helpers": ^2.9.1
-    "@xylabs/promise": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/bignumber": ^2.9.2
+    "@xylabs/delay": ^2.9.2
+    "@xylabs/jest-helpers": ^2.9.2
+    "@xylabs/promise": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/modules": "workspace:^"
@@ -8804,7 +8818,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
-    "@xylabs/assert": ^2.9.1
+    "@xylabs/assert": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account": "workspace:^"
@@ -8823,7 +8837,7 @@ __metadata:
   resolution: "@xyo-network/witnesses@workspace:packages/sdk/packages/witnesses"
   dependencies:
     "@types/lodash": ^4.14.195
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/core": "workspace:^"
@@ -8839,8 +8853,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/worker-bridge@workspace:packages/modules/packages/bridge/packages/worker"
   dependencies:
-    "@xylabs/assert": ^2.9.1
-    "@xylabs/delay": ^2.9.1
+    "@xylabs/assert": ^2.9.2
+    "@xylabs/delay": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-bridge": "workspace:^"
@@ -11387,9 +11401,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.431":
-  version: 1.4.440
-  resolution: "electron-to-chromium@npm:1.4.440"
-  checksum: 702f8f045492a15bc6eee408987c986de1e78a568b34fc68ed6a21e1fc03f3a3019e7e6a6d88c1f4468fbe788045425e70104ec9b481825d0bce00e3841418b8
+  version: 1.4.441
+  resolution: "electron-to-chromium@npm:1.4.441"
+  checksum: 807a3659daf9ac376c3b7a2d19965e186a8c8a4b2498a911c96bc80f43701ec6e9268c382b4e3155ce0def4c9e35071de6a0506dd69b822bd9592ad8de71bc91
   languageName: node
   linkType: hard
 
@@ -13075,11 +13089,11 @@ __metadata:
   linkType: hard
 
 "get-tsconfig@npm:^4.5.0":
-  version: 4.6.0
-  resolution: "get-tsconfig@npm:4.6.0"
+  version: 4.6.2
+  resolution: "get-tsconfig@npm:4.6.2"
   dependencies:
     resolve-pkg-maps: ^1.0.0
-  checksum: fd2589a50e21543cf416285e5c4ac605359f49209b6c2e66bb8698fac907356e060de0a681e40881f00182b6f19771377411a88adcc78fd3954732ff54f4a54d
+  checksum: e791e671a9b55e91efea3ca819ecd7a25beae679e31c83234bf3dd62ddd93df070c1b95ae7e29d206358ebb6408f6f79ac6d83a32a3bbd6a6d217babe23de077
   languageName: node
   linkType: hard
 
@@ -22187,7 +22201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-autogen@npm:^2.23.2":
+"swagger-autogen@npm:^2.23.4":
   version: 2.23.4
   resolution: "swagger-autogen@npm:2.23.4"
   dependencies:
@@ -22234,7 +22248,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.18.4":
+"systeminformation@npm:^5.18.5":
   version: 5.18.5
   resolution: "systeminformation@npm:5.18.5"
   bin:
@@ -22760,9 +22774,9 @@ __metadata:
   linkType: hard
 
 "tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.3":
-  version: 2.5.3
-  resolution: "tslib@npm:2.5.3"
-  checksum: 88902b309afaf83259131c1e13da1dceb0ad1682a213143a1346a649143924d78cf3760c448b84d796938fd76127183894f8d85cbb3bf9c4fddbfcc140c0003c
+  version: 2.6.0
+  resolution: "tslib@npm:2.6.0"
+  checksum: c01066038f950016a18106ddeca4649b4d76caa76ec5a31e2a26e10586a59fceb4ee45e96719bf6c715648e7c14085a81fee5c62f7e9ebee68e77a5396e5538f
   languageName: node
   linkType: hard
 
@@ -23670,56 +23684,56 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-errors@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "web3-errors@npm:1.0.0"
+"web3-errors@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "web3-errors@npm:1.0.1"
   dependencies:
-    web3-types: ^1.0.0
-  checksum: 9dc8b98bb25fd3b8c187e4066dfff64aca4bde2692880f814149342f9a28c59f5f2fc38b18194cd3195e8dd7a732318d452b2b78226c66cdca172df7474c8ce3
+    web3-types: ^1.0.1
+  checksum: d0a77570748035a7554cd1dff871db25eed6aba87dd5c2540aa04f840ffc9d10c46fb0dacd6f064944f17c48e1c3b5afb5ef533cef71720f7c027320a826c7ed
   languageName: node
   linkType: hard
 
-"web3-providers-http@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "web3-providers-http@npm:4.0.1"
+"web3-providers-http@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "web3-providers-http@npm:4.0.2"
   dependencies:
     cross-fetch: ^3.1.5
-    web3-errors: ^1.0.0
-    web3-types: ^1.0.0
-    web3-utils: ^4.0.1
-  checksum: 2667349ff0a9d5dd06567180f8a001cf2ea0787838e5a891bdcfeebd7cf7f9e7d09a8faab48d045be952f60aad95d620dc7ba8f5d257735ccef4bfde0fdcf5d2
+    web3-errors: ^1.0.1
+    web3-types: ^1.0.1
+    web3-utils: ^4.0.2
+  checksum: 25bbab877f45f1653d25d530dd90a1b4c88cc0dff249925f59167ca66f732bddf9263e181fdb8ca087e0b4d315dd0be9a549784d78ee095049a4cfb6bc8dd71a
   languageName: node
   linkType: hard
 
-"web3-types@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "web3-types@npm:1.0.0"
-  checksum: 1ecd53df5fd88a2fc13492ef8cd8ef8e0752d2050c4675f13ebe1526c76515f052d127b88951ed5d4ab022c642077ae6a71866030cc32c38ce3ea19afbda8449
+"web3-types@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "web3-types@npm:1.0.1"
+  checksum: d359e73e0e532da041ed4b5df43d7d442326520693a8309f6304a5dc73c972f1ed96324ab6e85a55f164ea8b6cba7613795cadf3e42d3faef36ecdf2c7e881e8
   languageName: node
   linkType: hard
 
-"web3-utils@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "web3-utils@npm:4.0.1"
+"web3-utils@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "web3-utils@npm:4.0.2"
   dependencies:
     ethereum-cryptography: ^2.0.0
-    web3-errors: ^1.0.0
-    web3-types: ^1.0.0
-    web3-validator: ^1.0.0
-  checksum: 089fd8af9389fd3b9742e82cbe604f02b41dad84606c8a8891ae57cf9efb98a7e4e32d253697166844108d1ecbff24d3c36d97d5db9bfa3815ff1744f75e89c9
+    web3-errors: ^1.0.1
+    web3-types: ^1.0.1
+    web3-validator: ^1.0.1
+  checksum: 99e5969de098447d60e98e83272c7240e37068c9c567f13c6634850ce6397243d98759d36066bd2d3583f7322bb242735139db8134b5e67cccd630e66cd19d4c
   languageName: node
   linkType: hard
 
-"web3-validator@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "web3-validator@npm:1.0.0"
+"web3-validator@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "web3-validator@npm:1.0.1"
   dependencies:
     ethereum-cryptography: ^2.0.0
     is-my-json-valid: ^2.20.6
     util: ^0.12.5
-    web3-errors: ^1.0.0
-    web3-types: ^1.0.0
-  checksum: 829b151c704fd7d5213230e1924c236b699af85b65746159fe6c97841d72670dbffaff93317602d59b44536a034fb482b64b9f5df4a7a7743379f2c0a79bbe53
+    web3-errors: ^1.0.1
+    web3-types: ^1.0.1
+  checksum: bbf5a489d6370cb20cdadcfc3a9a6b4856ee1520b778bcae8f8e2cbd1e657fa77135751595023dccd2ce76f26df242b8d65a0d1c5e07c52742e3f0c4f8496421
   languageName: node
   linkType: hard
 

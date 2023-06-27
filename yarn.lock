@@ -5675,6 +5675,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bip39@workspace:packages/protocol/packages/bip39":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
+  dependencies:
+    "@noble/hashes": ~1.3.0
+    "@scure/base": ~1.1.0
+    "@xylabs/ts-scripts-yarn3": ^2.17.17
+    "@xylabs/tsconfig": ^2.17.17
+    typescript: ^5.1.3
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/blockchain-payload-plugins@workspace:^, @xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain":
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain"

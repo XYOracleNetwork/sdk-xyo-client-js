@@ -1,7 +1,7 @@
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { DBSchema, IDBPDatabase, openDB } from 'idb'
 
-interface PreviousHashStoreSchemaV1 extends DBSchema {
+export interface PreviousHashStoreSchemaV1 extends DBSchema {
   'previous-hash': {
     key: string
     value: string

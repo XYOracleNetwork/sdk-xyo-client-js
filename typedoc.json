@@ -1,5 +1,9 @@
 {
-  "entryPoints": ["src/index.ts"],
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "packages",
+  "entryPoints": [
+    "packages/*"
+  ],
   "includeVersion": true,
   "name": "XYO Platform Client SDK",
   "tsconfig": "./tsconfig.typedoc.json"

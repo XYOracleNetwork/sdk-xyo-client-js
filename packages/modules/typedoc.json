@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["src/index.ts"],
+  "exclude": ["**/WorkerNodeHost.ts"],
   "tsconfig": "./tsconfig.typedoc.json"
 }

@@ -3,7 +3,7 @@ import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { scoringCriteria } from './criteria'
 import { Score } from './score'
 
-type ScoringCriteriaKey = keyof typeof scoringCriteria & PropertyKey
+export type ScoringCriteriaKey = keyof typeof scoringCriteria & PropertyKey
 
 export type NftAnalysis = {
   [key in ScoringCriteriaKey]: Score

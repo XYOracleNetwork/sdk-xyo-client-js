@@ -1,5 +1,6 @@
-import { NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { WitnessConfig } from '@xyo-network/witness'
+
+import { NftWitnessConfigSchema } from './Schema'
 
 export type CryptoWalletNftWitnessConfig = WitnessConfig<{
   address?: string

@@ -10,8 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.17",
@@ -51,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.63.10"
+  "version": "2.63.11"
 }

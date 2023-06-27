@@ -12,9 +12,9 @@
   "dependencies": {
     "@bitauth/libauth": "^1.19.1",
     "@ethersproject/hdnode": "^5.7.0",
-    "@xylabs/array": "^2.9.1",
-    "@xylabs/assert": "^2.9.1",
-    "@xylabs/static-implements": "^2.9.1",
+    "@xylabs/array": "^2.9.3",
+    "@xylabs/assert": "^2.9.3",
+    "@xylabs/static-implements": "^2.9.3",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/key-model": "workspace:^",
@@ -64,5 +64,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.63.10"
+  "version": "2.63.11"
 }

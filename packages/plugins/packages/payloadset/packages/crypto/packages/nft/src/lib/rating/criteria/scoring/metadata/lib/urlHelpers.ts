@@ -1,4 +1,4 @@
-import { URL } from 'url'
+import { URL } from '@xylabs/url'
 
 export const web3Protocols = ['ipfs:', 'ar:']
 

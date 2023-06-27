@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.9.1",
+    "@xylabs/assert": "^2.9.3",
     "@xyo-network/axios": "workspace:^",
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
@@ -57,5 +57,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.63.10"
+  "version": "2.63.11"
 }

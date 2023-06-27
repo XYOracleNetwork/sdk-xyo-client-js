@@ -1,4 +1,3 @@
-import { WeightedScoringCriteria } from '../score'
 import {
   evaluateNftAttributes,
   scoreContractAddress,

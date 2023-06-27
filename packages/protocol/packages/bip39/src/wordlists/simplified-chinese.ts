@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `的
 一
 是
@@ -2045,4 +2046,4 @@ export const wordlist: string[] = `的
 韦
 怨
 矮
-歇`.split('\n');
+歇`.split('\n')

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `abaco
 abbaglio
 abbinato
@@ -2045,4 +2046,4 @@ zotico
 zucchero
 zufolo
 zulu
-zuppa`.split('\n');
+zuppa`.split('\n')

@@ -93,6 +93,7 @@
     "testdata",
     "typechain",
     "userid",
+    "wordlist",
     "xylabs"
   ],
   "npm.packageManager": "yarn"

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `abaisser
 abandon
 abdiquer
@@ -2045,4 +2046,4 @@ yacht
 zèbre
 zénith
 zeste
-zoologie`.split('\n');
+zoologie`.split('\n')

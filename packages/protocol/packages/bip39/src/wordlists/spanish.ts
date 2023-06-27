@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `ábaco
 abdomen
 abeja
@@ -2045,4 +2046,4 @@ zarza
 zona
 zorro
 zumo
-zurdo`.split('\n');
+zurdo`.split('\n')

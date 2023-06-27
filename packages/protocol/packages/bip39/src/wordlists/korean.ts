@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `가격
 가끔
 가난
@@ -2045,4 +2046,4 @@ export const wordlist: string[] = `가격
 희망
 희생
 흰색
-힘껏`.split('\n');
+힘껏`.split('\n')

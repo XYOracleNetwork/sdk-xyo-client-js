@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `abandon
 ability
 able
@@ -2045,4 +2046,4 @@ youth
 zebra
 zero
 zone
-zoo`.split('\n');
+zoo`.split('\n')

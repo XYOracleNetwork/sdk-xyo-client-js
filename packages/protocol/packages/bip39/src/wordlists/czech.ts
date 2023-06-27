@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export const wordlist: string[] = `abdikace
 abeceda
 adresa
@@ -2045,4 +2046,4 @@ zvesela
 zvon
 zvrat
 zvukovod
-zvyk`.split('\n');
+zvyk`.split('\n')

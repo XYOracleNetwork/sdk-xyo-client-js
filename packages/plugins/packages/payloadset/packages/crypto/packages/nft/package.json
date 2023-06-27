@@ -15,6 +15,7 @@
     "@infura/sdk": "^2.4.3",
     "@xylabs/assert": "^2.9.2",
     "@xylabs/bignumber": "^2.9.2",
+    "@xylabs/url": "^2.9.2",
     "@xyo-network/abstract-diviner": "workspace:^",
     "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",

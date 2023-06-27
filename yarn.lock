@@ -5386,6 +5386,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/url@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@xylabs/url@npm:2.9.2"
+  dependencies:
+    buffer: ^6.0.3
+  checksum: e2398364fb491a6400cfeb21c2ef5dd2d8a4612975499345c304a85ab5a8481f826671937c42484e307089341852692ba2a89ae0c2cd8032aaf6198d58cb0600
+  languageName: node
+  linkType: hard
+
 "@xyo-network/abstract-archivist@workspace:^, @xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
@@ -6282,6 +6291,7 @@ __metadata:
     "@xylabs/jest-helpers": ^2.9.2
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
+    "@xylabs/url": ^2.9.2
     "@xyo-network/abstract-diviner": "workspace:^"
     "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"

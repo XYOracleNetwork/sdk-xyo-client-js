@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.9.2",
-    "@xylabs/delay": "^2.9.2",
+    "@xylabs/assert": "^2.9.3",
+    "@xylabs/delay": "^2.9.3",
     "@xyo-network/abstract-bridge": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",

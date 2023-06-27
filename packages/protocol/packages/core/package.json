@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.1",
-    "@xylabs/assert": "^2.9.2",
-    "@xylabs/bignumber": "^2.9.2",
-    "@xylabs/buffer": "^2.9.2",
+    "@xylabs/assert": "^2.9.3",
+    "@xylabs/bignumber": "^2.9.3",
+    "@xylabs/buffer": "^2.9.3",
     "@xyo-network/promise": "workspace:^",
     "@xyo-network/typeof": "workspace:^",
     "hash-wasm": "^4.9.0",

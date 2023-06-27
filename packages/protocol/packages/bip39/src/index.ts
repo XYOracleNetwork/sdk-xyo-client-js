@@ -8,6 +8,8 @@ import { sha512 } from '@noble/hashes/sha512'
 import { randomBytes } from '@noble/hashes/utils'
 import { utils as baseUtils } from '@scure/base'
 
+export * from './wordlists'
+
 // Japanese wordlist
 const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093'
 

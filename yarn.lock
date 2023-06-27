@@ -6260,6 +6260,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/witness": "workspace:^"
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft

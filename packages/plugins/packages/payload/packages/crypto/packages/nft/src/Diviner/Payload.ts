@@ -9,31 +9,22 @@ export type ScaledScore = [total: number, possible: number]
 export const SKIP: ScaledScore = [0, 0]
 export type Score = ScaledScore | PassFailScore
 
-const attributesScoringCriteria = {
-  Attributes: true,
-}
+export type AttributesScoringCriteria = 'Attributes'
 
-const metadataScoringCriteria = {
-  'Animation URL': true,
-  'Background Color': true,
-  Description: true,
-  'External Url': true,
-  Image: true,
-  'Image Data': true,
-  Name: true,
-  'YouTube URL': true,
-  ...attributesScoringCriteria,
-}
+export type MetadataScoringCriteria =
+  | 'Animation URL'
+  | 'Background Color'
+  | 'Description'
+  | 'External Url'
+  | 'Image'
+  | 'Image Data'
+  | 'Name'
+  | 'YouTube URL'
+  | AttributesScoringCriteria
 
-export const scoringCriteria = {
-  'Contract Address': true,
-  Supply: true,
-  'Token Id': true,
-  Type: true,
-  ...metadataScoringCriteria,
-}
+export type ScoringCriteria = 'Contract Address' | 'Supply' | 'Token Id' | 'Type' | MetadataScoringCriteria
 
-type ScoringCriteriaKey = keyof typeof scoringCriteria & PropertyKey
+export type ScoringCriteriaKey = ScoringCriteria & PropertyKey
 
 export type NftAnalysis = {
   [key in ScoringCriteriaKey]: Score

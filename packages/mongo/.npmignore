@@ -7,5 +7,7 @@ yarn.lock
 **/*.spec.ts
 **/*.snap
 
+docs
+
 .pnp.*
 .yarn/*

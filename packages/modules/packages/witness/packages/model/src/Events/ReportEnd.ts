@@ -1,7 +1,8 @@
-import { ModuleEventArgs } from "@xyo-network/module-model"
 import { EventData } from '@xyo-network/module'
-import { Payload } from "@xyo-network/payload-model"
-import { WitnessModule } from "../Module"
+import { ModuleEventArgs } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
+
+import { WitnessModule } from '../Module'
 
 export type WitnessReportEndEventArgs = ModuleEventArgs<
   WitnessModule,

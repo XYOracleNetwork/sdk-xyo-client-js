@@ -43,7 +43,9 @@
     "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./schema.json": "./src/schema.json",
+    "./schema": "./src/schema.json"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

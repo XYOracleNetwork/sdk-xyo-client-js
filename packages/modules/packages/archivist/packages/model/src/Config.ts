@@ -16,6 +16,8 @@ export type ArchivistConfig<TConfig extends Payload | undefined = undefined> = M
     {
       /** @field address of one or more parent archivists to read from */
       parents?: ArchivistParents
+      /** @field fail if some parents can not be resolved (true if unspecified) */
+      requireAllParents?: boolean
       schema: TConfig extends Payload ? TConfig['schema'] : ArchivistConfigSchema
       /** @field should child store all reads from parents? */
       storeParentReads?: boolean

@@ -50,6 +50,10 @@ export abstract class AbstractArchivist<
     return [ArchivistGetQuerySchema, ...super.queries]
   }
 
+  get requireAllParents() {
+    return this.config.requireAllParents ?? true
+  }
+
   protected override get _queryAccountPaths(): Record<ArchivistQueryBase['schema'], string> {
     return {
       'network.xyo.query.archivist.all': '1/1',
@@ -220,6 +224,14 @@ export abstract class AbstractArchivist<
       ...(await this.downResolver.resolve({ name: archivists })),
     ]
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
+
+    assertEx(
+      !this.requireAllParents || modules.length === archivists.length,
+      `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
+        modules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+      )}]`,
+    )
+
     await Promise.all(
       modules.map((module) => {
         const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })

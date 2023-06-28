@@ -1,3 +1,5 @@
+import { HDWallet } from '@xyo-network/account'
+import { generateMnemonic, wordlists } from '@xyo-network/bip39'
 import { Logger } from '@xyo-network/core'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { NodeModule } from '@xyo-network/node'
@@ -20,7 +22,8 @@ export class WorkerNodeHost {
   constructor(protected node: NodeModule, protected logger?: Logger) {}
 
   static async create(config: ManifestPayload) {
-    const manifest = new ManifestWrapper(config)
+    const mnemonic = generateMnemonic(wordlists.english, 256)
+    const manifest = new ManifestWrapper(config, await HDWallet.fromMnemonic(mnemonic))
     const [node] = await manifest.loadDapps()
     const worker = new this(node)
     worker.attachNode(node)

@@ -5722,7 +5722,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bip39@workspace:packages/protocol/packages/bip39":
+"@xyo-network/bip39@workspace:^, @xyo-network/bip39@workspace:packages/protocol/packages/bip39":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
   dependencies:
@@ -8934,6 +8934,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-bridge": "workspace:^"
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/bip39": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/core": "workspace:^"

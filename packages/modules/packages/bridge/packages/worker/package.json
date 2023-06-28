@@ -13,6 +13,8 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/delay": "^2.9.3",
     "@xyo-network/abstract-bridge": "workspace:^",
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/bip39": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/core": "workspace:^",

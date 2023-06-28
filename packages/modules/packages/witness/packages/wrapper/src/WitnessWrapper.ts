@@ -1,9 +1,7 @@
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
-import { WitnessObserveQuery, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
-import { Witness } from '@xyo-network/witness-model'
+import { Witness, WitnessObserveQuery, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
 
 constructableModuleWrapper()
 export class WitnessWrapper extends ModuleWrapper implements Witness {

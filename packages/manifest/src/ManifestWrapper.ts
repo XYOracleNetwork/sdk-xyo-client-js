@@ -2,12 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import { CreatableModuleDictionary } from '@xyo-network/module'
 import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './ModuleFactory'
 import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
-  constructor(payload: ManifestPayload) {
+  constructor(payload: ManifestPayload, protected wallet: WalletInstance) {
     super(payload)
   }
 
@@ -80,7 +81,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
       `No module with [${manifest.id}] id available for registration`,
     )
 
-    const module = await creatableModule.create(manifest.config ? { config: manifest.config } : undefined)
+    const module = await creatableModule.create(manifest.config ? { account: this.wallet, config: manifest.config } : undefined)
     await node.module.register(module)
     return module
   }

@@ -18,6 +18,7 @@ export interface DappManifest extends Manifest {
 }
 
 export interface ModuleManifest extends Manifest {
+  accountPath?: string
   config?: ModuleConfig
   features?: string[]
   language?: string

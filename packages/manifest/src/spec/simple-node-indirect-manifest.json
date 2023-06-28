@@ -22,14 +22,17 @@
   ],
   "modules": {
     "ScratchArchivist": {
+      "accountPath": "1'",
       "id": "network.xyo.archivist",
       "language": "javascript"
     },
     "SimpleArchivist": {
+      "accountPath": "2'",
       "id": "network.xyo.archivist",
       "language": "javascript"
     },
     "SimpleSentinel": {
+      "accountPath": "3'",
       "id": "network.xyo.sentinel",
       "language": "javascript"
     }

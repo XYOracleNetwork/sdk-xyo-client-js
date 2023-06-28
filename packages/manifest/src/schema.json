@@ -89,6 +89,10 @@
       "additionalProperties": false,
       "description": "Module Definition",
       "properties": {
+        "accountPath": {
+          "description": "HDWallet path to derive account",
+          "type": "string"
+        },
         "architecture": {
           "description": "Architecture",
           "enum": [

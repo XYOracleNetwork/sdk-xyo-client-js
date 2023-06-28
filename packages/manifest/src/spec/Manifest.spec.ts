@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeWrapper } from '@xyo-network/node'
 
@@ -9,7 +10,9 @@ import simpleNodeInlineManifest from './simple-node-inline-manifest.json'
 describe('Manifest', () => {
   describe('Create Node from Manifest', () => {
     test('Simple Node [Indirect]', async () => {
-      const manifest = new ManifestWrapper(simpleNodeIndirectManifest as ManifestPayload)
+      const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
+      const wallet = await HDWallet.fromMnemonic(mnemonic)
+      const manifest = new ManifestWrapper(simpleNodeIndirectManifest as ManifestPayload, wallet)
       const [node] = await manifest.loadDapps()
       expect(node).toBeDefined()
       const wrapper = NodeWrapper.wrap(node)
@@ -19,7 +22,9 @@ describe('Manifest', () => {
       expect(await node.downResolver.resolve()).toBeArrayOfSize(3)
     })
     test('Simple Node [Inline]', async () => {
-      const manifest = new ManifestWrapper(simpleNodeInlineManifest as ManifestPayload)
+      const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
+      const wallet = await HDWallet.fromMnemonic(mnemonic)
+      const manifest = new ManifestWrapper(simpleNodeInlineManifest as ManifestPayload, wallet)
       const [node] = await manifest.loadDapps()
       expect(node).toBeDefined()
       const wrapper = NodeWrapper.wrap(node)

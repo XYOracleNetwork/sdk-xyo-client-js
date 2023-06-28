@@ -1,6 +1,3 @@
-export * from './AbstractWitness'
 export * from './Config'
 export * from './Queries'
-export * from './TimestampWitness'
 export * from './Witness'
-export * from './WitnessWrapper'

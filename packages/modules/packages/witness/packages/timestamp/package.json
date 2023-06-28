@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
+    "@xyo-network/abstract-witness": "workspace:^",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/promise": "workspace:^",
+    "@xyo-network/witness-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.17",

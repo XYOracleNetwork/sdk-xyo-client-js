@@ -8,7 +8,10 @@
             "accountPath": "1'",
             "id": "network.xyo.archivist",
             "language": "javascript",
-            "name": "ScratchArchivist"
+            "name": "ScratchArchivist",
+            "config": {
+              "schema": "network.xyo.module.config.archivist.memory"
+            }
           }
         ],
         "public": [
@@ -16,13 +19,19 @@
             "accountPath": "2'",
             "id": "network.xyo.archivist",
             "language": "javascript",
-            "name": "SimpleArchivist"
+            "name": "SimpleArchivist",
+            "config": {
+              "schema": "network.xyo.module.config.archivist.memory"
+            }
           },
           {
             "accountPath": "3'",
             "id": "network.xyo.sentinel",
             "language": "javascript",
-            "name": "SimpleSentinel"
+            "name": "SimpleSentinel",
+            "config": {
+              "schema": "network.xyo.node.sentinel"
+            }
           }
         ]
       },

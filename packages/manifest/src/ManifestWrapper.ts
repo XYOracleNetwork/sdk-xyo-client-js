@@ -4,8 +4,7 @@ import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { standardCreatableModules } from './ModuleFactory'
-import { DappManifest, ManifestPayload, ModuleManifest } from './Payload'
+import { DappManifest, ManifestPayload, ModuleManifest, standardCreatableModules } from '..'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   constructor(payload: ManifestPayload, protected wallet: WalletInstance) {
@@ -51,8 +50,8 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
 
   async loadDapps(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary) {
     return await Promise.all(
-      this.payload().dapps?.map(async (dappManifest) => {
-        const subNode = await MemoryNode.create()
+      this.payload().dapps?.map(async (dappManifest, index) => {
+        const subNode = await MemoryNode.create({ config: { schema: 'network.xyo.node.config' }, wallet: await this.wallet.derivePath(`${index}'`) })
         await node?.register(subNode)
         await this.loadDappFromManifest(subNode, dappManifest, additionalCreatableModules)
         return subNode
@@ -81,7 +80,10 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
       `No module with [${manifest.id}] id available for registration`,
     )
 
-    const module = await creatableModule.create(manifest.config ? { account: this.wallet, config: manifest.config } : undefined)
+    const module = await creatableModule.create({
+      account: manifest.accountPath ? await this.wallet.derivePath(manifest.accountPath) : this.wallet,
+      config: assertEx(manifest.config, 'Missing config'),
+    })
     await node.module.register(module)
     return module
   }

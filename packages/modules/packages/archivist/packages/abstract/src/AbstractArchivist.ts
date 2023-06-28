@@ -214,8 +214,11 @@ export abstract class AbstractArchivist<
 
   private async resolveArchivists(archivists: string[] = []) {
     const resolvedWrappers: Record<string, ArchivistWrapper> = {}
-    const resolvedModules = await this.resolve({ address: archivists })
-    const downResolvedModules = await this.downResolver.resolve({ address: archivists })
+    const resolvedModules = [...(await this.resolve({ address: archivists })), ...(await this.resolve({ name: archivists }))]
+    const downResolvedModules = [
+      ...(await this.downResolver.resolve({ address: archivists })),
+      ...(await this.downResolver.resolve({ name: archivists })),
+    ]
     const modules = [...resolvedModules, ...downResolvedModules] ?? []
     await Promise.all(
       modules.map((module) => {

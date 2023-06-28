@@ -13,9 +13,9 @@ import {
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { WitnessConfigSchema } from './Config'
-import { WitnessObserveQuerySchema, WitnessQuery, WitnessQueryBase } from './Queries'
-import { WitnessModule, WitnessModuleEventData, WitnessParams } from './Witness'
+import { WitnessConfigSchema } from '@xyo-network/witness-model'
+import { WitnessObserveQuerySchema, WitnessQuery, WitnessQueryBase } from '@xyo-network/witness-model'
+import { WitnessModule, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 
 creatableModule()
 export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>

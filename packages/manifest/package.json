@@ -20,7 +20,8 @@
     "@xyo-network/node": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/sentinel": "workspace:^"
+    "@xyo-network/sentinel": "workspace:^",
+    "@xyo-network/wallet-model": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.17.17",

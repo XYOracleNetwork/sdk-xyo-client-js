@@ -4,9 +4,9 @@ import { Module, ModuleParams } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AbstractWitness } from '../AbstractWitness'
-import { WitnessConfig, WitnessConfigSchema } from '../Config'
-import { WitnessModule } from '../Witness'
-import { WitnessWrapper } from '../WitnessWrapper'
+import { WitnessConfig, WitnessConfigSchema } from '@xyo-network/witness-model'
+import { WitnessModule } from '@xyo-network/witness-model'
+import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 
 describe('Witness', () => {
   const config: WitnessConfig = { schema: WitnessConfigSchema }

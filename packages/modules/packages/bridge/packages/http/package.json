@@ -31,7 +31,7 @@
     "@types/url-parse": "^1.4.8",
     "@xylabs/ts-scripts-yarn3": "^2.17.17",
     "@xylabs/tsconfig": "^2.17.17",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
@@ -66,5 +66,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.63.12"
+  "version": "2.63.13"
 }

@@ -8,7 +8,7 @@ import { ReasonPhrases } from 'http-status-codes'
 import { getHash, getNewBlocksWithPayloads, insertBlock, insertPayload } from '../../../testUtil'
 
 describe('/:hash', () => {
-  const account = Account.random()
+  const account = Account.randomSync()
   describe('return format is', () => {
     let boundWitness: BoundWitnessWithPartialMeta
     let payload: Payload

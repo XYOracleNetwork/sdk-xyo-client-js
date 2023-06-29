@@ -84,14 +84,14 @@ describe('Account', () => {
   })
 
   test('Constructor', async () => {
-    const wallet1 = Account.random()
+    const wallet1 = Account.randomSync()
     const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.address).toEqual(wallet2.address)
   })
 
   test('Sign-random-string', async () => {
-    const wallet = Account.random()
+    const wallet = Account.randomSync()
     const previousHash = wallet.previousHash
     const signature = await wallet.sign(testVectorHash, previousHash)
     const signaturePrime = toUint8Array(signature)

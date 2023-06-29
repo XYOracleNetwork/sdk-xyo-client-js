@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   AbstractModule,
@@ -61,7 +61,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = await PayloadHasher.filterExclude(payloads, query.query)
-    const queryAccount = Account.random()
+    const queryAccount = await HDWallet.random()
     try {
       switch (queryPayload.schema) {
         case WitnessObserveQuerySchema: {

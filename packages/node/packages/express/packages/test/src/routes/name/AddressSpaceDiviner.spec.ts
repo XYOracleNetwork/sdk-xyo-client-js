@@ -23,7 +23,7 @@ describe(`/${divinerName}`, () => {
     const accounts: AccountInstance[] = []
     beforeAll(async () => {
       for (let i = 0; i < 5; i++) {
-        const account = Account.random()
+        const account = Account.randomSync()
         accounts.push(account)
         await insertPayload(getNewPayload(), account)
       }

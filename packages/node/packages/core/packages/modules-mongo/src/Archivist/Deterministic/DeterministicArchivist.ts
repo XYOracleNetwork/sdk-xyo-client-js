@@ -126,8 +126,8 @@ export class MongoDBDeterministicArchivist<
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
     // TODO: Use new Account once we mock Account.new in Jest
-    const queryAccount = Account.random()
-    // const queryAccount = Account.random()
+    const queryAccount = Account.randomSync()
+    // const queryAccount = Account.randomSync()
     try {
       switch (queryPayload.schema) {
         case ArchivistGetQuerySchema: {

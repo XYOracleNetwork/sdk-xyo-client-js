@@ -95,7 +95,7 @@ export abstract class AbstractSentinel<
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = Account.random()
+    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
     try {
       switch (queryPayload.schema) {

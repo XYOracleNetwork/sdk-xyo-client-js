@@ -102,7 +102,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = Account.random()
+    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
     try {

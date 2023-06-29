@@ -8,7 +8,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { getRequestClient, validateDiscoverResponse } from '../../testUtil'
 
 describe('Node API', () => {
-  const account = Account.random()
+  const account = Account.randomSync()
   const client = getRequestClient()
   const path = '/node'
   beforeAll(() => {

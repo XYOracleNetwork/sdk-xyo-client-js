@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -141,7 +141,7 @@ export abstract class AbstractArchivist<
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
-    const queryAccount = Account.random()
+    const queryAccount = await HDWallet.random()
     if (this.config.storeQueries) {
       await this.insert([query])
     }

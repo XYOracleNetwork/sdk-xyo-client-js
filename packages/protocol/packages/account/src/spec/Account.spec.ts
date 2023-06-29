@@ -82,14 +82,14 @@ describe('Account', () => {
   })
 
   test('Constructor', async () => {
-    const wallet1 = Account.random()
+    const wallet1 = Account.randomSync()
     const wallet2 = await Account.create({ privateKey: wallet1.private.bytes })
     expect(wallet1.public.hex).toEqual(wallet2.public.hex)
     expect(wallet1.address).toEqual(wallet2.address)
   })
 
   test('Sign-random-string', async () => {
-    const wallet = Account.random()
+    const wallet = Account.randomSync()
     const previousHash = wallet.previousHash
     const signature = await wallet.sign(testVectorHash, previousHash)
     const signaturePrime = toUint8Array(signature)
@@ -124,18 +124,18 @@ describe('Account', () => {
   describe('previousHash', () => {
     const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
     it('returns last signed hash', async () => {
-      const account = Account.random()
+      const account = Account.randomSync()
       const previousHash = account.previousHash
       await account.sign(hash, previousHash)
       expect(account.previousHash).toEqual(account.previousHash)
     })
     it('returns undefined if no previous signings', () => {
-      const account = Account.random()
+      const account = Account.randomSync()
       expect(account.previousHash).toBeUndefined()
       expect(account.previousHash).toBeUndefined()
     })
     it('allows setting value via constructor', async () => {
-      const accountA = Account.random()
+      const accountA = Account.randomSync()
       const oldPreviousHash = accountA.previousHash
       await accountA.sign(hash, oldPreviousHash)
       const privateKey = accountA.private.hex

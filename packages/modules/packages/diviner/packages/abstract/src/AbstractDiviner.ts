@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
@@ -52,7 +52,7 @@ export abstract class AbstractDiviner<
     const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = Account.random()
+    const queryAccount = await HDWallet.random()
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
     try {

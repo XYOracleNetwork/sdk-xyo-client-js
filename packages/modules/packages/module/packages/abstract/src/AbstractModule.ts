@@ -158,7 +158,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         account = assertEx(accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet, 'Failed to derive account from path')
       }
       this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.address}`) : undefined
-      this._account = account ?? Account.random()
+      this._account = account ?? (await HDWallet.random())
     }
     this.downResolver.add(this as Module)
     return this._account
@@ -338,7 +338,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
-    const queryAccount = Account.random()
+    const queryAccount = await HDWallet.random()
     try {
       switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {

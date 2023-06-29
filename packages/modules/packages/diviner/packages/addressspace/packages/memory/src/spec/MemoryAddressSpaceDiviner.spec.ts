@@ -11,7 +11,7 @@ describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
-      const account = Account.random()
+      const account = Account.randomSync()
       const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
         account,

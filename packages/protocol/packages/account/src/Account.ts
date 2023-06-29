@@ -99,7 +99,7 @@ export class Account extends KeyPair implements AccountInstance {
     return address.length === 40
   }
 
-  static random(): Account {
+  static randomSync(): Account {
     return new Account(Account._protectedConstructorKey)
   }
 

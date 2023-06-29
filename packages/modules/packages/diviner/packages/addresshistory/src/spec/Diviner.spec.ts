@@ -10,7 +10,7 @@ import { AddressHistoryDiviner } from '../Diviner'
 
 describe('AddressHistoryDiviner', () => {
   describe('divine', () => {
-    const account: AccountInstance = Account.random()
+    const account: AccountInstance = Account.randomSync()
     let node: MemoryNode
     let archivist: MemoryArchivist
     let archivistWrapper: ArchivistWrapper

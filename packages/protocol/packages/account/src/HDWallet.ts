@@ -1,6 +1,7 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
+import { generateMnemonic, wordlists } from '@xyo-network/bip39'
 import { toUint8Array } from '@xyo-network/core'
 import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 
@@ -82,6 +83,10 @@ export class HDWallet extends Account implements WalletInstance {
 
   static override is(value: unknown): HDWallet | undefined {
     return value instanceof HDWallet ? value : undefined
+  }
+
+  static random() {
+    return this.fromMnemonic(generateMnemonic(wordlists.english, 256))
   }
 
   async derivePath(path: string): Promise<WalletInstance> {

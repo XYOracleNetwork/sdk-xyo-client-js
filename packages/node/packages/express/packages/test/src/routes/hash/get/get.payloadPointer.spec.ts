@@ -67,7 +67,7 @@ const expectSchemaNotSuppliedError = (result: Payload) => {
 
 describe('/:hash', () => {
   describe('return format is', () => {
-    const account = Account.random()
+    const account = Account.randomSync()
     let bw: BoundWitness
     let payloads: Payload[]
     beforeAll(async () => {
@@ -94,10 +94,10 @@ describe('/:hash', () => {
   })
   describe('with rules for', () => {
     describe('address', () => {
-      const accountA = Account.random()
-      const accountB = Account.random()
-      const accountC = Account.random()
-      const accountD = Account.random()
+      const accountA = Account.randomSync()
+      const accountB = Account.randomSync()
+      const accountC = Account.randomSync()
+      const accountD = Account.randomSync()
       const payloads: Payload[] = []
       beforeAll(async () => {
         const [bwA, payloadsA] = await getNewBoundWitness([accountA])
@@ -144,13 +144,13 @@ describe('/:hash', () => {
         })
       })
       it('no matching address', async () => {
-        const pointerHash = await createPointer([[Account.random().address]], [[payloads[0].schema]])
+        const pointerHash = await createPointer([[Account.randomSync().address]], [[payloads[0].schema]])
         const result = await getHash(pointerHash)
         expectHashNotFoundError(result)
       })
     })
     describe('schema', () => {
-      const account = Account.random()
+      const account = Account.randomSync()
       const schemaA = getTestSchemaName()
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
@@ -197,7 +197,7 @@ describe('/:hash', () => {
       })
     })
     describe('timestamp direction', () => {
-      const account = Account.random()
+      const account = Account.randomSync()
       let payloads: Payload[]
       let expectedSchema: string
       beforeAll(async () => {

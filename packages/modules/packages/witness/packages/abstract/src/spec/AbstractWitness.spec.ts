@@ -15,7 +15,7 @@ describe('Witness', () => {
   describe('fulfills type of', () => {
     let account: AccountInstance
     beforeAll(() => {
-      account = Account.random()
+      account = Account.randomSync()
     })
     it('Module', async () => {
       const witness: Module = await AbstractWitness.create(params)
@@ -41,7 +41,7 @@ describe('Witness', () => {
       describe('returns payloads', () => {
         let account: AccountInstance
         beforeAll(() => {
-          account = Account.random()
+          account = Account.randomSync()
         })
         it('when module queried directly', async () => {
           const witness = await AbstractWitness.create(params)

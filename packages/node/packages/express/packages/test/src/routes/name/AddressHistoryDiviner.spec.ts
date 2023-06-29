@@ -10,7 +10,7 @@ const schema = AddressHistoryQuerySchema
 const divinerName = 'AddressHistoryDiviner'
 
 describe(`/${divinerName}`, () => {
-  const account = Account.random()
+  const account = Account.randomSync()
   let sut: DivinerWrapper
   let archivist: ArchivistWrapper
   beforeAll(async () => {
@@ -26,7 +26,7 @@ describe(`/${divinerName}`, () => {
   })
   describe('DivinerDivineQuerySchema', () => {
     const limit = 10
-    const account = Account.random()
+    const account = Account.randomSync()
     let dataHashes: string[]
     beforeAll(async () => {
       const data = await getNewBoundWitnesses([account], limit, 1)

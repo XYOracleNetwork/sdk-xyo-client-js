@@ -15,13 +15,13 @@ import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
 const schema = ModuleDiscoverQuerySchema
 
 describe('ModuleConfigQueryValidator', () => {
-  const allowed1 = Account.random()
-  const allowed2 = Account.random()
-  const allowedCosigner1 = Account.random()
-  const allowedCosigner2 = Account.random()
-  const disallowed1 = Account.random()
-  const disallowed2 = Account.random()
-  const other = Account.random()
+  const allowed1 = Account.randomSync()
+  const allowed2 = Account.randomSync()
+  const allowedCosigner1 = Account.randomSync()
+  const allowedCosigner2 = Account.randomSync()
+  const disallowed1 = Account.randomSync()
+  const disallowed2 = Account.randomSync()
+  const other = Account.randomSync()
   const queryPayload = new PayloadBuilder({ schema }).build()
   const allowed: Record<SchemaString, (AddressString | CosigningAddressSet)[]> = {}
   allowed[ModuleDiscoverQuerySchema] = [allowed1.address.toUpperCase(), allowed2.address, [allowedCosigner1.address, allowedCosigner2.address]]

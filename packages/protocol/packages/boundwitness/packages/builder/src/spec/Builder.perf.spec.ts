@@ -15,7 +15,7 @@ const payloads = Array(5000)
 describe('BoundWitnessBuilder-Perf', () => {
   it('build', () => {
     const startTime = Date.now()
-    const bw = new BoundWitnessBuilder().payloads(payloads).witness(Account.random()).build()
+    const bw = new BoundWitnessBuilder().payloads(payloads).witness(Account.randomSync()).build()
     const duration = Date.now() - startTime
     expect(bw).toBeDefined()
     expect(duration).toBeLessThan(500)

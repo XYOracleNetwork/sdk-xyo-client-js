@@ -45,7 +45,7 @@ const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnes
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 
-export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode, account = Account.random()) => {
+export const configureMemoryNode = async (container: Container, memoryNode?: MemoryNode, account = Account.randomSync()) => {
   const node = memoryNode ?? ((await MemoryNode.create({ account, config })) as MemoryNode)
   container.bind<MemoryNode>(TYPES.Node).toConstantValue(node)
   await addModulesToNodeByConfig(container, node, configs)
@@ -80,7 +80,7 @@ const addModuleToNodeFromConfig = async (
   node: MemoryNode,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
-  account = Account.random(),
+  account = Account.randomSync(),
 ) => {
   const configModuleFactory = creatableModuleDictionary[config.schema]
   if (configModuleFactory) {

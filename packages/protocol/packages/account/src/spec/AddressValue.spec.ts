@@ -56,7 +56,7 @@ describe('AddressValue', () => {
 
   // beforeAll(async () => {
   //   for (let index = 0; index < 10; index++) {
-  //     const account = Account.random()
+  //     const account = Account.randomSync()
   //     const payload = { data: Math.random(), schema: 'network.xyo.test' }
   //     const boundWitness = await new BoundWitnessBuilder().payload(payload).witness(account).build()
   //     const message = PayloadHasher.hash(boundWitness[0])

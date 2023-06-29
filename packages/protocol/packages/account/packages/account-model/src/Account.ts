@@ -39,5 +39,4 @@ export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   fromPhrase(phrase: string): Promise<AccountInstance>
   fromPrivateKey(key: DataLike): Promise<AccountInstance>
   is(value: unknown): T | undefined
-  random(): AccountInstance
 }

@@ -40,8 +40,8 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('DivinerDivineQuerySchema', () => {
-    const accountA = Account.random()
-    const accountB = Account.random()
+    const accountA = Account.randomSync()
+    const accountB = Account.randomSync()
     const boundWitnesses: BoundWitnessWrapper[] = []
     beforeAll(async () => {
       const boundWitnessA = BoundWitnessWrapper.parse((await getNewBoundWitness([accountA], [getNewPayload()]))[0])
@@ -106,7 +106,7 @@ describe(`/${moduleName}`, () => {
       })
     })
     describe('offset', () => {
-      const account = Account.random()
+      const account = Account.randomSync()
       const address = account.address
       let boundWitnesses: BoundWitnessWrapper[]
       beforeAll(async () => {

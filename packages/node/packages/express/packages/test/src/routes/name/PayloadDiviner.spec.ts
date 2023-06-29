@@ -34,8 +34,8 @@ describe(`/${moduleName}`, () => {
     })
   })
   describe('DivinerDivineQuerySchema', () => {
-    const accountA = Account.random()
-    const accountB = Account.random()
+    const accountA = Account.randomSync()
+    const accountB = Account.randomSync()
     describe.skip('address', () => {
       it('divines Payloads by address', async () => {
         const wrapper: PayloadWrapper = PayloadWrapper.wrap(getNewPayload())

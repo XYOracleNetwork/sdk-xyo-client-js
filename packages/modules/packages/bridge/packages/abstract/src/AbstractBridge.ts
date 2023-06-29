@@ -64,7 +64,7 @@ export abstract class AbstractBridge<
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    const queryAccount = Account.random()
+    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
     try {

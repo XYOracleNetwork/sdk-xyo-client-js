@@ -46,7 +46,7 @@ testArchivistAll(
 )
 
 test('Archivist Private Key Save', async () => {
-  const account = Account.random()
+  const account = Account.randomSync()
   const storage = await StorageArchivist.create({
     account,
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },

@@ -38,16 +38,26 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
   requiredQueries: string[]
   new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
-  canWrap(module?: Module): boolean
+
+  canWrap(module: Module | undefined): boolean
+
+  /** @deprecated pass an account for second parameter */
   tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module?: Module,
-    account?: AccountInstance,
+    module: Module | undefined,
   ): TModuleWrapper | undefined
+  tryWrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module: Module | undefined,
+    account: AccountInstance,
+  ): TModuleWrapper | undefined
+
+  /** @deprecated pass an account for second parameter */
+  wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, module: Module | undefined): TModuleWrapper
   wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module?: Module,
-    account?: AccountInstance,
+    module: Module | undefined,
+    account: AccountInstance,
   ): TModuleWrapper
 }
 
@@ -123,25 +133,42 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     )
   }
 
+  /** @deprecated pass an account for second parameter */
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module?: Module,
-    account: AccountInstance = Account.random(),
+    module: Module | undefined,
+  ): TModuleWrapper | undefined
+  static tryWrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module: Module | undefined,
+    account: AccountInstance,
+  ): TModuleWrapper | undefined
+  static tryWrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module: Module | undefined,
+    account?: AccountInstance,
   ): TModuleWrapper | undefined {
     if (this.canWrap(module)) {
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
-      return new this({ account, module: module as Module })
+      return new this({ account: account ?? Account.randomSync(), module: module as Module })
     }
   }
 
+  /** @deprecated pass an account for second parameter */
+  static wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, module: Module | undefined): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module?: Module,
+    module: Module | undefined,
+    account: AccountInstance,
+  ): TModuleWrapper
+  static wrap<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
-    return assertEx(this.tryWrap(module, account), 'Unable to wrap module as ModuleWrapper')
+    return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 
   clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {

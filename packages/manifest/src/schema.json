@@ -133,15 +133,13 @@
         "language": {
           "$ref": "#/definitions/language"
         },
-        "name": {
-          "description": "The friendly name for this module",
-          "type": "string"
-        },
         "os": {
           "$ref": "#/definitions/os"
         }
       },
-      "required": [],
+      "required": [
+        "accountPath"
+      ],
       "type": "object"
     },
     "modules": {
@@ -184,13 +182,6 @@
     },
     "description": {
       "type": "string"
-    },
-    "modules": {
-      "additionalProperties": {
-        "$ref": "#/definitions/module"
-      },
-      "description": "The list of global modules that are defined in the manifest",
-      "type": "object"
     },
     "schema": {
       "type": "string"

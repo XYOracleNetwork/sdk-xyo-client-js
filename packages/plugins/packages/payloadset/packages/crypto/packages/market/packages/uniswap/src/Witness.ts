@@ -22,7 +22,7 @@ export type UniswapCryptoMarketWitnessParams = WitnessParams<
 export class UniswapCryptoMarketWitness<
   TParams extends UniswapCryptoMarketWitnessParams = UniswapCryptoMarketWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = UniswapCryptoMarketWitnessConfigSchema
+  static override configSchemas = [UniswapCryptoMarketWitnessConfigSchema]
 
   protected pairs?: EthersUniSwap3Pair[]
   protected get provider() {

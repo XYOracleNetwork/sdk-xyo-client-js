@@ -29,7 +29,7 @@ export abstract class AbstractDiviner<
   extends AbstractModule<TParams, TEventData>
   implements DivinerModule<TParams>
 {
-  static override configSchema: string = DivinerConfigSchema
+  static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
 
   override get queries(): string[] {

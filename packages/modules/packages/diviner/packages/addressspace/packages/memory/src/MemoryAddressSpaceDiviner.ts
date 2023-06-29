@@ -15,7 +15,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
   extends AbstractDiviner<TParams>
   implements AddressSpaceDiviner
 {
-  static override configSchema = AddressSpaceDivinerConfigSchema
+  static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')

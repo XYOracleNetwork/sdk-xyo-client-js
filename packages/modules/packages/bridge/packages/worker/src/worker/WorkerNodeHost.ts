@@ -24,7 +24,7 @@ export class WorkerNodeHost {
   static async create(config: ManifestPayload) {
     const mnemonic = generateMnemonic(wordlists.english, 256)
     const manifest = new ManifestWrapper(config, await HDWallet.fromMnemonic(mnemonic))
-    const [node] = await manifest.loadDapps()
+    const [node] = await manifest.loadNodes()
     const worker = new this(node)
     worker.attachNode(node)
     return worker

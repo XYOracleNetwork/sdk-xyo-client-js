@@ -20,7 +20,7 @@ export type EthereumGasEthersWitnessParams = WitnessParams<
 export class EthereumGasEthersWitness<
   TParams extends EthereumGasEthersWitnessParams = EthereumGasEthersWitnessParams,
 > extends TimestampWitness<TParams> {
-  static override configSchema = EthereumGasEthersWitnessConfigSchema
+  static override configSchemas = [EthereumGasEthersWitnessConfigSchema]
 
   private _provider?: Provider
 

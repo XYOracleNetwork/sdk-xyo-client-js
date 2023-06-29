@@ -39,7 +39,7 @@ export class HttpBridge<
   extends AbstractBridge<TParams, TEventData, TModule>
   implements BridgeModule<TParams, TEventData, TModule>
 {
-  static override configSchema = HttpBridgeConfigSchema
+  static override configSchemas = [HttpBridgeConfigSchema]
 
   private _axios?: AxiosJson
   private _discoverCache?: LRUCache<string, Payload[]>

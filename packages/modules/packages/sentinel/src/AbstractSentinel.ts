@@ -27,7 +27,7 @@ export abstract class AbstractSentinel<
   extends ArchivingModule<TParams, TEventData>
   implements SentinelModule<TParams, TEventData>
 {
-  static override configSchema: string = SentinelConfigSchema
+  static override readonly configSchemas: string[] = [SentinelConfigSchema]
 
   history: BoundWitness[] = []
 

@@ -60,7 +60,7 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
-  static override configSchema = ArchivistConfigSchema
+  static override configSchemas = [ArchivistConfigSchema]
 
   get boundWitnesses() {
     return this.params.boundWitnessSdk

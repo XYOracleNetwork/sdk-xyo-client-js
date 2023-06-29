@@ -30,7 +30,7 @@ export class MemorySentinel<
   extends AbstractSentinel<TParams, TEventData>
   implements SentinelModule<TParams, TEventData>
 {
-  static override configSchema = SentinelConfigSchema
+  static override configSchemas = [SentinelConfigSchema]
 
   async report(payloads: Payload[] = []): Promise<Payload[]> {
     const errors: Error[] = []

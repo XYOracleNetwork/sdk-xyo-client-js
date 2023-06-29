@@ -16,7 +16,7 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
   extends AbstractDiviner<TParam>
   implements DivinerModule
 {
-  static override configSchema = LocationCertaintyDivinerConfigSchema
+  static override configSchemas = [LocationCertaintyDivinerConfigSchema]
   static override targetSchema = LocationCertaintySchema
 
   /* Given an array of numbers, find the min/max/mean */

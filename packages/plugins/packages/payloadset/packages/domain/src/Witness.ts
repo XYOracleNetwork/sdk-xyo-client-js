@@ -7,7 +7,7 @@ import { DomainWitnessConfig, DomainWitnessConfigSchema } from './Config'
 
 export type DomainWitnessParams = WitnessParams<AnyConfigSchema<DomainWitnessConfig>>
 export class DomainWitness<TParams extends DomainWitnessParams = DomainWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
-  static override configSchema = DomainWitnessConfigSchema
+  static override configSchemas = [DomainWitnessConfigSchema]
   static dmarc = '_xyo'
 
   static generateDmarc(domain: string) {

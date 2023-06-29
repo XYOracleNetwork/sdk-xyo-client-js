@@ -6,7 +6,7 @@ import { AbstractWitness } from '@xyo-network/witness'
 import { CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
 
 export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams = CurrentLocationWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = CurrentLocationWitnessConfigSchema
+  static override configSchemas = [CurrentLocationWitnessConfigSchema]
 
   get geolocation(): Geolocation {
     return assertEx(this.params.geolocation, 'No geolocation provided')

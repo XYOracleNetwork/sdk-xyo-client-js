@@ -5,8 +5,8 @@ import { MemoryNode } from '@xyo-network/node'
 import { MemorySentinel } from '@xyo-network/sentinel'
 
 export const standardCreatableModules: CreatableModuleDictionary = {
-  'network.xyo.archivist': MemoryArchivist,
-  'network.xyo.bridge.http': ModuleFactory.withParams(HttpBridge, { config: { schema: HttpBridge.configSchema } }),
-  'network.xyo.node': MemoryNode,
-  'network.xyo.sentinel': MemorySentinel,
+  'network.xyo.archivist.config': MemoryArchivist,
+  'network.xyo.bridge.http.config': ModuleFactory.withParams(HttpBridge, { config: { schema: HttpBridge.configSchema } }),
+  'network.xyo.node.config': MemoryNode,
+  'network.xyo.sentinel.config': MemorySentinel,
 }

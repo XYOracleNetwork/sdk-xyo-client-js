@@ -52,7 +52,7 @@ export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = Divine
 export class MemoryCoinUserLocationsDiviner<
   TParams extends CoinUserLocationsDivinerParams = CoinUserLocationsDivinerParams,
 > extends CoinUserLocationsDiviner<TParams> {
-  static override configSchema = ArchivistPayloadDivinerConfigSchema
+  static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
   async divine(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(

@@ -4,6 +4,7 @@ import { Module } from './Module'
 
 export interface CreatableModule<T extends Module = Module> {
   configSchema: string
+  configSchemas: string[]
   defaultLogger?: Logger
   new (privateConstructorKey: string, params: T['params']): T
   create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<T>

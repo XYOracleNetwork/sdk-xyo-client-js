@@ -34,7 +34,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   extends AbstractModule<TParams, TEventData>
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
-  static override readonly configSchema = NodeConfigSchema
+  static override readonly configSchemas: string[] = [NodeConfigSchema]
 
   protected readonly privateResolver = new CompositeModuleResolver()
 

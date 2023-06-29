@@ -1,41 +1,42 @@
 {
   "$schema": "../schema.json",
-  "dapps": [
+  "nodes": [
     {
       "modules": {
         "private": [
           {
-            "accountPath": "1'",
-            "id": "network.xyo.archivist",
-            "language": "javascript",
-            "name": "ScratchArchivist",
             "config": {
-              "schema": "network.xyo.module.config.archivist.memory"
+              "accountPath": "1'",
+              "language": "javascript",
+              "name": "ScratchArchivist",
+              "schema": "network.xyo.archivist.config"
             }
           }
         ],
         "public": [
           {
-            "accountPath": "2'",
-            "id": "network.xyo.archivist",
-            "language": "javascript",
-            "name": "SimpleArchivist",
             "config": {
-              "schema": "network.xyo.module.config.archivist.memory"
+              "accountPath": "2'",
+              "language": "javascript",
+              "name": "SimpleArchivist",
+              "schema": "network.xyo.archivist.config"
             }
           },
           {
-            "accountPath": "3'",
-            "id": "network.xyo.sentinel",
-            "language": "javascript",
-            "name": "SimpleSentinel",
             "config": {
-              "schema": "network.xyo.node.sentinel"
+              "accountPath": "3'",
+              "language": "javascript",
+              "name": "SimpleSentinel",
+              "schema": "network.xyo.sentinel.config"
             }
           }
         ]
       },
-      "name": "SimpleMemoryDapp"
+      "config": {
+        "accountPath": "0'",
+        "schema": "network.xyo.node.config",
+        "name": "SimpleMemoryDapp"
+      }
     }
   ],
   "schema": "network.xyo.manifest"

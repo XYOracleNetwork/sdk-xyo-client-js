@@ -12,7 +12,7 @@ export class NodeSystemInfoWitness<TParams extends NodeSystemInfoWitnessParams =
   extends AbstractWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema = NodeSystemInfoWitnessConfigSchema
+  static override configSchemas = [NodeSystemInfoWitnessConfigSchema]
 
   override async observe(payloads?: Payload[]) {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())

@@ -14,8 +14,8 @@ export interface FileSystemArchivistData {
   payloads: Payload[]
 }
 
-export type FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
-export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 'network.xyo.module.config.archivist.filesystem'
+export type FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config'
+export const FilesystemArchivistConfigSchema: FilesystemArchivistConfigSchema = 'network.xyo.archivist.filesystem.config'
 
 export type FilesystemArchivistConfig = ArchivistConfig<{
   filePath?: string
@@ -32,7 +32,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   extends AbstractArchivist<TParams>
   implements ArchivistModule
 {
-  static override configSchema = FilesystemArchivistConfigSchema
+  static override configSchemas = [FilesystemArchivistConfigSchema]
 
   private _memoryArchivist?: MemoryArchivist
 

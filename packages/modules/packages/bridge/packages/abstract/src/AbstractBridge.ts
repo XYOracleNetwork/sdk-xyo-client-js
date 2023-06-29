@@ -35,7 +35,7 @@ export abstract class AbstractBridge<
   extends AbstractModule<TParams, TEventData>
   implements BridgeModule<TParams, TEventData, TModule>
 {
-  static override configSchema: string = BridgeConfigSchema
+  static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 

@@ -55,7 +55,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   extends SchemaStatsDiviner<TParams>
   implements JobProvider
 {
-  static override configSchema = SchemaStatsDivinerConfigSchema
+  static override configSchemas = [SchemaStatsDivinerConfigSchema]
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

@@ -7,7 +7,7 @@ import { UrlWitnessConfigSchema } from './Config'
 import { UrlWitnessParams } from './Params'
 
 export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = UrlWitnessConfigSchema
+  static override configSchemas = [UrlWitnessConfigSchema]
 
   get url() {
     return this.config?.url

@@ -4,7 +4,7 @@ import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { AbstractModule } from '../AbstractModule'
 export class TestAbstractModule extends AbstractModule {
-  static override configSchema = ModuleConfigSchema
+  static override readonly configSchemas: string[] = [ModuleConfigSchema]
   protected override get _queryAccountPaths() {
     return super._baseModuleQueryAccountPaths
   }

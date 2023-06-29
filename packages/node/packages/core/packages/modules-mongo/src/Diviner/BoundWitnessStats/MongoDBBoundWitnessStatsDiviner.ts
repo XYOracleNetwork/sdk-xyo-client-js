@@ -50,7 +50,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
-  static override configSchema = BoundWitnessStatsDivinerConfigSchema
+  static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

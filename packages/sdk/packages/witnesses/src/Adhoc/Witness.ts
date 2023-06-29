@@ -15,7 +15,7 @@ export type AdhocWitnessConfig = WitnessConfig<{
 export type AdhocWitnessParams = WitnessParams<AnyConfigSchema<AdhocWitnessConfig>>
 
 export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
-  static override configSchema: string = AdhocWitnessConfigSchema
+  static override readonly configSchemas: string[] = [AdhocWitnessConfigSchema]
 
   get payload() {
     return this.config?.payload

@@ -5699,6 +5699,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.17.17
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/account-model": "workspace:^"
+    "@xyo-network/bip39": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/key-model": "workspace:^"
     "@xyo-network/previous-hash-store-model": "workspace:^"
@@ -9135,6 +9136,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.17.17
     "@xyo-network/abstract-bridge": "workspace:^"
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/archivist": "workspace:^"
     "@xyo-network/bip39": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
@@ -9146,6 +9148,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     "@xyo-network/query-payload-plugin": "workspace:^"
+    "@xyo-network/sentinel": "workspace:^"
     lodash: ^4.17.21
     lru-cache: ^10.0.0
     typescript: ^5.1.5

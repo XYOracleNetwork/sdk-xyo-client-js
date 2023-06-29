@@ -24,7 +24,7 @@ const schema = AddressTransactionHistorySchema
 export class AddressTransactionHistoryWitness<
   TParams extends AddressTransactionHistoryWitnessParams = AddressTransactionHistoryWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = AddressTransactionHistoryWitnessConfigSchema
+  static override configSchemas = [AddressTransactionHistoryWitnessConfigSchema]
 
   protected get provider() {
     return assertEx(this.params.provider, 'Provider Required')

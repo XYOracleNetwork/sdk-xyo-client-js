@@ -59,7 +59,7 @@ export class WorkerBridge<
   extends AbstractBridge<TParams, TEventData, TModule>
   implements BridgeModule<TParams, TEventData, TModule>
 {
-  static override configSchema = WorkerBridgeConfigSchema
+  static override configSchemas = [WorkerBridgeConfigSchema]
 
   private _discoverCache?: LRUCache<string, Payload[]>
   private _targetConfigs: Record<string, ModuleConfig> = {}

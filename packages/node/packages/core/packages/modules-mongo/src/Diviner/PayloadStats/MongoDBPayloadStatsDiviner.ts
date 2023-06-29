@@ -52,7 +52,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   extends AbstractDiviner<TParams>
   implements PayloadStatsDiviner, JobProvider
 {
-  static override configSchema = PayloadStatsDivinerConfigSchema
+  static override configSchemas = [PayloadStatsDivinerConfigSchema]
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

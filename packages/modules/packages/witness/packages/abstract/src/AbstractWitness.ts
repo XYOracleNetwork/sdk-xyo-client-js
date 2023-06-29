@@ -27,7 +27,7 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
   extends AbstractModule<TParams, TEventData>
   implements WitnessModule<TParams, TEventData>
 {
-  static override configSchema: string = WitnessConfigSchema
+  static override readonly configSchemas: string[] = [WitnessConfigSchema]
 
   override get queries(): string[] {
     return [WitnessObserveQuerySchema, ...super.queries]

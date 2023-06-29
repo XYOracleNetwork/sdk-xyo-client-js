@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistModule } from '@xyo-network/archivist-model'
@@ -52,7 +52,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
-  static configSchema: string
+  static configSchemas: string[]
+
   protected static privateConstructorKey = Date.now().toString()
 
   readonly downResolver = new CompositeModuleResolver()
@@ -81,6 +82,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
+  }
+
+  static get configSchema(): string {
+    return this.configSchemas[0]
   }
 
   get account() {
@@ -114,17 +119,18 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
   static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
-    if (!this.configSchema) {
+    if (!this.configSchemas || this.configSchemas.length === 0) {
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
-    const schema = this.configSchema
-    if (params?.config?.schema) {
-      if (params?.config?.schema !== schema) {
-        throw Error(`Bad Config Schema [Received ${params?.config?.schema}] [Expected ${schema}]`)
-      }
-    }
-    params?.logger?.debug(`config: ${JSON.stringify(params?.config, null, 2)}`)
-    const mutatedConfig = { ...params?.config, schema } as TModule['params']['config']
+    const schema: string = params?.config?.schema ?? this.configSchema
+    const allowedSchemas: string[] = this.configSchemas
+
+    assertEx(
+      allowedSchemas.filter((allowedSchema) => allowedSchema === schema).length > 0,
+      `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`,
+    )
+    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema }
+    params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams)
     await newModule.loadAccount?.()

@@ -4,7 +4,7 @@ import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-networ
 import { PluginPayload } from './Payload'
 
 export class NonFungibleTokenWitness extends AbstractWitness<WitnessParams<PluginPayload>> {
-  static override configSchema = WitnessConfigSchema
+  static override configSchemas = [WitnessConfigSchema]
 
   override observe(_payloads: Payload[]): Promise<PluginPayload[]> {
     throw new Error('Method not implemented.')

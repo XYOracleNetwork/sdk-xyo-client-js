@@ -6,6 +6,7 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistConfig,
+  ArchivistConfigSchema,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
@@ -19,12 +20,12 @@ import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 
-export type MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
-export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.module.config.archivist.memory'
+export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
+export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
 
 export type MemoryArchivistConfig = ArchivistConfig<{
   max?: number
-  schema: MemoryArchivistConfigSchema
+  schema: MemoryArchivistConfigSchema | ArchivistConfig['schema']
 }>
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
@@ -34,7 +35,7 @@ export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchema = MemoryArchivistConfigSchema
+  static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _cache?: LRUCache<string, Payload>
 

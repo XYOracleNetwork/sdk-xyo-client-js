@@ -12,7 +12,7 @@ describe('Manifest', () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromMnemonic(mnemonic)
       const manifest = new ManifestWrapper(simpleNodeInlineManifest as ManifestPayload, wallet)
-      const [node] = await manifest.loadDapps()
+      const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
       const wrapper = NodeWrapper.wrap(node)
       const discover = await wrapper.discover()

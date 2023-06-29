@@ -21,8 +21,8 @@ import { PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
-export type CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
-export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.module.config.archivist.cookie'
+export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
+export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
 
 export type CookieArchivistConfig = ArchivistConfig<{
   domain?: string
@@ -38,7 +38,7 @@ export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchema = CookieArchivistConfigSchema
+  static override configSchemas = [CookieArchivistConfigSchema]
 
   get domain() {
     return this.config?.domain

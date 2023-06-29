@@ -10,7 +10,7 @@ import { getGasFromEtherscan } from './lib'
 import { EthereumGasEtherscanWitnessConfigSchema } from './Schema'
 
 export class EthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<AnyConfigSchema<EthereumGasEtherscanWitnessConfig>>> {
-  static override configSchema = EthereumGasEtherscanWitnessConfigSchema
+  static override configSchemas = [EthereumGasEtherscanWitnessConfigSchema]
 
   override async observe(): Promise<Payload[]> {
     const apiKey = assertEx(this.config?.apiKey, 'apiKey is required')

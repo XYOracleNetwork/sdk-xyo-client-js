@@ -16,7 +16,7 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemoryBoundWitnessStatsDiviner<
   TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,
 > extends BoundWitnessStatsDiviner<TParams> {
-  static override configSchema = BoundWitnessStatsDivinerConfigSchema
+  static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)

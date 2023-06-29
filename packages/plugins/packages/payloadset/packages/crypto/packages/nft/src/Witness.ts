@@ -17,7 +17,7 @@ export type CryptoWalletNftWitnessParams = WitnessParams<
 const schema = NftSchema
 
 export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = NftWitnessConfigSchema
+  static override configSchemas = [NftWitnessConfigSchema]
 
   protected get provider() {
     return assertEx(this.params.provider, 'Provider Required')

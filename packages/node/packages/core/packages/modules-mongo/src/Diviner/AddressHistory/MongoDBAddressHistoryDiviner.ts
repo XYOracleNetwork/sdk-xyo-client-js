@@ -28,7 +28,7 @@ export type MongoDBAddressHistoryDivinerParams = DivinerParams<
 export class MongoDBAddressHistoryDiviner<
   TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams,
 > extends AddressHistoryDiviner<TParams> {
-  static override configSchema = AddressHistoryDivinerConfigSchema
+  static override configSchemas = [AddressHistoryDivinerConfigSchema]
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)

@@ -37,7 +37,7 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchema = IndexedDbArchivistConfigSchema
+  static override configSchemas = [IndexedDbArchivistConfigSchema]
   static defaultDbName = 'archivist'
   static defaultStoreName = 'payloads'
 

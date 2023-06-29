@@ -14,7 +14,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   extends AbstractNode<TParams, TEventData>
   implements NodeModule<TParams, TEventData>
 {
-  static override configSchema = NodeConfigSchema
+  static override configSchemas = [NodeConfigSchema]
 
   private registeredModuleMap: Record<string, Module> = {}
 

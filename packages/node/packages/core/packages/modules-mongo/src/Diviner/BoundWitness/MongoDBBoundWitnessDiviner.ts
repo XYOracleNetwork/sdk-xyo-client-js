@@ -27,7 +27,7 @@ export type MongoDBBoundWitnessDivinerParams = DivinerParams<
 export class MongoDBBoundWitnessDiviner<
   TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchema = BoundWitnessDivinerConfigSchema
+  static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
   override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)

@@ -17,7 +17,7 @@ export class CryptoMarketAssetDiviner<TParams extends CryptoMarketAssetDivinerPa
   extends AbstractDiviner<TParams>
   implements DivinerModule, Module
 {
-  static override configSchema = CryptoMarketAssetDivinerConfigSchema
+  static override configSchemas = [CryptoMarketAssetDivinerConfigSchema]
   static override targetSchema = CryptoMarketAssetSchema
 
   override divine(payloads?: Payload[]): Promisable<Payload[]> {

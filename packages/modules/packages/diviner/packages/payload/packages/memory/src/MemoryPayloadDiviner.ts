@@ -5,7 +5,7 @@ import { isPayloadDivinerQueryPayload, PayloadDivinerConfigSchema, PayloadDivine
 import { Payload } from '@xyo-network/payload-model'
 
 export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = PayloadDivinerParams> extends PayloadDiviner<TParams> {
-  static override configSchema = PayloadDivinerConfigSchema
+  static override configSchemas = [PayloadDivinerConfigSchema]
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')

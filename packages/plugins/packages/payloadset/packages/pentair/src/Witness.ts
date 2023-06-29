@@ -17,7 +17,7 @@ export type PentairScreenlogicWitnessParams = WitnessParams<AnyConfigSchema<Pent
 export class PentairScreenlogicWitness<
   TParams extends PentairScreenlogicWitnessParams = PentairScreenlogicWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = PentairScreenlogicWitnessConfigSchema
+  static override configSchemas = [PentairScreenlogicWitnessConfigSchema]
 
   override async observe(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
     const finder = new FindUnits()

@@ -24,7 +24,7 @@ export type MongoDBSchemaListDivinerParams = DivinerParams<
 export class MongoDBSchemaListDiviner<
   TParams extends MongoDBSchemaListDivinerParams = MongoDBSchemaListDivinerParams,
 > extends SchemaListDiviner<TParams> {
-  static override configSchema = SchemaListDivinerConfigSchema
+  static override configSchemas = [SchemaListDivinerConfigSchema]
 
   /**
    * The amount of time to allow the aggregate query to execute

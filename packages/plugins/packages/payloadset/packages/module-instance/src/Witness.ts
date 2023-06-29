@@ -21,7 +21,7 @@ export type AbstractModuleInstanceWitnessParams = WitnessParams<
 export class AbstractModuleInstanceWitness<
   TParams extends AbstractModuleInstanceWitnessParams = AbstractModuleInstanceWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = AbstractModuleInstanceWitnessConfigSchema
+  static override configSchemas = [AbstractModuleInstanceWitnessConfigSchema]
 
   protected get module() {
     return this.params?.module

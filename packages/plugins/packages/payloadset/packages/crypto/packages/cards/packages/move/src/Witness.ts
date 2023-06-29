@@ -12,7 +12,7 @@ export type CryptoCardsMoveWitnessConfig = WitnessConfig<{
 export type CryptoCardsMoveWitnessParams = WitnessParams<AnyConfigSchema<CryptoCardsMoveWitnessConfig>>
 
 export class CryptoCardsMoveWitness<TParams extends CryptoCardsMoveWitnessParams = CryptoCardsMoveWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchema = CryptoCardsMoveWitnessConfigSchema
+  static override configSchemas = [CryptoCardsMoveWitnessConfigSchema]
 
   override observe(payloads?: Payload[]): Promisable<Payload[]> {
     return super.observe(payloads)

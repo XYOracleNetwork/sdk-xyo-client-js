@@ -6,11 +6,17 @@ export const ManifestPayloadSchema: ManifestPayloadSchema = 'network.xyo.manifes
 
 export interface Manifest {
   description?: string
-  id?: string
-  name?: string
 }
 
-export interface DappManifest extends Manifest {
+export type ConfigManifest = ModuleConfig<{ schema: string }> & {
+  accountPath?: string
+  features?: string[]
+  language?: string
+  name: string
+  os?: string
+}
+
+export interface NodeManifest extends ModuleManifest {
   modules?: {
     private?: ModuleManifest[]
     public?: ModuleManifest[]
@@ -18,17 +24,13 @@ export interface DappManifest extends Manifest {
 }
 
 export interface ModuleManifest extends Manifest {
-  accountPath?: string
-  config?: ModuleConfig
-  features?: string[]
-  language?: string
-  os?: string
+  config: ConfigManifest
 }
 
 export type ManifestPayload = Payload<
   {
-    dapps: DappManifest[]
     modules?: Record<string, ModuleManifest>
+    nodes: NodeManifest[]
   },
   ManifestPayloadSchema
 >

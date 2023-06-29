@@ -1,37 +1,43 @@
-export const defaultNodeManifest = {
-  dapps: [
+import { ArchivistConfigSchema } from '@xyo-network/archivist'
+import { ManifestPayload } from '@xyo-network/manifest'
+import { NodeConfigSchema } from '@xyo-network/node'
+import { SentinelConfigSchema } from '@xyo-network/sentinel'
+
+export const defaultNodeManifest: ManifestPayload = {
+  nodes: [
     {
+      config: {
+        name: 'SimpleMemoryDapp',
+        schema: NodeConfigSchema,
+      },
       modules: {
         private: [
           {
-            name: 'ScratchArchivist',
+            config: {
+              language: 'javascript',
+              name: 'ScratchArchivist',
+              schema: ArchivistConfigSchema,
+            },
           },
         ],
         public: [
           {
-            name: 'SimpleArchivist',
+            config: {
+              language: 'javascript',
+              name: 'SimpleArchivist',
+              schema: ArchivistConfigSchema,
+            },
           },
           {
-            name: 'SimpleSentinel',
+            config: {
+              language: 'javascript',
+              name: 'SimpleSentinel',
+              schema: SentinelConfigSchema,
+            },
           },
         ],
       },
-      name: 'SimpleMemoryDapp',
     },
   ],
-  modules: {
-    ScratchArchivist: {
-      id: 'network.xyo.archivist',
-      language: 'javascript',
-    },
-    SimpleArchivist: {
-      id: 'network.xyo.archivist',
-      language: 'javascript',
-    },
-    SimpleSentinel: {
-      id: 'network.xyo.sentinel',
-      language: 'javascript',
-    },
-  },
   schema: 'network.xyo.manifest',
 }

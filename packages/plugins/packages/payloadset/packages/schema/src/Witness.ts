@@ -12,7 +12,7 @@ export type SchemaWitnessConfig = WitnessConfig<{ schema: SchemaWitnessConfigSch
 export type SchemaWitnessParams = WitnessParams<AnyConfigSchema<SchemaWitnessConfig>>
 
 export class SchemaWitness<TParams extends SchemaWitnessParams = SchemaWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
-  static override configSchema = SchemaWitnessConfigSchema
+  static override configSchemas = [SchemaWitnessConfigSchema]
 
   override async observe(_payloads?: Payload[]): Promise<SchemaPayload[]> {
     await delay(0)

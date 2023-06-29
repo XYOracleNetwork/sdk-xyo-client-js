@@ -21,7 +21,7 @@ export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDiviner
 export class MongoDBAddressSpaceDiviner<
   TParams extends MongoDBAddressSpaceDivinerParams = MongoDBAddressSpaceDivinerParams,
 > extends AddressSpaceDiviner<TParams> {
-  static override configSchema = AddressSpaceDivinerConfigSchema
+  static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
   override async divine(_payloads?: Payload[]): Promise<Payload[]> {
     // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me

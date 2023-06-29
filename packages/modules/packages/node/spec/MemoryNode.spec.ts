@@ -2,7 +2,7 @@
 import { delay } from '@xylabs/delay'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import {
   ArchivistPayloadDiviner,
@@ -46,7 +46,7 @@ describe('MemoryNode', () => {
     it('Creates MemoryNode', async () => {
       const MemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
       const node = await MemoryNode.create()
-      const archivist = await MemoryArchivist.create({ config: { name: 'Archivist', schema: 'network.xyo.module.config.archivist.memory' } })
+      const archivist = await MemoryArchivist.create({ config: { name: 'Archivist', schema: MemoryArchivistConfigSchema } })
       const diviner: AbstractModule = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
       })

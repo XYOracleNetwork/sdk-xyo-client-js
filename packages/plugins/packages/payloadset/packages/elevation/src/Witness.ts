@@ -71,7 +71,7 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
   extends AbstractWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema = ElevationWitnessConfigSchema
+  static override configSchemas = [ElevationWitnessConfigSchema]
 
   private _tiffImages: TiffImages = {}
   private _tiffInfos: TiffImageInfos = {}

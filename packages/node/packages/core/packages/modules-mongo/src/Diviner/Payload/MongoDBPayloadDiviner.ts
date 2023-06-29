@@ -23,7 +23,7 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
 >
 
 export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
-  static override configSchema = PayloadDivinerConfigSchema
+  static override configSchemas = [PayloadDivinerConfigSchema]
 
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)

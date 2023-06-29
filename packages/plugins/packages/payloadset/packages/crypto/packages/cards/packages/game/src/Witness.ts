@@ -12,7 +12,7 @@ export type CryptoCardsGameWitnessConfig = WitnessConfig<{
 export type CryptoCardsGameWitnessParams = WitnessParams<AnyConfigSchema<CryptoCardsGameWitnessConfig>>
 
 export class CryptoCardsGameWitness extends AbstractWitness<CryptoCardsGameWitnessParams> implements WitnessModule {
-  static override configSchema = CryptoCardsGameWitnessConfigSchema
+  static override configSchemas = [CryptoCardsGameWitnessConfigSchema]
 
   override observe(payloads?: Payload[]): Promisable<Payload[]> {
     return super.observe(payloads)

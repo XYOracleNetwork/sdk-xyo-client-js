@@ -16,7 +16,7 @@ export class EthereumGasEthgasstationWitness<TParams extends EthereumGasEthgasst
   extends TimestampWitness<TParams>
   implements WitnessModule
 {
-  static override configSchema: string = EthereumGasEthgasstationWitnessConfigSchema
+  static override readonly configSchemas: string[] = [EthereumGasEthgasstationWitnessConfigSchema]
 
   override async observe(): Promise<Payload[]> {
     const payload = new PayloadBuilder<EthereumGasEthgasstationPayload>({ schema: EthereumGasEthgasstationSchema })

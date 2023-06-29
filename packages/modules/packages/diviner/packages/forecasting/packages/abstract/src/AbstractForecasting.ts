@@ -21,7 +21,7 @@ export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<Forecasting
 export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchema = ForecastingDivinerConfigSchema
+  static override configSchemas = [ForecastingDivinerConfigSchema]
 
   protected abstract get forecastingMethod(): ForecastingMethod
   protected abstract get transformer(): PayloadValueTransformer

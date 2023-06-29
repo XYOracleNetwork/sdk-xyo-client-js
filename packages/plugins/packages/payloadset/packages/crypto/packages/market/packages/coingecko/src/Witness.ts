@@ -12,7 +12,7 @@ export type CoingeckoCryptoMarketWitnessParams = WitnessParams<AnyConfigSchema<C
 export class CoingeckoCryptoMarketWitness<
   TParams extends CoingeckoCryptoMarketWitnessParams = CoingeckoCryptoMarketWitnessParams,
 > extends AbstractWitness<TParams> {
-  static override configSchema = CoingeckoCryptoMarketWitnessConfigSchema
+  static override configSchemas = [CoingeckoCryptoMarketWitnessConfigSchema]
 
   override async observe(): Promise<Payload[]> {
     const assets: CoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])

@@ -70,5 +70,5 @@
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
   "type": "module",
-  "version": "2.63.14"
+  "version": "2.64.0"
 }

@@ -31,9 +31,9 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.2.6",
     "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.17.17",
-    "@xylabs/tsconfig": "^2.17.17",
-    "typescript": "^5.1.5"
+    "@xylabs/ts-scripts-yarn3": "^2.18.5",
+    "@xylabs/tsconfig": "^2.18.5",
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "@ethersproject/address": "^5.7.0",

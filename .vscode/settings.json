@@ -2,7 +2,7 @@
   "files.eol": "\n",
   "files.exclude": {
     "**/.tsconfig.*": false,
-    "**/node_modules": true
+    "**/node_modules": false
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {

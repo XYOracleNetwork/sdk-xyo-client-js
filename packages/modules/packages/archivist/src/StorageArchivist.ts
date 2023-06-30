@@ -24,8 +24,8 @@ import { PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
-export type StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
-export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.module.config.archivist.storage'
+export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
+export const StorageArchivistConfigSchema: StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
 
 export type StorageArchivistConfig = ArchivistConfig<{
   maxEntries?: number

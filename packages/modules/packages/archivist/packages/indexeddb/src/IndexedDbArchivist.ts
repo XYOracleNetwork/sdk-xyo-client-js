@@ -15,8 +15,8 @@ import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
-export type IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.indexeddb'
-export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.module.config.archivist.indexeddb'
+export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
+export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 
 export type IndexedDbArchivistConfig = ArchivistConfig<{
   /**

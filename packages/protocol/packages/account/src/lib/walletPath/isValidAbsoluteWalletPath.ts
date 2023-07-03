@@ -6,6 +6,7 @@ export const isValidAbsoluteWalletPath = (path?: string): boolean => {
   const parts = path.split('/')
   // If any empty parts, return invalid
   if (parts.some((p) => !p)) return false
-  if (parts.every((p) => pathSegmentRegex.test(p))) return true
-  return false
+  // If all the segments after the first are not valid HD paths, return invalid
+  if (!parts.slice(1).every((p) => pathSegmentRegex.test(p))) return false
+  return true
 }

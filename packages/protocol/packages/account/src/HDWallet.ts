@@ -113,7 +113,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   async derivePath(path: string): Promise<HDWallet> {
-    const absolutePath = isValidAbsoluteWalletPath(path) ? path : combineWalletPaths(this.path, path)
+    const absolutePath = isValidRelativeWalletPath(path) ? combineWalletPaths(this.path, path) : path
     assertEx(isValidAbsoluteWalletPath(absolutePath), `Invalid absolute path ${absolutePath}`)
     const mnemonic = { path: absolutePath, phrase: this.mnemonic?.phrase }
     const existing = HDWallet.getWallet(mnemonic)

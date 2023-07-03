@@ -1,6 +1,6 @@
 import { WalletStatic } from '@xyo-network/wallet-model'
 
-export const testHDAccount = (title: string, HDWallet: WalletStatic) => {
+export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => {
   describe(title, () => {
     const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
     describe('constructor', () => {
@@ -66,5 +66,5 @@ export const testHDAccount = (title: string, HDWallet: WalletStatic) => {
 }
 
 test('HDWallet tests generator is defined', () => {
-  expect(testHDAccount).toBeFunction()
+  expect(generateHDWalletTests).toBeFunction()
 })

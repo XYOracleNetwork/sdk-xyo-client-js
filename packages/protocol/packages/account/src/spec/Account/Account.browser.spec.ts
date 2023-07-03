@@ -2,6 +2,6 @@
  * @jest-environment jsdom
  */
 import { Account } from '../../Account'
-import { accountTests } from './Account.spec'
+import { generateAccountTests } from './Account.spec'
 
-accountTests('Account: Browser', Account)
+generateAccountTests('Account: Browser', Account)

@@ -1,4 +1,4 @@
 import { HDWallet } from '../../HDWallet'
-import { testHDAccount } from './HDWallet.spec'
+import { generateHDWalletTests } from './HDWallet.spec'
 
-testHDAccount('HDWallet: Node', HDWallet)
+generateHDWalletTests('HDWallet: Node', HDWallet)

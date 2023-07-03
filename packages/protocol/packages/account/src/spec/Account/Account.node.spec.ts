@@ -1,4 +1,4 @@
 import { Account } from '../../Account'
-import { accountTests } from './Account.spec'
+import { generateAccountTests } from './Account.spec'
 
-accountTests('Account: Node', Account)
+generateAccountTests('Account: Node', Account)

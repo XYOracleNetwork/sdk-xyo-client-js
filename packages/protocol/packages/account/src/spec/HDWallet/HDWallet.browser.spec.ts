@@ -3,6 +3,6 @@
  */
 
 import { HDWallet } from '../../HDWallet'
-import { testHDAccount } from './HDWallet.spec'
+import { generateHDWalletTests } from './HDWallet.spec'
 
-testHDAccount('HDWallet: Browser', HDWallet)
+generateHDWalletTests('HDWallet: Browser', HDWallet)

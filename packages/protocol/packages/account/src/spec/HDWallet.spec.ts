@@ -65,6 +65,6 @@ export const testHDAccount = (title: string, HDWallet: WalletStatic) => {
   })
 }
 
-test('HDWallet tests are defined', () => {
+test('HDWallet tests generator is defined', () => {
   expect(testHDAccount).toBeFunction()
 })

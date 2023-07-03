@@ -4,8 +4,8 @@
 
 import { HDNode } from '@ethersproject/hdnode'
 
-import { Account } from '../Account'
-import { HDWallet } from '../HDWallet'
+import { Account } from '../../Account'
+import { HDWallet } from '../../HDWallet'
 
 describe('HDAccount', () => {
   const hash = '6c21ca7cddc2822ea635a96ba1aa36bf08d0f57ffb2989870659a263e9f8ee3a'

@@ -1,7 +1,17 @@
+import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
+import { DivinerDivineQuerySchema } from '@xyo-network/diviner-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { CompositeModuleResolver } from '@xyo-network/module'
 import { AddressModuleFilter, Module, ModuleFilter, ModuleResolver, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
+import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
+import { SentinelReportQuerySchema, SentinelWrapper } from '@xyo-network/sentinel'
+import { WitnessObserveQuerySchema } from '@xyo-network/witness-model'
+import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import compact from 'lodash/compact'
 
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
@@ -79,14 +89,38 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??
       (async (address: string) => {
-        const mod = new ProxyModule({ address, bridge: this.bridge, config: { schema: ProxyModuleConfigSchema } } as ProxyModuleParams)
+        const mod: Module = new ProxyModule({ address, bridge: this.bridge, config: { schema: ProxyModuleConfigSchema } } as ProxyModuleParams)
 
         try {
           //discover it to set the config in the bridge
           await this.bridge.targetDiscover(address)
 
+          const account = assertEx(this.bridge.account, 'Missing bridge account')
+
+          if (mod.queries.includes(ArchivistGetQuerySchema)) {
+            return ArchivistWrapper.wrap(mod, account)
+          }
+
+          if (mod.queries.includes(DivinerDivineQuerySchema)) {
+            return DivinerWrapper.wrap(mod, account)
+          }
+
+          if (mod.queries.includes(WitnessObserveQuerySchema)) {
+            return WitnessWrapper.wrap(mod, account)
+          }
+
+          if (mod.queries.includes(NodeAttachQuerySchema)) {
+            return NodeWrapper.wrap(mod, account)
+          }
+
+          if (mod.queries.includes(SentinelReportQuerySchema)) {
+            return SentinelWrapper.wrap(mod, account)
+          }
+
           return mod
         } catch (ex) {
+          const error = ex as Error
+          console.error(`BridgeModuleResolver.resolveByAddress: ${error.message} [${targetAddress}]`)
           return undefined
         }
       })(targetAddress)

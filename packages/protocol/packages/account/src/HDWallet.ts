@@ -10,8 +10,8 @@ import { Account } from './Account'
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
   protected static override _addressMap: Record<string, WeakRef<HDWallet>> = {}
-  protected static _mnemonicMap: Record<string, WeakRef<HDNode>> = {}
-  protected _pathMap: Record<string, WeakRef<HDNode>> = {}
+  protected static _mnemonicMap: Record<string, WeakRef<HDWallet>> = {}
+  protected _pathMap: Record<string, WeakRef<HDWallet>> = {}
 
   constructor(key: unknown, protected readonly node: HDNode) {
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
@@ -75,10 +75,10 @@ export class HDWallet extends Account implements WalletInstance {
 
   static override async fromMnemonic(mnemonic: string): Promise<HDWallet> {
     const existing = HDWallet._mnemonicMap[mnemonic]?.deref()
-    if (existing) return HDWallet.create(existing)
+    if (existing) existing
     const node = HDNode.fromMnemonic(mnemonic)
-    HDWallet._mnemonicMap[mnemonic] = new WeakRef(node)
     const created = await HDWallet.create(node)
+    HDWallet._mnemonicMap[mnemonic] = new WeakRef(created)
     return created
   }
 
@@ -97,10 +97,10 @@ export class HDWallet extends Account implements WalletInstance {
 
   async derivePath(path: string): Promise<HDWallet> {
     const existing = this._pathMap[path]?.deref()
-    if (existing) return HDWallet.create(existing)
-    const created = this.node.derivePath?.(path)
+    if (existing) existing
+    const created = await HDWallet.create(this.node.derivePath?.(path))
     this._pathMap[path] = new WeakRef(created)
-    return await HDWallet.create(this.node.derivePath?.(path))
+    return created
   }
 
   neuter: () => HDWallet = () => {

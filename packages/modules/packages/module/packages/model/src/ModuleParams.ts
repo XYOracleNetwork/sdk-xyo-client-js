@@ -7,6 +7,7 @@ import { AnyConfigSchema, ModuleConfig } from './Config'
 export type BasicModuleParams<TConfig extends AnyConfigSchema, TAdditionalParams extends AnyObject | undefined = undefined> = WithAdditional<
   BaseParams<{
     config: TConfig
+    ephemeralQueryAccountEnabled?: boolean
   }>,
   TAdditionalParams
 >

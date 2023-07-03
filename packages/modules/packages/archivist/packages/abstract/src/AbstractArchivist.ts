@@ -141,7 +141,7 @@ export abstract class AbstractArchivist<
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
-    const queryAccount = await HDWallet.random()
+    const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     if (this.config.storeQueries) {
       await this.insert([query])
     }
@@ -196,7 +196,7 @@ export abstract class AbstractArchivist<
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {

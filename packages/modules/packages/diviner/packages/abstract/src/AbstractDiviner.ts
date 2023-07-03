@@ -52,7 +52,7 @@ export abstract class AbstractDiviner<
     const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = await HDWallet.random()
+    const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
     try {
@@ -76,7 +76,7 @@ export abstract class AbstractDiviner<
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }
 
   abstract divine(payloads?: Payload[]): Promisable<Payload[]>

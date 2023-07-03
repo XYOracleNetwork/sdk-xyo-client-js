@@ -104,6 +104,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.params.config
   }
 
+  get ephemeralQueryAccountEnabled(): boolean {
+    return !!this.params.ephemeralQueryAccountEnabled
+  }
+
   get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleAccountQuerySchema, ModuleSubscribeQuerySchema]
   }
@@ -164,6 +168,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         account = assertEx(accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet, 'Failed to derive account from path')
       }
       this.params.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${account.address}`) : undefined
+      if (!account) console.warn(`AbstractModule.loadAccount: No account provided - Creating Random account [${this.config.schema}]`)
       this._account = account ?? (await HDWallet.random())
     }
     this.downResolver.add(this as Module)
@@ -344,7 +349,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
-    const queryAccount = await HDWallet.random()
+    const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     try {
       switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {
@@ -373,7 +378,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           .build(),
       )
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+    return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }
 
   protected readArchivist = () => this.getArchivist('read')

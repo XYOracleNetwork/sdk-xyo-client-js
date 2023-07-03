@@ -61,14 +61,14 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     assertEx(this.queryable(query, payloads, queryConfig))
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = await PayloadHasher.filterExclude(payloads, query.query)
-    const queryAccount = await HDWallet.random()
+    const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     try {
       switch (queryPayload.schema) {
         case WitnessObserveQuerySchema: {
           await this.emit('reportStart', { inPayloads: payloads, module: this })
           const resultPayloads = await this.observe(filteredObservation)
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+          return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : []))[0]
         }
         default: {
           return super.queryHandler(query, payloads)
@@ -76,19 +76,14 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       }
     } catch (ex) {
       const error = ex as Error
-      const [result] = await this.bindQueryResult(
-        queryPayload,
-        [],
-        [queryAccount],
-        [
-          new ModuleErrorBuilder()
-            .sources([await wrapper.hashAsync()])
-            .name(this.config.name ?? '<Unknown>')
-            .query(query.schema)
-            .message(error.message)
-            .build(),
-        ],
-      )
+      const [result] = await this.bindQueryResult(queryPayload, [], queryAccount ? [queryAccount] : [], [
+        new ModuleErrorBuilder()
+          .sources([await wrapper.hashAsync()])
+          .name(this.config.name ?? '<Unknown>')
+          .query(query.schema)
+          .message(error.message)
+          .build(),
+      ])
       return result
     }
   }

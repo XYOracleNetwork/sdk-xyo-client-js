@@ -20,16 +20,45 @@ describe('HDWallet', () => {
       expect(accountA.public.hex).toBe(accountB.public.hex)
     })
     it('works when paths provided incrementally', async () => {
-      const base = 'm'
       const parent = "44'/60'/0'"
       const child = '0/1'
       const sutA = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
       const sutB = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
-      const accountA = await ((await ((await sutA.derivePath(base)) as HDWallet).derivePath(parent)) as HDWallet).derivePath?.(child)
-      const accountB = await sutB.derivePath?.([base, parent, child].join('/'))
+      expect(sutA).toBe(sutB)
+      const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
+      const accountB = await sutB.derivePath?.([parent, child].join('/'))
       expect(accountA.address).toBe(accountB.address)
       expect(accountA.private.hex).toBe(accountB.private.hex)
       expect(accountA.public.hex).toBe(accountB.public.hex)
+      expect(accountA).toEqual(accountB)
+    })
+    it('works when paths provided absolutely', async () => {
+      const parent = "44'/60'/0'"
+      const child = '0/1'
+      const sutA = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      const sutB = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      expect(sutA).toBe(sutB)
+      const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
+      const accountB = await sutB.derivePath?.(['m', parent, child].join('/'))
+      expect(accountA.address).toBe(accountB.address)
+      expect(accountA.private.hex).toBe(accountB.private.hex)
+      expect(accountA.public.hex).toBe(accountB.public.hex)
+      expect(accountA).toEqual(accountB)
+    })
+    it('returns cached instances on subsequent requests', async () => {
+      const parent = "44'/60'/0'"
+      const child = '0/1'
+      const sutA = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      const sutB = (await HDWallet.fromMnemonic(mnemonic)) as HDWallet
+      // sutA and sutB should be the same instance
+      expect(sutA).toBe(sutB)
+      const accountA = await ((await sutA.derivePath(parent)) as HDWallet).derivePath?.(child)
+      const accountB = await sutB.derivePath?.([parent, child].join('/'))
+      expect(accountA.address).toBe(accountB.address)
+      expect(accountA.private.hex).toBe(accountB.private.hex)
+      expect(accountA.public.hex).toBe(accountB.public.hex)
+      // accountA and accountB should be the same instance
+      expect(accountA).toBe(accountB)
     })
   })
 })

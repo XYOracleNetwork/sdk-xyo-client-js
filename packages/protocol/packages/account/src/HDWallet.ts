@@ -6,6 +6,7 @@ import { toUint8Array } from '@xyo-network/core'
 import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 
 import { Account } from './Account'
+import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
@@ -98,27 +99,29 @@ export class HDWallet extends Account implements WalletInstance {
     return this.fromMnemonic(generateMnemonic(wordlists.english, 256))
   }
 
-  protected static getWallet(mnemonic?: string, path?: string): HDWallet | undefined {
-    if (!mnemonic || !path) return undefined
-    return HDWallet._walletMap[mnemonic]?.[path]?.deref()
+  protected static getWallet(mnemonic?: Partial<Mnemonic>): HDWallet | undefined {
+    const { path, phrase } = mnemonic ?? {}
+    if (!phrase || !path) return undefined
+    return HDWallet._walletMap[phrase]?.[path]?.deref()
   }
 
-  protected static setWallet(mnemonic?: string, path?: string, wallet?: HDWallet) {
-    if (!mnemonic || !path || !wallet) return undefined
-    const mnemonicDict = HDWallet._walletMap[mnemonic] ?? (HDWallet._walletMap[mnemonic] = {})
-    assertEx(isValidAbsolutePath(path), `Invalid absolute path ${path}`)
+  protected static setWallet(wallet: HDWallet) {
+    const { path, phrase } = wallet.mnemonic ?? {}
+    if (!phrase || !path) return
+    const mnemonicDict = HDWallet._walletMap[phrase] ?? (HDWallet._walletMap[phrase] = {})
     mnemonicDict[path] = new WeakRef(wallet)
   }
 
   async derivePath(path: string): Promise<HDWallet> {
-    assertEx(isValidRelativePath(path), `Invalid relative path ${path}`)
-    const absolutePath = combinePaths(this.path, path)
-    assertEx(isValidAbsolutePath(absolutePath), `Invalid absolute path ${absolutePath}`)
-    const existing = HDWallet.getWallet(this.mnemonic, absolutePath)
+    const absolutePath = isValidAbsoluteWalletPath(path) ? path : combineWalletPaths(this.path, path)
+    assertEx(isValidAbsoluteWalletPath(absolutePath), `Invalid absolute path ${absolutePath}`)
+    const mnemonic = { path: absolutePath, phrase: this.mnemonic?.phrase }
+    const existing = HDWallet.getWallet(mnemonic)
     if (existing) return existing
     const created = await HDWallet.create(this.node.derivePath?.(path))
-    assertEx(absolutePath === created.path, `Path mismatch ${absolutePath} !== ${created.path}`)
-    HDWallet.setWallet(this.mnemonic, absolutePath, created)
+    // If an extended key was used to create the wallet, the path will be null. Otherwise, it should equal the absolute path.
+    if (created.path !== null) assertEx(absolutePath === created.path, `Path mismatch ${absolutePath} !== ${created.path}`)
+    HDWallet.setWallet(created)
     return created
   }
 
@@ -126,36 +129,4 @@ export class HDWallet extends Account implements WalletInstance {
     this.node.neuter()
     return this
   }
-}
-
-const pathSegmentRegex = /^[0-9]+[']?$/
-
-const isValidAbsolutePath = (path?: string): boolean => {
-  if (!path) return false
-  if (!path.startsWith('m')) return false
-  const parts = path.split('/')
-  // If any empty parts, return invalid
-  if (parts.some((p) => !p)) return false
-  if (parts.every((p) => pathSegmentRegex.test(p))) return true
-  return false
-}
-
-const isValidRelativePath = (path: string): boolean => {
-  const formatted = formatPath(path)
-  return formatted.length > 0 && formatted[0] !== 'm'
-}
-
-const formatPath = (path: string) => {
-  return path
-    .trimStart()
-    .trimEnd()
-    .split('/')
-    .filter((p) => p)
-    .join('/')
-}
-
-const combinePaths = (path1: string, path2: string) => {
-  const parts1 = formatPath(path1).split('/')
-  const parts2 = formatPath(path2).split('/')
-  return parts1.concat(parts2).join('/')
 }

@@ -60,7 +60,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
     describe('with no address supplied in query', () => {
       it('is not implemented', async () => {
         const query: SchemaStatsQueryPayload = { schema: SchemaStatsQuerySchema }
-        await expect(sut.divine([query])).rejects.toBe(Error('Not Implemented'))
+        await expect(sut.divine([query])).rejects.toBe('Not Implemented')
       })
     })
   })

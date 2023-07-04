@@ -214,7 +214,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private divineAllAddresses = async () => await Promise.reject(Error('Not Implemented'))
+  private divineAllAddresses = async () => await Promise.reject('Not Implemented')
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id

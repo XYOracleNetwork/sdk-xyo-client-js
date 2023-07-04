@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModule,
   creatableModule,
@@ -75,16 +76,17 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
         }
       }
     } catch (ex) {
-      const error = ex as Error
-      const [result] = await this.bindQueryResult(queryPayload, [], queryAccount ? [queryAccount] : [], [
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      ])
-      return result
+      return handleErrorAsync(ex, async (error) => {
+        const [result] = await this.bindQueryResult(queryPayload, [], queryAccount ? [queryAccount] : [], [
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        ])
+        return result
+      })
     }
   }
 }

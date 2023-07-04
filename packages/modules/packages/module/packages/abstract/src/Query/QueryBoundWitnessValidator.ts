@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { handleError } from '@xyo-network/error'
 import { Query, QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/module-model'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
 export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWitnessValidator<QueryBoundWitness> {
   private _query: PayloadWrapper<T> | undefined
 
@@ -41,7 +41,9 @@ export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWi
         })
       }
     } catch (ex) {
-      errors.push(ex as Error)
+      handleError(ex, (error) => {
+        errors.push(error)
+      })
     }
     return errors
   }

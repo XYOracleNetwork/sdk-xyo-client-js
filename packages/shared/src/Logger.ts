@@ -1,4 +1,5 @@
 export type LogFunction = (message?: unknown) => void
+import { handleError, isError } from '@xyo-network/error'
 
 /**
  * Interface to handle overlap between Winston &
@@ -17,19 +18,20 @@ export const getFunctionName = (depth = 2) => {
   try {
     throw Error()
   } catch (ex) {
-    const error = ex as Error
-    let newIndex: number | undefined = undefined
-    const stackParts = error.stack?.split('\n')[depth].split(' ')
-    const funcName =
-      stackParts?.find((item, index) => {
-        if (item.length > 0 && item !== 'at') {
-          //check if constructor
-          if (item === 'new') {
-            newIndex = index
+    return handleError(ex, (error) => {
+      let newIndex: number | undefined = undefined
+      const stackParts = error.stack?.split('\n')[depth].split(' ')
+      const funcName =
+        stackParts?.find((item, index) => {
+          if (item.length > 0 && item !== 'at') {
+            //check if constructor
+            if (item === 'new') {
+              newIndex = index
+            }
+            return item
           }
-          return item
-        }
-      }) ?? '<unknown>'
-    return newIndex ? `${funcName} ${stackParts?.[newIndex + 1]}` : funcName
+        }) ?? '<unknown>'
+      return newIndex ? `${funcName} ${stackParts?.[newIndex + 1]}` : funcName
+    })
   }
 }

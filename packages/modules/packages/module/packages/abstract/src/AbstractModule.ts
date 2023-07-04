@@ -7,6 +7,7 @@ import { ArchivistModule } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { handleErrorAsync, isError } from '@xyo-network/error'
 import {
   AccountModuleParams,
   AddressPreviousHashPayload,
@@ -368,15 +369,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           console.error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      await handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }

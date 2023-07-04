@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { Base, BaseParams } from '@xyo-network/core'
+import { handleError, isError } from '@xyo-network/error'
 
 import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
 
@@ -357,8 +358,9 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     try {
       return await listener(eventName, eventArgs)
     } catch (ex) {
-      const error = ex as Error
-      this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
+      handleError(ex, (error) => {
+        this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
+      })
     }
   }
 
@@ -370,8 +372,9 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     try {
       return await listener(eventArgs)
     } catch (ex) {
-      const error = ex as Error
-      this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
+      handleError(ex, (error) => {
+        this.logger?.error(`Listener[${String(eventName)}] Excepted: ${error.message}`)
+      })
     }
   }
 }

@@ -5,6 +5,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { DivinerDivineQuerySchema } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { handleError } from '@xyo-network/error'
 import { CompositeModuleResolver } from '@xyo-network/module'
 import { AddressModuleFilter, Module, ModuleFilter, ModuleResolver, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
@@ -119,9 +120,9 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
 
           return mod
         } catch (ex) {
-          const error = ex as Error
-          console.error(`BridgeModuleResolver.resolveByAddress: ${error.message} [${targetAddress}]`)
-          return undefined
+          handleError(ex, (error) => {
+            console.error(`BridgeModuleResolver.resolveByAddress: ${error.message} [${targetAddress}]`)
+          })
         }
       })(targetAddress)
 

@@ -1,5 +1,6 @@
 import { isAxiosError } from '@xyo-network/axios'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
+import { handleError, isError } from '@xyo-network/error'
 import { FetchedPayload } from '@xyo-network/huri'
 import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'
@@ -7,11 +8,6 @@ import { LRUCache } from 'lru-cache'
 
 import { Debounce } from './Debounce'
 import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isError(error: any): error is Error {
-  return typeof error.message === 'string' && typeof error.name === 'string'
-}
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
@@ -107,15 +103,15 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
       if (this._cache.get(schema) === undefined) {
         this._cache.set(schema, SchemaCache.NULL)
       }
-    } catch (error) {
+    } catch (ex) {
       //if failed, set it to NULL, TODO: Make an entry for an error to try again in the future?
       this._cache.set(schema, SchemaCache.NULL)
-      if (isAxiosError(error)) {
-        console.log(`Axios Url: ${error.response?.config.url}`)
+      if (isAxiosError(ex)) {
+        console.log(`Axios Url: ${ex.response?.config.url}`)
       }
-      if (isError(error)) {
+      handleError(ex, (error) => {
         console.error(`fetchSchema threw: ${error.message}`)
-      }
+      })
     }
   }
 }

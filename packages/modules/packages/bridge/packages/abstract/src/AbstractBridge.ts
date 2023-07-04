@@ -9,6 +9,7 @@ import {
   BridgeQueryBase,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModule,
   duplicateModules,
@@ -80,16 +81,17 @@ export abstract class AbstractBridge<
         default:
           return await super.queryHandler(query, payloads)
       }
-    } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+    } catch (error) {
+      await handleErrorAsync(error, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }

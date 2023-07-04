@@ -5412,6 +5412,7 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
@@ -7113,6 +7114,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/error@workspace:^, @xyo-network/error@workspace:packages/sdk/packages/error":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/error@workspace:packages/sdk/packages/error"
+  dependencies:
+    "@types/pako": ^2.0.0
+    "@xylabs/ts-scripts-yarn3": ^2.18.5
+    "@xylabs/tsconfig": ^2.18.5
+    "@xyo-network/shared": "workspace:^"
+    axios: ^1.4.0
+    pako: ^2.1.0
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:^, @xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2":
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2"
@@ -8528,6 +8543,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig-dom": ^2.18.5
     "@xyo-network/domain-payload-plugin": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/huri": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/schema-payload-plugin": "workspace:^"
@@ -8647,6 +8663,7 @@ __metadata:
     "@xyo-network/api-models": "workspace:^"
     "@xyo-network/axios": "workspace:^"
     "@xyo-network/dns": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/metamask-connector": "workspace:^"
     "@xyo-network/network": "workspace:^"
     "@xyo-network/payload-plugin": "workspace:^"

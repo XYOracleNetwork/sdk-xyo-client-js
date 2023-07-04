@@ -4,6 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistModule, ArchivistParams } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { handleError, isError } from '@xyo-network/error'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -92,9 +93,9 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
       const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
       await this._memoryArchivist.insert(data.payloads)
     } catch (ex) {
-      const error = ex as Error
-      this.logger?.error(error.message)
-      throw ex
+      handleError(ex, (error) => {
+        this.logger?.error(error.message)
+      })
     }
   }
 

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
@@ -10,6 +10,7 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
+import { handleErrorAsync, isError } from '@xyo-network/error'
 import {
   AbstractModule,
   ModuleConfig,
@@ -66,15 +67,16 @@ export abstract class AbstractDiviner<
           return super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      await handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }

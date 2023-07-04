@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { handleErrorAsync, isError } from '@xyo-network/error'
 import {
   AbstractModule,
   CompositeModuleResolver,
@@ -143,15 +144,16 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
           return await super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      await handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }

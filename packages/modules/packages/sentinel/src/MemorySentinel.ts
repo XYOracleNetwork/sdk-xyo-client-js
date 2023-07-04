@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
+import { handleError, handleErrorAsync } from '@xyo-network/error'
 import {
   AnyConfigSchema,
   ModuleConfig,
@@ -42,8 +43,10 @@ export class MemorySentinel<
       const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
       const combinedPayloads = [...generatedPayloads, ...payloads]
       resultPayloads.push(...combinedPayloads)
-    } catch (e) {
-      errors.push(e as Error)
+    } catch (ex) {
+      handleError(ex, (error) => {
+        errors.push(error)
+      })
     }
 
     const [[boundWitness]] = await this.bindQueryResult({ schema: SentinelReportQuerySchema }, resultPayloads)
@@ -73,15 +76,16 @@ export class MemorySentinel<
           return super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      await handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }

@@ -4,6 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivingModule } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AnyConfigSchema,
   ModuleConfig,
@@ -110,22 +111,24 @@ export abstract class AbstractSentinel<
         }
       }
     } catch (ex) {
-      const error = ex as Error
-      return (
-        await this.bindQueryResult(
-          queryPayload,
-          [],
-          [queryAccount],
-          [
-            new ModuleErrorBuilder()
-              .sources([await wrapper.hashAsync()])
-              .name(this.config.name ?? '<Unknown>')
-              .query(query.schema)
-              .message(error.message)
-              .build(),
-          ],
-        )
-      )[0]
+      return await handleErrorAsync(ex, async (error) => {
+        const result = (
+          await this.bindQueryResult(
+            queryPayload,
+            [],
+            [queryAccount],
+            [
+              new ModuleErrorBuilder()
+                .sources([await wrapper.hashAsync()])
+                .name(this.config.name ?? '<Unknown>')
+                .query(query.schema)
+                .message(error.message)
+                .build(),
+            ],
+          )
+        )[0]
+        return result
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
   }

@@ -15,6 +15,7 @@ import {
 } from '@xyo-network/archivist'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AnyConfigSchema,
   ModuleConfig,
@@ -142,15 +143,16 @@ export class MongoDBDeterministicArchivist<
           return super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrapper.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrapper.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }

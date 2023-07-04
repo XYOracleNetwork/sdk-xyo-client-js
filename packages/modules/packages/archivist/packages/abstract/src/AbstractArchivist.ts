@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -16,6 +16,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModule,
   ModuleConfig,
@@ -186,15 +187,16 @@ export abstract class AbstractArchivist<
           return super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      const error = ex as Error
-      errorPayloads.push(
-        new ModuleErrorBuilder()
-          .sources([await wrappedQuery.hashAsync()])
-          .name(this.config.name ?? '<Unknown>')
-          .query(query.schema)
-          .message(error.message)
-          .build(),
-      )
+      await handleErrorAsync(ex, async (error) => {
+        errorPayloads.push(
+          new ModuleErrorBuilder()
+            .sources([await wrappedQuery.hashAsync()])
+            .name(this.config.name ?? '<Unknown>')
+            .query(query.schema)
+            .message(error.message)
+            .build(),
+        )
+      })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }

@@ -1,3 +1,4 @@
+import { isAxiosError } from '@xyo-network/axios'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { FetchedPayload } from '@xyo-network/huri'
 import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
@@ -6,6 +7,11 @@ import { LRUCache } from 'lru-cache'
 
 import { Debounce } from './Debounce'
 import { SchemaNameToValidatorMap } from './SchemaNameToValidatorMap'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isError(error: any): error is Error {
+  return typeof error.message === 'string' && typeof error.name === 'string'
+}
 
 const getSchemaNameFromSchema = (schema: SchemaObject) => {
   if (schema.$id) {
@@ -92,13 +98,24 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   }
 
   private async fetchSchema(schema: string) {
-    const domain = await DomainPayloadWrapper.discover(schema, this.proxy)
-    await domain?.fetch()
-    this.cacheSchemas(domain?.aliases)
+    try {
+      const domain = await DomainPayloadWrapper.discover(schema, this.proxy)
+      await domain?.fetch()
+      this.cacheSchemas(domain?.aliases)
 
-    //if it is still undefined, mark it as null (not found)
-    if (this._cache.get(schema) === undefined) {
+      //if it is still undefined, mark it as null (not found)
+      if (this._cache.get(schema) === undefined) {
+        this._cache.set(schema, SchemaCache.NULL)
+      }
+    } catch (error) {
+      //if failed, set it to NULL, TODO: Make an entry for an error to try again in the future?
       this._cache.set(schema, SchemaCache.NULL)
+      if (isAxiosError(error)) {
+        console.log(`Axios Url: ${error.response?.config.url}`)
+      }
+      if (isError(error)) {
+        console.error(`fetchSchema threw: ${error.message}`)
+      }
     }
   }
 }

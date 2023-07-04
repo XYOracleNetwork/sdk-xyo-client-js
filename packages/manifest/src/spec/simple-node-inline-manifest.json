@@ -2,6 +2,11 @@
   "$schema": "../schema.json",
   "nodes": [
     {
+      "config": {
+        "accountPath": "0'",
+        "name": "SimpleMemoryDapp",
+        "schema": "network.xyo.node.config"
+      },
       "modules": {
         "private": [
           {
@@ -31,11 +36,6 @@
             }
           }
         ]
-      },
-      "config": {
-        "accountPath": "0'",
-        "schema": "network.xyo.node.config",
-        "name": "SimpleMemoryDapp"
       }
     }
   ],

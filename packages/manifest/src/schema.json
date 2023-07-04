@@ -208,8 +208,8 @@
       "description": "The list of Nodes that are defined in the manifest"
     },
     "schema": {
-      "type": "string",
-      "pattern": "^network.xyo.manifest$"
+      "pattern": "^network.xyo.manifest$",
+      "type": "string"
     }
   },
   "required": [

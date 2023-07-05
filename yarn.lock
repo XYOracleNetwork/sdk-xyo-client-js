@@ -5431,6 +5431,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/bridge-module-resolver": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -5448,6 +5449,7 @@ __metadata:
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -5464,6 +5466,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.18.5
     "@xyo-network/account": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -5930,11 +5933,14 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
+    "@xyo-network/error": "workspace:^"
+    "@xyo-network/manifest": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
     "@xyo-network/node-wrapper": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/promise": "workspace:^"
     "@xyo-network/sentinel": "workspace:^"
     "@xyo-network/witness-model": "workspace:^"
     "@xyo-network/witness-wrapper": "workspace:^"
@@ -7118,12 +7124,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/error@workspace:packages/sdk/packages/error"
   dependencies:
-    "@types/pako": ^2.0.0
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig": ^2.18.5
-    "@xyo-network/shared": "workspace:^"
-    axios: ^1.4.0
-    pako: ^2.1.0
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -7532,6 +7534,7 @@ __metadata:
     "@xyo-network/abstract-archivist": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -7793,18 +7796,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@xylabs/assert": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig": ^2.18.5
-    "@xyo-network/http-bridge": "workspace:^"
-    "@xyo-network/memory-archivist": "workspace:^"
-    "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
-    "@xyo-network/node": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
-    "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/sentinel": "workspace:^"
-    "@xyo-network/wallet-model": "workspace:^"
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -7820,9 +7815,7 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
-    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/node": "workspace:^"
-    "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
     "@xyo-network/sentinel": "workspace:^"
     "@xyo-network/wallet-model": "workspace:^"
@@ -7882,6 +7875,8 @@ __metadata:
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/error": "workspace:^"
+    "@xyo-network/manifest": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-builder": "workspace:^"
@@ -7907,6 +7902,7 @@ __metadata:
     "@xylabs/tsconfig": ^2.18.5
     "@xylabs/tsconfig-jest": ^2.18.5
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     typescript: ^5.1.6
   languageName: unknown
@@ -7951,6 +7947,7 @@ __metadata:
     "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/manifest": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
@@ -8134,6 +8131,7 @@ __metadata:
     "@xyo-network/diviner-schema-stats-abstract": "workspace:^"
     "@xyo-network/diviner-schema-stats-model": "workspace:^"
     "@xyo-network/diviner-wrapper": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/location-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -8236,6 +8234,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.18.5
     "@xyo-network/account": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
+    "@xyo-network/error": "workspace:^"
+    "@xyo-network/manifest": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/node-model": "workspace:^"
     "@xyo-network/node-wrapper": "workspace:^"
@@ -8563,6 +8563,7 @@ __metadata:
     "@xylabs/delay": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig-dom": ^2.18.5
+    "@xyo-network/axios": "workspace:^"
     "@xyo-network/domain-payload-plugin": "workspace:^"
     "@xyo-network/error": "workspace:^"
     "@xyo-network/huri": "workspace:^"
@@ -8711,6 +8712,7 @@ __metadata:
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/error": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -8728,6 +8730,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig": ^2.18.5
+    "@xyo-network/error": "workspace:^"
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft

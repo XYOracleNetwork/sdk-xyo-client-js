@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { Base, BaseParams } from '@xyo-network/core'
-import { handleError, isError } from '@xyo-network/error'
+import { handleError } from '@xyo-network/error'
 
 import { EventAnyListener, EventArgs, EventData, EventFunctions, EventListener, EventName } from '../model'
 

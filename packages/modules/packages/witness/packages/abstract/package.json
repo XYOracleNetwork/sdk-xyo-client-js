@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.9.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
+    "@xyo-network/error": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^",

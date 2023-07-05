@@ -12,6 +12,9 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
+  "dependencies": {
+    "@xyo-network/error": "workspace:^"
+  },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.5",
     "@xylabs/tsconfig": "^2.18.5",

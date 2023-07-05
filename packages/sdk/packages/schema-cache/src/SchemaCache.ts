@@ -1,6 +1,6 @@
 import { isAxiosError } from '@xyo-network/axios'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
-import { handleError, isError } from '@xyo-network/error'
+import { handleError } from '@xyo-network/error'
 import { FetchedPayload } from '@xyo-network/huri'
 import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
 import Ajv, { SchemaObject } from 'ajv'

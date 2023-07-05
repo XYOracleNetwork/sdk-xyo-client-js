@@ -14,6 +14,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/error": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^"

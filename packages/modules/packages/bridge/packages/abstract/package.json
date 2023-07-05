@@ -13,6 +13,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/bridge-model": "workspace:^",
     "@xyo-network/bridge-module-resolver": "workspace:^",
+    "@xyo-network/error": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/promise": "workspace:^"

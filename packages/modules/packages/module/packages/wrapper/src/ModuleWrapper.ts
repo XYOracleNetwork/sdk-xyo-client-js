@@ -213,6 +213,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.listenerCount(eventNames)
   }
 
+  manifest() {
+    return this.module.manifest()
+  }
+
   off<TEventName extends keyof TWrappedModule['eventData']>(
     eventNames: TEventName,
     listener: EventListener<TWrappedModule['eventData'][TEventName]>,

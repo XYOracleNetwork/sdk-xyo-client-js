@@ -1,4 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
+import { ModuleManifest } from '@xyo-network/manifest'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -56,6 +57,8 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   readonly downResolver: ModuleResolver
 
   loadAccount?: () => Promisable<AccountInstance>
+
+  manifest: () => Promisable<ModuleManifest>
 
   params: TParams
 

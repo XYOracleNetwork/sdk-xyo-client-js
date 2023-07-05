@@ -7789,6 +7789,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/manifest-model@workspace:^, @xyo-network/manifest-model@workspace:packages/manifest/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
+  dependencies:
+    "@xylabs/assert": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.18.5
+    "@xylabs/tsconfig": ^2.18.5
+    "@xyo-network/http-bridge": "workspace:^"
+    "@xyo-network/memory-archivist": "workspace:^"
+    "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/node": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/sentinel": "workspace:^"
+    "@xyo-network/wallet-model": "workspace:^"
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/manifest@workspace:^, @xyo-network/manifest@workspace:packages/manifest":
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
@@ -7797,6 +7817,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.18.5
     "@xylabs/tsconfig": ^2.18.5
     "@xyo-network/http-bridge": "workspace:^"
+    "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"

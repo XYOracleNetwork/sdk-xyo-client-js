@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
+import { ModuleManifest } from '@xyo-network/manifest'
 import {
   BaseEmitter,
   CompositeModuleResolver,
@@ -12,6 +13,7 @@ import {
   QueryBoundWitness,
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
+import { Promisable } from '@xyo-network/promise'
 
 export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
@@ -51,6 +53,11 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
 
   get queries() {
     return this.bridge.targetQueries(this.address)
+  }
+
+  manifest(): Promisable<ModuleManifest> {
+    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
+    return { config: { name, ...this.config } }
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

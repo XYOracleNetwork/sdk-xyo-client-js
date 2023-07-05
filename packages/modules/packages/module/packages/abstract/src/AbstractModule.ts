@@ -8,6 +8,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { handleErrorAsync, isError } from '@xyo-network/error'
+import { ModuleManifest } from '@xyo-network/manifest'
 import {
   AccountModuleParams,
   AddressPreviousHashPayload,
@@ -174,6 +175,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
     this.downResolver.add(this as Module)
     return this._account
+  }
+
+  manifest(): Promisable<ModuleManifest> {
+    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
+    return { config: { name, ...this.config } }
   }
 
   moduleAccountQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {

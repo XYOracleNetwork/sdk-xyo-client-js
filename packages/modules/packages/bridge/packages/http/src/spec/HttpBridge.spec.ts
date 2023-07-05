@@ -1,4 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { HDWallet } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
 
 import { HttpBridge } from '../HttpBridge'
@@ -6,10 +8,17 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 describe('HttpBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+  let wrapperAccount: AccountInstance
+  console.log(`HttpBridge:baseUrl ${baseUrl}`)
   const cases = [
     ['/', `${baseUrl}`],
     /*['/node', `${baseUrl}/node`],*/
   ]
+
+  beforeAll(async () => {
+    wrapperAccount = await HDWallet.random()
+  })
+
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create()
 
@@ -22,7 +31,9 @@ describe('HttpBridge', () => {
         (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
         `Failed to resolve rootNode [${bridge.rootAddress}]`,
       ),
+      wrapperAccount,
     )
+
     await memNode.register(wrapper.module)
     await memNode.attach(wrapper?.address, true)
     const description = await wrapper.describe()
@@ -31,7 +42,7 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const [archivistByName] = await NodeWrapper.wrap(memNode).resolve({ name: ['Archivist'] })
+    const [archivistByName] = await NodeWrapper.wrap(memNode, wrapperAccount).resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
   })
   it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
@@ -53,6 +64,7 @@ describe('HttpBridge', () => {
         (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
         `Failed to resolve rootNode [${bridge.rootAddress}]`,
       ),
+      wrapperAccount,
     )
 
     await memNode3.register(wrapper.module)
@@ -68,7 +80,7 @@ describe('HttpBridge', () => {
     //expect(archivistByAddress).toBeDefined()
 
     // Fails to resolve
-    const memNodeWrapper1 = NodeWrapper.wrap(memNode1)
+    const memNodeWrapper1 = NodeWrapper.wrap(memNode1, wrapperAccount)
     const [archivistByName] = await memNodeWrapper1.resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
     const [payloadStatsDivinerByName] = await memNodeWrapper1.resolve({ name: ['PayloadStatsDiviner'] })

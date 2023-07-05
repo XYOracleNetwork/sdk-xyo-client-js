@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
+import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
 import { CreatableModuleDictionary } from '@xyo-network/module'
 import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './ModuleFactory'
-import { ManifestPayload, ModuleManifest, NodeManifest } from './Payload'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   constructor(payload: ManifestPayload, protected wallet: WalletInstance) {

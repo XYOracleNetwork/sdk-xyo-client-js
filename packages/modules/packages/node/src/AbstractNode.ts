@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { handleErrorAsync, isError } from '@xyo-network/error'
+import { handleErrorAsync } from '@xyo-network/error'
+import { NodeManifest } from '@xyo-network/manifest'
 import {
   AbstractModule,
   CompositeModuleResolver,
@@ -77,6 +78,24 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     )
 
     return [...(await super.discover()), ...childModAddresses]
+  }
+
+  override async manifest(): Promise<NodeManifest> {
+    const manifest: NodeManifest = { ...(await super.manifest()) }
+
+    const privateModules = await Promise.all((await this.privateResolver.resolve()).map((module) => module.manifest()))
+    if (privateModules.length > 0) {
+      manifest.modules = manifest.modules ?? {}
+      manifest.modules.private = privateModules
+    }
+
+    const publicModules = await Promise.all((await this.downResolver.resolve()).map((module) => module.manifest()))
+    if (publicModules.length > 0) {
+      manifest.modules = manifest.modules ?? {}
+      manifest.modules.public = publicModules
+    }
+
+    return manifest
   }
 
   register(_module: Module): Promisable<this> {

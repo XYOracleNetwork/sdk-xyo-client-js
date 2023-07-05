@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
 import { CreatableModuleDictionary } from '@xyo-network/module'
-import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
+import { MemoryNode, NodeModule } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
@@ -12,7 +12,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     super(payload)
   }
 
-  async loadModule(node: NodeWrapper<MemoryNode>, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
+  async loadModule(node: MemoryNode, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
     const collision = async (node: NodeModule, name: string, external: boolean) => {
       const externalConflict = external ? (await (external ? node.upResolver : node.downResolver).resolve({ name: [name] })).length !== 0 : false
       return externalConflict || (await node.downResolver.resolve({ name: [name] })).length !== 0
@@ -30,23 +30,24 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     }
   }
 
-  async loadNodeFromIndex(node: MemoryNode, index: number, additionalCreatableModules?: CreatableModuleDictionary) {
-    return await this.loadNodeFromManifest(node, assertEx(this.nodeManifest(index), 'Failed to find Node Manifest'), additionalCreatableModules)
+  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary) {
+    const manifest = assertEx(this.nodeManifest(index), 'Failed to find Node Manifest')
+    return await this.loadNodeFromManifest(manifest, manifest.config.accountPath ?? `${index}'`, additionalCreatableModules)
   }
 
-  async loadNodeFromManifest(node: MemoryNode, manifest: NodeManifest, additionalCreatableModules?: CreatableModuleDictionary) {
-    const nodeWrapper = NodeWrapper.wrap<NodeWrapper<MemoryNode>>(node)
+  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary) {
+    const node = await MemoryNode.create({ config: manifest.config, wallet: await this.wallet.derivePath(path) })
     // Load Private Modules
     await Promise.all(
       manifest.modules?.private?.map(async (moduleManifest) => {
-        await this.loadModule(nodeWrapper, moduleManifest, false, additionalCreatableModules)
+        await this.loadModule(node, moduleManifest, false, additionalCreatableModules)
       }) ?? [() => null],
     )
 
     // Load Public Modules
     await Promise.all(
       manifest.modules?.public?.map(async (moduleManifest) => {
-        await this.loadModule(nodeWrapper, moduleManifest, true, additionalCreatableModules)
+        await this.loadModule(node, moduleManifest, true, additionalCreatableModules)
       }) ?? [() => null],
     )
 
@@ -56,9 +57,8 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary) {
     return await Promise.all(
       this.payload().nodes?.map(async (nodeManifest, index) => {
-        const subNode = await MemoryNode.create({ config: { schema: 'network.xyo.node.config' }, wallet: await this.wallet.derivePath(`${index}'`) })
+        const subNode = await this.loadNodeFromManifest(nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, additionalCreatableModules)
         await node?.register(subNode)
-        await this.loadNodeFromManifest(subNode, nodeManifest, additionalCreatableModules)
         return subNode
       }),
     )
@@ -68,7 +68,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     return this.payload().nodes?.[index]
   }
 
-  async registerModule(node: NodeWrapper<MemoryNode>, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary) {
+  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary) {
     const creatableModule = assertEx(
       creatableModules?.[manifest.config.schema],
       `No module with [${manifest.config.schema}] config schema available for registration`,
@@ -78,7 +78,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
       account: manifest.config.accountPath ? await this.wallet.derivePath(manifest.config.accountPath) : this.wallet,
       config: assertEx(manifest.config, 'Missing config'),
     })
-    await node.module.register(module)
+    await node.register(module)
     return module
   }
 }

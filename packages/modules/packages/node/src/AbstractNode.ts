@@ -83,13 +83,16 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   override async manifest(): Promise<NodeManifest> {
     const manifest: NodeManifest = { ...(await super.manifest()) }
 
-    const privateModules = await Promise.all((await this.privateResolver.resolve()).map((module) => module.manifest()))
+    const notThisModule = (module: Module) => module.address !== this.address
+    const toManifest = (module: Module) => module.manifest()
+
+    const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
     if (privateModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.private = privateModules
     }
 
-    const publicModules = await Promise.all((await this.downResolver.resolve()).map((module) => module.manifest()))
+    const publicModules = await Promise.all((await this.downResolver.resolve()).filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

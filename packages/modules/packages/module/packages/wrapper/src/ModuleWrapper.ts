@@ -124,6 +124,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.missingRequiredQueries(module).length === 0
   }
 
+  static is<TModuleWrapper extends ModuleWrapper = ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    wrapper: any,
+  ): wrapper is TModuleWrapper {
+    return wrapper instanceof this
+  }
+
   static missingRequiredQueries(module: Module): string[] {
     const moduleQueries = module.queries
     return compact(

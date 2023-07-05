@@ -1,6 +1,7 @@
 export * from './AbstractSentinel'
 export * from './Automation'
 export * from './Config'
+export * from './isSentinelModule'
 export * from './MemorySentinel'
 export * from './Queries'
 export * from './SentinelIntervalAutomationWrapper'

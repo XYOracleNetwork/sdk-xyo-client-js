@@ -10,7 +10,7 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
-import { handleErrorAsync, isError } from '@xyo-network/error'
+import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModule,
   ModuleConfig,

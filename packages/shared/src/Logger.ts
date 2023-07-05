@@ -1,5 +1,5 @@
 export type LogFunction = (message?: unknown) => void
-import { handleError, isError } from '@xyo-network/error'
+import { handleError } from '@xyo-network/error'
 
 /**
  * Interface to handle overlap between Winston &

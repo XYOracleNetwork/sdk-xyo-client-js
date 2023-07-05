@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { handleErrorAsync } from '@xyo-network/error'
-import { NodeManifest } from '@xyo-network/manifest'
+import { NodeManifest } from '@xyo-network/manifest-model'
 import {
   AbstractModule,
   CompositeModuleResolver,

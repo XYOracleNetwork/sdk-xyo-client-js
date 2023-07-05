@@ -3,7 +3,7 @@ import { delay } from '@xylabs/delay'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ManifestPayload } from '@xyo-network/manifest'
+import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   Module,

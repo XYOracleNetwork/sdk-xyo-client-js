@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { ModuleManifest } from '@xyo-network/manifest'
+import { ModuleManifest } from '@xyo-network/manifest-model'
 import {
   BaseEmitter,
   CompositeModuleResolver,

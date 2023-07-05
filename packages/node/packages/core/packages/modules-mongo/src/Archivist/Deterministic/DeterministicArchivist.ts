@@ -143,7 +143,7 @@ export class MongoDBDeterministicArchivist<
           return super.queryHandler(query, payloads)
       }
     } catch (ex) {
-      handleErrorAsync(ex, async (error) => {
+      await handleErrorAsync(ex, async (error) => {
         errorPayloads.push(
           new ModuleErrorBuilder()
             .sources([await wrapper.hashAsync()])

@@ -1,5 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleManifest } from '@xyo-network/manifest'
+import { ModuleManifest } from '@xyo-network/manifest-model'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'

@@ -18,7 +18,7 @@
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",
     "@xyo-network/error": "workspace:^",
-    "@xyo-network/manifest": "workspace:^",
+    "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/node-model": "workspace:^",

@@ -16,7 +16,7 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/error": "workspace:^",
-    "@xyo-network/manifest": "workspace:^",
+    "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module": "workspace:^",
     "@xyo-network/node-model": "workspace:^",
     "@xyo-network/node-wrapper": "workspace:^",

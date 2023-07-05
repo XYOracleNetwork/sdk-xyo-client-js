@@ -7,8 +7,8 @@ import { ArchivistModule } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { handleErrorAsync, isError } from '@xyo-network/error'
-import { ModuleManifest } from '@xyo-network/manifest'
+import { handleErrorAsync } from '@xyo-network/error'
+import { ModuleManifest } from '@xyo-network/manifest-model'
 import {
   AccountModuleParams,
   AddressPreviousHashPayload,

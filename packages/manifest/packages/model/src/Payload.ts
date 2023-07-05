@@ -1,6 +1,3 @@
-import { ModuleConfig } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
-
 export type ManifestPayloadSchema = 'network.xyo.manifest'
 export const ManifestPayloadSchema: ManifestPayloadSchema = 'network.xyo.manifest'
 
@@ -8,12 +5,13 @@ export interface Manifest {
   description?: string
 }
 
-export type ConfigManifest = ModuleConfig<{ schema: string }> & {
+export interface ConfigManifest {
   accountPath?: string
   features?: string[]
   language?: string
   name: string
   os?: string
+  schema: string
 }
 
 export interface NodeManifest extends ModuleManifest {
@@ -27,10 +25,8 @@ export interface ModuleManifest extends Manifest {
   config: ConfigManifest
 }
 
-export type ManifestPayload = Payload<
-  {
-    modules?: Record<string, ModuleManifest>
-    nodes: NodeManifest[]
-  },
-  ManifestPayloadSchema
->
+export interface ManifestPayload {
+  modules?: Record<string, ModuleManifest>
+  nodes: NodeManifest[]
+  schema: ManifestPayloadSchema
+}

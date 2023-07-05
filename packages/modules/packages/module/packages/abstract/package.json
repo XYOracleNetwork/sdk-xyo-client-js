@@ -24,7 +24,7 @@
     "@xyo-network/config-payload-plugin": "workspace:^",
     "@xyo-network/core": "workspace:^",
     "@xyo-network/error": "workspace:^",
-    "@xyo-network/manifest": "workspace:^",
+    "@xyo-network/manifest-model": "workspace:^",
     "@xyo-network/module-events": "workspace:^",
     "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",

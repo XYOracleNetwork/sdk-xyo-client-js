@@ -1,6 +1,12 @@
 export type ManifestPayloadSchema = 'network.xyo.manifest'
 export const ManifestPayloadSchema: ManifestPayloadSchema = 'network.xyo.manifest'
 
+export type ModuleManifestPayloadSchema = 'network.xyo.module.manifest'
+export const ModuleManifestPayloadSchema: ModuleManifestPayloadSchema = 'network.xyo.module.manifest'
+
+export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
+export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
+
 export interface Manifest {
   description?: string
 }
@@ -21,8 +27,16 @@ export interface NodeManifest extends ModuleManifest {
   }
 }
 
+export interface NodeManifestPayload extends NodeManifest {
+  schema: NodeManifestPayloadSchema
+}
+
 export interface ModuleManifest extends Manifest {
   config: ConfigManifest
+}
+
+export interface ModuleManifestPayload extends ModuleManifest {
+  schema: ModuleManifestPayloadSchema | string
 }
 
 export interface ManifestPayload {

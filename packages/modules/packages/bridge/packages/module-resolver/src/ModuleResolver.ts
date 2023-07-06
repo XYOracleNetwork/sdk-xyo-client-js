@@ -1,4 +1,4 @@
-import { assertEx } from '@xylabs/assert'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
@@ -23,7 +23,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
-  constructor(protected readonly bridge: BridgeModule) {
+  constructor(protected readonly bridge: BridgeModule, protected wrapperAccount: AccountInstance) {
     super()
   }
 
@@ -96,26 +96,24 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
           //discover it to set the config in the bridge
           await this.bridge.targetDiscover(address)
 
-          const account = assertEx(this.bridge.account, 'Missing bridge account')
-
           if (mod.queries.includes(ArchivistGetQuerySchema)) {
-            return ArchivistWrapper.wrap(mod, account)
+            return ArchivistWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (mod.queries.includes(DivinerDivineQuerySchema)) {
-            return DivinerWrapper.wrap(mod, account)
+            return DivinerWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (mod.queries.includes(WitnessObserveQuerySchema)) {
-            return WitnessWrapper.wrap(mod, account)
+            return WitnessWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (mod.queries.includes(NodeAttachQuerySchema)) {
-            return NodeWrapper.wrap(mod, account)
+            return NodeWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (mod.queries.includes(SentinelReportQuerySchema)) {
-            return SentinelWrapper.wrap(mod, account)
+            return SentinelWrapper.wrap(mod, this.wrapperAccount)
           }
 
           return mod

@@ -10,6 +10,8 @@ export interface Sentinel {
   report: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
+export type SentinelInstance = Sentinel
+
 export type SentinelReportEndEventArgs = ModuleEventArgs<
   SentinelModule,
   {

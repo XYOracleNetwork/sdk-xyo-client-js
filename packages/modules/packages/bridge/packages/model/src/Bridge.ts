@@ -4,6 +4,7 @@ import {
   ModuleConfig,
   ModuleEventData,
   ModuleFilter,
+  ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
   Query,
@@ -14,19 +15,22 @@ import { Promisable } from '@xyo-network/promise'
 
 import { BridgeConfig } from './Config'
 
-export interface Bridge {
+export interface BridgeInstance {
   connect: () => Promisable<boolean>
   disconnect: () => Promisable<boolean>
 }
+
+/** @deprecated use BridgeInstance instead */
+export type Bridge = BridgeInstance
 
 export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig>
 
 export interface BridgeModule<
   TParams extends BridgeParams = BridgeParams,
   TEventData extends ModuleEventData = ModuleEventData,
-  TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
-> extends Bridge,
-    Module<TParams, TEventData> {
+  TModule extends ModuleInstance<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
+> extends BridgeInstance,
+    ModuleInstance<TParams, TEventData> {
   targetConfig(address: string): ModuleConfig
   targetDiscover(address?: string): Promisable<Payload[] | undefined>
   targetDownResolver(address?: string): TModule['downResolver']

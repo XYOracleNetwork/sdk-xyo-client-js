@@ -1,17 +1,17 @@
-import { isModule, ModuleTypeCheck } from './isModule'
-import { Module } from './Module'
+import { InstanceTypeCheck, isModule, isModuleInstance } from './isModule'
 
-export const WithModuleFactory = {
-  create: <T extends Module = Module>(typeCheck: ModuleTypeCheck<T>) => {
+export const WithFactory = {
+  create: <T extends object>(typeCheck: InstanceTypeCheck<T>) => {
     return <R extends void = void>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       module: any,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      closure: (module: any) => R,
+      closure: (module: T) => R,
     ): R | undefined => {
       return typeCheck(module) ? closure(module) : undefined
     }
   },
 }
 
-export const withModule = WithModuleFactory.create(isModule)
+export const withModule = WithFactory.create(isModule)
+export const withModuleInstance = WithFactory.create(isModuleInstance)

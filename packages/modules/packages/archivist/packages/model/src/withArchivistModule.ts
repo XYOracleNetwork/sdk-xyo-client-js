@@ -1,5 +1,7 @@
-import { WithModuleFactory } from '@xyo-network/module-model'
+import { WithFactory } from '@xyo-network/module-model'
 
+import { isArchivistInstance } from './isArchivistInstance'
 import { isArchivistModule } from './isArchivistModule'
 
-export const withArchivistModule = WithModuleFactory.create(isArchivistModule)
+export const withArchivistModule = WithFactory.create(isArchivistModule)
+export const withArchivistInstance = WithFactory.create(isArchivistInstance)

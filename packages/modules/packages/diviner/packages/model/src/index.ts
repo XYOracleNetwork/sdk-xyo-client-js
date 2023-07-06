@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './Diviner'
+export * from './isDivinerInstance'
 export * from './isDivinerModule'
 export * from './Queries'
 export * from './withDivinerModule'

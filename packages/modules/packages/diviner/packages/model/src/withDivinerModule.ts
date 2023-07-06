@@ -1,5 +1,7 @@
-import { WithModuleFactory } from '@xyo-network/module-model'
+import { WithFactory } from '@xyo-network/module-model'
 
+import { isDivinerInstance } from './isDivinerInstance'
 import { isDivinerModule } from './isDivinerModule'
 
-export const withDivinerModule = WithModuleFactory.create(isDivinerModule)
+export const withDivinerInstance = WithFactory.create(isDivinerInstance)
+export const withDivinerModule = WithFactory.create(isDivinerModule)

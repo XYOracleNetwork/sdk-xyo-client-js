@@ -8,6 +8,7 @@ import { AnyConfigSchema, ModuleConfig } from './Config'
 import { ModuleFilter } from './ModuleFilter'
 import { ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
+import { AddressPreviousHashPayload } from './Queries'
 import { QueryBoundWitness } from './Query'
 
 export interface ModuleResolver {
@@ -19,15 +20,18 @@ export interface ModuleResolver {
    * is supplied, all modules are returned
    * @param filter Filter criteria for the desired modules
    */
-  resolve<T extends Module = Module>(filter?: ModuleFilter): Promisable<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter): Promisable<T[]>
   /**
    * Resolves a single module, or undefined if no modules matched the filter.
    * @param filter The desired Module's Address or Name
    */
-  resolveOne<T extends Module = Module>(filter: string): Promisable<T | undefined>
+  resolveOne<T extends ModuleInstance = ModuleInstance>(filter: string): Promisable<T | undefined>
 }
 
-export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
+export type ModuleEventArgs<
+  TModule extends ModuleInstance = ModuleInstance,
+  TArgs extends EventArgs | undefined = undefined,
+> = TArgs extends EventArgs
   ? {
       module: TModule
     } & TArgs
@@ -36,7 +40,7 @@ export type ModuleEventArgs<TModule extends Module = Module, TArgs extends Event
     }
 
 export type ModuleQueriedEventArgs = ModuleEventArgs<
-  Module,
+  ModuleInstance,
   {
     payloads?: Payload[]
     query: QueryBoundWitness
@@ -48,8 +52,13 @@ export interface ModuleEventData extends EventData {
   moduleQueried: ModuleQueriedEventArgs
 }
 
+export type ModuleQueryFunctions = {
+  addressPreviousHash: () => Promisable<AddressPreviousHashPayload>
+  discover: () => Promisable<Payload[]>
+  manifest: () => Promisable<ModuleManifest>
+}
+
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
-  account?: AccountInstance
   address: string
   config: TParams['config']
 
@@ -57,8 +66,6 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   readonly downResolver: ModuleResolver
 
   loadAccount?: () => Promisable<AccountInstance>
-
-  manifest: () => Promisable<ModuleManifest>
 
   params: TParams
 
@@ -84,4 +91,9 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
 export type Module<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = ModuleFields<TParams> & EventFunctions<TEventData>
+> = ModuleFields<TParams> & EventFunctions<TEventData> & ModuleQueryFunctions
+
+export type ModuleInstance<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = Module<TParams, TEventData>

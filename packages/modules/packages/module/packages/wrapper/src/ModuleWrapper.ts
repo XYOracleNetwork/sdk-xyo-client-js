@@ -7,9 +7,11 @@ import { Base } from '@xyo-network/core'
 import { duplicateModules, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
+  AddressPreviousHashPayload,
+  AddressPreviousHashSchema,
   Module,
-  ModuleAccountQuery,
-  ModuleAccountQuerySchema,
+  ModuleAddressQuery,
+  ModuleAddressQuerySchema,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -27,12 +29,7 @@ import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { ModuleWrapperParams } from './models'
-
-export interface WrapperError extends Error {
-  errors: (ModuleError | null)[]
-  query: [QueryBoundWitness, Payload[], ModuleError[]]
-  result: ModuleQueryResult | undefined
-}
+import { WrapperError } from './WrapperError'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
@@ -40,6 +37,9 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
 
   canWrap(module: Module | undefined): boolean
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  is<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, wrapper?: any): wrapper is TModuleWrapper
 
   /** @deprecated pass an account for second parameter */
   tryWrap<TModuleWrapper extends ModuleWrapper>(
@@ -164,6 +164,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     }
   }
 
+  static with<TModuleWrapper extends ModuleWrapper = ModuleWrapper, R extends void = void>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    module: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    closure: (module: TModuleWrapper) => R,
+  ): R | undefined {
+    return this.is(module) ? closure(module) : undefined
+  }
+
   /** @deprecated pass an account for second parameter */
   static wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, module: Module | undefined): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
@@ -177,6 +187,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     account?: AccountInstance,
   ): TModuleWrapper {
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
+  }
+
+  async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
+    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
+    return assertEx(
+      (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as AddressPreviousHashPayload,
+      'Result did not include correct payload',
+    )
   }
 
   clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
@@ -252,7 +270,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
   }
 
   previousHash(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.wrap<ModuleAccountQuery>({ schema: ModuleAccountQuerySchema })
+    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
     return this.sendQuery(queryPayload)
   }
 

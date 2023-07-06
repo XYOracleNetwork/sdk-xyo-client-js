@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifest } from '@xyo-network/manifest-model'
 import {
+  AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
   Module,
@@ -53,6 +54,14 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
 
   get queries() {
     return this.bridge.targetQueries(this.address)
+  }
+
+  addressPreviousHash(): Promise<AddressPreviousHashPayload> {
+    throw Error('Not Implemented')
+  }
+
+  discover(): Promise<Payload[]> {
+    throw Error('Not Implemented')
   }
 
   manifest(): Promisable<ModuleManifest> {

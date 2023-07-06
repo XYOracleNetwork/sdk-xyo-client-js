@@ -8,7 +8,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { handleErrorAsync } from '@xyo-network/error'
-import { ModuleManifest } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AccountModuleParams,
   AddressPreviousHashPayload,
@@ -17,7 +17,7 @@ import {
   CreatableModuleFactory,
   IndividualArchivistConfig,
   Module,
-  ModuleAccountQuerySchema,
+  ModuleAddressQuerySchema,
   ModuleConfig,
   ModuleDiscoverQuerySchema,
   ModuleError,
@@ -63,12 +63,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
-    'network.xyo.query.module.account': '1',
+    'network.xyo.query.module.address': '1',
     'network.xyo.query.module.discover': '2',
     'network.xyo.query.module.subscribe': '3',
   }
   protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
-    'network.xyo.query.module.account': undefined,
+    'network.xyo.query.module.address': undefined,
     'network.xyo.query.module.discover': undefined,
     'network.xyo.query.module.subscribe': undefined,
   }
@@ -111,7 +111,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModuleAccountQuerySchema, ModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModuleAddressQuerySchema, ModuleSubscribeQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -148,6 +148,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ModuleFactory.withParams(this, params)
   }
 
+  addressPreviousHash(): Promisable<AddressPreviousHashPayload> {
+    return { address: this.address, previousHash: this._account?.previousHash, schema: AddressPreviousHashSchema }
+  }
+
   discover(): Promisable<Payload[]> {
     const config = this.config
     const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
@@ -177,12 +181,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._account
   }
 
-  manifest(): Promisable<ModuleManifest> {
+  manifest(): Promisable<ModuleManifestPayload> {
     const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
-    return { config: { name, ...this.config } }
+    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
   }
 
-  moduleAccountQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
+  moduleAddressQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -363,8 +367,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           resultPayloads.push(...(await this.discover()))
           break
         }
-        case ModuleAccountQuerySchema: {
-          resultPayloads.push(...(await this.moduleAccountQuery()))
+        case ModuleAddressQuerySchema: {
+          resultPayloads.push(...(await this.moduleAddressQuery()))
           break
         }
         case ModuleSubscribeQuerySchema: {

@@ -1,5 +1,6 @@
 export * from './Config'
 export * from './Events'
+export * from './isWitnessInstance'
 export * from './isWitnessModule'
 export * from './Module'
 export * from './Params'

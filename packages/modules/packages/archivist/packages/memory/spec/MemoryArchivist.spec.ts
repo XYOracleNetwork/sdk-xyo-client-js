@@ -1,4 +1,4 @@
-import { isArchivistModule } from '@xyo-network/archivist-model'
+import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 
 import { MemoryArchivist } from '../src'
 
@@ -6,6 +6,7 @@ describe('MemoryArchivist', () => {
   it('should listen to cleared events', async () => {
     const archivist = await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema } })
 
+    expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
 
     archivist.on('cleared', () => {

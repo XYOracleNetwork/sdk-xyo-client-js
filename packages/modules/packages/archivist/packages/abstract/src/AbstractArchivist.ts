@@ -202,7 +202,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
-    const wrapper = new ArchivistWrapper({ account: this.account, module: parent })
+    const wrapper = new ArchivistWrapper({ account: this.accountInstance, module: parent })
     return await wrapper.insert(payloads)
   }
 
@@ -236,7 +236,7 @@ export abstract class AbstractArchivist<
 
     await Promise.all(
       modules.map((module) => {
-        const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })
+        const wrapper = new ArchivistWrapper({ account: this.accountInstance, module: module as ArchivistModule })
         resolvedWrappers[wrapper.address] = wrapper
       }),
     )

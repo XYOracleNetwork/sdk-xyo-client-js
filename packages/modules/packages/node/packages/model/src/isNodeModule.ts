@@ -1,5 +1,11 @@
-import { isModule, IsModuleFactory } from '@xyo-network/module'
+import { IsModuleFactory } from '@xyo-network/module'
 
 import { NodeModule } from './Node'
+import { NodeAttachedQuerySchema, NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema } from './Queries'
 
-export const isNodeModule = IsModuleFactory.create<NodeModule>(isModule, ['attach', 'attached', 'detach', 'registered'])
+export const isNodeModule = IsModuleFactory.create<NodeModule>([
+  NodeAttachQuerySchema,
+  NodeDetachQuerySchema,
+  NodeRegisteredQuerySchema,
+  NodeAttachedQuerySchema,
+])

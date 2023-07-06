@@ -52,7 +52,7 @@ export abstract class AbstractBridge<
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {
-    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this)
+    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account)
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 

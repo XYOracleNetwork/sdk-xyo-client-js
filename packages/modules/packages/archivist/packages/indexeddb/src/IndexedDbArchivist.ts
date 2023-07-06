@@ -32,7 +32,6 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 
 export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
 
-@creatableModule()
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,

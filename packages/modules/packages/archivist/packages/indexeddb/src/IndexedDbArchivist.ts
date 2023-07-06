@@ -11,7 +11,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
@@ -32,7 +32,6 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 
 export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
 
-@creatableModule()
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,

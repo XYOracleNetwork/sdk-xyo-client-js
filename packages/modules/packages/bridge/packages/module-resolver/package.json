@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
+    "@xyo-network/account-model": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
@@ -68,5 +69,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.64.6"
+  "version": "2.64.7"
 }

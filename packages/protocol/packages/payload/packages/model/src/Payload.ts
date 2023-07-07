@@ -21,11 +21,4 @@ export type WithPayload<T extends EmptyPayload | void = void> = WithSchema<T ext
 export type Payload<
   T extends void | EmptyPayload | WithSchema = void,
   S extends string = T extends WithSchema ? T['schema'] : string,
-> = T extends WithSchema
-  ? /* Type sent is an Payload */
-    WithPayload<T>
-  : T extends EmptyPayload
-  ? /* Type sent is an Object */
-    WithPayload<T & { schema: S }>
-  : /* Type sent is void */
-    WithPayload<{ schema: S }>
+> = T extends EmptyPayload ? /* Type sent is an Object */ WithPayload<T & { schema: S }> : /* Type sent is void */ WithPayload<{ schema: S }>

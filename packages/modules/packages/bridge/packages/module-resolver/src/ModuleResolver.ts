@@ -75,6 +75,12 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     return await this.resolveRemoteModules<T>(filter)
   }
 
+  override async resolveOne<T extends Module = Module>(addressOrName?: string): Promise<T | undefined> {
+    if (addressOrName) {
+      return (await this.resolveByAddress<T>(addressOrName)) ?? (await this.resolveByName<T>(addressOrName))?.[0]
+    }
+  }
+
   private async resolveByAddress<T extends Module = Module>(targetAddress: string): Promise<T | undefined> {
     const remoteAddresses = await this.getRemoteAddresses()
 

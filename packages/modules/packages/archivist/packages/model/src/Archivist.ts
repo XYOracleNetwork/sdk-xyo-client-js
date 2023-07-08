@@ -37,7 +37,7 @@ export interface ArchivistModuleEventData extends InsertedEventData, DeletedEven
 export type ArchivistModule<
   TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = ModuleInstance<TParams, TEventData> & Archivist<Payload, Payload, Payload, string>
+> = ModuleInstance<TParams, TEventData> & Archivist<Payload, BoundWitness, Payload, string>
 
 export type ArchivistInstance<TReadResponse = Payload, TWriteResponse = BoundWitness, TWrite = TReadResponse, TId = string> = Archivist<
   TReadResponse,

@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter, ModuleWrapper } from '@xyo-network/module'
-import { NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
-import { NodeWrapper } from '@xyo-network/node-wrapper'
+import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
+import { isNodeModule, NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
@@ -83,12 +82,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       return
     }
 
-    const wrapper = ModuleWrapper.wrap(module)
     const notifiedAddresses: string[] = []
 
-    const getModulesToNotifyAbout = async (node: ModuleWrapper) => {
+    const getModulesToNotifyAbout = async (node: Module) => {
       //send attach events for all existing attached modules
-      const childModules = await node.resolve()
+      const childModules = await node.downResolver.resolve()
       return compact(
         childModules.map((child) => {
           //don't report self
@@ -108,7 +106,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       )
     }
 
-    const notificationList = await getModulesToNotifyAbout(wrapper)
+    const notificationList = await getModulesToNotifyAbout(module)
 
     this.privateResolver.addResolver(module.downResolver)
 
@@ -126,18 +124,16 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const args = { module, name: module.config.name }
     await this.emit('moduleAttached', args)
 
-    if (NodeWrapper.isNodeModule(module)) {
+    if (isNodeModule(module)) {
       if (external) {
-        const wrappedAsNode = NodeWrapper.wrap(module as NodeModule)
-
         const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
           await this.emit('moduleAttached', args)
 
         const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
           await this.emit('moduleDetached', args)
 
-        wrappedAsNode.on('moduleAttached', attachedListener)
-        wrappedAsNode.on('moduleDetached', detachedListener)
+        module.on('moduleAttached', attachedListener)
+        module.on('moduleDetached', detachedListener)
       }
     }
 
@@ -184,12 +180,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     await this.emit('moduleDetached', args)
 
     //notify of all sub node children detach
-    const wrapper = ModuleWrapper.tryWrap(module as NodeModule)
     const notifiedAddresses: string[] = []
-    if (wrapper) {
-      const notifyOfExistingModules = async (node: ModuleWrapper) => {
+    if (isNodeModule(module)) {
+      const notifyOfExistingModules = async (node: NodeModule) => {
         //send attach events for all existing attached modules
-        const childModules = await node.resolve()
+        const childModules = await node.downResolver.resolve()
         await Promise.all(
           childModules.map(async (child) => {
             //don't report self
@@ -206,7 +201,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
           }),
         )
       }
-      await notifyOfExistingModules(wrapper)
+      await notifyOfExistingModules(module)
     }
     return address
   }

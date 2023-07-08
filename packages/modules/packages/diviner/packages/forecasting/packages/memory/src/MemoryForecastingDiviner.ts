@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
@@ -11,7 +10,7 @@ import {
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { DivinerModule } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { value } from 'jsonpath'
 
@@ -60,10 +59,11 @@ export class MemoryForecastingDiviner<
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
-    const bwDivinerMod = assertEx((await this.upResolver.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner')
-    const bwDiviner = DivinerWrapper.wrap(bwDivinerMod)
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const bwDiviner = assertEx(
+      (await this.upResolver.resolve<DivinerModule>(this.config.boundWitnessDiviner)).pop(),
+      'Unable to resolve boundWitnessDiviner',
+    )
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')
     let timestamp = stopTimestamp
@@ -93,7 +93,7 @@ export class MemoryForecastingDiviner<
 
       // Get the payloads corresponding to the BW hashes from the archivist
       if (hashes.length !== 0) {
-        const batchPayloads = await archivist.get(hashes)
+        const batchPayloads = (await archivist.get(hashes)).filter(exists)
         payloads.push(...batchPayloads)
       }
     }

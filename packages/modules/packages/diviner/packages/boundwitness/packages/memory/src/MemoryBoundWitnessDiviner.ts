@@ -1,6 +1,5 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { normalizeAddress } from '@xyo-network/core'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
@@ -17,10 +16,9 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
   override async divine(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = filter
-    const all = await archivist.all()
+    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     let bws = all.filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map(normalizeAddress)

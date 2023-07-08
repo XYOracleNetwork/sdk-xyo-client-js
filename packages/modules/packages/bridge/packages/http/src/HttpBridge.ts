@@ -14,7 +14,6 @@ import {
   ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
   QueryBoundWitness,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
@@ -103,7 +102,7 @@ export class HttpBridge<
       ),
     )
 
-    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
+    await Promise.all(children.map(async (child) => await child.discover()))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

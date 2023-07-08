@@ -19,6 +19,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModule,
+  creatableModule,
   ModuleConfig,
   ModuleError,
   ModuleErrorBuilder,

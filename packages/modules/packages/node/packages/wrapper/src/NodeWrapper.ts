@@ -1,5 +1,5 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { constructableModuleWrapper, Module, ModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import {
   NodeAttachedQuery,
   NodeAttachedQuerySchema,
@@ -17,11 +17,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
-
-  static isNodeModule(module: Module) {
-    const missingRequiredQueries = this.missingRequiredQueries(module)
-    return missingRequiredQueries.length === 0
-  }
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
     const queryPayload = PayloadWrapper.wrap<NodeAttachQuery>({ external, nameOrAddress, schema: NodeAttachQuerySchema })

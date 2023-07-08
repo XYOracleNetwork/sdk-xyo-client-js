@@ -12,7 +12,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
-export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, name: string) => {
+export const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistModule>, name: string) => {
   test(`Archivist RoundTrip [${name}]`, async () => {
     const idPayload: Payload<{ salt: string }> = {
       salt: Date.now().toString(),
@@ -20,14 +20,14 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
     }
     const payloadWrapper = PayloadWrapper.wrap(idPayload)
 
-    const archivistWrapper = ArchivistWrapper.wrap(await archivist)
-    const insertResult = await archivistWrapper.insert([idPayload])
+    const archivist = await archivistPromise
+    const insertResult = await archivist.insert([idPayload])
     const insertResultWrappers = insertResult.map((bw) => BoundWitnessWrapper.wrap(bw))
     const insertResultPayload = insertResultWrappers.pop() as BoundWitnessWrapper
     expect(insertResultPayload).toBeDefined()
 
     expect(PayloadHasher.find(insertResultPayload.payloadHashes, await payloadWrapper.hashAsync())).toBeDefined()
-    const getResult = await archivistWrapper.get([await payloadWrapper.hashAsync()])
+    const getResult = await archivist.get([await payloadWrapper.hashAsync()])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]

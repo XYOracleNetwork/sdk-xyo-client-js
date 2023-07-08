@@ -2,7 +2,6 @@ import { Account } from '@xyo-network/account'
 import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -42,9 +41,8 @@ describe('MemoryAddressHistoryDiviner', () => {
       })
       await node.register(diviner)
       await node.attach(diviner.address)
-      const divinerWrapper = DivinerWrapper.wrap(diviner)
 
-      const result = await divinerWrapper.divine()
+      const result = await diviner.divine()
       expect(result.length).toBe(4)
     })
   })

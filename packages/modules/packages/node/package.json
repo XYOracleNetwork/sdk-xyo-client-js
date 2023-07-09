@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xylabs/exists": "^2.9.3",
-    "@xylabs/promise": "^2.9.3",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/address-payload-plugin": "workspace:^",
     "@xyo-network/error": "workspace:^",

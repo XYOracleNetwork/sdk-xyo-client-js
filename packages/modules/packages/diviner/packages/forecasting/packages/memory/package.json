@@ -12,13 +12,12 @@
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
     "@xylabs/exists": "^2.9.3",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-boundwitness-model": "workspace:^",
     "@xyo-network/diviner-forecasting-abstract": "workspace:^",
     "@xyo-network/diviner-forecasting-method-arima": "workspace:^",
     "@xyo-network/diviner-forecasting-model": "workspace:^",
-    "@xyo-network/diviner-wrapper": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "jsonpath": "^1.1.1"
   },

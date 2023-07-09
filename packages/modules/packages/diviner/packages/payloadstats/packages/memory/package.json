@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/diviner-payload-stats-abstract": "workspace:^",
     "@xyo-network/diviner-payload-stats-model": "workspace:^",

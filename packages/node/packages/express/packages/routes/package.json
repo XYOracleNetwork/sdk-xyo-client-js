@@ -31,7 +31,6 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/exists": "^2.9.3",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
-    "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:^",

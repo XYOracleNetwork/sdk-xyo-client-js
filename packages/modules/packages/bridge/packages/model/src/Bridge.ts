@@ -32,10 +32,10 @@ export interface BridgeModule<
 > extends BridgeInstance,
     ModuleInstance<TParams, TEventData> {
   targetConfig(address: string): ModuleConfig
-  targetDiscover(address?: string): Promisable<Payload[] | undefined>
+  targetDiscover(address?: string): Promisable<Payload[]>
   targetDownResolver(address?: string): TModule['downResolver']
   targetQueries(address: string): string[]
-  targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
+  targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
   targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
   targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
 }

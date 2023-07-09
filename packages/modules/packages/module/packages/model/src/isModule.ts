@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ModuleInstance } from './Module'
-import { ModuleAddressQuerySchema, ModuleDiscoverQuerySchema } from './Queries'
+import { Module, ModuleInstance } from './Module'
 
 export type InstanceTypeCheck<T extends object = object> = (module: object) => module is T
 
-export type ModuleTypeCheck<T extends ModuleInstance = ModuleInstance> = InstanceTypeCheck<T>
+export type ModuleTypeCheck<T extends Module = Module> = InstanceTypeCheck<T>
 
 export type FieldType = 'string' | 'number' | 'object' | 'symbol' | 'symbol' | 'undefined' | 'null' | 'array' | 'function' | 'payload'
 
@@ -22,7 +21,7 @@ export const isType = (value: any, expectedType: FieldType) => {
 
 export const IsInstanceFactory = {
   create: <T extends object = object>(shape?: InstanceTypeShape, additionalCheck?: (module: any) => boolean): InstanceTypeCheck<T> => {
-    return (module: any): module is T => {
+    return (module: any = {}): module is T => {
       return (
         (additionalCheck?.(module) ?? true) &&
         (Object.entries(shape ?? {}).reduce((prev, [key, type]) => prev && isType(module[key], type), true) ?? true)
@@ -33,7 +32,7 @@ export const IsInstanceFactory = {
 
 export const IsModuleFactory = {
   create: <T extends ModuleInstance = ModuleInstance>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
-    return (module: any): module is T => {
+    return (module: any = {}): module is T => {
       return (
         isModuleInstance(module) &&
         (additionalCheck?.(module) ?? true) &&
@@ -57,4 +56,14 @@ export const isModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFac
   upResolver: 'object',
 })
 
-export const isModule: ModuleTypeCheck<ModuleInstance> = IsModuleFactory.create<ModuleInstance>([ModuleAddressQuerySchema, ModuleDiscoverQuerySchema])
+export const isModule = <T extends Module = Module>(
+  module: any = {},
+  expectedQueries?: string[],
+  additionalCheck?: (module: any) => boolean,
+): module is T => {
+  return (
+    isModuleInstance(module) &&
+    (additionalCheck?.(module) ?? true) &&
+    (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
+  )
+}

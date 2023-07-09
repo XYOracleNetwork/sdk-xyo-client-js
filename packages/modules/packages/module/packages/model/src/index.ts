@@ -1,3 +1,4 @@
+export * from './asModule'
 export * from './Config'
 export * from './CreatableModule'
 export * from './Error'

@@ -13,7 +13,6 @@ import {
   ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
   QueryBoundWitness,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
@@ -140,7 +139,7 @@ export class WorkerBridge<
       ),
     )
 
-    await Promise.all(children.map(async (child) => await ModuleWrapper.wrap(child).discover()))
+    await Promise.all(children.map(async (child) => await child.discover()))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
@@ -192,7 +191,7 @@ export class WorkerBridge<
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult | undefined> {
+  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     const msgId = await PayloadWrapper.hashAsync(query)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
@@ -217,17 +216,14 @@ export class WorkerBridge<
         reject(ex)
       }
     })
-    const result = Promise.race([
+    const result = await Promise.race([
       mainPromise,
       (async () => {
         await delay(1000)
         return undefined
       })(),
     ])
-    if (!result) {
-      console.log('targetQuery timing out')
-    }
-    return result
+    return assertEx(result, `targetQuery timed out [${address}]`)
   }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {

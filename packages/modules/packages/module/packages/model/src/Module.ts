@@ -5,6 +5,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { AnyConfigSchema, ModuleConfig } from './Config'
+import { ModuleDescription } from './ModuleDescription'
 import { ModuleFilter } from './ModuleFilter'
 import { ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
@@ -62,12 +63,16 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   address: string
   config: TParams['config']
 
+  describe: () => Promise<ModuleDescription>
+
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
 
   loadAccount?: () => Promisable<AccountInstance>
 
   params: TParams
+
+  previousHash: () => Promisable<string | undefined>
 
   queries: string[]
   query: <T extends QueryBoundWitness = QueryBoundWitness, TConf extends ModuleConfig = ModuleConfig>(

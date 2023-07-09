@@ -1,6 +1,5 @@
 import { ModuleParams } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WitnessWrapper } from '@xyo-network/witness'
 
 import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness'
 
@@ -19,8 +18,7 @@ describe('AdhocWitness', () => {
       })
       it('uses payload schema with WitnessWrapper', async () => {
         const witness = await AdhocWitness.create(params)
-        const wrapper = WitnessWrapper.wrap(witness)
-        const observation = await wrapper.observe([observed])
+        const observation = await witness.observe([observed])
         expect(observation).toBeArrayOfSize(1)
         expect(observation?.[0]?.schema).toBe(observed.schema)
       })

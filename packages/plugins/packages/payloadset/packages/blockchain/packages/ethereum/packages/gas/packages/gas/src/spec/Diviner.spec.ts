@@ -1,6 +1,5 @@
 import { InfuraProvider } from '@ethersproject/providers'
 import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
 import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
 import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
@@ -22,9 +21,8 @@ describe('Diviner', () => {
     ['all supported gas payloads', [sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas]],
   ]
   test.each(cases)('with %s returns divined gas price', async (_title: string, data: Payload[]) => {
-    const module = await EthereumGasDiviner.create()
-    const wrapper = DivinerWrapper.wrap(module)
-    const payloads = await wrapper.divine(data)
+    const diviner = await EthereumGasDiviner.create()
+    const payloads = await diviner.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
     const gasPayload = payloads.pop() as EthereumGasPayload
@@ -89,10 +87,9 @@ describe('Diviner', () => {
     )?.[0]
     const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
-    const module = await EthereumGasDiviner.create()
-    const wrapper = DivinerWrapper.wrap(module)
+    const diviner = await EthereumGasDiviner.create()
 
-    const payloads = await wrapper.divine(observations)
+    const payloads = await diviner.divine(observations)
 
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)

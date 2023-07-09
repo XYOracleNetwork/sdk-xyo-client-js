@@ -113,6 +113,28 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     throw new Error('Method not implemented.')
   }
 
+  async resolvePrivate<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  async resolvePrivate<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
+  async resolvePrivate<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const byAddress = Account.isAddress(nameOrAddressOrFilter)
+          ? (await this.privateResolver.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
+            (await this.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+          : undefined
+        return (
+          byAddress ??
+          (await this.privateResolver.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
+          (await this.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+        )
+      }
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await this.resolve<TModule>(filter))].filter(duplicateModules)
+      }
+    }
+  }
+
   unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
   }
@@ -178,10 +200,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       })
     }
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
-  }
-
-  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    return [...(await this.privateResolver.resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
   }
 
   abstract attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>

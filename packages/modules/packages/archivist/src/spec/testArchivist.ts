@@ -4,7 +4,6 @@
 
 import { delay } from '@xylabs/delay'
 import { ArchivistModule } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
@@ -44,13 +43,13 @@ export const testArchivistAll = (archivist: Promisable<ArchivistModule>, name: s
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const archivistWrapper = ArchivistWrapper.wrap(await archivist)
+    const archivistModule = await archivist
     for (let x = 0; x < 10; x++) {
-      await archivistWrapper.insert([idPayload])
+      await archivistModule.insert([idPayload])
       await delay(10)
     }
-    const getResult = await archivistWrapper.all()
+    const getResult = await archivistModule.all?.()
     expect(getResult).toBeDefined()
-    expect(getResult.length).toBe(2)
+    expect(getResult?.length).toBe(2)
   })
 }

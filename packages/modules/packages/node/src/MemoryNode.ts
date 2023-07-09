@@ -1,7 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { fulfilled, rejected } from '@xylabs/promise'
-import { AnyConfigSchema, duplicateModules, EventListener, Module, ModuleFilter } from '@xyo-network/module'
+import { AnyConfigSchema, EventListener, Module } from '@xyo-network/module'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
 import compact from 'lodash/compact'
 
@@ -51,26 +49,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const args = { module, name: module.config.name }
     await this.emit('moduleUnregistered', args)
     return this
-  }
-
-  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    const internal: Promise<TModule[]> = this.privateResolver.resolve<TModule>(filter)
-    const up: Promise<TModule[]> = this.upResolver?.resolve<TModule>(filter) || []
-    const down: Promise<TModule[]> = this.downResolver?.resolve<TModule>(filter) || []
-    const resolved = await Promise.allSettled([internal, up, down])
-
-    const errors = resolved.filter(rejected).map((r) => Error(r.reason))
-
-    if (errors.length) {
-      this.logger?.error(`Resolve Errors: ${JSON.stringify(errors, null, 2)}`)
-    }
-
-    return resolved
-      .filter(fulfilled)
-      .map((r) => r.value)
-      .flat()
-      .filter(exists)
-      .filter(duplicateModules)
   }
 
   private async attachUsingAddress(address: string, external?: boolean) {

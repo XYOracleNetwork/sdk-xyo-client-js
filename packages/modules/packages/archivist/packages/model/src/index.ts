@@ -1,6 +1,4 @@
 export * from './Archivist'
 export * from './Config'
-export * from './isArchivistInstance'
-export * from './isArchivistModule'
 export * from './Queries'
-export * from './withArchivistModule'
+export * from './typeChecks'

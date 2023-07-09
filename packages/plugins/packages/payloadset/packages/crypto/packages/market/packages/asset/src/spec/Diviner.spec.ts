@@ -1,5 +1,4 @@
 import { CryptoMarketAssetPayload, CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 
 import { CryptoMarketAssetDiviner } from '../Diviner'
@@ -16,9 +15,8 @@ describe('Diviner', () => {
     ['no inputs', 'empty observation', []],
   ]
   test.each(cases)('with %s returns %s', async (_input: string, _expected: string, data: Payload[]) => {
-    const module = await CryptoMarketAssetDiviner.create()
-    const wrapper = DivinerWrapper.wrap(module)
-    const payloads = await wrapper.divine(data)
+    const diviner = await CryptoMarketAssetDiviner.create()
+    const payloads = await diviner.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
     payloads.map((payload) => {

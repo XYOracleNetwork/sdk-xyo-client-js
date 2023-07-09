@@ -3,7 +3,7 @@ import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { ArchivistModule, ArchivistWrapper, DivinerWrapper } from '@xyo-network/modules'
+import { ArchivistModule } from '@xyo-network/modules'
 import { isBoundWitnessPointer, PayloadSearchCriteria, PointerPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -54,8 +54,7 @@ export const findPayload = async (
   const returnBoundWitness = isBoundWitnessPointer(pointer)
   if (returnBoundWitness || findWitnessedPayload) {
     const filter = createBoundWitnessFilterFromSearchCriteria(searchCriteria)
-    const boundWitnesses = DivinerWrapper.wrap(boundWitnessDiviner)
-    const result = await boundWitnesses.divine(filter)
+    const result = await boundWitnessDiviner.divine(filter)
     const bw = result?.[0] ? BoundWitnessWrapper.parse(result[0]) : undefined
     if (bw) {
       if (returnBoundWitness) return bw.body()
@@ -67,16 +66,14 @@ export const findPayload = async (
           direction === 'asc' ? bw.payloadSchemas.findIndex(schemaInSearchCriteria) : bw.payloadSchemas.findLastIndex(schemaInSearchCriteria)
       }
       const hash = bw.payloadHashes[payloadIndex]
-      const payloads = ArchivistWrapper.wrap(archivist)
-      const result = await payloads.get([hash])
+      const result = await archivist.get([hash])
       return result?.[0] ? PayloadWrapper.wrap(result?.[0]).body() : undefined
     }
   }
   // Find payload
   else {
     const filter = createPayloadFilterFromSearchCriteria(searchCriteria)
-    const payloads = DivinerWrapper.wrap(payloadDiviner)
-    const result = await payloads.divine(filter)
+    const result = await payloadDiviner.divine(filter)
     return result?.[0] ? PayloadWrapper.wrap(result?.[0]).body() : undefined
   }
 }

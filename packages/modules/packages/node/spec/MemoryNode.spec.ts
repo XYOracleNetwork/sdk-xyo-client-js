@@ -2,13 +2,12 @@
 import { delay } from '@xylabs/delay'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { asArchivistModule, MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import {
   ArchivistPayloadDiviner,
   ArchivistPayloadDivinerConfigSchema,
+  asDivinerModule,
   DivinerModule,
-  DivinerWrapper,
   HuriPayload,
   HuriSchema,
 } from '@xyo-network/diviner'
@@ -56,7 +55,7 @@ describe('MemoryNode', () => {
       await node.attach(diviner.address, true)
       expect(node.registered()).toBeArrayOfSize(2)
       expect(await node.attached()).toBeArrayOfSize(2)
-      const foundArchivist = await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address)
+      const foundArchivist = asArchivistModule(await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address))
       expect(foundArchivist).toBeDefined()
       const foundNamedArchivist = await NodeWrapper.wrap(node, testAccount0).resolve('Archivist')
       expect(foundNamedArchivist).toBeDefined()
@@ -65,24 +64,22 @@ describe('MemoryNode', () => {
         .fields({ test: true })
         .build()
 
-      const foundArchivistWrapper = foundArchivist ? ArchivistWrapper.wrap(foundArchivist) : undefined
-      await foundArchivistWrapper?.insert([testPayload])
+      await foundArchivist?.insert([testPayload])
 
       /*const subscribeQuery: AbstractModuleSubscribeQuery = { payloads: [testPayload], schema: AbstractModuleSubscribeQuerySchema }
   await foundArchivist?.query(subscribeQuery)*/
 
-      const payloads = await foundArchivistWrapper?.all()
+      const payloads = await foundArchivist?.all?.()
       expect(payloads?.length).toBe(1)
 
       if (payloads && payloads[0]) {
         const huri = await PayloadWrapper.hashAsync(payloads[0])
         const huriPayload: HuriPayload = { huri: [huri], schema: HuriSchema }
         const module = (await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)) as DivinerModule | undefined
-        const foundDiviner = module ? DivinerWrapper.wrap(module) : null
+        const foundDiviner = asDivinerModule(module)
         expect(foundDiviner).toBeDefined()
         if (foundDiviner) {
-          const foundDivinerWrapper = DivinerWrapper.wrap(foundDiviner)
-          const payloads = await foundDivinerWrapper.divine([huriPayload])
+          const payloads = await foundDiviner.divine([huriPayload])
           expect(payloads?.length).toBe(1)
           expect(payloads[0]).toBeDefined()
           if (payloads?.length === 1 && payloads[0]) {

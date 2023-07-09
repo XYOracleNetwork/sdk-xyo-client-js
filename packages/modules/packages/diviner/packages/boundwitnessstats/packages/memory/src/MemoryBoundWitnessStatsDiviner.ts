@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
 import {
@@ -27,16 +26,14 @@ export class MemoryBoundWitnessStatsDiviner<
   }
 
   protected async divineAddress(address: string): Promise<number> {
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
-    const all = await archivist.all()
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address)).length
   }
 
   protected async divineAllAddresses(): Promise<number> {
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
-    const all = await archivist.all()
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all.filter(isBoundWitness).length
   }
 }

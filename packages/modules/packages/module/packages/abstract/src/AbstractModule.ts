@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { HDWallet } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistModule } from '@xyo-network/archivist-model'
@@ -19,6 +19,7 @@ import {
   Module,
   ModuleAddressQuerySchema,
   ModuleConfig,
+  ModuleDescription,
   ModuleDiscoverQuerySchema,
   ModuleError,
   ModuleEventData,
@@ -152,6 +153,27 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return { address: this.address, previousHash: this._account?.previousHash, schema: AddressPreviousHashSchema }
   }
 
+  async describe(): Promise<ModuleDescription> {
+    const description: ModuleDescription = {
+      address: this.address,
+      queries: this.queries,
+    }
+    if (this.config.name) {
+      description.name = this.config.name
+    }
+
+    const discover = await this.discover()
+
+    description.children = compact(
+      discover?.map((payload) => {
+        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+        return address != this.address ? address : undefined
+      }) ?? [],
+    )
+
+    return description
+  }
+
   discover(): Promisable<Payload[]> {
     const config = this.config
     const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
@@ -210,6 +232,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 
+  previousHash(): Promisable<string | undefined> {
+    return this.account.previousHash
+  }
+
   async query<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -236,6 +262,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const validators = [this.supportedQueryValidator, configValidator]
 
     return validators.every((validator) => validator(query, payloads))
+  }
+
+  async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
+  async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const byAddress = Account.isAddress(nameOrAddressOrFilter)
+          ? (await this.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+          : undefined
+        return byAddress ?? (await this.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+      }
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return [...(await this.downResolver.resolve<TModule>(filter)), ...(await this.upResolver.resolve<TModule>(filter))].filter(duplicateModules)
+      }
+    }
   }
 
   async start(_timeout?: number): Promise<void> {
@@ -394,10 +437,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected readArchivist = () => this.getArchivist('read')
-
-  protected async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    return [...(await this.upResolver.resolve<TModule>(filter)), ...(await this.downResolver.resolve<TModule>(filter))].filter(duplicateModules)
-  }
 
   protected stop(_timeout?: number): Promisable<this> {
     this._started = false

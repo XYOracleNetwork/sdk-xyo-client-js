@@ -35,7 +35,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetConfig(address)
   }
 
-  async targetDiscover(address: string): Promise<Payload[] | undefined> {
+  async targetDiscover(address: string): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     return await this.sendTargetQuery(address, queryPayload)
   }
@@ -44,11 +44,7 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     return this.module.targetQueries(address)
   }
 
-  async targetQuery<T extends QueryBoundWitness = QueryBoundWitness>(
-    address: string,
-    query: T,
-    payloads?: Payload[],
-  ): Promise<ModuleQueryResult | undefined> {
+  async targetQuery<T extends QueryBoundWitness = QueryBoundWitness>(address: string, query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.module.targetQuery(address, query, payloads)
   }
 
@@ -64,10 +60,10 @@ export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements Bridge
     address: string,
     queryPayload: T,
     payloads?: Payload[],
-  ): Promise<Payload[] | undefined> {
+  ): Promise<Payload[]> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.targetQuery(address, query[0], query[1])
     await this.throwErrors(query, result)
-    return result?.[1]
+    return result[1]
   }
 }

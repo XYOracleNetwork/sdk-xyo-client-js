@@ -51,6 +51,28 @@ export abstract class AbstractBridge<
     }
   }
 
+  override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  override async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
+  override async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const byAddress = Account.isAddress(nameOrAddressOrFilter)
+          ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
+            (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+          : undefined
+        return (
+          byAddress ??
+          (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
+          (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+        )
+      }
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+      }
+    }
+  }
+
   targetDownResolver(address?: string): BridgeModuleResolver {
     this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account)
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
@@ -96,10 +118,6 @@ export abstract class AbstractBridge<
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
-  protected override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]> {
-    return [...(await super.resolve<TModule>(filter)), ...(await this.targetDownResolver().resolve<TModule>(filter))].filter(duplicateModules)
-  }
-
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
@@ -109,7 +127,7 @@ export abstract class AbstractBridge<
 
   abstract targetQueries(address: string): string[]
 
-  abstract targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult | undefined>
+  abstract targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
 
   abstract targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
 }

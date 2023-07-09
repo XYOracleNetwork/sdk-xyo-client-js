@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import {
@@ -25,9 +24,8 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   }
 
   protected async divineAddress(address: string): Promise<Record<string, number>> {
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
-    const all = await archivist.all()
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const all = await assertEx(archivist.all, 'Archivist does not support all()')()
     const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
     const counts: Record<string, number> = filtered.reduce((acc, payload) => {
       acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1
@@ -37,9 +35,8 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   }
 
   protected async divineAllAddresses(): Promise<Record<string, number>> {
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivist = ArchivistWrapper.wrap(archivistMod)
-    const all = await archivist.all()
+    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     const counts: Record<string, number> = all.reduce((acc, payload) => {
       acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1
       return acc

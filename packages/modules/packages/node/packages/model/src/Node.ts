@@ -1,5 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleFilter, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
@@ -10,6 +10,10 @@ export interface NodeInstance {
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
   registered(): Promisable<string[]>
+
+  resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
+  resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
+  resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined>
 }
 
 /** @deprecated use NodeInstance instead */

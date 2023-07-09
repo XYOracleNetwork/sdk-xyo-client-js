@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifest } from '@xyo-network/manifest-model'
 import {
@@ -7,6 +8,7 @@ import {
   CompositeModuleResolver,
   Module,
   ModuleConfig,
+  ModuleDescription,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
@@ -15,6 +17,7 @@ import {
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
+import compact from 'lodash/compact'
 
 export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
@@ -60,13 +63,38 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
     throw Error('Not Implemented')
   }
 
-  discover(): Promise<Payload[]> {
-    throw Error('Not Implemented')
+  async describe(): Promise<ModuleDescription> {
+    const description: ModuleDescription = {
+      address: this.address,
+      queries: this.queries,
+    }
+    if (this.config.name) {
+      description.name = this.config.name
+    }
+
+    const discover = await this.discover()
+
+    description.children = compact(
+      discover?.map((payload) => {
+        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+        return address != this.address ? address : undefined
+      }) ?? [],
+    )
+
+    return description
+  }
+
+  discover(): Promisable<Payload[]> {
+    return this.bridge.targetDiscover()
   }
 
   manifest(): Promisable<ModuleManifest> {
     const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
     return { config: { name, ...this.config } }
+  }
+
+  previousHash(): Promise<string | undefined> {
+    throw Error('Not Implemented')
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

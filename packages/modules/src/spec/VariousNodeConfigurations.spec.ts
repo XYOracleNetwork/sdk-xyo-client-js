@@ -1,9 +1,9 @@
 /* eslint-disable max-statements */
-import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule } from '@xyo-network/module'
-import { MemoryNode, NodeConfigSchema, NodeWrapper } from '@xyo-network/node'
+import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
 
 describe('MultiNodeConfiguration', () => {
   let primaryArchivist: AbstractModule
@@ -57,113 +57,101 @@ describe('MultiNodeConfiguration', () => {
     await primaryNode.register(rightNode)
   })
   test('leftNode', async () => {
-    const primaryNodeWrapper = NodeWrapper.wrap(primaryNode)
-    const leftNodeWrapper = NodeWrapper.wrap(leftNode)
-    const rightNodeWrapper = NodeWrapper.wrap(rightNode)
-
-    const leftInternalArchivist2Wrapper = ArchivistWrapper.wrap(leftInternalArchivist2)
-
     await primaryNode.attach(leftNode.address, true)
     await primaryNode.detach(rightNode.address)
-    expect((await primaryNodeWrapper.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ name: ['primaryArchivist'] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ name: ['primaryArchivist'] })).length).toBe(1)
 
-    expect((await leftNodeWrapper.resolve({ address: [leftDiviner.address] })).length).toBe(1)
-    expect((await leftNodeWrapper.resolve({ name: ['leftDiviner'] })).length).toBe(1)
+    expect((await leftNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
+    expect((await leftNode.resolve({ name: ['leftDiviner'] })).length).toBe(1)
 
     // internal: should be resolvable by leftNode children
-    expect((await leftInternalArchivist2Wrapper.resolve({ address: [leftInternalArchivist.address] })).length).toBe(1)
-    expect((await leftInternalArchivist2Wrapper.resolve({ name: ['leftInternalArchivist'] })).length).toBe(1)
+    expect((await leftInternalArchivist2.resolve({ address: [leftInternalArchivist.address] })).length).toBe(1)
+    expect((await leftInternalArchivist2.resolve({ name: ['leftInternalArchivist'] })).length).toBe(1)
 
-    expect((await leftInternalArchivist2Wrapper.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
-    expect((await leftInternalArchivist2Wrapper.resolve({ name: ['archivist'] })).length).toBe(1)
+    expect((await leftInternalArchivist2.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
+    expect((await leftInternalArchivist2.resolve({ name: ['archivist'] })).length).toBe(1)
 
-    expect((await leftInternalArchivist2Wrapper.resolve({ address: [rightWitness.address] })).length).toBe(0)
-    expect((await leftInternalArchivist2Wrapper.resolve({ name: ['rightWitness'] })).length).toBe(0)
+    expect((await leftInternalArchivist2.resolve({ address: [rightWitness.address] })).length).toBe(0)
+    expect((await leftInternalArchivist2.resolve({ name: ['rightWitness'] })).length).toBe(0)
 
     // internal: should not be resolvable by anyone outside of node, including wrapper
 
     expect((await rightNode.downResolver.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
     expect((await rightNode.downResolver.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
-    expect((await rightNodeWrapper.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
-    expect((await rightNodeWrapper.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
+    expect((await rightNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
+    expect((await rightNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
-    expect((await rightNodeWrapper.resolve({ address: [rightExternalArchivist.address] })).length).toBe(1)
-    expect((await rightNodeWrapper.resolve({ name: ['archivist'] })).length).toBe(1)
+    expect((await rightNode.resolve({ address: [rightExternalArchivist.address] })).length).toBe(1)
+    expect((await rightNode.resolve({ name: ['archivist'] })).length).toBe(1)
 
-    expect((await primaryNodeWrapper.resolve({ address: [leftNode.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ name: ['leftNode'] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftNode.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ name: ['leftNode'] })).length).toBe(1)
 
-    expect((await primaryNodeWrapper.resolve({ address: [rightNode.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['rightNode'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightNode.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['rightNode'] })).length).toBe(0)
 
-    expect((await primaryNodeWrapper.resolve({ address: [leftDiviner.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ name: ['leftDiviner'] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ name: ['leftDiviner'] })).length).toBe(1)
 
-    expect((await primaryNodeWrapper.resolve({ address: [rightWitness.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['rightWitness'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightWitness.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['rightWitness'] })).length).toBe(0)
 
     // internal: should NOT be resolvable by primaryNode
-    expect((await primaryNodeWrapper.resolve({ address: [leftInternalArchivist.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['leftInternalArchivist'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [leftInternalArchivist.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['leftInternalArchivist'] })).length).toBe(0)
 
     // internal: should NOT be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
     // external: should be resolvable by primaryNode
-    expect((await primaryNodeWrapper.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
 
     // external: should be NOT be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ address: [rightExternalArchivist.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightExternalArchivist.address] })).length).toBe(0)
 
     // external: should be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ name: ['archivist'] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ name: ['archivist'] }))[0].address).toBe(leftExternalArchivist.address)
+    expect((await primaryNode.resolve({ name: ['archivist'] })).length).toBe(1)
+    expect((await primaryNode.resolve({ name: ['archivist'] }))[0].address).toBe(leftExternalArchivist.address)
   })
 
   test('rightNode', async () => {
-    const primaryNodeWrapper = NodeWrapper.wrap(primaryNode)
-    const leftNodeWrapper = NodeWrapper.wrap(leftNode)
-    const rightNodeWrapper = NodeWrapper.wrap(rightNode)
-
     await primaryNode.attach(rightNode.address, true)
     await primaryNode.detach(leftNode.address)
-    expect((await primaryNodeWrapper.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
-    expect((await leftNodeWrapper.resolve({ address: [leftDiviner.address] })).length).toBe(1)
-    expect((await rightNodeWrapper.resolve({ address: [rightWitness.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ address: [rightNode.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ address: [leftNode.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ address: [rightWitness.address] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ address: [leftDiviner.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['archivist'] })).length).toBe(1)
-    expect((await primaryNodeWrapper.resolve({ name: ['archivist'] }))[0].address).toBe(rightExternalArchivist.address)
+    expect((await primaryNode.resolve({ address: [primaryArchivist.address] })).length).toBe(1)
+    expect((await leftNode.resolve({ address: [leftDiviner.address] })).length).toBe(1)
+    expect((await rightNode.resolve({ address: [rightWitness.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [rightNode.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftNode.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightWitness.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftDiviner.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['archivist'] })).length).toBe(1)
+    expect((await primaryNode.resolve({ name: ['archivist'] }))[0].address).toBe(rightExternalArchivist.address)
   })
 
   test('leftNode', async () => {
-    const primaryNodeWrapper = NodeWrapper.wrap(primaryNode)
-
     await primaryNode.detach(leftNode.address)
     await primaryNode.detach(rightNode.address)
     await primaryNode.attach(leftNode.address, true)
     await primaryNode.attach(rightNode.address, true)
 
     // internal: should NOT be resolvable by primaryNode
-    expect((await primaryNodeWrapper.resolve({ address: [leftInternalArchivist.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['leftInternalArchivist'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [leftInternalArchivist.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['leftInternalArchivist'] })).length).toBe(0)
 
     // internal: should NOT be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
-    expect((await primaryNodeWrapper.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
+    expect((await primaryNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
+    expect((await primaryNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
     // external: should be resolvable by primaryNode
-    expect((await primaryNodeWrapper.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [leftExternalArchivist.address] })).length).toBe(1)
 
     // external: should be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ address: [rightExternalArchivist.address] })).length).toBe(1)
+    expect((await primaryNode.resolve({ address: [rightExternalArchivist.address] })).length).toBe(1)
 
     // external: should be resolvable by node
-    expect((await primaryNodeWrapper.resolve({ name: ['archivist'] })).length).toBe(2)
+    expect((await primaryNode.resolve({ name: ['archivist'] })).length).toBe(2)
   })
 })

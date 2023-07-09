@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base } from '@xyo-network/core'
 import { duplicateModules, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
@@ -24,7 +23,7 @@ import {
 } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable, PromiseEx } from '@xyo-network/promise'
+import { PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
@@ -201,25 +200,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.clearListeners(eventNames)
   }
 
-  async describe(): Promise<Promise<Promisable<ModuleDescription>>> {
-    const description: ModuleDescription = {
-      address: this.module.address,
-      queries: this.module.queries,
-    }
-    if (this.config.name) {
-      description.name = this.config.name
-    }
-
-    const discover = await this.discover()
-
-    description.children = compact(
-      discover?.map((payload) => {
-        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-        return address != this.module.address ? address : undefined
-      }) ?? [],
-    )
-
-    return description
+  async describe(): Promise<ModuleDescription> {
+    return await this.module.describe()
   }
 
   discover(): Promise<Payload[]> {
@@ -269,9 +251,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.once(eventName, listener)
   }
 
-  previousHash(): Promise<Payload[]> {
+  async previousHash(): Promise<string | undefined> {
     const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
-    return this.sendQuery(queryPayload)
+    return ((await this.sendQuery(queryPayload)).pop() as AddressPreviousHashPayload).previousHash
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

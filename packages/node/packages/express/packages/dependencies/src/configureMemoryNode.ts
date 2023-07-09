@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
@@ -15,10 +16,10 @@ import {
   AnyConfigSchema,
   ArchivistConfigSchema,
   ArchivistInsertQuerySchema,
-  ArchivistWrapper,
   CreatableModuleDictionary,
   MemoryNode,
   ModuleConfig,
+  withArchivistModule,
 } from '@xyo-network/modules'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema } from '@xyo-network/node-model'
@@ -56,13 +57,14 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Mem
       const configPayloads: Record<string, ModuleConfig> = {}
       const mods = await node.downResolver.resolve({ query: [[ArchivistInsertQuerySchema]] })
       for (const mod of mods) {
-        const archivist = ArchivistWrapper.wrap(mod)
-        const payloads = await archivist.get(hashes)
-        await Promise.all(
-          payloads.map(async (payload) => {
-            configPayloads[await PayloadHasher.hashAsync(payload)] = payload as ModuleConfig
-          }),
-        )
+        await withArchivistModule(mod, async (archivist) => {
+          const payloads = await archivist.get(hashes)
+          await Promise.all(
+            payloads.map(async (payload) => {
+              configPayloads[await PayloadHasher.hashAsync(assertEx(payload, 'Received null payload'))] = payload as ModuleConfig
+            }),
+          )
+        })
       }
       const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
       await addModulesToNodeByConfig(container, node, additionalConfigs)

@@ -31,10 +31,10 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-export interface ArchivistParentWrappers {
-  commit?: Record<string, ArchivistWrapper>
-  read?: Record<string, ArchivistWrapper>
-  write?: Record<string, ArchivistWrapper>
+export interface ArchivistParentModules {
+  commit?: Record<string, ArchivistModule>
+  read?: Record<string, ArchivistModule>
+  write?: Record<string, ArchivistModule>
 }
 
 export abstract class AbstractArchivist<
@@ -45,7 +45,7 @@ export abstract class AbstractArchivist<
   implements ArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
-  private _parents?: ArchivistParentWrappers
+  private _parents?: ArchivistParentModules
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
@@ -219,13 +219,15 @@ export abstract class AbstractArchivist<
   }
 
   private async resolveArchivists(archivists: string[] = []) {
-    const resolvedWrappers: Record<string, ArchivistWrapper> = {}
-    const resolvedModules = [...(await this.resolve({ address: archivists })), ...(await this.resolve({ name: archivists }))]
-    const downResolvedModules = [
-      ...(await this.downResolver.resolve({ address: archivists })),
-      ...(await this.downResolver.resolve({ name: archivists })),
+    const resolvedModules = [
+      ...(await this.resolve<ArchivistModule>({ address: archivists })),
+      ...(await this.resolve<ArchivistModule>({ name: archivists })),
     ]
-    const modules = [...resolvedModules, ...downResolvedModules] ?? []
+    const downResolvedModules = [
+      ...(await this.downResolver.resolve<ArchivistModule>({ address: archivists })),
+      ...(await this.downResolver.resolve<ArchivistModule>({ name: archivists })),
+    ]
+    const modules: ArchivistModule[] = [...resolvedModules, ...downResolvedModules] ?? []
 
     assertEx(
       !this.requireAllParents || modules.length === archivists.length,
@@ -234,13 +236,10 @@ export abstract class AbstractArchivist<
       )}]`,
     )
 
-    await Promise.all(
-      modules.map((module) => {
-        const wrapper = new ArchivistWrapper({ account: this.account, module: module as ArchivistModule })
-        resolvedWrappers[wrapper.address] = wrapper
-      }),
-    )
-    return resolvedWrappers
+    return modules.reduce<Record<string, ArchivistModule>>((prev, module) => {
+      prev[module.address] = module
+      return prev
+    }, {})
   }
 
   abstract insert(item: Payload[]): PromisableArray<BoundWitness>

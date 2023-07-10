@@ -13,13 +13,13 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/bignumber": "^2.9.3",
     "@xylabs/buffer": "^2.9.3",
-    "@xyo-network/sdk-geo": "^2.8.1",
+    "@xyo-network/sdk-geo": "^2.9.2",
     "mapbox-gl": "^2.15.0"
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.11",
-    "@xylabs/ts-scripts-yarn3": "^2.18.5",
-    "@xylabs/tsconfig": "^2.18.5",
+    "@xylabs/ts-scripts-yarn3": "^2.18.7",
+    "@xylabs/tsconfig": "^2.18.7",
     "typescript": "^5.1.6"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

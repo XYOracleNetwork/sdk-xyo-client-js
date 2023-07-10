@@ -34,12 +34,12 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
-    "@types/node": "^20.3.3",
+    "@types/node": "^20.4.1",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.18.5",
-    "@xylabs/tsconfig": "^2.18.5",
-    "@xylabs/tsconfig-jest": "^2.18.5",
+    "@xylabs/ts-scripts-yarn3": "^2.18.7",
+    "@xylabs/tsconfig": "^2.18.7",
+    "@xylabs/tsconfig-jest": "^2.18.7",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },

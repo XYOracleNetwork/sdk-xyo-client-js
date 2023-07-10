@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.64.8",
+  "version": "2.64.9",
   "description": "XYO Express Node Dependencies",
   "sideeffects": false,
   "engines": {

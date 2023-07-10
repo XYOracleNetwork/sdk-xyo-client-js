@@ -5811,7 +5811,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.18.7
     "@xylabs/tsconfig": ^2.18.7
-    "@xyo-network/payload-model": ^2.64.8
+    "@xyo-network/payload-model": ^2.64.9
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -7952,6 +7952,7 @@ __metadata:
     "@xyo-network/account-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module-abstract": "workspace:^"
     "@xyo-network/module-events": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
@@ -8241,7 +8242,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@^2.64.8, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
+"@xyo-network/payload-model@^2.64.9, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:

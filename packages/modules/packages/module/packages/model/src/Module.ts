@@ -1,5 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { ModuleManifest } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -21,16 +21,16 @@ export interface ModuleResolver {
    * is supplied, all modules are returned
    * @param filter Filter criteria for the desired modules
    */
-  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter): Promisable<T[]>
+  resolve<T extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promisable<T[]>
   /**
    * Resolves a single module, or undefined if no modules matched the filter.
    * @param filter The desired Module's Address or Name
    */
-  resolveOne<T extends ModuleInstance = ModuleInstance>(filter: string): Promisable<T | undefined>
+  resolveOne<T extends IndirectModule = IndirectModule>(filter: string): Promisable<T | undefined>
 }
 
 export type ModuleEventArgs<
-  TModule extends ModuleInstance = ModuleInstance,
+  TModule extends IndirectModule = IndirectModule,
   TArgs extends EventArgs | undefined = undefined,
 > = TArgs extends EventArgs
   ? {
@@ -41,7 +41,7 @@ export type ModuleEventArgs<
     }
 
 export type ModuleQueriedEventArgs = ModuleEventArgs<
-  ModuleInstance,
+  IndirectModule,
   {
     payloads?: Payload[]
     query: QueryBoundWitness
@@ -55,15 +55,14 @@ export interface ModuleEventData extends EventData {
 
 export type ModuleQueryFunctions = {
   addressPreviousHash: () => Promisable<AddressPreviousHashPayload>
+  describe: () => Promise<ModuleDescription>
   discover: () => Promisable<Payload[]>
-  manifest: () => Promisable<ModuleManifest>
+  manifest: () => Promisable<ModuleManifestPayload>
 }
 
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
   address: string
   config: TParams['config']
-
-  describe: () => Promise<ModuleDescription>
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolver
@@ -93,12 +92,22 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
   readonly upResolver: ModuleResolver
 }
 
-export type Module<
+export type IndirectModule<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = ModuleFields<TParams> & EventFunctions<TEventData> & ModuleQueryFunctions
+> = ModuleFields<TParams> & EventFunctions<TEventData>
+
+export type DirectModule<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectModule<TParams, TEventData> & ModuleQueryFunctions
 
 export type ModuleInstance<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = Module<TParams, TEventData>
+> = DirectModule<TParams, TEventData>
+
+export type Module<
+  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectModule<TParams, TEventData>

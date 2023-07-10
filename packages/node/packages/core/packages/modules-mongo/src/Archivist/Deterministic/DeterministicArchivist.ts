@@ -75,8 +75,13 @@ export class MongoDBDeterministicArchivist<
     return [ArchivistInsertQuerySchema, ...super.queries]
   }
 
-  override get(_items: string[]): Promise<Payload[]> {
-    throw new Error('get method must be called via query')
+  override async get(hashes: string[]): Promise<Payload[]> {
+    //throw new Error('get method must be called via query')
+    const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
+    const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
+    const gets = await Promise.allSettled([payloads, bws].flat())
+    const succeeded = gets.reduce<(PayloadWithPartialMeta | null)[]>(fulfilledValues, [])
+    return succeeded.filter(exists).map(toReturnValue)
   }
 
   override async head(): Promise<Payload | undefined> {

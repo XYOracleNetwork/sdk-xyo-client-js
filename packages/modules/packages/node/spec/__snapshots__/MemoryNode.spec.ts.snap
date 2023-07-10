@@ -12,6 +12,7 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
     "network.xyo.query.module.address",
     "network.xyo.query.module.subscribe"
   ],
+  "schema": "network.xyo.module.description",
   "children": [
     "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
     "ca2e94ac3ae1084072b3a4407881bf940dc2019c"
@@ -31,6 +32,7 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
     "network.xyo.query.module.address",
     "network.xyo.query.module.subscribe"
   ],
+  "schema": "network.xyo.module.description",
   "children": [
     "f59810a9da8a99e464355a411afe06f8c2d1c4b8",
     "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
@@ -51,6 +53,7 @@ exports[`MemoryNode description node without child modules serializes to JSON co
     "network.xyo.query.module.address",
     "network.xyo.query.module.subscribe"
   ],
+  "schema": "network.xyo.module.description",
   "children": []
 }"
 `;

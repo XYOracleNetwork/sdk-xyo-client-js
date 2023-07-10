@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { DivinerDivineQuerySchema } from '@xyo-network/modules'
+import { DivinerDivineQuerySchema, isDirectModule, ModuleWrapper } from '@xyo-network/modules'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -19,7 +19,9 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   try {
     const node = await getNode(argv)
     const modules = await node.downResolver.resolve({ query: [[DivinerDivineQuerySchema]] })
-    const descriptions = await Promise.all(modules.map((mod) => mod.describe()))
+    const descriptions = await Promise.all(
+      modules.map((module) => (isDirectModule(module) ? module.describe() : ModuleWrapper.wrap(module).describe())),
+    )
     printLine(JSON.stringify(descriptions))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

@@ -7,6 +7,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
   creatableModule,
+  isDirectModule,
   Module,
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -14,6 +15,7 @@ import {
   ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
+  ModuleWrapper,
   QueryBoundWitness,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
@@ -102,7 +104,8 @@ export class HttpBridge<
       ),
     )
 
-    await Promise.all(children.map(async (child) => await child.discover()))
+    // Discover all to load cache
+    await Promise.all(children.map((child) => (isDirectModule(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Module, ModuleInstance } from './Module'
+import { DirectModule, IndirectModule, Module, ModuleInstance } from './Module'
 
 export type InstanceTypeCheck<T extends object = object> = (module: object) => module is T
 
@@ -30,8 +30,8 @@ export const IsInstanceFactory = {
   },
 }
 
-export const IsModuleFactory = {
-  create: <T extends ModuleInstance = ModuleInstance>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
+export const IsIndirectModuleFactory = {
+  create: <T extends IndirectModule = IndirectModule>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
     return (module: any = {}): module is T => {
       return (
         isModuleInstance(module) &&
@@ -42,13 +42,13 @@ export const IsModuleFactory = {
   },
 }
 
-export const isModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
+export const IsModuleFactory = IsIndirectModuleFactory
+
+export const isIndirectModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
   account: 'object',
   address: 'string',
   config: 'object',
-  discover: 'function',
   downResolver: 'object',
-  manifest: 'function',
   params: 'object',
   queries: 'array',
   query: 'function',
@@ -56,14 +56,37 @@ export const isModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFac
   upResolver: 'object',
 })
 
-export const isModule = <T extends Module = Module>(
+export const isDirectModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
+  description: 'function',
+  discover: 'function',
+  manifest: 'function',
+  subscribe: 'function',
+})
+
+export const isModuleInstance = isIndirectModuleInstance
+
+export const isDirectModule = <T extends DirectModule = DirectModule>(
   module: any = {},
   expectedQueries?: string[],
   additionalCheck?: (module: any) => boolean,
 ): module is T => {
   return (
-    isModuleInstance(module) &&
+    isDirectModuleInstance(module) &&
     (additionalCheck?.(module) ?? true) &&
     (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
   )
 }
+
+export const isIndirectModule = <T extends IndirectModule = IndirectModule>(
+  module: any = {},
+  expectedQueries?: string[],
+  additionalCheck?: (module: any) => boolean,
+): module is T => {
+  return (
+    isIndirectModuleInstance(module) &&
+    (additionalCheck?.(module) ?? true) &&
+    (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
+  )
+}
+
+export const isModule = isIndirectModule

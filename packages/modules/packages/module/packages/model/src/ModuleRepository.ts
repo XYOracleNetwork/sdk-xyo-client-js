@@ -1,9 +1,9 @@
-import { Module, ModuleResolver } from './Module'
+import { IndirectModule, ModuleResolver } from './Module'
 
 export interface ModuleRepository extends ModuleResolver {
-  add(module: Module): this
-  add(module: Module[]): this
-  add(module: Module | Module[]): this
+  add(module: IndirectModule): this
+  add(module: IndirectModule[]): this
+  add(module: IndirectModule | IndirectModule[]): this
 
   remove(address: string | string[]): this
 }

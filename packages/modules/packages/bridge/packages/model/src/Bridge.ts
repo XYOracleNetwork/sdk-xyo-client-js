@@ -28,7 +28,7 @@ export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConf
 export interface BridgeModule<
   TParams extends BridgeParams = BridgeParams,
   TEventData extends ModuleEventData = ModuleEventData,
-  TModule extends ModuleInstance<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
+  TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
 > extends BridgeInstance,
     ModuleInstance<TParams, TEventData> {
   targetConfig(address: string): ModuleConfig

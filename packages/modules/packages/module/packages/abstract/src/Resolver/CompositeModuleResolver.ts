@@ -1,6 +1,6 @@
 import { fulfilled } from '@xylabs/promise'
 import { Base, BaseParams } from '@xyo-network/core'
-import { Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { IndirectModule, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
@@ -20,9 +20,9 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return true
   }
 
-  add(module: Module): this
-  add(module: Module[]): this
-  add(module: Module | Module[]): this {
+  add(module: IndirectModule): this
+  add(module: IndirectModule[]): this
+  add(module: IndirectModule | IndirectModule[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -50,10 +50,9 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve<T extends Module = Module>(filter?: ModuleFilter): Promise<T[]> {
-    const modules = this.resolvers.map((resolver) => resolver.resolve(filter))
-    const settled = await Promise.allSettled(modules)
-    const result = settled
+  async resolve<T extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<T[]> {
+    const modules = await Promise.allSettled(this.resolvers.map((resolver) => resolver.resolve(filter)))
+    const result = modules
       .filter(fulfilled)
       .map((r) => r.value)
       .flat()
@@ -61,7 +60,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return result as T[]
   }
 
-  async resolveOne<T extends Module = Module>(addressOrName: string): Promise<T | undefined> {
+  async resolveOne<T extends IndirectModule = IndirectModule>(addressOrName: string): Promise<T | undefined> {
     for (let i = 0; i < this.resolvers.length; i++) {
       const resolver = this.resolvers[i]
       const result = await resolver.resolveOne<T>(addressOrName)
@@ -70,7 +69,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return undefined
   }
 
-  private addSingleModule(module?: Module) {
+  private addSingleModule(module?: IndirectModule) {
     if (module) {
       this.localResolver.add(module)
     }

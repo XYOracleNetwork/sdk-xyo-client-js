@@ -1,4 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
+import { isDirectModule, ModuleWrapper } from '@xyo-network/module'
 import { Argv, CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../lib'
@@ -14,8 +15,8 @@ export const describe = 'Issue a Discover query against the XYO Module'
 export const handler = async (argv: ModuleArguments) => {
   const { verbose } = argv
   try {
-    const mod = await getModuleFromArgs(argv)
-    const result = await mod.discover()
+    const module = await getModuleFromArgs(argv)
+    const result = await (isDirectModule(module) ? module.discover() : ModuleWrapper.wrap(module).discover())
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

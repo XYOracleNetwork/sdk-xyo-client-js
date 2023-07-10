@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { Module } from '@xyo-network/module-model'
+import { ModuleWrapper } from '@xyo-network/module'
+import { isDirectModule, Module } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
@@ -28,7 +29,8 @@ const handler: RequestHandler<AddressPathParams, Payload[]> = async (req, res, n
       }
     }
     if (modules.length) {
-      res.json(await modules[0].discover())
+      const module = modules[0]
+      res.json(isDirectModule(module) ? await module.discover() : await ModuleWrapper.wrap(module).discover())
       return
     }
   }

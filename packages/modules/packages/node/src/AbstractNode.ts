@@ -7,12 +7,14 @@ import {
   AbstractModule,
   CompositeModuleResolver,
   duplicateModules,
+  isDirectModule,
   Module,
   ModuleConfig,
   ModuleError,
   ModuleErrorBuilder,
   ModuleFilter,
   ModuleQueryResult,
+  ModuleWrapper,
   QueryBoundWitness,
   QueryBoundWitnessWrapper,
 } from '@xyo-network/module'
@@ -84,7 +86,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     const manifest: NodeManifestPayload = { ...(await super.manifest()), schema: NodeManifestPayloadSchema }
 
     const notThisModule = (module: Module) => module.address !== this.address
-    const toManifest = (module: Module) => module.manifest()
+    const toManifest = (module: Module) => (isDirectModule(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
 
     const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
     if (privateModules.length > 0) {

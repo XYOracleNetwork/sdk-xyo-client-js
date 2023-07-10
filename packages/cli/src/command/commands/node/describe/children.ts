@@ -1,4 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
+import { isDirectModule, ModuleWrapper } from '@xyo-network/module'
 import { CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../../lib'
@@ -17,7 +18,9 @@ export const handler = async (argv: BaseArguments) => {
     const description = await node.describe()
     const childAddresses = description?.children || []
     const children = await Promise.all(childAddresses?.map((child) => node.downResolver.resolve({ address: [child] })))
-    const childDescriptions = await Promise.all(children.flat().map((mod) => mod.describe()))
+    const childDescriptions = await Promise.all(
+      children.flat().map((mod) => (isDirectModule(mod) ? mod.describe() : ModuleWrapper.wrap(mod).describe())),
+    )
     printLine(JSON.stringify(childDescriptions))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

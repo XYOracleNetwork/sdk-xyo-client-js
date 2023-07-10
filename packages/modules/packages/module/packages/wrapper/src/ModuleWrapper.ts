@@ -3,6 +3,7 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base } from '@xyo-network/core'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { duplicateModules, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
@@ -11,12 +12,16 @@ import {
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
+  ModuleDescribeQuery,
+  ModuleDescribeQuerySchema,
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleError,
   ModuleErrorSchema,
   ModuleFilter,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleQueryResult,
   Query,
   QueryBoundWitness,
@@ -200,13 +205,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.clearListeners(eventNames)
   }
 
+  //TODO: Make ModuleDescription into real payload
   async describe(): Promise<ModuleDescription> {
-    return await this.module.describe()
+    const queryPayload = PayloadWrapper.wrap<ModuleDescribeQuery>({ schema: ModuleDescribeQuerySchema })
+    return (await this.sendQuery(queryPayload))[0] as unknown as ModuleDescription
   }
 
-  discover(): Promise<Payload[]> {
+  async discover(): Promise<Payload[]> {
     const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    return this.sendQuery(queryPayload)
+    return await this.sendQuery(queryPayload)
   }
 
   emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {
@@ -221,8 +228,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.listenerCount(eventNames)
   }
 
-  manifest() {
-    return this.module.manifest()
+  async manifest(): Promise<ModuleManifestPayload> {
+    const queryPayload = PayloadWrapper.wrap<ModuleManifestQuery>({ schema: ModuleManifestQuerySchema })
+    return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 
   off<TEventName extends keyof TWrappedModule['eventData']>(

@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/module-model'
+import { IndirectModule } from '@xyo-network/module-model'
 
 /**
  * Used to filter duplicates from an array of modules
@@ -9,6 +9,6 @@ import { Module } from '@xyo-network/module-model'
  * @returns True if the Module's address is the first occurrence of
  * that address in the array, false otherwise
  */
-export const duplicateModules = (value: Module, index: number, array: Module[]): value is Module => {
+export const duplicateModules = (value: IndirectModule, index: number, array: IndirectModule[]): value is IndirectModule => {
   return array.findIndex((v) => v.address === value.address) === index
 }

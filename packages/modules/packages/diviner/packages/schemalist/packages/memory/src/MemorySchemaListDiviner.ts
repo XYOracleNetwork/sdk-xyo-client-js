@@ -16,7 +16,7 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
   static override configSchemas = [SchemaListDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
     if (!query) return []
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined

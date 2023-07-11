@@ -5,6 +5,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   BoundWitnessStatsDivinerConfigSchema,
   BoundWitnessStatsDivinerSchema,
+  BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsQuerySchema,
 } from '@xyo-network/diviner-boundwitness-stats-model'
@@ -51,7 +52,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
         const actual = result[0]
         expect(actual).toBeObject()
         expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
-        expect(actual.count).toBeNumber()
+        expect((actual as BoundWitnessStatsPayload).count).toBeNumber()
       })
     })
     describe('with no address supplied in query', () => {
@@ -62,7 +63,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
         const actual = result[0]
         expect(actual).toBeObject()
         expect(actual.schema).toBe(BoundWitnessStatsDivinerSchema)
-        expect(actual.count).toBeNumber()
+        expect((actual as BoundWitnessStatsPayload).count).toBeNumber()
       })
     })
   })

@@ -1,88 +1,62 @@
 import { assertEx } from '@xylabs/assert'
-import {
-  ArchivistAllQuery,
-  ArchivistAllQuerySchema,
-  ArchivistClearQuery,
-  ArchivistClearQuerySchema,
-  ArchivistCommitQuery,
-  ArchivistCommitQuerySchema,
-  ArchivistDeleteQuery,
-  ArchivistDeleteQuerySchema,
-  ArchivistGetQuery,
-  ArchivistGetQuerySchema,
-  ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
-  ArchivistModule,
-  isArchivistInstance,
-} from '@xyo-network/archivist-model'
-import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
-import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
+import { ArchivistGetQuerySchema, ArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { constructableModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import compact from 'lodash/compact'
+
+import { IndirectArchivistWrapper } from './IndirectArchivistWrapper'
 
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
-  extends ModuleWrapper<TWrappedModule>
+  extends IndirectArchivistWrapper<TWrappedModule>
   implements ArchivistModule<TWrappedModule['params']>
 {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 
-  async all(): Promise<Payload[]> {
+  override async all(): Promise<Payload[]> {
     if (isArchivistInstance(this.module)) {
-      return await assertEx(this.module.all, 'Archivist does not support all')()
+      assertEx(this.module.all, 'Archivist does not support all')
+      return (await this.module.all?.()) ?? []
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistAllQuery>({ schema: ArchivistAllQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return compact(result)
+    return await super.all()
   }
 
-  async clear(): Promise<void> {
+  override async clear(): Promise<void> {
     if (isArchivistInstance(this.module)) {
-      return await assertEx(this.module.clear, 'Archivist does not support clear')()
+      assertEx(this.module.clear, 'Archivist does not support clear')
+      return await this.module.clear?.()
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistClearQuery>({ schema: ArchivistClearQuerySchema })
-    await this.sendQuery(queryPayload)
+    return await super.clear()
   }
 
-  async commit(): Promise<BoundWitness[]> {
+  override async commit(): Promise<BoundWitness[]> {
     if (isArchivistInstance(this.module)) {
-      return await assertEx(this.module.commit, 'Archivist does not support commit')()
+      assertEx(this.module.commit, 'Archivist does not support commit')
+      return (await this.module.commit?.()) ?? []
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistCommitQuery>({ schema: ArchivistCommitQuerySchema })
-    const result = await this.sendQuery(queryPayload)
-    return result.filter(isBoundWitnessPayload)
+    return await super.commit()
   }
 
-  async delete(hashes: string[]): Promise<boolean[]> {
+  override async delete(hashes: string[]): Promise<boolean[]> {
     if (isArchivistInstance(this.module)) {
-      return await assertEx(this.module.delete, 'Archivist does not support delete')(hashes)
+      assertEx(this.module.delete, 'Archivist does not support delete')
+      return (await this.module.delete?.(hashes)) ?? []
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistDeleteQuery>({ hashes, schema: ArchivistDeleteQuerySchema })
-    await this.sendQuery(queryPayload)
-    //just returning all true for now
-    return hashes.map((_hash) => true)
+    return await super.delete(hashes)
   }
 
-  async get(hashes: string[]): Promise<(Payload | null)[]> {
+  override async get(hashes: string[]): Promise<(Payload | null)[]> {
     if (isArchivistInstance(this.module)) {
       return await this.module.get(hashes)
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
-    return await this.sendQuery(queryPayload)
+    return await super.get(hashes)
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
+  override async insert(payloads: Payload[]): Promise<BoundWitness[]> {
     if (isArchivistInstance(this.module)) {
-      return await assertEx(this.module.insert, 'Archivist does not support insert')(payloads)
+      assertEx(this.module.insert, 'Archivist does not support insert')
+      return await this.module.insert(payloads)
     }
-    const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
-      payloads: await PayloadHasher.hashes(payloads),
-      schema: ArchivistInsertQuerySchema,
-    })
-    const result = await this.sendQuery(queryPayload)
-    const innerBoundWitnesses = result.filter<BoundWitness>((payload): payload is BoundWitness => payload?.schema === BoundWitnessSchema) ?? []
-    return innerBoundWitnesses
+    return await super.insert(payloads)
   }
 }

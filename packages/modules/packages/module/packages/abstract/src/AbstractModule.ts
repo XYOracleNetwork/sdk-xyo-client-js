@@ -19,22 +19,30 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   /* make it public */
   override async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
-    return await super.addressPreviousHash()
+    return await this.busy(async () => {
+      return await super.addressPreviousHash()
+    })
   }
 
   /* make it public */
   override async describe(): Promise<ModuleDescriptionPayload> {
-    return await super.describe()
+    return await this.busy(async () => {
+      return await super.describe()
+    })
   }
 
   /* make it public */
   override async discover(): Promise<Payload[]> {
-    return await super.discover()
+    return await this.busy(async () => {
+      return await super.discover()
+    })
   }
 
   /* make it public */
   override async manifest(): Promise<ModuleManifestPayload> {
-    return await super.manifest()
+    return await this.busy(async () => {
+      return await super.manifest()
+    })
   }
 
   /* make it public */

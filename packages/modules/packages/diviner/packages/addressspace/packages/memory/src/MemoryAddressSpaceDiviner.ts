@@ -17,7 +17,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
 {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)

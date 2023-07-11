@@ -18,7 +18,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists = await Promise.all(
       (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? [],

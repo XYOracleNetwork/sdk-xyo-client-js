@@ -28,7 +28,7 @@ export class PrometheusNodeWitness<TParams extends PrometheusNodeWitnessParams =
     return this._registry
   }
 
-  override async observe(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
+  protected override async observeHandler(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
     return await super.observe(await this.generateMetricValues())
   }
 

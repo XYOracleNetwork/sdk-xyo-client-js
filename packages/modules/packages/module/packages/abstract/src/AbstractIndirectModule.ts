@@ -18,6 +18,7 @@ import {
   IndirectModule,
   IndividualArchivistConfig,
   ModuleAddressQuerySchema,
+  ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescribeQuerySchema,
   ModuleDescriptionPayload,
@@ -82,6 +83,8 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   protected _started = false
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
+
+  private _busyCount = 0
 
   constructor(privateConstructorKey: string, params: TParams) {
     assertEx(AbstractIndirectModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
@@ -159,6 +162,25 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return { address: this.address, previousHash: this._account?.previousHash, schema: AddressPreviousHashSchema }
   }
 
+  async busy<R>(closure: () => Promise<R>) {
+    if (this._busyCount <= 0) {
+      this._busyCount = 0
+      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      await this.emit('moduleBusy', args)
+    }
+    this._busyCount++
+    try {
+      return await closure()
+    } finally {
+      this._busyCount--
+      if (this._busyCount <= 0) {
+        this._busyCount = 0
+        const args: ModuleBusyEventArgs = { busy: false, module: this }
+        await this.emit('moduleBusy', args)
+      }
+    }
+  }
+
   async loadAccount() {
     if (!this._account) {
       const activeLogger = this.params.logger ?? AbstractIndirectModule.defaultLogger
@@ -214,12 +236,14 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
+    return await this.busy(async () => {
+      const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
-    const args: ModuleQueriedEventArgs = { module: this as IndirectModule, payloads, query, result }
-    await this.emit('moduleQueried', args)
+      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+      await this.emit('moduleQueried', args)
 
-    return result
+      return result
+    })
   }
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

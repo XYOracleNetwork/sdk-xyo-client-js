@@ -21,7 +21,7 @@ export class MemoryAddressChainDiviner<
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')

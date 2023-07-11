@@ -27,7 +27,7 @@ export class AbstractModuleInstanceWitness<
     return this.params?.module
   }
 
-  override async observe(payloads?: Partial<Payload>[]): Promise<Payload[]> {
+  protected override async observeHandler(payloads?: Partial<Payload>[]): Promise<Payload[]> {
     return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: AbstractModuleInstanceSchema })])
   }
 }

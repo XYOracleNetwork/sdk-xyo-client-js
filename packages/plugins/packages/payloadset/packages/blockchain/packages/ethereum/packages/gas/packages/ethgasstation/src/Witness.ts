@@ -18,7 +18,7 @@ export class EthereumGasEthgasstationWitness<TParams extends EthereumGasEthgasst
 {
   static override readonly configSchemas: string[] = [EthereumGasEthgasstationWitnessConfigSchema]
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const payload = new PayloadBuilder<EthereumGasEthgasstationPayload>({ schema: EthereumGasEthgasstationSchema })
       .fields(await getGasFromEthgasstation())
       .build()

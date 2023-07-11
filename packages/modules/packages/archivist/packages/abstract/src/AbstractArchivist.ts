@@ -86,13 +86,15 @@ export abstract class AbstractArchivist<
   }
 
   async get(hashes: string[]): Promise<Payload[]> {
-    return compact(
-      await Promise.all(
-        hashes.map(async (hash) => {
-          return (await this.getFromParents(hash)) ?? null
-        }),
-      ),
-    )
+    return await this.busy(async () => {
+      return compact(
+        await Promise.all(
+          hashes.map(async (hash) => {
+            return (await this.getFromParents(hash)) ?? null
+          }),
+        ),
+      )
+    })
   }
 
   head(): Promisable<Payload | undefined> {

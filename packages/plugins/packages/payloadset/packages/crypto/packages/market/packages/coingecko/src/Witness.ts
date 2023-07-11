@@ -14,7 +14,7 @@ export class CoingeckoCryptoMarketWitness<
 > extends AbstractWitness<TParams> {
   static override configSchemas = [CoingeckoCryptoMarketWitnessConfigSchema]
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const assets: CoingeckoCryptoMarketPayload['assets'] = await pricesFromCoingecko(this.config?.coins ?? [], this.config?.currencies ?? [])
     const payload: CoingeckoCryptoMarketPayload = {
       assets,

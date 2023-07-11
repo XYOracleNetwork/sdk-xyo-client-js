@@ -76,34 +76,44 @@ export class IndexedDbArchivist<
   }
 
   override async all(): Promise<Payload[]> {
-    const result = await entries<string, Payload>(this.db)
-    return result.map<Payload>(([_hash, payload]) => payload)
+    return await this.busy(async () => {
+      const result = await entries<string, Payload>(this.db)
+      return result.map<Payload>(([_hash, payload]) => payload)
+    })
   }
 
   override async clear(): Promise<void> {
-    await clear(this.db)
+    return await this.busy(async () => {
+      await clear(this.db)
+    })
   }
 
   override async delete(hashes: string[]): Promise<boolean[]> {
-    await delMany(hashes, this.db)
-    return hashes.map((_) => true)
+    return await this.busy(async () => {
+      await delMany(hashes, this.db)
+      return hashes.map((_) => true)
+    })
   }
 
   override async get(hashes: string[]): Promise<Payload[]> {
-    const result = await getMany<Payload>(hashes, this.db)
-    return result
+    return await this.busy(async () => {
+      const result = await getMany<Payload>(hashes, this.db)
+      return result
+    })
   }
 
   async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    const entries = await Promise.all(
-      payloads.map<Promise<[string, Payload]>>(async (payload) => {
-        const hash = await PayloadHasher.hashAsync(payload)
-        return [hash, payload]
-      }),
-    )
-    await setMany(entries, this.db)
-    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-    return [result[0]]
+    return await this.busy(async () => {
+      const entries = await Promise.all(
+        payloads.map<Promise<[string, Payload]>>(async (payload) => {
+          const hash = await PayloadHasher.hashAsync(payload)
+          return [hash, payload]
+        }),
+      )
+      await setMany(entries, this.db)
+      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
+      return [result[0]]
+    })
   }
 
   override async start(): Promise<void> {

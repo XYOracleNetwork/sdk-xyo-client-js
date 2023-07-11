@@ -26,7 +26,7 @@ export abstract class AbstractForecastingDiviner<
   protected abstract get forecastingMethod(): ForecastingMethod
   protected abstract get transformer(): PayloadValueTransformer
 
-  async divine(payloads?: Payload[] | undefined): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<ForecastingDivinerQueryPayload>(isForecastingDivinerQueryPayload)
     if (!query) return []
     const windowSettings: ForecastingSettings = { ...this.config, ...this.query }

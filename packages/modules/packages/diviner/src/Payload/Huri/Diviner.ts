@@ -20,7 +20,7 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
     return this.config?.options
   }
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,

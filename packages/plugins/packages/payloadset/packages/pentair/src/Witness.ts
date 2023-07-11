@@ -19,7 +19,7 @@ export class PentairScreenlogicWitness<
 > extends AbstractWitness<TParams> {
   static override configSchemas = [PentairScreenlogicWitnessConfigSchema]
 
-  override async observe(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
+  protected override async observeHandler(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
     const finder = new FindUnits()
     const localUnit = assertEx((await finder.searchAsync()).shift(), 'No local screenlogic unit found')
     screenlogic.initUnit(localUnit)

@@ -234,7 +234,7 @@ describe('Sentinel', () => {
           },
         }
         class FailingWitness extends AdhocWitness {
-          override async observe(): Promise<Payload[]> {
+          protected override async observeHandler(): Promise<Payload[]> {
             await Promise.reject(Error('observation failed'))
             return [{ schema: 'fake.result' }]
           }

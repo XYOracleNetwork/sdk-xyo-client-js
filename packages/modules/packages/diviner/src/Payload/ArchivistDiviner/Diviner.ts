@@ -18,7 +18,20 @@ export type ArchivistPayloadDivinerParams<
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected async archivist(): Promise<ArchivistModule | null> {
+    const configArchivistAddress = this.config?.archivist
+    if (configArchivistAddress) {
+      const resolvedArchivist: ArchivistModule | null = configArchivistAddress
+        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
+        : null
+      if (resolvedArchivist) {
+        return resolvedArchivist ? new ArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
+      }
+    }
+    return null
+  }
+
+  protected async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
@@ -31,18 +44,5 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
       return (await activeArchivist.query(query[0], query[1]))[1]
     }
     return []
-  }
-
-  protected async archivist(): Promise<ArchivistModule | null> {
-    const configArchivistAddress = this.config?.archivist
-    if (configArchivistAddress) {
-      const resolvedArchivist: ArchivistModule | null = configArchivistAddress
-        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
-        : null
-      if (resolvedArchivist) {
-        return resolvedArchivist ? new ArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
-      }
-    }
-    return null
   }
 }

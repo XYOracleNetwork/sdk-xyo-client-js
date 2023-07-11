@@ -54,23 +54,25 @@ export abstract class AbstractBridge<
   override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
   override async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
   override async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
-    switch (typeof nameOrAddressOrFilter) {
-      case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter)
-          ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
-            (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-          : undefined
-        return (
-          byAddress ??
-          (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
-          (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
-        )
+    return await this.busy(async () => {
+      switch (typeof nameOrAddressOrFilter) {
+        case 'string': {
+          const byAddress = Account.isAddress(nameOrAddressOrFilter)
+            ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
+              (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+            : undefined
+          return (
+            byAddress ??
+            (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
+            (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+          )
+        }
+        default: {
+          const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+          return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+        }
       }
-      default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
-      }
-    }
+    })
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {

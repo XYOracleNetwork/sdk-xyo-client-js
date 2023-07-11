@@ -3,6 +3,7 @@ import { Account } from '@xyo-network/account'
 import {
   PayloadStatsDivinerConfigSchema,
   PayloadStatsDivinerSchema,
+  PayloadStatsPayload,
   PayloadStatsQueryPayload,
   PayloadStatsQuerySchema,
 } from '@xyo-network/diviner-payload-stats-model'
@@ -44,7 +45,7 @@ describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
         const query: PayloadStatsQueryPayload = { address, schema: PayloadStatsQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
+        const actual = result[0] as PayloadStatsPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(PayloadStatsDivinerSchema)
         expect(actual.count).toBeNumber()
@@ -55,7 +56,7 @@ describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
         const query: PayloadStatsQueryPayload = { schema: PayloadStatsQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
+        const actual = result[0] as PayloadStatsPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(PayloadStatsDivinerSchema)
         expect(actual.count).toBeNumber()

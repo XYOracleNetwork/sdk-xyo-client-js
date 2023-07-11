@@ -12,7 +12,7 @@ export type EtherchainEthereumGasWitnessV2Params = WitnessParams<AnyConfigSchema
 export class EtherchainEthereumGasWitnessV2 extends TimestampWitness<EtherchainEthereumGasWitnessV2Params> {
   static override configSchemas = [EthereumGasEtherchainV2WitnessConfigSchema]
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const payload: EthereumGasEtherchainV2Payload = {
       ...(await getV2GasFromEtherchain()),
       schema: EthereumGasEtherchainV2Schema,

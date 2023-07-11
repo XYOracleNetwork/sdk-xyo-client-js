@@ -29,7 +29,7 @@ export class MongoDBBoundWitnessDiviner<
 > extends AbstractDiviner<TParams> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []

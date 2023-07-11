@@ -17,7 +17,7 @@ export class MemoryBoundWitnessStatsDiviner<
 > extends BoundWitnessStatsDiviner<TParams> {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     if (!query) return []
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined

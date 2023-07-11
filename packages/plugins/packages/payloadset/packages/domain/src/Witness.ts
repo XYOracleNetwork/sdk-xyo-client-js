@@ -14,7 +14,7 @@ export class DomainWitness<TParams extends DomainWitnessParams = DomainWitnessPa
     return `${DomainWitness.dmarc}.${domain}`
   }
 
-  override async observe(_payload?: Payload[]): Promise<Payload[]> {
+  protected override async observeHandler(_payload?: Payload[]): Promise<Payload[]> {
     return await super.observe([{ schema: DomainSchema }])
   }
 }

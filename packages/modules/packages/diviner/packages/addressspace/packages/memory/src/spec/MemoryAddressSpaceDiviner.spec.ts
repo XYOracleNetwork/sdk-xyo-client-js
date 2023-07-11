@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -12,7 +12,7 @@ describe('MemoryAddressSpaceDiviner', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
       const account = Account.randomSync()
-      const archivist = ArchivistWrapper.wrap(
+      const archivist = IndirectArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
         account,
       )
@@ -27,7 +27,7 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(7)
+      expect(all).toBeArrayOfSize(4)
 
       await node.register(archivist)
       await node.attach(archivist.address)
@@ -37,14 +37,14 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.register(diviner)
       await node.attach(diviner.address)
       const results = await diviner.divine()
-      expect(results.length).toBe(2)
+      expect(results.length).toBe(1)
       results.forEach((payload) => {
         expect(payload.schema).toBe(AddressSchema)
       })
       const addresses = results
         .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)
-      expect(addresses).toEqual([account.address, diviner.address])
+      expect(addresses).toEqual([account.address])
     })
   })
 })

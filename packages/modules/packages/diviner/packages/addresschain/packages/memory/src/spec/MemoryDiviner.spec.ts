@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { MemoryNode } from '@xyo-network/node'
@@ -11,10 +11,11 @@ describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
-      const account = Account.randomSync()
-      const archivist = ArchivistWrapper.wrap(
+      const divinerAccount = Account.randomSync()
+      const archivistAccount = Account.randomSync()
+      const archivist = IndirectArchivistWrapper.wrap(
         await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
-        account,
+        archivistAccount,
       )
 
       const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
@@ -27,23 +28,24 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(7)
+      expect(all).toBeArrayOfSize(4)
 
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({
+        account: divinerAccount,
         config: {
-          address: account.address,
+          address: archivistAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),
+          startHash: await BoundWitnessWrapper.parse(all[2]).hashAsync(),
         },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
 
       const result = await diviner.divine()
-      expect(result.length).toBe(4)
+      expect(result.length).toBe(3)
     })
   })
 })

@@ -29,7 +29,7 @@ export class UniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()

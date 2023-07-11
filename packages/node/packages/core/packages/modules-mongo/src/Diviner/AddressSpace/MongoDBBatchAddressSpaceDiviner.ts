@@ -36,7 +36,7 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected response: BoundWitnessPointerPayload | undefined
   protected witnessedAddresses: Set<string> = new Set<string>()
 
-  override divine(_payloads?: Payload[]): Promise<Payload[]> {
+  protected override divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
     return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
   }

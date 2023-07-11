@@ -60,7 +60,7 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
   }
 
   /** @description Given a set of locations, get the expected elevations (witness if needed), and return score/variance */
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const locations = payloads?.filter<LocationPayload>((payload): payload is LocationPayload => payload?.schema === LocationSchema)
     // If this is a query we support
     if (locations && locations?.length > 0) {

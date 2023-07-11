@@ -43,6 +43,12 @@ export abstract class AbstractDiviner<
     }
   }
 
+  async divine(payloads?: Payload[]): Promise<Payload[]> {
+    return await this.busy(async () => {
+      return await this.divineHandler(payloads)
+    })
+  }
+
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -81,5 +87,5 @@ export abstract class AbstractDiviner<
     return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }
 
-  abstract divine(payloads?: Payload[]): Promisable<Payload[]>
+  protected abstract divineHandler(payloads?: Payload[]): Promisable<Payload[]>
 }

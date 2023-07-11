@@ -109,19 +109,19 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     ]
   }
 
-  async divine(payloads?: Payload[]): Promise<Payload<PayloadStatsPayload>[]> {
-    const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
-    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
-  }
-
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
     const { jobQueue } = this.params
     defineJobs(jobQueue, this.jobs)
     jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+  }
+
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<PayloadStatsPayload>[]> {
+    const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
   }
 
   protected override async stop(): Promise<this> {

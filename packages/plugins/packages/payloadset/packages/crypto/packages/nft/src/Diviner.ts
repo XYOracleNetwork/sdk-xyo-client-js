@@ -23,6 +23,6 @@ export const isNftScorePayload = (payload: Payload): payload is NftScorePayload 
 export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [NftScoreDivinerConfigSchema]
 
-  override divine = async (payloads?: Payload[]): Promise<Payload[]> =>
+  protected override divineHandler = async (payloads?: Payload[]): Promise<Payload[]> =>
     (await Promise.all(payloads?.filter(isNftInfoPayload).map(analyzeNft) ?? [])).map(toNftScorePayload)
 }

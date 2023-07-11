@@ -20,7 +20,7 @@ export class IdWitness<TParams extends IdWitnessParams = IdWitnessParams> extend
     return this.config?.salt ?? `${Math.floor(Math.random() * 9999999)}`
   }
 
-  override async observe(payloads: Payload[] = []): Promise<Payload[]> {
+  protected override async observeHandler(payloads: Payload[] = []): Promise<Payload[]> {
     return await super.observe(
       payloads.length > 0
         ? (payloads as IdPayload[]).map((fieldItems) => {

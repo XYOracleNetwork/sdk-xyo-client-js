@@ -30,7 +30,7 @@ export class MongoDBAddressHistoryDiviner<
 > extends AddressHistoryDiviner<TParams> {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []

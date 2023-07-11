@@ -129,7 +129,7 @@ export class ElevationWitness<TParams extends ElevationWitnessParams = Elevation
     return await assertEx(this._tiffInfos[section], `Failed to load section [${section}]`)
   }
 
-  override async observe(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     const quadkeys: Quadkey[] = [
       ...(payloads?.map((location) => locationToQuadkey(location as LocationPayload)) ?? []),
       ...this.quadkeys.map((quadkey) => (typeof quadkey === 'string' ? Quadkey.fromString(12, quadkey) : quadkey)),

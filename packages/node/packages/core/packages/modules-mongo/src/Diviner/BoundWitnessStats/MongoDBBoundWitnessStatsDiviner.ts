@@ -91,7 +91,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     ]
   }
 
-  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
     const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]

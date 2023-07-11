@@ -1,6 +1,7 @@
 import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { AbstractModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
+import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 import merge from 'lodash/merge'
 
@@ -27,7 +28,7 @@ export class AbstractModuleInstanceWitness<
     return this.params?.module
   }
 
-  protected override async observeHandler(payloads?: Partial<Payload>[]): Promise<Payload[]> {
-    return await super.observe([merge({ queries: this.module?.queries }, payloads?.[0], { schema: AbstractModuleInstanceSchema })])
+  protected override observeHandler(payloads?: Partial<Payload>[]): Promisable<Payload[]> {
+    return [merge({ queries: this.module?.queries }, payloads?.[0], { schema: AbstractModuleInstanceSchema })]
   }
 }

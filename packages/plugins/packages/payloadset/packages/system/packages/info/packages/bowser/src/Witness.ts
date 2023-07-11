@@ -21,6 +21,6 @@ export class BowserSystemInfoWitness<TParams extends BowserSystemInfoWitnessPara
   }
 
   protected override observeHandler(payloads?: Payload[]) {
-    return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: BowserSystemInfoSchema })])
+    return [merge({ bowser: this.bowser }, payloads?.[0], { schema: BowserSystemInfoSchema })]
   }
 }

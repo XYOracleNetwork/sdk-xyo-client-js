@@ -43,6 +43,6 @@ export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams
           },
         ]
       : []
-    return super.observe([locationPayload, ...heading])
+    return [locationPayload, ...heading]
   }
 }

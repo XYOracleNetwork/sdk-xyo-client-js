@@ -7,6 +7,6 @@ export class NonFungibleTokenMetaWitness<TParams extends WitnessParams = Witness
 
   protected override async observeHandler(_payloads?: Payload[]) {
     await delay(0)
-    return super.observe([{ schema: 'network.xyo.nft.meta' }])
+    return [{ schema: 'network.xyo.nft.meta' }]
   }
 }

@@ -22,6 +22,6 @@ export class CoingeckoCryptoMarketWitness<
       timestamp: Date.now(),
     }
 
-    return super.observe([payload])
+    return [payload]
   }
 }

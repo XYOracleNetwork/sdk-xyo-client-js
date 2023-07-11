@@ -11,10 +11,12 @@ describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
-      const account = Account.randomSync()
+      const archivistAccount = Account.randomSync()
+      const divinerAccount = Account.randomSync()
+      const wrapperAccount = Account.randomSync()
       const archivist = IndirectArchivistWrapper.wrap(
-        await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
-        account,
+        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
+        wrapperAccount,
       )
 
       const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
@@ -27,24 +29,25 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(4)
+      expect(all).toBeArrayOfSize(7)
 
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressSpaceDiviner.create({
+        account: divinerAccount,
         config: { archivist: archivist.address, schema: AddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
       const results = await diviner.divine()
-      expect(results.length).toBe(1)
+      expect(results.length).toBe(2)
       results.forEach((payload) => {
         expect(payload.schema).toBe(AddressSchema)
       })
       const addresses = results
         .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)
-      expect(addresses).toEqual([account.address])
+      expect(addresses).toContain(wrapperAccount.address)
     })
   })
 })

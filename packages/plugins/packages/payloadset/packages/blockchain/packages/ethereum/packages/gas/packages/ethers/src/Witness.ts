@@ -33,6 +33,6 @@ export class EthereumGasEthersWitness<
     const payload = new PayloadBuilder<EthereumGasEthersPayload>({ schema: EthereumGasEthersSchema })
       .fields(await getGasFromEthers(assertEx(this.provider, 'Provider Required')))
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

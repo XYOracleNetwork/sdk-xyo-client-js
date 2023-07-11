@@ -18,6 +18,6 @@ export class EtherchainEthereumGasWitnessV2 extends TimestampWitness<EtherchainE
       schema: EthereumGasEtherchainV2Schema,
       timestamp: Date.now(),
     }
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

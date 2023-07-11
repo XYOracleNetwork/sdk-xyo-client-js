@@ -28,6 +28,6 @@ export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> ext
       }),
     )
     // TODO: Handle partial success
-    return await super.observe(hashed)
+    return hashed
   }
 }

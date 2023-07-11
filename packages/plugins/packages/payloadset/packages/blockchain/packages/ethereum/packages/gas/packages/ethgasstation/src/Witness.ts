@@ -22,6 +22,6 @@ export class EthereumGasEthgasstationWitness<TParams extends EthereumGasEthgasst
     const payload = new PayloadBuilder<EthereumGasEthgasstationPayload>({ schema: EthereumGasEthgasstationSchema })
       .fields(await getGasFromEthgasstation())
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/packages/memory/spec/MemoryArchivist.spec.ts"
+        "packages/node/packages/express/packages/test/src/routes/hash/get/get.payloadPointer.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

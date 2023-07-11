@@ -5,10 +5,10 @@ import { WitnessParams } from '@xyo-network/witness-model'
 
 export abstract class TimestampWitness<P extends WitnessParams = WitnessParams> extends AbstractWitness<P> {
   protected override observeHandler(fields?: Payload[]): Promisable<Payload[]> {
-    return super.observe(
+    return (
       fields?.map((fieldItem) => {
         return { ...fieldItem, timestamp: Date.now() }
-      }),
+      }) ?? []
     )
   }
 }

@@ -15,6 +15,6 @@ export class CryptoCardsMoveWitness<TParams extends CryptoCardsMoveWitnessParams
   static override configSchemas = [CryptoCardsMoveWitnessConfigSchema]
 
   protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
-    return super.observe(payloads)
+    return payloads ?? []
   }
 }

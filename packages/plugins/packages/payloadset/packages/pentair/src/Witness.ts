@@ -25,7 +25,7 @@ export class PentairScreenlogicWitness<
     screenlogic.initUnit(localUnit)
     assertEx(await screenlogic.connectAsync(), 'Failed to connect to ScreenLogic')
 
-    return await super.observe([
+    return [
       {
         chem: await screenlogic.chem.getChemicalDataAsync(),
         chlor: await screenlogic.chlor.getIntellichlorConfigAsync(),
@@ -45,6 +45,6 @@ export class PentairScreenlogicWitness<
         schema: PentairScreenlogicSchema,
         version: await screenlogic.getVersionAsync(),
       },
-    ] as PentairScreenlogicPayload[])
+    ] as PentairScreenlogicPayload[]
   }
 }

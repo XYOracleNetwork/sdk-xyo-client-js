@@ -19,6 +19,6 @@ export class EthereumGasBlocknativeWitness extends TimestampWitness<EthereumGasB
     })
       .fields(fields)
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

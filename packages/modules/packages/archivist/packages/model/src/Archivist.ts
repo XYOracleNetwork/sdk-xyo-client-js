@@ -2,14 +2,14 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
 import { ClearedEventData, DeletedEventData, InsertedEventData } from './Events'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all?(): PromisableArray<TReadResponse>
-  get(ids: TId[]): NullablePromisableArray<TReadResponse>
+  get(ids: TId[]): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {

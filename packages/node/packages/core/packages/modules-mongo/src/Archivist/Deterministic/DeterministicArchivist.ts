@@ -75,9 +75,9 @@ export class MongoDBDeterministicArchivist<
     return [ArchivistInsertQuerySchema, ...super.queries]
   }
 
-  override get(_hashes: string[]): Promise<Payload[]> {
+  /*override async get(hashes: string[]): Promise<Payload[]> {
     throw new Error('get method must be called via query')
-  }
+  }*/
 
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
@@ -88,8 +88,7 @@ export class MongoDBDeterministicArchivist<
     throw new Error('insert method must be called via query')
   }
 
-  protected async getInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, queryPayload: ArchivistGetQuery): Promise<Payload[]> {
-    const hashes = queryPayload.hashes
+  protected async getHandler(hashes: string[]): Promise<Payload[]> {
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
@@ -132,7 +131,7 @@ export class MongoDBDeterministicArchivist<
     try {
       switch (queryPayload.schema) {
         case ArchivistGetQuerySchema: {
-          resultPayloads.push(...(await this.getInternal(wrapper, queryPayload)))
+          resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
           break
         }
         case ArchivistInsertQuerySchema: {

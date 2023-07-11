@@ -17,6 +17,6 @@ export class EthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<
     const payload = new PayloadBuilder<EthereumGasEtherscanPayload>({ schema: EthereumGasEtherscanSchema })
       .fields(await getGasFromEtherscan(apiKey))
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

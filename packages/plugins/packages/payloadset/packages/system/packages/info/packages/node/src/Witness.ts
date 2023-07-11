@@ -16,6 +16,6 @@ export class NodeSystemInfoWitness<TParams extends NodeSystemInfoWitnessParams =
 
   protected override async observeHandler(payloads?: Payload[]) {
     const node = await get(this.config?.nodeValues ?? defaultSystemInfoConfig())
-    return await super.observe([{ ...node, ...payloads?.[0], schema: NodeSystemInfoSchema }])
+    return [{ ...node, ...payloads?.[0], schema: NodeSystemInfoSchema }]
   }
 }

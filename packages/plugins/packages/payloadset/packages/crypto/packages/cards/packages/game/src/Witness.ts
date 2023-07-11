@@ -15,6 +15,6 @@ export class CryptoCardsGameWitness extends AbstractWitness<CryptoCardsGameWitne
   static override configSchemas = [CryptoCardsGameWitnessConfigSchema]
 
   protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
-    return super.observe(payloads)
+    return payloads ?? []
   }
 }

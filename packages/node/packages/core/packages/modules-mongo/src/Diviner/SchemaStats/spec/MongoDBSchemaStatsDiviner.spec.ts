@@ -3,6 +3,7 @@ import { Account } from '@xyo-network/account'
 import {
   SchemaStatsDivinerConfigSchema,
   SchemaStatsDivinerSchema,
+  SchemaStatsPayload,
   SchemaStatsQueryPayload,
   SchemaStatsQuerySchema,
 } from '@xyo-network/diviner-schema-stats-model'
@@ -47,7 +48,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
         const query: SchemaStatsQueryPayload = { address, schema: SchemaStatsQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
+        const actual = result[0] as SchemaStatsPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(SchemaStatsDivinerSchema)
         expect(actual.count).toBeObject()

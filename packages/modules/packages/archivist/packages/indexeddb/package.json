@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^2.9.3",
-    "@xylabs/ts-scripts-yarn3": "^2.18.7",
-    "@xylabs/tsconfig": "^2.18.7",
+    "@xylabs/ts-scripts-yarn3": "^2.18.10",
+    "@xylabs/tsconfig": "^2.18.10",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/plugins": "workspace:^",
     "fake-indexeddb": "^4.0.1",

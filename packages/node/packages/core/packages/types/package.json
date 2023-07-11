@@ -11,8 +11,8 @@
     "node": ">=16 <17"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.18.7",
-    "@xylabs/tsconfig": "^2.18.7",
+    "@xylabs/ts-scripts-yarn3": "^2.18.10",
+    "@xylabs/tsconfig": "^2.18.10",
     "typescript": "^5.1.6"
   },
   "esm5": "dist/esm/index.js",

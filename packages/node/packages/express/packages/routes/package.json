@@ -60,8 +60,8 @@
   },
   "devDependencies": {
     "@types/express": "4.17.17",
-    "@xylabs/ts-scripts-yarn3": "^2.18.7",
-    "@xylabs/tsconfig": "^2.18.7",
+    "@xylabs/ts-scripts-yarn3": "^2.18.10",
+    "@xylabs/tsconfig": "^2.18.10",
     "jest": "^29.6.1",
     "jest-mock-extended": "^3.0.4",
     "typescript": "^5.1.6"

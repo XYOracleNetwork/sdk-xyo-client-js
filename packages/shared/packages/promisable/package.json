@@ -29,8 +29,8 @@
     "./package.json": "./package.json"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.18.7",
-    "@xylabs/tsconfig": "^2.18.7",
+    "@xylabs/ts-scripts-yarn3": "^2.18.10",
+    "@xylabs/tsconfig": "^2.18.10",
     "typescript": "^5.1.6"
   },
   "main": "dist/cjs/index.js",

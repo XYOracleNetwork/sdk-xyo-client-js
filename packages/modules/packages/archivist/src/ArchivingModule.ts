@@ -1,4 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistModule, asArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
@@ -32,11 +33,9 @@ export abstract class ArchivingModule<
     return [result, witnesses]
   }
 
-  protected async resolveArchivists() {
+  protected async resolveArchivists(): Promise<ArchivistModule[]> {
     return compact(
-      await Promise.all(
-        (await this.resolve({ address: this.config.archivists ?? [] }))?.map((archivist) => ArchivistWrapper.tryWrap(archivist, this.account)) ?? [],
-      ),
+      (await Promise.all((await this.resolve({ address: this.config.archivists ?? [] })) ?? [])).map((module) => asArchivistModule(module)),
     )
   }
 
@@ -45,7 +44,7 @@ export abstract class ArchivingModule<
     return (
       await Promise.all(
         archivists.map((archivist) => {
-          return archivist.insert(payloads)
+          return isArchivistInstance(archivist) ? archivist.insert(payloads) : ArchivistWrapper.wrap(archivist, this.account).insert(payloads)
         }),
       )
     ).map(([bw]) => bw)

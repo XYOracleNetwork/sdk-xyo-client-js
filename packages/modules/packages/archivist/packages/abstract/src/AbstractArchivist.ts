@@ -14,7 +14,6 @@ import {
   ArchivistQuery,
   ArchivistQueryBase,
 } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
 import {
@@ -202,8 +201,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
-    const wrapper = new ArchivistWrapper({ account: this.account, module: parent })
-    return await wrapper.insert(payloads)
+    return await parent.insert(payloads)
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<BoundWitness[]> {

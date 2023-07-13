@@ -16,7 +16,6 @@ import {
   AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
-  DirectModule,
   duplicateModules,
   IndirectModule,
   IndividualArchivistConfig,
@@ -60,6 +59,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   implements IndirectModule<TParams, TEventData>, IndirectModule
 {
   static configSchemas: string[]
+  static enableBusy = false
 
   protected static privateConstructorKey = Date.now().toString()
 
@@ -162,21 +162,25 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   }
 
   async busy<R>(closure: () => Promise<R>) {
-    if (this._busyCount <= 0) {
-      this._busyCount = 0
-      const args: ModuleBusyEventArgs = { busy: true, module: this }
-      await this.emit('moduleBusy', args)
-    }
-    this._busyCount++
-    try {
-      return await closure()
-    } finally {
-      this._busyCount--
+    if (AbstractIndirectModule.enableBusy) {
       if (this._busyCount <= 0) {
         this._busyCount = 0
-        const args: ModuleBusyEventArgs = { busy: false, module: this }
+        const args: ModuleBusyEventArgs = { busy: true, module: this }
         await this.emit('moduleBusy', args)
       }
+      this._busyCount++
+      try {
+        return await closure()
+      } finally {
+        this._busyCount--
+        if (this._busyCount <= 0) {
+          this._busyCount = 0
+          const args: ModuleBusyEventArgs = { busy: false, module: this }
+          await this.emit('moduleBusy', args)
+        }
+      }
+    } else {
+      return closure()
     }
   }
 

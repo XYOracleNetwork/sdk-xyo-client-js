@@ -51,25 +51,23 @@ export abstract class AbstractBridge<
   override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
   override async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
   override async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
-    return await this.busy(async () => {
-      switch (typeof nameOrAddressOrFilter) {
-        case 'string': {
-          const byAddress = Account.isAddress(nameOrAddressOrFilter)
-            ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
-              (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-            : undefined
-          return (
-            byAddress ??
-            (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
-            (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
-          )
-        }
-        default: {
-          const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-          return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
-        }
+    switch (typeof nameOrAddressOrFilter) {
+      case 'string': {
+        const byAddress = Account.isAddress(nameOrAddressOrFilter)
+          ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
+            (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+          : undefined
+        return (
+          byAddress ??
+          (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
+          (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+        )
       }
-    })
+      default: {
+        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+      }
+    }
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {
@@ -77,11 +75,7 @@ export abstract class AbstractBridge<
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter) {
-    //TODO: Honor address so that the resolve only is done through that remote module
-    //right now, we check the entire remote hive
-    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
-  }
+  async targetResolve(address: string, filter?: ModuleFilter) {}
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)

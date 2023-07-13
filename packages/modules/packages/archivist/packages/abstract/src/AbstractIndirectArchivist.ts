@@ -105,15 +105,13 @@ export abstract class AbstractIndirectArchivist<
   }
 
   protected async getHandler(hashes: string[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      return compact(
-        await Promise.all(
-          hashes.map(async (hash) => {
-            return (await this.getFromParents(hash)) ?? null
-          }),
-        ),
-      )
-    })
+    return compact(
+      await Promise.all(
+        hashes.map(async (hash) => {
+          return (await this.getFromParents(hash)) ?? null
+        }),
+      ),
+    )
   }
 
   protected head(): Promisable<Payload | undefined> {

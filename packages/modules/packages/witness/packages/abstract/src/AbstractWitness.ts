@@ -41,13 +41,11 @@ export abstract class AbstractWitness<
   }
 
   async observe(payloads?: Payload[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      this.started('throw')
-      const payloadList = assertEx(await this.observeHandler(payloads), 'Trying to witness nothing')
-      assertEx(payloadList.length > 0, 'Trying to witness empty list')
-      payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-      return payloadList
-    })
+    this.started('throw')
+    const payloadList = assertEx(await this.observeHandler(payloads), 'Trying to witness nothing')
+    assertEx(payloadList.length > 0, 'Trying to witness empty list')
+    payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
+    return payloadList
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

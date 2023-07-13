@@ -69,23 +69,21 @@ export class MemoryArchivist<
   }
 
   protected override async commitHandler(): Promise<BoundWitness[]> {
-    return await this.busy(async () => {
-      const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
-      const settled = await Promise.allSettled(
-        compact(
-          Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
-              payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
-              schema: ArchivistInsertQuerySchema,
-            })
-            const query = await this.bindQuery(queryPayload, payloads)
-            return (await parent?.query(query[0], query[1]))?.[0]
-          }),
-        ),
-      )
-      await this.clearHandler()
-      return compact(settled.filter(fulfilled).map((result) => result.value))
-    })
+    const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
+    const settled = await Promise.allSettled(
+      compact(
+        Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+          const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
+            payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
+            schema: ArchivistInsertQuerySchema,
+          })
+          const query = await this.bindQuery(queryPayload, payloads)
+          return (await parent?.query(query[0], query[1]))?.[0]
+        }),
+      ),
+    )
+    await this.clearHandler()
+    return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
@@ -97,43 +95,39 @@ export class MemoryArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      return compact(
-        await Promise.all(
-          hashes.map(async (hash) => {
-            const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
-            if (this.storeParentReads) {
-              // NOTE: `payload` can actually be `null` here but TS doesn't seem
-              // to recognize it. LRUCache claims not to support `null`s via their
-              // types but seems to under the hood just fine.
-              this.cache.set(hash, payload)
-            }
-            return payload
-          }),
-        ),
-      )
-    })
+    return compact(
+      await Promise.all(
+        hashes.map(async (hash) => {
+          const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
+          if (this.storeParentReads) {
+            // NOTE: `payload` can actually be `null` here but TS doesn't seem
+            // to recognize it. LRUCache claims not to support `null`s via their
+            // types but seems to under the hood just fine.
+            this.cache.set(hash, payload)
+          }
+          return payload
+        }),
+      ),
+    )
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
-    return await this.busy(async () => {
-      await Promise.all(
-        payloads.map((payload) => {
-          return this.insertPayloadIntoCache(payload)
-        }),
-      )
+    await Promise.all(
+      payloads.map((payload) => {
+        return this.insertPayloadIntoCache(payload)
+      }),
+    )
 
-      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-      const parentBoundWitnesses: BoundWitness[] = []
-      const parents = await this.parents()
-      if (Object.entries(parents.write ?? {}).length) {
-        // We store the child bw also
-        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
-      }
-      const boundWitnesses = [result[0], ...parentBoundWitnesses]
-      await this.emit('inserted', { boundWitnesses, module: this })
-      return boundWitnesses
-    })
+    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
+    const parentBoundWitnesses: BoundWitness[] = []
+    const parents = await this.parents()
+    if (Object.entries(parents.write ?? {}).length) {
+      // We store the child bw also
+      parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
+    }
+    const boundWitnesses = [result[0], ...parentBoundWitnesses]
+    await this.emit('inserted', { boundWitnesses, module: this })
+    return boundWitnesses
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {

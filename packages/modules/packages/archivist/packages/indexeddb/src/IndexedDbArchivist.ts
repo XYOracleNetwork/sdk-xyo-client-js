@@ -83,43 +83,33 @@ export class IndexedDbArchivist<
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    return await this.busy(async () => {
-      const result = await entries<string, Payload>(this.db)
-      return result.map<Payload>(([_hash, payload]) => payload)
-    })
+    const result = await entries<string, Payload>(this.db)
+    return result.map<Payload>(([_hash, payload]) => payload)
   }
 
   protected override async clearHandler(): Promise<void> {
-    return await this.busy(async () => {
-      await clear(this.db)
-    })
+    await clear(this.db)
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    return await this.busy(async () => {
-      await delMany(hashes, this.db)
-      return hashes.map((_) => true)
-    })
+    await delMany(hashes, this.db)
+    return hashes.map((_) => true)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      const result = await getMany<Payload>(hashes, this.db)
-      return result
-    })
+    const result = await getMany<Payload>(hashes, this.db)
+    return result
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
-    return await this.busy(async () => {
-      const entries = await Promise.all(
-        payloads.map<Promise<[string, Payload]>>(async (payload) => {
-          const hash = await PayloadHasher.hashAsync(payload)
-          return [hash, payload]
-        }),
-      )
-      await setMany(entries, this.db)
-      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-      return [result[0]]
-    })
+    const entries = await Promise.all(
+      payloads.map<Promise<[string, Payload]>>(async (payload) => {
+        const hash = await PayloadHasher.hashAsync(payload)
+        return [hash, payload]
+      }),
+    )
+    await setMany(entries, this.db)
+    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
+    return [result[0]]
   }
 }

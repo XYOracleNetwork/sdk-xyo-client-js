@@ -239,14 +239,12 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    return await this.busy(async () => {
-      const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
+    const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
-      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-      await this.emit('moduleQueried', args)
+    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+    await this.emit('moduleQueried', args)
 
-      return result
-    })
+    return result
   }
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

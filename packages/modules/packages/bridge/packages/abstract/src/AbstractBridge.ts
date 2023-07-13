@@ -75,7 +75,11 @@ export abstract class AbstractBridge<
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter) {}
+  async targetResolve(address: string, filter?: ModuleFilter) {
+    //TODO: Honor address so that the resolve only is done through that remote module
+    //right now, we check the entire remote hive
+    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
+  }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)

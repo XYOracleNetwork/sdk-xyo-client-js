@@ -1,3 +1,4 @@
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import {
   AnyConfigSchema,
   Module,
@@ -7,10 +8,8 @@ import {
   ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
-  Query,
-  QueryBoundWitness,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { BridgeConfig } from './Config'

@@ -1,29 +1,26 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { handleErrorAsync } from '@xyo-network/error'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleWrapper } from '@xyo-network/module'
+import { AbstractIndirectModule, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
 import {
-  AbstractModule,
-  CompositeModuleResolver,
   duplicateModules,
   isDirectModule,
   Module,
   ModuleConfig,
-  ModuleError,
-  ModuleErrorBuilder,
+  ModuleDescriptionPayload,
   ModuleFilter,
   ModuleQueryResult,
-  ModuleWrapper,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
+} from '@xyo-network/module-model'
 import {
+  IndirectNodeModule,
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
   NodeConfigSchema,
   NodeDetachQuerySchema,
-  NodeModule,
   NodeModuleEventData,
   NodeModuleParams,
   NodeQuery,
@@ -31,12 +28,12 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends AbstractModule<TParams, TEventData>
-  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
+  extends AbstractIndirectModule<TParams, TEventData>
+  implements IndirectNodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
 
@@ -73,6 +70,10 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return await (this.privateResolver.resolve() ?? [])
   }
 
+  override async describe(): Promise<ModuleDescriptionPayload> {
+    return await super.describe()
+  }
+
   override async discover(): Promise<Payload[]> {
     const childMods = await this.attachedModules()
     const childModAddresses = childMods.map((mod) =>
@@ -103,7 +104,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return manifest
   }
 
-  register(_module: Module): Promisable<this> {
+  register(_module: Module): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 

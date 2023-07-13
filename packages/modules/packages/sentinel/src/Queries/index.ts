@@ -1,6 +1,7 @@
 export * from './Report'
 
-import { ModuleQuery, ModuleQueryBase, Query } from '@xyo-network/module-model'
+import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/payload-model'
 
 import { SentinelReportQuery } from './Report'
 

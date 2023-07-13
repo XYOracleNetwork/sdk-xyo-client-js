@@ -1,4 +1,4 @@
-import { Query } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/payload-model'
 
 export type NodeRegisteredQuerySchema = 'network.xyo.query.node.registered'
 export const NodeRegisteredQuerySchema: NodeRegisteredQuerySchema = 'network.xyo.query.node.registered'

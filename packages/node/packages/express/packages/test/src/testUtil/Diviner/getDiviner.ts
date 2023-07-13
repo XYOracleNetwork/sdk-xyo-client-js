@@ -1,10 +1,11 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { DivinerModule, DivinerWrapper } from '@xyo-network/modules'
+import { DivinerModule } from '@xyo-network/diviner-model'
+import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
 
 import { unitTestSigningAccount } from '../Account'
 import { getModuleByName } from '../Node'
 
-export const getDivinerByName = async (name: string, account?: AccountInstance): Promise<DivinerWrapper> => {
+export const getDivinerByName = async (name: string, account?: AccountInstance): Promise<IndirectDivinerWrapper> => {
   const module = await getModuleByName<DivinerModule>(name)
-  return new DivinerWrapper({ account: account ?? (await unitTestSigningAccount()), module })
+  return new IndirectDivinerWrapper({ account: account ?? (await unitTestSigningAccount()), module })
 }

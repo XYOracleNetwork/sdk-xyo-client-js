@@ -1,12 +1,12 @@
 import { delay } from '@xylabs/delay'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
-import { isNodeModule, NodeModule } from '@xyo-network/node-model'
+import { IndirectNodeModule, isNodeModule } from '@xyo-network/node-model'
 
 import { printError, printLine } from '../print'
 
 const nodeConnectionErrorMsg = 'Error connecting to Node'
 
-export const connect = async (attempts = 60, interval = 500): Promise<NodeModule> => {
+export const connect = async (attempts = 60, interval = 500): Promise<IndirectNodeModule> => {
   // TODO: Configurable via config or dynamically determined
   const apiDomain = process.env.API_DOMAIN || 'http://localhost:8080'
   const apiConfig = { apiDomain }

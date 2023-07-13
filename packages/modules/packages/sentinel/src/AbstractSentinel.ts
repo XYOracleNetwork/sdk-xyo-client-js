@@ -1,18 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivingModule } from '@xyo-network/archivist'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivingModule, ArchivistModule } from '@xyo-network/archivist'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AnyConfigSchema,
-  ModuleConfig,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
+import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
@@ -32,7 +25,7 @@ export abstract class AbstractSentinel<
 
   history: BoundWitness[] = []
 
-  private _archivists: ArchivistWrapper[] | undefined
+  private _archivists: ArchivistModule[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
   override get queries(): string[] {
@@ -55,10 +48,9 @@ export abstract class AbstractSentinel<
     this._witnesses = undefined
   }
 
-  async getArchivists(account?: AccountInstance) {
+  async getArchivists() {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
-    this._archivists =
-      this._archivists ?? (await this.resolve({ address: addresses })).map((witness) => ArchivistWrapper.wrap(witness, account ?? this.account))
+    this._archivists = this._archivists ?? (await this.resolve({ address: addresses }))
     if (addresses.length !== this._archivists.length) {
       this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
     }

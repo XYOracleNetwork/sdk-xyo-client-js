@@ -1,34 +1,27 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
-  DivinerModule,
   DivinerModuleEventData,
   DivinerParams,
   DivinerQuery,
   DivinerQueryBase,
+  IndirectDivinerModule,
 } from '@xyo-network/diviner-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AbstractModule,
-  ModuleConfig,
-  ModuleError,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractDiviner<
+export abstract class AbstractIndirectDiviner<
     TParams extends DivinerParams = DivinerParams,
     TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   >
   extends AbstractModule<TParams, TEventData>
-  implements DivinerModule<TParams>
+  implements IndirectDivinerModule<TParams>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
@@ -41,12 +34,6 @@ export abstract class AbstractDiviner<
     return {
       'network.xyo.query.diviner.divine': '1/1',
     }
-  }
-
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      return await this.divineHandler(payloads)
-    })
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -66,7 +53,7 @@ export abstract class AbstractDiviner<
       switch (queryPayload.schema) {
         case DivinerDivineQuerySchema:
           await this.emit('reportStart', { inPayloads: payloads, module: this })
-          resultPayloads.push(...(await this.divine(cleanPayloads)))
+          resultPayloads.push(...(await this.divineHandler(cleanPayloads)))
           await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
           break
         default:
@@ -89,3 +76,8 @@ export abstract class AbstractDiviner<
 
   protected abstract divineHandler(payloads?: Payload[]): Promisable<Payload[]>
 }
+
+export abstract class AbstractDiviner<
+  TParams extends DivinerParams = DivinerParams,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+> extends AbstractIndirectDiviner<TParams, TEventData> {}

@@ -1,7 +1,7 @@
-import { IndirectModule, ModuleQuery, QueryBoundWitness } from '@xyo-network/module-model'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { IndirectModule, ModuleQuery } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
 
 export const isQuerySupportedByModule = async <T extends QueryBoundWitness = QueryBoundWitness>(

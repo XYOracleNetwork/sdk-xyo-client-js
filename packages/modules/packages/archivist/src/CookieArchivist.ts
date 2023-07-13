@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -37,7 +37,7 @@ export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchiv
 export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+> extends AbstractDirectArchivist<TParams, TEventData> {
   static override configSchemas = [CookieArchivistConfigSchema]
 
   get domain() {
@@ -69,7 +69,7 @@ export class CookieArchivist<
     ]
   }
 
-  override all(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<Payload> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -80,7 +80,7 @@ export class CookieArchivist<
     }
   }
 
-  override clear(): void | Promise<void> {
+  protected override clearHandler(): void | Promise<void> {
     try {
       Object.entries(Cookies.get()).map(([key]) => {
         if (key.startsWith(`${this.namespace}-`)) {
@@ -93,7 +93,7 @@ export class CookieArchivist<
     }
   }
 
-  override async commit(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<BoundWitness[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
@@ -117,7 +117,7 @@ export class CookieArchivist<
     }
   }
 
-  override async delete(hashes: string[]): Promise<boolean[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
     try {
       const found = hashes.map((hash) => {
         Cookies.remove(this.keyFromHash(hash))
@@ -131,7 +131,7 @@ export class CookieArchivist<
     }
   }
 
-  override async get(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     try {
       return await Promise.all(
         hashes.map(async (hash) => {
@@ -145,7 +145,7 @@ export class CookieArchivist<
     }
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
     try {
       const resultPayloads: Payload[] = await Promise.all(
         payloads.map(async (payload) => {

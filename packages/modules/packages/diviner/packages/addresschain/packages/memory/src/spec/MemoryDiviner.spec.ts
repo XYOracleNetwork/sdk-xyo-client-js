@@ -1,10 +1,12 @@
 import { Account } from '@xyo-network/account'
-import { IndirectArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner'
@@ -42,10 +44,10 @@ describe('MemoryAddressHistoryDiviner', () => {
         await MemoryAddressChainDiviner.create({
           account: divinerAccount,
           config: {
-            address: archivistAccount.address,
+            address: wrapperAccount.address,
             archivist: archivist.address,
             schema: AddressChainDivinerConfigSchema,
-            startHash: await BoundWitnessWrapper.parse(all[2]).hashAsync(),
+            startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),
           },
         }),
         wrapperAccount,
@@ -54,7 +56,7 @@ describe('MemoryAddressHistoryDiviner', () => {
       await node.attach(diviner.address)
 
       const result = (await diviner.divine()) as BoundWitness[]
-      expect(result.length).toBe(1)
+      expect(result.length).toBe(4)
       expect(result[0].schema).toBe(BoundWitnessSchema)
       expect(result[0].addresses).toContain(wrapperAccount.address)
     })

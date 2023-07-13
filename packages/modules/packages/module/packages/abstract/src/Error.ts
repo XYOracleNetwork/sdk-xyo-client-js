@@ -1,5 +1,5 @@
-import { ModuleError, ModuleErrorSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder {
   _message?: string

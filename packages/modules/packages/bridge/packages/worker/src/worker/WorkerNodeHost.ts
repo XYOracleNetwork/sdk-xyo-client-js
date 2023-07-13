@@ -57,7 +57,7 @@ export class WorkerNodeHost {
         case 'xyoQuery': {
           const message: QueryMessage = event.data
           const { address, msgId, query, payloads } = message
-          const module = address ? await node.downResolver.resolveOne(address) : node
+          const module = address ? await node.downResolver.resolve(address) : node
           if (module) {
             const result: QueryResultMessage = { address, msgId, result: await module.query(query, payloads) }
             self.postMessage(result)

@@ -1,7 +1,7 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { CoingeckoCryptoMarketPayload, CoingeckoCryptoMarketSchema } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 import { CryptoMarketAssetPayload, CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
-import { DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
+import { DivinerConfig, DivinerParams, IndirectDivinerModule } from '@xyo-network/diviner'
 import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -14,8 +14,8 @@ export type CryptoMarketAssetDivinerConfig = DivinerConfig<{ schema: CryptoMarke
 export type CryptoMarketAssetDivinerParams = DivinerParams<AnyConfigSchema<CryptoMarketAssetDivinerConfig>>
 
 export class CryptoMarketAssetDiviner<TParams extends CryptoMarketAssetDivinerParams = CryptoMarketAssetDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements DivinerModule, Module
+  extends AbstractDirectDiviner<TParams>
+  implements IndirectDivinerModule, Module
 {
   static override configSchemas = [CryptoMarketAssetDivinerConfigSchema]
   static override targetSchema = CryptoMarketAssetSchema

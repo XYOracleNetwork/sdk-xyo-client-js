@@ -1,10 +1,10 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistModule, asArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, Module, ModuleConfig, ModuleError, ModuleEventData, ModuleParams, ModuleQueryResult, Query } from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { AbstractModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
+import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
@@ -44,7 +44,7 @@ export abstract class ArchivingModule<
     return (
       await Promise.all(
         archivists.map((archivist) => {
-          return isArchivistInstance(archivist) ? archivist.insert(payloads) : ArchivistWrapper.wrap(archivist, this.account).insert(payloads)
+          return isArchivistInstance(archivist) ? archivist.insert(payloads) : IndirectArchivistWrapper.wrap(archivist, this.account).insert(payloads)
         }),
       )
     ).map(([bw]) => bw)

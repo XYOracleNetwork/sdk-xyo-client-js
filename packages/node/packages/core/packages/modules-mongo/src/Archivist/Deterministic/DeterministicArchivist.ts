@@ -3,30 +3,21 @@ import { exists } from '@xylabs/exists'
 import { fulfilledValues } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
-  AbstractArchivist,
+  AbstractIndirectArchivist,
   ArchivistConfig,
   ArchivistConfigSchema,
-  ArchivistGetQuery,
   ArchivistGetQuerySchema,
-  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistParams,
   ArchivistQuery,
 } from '@xyo-network/archivist'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AnyConfigSchema,
-  ModuleConfig,
-  ModuleError,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
+import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -60,7 +51,7 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
 
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
-> extends AbstractArchivist<TParams> {
+> extends AbstractIndirectArchivist<TParams> {
   static override configSchemas = [ArchivistConfigSchema]
 
   get boundWitnesses() {
@@ -75,20 +66,12 @@ export class MongoDBDeterministicArchivist<
     return [ArchivistInsertQuerySchema, ...super.queries]
   }
 
-  /*override async get(hashes: string[]): Promise<Payload[]> {
-    throw new Error('get method must be called via query')
-  }*/
-
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
     return head[0] ? PayloadWrapper.wrap(head[0]).body() : undefined
   }
 
-  insert(_items: Payload[]): Promise<BoundWitness[]> {
-    throw new Error('insert method must be called via query')
-  }
-
-  protected async getHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
@@ -96,23 +79,21 @@ export class MongoDBDeterministicArchivist<
     return succeeded.filter(exists).map(toReturnValue)
   }
 
-  protected async insertInternal(wrapper: QueryBoundWitnessWrapper<ArchivistQuery>, queryPayload: ArchivistInsertQuery): Promise<BoundWitness[]> {
-    const toStore = [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())]
-    const [bw, p] = await validByType(toStore)
+  protected override async insertHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
+    const [bw, p] = await validByType(payloads)
     const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
-    const payloads = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
+    const payloadsWithMeta = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
     }
-    if (payloads.length) {
-      const payloadsResult = await this.payloads.insertMany(payloads)
-      if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloads.length)
+    if (payloadsWithMeta.length) {
+      const payloadsResult = await this.payloads.insertMany(payloadsWithMeta)
+      if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloadsWithMeta.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
-    const [result] = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...wrapper.payloadsArray.map((p) => p.payload())])
-    return [result[0]]
+    return boundWitnesses
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -135,7 +116,9 @@ export class MongoDBDeterministicArchivist<
           break
         }
         case ArchivistInsertQuerySchema: {
-          resultPayloads.push(...(await this.insertInternal(wrapper, queryPayload)))
+          await this.insertHandler([wrapper.boundwitness, ...(payloads ?? [])])
+          const [result] = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...(payloads ?? [])])
+          resultPayloads.push(result[0])
           break
         }
         default:

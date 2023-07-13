@@ -1,6 +1,6 @@
+import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, DirectArchivistWrapper } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
-import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/modules'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
 import { getArchivist, getNewBoundWitness, getNewPayload, nonExistentHash, unitTestSigningAccount, validateDiscoverResponse } from '../../testUtil'
@@ -10,7 +10,7 @@ const moduleName = 'Archivist'
 describe(`/${moduleName}`, () => {
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
   const payloadWrappers: PayloadWrapper[] = []
-  let archivist: ArchivistWrapper
+  let archivist: DirectArchivistWrapper
   const cases: [string, PayloadWrapperBase[]][] = [
     ['Payload', []],
     ['BoundWitness', []],

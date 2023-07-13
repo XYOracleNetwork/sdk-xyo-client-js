@@ -14,13 +14,16 @@
     "@xylabs/buffer": "^2.9.3",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/boundwitness-validator": "workspace:^",
     "@xyo-network/boundwitness-wrapper": "workspace:^",
     "@xyo-network/core": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/error": "workspace:^",
     "@xyo-network/payload": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
+    "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/shared": "workspace:^",
-    "async-mutex": "^0.4.0"
+    "async-mutex": "^0.4.0",
+    "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

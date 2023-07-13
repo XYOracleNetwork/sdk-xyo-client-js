@@ -1,9 +1,10 @@
 import { Account } from '@xyo-network/account'
-import { IndirectArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 
 import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner'
 

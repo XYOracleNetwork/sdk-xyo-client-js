@@ -13,19 +13,15 @@ import {
   ArchivistParams,
   ArchivistQuery,
   ArchivistQueryBase,
+  IndirectArchivistModule,
+  isArchivistInstance,
 } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AbstractModule,
-  ModuleConfig,
-  ModuleError,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { AbstractIndirectModule, duplicateModules, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -36,12 +32,12 @@ export interface ArchivistParentModules {
   write?: Record<string, ArchivistModule>
 }
 
-export abstract class AbstractArchivist<
+export abstract class AbstractIndirectArchivist<
     TParams extends ArchivistParams = ArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
-  extends AbstractModule<TParams, TEventData>
-  implements ArchivistModule<TParams>
+  extends AbstractIndirectModule<TParams, TEventData>
+  implements IndirectArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentModules
@@ -69,36 +65,20 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
-  all(): PromisableArray<Payload> {
+  protected allHandler(): PromisableArray<Payload> {
     throw Error('Not implemented')
   }
 
-  clear(): Promisable<void> {
+  protected clearHandler(): Promisable<void> {
     throw Error('Not implemented')
   }
 
-  commit(): Promisable<BoundWitness[]> {
+  protected commitHandler(): Promisable<BoundWitness[]> {
     throw Error('Not implemented')
   }
 
-  delete(_hashes: string[]): PromisableArray<boolean> {
+  protected deleteHandler(_hashes: string[]): PromisableArray<boolean> {
     throw Error('Not implemented')
-  }
-
-  async get(hashes: string[]): Promise<Payload[]> {
-    return await this.busy(async () => {
-      return compact(
-        await Promise.all(
-          hashes.map(async (hash) => {
-            return (await this.getFromParents(hash)) ?? null
-          }),
-        ),
-      )
-    })
-  }
-
-  head(): Promisable<Payload | undefined> {
-    return this._lastInsertedPayload
   }
 
   protected async getFromParents(hash: string) {
@@ -124,6 +104,22 @@ export abstract class AbstractArchivist<
     return null
   }
 
+  protected async getHandler(hashes: string[]): Promise<Payload[]> {
+    return await this.busy(async () => {
+      return compact(
+        await Promise.all(
+          hashes.map(async (hash) => {
+            return (await this.getFromParents(hash)) ?? null
+          }),
+        ),
+      )
+    })
+  }
+
+  protected head(): Promisable<Payload | undefined> {
+    return this._lastInsertedPayload
+  }
+
   protected async parents() {
     this._parents = this._parents ?? {
       commit: await this.resolveArchivists(this.config?.parents?.commit),
@@ -145,25 +141,25 @@ export abstract class AbstractArchivist<
     const errorPayloads: ModuleError[] = []
     const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     if (this.config.storeQueries) {
-      await this.insert([query])
+      await this.insertHandler([query])
     }
     try {
       switch (queryPayload.schema) {
         case ArchivistAllQuerySchema:
-          resultPayloads.push(...(await this.all()))
+          resultPayloads.push(...(await this.allHandler()))
           break
         case ArchivistClearQuerySchema:
-          await this.clear()
+          await this.clearHandler()
           break
         case ArchivistCommitQuerySchema:
-          resultPayloads.push(...(await this.commit()))
+          resultPayloads.push(...(await this.commitHandler()))
           break
         case ArchivistDeleteQuerySchema:
-          await this.delete(wrappedQuery.payloadHashes)
+          await this.deleteHandler(wrappedQuery.payloadHashes)
           break
         case ArchivistGetQuerySchema:
           if (queryPayload.hashes?.length) {
-            resultPayloads.push(...(await this.get(queryPayload.hashes)))
+            resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
           } else {
             const head = await this.head()
             if (head) resultPayloads.push(head)
@@ -177,7 +173,7 @@ export abstract class AbstractArchivist<
             resolvedPayloads.length === payloads.length,
             `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`,
           )
-          resultPayloads.push(...(await this.insert(payloads)))
+          resultPayloads.push(...(await this.insertHandler(payloads)))
           // NOTE: There isn't an exact equivalence between what we get and what we store. Once
           // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
           // can grab the actual last one
@@ -203,7 +199,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
-    return await parent.insert(payloads)
+    return isArchivistInstance(parent) ? await parent.insert(payloads) : await IndirectArchivistWrapper.wrap(parent, this.account).insert(payloads)
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<BoundWitness[]> {
@@ -219,28 +215,28 @@ export abstract class AbstractArchivist<
   }
 
   private async resolveArchivists(archivists: string[] = []) {
-    const resolvedModules = [
+    const archivistModules = [
       ...(await this.resolve<ArchivistModule>({ address: archivists })),
       ...(await this.resolve<ArchivistModule>({ name: archivists })),
-    ]
-    const downResolvedModules = [
-      ...(await this.downResolver.resolve<ArchivistModule>({ address: archivists })),
-      ...(await this.downResolver.resolve<ArchivistModule>({ name: archivists })),
-    ]
-    const modules: ArchivistModule[] = [...resolvedModules, ...downResolvedModules] ?? []
+    ].filter(duplicateModules)
 
     assertEx(
-      !this.requireAllParents || modules.length === archivists.length,
+      !this.requireAllParents || archivistModules.length === archivists.length,
       `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-        modules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+        archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
       )}]`,
     )
 
-    return modules.reduce<Record<string, ArchivistModule>>((prev, module) => {
+    return archivistModules.reduce<Record<string, ArchivistModule>>((prev, module) => {
       prev[module.address] = module
       return prev
     }, {})
   }
 
-  abstract insert(item: Payload[]): PromisableArray<BoundWitness>
+  protected abstract insertHandler(item: Payload[]): PromisableArray<BoundWitness>
 }
+
+export abstract class AbstractArchivist<
+  TParams extends ArchivistParams = ArchivistParams,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> extends AbstractIndirectArchivist<TParams, TEventData> {}

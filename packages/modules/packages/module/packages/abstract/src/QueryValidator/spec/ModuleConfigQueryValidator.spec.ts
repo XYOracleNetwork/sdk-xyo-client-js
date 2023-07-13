@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   AddressString,
   CosigningAddressSet,
@@ -9,7 +10,6 @@ import {
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { QueryBoundWitnessBuilder } from '../../Query'
 import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
 
 const schema = ModuleDiscoverQuerySchema

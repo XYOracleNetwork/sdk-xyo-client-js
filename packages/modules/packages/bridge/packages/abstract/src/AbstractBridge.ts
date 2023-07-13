@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConfigSchema,
   BridgeConnectQuerySchema,
@@ -15,17 +16,13 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
-  ModuleError,
   ModuleErrorBuilder,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  Query,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
 } from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<

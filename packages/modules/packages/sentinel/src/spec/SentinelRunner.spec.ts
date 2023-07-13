@@ -1,6 +1,7 @@
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { IdSchema } from '@xyo-network/id-payload-plugin'
+import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node'
-import { IdSchema, IdWitness, IdWitnessConfigSchema } from '@xyo-network/plugins'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'

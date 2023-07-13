@@ -1,1 +1,2 @@
-export * from './AbstractDiviner'
+export * from './AbstractDirectDiviner'
+export * from './AbstractIndirectDiviner'

@@ -1,8 +1,7 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleError } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 
 import { unitTestSigningAccount } from '../Account'
 import { getNewPayloads } from '../Payload'

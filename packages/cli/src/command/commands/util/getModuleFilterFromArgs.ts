@@ -1,4 +1,4 @@
-import { AnyModuleFilter, ModuleFilter } from '@xyo-network/modules'
+import { AnyModuleFilter, ModuleFilter } from '@xyo-network/module-model'
 
 import { ModuleArguments } from '../ModuleArguments'
 

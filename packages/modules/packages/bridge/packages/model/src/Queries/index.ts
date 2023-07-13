@@ -1,4 +1,5 @@
-import { ModuleQuery, ModuleQueryBase, Query } from '@xyo-network/module-model'
+import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/payload-model'
 
 import { BridgeConnectQuery } from './Connect'
 import { BridgeDisconnectQuery } from './Disconnect'

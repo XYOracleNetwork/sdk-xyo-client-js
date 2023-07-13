@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuerySchema, ArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistGetQuerySchema, ArchivistModule, DirectArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { constructableModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 
 import { IndirectArchivistWrapper } from './IndirectArchivistWrapper'
@@ -9,7 +9,7 @@ import { IndirectArchivistWrapper } from './IndirectArchivistWrapper'
 constructableModuleWrapper()
 export class DirectArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends IndirectArchivistWrapper<TWrappedModule>
-  implements ArchivistModule<TWrappedModule['params']>
+  implements DirectArchivistModule<TWrappedModule['params']>
 {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
@@ -49,7 +49,7 @@ export type MongoDBPayloadStatsDivinerParams = DivinerParams<
 const moduleName = 'MongoDBPayloadStatsDiviner'
 
 export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivinerParams = MongoDBPayloadStatsDivinerParams>
-  extends AbstractDiviner<TParams>
+  extends AbstractDirectDiviner<TParams>
   implements PayloadStatsDiviner, JobProvider
 {
   static override configSchemas = [PayloadStatsDivinerConfigSchema]

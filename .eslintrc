@@ -15,6 +15,29 @@
   ],
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "paths": [
+          "@xyo-network/modules",
+          "@xyo-network/plugins",
+          "@xyo-network/protocol",
+          "lodash",
+          "react-player",
+          "filepond",
+          "aos",
+          "react-icons",
+          ".",
+          "..",
+          "../..",
+          "../../..",
+          "../../../..",
+          "../../../../..",
+          "../../../../../..",
+          "../../../../../../..",
+        ]
+      }
+    ],
     "import/no-internal-modules": [
       "warn", {
         "allow": [

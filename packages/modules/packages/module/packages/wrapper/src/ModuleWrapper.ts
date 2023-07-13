@@ -1,14 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
+import { QueryBoundWitness, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Base } from '@xyo-network/core'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { duplicateModules, QueryBoundWitnessBuilder } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  duplicateModules,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -17,16 +18,12 @@ import {
   ModuleDescription,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleError,
-  ModuleErrorSchema,
   ModuleFilter,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  Query,
-  QueryBoundWitness,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'

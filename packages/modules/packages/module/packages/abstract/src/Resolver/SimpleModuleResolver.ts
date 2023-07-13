@@ -48,27 +48,27 @@ export class SimpleModuleResolver implements ModuleRepository {
     throw 'Removing resolvers not supported'
   }
 
-  resolve<T extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promisable<T[]> {
-    const filteredByName: T[] = this.resolveByName<T>(Object.values(this.modules) as T[], (filter as NameModuleFilter)?.name)
-
-    const filteredByAddress: T[] = (filter as AddressModuleFilter)?.address
-      ? this.resolveByAddress<T>(filteredByName, (filter as AddressModuleFilter)?.address)
-      : filteredByName
-
-    const filteredByQuery: T[] = (filter as QueryModuleFilter)?.query
-      ? this.resolveByQuery<T>(filteredByAddress, (filter as QueryModuleFilter)?.query)
-      : filteredByAddress
-
-    return filteredByQuery
-  }
-
-  resolveOne<T extends IndirectModule = IndirectModule>(filter: string): Promisable<T | undefined> {
-    const allModules = Object.values(this.modules) as T[]
-    for (const resolutionMethod of [this.resolveByAddress, this.resolveByName]) {
-      const filtered: T[] = resolutionMethod(allModules, [filter])
-      if (filtered.length === 1) return filtered[0]
+  resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promisable<TModule[]>
+  resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promisable<TModule | undefined>
+  resolve<TModule extends IndirectModule = IndirectModule>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+  ): Promisable<TModule | TModule[] | undefined> {
+    if (nameOrAddressOrFilter) {
+      if (typeof nameOrAddressOrFilter === 'string') {
+        return (
+          this.resolveByName(Object.values(this.modules) as TModule[], [nameOrAddressOrFilter]).pop() ??
+          this.resolveByAddress(Object.values(this.modules) as TModule[], [nameOrAddressOrFilter]).pop()
+        )
+      } else if ((nameOrAddressOrFilter as AddressModuleFilter).address) {
+        return this.resolveByAddress<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as AddressModuleFilter).address)
+      } else if ((nameOrAddressOrFilter as NameModuleFilter).name) {
+        return this.resolveByName<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as NameModuleFilter).name)
+      } else if ((nameOrAddressOrFilter as QueryModuleFilter).query) {
+        return this.resolveByQuery<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as QueryModuleFilter).query)
+      }
+    } else {
+      return Object.values(this.modules) as TModule[]
     }
-    return undefined
   }
 
   private addSingleModule(module?: IndirectModule) {
@@ -94,7 +94,7 @@ export class SimpleModuleResolver implements ModuleRepository {
       ? compact(
           flatten(
             address?.map((address) => {
-              return modules.filter((modules) => modules.address === address)
+              return modules.filter((module) => module.address === address)
             }),
           ),
         )

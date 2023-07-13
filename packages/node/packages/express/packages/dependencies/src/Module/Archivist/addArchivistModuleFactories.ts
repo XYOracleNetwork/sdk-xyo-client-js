@@ -1,5 +1,7 @@
 import { HDWallet } from '@xyo-network/account'
-import { ArchivistConfigSchema, CreatableModuleDictionary, MemoryArchivist, ModuleFactory } from '@xyo-network/modules'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 

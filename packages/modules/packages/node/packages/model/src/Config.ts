@@ -1,4 +1,4 @@
-import { ModuleConfig } from '@xyo-network/module'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type NodeConfigSchema = 'network.xyo.node.config'

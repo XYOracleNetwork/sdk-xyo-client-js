@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -36,7 +36,7 @@ export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDb
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+> extends AbstractDirectArchivist<TParams, TEventData> {
   static override configSchemas = [IndexedDbArchivistConfigSchema]
   static defaultDbName = 'archivist'
   static defaultStoreName = 'payloads'
@@ -75,34 +75,41 @@ export class IndexedDbArchivist<
     return assertEx(this._db, 'DB not initialized')
   }
 
-  override async all(): Promise<Payload[]> {
+  override async start(): Promise<void> {
+    await super.start()
+    // NOTE: We could defer this creation to first access but we
+    // want to fail fast here in case something is wrong
+    this._db = createStore(this.dbName, this.storeName)
+  }
+
+  protected override async allHandler(): Promise<Payload[]> {
     return await this.busy(async () => {
       const result = await entries<string, Payload>(this.db)
       return result.map<Payload>(([_hash, payload]) => payload)
     })
   }
 
-  override async clear(): Promise<void> {
+  protected override async clearHandler(): Promise<void> {
     return await this.busy(async () => {
       await clear(this.db)
     })
   }
 
-  override async delete(hashes: string[]): Promise<boolean[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
     return await this.busy(async () => {
       await delMany(hashes, this.db)
       return hashes.map((_) => true)
     })
   }
 
-  override async get(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     return await this.busy(async () => {
       const result = await getMany<Payload>(hashes, this.db)
       return result
     })
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
     return await this.busy(async () => {
       const entries = await Promise.all(
         payloads.map<Promise<[string, Payload]>>(async (payload) => {
@@ -114,12 +121,5 @@ export class IndexedDbArchivist<
       const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
       return [result[0]]
     })
-  }
-
-  override async start(): Promise<void> {
-    await super.start()
-    // NOTE: We could defer this creation to first access but we
-    // want to fail fast here in case something is wrong
-    this._db = createStore(this.dbName, this.storeName)
   }
 }

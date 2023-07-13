@@ -1,5 +1,6 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistModule, IndirectArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistModule } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 
 import { unitTestSigningAccount } from '../Account'
 import { getModuleByName } from '../Node'

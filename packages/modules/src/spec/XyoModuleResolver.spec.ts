@@ -1,11 +1,12 @@
 /* eslint-disable import/no-internal-modules */
-import { ArchivistGetQuerySchema, MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema, DirectArchivistModule } from '@xyo-network/archivist-model'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { AbstractModule, CompositeModuleResolver } from '@xyo-network/module'
 import { WitnessObserveQuerySchema } from '@xyo-network/witness'
 
 describe('ModuleResolver', () => {
-  let archivist: AbstractModule
+  let archivist: DirectArchivistModule
   let witness: AbstractModule
   let resolver: CompositeModuleResolver
   beforeAll(async () => {

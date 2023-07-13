@@ -1,1 +1,2 @@
-export * from './AbstractArchivist'
+export * from './AbstractDirectArchivist'
+export * from './AbstractIndirectArchivist'

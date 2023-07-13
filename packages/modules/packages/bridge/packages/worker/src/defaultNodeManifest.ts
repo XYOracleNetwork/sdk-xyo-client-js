@@ -1,4 +1,4 @@
-import { ArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { ManifestPayload } from '@xyo-network/manifest-model'
 import { NodeConfigSchema } from '@xyo-network/node'
 import { SentinelConfigSchema } from '@xyo-network/sentinel'

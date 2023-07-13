@@ -5,7 +5,7 @@ import {
   AddressTransactionHistorySchema,
   AddressTransactionHistoryWitnessConfigSchema,
 } from '@xyo-network/crypto-address-transaction-history-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 

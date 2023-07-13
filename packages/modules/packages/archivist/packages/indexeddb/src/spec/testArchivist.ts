@@ -3,7 +3,7 @@
  */
 
 import { delay } from '@xylabs/delay'
-import { ArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
@@ -11,7 +11,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IdSchema } from '@xyo-network/plugins'
 import { Promisable } from '@xyo-network/promise'
 
-export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, name: string) => {
+export const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist RoundTrip [${name}]`, async () => {
     const idPayload: Payload<{ salt: string }> = {
       salt: Date.now().toString(),
@@ -37,7 +37,7 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistModule>, n
   })
 }
 
-export const testArchivistAll = (archivist: Promisable<ArchivistModule>, name: string) => {
+export const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist All [${name}]`, async () => {
     const idPayload = {
       salt: Date.now().toString(),

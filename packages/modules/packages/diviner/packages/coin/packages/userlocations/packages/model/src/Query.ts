@@ -1,5 +1,4 @@
-import { Query } from '@xyo-network/module-model'
-import { Payload, PayloadFindFilter } from '@xyo-network/payload-model'
+import { Payload, PayloadFindFilter, Query } from '@xyo-network/payload-model'
 
 import { CoinUserLocationsQuerySchema } from './Schema'
 

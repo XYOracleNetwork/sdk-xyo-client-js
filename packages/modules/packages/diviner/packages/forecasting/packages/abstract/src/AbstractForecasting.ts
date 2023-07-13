@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   ForecastingDivinerConfig,
@@ -20,7 +20,7 @@ export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<Forecasting
 
 export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
-> extends AbstractDiviner<TParams> {
+> extends AbstractDirectDiviner<TParams> {
   static override configSchemas = [ForecastingDivinerConfigSchema]
 
   protected abstract get forecastingMethod(): ForecastingMethod

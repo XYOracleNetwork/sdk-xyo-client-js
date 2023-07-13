@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -34,7 +34,7 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+> extends AbstractDirectArchivist<TParams, TEventData> {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _cache?: LRUCache<string, Payload>
@@ -59,18 +59,18 @@ export class MemoryArchivist<
     ]
   }
 
-  override all(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<Payload> {
     return compact(this.cache.dump().map((value) => value[1].value))
   }
 
-  override clear(): void | Promise<void> {
+  protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
     return this.emit('cleared', { module: this })
   }
 
-  override async commit(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<BoundWitness[]> {
     return await this.busy(async () => {
-      const payloads = assertEx(await this.all(), 'Nothing to commit')
+      const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
@@ -83,12 +83,12 @@ export class MemoryArchivist<
           }),
         ),
       )
-      await this.clear()
+      await this.clearHandler()
       return compact(settled.filter(fulfilled).map((result) => result.value))
     })
   }
 
-  override async delete(hashes: string[]): Promise<boolean[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
     const found = hashes.map((hash) => {
       return this.cache.delete(hash)
     })
@@ -96,7 +96,7 @@ export class MemoryArchivist<
     return found
   }
 
-  override async get(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     return await this.busy(async () => {
       return compact(
         await Promise.all(
@@ -115,7 +115,7 @@ export class MemoryArchivist<
     })
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
     return await this.busy(async () => {
       await Promise.all(
         payloads.map((payload) => {

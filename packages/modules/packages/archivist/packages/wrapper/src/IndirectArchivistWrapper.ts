@@ -11,11 +11,13 @@ import {
   ArchivistGetQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistInstance,
   ArchivistModule,
+  IndirectArchivistModule,
 } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
@@ -23,7 +25,7 @@ import compact from 'lodash/compact'
 constructableModuleWrapper()
 export class IndirectArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends ModuleWrapper<TWrappedModule>
-  implements ArchivistModule<TWrappedModule['params']>
+  implements IndirectArchivistModule<TWrappedModule['params']>, ArchivistInstance
 {
   static override requiredQueries = [ArchivistGetQuerySchema, ...super.requiredQueries]
 

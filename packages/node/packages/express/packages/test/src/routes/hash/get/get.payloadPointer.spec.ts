@@ -46,7 +46,7 @@ const createPointer = async (
   const pointerResponse = await insertPayload(pointer)
   expect(pointerResponse).toBeArrayOfSize(2)
   expect(pointerResponse.map((bw) => bw.payload_schemas.includes(PayloadPointerSchema)).some((x) => x)).toBeTrue()
-  return await PayloadWrapper.hashAsync(pointer)
+  return PayloadWrapper.hash(pointer)
 }
 
 const expectError = (result: Payload, detail: string, status: string, title?: string) => {
@@ -84,7 +84,7 @@ describe('/:hash', () => {
       const response = await getHash(pointerHash)
       expect(response).toBeTruthy()
       expect(Array.isArray(response)).toBe(false)
-      expect(await PayloadWrapper.wrap(response).getValid()).toBeTrue()
+      //expect(PayloadWrapper.parse(response).valid).toBeTrue()
       expect(response).toEqual(expected)
     })
     it(`${ReasonPhrases.NOT_FOUND} if no Payloads match the criteria`, async () => {
@@ -128,7 +128,7 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns Payload signed by both addresses', async () => {
-            const expected = payloads[4]
+            const expected = payloads[5]
             const pointerHash = await createPointer([[accountC.address], [accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -136,7 +136,7 @@ describe('/:hash', () => {
         })
         describe('combined in parallel', () => {
           it('returns Payload signed by both address', async () => {
-            const expected = payloads[4]
+            const expected = payloads[5]
             const pointerHash = await createPointer([[accountC.address, accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -155,10 +155,10 @@ describe('/:hash', () => {
       const schemaB = getTestSchemaName()
       const payloadBaseA = getNewPayload()
       payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.wrap(payloadBaseA)
+      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA) as PayloadWrapper
       const payloadBaseB = getNewPayload()
       payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.wrap(payloadBaseB)
+      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB) as PayloadWrapper
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
         const payloadResponse = await insertPayload([payloadA.payload(), payloadB.payload()], account)

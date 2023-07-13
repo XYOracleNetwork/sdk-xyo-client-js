@@ -1,5 +1,7 @@
+import { ArchivistGetQuerySchema, IndirectArchivistModule } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { EmptyObject } from '@xyo-network/core'
-import { ArchivistGetQuerySchema, isDirectModule, ModuleWrapper } from '@xyo-network/modules'
+import { isDirectModule } from '@xyo-network/module-model'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -18,9 +20,9 @@ export const handler = async (argv: ArgumentsCamelCase<BaseArguments>) => {
   const { verbose } = argv
   try {
     const node = await getNode(argv)
-    const modules = await node.downResolver.resolve({ query: [[ArchivistGetQuerySchema]] })
+    const modules = (await node.downResolver.resolve({ query: [[ArchivistGetQuerySchema]] })) as IndirectArchivistModule[]
     const descriptions = await Promise.all(
-      modules.map((module) => (isDirectModule(module) ? module.describe() : ModuleWrapper.wrap(module).describe())),
+      modules.map((module) => (isDirectModule(module) ? module.describe() : IndirectArchivistWrapper.wrap(module).describe())),
     )
     printLine(JSON.stringify(descriptions))
   } catch (error) {

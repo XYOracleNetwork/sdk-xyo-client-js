@@ -1,4 +1,4 @@
-import { Query } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/payload-model'
 
 export type ArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'
 export const ArchivistInsertQuerySchema: ArchivistInsertQuerySchema = 'network.xyo.query.archivist.insert'

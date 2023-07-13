@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
@@ -16,7 +17,6 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleWrapper,
-  QueryBoundWitness,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'

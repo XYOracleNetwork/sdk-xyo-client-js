@@ -1,6 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { AnyConfigSchema, EventListener, Module } from '@xyo-network/module'
-import { isNodeModule, NodeConfig, NodeConfigSchema, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
+import {
+  DirectNodeModule,
+  isNodeModule,
+  NodeConfig,
+  NodeConfigSchema,
+  NodeModule,
+  NodeModuleEventData,
+  NodeModuleParams,
+} from '@xyo-network/node-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
@@ -9,7 +17,7 @@ export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
-  implements NodeModule<TParams, TEventData>
+  implements DirectNodeModule<TParams, TEventData>
 {
   static override configSchemas = [NodeConfigSchema]
 
@@ -28,7 +36,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     this.registeredModuleMap[module.address] = module
     const args = { module, name: module.config.name }
     await this.emit('moduleRegistered', args)
-    return this
   }
 
   override registered() {

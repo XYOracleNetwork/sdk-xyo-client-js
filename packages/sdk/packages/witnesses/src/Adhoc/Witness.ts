@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'

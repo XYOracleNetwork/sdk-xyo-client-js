@@ -1,5 +1,5 @@
 import { HttpBridge } from '@xyo-network/http-bridge'
-import { asModule, Module, ModuleFilter } from '@xyo-network/modules'
+import { asModule, Module, ModuleFilter } from '@xyo-network/module-model'
 
 import { printError } from '../../../lib'
 import { BaseArguments } from '../../BaseArguments'

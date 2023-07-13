@@ -1,12 +1,12 @@
 import { AnyObject } from '@xyo-network/core'
 import { EventData } from '@xyo-network/module'
-import { AnyConfigSchema, ModuleEventArgs, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, DirectModule, IndirectModule, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { DivinerConfig } from './Config'
 
-export interface DivinerInstance {
+export interface DivinerQueryFunctions {
   divine: (payloads?: Payload[]) => Promisable<Payload[]>
 }
 
@@ -44,7 +44,22 @@ export type DivinerParams<
   TAdditional extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TAdditional>
 
+export type IndirectDivinerModule<
+  TParams extends DivinerParams<AnyConfigSchema<DivinerConfig>> = DivinerParams<AnyConfigSchema<DivinerConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectModule<TParams, TEventData>
+
+export type DirectDivinerModule<
+  TParams extends DivinerParams<AnyConfigSchema<DivinerConfig>> = DivinerParams<AnyConfigSchema<DivinerConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectDivinerModule<TParams, TEventData> & DivinerQueryFunctions & DirectModule
+
 export type DivinerModule<
-  TParams extends DivinerParams = DivinerParams,
+  TParams extends DivinerParams<AnyConfigSchema<DivinerConfig>> = DivinerParams<AnyConfigSchema<DivinerConfig>>,
   TEventData extends DivinerModuleEventData = DivinerModuleEventData,
-> = DivinerInstance & ModuleInstance<TParams, TEventData>
+> = IndirectDivinerModule<TParams, TEventData> | DirectDivinerModule<TParams, TEventData>
+
+export type DivinerInstance<
+  TParams extends DivinerParams<AnyConfigSchema<DivinerConfig>> = DivinerParams<AnyConfigSchema<DivinerConfig>>,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+> = DirectDivinerModule<TParams, TEventData>

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { DirectArchivistModule } from '@xyo-network/archivist-model'
+import { DirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'
@@ -24,21 +25,25 @@ export class MemoryAddressChainDiviner<
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
-    const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const archivists = [ArchivistWrapper.wrap(archivistMod, this.account)]
-    let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
-    while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
-      const bwPayload: BoundWitness | undefined = await this.archivistFindHash(archivists, currentHash)
-      const bwWrapper: BoundWitnessWrapper | undefined = BoundWitnessWrapper.tryParse(bwPayload)
-      if (bwWrapper) {
-        result.push(bwWrapper.payload())
-        currentHash = bwWrapper.prev(this.queryAddress)
+    try {
+      const archivistIn = await this.readArchivist()
+      const archivist = assertEx(archivistIn, 'Unable to resolve archivist')
+      let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
+      while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
+        const bwPayload: BoundWitness | undefined = await this.archivistFindHash([archivist], currentHash)
+        const bwWrapper: BoundWitnessWrapper | undefined = BoundWitnessWrapper.tryParse(bwPayload)
+        if (bwWrapper) {
+          result.push(bwWrapper.payload())
+          currentHash = bwWrapper.prev(this.queryAddress)
+        }
       }
+    } catch (ex) {
+      console.log(ex)
     }
     return result
   }
 
-  private async archivistFindHash(archivists: ArchivistWrapper[], hash: string): Promise<BoundWitness | undefined> {
+  private async archivistFindHash(archivists: DirectArchivistModule[], hash: string): Promise<BoundWitness | undefined> {
     let index = 0
     if (archivists[index]) {
       const result = (await archivists[index].get([hash])).pop() as BoundWitness

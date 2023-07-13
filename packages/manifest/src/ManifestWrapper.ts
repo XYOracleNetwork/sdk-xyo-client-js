@@ -5,7 +5,7 @@ import { MemoryNode, NodeModule } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { standardCreatableModules } from './ModuleFactory'
+import { standardCreatableModules } from './standardCreatableModules'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   constructor(payload: ManifestPayload, protected wallet: WalletInstance) {

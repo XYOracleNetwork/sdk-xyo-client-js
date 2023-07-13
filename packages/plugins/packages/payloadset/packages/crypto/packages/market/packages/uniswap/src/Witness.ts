@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
   UniswapCryptoMarketPayload,

@@ -1,4 +1,4 @@
-import { asDivinerModule, DivinerModule } from '@xyo-network/modules'
+import { asDivinerModule, DivinerModule } from '@xyo-network/diviner-model'
 
 import { printError } from '../../../../lib'
 import { ModuleArguments } from '../../ModuleArguments'

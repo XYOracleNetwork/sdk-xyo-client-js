@@ -17,23 +17,23 @@ export class MemoryBoundWitnessStatsDiviner<
 > extends BoundWitnessStatsDiviner<TParams> {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
-    if (!query) return []
-    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build())
-  }
-
   protected async divineAddress(address: string): Promise<number> {
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
+    const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     return all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address)).length
   }
 
   protected async divineAllAddresses(): Promise<number> {
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
+    const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     return all.filter(isBoundWitness).length
+  }
+
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
+    if (!query) return []
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build())
   }
 }

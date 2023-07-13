@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import { Payload } from './Payload'
 
 export type ModuleErrorSchema = 'network.xyo.error.module'
 export const ModuleErrorSchema: ModuleErrorSchema = 'network.xyo.error.module'

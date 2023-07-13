@@ -1,4 +1,4 @@
-import { ModuleParams } from '@xyo-network/module'
+import { ModuleParams } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../Witness'

@@ -5,11 +5,12 @@ Date.now = jest.fn(() => timestamp)
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
@@ -27,7 +28,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
 
   const payloadWrappers: PayloadWrapper[] = []
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
-  let archivist: ArchivistWrapper
+  let archivist: IndirectArchivistWrapper
   let insertResult1: BoundWitness[]
   // let insertResult2: BoundWitness[]
   let insertResult3: BoundWitness[]
@@ -52,7 +53,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       config: { schema: MongoDBDeterministicArchivist.configSchema },
       payloadSdk: payloads,
     })
-    archivist = ArchivistWrapper.wrap(module, archiveAccount)
+    archivist = IndirectArchivistWrapper.wrap(module, archiveAccount)
     const payload1 = { nonce: 1, schema: 'network.xyo.debug' }
     const payload2 = { nonce: 2, schema: 'network.xyo.test' }
     const payload3 = { nonce: 3, schema: 'network.xyo.debug' }
@@ -140,7 +141,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       const results = await archivist.get(payloads.map((p) => p.hash))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
-      const resultPayloads = results.map((result) => PayloadWrapper.wrap(result))
+      const resultPayloads = results.map((result) => PayloadWrapper.wrap(result as Payload))
       const resultHashes = await Promise.all(resultPayloads.map((p) => p.hashAsync()))
       payloads.map((p) => {
         expect(resultHashes).toInclude(p.hash)

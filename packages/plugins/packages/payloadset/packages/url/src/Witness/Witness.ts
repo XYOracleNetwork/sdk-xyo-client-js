@@ -13,7 +13,7 @@ export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> ext
     return this.config?.url
   }
 
-  override async observe(payloads: Payload[] = []): Promise<Payload[]> {
+  protected override async observeHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const urls: UrlPayload[] = this.url
       ? [{ schema: UrlSchema, url: this.url }]
       : payloads
@@ -28,6 +28,6 @@ export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> ext
       }),
     )
     // TODO: Handle partial success
-    return await super.observe(hashed)
+    return hashed
   }
 }

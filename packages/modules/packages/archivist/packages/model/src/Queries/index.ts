@@ -5,7 +5,8 @@ export * from './Delete'
 export * from './Get'
 export * from './Insert'
 
-import { ModuleQuery, ModuleQueryBase, Query } from '@xyo-network/module-model'
+import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
+import { Query } from '@xyo-network/payload-model'
 
 import { ArchivistAllQuery } from './All'
 import { ArchivistClearQuery } from './Clear'

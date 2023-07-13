@@ -1,7 +1,8 @@
 import { Account } from '@xyo-network/account'
+import { DirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
+import { DirectDivinerWrapper, DivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
-import { ArchivistWrapper, DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 
 import { getArchivist, getDivinerByName, getNewBoundWitnesses, validateDiscoverResponse } from '../../testUtil'
 
@@ -11,8 +12,8 @@ const divinerName = 'AddressHistoryDiviner'
 
 describe(`/${divinerName}`, () => {
   const account = Account.randomSync()
-  let sut: DivinerWrapper
-  let archivist: ArchivistWrapper
+  let sut: DirectDivinerWrapper
+  let archivist: DirectArchivistWrapper
   beforeAll(async () => {
     archivist = await getArchivist(account)
     sut = await getDivinerByName(divinerName)

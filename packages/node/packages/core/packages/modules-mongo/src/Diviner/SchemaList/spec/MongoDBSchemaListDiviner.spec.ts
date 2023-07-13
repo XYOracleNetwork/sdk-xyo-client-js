@@ -5,6 +5,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
   SchemaListDivinerConfigSchema,
   SchemaListDivinerSchema,
+  SchemaListPayload,
   SchemaListQueryPayload,
   SchemaListQuerySchema,
 } from '@xyo-network/diviner-schema-list-model'
@@ -46,7 +47,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
         const query: SchemaListQueryPayload = { address, schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
+        const actual = result[0] as SchemaListPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(SchemaListDivinerSchema)
         expect(actual.schemas).toBeArray()
@@ -60,7 +61,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
         const query: SchemaListQueryPayload = { schema: SchemaListQuerySchema }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
-        const actual = result[0]
+        const actual = result[0] as SchemaListPayload
         expect(actual).toBeObject()
         expect(actual.schema).toBe(SchemaListDivinerSchema)
         expect(actual.schemas).toBeArray()

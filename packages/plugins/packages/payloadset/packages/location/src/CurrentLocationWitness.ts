@@ -25,7 +25,7 @@ export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams
     })
   }
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const location = await this.getCurrentPosition()
     const locationPayload: LocationPayload = {
       altitude: location.coords.altitude ?? undefined,
@@ -43,6 +43,6 @@ export class CurrentLocationWitness<TParams extends CurrentLocationWitnessParams
           },
         ]
       : []
-    return super.observe([locationPayload, ...heading])
+    return [locationPayload, ...heading]
   }
 }

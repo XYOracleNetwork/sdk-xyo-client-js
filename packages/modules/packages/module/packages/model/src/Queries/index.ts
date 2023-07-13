@@ -1,4 +1,5 @@
-import { Query } from '../Query'
+import { Query } from '@xyo-network/payload-model'
+
 import { ModuleDescribeQuery } from './Describe'
 import { ModuleDiscoverQuery } from './Discover'
 import { ModuleAddressQuery } from './ModuleAddress'

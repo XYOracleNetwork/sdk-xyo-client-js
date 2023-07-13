@@ -13,7 +13,7 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/promise": "^2.9.3",
     "@xyo-network/abstract-diviner": "workspace:^",
-    "@xyo-network/archivist": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
     "@xyo-network/archivist-wrapper": "workspace:^",
     "@xyo-network/diviner-model": "workspace:^",
     "@xyo-network/diviner-wrapper": "workspace:^",

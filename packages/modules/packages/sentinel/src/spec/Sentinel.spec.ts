@@ -1,7 +1,7 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 
-import { AbstractArchivist, Archivist, MemoryArchivist } from '@xyo-network/archivist'
+import { Archivist, DirectArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -90,8 +90,8 @@ describe('Sentinel', () => {
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {
-      let archivistA: AbstractArchivist
-      let archivistB: AbstractArchivist
+      let archivistA: DirectArchivistModule
+      let archivistB: DirectArchivistModule
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
       const assertPanelReport = async (panelReport: Payload[]) => {
@@ -234,7 +234,7 @@ describe('Sentinel', () => {
           },
         }
         class FailingWitness extends AdhocWitness {
-          override async observe(): Promise<Payload[]> {
+          protected override async observeHandler(): Promise<Payload[]> {
             await Promise.reject(Error('observation failed'))
             return [{ schema: 'fake.result' }]
           }

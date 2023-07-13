@@ -6,7 +6,7 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = PayloadDivinerParams> extends PayloadDiviner<TParams> {
   static override configSchemas = [PayloadDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')

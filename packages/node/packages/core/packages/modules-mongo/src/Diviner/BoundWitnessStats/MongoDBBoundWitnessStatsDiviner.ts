@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
 import {
@@ -12,7 +12,7 @@ import {
   BoundWitnessStatsQueryPayload,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -47,7 +47,7 @@ export type MongoDBBoundWitnessStatsDivinerParams = ModuleParams<
 const moduleName = 'MongoDBBoundWitnessStatsDiviner'
 
 export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitnessStatsDivinerParams = MongoDBBoundWitnessStatsDivinerParams>
-  extends AbstractDiviner<TParams>
+  extends AbstractDirectDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
@@ -91,13 +91,6 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     ]
   }
 
-  override async divine(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
-    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
-    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build())
-  }
-
   override async start() {
     await super.start()
     await this.registerWithChangeStream()
@@ -106,9 +99,16 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
   }
 
-  protected override async stop(): Promise<this> {
+  override async stop(): Promise<this> {
     await this.changeStream?.close()
     return await super.stop()
+  }
+
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitnessStatsPayload>[]> {
+    const query = payloads?.find<BoundWitnessStatsQueryPayload>(isBoundWitnessStatsQueryPayload)
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new PayloadBuilder<BoundWitnessStatsPayload>({ schema: BoundWitnessStatsDivinerSchema }).fields({ count }).build())
   }
 
   private backgroundDivine = async (): Promise<void> => {
@@ -142,7 +142,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
     const addressSpaceDiviners = await this.upResolver.resolve({ name: [assertEx(TYPES.AddressSpaceDiviner.description)] })
     const addressSpaceDiviner = assertEx(addressSpaceDiviners.pop(), `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
-    const result = (await DivinerWrapper.wrap(addressSpaceDiviner, this.account).divine([])) || []
+    const result = (await IndirectDivinerWrapper.wrap(addressSpaceDiviner, this.account).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)

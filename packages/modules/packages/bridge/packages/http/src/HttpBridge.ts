@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
@@ -16,7 +17,6 @@ import {
   ModuleParams,
   ModuleQueryResult,
   ModuleWrapper,
-  QueryBoundWitness,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
@@ -118,41 +118,43 @@ export class HttpBridge<
   }
 
   async targetDiscover(address?: string): Promise<Payload[]> {
-    //if caching, return cached result if exists
-    const cachedResult = this.discoverCache?.get(address ?? 'root ')
-    if (cachedResult) {
-      return cachedResult
-    }
-    const addressToDiscover = address ?? this.rootAddress
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
-    const boundQuery = await this.bindQuery(queryPayload)
-    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    return await this.busy(async () => {
+      //if caching, return cached result if exists
+      const cachedResult = this.discoverCache?.get(address ?? 'root ')
+      if (cachedResult) {
+        return cachedResult
+      }
+      const addressToDiscover = address ?? this.rootAddress
+      const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+      const boundQuery = await this.bindQuery(queryPayload)
+      const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
-    this._targetQueries[addressToDiscover] = compact(
-      discover?.map((payload) => {
-        if (payload.schema === QuerySchema) {
-          const schemaPayload = payload as QueryPayload
-          return schemaPayload.query
-        } else {
-          return null
-        }
-      }) ?? [],
-    )
+      this._targetQueries[addressToDiscover] = compact(
+        discover?.map((payload) => {
+          if (payload.schema === QuerySchema) {
+            const schemaPayload = payload as QueryPayload
+            return schemaPayload.query
+          } else {
+            return null
+          }
+        }) ?? [],
+      )
 
-    const targetConfigSchema = assertEx(
-      discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
-      `Discover did not return a [${ConfigSchema}] payload`,
-    ).config
+      const targetConfigSchema = assertEx(
+        discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
+        `Discover did not return a [${ConfigSchema}] payload`,
+      ).config
 
-    this._targetConfigs[addressToDiscover] = assertEx(
-      discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
-      `Discover did not return a [${targetConfigSchema}] payload`,
-    )
+      this._targetConfigs[addressToDiscover] = assertEx(
+        discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
+        `Discover did not return a [${targetConfigSchema}] payload`,
+      )
 
-    //if caching, set entry
-    this.discoverCache?.set(address ?? 'root', discover)
+      //if caching, set entry
+      this.discoverCache?.set(address ?? 'root', discover)
 
-    return discover
+      return discover
+    })
   }
 
   targetQueries(address: string): string[] {
@@ -160,23 +162,25 @@ export class HttpBridge<
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    try {
-      const moduleUrlString = this.moduleUrl(address).toString()
-      const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
-      if (result.status === 404) {
-        throw `target module not found [${moduleUrlString}] [${result.status}]`
+    return await this.busy(async () => {
+      try {
+        const moduleUrlString = this.moduleUrl(address).toString()
+        const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
+        if (result.status === 404) {
+          throw `target module not found [${moduleUrlString}] [${result.status}]`
+        }
+        if (result.status >= 400) {
+          this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
+          throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
+        }
+        return result.data.data
+      } catch (ex) {
+        const error = ex as AxiosError
+        this.logger?.error(`Error Status: ${error.status}`)
+        this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
+        throw error
       }
-      if (result.status >= 400) {
-        this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
-        throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
-      }
-      return result.data.data
-    } catch (ex) {
-      const error = ex as AxiosError
-      this.logger?.error(`Error Status: ${error.status}`)
-      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
-      throw error
-    }
+    })
   }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {

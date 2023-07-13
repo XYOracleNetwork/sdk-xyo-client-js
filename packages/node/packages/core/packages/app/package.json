@@ -29,7 +29,6 @@
     "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/express-node-server": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
     "@xyo-network/node": "workspace:^",
     "@xyo-network/node-core-types": "workspace:^",
     "@xyo-network/node-model": "workspace:^",

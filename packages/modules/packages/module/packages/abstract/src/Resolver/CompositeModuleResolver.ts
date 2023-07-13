@@ -1,8 +1,7 @@
-import { fulfilled } from '@xylabs/promise'
+import { exists } from '@xylabs/exists'
 import { Base, BaseParams } from '@xyo-network/core'
-import { IndirectModule, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { duplicateModules, IndirectModule, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
-import { duplicateModules } from '../lib'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolver {
@@ -50,23 +49,27 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve<T extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<T[]> {
-    const modules = await Promise.allSettled(this.resolvers.map((resolver) => resolver.resolve(filter)))
-    const result = modules
-      .filter(fulfilled)
-      .map((r) => r.value)
-      .flat()
-      .filter(duplicateModules)
-    return result as T[]
-  }
-
-  async resolveOne<T extends IndirectModule = IndirectModule>(addressOrName: string): Promise<T | undefined> {
-    for (let i = 0; i < this.resolvers.length; i++) {
-      const resolver = this.resolvers[i]
-      const result = await resolver.resolveOne<T>(addressOrName)
-      if (result) return result
+  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<TModule[]>
+  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promise<TModule | undefined>
+  async resolve<TModule extends IndirectModule = IndirectModule>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+  ): Promise<TModule | TModule[] | undefined> {
+    if (typeof nameOrAddressOrFilter === 'string') {
+      const result = await Promise.all(
+        this.resolvers.map(async (resolver) => {
+          return await resolver.resolve<TModule>(nameOrAddressOrFilter)
+        }),
+      )
+      return result.filter(exists).filter(duplicateModules).pop()
+    } else {
+      const result = await Promise.all(
+        this.resolvers.map(async (resolver) => {
+          return await resolver.resolve<TModule>(nameOrAddressOrFilter)
+        }),
+      )
+      const flatResult = result.flat()
+      return flatResult.filter(duplicateModules)
     }
-    return undefined
   }
 
   private addSingleModule(module?: IndirectModule) {

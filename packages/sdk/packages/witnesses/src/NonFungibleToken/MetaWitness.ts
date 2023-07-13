@@ -5,8 +5,8 @@ import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-networ
 export class NonFungibleTokenMetaWitness<TParams extends WitnessParams = WitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [WitnessConfigSchema]
 
-  override async observe(_payloads?: Payload[]) {
+  protected override async observeHandler(_payloads?: Payload[]) {
     await delay(0)
-    return super.observe([{ schema: 'network.xyo.nft.meta' }])
+    return [{ schema: 'network.xyo.nft.meta' }]
   }
 }

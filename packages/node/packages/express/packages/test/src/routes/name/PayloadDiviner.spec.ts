@@ -1,8 +1,8 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { DirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { DirectDivinerWrapper, DivinerDivineQuerySchema } from '@xyo-network/diviner'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { DivinerDivineQuerySchema, DivinerWrapper } from '@xyo-network/modules'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import {
@@ -19,8 +19,8 @@ const schema = PayloadDivinerQuerySchema
 
 const moduleName = 'PayloadDiviner'
 describe(`/${moduleName}`, () => {
-  let diviner: DivinerWrapper
-  let archivist: ArchivistWrapper
+  let diviner: DirectDivinerWrapper
+  let archivist: DirectArchivistWrapper
 
   beforeAll(async () => {
     diviner = await getDivinerByName(moduleName)

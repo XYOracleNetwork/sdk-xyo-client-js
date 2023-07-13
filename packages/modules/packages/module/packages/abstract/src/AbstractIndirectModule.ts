@@ -1,10 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistModule } from '@xyo-network/archivist-model'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { BoundWitnessBuilder, QueryBoundWitness, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { handleErrorAsync } from '@xyo-network/error'
@@ -15,16 +16,19 @@ import {
   AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
+  DirectModule,
+  duplicateModules,
   IndirectModule,
   IndividualArchivistConfig,
   ModuleAddressQuerySchema,
+  ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescribeQuerySchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
   ModuleDiscoverQuerySchema,
-  ModuleError,
   ModuleEventData,
+  ModuleFactory,
   ModuleFilter,
   ModuleParams,
   ModuleQueriedEventArgs,
@@ -32,13 +36,12 @@ import {
   ModuleQueryBase,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
-  Query,
-  QueryBoundWitness,
   SchemaString,
+  serializableField,
   WalletModuleParams,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -47,9 +50,6 @@ import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
 import { ModuleErrorBuilder } from './Error'
-import { duplicateModules, serializableField } from './lib'
-import { ModuleFactory } from './ModuleFactory'
-import { QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from './Query'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
@@ -57,7 +57,7 @@ import { CompositeModuleResolver } from './Resolver'
 
 export abstract class AbstractIndirectModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
-  implements IndirectModule<TParams, TEventData>
+  implements IndirectModule<TParams, TEventData>, IndirectModule
 {
   static configSchemas: string[]
 
@@ -82,6 +82,8 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   protected _started = false
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
+
+  private _busyCount = 0
 
   constructor(privateConstructorKey: string, params: TParams) {
     assertEx(AbstractIndirectModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
@@ -159,6 +161,25 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return { address: this.address, previousHash: this._account?.previousHash, schema: AddressPreviousHashSchema }
   }
 
+  async busy<R>(closure: () => Promise<R>) {
+    if (this._busyCount <= 0) {
+      this._busyCount = 0
+      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      await this.emit('moduleBusy', args)
+    }
+    this._busyCount++
+    try {
+      return await closure()
+    } finally {
+      this._busyCount--
+      if (this._busyCount <= 0) {
+        this._busyCount = 0
+        const args: ModuleBusyEventArgs = { busy: false, module: this }
+        await this.emit('moduleBusy', args)
+      }
+    }
+  }
+
   async loadAccount() {
     if (!this._account) {
       const activeLogger = this.params.logger ?? AbstractIndirectModule.defaultLogger
@@ -214,12 +235,14 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this.started('throw')
-    const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
+    return await this.busy(async () => {
+      const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
-    const args: ModuleQueriedEventArgs = { module: this as IndirectModule, payloads, query, result }
-    await this.emit('moduleQueried', args)
+      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+      await this.emit('moduleQueried', args)
 
-    return result
+      return result
+    })
   }
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -243,10 +266,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   ): Promise<TModule | TModule[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter)
-          ? (await this.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-          : undefined
-        return byAddress ?? (await this.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+        return (await this.downResolver.resolve<TModule>(nameOrAddressOrFilter)) ?? (await this.upResolver.resolve<TModule>(nameOrAddressOrFilter))
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
@@ -485,13 +505,13 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
 
   protected writeArchivist = () => this.getArchivist('write')
 
-  private async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistModule | undefined> {
+  private async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
     if (!this.config.archivist) return undefined
     const filter =
       typeof this.config.archivist === 'string' || this.config.archivist instanceof String
         ? (this.config.archivist as string)
         : (this.config?.archivist?.[kind] as string)
-    const resolved = await this.upResolver.resolveOne(filter)
-    return resolved ? (resolved as ArchivistModule) : undefined
+    const resolved = await this.upResolver.resolve(filter)
+    return resolved ? IndirectArchivistWrapper.wrap(resolved, this.account) : undefined
   }
 }

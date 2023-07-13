@@ -1,15 +1,15 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, DirectModule, IndirectModule, ModuleEventData, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { NullablePromisableArray, Promisable, PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
 import { ClearedEventData, DeletedEventData, InsertedEventData } from './Events'
 
 export interface ReadArchivist<TReadResponse, TId = string> {
   all?(): PromisableArray<TReadResponse>
-  get(ids: TId[]): NullablePromisableArray<TReadResponse>
+  get(ids: TId[]): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
@@ -34,14 +34,30 @@ export interface Archivist<TReadResponse = Payload, TWriteResponse = BoundWitnes
 
 export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ClearedEventData, ModuleEventData {}
 
-export type ArchivistModule<
-  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = ModuleInstance<TParams, TEventData> & Archivist<Payload, BoundWitness, Payload, string>
-
-export type ArchivistInstance<TReadResponse = Payload, TWriteResponse = BoundWitness, TWrite = TReadResponse, TId = string> = Archivist<
+export type ArchivistQueryFunctions<TReadResponse = Payload, TWriteResponse = BoundWitness, TWrite = TReadResponse, TId = string> = Archivist<
   TReadResponse,
   TWriteResponse,
   TWrite,
   TId
->
+> &
+  ModuleQueryFunctions
+
+export type IndirectArchivistModule<
+  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectModule<TParams, TEventData>
+
+export type DirectArchivistModule<
+  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectArchivistModule<TParams, TEventData> & ArchivistQueryFunctions & DirectModule
+
+export type ArchivistModule<
+  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> = IndirectArchivistModule<TParams, TEventData> | DirectArchivistModule<TParams, TEventData>
+
+export type ArchivistInstance<
+  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+> = DirectArchivistModule<TParams, TEventData>

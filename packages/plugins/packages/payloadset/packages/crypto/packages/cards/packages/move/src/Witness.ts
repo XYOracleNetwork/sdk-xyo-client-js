@@ -14,7 +14,7 @@ export type CryptoCardsMoveWitnessParams = WitnessParams<AnyConfigSchema<CryptoC
 export class CryptoCardsMoveWitness<TParams extends CryptoCardsMoveWitnessParams = CryptoCardsMoveWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [CryptoCardsMoveWitnessConfigSchema]
 
-  override observe(payloads?: Payload[]): Promisable<Payload[]> {
-    return super.observe(payloads)
+  protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
+    return payloads ?? []
   }
 }

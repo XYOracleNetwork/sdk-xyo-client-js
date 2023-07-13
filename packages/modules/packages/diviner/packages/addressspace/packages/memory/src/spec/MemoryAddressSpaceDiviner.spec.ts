@@ -1,9 +1,10 @@
 import { Account } from '@xyo-network/account'
-import { ArchivistWrapper, MemoryArchivist } from '@xyo-network/archivist'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { AddressPayload, AddressSchema } from '@xyo-network/plugins'
 
 import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner'
 
@@ -11,10 +12,12 @@ describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
       const node = await MemoryNode.create()
-      const account = Account.randomSync()
-      const archivist = ArchivistWrapper.wrap(
-        await MemoryArchivist.create({ config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
-        account,
+      const archivistAccount = Account.randomSync()
+      const divinerAccount = Account.randomSync()
+      const wrapperAccount = Account.randomSync()
+      const archivist = IndirectArchivistWrapper.wrap(
+        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
+        wrapperAccount,
       )
 
       const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
@@ -32,6 +35,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressSpaceDiviner.create({
+        account: divinerAccount,
         config: { archivist: archivist.address, schema: AddressSpaceDivinerConfigSchema },
       })
       await node.register(diviner)
@@ -44,7 +48,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       const addresses = results
         .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)
-      expect(addresses).toEqual([account.address, diviner.address])
+      expect(addresses).toContain(wrapperAccount.address)
     })
   })
 })

@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   ForecastingDivinerConfig,
@@ -20,13 +20,13 @@ export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<Forecasting
 
 export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
-> extends AbstractDiviner<TParams> {
+> extends AbstractDirectDiviner<TParams> {
   static override configSchemas = [ForecastingDivinerConfigSchema]
 
   protected abstract get forecastingMethod(): ForecastingMethod
   protected abstract get transformer(): PayloadValueTransformer
 
-  async divine(payloads?: Payload[] | undefined): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<ForecastingDivinerQueryPayload>(isForecastingDivinerQueryPayload)
     if (!query) return []
     const windowSettings: ForecastingSettings = { ...this.config, ...this.query }

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifest } from '@xyo-network/manifest-model'
 import {
@@ -13,7 +14,6 @@ import {
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  QueryBoundWitness,
 } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'

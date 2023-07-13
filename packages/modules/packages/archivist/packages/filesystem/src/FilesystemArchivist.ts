@@ -1,8 +1,14 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
-import { ArchivistAllQuerySchema, ArchivistCommitQuerySchema, ArchivistConfig, ArchivistModule, ArchivistParams } from '@xyo-network/archivist-model'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import {
+  ArchivistAllQuerySchema,
+  ArchivistCommitQuerySchema,
+  ArchivistConfig,
+  ArchivistParams,
+  DirectArchivistModule,
+} from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleError } from '@xyo-network/error'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -30,8 +36,8 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
  */
 @creatableModule()
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
-  extends AbstractArchivist<TParams>
-  implements ArchivistModule
+  extends AbstractDirectArchivist<TParams>
+  implements DirectArchivistModule
 {
   static override configSchemas = [FilesystemArchivistConfigSchema]
 
@@ -62,30 +68,6 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return rawPayloads.map((payload) => PayloadWrapper.wrap(payload).payload())
   }
 
-  override all(): PromisableArray<Payload> {
-    return this.memoryArchivist.all()
-  }
-
-  override clear(): void | Promise<void> {
-    return this.memoryArchivist.clear()
-  }
-
-  override async commit(): Promise<BoundWitness[]> {
-    return await this.memoryArchivist.commit()
-  }
-
-  override delete(hashes: string[]): PromisableArray<boolean> {
-    return this.memoryArchivist.delete(hashes)
-  }
-
-  override async get(hashes: string[]): Promise<Payload[]> {
-    return await this.memoryArchivist.get(hashes)
-  }
-
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    return await this.memoryArchivist.insert(payloads)
-  }
-
   override async start() {
     await super.start()
     this._memoryArchivist = await MemoryArchivist.create()
@@ -97,6 +79,30 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
         this.logger?.error(error.message)
       })
     }
+  }
+
+  protected override allHandler(): PromisableArray<Payload> {
+    return this.memoryArchivist.all()
+  }
+
+  protected override clearHandler(): void | Promise<void> {
+    return this.memoryArchivist.clear()
+  }
+
+  protected override async commitHandler(): Promise<BoundWitness[]> {
+    return await this.memoryArchivist.commit()
+  }
+
+  protected override deleteHandler(hashes: string[]): PromisableArray<boolean> {
+    return this.memoryArchivist.delete(hashes)
+  }
+
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
+    return await this.memoryArchivist.get(hashes)
+  }
+
+  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+    return await this.memoryArchivist.insert(payloads)
   }
 
   private async rawJsonFromFile() {

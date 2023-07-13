@@ -1,17 +1,25 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistGetQuerySchema, isArchivistModule } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { DivinerDivineQuerySchema } from '@xyo-network/diviner-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { IndirectDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerDivineQuerySchema, isDivinerModule } from '@xyo-network/diviner-model'
 import { handleError } from '@xyo-network/error'
 import { CompositeModuleResolver } from '@xyo-network/module'
-import { AddressModuleFilter, Module, ModuleFilter, ModuleResolver, NameModuleFilter, QueryModuleFilter } from '@xyo-network/module-model'
-import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import {
+  AddressModuleFilter,
+  IndirectModule,
+  Module,
+  ModuleFilter,
+  ModuleResolver,
+  NameModuleFilter,
+  QueryModuleFilter,
+} from '@xyo-network/module-model'
+import { isNodeModule, NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
-import { SentinelReportQuerySchema, SentinelWrapper } from '@xyo-network/sentinel'
-import { WitnessObserveQuerySchema } from '@xyo-network/witness-model'
+import { isSentinelModule, SentinelReportQuerySchema, SentinelWrapper } from '@xyo-network/sentinel'
+import { isWitnessModule, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import compact from 'lodash/compact'
 
@@ -71,13 +79,15 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     throw new Error('Method not implemented.')
   }
 
-  override async resolve<T extends Module = Module>(filter?: ModuleFilter): Promise<T[]> {
-    return await this.resolveRemoteModules<T>(filter)
-  }
-
-  override async resolveOne<T extends Module = Module>(addressOrName?: string): Promise<T | undefined> {
-    if (addressOrName) {
-      return (await this.resolveByAddress<T>(addressOrName)) ?? (await this.resolveByName<T>(addressOrName))?.[0]
+  override async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<TModule[]>
+  override async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promise<TModule | undefined>
+  override async resolve<TModule extends IndirectModule = IndirectModule>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+  ): Promise<TModule | TModule[] | undefined> {
+    if (typeof nameOrAddressOrFilter === 'string') {
+      return (await this.resolveByAddress<TModule>(nameOrAddressOrFilter)) ?? (await this.resolveByName<TModule>(nameOrAddressOrFilter))?.[0]
+    } else {
+      return await this.resolveRemoteModules<TModule>(nameOrAddressOrFilter)
     }
   }
 
@@ -102,23 +112,23 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
           //discover it to set the config in the bridge
           await this.bridge.targetDiscover(address)
 
-          if (mod.queries.includes(ArchivistGetQuerySchema)) {
-            return ArchivistWrapper.wrap(mod, this.wrapperAccount)
+          if (isArchivistModule(mod)) {
+            return IndirectArchivistWrapper.wrap(mod, this.wrapperAccount)
           }
 
-          if (mod.queries.includes(DivinerDivineQuerySchema)) {
-            return DivinerWrapper.wrap(mod, this.wrapperAccount)
+          if (isDivinerModule(mod)) {
+            return IndirectDivinerWrapper.wrap(mod, this.wrapperAccount)
           }
 
-          if (mod.queries.includes(WitnessObserveQuerySchema)) {
+          if (isWitnessModule(mod)) {
             return WitnessWrapper.wrap(mod, this.wrapperAccount)
           }
 
-          if (mod.queries.includes(NodeAttachQuerySchema)) {
+          if (isNodeModule(mod)) {
             return NodeWrapper.wrap(mod, this.wrapperAccount)
           }
 
-          if (mod.queries.includes(SentinelReportQuerySchema)) {
+          if (isSentinelModule(mod)) {
             return SentinelWrapper.wrap(mod, this.wrapperAccount)
           }
 

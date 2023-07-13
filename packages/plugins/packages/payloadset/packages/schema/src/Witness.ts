@@ -14,7 +14,7 @@ export type SchemaWitnessParams = WitnessParams<AnyConfigSchema<SchemaWitnessCon
 export class SchemaWitness<TParams extends SchemaWitnessParams = SchemaWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
   static override configSchemas = [SchemaWitnessConfigSchema]
 
-  override async observe(_payloads?: Payload[]): Promise<SchemaPayload[]> {
+  protected override async observeHandler(_payloads?: Payload[]): Promise<SchemaPayload[]> {
     await delay(0)
     throw new Error('Method not implemented.')
   }

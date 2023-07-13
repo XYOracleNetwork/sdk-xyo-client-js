@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistWrapper } from '@xyo-network/archivist'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
 import { AddressSpaceDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -36,11 +36,6 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected response: BoundWitnessPointerPayload | undefined
   protected witnessedAddresses: Set<string> = new Set<string>()
 
-  override divine(_payloads?: Payload[]): Promise<Payload[]> {
-    void this.backgroundDivine()
-    return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
-  }
-
   override async start() {
     // Create a paginationAccount per archivist
     const archivistMod = await this.writeArchivist()
@@ -50,7 +45,7 @@ export class MongoDBBatchAddressSpaceDiviner<
       .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
       .build()
     // Save the appropriate collection pointer response to the respective archivist
-    const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
+    const archivist = IndirectArchivistWrapper.wrap(archivistMod, this.account)
     await archivist.insert([response])
     this.response = response
     void this.backgroundDivine()
@@ -79,7 +74,7 @@ export class MongoDBBatchAddressSpaceDiviner<
       })
       const archivistMod = await this.writeArchivist()
       // Save the paginated address response to the respective archivist
-      const archivist = ArchivistWrapper.wrap(archivistMod, this.paginationAccount)
+      const archivist = IndirectArchivistWrapper.wrap(archivistMod, this.paginationAccount)
       for (let j = 0; j < toStore.length; j += this.batchSize) {
         const batch = toStore.slice(j, j + this.batchSize)
         await archivist.insert(batch)
@@ -90,5 +85,10 @@ export class MongoDBBatchAddressSpaceDiviner<
     } finally {
       this.currentlyRunning = false
     }
+  }
+
+  protected override divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
+    void this.backgroundDivine()
+    return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
   }
 }

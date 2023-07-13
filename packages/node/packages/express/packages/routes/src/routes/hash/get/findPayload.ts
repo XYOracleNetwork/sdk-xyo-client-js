@@ -1,9 +1,9 @@
+import { DirectArchivistModule } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { ArchivistModule } from '@xyo-network/modules'
 import { isBoundWitnessPointer, PayloadSearchCriteria, PointerPayload } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -43,7 +43,7 @@ const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCrit
 }
 
 export const findPayload = async (
-  archivist: ArchivistModule,
+  archivist: DirectArchivistModule,
   boundWitnessDiviner: BoundWitnessDiviner,
   payloadDiviner: PayloadDiviner,
   pointer: PointerPayload,

@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import {
   isNftInfoPayload,
   NftScoreDivinerConfig,
@@ -20,9 +20,9 @@ const toNftScorePayload = (rating: NftAnalysis): NftScorePayload => {
 
 export const isNftScorePayload = (payload: Payload): payload is NftScorePayload => payload.schema === NftScoreSchema
 
-export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDiviner<TParams> {
+export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDirectDiviner<TParams> {
   static override configSchemas = [NftScoreDivinerConfigSchema]
 
-  override divine = async (payloads?: Payload[]): Promise<Payload[]> =>
+  protected override divineHandler = async (payloads?: Payload[]): Promise<Payload[]> =>
     (await Promise.all(payloads?.filter(isNftInfoPayload).map(analyzeNft) ?? [])).map(toNftScorePayload)
 }

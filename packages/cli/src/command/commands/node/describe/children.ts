@@ -1,5 +1,6 @@
 import { EmptyObject } from '@xyo-network/core'
 import { isDirectModule, ModuleWrapper } from '@xyo-network/module'
+import { DirectNodeModule } from '@xyo-network/node-model'
 import { CommandBuilder, CommandModule } from 'yargs'
 
 import { printError, printLine } from '../../../../lib'
@@ -14,7 +15,7 @@ export const describe = 'Describe the children of the XYO Node'
 export const handler = async (argv: BaseArguments) => {
   const { verbose } = argv
   try {
-    const node = await getNode(argv)
+    const node: DirectNodeModule = await getNode(argv)
     const description = await node.describe()
     const childAddresses = description?.children || []
     const children = await Promise.all(childAddresses?.map((child) => node.downResolver.resolve({ address: [child] })))

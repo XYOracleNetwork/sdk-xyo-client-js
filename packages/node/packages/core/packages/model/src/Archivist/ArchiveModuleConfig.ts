@@ -1,4 +1,4 @@
-import { ArchivistConfig } from '@xyo-network/archivist'
+import { ArchivistConfig } from '@xyo-network/archivist-model'
 
 export const ArchiveModuleConfigSchema = 'network.xyo.archivist.archive.config'
 export type ArchiveModuleConfigSchema = 'network.xyo.archivist.archive.config'

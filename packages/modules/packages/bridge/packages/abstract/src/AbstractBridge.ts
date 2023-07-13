@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConfigSchema,
   BridgeConnectQuerySchema,
@@ -15,17 +16,13 @@ import {
   duplicateModules,
   Module,
   ModuleConfig,
-  ModuleError,
   ModuleErrorBuilder,
   ModuleEventData,
   ModuleFilter,
   ModuleParams,
   ModuleQueryResult,
-  Query,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
 } from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<
@@ -54,23 +51,25 @@ export abstract class AbstractBridge<
   override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
   override async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
   override async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
-    switch (typeof nameOrAddressOrFilter) {
-      case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter)
-          ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
-            (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-          : undefined
-        return (
-          byAddress ??
-          (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
-          (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
-        )
+    return await this.busy(async () => {
+      switch (typeof nameOrAddressOrFilter) {
+        case 'string': {
+          const byAddress = Account.isAddress(nameOrAddressOrFilter)
+            ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
+              (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
+            : undefined
+          return (
+            byAddress ??
+            (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
+            (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+          )
+        }
+        default: {
+          const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+          return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+        }
       }
-      default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
-      }
-    }
+    })
   }
 
   targetDownResolver(address?: string): BridgeModuleResolver {

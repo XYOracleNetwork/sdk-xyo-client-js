@@ -1,3 +1,4 @@
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeQuery } from '@xyo-network/bridge-model'
 import {
   constructableModuleWrapper,
@@ -7,14 +8,12 @@ import {
   ModuleFilter,
   ModuleQueryResult,
   ModuleWrapper,
-  Query,
-  QueryBoundWitness,
 } from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
-export class BridgeWrapper extends ModuleWrapper<BridgeModule> implements BridgeModule {
+export class BridgeWrapper extends ModuleWrapper<BridgeModule> {
   get targetDownResolver() {
     return this.module.targetDownResolver
   }

@@ -1,11 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
-import { Query, QueryBoundWitness } from '@xyo-network/module-model'
-import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
+import { Payload, PayloadSetPayload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
+import { QueryBoundWitness } from './QueryBoundWitness'
 import { QueryBoundWitnessValidator } from './QueryBoundWitnessValidator'
 
 export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitnessWrapper<QueryBoundWitness> {

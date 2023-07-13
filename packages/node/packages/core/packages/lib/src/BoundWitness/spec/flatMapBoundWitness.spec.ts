@@ -1,8 +1,7 @@
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleError } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessMapResult, flatMapBoundWitness } from '../flatMapBoundWitness'
 

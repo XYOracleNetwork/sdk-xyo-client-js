@@ -12,11 +12,11 @@ import { EthereumGasEtherscanWitnessConfigSchema } from './Schema'
 export class EthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<AnyConfigSchema<EthereumGasEtherscanWitnessConfig>>> {
   static override configSchemas = [EthereumGasEtherscanWitnessConfigSchema]
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const apiKey = assertEx(this.config?.apiKey, 'apiKey is required')
     const payload = new PayloadBuilder<EthereumGasEtherscanPayload>({ schema: EthereumGasEtherscanSchema })
       .fields(await getGasFromEtherscan(apiKey))
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

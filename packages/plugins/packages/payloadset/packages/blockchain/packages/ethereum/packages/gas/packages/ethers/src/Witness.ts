@@ -29,10 +29,10 @@ export class EthereumGasEthersWitness<
     return this._provider
   }
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const payload = new PayloadBuilder<EthereumGasEthersPayload>({ schema: EthereumGasEthersSchema })
       .fields(await getGasFromEthers(assertEx(this.provider, 'Provider Required')))
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

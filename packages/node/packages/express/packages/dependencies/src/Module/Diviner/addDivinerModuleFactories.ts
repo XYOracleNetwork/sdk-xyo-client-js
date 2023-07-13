@@ -9,7 +9,7 @@ import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload'
 import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
 import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
 import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/modules'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 

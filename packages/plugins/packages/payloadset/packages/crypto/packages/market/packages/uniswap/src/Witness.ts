@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
   UniswapCryptoMarketPayload,
@@ -29,7 +29,12 @@ export class UniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  override async observe(): Promise<Payload[]> {
+  override async start() {
+    await super.start()
+    this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
+  }
+
+  protected override async observeHandler(): Promise<Payload[]> {
     this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
@@ -40,11 +45,6 @@ export class UniswapCryptoMarketWitness<
       timestamp,
     }
 
-    return super.observe([payload])
-  }
-
-  override async start() {
-    await super.start()
-    this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
+    return [payload]
   }
 }

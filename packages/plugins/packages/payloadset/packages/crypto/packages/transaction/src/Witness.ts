@@ -5,7 +5,7 @@ import {
   AddressTransactionHistorySchema,
   AddressTransactionHistoryWitnessConfigSchema,
 } from '@xyo-network/crypto-address-transaction-history-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/modules'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
@@ -30,17 +30,17 @@ export class AddressTransactionHistoryWitness<
     return assertEx(this.params.provider, 'Provider Required')
   }
 
-  override async observe(): Promise<Payload[]> {
+  override async start() {
+    await super.start()
+  }
+
+  protected override async observeHandler(): Promise<Payload[]> {
     this.started('throw')
     const address = assertEx(this.config.address, 'params.address is required')
     const transactions = await getTransactionsForAddress(address, this.provider)
     const payloads = transactions.map<AddressTransactionHistoryPayload>((transaction) => {
       return { ...transaction, schema }
     })
-    return super.observe(payloads)
-  }
-
-  override async start() {
-    await super.start()
+    return payloads
   }
 }

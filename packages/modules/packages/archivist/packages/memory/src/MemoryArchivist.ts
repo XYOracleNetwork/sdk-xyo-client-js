@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -34,7 +34,7 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
 export class MemoryArchivist<
   TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractArchivist<TParams, TEventData> {
+> extends AbstractDirectArchivist<TParams, TEventData> {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _cache?: LRUCache<string, Payload>
@@ -59,34 +59,36 @@ export class MemoryArchivist<
     ]
   }
 
-  override all(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<Payload> {
     return compact(this.cache.dump().map((value) => value[1].value))
   }
 
-  override clear(): void | Promise<void> {
+  protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
     return this.emit('cleared', { module: this })
   }
 
-  override async commit(): Promise<BoundWitness[]> {
-    const payloads = assertEx(await this.all(), 'Nothing to commit')
-    const settled = await Promise.allSettled(
-      compact(
-        Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-          const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
-            payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
-            schema: ArchivistInsertQuerySchema,
-          })
-          const query = await this.bindQuery(queryPayload, payloads)
-          return (await parent?.query(query[0], query[1]))?.[0]
-        }),
-      ),
-    )
-    await this.clear()
-    return compact(settled.filter(fulfilled).map((result) => result.value))
+  protected override async commitHandler(): Promise<BoundWitness[]> {
+    return await this.busy(async () => {
+      const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
+      const settled = await Promise.allSettled(
+        compact(
+          Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+            const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
+              payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
+              schema: ArchivistInsertQuerySchema,
+            })
+            const query = await this.bindQuery(queryPayload, payloads)
+            return (await parent?.query(query[0], query[1]))?.[0]
+          }),
+        ),
+      )
+      await this.clearHandler()
+      return compact(settled.filter(fulfilled).map((result) => result.value))
+    })
   }
 
-  override async delete(hashes: string[]): Promise<boolean[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
     const found = hashes.map((hash) => {
       return this.cache.delete(hash)
     })
@@ -94,40 +96,44 @@ export class MemoryArchivist<
     return found
   }
 
-  override async get(hashes: string[]): Promise<Payload[]> {
-    return compact(
-      await Promise.all(
-        hashes.map(async (hash) => {
-          const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
-          if (this.storeParentReads) {
-            // NOTE: `payload` can actually be `null` here but TS doesn't seem
-            // to recognize it. LRUCache claims not to support `null`s via their
-            // types but seems to under the hood just fine.
-            this.cache.set(hash, payload)
-          }
-          return payload
-        }),
-      ),
-    )
+  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
+    return await this.busy(async () => {
+      return compact(
+        await Promise.all(
+          hashes.map(async (hash) => {
+            const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
+            if (this.storeParentReads) {
+              // NOTE: `payload` can actually be `null` here but TS doesn't seem
+              // to recognize it. LRUCache claims not to support `null`s via their
+              // types but seems to under the hood just fine.
+              this.cache.set(hash, payload)
+            }
+            return payload
+          }),
+        ),
+      )
+    })
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
-    await Promise.all(
-      payloads.map((payload) => {
-        return this.insertPayloadIntoCache(payload)
-      }),
-    )
+  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+    return await this.busy(async () => {
+      await Promise.all(
+        payloads.map((payload) => {
+          return this.insertPayloadIntoCache(payload)
+        }),
+      )
 
-    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-    const parentBoundWitnesses: BoundWitness[] = []
-    const parents = await this.parents()
-    if (Object.entries(parents.write ?? {}).length) {
-      // We store the child bw also
-      parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
-    }
-    const boundWitnesses = [result[0], ...parentBoundWitnesses]
-    await this.emit('inserted', { boundWitnesses, module: this })
-    return boundWitnesses
+      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
+      const parentBoundWitnesses: BoundWitness[] = []
+      const parents = await this.parents()
+      if (Object.entries(parents.write ?? {}).length) {
+        // We store the child bw also
+        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
+      }
+      const boundWitnesses = [result[0], ...parentBoundWitnesses]
+      await this.emit('inserted', { boundWitnesses, module: this })
+      return boundWitnesses
+    })
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {

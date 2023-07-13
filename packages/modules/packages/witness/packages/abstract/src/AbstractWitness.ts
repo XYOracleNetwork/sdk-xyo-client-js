@@ -1,16 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AbstractModule,
-  creatableModule,
-  ModuleConfig,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
+import { AbstractModule, creatableModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import {
@@ -24,7 +17,10 @@ import {
 } from '@xyo-network/witness-model'
 
 creatableModule()
-export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData>
+export abstract class AbstractWitness<
+    TParams extends WitnessParams = WitnessParams,
+    TEventData extends WitnessModuleEventData = WitnessModuleEventData,
+  >
   extends AbstractModule<TParams, TEventData>
   implements WitnessModule<TParams, TEventData>
 {
@@ -44,12 +40,14 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
     }
   }
 
-  observe(payloads?: Payload[]): Promisable<Payload[]> {
-    this.started('throw')
-    const payloadList = assertEx(payloads, 'Trying to witness nothing')
-    assertEx(payloadList.length > 0, 'Trying to witness empty list')
-    payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-    return payloadList
+  async observe(payloads?: Payload[]): Promise<Payload[]> {
+    return await this.busy(async () => {
+      this.started('throw')
+      const payloadList = assertEx(await this.observeHandler(payloads), 'Trying to witness nothing')
+      assertEx(payloadList.length > 0, 'Trying to witness empty list')
+      payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
+      return payloadList
+    })
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -89,4 +87,6 @@ export class AbstractWitness<TParams extends WitnessParams = WitnessParams, TEve
       })
     }
   }
+
+  protected abstract observeHandler(payloads?: Payload[]): Promisable<Payload[]>
 }

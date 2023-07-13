@@ -1,4 +1,4 @@
-import { MemoryNode } from '@xyo-network/modules'
+import { MemoryNode } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'

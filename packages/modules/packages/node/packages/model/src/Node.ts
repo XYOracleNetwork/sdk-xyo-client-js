@@ -1,23 +1,16 @@
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, Module, ModuleEventData, ModuleFilter, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, DirectModule, IndirectModule, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './Events'
 
-export interface NodeInstance {
+export interface NodeQueryFunctions {
   attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
   registered(): Promisable<string[]>
-
-  resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
-  resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
-  resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined>
 }
-
-/** @deprecated use NodeInstance instead */
-export type Node = NodeInstance
 
 export interface NodeModuleEventData
   extends ModuleAttachedEventData,
@@ -31,7 +24,22 @@ export type NodeModuleParams<
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TAdditionalParams>
 
+export type IndirectNodeModule<
+  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectModule<TParams, TEventData>
+
+export type DirectNodeModule<
+  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = IndirectNodeModule<TParams, TEventData> & NodeQueryFunctions & DirectModule & { register: (module: Module) => void }
+
 export type NodeModule<
-  TParams extends NodeModuleParams = NodeModuleParams,
+  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
   TEventData extends NodeModuleEventData = NodeModuleEventData,
-> = NodeInstance & ModuleInstance<TParams, TEventData>
+> = IndirectNodeModule<TParams, TEventData> | DirectNodeModule<TParams, TEventData>
+
+export type NodeInstance<
+  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
+  TEventData extends NodeModuleEventData = NodeModuleEventData,
+> = DirectNodeModule<TParams, TEventData>

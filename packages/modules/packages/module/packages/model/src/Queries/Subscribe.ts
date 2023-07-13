@@ -1,4 +1,4 @@
-import { Query } from '../Query'
+import { Query } from '@xyo-network/payload-model'
 
 export type ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'
 export const ModuleSubscribeQuerySchema: ModuleSubscribeQuerySchema = 'network.xyo.query.module.subscribe'

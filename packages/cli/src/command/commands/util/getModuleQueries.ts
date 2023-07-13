@@ -1,4 +1,5 @@
-import { isDirectModule, Module, ModuleWrapper } from '@xyo-network/modules'
+import { isDirectModule, Module } from '@xyo-network/module-model'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export const getModuleQueries = async (module: Module): Promise<string[]> => {

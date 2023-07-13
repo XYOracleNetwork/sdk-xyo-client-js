@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Module } from '@xyo-network/modules'
+import { Module } from '@xyo-network/module-model'
 
 import { getBridge } from '../Bridge'
 

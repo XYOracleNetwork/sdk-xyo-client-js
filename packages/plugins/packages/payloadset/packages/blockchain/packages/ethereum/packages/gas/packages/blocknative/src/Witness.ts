@@ -12,13 +12,13 @@ export type EthereumGasBlocknativeWitnessParams = WitnessParams<AnyConfigSchema<
 export class EthereumGasBlocknativeWitness extends TimestampWitness<EthereumGasBlocknativeWitnessParams> {
   static override configSchemas = [EthereumGasBlocknativeWitnessConfigSchema]
 
-  override async observe(): Promise<Payload[]> {
+  protected override async observeHandler(): Promise<Payload[]> {
     const fields = await getGasFromBlocknative()
     const payload = new PayloadBuilder<EthereumGasBlocknativePayload>({
       schema: EthereumGasBlocknativeSchema,
     })
       .fields(fields)
       .build()
-    return super.observe([payload])
+    return super.observeHandler([payload])
   }
 }

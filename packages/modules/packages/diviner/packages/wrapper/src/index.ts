@@ -1,1 +1,2 @@
-export * from './DivinerWrapper'
+export * from './DirectDivinerWrapper'
+export * from './IndirectDivinerWrapper'

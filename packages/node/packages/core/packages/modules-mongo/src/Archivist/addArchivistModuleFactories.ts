@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { ArchivistConfigSchema } from '@xyo-network/archivist'
+import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'

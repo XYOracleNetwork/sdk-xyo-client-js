@@ -13,7 +13,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@xylabs/assert": "^2.9.3",
     "@xyo-network/crypto-address-transaction-history-payload-plugin": "workspace:^",
-    "@xyo-network/modules": "workspace:^",
+    "@xyo-network/module-model": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
     "@xyo-network/witness": "workspace:^"

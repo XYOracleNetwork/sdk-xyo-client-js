@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/modules'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'

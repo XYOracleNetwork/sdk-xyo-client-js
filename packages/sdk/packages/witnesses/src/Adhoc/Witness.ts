@@ -1,7 +1,8 @@
-import { AnyConfigSchema } from '@xyo-network/module'
+import { assertEx } from '@xylabs/assert'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
+import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
-import merge from 'lodash/merge'
 
 export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const AdhocWitnessConfigSchema: AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
@@ -21,11 +22,7 @@ export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParam
     return this.config?.payload
   }
 
-  override async observe(fields?: Payload[]): Promise<Payload[]> {
-    const result: Payload[] = await super.observe([merge({}, this.payload, fields?.[0])])
-
-    return result.map((payload, index) => {
-      return { ...payload, schema: fields?.[index]?.schema ?? payload.schema }
-    })
+  protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
+    return payloads ?? [assertEx(this.config.payload, 'AdhocWitness asked to witness no payload without a default payload in config')]
   }
 }

@@ -1,4 +1,4 @@
-import { IndirectModule } from '@xyo-network/module-model'
+import { IndirectModule } from '../Module'
 
 /**
  * Used to filter duplicates from an array of modules

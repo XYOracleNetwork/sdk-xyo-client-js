@@ -1,4 +1,4 @@
-import { Module } from '@xyo-network/modules'
+import { Module } from '@xyo-network/module-model'
 
 import { BaseArguments } from '../../BaseArguments'
 import { getModuleFromModuleFilter } from './getModuleFromModuleFilter'

@@ -1,9 +1,10 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { ArchivistModule } from '@xyo-network/archivist'
+import { IndirectArchivistModule } from '@xyo-network/archivist-model'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, DivinerWrapper } from '@xyo-network/diviner'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, IndirectDivinerWrapper } from '@xyo-network/diviner'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
@@ -45,7 +46,7 @@ export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = Divine
   AnyConfigSchema<ArchivistPayloadDivinerConfig<T>>,
   {
     bws: BoundWitnessDiviner
-    payloads: ArchivistModule
+    payloads: IndirectArchivistModule
   }
 >
 
@@ -54,7 +55,7 @@ export class MemoryCoinUserLocationsDiviner<
 > extends CoinUserLocationsDiviner<TParams> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
-  async divine(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload<LocationPayload>[]> {
     const user = payloads?.find<CoinCurrentUserWitnessPayload>(
       (payload): payload is CoinCurrentUserWitnessPayload => payload?.schema === CoinCurrentUserWitnessSchema,
     )
@@ -64,7 +65,7 @@ export class MemoryCoinUserLocationsDiviner<
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
-      const diviner = DivinerWrapper.wrap(this.params.bws, this.account)
+      const diviner = IndirectDivinerWrapper.wrap(this.params.bws, this.account)
       const filter = { payload_hashes: [await wrapper.hashAsync()], schema: BoundWitnessDivinerQuerySchema }
       const bwList = ((await diviner.divine([filter])) as BoundWitness[]) || []
       const locationHashes = bwList
@@ -78,7 +79,9 @@ export class MemoryCoinUserLocationsDiviner<
           return locations
         })
         .flat()
-      const locations = compact(await this.params.payloads.get(locationHashes)) as unknown as LocationPayload[]
+      const locations = compact(
+        await IndirectArchivistWrapper.wrap(this.params.payloads, this.account).get(locationHashes),
+      ) as unknown as LocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

@@ -1,4 +1,4 @@
-import { NodeModule } from '@xyo-network/node'
+import { IndirectNodeModule, NodeWrapper } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
 import { printLine } from '../lib'
@@ -18,7 +18,8 @@ import {
   unregisterModule,
 } from './commands'
 
-export const getCommand = (node: NodeModule): Promise<boolean> => {
+export const getCommand = (node: IndirectNodeModule): Promise<boolean> => {
+  const wrapper = NodeWrapper.wrap(node)
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)
@@ -32,43 +33,43 @@ export const getCommand = (node: NodeModule): Promise<boolean> => {
         }
         switch (terminalItems[response.selectedIndex].slug) {
           case 'attach-module':
-            await attachModule(node)
+            await attachModule(wrapper)
             break
           case 'describe-node':
-            await describeNode(node)
+            await describeNode(wrapper)
             break
           case 'detach-module':
-            await detachModule(node)
+            await detachModule(wrapper)
             break
           case 'exit':
             resolve(false)
             break
           case 'list-attached-modules':
-            await listAttachedModules(node)
+            await listAttachedModules(wrapper)
             break
           case 'list-registered-modules':
-            await listRegisteredModules(node)
+            await listRegisteredModules(wrapper)
             break
           case 'node-logs':
-            await nodeLogs(node)
+            await nodeLogs(wrapper)
             break
           case 'register-module':
-            await registerModule(node)
+            await registerModule(wrapper)
             break
           case 'restart-node':
-            await restartNode(node)
+            await restartNode(wrapper)
             break
           case 'status':
-            await status(node)
+            await status(wrapper)
             break
           case 'stop-node':
-            await stopNode(node)
+            await stopNode(wrapper)
             break
           case 'show-config':
             await showConfig()
             break
           case 'unregister-module':
-            await unregisterModule(node)
+            await unregisterModule(wrapper)
             break
         }
         resolve(true)

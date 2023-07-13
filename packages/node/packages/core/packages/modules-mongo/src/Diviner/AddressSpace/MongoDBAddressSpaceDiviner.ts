@@ -23,7 +23,7 @@ export class MongoDBAddressSpaceDiviner<
 > extends AddressSpaceDiviner<TParams> {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
-  override async divine(_payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
     // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me
     const result = await this.params.boundWitnessSdk.useMongo((db) => {
       return db.db(DATABASES.Archivist).command(

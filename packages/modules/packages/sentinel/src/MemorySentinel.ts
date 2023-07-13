@@ -1,17 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
+import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { handleError, handleErrorAsync } from '@xyo-network/error'
-import {
-  AnyConfigSchema,
-  ModuleConfig,
-  ModuleError,
-  ModuleErrorBuilder,
-  ModuleQueryResult,
-  QueryBoundWitness,
-  QueryBoundWitnessWrapper,
-} from '@xyo-network/module'
-import { Payload } from '@xyo-network/payload-model'
+import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { WitnessWrapper } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 

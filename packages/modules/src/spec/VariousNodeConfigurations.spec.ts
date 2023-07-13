@@ -1,24 +1,25 @@
 /* eslint-disable max-statements */
-import { MemoryArchivist } from '@xyo-network/archivist'
+import { ArchivistModule, DirectArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
+import { DivinerModule } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { AbstractModule } from '@xyo-network/module'
 import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
+import { WitnessModule } from '@xyo-network/witness'
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: AbstractModule
+  let primaryArchivist: ArchivistModule
   let primaryNode: MemoryNode
 
-  let leftInternalArchivist: AbstractModule
-  let leftInternalArchivist2: AbstractModule
-  let leftExternalArchivist: AbstractModule
-  let leftDiviner: AbstractModule
+  let leftInternalArchivist: DirectArchivistModule
+  let leftInternalArchivist2: DirectArchivistModule
+  let leftExternalArchivist: DirectArchivistModule
+  let leftDiviner: DivinerModule
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
-  let rightInternalArchivist: AbstractModule
-  let rightExternalArchivist: AbstractModule
-  let rightWitness: AbstractModule
+  let rightInternalArchivist: DirectArchivistModule
+  let rightExternalArchivist: DirectArchivistModule
+  let rightWitness: WitnessModule
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })

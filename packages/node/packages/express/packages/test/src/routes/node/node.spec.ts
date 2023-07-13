@@ -1,7 +1,8 @@
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { QueryBoundWitness, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { ModuleDiscoverQuerySchema, QueryBoundWitness, QueryBoundWitnessBuilder } from '@xyo-network/modules'
+import { ModuleDiscoverQuerySchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 

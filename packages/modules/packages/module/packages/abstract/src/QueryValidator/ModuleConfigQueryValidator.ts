@@ -1,6 +1,6 @@
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { AddressString, AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
 
-import { QueryBoundWitnessWrapper } from '../Query'
 import { Queryable, QueryValidator } from './QueryValidator'
 
 export type SortedPipedAddressesString = string

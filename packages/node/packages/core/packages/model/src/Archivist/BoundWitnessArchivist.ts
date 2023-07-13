@@ -1,4 +1,4 @@
-import { Archivist } from '@xyo-network/archivist'
+import { Archivist } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModule } from '@xyo-network/module'
 

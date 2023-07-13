@@ -20,7 +20,7 @@ export class BowserSystemInfoWitness<TParams extends BowserSystemInfoWitnessPara
     return Bowser.parse(window.navigator.userAgent)
   }
 
-  override observe(payloads?: Payload[]) {
-    return super.observe([merge({ bowser: this.bowser }, payloads?.[0], { schema: BowserSystemInfoSchema })])
+  protected override observeHandler(payloads?: Payload[]) {
+    return [merge({ bowser: this.bowser }, payloads?.[0], { schema: BowserSystemInfoSchema })]
   }
 }

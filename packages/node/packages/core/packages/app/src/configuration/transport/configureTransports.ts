@@ -1,4 +1,4 @@
-import { MemoryNode } from '@xyo-network/modules'
+import { MemoryNode } from '@xyo-network/node'
 
 import { NodeConfigurationFunction } from '../../model'
 import { configureExpressHttpTransport, configureFileTransport } from './providers'

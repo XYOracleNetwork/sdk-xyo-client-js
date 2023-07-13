@@ -14,6 +14,7 @@
     "@xyo-network/module-instance-payload-plugin": "workspace:^",
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/promise": "workspace:^",
     "@xyo-network/witness": "workspace:^",
     "lodash": "^4.17.21"
   },

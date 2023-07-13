@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
@@ -11,17 +11,17 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDiviner<TParams> {
+export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDirectDiviner<TParams> {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
 
   get queryAddress() {
     return assertEx(this.config.address, 'Missing address')
   }
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
     const archivists = await Promise.all(
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => ArchivistWrapper.wrap(archivist, this.account)) ?? [],
+      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => IndirectArchivistWrapper.wrap(archivist, this.account)) ?? [],
     )
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (

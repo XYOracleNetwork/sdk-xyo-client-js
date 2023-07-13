@@ -6,7 +6,7 @@ import { NonFungibleTokenPayload } from './Config'
 export class NonFungibleTokenWitness extends AbstractWitness<WitnessParams<NonFungibleTokenPayload>> {
   static override configSchemas = [WitnessConfigSchema]
 
-  override observe(_payloads?: Payload[]): Promise<Payload[]> {
+  protected override observeHandler(_payloads?: Payload[]): Promise<Payload[]> {
     throw new Error('Method not implemented.')
   }
 }

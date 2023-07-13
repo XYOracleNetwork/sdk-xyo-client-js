@@ -1,6 +1,8 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
+import { Module } from '@xyo-network/module-model'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
+  DirectNodeModule,
   isNodeInstance,
   NodeAttachedQuery,
   NodeAttachedQuerySchema,
@@ -16,7 +18,7 @@ import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
-export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> {
+export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> implements DirectNodeModule {
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
@@ -44,6 +46,10 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends
     const queryPayload = PayloadWrapper.wrap<NodeDetachQuery>({ nameOrAddress, schema: NodeDetachQuerySchema })
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
+  }
+
+  register(_module: Module) {
+    throw Error('Not implemented')
   }
 
   async registered(): Promise<string[]> {

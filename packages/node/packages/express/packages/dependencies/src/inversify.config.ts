@@ -2,7 +2,8 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
-import { CreatableModuleDictionary, MemoryNode } from '@xyo-network/modules'
+import { CreatableModuleDictionary } from '@xyo-network/module-model'
+import { DirectNodeModule } from '@xyo-network/node'
 import { addMongoModules, canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { config } from 'dotenv'
@@ -27,7 +28,7 @@ export const container = new Container({
 
 let configured = false
 
-export const configureDependencies = async (node?: MemoryNode) => {
+export const configureDependencies = async (node?: DirectNodeModule) => {
   if (configured) return
   configured = true
 

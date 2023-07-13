@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import {
   isPayloadDivinerQueryPayload,
@@ -22,10 +22,10 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
+export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDirectDiviner<TParams> {
   static override configSchemas = [PayloadDivinerConfigSchema]
 
-  override async divine(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)
     // TODO: Support multiple queries
     if (!query) return []

@@ -1,32 +1,28 @@
 import { AccountInstance } from '@xyo-network/account-model'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { EventArgs, EventData, EventFunctions } from '@xyo-network/module-events'
+import { EventArgs, EventFunctions } from '@xyo-network/module-events'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { AnyConfigSchema, ModuleConfig } from './Config'
+import { ModuleBusyEventData, ModuleQueriedEventData } from './Events'
 import { ModuleDescription } from './ModuleDescription'
 import { ModuleFilter } from './ModuleFilter'
 import { ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { AddressPreviousHashPayload } from './Queries'
-import { QueryBoundWitness } from './Query'
 
-export interface ModuleResolver {
+export interface ResolveFunctions {
+  resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promisable<TModule[]>
+  resolve<TModule extends Module = Module>(nameOrAddress: string): Promisable<TModule | undefined>
+  resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promisable<TModule | TModule[] | undefined>
+}
+
+export interface ModuleResolver extends ResolveFunctions {
   addResolver: (resolver: ModuleResolver) => this
   isModuleResolver: boolean
   removeResolver: (resolver: ModuleResolver) => this
-  /**
-   * Resolves all modules matching the supplied filter. If no filter
-   * is supplied, all modules are returned
-   * @param filter Filter criteria for the desired modules
-   */
-  resolve<T extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promisable<T[]>
-  /**
-   * Resolves a single module, or undefined if no modules matched the filter.
-   * @param filter The desired Module's Address or Name
-   */
-  resolveOne<T extends IndirectModule = IndirectModule>(filter: string): Promisable<T | undefined>
 }
 
 export type ModuleEventArgs<
@@ -40,18 +36,7 @@ export type ModuleEventArgs<
       module: TModule
     }
 
-export type ModuleQueriedEventArgs = ModuleEventArgs<
-  IndirectModule,
-  {
-    payloads?: Payload[]
-    query: QueryBoundWitness
-    result: ModuleQueryResult
-  }
->
-
-export interface ModuleEventData extends EventData {
-  moduleQueried: ModuleQueriedEventArgs
-}
+export interface ModuleEventData extends ModuleQueriedEventData, ModuleBusyEventData {}
 
 export type ModuleQueryFunctions = {
   addressPreviousHash: () => Promisable<AddressPreviousHashPayload>
@@ -100,7 +85,7 @@ export type IndirectModule<
 export type DirectModule<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectModule<TParams, TEventData> & ModuleQueryFunctions
+> = IndirectModule<TParams, TEventData> & ModuleQueryFunctions & ResolveFunctions
 
 export type ModuleInstance<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,

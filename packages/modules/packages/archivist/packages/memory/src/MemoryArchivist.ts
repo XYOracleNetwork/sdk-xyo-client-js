@@ -98,7 +98,7 @@ export class MemoryArchivist<
     return compact(
       await Promise.all(
         hashes.map(async (hash) => {
-          const payload = this.cache.get(hash) ?? (await super.get([hash]))[0] ?? null
+          const payload = this.cache.get(hash) ?? (await super.getHandler([hash]))[0] ?? null
           if (this.storeParentReads) {
             // NOTE: `payload` can actually be `null` here but TS doesn't seem
             // to recognize it. LRUCache claims not to support `null`s via their

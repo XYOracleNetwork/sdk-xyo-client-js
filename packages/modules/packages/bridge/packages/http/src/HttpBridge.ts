@@ -159,7 +159,25 @@ export class HttpBridge<
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {}
+  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+    try {
+      const moduleUrlString = this.moduleUrl(address).toString()
+      const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
+      if (result.status === 404) {
+        throw `target module not found [${moduleUrlString}] [${result.status}]`
+      }
+      if (result.status >= 400) {
+        this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
+        throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
+      }
+      return result.data.data
+    } catch (ex) {
+      const error = ex as AxiosError
+      this.logger?.error(`Error Status: ${error.status}`)
+      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
+      throw error
+    }
+  }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true

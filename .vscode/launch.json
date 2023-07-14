@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.spec.ts"
+        "packages/modules/packages/archivist/packages/indexeddb/src/spec/IndexedDbArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

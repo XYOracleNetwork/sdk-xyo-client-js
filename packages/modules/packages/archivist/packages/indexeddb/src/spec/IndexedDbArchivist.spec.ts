@@ -70,7 +70,7 @@ describe('IndexedDbArchivist', () => {
 
   describe('Using IndexedDB from window', () => {
     const name = 'IndexedDB (window)'
-    testArchivistRoundTrip(IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } }), name)
     testArchivistAll(IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } }), name)
+    testArchivistRoundTrip(IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } }), name)
   })
 })

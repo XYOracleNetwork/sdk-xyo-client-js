@@ -5,7 +5,7 @@
 import { delay } from '@xylabs/delay'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { PayloadHasher } from '@xyo-network/core'
+import { PayloadHasher, uuid } from '@xyo-network/core'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -38,18 +38,19 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>,
 }
 
 export const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name: string) => {
-  test(`Archivist All [${name}]`, async () => {
-    const idPayload = {
-      salt: Date.now().toString(),
-      schema: IdSchema,
-    }
+  beforeAll(async () => {
     const archivistModule = await archivist
-    for (let x = 0; x < 10; x++) {
+    await archivistModule.clear?.()
+  })
+  test(`Archivist All [${name}]`, async () => {
+    const archivistModule = await archivist
+    const count = 10
+    for (let x = 0; x < count; x++) {
+      const idPayload = { salt: uuid(), schema: IdSchema }
       await archivistModule.insert([idPayload])
-      await delay(10)
     }
     const getResult = await archivistModule.all?.()
     expect(getResult).toBeDefined()
-    expect(getResult?.length).toBe(2)
+    expect(getResult?.length).toBe(count)
   })
 }

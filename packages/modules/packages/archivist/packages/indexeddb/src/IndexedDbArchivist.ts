@@ -89,7 +89,7 @@ export class IndexedDbArchivist<
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    return (await this.db)?.getAll(this.storeName) ?? []
+    return (await (await this.db)?.getAll(this.storeName)) ?? []
   }
 
   protected override async clearHandler(): Promise<void> {

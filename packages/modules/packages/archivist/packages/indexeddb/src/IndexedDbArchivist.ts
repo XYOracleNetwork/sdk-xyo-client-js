@@ -1,4 +1,5 @@
-import { exists } from '@xylabs/exists'
+import { assertEx } from '@xylabs/assert'
+import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -10,11 +11,9 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { DBSchema, IDBPDatabase, openDB } from 'idb'
-
-import { AbstractIndexedDbArchivist } from './AbstractIndexedDbArchivist'
+import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
@@ -33,23 +32,16 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 
 export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
 
-export interface IndexedDbArchivistSchemaV1 extends DBSchema {
-  archivist: {
-    key: string
-    value: Payload
-  }
-}
-
-type StoreName = keyof Pick<IndexedDbArchivistSchemaV1, 'archivist'>
-
+@creatableModule()
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractIndexedDbArchivist<TParams, TEventData> {
-  static readonly CurrentSchemaVersion = 1
+> extends AbstractDirectArchivist<TParams, TEventData> {
   static override configSchemas = [IndexedDbArchivistConfigSchema]
+  static defaultDbName = 'archivist'
+  static defaultStoreName = 'payloads'
 
-  private db: Promise<IDBPDatabase<IndexedDbArchivistSchemaV1>> | undefined = undefined
+  private _db: UseStore | undefined
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -75,54 +67,48 @@ export class IndexedDbArchivist<
    * recommends them for our simple use case of key-value storage):
    * https://www.npmjs.com/package/idb
    */
-  get storeName(): StoreName {
-    return (this.config?.storeName ?? IndexedDbArchivist.defaultStoreName) as StoreName
+  get storeName() {
+    return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
+  }
+
+  private get db(): UseStore {
+    return assertEx(this._db, 'DB not initialized')
   }
 
   override async start(): Promise<void> {
     await super.start()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    this.db = openDB<IndexedDbArchivistSchemaV1>(this.dbName, IndexedDbArchivist.CurrentSchemaVersion, {
-      upgrade: (db) => db.createObjectStore(this.storeName),
-    })
+    this._db = createStore(this.dbName, this.storeName)
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    return (await (await this.db)?.getAll(this.storeName)) ?? []
+    const result = await entries<string, Payload>(this.db)
+    return result.map<Payload>(([_hash, payload]) => payload)
   }
 
   protected override async clearHandler(): Promise<void> {
-    await (await this.db)?.clear(this.storeName)
+    await clear(this.db)
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    await Promise.all(
-      hashes.map(async (hash) => {
-        await (await this.db)?.delete(this.storeName, hash)
-      }),
-    )
+    await delMany(hashes, this.db)
     return hashes.map((_) => true)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const results = (
-      await Promise.all(
-        hashes.map(async (hash) => {
-          return await (await this.db)?.get(this.storeName, hash)
-        }),
-      )
-    ).filter(exists)
-    return results
+    const result = await getMany<Payload>(hashes, this.db)
+    return result
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
-    await Promise.all(
-      payloads.map(async (payload) => {
+    const entries = await Promise.all(
+      payloads.map<Promise<[string, Payload]>>(async (payload) => {
         const hash = await PayloadHasher.hashAsync(payload)
-        await (await this.db)?.put(this.storeName, payload, hash)
+        return [hash, payload]
       }),
     )
+    await setMany(entries, this.db)
     const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
   }

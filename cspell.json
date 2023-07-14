@@ -45,7 +45,6 @@
     "jsdom",
     "keccak",
     "keypair",
-    "keyval",
     "libauth",
     "malleate",
     "malleation",

@@ -5824,15 +5824,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-<<<<<<< HEAD
-    "@xylabs/ts-scripts-yarn3": ^2.18.11
-    "@xylabs/tsconfig": ^2.18.11
-    "@xyo-network/payload-model": ^2.65.4
-=======
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
-    "@xyo-network/payload-model": ^2.65.3
->>>>>>> parent of ca6158e... Bump/reinstall deps
+    "@xyo-network/payload-model": ^2.65.4
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft

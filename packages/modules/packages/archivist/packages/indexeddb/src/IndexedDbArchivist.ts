@@ -40,7 +40,7 @@ export interface IndexedDbArchivistSchemaV1 extends DBSchema {
   }
 }
 
-type StoreName = 'archivist'
+type StoreName = keyof Pick<IndexedDbArchivistSchemaV1, 'archivist'>
 
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,

@@ -8,7 +8,7 @@ import {
   ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 
 export type AbstractIndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const AbstractIndexedDbArchivistConfigSchema: AbstractIndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'

@@ -35,9 +35,9 @@
     "@types/regression": "^2.0.2",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^3.2.6",
-    "@uniswap/v3-sdk": "^3.9.0",
-    "@xylabs/ts-scripts-yarn3": "^2.18.10",
-    "@xylabs/tsconfig": "^2.18.10",
+    "@uniswap/v3-sdk": "^3.10.0",
+    "@xylabs/ts-scripts-yarn3": "^2.18.11",
+    "@xylabs/tsconfig": "^2.18.11",
     "typescript": "^5.1.6"
   },
   "peerDependencies": {

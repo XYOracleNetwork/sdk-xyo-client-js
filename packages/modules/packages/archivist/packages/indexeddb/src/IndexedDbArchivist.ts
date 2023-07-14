@@ -33,12 +33,14 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 
 export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
 
-export interface PreviousHashStoreSchemaV1 extends DBSchema {
+export interface IndexedDbArchivistSchemaV1 extends DBSchema {
   archivist: {
     key: string
     value: Payload
   }
 }
+
+type StoreName = 'archivist'
 
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
@@ -47,7 +49,7 @@ export class IndexedDbArchivist<
   static readonly CurrentSchemaVersion = 1
   static override configSchemas = [IndexedDbArchivistConfigSchema]
 
-  private db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>> | undefined = undefined
+  private db: Promise<IDBPDatabase<IndexedDbArchivistSchemaV1>> | undefined = undefined
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -73,31 +75,31 @@ export class IndexedDbArchivist<
    * recommends them for our simple use case of key-value storage):
    * https://www.npmjs.com/package/idb
    */
-  get storeName() {
-    return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
+  get storeName(): StoreName {
+    return (this.config?.storeName ?? IndexedDbArchivist.defaultStoreName) as StoreName
   }
 
   override async start(): Promise<void> {
     await super.start()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, IndexedDbArchivist.CurrentSchemaVersion, {
-      upgrade: (db) => db.createObjectStore(this.storeName as 'archivist'),
+    this.db = openDB<IndexedDbArchivistSchemaV1>(this.dbName, IndexedDbArchivist.CurrentSchemaVersion, {
+      upgrade: (db) => db.createObjectStore(this.storeName),
     })
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    return (await this.db)?.getAll(this.storeName as 'archivist') ?? []
+    return (await this.db)?.getAll(this.storeName) ?? []
   }
 
   protected override async clearHandler(): Promise<void> {
-    await (await this.db)?.clear(this.storeName as 'archivist')
+    await (await this.db)?.clear(this.storeName)
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
     await Promise.all(
       hashes.map(async (hash) => {
-        await (await this.db)?.delete(this.storeName as 'archivist', hash)
+        await (await this.db)?.delete(this.storeName, hash)
       }),
     )
     return hashes.map((_) => true)
@@ -107,7 +109,7 @@ export class IndexedDbArchivist<
     const results = (
       await Promise.all(
         hashes.map(async (hash) => {
-          return await (await this.db)?.get(this.storeName as 'archivist', hash)
+          return await (await this.db)?.get(this.storeName, hash)
         }),
       )
     ).filter(exists)
@@ -118,7 +120,7 @@ export class IndexedDbArchivist<
     await Promise.all(
       payloads.map(async (payload) => {
         const hash = await PayloadHasher.hashAsync(payload)
-        await (await this.db)?.put(this.storeName as 'archivist', payload, hash)
+        await (await this.db)?.put(this.storeName, payload, hash)
       }),
     )
     const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)

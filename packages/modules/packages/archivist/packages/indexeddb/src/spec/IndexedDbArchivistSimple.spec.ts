@@ -14,14 +14,10 @@ import {
   IDBRequest,
   IDBTransaction,
   IDBVersionChangeEvent,
-  indexedDB,
 } from 'fake-indexeddb'
 
 import { IndexedDbArchivistSimple, IndexedDbArchivistSimpleConfigSchema } from '../IndexedDbArchivistSimple'
-import { testArchivistAll, testArchivistRoundTrip } from './testArchivist'
-
-// Shim via fake-indexeddb
-window.indexedDB = indexedDB
+import { testArchivistAll, testArchivistClear, testArchivistDelete, testArchivistRoundTrip } from './testArchivist'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor
@@ -36,7 +32,9 @@ window.IDBRequest = IDBRequest
 window.IDBTransaction = IDBTransaction
 window.IDBVersionChangeEvent = IDBVersionChangeEvent
 
-window.indexedDB = indexedDB
+// Shim via fake-indexeddb
+const freshInstance = new IDBFactory()
+window.indexedDB = freshInstance
 
 describe('IndexedDbArchivistSimple', () => {
   const account = Account.randomSync()
@@ -70,7 +68,10 @@ describe('IndexedDbArchivistSimple', () => {
 
   describe('Using IndexedDB from window', () => {
     const name = 'IndexedDB (window)'
-    testArchivistAll(IndexedDbArchivistSimple.create({ account, config: { schema: IndexedDbArchivistSimpleConfigSchema } }), name)
-    testArchivistRoundTrip(IndexedDbArchivistSimple.create({ account, config: { schema: IndexedDbArchivistSimpleConfigSchema } }), name)
+    const dbName = 'IndexedDbArchivistSimple'
+    testArchivistAll(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
+    testArchivistClear(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
+    testArchivistDelete(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
+    testArchivistRoundTrip(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
   })
 })

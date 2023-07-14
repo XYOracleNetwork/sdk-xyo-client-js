@@ -56,3 +56,37 @@ export const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name:
     expect(getResult?.length).toBe(count)
   })
 }
+
+export const testArchivistClear = (archivist: Promisable<ArchivistInstance>, name: string) => {
+  beforeAll(async () => {
+    const archivistModule = await archivist
+    const count = 10
+    const payloads = Array(count)
+      .fill(0)
+      .map<IdPayload>(() => {
+        return { salt: uuid(), schema: IdSchema }
+      })
+    await archivistModule.insert(payloads)
+  })
+  test(`Archivist Clear [${name}]`, async () => {
+    const archivistModule = await archivist
+    await archivistModule.clear?.()
+    const getResult = await archivistModule.all?.()
+    expect(getResult).toBeDefined()
+    expect(getResult?.length).toBe(0)
+  })
+}
+
+export const testArchivistDelete = (archivist: Promisable<ArchivistInstance>, name: string) => {
+  test(`Archivist Delete [${name}]`, async () => {
+    const archivistModule = await archivist
+    const payload: IdPayload = { salt: uuid(), schema: IdSchema }
+    const hash = await PayloadWrapper.wrap(payload).hashAsync()
+    await archivistModule.insert([payload])
+    const resultBeforeDelete = await archivistModule.get?.([hash])
+    expect(resultBeforeDelete).toBeArrayOfSize(1)
+    await archivistModule.delete?.([hash])
+    const resultAfterDelete = await archivistModule.get?.([hash])
+    expect(resultAfterDelete).toBeArrayOfSize(0)
+  })
+}

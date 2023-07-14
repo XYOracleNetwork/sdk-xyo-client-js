@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -96,7 +97,7 @@ export class IndexedDbArchivistSimple<
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     const result = await getMany<Payload>(hashes, this.db)
-    return result
+    return result.filter(exists)
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {

@@ -5403,11 +5403,13 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/archivist-model": "workspace:^"
     "@xyo-network/archivist-wrapper": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/error": "workspace:^"
+    "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
@@ -5444,11 +5446,14 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/core": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
     "@xyo-network/error": "workspace:^"
+    "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     typescript: ^5.1.6
@@ -5821,7 +5826,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
-    "@xyo-network/payload-model": ^2.65.2
+    "@xyo-network/payload-model": ^2.65.3
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -8253,6 +8258,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
     "@xyo-network/account": "workspace:^"
+    "@xyo-network/account-model": "workspace:^"
     "@xyo-network/address-payload-plugin": "workspace:^"
     "@xyo-network/boundwitness-builder": "workspace:^"
     "@xyo-network/error": "workspace:^"
@@ -8282,7 +8288,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@^2.65.2, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
+"@xyo-network/payload-model@^2.65.3, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:

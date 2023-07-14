@@ -230,6 +230,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 
+  async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
+    return (await this.sendQuery(queryPayload)) as AddressPreviousHashPayload[]
+  }
+
   off<TEventName extends keyof TWrappedModule['eventData']>(
     eventNames: TEventName,
     listener: EventListener<TWrappedModule['eventData'][TEventName]>,

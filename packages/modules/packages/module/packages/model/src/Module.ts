@@ -39,10 +39,10 @@ export type ModuleEventArgs<
 export interface ModuleEventData extends ModuleQueriedEventData, ModuleBusyEventData {}
 
 export type ModuleQueryFunctions = {
-  addressPreviousHash: () => Promisable<AddressPreviousHashPayload>
   describe: () => Promise<ModuleDescription>
   discover: () => Promisable<Payload[]>
   manifest: () => Promisable<ModuleManifestPayload>
+  moduleAddress: () => Promisable<AddressPreviousHashPayload[]>
 }
 
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {

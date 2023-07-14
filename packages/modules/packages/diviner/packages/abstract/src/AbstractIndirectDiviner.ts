@@ -12,7 +12,7 @@ import {
   IndirectDivinerModule,
 } from '@xyo-network/diviner-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import { AbstractModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractIndirectModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -20,7 +20,7 @@ export abstract class AbstractIndirectDiviner<
     TParams extends DivinerParams = DivinerParams,
     TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   >
-  extends AbstractModule<TParams, TEventData>
+  extends AbstractIndirectModule<TParams, TEventData>
   implements IndirectDivinerModule<TParams>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]

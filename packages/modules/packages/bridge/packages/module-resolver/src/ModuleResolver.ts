@@ -6,10 +6,11 @@ import { BridgeModule } from '@xyo-network/bridge-model'
 import { IndirectDivinerWrapper } from '@xyo-network/diviner'
 import { DivinerDivineQuerySchema, isDivinerModule } from '@xyo-network/diviner-model'
 import { handleError } from '@xyo-network/error'
-import { CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
 import {
   AddressModuleFilter,
   IndirectModule,
+  isModuleInstance,
   Module,
   ModuleFilter,
   ModuleResolver,
@@ -132,7 +133,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
             return SentinelWrapper.wrap(mod, this.wrapperAccount)
           }
 
-          return mod
+          return ModuleWrapper.wrap(mod, this.wrapperAccount)
         } catch (ex) {
           handleError(ex, (error) => {
             console.error(`BridgeModuleResolver.resolveByAddress: ${error.message} [${targetAddress}]`)

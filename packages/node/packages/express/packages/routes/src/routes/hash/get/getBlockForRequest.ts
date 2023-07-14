@@ -12,12 +12,8 @@ export const getBlockForRequest = async (req: Request, hash: string): Promise<Pa
   if (!archivist) {
     const { node } = req.app
     const module = await node.downResolver.resolve('Archivist')
-    archivist =
-      asArchivistInstance(module) ??
-      asArchivistInstance(
-        IndirectArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`)),
-        `Failed to cast archivist wrapper ${module?.address}`,
-      )
+    const wrapper = IndirectArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`))
+    archivist = asArchivistInstance(wrapper, `Failed to cast archivist wrapper ${wrapper?.address}`)
   }
   const block = (await archivist.get([hash])).pop()
   if (block) {

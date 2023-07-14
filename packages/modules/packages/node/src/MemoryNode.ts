@@ -1,5 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { AnyConfigSchema, EventListener, Module } from '@xyo-network/module'
+import { AccountInstance } from '@xyo-network/account-model'
+import { NodeManifestPayload } from '@xyo-network/manifest-model'
+import { AddressPreviousHashPayload, AnyConfigSchema, EventListener, Module, ModuleDescriptionPayload } from '@xyo-network/module'
 import {
   DirectNodeModule,
   isNodeModule,
@@ -9,6 +11,7 @@ import {
   NodeModuleEventData,
   NodeModuleParams,
 } from '@xyo-network/node-model'
+import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
@@ -27,8 +30,24 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external))
   }
 
+  async describe(): Promise<ModuleDescriptionPayload> {
+    return await super.describeHandler()
+  }
+
   override async detach(nameOrAddress: string) {
     return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
+  }
+
+  async discover(): Promise<Payload[]> {
+    return await super.discoverHandler()
+  }
+
+  async manifest(): Promise<NodeManifestPayload> {
+    return await super.manifestHandler()
+  }
+
+  async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    return await super.moduleAddressHandler()
   }
 
   override async register(module: Module) {
@@ -48,6 +67,10 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return Object.values(this.registeredModuleMap).map((value) => {
       return value
     })
+  }
+
+  subscribe(_queryAccount?: AccountInstance) {
+    return super.subscribeHandler()
   }
 
   override async unregister(module: Module) {

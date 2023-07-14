@@ -6,15 +6,7 @@ import { handleErrorAsync } from '@xyo-network/error'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleWrapper } from '@xyo-network/module'
 import { AbstractIndirectModule, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
-import {
-  duplicateModules,
-  isDirectModule,
-  Module,
-  ModuleConfig,
-  ModuleDescriptionPayload,
-  ModuleFilter,
-  ModuleQueryResult,
-} from '@xyo-network/module-model'
+import { duplicateModules, isDirectModule, Module, ModuleConfig, ModuleFilter, ModuleQueryResult } from '@xyo-network/module-model'
 import {
   IndirectNodeModule,
   NodeAttachedQuerySchema,
@@ -70,40 +62,6 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return await (this.privateResolver.resolve() ?? [])
   }
 
-  override async describe(): Promise<ModuleDescriptionPayload> {
-    return await super.describe()
-  }
-
-  override async discover(): Promise<Payload[]> {
-    const childMods = await this.attachedModules()
-    const childModAddresses = childMods.map((mod) =>
-      new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
-    )
-
-    return [...(await super.discover()), ...childModAddresses]
-  }
-
-  override async manifest(): Promise<NodeManifestPayload> {
-    const manifest: NodeManifestPayload = { ...(await super.manifest()), schema: NodeManifestPayloadSchema }
-
-    const notThisModule = (module: Module) => module.address !== this.address
-    const toManifest = (module: Module) => (isDirectModule(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
-
-    const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
-    if (privateModules.length > 0) {
-      manifest.modules = manifest.modules ?? {}
-      manifest.modules.private = privateModules
-    }
-
-    const publicModules = await Promise.all((await this.downResolver.resolve()).filter(notThisModule).map(toManifest))
-    if (publicModules.length > 0) {
-      manifest.modules = manifest.modules ?? {}
-      manifest.modules.public = publicModules
-    }
-
-    return manifest
-  }
-
   register(_module: Module): Promisable<void> {
     throw new Error('Method not implemented.')
   }
@@ -140,6 +98,36 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   unregister(_module: Module): Promisable<this> {
     throw new Error('Method not implemented.')
+  }
+
+  protected override async discoverHandler(): Promise<Payload[]> {
+    const childMods = await this.attachedModules()
+    const childModAddresses = childMods.map((mod) =>
+      new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+    )
+
+    return [...(await super.discoverHandler()), ...childModAddresses]
+  }
+
+  protected override async manifestHandler(): Promise<NodeManifestPayload> {
+    const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
+
+    const notThisModule = (module: Module) => module.address !== this.address
+    const toManifest = (module: Module) => (isDirectModule(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
+
+    const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
+    if (privateModules.length > 0) {
+      manifest.modules = manifest.modules ?? {}
+      manifest.modules.private = privateModules
+    }
+
+    const publicModules = await Promise.all((await this.downResolver.resolve()).filter(notThisModule).map(toManifest))
+    if (publicModules.length > 0) {
+      manifest.modules = manifest.modules ?? {}
+      manifest.modules.public = publicModules
+    }
+
+    return manifest
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

@@ -17,28 +17,31 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     super(privateConstructorKey, mutatedParams)
   }
 
-  /* make it public */
-  override async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
-    return await super.addressPreviousHash()
+  describe(): Promise<ModuleDescriptionPayload> {
+    return this.busy(async () => {
+      return await super.describeHandler()
+    })
   }
 
-  /* make it public */
-  override async describe(): Promise<ModuleDescriptionPayload> {
-    return await super.describe()
+  discover(): Promise<Payload[]> {
+    return this.busy(async () => {
+      return await super.discoverHandler()
+    })
   }
 
-  /* make it public */
-  override async discover(): Promise<Payload[]> {
-    return await super.discover()
+  manifest(): Promise<ModuleManifestPayload> {
+    return this.busy(async () => {
+      return await super.manifestHandler()
+    })
   }
 
-  /* make it public */
-  override async manifest(): Promise<ModuleManifestPayload> {
-    return await super.manifest()
+  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    return this.busy(async () => {
+      return await super.moduleAddressHandler()
+    })
   }
 
-  /* make it public */
-  override subscribe(_queryAccount?: AccountInstance) {
-    return super.subscribe()
+  subscribe(_queryAccount?: AccountInstance) {
+    return super.subscribeHandler()
   }
 }

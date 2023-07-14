@@ -157,10 +157,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return ModuleFactory.withParams(this, params)
   }
 
-  addressPreviousHash(): Promisable<AddressPreviousHashPayload> {
-    return { address: this.address, previousHash: this._account?.previousHash, schema: AddressPreviousHashSchema }
-  }
-
   async busy<R>(closure: () => Promise<R>) {
     if (AbstractIndirectModule.enableBusy) {
       if (this._busyCount <= 0) {
@@ -200,35 +196,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return this._account
   }
 
-  manifest(): Promisable<ModuleManifestPayload> {
-    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
-    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
-  }
-
-  moduleAddressQuery(): Promisable<(AddressPayload | AddressPreviousHashPayload)[]> {
-    // Return array of all addresses and their previous hash
-    const queryAccounts = Object.entries(this.queryAccounts)
-      .filter((value): value is [string, AccountInstance] => {
-        return exists(value[1])
-      })
-      .map(([name, account]) => {
-        const address = account.address
-        const previousHash = account.previousHash
-        return [
-          { address, name, schema: AddressSchema },
-          { address, previousHash, schema: AddressPreviousHashSchema },
-        ]
-      })
-    const address = this.address
-    const name = this.config.name
-    const previousHash = this.address
-    const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash = previousHash
-      ? { address, previousHash, schema: AddressPreviousHashSchema }
-      : { address, schema: AddressPreviousHashSchema }
-    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
-  }
-
   previousHash(): Promisable<string | undefined> {
     return this.account.previousHash
   }
@@ -238,13 +205,15 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    this.started('throw')
-    const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
+    return await this.busy(async () => {
+      this.started('throw')
+      const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
-    const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-    await this.emit('moduleQueried', args)
+      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+      await this.emit('moduleQueried', args)
 
-    return result
+      return result
+    })
   }
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -304,10 +273,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return this._started
   }
 
-  subscribe(_queryAccount?: AccountInstance) {
-    return
-  }
-
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
@@ -363,7 +328,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
 
   protected commitArchivist = () => this.getArchivist('commit')
 
-  protected async describe(): Promise<ModuleDescriptionPayload> {
+  protected async describeHandler(): Promise<ModuleDescriptionPayload> {
     const description: ModuleDescriptionPayload = {
       address: this.address,
       queries: this.queries,
@@ -373,7 +338,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
       description.name = this.config.name
     }
 
-    const discover = await this.discover()
+    const discover = await this.discoverHandler()
 
     description.children = compact(
       discover?.map((payload) => {
@@ -385,7 +350,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return description
   }
 
-  protected discover(): Promisable<Payload[]> {
+  protected discoverHandler(): Promisable<Payload[]> {
     const config = this.config
     const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
     const queries = this.queries.map((query) => {
@@ -418,6 +383,35 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     }
   }
 
+  protected manifestHandler(): Promisable<ModuleManifestPayload> {
+    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
+    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
+  }
+
+  protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {
+    // Return array of all addresses and their previous hash
+    const queryAccounts = Object.entries(this.queryAccounts)
+      .filter((value): value is [string, AccountInstance] => {
+        return exists(value[1])
+      })
+      .map(([name, account]) => {
+        const address = account.address
+        const previousHash = account.previousHash
+        return [
+          { address, name, schema: AddressSchema },
+          { address, previousHash, schema: AddressPreviousHashSchema },
+        ]
+      })
+    const address = this.address
+    const name = this.config.name
+    const previousHash = this.address
+    const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
+    const moduleAccountPreviousHash = previousHash
+      ? { address, previousHash, schema: AddressPreviousHashSchema }
+      : { address, schema: AddressPreviousHashSchema }
+    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
+  }
+
   protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -438,19 +432,19 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     try {
       switch (queryPayload.schema) {
         case ModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discover()))
+          resultPayloads.push(...(await this.discoverHandler()))
           break
         }
         case ModuleDescribeQuerySchema: {
-          resultPayloads.push(await this.describe())
+          resultPayloads.push(await this.describeHandler())
           break
         }
         case ModuleAddressQuerySchema: {
-          resultPayloads.push(...(await this.moduleAddressQuery()))
+          resultPayloads.push(...(await this.moduleAddressHandler()))
           break
         }
         case ModuleSubscribeQuerySchema: {
-          this.subscribe(queryAccount)
+          this.subscribeHandler(queryAccount)
           break
         }
         default:
@@ -476,6 +470,10 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   protected stop(_timeout?: number): Promisable<this> {
     this._started = false
     return this
+  }
+
+  protected subscribeHandler(_queryAccount?: AccountInstance) {
+    return
   }
 
   protected validateConfig(config?: unknown, parents: string[] = []): boolean {

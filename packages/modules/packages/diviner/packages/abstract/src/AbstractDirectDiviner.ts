@@ -1,4 +1,7 @@
+import { AccountInstance } from '@xyo-network/account-model'
 import { DirectDivinerModule, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { AddressPreviousHashPayload, ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractIndirectDiviner } from './AbstractIndirectDiviner'
@@ -10,7 +13,37 @@ export abstract class AbstractDirectDiviner<
   extends AbstractIndirectDiviner<TParams, TEventData>
   implements DirectDivinerModule<TParams>
 {
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
-    return await this.divineHandler(payloads)
+  describe(): Promise<ModuleDescriptionPayload> {
+    return this.busy(async () => {
+      return await super.describeHandler()
+    })
+  }
+
+  discover(): Promise<Payload[]> {
+    return this.busy(async () => {
+      return await super.discoverHandler()
+    })
+  }
+
+  divine(payloads?: Payload[]): Promise<Payload[]> {
+    return this.busy(async () => {
+      return await this.divineHandler(payloads)
+    })
+  }
+
+  manifest(): Promise<ModuleManifestPayload> {
+    return this.busy(async () => {
+      return await super.manifestHandler()
+    })
+  }
+
+  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    return this.busy(async () => {
+      return await super.moduleAddressHandler()
+    })
+  }
+
+  subscribe(_queryAccount?: AccountInstance) {
+    return super.subscribeHandler()
   }
 }

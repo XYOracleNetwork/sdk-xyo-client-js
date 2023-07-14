@@ -1,7 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
+import { Payload } from '@xyo-network/payload-model'
+import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
@@ -42,8 +45,16 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const [archivistByName] = await NodeWrapper.wrap(memNode, wrapperAccount).resolve({ name: ['Archivist'] })
-    expect(archivistByName).toBeDefined()
+    const [archivistByName] = await memNode.resolve({ name: ['Archivist'] })
+    const archivistInstance = asArchivistInstance(archivistByName) as ArchivistInstance
+    expect(archivistInstance).toBeDefined()
+    const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload() as Payload
+    expect(knownPayload).toBeDefined()
+    const knownHash = await PayloadWrapper.hashAsync(knownPayload as Payload)
+    const insertResult = await archivistInstance.insert([knownPayload])
+    expect(insertResult).toBeDefined()
+    const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
+    expect(roundTripPayload).toBeDefined()
   })
   it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
     const memNode1 = await MemoryNode.create()

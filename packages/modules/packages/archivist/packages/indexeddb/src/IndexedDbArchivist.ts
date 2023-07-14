@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
@@ -13,7 +14,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
+import { DBSchema, IDBPDatabase, openDB } from 'idb'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
@@ -32,16 +33,24 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
 
 export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
 
+export interface PreviousHashStoreSchemaV1 extends DBSchema {
+  archivist: {
+    key: string
+    value: Payload
+  }
+}
+
 @creatableModule()
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractDirectArchivist<TParams, TEventData> {
+  static readonly CurrentSchemaVersion = 1
   static override configSchemas = [IndexedDbArchivistConfigSchema]
   static defaultDbName = 'archivist'
   static defaultStoreName = 'payloads'
 
-  private _db: UseStore | undefined
+  private db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>> | undefined = undefined
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -71,44 +80,50 @@ export class IndexedDbArchivist<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
-  private get db(): UseStore {
-    return assertEx(this._db, 'DB not initialized')
-  }
-
   override async start(): Promise<void> {
     await super.start()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    this._db = createStore(this.dbName, this.storeName)
+    this.db = openDB<PreviousHashStoreSchemaV1>(this.dbName, IndexedDbArchivist.CurrentSchemaVersion, {
+      upgrade: (db) => db.createObjectStore(this.storeName as 'archivist'),
+    })
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    const result = await entries<string, Payload>(this.db)
-    return result.map<Payload>(([_hash, payload]) => payload)
+    return (await this.db)?.getAll(this.storeName as 'archivist') ?? []
   }
 
   protected override async clearHandler(): Promise<void> {
-    await clear(this.db)
+    await (await this.db)?.clear(this.storeName as 'archivist')
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    await delMany(hashes, this.db)
+    await Promise.all(
+      hashes.map(async (hash) => {
+        await (await this.db)?.delete(this.storeName as 'archivist', hash)
+      }),
+    )
     return hashes.map((_) => true)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const result = await getMany<Payload>(hashes, this.db)
-    return result
+    const results = (
+      await Promise.all(
+        hashes.map(async (hash) => {
+          return await (await this.db)?.get(this.storeName as 'archivist', hash)
+        }),
+      )
+    ).filter(exists)
+    return results
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
-    const entries = await Promise.all(
-      payloads.map<Promise<[string, Payload]>>(async (payload) => {
+    await Promise.all(
+      payloads.map(async (payload) => {
         const hash = await PayloadHasher.hashAsync(payload)
-        return [hash, payload]
+        await (await this.db)?.put(this.storeName as 'archivist', payload, hash)
       }),
     )
-    await setMany(entries, this.db)
     const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
   }

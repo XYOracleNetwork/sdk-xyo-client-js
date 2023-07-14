@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { delay } from '@xylabs/delay'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher, uuid } from '@xyo-network/core'
@@ -11,6 +10,17 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
+const insertPayloads = async (archivist: Promisable<ArchivistInstance>, count: number) => {
+  const archivistModule = await archivist
+  const payloads = Array(count)
+    .fill(0)
+    .map<IdPayload>(() => {
+      return { salt: uuid(), schema: IdSchema }
+    })
+  await archivistModule.insert(payloads)
+  return payloads
+}
+
 export const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist RoundTrip [${name}]`, async () => {
     const idPayload: Payload<{ salt: string }> = {
@@ -18,7 +28,6 @@ export const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>,
       schema: IdSchema,
     }
     const payloadWrapper = PayloadWrapper.wrap(idPayload)
-
     const archivistModule = await archivist
     const insertResult = await archivistModule.insert([idPayload])
     const insertResultWrappers = insertResult.map((bw) => BoundWitnessWrapper.wrap(bw))
@@ -45,11 +54,7 @@ export const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name:
   test(`Archivist All [${name}]`, async () => {
     const archivistModule = await archivist
     const count = 10
-    const payloads = Array(count)
-      .fill(0)
-      .map<IdPayload>(() => {
-        return { salt: uuid(), schema: IdSchema }
-      })
+    const payloads = await insertPayloads(archivistModule, count)
     await archivistModule.insert(payloads)
     const getResult = await archivistModule.all?.()
     expect(getResult).toBeDefined()
@@ -58,22 +63,15 @@ export const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name:
 }
 
 export const testArchivistClear = (archivist: Promisable<ArchivistInstance>, name: string) => {
-  beforeAll(async () => {
-    const archivistModule = await archivist
-    const count = 10
-    const payloads = Array(count)
-      .fill(0)
-      .map<IdPayload>(() => {
-        return { salt: uuid(), schema: IdSchema }
-      })
-    await archivistModule.insert(payloads)
-  })
+  const count = 10
   test(`Archivist Clear [${name}]`, async () => {
     const archivistModule = await archivist
+    await insertPayloads(archivistModule, count)
+    const allResultBeforeClear = await archivistModule.all?.()
+    expect(allResultBeforeClear).toBeArrayOfSize(count)
     await archivistModule.clear?.()
-    const getResult = await archivistModule.all?.()
-    expect(getResult).toBeDefined()
-    expect(getResult?.length).toBe(0)
+    const allResultAfterClear = await archivistModule.all?.()
+    expect(allResultAfterClear).toBeArrayOfSize(0)
   })
 }
 

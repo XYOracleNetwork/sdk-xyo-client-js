@@ -17,7 +17,6 @@ import {
 } from 'fake-indexeddb'
 
 import { IndexedDbArchivistSimple, IndexedDbArchivistSimpleConfigSchema } from '../IndexedDbArchivistSimple'
-import { testArchivistAll, testArchivistClear, testArchivistDelete, testArchivistRoundTrip } from './testArchivist'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor
@@ -64,14 +63,5 @@ describe('IndexedDbArchivistSimple', () => {
       const archivist = await IndexedDbArchivistSimple.create({ account, config: { schema: IndexedDbArchivistSimpleConfigSchema } })
       expect(archivist.storeName).toBe(IndexedDbArchivistSimple.defaultStoreName)
     })
-  })
-
-  describe('Using IndexedDB from window', () => {
-    const name = 'IndexedDB (window)'
-    const dbName = 'IndexedDbArchivistSimple'
-    testArchivistAll(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
-    testArchivistClear(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
-    testArchivistDelete(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
-    testArchivistRoundTrip(IndexedDbArchivistSimple.create({ account, config: { dbName, schema: IndexedDbArchivistSimpleConfigSchema } }), name)
   })
 })

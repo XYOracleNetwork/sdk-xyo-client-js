@@ -1,6 +1,4 @@
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -12,9 +10,11 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { DBSchema, IDBPDatabase, openDB } from 'idb'
+
+import { AbstractIndexedDbArchivist } from './AbstractIndexedDbArchivist'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
@@ -40,15 +40,12 @@ export interface PreviousHashStoreSchemaV1 extends DBSchema {
   }
 }
 
-@creatableModule()
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractDirectArchivist<TParams, TEventData> {
+> extends AbstractIndexedDbArchivist<TParams, TEventData> {
   static readonly CurrentSchemaVersion = 1
   static override configSchemas = [IndexedDbArchivistConfigSchema]
-  static defaultDbName = 'archivist'
-  static defaultStoreName = 'payloads'
 
   private db: Promise<IDBPDatabase<PreviousHashStoreSchemaV1>> | undefined = undefined
 

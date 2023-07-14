@@ -5566,6 +5566,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.9.3
     "@xylabs/delay": ^2.9.3
+    "@xylabs/exists": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.18.10
     "@xylabs/tsconfig": ^2.18.10
     "@xyo-network/abstract-archivist": "workspace:^"
@@ -5573,12 +5574,13 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:^"
     "@xyo-network/boundwitness-wrapper": "workspace:^"
     "@xyo-network/core": "workspace:^"
+    "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/module": "workspace:^"
     "@xyo-network/payload-model": "workspace:^"
     "@xyo-network/payload-wrapper": "workspace:^"
-    "@xyo-network/plugins": "workspace:^"
     "@xyo-network/promise": "workspace:^"
     fake-indexeddb: ^4.0.1
+    idb: ^7.1.1
     idb-keyval: ^6.2.1
     typescript: ^5.1.6
   languageName: unknown

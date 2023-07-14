@@ -15,19 +15,6 @@ import { IndexedDbArchivist, IndexedDbArchivistConfigSchema } from '../IndexedDb
 import { IndexedDbArchivistSimple, IndexedDbArchivistSimpleConfigSchema } from '../IndexedDbArchivistSimple'
 import { testArchivistAll, testArchivistClear, testArchivistDelete, testArchivistRoundTrip } from './testArchivist'
 
-// // Augment window with prototypes to ensure instance of comparisons work
-// window.IDBCursor = IDBCursor
-// window.IDBCursorWithValue = IDBCursorWithValue
-// window.IDBDatabase = IDBDatabase
-// window.IDBFactory = IDBFactory
-// window.IDBIndex = IDBIndex
-// window.IDBKeyRange = IDBKeyRange
-// window.IDBObjectStore = IDBObjectStore
-// window.IDBOpenDBRequest = IDBOpenDBRequest
-// window.IDBRequest = IDBRequest
-// window.IDBTransaction = IDBTransaction
-// window.IDBVersionChangeEvent = IDBVersionChangeEvent
-
 // Shim via fake-indexeddb
 const freshInstance = new IDBFactory()
 window.indexedDB = freshInstance

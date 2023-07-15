@@ -17,60 +17,70 @@ export abstract class AbstractDirectArchivist<
 {
   all(): PromisableArray<Payload> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.allHandler()
     })
   }
 
   clear(): Promisable<void> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.clearHandler()
     })
   }
 
   commit(): Promisable<BoundWitness[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.commitHandler()
     })
   }
 
   delete(hashes: string[]): PromisableArray<boolean> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.deleteHandler(hashes)
     })
   }
 
   describe(): Promise<ModuleDescriptionPayload> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.describeHandler()
     })
   }
 
   discover(): Promise<Payload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.discoverHandler()
     })
   }
 
   get(hashes: string[]): Promise<Payload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.getHandler(hashes)
     })
   }
 
   insert(payloads: Payload[]): PromisableArray<BoundWitness> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.insertHandler(payloads)
     })
   }
 
   manifest(): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.manifestHandler()
     })
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.moduleAddressHandler()
     })
   }

@@ -8,15 +8,18 @@ import { Promisable } from '@xyo-network/promise'
 import { AnyConfigSchema, ModuleConfig } from './Config'
 import { ModuleBusyEventData, ModuleQueriedEventData } from './Events'
 import { ModuleDescription } from './ModuleDescription'
-import { ModuleFilter } from './ModuleFilter'
+import { ModuleFilter, ModuleFilterOptions } from './ModuleFilter'
 import { ModuleParams } from './ModuleParams'
 import { ModuleQueryResult } from './ModuleQueryResult'
 import { AddressPreviousHashPayload } from './Queries'
 
 export interface ResolveFunctions {
-  resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promisable<TModule[]>
-  resolve<TModule extends Module = Module>(nameOrAddress: string): Promisable<TModule | undefined>
-  resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promisable<TModule | TModule[] | undefined>
+  resolve<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<TModule[]>
+  resolve<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promisable<TModule | undefined>
+  resolve<TModule extends Module = Module>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promisable<TModule | TModule[] | undefined>
 }
 
 export interface ModuleResolver extends ResolveFunctions {
@@ -70,7 +73,8 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
     queryConfig?: TConf,
   ) => Promisable<boolean>
 
-  start?: () => Promisable<void>
+  start?: () => Promisable<boolean>
+  stop?: () => Promisable<boolean>
 
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
@@ -80,12 +84,12 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
 export type IndirectModule<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = ModuleFields<TParams> & EventFunctions<TEventData>
+> = ModuleFields<TParams> & EventFunctions<TEventData> & ResolveFunctions
 
 export type DirectModule<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
   TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectModule<TParams, TEventData> & ModuleQueryFunctions & ResolveFunctions
+> = IndirectModule<TParams, TEventData> & ModuleQueryFunctions
 
 export type ModuleInstance<
   TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,

@@ -30,12 +30,8 @@ export class AddressTransactionHistoryWitness<
     return assertEx(this.params.provider, 'Provider Required')
   }
 
-  override async start() {
-    await super.start()
-  }
-
   protected override async observeHandler(): Promise<Payload[]> {
-    this.started('throw')
+    await this.started('throw')
     const address = assertEx(this.config.address, 'params.address is required')
     const transactions = await getTransactionsForAddress(address, this.provider)
     const payloads = transactions.map<AddressTransactionHistoryPayload>((transaction) => {

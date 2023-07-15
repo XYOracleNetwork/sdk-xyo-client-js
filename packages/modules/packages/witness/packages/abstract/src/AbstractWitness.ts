@@ -41,7 +41,7 @@ export abstract class AbstractWitness<
   }
 
   async observe(payloads?: Payload[]): Promise<Payload[]> {
-    this.started('throw')
+    await this.started('throw')
     const payloadList = assertEx(await this.observeHandler(payloads), 'Trying to witness nothing')
     assertEx(payloadList.length > 0, 'Trying to witness empty list')
     payloadList?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))

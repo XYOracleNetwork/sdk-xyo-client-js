@@ -68,19 +68,6 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return rawPayloads.map((payload) => PayloadWrapper.wrap(payload).payload())
   }
 
-  override async start() {
-    await super.start()
-    this._memoryArchivist = await MemoryArchivist.create()
-    try {
-      const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
-      await this._memoryArchivist.insert(data.payloads)
-    } catch (ex) {
-      handleError(ex, (error) => {
-        this.logger?.error(error.message)
-      })
-    }
-  }
-
   protected override allHandler(): PromisableArray<Payload> {
     return this.memoryArchivist.all()
   }
@@ -103,6 +90,21 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
 
   protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
     return await this.memoryArchivist.insert(payloads)
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    this._memoryArchivist = await MemoryArchivist.create()
+    try {
+      const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
+      await this._memoryArchivist.insert(data.payloads)
+    } catch (ex) {
+      handleError(ex, (error) => {
+        this.logger?.error(error.message)
+      })
+      return false
+    }
+    return true
   }
 
   private async rawJsonFromFile() {

@@ -27,6 +27,7 @@ export class MemorySentinel<
   static override configSchemas = [SentinelConfigSchema]
 
   async report(payloads: Payload[] = []): Promise<Payload[]> {
+    await this.started('throw')
     const errors: Error[] = []
     await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
     const allWitnesses = [...(await this.getWitnesses())]

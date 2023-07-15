@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness, WitnessConfig, WitnessConfigSchema, WitnessModule, WitnessParams } from '@xyo-network/witness'
 
 export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const AdhocWitnessConfigSchema: AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
@@ -16,7 +16,7 @@ export type AdhocWitnessConfig = WitnessConfig<{
 export type AdhocWitnessParams = WitnessParams<AnyConfigSchema<AdhocWitnessConfig>>
 
 export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
-  static override readonly configSchemas: string[] = [AdhocWitnessConfigSchema]
+  static override readonly configSchemas: string[] = [AdhocWitnessConfigSchema, WitnessConfigSchema]
 
   get payload() {
     return this.config?.payload

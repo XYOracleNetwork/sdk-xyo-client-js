@@ -9,7 +9,7 @@ import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
-  duplicateModules,
+  IndirectModule,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -19,9 +19,11 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
+  ModuleFilterOptions,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
+  ModuleResolver,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -101,7 +103,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.config
   }
 
-  get downResolver() {
+  get downResolver(): ModuleResolver {
     return this.module.downResolver
   }
 
@@ -113,7 +115,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.queries
   }
 
-  get upResolver() {
+  get upResolver(): ModuleResolver {
     return this.module.upResolver
   }
 
@@ -274,21 +276,18 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.queryable(query, payloads)
   }
 
-  async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
-  async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
-  async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
+  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
+  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
+  async resolve<TModule extends IndirectModule = IndirectModule>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<TModule | TModule[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter)
-          ? (await this.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-          : undefined
-        return byAddress ?? (await this.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+        return await this.module.resolve<TModule>(nameOrAddressOrFilter, options)
       }
       default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.module.downResolver.resolve<TModule>(filter)), ...(await this.module.upResolver.resolve<TModule>(filter))].filter(
-          duplicateModules,
-        )
+        return await this.module.resolve<TModule>(nameOrAddressOrFilter, options)
       }
     }
   }

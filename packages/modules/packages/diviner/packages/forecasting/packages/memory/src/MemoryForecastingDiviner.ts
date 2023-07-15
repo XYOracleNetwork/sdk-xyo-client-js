@@ -62,7 +62,7 @@ export class MemoryForecastingDiviner<
     const payloads: Payload[] = []
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const bwDiviner = IndirectDivinerWrapper.wrap(
-      assertEx((await this.upResolver.resolve<DivinerModule>(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner'),
+      assertEx((await this.resolve<DivinerModule>(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner'),
       this.account,
     )
     const limit = this.batchLimit

@@ -31,14 +31,6 @@ export class MongoDBSchemaListDiviner<
    */
   protected readonly aggregateTimeoutMs = 10_000
 
-  override async start() {
-    await super.start()
-  }
-
-  override async stop(): Promise<this> {
-    return await super.stop()
-  }
-
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<SchemaListPayload>[]> {
     const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined

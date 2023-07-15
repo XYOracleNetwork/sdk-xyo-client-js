@@ -29,13 +29,8 @@ export class UniswapCryptoMarketWitness<
     return this.params.provider
   }
 
-  override async start() {
-    await super.start()
-    this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
-  }
-
   protected override async observeHandler(): Promise<Payload[]> {
-    this.started('throw')
+    await this.started('throw')
     const pairs = await pricesFromUniswap3(assertEx(this.pairs))
     const timestamp = Date.now()
 
@@ -46,5 +41,11 @@ export class UniswapCryptoMarketWitness<
     }
 
     return [payload]
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    this.pairs = createUniswapPoolContracts(assertEx(this.provider, 'Provider Required'), this.config?.pools ?? UniswapPoolContracts)
+    return true
   }
 }

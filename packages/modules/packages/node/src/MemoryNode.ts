@@ -27,30 +27,37 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private registeredModuleMap: Record<string, Module> = {}
 
   override async attach(nameOrAddress: string, external?: boolean) {
+    await this.started('throw')
     return (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external))
   }
 
   async describe(): Promise<ModuleDescriptionPayload> {
+    await this.started('throw')
     return await super.describeHandler()
   }
 
   override async detach(nameOrAddress: string) {
+    await this.started('throw')
     return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
   async discover(): Promise<Payload[]> {
+    await this.started('throw')
     return await super.discoverHandler()
   }
 
   async manifest(): Promise<NodeManifestPayload> {
+    await this.started('throw')
     return await super.manifestHandler()
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    await this.started('throw')
     return await super.moduleAddressHandler()
   }
 
   override async register(module: Module) {
+    await this.started('throw')
     assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap[module.address] = module
     const args = { module, name: module.config.name }
@@ -74,11 +81,16 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   override async unregister(module: Module) {
+    await this.started('throw')
     await this.detach(module.address)
     delete this.registeredModuleMap[module.address]
     const args = { module, name: module.config.name }
     await this.emit('moduleUnregistered', args)
     return this
+  }
+
+  protected override startHandler() {
+    return super.startHandler()
   }
 
   private async attachUsingAddress(address: string, external?: boolean) {
@@ -116,10 +128,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     const notificationList = await getModulesToNotifyAbout(module)
 
-    this.privateResolver.addResolver(module.downResolver)
-
-    //give it inside access
+    //give it private access
     module.upResolver.addResolver?.(this.privateResolver)
+
+    //give it public access
+    module.upResolver.addResolver?.(this.downResolver)
 
     //give it outside access
     module.upResolver.addResolver?.(this.upResolver)
@@ -127,6 +140,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (external) {
       //expose it externally
       this.downResolver.addResolver(module.downResolver)
+    } else {
+      this.privateResolver.addResolver(module.downResolver)
     }
 
     const args = { module, name: module.config.name }
@@ -172,8 +187,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (!module) {
       return
     }
-
-    this.privateResolver.removeResolver(module.downResolver)
 
     //remove inside access
     module.upResolver?.removeResolver?.(this.privateResolver)

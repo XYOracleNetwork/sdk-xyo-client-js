@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
@@ -15,7 +16,9 @@ describe('SentinelRunner', () => {
 
   beforeEach(async () => {
     const node = (await MemoryNode.create()) as MemoryNode
-    const witnessModules: AbstractWitness[] = [await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } })]
+    const witnessModules: AbstractWitness[] = [
+      await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
+    ]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {
         await node.register(witness)
@@ -29,7 +32,7 @@ describe('SentinelRunner', () => {
       witnesses,
     }
 
-    sentinel = (await MemorySentinel.create({ config })) as MemorySentinel
+    sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
     await node.register(sentinel)
     await node.attach(sentinel.address)
   })

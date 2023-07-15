@@ -55,13 +55,16 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   }
 
   async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary) {
-    return await Promise.all(
+    const start = Date.now()
+    const result = await Promise.all(
       this.payload().nodes?.map(async (nodeManifest, index) => {
         const subNode = await this.loadNodeFromManifest(nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, additionalCreatableModules)
         await node?.register(subNode)
         return subNode
       }),
     )
+    console.log(`Loaded nodes from manifest in ${Date.now() - start}ms`)
+    return result
   }
 
   nodeManifest(index: number) {

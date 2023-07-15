@@ -7,11 +7,13 @@ import {
   AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
+  IndirectModule,
   Module,
   ModuleConfig,
   ModuleDescription,
   ModuleEventData,
   ModuleFilter,
+  ModuleFilterOptions,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
@@ -89,7 +91,7 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
   }
 
   manifest(): Promisable<ModuleManifest> {
-    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
+    const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config } }
   }
 
@@ -108,7 +110,16 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
   }
 
   /* Resolves a filter from the perspective of the module, including through the parent/gateway module */
-  async resolve(filter?: ModuleFilter): Promise<Module[]> {
-    return await this.bridge.targetResolve(this.address, filter)
+  resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<TModule[]>
+  resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promisable<TModule | undefined>
+  async resolve<TModule extends IndirectModule = IndirectModule>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<TModule | TModule[] | undefined> {
+    if (typeof nameOrAddressOrFilter === 'string') {
+      return await this.bridge.targetResolve<TModule>(this.address, nameOrAddressOrFilter, options)
+    } else {
+      return await this.bridge.targetResolve<TModule>(this.address, nameOrAddressOrFilter, options)
+    }
   }
 }

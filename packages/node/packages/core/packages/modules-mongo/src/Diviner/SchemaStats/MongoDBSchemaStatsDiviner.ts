@@ -122,24 +122,25 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     ]
   }
 
-  override async start() {
-    await super.start()
-    await this.registerWithChangeStream()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
-  }
-
-  override async stop(): Promise<this> {
-    await this.changeStream?.close()
-    return await super.stop()
-  }
-
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<SchemaStatsPayload>[]> {
     const query = payloads?.find<SchemaStatsQueryPayload>(isSchemaStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build())
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    await this.registerWithChangeStream()
+    const { jobQueue } = this.params
+    defineJobs(jobQueue, this.jobs)
+    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    return true
+  }
+
+  protected override async stopHandler() {
+    await this.changeStream?.close()
+    return await super.stopHandler()
   }
 
   private backgroundDivine = async (): Promise<void> => {

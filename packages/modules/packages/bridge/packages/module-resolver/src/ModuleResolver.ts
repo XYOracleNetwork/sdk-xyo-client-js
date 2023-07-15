@@ -1,26 +1,25 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistGetQuerySchema, isArchivistModule } from '@xyo-network/archivist-model'
+import { isArchivistModule } from '@xyo-network/archivist-model'
 import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { IndirectDivinerWrapper } from '@xyo-network/diviner'
-import { DivinerDivineQuerySchema, isDivinerModule } from '@xyo-network/diviner-model'
+import { isDivinerModule } from '@xyo-network/diviner-model'
 import { handleError } from '@xyo-network/error'
 import { CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
 import {
   AddressModuleFilter,
   IndirectModule,
-  isModuleInstance,
   Module,
   ModuleFilter,
   ModuleResolver,
   NameModuleFilter,
   QueryModuleFilter,
 } from '@xyo-network/module-model'
-import { isNodeModule, NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { isNodeModule } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
-import { isSentinelModule, SentinelReportQuerySchema, SentinelWrapper } from '@xyo-network/sentinel'
-import { isWitnessModule, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
+import { isSentinelModule, SentinelWrapper } from '@xyo-network/sentinel'
+import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import compact from 'lodash/compact'
 
@@ -86,7 +85,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     nameOrAddressOrFilter?: ModuleFilter | string,
   ): Promise<TModule | TModule[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      return (await this.resolveByAddress<TModule>(nameOrAddressOrFilter)) ?? (await this.resolveByName<TModule>(nameOrAddressOrFilter))?.[0]
+      return (await this.resolveByAddress<TModule>(nameOrAddressOrFilter)) ?? (await this.resolveByName<TModule>(nameOrAddressOrFilter))
     } else {
       return await this.resolveRemoteModules<TModule>(nameOrAddressOrFilter)
     }
@@ -132,7 +131,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
           if (isSentinelModule(mod)) {
             return SentinelWrapper.wrap(mod, this.wrapperAccount)
           }
-
+          console.warn(`BridgeModuleResolver: Unknown Module Type: [${targetAddress}: ${mod.config.schema}]`)
           return ModuleWrapper.wrap(mod, this.wrapperAccount)
         } catch (ex) {
           handleError(ex, (error) => {

@@ -75,13 +75,6 @@ export class IndexedDbArchivist<
     return assertEx(this._db, 'DB not initialized')
   }
 
-  override async start(): Promise<void> {
-    await super.start()
-    // NOTE: We could defer this creation to first access but we
-    // want to fail fast here in case something is wrong
-    this._db = createStore(this.dbName, this.storeName)
-  }
-
   protected override async allHandler(): Promise<Payload[]> {
     const result = await entries<string, Payload>(this.db)
     return result.map<Payload>(([_hash, payload]) => payload)
@@ -111,5 +104,13 @@ export class IndexedDbArchivist<
     await setMany(entries, this.db)
     const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
     return [result[0]]
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    // NOTE: We could defer this creation to first access but we
+    // want to fail fast here in case something is wrong
+    this._db = createStore(this.dbName, this.storeName)
+    return true
   }
 }

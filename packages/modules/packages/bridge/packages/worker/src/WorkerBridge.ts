@@ -122,34 +122,6 @@ export class WorkerBridge<
     return true
   }
 
-  override async start() {
-    if (this._started) return
-    await super.start()
-
-    this.downResolver.addResolver(this.targetDownResolver())
-
-    await this.targetDiscover()
-
-    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
-
-    const children = compact(
-      await Promise.all(
-        childAddresses.map(async (address) => {
-          const resolved = await this.targetDownResolver().resolve({ address: [address] })
-          return resolved[0]
-        }),
-      ),
-    )
-
-    // Discover all to load cache
-    await Promise.all(children.map((child) => (isDirectModule(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
-
-    const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
-    //notify parents of child modules
-    //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
-  }
-
   targetConfig(address: string): ModuleConfig {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
@@ -230,6 +202,34 @@ export class WorkerBridge<
   }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
+    return true
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+
+    this.downResolver.addResolver(this.targetDownResolver())
+
+    await this.targetDiscover()
+
+    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
+
+    const children = compact(
+      await Promise.all(
+        childAddresses.map(async (address) => {
+          const resolved = await this.targetDownResolver().resolve({ address: [address] })
+          return resolved[0]
+        }),
+      ),
+    )
+
+    // Discover all to load cache
+    await Promise.all(children.map((child) => (isDirectModule(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
+
+    const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
+    //notify parents of child modules
+    //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
+    parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
     return true
   }
 }

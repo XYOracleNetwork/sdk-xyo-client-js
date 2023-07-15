@@ -109,14 +109,6 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     ]
   }
 
-  override async start() {
-    await super.start()
-    await this.registerWithChangeStream()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
-  }
-
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<PayloadStatsPayload>[]> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
@@ -124,9 +116,18 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
   }
 
-  protected override async stop(): Promise<this> {
+  protected override async startHandler() {
+    await super.startHandler()
+    await this.registerWithChangeStream()
+    const { jobQueue } = this.params
+    defineJobs(jobQueue, this.jobs)
+    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    return true
+  }
+
+  protected override async stopHandler() {
     await this.changeStream?.close()
-    return await super.stop()
+    return await super.stopHandler()
   }
 
   private backgroundDivine = async (): Promise<void> => {

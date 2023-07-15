@@ -15,30 +15,35 @@ export abstract class AbstractDirectDiviner<
 {
   describe(): Promise<ModuleDescriptionPayload> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.describeHandler()
     })
   }
 
   discover(): Promise<Payload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.discoverHandler()
     })
   }
 
   divine(payloads?: Payload[]): Promise<Payload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await this.divineHandler(payloads)
     })
   }
 
   manifest(): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.manifestHandler()
     })
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     return this.busy(async () => {
+      await this.started('throw')
       return await super.moduleAddressHandler()
     })
   }

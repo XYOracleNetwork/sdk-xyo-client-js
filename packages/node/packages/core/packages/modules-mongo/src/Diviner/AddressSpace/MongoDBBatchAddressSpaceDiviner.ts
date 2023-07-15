@@ -36,22 +36,6 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected response: BoundWitnessPointerPayload | undefined
   protected witnessedAddresses: Set<string> = new Set<string>()
 
-  override async start() {
-    // Create a paginationAccount per archivist
-    const archivistMod = await this.writeArchivist()
-    assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
-    // Pre-mint response payloads for dereferencing later
-    const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
-      .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
-      .build()
-    // Save the appropriate collection pointer response to the respective archivist
-    const archivist = IndirectArchivistWrapper.wrap(archivistMod, this.account)
-    await archivist.insert([response])
-    this.response = response
-    void this.backgroundDivine()
-    await super.start()
-  }
-
   protected async backgroundDivine(): Promise<void> {
     if (this.currentlyRunning) return
     try {
@@ -90,5 +74,21 @@ export class MongoDBBatchAddressSpaceDiviner<
   protected override divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
     void this.backgroundDivine()
     return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
+  }
+
+  protected override async startHandler() {
+    // Create a paginationAccount per archivist
+    const archivistMod = await this.writeArchivist()
+    assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
+    // Pre-mint response payloads for dereferencing later
+    const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
+      .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
+      .build()
+    // Save the appropriate collection pointer response to the respective archivist
+    const archivist = IndirectArchivistWrapper.wrap(archivistMod, this.account)
+    await archivist.insert([response])
+    this.response = response
+    void this.backgroundDivine()
+    return await super.startHandler()
   }
 }

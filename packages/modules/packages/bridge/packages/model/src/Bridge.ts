@@ -1,10 +1,12 @@
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import {
   AnyConfigSchema,
+  IndirectModule,
   Module,
   ModuleConfig,
   ModuleEventData,
   ModuleFilter,
+  ModuleFilterOptions,
   ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
@@ -36,5 +38,20 @@ export interface BridgeModule<
   targetQueries(address: string): string[]
   targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
   targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
-  targetResolve(address: string, filter?: ModuleFilter): Promisable<TModule[]>
+
+  targetResolve<TModule extends IndirectModule = IndirectModule>(
+    address: string,
+    filter?: ModuleFilter,
+    options?: ModuleFilterOptions,
+  ): Promisable<TModule[]>
+  targetResolve<TModule extends IndirectModule = IndirectModule>(
+    address: string,
+    nameOrAddress: string,
+    options?: ModuleFilterOptions,
+  ): Promisable<TModule | undefined>
+  targetResolve<TModule extends IndirectModule = IndirectModule>(
+    address: string,
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promisable<TModule | TModule[] | undefined>
 }

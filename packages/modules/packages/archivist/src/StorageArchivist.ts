@@ -110,11 +110,6 @@ export class StorageArchivist<
     return await super.loadAccount()
   }
 
-  override async start() {
-    await super.start()
-    this.saveAccount()
-  }
-
   protected override allHandler(): PromisableArray<Payload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll()).map(([, value]) => value)
@@ -201,5 +196,11 @@ export class StorageArchivist<
       this.logger?.log(account.address)
       this.privateStorage.set('privateKey', account.private.hex)
     }
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    this.saveAccount()
+    return true
   }
 }

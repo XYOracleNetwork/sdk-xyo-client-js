@@ -22,6 +22,7 @@ import {
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
+import { IndirectModule, ModuleFilterOptions } from '@xyo-network/module-model'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -48,24 +49,27 @@ export abstract class AbstractBridge<
     }
   }
 
-  override async resolve<TModule extends Module = Module>(filter?: ModuleFilter): Promise<TModule[]>
-  override async resolve<TModule extends Module = Module>(nameOrAddress: string): Promise<TModule | undefined>
-  override async resolve<TModule extends Module = Module>(nameOrAddressOrFilter?: ModuleFilter | string): Promise<TModule | TModule[] | undefined> {
+  override async resolve<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
+  override async resolve<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
+  override async resolve<TModule extends Module = Module>(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<TModule | TModule[] | undefined> {
+    const direction = options?.direction ?? 'all'
+    const down = direction === 'down' || direction === 'all'
+    await this.started('throw')
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        const byAddress = Account.isAddress(nameOrAddressOrFilter)
-          ? (await super.resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop() ??
-            (await this.targetDownResolver().resolve<TModule>({ address: [nameOrAddressOrFilter] })).pop()
-          : undefined
         return (
-          byAddress ??
-          (await super.resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop() ??
-          (await this.targetDownResolver().resolve<TModule>({ name: [nameOrAddressOrFilter] })).pop()
+          (await super.resolve<TModule>(nameOrAddressOrFilter, options)) ??
+          (down ? await this.targetDownResolver().resolve<TModule>(nameOrAddressOrFilter) : undefined)
         )
       }
       default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.targetDownResolver().resolve<TModule>(filter)), ...(await super.resolve<TModule>(filter))].filter(duplicateModules)
+        return [
+          ...(down ? await this.targetDownResolver().resolve<TModule>(nameOrAddressOrFilter) : []),
+          ...(await super.resolve<TModule>(nameOrAddressOrFilter, options)),
+        ].filter(duplicateModules)
       }
     }
   }
@@ -75,10 +79,17 @@ export abstract class AbstractBridge<
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter) {
-    //TODO: Honor address so that the resolve only is done through that remote module
-    //right now, we check the entire remote hive
-    return (await this.targetDownResolver(address).resolve(filter)) as TModule[]
+  async targetResolve<TModule extends IndirectModule = IndirectModule>(address: string, filter?: ModuleFilter): Promise<TModule[]>
+  async targetResolve<TModule extends IndirectModule = IndirectModule>(address: string, nameOrAddress: string): Promise<TModule | undefined>
+  async targetResolve<TModule extends IndirectModule = IndirectModule>(
+    address: string,
+    nameOrAddressOrFilter?: ModuleFilter | string,
+  ): Promise<TModule | TModule[] | undefined> {
+    if (typeof nameOrAddressOrFilter === 'string') {
+      return await this.targetDownResolver(address).resolve<TModule>(nameOrAddressOrFilter)
+    } else {
+      return await this.targetDownResolver(address).resolve<TModule>(nameOrAddressOrFilter)
+    }
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { HDWallet } from '@xyo-network/account'
@@ -8,7 +9,7 @@ import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder, QueryBoundWitness, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { handleErrorAsync } from '@xyo-network/error'
+import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AccountModuleParams,
@@ -29,6 +30,8 @@ import {
   ModuleEventData,
   ModuleFactory,
   ModuleFilter,
+  ModuleFilterOptions,
+  ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQuery,
@@ -44,7 +47,7 @@ import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import { IdLogger } from '@xyo-network/shared'
+import { getFunctionName, IdLogger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
@@ -53,7 +56,6 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 import { CompositeModuleResolver } from './Resolver'
 
 /** @description Abstract class for modules that allow access only through querying and not through direct calls  */
-
 export abstract class AbstractIndirectModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
   implements IndirectModule<TParams, TEventData>, IndirectModule
@@ -71,15 +73,18 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     [ModuleAddressQuerySchema]: '1',
     [ModuleDescribeQuerySchema]: '4',
     [ModuleDiscoverQuerySchema]: '2',
+    [ModuleManifestQuerySchema]: '5',
     [ModuleSubscribeQuerySchema]: '3',
   }
   protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
     [ModuleDescribeQuerySchema]: undefined,
     [ModuleDiscoverQuerySchema]: undefined,
+    [ModuleManifestQuerySchema]: undefined,
     [ModuleSubscribeQuerySchema]: undefined,
   }
-  protected _started = false
+  protected _started: Promise<boolean> | true | undefined = undefined
+  protected _starting: Promise<boolean> | true | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
@@ -206,7 +211,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     return await this.busy(async () => {
-      this.started('throw')
+      await this.started('throw')
       const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
 
       const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
@@ -230,47 +235,83 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return validators.every((validator) => validator(query, payloads))
   }
 
-  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<TModule[]>
-  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promise<TModule | undefined>
+  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
+  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
   async resolve<TModule extends IndirectModule = IndirectModule>(
     nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
   ): Promise<TModule | TModule[] | undefined> {
+    const direction = options?.direction ?? 'all'
+    const up = direction === 'up' || direction === 'all'
+    const down = direction === 'down' || direction === 'all'
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        return (await this.downResolver.resolve<TModule>(nameOrAddressOrFilter)) ?? (await this.upResolver.resolve<TModule>(nameOrAddressOrFilter))
+        return (
+          (down ? await this.downResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined) ??
+          (up ? await this.upResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined)
+        )
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(await this.downResolver.resolve<TModule>(filter)), ...(await this.upResolver.resolve<TModule>(filter))].filter(duplicateModules)
+        return [
+          ...(down ? await this.downResolver.resolve<TModule>(filter) : []),
+          ...(up ? await this.upResolver.resolve<TModule>(filter) : []),
+        ].filter(duplicateModules)
       }
     }
   }
 
-  async start(_timeout?: number): Promise<void> {
-    this.validateConfig()
-    await this.initializeQueryAccounts()
-    this._started = true
+  start(_timeout?: number): Promise<boolean> | boolean {
+    //using promise as mutex
+    this._starting = this._starting ?? this.startHandler()
+    return this._starting
   }
 
-  started(notStartedAction?: 'error' | 'throw' | 'warn' | 'log' | 'none') {
+  async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
+    if (this._started === true) {
+      return true
+    }
     if (!this._started) {
-      switch (notStartedAction) {
-        case 'throw':
-          throw Error(`Module not Started [${this.address}]`)
-        case 'warn':
-          this.logger?.warn('Module not started')
-          break
-        case 'error':
-          this.logger?.error('Module not started')
-          break
-        case 'none':
-          break
-        case 'log':
-        default:
-          this.logger?.log('Module not started')
-      }
+      //using promise as mutex
+      this._started = (async () => {
+        if (tryStart) {
+          try {
+            await this.start()
+            return true
+          } catch (ex) {
+            handleError(ex, (error) => {
+              this.logger?.warn(`Autostart of Module Failed: ${error.message})`)
+              this._started = undefined
+            })
+          }
+        }
+        switch (notStartedAction) {
+          case 'throw':
+            throw Error(`Module not Started [${this.address}]`)
+          case 'warn':
+            this.logger?.warn('Module not started')
+            break
+          case 'error':
+            this.logger?.error('Module not started')
+            break
+          case 'none':
+            break
+          case 'log':
+          default: {
+            this.logger?.log('Module not started')
+            break
+          }
+        }
+        return false
+      })()
     }
-    return this._started
+    return await this._started
+  }
+
+  async stop(_timeout?: number): Promise<boolean> {
+    return await this.busy(async () => {
+      return await this.stopHandler()
+    })
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
@@ -384,7 +425,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   }
 
   protected manifestHandler(): Promisable<ModuleManifestPayload> {
-    const name = assertEx(this.config.name, 'Calling manifest on un-named module is not supported')
+    const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
   }
 
@@ -417,7 +458,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
-    this.started('throw')
+    await this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     if (!this.allowAnonymous) {
       if (query.addresses.length === 0) {
@@ -431,6 +472,10 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
     try {
       switch (queryPayload.schema) {
+        case ModuleManifestQuerySchema: {
+          resultPayloads.push(await this.manifestHandler())
+          break
+        }
         case ModuleDiscoverQuerySchema: {
           resultPayloads.push(...(await this.discoverHandler()))
           break
@@ -467,9 +512,16 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
 
   protected readArchivist = () => this.getArchivist('read')
 
-  protected stop(_timeout?: number): Promisable<this> {
-    this._started = false
-    return this
+  protected async startHandler(): Promise<boolean> {
+    this.validateConfig()
+    await this.initializeQueryAccounts()
+    this._started = true
+    return true
+  }
+
+  protected stopHandler(_timeout?: number): Promisable<boolean> {
+    this._started = undefined
+    return true
   }
 
   protected subscribeHandler(_queryAccount?: AccountInstance) {

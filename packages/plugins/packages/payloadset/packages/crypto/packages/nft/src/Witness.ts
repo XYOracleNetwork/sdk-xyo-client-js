@@ -23,12 +23,8 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
     return assertEx(this.params.provider, 'Provider Required')
   }
 
-  override async start() {
-    await super.start()
-  }
-
   protected override async observeHandler(): Promise<Payload[]> {
-    this.started('throw')
+    await this.started('throw')
     const address = assertEx(this.config.address, 'params.address is required')
     const chainId = assertEx(this.config.chainId, 'params.chainId is required')
     const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)

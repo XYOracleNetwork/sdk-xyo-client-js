@@ -28,7 +28,11 @@ export class PrometheusNodeWitness<TParams extends PrometheusNodeWitnessParams =
     return this._registry
   }
 
-  override async start(timeout?: number) {
+  protected override async observeHandler(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
+    return await this.generateMetricValues()
+  }
+
+  protected override async startHandler() {
     collectDefaultMetrics({ register: this._registry })
     if (this.config.port) {
       this.server = createServer(async (_request, response) => {
@@ -38,16 +42,12 @@ export class PrometheusNodeWitness<TParams extends PrometheusNodeWitnessParams =
       })
       this.server.listen(this.config.port)
     }
-    return await super.start(timeout)
+    return await super.startHandler()
   }
 
-  override stop(_timeout?: number) {
+  protected override stopHandler() {
     this.server?.close()
-    return this
-  }
-
-  protected override async observeHandler(_payloads?: Partial<Payload>[]): Promise<Payload[]> {
-    return await this.generateMetricValues()
+    return super.stopHandler()
   }
 
   private async generateMetricValues(): Promise<PrometheusMetricValuePayload[]> {

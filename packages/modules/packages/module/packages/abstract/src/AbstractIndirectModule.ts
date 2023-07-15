@@ -154,7 +154,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     const newModule = new this(AbstractIndirectModule.privateConstructorKey, mutatedParams)
     await newModule.loadAccount?.()
-    await newModule.start?.()
     return newModule
   }
 

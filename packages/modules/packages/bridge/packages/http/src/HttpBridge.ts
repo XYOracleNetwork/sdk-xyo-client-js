@@ -68,19 +68,20 @@ export class HttpBridge<
     return new Url(this.config?.nodeUrl ?? '/')
   }
 
-  get rootAddress() {
-    if (this._rootAddress) {
-      return this._rootAddress
-    }
-    throw Error('rootAddress not set')
-  }
-
   connect(): Promisable<boolean> {
     return true
   }
 
   disconnect(): Promisable<boolean> {
     return true
+  }
+
+  async getRootAddress() {
+    await this.started('throw')
+    if (this._rootAddress) {
+      return this._rootAddress
+    }
+    throw Error('rootAddress not set')
   }
 
   moduleUrl(address: string) {
@@ -97,7 +98,8 @@ export class HttpBridge<
     if (cachedResult) {
       return cachedResult
     }
-    const addressToDiscover = address ?? this.rootAddress
+    await this.started('throw')
+    const addressToDiscover = address ?? (await this.getRootAddress())
     const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
@@ -134,6 +136,7 @@ export class HttpBridge<
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+    await this.started('throw')
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
       const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])

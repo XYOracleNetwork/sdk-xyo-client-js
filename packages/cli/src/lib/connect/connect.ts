@@ -17,10 +17,10 @@ export const connect = async (attempts = 60, interval = 500): Promise<IndirectNo
       const bridge = await HttpBridge.create({ config: { nodeUrl: `${apiConfig.apiDomain}`, schema: HttpBridgeConfigSchema } })
       printLine(`Connected Bridge at: ${apiDomain}`)
       printLine(`Local (Bridge) Address: 0x${bridge.address}`)
-      printLine(`Remote (Root) Address: 0x${bridge.rootAddress}`)
+      printLine(`Remote (Root) Address: 0x${await bridge.getRootAddress()}`)
 
       //we are assuming the root here is a node module, but will check it
-      const nodeModule = (await bridge.targetResolve(bridge.rootAddress, { address: [bridge.rootAddress] })).pop()
+      const nodeModule = (await bridge.targetResolve(await bridge.getRootAddress(), { address: [await bridge.getRootAddress()] })).pop()
 
       if (!nodeModule) {
         throw Error(`Tried to connect to a remote module that was not found [${apiDomain}]`)

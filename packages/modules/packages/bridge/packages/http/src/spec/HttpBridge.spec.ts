@@ -26,13 +26,14 @@ describe('HttpBridge', () => {
     const memNode = await MemoryNode.create()
 
     const bridge = await HttpBridge.create({
+      account: await HDWallet.random(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     const wrapper = NodeWrapper.wrap(
       assertEx(
-        (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
-        `Failed to resolve rootNode [${bridge.rootAddress}]`,
+        (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
+        `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
       ),
       wrapperAccount,
     )
@@ -57,9 +58,9 @@ describe('HttpBridge', () => {
     expect(roundTripPayload).toBeDefined()
   })
   it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
-    const memNode1 = await MemoryNode.create()
-    const memNode2 = await MemoryNode.create()
-    const memNode3 = await MemoryNode.create()
+    const memNode1 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
+    const memNode2 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
+    const memNode3 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
 
     await memNode1.register(memNode2)
     await memNode1.attach(memNode2.address, true)
@@ -67,13 +68,14 @@ describe('HttpBridge', () => {
     await memNode2.attach(memNode3.address, true)
 
     const bridge = await HttpBridge.create({
+      account: await HDWallet.random(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     const wrapper = NodeWrapper.wrap(
       assertEx(
-        (await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(),
-        `Failed to resolve rootNode [${bridge.rootAddress}]`,
+        (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
+        `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
       ),
       wrapperAccount,
     )

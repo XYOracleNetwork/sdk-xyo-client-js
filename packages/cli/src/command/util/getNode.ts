@@ -12,7 +12,10 @@ export const getNode = async (args: BaseArguments): Promise<DirectNodeModule> =>
   try {
     const config = await getBridgeConfig(args)
     const bridge = await HttpBridge.create({ config })
-    const node = assertEx((await bridge.downResolver.resolve<NodeModule>({ address: [bridge.rootAddress] }))?.pop(), 'Failed to resolve rootNode')
+    const node = assertEx(
+      (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
+      'Failed to resolve rootNode',
+    )
     assertEx(isNodeModule(node), 'Not a NodeModule')
     return NodeWrapper.wrap(node)
   } catch (error) {

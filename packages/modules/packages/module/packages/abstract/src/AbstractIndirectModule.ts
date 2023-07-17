@@ -61,7 +61,8 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   implements IndirectModule<TParams, TEventData>, IndirectModule
 {
   static configSchemas: string[]
-  static enableBusy = true
+  static enableBusy = false
+  static enableLazyLoad = true
 
   protected static privateConstructorKey = Date.now().toString()
 
@@ -153,7 +154,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     const newModule = new this(AbstractIndirectModule.privateConstructorKey, mutatedParams)
-    if (!AbstractIndirectModule.enableBusy) {
+    if (!AbstractIndirectModule.enableLazyLoad) {
       await newModule.start?.()
     }
     await newModule.loadAccount?.()

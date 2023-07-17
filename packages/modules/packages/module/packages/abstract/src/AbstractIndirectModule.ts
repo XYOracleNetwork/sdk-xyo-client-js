@@ -47,7 +47,7 @@ import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import { getFunctionName, IdLogger } from '@xyo-network/shared'
+import { IdLogger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
@@ -61,7 +61,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   implements IndirectModule<TParams, TEventData>, IndirectModule
 {
   static configSchemas: string[]
-  static enableBusy = false
+  static enableBusy = true
 
   protected static privateConstructorKey = Date.now().toString()
 
@@ -153,6 +153,9 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     const newModule = new this(AbstractIndirectModule.privateConstructorKey, mutatedParams)
+    if (!AbstractIndirectModule.enableBusy) {
+      await newModule.start?.()
+    }
     await newModule.loadAccount?.()
     return newModule
   }

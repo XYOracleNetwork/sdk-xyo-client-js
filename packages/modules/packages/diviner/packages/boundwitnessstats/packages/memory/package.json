@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:^",
-    "@xyo-network/diviner-boundwitness-stats-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~",
+    "@xyo-network/diviner-boundwitness-stats-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

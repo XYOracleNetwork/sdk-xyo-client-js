@@ -1,5 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, DirectModule, IndirectModule, Module, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
@@ -24,22 +24,12 @@ export type NodeModuleParams<
   TAdditionalParams extends AnyObject | undefined = undefined,
 > = ModuleParams<TConfig, TAdditionalParams>
 
-export type IndirectNodeModule<
-  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectModule<TParams, TEventData>
-
-export type DirectNodeModule<
-  TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectNodeModule<TParams, TEventData> & NodeQueryFunctions & DirectModule & { register: (module: Module) => void }
-
 export type NodeModule<
   TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
   TEventData extends NodeModuleEventData = NodeModuleEventData,
-> = IndirectNodeModule<TParams, TEventData> | DirectNodeModule<TParams, TEventData>
+> = Module<TParams, TEventData>
 
 export type NodeInstance<
   TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
   TEventData extends NodeModuleEventData = NodeModuleEventData,
-> = DirectNodeModule<TParams, TEventData>
+> = NodeModule<TParams, TEventData> & NodeQueryFunctions & ModuleInstance & { register: (module: Module) => void }

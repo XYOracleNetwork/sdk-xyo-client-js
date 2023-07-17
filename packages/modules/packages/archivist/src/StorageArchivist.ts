@@ -11,9 +11,9 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistParams,
-  DirectArchivistModule,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { Logger, PayloadHasher } from '@xyo-network/core'
@@ -42,7 +42,7 @@ export class StorageArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractDirectArchivist<TParams, TEventData>
-  implements DirectArchivistModule
+  implements ArchivistInstance
 {
   static override configSchemas = [StorageArchivistConfigSchema]
 

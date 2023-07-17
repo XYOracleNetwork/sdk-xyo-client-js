@@ -9,7 +9,7 @@ import {
   BoundWitnessStatsQueryPayload,
   BoundWitnessStatsQuerySchema,
 } from '@xyo-network/diviner-boundwitness-stats-model'
-import { DirectDivinerModule } from '@xyo-network/diviner-model'
+import { DivinerInstance } from '@xyo-network/diviner-model'
 import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -30,7 +30,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
   })
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
-  let sut: DirectDivinerModule
+  let sut: DivinerInstance
   beforeAll(async () => {
     account = await Account.create({ phrase })
     address = account.address

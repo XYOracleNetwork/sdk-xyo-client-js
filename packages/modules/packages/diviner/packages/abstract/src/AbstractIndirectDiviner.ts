@@ -5,11 +5,11 @@ import { PayloadHasher } from '@xyo-network/core'
 import {
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
+  DivinerModule,
   DivinerModuleEventData,
   DivinerParams,
   DivinerQuery,
   DivinerQueryBase,
-  IndirectDivinerModule,
 } from '@xyo-network/diviner-model'
 import { handleErrorAsync } from '@xyo-network/error'
 import { AbstractIndirectModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
@@ -21,7 +21,7 @@ export abstract class AbstractIndirectDiviner<
     TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   >
   extends AbstractIndirectModule<TParams, TEventData>
-  implements IndirectDivinerModule<TParams>
+  implements DivinerModule<TParams>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string

@@ -32,7 +32,7 @@ describe('HttpBridge', () => {
 
     const wrapper = NodeWrapper.wrap(
       assertEx(
-        (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
+        (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
         `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
       ),
       wrapperAccount,
@@ -74,7 +74,7 @@ describe('HttpBridge', () => {
 
     const wrapper = NodeWrapper.wrap(
       assertEx(
-        (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
+        (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
         `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
       ),
       wrapperAccount,

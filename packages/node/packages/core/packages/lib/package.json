@@ -27,12 +27,12 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/node-core-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/schema-cache": "workspace:^",
-    "@xyo-network/schema-payload-plugin": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/node-core-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/schema-cache": "workspace:~",
+    "@xyo-network/schema-payload-plugin": "workspace:~",
     "ajv": "^8.12.0",
     "source-map-support": "^0.5.21"
   },

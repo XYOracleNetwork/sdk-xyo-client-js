@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/pentair-payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/pentair-payload-plugin": "workspace:~",
+    "@xyo-network/witness": "workspace:~",
     "node-screenlogic": "^2.0.0"
   },
   "devDependencies": {

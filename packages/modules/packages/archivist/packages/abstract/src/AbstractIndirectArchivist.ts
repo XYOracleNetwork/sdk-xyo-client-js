@@ -8,15 +8,14 @@ import {
   ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
+  ArchivistInstance,
   ArchivistModule,
   ArchivistModuleEventData,
   ArchivistParams,
   ArchivistQuery,
   ArchivistQueryBase,
-  IndirectArchivistModule,
-  isArchivistInstance,
+  asArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
@@ -27,9 +26,9 @@ import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
 export interface ArchivistParentModules {
-  commit?: Record<string, ArchivistModule>
-  read?: Record<string, ArchivistModule>
-  write?: Record<string, ArchivistModule>
+  commit?: Record<string, ArchivistInstance>
+  read?: Record<string, ArchivistInstance>
+  write?: Record<string, ArchivistInstance>
 }
 
 export abstract class AbstractIndirectArchivist<
@@ -37,7 +36,7 @@ export abstract class AbstractIndirectArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractIndirectModule<TParams, TEventData>
-  implements IndirectArchivistModule<TParams>
+  implements ArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentModules
@@ -196,8 +195,8 @@ export abstract class AbstractIndirectArchivist<
     return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
   }
 
-  protected async writeToParent(parent: ArchivistModule, payloads: Payload[]) {
-    return isArchivistInstance(parent) ? await parent.insert(payloads) : await IndirectArchivistWrapper.wrap(parent, this.account).insert(payloads)
+  protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]) {
+    return await parent.insert(payloads)
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<BoundWitness[]> {
@@ -213,10 +212,9 @@ export abstract class AbstractIndirectArchivist<
   }
 
   private async resolveArchivists(archivists: string[] = []) {
-    const archivistModules = [
-      ...(await this.resolve<ArchivistModule>({ address: archivists })),
-      ...(await this.resolve<ArchivistModule>({ name: archivists })),
-    ].filter(duplicateModules)
+    const archivistModules = [...(await this.resolve({ address: archivists })), ...(await this.resolve({ name: archivists }))].filter(
+      duplicateModules,
+    )
 
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,
@@ -225,8 +223,8 @@ export abstract class AbstractIndirectArchivist<
       )}]`,
     )
 
-    return archivistModules.reduce<Record<string, ArchivistModule>>((prev, module) => {
-      prev[module.address] = module
+    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
+      prev[module.address] = assertEx(asArchivistInstance(module), 'Unable to cast resolved module to an archivist')
       return prev
     }, {})
   }

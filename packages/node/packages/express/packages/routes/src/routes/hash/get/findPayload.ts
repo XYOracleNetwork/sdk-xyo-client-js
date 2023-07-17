@@ -1,4 +1,4 @@
-import { DirectArchivistModule } from '@xyo-network/archivist'
+import { ArchivistInstance } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -43,7 +43,7 @@ const createPayloadFilterFromSearchCriteria = (searchCriteria: PayloadSearchCrit
 }
 
 export const findPayload = async (
-  archivist: DirectArchivistModule,
+  archivist: ArchivistInstance,
   boundWitnessDiviner: BoundWitnessDiviner,
   payloadDiviner: PayloadDiviner,
   pointer: PointerPayload,

@@ -12,7 +12,7 @@ const handler: RequestHandler<NoReqParams> = async (req, res) => {
   setRawResponseFormat(res)
   const { node } = req.app
   const name = [assertEx(TYPES.PrometheusWitness.description, descriptionErrorMsg)]
-  const modules = await node.downResolver.resolve({ name })
+  const modules = await node.resolve({ name }, { direction: 'down' })
   const Prometheus = assertEx(modules.pop() as PrometheusNodeWitness, resolutionErrorMsg)
   res.contentType(Prometheus.registry.contentType)
   res.end(await Prometheus.registry.metrics())

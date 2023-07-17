@@ -1,6 +1,6 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, DirectModule, IndirectModule, ModuleEventData, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleInstance, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 
@@ -42,22 +42,12 @@ export type ArchivistQueryFunctions<TReadResponse = Payload, TWriteResponse = Bo
 > &
   ModuleQueryFunctions
 
-export type IndirectArchivistModule<
-  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectModule<TParams, TEventData>
-
-export type DirectArchivistModule<
-  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = IndirectArchivistModule<TParams, TEventData> & ArchivistQueryFunctions & DirectModule
-
 export type ArchivistModule<
-  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = IndirectArchivistModule<TParams, TEventData> | DirectArchivistModule<TParams, TEventData>
+  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = Module<TParams, TEventData>
 
 export type ArchivistInstance<
-  TParams extends ArchivistParams<AnyConfigSchema<ArchivistConfig>> = ArchivistParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = DirectArchivistModule<TParams, TEventData>
+  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> = ArchivistModule<TParams, TEventData> & ArchivistQueryFunctions & ModuleInstance

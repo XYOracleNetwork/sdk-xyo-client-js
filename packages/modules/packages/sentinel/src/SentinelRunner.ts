@@ -4,17 +4,17 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
-import { SentinelModule } from './SentinelModel'
+import { SentinelInstance } from './SentinelModel'
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
 
 export class SentinelRunner {
   protected _automations: Record<string, SentinelAutomationPayload> = {}
   protected onTriggerResult: OnSentinelRunnerTriggerResult | undefined
-  protected sentinel: SentinelModule
+  protected sentinel: SentinelInstance
   protected timeoutId?: NodeJS.Timer
 
-  constructor(sentinel: SentinelModule, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
+  constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel
     this.onTriggerResult = onTriggerResult
     automations?.forEach((automation) => this.add(automation))

@@ -1,6 +1,6 @@
 import {
   AddressModuleFilter,
-  IndirectModule,
+  Module,
   ModuleFilter,
   ModuleRepository,
   ModuleResolver,
@@ -14,15 +14,15 @@ import flatten from 'lodash/flatten'
 //This class is now package private (not exported from index.ts)
 export class SimpleModuleResolver implements ModuleRepository {
   private addressToName: Record<string, string> = {}
-  private modules: Record<string, IndirectModule> = {}
+  private modules: Record<string, Module> = {}
 
   get isModuleResolver() {
     return true
   }
 
-  add(module: IndirectModule): this
-  add(module: IndirectModule[]): this
-  add(module: IndirectModule | IndirectModule[]): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(module: Module | Module[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -48,30 +48,28 @@ export class SimpleModuleResolver implements ModuleRepository {
     throw 'Removing resolvers not supported'
   }
 
-  resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promisable<TModule[]>
-  resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promisable<TModule | undefined>
-  resolve<TModule extends IndirectModule = IndirectModule>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-  ): Promisable<TModule | TModule[] | undefined> {
+  resolve(filter?: ModuleFilter): Promisable<Module[]>
+  resolve(nameOrAddress: string): Promisable<Module | undefined>
+  resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promisable<Module | Module[] | undefined> {
     if (nameOrAddressOrFilter) {
       if (typeof nameOrAddressOrFilter === 'string') {
         return (
-          this.resolveByName(Object.values(this.modules) as TModule[], [nameOrAddressOrFilter]).pop() ??
-          this.resolveByAddress(Object.values(this.modules) as TModule[], [nameOrAddressOrFilter]).pop()
+          this.resolveByName(Object.values(this.modules), [nameOrAddressOrFilter]).pop() ??
+          this.resolveByAddress(Object.values(this.modules), [nameOrAddressOrFilter]).pop()
         )
       } else if ((nameOrAddressOrFilter as AddressModuleFilter).address) {
-        return this.resolveByAddress<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as AddressModuleFilter).address)
+        return this.resolveByAddress(Object.values(this.modules), (nameOrAddressOrFilter as AddressModuleFilter).address)
       } else if ((nameOrAddressOrFilter as NameModuleFilter).name) {
-        return this.resolveByName<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as NameModuleFilter).name)
+        return this.resolveByName(Object.values(this.modules), (nameOrAddressOrFilter as NameModuleFilter).name)
       } else if ((nameOrAddressOrFilter as QueryModuleFilter).query) {
-        return this.resolveByQuery<TModule>(Object.values(this.modules) as TModule[], (nameOrAddressOrFilter as QueryModuleFilter).query)
+        return this.resolveByQuery(Object.values(this.modules), (nameOrAddressOrFilter as QueryModuleFilter).query)
       }
     } else {
-      return Object.values(this.modules) as TModule[]
+      return Object.values(this.modules)
     }
   }
 
-  private addSingleModule(module?: IndirectModule) {
+  private addSingleModule(module?: Module) {
     if (module) {
       this.modules[module.address] = module
     }
@@ -89,7 +87,7 @@ export class SimpleModuleResolver implements ModuleRepository {
     }
   }
 
-  private resolveByAddress<T extends IndirectModule = IndirectModule>(modules: T[], address?: string[]): T[] {
+  private resolveByAddress<T extends Module = Module>(modules: T[], address?: string[]): T[] {
     return address
       ? compact(
           flatten(
@@ -101,14 +99,14 @@ export class SimpleModuleResolver implements ModuleRepository {
       : modules
   }
 
-  private resolveByName<T extends IndirectModule = IndirectModule>(modules: T[], name?: string[]): T[] {
+  private resolveByName<T extends Module = Module>(modules: T[], name?: string[]): T[] {
     if (name) {
       return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
     }
     return modules
   }
 
-  private resolveByQuery<T extends IndirectModule = IndirectModule>(modules: T[], query?: string[][]): T[] {
+  private resolveByQuery<T extends Module = Module>(modules: T[], query?: string[][]): T[] {
     return query
       ? compact(
           modules.filter((module) =>

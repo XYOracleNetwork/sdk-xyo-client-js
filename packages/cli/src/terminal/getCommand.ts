@@ -1,4 +1,4 @@
-import { IndirectNodeModule, NodeWrapper } from '@xyo-network/node'
+import { NodeModule, NodeWrapper } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
 import { printLine } from '../lib'
@@ -18,7 +18,7 @@ import {
   unregisterModule,
 } from './commands'
 
-export const getCommand = (node: IndirectNodeModule): Promise<boolean> => {
+export const getCommand = (node: NodeModule): Promise<boolean> => {
   const wrapper = NodeWrapper.wrap(node)
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {

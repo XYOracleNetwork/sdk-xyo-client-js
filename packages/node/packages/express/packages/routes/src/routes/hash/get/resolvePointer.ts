@@ -1,6 +1,7 @@
-import { asArchivistInstance, asArchivistModule, IndirectArchivistModule } from '@xyo-network/archivist-model'
+import { asArchivistInstance, asArchivistModule } from '@xyo-network/archivist-model'
 import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { resolveBySymbol } from '@xyo-network/express-node-lib'
 import { PointerPayload } from '@xyo-network/node-core-model'
@@ -12,14 +13,17 @@ import { findPayload } from './findPayload'
 
 export const resolvePointer = async (req: Request, pointer: PointerPayload): Promise<Payload | undefined> => {
   const { node } = req.app
-  const module = await resolveBySymbol<IndirectArchivistModule>(node, TYPES.Archivist)
+  const module = await resolveBySymbol(node, TYPES.Archivist)
   const archivist =
     asArchivistInstance(module) ??
     asArchivistInstance(
       IndirectArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`)),
       `Failed to cast archivist wrapper ${module?.address}`,
     )
-  const boundWitnessDiviner = await resolveBySymbol<BoundWitnessDiviner>(node, TYPES.BoundWitnessDiviner)
-  const payloadDiviner = await resolveBySymbol<PayloadDiviner>(node, TYPES.PayloadDiviner)
+  const boundWitnessDiviner = asDivinerInstance(
+    await resolveBySymbol(node, TYPES.BoundWitnessDiviner),
+    'Resolved a non-Diviner',
+  ) as BoundWitnessDiviner
+  const payloadDiviner = asDivinerInstance(await resolveBySymbol(node, TYPES.PayloadDiviner), 'Resolved a non-Diviner') as PayloadDiviner
   return findPayload(archivist, boundWitnessDiviner, payloadDiviner, pointer)
 }

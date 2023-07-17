@@ -10,12 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/address-payload-plugin": "workspace:^",
-    "@xyo-network/module-model": "workspace:^",
-    "@xyo-network/module-wrapper": "workspace:^",
-    "@xyo-network/node-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^"
+    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

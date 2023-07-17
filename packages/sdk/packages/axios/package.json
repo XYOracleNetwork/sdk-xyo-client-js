@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/shared": "workspace:^",
+    "@xyo-network/shared": "workspace:~",
     "axios": "^1.4.0",
     "pako": "^2.1.0"
   },

@@ -4,9 +4,12 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelReportQuery, SentinelReportQuerySchema } from './Queries'
 import { SentinelModule } from './SentinelModel'
+import { isSentinelInstance, isSentinelModule } from './typeChecks'
 
 constructableModuleWrapper()
 export class SentinelWrapper<TModule extends SentinelModule = SentinelModule> extends ModuleWrapper<TModule> implements SentinelModule {
+  static override instanceIdentityCheck = isSentinelInstance
+  static override moduleIdentityCheck = isSentinelModule
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
   async report(payloads?: Payload[]): Promise<Payload[]> {

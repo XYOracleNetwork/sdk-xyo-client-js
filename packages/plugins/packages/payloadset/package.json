@@ -10,17 +10,17 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/blockchain-plugins": "workspace:^",
-    "@xyo-network/crypto-plugins": "workspace:^",
-    "@xyo-network/domain-plugin": "workspace:^",
-    "@xyo-network/elevation-plugin": "workspace:^",
-    "@xyo-network/id-plugin": "workspace:^",
-    "@xyo-network/location-certainty-plugin": "workspace:^",
-    "@xyo-network/location-plugin": "workspace:^",
-    "@xyo-network/module-instance-plugin": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/schema-plugin": "workspace:^",
-    "@xyo-network/system-plugins": "workspace:^"
+    "@xyo-network/blockchain-plugins": "workspace:~",
+    "@xyo-network/crypto-plugins": "workspace:~",
+    "@xyo-network/domain-plugin": "workspace:~",
+    "@xyo-network/elevation-plugin": "workspace:~",
+    "@xyo-network/id-plugin": "workspace:~",
+    "@xyo-network/location-certainty-plugin": "workspace:~",
+    "@xyo-network/location-plugin": "workspace:~",
+    "@xyo-network/module-instance-plugin": "workspace:~",
+    "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/schema-plugin": "workspace:~",
+    "@xyo-network/system-plugins": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

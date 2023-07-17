@@ -14,8 +14,8 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
 
   async loadModule(node: MemoryNode, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
     const collision = async (node: NodeModule, name: string, external: boolean) => {
-      const externalConflict = external ? (await (external ? node.upResolver : node.downResolver).resolve({ name: [name] })).length !== 0 : false
-      return externalConflict || (await node.downResolver.resolve({ name: [name] })).length !== 0
+      const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length !== 0 : false
+      return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length !== 0
     }
 
     const creatableModules = { ...standardCreatableModules, ...additionalCreatableModules }

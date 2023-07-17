@@ -12,11 +12,11 @@
   "dependencies": {
     "@xylabs/array": "^2.9.3",
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/diviner-schema-list-abstract": "workspace:^",
-    "@xyo-network/diviner-schema-list-model": "workspace:^",
-    "@xyo-network/payload-builder": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-schema-list-abstract": "workspace:~",
+    "@xyo-network/diviner-schema-list-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

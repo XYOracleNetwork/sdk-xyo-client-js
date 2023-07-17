@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/url-payload-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^"
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/url-payload-plugin": "workspace:~",
+    "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

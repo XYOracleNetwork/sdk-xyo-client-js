@@ -1,4 +1,4 @@
-import { IndirectModule } from '../Module'
+import { Module } from '../Module'
 
 /**
  * Used to filter duplicates from an array of modules
@@ -9,6 +9,6 @@ import { IndirectModule } from '../Module'
  * @returns True if the Module's address is the first occurrence of
  * that address in the array, false otherwise
  */
-export const duplicateModules = (value: IndirectModule, index: number, array: IndirectModule[]): value is IndirectModule => {
+export const duplicateModules = (value: Module, index: number, array: Module[]): value is Module => {
   return array.findIndex((v) => v.address === value.address) === index
 }

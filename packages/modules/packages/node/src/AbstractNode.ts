@@ -8,7 +8,7 @@ import { ModuleWrapper } from '@xyo-network/module'
 import { AbstractIndirectModule, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
-  isDirectModule,
+  isModuleInstance,
   Module,
   ModuleConfig,
   ModuleFilter,
@@ -16,11 +16,11 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import {
-  IndirectNodeModule,
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
   NodeConfigSchema,
   NodeDetachQuerySchema,
+  NodeModule,
   NodeModuleEventData,
   NodeModuleParams,
   NodeQuery,
@@ -33,7 +33,7 @@ import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractIndirectModule<TParams, TEventData>
-  implements IndirectNodeModule<TParams, TEventData>, Module<TParams, TEventData>
+  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
 
@@ -82,36 +82,33 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     throw new Error('Method not implemented.')
   }
 
-  override async resolve<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  override async resolve<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  override async resolve<TModule extends Module = Module>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  override async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     //checking type of nameOrAddressOrFilter before calling other functions since TS seems
     //to need help here narrowing before the call
     if (typeof nameOrAddressOrFilter === 'string') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate<TModule>(nameOrAddressOrFilter)
+          return await this.resolvePrivate(nameOrAddressOrFilter)
         }
         case 'all': {
-          return await this.resolveAll<TModule>(nameOrAddressOrFilter)
+          return await this.resolveAll(nameOrAddressOrFilter)
         }
         default: {
-          return await super.resolve<TModule>(nameOrAddressOrFilter, options)
+          return await super.resolve(nameOrAddressOrFilter, options)
         }
       }
     } else {
       switch (options?.visibility) {
         case 'all': {
-          return await this.resolveAll<TModule>(nameOrAddressOrFilter)
+          return await this.resolveAll(nameOrAddressOrFilter)
         }
         case 'private': {
-          return await this.resolvePrivate<TModule>(nameOrAddressOrFilter)
+          return await this.resolvePrivate(nameOrAddressOrFilter)
         }
         default: {
-          return await super.resolve<TModule>(nameOrAddressOrFilter, options)
+          return await super.resolve(nameOrAddressOrFilter, options)
         }
       }
     }
@@ -134,7 +131,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
 
     const notThisModule = (module: Module) => module.address !== this.address
-    const toManifest = (module: Module) => (isDirectModule(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
+    const toManifest = (module: Module) => (isModuleInstance(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
 
     const privateModulesList = await this.privateResolver.resolve()
     const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
@@ -218,39 +215,32 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
-  private async resolveAll<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  private async resolveAll<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  private async resolveAll<TModule extends Module = Module>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  private async resolveAll(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  private async resolveAll(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        return (await this.resolvePrivate<TModule>(nameOrAddressOrFilter, options)) ?? (await super.resolve<TModule>(nameOrAddressOrFilter, options))
+        return (await this.resolvePrivate(nameOrAddressOrFilter, options)) ?? (await super.resolve(nameOrAddressOrFilter, options))
       }
       default: {
-        return [
-          ...(await this.resolvePrivate<TModule>(nameOrAddressOrFilter, options)),
-          ...(await super.resolve<TModule>(nameOrAddressOrFilter, options)),
-        ].filter(duplicateModules)
+        return [...(await this.resolvePrivate(nameOrAddressOrFilter, options)), ...(await super.resolve(nameOrAddressOrFilter, options))].filter(
+          duplicateModules,
+        )
       }
     }
   }
 
-  private async resolvePrivate<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  private async resolvePrivate<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  private async resolvePrivate<TModule extends Module = Module>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  private async resolvePrivate(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  private async resolvePrivate(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  private async resolvePrivate(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     const direction = options?.direction ?? 'all'
     const down = direction === 'down' || direction === 'all'
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        return down ? await this.privateResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined
+        return down ? await this.privateResolver.resolve(nameOrAddressOrFilter) : undefined
       }
       default: {
-        return down ? await this.privateResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined
+        return down ? await this.privateResolver.resolve(nameOrAddressOrFilter) : undefined
       }
     }
   }

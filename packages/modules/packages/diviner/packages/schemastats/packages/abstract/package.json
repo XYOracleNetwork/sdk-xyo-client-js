@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-diviner": "workspace:^",
-    "@xyo-network/diviner-schema-stats-model": "workspace:^"
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/diviner-schema-stats-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

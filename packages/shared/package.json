@@ -13,7 +13,7 @@
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "dependencies": {
-    "@xyo-network/error": "workspace:^"
+    "@xyo-network/error": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

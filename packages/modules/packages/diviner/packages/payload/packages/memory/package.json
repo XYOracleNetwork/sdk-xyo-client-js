@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/diviner-payload-abstract": "workspace:^",
-    "@xyo-network/diviner-payload-model": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/diviner-payload-abstract": "workspace:~",
+    "@xyo-network/diviner-payload-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

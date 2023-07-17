@@ -7,7 +7,6 @@ import {
   AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
-  IndirectModule,
   Module,
   ModuleConfig,
   ModuleDescription,
@@ -110,16 +109,13 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
   }
 
   /* Resolves a filter from the perspective of the module, including through the parent/gateway module */
-  resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<TModule[]>
-  resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promisable<TModule | undefined>
-  async resolve<TModule extends IndirectModule = IndirectModule>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      return await this.bridge.targetResolve<TModule>(this.address, nameOrAddressOrFilter, options)
+      return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
     } else {
-      return await this.bridge.targetResolve<TModule>(this.address, nameOrAddressOrFilter, options)
+      return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
     }
   }
 }

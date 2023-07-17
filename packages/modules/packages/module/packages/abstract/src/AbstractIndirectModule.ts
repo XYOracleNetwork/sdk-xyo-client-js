@@ -84,8 +84,8 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     [ModuleManifestQuerySchema]: undefined,
     [ModuleSubscribeQuerySchema]: undefined,
   }
-  protected _started: Promise<boolean> | true | undefined = undefined
-  protected _starting: Promise<boolean> | true | undefined = undefined
+  protected _startPromise: Promisable<boolean> | undefined = undefined
+  protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
@@ -264,17 +264,18 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     }
   }
 
-  start(_timeout?: number): Promise<boolean> | boolean {
+  start(_timeout?: number): Promisable<boolean> {
     //using promise as mutex
-    this._starting = this._starting ?? this.startHandler()
-    return this._starting
+    this._startPromise = this._startPromise ?? this.startHandler()
+    return this._startPromise
   }
 
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
-    if (this._started === true) {
+    const started = await this._started
+    if (started === true) {
       return true
     }
-    if (!this._started) {
+    if (!started) {
       //using promise as mutex
       this._started = (async () => {
         if (tryStart) {
@@ -308,12 +309,18 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
         return false
       })()
     }
+    if (!this._started) {
+      throw 'Failed to create start promise'
+    }
     return await this._started
   }
 
   async stop(_timeout?: number): Promise<boolean> {
     return await this.busy(async () => {
-      return await this.stopHandler()
+      const result = await this.stopHandler()
+      this._started = undefined
+      this._startPromise = undefined
+      return result
     })
   }
 

@@ -62,7 +62,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
 {
   static configSchemas: string[]
   static enableBusy = false
-  static enableLazyLoad = true
+  static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()
 

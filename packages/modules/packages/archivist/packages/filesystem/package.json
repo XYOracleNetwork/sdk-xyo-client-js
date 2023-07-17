@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/abstract-archivist": "workspace:^",
-    "@xyo-network/archivist-model": "workspace:^",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/error": "workspace:^",
-    "@xyo-network/memory-archivist": "workspace:^",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^"
+    "@xyo-network/abstract-archivist": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/error": "workspace:~",
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/promise": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

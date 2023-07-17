@@ -1,21 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { HttpBridge } from '@xyo-network/http-bridge'
 import { NodeWrapper } from '@xyo-network/node'
-import { DirectNodeModule, isNodeModule, NodeModule } from '@xyo-network/node-model'
+import { isNodeModule, NodeInstance } from '@xyo-network/node-model'
 
 import { printError } from '../../lib'
 import { BaseArguments } from '../BaseArguments'
 import { getBridgeConfig } from './getBridgeConfig'
 
-export const getNode = async (args: BaseArguments): Promise<DirectNodeModule> => {
+export const getNode = async (args: BaseArguments): Promise<NodeInstance> => {
   const { verbose } = args
   try {
     const config = await getBridgeConfig(args)
     const bridge = await HttpBridge.create({ config })
-    const node = assertEx(
-      (await bridge.downResolver.resolve<NodeModule>({ address: [await bridge.getRootAddress()] }))?.pop(),
-      'Failed to resolve rootNode',
-    )
+    const node = assertEx((await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(), 'Failed to resolve rootNode')
     assertEx(isNodeModule(node), 'Not a NodeModule')
     return NodeWrapper.wrap(node)
   } catch (error) {

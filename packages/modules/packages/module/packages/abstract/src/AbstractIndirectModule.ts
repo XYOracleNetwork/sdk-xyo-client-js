@@ -4,8 +4,7 @@ import { exists } from '@xylabs/exists'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitness, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
@@ -18,8 +17,8 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,
-  IndirectModule,
   IndividualArchivistConfig,
+  Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
@@ -58,7 +57,7 @@ import { CompositeModuleResolver } from './Resolver'
 /** @description Abstract class for modules that allow access only through querying and not through direct calls  */
 export abstract class AbstractIndirectModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
-  implements IndirectModule<TParams, TEventData>, IndirectModule
+  implements Module<TParams, TEventData>, Module
 {
   static configSchemas: string[]
   static enableBusy = false
@@ -97,7 +96,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     const mutatedParams = { ...params } as TParams
     super(mutatedParams)
 
-    this.supportedQueryValidator = new SupportedQueryValidator(this as IndirectModule).queryable
+    this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
@@ -139,7 +138,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
-  static async create<TModule extends IndirectModule>(this: CreatableModule<TModule>, params?: TModule['params']) {
+  static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
     if (!this.configSchemas || this.configSchemas.length === 0) {
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
@@ -161,7 +160,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return newModule
   }
 
-  static factory<TModule extends IndirectModule>(this: CreatableModule<TModule>, params?: TModule['params']): CreatableModuleFactory<TModule> {
+  static factory<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
   }
 
@@ -200,7 +199,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
       if (!account) console.warn(`AbstractModule.loadAccount: No account provided - Creating Random account [${this.config.schema}]`)
       this._account = account ?? (await HDWallet.random())
     }
-    this.downResolver.add(this as IndirectModule)
+    this.downResolver.add(this as Module)
     return this._account
   }
 
@@ -238,28 +237,24 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     return validators.every((validator) => validator(query, payloads))
   }
 
-  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  async resolve<TModule extends IndirectModule = IndirectModule>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (down ? await this.downResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined) ??
-          (up ? await this.upResolver.resolve<TModule>(nameOrAddressOrFilter) : undefined)
+          (down ? await this.downResolver.resolve(nameOrAddressOrFilter) : undefined) ??
+          (up ? await this.upResolver.resolve(nameOrAddressOrFilter) : undefined)
         )
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [
-          ...(down ? await this.downResolver.resolve<TModule>(filter) : []),
-          ...(up ? await this.upResolver.resolve<TModule>(filter) : []),
-        ].filter(duplicateModules)
+        return [...(down ? await this.downResolver.resolve(filter) : []), ...(up ? await this.upResolver.resolve(filter) : [])].filter(
+          duplicateModules,
+        )
       }
     }
   }
@@ -574,6 +569,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
         ? (this.config.archivist as string)
         : (this.config?.archivist?.[kind] as string)
     const resolved = await this.upResolver.resolve(filter)
-    return resolved ? IndirectArchivistWrapper.wrap(resolved, this.account) : undefined
+    return asArchivistInstance(resolved)
   }
 }

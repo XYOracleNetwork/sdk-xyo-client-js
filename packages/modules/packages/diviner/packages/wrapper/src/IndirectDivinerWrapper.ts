@@ -1,4 +1,4 @@
-import { DivinerDivineQuery, DivinerDivineQuerySchema, DivinerModule, IndirectDivinerModule } from '@xyo-network/diviner-model'
+import { DivinerDivineQuery, DivinerDivineQuerySchema, DivinerModule, isDivinerInstance, isDivinerModule } from '@xyo-network/diviner-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -6,8 +6,10 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 constructableModuleWrapper()
 export class IndirectDivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule>
   extends ModuleWrapper<TWrappedModule>
-  implements IndirectDivinerModule<TWrappedModule['params']>
+  implements DivinerModule<TWrappedModule['params']>
 {
+  static override instanceIdentityCheck = isDivinerInstance
+  static override moduleIdentityCheck = isDivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {

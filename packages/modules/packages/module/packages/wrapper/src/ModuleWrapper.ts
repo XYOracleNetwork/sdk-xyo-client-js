@@ -9,7 +9,9 @@ import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
-  IndirectModule,
+  InstanceTypeCheck,
+  isModule,
+  isModuleInstance,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -20,10 +22,11 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -36,13 +39,18 @@ import { WrapperError } from './WrapperError'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
+  instanceIdentityCheck: InstanceTypeCheck
+  moduleIdentityCheck: ModuleTypeCheck
   requiredQueries: string[]
   new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
 
   canWrap(module: Module | undefined): boolean
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  is<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, wrapper?: any): wrapper is TModuleWrapper
+  is<TModuleWrapper extends ModuleWrapper>(
+    this: ConstructableModuleWrapper<TModuleWrapper>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    wrapper?: any,
+  ): wrapper is TModuleWrapper
 
   /** @deprecated pass an account for second parameter */
   tryWrap<TModuleWrapper extends ModuleWrapper>(
@@ -72,6 +80,8 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<TWrappedModule['params']> {
+  static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
+  static moduleIdentityCheck: ModuleTypeCheck = isModule
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
@@ -103,7 +113,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.config
   }
 
-  get downResolver(): ModuleResolver {
+  get downResolver() {
     return this.module.downResolver
   }
 
@@ -115,19 +125,19 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.queries
   }
 
-  get upResolver(): ModuleResolver {
+  get upResolver() {
     return this.module.upResolver
   }
 
   static canWrap(module?: Module) {
-    return !!module && this.missingRequiredQueries(module).length === 0
+    return !!module && this.moduleIdentityCheck(module)
   }
 
   static hasRequiredQueries(module: Module) {
     return this.missingRequiredQueries(module).length === 0
   }
 
-  static is<TModuleWrapper extends ModuleWrapper = ModuleWrapper>(
+  static is<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     wrapper: any,
@@ -163,11 +173,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
-      return new this({ account: account ?? Account.randomSync(), module: module as Module })
+      return new this({ account: account ?? Account.randomSync(), module: module as TModuleWrapper['module'] })
     }
   }
 
-  static with<TModuleWrapper extends ModuleWrapper = ModuleWrapper, R extends void = void>(
+  static with<TModuleWrapper extends ModuleWrapper, R extends void = void>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     module: any,
@@ -189,6 +199,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
+    assertEx(!module || this.moduleIdentityCheck(module), 'Passed module failed identity check')
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 
@@ -276,54 +287,21 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     return this.module.queryable(query, payloads)
   }
 
-  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  async resolve<TModule extends IndirectModule = IndirectModule>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
-    switch (typeof nameOrAddressOrFilter) {
-      case 'string': {
-        return await this.module.resolve<TModule>(nameOrAddressOrFilter, options)
-      }
-      default: {
-        return await this.module.resolve<TModule>(nameOrAddressOrFilter, options)
-      }
-    }
-  }
-
-  /**
-   * Resolves the supplied filter into wrapped modules
-   * @example <caption>Example using ArchivistWrapper</caption>
-   * const filter = { address: [address] }
-   * const mods: ArchivistWrapper[] = await node.resolveWrapped(ArchivistWrapper, filter)
-   * @param wrapper The ModuleWrapper class (ArchivistWrapper,
-   * DivinerWrapper, etc.)
-   * @param filter The ModuleFilter
-   * @returns An array of ModuleWrapper instances corresponding to
-   * the underlying modules matching the supplied filter
-   */
-  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ConstructableModuleWrapper<T>,
-    filter?: ModuleFilter,
-  ): Promise<T[]>
-  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ConstructableModuleWrapper<T>,
+  async resolve<TModuleInstance extends ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<TModuleInstance>): Promise<Module[]>
+  async resolve<TModuleInstance extends ModuleInstance>(
     nameOrAddress: string,
-  ): Promise<T | undefined>
-  async resolveWrapped<T extends ModuleWrapper<Module> = ModuleWrapper<Module>>(
-    wrapper: ConstructableModuleWrapper<T>,
+    options?: ModuleFilterOptions<TModuleInstance>,
+  ): Promise<Module | undefined>
+  async resolve<TModuleInstance extends ModuleInstance>(
     nameOrAddressOrFilter?: ModuleFilter | string,
-  ): Promise<T[] | T | undefined> {
+    options?: ModuleFilterOptions<TModuleInstance>,
+  ): Promise<Module | Module[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
-        const nameOrAddress: string = nameOrAddressOrFilter
-        const mod = await this.resolve<T['module']>(nameOrAddress)
-        return mod ? new wrapper({ account: this.account, module: mod }) : undefined
+        return await this.module.resolve(nameOrAddressOrFilter, options)
       }
       default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return (await this.resolve<T['module']>(filter)).map((mod) => new wrapper({ account: this.account, module: mod }))
+        return await this.module.resolve(nameOrAddressOrFilter, options)
       }
     }
   }

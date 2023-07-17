@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { IndirectArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistModule } from '@xyo-network/archivist-model'
 import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, IndirectDivinerWrapper } from '@xyo-network/diviner'
@@ -46,7 +46,7 @@ export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = Divine
   AnyConfigSchema<ArchivistPayloadDivinerConfig<T>>,
   {
     bws: BoundWitnessDiviner
-    payloads: IndirectArchivistModule
+    payloads: ArchivistModule
   }
 >
 

@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:^",
-    "@xyo-network/diviner-coin-user-locations-model": "workspace:^"
+    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~",
+    "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

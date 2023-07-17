@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { ArchivistModule, DirectArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
+import { ArchivistInstance, ArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
 import { DivinerModule } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
@@ -10,15 +10,15 @@ describe('MultiNodeConfiguration', () => {
   let primaryArchivist: ArchivistModule
   let primaryNode: MemoryNode
 
-  let leftInternalArchivist: DirectArchivistModule
-  let leftInternalArchivist2: DirectArchivistModule
-  let leftExternalArchivist: DirectArchivistModule
+  let leftInternalArchivist: ArchivistInstance
+  let leftInternalArchivist2: ArchivistInstance
+  let leftExternalArchivist: ArchivistInstance
   let leftDiviner: DivinerModule
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
-  let rightInternalArchivist: DirectArchivistModule
-  let rightExternalArchivist: DirectArchivistModule
+  let rightInternalArchivist: ArchivistInstance
+  let rightExternalArchivist: ArchivistInstance
   let rightWitness: WitnessModule
 
   beforeAll(async () => {

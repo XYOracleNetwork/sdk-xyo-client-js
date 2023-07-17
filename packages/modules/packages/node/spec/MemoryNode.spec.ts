@@ -4,18 +4,17 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { asArchivistInstance, DirectArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import {
   ArchivistPayloadDiviner,
   ArchivistPayloadDivinerConfigSchema,
   asDivinerInstance,
-  DirectDivinerModule,
-  DivinerModule,
+  DivinerInstance,
   HuriPayload,
   HuriSchema,
 } from '@xyo-network/diviner'
-import { AbstractModule, DirectModule, Module, ModuleDescription } from '@xyo-network/module'
-import { DirectNodeModule, ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
+import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module'
+import { ModuleAttachedEventArgs, NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/payload'
 
@@ -49,7 +48,7 @@ describe('MemoryNode', () => {
       const MemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
       const node = await MemoryNode.create()
       const archivist = await MemoryArchivist.create({ config: { name: 'Archivist', schema: MemoryArchivistConfigSchema } })
-      const diviner: DirectDivinerModule = await ArchivistPayloadDiviner.create({
+      const diviner: DivinerInstance = await ArchivistPayloadDiviner.create({
         config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
       })
       await node.register(archivist)
@@ -143,7 +142,7 @@ describe('MemoryNode', () => {
       })
     })
     describe('with modules registered', () => {
-      let module: DirectModule
+      let module: ModuleInstance
       beforeEach(async () => {
         module = await MemoryArchivist.create()
         await node.register(module)
@@ -156,7 +155,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('attach', () => {
-    let module: DirectModule
+    let module: ModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create()
       await node.register(module)
@@ -196,7 +195,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('attached', () => {
-    let module: DirectModule
+    let module: ModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create()
       await node.register(module)
@@ -217,7 +216,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('detach', () => {
-    let module: DirectModule
+    let module: ModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create()
       await node.register(module)
@@ -231,7 +230,7 @@ describe('MemoryNode', () => {
     })*/
   })
   describe('registeredModules', () => {
-    let module: DirectModule
+    let module: ModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create()
     })
@@ -315,15 +314,15 @@ describe('MemoryNode', () => {
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
-        const nestedNode: DirectNodeModule = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
-        const nestedModules: DirectArchivistModule[] = await Promise.all([
+        const nestedNode: NodeInstance = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
+        const nestedModules: ArchivistInstance[] = await Promise.all([
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         nestedModules.map(async (mod) => {
           await nestedNode.register(mod)
           await nestedNode.attach(mod.address, true)
         })
-        const rootModules: DirectModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         rootModules.map(async (mod) => {
           await node.register(mod)
@@ -410,7 +409,7 @@ describe('MemoryNode', () => {
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: DirectModule[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {

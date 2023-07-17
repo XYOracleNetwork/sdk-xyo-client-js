@@ -1,8 +1,8 @@
-import { DirectNodeModule } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node'
 
 import { getProcessInfo, getSettingsInfo, isRunning, printLine, printTitle } from '../../../lib'
 
-export const status = async (_node: DirectNodeModule) => {
+export const status = async (_node: NodeInstance) => {
   printTitle('Status')
   const running = await isRunning()
   if (running) {

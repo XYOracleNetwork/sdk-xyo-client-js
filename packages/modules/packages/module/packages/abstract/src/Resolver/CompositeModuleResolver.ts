@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { Base, BaseParams } from '@xyo-network/core'
-import { duplicateModules, IndirectModule, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { duplicateModules, Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
@@ -19,9 +19,9 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return true
   }
 
-  add(module: IndirectModule): this
-  add(module: IndirectModule[]): this
-  add(module: IndirectModule | IndirectModule[]): this {
+  add(module: Module): this
+  add(module: Module[]): this
+  add(module: Module | Module[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -49,22 +49,20 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve<TModule extends IndirectModule = IndirectModule>(filter?: ModuleFilter): Promise<TModule[]>
-  async resolve<TModule extends IndirectModule = IndirectModule>(nameOrAddress: string): Promise<TModule | undefined>
-  async resolve<TModule extends IndirectModule = IndirectModule>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-  ): Promise<TModule | TModule[] | undefined> {
+  async resolve(filter?: ModuleFilter): Promise<Module[]>
+  async resolve(nameOrAddress: string): Promise<Module | undefined>
+  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          return await resolver.resolve<TModule>(nameOrAddressOrFilter)
+          return await resolver.resolve(nameOrAddressOrFilter)
         }),
       )
       return result.filter(exists).filter(duplicateModules).pop()
     } else {
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          return await resolver.resolve<TModule>(nameOrAddressOrFilter)
+          return await resolver.resolve(nameOrAddressOrFilter)
         }),
       )
       const flatResult = result.flat()
@@ -72,7 +70,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     }
   }
 
-  private addSingleModule(module?: IndirectModule) {
+  private addSingleModule(module?: Module) {
     if (module) {
       this.localResolver.add(module)
     }

@@ -1,7 +1,7 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 
-import { Archivist, DirectArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
+import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -90,8 +90,8 @@ describe('Sentinel', () => {
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {
-      let archivistA: DirectArchivistModule
-      let archivistB: DirectArchivistModule
+      let archivistA: ArchivistInstance
+      let archivistB: ArchivistInstance
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
       const assertPanelReport = async (panelReport: Payload[]) => {

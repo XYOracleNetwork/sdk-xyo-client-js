@@ -1,8 +1,8 @@
-import { IndirectModule, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
+import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
 export interface ModuleResolvedEventArgs {
   filter?: ModuleFilter
-  module: IndirectModule
+  module: Module
 }
 
 export interface ResolverEventEmitter {
@@ -18,7 +18,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     listeners.map((listener) => listener(args))
     return true
   }
-  const onModuleResolved = (module: IndirectModule, filter?: ModuleFilter) => {
+  const onModuleResolved = (module: Module, filter?: ModuleFilter) => {
     const args = { filter, module }
     emit('moduleResolved', args)
   }
@@ -31,8 +31,8 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     on: (event: 'moduleResolved', listener: (args: ModuleResolvedEventArgs) => void) => {
       listeners.push(listener)
     },
-    resolve: async (filter?: ModuleFilter): Promise<IndirectModule[]> => {
-      const modules: IndirectModule[] = await originalResolve(filter)
+    resolve: async (filter?: ModuleFilter): Promise<Module[]> => {
+      const modules: Module[] = await originalResolve(filter)
       await Promise.allSettled(modules.map((mod) => onModuleResolved(mod, filter)))
       return modules
     },

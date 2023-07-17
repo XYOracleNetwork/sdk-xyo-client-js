@@ -13,14 +13,14 @@
   "docs": "dist/docs.json",
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/http-bridge": "workspace:^",
-    "@xyo-network/manifest-model": "workspace:^",
-    "@xyo-network/memory-archivist": "workspace:^",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/node": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/sentinel": "workspace:^",
-    "@xyo-network/wallet-model": "workspace:^"
+    "@xyo-network/http-bridge": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/node": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

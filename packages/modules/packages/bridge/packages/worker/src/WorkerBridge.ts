@@ -7,8 +7,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
-  isDirectModule,
-  Module,
+  isModuleInstance,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -52,13 +51,9 @@ export interface QueryResultMessage {
   result: ModuleQueryResult
 }
 
-export class WorkerBridge<
-    TParams extends WorkerBridgeParams = WorkerBridgeParams,
-    TEventData extends ModuleEventData = ModuleEventData,
-    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
-  >
-  extends AbstractBridge<TParams, TEventData, TModule>
-  implements BridgeModule<TParams, TEventData, TModule>
+export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends AbstractBridge<TParams, TEventData>
+  implements BridgeModule<TParams, TEventData>
 {
   static override configSchemas = [WorkerBridgeConfigSchema]
 
@@ -224,7 +219,7 @@ export class WorkerBridge<
     )
 
     // Discover all to load cache
-    await Promise.all(children.map((child) => (isDirectModule(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
+    await Promise.all(children.map((child) => (isModuleInstance(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

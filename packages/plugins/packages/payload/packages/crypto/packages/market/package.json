@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:^",
-    "@xyo-network/crypto-asset-payload-plugin": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^",
-    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:^"
+    "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:~",
+    "@xyo-network/crypto-asset-payload-plugin": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

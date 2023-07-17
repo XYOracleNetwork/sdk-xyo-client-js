@@ -1,5 +1,12 @@
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
-import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeModule, BridgeQuery } from '@xyo-network/bridge-model'
+import {
+  BridgeConnectQuerySchema,
+  BridgeDisconnectQuerySchema,
+  BridgeModule,
+  BridgeQuery,
+  isBridgeInstance,
+  isBridgeModule,
+} from '@xyo-network/bridge-model'
 import {
   constructableModuleWrapper,
   ModuleConfig,
@@ -14,6 +21,9 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
 export class BridgeWrapper extends ModuleWrapper<BridgeModule> {
+  static override instanceIdentityCheck = isBridgeInstance
+  static override moduleIdentityCheck = isBridgeModule
+
   get targetDownResolver() {
     return this.module.targetDownResolver
   }

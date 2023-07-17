@@ -1,16 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
-import { AddressPreviousHashPayload, AnyConfigSchema, EventListener, Module, ModuleDescriptionPayload } from '@xyo-network/module'
-import {
-  DirectNodeModule,
-  isNodeModule,
-  NodeConfig,
-  NodeConfigSchema,
-  NodeModule,
-  NodeModuleEventData,
-  NodeModuleParams,
-} from '@xyo-network/node-model'
+import { AddressPreviousHashPayload, AnyConfigSchema, EventListener, Module, ModuleDescriptionPayload, ModuleResolver } from '@xyo-network/module'
+import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
@@ -20,7 +12,7 @@ export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
-  implements DirectNodeModule<TParams, TEventData>
+  implements NodeInstance
 {
   static override configSchemas = [NodeConfigSchema]
 
@@ -106,7 +98,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     const getModulesToNotifyAbout = async (node: Module) => {
       //send attach events for all existing attached modules
-      const childModules = await node.downResolver.resolve()
+      const childModules = await node.resolve(undefined, { direction: 'down' })
       return compact(
         childModules.map((child) => {
           //don't report self
@@ -139,9 +131,9 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     if (external) {
       //expose it externally
-      this.downResolver.addResolver(module.downResolver)
+      this.downResolver.addResolver(module.downResolver as ModuleResolver)
     } else {
-      this.privateResolver.addResolver(module.downResolver)
+      this.privateResolver.addResolver(module.downResolver as ModuleResolver)
     }
 
     const args = { module, name: module.config.name }
@@ -195,7 +187,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     module.upResolver?.removeResolver?.(this.upResolver)
 
     //remove external exposure
-    this.downResolver.removeResolver(module.downResolver)
+    this.downResolver.removeResolver(module.downResolver as ModuleResolver)
 
     const args = { module, name: module.config.name }
     await this.emit('moduleDetached', args)
@@ -205,7 +197,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (isNodeModule(module)) {
       const notifyOfExistingModules = async (node: NodeModule) => {
         //send attach events for all existing attached modules
-        const childModules = await node.downResolver.resolve()
+        const childModules = await node.resolve(undefined, { direction: 'down' })
         await Promise.all(
           childModules.map(async (child) => {
             //don't report self

@@ -1,4 +1,4 @@
-import { asArchivistInstance, DirectArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { PayloadAddressRule, PayloadPointerPayload, PayloadPointerSchema, PayloadSchemaRule } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -23,7 +23,7 @@ const cases = beta ? betaDapps : prodDapps
 const nodeUrl = beta ? 'https://beta.api.archivist.xyo.network' : 'https://api.archivist.xyo.network'
 
 describe.skip('Generation of automation payload pointers', () => {
-  let archivist: DirectArchivistModule
+  let archivist: ArchivistInstance
   beforeAll(async () => {
     const schema = HttpBridgeConfigSchema
     const security = { allowAnonymous: true }

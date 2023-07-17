@@ -8,8 +8,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
   creatableModule,
-  isDirectModule,
-  Module,
+  isModuleInstance,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -32,13 +31,9 @@ import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = ModuleParams<TConfig>
 
 @creatableModule()
-export class HttpBridge<
-    TParams extends HttpBridgeParams = HttpBridgeParams,
-    TEventData extends ModuleEventData = ModuleEventData,
-    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
-  >
-  extends AbstractBridge<TParams, TEventData, TModule>
-  implements BridgeModule<TParams, TEventData, TModule>
+export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends AbstractBridge<TParams, TEventData>
+  implements BridgeModule<TParams, TEventData>
 {
   static override configSchemas = [HttpBridgeConfigSchema]
 
@@ -179,7 +174,7 @@ export class HttpBridge<
     )
 
     // Discover all to load cache
-    await Promise.all(children.map((child) => (isDirectModule(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
+    await Promise.all(children.map((child) => (isModuleInstance(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

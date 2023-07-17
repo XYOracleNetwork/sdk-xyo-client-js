@@ -1,5 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { DirectDivinerModule, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { AddressPreviousHashPayload, ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -11,7 +11,7 @@ export abstract class AbstractDirectDiviner<
     TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   >
   extends AbstractIndirectDiviner<TParams, TEventData>
-  implements DirectDivinerModule<TParams>
+  implements DivinerInstance<TParams>
 {
   describe(): Promise<ModuleDescriptionPayload> {
     return this.busy(async () => {

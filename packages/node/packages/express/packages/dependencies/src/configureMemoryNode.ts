@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
-import { ArchivistConfigSchema, ArchivistInsertQuerySchema, withArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
@@ -13,10 +13,10 @@ import {
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
-import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig, ModuleFilter } from '@xyo-network/module-model'
+import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node'
 import { TYPES } from '@xyo-network/node-core-types'
-import { DirectNodeModule, NodeConfigSchema } from '@xyo-network/node-model'
+import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 
@@ -40,16 +40,16 @@ const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnes
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 
-export const configureMemoryNode = async (container: Container, memoryNode?: DirectNodeModule, account = Account.randomSync()) => {
-  const node = memoryNode ?? ((await MemoryNode.create({ account, config })) as DirectNodeModule)
-  container.bind<DirectNodeModule>(TYPES.Node).toConstantValue(node)
+export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
+  const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))
+  container.bind<NodeInstance>(TYPES.Node).toConstantValue(node)
   await addModulesToNodeByConfig(container, node, configs)
   const configHashes = process.env.CONFIG_HASHES
   if (configHashes) {
     const hashes = configHashes.split(',').filter(exists)
     if (hashes.length) {
       const configPayloads: Record<string, ModuleConfig> = {}
-      const mods = await node.downResolver.resolve({ query: [[ArchivistInsertQuerySchema]] } as ModuleFilter)
+      const mods = await node.resolve({ query: [[ArchivistInsertQuerySchema]] }, { direction: 'down', identity: isArchivistInstance })
       for (const mod of mods) {
         await withArchivistInstance(mod, async (archivist) => {
           const payloads = await archivist.get(hashes)
@@ -66,14 +66,14 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Dir
   }
 }
 
-const addModulesToNodeByConfig = async (container: Container, node: DirectNodeModule, configs: ModuleConfigWithVisibility[]) => {
+const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {
   const creatableModuleDictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   await Promise.all(configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(creatableModuleDictionary, node, config, visibility)))
 }
 
 const addModuleToNodeFromConfig = async (
   creatableModuleDictionary: CreatableModuleDictionary,
-  node: DirectNodeModule,
+  node: NodeInstance,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
   account = Account.randomSync(),
@@ -82,7 +82,7 @@ const addModuleToNodeFromConfig = async (
   if (configModuleFactory) {
     const mod = await configModuleFactory.create({ account, config })
     const { address } = mod
-    await node.register(mod)
+    node.register(mod)
     await node.attach(address, visibility)
   }
 }

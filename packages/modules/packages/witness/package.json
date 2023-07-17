@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-witness": "workspace:^",
-    "@xyo-network/witness-model": "workspace:^",
-    "@xyo-network/witness-timestamp": "workspace:^",
-    "@xyo-network/witness-wrapper": "workspace:^"
+    "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~",
+    "@xyo-network/witness-timestamp": "workspace:~",
+    "@xyo-network/witness-wrapper": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

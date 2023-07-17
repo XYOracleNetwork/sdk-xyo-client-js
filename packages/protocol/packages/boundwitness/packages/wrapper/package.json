@@ -12,12 +12,12 @@
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
     "@xylabs/exists": "^2.9.3",
-    "@xyo-network/boundwitness-model": "workspace:^",
-    "@xyo-network/boundwitness-validator": "workspace:^",
-    "@xyo-network/core": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payload-wrapper": "workspace:^",
-    "@xyo-network/promise": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/boundwitness-validator": "workspace:~",
+    "@xyo-network/core": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/promise": "workspace:~",
     "lodash": "^4.17.21"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

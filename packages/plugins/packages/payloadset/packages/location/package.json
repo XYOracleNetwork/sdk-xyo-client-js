@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/location-payload-plugin": "workspace:^",
-    "@xyo-network/module": "workspace:^",
-    "@xyo-network/payload-model": "workspace:^",
-    "@xyo-network/payloadset-plugin": "workspace:^",
-    "@xyo-network/witness": "workspace:^"
+    "@xyo-network/location-payload-plugin": "workspace:~",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

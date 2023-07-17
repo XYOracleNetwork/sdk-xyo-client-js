@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DirectModule, IndirectModule, Module, ModuleInstance } from './Module'
+import { Module, ModuleInstance } from './Module'
 
 export type InstanceTypeCheck<T extends object = object> = (module: object) => module is T
 
@@ -24,24 +24,23 @@ export const IsInstanceFactory = {
     return (module: any = {}, log = false): module is T => {
       return (
         (additionalCheck?.(module) ?? true) &&
-        (Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
+        Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
           const result = isType(module[key], type)
           if (!result && log) {
             console.warn(`isType Failed: ${key}: ${type}`)
           }
-          return result
-        }, true) ??
-          true)
+          return prev && result
+        }, true)
       )
     }
   },
 }
 
-export const IsIndirectModuleFactory = {
-  create: <T extends IndirectModule = IndirectModule>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
+export const IsModuleFactory = {
+  create: <T extends Module = Module>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
     return (module: any = {}): module is T => {
       return (
-        isIndirectModuleInstance(module) &&
+        isModule(module) &&
         (additionalCheck?.(module) ?? true) &&
         (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
       )
@@ -49,9 +48,7 @@ export const IsIndirectModuleFactory = {
   },
 }
 
-export const IsModuleFactory = IsIndirectModuleFactory
-
-export const isIndirectModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
+export const isModule: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
   address: 'string',
   config: 'object',
   downResolver: 'object',
@@ -61,39 +58,11 @@ export const isIndirectModuleInstance: InstanceTypeCheck<ModuleInstance> = IsIns
   queryable: 'function',
 })
 
-export const isDirectModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>(
+export const isModuleInstance: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>(
   {
     describe: 'function',
     discover: 'function',
     manifest: 'function',
   },
-  isIndirectModuleInstance,
+  isModule,
 )
-
-export const isModuleInstance = isDirectModuleInstance
-
-export const isDirectModule = <T extends DirectModule = DirectModule>(
-  module: any = {},
-  expectedQueries?: string[],
-  additionalCheck?: (module: any) => boolean,
-): module is T => {
-  return (
-    isDirectModuleInstance(module) &&
-    (additionalCheck?.(module) ?? true) &&
-    (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
-  )
-}
-
-export const isIndirectModule = <T extends IndirectModule = IndirectModule>(
-  module: any = {},
-  expectedQueries?: string[],
-  additionalCheck?: (module: any) => boolean,
-): module is T => {
-  return (
-    isIndirectModuleInstance(module) &&
-    (additionalCheck?.(module) ?? true) &&
-    (expectedQueries?.reduce((prev, query) => prev && module.queries.includes(query), true) ?? true)
-  )
-}
-
-export const isModule = isIndirectModule

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { DirectArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { DirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -43,7 +43,7 @@ export class MemoryAddressChainDiviner<
     return result
   }
 
-  private async archivistFindHash(archivists: DirectArchivistModule[], hash: string): Promise<BoundWitness | undefined> {
+  private async archivistFindHash(archivists: ArchivistInstance[], hash: string): Promise<BoundWitness | undefined> {
     let index = 0
     if (archivists[index]) {
       const result = (await archivists[index].get([hash])).pop() as BoundWitness

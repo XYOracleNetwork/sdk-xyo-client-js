@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-address-chain-abstract": "workspace:^",
-    "@xyo-network/diviner-address-chain-memory": "workspace:^",
-    "@xyo-network/diviner-address-chain-model": "workspace:^"
+    "@xyo-network/diviner-address-chain-abstract": "workspace:~",
+    "@xyo-network/diviner-address-chain-memory": "workspace:~",
+    "@xyo-network/diviner-address-chain-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

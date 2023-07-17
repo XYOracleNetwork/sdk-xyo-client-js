@@ -2,7 +2,7 @@ import { Logger } from '@xylabs/sdk-api-express-ecs'
 import { configureDependencies, container } from '@xyo-network/express-node-dependencies'
 import { configureDoc } from '@xyo-network/express-node-middleware'
 import { addRoutes } from '@xyo-network/express-node-routes'
-import { DirectNodeModule, MemoryNode } from '@xyo-network/node'
+import { MemoryNode, NodeInstance } from '@xyo-network/node'
 import { TYPES } from '@xyo-network/node-core-types'
 import compression from 'compression'
 import cors from 'cors'
@@ -17,12 +17,12 @@ import { startJobQueue } from './startJobQueue'
 const hostname = '::'
 
 export abstract class PayloadTransport {
-  constructor(protected readonly node: DirectNodeModule) {}
+  constructor(protected readonly node: NodeInstance) {}
 }
 
 export class ExpressPayloadTransport extends PayloadTransport {
   private _app: Express = express()
-  constructor(node: DirectNodeModule) {
+  constructor(node: NodeInstance) {
     super(node)
     this.app.set('etag', false)
     this.app.use(cors())
@@ -40,7 +40,7 @@ export class ExpressPayloadTransport extends PayloadTransport {
   }
 }
 
-export const getApp = async (node?: DirectNodeModule): Promise<Express> => {
+export const getApp = async (node?: NodeInstance): Promise<Express> => {
   node = node ?? (await MemoryNode.create())
   await configureEnvironment()
   await configureDependencies(node)

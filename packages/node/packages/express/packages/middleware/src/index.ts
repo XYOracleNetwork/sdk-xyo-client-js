@@ -1,4 +1,4 @@
-import { DirectNodeModule } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node'
 import { Logger } from '@xyo-network/shared'
 
 declare global {
@@ -6,7 +6,7 @@ declare global {
   namespace Express {
     interface Application {
       logger: Logger
-      node: DirectNodeModule
+      node: NodeInstance
     }
   }
 }

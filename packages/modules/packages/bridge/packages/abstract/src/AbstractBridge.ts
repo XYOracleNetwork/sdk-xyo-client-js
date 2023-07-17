@@ -19,20 +19,15 @@ import {
   ModuleErrorBuilder,
   ModuleEventData,
   ModuleFilter,
-  ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
-import { IndirectModule, ModuleFilterOptions } from '@xyo-network/module-model'
+import { ModuleFilterOptions } from '@xyo-network/module-model'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractBridge<
-    TParams extends BridgeParams = BridgeParams,
-    TEventData extends ModuleEventData = ModuleEventData,
-    TModule extends Module<ModuleParams, TEventData> = Module<ModuleParams, TEventData>,
-  >
+export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements BridgeModule<TParams, TEventData, TModule>
+  implements BridgeModule<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
@@ -49,26 +44,22 @@ export abstract class AbstractBridge<
     }
   }
 
-  override async resolve<TModule extends Module = Module>(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<TModule[]>
-  override async resolve<TModule extends Module = Module>(nameOrAddress: string, options?: ModuleFilterOptions): Promise<TModule | undefined>
-  override async resolve<TModule extends Module = Module>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<TModule | TModule[] | undefined> {
+  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
+  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  override async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
     const direction = options?.direction ?? 'all'
     const down = direction === 'down' || direction === 'all'
     await this.started('throw')
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (await super.resolve<TModule>(nameOrAddressOrFilter, options)) ??
-          (down ? await this.targetDownResolver().resolve<TModule>(nameOrAddressOrFilter) : undefined)
+          (await super.resolve(nameOrAddressOrFilter, options)) ?? (down ? await this.targetDownResolver().resolve(nameOrAddressOrFilter) : undefined)
         )
       }
       default: {
         return [
-          ...(down ? await this.targetDownResolver().resolve<TModule>(nameOrAddressOrFilter) : []),
-          ...(await super.resolve<TModule>(nameOrAddressOrFilter, options)),
+          ...(down ? await this.targetDownResolver().resolve(nameOrAddressOrFilter) : []),
+          ...(await super.resolve(nameOrAddressOrFilter, options)),
         ].filter(duplicateModules)
       }
     }
@@ -79,16 +70,13 @@ export abstract class AbstractBridge<
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 
-  async targetResolve<TModule extends IndirectModule = IndirectModule>(address: string, filter?: ModuleFilter): Promise<TModule[]>
-  async targetResolve<TModule extends IndirectModule = IndirectModule>(address: string, nameOrAddress: string): Promise<TModule | undefined>
-  async targetResolve<TModule extends IndirectModule = IndirectModule>(
-    address: string,
-    nameOrAddressOrFilter?: ModuleFilter | string,
-  ): Promise<TModule | TModule[] | undefined> {
+  async targetResolve(address: string, filter?: ModuleFilter): Promise<Module[]>
+  async targetResolve(address: string, nameOrAddress: string): Promise<Module | undefined>
+  async targetResolve(address: string, nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      return await this.targetDownResolver(address).resolve<TModule>(nameOrAddressOrFilter)
+      return await this.targetDownResolver(address).resolve(nameOrAddressOrFilter)
     } else {
-      return await this.targetDownResolver(address).resolve<TModule>(nameOrAddressOrFilter)
+      return await this.targetDownResolver(address).resolve(nameOrAddressOrFilter)
     }
   }
 

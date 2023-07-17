@@ -1,19 +1,29 @@
-export interface ModuleFilterOptions {
+import { InstanceTypeCheck } from './isModule'
+import { ModuleInstance } from './Module'
+
+export interface ModuleFilterOptions<TInstance extends ModuleInstance = ModuleInstance> {
   direction?: 'up' | 'down' | 'all'
+  identity?: InstanceTypeCheck<TInstance>
   visibility?: 'public' | 'private' | 'all'
 }
 
-export interface AddressModuleFilter extends ModuleFilterOptions {
+export interface AddressModuleFilter<TInstance extends ModuleInstance = ModuleInstance> extends ModuleFilterOptions<TInstance> {
   address: string[]
 }
 
-export interface NameModuleFilter extends ModuleFilterOptions {
+export interface NameModuleFilter<TInstance extends ModuleInstance = ModuleInstance> extends ModuleFilterOptions<TInstance> {
   name: string[]
 }
 
-export interface QueryModuleFilter extends ModuleFilterOptions {
+export interface QueryModuleFilter<TInstance extends ModuleInstance = ModuleInstance> extends ModuleFilterOptions<TInstance> {
   query: string[][]
 }
 
-export type AnyModuleFilter = Partial<AddressModuleFilter> & Partial<NameModuleFilter> & Partial<QueryModuleFilter>
-export type ModuleFilter = ModuleFilterOptions | AddressModuleFilter | NameModuleFilter | QueryModuleFilter
+export type AnyModuleFilter = Partial<AddressModuleFilter<ModuleInstance>> &
+  Partial<NameModuleFilter<ModuleInstance>> &
+  Partial<QueryModuleFilter<ModuleInstance>>
+export type ModuleFilter<TInstance extends ModuleInstance = ModuleInstance> =
+  | ModuleFilterOptions<TInstance>
+  | AddressModuleFilter<TInstance>
+  | NameModuleFilter<TInstance>
+  | QueryModuleFilter<TInstance>

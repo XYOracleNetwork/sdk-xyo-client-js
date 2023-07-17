@@ -6,8 +6,8 @@ import {
   ArchivistAllQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistConfig,
+  ArchivistInstance,
   ArchivistParams,
-  DirectArchivistModule,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleError } from '@xyo-network/error'
@@ -37,7 +37,7 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
 @creatableModule()
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
   extends AbstractDirectArchivist<TParams>
-  implements DirectArchivistModule
+  implements ArchivistInstance
 {
   static override configSchemas = [FilesystemArchivistConfigSchema]
 

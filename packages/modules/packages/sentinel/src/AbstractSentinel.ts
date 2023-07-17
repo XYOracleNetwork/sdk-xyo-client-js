@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivingModule, ArchivistModule } from '@xyo-network/archivist'
+import { ArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
@@ -25,7 +25,7 @@ export abstract class AbstractSentinel<
 
   history: BoundWitness[] = []
 
-  private _archivists: ArchivistModule[] | undefined
+  private _archivists: ArchivistInstance[] | undefined
   private _witnesses: WitnessWrapper[] | undefined
 
   override get queries(): string[] {
@@ -50,7 +50,11 @@ export abstract class AbstractSentinel<
 
   async getArchivists() {
     const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
-    this._archivists = this._archivists ?? (await this.resolve({ address: addresses }))
+    this._archivists =
+      this._archivists ??
+      (await this.resolve({ address: addresses })).map((module) =>
+        assertEx(asArchivistInstance(module), 'Tried to resolve a non-archivist as an archivist'),
+      )
     if (addresses.length !== this._archivists.length) {
       this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
     }

@@ -21,10 +21,10 @@ const handler: RequestHandler<AddressPathParams, ModuleQueryResult, PostAddressR
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     if (node.address === normalizedAddress) modules = [node]
     else {
-      const byAddress = await node.downResolver.resolve({ address: [normalizedAddress] })
+      const byAddress = await node.resolve({ address: [normalizedAddress] }, { direction: 'down' })
       if (byAddress.length) modules = byAddress
       else {
-        const byName = await node.downResolver.resolve({ name: [address] })
+        const byName = await node.resolve({ name: [address] }, { direction: 'down' })
         if (byName.length) {
           const moduleAddress = assertEx(byName.pop()?.address, 'Error redirecting to module by address')
           res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${moduleAddress}`)

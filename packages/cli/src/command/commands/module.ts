@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { isDirectModule, ModuleWrapper } from '@xyo-network/module'
+import { isModuleInstance, ModuleWrapper } from '@xyo-network/module'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -18,7 +18,7 @@ export const handler = async (argv: ArgumentsCamelCase<ModuleArguments>) => {
   const { verbose } = argv
   try {
     const module = await getModuleFromArgs(argv)
-    const result = (isDirectModule(module) ? module.describe() : ModuleWrapper.wrap(module).describe()) ?? {}
+    const result = (isModuleInstance(module) ? module.describe() : ModuleWrapper.wrap(module).describe()) ?? {}
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

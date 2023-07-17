@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/bowser-system-info-payload-plugin": "workspace:^",
-    "@xyo-network/node-system-info-payload-plugin": "workspace:^",
-    "@xyo-network/payload-plugin": "workspace:^"
+    "@xyo-network/bowser-system-info-payload-plugin": "workspace:~",
+    "@xyo-network/node-system-info-payload-plugin": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.18.11",

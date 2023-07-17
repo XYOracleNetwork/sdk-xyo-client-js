@@ -1,15 +1,16 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { Module } from '@xyo-network/module-model'
+import { InstanceTypeCheck, Module, ModuleTypeCheck } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
-  DirectNodeModule,
   isNodeInstance,
+  isNodeModule,
   NodeAttachedQuery,
   NodeAttachedQuerySchema,
   NodeAttachQuery,
   NodeAttachQuerySchema,
   NodeDetachQuery,
   NodeDetachQuerySchema,
+  NodeInstance,
   NodeModule,
   NodeRegisteredQuery,
   NodeRegisteredQuerySchema,
@@ -18,7 +19,9 @@ import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
-export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> implements DirectNodeModule {
+export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> implements NodeInstance {
+  static override instanceIdentityCheck: InstanceTypeCheck = isNodeInstance
+  static override moduleIdentityCheck: ModuleTypeCheck = isNodeModule
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {

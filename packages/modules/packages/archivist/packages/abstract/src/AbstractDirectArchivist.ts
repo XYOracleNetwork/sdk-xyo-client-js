@@ -1,5 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistModuleEventData, ArchivistParams, DirectArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistInstance, ArchivistModuleEventData, ArchivistParams } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { AddressPreviousHashPayload, ModuleDescriptionPayload } from '@xyo-network/module-model'
@@ -13,7 +13,7 @@ export abstract class AbstractDirectArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractIndirectArchivist<TParams, TEventData>
-  implements DirectArchivistModule<TParams>
+  implements ArchivistInstance<TParams>
 {
   all(): PromisableArray<Payload> {
     return this.busy(async () => {

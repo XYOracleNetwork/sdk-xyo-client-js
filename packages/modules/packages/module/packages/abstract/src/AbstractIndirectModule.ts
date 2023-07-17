@@ -154,10 +154,10 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
     const newModule = new this(AbstractIndirectModule.privateConstructorKey, mutatedParams)
+    await newModule.loadAccount?.()
     if (!AbstractIndirectModule.enableLazyLoad) {
       await newModule.start?.()
     }
-    await newModule.loadAccount?.()
     return newModule
   }
 

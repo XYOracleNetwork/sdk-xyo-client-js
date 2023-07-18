@@ -3,7 +3,7 @@ import { config } from 'dotenv'
 config()
 import { Account } from '@xyo-network/account'
 import { getApp } from '@xyo-network/express-node-server'
-import { MemoryNode, MemoryNodeParams } from '@xyo-network/modules'
+import { MemoryNode, MemoryNodeParams } from '@xyo-network/node'
 import { canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PayloadValidator } from '@xyo-network/payload-validator'

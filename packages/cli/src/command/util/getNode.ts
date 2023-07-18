@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { HDWallet } from '@xyo-network/account'
 import { HttpBridge } from '@xyo-network/http-bridge'
 import { NodeWrapper } from '@xyo-network/node'
 import { isNodeModule, NodeInstance } from '@xyo-network/node-model'
@@ -14,7 +15,7 @@ export const getNode = async (args: BaseArguments): Promise<NodeInstance> => {
     const bridge = await HttpBridge.create({ config })
     const node = assertEx((await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(), 'Failed to resolve rootNode')
     assertEx(isNodeModule(node), 'Not a NodeModule')
-    return NodeWrapper.wrap(node)
+    return NodeWrapper.wrap(node, await HDWallet.random())
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))
     throw new Error('Unable to connect to XYO Node')

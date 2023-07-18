@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
-import { MemoryNode, NodeModule, NodeWrapper } from '@xyo-network/node'
+import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

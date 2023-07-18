@@ -17,7 +17,6 @@
     "@xyo-network/diviner-forecasting-abstract": "workspace:~",
     "@xyo-network/diviner-forecasting-method-arima": "workspace:~",
     "@xyo-network/diviner-forecasting-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "jsonpath": "^1.1.1"

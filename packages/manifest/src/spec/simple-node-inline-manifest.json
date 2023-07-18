@@ -39,8 +39,8 @@
             "config": {
               "accountPath": "4'",
               "language": "javascript",
-              "nodeUrl": "https://beta.api.archivist.xyo.network",
               "name": "SimpleHttpBridge",
+              "nodeUrl": "https://beta.api.archivist.xyo.network",
               "schema": "network.xyo.bridge.http.config"
             }
           }

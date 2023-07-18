@@ -15,14 +15,6 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams = PayloadStatsDivinerParams> extends PayloadStatsDiviner<TParams> {
   static override configSchemas = [PayloadStatsDivinerConfigSchema]
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
-    if (!query) return []
-    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
-    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
-  }
-
   protected async divineAddress(address: string): Promise<number> {
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
@@ -37,5 +29,13 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all.length
+  }
+
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+    const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
+    if (!query) return []
+    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
+    return counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build())
   }
 }

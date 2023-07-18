@@ -26,7 +26,7 @@
     "@xylabs/ts-scripts-yarn3": "^2.18.11",
     "@xylabs/tsconfig": "^2.18.11",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
-    "@xyo-network/plugins": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.1.6"
   },

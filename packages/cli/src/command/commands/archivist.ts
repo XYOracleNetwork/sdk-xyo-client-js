@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuerySchema, asArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistGetQuerySchema, isArchivistInstance } from '@xyo-network/archivist-model'
 import { EmptyObject } from '@xyo-network/core'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'

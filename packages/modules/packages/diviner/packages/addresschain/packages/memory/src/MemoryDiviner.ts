@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { DirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract'

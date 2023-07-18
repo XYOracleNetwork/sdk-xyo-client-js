@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { NodeModule, NodeWrapper } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
@@ -18,8 +19,8 @@ import {
   unregisterModule,
 } from './commands'
 
-export const getCommand = (node: NodeModule): Promise<boolean> => {
-  const wrapper = NodeWrapper.wrap(node)
+export const getCommand = async (node: NodeModule): Promise<boolean> => {
+  const wrapper = NodeWrapper.wrap(node, await HDWallet.random())
   return new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)

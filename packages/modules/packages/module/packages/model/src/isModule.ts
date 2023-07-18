@@ -23,6 +23,7 @@ export const IsInstanceFactory = {
   create: <T extends object = object>(shape?: InstanceTypeShape, additionalCheck?: (module: any) => boolean): InstanceTypeCheck<T> => {
     return (module: any = {}, log = false): module is T => {
       return (
+        module &&
         (additionalCheck?.(module) ?? true) &&
         Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
           const result = isType(module[key], type)

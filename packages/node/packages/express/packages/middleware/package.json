@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.66.4",
+  "version": "2.66.5",
   "description": "XYO Express Node Middleware",
   "sideeffects": false,
   "engines": {
@@ -38,7 +38,7 @@
     "http-status-codes": "^2.2.0",
     "node-cache": "^5.1.2",
     "rollbar": "^2.26.2",
-    "swagger-autogen": "^2.23.4",
+    "swagger-autogen": "^2.23.5",
     "swagger-ui-express": "^4.6.3",
     "winston": "^3.10.0",
     "winston-transport": "^4.5.0"

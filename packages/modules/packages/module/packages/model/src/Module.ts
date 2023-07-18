@@ -34,7 +34,10 @@ export interface ModuleResolver extends ResolveFunctions {
   removeResolver: (resolver: ModuleResolver) => this
 }
 
-export type ModuleEventArgs<TModule extends Module = Module, TArgs extends EventArgs | undefined = undefined> = TArgs extends EventArgs
+export type ModuleEventArgs<
+  TModule extends ModuleInstance = ModuleInstance,
+  TArgs extends EventArgs | undefined = undefined,
+> = TArgs extends EventArgs
   ? {
       module: TModule
     } & TArgs

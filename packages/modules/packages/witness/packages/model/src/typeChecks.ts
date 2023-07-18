@@ -1,8 +1,7 @@
 import { AsFactory, IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
 
-import { WitnessModule } from './Module'
+import { WitnessInstance, WitnessModule } from './Module'
 import { WitnessObserveQuerySchema } from './Queries'
-import { WitnessInstance } from './Witness'
 
 export const isWitnessInstance = IsInstanceFactory.create<WitnessInstance>({ observe: 'function' }, isModuleInstance)
 export const isWitnessModule = IsModuleFactory.create<WitnessModule>([WitnessObserveQuerySchema])

@@ -48,10 +48,9 @@ export const IsModuleFactory = {
   },
 }
 
-export const isModule: InstanceTypeCheck<ModuleInstance> = IsInstanceFactory.create<ModuleInstance>({
+export const isModule: ModuleTypeCheck<Module> = IsInstanceFactory.create<Module>({
   address: 'string',
   config: 'object',
-  downResolver: 'object',
   params: 'object',
   queries: 'array',
   query: 'function',

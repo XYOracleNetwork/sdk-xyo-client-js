@@ -21,7 +21,7 @@ export const isType = (value: any, expectedType: FieldType) => {
 
 export const IsInstanceFactory = {
   create: <T extends object = object>(shape?: InstanceTypeShape, additionalCheck?: (module: any) => boolean): InstanceTypeCheck<T> => {
-    return (module: any = {}, log = false): module is T => {
+    return (module: any, log = false): module is T => {
       return (
         module &&
         (additionalCheck?.(module) ?? true) &&
@@ -39,7 +39,7 @@ export const IsInstanceFactory = {
 
 export const IsModuleFactory = {
   create: <T extends Module = Module>(expectedQueries?: string[], additionalCheck?: (module: any) => boolean): ModuleTypeCheck<T> => {
-    return (module: any = {}): module is T => {
+    return (module: any): module is T => {
       return (
         isModule(module) &&
         (additionalCheck?.(module) ?? true) &&

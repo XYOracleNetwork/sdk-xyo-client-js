@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Module, ModuleInstance } from './Module'
 
-export type InstanceTypeCheck<T extends object = object> = (module: object) => module is T
+export type InstanceTypeCheck<T extends object = object> = (module: any) => module is T
 
 export type ModuleTypeCheck<T extends Module = Module> = InstanceTypeCheck<T>
 
@@ -23,7 +23,7 @@ export const IsInstanceFactory = {
   create: <T extends object = object>(shape?: InstanceTypeShape, additionalCheck?: (module: any) => boolean): InstanceTypeCheck<T> => {
     return (module: any, log = false): module is T => {
       return (
-        module &&
+        !!module &&
         (additionalCheck?.(module) ?? true) &&
         Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
           const result = isType(module[key], type)

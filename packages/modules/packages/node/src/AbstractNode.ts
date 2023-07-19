@@ -7,10 +7,12 @@ import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/man
 import { ModuleWrapper } from '@xyo-network/module'
 import { AbstractIndirectModule, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
 import {
+  AddressPreviousHashPayload,
   duplicateModules,
   isModuleInstance,
   Module,
   ModuleConfig,
+  ModuleDescriptionPayload,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleQueryResult,
@@ -68,6 +70,32 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   async attachedModules(): Promise<Module[]> {
     return (await (this.downResolver.resolve() ?? [])).filter((module) => module.address !== this.address)
+  }
+
+  async describe(): Promise<ModuleDescriptionPayload> {
+    await this.started('throw')
+    return await this.describeHandler()
+  }
+
+  async discover(): Promise<Payload[]> {
+    await this.started('throw')
+    return await this.discoverHandler()
+  }
+
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
+  async manifest(): Promise<NodeManifestPayload> {
+    await this.started('throw')
+    return await this.manifestHandler()
+  }
+
+  async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    await this.started('throw')
+    return await this.moduleAddressHandler()
   }
 
   register(_module: Module): Promisable<void> {

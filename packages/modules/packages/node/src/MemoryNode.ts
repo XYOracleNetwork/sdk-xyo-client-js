@@ -23,29 +23,9 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external))
   }
 
-  async describe(): Promise<ModuleDescriptionPayload> {
-    await this.started('throw')
-    return await super.describeHandler()
-  }
-
   override async detach(nameOrAddress: string) {
     await this.started('throw')
     return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
-  }
-
-  async discover(): Promise<Payload[]> {
-    await this.started('throw')
-    return await super.discoverHandler()
-  }
-
-  async manifest(): Promise<NodeManifestPayload> {
-    await this.started('throw')
-    return await super.manifestHandler()
-  }
-
-  async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
-    await this.started('throw')
-    return await super.moduleAddressHandler()
   }
 
   override async register(module: Module) {

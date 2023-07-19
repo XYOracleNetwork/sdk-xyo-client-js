@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { fulfilledValues } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
-  AbstractIndirectArchivist,
+  AbstractDirectArchivist,
   ArchivistConfig,
   ArchivistConfigSchema,
   ArchivistGetQuerySchema,
@@ -51,7 +51,7 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
 
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
-> extends AbstractIndirectArchivist<TParams> {
+> extends AbstractDirectArchivist<TParams> {
   static override configSchemas = [ArchivistConfigSchema]
 
   get boundWitnesses() {

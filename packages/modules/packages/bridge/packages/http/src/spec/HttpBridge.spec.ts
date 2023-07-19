@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
+import { asArchivistInstance } from '@xyo-network/archivist'
+import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -25,14 +26,16 @@ describe('HttpBridge', () => {
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create()
 
-    const bridge = await HttpBridge.create({
+    const bridge: BridgeInstance = await HttpBridge.create({
       account: await HDWallet.random(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
+    await bridge?.start?.()
+
     const wrapper = NodeWrapper.wrap(
       assertEx(
-        (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
+        (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
         `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
       ),
       wrapperAccount,
@@ -46,8 +49,9 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const [archivistByName] = await memNode.resolve({ name: ['Archivist'] })
-    const archivistInstance = asArchivistInstance(archivistByName) as ArchivistInstance
+    const archivistByName = await memNode.resolve('Archivist')
+    expect(archivistByName).toBeDefined()
+    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload() as Payload
     expect(knownPayload).toBeDefined()

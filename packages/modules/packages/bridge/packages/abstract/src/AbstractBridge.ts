@@ -44,6 +44,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
   override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
   override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
   override async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
@@ -116,6 +122,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
+
+  abstract getRootAddress(): Promisable<string>
 
   abstract targetConfig(address: string): ModuleConfig
 

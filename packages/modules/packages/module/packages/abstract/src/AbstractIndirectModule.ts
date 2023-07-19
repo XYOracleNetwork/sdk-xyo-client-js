@@ -23,6 +23,7 @@ import {
   ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescribeQuerySchema,
+  ModuleDescription,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
   ModuleDiscoverQuerySchema,
@@ -199,7 +200,6 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
       if (!account) console.warn(`AbstractModule.loadAccount: No account provided - Creating Random account [${this.config.schema}]`)
       this._account = account ?? (await HDWallet.random())
     }
-    this.downResolver.add(this as Module)
     return this._account
   }
 
@@ -571,4 +571,9 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
     const resolved = await this.upResolver.resolve(filter)
     return asArchivistInstance(resolved)
   }
+
+  abstract describe(): Promise<ModuleDescription>
+  abstract discover(): Promisable<Payload[]>
+  abstract manifest(): Promisable<ModuleManifestPayload>
+  abstract moduleAddress(): Promisable<AddressPreviousHashPayload[]>
 }

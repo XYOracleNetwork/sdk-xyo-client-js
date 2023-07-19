@@ -29,6 +29,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
   manifest(): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
       return await super.manifestHandler()

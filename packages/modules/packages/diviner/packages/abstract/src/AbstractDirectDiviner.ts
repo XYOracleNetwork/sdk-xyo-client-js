@@ -34,6 +34,12 @@ export abstract class AbstractDirectDiviner<
     })
   }
 
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
   manifest(): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
       await this.started('throw')

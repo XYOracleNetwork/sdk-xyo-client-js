@@ -13,7 +13,7 @@ import {
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
-import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
+import { AnyConfigSchema, CreatableModuleDictionary, isModuleInstance, ModuleConfig } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'

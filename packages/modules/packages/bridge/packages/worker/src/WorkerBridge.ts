@@ -117,6 +117,11 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return true
   }
 
+  override getRootAddress(): Promisable<string> {
+    //TODO: Get the real address
+    return this.address
+  }
+
   targetConfig(address: string): ModuleConfig {
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }

@@ -1,4 +1,4 @@
-import { Module, ModuleConfigSchema } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { CompositeModuleResolver } from '../CompositeModuleResolver'
@@ -9,17 +9,26 @@ const moduleCName = 'moduleC'
 
 describe('CompositeModuleResolver', () => {
   describe('with multiple resolvers', () => {
-    let moduleA: MockProxy<Module>
-    let moduleB: MockProxy<Module>
-    let moduleC: MockProxy<Module>
+    let moduleA: MockProxy<ModuleInstance>
+    let moduleB: MockProxy<ModuleInstance>
+    let moduleC: MockProxy<ModuleInstance>
     let resolverA: CompositeModuleResolver
     let resolverB: CompositeModuleResolver
 
     let sut: CompositeModuleResolver
     beforeEach(() => {
-      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a', config: { name: moduleAName, schema: ModuleConfigSchema } })
-      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b', config: { name: moduleBName, schema: ModuleConfigSchema } })
-      moduleC = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c', config: { name: moduleCName, schema: ModuleConfigSchema } })
+      moduleA = mock<ModuleInstance>({
+        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
+        config: { name: moduleAName, schema: ModuleConfigSchema },
+      })
+      moduleB = mock<ModuleInstance>({
+        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
+        config: { name: moduleBName, schema: ModuleConfigSchema },
+      })
+      moduleC = mock<ModuleInstance>({
+        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c',
+        config: { name: moduleCName, schema: ModuleConfigSchema },
+      })
       resolverA = new CompositeModuleResolver()
       resolverA.add(moduleA)
       resolverA.add(moduleC)
@@ -33,7 +42,7 @@ describe('CompositeModuleResolver', () => {
       it('adds module to resolvers', async () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
-        const mod = mock<Module>({ address, config: { name, schema: ModuleConfigSchema } })
+        const mod = mock<ModuleInstance>({ address, config: { name, schema: ModuleConfigSchema } })
         expect(sut.add(mod)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)

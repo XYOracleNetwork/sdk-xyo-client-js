@@ -18,5 +18,4 @@ export class IndirectDivinerWrapper<TWrappedModule extends DivinerModule = Divin
   }
 }
 
-/** @deprecated use DirectDivinerWrapper or IndirectDivinerWrapper instead */
 export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule> extends IndirectDivinerWrapper<TWrappedModule> {}

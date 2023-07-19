@@ -74,6 +74,12 @@ export abstract class AbstractSentinel<
     return this._witnesses
   }
 
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
   removeArchivist(address: string[]) {
     this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
     this._archivists = undefined

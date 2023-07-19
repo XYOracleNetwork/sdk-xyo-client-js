@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { Base, BaseParams } from '@xyo-network/core'
-import { duplicateModules, Module, ModuleFilter, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { duplicateModules, ModuleFilter, ModuleInstance, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
@@ -19,9 +19,9 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return true
   }
 
-  add(module: Module): this
-  add(module: Module[]): this
-  add(module: Module | Module[]): this {
+  add(module: ModuleInstance): this
+  add(module: ModuleInstance[]): this
+  add(module: ModuleInstance | ModuleInstance[]): this {
     if (Array.isArray(module)) {
       module.forEach((module) => this.addSingleModule(module))
     } else {
@@ -49,28 +49,31 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve(filter?: ModuleFilter): Promise<Module[]>
-  async resolve(nameOrAddress: string): Promise<Module | undefined>
-  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
+  async resolve(filter?: ModuleFilter): Promise<ModuleInstance[]>
+  async resolve(nameOrAddress: string): Promise<ModuleInstance | undefined>
+  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      const result = await Promise.all(
+      const results = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          return await resolver.resolve(nameOrAddressOrFilter)
+          const result: ModuleInstance | undefined = await resolver.resolve(nameOrAddressOrFilter)
+          return result
         }),
       )
-      return result.filter(exists).filter(duplicateModules).pop()
+      const result: ModuleInstance | undefined = results.filter(exists).filter(duplicateModules).pop()
+      return result
     } else {
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          return await resolver.resolve(nameOrAddressOrFilter)
+          const result: ModuleInstance[] = await resolver.resolve(nameOrAddressOrFilter)
+          return result
         }),
       )
-      const flatResult = result.flat()
+      const flatResult: ModuleInstance[] = result.flat()
       return flatResult.filter(duplicateModules)
     }
   }
 
-  private addSingleModule(module?: Module) {
+  private addSingleModule(module?: ModuleInstance) {
     if (module) {
       this.localResolver.add(module)
     }

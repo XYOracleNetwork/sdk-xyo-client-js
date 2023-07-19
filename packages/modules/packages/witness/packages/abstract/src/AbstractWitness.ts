@@ -40,6 +40,12 @@ export abstract class AbstractWitness<
     }
   }
 
+  override async loadAccount() {
+    const account = await super.loadAccount()
+    this.downResolver.add(this)
+    return account
+  }
+
   async observe(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
     const payloadList = assertEx(await this.observeHandler(payloads), 'Trying to witness nothing')

@@ -1,4 +1,4 @@
-import { Module, ModuleConfigSchema } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { SimpleModuleResolver } from '../SimpleModuleResolver'
@@ -8,12 +8,18 @@ const moduleBName = 'moduleB'
 
 describe('SimpleModuleResolver', () => {
   describe('with multiple resolvers', () => {
-    let moduleA: MockProxy<Module>
-    let moduleB: MockProxy<Module>
+    let moduleA: MockProxy<ModuleInstance>
+    let moduleB: MockProxy<ModuleInstance>
     let sut: SimpleModuleResolver
     beforeEach(() => {
-      moduleA = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a', config: { name: moduleAName, schema: ModuleConfigSchema } })
-      moduleB = mock<Module>({ address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b', config: { name: moduleBName, schema: ModuleConfigSchema } })
+      moduleA = mock<ModuleInstance>({
+        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
+        config: { name: moduleAName, schema: ModuleConfigSchema },
+      })
+      moduleB = mock<ModuleInstance>({
+        address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
+        config: { name: moduleBName, schema: ModuleConfigSchema },
+      })
       sut = new SimpleModuleResolver()
       sut.add(moduleA)
     })

@@ -5,6 +5,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
+  "exclude": [
+    "**/build",
+    "**/dist",
+    "**/node_modules",
+    "**/*.stories.*",
+    "**/*.example.*",
+    "**/stories/*"
+  ],
   "extends": "@xylabs/tsconfig-jest"
 }
 

@@ -15,8 +15,8 @@
     "idb": "^7.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.18.11",
-    "@xylabs/tsconfig": "^2.18.11",
+    "@xylabs/ts-scripts-yarn3": "^2.19.0",
+    "@xylabs/tsconfig": "^2.19.0",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.1.6"
   },

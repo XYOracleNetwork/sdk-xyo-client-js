@@ -26,7 +26,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   private _payloads: TPayload[] = []
   private _timestamp = Date.now()
 
-  constructor(readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false }, protected readonly logger?: Logger) {}
+  constructor(
+    readonly config: BoundWitnessBuilderConfig = { inlinePayloads: false },
+    protected readonly logger?: Logger,
+  ) {}
 
   private get _payload_schemas(): string[] {
     return (

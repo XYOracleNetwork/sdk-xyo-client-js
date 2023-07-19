@@ -111,15 +111,16 @@ export class SimpleModuleResolver implements ModuleRepository {
   private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: T[], query?: string[][]): T[] {
     return query
       ? compact(
-          modules.filter((module) =>
-            query?.reduce((supported, queryList) => {
-              return (
-                queryList.reduce((supported, query) => {
-                  const queryable = module.queries.includes(query)
-                  return supported && queryable
-                }, true) || supported
-              )
-            }, false),
+          modules.filter(
+            (module) =>
+              query?.reduce((supported, queryList) => {
+                return (
+                  queryList.reduce((supported, query) => {
+                    const queryable = module.queries.includes(query)
+                    return supported && queryable
+                  }, true) || supported
+                )
+              }, false),
           ),
         )
       : modules

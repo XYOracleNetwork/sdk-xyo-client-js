@@ -19,7 +19,10 @@ export interface NodeCreatedMessage extends Message<'nodeCreated'> {
 }
 
 export class WorkerNodeHost {
-  constructor(protected node: NodeModule, protected logger?: Logger) {}
+  constructor(
+    protected node: NodeModule,
+    protected logger?: Logger,
+  ) {}
 
   static async create(config: ManifestPayload) {
     const mnemonic = generateMnemonic(wordlists.english, 256)

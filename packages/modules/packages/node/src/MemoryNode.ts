@@ -1,9 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
-import { NodeManifestPayload } from '@xyo-network/manifest-model'
-import { AddressPreviousHashPayload, AnyConfigSchema, EventListener, Module, ModuleDescriptionPayload, ModuleResolver } from '@xyo-network/module'
+import { AnyConfigSchema, EventListener, Module, ModuleResolver } from '@xyo-network/module'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'

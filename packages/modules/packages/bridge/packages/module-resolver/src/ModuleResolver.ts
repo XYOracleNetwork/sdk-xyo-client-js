@@ -31,7 +31,10 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
-  constructor(protected readonly bridge: BridgeModule, protected wrapperAccount: AccountInstance) {
+  constructor(
+    protected readonly bridge: BridgeModule,
+    protected wrapperAccount: AccountInstance,
+  ) {
     super()
   }
 

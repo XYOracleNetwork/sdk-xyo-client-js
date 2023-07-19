@@ -8,7 +8,10 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 import { standardCreatableModules } from './standardCreatableModules'
 
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
-  constructor(payload: ManifestPayload, protected wallet: WalletInstance) {
+  constructor(
+    payload: ManifestPayload,
+    protected wallet: WalletInstance,
+  ) {
     super(payload)
   }
 

@@ -15,7 +15,10 @@ export class HDWallet extends Account implements WalletInstance {
   protected static _walletMap: Record<string, Record<string, WeakRef<HDWallet>>> = {}
   protected _pathMap: Record<string, WeakRef<HDWallet>> = {}
 
-  constructor(key: unknown, protected readonly node: HDNode) {
+  constructor(
+    key: unknown,
+    protected readonly node: HDNode,
+  ) {
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
     assertEx(!privateKey || privateKey?.length === 32, `Private key must be 32 bytes [${privateKey?.length}]`)
     super(key, privateKey ? { privateKey } : undefined)

@@ -9,7 +9,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.9.3",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
@@ -20,8 +19,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
-    "@xylabs/ts-scripts-yarn3": "^2.18.11",
-    "@xylabs/tsconfig": "^2.18.11",
+    "@xylabs/ts-scripts-yarn3": "^2.19.0",
+    "@xylabs/tsconfig": "^2.19.0",
     "@xyo-network/memory-archivist": "workspace:~",
     "typescript": "^5.1.6"
   },

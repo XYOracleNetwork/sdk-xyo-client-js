@@ -2,7 +2,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, ArchivistModuleEventData, ArchivistParams } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { AddressPreviousHashPayload, ModuleDescriptionPayload, ModuleInstance } from '@xyo-network/module-model'
+import { AddressPreviousHashPayload, ModuleDescriptionPayload } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 

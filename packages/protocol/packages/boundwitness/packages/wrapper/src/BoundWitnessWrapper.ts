@@ -73,10 +73,13 @@ export class BoundWitnessWrapper<
           return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
-    ).reduce((map, [payload, payloadHash]) => {
-      map[payloadHash] = payload
-      return map
-    }, {} as Record<string, TPayload>)
+    ).reduce(
+      (map, [payload, payloadHash]) => {
+        map[payloadHash] = payload
+        return map
+      },
+      {} as Record<string, TPayload>,
+    )
   }
 
   static async mapWrappedPayloads<TPayload extends Payload>(
@@ -89,10 +92,13 @@ export class BoundWitnessWrapper<
           return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
         }),
       )
-    ).reduce((map, [payload, payloadHash]) => {
-      map[payloadHash] = PayloadWrapper.wrap(payload)
-      return map
-    }, {} as Record<string, PayloadWrapper<TPayload>>)
+    ).reduce(
+      (map, [payload, payloadHash]) => {
+        map[payloadHash] = PayloadWrapper.wrap(payload)
+        return map
+      },
+      {} as Record<string, PayloadWrapper<TPayload>>,
+    )
   }
 
   static parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {

@@ -54,5 +54,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.1",
+  "stableVersion": "2.66.9"
 }

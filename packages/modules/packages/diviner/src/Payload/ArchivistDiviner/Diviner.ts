@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -25,7 +25,7 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
         ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
         : null
       if (resolvedArchivist) {
-        return resolvedArchivist ? new IndirectArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
+        return resolvedArchivist ? new ArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
       }
     }
     return null

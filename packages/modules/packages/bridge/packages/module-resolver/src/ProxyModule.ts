@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { ModuleManifest } from '@xyo-network/manifest-model'
+import { ManifestPayloadSchema, ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   BaseEmitter,
@@ -13,6 +13,7 @@ import {
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
@@ -33,7 +34,7 @@ export type ProxyModuleParams = ModuleParams<
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements Module<ModuleParams, ModuleEventData> {
+export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements ModuleInstance<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
   constructor(params: ProxyModuleParams) {
@@ -89,9 +90,13 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
     return this.bridge.targetDiscover()
   }
 
-  manifest(): Promisable<ModuleManifest> {
+  manifest(): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    return { config: { name, ...this.config } }
+    return { config: { name, ...this.config }, schema: ManifestPayloadSchema }
+  }
+
+  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    throw Error('Not Implemented')
   }
 
   previousHash(): Promise<string | undefined> {

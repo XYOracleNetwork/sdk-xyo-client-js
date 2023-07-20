@@ -1,12 +1,19 @@
-import { DivinerDivineQuery, DivinerDivineQuerySchema, DivinerModule, isDivinerInstance, isDivinerModule } from '@xyo-network/diviner-model'
+import {
+  DivinerDivineQuery,
+  DivinerDivineQuerySchema,
+  DivinerInstance,
+  DivinerModule,
+  isDivinerInstance,
+  isDivinerModule,
+} from '@xyo-network/diviner-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
-export class IndirectDivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule>
+export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule>
   extends ModuleWrapper<TWrappedModule>
-  implements DivinerModule<TWrappedModule['params']>
+  implements DivinerInstance<TWrappedModule['params']>
 {
   static override instanceIdentityCheck = isDivinerInstance
   static override moduleIdentityCheck = isDivinerModule
@@ -17,5 +24,3 @@ export class IndirectDivinerWrapper<TWrappedModule extends DivinerModule = Divin
     return await this.sendQuery(queryPayload, payloads)
   }
 }
-
-export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule> extends IndirectDivinerWrapper<TWrappedModule> {}

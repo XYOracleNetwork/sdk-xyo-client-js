@@ -1,4 +1,4 @@
-import { Module, ModuleResolver } from './Module'
+import { Module, ModuleResolver } from './module-fix'
 
 export interface ModuleRepository extends ModuleResolver {
   add(module: Module): this

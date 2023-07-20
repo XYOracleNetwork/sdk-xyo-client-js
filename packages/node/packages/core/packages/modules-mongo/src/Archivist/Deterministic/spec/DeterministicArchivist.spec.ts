@@ -5,7 +5,7 @@ Date.now = jest.fn(() => timestamp)
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -28,7 +28,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
 
   const payloadWrappers: PayloadWrapper[] = []
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
-  let archivist: IndirectArchivistWrapper
+  let archivist: ArchivistWrapper
   let insertResult1: BoundWitness[]
   // let insertResult2: BoundWitness[]
   let insertResult3: BoundWitness[]
@@ -53,7 +53,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       config: { schema: MongoDBDeterministicArchivist.configSchema },
       payloadSdk: payloads,
     })
-    archivist = IndirectArchivistWrapper.wrap(module, archiveAccount)
+    archivist = ArchivistWrapper.wrap(module, archiveAccount)
     const payload1 = { nonce: 1, schema: 'network.xyo.debug' }
     const payload2 = { nonce: 2, schema: 'network.xyo.test' }
     const payload3 = { nonce: 3, schema: 'network.xyo.debug' }

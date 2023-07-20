@@ -10,7 +10,9 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
     "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.address",
-    "network.xyo.query.module.subscribe"
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
   ],
   "schema": "network.xyo.module.description",
   "children": [
@@ -30,7 +32,9 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
     "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.address",
-    "network.xyo.query.module.subscribe"
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
   ],
   "schema": "network.xyo.module.description",
   "children": [
@@ -51,7 +55,9 @@ exports[`MemoryNode description node without child modules serializes to JSON co
     "network.xyo.query.node.registered",
     "network.xyo.query.module.discover",
     "network.xyo.query.module.address",
-    "network.xyo.query.module.subscribe"
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
   ],
   "schema": "network.xyo.module.description",
   "children": []

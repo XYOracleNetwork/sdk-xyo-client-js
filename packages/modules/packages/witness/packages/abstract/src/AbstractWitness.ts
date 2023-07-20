@@ -7,6 +7,7 @@ import { AbstractModule, creatableModule, ModuleConfig, ModuleErrorBuilder, Modu
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import {
+  CustomWitnessModule,
   WitnessConfigSchema,
   WitnessModule,
   WitnessModuleEventData,
@@ -19,10 +20,10 @@ import {
 creatableModule()
 export abstract class AbstractWitness<
     TParams extends WitnessParams = WitnessParams,
-    TEventData extends WitnessModuleEventData = WitnessModuleEventData,
+    TEventData extends WitnessModuleEventData<WitnessModule<TParams>> = WitnessModuleEventData<WitnessModule<TParams>>,
   >
   extends AbstractModule<TParams, TEventData>
-  implements WitnessModule<TParams, TEventData>
+  implements CustomWitnessModule<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
 

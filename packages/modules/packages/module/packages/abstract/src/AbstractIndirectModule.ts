@@ -126,7 +126,7 @@ export abstract class AbstractIndirectModule<TParams extends ModuleParams = Modu
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModuleAddressQuerySchema, ModuleSubscribeQuerySchema]
+    return [ModuleDiscoverQuerySchema, ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleDescribeQuerySchema, ModuleManifestQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {

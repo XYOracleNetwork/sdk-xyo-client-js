@@ -79,7 +79,10 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 }
 
 @constructableModuleWrapper()
-export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<TWrappedModule['params']> {
+export class ModuleWrapper<TWrappedModule extends Module = Module>
+  extends Base<TWrappedModule['params']>
+  implements ModuleInstance<TWrappedModule['params']>
+{
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
@@ -199,7 +202,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<
     module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
-    assertEx(!module || this.moduleIdentityCheck(module), 'Passed module failed identity check')
+    assertEx(module && this.moduleIdentityCheck(module), `Passed module failed identity check: ${module?.config.schema}`)
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 

@@ -5,7 +5,7 @@ import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundw
 import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
-import { WitnessWrapper } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness'
 import compact from 'lodash/compact'
 
 import { AbstractSentinel } from './AbstractSentinel'
@@ -84,7 +84,7 @@ export class MemorySentinel<
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
-  private async generatePayloads(witnesses: WitnessWrapper[]): Promise<Payload[]> {
+  private async generatePayloads(witnesses: WitnessInstance[]): Promise<Payload[]> {
     return (await Promise.allSettled(witnesses?.map((witness) => witness.observe())))
       .filter(fulfilled)
       .map((result) => result.value)

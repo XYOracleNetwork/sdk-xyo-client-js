@@ -2,9 +2,9 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { ArchivistModule } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, IndirectDivinerWrapper } from '@xyo-network/diviner'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, DivinerWrapper } from '@xyo-network/diviner'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
@@ -65,7 +65,7 @@ export class MemoryCoinUserLocationsDiviner<
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
-      const diviner = IndirectDivinerWrapper.wrap(this.params.bws, this.account)
+      const diviner = DivinerWrapper.wrap(this.params.bws, this.account)
       const filter = { payload_hashes: [await wrapper.hashAsync()], schema: BoundWitnessDivinerQuerySchema }
       const bwList = ((await diviner.divine([filter])) as BoundWitness[]) || []
       const locationHashes = bwList
@@ -79,9 +79,7 @@ export class MemoryCoinUserLocationsDiviner<
           return locations
         })
         .flat()
-      const locations = compact(
-        await IndirectArchivistWrapper.wrap(this.params.payloads, this.account).get(locationHashes),
-      ) as unknown as LocationPayload[]
+      const locations = compact(await ArchivistWrapper.wrap(this.params.payloads, this.account).get(locationHashes)) as unknown as LocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

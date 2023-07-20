@@ -10,7 +10,7 @@ import {
   BoundWitnessStatsQuerySchema,
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
-import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -34,7 +34,7 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
   beforeAll(async () => {
     account = await Account.create({ phrase })
     address = account.address
-    sut = IndirectDivinerWrapper.wrap(
+    sut = DivinerWrapper.wrap(
       await MongoDBBoundWitnessStatsDiviner.create({
         boundWitnessSdk,
         config: { schema: BoundWitnessStatsDivinerConfigSchema },

@@ -3,7 +3,8 @@ import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { asArchivistInstance } from '@xyo-network/archivist'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { MemoryNode, NodeWrapper } from '@xyo-network/node'
+import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
+import { isNodeInstance, MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -76,13 +77,15 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
-    const wrapper = NodeWrapper.wrap(
-      assertEx(
-        (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-        `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
-      ),
-      wrapperAccount,
-    )
+    const module = (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+
+    expect(isModule(module)).toBeTrue()
+    expect(isModuleObject(module)).toBeTrue()
+
+    const wrapper = NodeWrapper.wrap(assertEx(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`), wrapperAccount)
+
+    expect(isNodeInstance(wrapper)).toBeTrue()
+    expect(isModuleInstance(wrapper)).toBeTrue()
 
     await memNode3.register(wrapper.module)
     await memNode3.attach(wrapper?.address, true)

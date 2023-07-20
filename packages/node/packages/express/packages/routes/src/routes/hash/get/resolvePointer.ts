@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance, asArchivistModule } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
@@ -18,7 +18,7 @@ export const resolvePointer = async (req: Request, pointer: PointerPayload): Pro
   const archivist =
     asArchivistInstance(module) ??
     asArchivistInstance(
-      IndirectArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`), await HDWallet.random()),
+      ArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`), await HDWallet.random()),
       `Failed to cast archivist wrapper ${module?.address}`,
     )
   const boundWitnessDiviner = asDivinerInstance(

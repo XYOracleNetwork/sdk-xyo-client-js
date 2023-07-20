@@ -10,7 +10,7 @@ import {
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
-import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import { value } from 'jsonpath'
 
@@ -60,7 +60,7 @@ export class MemoryForecastingDiviner<
     const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const bwDiviner = IndirectDivinerWrapper.wrap(
+    const bwDiviner = DivinerWrapper.wrap(
       assertEx((await this.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner'),
       this.account,
     )

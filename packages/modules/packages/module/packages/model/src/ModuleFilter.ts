@@ -1,5 +1,4 @@
-import { InstanceTypeCheck } from './isModule'
-import { ModuleInstance } from './Module'
+import { InstanceTypeCheck, ModuleInstance } from './instance'
 
 export interface ModuleFilterOptions<TInstance extends ModuleInstance = ModuleInstance> {
   direction?: 'up' | 'down' | 'all'

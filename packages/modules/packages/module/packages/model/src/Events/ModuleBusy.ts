@@ -1,6 +1,6 @@
 import { EventData } from '@xyo-network/module-events'
 
-import { Module, ModuleEventArgs } from '../Module'
+import { Module, ModuleEventArgs } from '../module-fix'
 
 export type ModuleBusyEventArgs<TModule extends Module = Module> = ModuleEventArgs<TModule, { busy: boolean }>
 

@@ -2,7 +2,7 @@ import { Logger } from '@xyo-network/core'
 import merge from 'lodash/merge'
 
 import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
-import { Module } from './Module'
+import { Module } from './module-fix'
 
 export class ModuleFactory<TModule extends Module> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']

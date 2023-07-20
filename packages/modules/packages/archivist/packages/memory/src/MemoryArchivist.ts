@@ -10,10 +10,11 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistInstance,
   ArchivistModuleEventData,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -32,9 +33,12 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
   ModuleParams<TConfig>
 @creatableModule()
 export class MemoryArchivist<
-  TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractDirectArchivist<TParams, TEventData> {
+    TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
+    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+  >
+  extends AbstractDirectArchivist<TParams, TEventData>
+  implements ArchivistInstance, ModuleInstance
+{
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _cache?: LRUCache<string, Payload>

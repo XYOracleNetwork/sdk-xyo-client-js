@@ -1,6 +1,6 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, EventData, Module, ModuleEventArgs, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, EventData, Module, ModuleEventArgs, ModuleEventData, ModuleFields, ModuleInstance, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -50,4 +50,4 @@ export type SentinelModule<
 export type SentinelInstance<
   TParams extends SentinelParams = SentinelParams,
   TEventData extends SentinelModuleEventData = SentinelModuleEventData,
-> = SentinelModule<TParams, TEventData> & Sentinel
+> = SentinelModule<TParams, TEventData> & ModuleInstance & Sentinel

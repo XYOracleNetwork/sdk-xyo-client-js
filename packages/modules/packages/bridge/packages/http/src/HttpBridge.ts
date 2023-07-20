@@ -8,6 +8,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
   creatableModule,
+  isModule,
   isModuleInstance,
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -174,7 +175,12 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     )
 
     // Discover all to load cache
-    await Promise.all(children.map((child) => (isModuleInstance(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
+    await Promise.all(
+      children.map(
+        (child) => assertEx(isModuleInstance(child) ? child.discover() : isModule(child) ? ModuleWrapper.wrap(child, this.account) : undefined),
+        'WTF - not module',
+      ),
+    )
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

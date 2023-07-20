@@ -4,8 +4,8 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { WitnessModule } from '../Module'
 
-export type WitnessReportEndEventArgs = ModuleEventArgs<
-  WitnessModule,
+export type WitnessReportEndEventArgs<T extends WitnessModule = WitnessModule> = ModuleEventArgs<
+  T,
   {
     errors?: Error[]
     inPayloads?: Payload[]
@@ -13,6 +13,6 @@ export type WitnessReportEndEventArgs = ModuleEventArgs<
   }
 >
 
-export interface WitnessReportEndEventData extends EventData {
-  reportEnd: WitnessReportEndEventArgs
+export interface WitnessReportEndEventData<T extends WitnessModule = WitnessModule> extends EventData {
+  reportEnd: WitnessReportEndEventArgs<T>
 }

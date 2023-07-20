@@ -1,6 +1,6 @@
 import { Logger } from '@xyo-network/core'
 
-import { Module } from './Module'
+import { Module } from './module-fix'
 
 export interface CreatableModule<T extends Module = Module> {
   configSchema: string

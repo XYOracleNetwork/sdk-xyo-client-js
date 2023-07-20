@@ -3,7 +3,9 @@
  */
 
 import { Account } from '@xyo-network/account'
+import { isArchivistInstance } from '@xyo-network/archivist-model'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
+import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -71,6 +73,14 @@ test('Archivist passed account', async () => {
 test('Archivist Parent Reads', async () => {
   const parent = await MemoryArchivist.create()
   const memoryNode = await MemoryNode.create()
+
+  expect(isModuleObject(parent)).toBeTrue()
+
+  expect(isModule(parent)).toBeTrue()
+
+  expect(isModuleInstance(parent)).toBeTrue()
+
+  expect(isArchivistInstance(parent)).toBeTrue()
 
   await memoryNode.register(parent)
   await memoryNode.attach(parent.address, true)

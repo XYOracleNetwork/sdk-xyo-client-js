@@ -12,7 +12,7 @@ import {
   BoundWitnessStatsQueryPayload,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
-import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -143,7 +143,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updating Addresses`)
     const addressSpaceDiviners = await this.upResolver.resolve({ name: [assertEx(TYPES.AddressSpaceDiviner.description)] })
     const addressSpaceDiviner = assertEx(addressSpaceDiviners.pop(), `${moduleName}.DivineAddressesBatch: Missing AddressSpaceDiviner`)
-    const result = (await IndirectDivinerWrapper.wrap(addressSpaceDiviner, this.account).divine([])) || []
+    const result = (await DivinerWrapper.wrap(addressSpaceDiviner, this.account).divine([])) || []
     const addresses = result.filter<AddressPayload>((x): x is AddressPayload => x.schema === AddressSchema).map((x) => x.address)
     const additions = this.addressIterator.addValues(addresses)
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Incoming Addresses Total: ${addresses.length} New: ${additions}`)

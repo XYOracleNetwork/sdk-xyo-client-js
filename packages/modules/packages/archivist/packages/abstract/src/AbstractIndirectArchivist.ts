@@ -15,6 +15,7 @@ import {
   ArchivistQuery,
   ArchivistQueryBase,
   asArchivistInstance,
+  isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -224,7 +225,11 @@ export abstract class AbstractIndirectArchivist<
     )
 
     return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
-      prev[module.address] = assertEx(asArchivistInstance(module), 'Unable to cast resolved module to an archivist')
+      prev[module.address] = asArchivistInstance(module, () => {
+        isArchivistInstance(module, { log: console })
+        return `Unable to cast resolved module to an archivist: [${module.address}, ${module.config.name}, ${module.config.schema})}]`
+      })
+
       return prev
     }, {})
   }

@@ -1,9 +1,9 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { isArchivistModule } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { IndirectDivinerWrapper } from '@xyo-network/diviner'
+import { DivinerWrapper } from '@xyo-network/diviner'
 import { isDivinerModule } from '@xyo-network/diviner-model'
 import { handleError } from '@xyo-network/error'
 import { CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
@@ -117,11 +117,11 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
           await this.bridge.targetDiscover(address)
 
           if (isArchivistModule(mod)) {
-            return IndirectArchivistWrapper.wrap(mod, this.wrapperAccount)
+            return ArchivistWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (isDivinerModule(mod)) {
-            return IndirectDivinerWrapper.wrap(mod, this.wrapperAccount)
+            return DivinerWrapper.wrap(mod, this.wrapperAccount)
           }
 
           if (isWitnessModule(mod)) {

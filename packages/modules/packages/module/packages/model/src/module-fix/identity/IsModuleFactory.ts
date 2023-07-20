@@ -15,9 +15,6 @@ export class IsModuleFactory<T extends Module = Module> {
         (expectedQueries?.reduce((prev, query) => prev && obj.queries.includes(query), true) ?? true) &&
         //perform additional checks
         (additionalChecks?.reduce((prev, check) => prev && check(obj, config), true) ?? true)
-      if (!result) {
-        console.log(`Queries: ${JSON.stringify(obj.queries)}`)
-      }
       return result
     }
   }

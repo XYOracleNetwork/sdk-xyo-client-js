@@ -1,11 +1,9 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivistModule, asArchivistModule, isArchivistInstance } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
-import { AbstractModule, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModuleInstance, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import compact from 'lodash/compact'
 
 export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfig<
@@ -15,14 +13,14 @@ export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfi
   } & T
 >
 // @creatableModule()
-export abstract class ArchivingModule<
+export abstract class AbstractArchivingModule<
     TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>,
     TEventData extends ModuleEventData = ModuleEventData,
   >
-  extends AbstractModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
-  protected override async bindQueryResult<T extends Query | PayloadWrapper<Query>>(
+  protected override async bindQueryResult<T extends Query>(
     query: T,
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
@@ -33,18 +31,20 @@ export abstract class ArchivingModule<
     return [result, witnesses]
   }
 
-  protected async resolveArchivists(): Promise<ArchivistModule[]> {
+  protected async resolveArchivists(): Promise<ArchivistInstance[]> {
     return compact(
-      (await Promise.all((await this.resolve({ address: this.config.archivists ?? [] })) ?? [])).map((module) => asArchivistModule(module)),
+      (await Promise.all((await this.resolve({ address: this.config.archivists ?? [] })) ?? [])).map((module) =>
+        asArchivistInstance(module, () => `Module failed to cast to Archivist [${module.config.name}]`),
+      ),
     )
   }
 
-  protected async storeToArchivists(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {
     const archivists = await this.resolveArchivists()
     return (
       await Promise.all(
         archivists.map((archivist) => {
-          return isArchivistInstance(archivist) ? archivist.insert(payloads) : ArchivistWrapper.wrap(archivist, this.account).insert(payloads)
+          return archivist.insert?.(payloads)
         }),
       )
     ).map(([bw]) => bw)

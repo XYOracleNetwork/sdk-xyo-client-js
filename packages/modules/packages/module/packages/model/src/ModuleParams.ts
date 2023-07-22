@@ -19,7 +19,7 @@ export type AccountModuleParams<
   TConfig,
   WithAdditional<
     {
-      account: AccountInstance
+      account: AccountInstance | 'random'
     },
     TAdditionalParams
   >

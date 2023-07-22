@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistCommitQuerySchema,
@@ -36,7 +36,7 @@ export type FilesystemArchivistParams = ArchivistParams<AnyConfigSchema<Filesyst
  */
 @creatableModule()
 export class FilesystemArchivist<TParams extends FilesystemArchivistParams = FilesystemArchivistParams>
-  extends AbstractDirectArchivist<TParams>
+  extends AbstractArchivist<TParams>
   implements ArchivistInstance
 {
   static override configSchemas = [FilesystemArchivistConfigSchema]
@@ -88,7 +88,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.get(hashes)
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

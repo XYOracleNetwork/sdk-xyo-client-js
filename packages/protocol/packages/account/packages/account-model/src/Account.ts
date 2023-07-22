@@ -31,6 +31,11 @@ export interface AccountInstance extends KeyPairInstance {
   verify: (msg: DataLike, signature: DataLike) => boolean | Promise<boolean>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isAccountInstance = (account: any): account is AccountInstance => {
+  return typeof account === 'object' && typeof account['address'] === 'string'
+}
+
 export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   previousHashStore?: PreviousHashStore
   new (key: unknown, params?: AccountConfig): T

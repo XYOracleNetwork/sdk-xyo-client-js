@@ -4,7 +4,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { asArchivistInstance } from '@xyo-network/archivist'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
-import { isNodeInstance, MemoryNode, NodeWrapper } from '@xyo-network/node'
+import { asNodeInstance, isNodeInstance, MemoryNode, NodeWrapper } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -34,17 +34,14 @@ describe('HttpBridge', () => {
 
     await bridge?.start?.()
 
-    const wrapper = NodeWrapper.wrap(
-      assertEx(
-        (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-        `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
-      ),
-      wrapperAccount,
+    const remoteNode = asNodeInstance(
+      (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
+      `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
     )
 
-    await memNode.register(wrapper.module)
-    await memNode.attach(wrapper?.address, true)
-    const description = await wrapper.describe()
+    await memNode.register(remoteNode)
+    await memNode.attach(remoteNode?.address, true)
+    const description = await remoteNode.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)
     expect(description.queries).toBeArray()
@@ -82,14 +79,14 @@ describe('HttpBridge', () => {
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
-    const wrapper = NodeWrapper.wrap(assertEx(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`), wrapperAccount)
+    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
 
-    expect(isNodeInstance(wrapper)).toBeTrue()
-    expect(isModuleInstance(wrapper)).toBeTrue()
+    expect(isNodeInstance(remoteNode)).toBeTrue()
+    expect(isModuleInstance(remoteNode)).toBeTrue()
 
-    await memNode3.register(wrapper.module)
-    await memNode3.attach(wrapper?.address, true)
-    const description = await wrapper.describe()
+    await memNode3.register(remoteNode)
+    await memNode3.attach(remoteNode?.address, true)
+    const description = await remoteNode.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)
     expect(description.queries).toBeArray()
@@ -100,12 +97,11 @@ describe('HttpBridge', () => {
     //expect(archivistByAddress).toBeDefined()
 
     // Fails to resolve
-    const memNodeWrapper1 = NodeWrapper.wrap(memNode1, wrapperAccount)
-    const [archivistByName] = await memNodeWrapper1.resolve({ name: ['Archivist'] })
+    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await memNodeWrapper1.resolve({ name: ['PayloadStatsDiviner'] })
+    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await memNodeWrapper1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

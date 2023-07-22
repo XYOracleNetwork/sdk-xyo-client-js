@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -20,7 +20,7 @@ import {
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import { AbstractIndirectModule, duplicateModules, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -32,11 +32,11 @@ export interface ArchivistParentModules {
   write?: Record<string, ArchivistInstance>
 }
 
-export abstract class AbstractIndirectArchivist<
+export abstract class AbstractArchivist<
     TParams extends ArchivistParams = ArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
-  extends AbstractIndirectModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements ArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
@@ -65,6 +65,48 @@ export abstract class AbstractIndirectArchivist<
     return !!this.config?.storeParentReads
   }
 
+  all(): PromisableArray<Payload> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.allHandler()
+    })
+  }
+
+  clear(): Promisable<void> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.clearHandler()
+    })
+  }
+
+  commit(): Promisable<BoundWitness[]> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.commitHandler()
+    })
+  }
+
+  delete(hashes: string[]): PromisableArray<boolean> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.deleteHandler(hashes)
+    })
+  }
+
+  get(hashes: string[]): Promise<Payload[]> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.getHandler(hashes)
+    })
+  }
+
+  insert(payloads: Payload[]): PromisableArray<Payload> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.insertHandler(payloads)
+    })
+  }
+
   protected allHandler(): PromisableArray<Payload> {
     throw Error('Not implemented')
   }
@@ -87,7 +129,7 @@ export abstract class AbstractIndirectArchivist<
       const results = compact(
         await Promise.all(
           Object.values(parents.read ?? {}).map(async (parent) => {
-            const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes: [hash], schema: ArchivistGetQuerySchema })
+            const queryPayload: ArchivistGetQuery = { hashes: [hash], schema: ArchivistGetQuerySchema }
             const query = await this.bindQuery(queryPayload)
             const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
             const wrapper = payloads?.[0] ? PayloadWrapper.wrap(payloads?.[0]) : undefined
@@ -137,7 +179,7 @@ export abstract class AbstractIndirectArchivist<
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     const errorPayloads: ModuleError[] = []
-    const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
+    const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
     if (this.config.storeQueries) {
       await this.insertHandler([query])
     }
@@ -200,7 +242,7 @@ export abstract class AbstractIndirectArchivist<
     return await parent.insert(payloads)
   }
 
-  protected async writeToParents(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async writeToParents(payloads: Payload[]): Promise<Payload[]> {
     const parents = await this.parents()
     this.logger?.log(parents.write?.length ?? 0)
     return compact(
@@ -234,10 +276,5 @@ export abstract class AbstractIndirectArchivist<
     }, {})
   }
 
-  protected abstract insertHandler(item: Payload[]): PromisableArray<BoundWitness>
+  protected abstract insertHandler(item: Payload[]): PromisableArray<Payload>
 }
-
-export abstract class AbstractArchivist<
-  TParams extends ArchivistParams = ArchivistParams,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractIndirectArchivist<TParams, TEventData> {}

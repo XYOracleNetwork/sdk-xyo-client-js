@@ -76,11 +76,10 @@ const addModuleToNodeFromConfig = async (
   node: NodeInstance,
   config: AnyConfigSchema<ModuleConfig>,
   visibility = true,
-  account = Account.randomSync(),
 ) => {
   const configModuleFactory = creatableModuleDictionary[config.schema]
   if (configModuleFactory) {
-    const mod = await configModuleFactory.create({ account, config })
+    const mod = await configModuleFactory.create({ config })
     const { address } = mod
     node.register(mod)
     await node.attach(address, visibility)

@@ -8,7 +8,6 @@ import {
 } from '@xyo-network/diviner-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
 export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule>
@@ -20,7 +19,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
   async divine(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.wrap<DivinerDivineQuery>({ schema: DivinerDivineQuerySchema })
+    const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }
 }

@@ -8,19 +8,15 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   AnyConfigSchema,
   creatableModule,
-  isModule,
-  isModuleInstance,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
@@ -96,7 +92,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     }
     await this.started('throw')
     const addressToDiscover = address ?? (await this.getRootAddress())
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 
@@ -175,12 +171,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     )
 
     // Discover all to load cache
-    await Promise.all(
-      children.map(
-        (child) => assertEx(isModuleInstance(child) ? child.discover() : isModule(child) ? ModuleWrapper.wrap(child, this.account) : undefined),
-        'WTF - not module',
-      ),
-    )
+    await Promise.all(children.map((child) => assertEx(child.discover())))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
@@ -191,7 +182,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   }
 
   private async initRootAddress() {
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
     this._rootAddress = AxiosJson.finalPath(response)

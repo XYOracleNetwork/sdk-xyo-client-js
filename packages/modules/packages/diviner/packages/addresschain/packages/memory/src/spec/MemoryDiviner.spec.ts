@@ -4,7 +4,6 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { MemoryNode } from '@xyo-network/node'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -40,18 +39,15 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       await node.register(archivist)
       await node.attach(archivist.address)
-      const diviner = DivinerWrapper.wrap(
-        await MemoryAddressChainDiviner.create({
-          account: divinerAccount,
-          config: {
-            address: wrapperAccount.address,
-            archivist: archivist.address,
-            schema: AddressChainDivinerConfigSchema,
-            startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),
-          },
-        }),
-        wrapperAccount,
-      )
+      const diviner = await MemoryAddressChainDiviner.create({
+        account: divinerAccount,
+        config: {
+          address: wrapperAccount.address,
+          archivist: archivist.address,
+          schema: AddressChainDivinerConfigSchema,
+          startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),
+        },
+      })
       await node.register(diviner)
       await node.attach(diviner.address)
 

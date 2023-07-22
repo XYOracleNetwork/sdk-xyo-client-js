@@ -1,4 +1,3 @@
-import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
@@ -14,8 +13,6 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
 
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: Omit<ModuleResolver, 'resolve'>
-
-  loadAccount?: () => Promisable<AccountInstance>
 
   params: TParams
 

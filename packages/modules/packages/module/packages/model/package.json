@@ -18,6 +18,7 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
+    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",

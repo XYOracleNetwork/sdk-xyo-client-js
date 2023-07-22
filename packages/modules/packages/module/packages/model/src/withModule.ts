@@ -1,4 +1,5 @@
-import { ObjectTypeCheck } from './identity'
+import { ObjectTypeCheck } from '@xyo-network/object-identity'
+
 import { isModuleInstance } from './instance'
 import { isModule } from './module-fix'
 

@@ -13,6 +13,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/tsconfig-jest": "^2.19.0",
     "typescript": "^5.1.6"
   },
   "browser": "dist/esm/index.js",

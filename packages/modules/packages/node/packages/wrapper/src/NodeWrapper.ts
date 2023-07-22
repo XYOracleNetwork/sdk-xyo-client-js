@@ -1,5 +1,5 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { InstanceTypeCheck, Module, ModuleTypeCheck } from '@xyo-network/module-model'
+import { Module } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -16,31 +16,30 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   extends ModuleWrapper<TWrappedModule>
   implements NodeInstance<TWrappedModule['params']>
 {
-  static override instanceIdentityCheck: InstanceTypeCheck = isNodeInstance
+  static override instanceIdentityCheck = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 
   async attach(nameOrAddress: string, external?: boolean): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.wrap<NodeAttachQuery>({ external, nameOrAddress, schema: NodeAttachQuerySchema })
+    const queryPayload: NodeAttachQuery = { external, nameOrAddress, schema: NodeAttachQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
 
   async attached(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.wrap<NodeAttachedQuery>({ schema: NodeAttachedQuerySchema })
+    const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }
 
   async detach(nameOrAddress: string): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.wrap<NodeDetachQuery>({ nameOrAddress, schema: NodeDetachQuerySchema })
+    const queryPayload: NodeDetachQuery = { nameOrAddress, schema: NodeDetachQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
   }
@@ -50,7 +49,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   }
 
   async registered(): Promise<string[]> {
-    const queryPayload = PayloadWrapper.wrap<NodeRegisteredQuery>({ schema: NodeRegisteredQuerySchema })
+    const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
   }

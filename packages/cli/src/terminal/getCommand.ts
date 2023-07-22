@@ -1,5 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
-import { NodeModule, NodeWrapper } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node'
 import { terminal } from 'terminal-kit'
 
 import { printLine } from '../lib'
@@ -19,9 +18,8 @@ import {
   unregisterModule,
 } from './commands'
 
-export const getCommand = async (node: NodeModule): Promise<boolean> => {
-  const wrapper = NodeWrapper.wrap(node, await HDWallet.random())
-  return new Promise((resolve) => {
+export const getCommand = async (node: NodeInstance): Promise<boolean> => {
+  return await new Promise((resolve) => {
     terminal.once('key', (name: string) => {
       if (name === 'ESCAPE') resolve(true)
       if (name === 'CTRL_C') resolve(false)
@@ -34,43 +32,43 @@ export const getCommand = async (node: NodeModule): Promise<boolean> => {
         }
         switch (terminalItems[response.selectedIndex].slug) {
           case 'attach-module':
-            await attachModule(wrapper)
+            await attachModule(node)
             break
           case 'describe-node':
-            await describeNode(wrapper)
+            await describeNode(node)
             break
           case 'detach-module':
-            await detachModule(wrapper)
+            await detachModule(node)
             break
           case 'exit':
             resolve(false)
             break
           case 'list-attached-modules':
-            await listAttachedModules(wrapper)
+            await listAttachedModules(node)
             break
           case 'list-registered-modules':
-            await listRegisteredModules(wrapper)
+            await listRegisteredModules(node)
             break
           case 'node-logs':
-            await nodeLogs(wrapper)
+            await nodeLogs(node)
             break
           case 'register-module':
-            await registerModule(wrapper)
+            await registerModule(node)
             break
           case 'restart-node':
-            await restartNode(wrapper)
+            await restartNode(node)
             break
           case 'status':
-            await status(wrapper)
+            await status(node)
             break
           case 'stop-node':
-            await stopNode(wrapper)
+            await stopNode(node)
             break
           case 'show-config':
             await showConfig()
             break
           case 'unregister-module':
-            await unregisterModule(wrapper)
+            await unregisterModule(node)
             break
         }
         resolve(true)

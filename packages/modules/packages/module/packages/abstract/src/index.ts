@@ -1,5 +1,5 @@
-export * from './AbstractIndirectModule'
 export * from './AbstractModule'
+export * from './AbstractModuleInstance'
 export * from './BaseEmitter'
 export * from './Error'
 export * from './QueryValidator'

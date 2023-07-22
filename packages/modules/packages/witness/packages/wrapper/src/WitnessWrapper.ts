@@ -1,6 +1,5 @@
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   isWitnessInstance,
   isWitnessModule,
@@ -20,7 +19,7 @@ export class WitnessWrapper<TModule extends WitnessModule = WitnessModule>
   static override requiredQueries = [WitnessObserveQuerySchema, ...super.requiredQueries]
 
   async observe(payloads?: Payload[]): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.wrap<WitnessObserveQuery>({ schema: WitnessObserveQuerySchema })
-    return await this.sendQuery(queryPayload, [queryPayload.payload(), ...(payloads ?? [])])
+    const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
+    return await this.sendQuery(queryPayload, [queryPayload, ...(payloads ?? [])])
   }
 }

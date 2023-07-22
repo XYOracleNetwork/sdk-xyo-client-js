@@ -1,4 +1,4 @@
-import { Logger } from '@xyo-network/core'
+import { Logger } from '@xyo-network/logger'
 import merge from 'lodash/merge'
 
 import { CreatableModule, CreatableModuleFactory } from './CreatableModule'

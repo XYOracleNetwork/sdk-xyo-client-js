@@ -5703,7 +5703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^2.19.0":
+"@xylabs/ts-scripts-yarn3@npm:^2.19.0, @xylabs/ts-scripts-yarn3@npm:~2.19.0":
   version: 2.19.0
   resolution: "@xylabs/ts-scripts-yarn3@npm:2.19.0"
   dependencies:
@@ -6531,6 +6531,7 @@ __metadata:
     "@xylabs/buffer": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/logger": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/typeof": "workspace:~"
     hash-wasm: ^4.9.0
@@ -7583,6 +7584,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
+    "@xylabs/tsconfig-jest": ^2.19.0
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -8263,6 +8265,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/logger@workspace:packages/sdk/packages/logger, @xyo-network/logger@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/logger@workspace:packages/sdk/packages/logger"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ~2.19.0
+    "@xylabs/tsconfig": ~2.19.0
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/manifest-model@workspace:packages/manifest/packages/model, @xyo-network/manifest-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
@@ -8418,6 +8430,7 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
+    "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
@@ -8718,6 +8731,17 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     lodash: ^4.17.21
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/object-identity@workspace:packages/sdk/packages/identity, @xyo-network/object-identity@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/object-identity@workspace:packages/sdk/packages/identity"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/logger": "workspace:~"
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -9161,8 +9185,10 @@ __metadata:
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/dns": "workspace:~"
     "@xyo-network/error": "workspace:~"
+    "@xyo-network/logger": "workspace:~"
     "@xyo-network/metamask-connector": "workspace:~"
     "@xyo-network/network": "workspace:~"
+    "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/schema-cache": "workspace:~"

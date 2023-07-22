@@ -12,15 +12,15 @@ import {
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
 import { handleErrorAsync } from '@xyo-network/error'
-import { AbstractIndirectModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModuleInstance, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractIndirectDiviner<
+export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
     TEventData extends DivinerModuleEventData = DivinerModuleEventData,
   >
-  extends AbstractIndirectModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements DivinerModule<TParams>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
@@ -34,6 +34,13 @@ export abstract class AbstractIndirectDiviner<
     return {
       'network.xyo.query.diviner.divine': '1/1',
     }
+  }
+
+  divine(payloads?: Payload[]): Promise<Payload[]> {
+    return this.busy(async () => {
+      await this.started('throw')
+      return await this.divineHandler(payloads)
+    })
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -76,8 +83,3 @@ export abstract class AbstractIndirectDiviner<
 
   protected abstract divineHandler(payloads?: Payload[]): Promisable<Payload[]>
 }
-
-export abstract class AbstractDiviner<
-  TParams extends DivinerParams = DivinerParams,
-  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
-> extends AbstractIndirectDiviner<TParams, TEventData> {}

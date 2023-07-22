@@ -3,30 +3,31 @@ import { assertEx } from '@xylabs/assert'
 import { ObjectTypeCheck, ObjectTypeConfig } from './IsObjectFactory'
 
 export const AsObjectFactory = {
-  create: <TModule extends object>(typeCheck: ObjectTypeCheck<TModule>) => {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  create: <T extends {}>(typeCheck: ObjectTypeCheck<T>) => {
     function func(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      module: any,
+      obj: any,
       config?: ObjectTypeConfig,
-    ): TModule | undefined
+    ): T | undefined
     function func(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      module: any,
+      obj: any,
       assert: string | (() => string),
       config?: ObjectTypeConfig,
-    ): TModule
+    ): T
     function func(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      module: any,
+      obj: any,
       assertOrConfig?: string | (() => string) | ObjectTypeConfig,
       config?: ObjectTypeConfig,
-    ): TModule | undefined {
+    ): T | undefined {
       const resolvedAssert = typeof assertOrConfig === 'object' ? undefined : assertOrConfig
       const resolvedConfig = typeof assertOrConfig === 'object' ? assertOrConfig : config
-      const result = typeCheck(module, resolvedConfig) ? module : undefined
+      const result = typeCheck(obj, resolvedConfig) ? obj : undefined
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const noUndefined = (resolvedAssert: any): resolvedAssert is TModule => {
+      const noUndefined = (resolvedAssert: any): resolvedAssert is T => {
         return !!resolvedAssert
       }
 

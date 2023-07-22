@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { AccountInstance } from '@xyo-network/account-model'
 import { AnyConfigSchema, EventListener, Module, ModuleResolver } from '@xyo-network/module'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
 import compact from 'lodash/compact'
@@ -44,10 +43,6 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return Object.values(this.registeredModuleMap).map((value) => {
       return value
     })
-  }
-
-  subscribe(_queryAccount?: AccountInstance) {
-    return super.subscribeHandler()
   }
 
   override async unregister(module: Module) {

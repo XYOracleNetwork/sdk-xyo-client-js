@@ -1,4 +1,5 @@
-import { Logger } from '@xyo-network/core'
+import { AccountInstance } from '@xyo-network/account-model'
+import { Logger } from '@xyo-network/logger'
 
 import { Module } from './module-fix'
 
@@ -6,7 +7,7 @@ export interface CreatableModule<T extends Module = Module> {
   configSchema: string
   configSchemas: string[]
   defaultLogger?: Logger
-  new (privateConstructorKey: string, params: T['params']): T
+  new (privateConstructorKey: string, params: T['params'], account: AccountInstance): T
   create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<T>
   factory<T extends Module>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
 }

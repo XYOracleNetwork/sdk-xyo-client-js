@@ -2,8 +2,8 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
-import { AbstractModule } from '../AbstractModule'
-export class TestAbstractModule extends AbstractModule {
+import { AbstractModuleInstance } from '../AbstractModuleInstance'
+export class TestAbstractModule extends AbstractModuleInstance {
   static override readonly configSchemas: string[] = [ModuleConfigSchema]
   protected override get _queryAccountPaths() {
     return super._baseModuleQueryAccountPaths

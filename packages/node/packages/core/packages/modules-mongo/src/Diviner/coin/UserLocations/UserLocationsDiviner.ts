@@ -1,10 +1,9 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
-import { ArchivistModule } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema, DivinerWrapper } from '@xyo-network/diviner'
+import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { CoinUserLocationsDiviner } from '@xyo-network/diviner-coin-user-locations-abstract'
@@ -45,8 +44,8 @@ export const isLocationPayload = (x?: Payload | null): x is LocationPayload => x
 export type CoinUserLocationsDivinerParams<T extends Payload = Payload> = DivinerParams<
   AnyConfigSchema<ArchivistPayloadDivinerConfig<T>>,
   {
+    archivist: ArchivistInstance
     bws: BoundWitnessDiviner
-    payloads: ArchivistModule
   }
 >
 
@@ -65,7 +64,7 @@ export class MemoryCoinUserLocationsDiviner<
       // TODO: Extract relevant query values here
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processing query')
       // Simulating work
-      const diviner = DivinerWrapper.wrap(this.params.bws, this.account)
+      const diviner = this.params.bws
       const filter = { payload_hashes: [await wrapper.hashAsync()], schema: BoundWitnessDivinerQuerySchema }
       const bwList = ((await diviner.divine([filter])) as BoundWitness[]) || []
       const locationHashes = bwList
@@ -79,7 +78,7 @@ export class MemoryCoinUserLocationsDiviner<
           return locations
         })
         .flat()
-      const locations = compact(await ArchivistWrapper.wrap(this.params.payloads, this.account).get(locationHashes)) as unknown as LocationPayload[]
+      const locations = compact(await this.params.archivist.get(locationHashes)) as LocationPayload[]
       this.logger?.log('CoinUserLocationsDiviner.Divine: Processed query')
       return locations
     }

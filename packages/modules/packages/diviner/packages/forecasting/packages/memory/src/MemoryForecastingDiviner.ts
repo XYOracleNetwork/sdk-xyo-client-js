@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
@@ -10,7 +11,7 @@ import {
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { value } from 'jsonpath'
 
@@ -59,11 +60,8 @@ export class MemoryForecastingDiviner<
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const bwDiviner = DivinerWrapper.wrap(
-      assertEx((await this.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner'),
-      this.account,
-    )
+    const archivist = asArchivistInstance(await this.readArchivist(), 'Unable to resolve archivist')
+    const bwDiviner = asDivinerInstance((await this.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner')
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')
     let timestamp = stopTimestamp

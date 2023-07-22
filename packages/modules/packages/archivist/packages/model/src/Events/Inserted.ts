@@ -1,13 +1,13 @@
-import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { EventData } from '@xyo-network/module-events'
 import { ModuleEventArgs } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { ArchivistModule } from '../Archivist'
 
 export type InsertedEventArgs = ModuleEventArgs<
   ArchivistModule,
   {
-    boundWitnesses: BoundWitness[]
+    payloads: Payload[]
   }
 >
 

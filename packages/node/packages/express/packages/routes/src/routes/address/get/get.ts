@@ -1,8 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
-import { HDWallet } from '@xyo-network/account'
-import { ModuleWrapper } from '@xyo-network/module'
-import { isModuleInstance, Module } from '@xyo-network/module-model'
+import { ModuleInstance } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'
@@ -14,7 +12,7 @@ const handler: RequestHandler<AddressPathParams, Payload[]> = async (req, res, n
   const { address } = req.params
   const { node } = req.app
   if (address) {
-    let modules: Module[] = []
+    let modules: ModuleInstance[] = []
     const normalizedAddress = trimAddressPrefix(address).toLowerCase()
     if (node.address === normalizedAddress) modules = [node]
     else {
@@ -31,7 +29,7 @@ const handler: RequestHandler<AddressPathParams, Payload[]> = async (req, res, n
     }
     if (modules.length) {
       const module = modules[0]
-      res.json(isModuleInstance(module) ? await module.discover() : await ModuleWrapper.wrap(module, await HDWallet.random()).discover())
+      res.json(await module.discover())
       return
     }
   }

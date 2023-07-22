@@ -29,7 +29,6 @@ import {
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
@@ -207,7 +206,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
-    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
+    const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
       (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as AddressPreviousHashPayload,
       'Result did not include correct payload',
@@ -220,12 +219,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   //TODO: Make ModuleDescription into real payload
   async describe(): Promise<ModuleDescription> {
-    const queryPayload = PayloadWrapper.wrap<ModuleDescribeQuery>({ schema: ModuleDescribeQuerySchema })
+    const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
     return (await this.sendQuery(queryPayload))[0] as unknown as ModuleDescription
   }
 
   async discover(): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     return await this.sendQuery(queryPayload)
   }
 
@@ -242,12 +241,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async manifest(): Promise<ModuleManifestPayload> {
-    const queryPayload = PayloadWrapper.wrap<ModuleManifestQuery>({ schema: ModuleManifestQuerySchema })
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema }
     return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
-    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
+    const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return (await this.sendQuery(queryPayload)) as AddressPreviousHashPayload[]
   }
 
@@ -278,7 +277,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async previousHash(): Promise<string | undefined> {
-    const queryPayload = PayloadWrapper.wrap<ModuleAddressQuery>({ schema: ModuleAddressQuerySchema })
+    const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as AddressPreviousHashPayload).previousHash
   }
 
@@ -309,7 +308,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }
   }
 
-  protected bindQuery<T extends Query | PayloadWrapper<Query>>(
+  protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
@@ -322,7 +321,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return promise
   }
 
-  protected async bindQueryInternal<T extends Query | PayloadWrapper<Query>>(
+  protected async bindQueryInternal<T extends Query>(
     query: T,
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
@@ -337,16 +336,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 
-  protected async sendQuery<T extends Query, W extends PayloadWrapper<T> = PayloadWrapper<T>>(
-    queryPayload: T | W,
-    payloads?: Payload[],
-  ): Promise<Payload[]> {
-    //make sure we did not get wrapped payloads
-    const unwrappedPayloads: Payload[] = payloads?.map((payload) => assertEx(PayloadWrapper.unwrap(payload), 'Unable to parse payload')) ?? []
-    const unwrappedQueryPayload: Query = assertEx(PayloadWrapper.unwrap<T, W>(queryPayload), 'Unable to parse queryPayload')
-
+  protected async sendQuery<T extends Query>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
     // Bind them
-    const query = await this.bindQuery(unwrappedQueryPayload, unwrappedPayloads)
+    const query = await this.bindQuery(queryPayload, payloads)
 
     // Send them off
     const result = await this.module.query(query[0], query[1])

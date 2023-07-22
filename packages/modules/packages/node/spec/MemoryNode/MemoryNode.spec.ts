@@ -3,25 +3,15 @@ import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import {
-  ArchivistPayloadDiviner,
-  ArchivistPayloadDivinerConfigSchema,
-  asDivinerInstance,
-  DivinerInstance,
-  HuriPayload,
-  HuriSchema,
-} from '@xyo-network/diviner'
+import { MemoryArchivist } from '@xyo-network/archivist'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module'
 import { ModuleAttachedEventArgs, NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
-import { NodeWrapper } from '@xyo-network/node-wrapper'
-import { Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/payload'
+import { Payload } from '@xyo-network/payload'
 
-import { MemoryNode } from '../src'
+import { MemoryNode } from '../../src'
 
 describe('MemoryNode', () => {
-  let testAccount0: AccountInstance
   let testAccount1: AccountInstance
   let testAccount2: AccountInstance
   let testAccount3: AccountInstance
@@ -30,7 +20,6 @@ describe('MemoryNode', () => {
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(async () => {
-    testAccount0 = await Account.create({ phrase: 'testPhrase0' })
     testAccount1 = await Account.create({ phrase: 'testPhrase1' })
     testAccount2 = await Account.create({ phrase: 'testPhrase2' })
     testAccount3 = await Account.create({ phrase: 'testPhrase3' })
@@ -44,52 +33,6 @@ describe('MemoryNode', () => {
     node = nodeModule
   })
   describe('create', () => {
-    it('Creates MemoryNode', async () => {
-      const MemoryArchivist = (await import('@xyo-network/archivist')).MemoryArchivist
-      const node = await MemoryNode.create()
-      const archivist = await MemoryArchivist.create({ config: { name: 'Archivist', schema: MemoryArchivistConfigSchema } })
-      const diviner: DivinerInstance = await ArchivistPayloadDiviner.create({
-        config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
-      })
-      await node.register(archivist)
-      await node.attach(archivist.address, true)
-      await node.register(diviner)
-      await node.attach(diviner.address, true)
-      expect(node.registered()).toBeArrayOfSize(2)
-      expect(await node.attached()).toBeArrayOfSize(2)
-      const foundArchivist = asArchivistInstance(await NodeWrapper.wrap(node, testAccount0).resolve(archivist.address))
-      expect(foundArchivist).toBeDefined()
-      const foundNamedArchivist = await NodeWrapper.wrap(node, testAccount0).resolve('Archivist')
-      expect(foundNamedArchivist).toBeDefined()
-      expect(foundArchivist?.address).toBe(archivist.address)
-      const testPayload = new PayloadBuilder<Payload<{ schema: PayloadSchema; test: boolean }>>({ schema: PayloadSchema })
-        .fields({ test: true })
-        .build()
-
-      await foundArchivist?.insert([testPayload])
-
-      /*const subscribeQuery: AbstractModuleSubscribeQuery = { payloads: [testPayload], schema: AbstractModuleSubscribeQuerySchema }
-  await foundArchivist?.query(subscribeQuery)*/
-
-      const payloads = await foundArchivist?.all?.()
-      expect(payloads?.length).toBe(1)
-
-      if (payloads && payloads[0]) {
-        const huri = await PayloadWrapper.hashAsync(payloads[0])
-        const huriPayload: HuriPayload = { huri: [huri], schema: HuriSchema }
-        const module = await NodeWrapper.wrap(node, testAccount0).resolve(diviner.address)
-        const foundDiviner = asDivinerInstance(module)
-        expect(foundDiviner).toBeDefined()
-        if (foundDiviner) {
-          const payloads = await foundDiviner.divine([huriPayload])
-          expect(payloads?.length).toBe(1)
-          expect(payloads[0]).toBeDefined()
-          if (payloads?.length === 1 && payloads[0]) {
-            expect(await PayloadWrapper.hashAsync(payloads[0])).toBe(huri)
-          }
-        }
-      }
-    })
     /*describe('with autoAttachExternallyResolved true', () => {
       it('attaches external modules to internal resolver', async () => {
         // Arrange
@@ -269,14 +212,12 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const wrapper = NodeWrapper.wrap(node, testAccount0)
-        const description = await wrapper.describe()
+        const description = await node.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node, testAccount0)
-        const description = await wrapper.describe()
+        const description = await node.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -300,15 +241,13 @@ describe('MemoryNode', () => {
         )
       })
       it('describes node and child modules', async () => {
-        const wrapper = NodeWrapper.wrap(node, testAccount0)
-        const description = await wrapper.describe()
+        const description = await node.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node, testAccount0)
-        const description = await wrapper.describe()
+        const description = await node.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -333,19 +272,17 @@ describe('MemoryNode', () => {
         const memoryNode = await MemoryNode.create()
         const archivist1 = await MemoryArchivist.create()
         const archivist2 = await MemoryArchivist.create()
-        const wrapper = NodeWrapper.wrap(memoryNode, testAccount0)
         await memoryNode.register(archivist1)
         await memoryNode.attach(archivist1.address, true)
         await memoryNode.register(archivist2)
         await memoryNode.attach(archivist2.address, true)
-        const description = await wrapper.describe()
+        const description = await memoryNode.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const wrapper = NodeWrapper.wrap(node, testAccount0)
-        const description = await wrapper.describe()
+        const description = await node.describe()
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })

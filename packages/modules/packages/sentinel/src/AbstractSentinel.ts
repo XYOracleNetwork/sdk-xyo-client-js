@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { ArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
+import { AbstractArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
@@ -11,14 +11,14 @@ import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
-import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
+import { SentinelInstance, SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,
     TEventData extends SentinelModuleEventData = SentinelModuleEventData,
   >
-  extends ArchivingModule<TParams, TEventData>
-  implements SentinelModule<TParams, TEventData>
+  extends AbstractArchivingModule<TParams, TEventData>
+  implements SentinelInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [SentinelConfigSchema]
 
@@ -70,12 +70,6 @@ export abstract class AbstractSentinel<
     }
 
     return this._witnesses
-  }
-
-  override async loadAccount() {
-    const account = await super.loadAccount()
-    this.downResolver.add(this)
-    return account
   }
 
   removeArchivist(address: string[]) {

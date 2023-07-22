@@ -1,18 +1,6 @@
+import { Logger } from '@xyo-network/logger'
+
 import { AnyObject } from './AnyObject'
-
-export type LogFunction = (message?: unknown) => void
-
-/**
- * Interface to handle overlap between Winston &
- * `console` with as much congruency as possible.
- */
-export interface Logger {
-  debug: LogFunction
-  error: LogFunction
-  info: LogFunction
-  log: LogFunction
-  warn: LogFunction
-}
 
 export type BaseParamsFields = {
   logger?: Logger

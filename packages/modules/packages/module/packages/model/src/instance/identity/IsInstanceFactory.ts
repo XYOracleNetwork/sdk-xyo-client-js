@@ -1,4 +1,5 @@
-import { IsObjectFactory, ObjectTypeCheck } from '../../identity'
+import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object-identity'
+
 import { ModuleInstance } from '../ModuleInstance'
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = ObjectTypeCheck<T>

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
@@ -16,7 +16,8 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { Logger, PayloadHasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/core'
+import { Logger } from '@xyo-network/logger'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -41,7 +42,7 @@ export class StorageArchivist<
     TParams extends StorageArchivistParams = StorageArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
-  extends AbstractDirectArchivist<TParams, TEventData>
+  extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance
 {
   static override configSchemas = [StorageArchivistConfigSchema]
@@ -92,7 +93,7 @@ export class StorageArchivist<
     return this._storage
   }
 
-  override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
+  /*override async loadAccount(account?: AccountInstance, persistAccount?: boolean, privateStorage?: StoreBase, _logger?: Logger) {
     if (!this._account) {
       if (persistAccount) {
         const privateKey = privateStorage?.get('privateKey')
@@ -108,7 +109,7 @@ export class StorageArchivist<
       }
     }
     return await super.loadAccount()
-  }
+  }*/
 
   protected override allHandler(): PromisableArray<Payload> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
@@ -128,10 +129,10 @@ export class StorageArchivist<
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-          const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
+          const queryPayload: ArchivistInsertQuery = {
             payloads: await PayloadHasher.hashes(payloads),
             schema: ArchivistInsertQuerySchema,
-          })
+          }
           const query = await this.bindQuery(queryPayload, payloads)
           return (await parent?.query(query[0], query[1]))?.[0]
         }),
@@ -166,7 +167,7 @@ export class StorageArchivist<
     )
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const resultPayloads = await Promise.all(
       payloads.map(async (payload) => {
         const wrapper = PayloadWrapper.wrap(payload)
@@ -178,16 +179,13 @@ export class StorageArchivist<
       }),
     )
     const [[storageBoundWitness]] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
-    const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
       //we store the child bw also
-      const [parentBoundWitness] = await this.writeToParents([storageBoundWitness, ...resultPayloads])
-      parentBoundWitnesses.push(parentBoundWitness)
+      await this.writeToParents([storageBoundWitness, ...resultPayloads])
     }
-    const boundWitnesses = [storageBoundWitness, ...parentBoundWitnesses]
-    await this.emit('inserted', { boundWitnesses, module: this })
-    return boundWitnesses
+    await this.emit('inserted', { module: this, payloads })
+    return payloads
   }
 
   protected saveAccount() {

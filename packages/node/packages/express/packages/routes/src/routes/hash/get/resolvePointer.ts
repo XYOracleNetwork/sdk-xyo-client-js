@@ -15,12 +15,7 @@ import { findPayload } from './findPayload'
 export const resolvePointer = async (req: Request, pointer: PointerPayload): Promise<Payload | undefined> => {
   const { node } = req.app
   const module = await resolveBySymbol(node, TYPES.Archivist)
-  const archivist =
-    asArchivistInstance(module) ??
-    asArchivistInstance(
-      ArchivistWrapper.wrap(asArchivistModule(module, `Failed to cast archivist ${module?.address}`), await HDWallet.random()),
-      `Failed to cast archivist wrapper ${module?.address}`,
-    )
+  const archivist = asArchivistInstance(module, `Failed to cast archivist wrapper ${module?.address}`)
   const boundWitnessDiviner = asDivinerInstance(
     await resolveBySymbol(node, TYPES.BoundWitnessDiviner),
     'Resolved a non-Diviner',

@@ -1,4 +1,5 @@
-import { AsObjectFactory, IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
+import { AsObjectFactory } from '@xyo-network/object-identity'
 
 import { SentinelReportQuerySchema } from './Queries'
 import { SentinelInstance, SentinelModule } from './SentinelModel'

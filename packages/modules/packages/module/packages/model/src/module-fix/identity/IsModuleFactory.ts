@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ObjectTypeCheck } from '../../identity'
+import { ObjectTypeCheck } from '@xyo-network/object-identity'
+
 import { Module } from '../Module'
 import { asModuleObject } from './asModuleObject'
 import { isModuleObject } from './isModuleObject'

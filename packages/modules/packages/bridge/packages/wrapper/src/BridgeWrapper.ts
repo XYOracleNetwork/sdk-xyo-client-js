@@ -1,4 +1,3 @@
-import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConnectQuerySchema,
@@ -21,7 +20,6 @@ import {
   ModuleWrapper,
 } from '@xyo-network/module'
 import { Payload, Query } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 
 constructableModuleWrapper()
@@ -29,12 +27,6 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   extends ModuleWrapper<TWrappedModule>
   implements BridgeInstance<TWrappedModule['params']>
 {
-  getRootAddress(): Promisable<string> {
-    throw new Error('Method not implemented.')
-  }
-  loadAccount?: (() => Promisable<AccountInstance>) | undefined
-  start?: (() => Promisable<boolean>) | undefined
-  stop?: (() => Promisable<boolean>) | undefined
   static override instanceIdentityCheck = isBridgeInstance
   static override moduleIdentityCheck = isBridgeModule
 
@@ -43,15 +35,19 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   }
 
   async connect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.wrap<BridgeQuery>({ schema: BridgeConnectQuerySchema, uri })
+    const queryPayload: BridgeQuery = { schema: BridgeConnectQuerySchema, uri }
     await this.sendQuery(queryPayload)
     return true
   }
 
   async disconnect(uri?: string): Promise<boolean> {
-    const queryPayload = PayloadWrapper.wrap<BridgeQuery>({ schema: BridgeDisconnectQuerySchema, uri })
+    const queryPayload: BridgeQuery = { schema: BridgeDisconnectQuerySchema, uri }
     await this.sendQuery(queryPayload)
     return true
+  }
+
+  getRootAddress(): Promisable<string> {
+    throw new Error('Method not implemented.')
   }
 
   targetConfig(address: string): ModuleConfig {
@@ -59,7 +55,7 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   }
 
   async targetDiscover(address: string): Promise<Payload[]> {
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     return await this.sendTargetQuery(address, queryPayload)
   }
 
@@ -85,11 +81,7 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
     return await this.module.targetResolve(address, nameOrAddressOrFilter, options)
   }
 
-  protected async sendTargetQuery<T extends Query | PayloadWrapper<Query>>(
-    address: string,
-    queryPayload: T,
-    payloads?: Payload[],
-  ): Promise<Payload[]> {
+  protected async sendTargetQuery<T extends Query>(address: string, queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
     const query = await this.bindQuery(queryPayload, payloads)
     const result = await this.module.targetQuery(address, query[0], query[1])
     await this.throwErrors(query, result)

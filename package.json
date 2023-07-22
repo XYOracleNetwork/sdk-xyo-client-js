@@ -91,6 +91,7 @@
     "start": "nodemon",
     "perf": "yarn jest -c jest.config.perf.cjs",
     "test": "jest --no-cache --forceExit",
+    "test:no-mongo": "jest --no-cache --forceExit -c ./jest.config.no-mongo.cjs",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",

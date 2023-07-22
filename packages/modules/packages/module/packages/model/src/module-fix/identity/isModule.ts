@@ -1,4 +1,5 @@
-import { ObjectTypeCheck } from '../../identity'
+import { ObjectTypeCheck } from '@xyo-network/object-identity'
+
 import { ModuleDiscoverQuerySchema } from '../../Queries'
 import { Module } from '../Module'
 import { IsModuleFactory } from './IsModuleFactory'

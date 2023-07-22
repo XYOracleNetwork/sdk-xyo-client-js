@@ -19,7 +19,7 @@ export const handler = async (argv: ArgumentsCamelCase<ModuleArguments>) => {
   const { verbose } = argv
   try {
     const module = await getModuleFromArgs(argv)
-    const result = (isModuleInstance(module) ? module.describe() : ModuleWrapper.wrap(module, await HDWallet.random()).describe()) ?? {}
+    const result = module.describe() ?? {}
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

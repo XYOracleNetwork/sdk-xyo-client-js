@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Logger } from '@xyo-network/core'
+import { Logger } from '@xyo-network/logger'
 
 import { isType, ObjectTypeShape } from './isType'
 
@@ -7,9 +6,11 @@ export interface ObjectTypeConfig {
   log?: boolean | Logger
 }
 
-export type ObjectTypeCheck<T extends object = object> = (obj: any, config?: ObjectTypeConfig) => obj is T
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+export type ObjectTypeCheck<T extends {} = {}> = (obj: any, config?: ObjectTypeConfig) => obj is T
 
-export class IsObjectFactory<T extends object = object> {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export class IsObjectFactory<T extends {}> {
   create(shape?: ObjectTypeShape, additionalChecks?: ObjectTypeCheck[]): ObjectTypeCheck<T> {
     return (obj, { log } = {}): obj is T => {
       if (!obj || typeof obj !== 'object') {

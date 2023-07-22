@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -36,7 +36,7 @@ export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDb
 export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractDirectArchivist<TParams, TEventData> {
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchemas = [IndexedDbArchivistConfigSchema]
   static defaultDbName = 'archivist'
   static defaultStoreName = 'payloads'

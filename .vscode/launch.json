@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/src/spec/StorageArchivist.spec.ts"
+        "packages/node/packages/core/packages/modules-mongo/src/Archivist/Deterministic/spec/DeterministicArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

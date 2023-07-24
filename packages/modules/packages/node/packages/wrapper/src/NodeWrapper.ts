@@ -1,5 +1,7 @@
+import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { Module } from '@xyo-network/module-model'
+import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { Module, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -42,6 +44,14 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const queryPayload: NodeDetachQuery = { nameOrAddress, schema: NodeDetachQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.pop()?.address
+  }
+
+  override async manifest(): Promise<NodeManifestPayload> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema }
+    const payloads: NodeManifestPayload[] = (await this.sendQuery(queryPayload)).filter(
+      isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema),
+    )
+    return assertEx(payloads.pop(), 'No NodeManifestPayload returned')
   }
 
   register(_module: Module) {

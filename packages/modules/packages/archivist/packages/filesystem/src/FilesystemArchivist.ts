@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { HDWallet } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistCommitQuerySchema,
@@ -94,7 +95,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
 
   protected override async startHandler() {
     await super.startHandler()
-    this._memoryArchivist = await MemoryArchivist.create()
+    this._memoryArchivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     try {
       const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
       await this._memoryArchivist.insert(data.payloads)

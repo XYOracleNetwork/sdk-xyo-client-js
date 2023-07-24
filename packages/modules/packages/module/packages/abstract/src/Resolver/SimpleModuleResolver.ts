@@ -103,7 +103,7 @@ export class SimpleModuleResolver implements ModuleRepository {
 
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: T[], name?: string[]): T[] {
     if (name) {
-      return compact(name.map((name) => modules.filter((module) => module.config.name === name)).flat())
+      return compact(name.map((name) => modules.filter((module) => module.config?.name === name)).flat())
     }
     return modules
   }

@@ -11,9 +11,9 @@ export class ModuleFactory<TModule extends Module> implements CreatableModuleFac
 
   defaultLogger?: Logger | undefined
 
-  defaultParams?: TModule['params']
+  defaultParams?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] }
 
-  constructor(creatableModule: CreatableModule<TModule>, params?: TModule['params']) {
+  constructor(creatableModule: CreatableModule<TModule>, params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] }) {
     this.creatableModule = creatableModule
     this.defaultParams = params
     this.configSchemas = creatableModule.configSchemas
@@ -23,7 +23,10 @@ export class ModuleFactory<TModule extends Module> implements CreatableModuleFac
     return this.configSchemas[0]
   }
 
-  static withParams<T extends Module>(creatableModule: CreatableModule<T>, params?: T['params']) {
+  static withParams<T extends Module>(
+    creatableModule: CreatableModule<T>,
+    params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
+  ) {
     return new ModuleFactory(creatableModule, params)
   }
 

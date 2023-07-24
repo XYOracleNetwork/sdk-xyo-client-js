@@ -110,12 +110,12 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??
       (async (address: string) => {
+        //discover it to set the config in the bridge
+        await this.bridge.targetDiscover(address)
+
         const mod: Module = new ProxyModule({ address, bridge: this.bridge, config: { schema: ProxyModuleConfigSchema } } as ProxyModuleParams)
 
         try {
-          //discover it to set the config in the bridge
-          await this.bridge.targetDiscover(address)
-
           if (isArchivistModule(mod)) {
             return ArchivistWrapper.wrap(mod, this.wrapperAccount)
           }

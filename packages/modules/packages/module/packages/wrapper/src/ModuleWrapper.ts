@@ -79,7 +79,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
-  extends Base<TWrappedModule['params']>
+  extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
   implements ModuleInstance<TWrappedModule['params']>
 {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
@@ -88,19 +88,21 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   eventData = {} as TWrappedModule['eventData']
 
+  start?: undefined
+  stop?: undefined
+
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
-    const mutatedParams = { ...params } as ModuleWrapperParams<TWrappedModule>
-    //unwrap it if already wrapped
-    const wrapper = params.module as unknown as ModuleWrapper<TWrappedModule>
-    if (wrapper.module) {
-      mutatedParams.module = wrapper.module
-    }
+    const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TWrappedModule>
+    const mutatedParams = { ...params.module.params, config: { ...params.module.params.config } } as Exclude<
+      Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> },
+      undefined
+    >
 
     //set the root params to the wrapped module params
-    super(params.module.params)
-    this.wrapperParams = params
+    super(mutatedParams)
+    this.wrapperParams = mutatedWrapperParams
   }
 
   get account() {
@@ -111,8 +113,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.address
   }
 
-  get config(): TWrappedModule['config'] {
-    return this.module.config
+  get config() {
+    return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
   get downResolver() {
@@ -201,7 +203,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
-    assertEx(module && this.moduleIdentityCheck(module), `Passed module failed identity check: ${module?.config.schema}`)
+    assertEx(module && this.moduleIdentityCheck(module), `Passed module failed identity check: ${module?.config?.schema}`)
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 

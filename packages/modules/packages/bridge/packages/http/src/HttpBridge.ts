@@ -113,7 +113,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
-      discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
+      discover.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
       `Discover did not return a [${targetConfigSchema}] payload`,
     )
 

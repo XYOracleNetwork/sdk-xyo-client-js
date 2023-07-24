@@ -1,4 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
+import { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { AnyConfigSchema, Module, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 
@@ -9,6 +10,7 @@ export interface NodeQueryFunctions {
   attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
+  manifest(): Promise<NodeManifestPayload>
   registered(): Promisable<string[]>
 }
 

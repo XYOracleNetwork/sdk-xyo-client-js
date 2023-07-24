@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { fulfilled } from '@xylabs/promise'
+import { fulfilled, rejected } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { handleError, handleErrorAsync } from '@xyo-network/error'
@@ -34,9 +34,10 @@ export class MemorySentinel<
     const resultPayloads: Payload[] = []
 
     try {
-      const generatedPayloads = compact(await this.generatePayloads(allWitnesses))
+      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses)
       const combinedPayloads = [...generatedPayloads, ...payloads]
       resultPayloads.push(...combinedPayloads)
+      errors.push(...generatedErrors)
     } catch (ex) {
       handleError(ex, (error) => {
         errors.push(error)
@@ -84,10 +85,16 @@ export class MemorySentinel<
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
-  private async generatePayloads(witnesses: WitnessInstance[]): Promise<Payload[]> {
-    return (await Promise.allSettled(witnesses?.map((witness) => witness.observe())))
+  private async generateResults(witnesses: WitnessInstance[]): Promise<[Payload[], Error[]]> {
+    const results = await Promise.allSettled(witnesses?.map((witness) => witness.observe()))
+    const payloads = results
       .filter(fulfilled)
       .map((result) => result.value)
       .flat()
+    const errors = results
+      .filter(rejected)
+      .map((result) => result.reason)
+      .flat()
+    return [payloads, errors]
   }
 }

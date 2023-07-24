@@ -14,7 +14,6 @@ import { handleErrorAsync } from '@xyo-network/error'
 import {
   AbstractModuleInstance,
   duplicateModules,
-  Module,
   ModuleConfig,
   ModuleErrorBuilder,
   ModuleEventData,

@@ -43,7 +43,10 @@ describe('BoundWitnessWrapper', () => {
       })
       describe('when payloads set via ctor', () => {
         it('returns payloads', async () => {
-          const sut = BoundWitnessWrapper.wrap(await bw(), payloads)
+          const sut = BoundWitnessWrapper.wrap(
+            await bw(),
+            payloads.map((wrapper) => wrapper.payload()),
+          )
           expect(await sut.payloadMap()).toContainAllKeys(await Promise.all(payloads.map((p) => p.hashAsync())))
           expect((await sut.payloadMap())[await included1.hashAsync()]).toBeDefined()
           expect((await sut.payloadMap())[await included2.hashAsync()]).toBeDefined()

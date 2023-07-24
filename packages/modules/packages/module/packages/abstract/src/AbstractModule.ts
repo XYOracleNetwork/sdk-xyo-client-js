@@ -11,9 +11,9 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
-  AccountModuleParams,
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  AnyConfigSchema,
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,
@@ -40,7 +40,6 @@ import {
   ModuleSubscribeQuerySchema,
   SchemaString,
   serializableField,
-  WalletModuleParams,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
@@ -54,7 +53,10 @@ import { ModuleErrorBuilder } from './Error'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 import { CompositeModuleResolver } from './Resolver'
 
-export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+export abstract class AbstractModule<
+    TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<ModuleConfig>,
+    TEventData extends ModuleEventData = ModuleEventData,
+  >
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
@@ -139,13 +141,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
-  static async create<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']) {
+  static async create<TModule extends Module>(
+    this: CreatableModule<TModule>,
+    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+  ) {
     if (!this.configSchemas || this.configSchemas.length === 0) {
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
-    const { account, config } = (params as AccountModuleParams<TModule['params']['config']> | undefined) ?? {}
-    const { wallet, accountDerivationPath } = (params as WalletModuleParams<TModule['params']['config']> | undefined) ?? {}
+    const { account, config, wallet, accountDerivationPath } = params ?? {}
 
     assertEx(
       !(!!account && !!wallet),
@@ -193,7 +197,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return newModule
   }
 
-  static factory<TModule extends Module>(this: CreatableModule<TModule>, params?: TModule['params']): CreatableModuleFactory<TModule> {
+  static factory<TModule extends Module>(
+    this: CreatableModule<TModule>,
+    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+  ): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
   }
 
@@ -400,7 +407,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       queries: this.queries,
       schema: ModuleDescriptionSchema,
     }
-    if (this.config.name) {
+    if (this.config?.name) {
       description.name = this.config.name
     }
 
@@ -418,7 +425,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected discoverHandler(): Promisable<Payload[]> {
     const config = this.config
-    const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config.name }).build()
+    const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config?.name }).build()
     const queries = this.queries.map((query) => {
       return new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
     })

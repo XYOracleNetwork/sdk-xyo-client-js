@@ -34,19 +34,19 @@ export type ProxyModuleParams = ModuleParams<
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements ModuleInstance<ModuleParams, ModuleEventData> {
+export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> implements ModuleInstance<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
-  constructor(params: ProxyModuleParams) {
-    super(params)
+  constructor(public proxyParams: ProxyModuleParams) {
+    super({ config: proxyParams.bridge.targetConfig(proxyParams.address) })
   }
 
   get address() {
-    return this.params.address.toLowerCase()
+    return this.proxyParams.address.toLowerCase()
   }
 
   get bridge() {
-    return this.params.bridge
+    return this.proxyParams.bridge
   }
 
   get config(): ModuleConfig {

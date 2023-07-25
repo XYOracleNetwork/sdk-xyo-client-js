@@ -1,5 +1,5 @@
 import { Module } from '../module'
-import { ModuleResolver } from './ModuleResolver'
+import { ModuleResolver } from './ModuleInstance'
 
 export interface ModuleRepository extends ModuleResolver {
   add(module: Module): this

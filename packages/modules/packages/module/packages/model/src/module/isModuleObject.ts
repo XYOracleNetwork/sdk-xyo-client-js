@@ -1,6 +1,6 @@
 import { IsObjectFactory, ObjectTypeCheck, ObjectTypeShape } from '@xyo-network/object-identity'
 
-import { Module } from '../Module'
+import { Module } from './Module'
 
 export const requiredModuleFunctions: ObjectTypeShape = {
   address: 'string',

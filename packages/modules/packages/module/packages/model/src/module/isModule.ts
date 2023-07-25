@@ -1,9 +1,9 @@
 import { ObjectTypeCheck } from '@xyo-network/object-identity'
 
-import { ModuleDiscoverQuerySchema } from '../../Queries'
-import { Module } from '../Module'
+import { ModuleDiscoverQuerySchema } from '../Queries'
 import { IsModuleFactory } from './IsModuleFactory'
 import { isModuleObject } from './isModuleObject'
+import { Module } from './Module'
 
 export const requiredModuleQueries: string[] = [
   /* We need to update this once live module conform */

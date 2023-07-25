@@ -1,16 +1,14 @@
 import { EventData } from '@xyo-network/module-events'
-import { ModuleEventArgs } from '@xyo-network/module-model'
+import { Module, ModuleEventArgs } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ArchivistModule } from '../Archivist'
-
-export type InsertedEventArgs = ModuleEventArgs<
-  ArchivistModule,
+export type InsertedEventArgs<T extends Module = Module> = ModuleEventArgs<
+  T,
   {
     payloads: Payload[]
   }
 >
 
-export interface InsertedEventData extends EventData {
-  inserted: InsertedEventArgs
+export interface InsertedEventData<T extends Module = Module> extends EventData {
+  inserted: InsertedEventArgs<T>
 }

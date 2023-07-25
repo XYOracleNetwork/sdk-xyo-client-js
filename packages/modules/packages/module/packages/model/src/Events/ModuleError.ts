@@ -2,7 +2,7 @@ import { EventData } from '@xyo-network/module-events'
 
 import { ModuleEventArgs } from './ModuleEventArgs'
 
-export type ModuleErrorEventArgs<TModule> = ModuleEventArgs<
+export type ModuleErrorEventArgs<TModule extends object = object> = ModuleEventArgs<
   TModule,
   {
     error: Error

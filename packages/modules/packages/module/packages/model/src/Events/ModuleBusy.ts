@@ -2,7 +2,7 @@ import { EventData } from '@xyo-network/module-events'
 
 import { ModuleEventArgs } from './ModuleEventArgs'
 
-export type ModuleBusyEventArgs<TModule> = ModuleEventArgs<
+export type ModuleBusyEventArgs<TModule extends object = object> = ModuleEventArgs<
   TModule,
   {
     busy: boolean

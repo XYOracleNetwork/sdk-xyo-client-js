@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-xyo-mongo-js",
-  "version": "2.67.0-rc.2",
+  "version": "2.67.0-rc.3",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",

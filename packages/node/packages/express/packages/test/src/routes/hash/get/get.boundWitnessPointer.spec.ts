@@ -45,7 +45,7 @@ const createPointer = async (
 
   const pointer = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema }).fields({ reference }).build()
   const pointerResponse = await insertPayload(pointer)
-  expect(pointerResponse).toBeArrayOfSize(2)
+  expect(pointerResponse).toBeArrayOfSize(1)
   //expect(pointerResponse.map((bw) => bw.payload_schemas.includes(BoundWitnessPointerSchema)).some((x) => x)).toBeTrue()
   return await PayloadWrapper.hashAsync(pointer)
 }
@@ -72,7 +72,7 @@ describe('/:hash', () => {
     it('a single BoundWitness matching the pointer criteria', async () => {
       const [bw, payloads] = await getNewBoundWitness([account])
       const blockResponse = await insertBlock(bw, account)
-      expect(blockResponse.length).toBe(2)
+      expect(blockResponse.length).toBe(1)
       const expected = BoundWitnessWrapper.parse(bw).body()
       const pointerHash = await createPointer([[account.address]], [[payloads[0].schema]])
       const response = await getHash(pointerHash)
@@ -105,7 +105,7 @@ describe('/:hash', () => {
         payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         bws.push(...[bwA, bwB, bwC, bwD, bwE, bwF, bwG])
         const blockResponse = await insertBlock(bws)
-        expect(blockResponse.length).toBe(2)
+        expect(blockResponse.length).toBe(1)
       })
       describe('single address', () => {
         it.each([
@@ -159,7 +159,7 @@ describe('/:hash', () => {
         const [bwB] = await getNewBoundWitness([account], [payloadB.payload()])
         boundWitnesses.push(...[bwA, bwB])
         const payloadResponse = await insertBlock(boundWitnesses, account)
-        expect(payloadResponse.length).toBe(2)
+        expect(payloadResponse.length).toBe(1)
       })
       describe('single schema', () => {
         it.each([
@@ -210,7 +210,7 @@ describe('/:hash', () => {
         expectedSchema = payloadsA[0].schema
         for (const bw of boundWitnesses) {
           const blockResponse = await insertBlock(bw, account)
-          expect(blockResponse.length).toBe(2)
+          expect(blockResponse.length).toBe(1)
         }
       })
       it('ascending', async () => {

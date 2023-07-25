@@ -26,9 +26,9 @@ describe('/:hash', () => {
       payloadHash = boundWitness?.payload_hashes?.[0]
       expect(payloadHash).toBeTruthy()
       const blockResponse = await insertBlock(block, account)
-      expect(blockResponse.length).toBe(2)
+      expect(blockResponse.length).toBe(1)
       const payloadResponse = await insertPayload(payload, account)
-      expect(payloadResponse.length).toBe(2)
+      expect(payloadResponse.length).toBe(1)
     })
     it('a single bound witness', async () => {
       const response = await getHash(boundWitnessHash)

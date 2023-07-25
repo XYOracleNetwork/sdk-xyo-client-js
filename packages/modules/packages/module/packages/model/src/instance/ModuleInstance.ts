@@ -1,5 +1,6 @@
 import { AnyConfigSchema, ModuleConfig } from '../Config'
-import { Module, ModuleEventData, ModuleQueryFunctions } from '../module'
+import { ModuleEventData } from '../Events'
+import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleResolver } from './ModuleResolver'
 import { ResolveFunctions } from './ResolveFunctions'

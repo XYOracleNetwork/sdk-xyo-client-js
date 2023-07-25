@@ -1,9 +1,14 @@
 import { EventData } from '@xyo-network/module-events'
 
-import { Module, ModuleEventArgs } from '../module'
+import { ModuleEventArgs } from './ModuleEventArgs'
 
-export type ModuleErrorEventArgs<TModule extends Module = Module> = ModuleEventArgs<TModule, { error: Error }>
+export type ModuleErrorEventArgs<TModule> = ModuleEventArgs<
+  TModule,
+  {
+    error: Error
+  }
+>
 
-export interface ModuleErrorEventData extends EventData {
-  moduleError: ModuleErrorEventArgs
+export interface ModuleErrorEventData<TModule extends object = object> extends EventData {
+  moduleError: ModuleErrorEventArgs<TModule>
 }

@@ -1,3 +1,5 @@
 export * from './ModuleBusy'
 export * from './ModuleError'
+export * from './ModuleEventArgs'
+export * from './ModuleEventData'
 export * from './ModuleQueried'

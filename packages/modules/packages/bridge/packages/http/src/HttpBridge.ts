@@ -155,8 +155,8 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   protected override async startHandler() {
     const start = Date.now()
     await super.startHandler()
-    this.downResolver.addResolver(this.targetDownResolver())
     const rootAddress = await this.initRootAddress()
+    this.downResolver.addResolver(this.targetDownResolver())
     await this.targetDiscover(rootAddress)
 
     const childAddresses = await this.targetDownResolver().getRemoteAddresses()

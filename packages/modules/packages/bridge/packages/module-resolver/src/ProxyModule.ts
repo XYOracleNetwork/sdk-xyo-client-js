@@ -7,7 +7,6 @@ import {
   AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
-  Module,
   ModuleConfig,
   ModuleDescription,
   ModuleEventData,

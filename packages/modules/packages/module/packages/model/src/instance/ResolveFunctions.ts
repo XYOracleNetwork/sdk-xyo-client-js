@@ -1,6 +1,6 @@
 import { Promisable } from '@xyo-network/promise'
 
-import { ModuleFilter, ModuleFilterOptions } from '../ModuleFilter'
+import { ModuleFilter, ModuleFilterOptions } from './ModuleFilter'
 import { ModuleInstance } from './ModuleInstance'
 
 export interface ResolveFunctions {

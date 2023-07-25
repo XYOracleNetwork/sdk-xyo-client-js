@@ -81,6 +81,6 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/types/index.d.ts",
-  "version": "2.67.0-rc.1",
+  "version": "2.67.0-rc.2",
   "stableVersion": "2.66.9"
 }

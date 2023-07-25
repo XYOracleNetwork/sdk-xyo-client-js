@@ -6055,7 +6055,6 @@ __metadata:
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
     lodash: ^4.17.21
     typescript: ^5.1.6
   languageName: unknown
@@ -6129,6 +6128,7 @@ __metadata:
     "@xyo-network/gas-price-payload-plugin": "workspace:~"
     "@xyo-network/gas-price-plugin": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"

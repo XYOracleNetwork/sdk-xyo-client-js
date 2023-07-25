@@ -26,9 +26,9 @@ import compact from 'lodash/compact'
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 
 export class BridgeModuleResolver extends CompositeModuleResolver implements ModuleResolver {
+  private primed = this.resolveRemoteModules()
   private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<ModuleInstance>> = {}
-  private primed = this.resolveRemoteModules()
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,

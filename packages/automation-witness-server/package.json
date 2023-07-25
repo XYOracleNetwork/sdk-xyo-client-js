@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.67.0-rc.1",
+  "version": "2.67.0-rc.2",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -65,6 +65,7 @@
     "@xyo-network/gas-price-payload-plugin": "workspace:~",
     "@xyo-network/gas-price-plugin": "workspace:~",
     "@xyo-network/http-bridge": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

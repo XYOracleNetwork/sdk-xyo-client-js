@@ -10,7 +10,6 @@ import {
 } from '@xyo-network/bridge-model'
 import {
   constructableModuleWrapper,
-  Module,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,

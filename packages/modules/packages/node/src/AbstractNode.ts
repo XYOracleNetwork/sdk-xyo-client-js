@@ -71,10 +71,8 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return (await (this.downResolver.resolve() ?? [])).filter((module) => module.address !== this.address)
   }
 
-  override manifest(): Promise<NodeManifestPayload> {
-    return this.busy(async () => {
-      return await this.manifestHandler()
-    })
+  override async manifest(): Promise<NodeManifestPayload> {
+    return await this.manifestHandler()
   }
 
   register(_module: Module): Promisable<void> {

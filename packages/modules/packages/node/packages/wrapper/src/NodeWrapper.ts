@@ -51,7 +51,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const payloads: NodeManifestPayload[] = (await this.sendQuery(queryPayload)).filter(
       isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema),
     )
-    return assertEx(payloads.pop(), 'No NodeManifestPayload returned')
+    return payloads.pop() as NodeManifestPayload
   }
 
   register(_module: Module) {

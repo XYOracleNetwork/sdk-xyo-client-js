@@ -1,25 +1,25 @@
 /* eslint-disable max-statements */
-import { ArchivistInstance, ArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
-import { DivinerModule } from '@xyo-network/diviner'
+import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
+import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness'
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: ArchivistModule
+  let primaryArchivist: ArchivistInstance
   let primaryNode: MemoryNode
 
   let leftInternalArchivist: ArchivistInstance
   let leftInternalArchivist2: ArchivistInstance
   let leftExternalArchivist: ArchivistInstance
-  let leftDiviner: DivinerModule
+  let leftDiviner: DivinerInstance
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
   let rightInternalArchivist: ArchivistInstance
   let rightExternalArchivist: ArchivistInstance
-  let rightWitness: WitnessModule
+  let rightWitness: WitnessInstance
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })
@@ -78,8 +78,8 @@ describe('MultiNodeConfiguration', () => {
 
     // internal: should not be resolvable by anyone outside of node, including wrapper
 
-    expect((await rightNode.downResolver.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
-    expect((await rightNode.downResolver.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
+    expect((await rightNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
+    expect((await rightNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
     expect((await rightNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
     expect((await rightNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)

@@ -9,6 +9,7 @@ import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  asModuleInstance,
   InstanceTypeCheck,
   isModule,
   isModuleInstance,
@@ -26,10 +27,11 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
+  ModuleResolver,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
-import { PromiseEx } from '@xyo-network/promise'
+import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
@@ -117,8 +119,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
-  get downResolver() {
-    return this.module.downResolver
+  get downResolver(): ModuleResolver {
+    //Should we be allowing this?
+    const instance = asModuleInstance(this.module)
+    if (instance) {
+      return instance.downResolver as ModuleResolver
+    }
+    throw Error('Unsupported')
   }
 
   get module() {
@@ -129,8 +136,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queries
   }
 
-  get upResolver() {
-    return this.module.upResolver
+  get upResolver(): ModuleResolver {
+    //Should we be allowing this?
+    const instance = asModuleInstance(this.module)
+    if (instance) {
+      return instance.upResolver as ModuleResolver
+    }
+    throw Error('Unsupported')
   }
 
   static canWrap(module?: Module) {
@@ -291,22 +303,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queryable(query, payloads)
   }
 
-  async resolve<TModuleInstance extends ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<TModuleInstance>): Promise<Module[]>
-  async resolve<TModuleInstance extends ModuleInstance>(
-    nameOrAddress: string,
-    options?: ModuleFilterOptions<TModuleInstance>,
-  ): Promise<Module | undefined>
-  async resolve<TModuleInstance extends ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions<TModuleInstance>,
-  ): Promise<Module | Module[] | undefined> {
-    switch (typeof nameOrAddressOrFilter) {
-      case 'string': {
-        return await this.module.resolve(nameOrAddressOrFilter, options)
-      }
-      default: {
-        return await this.module.resolve(nameOrAddressOrFilter, options)
-      }
+  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance[]>
+  resolve(nameOrAddress: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance | undefined>
+  resolve(nameOrAddressOrFilter?: string | ModuleFilter, _options?: unknown): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
+    if (typeof nameOrAddressOrFilter === 'string') {
+      return undefined
+    } else {
+      return []
     }
   }
 

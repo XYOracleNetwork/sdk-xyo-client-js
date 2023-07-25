@@ -11,7 +11,7 @@ export const getNode = async (args: BaseArguments): Promise<NodeInstance> => {
   try {
     const config = await getBridgeConfig(args)
     const bridge = await HttpBridge.create({ config })
-    const node = assertEx((await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop(), 'Failed to resolve rootNode')
+    const node = assertEx((await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(), 'Failed to resolve rootNode')
     return asNodeInstance(node, 'Not a NodeModule')
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

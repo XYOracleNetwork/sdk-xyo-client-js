@@ -68,7 +68,7 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
-    const module = (await bridge.downResolver.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
 
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()

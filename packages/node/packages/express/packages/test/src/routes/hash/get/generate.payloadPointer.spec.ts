@@ -28,7 +28,7 @@ describe.skip('Generation of automation payload pointers', () => {
     const schema = HttpBridgeConfigSchema
     const security = { allowAnonymous: true }
     const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
-    const modules = await bridge.downResolver.resolve({ name: ['Archivist'] })
+    const modules = await bridge.resolve({ name: ['Archivist'] })
     const module = modules.pop()
     expect(module).toBeDefined()
     archivist = asArchivistInstance(module, 'Failed to cast module')

@@ -6,6 +6,6 @@
     "experimentalDecorators": true,
     "typeRoots": []
   },
-
+  "exclude": ["dist"],
   "extends": "@xylabs/tsconfig"
 }

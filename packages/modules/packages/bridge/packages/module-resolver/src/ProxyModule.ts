@@ -114,9 +114,12 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   /* Resolves a filter from the perspective of the module, including through the parent/gateway module */
-  resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
+  resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  async resolve(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
       return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
     } else {

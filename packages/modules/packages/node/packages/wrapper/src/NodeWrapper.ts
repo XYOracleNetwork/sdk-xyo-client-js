@@ -1,6 +1,6 @@
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { Module, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
+import { ModuleInstance, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -53,7 +53,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     return payloads.pop() as NodeManifestPayload
   }
 
-  register(_module: Module) {
+  register(_module: ModuleInstance) {
     throw Error('Not implemented')
   }
 

@@ -34,4 +34,8 @@ export type NodeModule<
 export type NodeInstance<
   TParams extends ModuleParams<AnyConfigSchema<NodeConfig>> = ModuleParams<AnyConfigSchema<NodeConfig>>,
   TEventData extends NodeModuleEventData = NodeModuleEventData,
-> = NodeModule<TParams, TEventData> & NodeQueryFunctions & ModuleInstance & { register: (module: Module) => void }
+> = NodeModule<TParams, TEventData> &
+  NodeQueryFunctions &
+  ModuleInstance & {
+    register: (module: ModuleInstance) => void
+  }

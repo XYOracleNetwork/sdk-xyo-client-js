@@ -37,6 +37,7 @@ import {
   ModuleQuery,
   ModuleQueryBase,
   ModuleQueryResult,
+  ModuleResolver,
   ModuleSubscribeQuerySchema,
   SchemaString,
   serializableField,
@@ -66,8 +67,8 @@ export abstract class AbstractModule<
 
   protected static privateConstructorKey = Date.now().toString()
 
-  readonly downResolver = new CompositeModuleResolver()
-  readonly upResolver = new CompositeModuleResolver()
+  readonly downResolver: Omit<CompositeModuleResolver, 'resolve'> = new CompositeModuleResolver()
+  readonly upResolver: Omit<CompositeModuleResolver, 'resolve>'> = new CompositeModuleResolver()
 
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
@@ -141,7 +142,7 @@ export abstract class AbstractModule<
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
-  static async create<TModule extends Module>(
+  static async create<TModule extends ModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
@@ -197,7 +198,7 @@ export abstract class AbstractModule<
     return newModule
   }
 
-  static factory<TModule extends Module>(
+  static factory<TModule extends ModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {
@@ -273,15 +274,16 @@ export abstract class AbstractModule<
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (down ? await this.downResolver.resolve(nameOrAddressOrFilter) : undefined) ??
-          (up ? await this.upResolver.resolve(nameOrAddressOrFilter) : undefined)
+          (down ? await (this.downResolver as CompositeModuleResolver).resolve(nameOrAddressOrFilter) : undefined) ??
+          (up ? await (this.upResolver as ModuleResolver).resolve(nameOrAddressOrFilter) : undefined)
         )
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
-        return [...(down ? await this.downResolver.resolve(filter) : []), ...(up ? await this.upResolver.resolve(filter) : [])].filter(
-          duplicateModules,
-        )
+        return [
+          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve(filter) : []),
+          ...(up ? await (this.upResolver as ModuleResolver).resolve(filter) : []),
+        ].filter(duplicateModules)
       }
     }
   }

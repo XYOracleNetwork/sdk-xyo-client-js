@@ -66,14 +66,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   }
 
   async attachedModules(): Promise<Module[]> {
-    return (await (this.downResolver.resolve() ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.resolve() ?? [])).filter((module) => module.address !== this.address)
   }
 
   override async manifest(): Promise<NodeManifestPayload> {
     return await this.manifestHandler()
   }
 
-  register(_module: Module): Promisable<void> {
+  register(_module: ModuleInstance): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
@@ -120,7 +120,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     }
   }
 
-  unregister(_module: Module): Promisable<this> {
+  unregister(_module: ModuleInstance): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 
@@ -147,8 +147,8 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       manifest.modules.private = privateModules
     }
 
-    const publicModulesList = await this.downResolver.resolve()
-    const publicModules = await Promise.all((await this.downResolver.resolve()).filter(notThisModule).map(toManifest))
+    const publicModulesList = await this.resolve()
+    const publicModules = await Promise.all((await this.resolve()).filter(notThisModule).map(toManifest))
     console.log(`manifestHandler:publicModules:${publicModulesList.length}`)
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}

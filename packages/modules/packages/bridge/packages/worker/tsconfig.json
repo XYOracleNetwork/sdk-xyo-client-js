@@ -7,6 +7,6 @@
     "lib": ["WebWorker"],
     "typeRoots": []
   },
-
+  "exclude": ["dist"],
   "extends": "@xylabs/tsconfig"
 }

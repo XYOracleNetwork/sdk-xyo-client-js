@@ -12,7 +12,7 @@ export const getModuleFromArgs = async (args: ModuleArguments): Promise<ModuleIn
     const config = await getBridgeConfig(args)
     const bridge = await HttpBridge.create({ config })
     const filter = getModuleFilterFromArgs(args)
-    const resolved = await bridge.downResolver.resolve(filter)
+    const resolved = await bridge.resolve(filter)
     return asModuleInstance(resolved.pop(), `Failed to load module from filter [${filter}]`)
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

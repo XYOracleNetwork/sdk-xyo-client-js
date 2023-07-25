@@ -6,7 +6,6 @@
   },
 
   "exclude": ["dist"],
-
   "extends": "@xylabs/tsconfig"
 }
 

@@ -5,14 +5,10 @@ import { Promisable } from '@xyo-network/promise'
 import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleQueryResult } from '../ModuleQueryResult'
-import { ModuleResolver } from './ModuleResolver'
 
 export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
   address: string
   config: TParams['config']
-
-  /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
-  readonly downResolver: Omit<ModuleResolver, 'resolve'>
 
   params: TParams
 
@@ -32,8 +28,4 @@ export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConf
 
   start?: () => Promisable<boolean>
   stop?: () => Promisable<boolean>
-
-  /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
-  /* This is set by a NodeModule when attaching to the module */
-  readonly upResolver: Omit<ModuleResolver, 'resolve'>
 }

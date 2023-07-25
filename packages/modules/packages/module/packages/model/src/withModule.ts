@@ -1,7 +1,7 @@
 import { ObjectTypeCheck } from '@xyo-network/object-identity'
 
 import { isModuleInstance } from './instance'
-import { isModule } from './module-fix'
+import { isModule } from './module'
 
 export const WithFactory = {
   create: <T extends object>(typeCheck: ObjectTypeCheck<T>) => {

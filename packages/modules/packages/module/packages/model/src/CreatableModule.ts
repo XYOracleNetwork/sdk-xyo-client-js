@@ -1,7 +1,7 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { Logger } from '@xyo-network/logger'
 
-import { Module } from './module-fix'
+import { Module } from './module'
 
 export interface CreatableModule<T extends Module = Module> {
   configSchema: string

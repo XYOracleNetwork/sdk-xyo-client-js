@@ -1,5 +1,5 @@
 import { AnyConfigSchema, ModuleConfig } from '../Config'
-import { Module, ModuleEventData, ModuleQueryFunctions } from '../module-fix'
+import { Module, ModuleEventData, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 
 export type ModuleInstance<

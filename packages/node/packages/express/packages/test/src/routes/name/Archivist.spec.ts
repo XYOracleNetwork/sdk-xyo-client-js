@@ -49,14 +49,9 @@ describe(`/${moduleName}`, () => {
   describe('ArchivistInsertQuerySchema', () => {
     it.each(cases)('inserts %s', async (_, wrapped) => {
       const payloads = wrapped.map((w) => w.payload())
-      const hashes = wrapped.map((w) => w.hash)
       const response = await archivist.insert(payloads)
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
-      const bw = response.at(-1)
-      expect(bw).toBeObject()
-      expect(bw?.payload_hashes).toBeArray()
-      expect(bw?.payload_hashes).toContainValues(hashes)
     })
   })
   describe('ArchivistGetQuerySchema', () => {

@@ -139,17 +139,13 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     const notThisModule = (module: ModuleInstance) => module.address !== this.address
     const toManifest = (module: ModuleInstance) => module.manifest()
 
-    const privateModulesList = await this.privateResolver.resolve()
     const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
-    console.log(`manifestHandler:privateModules:${privateModulesList.length}`)
     if (privateModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.private = privateModules
     }
 
-    const publicModulesList = await this.resolve()
     const publicModules = await Promise.all((await this.resolve()).filter(notThisModule).map(toManifest))
-    console.log(`manifestHandler:publicModules:${publicModulesList.length}`)
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

@@ -127,7 +127,7 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns Payload signed by both addresses', async () => {
-            const expected = payloads[5]
+            const expected = payloads[4]
             const pointerHash = await createPointer([[accountC.address], [accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -135,7 +135,7 @@ describe('/:hash', () => {
         })
         describe('combined in parallel', () => {
           it('returns Payload signed by both address', async () => {
-            const expected = payloads[5]
+            const expected = payloads[4]
             const pointerHash = await createPointer([[accountC.address, accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)

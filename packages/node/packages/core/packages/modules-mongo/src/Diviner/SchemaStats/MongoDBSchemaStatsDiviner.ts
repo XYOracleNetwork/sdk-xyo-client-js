@@ -12,7 +12,6 @@ import {
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'

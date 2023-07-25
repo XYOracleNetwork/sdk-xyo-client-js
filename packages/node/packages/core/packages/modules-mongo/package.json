@@ -60,7 +60,6 @@
     "@xyo-network/diviner-schema-list-model": "workspace:~",
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~",
     "@xyo-network/diviner-schema-stats-model": "workspace:~",
-    "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/error": "workspace:~",
     "@xyo-network/location-payload-plugin": "workspace:~",
     "@xyo-network/module": "workspace:~",

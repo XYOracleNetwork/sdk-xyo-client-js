@@ -11,7 +11,7 @@ import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
-import { SentinelInstance, SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
+import { SentinelInstance, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,

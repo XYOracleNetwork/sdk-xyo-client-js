@@ -1,10 +1,8 @@
-import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
 import { asArchivistInstance } from '@xyo-network/archivist'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
-import { asNodeInstance, isNodeInstance, MemoryNode, NodeWrapper } from '@xyo-network/node'
+import { asNodeInstance, isNodeInstance, MemoryNode } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -13,16 +11,12 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 describe('HttpBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
-  let wrapperAccount: AccountInstance
+
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   const cases = [
     ['/', `${baseUrl}`],
     /*['/node', `${baseUrl}/node`],*/
   ]
-
-  beforeAll(async () => {
-    wrapperAccount = await HDWallet.random()
-  })
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create()

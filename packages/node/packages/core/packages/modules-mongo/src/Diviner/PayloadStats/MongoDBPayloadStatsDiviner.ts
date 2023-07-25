@@ -13,7 +13,6 @@ import {
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
 } from '@xyo-network/diviner-payload-stats-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'

@@ -120,7 +120,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       expect(insertResult1.map((bw) => BoundWitnessWrapper.parse(bw).boundwitness)).toMatchSnapshot()
       */
     })
-    it('inserts multiple payloads', async () => {
+    it('inserts multiple payloads', () => {
       expect(insertResult3).toBeTruthy()
       expect(insertResult3).toBeArrayOfSize(1)
       /*const [boundResult, transactionResults] = insertResult3

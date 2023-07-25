@@ -20,7 +20,6 @@
     "@xyo-network/http-bridge": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/network": "workspace:~",
     "@xyo-network/node": "workspace:~",
     "@xyo-network/node-app": "workspace:~",

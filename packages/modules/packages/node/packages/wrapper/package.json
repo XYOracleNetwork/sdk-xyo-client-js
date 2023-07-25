@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",

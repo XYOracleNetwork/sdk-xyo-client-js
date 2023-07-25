@@ -6,7 +6,6 @@ import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { WitnessInstance } from '@xyo-network/witness'
-import compact from 'lodash/compact'
 
 import { AbstractSentinel } from './AbstractSentinel'
 import { SentinelConfig, SentinelConfigSchema } from './Config'

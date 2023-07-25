@@ -1,6 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
-import { asArchivistInstance, asArchivistModule } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'

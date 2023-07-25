@@ -1,6 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
 import { EmptyObject } from '@xyo-network/core'
-import { isModuleInstance, ModuleWrapper } from '@xyo-network/module'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 

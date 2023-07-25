@@ -10,7 +10,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { indexedDB } from 'fake-indexeddb'
 
 import { IndexedDbArchivist, IndexedDbArchivistConfigSchema } from '../IndexedDbArchivist'
-import { testArchivistRoundTrip } from './testArchivist'
 
 window.indexedDB = indexedDB
 

@@ -15,3 +15,6 @@ export interface Logger {
   log: LogFunction
   warn: LogFunction
 }
+
+//to satisfy export
+export const LoggerStub = 1

@@ -1,8 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/abstract-archivist'
-import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -17,7 +15,6 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { Logger } from '@xyo-network/logger'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

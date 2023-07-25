@@ -4,11 +4,9 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { handleErrorAsync } from '@xyo-network/error'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { ModuleWrapper } from '@xyo-network/module'
 import { AbstractModuleInstance, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
-  isModuleInstance,
   Module,
   ModuleConfig,
   ModuleFilter,

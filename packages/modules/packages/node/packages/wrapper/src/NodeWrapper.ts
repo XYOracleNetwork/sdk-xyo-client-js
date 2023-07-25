@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { Module, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'

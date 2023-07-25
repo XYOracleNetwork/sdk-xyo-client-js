@@ -26,7 +26,7 @@ import compact from 'lodash/compact'
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 
 export class BridgeModuleResolver extends CompositeModuleResolver implements ModuleResolver {
-  private primed = this.resolveRemoteModules()
+  private primed: Promise<boolean> | undefined = undefined
   private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<ModuleInstance>> = {}
 
@@ -79,6 +79,16 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     return await this.remoteAddresses
   }
 
+  prime() {
+    this.primed =
+      this.primed ??
+      (async () => {
+        await this.resolveRemoteModules()
+        return true
+      })()
+    return this.primed
+  }
+
   override remove(_address: string | string[]): this {
     throw new Error('Method not implemented.')
   }
@@ -86,7 +96,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
   override async resolve(filter?: ModuleFilter): Promise<ModuleInstance[]>
   override async resolve(nameOrAddress: string): Promise<ModuleInstance | undefined>
   override async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    await this.primed
+    await this.prime()
     await this.resolveRemoteModules()
     if (typeof nameOrAddressOrFilter === 'string') {
       const result: ModuleInstance | undefined =

@@ -16,6 +16,7 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleInstance,
   ModuleQueryResult,
   ModuleWrapper,
 } from '@xyo-network/module'
@@ -71,13 +72,13 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
     return await this.module.targetQueryable(address, query, payloads, queryConfig)
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  async targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
+  async targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  async targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   async targetResolve(
     address: string,
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions,
-  ): Promise<Promisable<Module | Module[] | undefined>> {
+  ): Promise<Promisable<ModuleInstance | ModuleInstance[] | undefined>> {
     return await this.module.targetResolve(address, nameOrAddressOrFilter, options)
   }
 

@@ -49,7 +49,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    const direction = options?.direction ?? 'all'
+    const direction = options?.direction ?? 'down'
     const down = direction === 'down' || direction === 'all'
     await this.started('throw')
     switch (typeof nameOrAddressOrFilter) {

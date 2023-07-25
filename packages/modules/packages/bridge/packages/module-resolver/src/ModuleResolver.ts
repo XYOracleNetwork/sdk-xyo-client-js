@@ -28,6 +28,7 @@ import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './Proxy
 export class BridgeModuleResolver extends CompositeModuleResolver implements ModuleResolver {
   private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<ModuleInstance>> = {}
+  private primed = this.resolveRemoteModules()
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
@@ -85,6 +86,8 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
   override async resolve(filter?: ModuleFilter): Promise<ModuleInstance[]>
   override async resolve(nameOrAddress: string): Promise<ModuleInstance | undefined>
   override async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    await this.primed
+    await this.resolveRemoteModules()
     if (typeof nameOrAddressOrFilter === 'string') {
       const result: ModuleInstance | undefined =
         (await this.resolveByAddress(nameOrAddressOrFilter)) ?? (await this.resolveByName(nameOrAddressOrFilter))
@@ -148,7 +151,8 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
   }
 
   private async resolveByName(name: string): Promise<ModuleInstance | undefined> {
-    return Object.values(await this.currentResolvedModules())
+    const modules = await this.currentResolvedModules()
+    return Object.values(modules)
       .filter((module) => module.config.name === name)
       .pop()
   }

@@ -50,7 +50,8 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   get config(): ModuleConfig {
-    return this.bridge.targetConfig(this.address)
+    const config = this.bridge.targetConfig(this.address)
+    return config
   }
 
   get downResolver() {

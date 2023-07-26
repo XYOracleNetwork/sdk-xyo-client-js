@@ -35,8 +35,8 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.195",
-    "@types/node": "^20.4.4",
+    "@types/lodash": "^4.14.196",
+    "@types/node": "^20.4.5",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
@@ -81,6 +81,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/types/index.d.ts",
-  "version": "2.67.0-rc.5",
-  "stableVersion": "2.66.9"
+  "version": "2.67.0"
 }

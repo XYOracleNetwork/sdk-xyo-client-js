@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
-    "@types/lodash": "^4.14.195",
+    "@types/lodash": "^4.14.196",
     "@xylabs/delay": "^2.9.3",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
@@ -69,6 +69,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.67.0-rc.5",
-  "stableVersion": "2.66.9"
+  "version": "2.67.0"
 }

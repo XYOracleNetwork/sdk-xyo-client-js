@@ -22,8 +22,8 @@
     "@babel/preset-env": "^7.22.9",
     "@types/jest": "^29.5.3",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "@xylabs/eslint-config": "^2.19.0",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
@@ -101,11 +101,10 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.67.0-rc.5",
+  "version": "2.67.0",
   "packageManager": "yarn@3.6.1",
   "volta": {
     "node": "18.13.0",
     "yarn": "1.22.19"
-  },
-  "stableVersion": "2.66.9"
+  }
 }

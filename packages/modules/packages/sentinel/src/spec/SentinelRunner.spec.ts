@@ -15,7 +15,7 @@ describe('SentinelRunner', () => {
   let config: SentinelConfig
 
   beforeEach(async () => {
-    const node = (await MemoryNode.create()) as MemoryNode
+    const node = (await MemoryNode.create({ account: await HDWallet.random() })) as MemoryNode
     const witnessModules: AbstractWitness[] = [
       await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
     ]

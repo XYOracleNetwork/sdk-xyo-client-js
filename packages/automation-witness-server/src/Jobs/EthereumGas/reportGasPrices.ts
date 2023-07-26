@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
@@ -11,7 +12,7 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
   const archivists = await getArchivists()
   const witnesses = await getEthereumGasWitness(provider)
   const modules = [...archivists, ...witnesses]
-  const node = await MemoryNode.create()
+  const node = await MemoryNode.create({ account: await HDWallet.random() })
   await Promise.all(
     modules.map(async (mod) => {
       await node.register(mod)

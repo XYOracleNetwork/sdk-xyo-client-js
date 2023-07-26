@@ -2,12 +2,12 @@ import { getProvider } from '../../../Providers'
 import { reportGasPrices } from '../reportGasPrices'
 
 describe('reportGasPrices', () => {
-  it('reports supplied provider', () => {
-    const panel = reportGasPrices(getProvider())
+  it('reports supplied provider', async () => {
+    const panel = await reportGasPrices(getProvider())
     expect(panel).toBeTruthy()
   })
-  it('reports using default provider if no provider supplied', () => {
-    const panel = reportGasPrices()
+  it('reports using default provider if no provider supplied', async () => {
+    const panel = await reportGasPrices()
     expect(panel).toBeTruthy()
   })
 })

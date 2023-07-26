@@ -458,7 +458,7 @@ export abstract class AbstractModule<
     }
   }
 
-  protected manifestHandler(): Promisable<ModuleManifestPayload> {
+  protected manifestHandler(_ignoreAddresses?: string[]): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
   }

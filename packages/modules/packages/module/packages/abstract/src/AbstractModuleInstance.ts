@@ -41,9 +41,9 @@ export abstract class AbstractModuleInstance<
     })
   }
 
-  manifest(): Promise<ModuleManifestPayload> {
+  manifest(ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
-      return await this.manifestHandler()
+      return await this.manifestHandler(ignoreAddresses)
     })
   }
 

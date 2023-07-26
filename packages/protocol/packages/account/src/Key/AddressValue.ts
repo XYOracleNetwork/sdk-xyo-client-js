@@ -11,10 +11,7 @@ const recoveryIds = [0, 1, 2, 3] as const
 @staticImplements<AddressValueStatic>()
 export class AddressValue extends EllipticKey implements AddressValueInstance {
   static readonly wasmSupport = wasmSupportStatic
-  protected static readonly secp256k1: Promise<Secp256k1 | null> = wasmSupportStatic
-    .initialize()
-    .then(() => instantiateSecp256k1())
-    .catch(() => null)
+  protected static _secp256k1: Promise<Secp256k1 | null>
 
   private _isAddress = true
   constructor(address: DataLike) {
@@ -60,7 +57,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   }
 
   static async verifyAsync(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
-    const verifier = await AddressValue.secp256k1
+    const verifier = await AddressValue.secp256k1()
     if (verifier && AddressValue.wasmSupport.canUseWasm) {
       let publicKey: Uint8Array | null = null
       for (const recoveryId of recoveryIds) {
@@ -75,6 +72,16 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     }
     // In all failure modes default to the JS implementation
     return AddressValue.verify(msg, signature, address)
+  }
+
+  protected static secp256k1(): Promise<Secp256k1 | null> {
+    this._secp256k1 =
+      this._secp256k1 ??
+      (async () => {
+        await wasmSupportStatic.initialize()
+        await instantiateSecp256k1()
+      })()
+    return this._secp256k1
   }
 
   verify(msg: Uint8Array | string, signature: Uint8Array | string) {

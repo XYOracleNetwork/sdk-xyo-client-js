@@ -4,7 +4,6 @@ const generateJestConfig = ({ esModules }) => {
     coveragePathIgnorePatterns: ['<rootDir>/(.*)/dist'],
     globalSetup: './packages/node/packages/express/packages/test/src/globalSetup.ts',
     globalTeardown: './packages/node/packages/express/packages/test/src/globalTeardown.ts',
-    maxWorkers: 12,
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
@@ -23,7 +22,6 @@ const generateJestConfig = ({ esModules }) => {
       ],
     },
     transformIgnorePatterns: [`./node_modules/(?!${esModulesList})`],
-    workerThreads: true,
   }
 }
 

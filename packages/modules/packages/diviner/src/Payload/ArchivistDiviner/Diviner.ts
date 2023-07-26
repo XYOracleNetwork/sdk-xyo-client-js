@@ -1,11 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistGetQuery, ArchivistGetQuerySchema, ArchivistModule } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { HuriPayload, HuriSchema } from '../HuriPayload'
@@ -18,17 +16,9 @@ export type ArchivistPayloadDivinerParams<
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
-  protected async archivist(): Promise<ArchivistModule | null> {
+  protected async archivist(): Promise<ArchivistInstance | undefined> {
     const configArchivistAddress = this.config?.archivist
-    if (configArchivistAddress) {
-      const resolvedArchivist: ArchivistModule | null = configArchivistAddress
-        ? ((await this.resolve({ address: [configArchivistAddress] })) as unknown as ArchivistModule[]).shift() ?? null
-        : null
-      if (resolvedArchivist) {
-        return resolvedArchivist ? new IndirectArchivistWrapper({ account: this.account, module: resolvedArchivist }) : null
-      }
-    }
-    return null
+    return configArchivistAddress ? asArchivistInstance(await this.resolve(configArchivistAddress), 'Failed to cast resolved archivist') : undefined
   }
 
   protected async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
@@ -38,11 +28,6 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
     )
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
     const activeArchivist = await this.archivist()
-    if (activeArchivist) {
-      const queryPayload = PayloadWrapper.wrap<ArchivistGetQuery>({ hashes, schema: ArchivistGetQuerySchema })
-      const query = await this.bindQuery(queryPayload)
-      return (await activeArchivist.query(query[0], query[1]))[1]
-    }
-    return []
+    return (await activeArchivist?.get(hashes)) ?? []
   }
 }

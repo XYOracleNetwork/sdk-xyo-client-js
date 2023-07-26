@@ -44,8 +44,7 @@ const createPointer = async (
 
   const pointer = new PayloadBuilder<PayloadPointerPayload>({ schema: PayloadPointerSchema }).fields({ reference }).build()
   const pointerResponse = await insertPayload(pointer)
-  expect(pointerResponse).toBeArrayOfSize(2)
-  expect(pointerResponse.map((bw) => bw.payload_schemas.includes(PayloadPointerSchema)).some((x) => x)).toBeTrue()
+  expect(pointerResponse).toBeArrayOfSize(1)
   return await PayloadWrapper.hashAsync(pointer)
 }
 
@@ -74,9 +73,9 @@ describe('/:hash', () => {
       // Create data pointer will reference
       ;[bw, payloads] = await getNewBoundWitness([account])
       const blockResponse = await insertBlock(bw, account)
-      expect(blockResponse.length).toBe(2)
+      expect(blockResponse.length).toBe(1)
       const payloadResponse = await insertPayload(payloads, account)
-      expect(payloadResponse.length).toBe(2)
+      expect(payloadResponse.length).toBe(1)
     })
     it('a single Payload matching the pointer criteria', async () => {
       const expected = payloads[0]
@@ -110,9 +109,9 @@ describe('/:hash', () => {
         payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
         const blockResponse = await insertBlock(boundWitnesses)
-        expect(blockResponse.length).toBe(2)
+        expect(blockResponse.length).toBe(1)
         const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(2)
+        expect(payloadResponse.length).toBe(1)
       })
       describe('single address', () => {
         it.each([
@@ -128,7 +127,7 @@ describe('/:hash', () => {
       describe('multiple address rules', () => {
         describe('combined serially', () => {
           it('returns Payload signed by both addresses', async () => {
-            const expected = payloads[5]
+            const expected = payloads[4]
             const pointerHash = await createPointer([[accountC.address], [accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -136,7 +135,7 @@ describe('/:hash', () => {
         })
         describe('combined in parallel', () => {
           it('returns Payload signed by both address', async () => {
-            const expected = payloads[5]
+            const expected = payloads[4]
             const pointerHash = await createPointer([[accountC.address, accountD.address]], [[expected.schema]])
             const result = await getHash(pointerHash)
             expect(result).toEqual(expected)
@@ -162,7 +161,7 @@ describe('/:hash', () => {
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
         const payloadResponse = await insertPayload([payloadA.payload(), payloadB.payload()], account)
-        expect(payloadResponse.length).toBe(2)
+        expect(payloadResponse.length).toBe(1)
       })
       describe('single schema', () => {
         it.each([
@@ -209,10 +208,10 @@ describe('/:hash', () => {
         expectedSchema = payloadsA[0].schema
         for (const bw of boundWitnesses) {
           const blockResponse = await insertBlock(bw, account)
-          expect(blockResponse.length).toBe(2)
+          expect(blockResponse.length).toBe(1)
         }
         const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(2)
+        expect(payloadResponse.length).toBe(1)
       })
       it('ascending', async () => {
         const expected = assertEx(payloads.at(0))

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.66.9",
+  "version": "2.67.0-rc.5",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -31,10 +31,8 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/exists": "^2.9.3",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
-    "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
@@ -71,5 +69,6 @@
     "jest-mock-extended": "^3.0.4",
     "typescript": "^5.1.6"
   },
-  "types": "dist/types/index.d.ts"
+  "types": "dist/types/index.d.ts",
+  "stableVersion": "2.66.9"
 }

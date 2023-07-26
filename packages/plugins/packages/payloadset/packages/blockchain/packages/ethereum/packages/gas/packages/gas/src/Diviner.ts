@@ -1,4 +1,4 @@
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
@@ -12,7 +12,7 @@ export type EthereumGasDivinerConfig = DivinerConfig<{ schema: EthereumGasDivine
 export type EthereumGasDivinerParams = DivinerParams<AnyConfigSchema<EthereumGasDivinerConfig>>
 
 export class EthereumGasDiviner<TParams extends EthereumGasDivinerParams = EthereumGasDivinerParams>
-  extends AbstractDirectDiviner<TParams>
+  extends AbstractDiviner<TParams>
   implements DivinerModule
 {
   static override readonly configSchemas: string[] = [EthereumGasDivinerConfigSchema]

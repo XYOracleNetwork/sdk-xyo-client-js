@@ -3,10 +3,11 @@ import { HDWallet } from '@xyo-network/account'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { handleErrorAsync } from '@xyo-network/error'
-import { AbstractModule, creatableModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModuleInstance, creatableModule, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import {
+  CustomWitnessModule,
   WitnessConfigSchema,
   WitnessModule,
   WitnessModuleEventData,
@@ -19,10 +20,10 @@ import {
 creatableModule()
 export abstract class AbstractWitness<
     TParams extends WitnessParams = WitnessParams,
-    TEventData extends WitnessModuleEventData = WitnessModuleEventData,
+    TEventData extends WitnessModuleEventData<WitnessModule<TParams>> = WitnessModuleEventData<WitnessModule<TParams>>,
   >
-  extends AbstractModule<TParams, TEventData>
-  implements WitnessModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
+  implements CustomWitnessModule<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
 
@@ -38,12 +39,6 @@ export abstract class AbstractWitness<
     return {
       'network.xyo.query.witness.observe': '1/1',
     }
-  }
-
-  override async loadAccount() {
-    const account = await super.loadAccount()
-    this.downResolver.add(this)
-    return account
   }
 
   async observe(payloads?: Payload[]): Promise<Payload[]> {

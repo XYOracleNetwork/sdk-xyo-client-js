@@ -5,5 +5,6 @@
     "experimentalDecorators": true,
     "typeRoots": []
   },
+  "exclude": [".*", "**/dist", "node_modules", "storybook-static", "build"],
   "extends": "@xylabs/tsconfig"
 }

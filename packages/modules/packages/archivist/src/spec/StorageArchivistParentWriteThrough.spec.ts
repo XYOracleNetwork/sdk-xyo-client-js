@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -12,10 +13,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
 test('Archivist Parent Write Through', async () => {
-  const node = await MemoryNode.create()
-  const memory = await MemoryArchivist.create()
+  const node = await MemoryNode.create({ account: await HDWallet.random() })
+  const memory = await MemoryArchivist.create({ account: await HDWallet.random() })
 
   const storage = (await StorageArchivist.create({
+    account: await HDWallet.random(),
     config: {
       namespace: 'test',
       parents: { write: [memory.address] },
@@ -33,8 +35,8 @@ test('Archivist Parent Write Through', async () => {
 
   expect(wrapper).toBeDefined()
 
-  storage.on('inserted', ({ boundWitnesses }) => {
-    expect(boundWitnesses.length).toBeGreaterThan(0)
+  storage.on('inserted', ({ payloads }) => {
+    expect(payloads.length).toBeGreaterThan(0)
   })
 
   storage.on('moduleQueried', async ({ query, payloads }) => {
@@ -45,7 +47,7 @@ test('Archivist Parent Write Through', async () => {
 
   const inserted = await storage.insert([wrapper.payload()])
 
-  expect(inserted).toBeArrayOfSize(2)
+  expect(inserted).toBeArrayOfSize(1)
 
   const fromStorage = await storage.get([await wrapper.hashAsync()])
   const fromMemory = await memory.get([await wrapper.hashAsync()])

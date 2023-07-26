@@ -1,6 +1,7 @@
 /* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 
+import { HDWallet } from '@xyo-network/account'
 import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
@@ -20,14 +21,15 @@ import { SentinelReportEndEventArgs } from '../SentinelModel'
 
 describe('Sentinel', () => {
   test('all [simple panel send]', async () => {
-    const node = await MemoryNode.create()
-    const archivist = await MemoryArchivist.create()
+    const node = await MemoryNode.create({ account: await HDWallet.random() })
+    const archivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     await node.register(archivist)
     await node.attach(archivist.address)
 
     const witnesses: AbstractWitness[] = [
-      await IdWitness.create({ config: { salt: 'test', schema: IdWitnessConfigSchema } }),
+      await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
       await NodeSystemInfoWitness.create({
+        account: await HDWallet.random(),
         config: {
           nodeValues: {
             osInfo: '*',
@@ -50,12 +52,13 @@ describe('Sentinel', () => {
       witnesses: witnesses.map((witness) => witness.address),
     }
 
-    const sentinel = (await MemorySentinel.create({ config })) as MemorySentinel
+    const sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
     await node.register(sentinel)
     await node.attach(sentinel.address)
     expect(await sentinel.getArchivists()).toBeArrayOfSize(1)
     expect(await sentinel.getWitnesses()).toBeArrayOfSize(2)
     const adhocWitness = (await AdhocWitness.create({
+      account: await HDWallet.random(),
       config: {
         payload: {
           schema: 'network.xyo.test.array',
@@ -115,6 +118,7 @@ describe('Sentinel', () => {
       }
       beforeEach(async () => {
         const paramsA = {
+          account: await HDWallet.random(),
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
@@ -122,6 +126,7 @@ describe('Sentinel', () => {
           },
         }
         const paramsB = {
+          account: await HDWallet.random(),
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
@@ -130,11 +135,11 @@ describe('Sentinel', () => {
         }
         witnessA = (await AdhocWitness.create(paramsA)) as AdhocWitness
         witnessB = (await AdhocWitness.create(paramsB)) as AdhocWitness
-        archivistA = await MemoryArchivist.create()
-        archivistB = await MemoryArchivist.create()
+        archivistA = await MemoryArchivist.create({ account: await HDWallet.random() })
+        archivistB = await MemoryArchivist.create({ account: await HDWallet.random() })
       })
       it('config', async () => {
-        const node = await MemoryNode.create()
+        const node = await MemoryNode.create({ account: await HDWallet.random() })
         await Promise.all(
           [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
             await node.register(module)
@@ -142,6 +147,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
+          account: await HDWallet.random(),
           config: {
             archivists: [archivistA.address, archivistB.address],
 
@@ -162,7 +168,7 @@ describe('Sentinel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('config & inline', async () => {
-        const node = await MemoryNode.create()
+        const node = await MemoryNode.create({ account: await HDWallet.random() })
         await Promise.all(
           [witnessA, archivistA, archivistB].map(async (module) => {
             await node.register(module)
@@ -170,6 +176,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
+          account: await HDWallet.random(),
           config: {
             archivists: [archivistA.address, archivistB.address],
 
@@ -192,7 +199,7 @@ describe('Sentinel', () => {
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
       it('inline', async () => {
-        const node = await MemoryNode.create()
+        const node = await MemoryNode.create({ account: await HDWallet.random() })
         await Promise.all(
           [archivistA, archivistB].map(async (module) => {
             await node.register(module)
@@ -200,6 +207,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
+          account: await HDWallet.random(),
           config: {
             archivists: [archivistA.address, archivistB.address],
 
@@ -228,6 +236,7 @@ describe('Sentinel', () => {
       })
       it('reports errors', async () => {
         const paramsA = {
+          account: await HDWallet.random(),
           config: {
             payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
@@ -241,7 +250,7 @@ describe('Sentinel', () => {
         }
         const witnessA = await FailingWitness.create(paramsA)
 
-        const node = await MemoryNode.create()
+        const node = await MemoryNode.create({ account: await HDWallet.random() })
         await Promise.all(
           [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
             await node.register(module)
@@ -249,6 +258,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
+          account: await HDWallet.random(),
           config: {
             archivists: [archivistA.address, archivistB.address],
 
@@ -258,15 +268,23 @@ describe('Sentinel', () => {
         }
 
         const sentinel = await MemorySentinel.create(params)
+        let reportEndArgs: SentinelReportEndEventArgs | undefined = undefined
         sentinel.on('reportEnd', (args) => {
-          const { errors } = args as SentinelReportEndEventArgs
+          reportEndArgs = args
           console.log('reportEnd')
-          expect(errors?.length).toBe(1)
-          expect(errors?.[0]?.message).toBe('observation failed')
         })
         await node.register(sentinel)
         await node.attach(sentinel.address)
         await sentinel.report()
+
+        expect(reportEndArgs).toBeDefined()
+        const errors = (reportEndArgs as SentinelReportEndEventArgs | undefined)?.errors
+        const payloads = (reportEndArgs as SentinelReportEndEventArgs | undefined)?.outPayloads
+        console.log(`reportEndArgs.errors: ${JSON.stringify(errors, null, 2)}`)
+        console.log(`reportEndArgs.payloads: ${JSON.stringify(payloads, null, 2)}`)
+        expect(errors?.length).toBe(1)
+        expect(payloads?.length).toBe(1)
+        expect(errors?.[0]?.message).toBe('observation failed')
         return
       })
     })

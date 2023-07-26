@@ -4,14 +4,14 @@ import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSch
 import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
 import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
 import { EthereumGasEthgasstationWitness, EthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness'
 
 import { getAccount, WalletPaths } from '../Account'
 import { canUseEtherscanProvider, getEtherscanProviderConfig, getProvider } from '../Providers'
 import { WitnessProvider } from './WitnessProvider'
 
-export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessModule[]> => {
-  const witnesses: WitnessModule[] = [
+export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider = getProvider()): Promise<WitnessInstance[]> => {
+  const witnesses: WitnessInstance[] = [
     await EthereumGasBlocknativeWitness.create({
       account: await getAccount(WalletPaths.EthereumGas.Witness.Blocknative),
       config: {

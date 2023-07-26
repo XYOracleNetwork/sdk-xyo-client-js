@@ -1,9 +1,10 @@
+import { HDWallet } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
 
-import { AbstractModule } from '../AbstractModule'
-export class TestAbstractModule extends AbstractModule {
+import { AbstractModuleInstance } from '../AbstractModuleInstance'
+export class TestAbstractModule extends AbstractModuleInstance {
   static override readonly configSchemas: string[] = [ModuleConfigSchema]
   protected override get _queryAccountPaths() {
     return super._baseModuleQueryAccountPaths
@@ -13,7 +14,7 @@ export class TestAbstractModule extends AbstractModule {
 describe('AbstractModule', () => {
   let sut: TestAbstractModule
   beforeAll(async () => {
-    sut = await TestAbstractModule.create()
+    sut = await TestAbstractModule.create({ account: await HDWallet.random() })
   })
   it('should instantiate', () => {
     expect(sut).toBeTruthy()

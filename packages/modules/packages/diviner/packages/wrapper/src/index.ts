@@ -1,1 +1,1 @@
-export * from './IndirectDivinerWrapper'
+export * from './DivinerWrapper'

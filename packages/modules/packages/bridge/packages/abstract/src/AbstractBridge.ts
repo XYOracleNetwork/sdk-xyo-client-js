@@ -12,21 +12,20 @@ import {
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { handleErrorAsync } from '@xyo-network/error'
 import {
-  AbstractModule,
+  AbstractModuleInstance,
   duplicateModules,
-  Module,
   ModuleConfig,
   ModuleErrorBuilder,
   ModuleEventData,
   ModuleFilter,
   ModuleQueryResult,
 } from '@xyo-network/module'
-import { ModuleFilterOptions } from '@xyo-network/module-model'
+import { ModuleFilterOptions, ModuleInstance } from '@xyo-network/module-model'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends AbstractModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements BridgeModule<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
@@ -44,16 +43,13 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
-  override async loadAccount() {
-    const account = await super.loadAccount()
-    this.downResolver.add(this)
-    return account
-  }
-
-  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  override async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
-    const direction = options?.direction ?? 'all'
+  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  override async resolve(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    const direction = options?.direction ?? 'down'
     const down = direction === 'down' || direction === 'all'
     await this.started('throw')
     switch (typeof nameOrAddressOrFilter) {
@@ -76,9 +72,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter): Promise<Module[]>
-  async targetResolve(address: string, nameOrAddress: string): Promise<Module | undefined>
-  async targetResolve(address: string, nameOrAddressOrFilter?: ModuleFilter | string): Promise<Module | Module[] | undefined> {
+  async targetResolve(address: string, filter?: ModuleFilter): Promise<ModuleInstance[]>
+  async targetResolve(address: string, nameOrAddress: string): Promise<ModuleInstance | undefined>
+  async targetResolve(address: string, nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
       return await this.targetDownResolver(address).resolve(nameOrAddressOrFilter)
     } else {

@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
     "@xyo-network/abstract-archivist": "workspace:~",
+    "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/error": "workspace:~",
@@ -59,5 +60,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

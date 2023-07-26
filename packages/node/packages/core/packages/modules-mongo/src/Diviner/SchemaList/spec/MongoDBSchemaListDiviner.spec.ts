@@ -1,5 +1,5 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
@@ -32,6 +32,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
     account = await Account.create({ phrase })
     address = account.address
     sut = await MongoDBSchemaListDiviner.create({
+      account: await HDWallet.random(),
       boundWitnessSdk,
       config: { schema: SchemaListDivinerConfigSchema },
       logger,

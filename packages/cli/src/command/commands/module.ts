@@ -1,6 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
 import { EmptyObject } from '@xyo-network/core'
-import { isModuleInstance, ModuleWrapper } from '@xyo-network/module'
 import { parse } from 'path'
 import { ArgumentsCamelCase, Argv, CommandBuilder, CommandModule } from 'yargs'
 
@@ -19,7 +17,7 @@ export const handler = async (argv: ArgumentsCamelCase<ModuleArguments>) => {
   const { verbose } = argv
   try {
     const module = await getModuleFromArgs(argv)
-    const result = (isModuleInstance(module) ? module.describe() : ModuleWrapper.wrap(module, await HDWallet.random()).describe()) ?? {}
+    const result = module.describe() ?? {}
     printLine(JSON.stringify(result))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

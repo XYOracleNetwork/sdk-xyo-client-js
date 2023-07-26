@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -37,7 +37,7 @@ export type CookieArchivistParams = ArchivistParams<AnyConfigSchema<CookieArchiv
 export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractDirectArchivist<TParams, TEventData> {
+> extends AbstractArchivist<TParams, TEventData> {
   static override configSchemas = [CookieArchivistConfigSchema]
 
   get domain() {
@@ -100,10 +100,10 @@ export class CookieArchivist<
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
+            const queryPayload: ArchivistInsertQuery = {
               payloads: await PayloadHasher.hashes(payloads),
               schema: ArchivistInsertQuerySchema,
-            })
+            }
             const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
@@ -145,7 +145,7 @@ export class CookieArchivist<
     }
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     try {
       const resultPayloads: Payload[] = await Promise.all(
         payloads.map(async (payload) => {
@@ -158,15 +158,13 @@ export class CookieArchivist<
         }),
       )
       const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
-      const parentBoundWitnesses: BoundWitness[] = []
       const parents = await this.parents()
       if (Object.entries(parents.write ?? {}).length) {
         //we store the child bw also
-        parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...resultPayloads])))
+        await this.writeToParents([result[0], ...resultPayloads])
       }
-      const boundWitnesses = [result[0], ...parentBoundWitnesses]
-      await this.emit('inserted', { boundWitnesses, module: this })
-      return boundWitnesses
+      await this.emit('inserted', { module: this, payloads })
+      return payloads
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

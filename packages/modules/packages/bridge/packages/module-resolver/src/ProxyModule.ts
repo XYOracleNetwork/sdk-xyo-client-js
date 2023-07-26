@@ -2,17 +2,17 @@ import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { ModuleManifest } from '@xyo-network/manifest-model'
+import { ManifestPayloadSchema, ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
-  Module,
   ModuleConfig,
   ModuleDescription,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
@@ -33,23 +33,24 @@ export type ProxyModuleParams = ModuleParams<
   }
 >
 
-export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData> implements Module<ModuleParams, ModuleEventData> {
+export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> implements ModuleInstance<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
 
-  constructor(params: ProxyModuleParams) {
-    super(params)
+  constructor(public proxyParams: ProxyModuleParams) {
+    super({ config: proxyParams.bridge.targetConfig(proxyParams.address) })
   }
 
   get address() {
-    return this.params.address.toLowerCase()
+    return this.proxyParams.address.toLowerCase()
   }
 
   get bridge() {
-    return this.params.bridge
+    return this.proxyParams.bridge
   }
 
   get config(): ModuleConfig {
-    return this.bridge.targetConfig(this.address)
+    const config = this.bridge.targetConfig(this.address)
+    return config
   }
 
   get downResolver() {
@@ -89,9 +90,13 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
     return this.bridge.targetDiscover()
   }
 
-  manifest(): Promisable<ModuleManifest> {
+  manifest(): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    return { config: { name, ...this.config } }
+    return { config: { name, ...this.config }, schema: ManifestPayloadSchema }
+  }
+
+  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    throw Error('Not Implemented')
   }
 
   previousHash(): Promise<string | undefined> {
@@ -109,9 +114,12 @@ export class ProxyModule extends BaseEmitter<ProxyModuleParams, ModuleEventData>
   }
 
   /* Resolves a filter from the perspective of the module, including through the parent/gateway module */
-  resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
+  resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  async resolve(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
       return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
     } else {

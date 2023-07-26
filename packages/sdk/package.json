@@ -14,8 +14,10 @@
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/dns": "workspace:~",
     "@xyo-network/error": "workspace:~",
+    "@xyo-network/logger": "workspace:~",
     "@xyo-network/metamask-connector": "workspace:~",
     "@xyo-network/network": "workspace:~",
+    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/schema-cache": "workspace:~",
@@ -60,5 +62,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

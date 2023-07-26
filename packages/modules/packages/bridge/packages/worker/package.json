@@ -20,6 +20,7 @@
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/logger": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module": "workspace:~",
@@ -72,5 +73,6 @@
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
   "type": "module",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

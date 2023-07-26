@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MemoryNode description node with child modules serializes to JSON consistently 1`] = `
+"{
+  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.discover",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": [
+    "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+    "ca2e94ac3ae1084072b3a4407881bf940dc2019c"
+  ]
+}"
+`;
+
+exports[`MemoryNode description node with nested nodes and modules serializes to JSON consistently 1`] = `
+"{
+  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.discover",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": []
+}"
+`;
+
+exports[`MemoryNode description node without child modules serializes to JSON consistently 1`] = `
+"{
+  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "queries": [
+    "network.xyo.query.node.attach",
+    "network.xyo.query.node.detach",
+    "network.xyo.query.node.attached",
+    "network.xyo.query.node.registered",
+    "network.xyo.query.module.discover",
+    "network.xyo.query.module.address",
+    "network.xyo.query.module.subscribe",
+    "network.xyo.query.module.describe",
+    "network.xyo.query.module.manifest"
+  ],
+  "schema": "network.xyo.module.description",
+  "children": []
+}"
+`;

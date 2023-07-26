@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
 import { CreatableModuleDictionary } from '@xyo-network/module'
-import { MemoryNode, NodeModule } from '@xyo-network/node'
+import { MemoryNode, NodeInstance } from '@xyo-network/node'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
@@ -16,7 +16,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   }
 
   async loadModule(node: MemoryNode, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
-    const collision = async (node: NodeModule, name: string, external: boolean) => {
+    const collision = async (node: NodeInstance, name: string, external: boolean) => {
       const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length !== 0 : false
       return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length !== 0
     }

@@ -1,18 +1,19 @@
-import { Logger } from '@xyo-network/core'
+import { AccountInstance } from '@xyo-network/account-model'
+import { Logger } from '@xyo-network/logger'
 
-import { Module } from './Module'
+import { ModuleInstance } from './instance'
 
-export interface CreatableModule<T extends Module = Module> {
+export interface CreatableModule<T extends ModuleInstance = ModuleInstance> {
   configSchema: string
   configSchemas: string[]
   defaultLogger?: Logger
-  new (privateConstructorKey: string, params: T['params']): T
-  create<T extends Module>(this: CreatableModule<T>, params?: T['params']): Promise<T>
-  factory<T extends Module>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
+  new (privateConstructorKey: string, params: T['params'], account: AccountInstance): T
+  create<T extends ModuleInstance>(this: CreatableModule<T>, params?: T['params']): Promise<T>
+  factory<T extends ModuleInstance>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
 }
 
-export type CreatableModuleFactory<T extends Module = Module> = Omit<Omit<CreatableModule<T>, 'new'>, 'create'> & {
-  create<T extends Module>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
+export type CreatableModuleFactory<T extends ModuleInstance = ModuleInstance> = Omit<Omit<CreatableModule<T>, 'new'>, 'create'> & {
+  create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
 }
 
 /**
@@ -21,7 +22,7 @@ export type CreatableModuleFactory<T extends Module = Module> = Omit<Omit<Creata
  * @returns The decorated Module requiring it implement the members
  * of the CreatableModule as statics properties/methods
  */
-export function creatableModule<TModule extends Module = Module>() {
+export function creatableModule<TModule extends ModuleInstance = ModuleInstance>() {
   return <U extends CreatableModule<TModule>>(constructor: U) => {
     constructor
   }

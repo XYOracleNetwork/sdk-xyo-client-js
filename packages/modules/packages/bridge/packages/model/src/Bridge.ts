@@ -1,7 +1,6 @@
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import {
   AnyConfigSchema,
-  Module,
   ModuleConfig,
   ModuleEventData,
   ModuleFilter,
@@ -33,13 +32,13 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
   targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
   targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
 
-  targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<Module[]>
-  targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promisable<Module | undefined>
+  targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<ModuleInstance[]>
+  targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promisable<ModuleInstance | undefined>
   targetResolve(
     address: string,
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions,
-  ): Promisable<Module | Module[] | undefined>
+  ): Promisable<ModuleInstance | ModuleInstance[] | undefined>
 }
 
 export type BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData> = BridgeModule<

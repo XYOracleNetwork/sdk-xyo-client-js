@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { NodeSystemInfoWitnessConfigSchema } from '../Config'
@@ -6,6 +7,7 @@ import { NodeSystemInfoWitness } from '../Witness'
 describe('SystemInfoWitness', () => {
   test('observe', async () => {
     const witness = await NodeSystemInfoWitness.create({
+      account: await HDWallet.random(),
       config: { schema: NodeSystemInfoWitnessConfigSchema },
     })
 

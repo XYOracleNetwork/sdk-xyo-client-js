@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { fulfilledValues } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
-  AbstractDirectArchivist,
+  AbstractArchivist,
   ArchivistConfig,
   ArchivistConfigSchema,
   ArchivistGetQuerySchema,
@@ -51,7 +51,7 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
 
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
-> extends AbstractDirectArchivist<TParams> {
+> extends AbstractArchivist<TParams> {
   static override configSchemas = [ArchivistConfigSchema]
 
   get boundWitnesses() {
@@ -117,9 +117,9 @@ export class MongoDBDeterministicArchivist<
         }
         case ArchivistInsertQuerySchema: {
           await this.insertHandler([wrapper.boundwitness, ...(payloads ?? [])])
-          const [result] = await this.bindQueryResult(queryPayload, [wrapper.boundwitness, ...(payloads ?? [])])
-          resultPayloads.push(result[0])
-          break
+          const [bw] = (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+          //we do not send back the inserted payloads since we assume the caller knows them
+          return [bw, [], []]
         }
         default:
           return super.queryHandler(query, payloads)

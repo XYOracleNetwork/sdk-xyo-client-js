@@ -1,3 +1,4 @@
+import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
@@ -10,7 +11,7 @@ import { getCryptoMarketWitness } from '../../Witnesses'
 export const reportCryptoPrices = async (provider = getProvider()): Promise<Payload[]> => {
   const archivists = await getArchivists()
   const witnesses = await getCryptoMarketWitness(provider)
-  const modules = [...archivists, ...witnesses]
+  const modules: ModuleInstance[] = [...archivists, ...witnesses]
   const node = await MemoryNode.create()
   await Promise.all(
     modules.map(async (mod) => {

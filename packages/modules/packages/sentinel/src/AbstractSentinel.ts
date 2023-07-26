@@ -1,32 +1,31 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { AccountInstance } from '@xyo-network/account-model'
-import { ArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
+import { AbstractArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleErrorAsync } from '@xyo-network/error'
 import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { WitnessWrapper } from '@xyo-network/witness'
+import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 import { SentinelConfig, SentinelConfigSchema } from './Config'
 import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
-import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
+import { SentinelInstance, SentinelModuleEventData, SentinelParams } from './SentinelModel'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,
     TEventData extends SentinelModuleEventData = SentinelModuleEventData,
   >
-  extends ArchivingModule<TParams, TEventData>
-  implements SentinelModule<TParams, TEventData>
+  extends AbstractArchivingModule<TParams, TEventData>
+  implements SentinelInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [SentinelConfigSchema]
 
   history: BoundWitness[] = []
 
   private _archivists: ArchivistInstance[] | undefined
-  private _witnesses: WitnessWrapper[] | undefined
+  private _witnesses: WitnessInstance[] | undefined
 
   override get queries(): string[] {
     return [SentinelReportQuerySchema, ...super.queries]
@@ -62,22 +61,15 @@ export abstract class AbstractSentinel<
     return this._archivists
   }
 
-  async getWitnesses(account?: AccountInstance) {
+  async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
-    this._witnesses =
-      this._witnesses ?? (await this.resolve({ address: addresses })).map((witness) => WitnessWrapper.wrap(witness, account ?? this.account))
+    this._witnesses = this._witnesses ?? ((await this.resolve({ address: addresses }, { identity: isWitnessInstance })) as WitnessInstance[])
 
     if (addresses.length !== this._witnesses.length) {
       this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)
     }
 
     return this._witnesses
-  }
-
-  override async loadAccount() {
-    const account = await super.loadAccount()
-    this.downResolver.add(this)
-    return account
   }
 
   removeArchivist(address: string[]) {

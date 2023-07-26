@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.9.3",
     "@xylabs/promise": "^2.9.3",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -21,6 +20,7 @@
     "@xyo-network/error": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/promise": "workspace:~",
@@ -66,5 +66,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

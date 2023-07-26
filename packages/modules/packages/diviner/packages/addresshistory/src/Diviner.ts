@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
-import { ArchivistGetQuerySchema } from '@xyo-network/archivist-model'
-import { IndirectArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
@@ -11,7 +10,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
-export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDirectDiviner<TParams> {
+export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
 
   get queryAddress() {
@@ -20,15 +19,16 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
-    const archivists = await Promise.all(
-      (await this.resolve({ query: [[ArchivistGetQuerySchema]] }))?.map((archivist) => IndirectArchivistWrapper.wrap(archivist, this.account)) ?? [],
-    )
+    const archivists =
+      (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((module) =>
+        asArchivistInstance(module, `Failed to cast module to Archivist [${module.config.name}]`),
+      ) ?? []
     assertEx(archivists.length > 0, 'Did not find any archivists')
     const bwLists = (
       await Promise.all(
         archivists.map(async (archivist) => {
-          const all = await archivist.all()
-          return all.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]
+          const all = await archivist.all?.()
+          return all?.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]
         }),
       )
     ).flat()

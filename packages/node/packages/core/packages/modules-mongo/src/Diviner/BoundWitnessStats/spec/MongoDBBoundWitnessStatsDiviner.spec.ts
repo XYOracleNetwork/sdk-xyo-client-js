@@ -1,5 +1,5 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import {
@@ -10,7 +10,6 @@ import {
   BoundWitnessStatsQuerySchema,
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
-import { IndirectDivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -34,15 +33,13 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
   beforeAll(async () => {
     account = await Account.create({ phrase })
     address = account.address
-    sut = IndirectDivinerWrapper.wrap(
-      await MongoDBBoundWitnessStatsDiviner.create({
-        boundWitnessSdk,
-        config: { schema: BoundWitnessStatsDivinerConfigSchema },
-        jobQueue,
-        logger,
-      }),
-      account,
-    )
+    sut = await MongoDBBoundWitnessStatsDiviner.create({
+      account: await HDWallet.random(),
+      boundWitnessSdk,
+      config: { schema: BoundWitnessStatsDivinerConfigSchema },
+      jobQueue,
+      logger,
+    })
     // TODO: Insert via archivist
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
     const bw = (await new BoundWitnessBuilder().payload(payload).witness(account).build())[0]

@@ -1,17 +1,11 @@
-import { Module, ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
+import { Module } from '@xyo-network/module-model'
 
-import { WitnessReportEndEventData, WitnessReportStartEventData } from './Events'
+import { WitnessModuleEventData } from './EventData'
 import { WitnessParams } from './Params'
-import { Witness } from './Witness'
 
-export interface WitnessModuleEventData extends WitnessReportEndEventData, WitnessReportStartEventData, ModuleEventData {}
+export type WitnessModule<TParams extends WitnessParams = WitnessParams> = Module<TParams, WitnessModuleEventData<WitnessModule>>
 
-export type WitnessModule<TParams extends WitnessParams = WitnessParams, TEventData extends WitnessModuleEventData = WitnessModuleEventData> = Module<
-  TParams,
-  TEventData
->
-
-export type WitnessInstance<
+export type CustomWitnessModule<
   TParams extends WitnessParams = WitnessParams,
-  TEventData extends WitnessModuleEventData = WitnessModuleEventData,
-> = WitnessModule<TParams, TEventData> & Witness & ModuleInstance
+  TEvents extends WitnessModuleEventData<WitnessModule<TParams>> = WitnessModuleEventData<WitnessModule<TParams>>,
+> = Module<TParams, TEvents>

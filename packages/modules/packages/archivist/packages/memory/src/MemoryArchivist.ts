@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled } from '@xylabs/promise'
-import { AbstractDirectArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -10,10 +10,11 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
+  ArchivistInstance,
   ArchivistModuleEventData,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema, creatableModule, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'
@@ -32,9 +33,12 @@ export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivis
   ModuleParams<TConfig>
 @creatableModule()
 export class MemoryArchivist<
-  TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
-  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends AbstractDirectArchivist<TParams, TEventData> {
+    TParams extends MemoryArchivistParams<AnyConfigSchema<MemoryArchivistConfig>> = MemoryArchivistParams,
+    TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
+  >
+  extends AbstractArchivist<TParams, TEventData>
+  implements ArchivistInstance, ModuleInstance
+{
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _cache?: LRUCache<string, Payload>
@@ -73,10 +77,10 @@ export class MemoryArchivist<
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-          const queryPayload = PayloadWrapper.wrap<ArchivistInsertQuery>({
+          const queryPayload: ArchivistInsertQuery = {
             payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
             schema: ArchivistInsertQuerySchema,
-          })
+          }
           const query = await this.bindQuery(queryPayload, payloads)
           return (await parent?.query(query[0], query[1]))?.[0]
         }),
@@ -111,7 +115,7 @@ export class MemoryArchivist<
     )
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     await Promise.all(
       payloads.map((payload) => {
         return this.insertPayloadIntoCache(payload)
@@ -119,15 +123,13 @@ export class MemoryArchivist<
     )
 
     const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-    const parentBoundWitnesses: BoundWitness[] = []
     const parents = await this.parents()
     if (Object.entries(parents.write ?? {}).length) {
       // We store the child bw also
-      parentBoundWitnesses.push(...(await this.writeToParents([result[0], ...payloads])))
+      await this.writeToParents([result[0], ...payloads])
     }
-    const boundWitnesses = [result[0], ...parentBoundWitnesses]
-    await this.emit('inserted', { boundWitnesses, module: this })
-    return boundWitnesses
+    await this.emit('inserted', { module: this, payloads })
+    return payloads
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {

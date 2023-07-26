@@ -6,14 +6,14 @@ describe('DomainPayloadWrapper', () => {
     const wrapper = await DomainPayloadWrapper.discover(DomainSchema)
     expect(wrapper?.schema()).toBe(DomainSchema)
     await wrapper?.fetch()
-    expect(wrapper?.aliases?.length).toBe(3)
+    expect(wrapper?.aliases?.length).toBe(17)
     expect(wrapper?.aliases?.[0].huri).toBeDefined()
   })
   test('Valid-discover-proxy', async () => {
     const wrapper = await DomainPayloadWrapper.discover(DomainSchema, `${process.env.API_DOMAIN}/domain`)
     expect(wrapper?.schema()).toBe(DomainSchema)
     await wrapper?.fetch()
-    expect(wrapper?.aliases?.length).toBe(3)
+    expect(wrapper?.aliases?.length).toBe(17)
     expect(wrapper?.aliases?.[0].huri).toBeDefined()
   })
   test('Invalid-discover-proxy', async () => {
@@ -24,7 +24,7 @@ describe('DomainPayloadWrapper', () => {
     const wrapper = await DomainPayloadWrapper.discoverRootFileDirect('xyo.network')
     expect(wrapper?.schema()).toBe(DomainSchema)
     await wrapper?.fetch()
-    expect(wrapper?.aliases?.length).toBe(3)
+    expect(wrapper?.aliases?.length).toBe(17)
     expect(wrapper?.aliases?.[0].huri).toBeDefined()
   })
   test('Valid-domain-no-file', async () => {

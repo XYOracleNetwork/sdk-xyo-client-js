@@ -1,4 +1,4 @@
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { ElevationPayload } from '@xyo-network/elevation-payload-plugin'
 import { ElevationWitness, ElevationWitnessConfigSchema } from '@xyo-network/elevation-plugin'
@@ -13,7 +13,7 @@ import { LocationCertaintyDivinerConfig, LocationCertaintyDivinerConfigSchema } 
 export type LocationCertaintyDivinerParams = DivinerParams<AnyConfigSchema<LocationCertaintyDivinerConfig>>
 
 export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerParams = LocationCertaintyDivinerParams>
-  extends AbstractDirectDiviner<TParam>
+  extends AbstractDiviner<TParam>
   implements DivinerModule
 {
   static override configSchemas = [LocationCertaintyDivinerConfigSchema]

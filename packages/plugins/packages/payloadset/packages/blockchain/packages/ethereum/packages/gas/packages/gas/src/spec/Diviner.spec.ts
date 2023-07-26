@@ -1,4 +1,5 @@
 import { InfuraProvider } from '@ethersproject/providers'
+import { HDWallet } from '@xyo-network/account'
 import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
 import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
 import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
@@ -21,7 +22,7 @@ describe('Diviner', () => {
     ['all supported gas payloads', [sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas]],
   ]
   test.each(cases)('with %s returns divined gas price', async (_title: string, data: Payload[]) => {
-    const diviner = await EthereumGasDiviner.create()
+    const diviner = await EthereumGasDiviner.create({ account: await HDWallet.random() })
     const payloads = await diviner.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)
@@ -38,6 +39,7 @@ describe('Diviner', () => {
     const blocknativeGas = (
       await (
         await EthereumGasBlocknativeWitness.create({
+          account: await HDWallet.random(),
           config: {
             schema: EthereumGasBlocknativeWitnessConfigSchema,
           },
@@ -47,6 +49,7 @@ describe('Diviner', () => {
     const etherchainGasV2 = (
       await (
         await EtherchainEthereumGasWitnessV2.create({
+          account: await HDWallet.random(),
           config: {
             schema: EthereumGasEtherchainV2WitnessConfigSchema,
           },
@@ -56,6 +59,7 @@ describe('Diviner', () => {
     const etherscanGas = (
       await (
         await EthereumGasEtherscanWitness.create({
+          account: await HDWallet.random(),
           config: {
             apiKey: process.env.ETHERSCAN_API_KEY || '',
             schema: EthereumGasEtherscanWitnessConfigSchema,
@@ -66,6 +70,7 @@ describe('Diviner', () => {
     const ethersGas = (
       await (
         await EthereumGasEthersWitness.create({
+          account: await HDWallet.random(),
           config: {
             schema: EthereumGasEthersWitnessConfigSchema,
           },
@@ -79,6 +84,7 @@ describe('Diviner', () => {
     const ethgasstationGas = (
       await (
         await EthereumGasEthgasstationWitness.create({
+          account: await HDWallet.random(),
           config: {
             schema: EthereumGasEthgasstationWitnessConfigSchema,
           },
@@ -87,7 +93,7 @@ describe('Diviner', () => {
     )?.[0]
     const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
 
-    const diviner = await EthereumGasDiviner.create()
+    const diviner = await EthereumGasDiviner.create({ account: await HDWallet.random() })
 
     const payloads = await diviner.divine(observations)
 

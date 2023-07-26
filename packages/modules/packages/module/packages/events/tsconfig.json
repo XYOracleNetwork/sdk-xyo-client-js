@@ -3,6 +3,6 @@
     "composite": true,
     "declarationDir": "./dist/types"
   },
-
+  "exclude": ["dist"],
   "extends": "@xylabs/tsconfig"
 }

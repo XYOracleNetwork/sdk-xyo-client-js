@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { AccountInstance } from '@xyo-network/account-model'
-import { AnyConfigSchema, EventListener, Module, ModuleResolver } from '@xyo-network/module'
-import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModule, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
+import { AnyConfigSchema, CompositeModuleResolver, EventListener, Module, ModuleInstance, ModuleResolver } from '@xyo-network/module'
+import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
 import compact from 'lodash/compact'
 
 import { AbstractNode } from './AbstractNode'
@@ -14,7 +13,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 {
   static override configSchemas = [NodeConfigSchema]
 
-  private registeredModuleMap: Record<string, Module> = {}
+  private registeredModuleMap: Record<string, ModuleInstance> = {}
 
   override async attach(nameOrAddress: string, external?: boolean) {
     await this.started('throw')
@@ -26,7 +25,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
-  override async register(module: Module) {
+  override async register(module: ModuleInstance) {
     await this.started('throw')
     assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}]`)
     this.registeredModuleMap[module.address] = module
@@ -46,11 +45,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     })
   }
 
-  subscribe(_queryAccount?: AccountInstance) {
-    return super.subscribeHandler()
-  }
-
-  override async unregister(module: Module) {
+  override async unregister(module: ModuleInstance) {
     await this.started('throw')
     await this.detach(module.address)
     delete this.registeredModuleMap[module.address]
@@ -74,7 +69,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     const notifiedAddresses: string[] = []
 
-    const getModulesToNotifyAbout = async (node: Module) => {
+    const getModulesToNotifyAbout = async (node: ModuleInstance) => {
       //send attach events for all existing attached modules
       const childModules = await node.resolve(undefined, { direction: 'down' })
       return compact(
@@ -102,7 +97,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     module.upResolver.addResolver?.(this.privateResolver)
 
     //give it public access
-    module.upResolver.addResolver?.(this.downResolver)
+    module.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
 
     //give it outside access
     module.upResolver.addResolver?.(this.upResolver)
@@ -173,7 +168,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     //notify of all sub node children detach
     const notifiedAddresses: string[] = []
     if (isNodeModule(module)) {
-      const notifyOfExistingModules = async (node: NodeModule) => {
+      const notifyOfExistingModules = async (node: ModuleInstance) => {
         //send attach events for all existing attached modules
         const childModules = await node.resolve(undefined, { direction: 'down' })
         await Promise.all(

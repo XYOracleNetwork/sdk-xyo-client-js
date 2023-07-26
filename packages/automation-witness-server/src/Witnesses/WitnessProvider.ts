@@ -1,3 +1,3 @@
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness'
 
-export type WitnessProvider<T> = (opts?: T) => Promise<WitnessModule[]>
+export type WitnessProvider<T> = (opts?: T) => Promise<WitnessInstance[]>

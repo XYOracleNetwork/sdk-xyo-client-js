@@ -1,8 +1,8 @@
 import { HDWallet } from '@xyo-network/account'
 import { generateMnemonic, wordlists } from '@xyo-network/bip39'
-import { Logger } from '@xyo-network/core'
+import { Logger } from '@xyo-network/logger'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { NodeModule } from '@xyo-network/node'
+import { NodeInstance, NodeModule } from '@xyo-network/node'
 
 import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge'
 
@@ -53,7 +53,7 @@ export class WorkerNodeHost {
     })
   }
 
-  private attachNode(node: NodeModule) {
+  private attachNode(node: NodeInstance) {
     self.addEventListener('message', async (event: MessageEvent) => {
       const message = event.data as Message
       switch (message.type) {

@@ -1,36 +1,49 @@
 /* eslint-disable max-statements */
-import { ArchivistInstance, ArchivistModule, MemoryArchivist } from '@xyo-network/archivist'
-import { DivinerModule } from '@xyo-network/diviner'
+import { HDWallet } from '@xyo-network/account'
+import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
+import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness'
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: ArchivistModule
+  let primaryArchivist: ArchivistInstance
   let primaryNode: MemoryNode
 
   let leftInternalArchivist: ArchivistInstance
   let leftInternalArchivist2: ArchivistInstance
   let leftExternalArchivist: ArchivistInstance
-  let leftDiviner: DivinerModule
+  let leftDiviner: DivinerInstance
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
   let rightInternalArchivist: ArchivistInstance
   let rightExternalArchivist: ArchivistInstance
-  let rightWitness: WitnessModule
+  let rightWitness: WitnessInstance
 
   beforeAll(async () => {
-    primaryNode = await MemoryNode.create({ config: { name: 'primaryNode', schema: NodeConfigSchema } })
-    primaryArchivist = await MemoryArchivist.create({ config: { name: 'primaryArchivist', schema: MemoryArchivist.configSchema } })
+    primaryNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'primaryNode', schema: NodeConfigSchema } })
+    primaryArchivist = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'primaryArchivist', schema: MemoryArchivist.configSchema },
+    })
     await primaryNode.register(primaryArchivist)
     await primaryNode.attach(primaryArchivist.address, true)
 
-    rightNode = await MemoryNode.create({ config: { name: 'rightNode', schema: NodeConfigSchema } })
-    rightInternalArchivist = await MemoryArchivist.create({ config: { name: 'rightInternalArchivist', schema: MemoryArchivist.configSchema } })
-    rightExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivist.configSchema } })
-    rightWitness = await IdWitness.create({ config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema } })
+    rightNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'rightNode', schema: NodeConfigSchema } })
+    rightInternalArchivist = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'rightInternalArchivist', schema: MemoryArchivist.configSchema },
+    })
+    rightExternalArchivist = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'archivist', schema: MemoryArchivist.configSchema },
+    })
+    rightWitness = await IdWitness.create({
+      account: await HDWallet.random(),
+      config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema },
+    })
     await rightNode.register(rightInternalArchivist)
     await rightNode.attach(rightInternalArchivist.address)
     await rightNode.register(rightExternalArchivist)
@@ -38,11 +51,21 @@ describe('MultiNodeConfiguration', () => {
     await rightNode.register(rightWitness)
     await rightNode.attach(rightWitness.address, true)
 
-    leftNode = await MemoryNode.create({ config: { name: 'leftNode', schema: NodeConfigSchema } })
-    leftInternalArchivist = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist', schema: MemoryArchivist.configSchema } })
-    leftInternalArchivist2 = await MemoryArchivist.create({ config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.configSchema } })
-    leftExternalArchivist = await MemoryArchivist.create({ config: { name: 'archivist', schema: MemoryArchivist.configSchema } })
+    leftNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'leftNode', schema: NodeConfigSchema } })
+    leftInternalArchivist = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'leftInternalArchivist', schema: MemoryArchivist.configSchema },
+    })
+    leftInternalArchivist2 = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.configSchema },
+    })
+    leftExternalArchivist = await MemoryArchivist.create({
+      account: await HDWallet.random(),
+      config: { name: 'archivist', schema: MemoryArchivist.configSchema },
+    })
     leftDiviner = await AddressHistoryDiviner.create({
+      account: await HDWallet.random(),
       config: { address: leftNode.address, name: 'leftDiviner', schema: AddressHistoryDivinerConfigSchema },
     })
     await leftNode.register(leftInternalArchivist)
@@ -78,8 +101,8 @@ describe('MultiNodeConfiguration', () => {
 
     // internal: should not be resolvable by anyone outside of node, including wrapper
 
-    expect((await rightNode.downResolver.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
-    expect((await rightNode.downResolver.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
+    expect((await rightNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
+    expect((await rightNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)
 
     expect((await rightNode.resolve({ address: [rightInternalArchivist.address] })).length).toBe(0)
     expect((await rightNode.resolve({ name: ['rightInternalArchivist'] })).length).toBe(0)

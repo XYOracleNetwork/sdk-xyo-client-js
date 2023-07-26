@@ -1,6 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
 import { EmptyObject } from '@xyo-network/core'
-import { isModuleInstance, ModuleWrapper } from '@xyo-network/module'
 import { NodeInstance } from '@xyo-network/node-model'
 import { CommandBuilder, CommandModule } from 'yargs'
 
@@ -20,9 +18,7 @@ export const handler = async (argv: BaseArguments) => {
     const description = await node.describe()
     const childAddresses = description?.children || []
     const children = await Promise.all(childAddresses?.map((child) => node.resolve({ address: [child] }, { direction: 'down' })))
-    const childDescriptions = await Promise.all(
-      children.flat().map(async (mod) => (isModuleInstance(mod) ? mod.describe() : ModuleWrapper.wrap(mod, await HDWallet.random()).describe())),
-    )
+    const childDescriptions = await Promise.all(children.flat().map(async (mod) => await mod.describe()))
     printLine(JSON.stringify(childDescriptions))
   } catch (error) {
     if (verbose) printError(JSON.stringify(error))

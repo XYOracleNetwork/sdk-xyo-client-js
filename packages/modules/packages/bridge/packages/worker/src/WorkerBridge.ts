@@ -7,14 +7,12 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
-  isModuleInstance,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleParams,
   ModuleQueryResult,
-  ModuleWrapper,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
@@ -133,7 +131,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
       return cachedResult
     }
     const addressToDiscover = address ?? ''
-    const queryPayload = PayloadWrapper.wrap<ModuleDiscoverQuery>({ schema: ModuleDiscoverQuerySchema })
+    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
     this._targetQueries[addressToDiscover] = compact(
@@ -224,7 +222,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     )
 
     // Discover all to load cache
-    await Promise.all(children.map((child) => (isModuleInstance(child) ? child.discover() : ModuleWrapper.wrap(child, this.account))))
+    await Promise.all(children.map((child) => child.discover()))
 
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules

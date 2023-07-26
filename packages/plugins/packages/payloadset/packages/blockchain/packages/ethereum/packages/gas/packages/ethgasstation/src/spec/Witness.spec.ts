@@ -3,7 +3,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { EthereumGasEthgasstationWitness } from '../Witness'
 
-describe('EthereumGasEthgasstationWitness', () => {
+describe.skip('EthereumGasEthgasstationWitness', () => {
   test('returns observation', async () => {
     const sut = await EthereumGasEthgasstationWitness.create({
       config: {

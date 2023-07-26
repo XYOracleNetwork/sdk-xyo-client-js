@@ -1,4 +1,4 @@
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import {
   isPayloadDivinerQueryPayload,
@@ -22,7 +22,7 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   }
 >
 
-export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDirectDiviner<TParams> {
+export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [PayloadDivinerConfigSchema]
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {

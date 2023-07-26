@@ -1,4 +1,4 @@
-import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistWrapper } from '@xyo-network/archivist'
+import { ArchivistGetQuerySchema, ArchivistInsertQuerySchema, ArchivistInstance } from '@xyo-network/archivist'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
@@ -10,7 +10,7 @@ const moduleName = 'Archivist'
 describe(`/${moduleName}`, () => {
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
   const payloadWrappers: PayloadWrapper[] = []
-  let archivist: ArchivistWrapper
+  let archivist: ArchivistInstance
   const cases: [string, PayloadWrapperBase[]][] = [
     ['Payload', []],
     ['BoundWitness', []],
@@ -49,14 +49,9 @@ describe(`/${moduleName}`, () => {
   describe('ArchivistInsertQuerySchema', () => {
     it.each(cases)('inserts %s', async (_, wrapped) => {
       const payloads = wrapped.map((w) => w.payload())
-      const hashes = wrapped.map((w) => w.hash)
       const response = await archivist.insert(payloads)
       expect(response).toBeArray()
       expect(response.length).toBeGreaterThan(0)
-      const bw = response.at(-1)
-      expect(bw).toBeObject()
-      expect(bw?.payload_hashes).toBeArray()
-      expect(bw?.payload_hashes).toContainValues(hashes)
     })
   })
   describe('ArchivistGetQuerySchema', () => {

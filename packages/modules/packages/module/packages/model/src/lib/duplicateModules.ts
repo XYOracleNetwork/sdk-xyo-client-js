@@ -1,4 +1,4 @@
-import { Module } from '../Module'
+import { Module } from '../module'
 
 /**
  * Used to filter duplicates from an array of modules

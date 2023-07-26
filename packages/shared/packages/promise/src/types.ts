@@ -6,3 +6,6 @@ export type OptionalPromisable<T, V = never> = Promisable<T | undefined, V>
 export type OptionalPromisableArray<T, V = never> = PromisableArray<T | undefined, V>
 export type NullablePromisable<T, V = never> = Promisable<T | null, V>
 export type NullablePromisableArray<T, V = never> = PromisableArray<T | null, V>
+
+/** @description Used to document promises that are being used as Mutexes */
+export type AsyncMutex<T> = Promise<T>

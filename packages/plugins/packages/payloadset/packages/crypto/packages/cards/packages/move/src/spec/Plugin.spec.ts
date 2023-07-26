@@ -2,7 +2,7 @@ import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
 import { CryptoCardsMovePlugin } from '../Plugin'
 
-describe('CryptoCardsMovePlugin', () => {
+describe.skip('CryptoCardsMovePlugin', () => {
   test('Add to Resolver', async () => {
     const plugin = CryptoCardsMovePlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin)

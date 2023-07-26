@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -12,7 +12,7 @@ import { Payload } from '@xyo-network/payload-model'
  * This Diviner returns the list of all addresses encountered for the reachable archivists
  */
 export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams>
-  extends AbstractDirectDiviner<TParams>
+  extends AbstractDiviner<TParams>
   implements AddressSpaceDiviner
 {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]

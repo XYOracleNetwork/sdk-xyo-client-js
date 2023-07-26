@@ -3,6 +3,7 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { InfuraProvider } from '@ethersproject/providers'
+import { HDWallet } from '@xyo-network/account'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { UniswapCryptoMarketPayload, UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 
@@ -13,6 +14,7 @@ describe('UniswapCryptoMarketWitness', () => {
   test('observe', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
     const witness = await UniswapCryptoMarketWitness.create({
+      account: await HDWallet.random(),
       config: {
         pools: UniswapPoolContracts,
         schema: UniswapCryptoMarketWitnessConfigSchema,
@@ -29,6 +31,7 @@ describe('UniswapCryptoMarketWitness', () => {
   test('observe [no config]', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret: process.env.INFURA_PROJECT_SECRET })
     const witness = await UniswapCryptoMarketWitness.create({
+      account: await HDWallet.random(),
       config: {
         pools: UniswapPoolContracts,
         schema: UniswapCryptoMarketWitnessConfigSchema,
@@ -45,7 +48,7 @@ describe('UniswapCryptoMarketWitness', () => {
   test('observe [no params]', async () => {
     const didThrow = async () => {
       try {
-        await UniswapCryptoMarketWitness.create()
+        await UniswapCryptoMarketWitness.create({ account: await HDWallet.random() })
         return false
       } catch {
         return true

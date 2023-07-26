@@ -1,5 +1,5 @@
 import { flatten } from '@xylabs/array'
-import { AbstractDirectDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { normalizeAddress } from '@xyo-network/core'
 import {
@@ -26,7 +26,7 @@ export type MongoDBBoundWitnessDivinerParams = DivinerParams<
 >
 export class MongoDBBoundWitnessDiviner<
   TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
-> extends AbstractDirectDiviner<TParams> {
+> extends AbstractDiviner<TParams> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {

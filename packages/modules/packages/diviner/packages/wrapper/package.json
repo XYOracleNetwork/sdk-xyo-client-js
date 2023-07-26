@@ -12,8 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
@@ -53,5 +52,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

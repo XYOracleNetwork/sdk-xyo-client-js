@@ -1,9 +1,14 @@
 import { EventData } from '@xyo-network/module-events'
 
-import { Module, ModuleEventArgs } from '../Module'
+import { ModuleEventArgs } from './ModuleEventArgs'
 
-export type ModuleBusyEventArgs<TModule extends Module = Module> = ModuleEventArgs<TModule, { busy: boolean }>
+export type ModuleBusyEventArgs<TModule extends object = object> = ModuleEventArgs<
+  TModule,
+  {
+    busy: boolean
+  }
+>
 
-export interface ModuleBusyEventData extends EventData {
-  moduleBusy: ModuleBusyEventArgs
+export interface ModuleBusyEventData<TModule extends object = object> extends EventData {
+  moduleBusy: ModuleBusyEventArgs<TModule>
 }

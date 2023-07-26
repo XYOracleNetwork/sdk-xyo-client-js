@@ -1,5 +1,6 @@
 export * from './EmptyPayload'
 export * from './Error'
+export * from './identity'
 export * from './isPayloadOfSchemaType'
 export * from './Payload'
 export * from './PayloadFindFilter'

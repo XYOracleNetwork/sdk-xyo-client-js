@@ -10,14 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.9.3",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/logger": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
+    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
@@ -61,5 +62,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

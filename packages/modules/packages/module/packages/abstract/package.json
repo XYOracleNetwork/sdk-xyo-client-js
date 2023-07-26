@@ -26,7 +26,6 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/shared": "workspace:~",
@@ -72,5 +71,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.66.9"
+  "version": "2.67.0-rc.5",
+  "stableVersion": "2.66.9"
 }

@@ -4,17 +4,14 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { handleErrorAsync } from '@xyo-network/error'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { ModuleWrapper } from '@xyo-network/module'
-import { AbstractIndirectModule, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
+import { AbstractModuleInstance, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
 import {
-  AddressPreviousHashPayload,
   duplicateModules,
-  isModuleInstance,
   Module,
   ModuleConfig,
-  ModuleDescriptionPayload,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleInstance,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import {
@@ -34,7 +31,7 @@ import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends AbstractIndirectModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
@@ -69,36 +66,14 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   }
 
   async attachedModules(): Promise<Module[]> {
-    return (await (this.downResolver.resolve() ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.resolve() ?? [])).filter((module) => module.address !== this.address)
   }
 
-  async describe(): Promise<ModuleDescriptionPayload> {
-    await this.started('throw')
-    return await this.describeHandler()
+  override async manifest(ignoreAddresses?: string[]): Promise<NodeManifestPayload> {
+    return await this.manifestHandler(ignoreAddresses)
   }
 
-  async discover(): Promise<Payload[]> {
-    await this.started('throw')
-    return await this.discoverHandler()
-  }
-
-  override async loadAccount() {
-    const account = await super.loadAccount()
-    this.downResolver.add(this)
-    return account
-  }
-
-  async manifest(): Promise<NodeManifestPayload> {
-    await this.started('throw')
-    return await this.manifestHandler()
-  }
-
-  async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
-    await this.started('throw')
-    return await this.moduleAddressHandler()
-  }
-
-  register(_module: Module): Promisable<void> {
+  register(_module: ModuleInstance): Promisable<void> {
     throw new Error('Method not implemented.')
   }
 
@@ -110,9 +85,12 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     throw new Error('Method not implemented.')
   }
 
-  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  override async resolve(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
+  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  override async resolve(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     //checking type of nameOrAddressOrFilter before calling other functions since TS seems
     //to need help here narrowing before the call
     if (typeof nameOrAddressOrFilter === 'string') {
@@ -142,7 +120,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     }
   }
 
-  unregister(_module: Module): Promisable<this> {
+  unregister(_module: ModuleInstance): Promisable<this> {
     throw new Error('Method not implemented.')
   }
 
@@ -155,23 +133,20 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return [...(await super.discoverHandler()), ...childModAddresses]
   }
 
-  protected override async manifestHandler(): Promise<NodeManifestPayload> {
+  protected override async manifestHandler(ignoreAddresses: string[] = []): Promise<NodeManifestPayload> {
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
+    const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
-    const notThisModule = (module: Module) => module.address !== this.address
-    const toManifest = (module: Module) => (isModuleInstance(module) ? module.manifest() : ModuleWrapper.wrap(module, this.account).manifest())
+    const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
+    const toManifest = (module: ModuleInstance) => module.manifest(newIgnoreAddresses)
 
-    const privateModulesList = await this.privateResolver.resolve()
     const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
-    console.log(`manifestHandler:privateModules:${privateModulesList.length}`)
     if (privateModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.private = privateModules
     }
 
-    const publicModulesList = await this.downResolver.resolve()
-    const publicModules = await Promise.all((await this.downResolver.resolve()).filter(notThisModule).map(toManifest))
-    console.log(`manifestHandler:publicModules:${publicModulesList.length}`)
+    const publicModules = await Promise.all((await this.resolve()).filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules
@@ -243,9 +218,12 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
   }
 
-  private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  private async resolveAll(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  private async resolveAll(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
+  private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolveAll(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolveAll(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (await this.resolvePrivate(nameOrAddressOrFilter, options)) ?? (await super.resolve(nameOrAddressOrFilter, options))
@@ -258,9 +236,12 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     }
   }
 
-  private async resolvePrivate(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<Module[]>
-  private async resolvePrivate(nameOrAddress: string, options?: ModuleFilterOptions): Promise<Module | undefined>
-  private async resolvePrivate(nameOrAddressOrFilter?: ModuleFilter | string, options?: ModuleFilterOptions): Promise<Module | Module[] | undefined> {
+  private async resolvePrivate(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolvePrivate(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolvePrivate(
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     const direction = options?.direction ?? 'all'
     const down = direction === 'down' || direction === 'all'
     switch (typeof nameOrAddressOrFilter) {

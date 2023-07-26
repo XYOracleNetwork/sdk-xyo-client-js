@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { ApiConfig } from '@xyo-network/api-models'
 import { ArchivistInstance, asArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
@@ -11,7 +12,7 @@ export const getArchivists = async (configs: ApiConfig[] = [getApiConfig()]): Pr
   const archivists: ArchivistInstance[] = []
   for (let i = 0; i < configs.length; i++) {
     const nodeUrl = `${configs[i].apiDomain}/node`
-    const bridge = await HttpBridge.create({ config: { nodeUrl, schema, security } })
+    const bridge = await HttpBridge.create({ account: await HDWallet.random(), config: { nodeUrl, schema, security } })
     const modules = await bridge.resolve({ name: ['Archivist'] })
     const mod = asArchivistInstance(modules.pop(), 'Error resolving Archivist')
     if (isArchivistModule(mod)) {

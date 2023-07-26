@@ -19,7 +19,7 @@ describe('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create()
+    const memNode = await MemoryNode.create({ account: await HDWallet.random() })
 
     const bridge: BridgeInstance = await HttpBridge.create({
       account: await HDWallet.random(),

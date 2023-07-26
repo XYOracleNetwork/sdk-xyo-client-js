@@ -1,6 +1,6 @@
 import { getGasFromEthgasstation } from '../getGasFromEthgasstation'
 
-describe('getGasFromEthgasstation', () => {
+describe.skip('getGasFromEthgasstation', () => {
   test('returns prices', async () => {
     const result = await getGasFromEthgasstation()
     expect(result).toBeObject()

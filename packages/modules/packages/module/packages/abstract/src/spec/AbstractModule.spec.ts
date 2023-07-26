@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -13,7 +14,7 @@ export class TestAbstractModule extends AbstractModuleInstance {
 describe('AbstractModule', () => {
   let sut: TestAbstractModule
   beforeAll(async () => {
-    sut = await TestAbstractModule.create()
+    sut = await TestAbstractModule.create({ account: await HDWallet.random() })
   })
   it('should instantiate', () => {
     expect(sut).toBeTruthy()

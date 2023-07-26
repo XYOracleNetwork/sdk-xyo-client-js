@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/node'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
@@ -11,7 +12,7 @@ export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> 
   const archivists = await getArchivists()
   const witnesses = [await AdhocWitness.create({ account: adHocWitnessAccount, config: { payload, schema: AdhocWitnessConfigSchema } })]
   const modules = [...archivists, ...witnesses]
-  const node = await MemoryNode.create()
+  const node = await MemoryNode.create({ account: await HDWallet.random() })
   await Promise.all(
     modules.map(async (mod) => {
       await node.register(mod)

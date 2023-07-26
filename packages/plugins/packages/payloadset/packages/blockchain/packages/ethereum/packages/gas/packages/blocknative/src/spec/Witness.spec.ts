@@ -1,3 +1,4 @@
+import { HDWallet } from '@xyo-network/account'
 import { EthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -7,6 +8,7 @@ import { EthereumGasBlocknativeWitness } from '../Witness'
 describe('EthereumGasBlocknativeWitness', () => {
   it('returns observation', async () => {
     const sut = await EthereumGasBlocknativeWitness.create({
+      account: await HDWallet.random(),
       config: {
         schema: EthereumGasBlocknativeWitnessConfigSchema,
       },

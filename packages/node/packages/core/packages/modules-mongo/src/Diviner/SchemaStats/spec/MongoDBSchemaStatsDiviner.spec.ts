@@ -1,5 +1,5 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import {
   SchemaStatsDivinerConfigSchema,
   SchemaStatsDivinerSchema,
@@ -33,6 +33,7 @@ describeIf(canAddMongoModules())('MongoDBSchemaStatsDiviner', () => {
   beforeAll(async () => {
     address = (await Account.create({ phrase })).address
     sut = await MongoDBSchemaStatsDiviner.create({
+      account: await HDWallet.random(),
       boundWitnessSdk,
       config: { schema: SchemaStatsDivinerConfigSchema },
       jobQueue,

@@ -1,9 +1,10 @@
 import { InfuraProvider } from '@ethersproject/providers'
+import { HDWallet } from '@xyo-network/account'
 import { EthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { EthereumGasEthersWitnessConfigSchema } from './Schema'
-import { EthereumGasEthersWitness } from './Witness'
+import { EthereumGasEthersWitnessConfigSchema } from '../Schema'
+import { EthereumGasEthersWitness } from '../Witness'
 
 const projectId = process.env.INFURA_PROJECT_ID || ''
 const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
@@ -14,6 +15,7 @@ describe('EthereumGasEthersWitness', () => {
   testIf(projectId && projectSecret)('returns observation', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
     const sut = await EthereumGasEthersWitness.create({
+      account: await HDWallet.random(),
       config: {
         schema: EthereumGasEthersWitnessConfigSchema,
       },

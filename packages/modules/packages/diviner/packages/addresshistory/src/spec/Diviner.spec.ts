@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -17,7 +17,7 @@ describe('AddressHistoryDiviner', () => {
     let archivist: MemoryArchivist
     let diviner: AddressHistoryDiviner
     beforeAll(async () => {
-      node = await MemoryNode.create()
+      node = await MemoryNode.create({ account: await HDWallet.random() })
       archivist = await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } })
       const wrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
       const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })

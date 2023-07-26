@@ -35,8 +35,6 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       expect(all).toBeArrayOfSize(7)
 
-      console.log(JSON.stringify(all, null, 2))
-
       await node.register(archivist)
       await node.attach(archivist.address)
       const diviner = await MemoryAddressChainDiviner.create({

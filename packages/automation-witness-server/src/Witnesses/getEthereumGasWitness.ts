@@ -3,7 +3,6 @@ import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchem
 import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-ethereum-gas-v2-plugin'
 import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
 import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
-import { EthereumGasEthgasstationWitness, EthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
 import { WitnessInstance } from '@xyo-network/witness'
 
 import { getAccount, WalletPaths } from '../Account'
@@ -30,12 +29,6 @@ export const getEthereumGasWitness: WitnessProvider<Provider> = async (provider 
         schema: EthereumGasEthersWitnessConfigSchema,
       },
       provider,
-    }),
-    await EthereumGasEthgasstationWitness.create({
-      account: await getAccount(WalletPaths.EthereumGas.Witness.Ethgasstation),
-      config: {
-        schema: EthereumGasEthgasstationWitnessConfigSchema,
-      },
     }),
   ]
   if (canUseEtherscanProvider()) {

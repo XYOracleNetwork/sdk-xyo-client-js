@@ -5733,7 +5733,6 @@ __metadata:
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:~"
     "@xyo-network/ethers-ethereum-gas-plugin": "workspace:~"
     "@xyo-network/etherscan-ethereum-gas-plugin": "workspace:~"
-    "@xyo-network/ethgasstation-ethereum-gas-plugin": "workspace:~"
     "@xyo-network/gas-price-payload-plugin": "workspace:~"
     "@xyo-network/gas-price-plugin": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
@@ -7331,23 +7330,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.0
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
-    typescript: ^5.1.6
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/ethgasstation-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation, @xyo-network/ethgasstation-ethereum-gas-plugin@workspace:~":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/ethgasstation-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^2.19.0
-    "@xylabs/tsconfig": ^2.19.0
-    "@xyo-network/axios": "workspace:~"
-    "@xyo-network/ethgasstation-ethereum-gas-payload-plugin": "workspace:~"
-    "@xyo-network/module": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payloadset-plugin": "workspace:~"
-    "@xyo-network/witness": "workspace:~"
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft

@@ -7538,6 +7538,7 @@ __metadata:
   dependencies:
     "@types/jest": ^29.5.3
     "@xylabs/assert": ^2.9.3
+    "@xylabs/forget": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig-jest": ^2.19.0
     "@xyo-network/account": "workspace:~"

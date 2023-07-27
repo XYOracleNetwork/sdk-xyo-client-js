@@ -38,7 +38,7 @@
     "jest-environment-jsdom": "^29.6.1",
     "jest-extended": "^4.0.0",
     "jest-sorted": "^1.0.14",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",

@@ -39,7 +39,7 @@
     "node-cache": "^5.1.2",
     "rollbar": "^2.26.2",
     "swagger-autogen": "^2.23.5",
-    "swagger-ui-express": "^4.6.3",
+    "swagger-ui-express": "^5.0.0",
     "winston": "^3.10.0",
     "winston-transport": "^4.5.0"
   },

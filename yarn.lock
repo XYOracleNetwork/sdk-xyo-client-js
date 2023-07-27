@@ -7425,7 +7425,7 @@ __metadata:
     node-cache: ^5.1.2
     rollbar: ^2.26.2
     swagger-autogen: ^2.23.5
-    swagger-ui-express: ^4.6.3
+    swagger-ui-express: ^5.0.0
     typescript: ^5.1.6
     winston: ^3.10.0
     winston-transport: ^4.5.0
@@ -22389,21 +22389,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-dist@npm:>=4.11.0":
+"swagger-ui-dist@npm:>=5.0.0":
   version: 5.2.0
   resolution: "swagger-ui-dist@npm:5.2.0"
   checksum: 9165ea3bde0d2feff7c6fbb865e6c773ce2c8eb62c08a435f513850bc1598a8c7047efaf9c523bc81ab774edb16a19cd29a7ba9a8cf4a761337c3fbe3b49d924
   languageName: node
   linkType: hard
 
-"swagger-ui-express@npm:^4.6.3":
-  version: 4.6.3
-  resolution: "swagger-ui-express@npm:4.6.3"
+"swagger-ui-express@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "swagger-ui-express@npm:5.0.0"
   dependencies:
-    swagger-ui-dist: ">=4.11.0"
+    swagger-ui-dist: ">=5.0.0"
   peerDependencies:
     express: ">=4.0.0 || >=5.0.0-beta"
-  checksum: bd0e02d2572685fcd82701b29f27ba6a27bc72de2b1553e84f884d008a0bf85a3711c9e236bb658130d702892866744d1a8a30b52b887e4f8224635c57afc63d
+  checksum: 565b89717315577785edc6d2f4df8ce83207baa2b714264170ffa677522d2103c184091e146b7cce7baf254e96116c5bb2cb1ab907dc1152fdead3090690983b
   languageName: node
   linkType: hard
 

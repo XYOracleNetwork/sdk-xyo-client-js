@@ -27,7 +27,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.377.0",
+    "@aws-sdk/client-secrets-manager": "^3.378.0",
     "@xylabs/assert": "^2.9.3",
     "@xylabs/sdk-api-express-ecs": "^1.3.0",
     "@xyo-network/node": "workspace:~",
@@ -39,7 +39,7 @@
     "node-cache": "^5.1.2",
     "rollbar": "^2.26.2",
     "swagger-autogen": "^2.23.5",
-    "swagger-ui-express": "^4.6.3",
+    "swagger-ui-express": "^5.0.0",
     "winston": "^3.10.0",
     "winston-transport": "^4.5.0"
   },

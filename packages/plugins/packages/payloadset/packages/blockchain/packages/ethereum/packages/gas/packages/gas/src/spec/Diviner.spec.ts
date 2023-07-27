@@ -4,7 +4,6 @@ import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchem
 import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
 import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '@xyo-network/ethers-ethereum-gas-plugin'
 import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
-import { EthereumGasEthgasstationWitness, EthereumGasEthgasstationWitnessConfigSchema } from '@xyo-network/ethgasstation-ethereum-gas-plugin'
 import { EthereumGasPayload, EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -81,17 +80,8 @@ describe('Diviner', () => {
         })
       ).observe()
     )?.[0]
-    const ethgasstationGas = (
-      await (
-        await EthereumGasEthgasstationWitness.create({
-          account: await HDWallet.random(),
-          config: {
-            schema: EthereumGasEthgasstationWitnessConfigSchema,
-          },
-        })
-      ).observe()
-    )?.[0]
-    const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas, ethgasstationGas]
+
+    const observations: Payload[] = [blocknativeGas, etherchainGasV2, etherscanGas, ethersGas]
 
     const diviner = await EthereumGasDiviner.create({ account: await HDWallet.random() })
 

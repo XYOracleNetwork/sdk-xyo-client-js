@@ -8,7 +8,7 @@ import { Container } from 'inversify'
 
 import { getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
 import { MongoDBAddressHistoryDiviner } from './AddressHistory'
-import { MongoDBAddressSpaceDiviner } from './AddressSpace'
+import { MongoDBAddressSpaceDiviner, MongoDBBatchAddressSpaceDiviner } from './AddressSpace'
 import { MongoDBBoundWitnessDiviner } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner } from './BoundWitnessStats'
 import { MongoDBPayloadDiviner } from './Payload'
@@ -42,6 +42,17 @@ const getMongoDBAddressSpaceDiviner = async (container: Container) => {
     wallet,
   }
   return new ModuleFactory(MongoDBAddressSpaceDiviner, params)
+}
+const getMongoDBAddressSpaceBatchDiviner = async (container: Container) => {
+  const wallet = await getWallet(container)
+  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace,
+    boundWitnessSdk,
+    config: { name: TYPES.AddressSpaceDiviner.description, schema: MongoDBBatchAddressSpaceDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MongoDBBatchAddressSpaceDiviner, params)
 }
 const getMongoDBBoundWitnessDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
@@ -122,6 +133,7 @@ export const addDivinerModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[MongoDBAddressHistoryDiviner.configSchema] = await getMongoDBAddressHistoryDiviner(container)
   dictionary[MongoDBAddressSpaceDiviner.configSchema] = await getMongoDBAddressSpaceDiviner(container)
+  dictionary[MongoDBBatchAddressSpaceDiviner.configSchema] = await getMongoDBAddressSpaceBatchDiviner(container)
   dictionary[MongoDBBoundWitnessDiviner.configSchema] = await getMongoDBBoundWitnessDiviner(container)
   dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = await getMongoDBBoundWitnessStatsDiviner(container)
   dictionary[MongoDBPayloadDiviner.configSchema] = await getMongoDBPayloadDiviner(container)

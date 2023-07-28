@@ -13,7 +13,6 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
-import compact from 'lodash/compact'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'

@@ -101,10 +101,11 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.68.0",
+  "version": "2.69.0-rc.1",
   "packageManager": "yarn@3.6.1",
   "volta": {
     "node": "18.13.0",
     "yarn": "1.22.19"
-  }
+  },
+  "stableVersion": "2.68.0"
 }

@@ -1,4 +1,3 @@
-import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { ArchivistInsertQuery, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'

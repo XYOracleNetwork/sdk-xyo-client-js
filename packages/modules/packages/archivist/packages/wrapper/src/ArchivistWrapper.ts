@@ -16,7 +16,6 @@ import {
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
-import { PayloadHasher } from '@xyo-network/core'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 

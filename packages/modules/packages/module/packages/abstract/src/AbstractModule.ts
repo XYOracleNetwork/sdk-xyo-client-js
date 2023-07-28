@@ -64,7 +64,6 @@ export abstract class AbstractModule<
   implements Module<TParams, TEventData>
 {
   static configSchemas: string[]
-  static enableBusy = false
   static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()
@@ -208,25 +207,21 @@ export abstract class AbstractModule<
   }
 
   async busy<R>(closure: () => Promise<R>) {
-    if (AbstractModule.enableBusy) {
+    if (this._busyCount <= 0) {
+      this._busyCount = 0
+      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      await this.emit('moduleBusy', args)
+    }
+    this._busyCount++
+    try {
+      return await closure()
+    } finally {
+      this._busyCount--
       if (this._busyCount <= 0) {
         this._busyCount = 0
-        const args: ModuleBusyEventArgs = { busy: true, module: this }
+        const args: ModuleBusyEventArgs = { busy: false, module: this }
         await this.emit('moduleBusy', args)
       }
-      this._busyCount++
-      try {
-        return await closure()
-      } finally {
-        this._busyCount--
-        if (this._busyCount <= 0) {
-          this._busyCount = 0
-          const args: ModuleBusyEventArgs = { busy: false, module: this }
-          await this.emit('moduleBusy', args)
-        }
-      }
-    } else {
-      return closure()
     }
   }
 

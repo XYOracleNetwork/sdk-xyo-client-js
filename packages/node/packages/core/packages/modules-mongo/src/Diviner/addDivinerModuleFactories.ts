@@ -49,7 +49,7 @@ const getMongoDBAddressSpaceBatchDiviner = async (container: Container) => {
   const params = {
     accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace,
     boundWitnessSdk,
-    config: { name: TYPES.AddressSpaceDiviner.description, schema: MongoDBAddressSpaceBatchDiviner.configSchema },
+    config: { archivist: 'Archivist', name: TYPES.AddressSpaceDiviner.description, schema: MongoDBAddressSpaceBatchDiviner.configSchema },
     wallet,
   }
   return new ModuleFactory(MongoDBAddressSpaceBatchDiviner, params)

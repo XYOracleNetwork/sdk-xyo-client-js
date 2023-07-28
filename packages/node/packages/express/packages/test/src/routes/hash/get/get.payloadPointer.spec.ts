@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SortDirection } from '@xyo-network/diviner-payload-model'
@@ -15,9 +14,9 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { getHash, getNewBoundWitness, getNewPayload, getTestSchemaName, insertBlock, insertPayload } from '../../../testUtil'
+import { getHash, getNewBoundWitness, insertBlock, insertPayload } from '../../../testUtil'
 
-const createPointer = async (
+export const createPointer = async (
   addresses: string[][] = [],
   schemas: string[][] = [],
   timestamp = Date.now(),
@@ -48,7 +47,7 @@ const createPointer = async (
   return await PayloadWrapper.hashAsync(pointer)
 }
 
-const expectError = (result: Payload, detail: string, status: string, title?: string) => {
+export const expectError = (result: Payload, detail: string, status: string, title?: string) => {
   expect(result).toBeObject()
   const error = result as unknown as { errors: { detail: string; status: string; title?: string }[] }
   expect(error.errors).toBeArrayOfSize(1)
@@ -56,11 +55,11 @@ const expectError = (result: Payload, detail: string, status: string, title?: st
   expect(error.errors[0]).toEqual(expected)
 }
 
-const expectHashNotFoundError = (result: Payload) => {
+export const expectHashNotFoundError = (result: Payload) => {
   expectError(result, 'Hash not found', `${StatusCodes.NOT_FOUND}`)
 }
 
-const expectSchemaNotSuppliedError = (result: Payload) => {
+export const expectSchemaNotSuppliedError = (result: Payload) => {
   expectError(result, 'At least one schema must be supplied', `${StatusCodes.INTERNAL_SERVER_ERROR}`, 'Error')
 }
 
@@ -89,148 +88,6 @@ describe('/:hash', () => {
     it(`${ReasonPhrases.NOT_FOUND} if no Payloads match the criteria`, async () => {
       const result = await getHash('non_existent_hash')
       expectHashNotFoundError(result)
-    })
-  })
-  describe('with rules for', () => {
-    describe('address', () => {
-      const accountA = Account.randomSync()
-      const accountB = Account.randomSync()
-      const accountC = Account.randomSync()
-      const accountD = Account.randomSync()
-      const payloads: Payload[] = []
-      beforeAll(async () => {
-        const [bwA, payloadsA] = await getNewBoundWitness([accountA])
-        const [bwB, payloadsB] = await getNewBoundWitness([accountB])
-        const [bwC, payloadsC] = await getNewBoundWitness([accountC])
-        const [bwD, payloadsD] = await getNewBoundWitness([accountD])
-        const [bwE, payloadsE] = await getNewBoundWitness([accountC, accountD])
-        const [bwF, payloadsF] = await getNewBoundWitness([accountC])
-        const [bwG, payloadsG] = await getNewBoundWitness([accountD])
-        payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
-        const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
-        const blockResponse = await insertBlock(boundWitnesses)
-        expect(blockResponse.length).toBe(boundWitnesses.length)
-        const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(payloads.length)
-      })
-      describe('single address', () => {
-        it.each([
-          [accountA, () => payloads[0]],
-          [accountB, () => payloads[1]],
-        ])('returns Payload signed by address', async (account, getData) => {
-          const expected = getData()
-          const pointerHash = await createPointer([[account.address]], [[expected.schema]])
-          const result = await getHash(pointerHash)
-          expect(result).toEqual(expected)
-        })
-      })
-      describe('multiple address rules', () => {
-        describe('combined serially', () => {
-          it('returns Payload signed by both addresses', async () => {
-            const expected = payloads[4]
-            const pointerHash = await createPointer([[accountC.address], [accountD.address]], [[expected.schema]])
-            const result = await getHash(pointerHash)
-            expect(result).toEqual(expected)
-          })
-        })
-        describe('combined in parallel', () => {
-          it('returns Payload signed by both address', async () => {
-            const expected = payloads[4]
-            const pointerHash = await createPointer([[accountC.address, accountD.address]], [[expected.schema]])
-            const result = await getHash(pointerHash)
-            expect(result).toEqual(expected)
-          })
-        })
-      })
-      it('no matching address', async () => {
-        const pointerHash = await createPointer([[Account.randomSync().address]], [[payloads[0].schema]])
-        const result = await getHash(pointerHash)
-        expectHashNotFoundError(result)
-      })
-    })
-    describe('schema', () => {
-      const account = Account.randomSync()
-      const schemaA = getTestSchemaName()
-      const schemaB = getTestSchemaName()
-      const payloadBaseA = getNewPayload()
-      payloadBaseA.schema = schemaA
-      const payloadA: PayloadWrapper = PayloadWrapper.parse(payloadBaseA) as PayloadWrapper
-      const payloadBaseB = getNewPayload()
-      payloadBaseB.schema = schemaB
-      const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB) as PayloadWrapper
-      const schemas = [schemaA, schemaB]
-      beforeAll(async () => {
-        const payloads = [payloadA.payload(), payloadB.payload()]
-        const payloadResponse = await insertPayload(payloads, account)
-        expect(payloadResponse.length).toBe(payloads.length)
-      })
-      describe('single schema', () => {
-        it.each([
-          [schemaA, payloadA.payload()],
-          [schemaB, payloadB.payload()],
-        ])('returns Payload of schema type', async (schema, expected) => {
-          const pointerHash = await createPointer([[account.address]], [[schema]])
-          const result = await getHash(pointerHash)
-          expect(result).toEqual(expected)
-        })
-      })
-      describe('multiple schema rules', () => {
-        describe('combined serially', () => {
-          it('returns Payload of either schema', async () => {
-            const pointerHash = await createPointer([[account.address]], [[payloadA.schema(), payloadB.schema()]])
-            const result = await getHash(pointerHash)
-            expect(schemas).toContain(result.schema)
-          })
-        })
-        describe('combined in parallel', () => {
-          it('returns Payload of either schema', async () => {
-            const pointerHash = await createPointer([[account.address]], [[payloadA.schema()], [payloadB.schema()]])
-            const result = await getHash(pointerHash)
-            expect(schemas).toContain(result.schema)
-          })
-        })
-      })
-      it('no matching schema', async () => {
-        const pointerHash = await createPointer([[account.address]], [['network.xyo.test']])
-        const result = await getHash(pointerHash)
-        expectHashNotFoundError(result)
-      })
-    })
-    describe('timestamp direction', () => {
-      const account = Account.randomSync()
-      let payloads: Payload[]
-      let expectedSchema: string
-      beforeAll(async () => {
-        const [bwA, payloadsA] = await getNewBoundWitness([account])
-        const [bwB, payloadsB] = await getNewBoundWitness([account])
-        const [bwC, payloadsC] = await getNewBoundWitness([account])
-        payloads = [...payloadsA, ...payloadsB, ...payloadsC]
-        const boundWitnesses = [bwA, bwB, bwC]
-        expectedSchema = payloadsA[0].schema
-        for (const bw of boundWitnesses) {
-          const blockResponse = await insertBlock(bw, account)
-          expect(blockResponse.length).toBe(1)
-        }
-        const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(payloads.length)
-      })
-      it('ascending', async () => {
-        const expected = assertEx(payloads.at(0))
-        const pointerHash = await createPointer([[account.address]], [[expectedSchema]], 0, 'asc')
-        const result = await getHash(pointerHash)
-        expect(result).toEqual(expected)
-      })
-      it('descending', async () => {
-        const expected = assertEx(payloads.at(-1))
-        const pointerHash = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'desc')
-        const result = await getHash(pointerHash)
-        expect(result).toEqual(expected)
-      })
-      it('no matching timestamp', async () => {
-        const pointerHash = await createPointer([[account.address]], [[expectedSchema]], Date.now(), 'asc')
-        const result = await getHash(pointerHash)
-        expectHashNotFoundError(result)
-      })
     })
   })
   describe('with no rules', () => {

@@ -5,9 +5,9 @@ import { AbstractModuleInstance, creatableModule, ModuleConfig, ModuleQueryHandl
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import {
-  CustomWitnessModule,
+  CustomWitnessInstance,
   WitnessConfigSchema,
-  WitnessModule,
+  WitnessInstance,
   WitnessModuleEventData,
   WitnessObserveQuerySchema,
   WitnessParams,
@@ -18,10 +18,10 @@ import {
 creatableModule()
 export abstract class AbstractWitness<
     TParams extends WitnessParams = WitnessParams,
-    TEventData extends WitnessModuleEventData<WitnessModule<TParams>> = WitnessModuleEventData<WitnessModule<TParams>>,
+    TEventData extends WitnessModuleEventData<WitnessInstance<TParams>> = WitnessModuleEventData<WitnessInstance<TParams>>,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomWitnessModule<TParams, TEventData>
+  implements CustomWitnessInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
 
@@ -39,16 +39,18 @@ export abstract class AbstractWitness<
     }
   }
 
+  /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
   async observe(inPayloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
-    await this.emit('reportStart', { inPayloads: inPayloads, module: this })
+    await this.emit('observeStart', { inPayloads: inPayloads, module: this })
     const outPayloads = assertEx(await this.observeHandler(inPayloads), 'Trying to witness nothing')
     assertEx(outPayloads.length > 0, 'Trying to witness empty list')
     outPayloads?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
-    await this.emit('reportEnd', { inPayloads, module: this, outPayloads })
+    await this.emit('observeEnd', { inPayloads, module: this, outPayloads })
     return outPayloads
   }
 
+  /** @function queryHandler Calls observe for an observe query.  Override to support additional queries. */
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -73,5 +75,6 @@ export abstract class AbstractWitness<
     return resultPayloads
   }
 
+  /** @function observeHandler Implement or override to add custom functionality to a witness */
   protected abstract observeHandler(payloads?: Payload[]): Promisable<Payload[]>
 }

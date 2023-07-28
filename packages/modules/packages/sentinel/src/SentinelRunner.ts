@@ -3,8 +3,8 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
+import { SentinelInstance } from './model'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
-import { SentinelInstance } from './SentinelModel'
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
 

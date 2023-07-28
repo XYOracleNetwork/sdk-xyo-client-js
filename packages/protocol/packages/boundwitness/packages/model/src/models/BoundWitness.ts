@@ -19,3 +19,4 @@ export type BoundWitness<T extends Payload | void = void> = Payload<
 >
 
 export const isBoundWitness = (x?: Payload | null): x is BoundWitness => x?.schema === BoundWitnessSchema
+export const notBoundWitness = (x?: Payload | null): x is Payload => x?.schema !== BoundWitnessSchema

@@ -2,7 +2,7 @@ import { EventData } from '@xyo-network/module'
 import { Module, ModuleEventArgs } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-export type WitnessReportEndEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type ObserveEndEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,
   {
     errors?: Error[]
@@ -11,6 +11,6 @@ export type WitnessReportEndEventArgs<T extends Module = Module> = ModuleEventAr
   }
 >
 
-export interface WitnessReportEndEventData<T extends Module = Module> extends EventData {
-  reportEnd: WitnessReportEndEventArgs<T>
+export interface ObserveEndEventData<T extends Module = Module> extends EventData {
+  observeEnd: ObserveEndEventArgs<T>
 }

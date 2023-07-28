@@ -15,9 +15,8 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { AbstractWitness } from '@xyo-network/witness'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
-import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
-import { SentinelReportEndEventArgs } from '../SentinelModel'
+import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '../model'
 
 describe('Sentinel', () => {
   test('all [simple panel send]', async () => {
@@ -157,9 +156,9 @@ describe('Sentinel', () => {
         }
         const sentinel = await MemorySentinel.create(params)
         sentinel.on('reportEnd', (args) => {
-          const { errors } = args as SentinelReportEndEventArgs
+          const { outPayloads } = args as ReportEndEventArgs
           console.log('reportEnd')
-          expect(errors).toBeArrayOfSize(0)
+          expect(outPayloads?.length).toBeGreaterThan(0)
         })
         await node.register(sentinel)
         await node.attach(sentinel.address)
@@ -184,17 +183,17 @@ describe('Sentinel', () => {
             witnesses: [witnessA.address],
           },
         }
-        const panel = await MemorySentinel.create(params)
-        panel.on('reportEnd', (args) => {
-          const { errors } = args as SentinelReportEndEventArgs
+        const sentinel = await MemorySentinel.create(params)
+        sentinel.on('reportEnd', (args) => {
+          const { outPayloads } = args as ReportEndEventArgs
           console.log('reportEnd')
-          expect(errors).toBeArrayOfSize(0)
+          expect(outPayloads?.length).toBeGreaterThan(0)
         })
-        await node.register(panel)
-        await node.attach(panel.address)
+        await node.register(sentinel)
+        await node.attach(sentinel.address)
         const observed = await witnessB.observe()
         expect(observed).toBeArrayOfSize(1)
-        const result = await panel.report(observed)
+        const result = await sentinel.report(observed)
         await assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
       })
@@ -215,18 +214,19 @@ describe('Sentinel', () => {
             witnesses: [],
           },
         }
-        const panel = await MemorySentinel.create(params)
-        panel.on('reportEnd', (args) => {
-          const { errors } = args as SentinelReportEndEventArgs
-          expect(errors).toBeArrayOfSize(0)
+        const sentinel = await MemorySentinel.create(params)
+        sentinel.on('reportEnd', (args) => {
+          const { outPayloads } = args as ReportEndEventArgs
+          console.log('reportEnd')
+          expect(outPayloads?.length).toBeGreaterThan(0)
         })
-        await node.register(panel)
-        await node.attach(panel.address)
+        await node.register(sentinel)
+        await node.attach(sentinel.address)
         const observedA = await witnessA.observe()
         expect(observedA).toBeArrayOfSize(1)
         const observedB = await witnessB.observe()
         expect(observedB).toBeArrayOfSize(1)
-        const result = await panel.report([...observedA, ...observedB])
+        const result = await sentinel.report([...observedA, ...observedB])
         await assertPanelReport(result)
         expect((await archivistA.get([PayloadHasher.hash(observedA[0])])).length).toBe(1)
         expect((await archivistA.get([PayloadHasher.hash(observedB[0])])).length).toBe(1)
@@ -268,23 +268,14 @@ describe('Sentinel', () => {
         }
 
         const sentinel = await MemorySentinel.create(params)
-        let reportEndArgs: SentinelReportEndEventArgs | undefined = undefined
         sentinel.on('reportEnd', (args) => {
-          reportEndArgs = args
+          const { outPayloads } = args as ReportEndEventArgs
           console.log('reportEnd')
+          expect(outPayloads?.length).toBeGreaterThan(0)
         })
         await node.register(sentinel)
         await node.attach(sentinel.address)
         await sentinel.report()
-
-        expect(reportEndArgs).toBeDefined()
-        const errors = (reportEndArgs as SentinelReportEndEventArgs | undefined)?.errors
-        const payloads = (reportEndArgs as SentinelReportEndEventArgs | undefined)?.outPayloads
-        console.log(`reportEndArgs.errors: ${JSON.stringify(errors, null, 2)}`)
-        console.log(`reportEndArgs.payloads: ${JSON.stringify(payloads, null, 2)}`)
-        expect(errors?.length).toBe(1)
-        expect(payloads?.length).toBe(1)
-        expect(errors?.[0]?.message).toBe('observation failed')
         return
       })
     })

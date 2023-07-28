@@ -6,27 +6,21 @@ import { Payload } from '@xyo-network/payload-model'
 import { WitnessInstance } from '@xyo-network/witness'
 
 import { AbstractSentinel } from './AbstractSentinel'
-import { SentinelConfig, SentinelConfigSchema } from './Config'
-import { SentinelReportQuerySchema } from './Queries'
-import { SentinelModule, SentinelModuleEventData, SentinelParams } from './SentinelModel'
+import { SentinelConfig, SentinelConfigSchema, SentinelInstance, SentinelModuleEventData, SentinelParams, SentinelReportQuerySchema } from './model'
 
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
   AnyConfigSchema<TConfig>
 >
 
 export class MemorySentinel<
-    TParams extends MemorySentinelParams = MemorySentinelParams,
-    TEventData extends SentinelModuleEventData = SentinelModuleEventData,
-  >
-  extends AbstractSentinel<TParams, TEventData>
-  implements SentinelModule<TParams, TEventData>
-{
+  TParams extends MemorySentinelParams = MemorySentinelParams,
+  TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
+> extends AbstractSentinel<TParams, TEventData> {
   static override configSchemas = [SentinelConfigSchema]
 
   async reportHandler(payloads: Payload[] = []): Promise<Payload[]> {
     await this.started('throw')
     const errors: Error[] = []
-    await this.emit('reportStart', { inPayloads: payloads, module: this as SentinelModule })
     const allWitnesses = [...(await this.getWitnesses())]
     const resultPayloads: Payload[] = []
 
@@ -43,7 +37,6 @@ export class MemorySentinel<
 
     const [boundWitness] = await this.bindQueryResult({ schema: SentinelReportQuerySchema }, resultPayloads)
     this.history.push(assertEx(boundWitness))
-    await this.emit('reportEnd', { boundWitness, errors, inPayloads: payloads, module: this as SentinelModule, outPayloads: resultPayloads })
     return [boundWitness, ...resultPayloads]
   }
 

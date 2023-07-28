@@ -15,9 +15,9 @@ describe('/:hash', () => {
     let boundWitnessHash: string
     let payloadHash: string
     beforeAll(async () => {
-      const block = await getNewBlocksWithPayloads(2, 2)
-      expect(block).toBeTruthy()
-      boundWitness = block[0]
+      const blocks = await getNewBlocksWithPayloads(2, 2)
+      expect(blocks).toBeTruthy()
+      boundWitness = blocks[0]
       expect(boundWitness).toBeTruthy()
       boundWitnessHash = await PayloadWrapper.hashAsync(boundWitness)
       expect(boundWitnessHash).toBeTruthy()
@@ -25,8 +25,8 @@ describe('/:hash', () => {
       expect(payload).toBeTruthy()
       payloadHash = boundWitness?.payload_hashes?.[0]
       expect(payloadHash).toBeTruthy()
-      const blockResponse = await insertBlock(block, account)
-      expect(blockResponse.length).toBe(1)
+      const blockResponse = await insertBlock(blocks)
+      expect(blockResponse.length).toBe(blocks.length)
       const payloadResponse = await insertPayload(payload, account)
       expect(payloadResponse.length).toBe(1)
     })

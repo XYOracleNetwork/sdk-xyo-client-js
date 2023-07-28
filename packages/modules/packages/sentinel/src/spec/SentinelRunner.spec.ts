@@ -6,8 +6,8 @@ import { MemoryNode } from '@xyo-network/node'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
-import { SentinelConfig, SentinelConfigSchema } from '../Config'
 import { MemorySentinel } from '../MemorySentinel'
+import { SentinelConfig, SentinelConfigSchema } from '../model/Config'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
 describe('SentinelRunner', () => {

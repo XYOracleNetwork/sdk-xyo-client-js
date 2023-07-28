@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import {
+  CustomDivinerModule,
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
   DivinerModule,
@@ -10,16 +11,17 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
-import { AbstractModuleInstance, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
+import { AbstractModuleInstance } from '@xyo-network/module-abstract'
+import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
-    TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+    TEventData extends DivinerModuleEventData<DivinerModule<TParams>> = DivinerModuleEventData<DivinerModule<TParams>>,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements DivinerModule<TParams>
+  implements CustomDivinerModule<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
@@ -34,13 +36,18 @@ export abstract class AbstractDiviner<
     }
   }
 
+  /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
   divine(payloads?: Payload[]): Promise<Payload[]> {
     return this.busy(async () => {
       await this.started('throw')
-      return await this.divineHandler(payloads)
+      await this.emit('divineStart', { inPayloads: payloads, module: this })
+      const resultPayloads = await this.divineHandler(payloads)
+      await this.emit('divineStart', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
+      return resultPayloads
     })
   }
 
+  /** @function queryHandler Calls divine for a divine query.  Override to support additional queries. */
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
@@ -54,9 +61,7 @@ export abstract class AbstractDiviner<
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema:
-        await this.emit('reportStart', { inPayloads: payloads, module: this })
-        resultPayloads.push(...(await this.divineHandler(cleanPayloads)))
-        await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
+        resultPayloads.push(...(await this.divine(cleanPayloads)))
         break
       default:
         return super.queryHandler(query, payloads)
@@ -64,5 +69,6 @@ export abstract class AbstractDiviner<
     return resultPayloads
   }
 
+  /** @function divineHandler Implement or override to add custom functionality to a diviner */
   protected abstract divineHandler(payloads?: Payload[]): Promisable<Payload[]>
 }

@@ -1,22 +1,28 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { AnyConfigSchema, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
+import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
+import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
-import { SentinelConfig, SentinelConfigSchema } from './Config'
-import { SentinelQueryBase, SentinelReportQuerySchema } from './Queries'
-import { SentinelInstance, SentinelModuleEventData, SentinelParams } from './SentinelModel'
+import {
+  CustomSentinelInstance,
+  SentinelConfigSchema,
+  SentinelInstance,
+  SentinelModuleEventData,
+  SentinelParams,
+  SentinelQueryBase,
+  SentinelReportQuerySchema,
+} from './model'
 
 export abstract class AbstractSentinel<
-    TParams extends SentinelParams<AnyConfigSchema<SentinelConfig>> = SentinelParams<SentinelConfig>,
-    TEventData extends SentinelModuleEventData = SentinelModuleEventData,
+    TParams extends SentinelParams = SentinelParams,
+    TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
   >
   extends AbstractArchivingModule<TParams, TEventData>
-  implements SentinelInstance<TParams, TEventData>
+  implements CustomSentinelInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [SentinelConfigSchema]
 
@@ -82,9 +88,12 @@ export abstract class AbstractSentinel<
 
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     await this.emit('reportStart', { inPayloads, module: this })
-    const outPayloads = await this.reportHandler(inPayloads)
-    await this.emit('reportEnd', { inPayloads, module: this, outPayloads })
-    return outPayloads
+    const payloads = await this.reportHandler(inPayloads)
+    const outPayloads = payloads.filter(notBoundWitness)
+    const boundwitnesses = payloads.filter(isBoundWitness)
+    const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
+    await this.emit('reportEnd', { boundwitness, inPayloads, module: this, outPayloads })
+    return payloads
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

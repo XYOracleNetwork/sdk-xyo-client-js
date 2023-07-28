@@ -17,17 +17,17 @@ import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { difference, union } from '../../Util'
 
-export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
+export type MongoDBAddressSpaceBatchDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
   }
 >
 
-const moduleName = 'MongoDBBatchAddressSpaceDiviner'
+const moduleName = 'MongoDBAddressSpaceBatchDiviner'
 
-export class MongoDBBatchAddressSpaceDiviner<
-  TParams extends MongoDBBatchAddressSpaceDivinerParams = MongoDBBatchAddressSpaceDivinerParams,
+export class MongoDBAddressSpaceBatchDiviner<
+  TParams extends MongoDBAddressSpaceBatchDivinerParams = MongoDBAddressSpaceBatchDivinerParams,
 > extends MemoryAddressSpaceDiviner<TParams> {
   // TODO: Get via config or default
   protected readonly batchSize = 50

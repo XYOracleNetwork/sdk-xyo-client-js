@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -19,9 +18,8 @@ import {
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { handleErrorAsync } from '@xyo-network/error'
-import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
-import { ModuleError, Payload } from '@xyo-network/payload-model'
+import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
+import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
@@ -86,7 +84,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  delete(hashes: string[]): PromisableArray<boolean> {
+  delete(hashes: string[]): PromisableArray<Payload> {
     return this.busy(async () => {
       await this.started('throw')
       return await this.deleteHandler(hashes)
@@ -119,7 +117,7 @@ export abstract class AbstractArchivist<
     throw Error('Not implemented')
   }
 
-  protected deleteHandler(_hashes: string[]): PromisableArray<boolean> {
+  protected deleteHandler(_hashes: string[]): PromisableArray<Payload> {
     throw Error('Not implemented')
   }
 
@@ -173,69 +171,52 @@ export abstract class AbstractArchivist<
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
+  ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    const errorPayloads: ModuleError[] = []
-    const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
     if (this.config.storeQueries) {
       await this.insertHandler([query])
     }
-    try {
-      switch (queryPayload.schema) {
-        case ArchivistAllQuerySchema:
-          resultPayloads.push(...(await this.allHandler()))
-          break
-        case ArchivistClearQuerySchema:
-          await this.clearHandler()
-          break
-        case ArchivistCommitQuerySchema:
-          resultPayloads.push(...(await this.commitHandler()))
-          break
-        case ArchivistDeleteQuerySchema:
-          await this.deleteHandler(wrappedQuery.payloadHashes)
-          break
-        case ArchivistGetQuerySchema:
-          if (queryPayload.hashes?.length) {
-            resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
-          } else {
-            const head = await this.head()
-            if (head) resultPayloads.push(head)
-          }
-          break
-        case ArchivistInsertQuerySchema: {
-          const payloads = await wrappedQuery.getPayloads()
-          assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
-          const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
-          assertEx(
-            resolvedPayloads.length === payloads.length,
-            `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`,
-          )
-          resultPayloads.push(...(await this.insertHandler(payloads)))
-          // NOTE: There isn't an exact equivalence between what we get and what we store. Once
-          // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
-          // can grab the actual last one
-          this._lastInsertedPayload = resolvedPayloads[resolvedPayloads.length - 1]
-          break
+
+    switch (queryPayload.schema) {
+      case ArchivistAllQuerySchema:
+        resultPayloads.push(...(await this.allHandler()))
+        break
+      case ArchivistClearQuerySchema:
+        await this.clearHandler()
+        break
+      case ArchivistCommitQuerySchema:
+        resultPayloads.push(...(await this.commitHandler()))
+        break
+      case ArchivistDeleteQuerySchema:
+        resultPayloads.push(...(await this.deleteHandler(wrappedQuery.payloadHashes)))
+        break
+      case ArchivistGetQuerySchema:
+        if (queryPayload.hashes?.length) {
+          resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
+        } else {
+          const head = await this.head()
+          if (head) resultPayloads.push(head)
         }
-        default:
-          return super.queryHandler(query, payloads)
+        break
+      case ArchivistInsertQuerySchema: {
+        const payloads = await wrappedQuery.getPayloads()
+        assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
+        const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
+        assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
+        resultPayloads.push(...(await this.insertHandler(payloads)))
+        // NOTE: There isn't an exact equivalence between what we get and what we store. Once
+        // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
+        // can grab the actual last one
+        this._lastInsertedPayload = resolvedPayloads[resolvedPayloads.length - 1]
+        break
       }
-    } catch (ex) {
-      await handleErrorAsync(ex, async (error) => {
-        errorPayloads.push(
-          new ModuleErrorBuilder()
-            .sources([await wrappedQuery.hashAsync()])
-            .name(this.config.name ?? '<Unknown>')
-            .query(query.schema)
-            .message(error.message)
-            .build(),
-        )
-      })
+      default:
+        return await super.queryHandler(query, payloads)
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
+    return resultPayloads
   }
 
   protected async writeToParent(parent: ArchivistInstance, payloads: Payload[]) {

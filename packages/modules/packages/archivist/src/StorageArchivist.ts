@@ -127,7 +127,6 @@ export class StorageArchivist<
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
           const queryPayload: ArchivistInsertQuery = {
-            payloads: await PayloadHasher.hashes(payloads),
             schema: ArchivistInsertQuerySchema,
           }
           const query = await this.bindQuery(queryPayload, payloads)
@@ -140,14 +139,21 @@ export class StorageArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    this.logger?.log(`delete: hashes.length: ${hashes.length}`)
-    const found = hashes.map((hash) => {
-      this.storage.remove(hash)
-      return true
-    })
-    await this.emit('deleted', { found, hashes, module: this })
-    return found
+  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+    const payloadPairs: [string, Payload][] = await Promise.all(
+      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+    )
+    const deletedPairs: [string, Payload][] = compact(
+      await Promise.all(
+        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+          this.storage.remove(hash)
+          return [hash, payload]
+        }),
+      ),
+    )
+    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
+    const result = deletedPairs.map(([_, payload]) => payload)
+    return result
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -175,12 +181,7 @@ export class StorageArchivist<
         return wrapper.payload()
       }),
     )
-    const [[storageBoundWitness]] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
-    const parents = await this.parents()
-    if (Object.entries(parents.write ?? {}).length) {
-      //we store the child bw also
-      await this.writeToParents([storageBoundWitness, ...resultPayloads])
-    }
+    await this.writeToParents(resultPayloads)
     await this.emit('inserted', { module: this, payloads })
     return payloads
   }

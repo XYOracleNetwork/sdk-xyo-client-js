@@ -24,10 +24,10 @@ export abstract class AbstractArchivingModule<
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
     errorPayloads: ModuleError[] = [],
-  ): Promise<[ModuleQueryResult, AccountInstance[]]> {
-    const [result, witnesses] = await super.bindQueryResult(query, payloads, additionalWitnesses, errorPayloads)
-    await this.storeToArchivists([result[0], ...result[1]])
-    return [result, witnesses]
+  ): Promise<ModuleQueryResult> {
+    const result = await super.bindQueryResult(query, payloads, additionalWitnesses, errorPayloads)
+    await this.storeToArchivists(result.flat())
+    return result
   }
 
   protected async resolveArchivists(): Promise<ArchivistInstance[]> {

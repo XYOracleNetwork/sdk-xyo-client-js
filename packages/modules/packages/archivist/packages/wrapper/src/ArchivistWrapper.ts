@@ -16,11 +16,9 @@ import {
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
-import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
-import compact from 'lodash/compact'
 
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
@@ -33,8 +31,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
 
   async all(): Promise<Payload[]> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
-    const result = await this.sendQuery(queryPayload)
-    return compact(result)
+    return await this.sendQuery(queryPayload)
   }
 
   async clear(): Promise<void> {
@@ -42,35 +39,25 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     await this.sendQuery(queryPayload)
   }
 
-  async commit(): Promise<BoundWitness[]> {
+  async commit(): Promise<Payload[]> {
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
-    const result = await this.sendQuery(queryPayload)
-    return result.filter(isBoundWitnessPayload)
+    return await this.sendQuery(queryPayload)
   }
 
   async delete(hashes: string[]) {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
-    const query = await this.bindQuery(queryPayload)
-    const result = await this.module.query(query[0], query[1])
-    await this.throwErrors(query, result)
-    return result[0].payload_hashes.map(() => true)
+    return await this.sendQuery(queryPayload)
   }
 
   async get(hashes: string[]): Promise<Payload[]> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
-    const result = await this.sendQuery(queryPayload)
-    return result
+    return await this.sendQuery(queryPayload)
   }
 
-  async insert(payloads: Payload[]): Promise<BoundWitness[]> {
+  async insert(payloads: Payload[]): Promise<Payload[]> {
     const queryPayload: ArchivistInsertQuery = {
-      payloads: await PayloadHasher.hashes(payloads),
       schema: ArchivistInsertQuerySchema,
     }
-    const query = await this.bindQuery(queryPayload, payloads)
-    const result = await this.module.query(query[0], [queryPayload, ...payloads])
-    const innerBoundWitnesses = result[1]?.filter<BoundWitness>((payload): payload is BoundWitness => payload?.schema === BoundWitnessSchema) ?? []
-    await this.throwErrors(query, result)
-    return [result[0], ...innerBoundWitnesses]
+    return await this.sendQuery(queryPayload, payloads)
   }
 }

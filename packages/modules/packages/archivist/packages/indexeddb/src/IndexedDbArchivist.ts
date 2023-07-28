@@ -9,11 +9,11 @@ import {
   ArchivistModuleEventData,
   ArchivistParams,
 } from '@xyo-network/archivist-model'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
+import compact from 'lodash/compact'
 
 export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
 export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
@@ -84,9 +84,17 @@ export class IndexedDbArchivist<
     await clear(this.db)
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    await delMany(hashes, this.db)
-    return hashes.map((_) => true)
+  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+    const payloadPairs: [string, Payload][] = await Promise.all(
+      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+    )
+
+    const foundHashesToDelete = payloadPairs.map(([hash, _]) => hash)
+    await delMany(foundHashesToDelete, this.db)
+
+    await this.emit('deleted', { hashes: foundHashesToDelete, module: this })
+    const result = payloadPairs.map(([_, payload]) => payload)
+    return result
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -94,7 +102,7 @@ export class IndexedDbArchivist<
     return result
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<BoundWitness[]> {
+  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const entries = await Promise.all(
       payloads.map<Promise<[string, Payload]>>(async (payload) => {
         const hash = await PayloadHasher.hashAsync(payload)
@@ -102,8 +110,7 @@ export class IndexedDbArchivist<
       }),
     )
     await setMany(entries, this.db)
-    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-    return [result[0]]
+    return payloads
   }
 
   protected override async startHandler() {

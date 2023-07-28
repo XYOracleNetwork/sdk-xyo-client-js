@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { AbstractArchivingModule, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { handleErrorAsync } from '@xyo-network/error'
-import { AnyConfigSchema, ModuleConfig, ModuleErrorBuilder, ModuleQueryResult } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
@@ -82,50 +80,33 @@ export abstract class AbstractSentinel<
     this._witnesses = undefined
   }
 
+  async report(inPayloads?: Payload[]): Promise<Payload[]> {
+    await this.emit('reportStart', { inPayloads, module: this })
+    const outPayloads = await this.reportHandler(inPayloads)
+    await this.emit('reportEnd', { inPayloads, module: this, outPayloads })
+    return outPayloads
+  }
+
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
+  ): Promise<ModuleQueryHandlerResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
-    try {
-      switch (queryPayload.schema) {
-        case SentinelReportQuerySchema: {
-          await this.emit('reportStart', { inPayloads: payloads, module: this })
-          resultPayloads.push(...(await this.report(payloads)))
-          await this.emit('reportEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
-          break
-        }
-        default: {
-          return super.queryHandler(query, payloads)
-        }
+    switch (queryPayload.schema) {
+      case SentinelReportQuerySchema: {
+        resultPayloads.push(...(await this.report(payloads)))
+        break
       }
-    } catch (ex) {
-      return await handleErrorAsync(ex, async (error) => {
-        const result = (
-          await this.bindQueryResult(
-            queryPayload,
-            [],
-            [queryAccount],
-            [
-              new ModuleErrorBuilder()
-                .sources([await wrapper.hashAsync()])
-                .name(this.config.name ?? '<Unknown>')
-                .query(query.schema)
-                .message(error.message)
-                .build(),
-            ],
-          )
-        )[0]
-        return result
-      })
+      default: {
+        return super.queryHandler(query, payloads)
+      }
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount]))[0]
+    return resultPayloads
   }
 
-  abstract report(payloads?: Payload[]): Promise<Payload[]>
+  abstract reportHandler(payloads?: Payload[]): Promise<Payload[]>
 }

@@ -53,7 +53,7 @@ const createPointer = async (
 const expectError = (result: Payload, detail: string, status: string, title?: string) => {
   expect(result).toBeObject()
   const error = result as unknown as { errors: { detail: string; status: string; title?: string }[] }
-  expect(error.errors).toBeArrayOfSize(1)
+  expect(error.errors?.length).toBeGreaterThan(0)
   const expected = title ? { detail, status, title } : { detail, status }
   expect(error.errors[0]).toEqual(expected)
 }

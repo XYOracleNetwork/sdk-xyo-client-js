@@ -83,8 +83,11 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
 
   protected async sendTargetQuery<T extends Query>(address: string, queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
     const query = await this.bindQuery(queryPayload, payloads)
-    const result = await this.module.targetQuery(address, query[0], query[1])
-    await this.throwErrors(query, result)
-    return result[1]
+    const [, resultPayloads, errors] = await this.module.targetQuery(address, query[0], query[1])
+    //TODO: figure out a rollup error solution
+    if (errors?.length > 0) {
+      throw errors[0]
+    }
+    return resultPayloads
   }
 }

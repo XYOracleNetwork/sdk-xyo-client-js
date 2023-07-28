@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConfigSchema,
@@ -10,18 +9,9 @@ import {
   BridgeQueryBase,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
-import { handleErrorAsync } from '@xyo-network/error'
-import {
-  AbstractModuleInstance,
-  duplicateModules,
-  ModuleConfig,
-  ModuleErrorBuilder,
-  ModuleEventData,
-  ModuleFilter,
-  ModuleQueryResult,
-} from '@xyo-network/module'
-import { ModuleFilterOptions, ModuleInstance } from '@xyo-network/module-model'
-import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
+import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleEventData, ModuleFilter, ModuleQueryResult } from '@xyo-network/module'
+import { ModuleFilterOptions, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
@@ -82,38 +72,27 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
-  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
+    query: T,
+    payloads?: Payload[],
+  ): Promise<ModuleQueryHandlerResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
-    const errorPayloads: ModuleError[] = []
-    try {
-      switch (queryPayload.schema) {
-        case BridgeConnectQuerySchema: {
-          await this.connect()
-          break
-        }
-        case BridgeDisconnectQuerySchema: {
-          await this.disconnect()
-          break
-        }
-        default:
-          return await super.queryHandler(query, payloads)
+
+    switch (queryPayload.schema) {
+      case BridgeConnectQuerySchema: {
+        await this.connect()
+        break
       }
-    } catch (error) {
-      await handleErrorAsync(error, async (error) => {
-        errorPayloads.push(
-          new ModuleErrorBuilder()
-            .sources([await wrapper.hashAsync()])
-            .name(this.config.name ?? '<Unknown>')
-            .query(query.schema)
-            .message(error.message)
-            .build(),
-        )
-      })
+      case BridgeDisconnectQuerySchema: {
+        await this.disconnect()
+        break
+      }
+      default:
+        return await super.queryHandler(query, payloads)
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+    return resultPayloads
   }
 
   abstract connect(): Promisable<boolean>

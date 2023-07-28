@@ -40,31 +40,33 @@ export class MongoDBAddressSpaceBatchDiviner<
     if (this.currentlyRunning) return
     try {
       this.currentlyRunning = true
-      const result = await this.params.boundWitnessSdk.useMongo((db) => {
-        return db.db(DATABASES.Archivist).command(
-          {
-            distinct: COLLECTIONS.BoundWitnesses,
-            key: 'addresses',
-          },
-          { maxTimeMS: DefaultMaxTimeMS },
-        )
-      })
-      // Ensure uniqueness on case
-      const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
-      // Filter addresses we've seen before
-      const newAddresses = difference(addresses, this.witnessedAddresses)
-      if (newAddresses.size === 0) return
-      const toStore = [...newAddresses].map((address) => {
-        return { address, schema: AddressSchema }
-      })
-      const archivistMod = await this.writeArchivist()
-      // Save the paginated address response to the respective archivist
-      const archivist = ArchivistWrapper.wrap(archivistMod, this.paginationAccount)
-      for (let j = 0; j < toStore.length; j += this.batchSize) {
-        const batch = toStore.slice(j, j + this.batchSize)
-        await archivist.insert(batch)
+      if (await this.initializeArchivist()) {
+        const result = await this.params.boundWitnessSdk.useMongo((db) => {
+          return db.db(DATABASES.Archivist).command(
+            {
+              distinct: COLLECTIONS.BoundWitnesses,
+              key: 'addresses',
+            },
+            { maxTimeMS: DefaultMaxTimeMS },
+          )
+        })
+        // Ensure uniqueness on case
+        const addresses = new Set<string>(result?.values?.map((address: string) => address?.toLowerCase()).filter(exists))
+        // Filter addresses we've seen before
+        const newAddresses = difference(addresses, this.witnessedAddresses)
+        if (newAddresses.size === 0) return
+        const toStore = [...newAddresses].map((address) => {
+          return { address, schema: AddressSchema }
+        })
+        const archivistMod = await this.writeArchivist()
+        // Save the paginated address response to the respective archivist
+        const archivist = ArchivistWrapper.wrap(archivistMod, this.paginationAccount)
+        for (let j = 0; j < toStore.length; j += this.batchSize) {
+          const batch = toStore.slice(j, j + this.batchSize)
+          await archivist.insert(batch)
+        }
+        this.witnessedAddresses = union(this.witnessedAddresses, newAddresses)
       }
-      this.witnessedAddresses = union(this.witnessedAddresses, newAddresses)
     } catch (error) {
       this.logger?.error(`${moduleName}.BackgroundDivine: ${error}`)
     } finally {
@@ -73,26 +75,33 @@ export class MongoDBAddressSpaceBatchDiviner<
   }
 
   protected override divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
+    // Restart if not running
     void this.backgroundDivine()
+    // Return last calculated response
     return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
   }
 
   protected async initializeArchivist() {
-    // Create a paginationAccount per archivist
-    const archivistMod = await this.writeArchivist()
-    assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
-    // Pre-mint response payloads for dereferencing later
-    const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
-      .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
-      .build()
-    // Save the appropriate collection pointer response to the respective archivist
-    const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
-    await archivist.insert([response])
-    this.response = response
+    try {
+      // Create a paginationAccount per archivist
+      const archivistMod = await this.writeArchivist()
+      assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
+      // Pre-mint response payloads for dereferencing later
+      const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
+        .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
+        .build()
+      // Save the appropriate collection pointer response to the respective archivist
+      const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
+      await archivist.insert([response])
+      this.response = response
+      return true
+    } catch {
+      // Anything preventing us from connecting to the archivist
+    }
+    return false
   }
 
   protected override async startHandler() {
-    await this.initializeArchivist()
     void this.backgroundDivine()
     return await super.startHandler()
   }

@@ -5,7 +5,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
-import { AddressSpaceDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
+import { AddressSpaceBatchDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessPointerPayload, BoundWitnessPointerSchema, BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -17,7 +17,7 @@ import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
 import { difference, union } from '../../Util'
 
-export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
+export type MongoDBBatchAddressSpaceDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {
     boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>

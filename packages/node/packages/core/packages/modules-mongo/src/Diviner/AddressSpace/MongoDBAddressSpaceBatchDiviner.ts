@@ -4,6 +4,7 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { PayloadHasher } from '@xyo-network/core'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
 import { AddressSpaceBatchDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -86,17 +87,21 @@ export class MongoDBAddressSpaceBatchDiviner<
       // Create a paginationAccount per archivist
       const archivistMod = await this.writeArchivist()
       assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
-      // Pre-mint response payloads for dereferencing later
-      const response = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
+      const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
+      // Pre-mint response payload pointer for dereferencing results
+      const divinedAnswerPointer = new PayloadBuilder<BoundWitnessPointerPayload>({ schema: BoundWitnessPointerSchema })
         .fields({ reference: [[{ address: this.paginationAccount.address }], [{ schema: AddressSchema }]] })
         .build()
-      // Save the appropriate collection pointer response to the respective archivist
-      const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
-      await archivist.insert([response])
-      this.response = response
+      // Ensure the pointer exists in the archivist (but don't insert it twice)
+      const divinedAnswerPointerExists = (await archivist.get([await PayloadHasher.hashAsync(divinedAnswerPointer)]))?.length > 0
+      if (!divinedAnswerPointerExists) await archivist.insert([divinedAnswerPointer])
+      // Save the pointer to return to callers
+      this.response = divinedAnswerPointer
       return true
     } catch {
       // Anything preventing us from connecting to the archivist
+      // will require a full re-initialization
+      this.response = undefined
     }
     return false
   }

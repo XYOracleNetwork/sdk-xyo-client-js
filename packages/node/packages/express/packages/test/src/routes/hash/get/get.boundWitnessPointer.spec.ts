@@ -105,7 +105,7 @@ describe('/:hash', () => {
         payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         bws.push(...[bwA, bwB, bwC, bwD, bwE, bwF, bwG])
         const blockResponse = await insertBlock(bws)
-        expect(blockResponse.length).toBe(1)
+        expect(blockResponse.length).toBe(payloads.length)
       })
       describe('single address', () => {
         it.each([
@@ -159,7 +159,7 @@ describe('/:hash', () => {
         const [bwB] = await getNewBoundWitness([account], [payloadB.payload()])
         boundWitnesses.push(...[bwA, bwB])
         const payloadResponse = await insertBlock(boundWitnesses, account)
-        expect(payloadResponse.length).toBe(1)
+        expect(payloadResponse.length).toBe(boundWitnesses.length)
       })
       describe('single schema', () => {
         it.each([

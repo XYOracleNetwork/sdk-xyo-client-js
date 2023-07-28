@@ -109,9 +109,9 @@ describe('/:hash', () => {
         payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         const boundWitnesses = [bwA, bwB, bwC, bwD, bwE, bwF, bwG]
         const blockResponse = await insertBlock(boundWitnesses)
-        expect(blockResponse.length).toBe(1)
+        expect(blockResponse.length).toBe(boundWitnesses.length)
         const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(1)
+        expect(payloadResponse.length).toBe(payloads.length)
       })
       describe('single address', () => {
         it.each([
@@ -160,8 +160,9 @@ describe('/:hash', () => {
       const payloadB: PayloadWrapper = PayloadWrapper.parse(payloadBaseB) as PayloadWrapper
       const schemas = [schemaA, schemaB]
       beforeAll(async () => {
-        const payloadResponse = await insertPayload([payloadA.payload(), payloadB.payload()], account)
-        expect(payloadResponse.length).toBe(1)
+        const payloads = [payloadA.payload(), payloadB.payload()]
+        const payloadResponse = await insertPayload(payloads, account)
+        expect(payloadResponse.length).toBe(payloads.length)
       })
       describe('single schema', () => {
         it.each([
@@ -211,7 +212,7 @@ describe('/:hash', () => {
           expect(blockResponse.length).toBe(1)
         }
         const payloadResponse = await insertPayload(payloads)
-        expect(payloadResponse.length).toBe(1)
+        expect(payloadResponse.length).toBe(payloads.length)
       })
       it('ascending', async () => {
         const expected = assertEx(payloads.at(0))

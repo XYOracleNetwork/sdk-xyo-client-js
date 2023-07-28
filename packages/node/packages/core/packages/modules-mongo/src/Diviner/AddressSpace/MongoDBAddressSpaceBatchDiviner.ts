@@ -39,6 +39,7 @@ export class MongoDBAddressSpaceBatchDiviner<
   protected async backgroundDivine(): Promise<void> {
     if (this.currentlyRunning) return
     try {
+      this.currentlyRunning = true
       const result = await this.params.boundWitnessSdk.useMongo((db) => {
         return db.db(DATABASES.Archivist).command(
           {
@@ -76,7 +77,7 @@ export class MongoDBAddressSpaceBatchDiviner<
     return this.response ? Promise.resolve([this.response]) : Promise.resolve([])
   }
 
-  protected override async startHandler() {
+  protected async initializeArchivist() {
     // Create a paginationAccount per archivist
     const archivistMod = await this.writeArchivist()
     assertEx(archivistMod, `${moduleName}.Start: No archivists found`)
@@ -88,6 +89,10 @@ export class MongoDBAddressSpaceBatchDiviner<
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
     await archivist.insert([response])
     this.response = response
+  }
+
+  protected override async startHandler() {
+    await this.initializeArchivist()
     void this.backgroundDivine()
     return await super.startHandler()
   }

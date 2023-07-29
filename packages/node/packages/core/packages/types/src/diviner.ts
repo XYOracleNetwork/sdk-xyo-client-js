@@ -1,5 +1,6 @@
 export const DIVINER_TYPES = {
   AddressHistoryDiviner: Symbol('AddressHistoryDiviner'),
+  AddressSpaceBatchDiviner: Symbol('AddressSpaceBatchDiviner'),
   AddressSpaceDiviner: Symbol('AddressSpaceDiviner'),
   BoundWitnessDiviner: Symbol('BoundWitnessDiviner'),
   BoundWitnessStatsDiviner: Symbol('BoundWitnessStatsDiviner'),

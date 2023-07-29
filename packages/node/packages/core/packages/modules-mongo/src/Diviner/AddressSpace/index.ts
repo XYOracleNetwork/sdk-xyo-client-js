@@ -1,2 +1,2 @@
+export * from './MongoDBAddressSpaceBatchDiviner'
 export * from './MongoDBAddressSpaceDiviner'
-export * from './MongoDBBatchAddressSpaceDiviner'

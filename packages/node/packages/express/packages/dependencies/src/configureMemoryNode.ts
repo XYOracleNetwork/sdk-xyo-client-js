@@ -5,6 +5,7 @@ import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance,
 import { PayloadHasher } from '@xyo-network/core'
 import {
   AddressHistoryDivinerConfigSchema,
+  AddressSpaceBatchDivinerConfigSchema,
   AddressSpaceDivinerConfigSchema,
   BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfigSchema,
@@ -29,6 +30,7 @@ const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSche
 const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressHistoryDivinerConfigSchema }, true],
   [{ schema: AddressSpaceDivinerConfigSchema }, true],
+  [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
   [{ schema: BoundWitnessDivinerConfigSchema }, true],
   [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: PayloadDivinerConfigSchema }, true],

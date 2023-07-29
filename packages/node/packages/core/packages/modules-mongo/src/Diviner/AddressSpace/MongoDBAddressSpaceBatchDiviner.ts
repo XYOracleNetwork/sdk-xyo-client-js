@@ -5,8 +5,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
-import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space-memory'
-import { AddressSpaceBatchDivinerConfig, DivinerParams } from '@xyo-network/diviner-models'
+import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
+import { AddressSpaceBatchDivinerConfig, AddressSpaceBatchDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { BoundWitnessPointerPayload, BoundWitnessPointerSchema, BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -29,7 +29,9 @@ const moduleName = 'MongoDBAddressSpaceBatchDiviner'
 
 export class MongoDBAddressSpaceBatchDiviner<
   TParams extends MongoDBAddressSpaceBatchDivinerParams = MongoDBAddressSpaceBatchDivinerParams,
-> extends MemoryAddressSpaceDiviner<TParams> {
+> extends AddressSpaceDiviner<TParams> {
+  static override configSchemas = [AddressSpaceBatchDivinerConfigSchema]
+
   // TODO: Get via config or default
   protected readonly batchSize = 50
   protected currentlyRunning = false

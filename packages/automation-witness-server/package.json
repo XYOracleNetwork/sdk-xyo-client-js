@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.69.0-rc.3",
+  "version": "2.69.0",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -103,6 +103,5 @@
   "volta": {
     "node": "16.15.1",
     "yarn": "1.22.19"
-  },
-  "stableVersion": "2.68.0"
+  }
 }

@@ -12,7 +12,6 @@
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
     "@xylabs/promise": "^2.9.3",
-    "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -66,5 +65,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.68.0"
+  "version": "2.69.0-rc.3",
+  "stableVersion": "2.68.0"
 }

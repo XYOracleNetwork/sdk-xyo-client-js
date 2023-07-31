@@ -1,13 +1,14 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitness, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { PayloadHasher } from '@xyo-network/core'
 import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
@@ -36,6 +37,7 @@ import {
   ModuleQueriedEventArgs,
   ModuleQuery,
   ModuleQueryBase,
+  ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolver,
   ModuleSubscribeQuerySchema,
@@ -62,7 +64,6 @@ export abstract class AbstractModule<
   implements Module<TParams, TEventData>
 {
   static configSchemas: string[]
-  static enableBusy = false
   static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()
@@ -206,25 +207,21 @@ export abstract class AbstractModule<
   }
 
   async busy<R>(closure: () => Promise<R>) {
-    if (AbstractModule.enableBusy) {
+    if (this._busyCount <= 0) {
+      this._busyCount = 0
+      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      await this.emit('moduleBusy', args)
+    }
+    this._busyCount++
+    try {
+      return await closure()
+    } finally {
+      this._busyCount--
       if (this._busyCount <= 0) {
         this._busyCount = 0
-        const args: ModuleBusyEventArgs = { busy: true, module: this }
+        const args: ModuleBusyEventArgs = { busy: false, module: this }
         await this.emit('moduleBusy', args)
       }
-      this._busyCount++
-      try {
-        return await closure()
-      } finally {
-        this._busyCount--
-        if (this._busyCount <= 0) {
-          this._busyCount = 0
-          const args: ModuleBusyEventArgs = { busy: false, module: this }
-          await this.emit('moduleBusy', args)
-        }
-      }
-    } else {
-      return closure()
     }
   }
 
@@ -238,12 +235,32 @@ export abstract class AbstractModule<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     return await this.busy(async () => {
-      await this.started('throw')
-      const result = await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)
-
+      const resultPayloads: Payload[] = []
+      const errorPayloads: ModuleError[] = []
+      const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
+      try {
+        await this.started('throw')
+        if (!this.allowAnonymous) {
+          if (query.addresses.length === 0) {
+            throw Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+          }
+        }
+        resultPayloads.push(...(await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)))
+      } catch (ex) {
+        await handleErrorAsync(ex, async (error) => {
+          errorPayloads.push(
+            new ModuleErrorBuilder()
+              .sources([await PayloadHasher.hashAsync(query)])
+              .name(this.config.name ?? '<Unknown>')
+              .query(query.schema)
+              .message(error.message)
+              .build(),
+          )
+        })
+      }
+      const result = await this.bindQueryResult(query, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
       const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
       await this.emit('moduleQueried', args)
-
       return result
     })
   }
@@ -392,13 +409,13 @@ export abstract class AbstractModule<
     payloads: Payload[],
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
-  ): Promise<[ModuleQueryResult, AccountInstance[]]> {
+  ): Promise<ModuleQueryResult> {
     const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
     const result: ModuleQueryResult = [(await builder.build())[0], payloads, errors ?? []]
-    return [result, witnesses]
+    return result
   }
 
   protected commitArchivist = () => this.getArchivist('commit')
@@ -491,57 +508,37 @@ export abstract class AbstractModule<
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
+  ): Promise<ModuleQueryHandlerResult> {
     await this.started('throw')
     const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
-    if (!this.allowAnonymous) {
-      if (query.addresses.length === 0) {
-        console.warn(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
-      }
-    }
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    const errorPayloads: ModuleError[] = []
-    const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
-    try {
-      switch (queryPayload.schema) {
-        case ModuleManifestQuerySchema: {
-          resultPayloads.push(await this.manifestHandler())
-          break
-        }
-        case ModuleDiscoverQuerySchema: {
-          resultPayloads.push(...(await this.discoverHandler()))
-          break
-        }
-        case ModuleDescribeQuerySchema: {
-          resultPayloads.push(await this.describeHandler())
-          break
-        }
-        case ModuleAddressQuerySchema: {
-          resultPayloads.push(...(await this.moduleAddressHandler()))
-          break
-        }
-        case ModuleSubscribeQuerySchema: {
-          this.subscribeHandler(queryAccount)
-          break
-        }
-        default:
-          console.error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
+    switch (queryPayload.schema) {
+      case ModuleManifestQuerySchema: {
+        resultPayloads.push(await this.manifestHandler())
+        break
       }
-    } catch (ex) {
-      await handleErrorAsync(ex, async (error) => {
-        errorPayloads.push(
-          new ModuleErrorBuilder()
-            .sources([await wrapper.hashAsync()])
-            .name(this.config.name ?? '<Unknown>')
-            .query(query.schema)
-            .message(error.message)
-            .build(),
-        )
-      })
+      case ModuleDiscoverQuerySchema: {
+        resultPayloads.push(...(await this.discoverHandler()))
+        break
+      }
+      case ModuleDescribeQuerySchema: {
+        resultPayloads.push(await this.describeHandler())
+        break
+      }
+      case ModuleAddressQuerySchema: {
+        resultPayloads.push(...(await this.moduleAddressHandler()))
+        break
+      }
+      case ModuleSubscribeQuerySchema: {
+        this.subscribeHandler()
+        break
+      }
+      default:
+        throw Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads))[0]
+    return resultPayloads
   }
 
   protected readArchivist = () => this.getArchivist('read')
@@ -558,7 +555,7 @@ export abstract class AbstractModule<
     return true
   }
 
-  protected subscribeHandler(_queryAccount?: AccountInstance) {
+  protected subscribeHandler() {
     return
   }
 

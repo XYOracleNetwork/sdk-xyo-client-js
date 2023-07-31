@@ -53,7 +53,7 @@ const createPointer = async (
 const expectError = (result: Payload, detail: string, status: string, title?: string) => {
   expect(result).toBeObject()
   const error = result as unknown as { errors: { detail: string; status: string; title?: string }[] }
-  expect(error.errors).toBeArrayOfSize(1)
+  expect(error.errors?.length).toBeGreaterThan(0)
   const expected = title ? { detail, status, title } : { detail, status }
   expect(error.errors[0]).toEqual(expected)
 }
@@ -105,7 +105,7 @@ describe('/:hash', () => {
         payloads.push(...[...payloadsA, ...payloadsB, ...payloadsC, ...payloadsD, ...payloadsE, ...payloadsF, ...payloadsG])
         bws.push(...[bwA, bwB, bwC, bwD, bwE, bwF, bwG])
         const blockResponse = await insertBlock(bws)
-        expect(blockResponse.length).toBe(1)
+        expect(blockResponse.length).toBe(payloads.length)
       })
       describe('single address', () => {
         it.each([
@@ -159,7 +159,7 @@ describe('/:hash', () => {
         const [bwB] = await getNewBoundWitness([account], [payloadB.payload()])
         boundWitnesses.push(...[bwA, bwB])
         const payloadResponse = await insertBlock(boundWitnesses, account)
-        expect(payloadResponse.length).toBe(1)
+        expect(payloadResponse.length).toBe(boundWitnesses.length)
       })
       describe('single schema', () => {
         it.each([

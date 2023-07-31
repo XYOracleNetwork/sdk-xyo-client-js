@@ -14,6 +14,7 @@ import {
   ArchivistModuleEventData,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -78,7 +79,6 @@ export class MemoryArchivist<
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
           const queryPayload: ArchivistInsertQuery = {
-            payloads: await Promise.all(payloads.map((payload) => PayloadWrapper.hashAsync(payload))),
             schema: ArchivistInsertQuerySchema,
           }
           const query = await this.bindQuery(queryPayload, payloads)
@@ -90,12 +90,20 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    const found = hashes.map((hash) => {
-      return this.cache.delete(hash)
-    })
-    await this.emit('deleted', { found, hashes, module: this })
-    return found
+  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+    const payloadPairs: [string, Payload][] = await Promise.all(
+      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+    )
+    const deletedPairs: [string, Payload][] = compact(
+      await Promise.all(
+        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+          return this.cache.delete(hash) ? [hash, payload] : undefined
+        }),
+      ),
+    )
+    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
+    const result = deletedPairs.map(([_, payload]) => payload)
+    return result
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -122,12 +130,7 @@ export class MemoryArchivist<
       }),
     )
 
-    const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, payloads)
-    const parents = await this.parents()
-    if (Object.entries(parents.write ?? {}).length) {
-      // We store the child bw also
-      await this.writeToParents([result[0], ...payloads])
-    }
+    await this.writeToParents(payloads)
     await this.emit('inserted', { module: this, payloads })
     return payloads
   }

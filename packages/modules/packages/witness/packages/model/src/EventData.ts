@@ -1,8 +1,5 @@
 import { Module, ModuleEventData } from '@xyo-network/module-model'
 
-import { WitnessReportEndEventData, WitnessReportStartEventData } from './Events'
+import { ObserveEndEventData, ObserveStartEventData } from './Events'
 
-export interface WitnessModuleEventData<T extends Module = Module>
-  extends WitnessReportEndEventData<T>,
-    WitnessReportStartEventData<T>,
-    ModuleEventData {}
+export interface WitnessModuleEventData<T extends Module = Module> extends ObserveEndEventData<T>, ObserveStartEventData<T>, ModuleEventData<T> {}

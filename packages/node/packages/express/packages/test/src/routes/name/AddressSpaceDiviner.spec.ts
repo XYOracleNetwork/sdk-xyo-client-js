@@ -1,6 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner'
 
 import { getDivinerByName, getNewPayload, insertPayload, validateDiscoverResponse } from '../../testUtil'
@@ -25,7 +26,10 @@ describe(`/${divinerName}`, () => {
       for (let i = 0; i < 5; i++) {
         const account = Account.randomSync()
         accounts.push(account)
-        await insertPayload(getNewPayload(), account)
+        const payload = getNewPayload()
+        const [bw] = await new BoundWitnessBuilder().payload(payload).witness(account).build()
+        await insertPayload(payload, account)
+        await insertPayload(bw, account)
       }
     })
     it('returns addresses in use', async () => {

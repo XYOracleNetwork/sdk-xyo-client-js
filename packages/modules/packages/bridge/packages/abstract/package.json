@@ -10,11 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/bridge-module-resolver": "workspace:~",
-    "@xyo-network/error": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -58,5 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.68.0"
+  "version": "2.69.0-rc.3",
+  "stableVersion": "2.68.0"
 }

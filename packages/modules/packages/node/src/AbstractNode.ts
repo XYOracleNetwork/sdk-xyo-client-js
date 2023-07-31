@@ -1,10 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { handleErrorAsync } from '@xyo-network/error'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { AbstractModuleInstance, CompositeModuleResolver, ModuleErrorBuilder } from '@xyo-network/module-abstract'
+import { AbstractModuleInstance, CompositeModuleResolver } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
   Module,
@@ -12,7 +10,7 @@ import {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleInstance,
-  ModuleQueryResult,
+  ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
 import {
   NodeAttachedQuerySchema,
@@ -27,7 +25,7 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
@@ -159,63 +157,48 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
-  ): Promise<ModuleQueryResult> {
+  ): Promise<ModuleQueryHandlerResult> {
     const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(this.queryable(query, payloads, queryConfig))
-    const queryAccount = Account.randomSync()
     const resultPayloads: Payload[] = []
-    const errorPayloads: ModuleError[] = []
-    try {
-      switch (queryPayload.schema) {
-        case NodeAttachQuerySchema: {
-          const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
-          if (address) {
-            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
+    switch (queryPayload.schema) {
+      case NodeAttachQuerySchema: {
+        const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
+        if (address) {
+          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          resultPayloads.push(payload)
         }
-        case NodeDetachQuerySchema: {
-          const address = await this.detach(queryPayload.nameOrAddress)
-          if (address) {
-            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
-        }
-        case NodeAttachedQuerySchema: {
-          const addresses = await this.attached()
-          for (const address of addresses) {
-            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
-        }
-        case NodeRegisteredQuerySchema: {
-          const addresses = await this.registered()
-          for (const address of addresses) {
-            const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
-            resultPayloads.push(payload)
-          }
-          break
-        }
-        default:
-          return await super.queryHandler(query, payloads)
+        break
       }
-    } catch (ex) {
-      await handleErrorAsync(ex, async (error) => {
-        errorPayloads.push(
-          new ModuleErrorBuilder()
-            .sources([await wrapper.hashAsync()])
-            .name(this.config.name ?? '<Unknown>')
-            .query(query.schema)
-            .message(error.message)
-            .build(),
-        )
-      })
+      case NodeDetachQuerySchema: {
+        const address = await this.detach(queryPayload.nameOrAddress)
+        if (address) {
+          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          resultPayloads.push(payload)
+        }
+        break
+      }
+      case NodeAttachedQuerySchema: {
+        const addresses = await this.attached()
+        for (const address of addresses) {
+          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          resultPayloads.push(payload)
+        }
+        break
+      }
+      case NodeRegisteredQuerySchema: {
+        const addresses = await this.registered()
+        for (const address of addresses) {
+          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          resultPayloads.push(payload)
+        }
+        break
+      }
+      default:
+        return await super.queryHandler(query, payloads)
     }
-    return (await this.bindQueryResult(queryPayload, resultPayloads, [queryAccount], errorPayloads))[0]
+    return resultPayloads
   }
 
   private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>

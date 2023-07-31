@@ -101,7 +101,6 @@ export class CookieArchivist<
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
             const queryPayload: ArchivistInsertQuery = {
-              payloads: await PayloadHasher.hashes(payloads),
               schema: ArchivistInsertQuerySchema,
             }
             const query = await this.bindQuery(queryPayload, payloads)
@@ -117,18 +116,21 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<boolean[]> {
-    try {
-      const found = hashes.map((hash) => {
-        Cookies.remove(this.keyFromHash(hash))
-        return true
-      })
-      await this.emit('deleted', { found, hashes, module: this })
-      return found
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
-    }
+  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+    const payloadPairs: [string, Payload][] = await Promise.all(
+      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+    )
+    const deletedPairs: [string, Payload][] = compact(
+      await Promise.all(
+        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+          Cookies.remove(hash)
+          return [hash, payload]
+        }),
+      ),
+    )
+    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
+    const result = deletedPairs.map(([_, payload]) => payload)
+    return result
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -157,12 +159,7 @@ export class CookieArchivist<
           return wrapper.payload()
         }),
       )
-      const [result] = await this.bindQueryResult({ payloads, schema: ArchivistInsertQuerySchema }, resultPayloads)
-      const parents = await this.parents()
-      if (Object.entries(parents.write ?? {}).length) {
-        //we store the child bw also
-        await this.writeToParents([result[0], ...resultPayloads])
-      }
+      await this.writeToParents(resultPayloads)
       await this.emit('inserted', { module: this, payloads })
       return payloads
     } catch (ex) {

@@ -13,12 +13,12 @@ export interface ReadArchivist<TReadResponse, TId = string> {
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
   clear?(): Promisable<void>
-  delete?(ids: TId[]): PromisableArray<boolean>
+  delete?(ids: TId[]): PromisableArray<TWriteResponse>
   insert(item: TWrite[]): PromisableArray<TWriteResponse>
 }
 
 export interface StashArchivist<TWriteResponse> {
-  commit?(): Promisable<TWriteResponse[]>
+  commit?(): PromisableArray<TWriteResponse>
 }
 
 export type ArchivistParams<

@@ -11,12 +11,11 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
-    "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/error": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-abstract": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~"
   },
@@ -58,5 +57,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.68.0"
+  "version": "2.69.0-rc.3",
+  "stableVersion": "2.68.0"
 }

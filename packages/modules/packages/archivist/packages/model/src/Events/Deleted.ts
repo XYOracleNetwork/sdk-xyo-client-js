@@ -4,7 +4,6 @@ import { Module, ModuleEventArgs } from '@xyo-network/module-model'
 export type DeletedEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,
   {
-    found: boolean[]
     hashes: string[]
   }
 >

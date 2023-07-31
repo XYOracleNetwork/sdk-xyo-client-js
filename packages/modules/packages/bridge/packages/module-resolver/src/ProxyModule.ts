@@ -7,6 +7,7 @@ import {
   AddressPreviousHashPayload,
   BaseEmitter,
   CompositeModuleResolver,
+  ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescription,
   ModuleEventData,
@@ -35,6 +36,8 @@ export type ProxyModuleParams = ModuleParams<
 
 export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> implements ModuleInstance<ModuleParams, ModuleEventData> {
   readonly upResolver = new CompositeModuleResolver()
+
+  private _busyCount = 0
 
   constructor(public proxyParams: ProxyModuleParams) {
     super({ config: proxyParams.bridge.targetConfig(proxyParams.address) })
@@ -65,29 +68,52 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     throw Error('Not Implemented')
   }
 
-  async describe(): Promise<ModuleDescription> {
-    const description: ModuleDescription = {
-      address: this.address,
-      queries: this.queries,
+  async busy<R>(closure: () => Promise<R>) {
+    if (this._busyCount <= 0) {
+      this._busyCount = 0
+      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      await this.emit('moduleBusy', args)
     }
-    if (this.config.name) {
-      description.name = this.config.name
+    this._busyCount++
+    try {
+      return await closure()
+    } finally {
+      this._busyCount--
+      if (this._busyCount <= 0) {
+        this._busyCount = 0
+        const args: ModuleBusyEventArgs = { busy: false, module: this }
+        await this.emit('moduleBusy', args)
+      }
     }
-
-    const discover = await this.discover()
-
-    description.children = compact(
-      discover?.map((payload) => {
-        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-        return address != this.address ? address : undefined
-      }) ?? [],
-    )
-
-    return description
   }
 
-  discover(): Promisable<Payload[]> {
-    return this.bridge.targetDiscover()
+  async describe(): Promise<ModuleDescription> {
+    return await this.busy(async () => {
+      const description: ModuleDescription = {
+        address: this.address,
+        queries: this.queries,
+      }
+      if (this.config.name) {
+        description.name = this.config.name
+      }
+
+      const discover = await this.discover()
+
+      description.children = compact(
+        discover?.map((payload) => {
+          const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+          return address != this.address ? address : undefined
+        }) ?? [],
+      )
+
+      return description
+    })
+  }
+
+  async discover(): Promise<Payload[]> {
+    return await this.busy(async () => {
+      return await this.bridge.targetDiscover()
+    })
   }
 
   manifest(): Promisable<ModuleManifestPayload> {
@@ -104,9 +130,11 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
-    await this.emit('moduleQueried', { module: this, payloads, query, result })
-    return result
+    return await this.busy(async () => {
+      const result = assertEx(await this.bridge.targetQuery(this.address, query, payloads), 'Remote Query Failed')
+      await this.emit('moduleQueried', { module: this, payloads, query, result })
+      return result
+    })
   }
 
   async queryable(query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
@@ -120,10 +148,12 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    if (typeof nameOrAddressOrFilter === 'string') {
-      return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-    } else {
-      return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-    }
+    return await this.busy(async () => {
+      if (typeof nameOrAddressOrFilter === 'string') {
+        return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
+      } else {
+        return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
+      }
+    })
   }
 }

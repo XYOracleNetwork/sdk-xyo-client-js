@@ -7,7 +7,6 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -29,10 +28,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const payloadWrappers: PayloadWrapper[] = []
   const boundWitnessWrappers: BoundWitnessWrapper[] = []
   let archivist: ArchivistWrapper
-  let insertResult1: BoundWitness[]
+  let insertResult1: Payload[]
   // let insertResult2: BoundWitness[]
-  let insertResult3: BoundWitness[]
-  const insertResults: BoundWitness[][] = []
+  let insertResult3: Payload[]
+  const insertResults: Payload[][] = []
   beforeAll(async () => {
     archiveAccount = await Account.create({ phrase: 'temp' })
 
@@ -85,12 +84,17 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
       [boundWitness2, payload2],
       [boundWitness3, payload3, payload4],
     ]
-    for (const insertion of insertions) {
-      const insertionResult = await archivist.insert(insertion)
-      insertResults.push(insertionResult)
-      // NOTE: Increment Date.now after each insert so that DB sorting by time works
-      timestamp++
-    }
+    insertResults.push(
+      ...(await Promise.all(
+        insertions.map(async (insertion) => {
+          const result = await archivist.insert(insertion)
+          // NOTE: Increment Date.now after each insert so that DB sorting by time works
+          timestamp++
+          return result
+        }),
+      )),
+    )
+
     insertResult1 = insertResults[0]
     // insertResult2 = insertResults[1]
     insertResult3 = insertResults[2]
@@ -105,7 +109,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   describe('insert', () => {
     it('inserts single payload', () => {
       expect(insertResult1).toBeTruthy()
-      expect(insertResult1).toBeArrayOfSize(1)
+      expect(insertResult1).toBeArrayOfSize(2)
       /*
       const [boundResult] = insertResult1
       expect(boundResult.addresses).toContain(archivist.address)
@@ -122,7 +126,7 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     })
     it('inserts multiple payloads', () => {
       expect(insertResult3).toBeTruthy()
-      expect(insertResult3).toBeArrayOfSize(1)
+      expect(insertResult3).toBeArrayOfSize(3)
       /*const [boundResult, transactionResults] = insertResult3
       expect(boundResult.addresses).toContain(archivist.address)
       expect(transactionResults.addresses).toContain(moduleAccount.public.address.hex)

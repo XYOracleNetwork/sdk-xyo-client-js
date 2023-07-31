@@ -10,14 +10,10 @@
   },
   "dependencies": {
     "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "lodash": "^4.17.21"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.196",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
     "@xyo-network/memory-archivist": "workspace:~",
@@ -57,5 +53,6 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.68.0"
+  "version": "2.69.0-rc.3",
+  "stableVersion": "2.68.0"
 }

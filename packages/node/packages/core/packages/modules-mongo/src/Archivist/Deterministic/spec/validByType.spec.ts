@@ -1,4 +1,3 @@
-import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { ArchivistInsertQuery, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, BoundWitnessBuilderConfig, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -23,8 +22,7 @@ describe('validByType', () => {
     beforeAll(async () => {
       const inner = await new BoundWitnessBuilder(config).witness(account).payload(payload2).build()
       const outer = await new BoundWitnessBuilder(config).witness(account).payloads([payload1, inner[0]]).build()
-      const queryHashes = [outer[0], inner[0], payload1, payload2].map((p) => (p as { _hash?: string })?._hash).filter(exists)
-      const queryPayload: ArchivistInsertQuery = { payloads: queryHashes, schema: ArchivistInsertQuerySchema }
+      const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
       const query = await new QueryBoundWitnessBuilder(config).witness(account).query(queryPayload).build()
       const values = [query[0], outer[0], inner[0], payload1, payload2] as Payload[]
       result = await validByType(values)

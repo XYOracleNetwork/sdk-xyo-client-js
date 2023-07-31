@@ -36,7 +36,6 @@ import { Logger } from '@xyo-network/shared'
 import compact from 'lodash/compact'
 
 import { ModuleWrapperParams } from './models'
-import { WrapperError } from './WrapperError'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger
@@ -346,32 +345,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     const query = await this.bindQuery(queryPayload, payloads)
 
     // Send them off
-    const result = await this.module.query(query[0], query[1])
+    const [, resultPayloads, errors] = await this.module.query(query[0], query[1])
 
-    /* TODO: Needs investigation. Problem is:
-      a) the function does not work and
-      b) it could be valid to return a payload with an error schema in a archivist get query
-    */
-    await this.throwErrors(query, result)
-    return result[1]
-  }
+    /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
 
-  protected async throwErrors(query: [QueryBoundWitness, Payload[], ModuleError[]], result?: ModuleQueryResult) {
-    const logError = (error: ModuleError) => {
-      console.log(`ModuleWrapper Error:  ${error.message} \n ${JSON.stringify(error, null, 2)}`)
+    if (errors && errors.length > 0) {
+      /* TODO: Figure out how to rollup multiple Errors */
+      throw errors[0]
     }
 
-    const errors = result ? await this.filterErrors(result) : []
-    if (errors?.length > 0) {
-      errors.map((error) => logError(error))
-      const error: WrapperError = {
-        errors,
-        message: errors.reduce((message, error) => `${message}${message.length > 0 ? '|' : ''}${error?.message}`, ''),
-        name: 'Error',
-        query,
-        result,
-      }
-      throw error
-    }
+    return resultPayloads
   }
 }

@@ -5214,21 +5214,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uniswap/sdk-core@npm:^3.2.6":
-  version: 3.2.6
-  resolution: "@uniswap/sdk-core@npm:3.2.6"
-  dependencies:
-    "@ethersproject/address": ^5.0.2
-    big.js: ^5.2.2
-    decimal.js-light: ^2.5.0
-    jsbi: ^3.1.4
-    tiny-invariant: ^1.1.0
-    toformat: ^2.0.0
-  checksum: 9bb37f0da680fa7c140adfb113817c3bcf9cfb00a3684ba80636b30d2329733057d3c109fcf91573cbb72ee03b11dc1052bddb2281a82bb4cd12696ecf4d1f4a
-  languageName: node
-  linkType: hard
-
-"@uniswap/sdk-core@npm:^4":
+"@uniswap/sdk-core@npm:^4, @uniswap/sdk-core@npm:^4.0.6":
   version: 4.0.6
   resolution: "@uniswap/sdk-core@npm:4.0.6"
   dependencies:
@@ -5939,7 +5925,7 @@ __metadata:
     "@types/cors": ^2.8.13
     "@types/express": 4.17.17
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.2.6
+    "@uniswap/sdk-core": ^4.0.6
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/assert": ^2.9.3
     "@xylabs/jest-helpers": ^2.9.3
@@ -6423,7 +6409,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/solidity": ^5.7.0
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.2.6
+    "@uniswap/sdk-core": ^4.0.6
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/exists": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
@@ -6557,7 +6543,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/solidity": ^5.7.0
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.2.6
+    "@uniswap/sdk-core": ^4.0.6
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
@@ -7870,7 +7856,7 @@ __metadata:
     "@ethersproject/solidity": ^5.7.0
     "@types/regression": ^2.0.2
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.2.6
+    "@uniswap/sdk-core": ^4.0.6
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/exists": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
@@ -9115,7 +9101,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@ethersproject/solidity": ^5.7.0
     "@uniswap/sdk": ^3.0.3
-    "@uniswap/sdk-core": ^3.2.6
+    "@uniswap/sdk-core": ^4.0.6
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/assert": ^2.9.3
     "@xylabs/bignumber": ^2.9.3

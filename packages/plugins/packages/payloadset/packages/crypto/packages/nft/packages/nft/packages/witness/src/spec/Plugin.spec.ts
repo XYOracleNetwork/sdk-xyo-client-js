@@ -1,10 +1,10 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { CryptoWalletNftPlugin } from '../Plugin'
+import { CryptoWalletNftWitnessPlugin } from '../Plugin'
 
-describe('CryptoWalletNftPlugin', () => {
+describe('CryptoWalletNftWitnessPlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = CryptoWalletNftPlugin()
+    const plugin = CryptoWalletNftWitnessPlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeDefined()
   })

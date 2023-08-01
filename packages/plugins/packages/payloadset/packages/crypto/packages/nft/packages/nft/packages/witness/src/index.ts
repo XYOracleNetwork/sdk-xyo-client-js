@@ -1,9 +1,9 @@
-import { CryptoWalletNftPlugin } from './Plugin'
+import { CryptoWalletNftWitnessPlugin } from './Plugin'
 
 export * from './lib'
 export * from './Witness'
 
-export { CryptoWalletNftPlugin }
+export { CryptoWalletNftWitnessPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default CryptoWalletNftPlugin
+export default CryptoWalletNftWitnessPlugin

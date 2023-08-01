@@ -5,6 +5,7 @@ import {
   NftInfoPayload,
   NftSchema,
   NftWitnessConfigSchema,
+  NftWitnessQueryPayload,
   NftWitnessQuerySchema,
 } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
@@ -31,13 +32,18 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
-    const queries = payloads?.filter((p) => p.schema === NftWitnessQuerySchema) ?? []
-    const address = assertEx(this.config.address, 'params.address is required')
-    const chainId = assertEx(this.config.chainId, 'params.chainId is required')
-    const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
-    const observations = nfts.map<NftInfoPayload>((nft) => {
-      return { ...nft, schema }
-    })
+    const queries = payloads?.filter((p): p is NftWitnessQueryPayload => p.schema === NftWitnessQuerySchema) ?? []
+    const observations = await Promise.all(
+      queries.map(async (query) => {
+        const address = assertEx(query?.address || this.config.address, 'params.address is required')
+        const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
+        const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
+        const observation = nfts.map<NftInfoPayload>((nft) => {
+          return { ...nft, schema }
+        })
+        return observation
+      }),
+    )
     return observations.flat()
   }
 }

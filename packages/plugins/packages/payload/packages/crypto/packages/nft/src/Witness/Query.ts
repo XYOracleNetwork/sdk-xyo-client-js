@@ -7,3 +7,4 @@ export type NftWitnessQueryPayload = Payload<{
   chainId?: number
   schema: NftWitnessQuerySchema
 }>
+export const isNftWitnessQueryPayload = (x?: Payload | null): x is NftWitnessQueryPayload => x?.schema === NftWitnessQuerySchema

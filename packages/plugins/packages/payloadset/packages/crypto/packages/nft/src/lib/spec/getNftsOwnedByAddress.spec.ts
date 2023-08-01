@@ -10,7 +10,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
   const network = 'homestead'
   const apiKey = process.env.INFURA_PROJECT_ID
   const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
-  test('observe', async () => {
+  test('gets NFTs owned by the address', async () => {
     const nfts = await getNftsOwnedByAddress(address, chainId, provider)
     expect(nfts.length).toBeGreaterThan(0)
     for (let i = 0; i < nfts.length; i++) {

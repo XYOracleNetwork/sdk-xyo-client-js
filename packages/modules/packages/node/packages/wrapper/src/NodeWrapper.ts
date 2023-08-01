@@ -17,6 +17,7 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { Promisable } from '@xyo-network/promise'
 
 constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
@@ -61,5 +62,9 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
     const payloads: AddressPayload[] = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema))
     return payloads.map((p) => p.address)
+  }
+
+  registeredModules(): Promisable<ModuleInstance[]> {
+    throw Error('Not implemented')
   }
 }

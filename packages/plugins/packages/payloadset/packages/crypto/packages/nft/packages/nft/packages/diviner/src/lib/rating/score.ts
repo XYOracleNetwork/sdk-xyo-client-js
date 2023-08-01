@@ -1,4 +1,4 @@
-import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 
 export type PassFailScore = [total: number, possible: 1]
 export const PASS: PassFailScore = [1, 1]

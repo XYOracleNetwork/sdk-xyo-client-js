@@ -1,4 +1,4 @@
-import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { incrementTotal, ScaledScore } from '../../../score'
 import { isSecure, isValidUrl } from './lib'

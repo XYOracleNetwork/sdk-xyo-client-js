@@ -6,7 +6,7 @@ import {
   NftInfoPayload,
   NftSchema,
   NftWitnessConfigSchema,
-} from '@xyo-network/crypto-wallet-nft-payload-plugin'
+} from '@xyo-network/crypto-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'

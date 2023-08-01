@@ -3,12 +3,7 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { describeIf } from '@xylabs/jest-helpers'
-import {
-  isNftInfoPayload,
-  NftWitnessConfigSchema,
-  NftWitnessQueryPayload,
-  NftWitnessQuerySchema,
-} from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { isNftInfoPayload, NftWitnessConfigSchema, NftWitnessQueryPayload, NftWitnessQuerySchema } from '@xyo-network/crypto-nft-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HttpProvider } from 'web3-providers-http'

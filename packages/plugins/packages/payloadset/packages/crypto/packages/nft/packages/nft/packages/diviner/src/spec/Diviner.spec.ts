@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { isNftInfoPayload, NftInfoPayload } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { isNftInfoPayload, NftInfoPayload } from '@xyo-network/crypto-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile } from 'fs/promises'
 import { join } from 'path'

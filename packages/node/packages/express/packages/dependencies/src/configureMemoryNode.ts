@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
 import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceBatchDivinerConfigSchema,

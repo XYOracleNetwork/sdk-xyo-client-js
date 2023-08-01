@@ -1,4 +1,4 @@
-import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { scoringCriteria } from './criteria'
 import { Score } from './score'

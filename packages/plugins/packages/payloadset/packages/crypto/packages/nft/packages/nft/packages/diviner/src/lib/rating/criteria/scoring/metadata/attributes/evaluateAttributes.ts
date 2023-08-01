@@ -1,4 +1,4 @@
-import { NftAttribute, NftInfo, OpenSeaNftAttribute, OpenSeaNftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftAttribute, NftInfo, OpenSeaNftAttribute, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { incrementPossible, incrementTotal, incrementTotalAndPossible, ScaledScore } from '../../../../score'
 

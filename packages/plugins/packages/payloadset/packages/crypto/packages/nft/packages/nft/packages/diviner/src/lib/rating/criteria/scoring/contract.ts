@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address'
-import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { FAIL, PASS, PassFailScoringFunction } from '../../score'
 

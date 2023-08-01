@@ -1,4 +1,4 @@
-import { NftAttribute } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { NftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { evaluateAttributes } from '../evaluateAttributes'
 

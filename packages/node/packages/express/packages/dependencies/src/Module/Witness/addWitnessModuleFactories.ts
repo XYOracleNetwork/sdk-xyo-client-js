@@ -5,21 +5,26 @@ import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 
-const getCryptoWalletNftWitness = async (container: Container) => {
+const getWallet = (container: Container) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = await (await HDWallet.fromMnemonic(mnemonic)).derivePath?.(WALLET_PATHS.Witnesses.CryptoWalletNftWitness)
+  return HDWallet.fromMnemonic(mnemonic)
+}
+
+const getCryptoWalletNftWitness = async (container: Container) => {
+  const wallet = await getWallet(container)
   return new ModuleFactory(CryptoWalletNftWitness, {
-    account,
+    accountDerivationPath: WALLET_PATHS.Witnesses.CryptoWalletNftWitness,
     config: { name: TYPES.CryptoWalletNftWitness.description, schema: CryptoWalletNftWitness.configSchema },
+    wallet,
   })
 }
 
 const getPrometheusNodeWitness = async (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const account = await (await HDWallet.fromMnemonic(mnemonic)).derivePath?.(WALLET_PATHS.Witnesses.Prometheus)
+  const wallet = await getWallet(container)
   return new ModuleFactory(PrometheusNodeWitness, {
-    account,
+    accountDerivationPath: WALLET_PATHS.Witnesses.Prometheus,
     config: { name: TYPES.PrometheusWitness.description, schema: PrometheusNodeWitness.configSchema },
+    wallet,
   })
 }
 

@@ -6612,14 +6612,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft, @xyo-network/crypto-nft-plugins@workspace:~":
+"@xyo-network/crypto-nft-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft"
   dependencies:
     "@xylabs/jest-helpers": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
-    "@xyo-network/crypto-nft-plugins": "workspace:~"
+    "@xyo-network/crypto-nft-plugin": "workspace:~"
     jest: ^29.6.2
     typescript: ^5.1.6
   languageName: unknown

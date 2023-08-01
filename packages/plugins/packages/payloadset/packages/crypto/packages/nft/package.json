@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/crypto-nft-plugins": "workspace:~"
+    "@xyo-network/crypto-nft-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.9.3",

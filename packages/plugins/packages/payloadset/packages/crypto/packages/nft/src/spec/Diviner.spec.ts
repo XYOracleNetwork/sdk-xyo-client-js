@@ -21,13 +21,17 @@ describe('NftScoreDiviner', () => {
   })
   test('divine', async () => {
     const diviner = await NftScoreDiviner.create({ account: await HDWallet.random() })
-    const result = await diviner.divine(data)
-    const scores = result.filter(isNftScorePayload)
-    expect(scores.length).toBeGreaterThan(0)
-    expect(result.length).toEqual(scores.length)
-    for (const score of scores) {
+    const scores = (await diviner.divine(data)).filter(isNftScorePayload)
+    expect(scores).toBeArrayOfSize(data.length)
+    for (let i = 0; i < scores.length; i++) {
+      const score = scores[i]
       const wrapped = PayloadWrapper.wrap(score)
       expect(await wrapped.getValid()).toBe(true)
+      const payload = wrapped.payload()
+      expect(payload?.sources).toBeArrayOfSize(1)
+      expect(payload?.sources?.[0]).toBeString()
+      const sourceHash = await PayloadWrapper.wrap(data[i]).hashAsync()
+      expect(payload?.sources?.[0]).toBe(sourceHash)
     }
   })
 })

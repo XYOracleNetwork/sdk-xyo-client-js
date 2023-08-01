@@ -42,7 +42,7 @@ const diviners: ModuleConfigWithVisibility[] = [
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftWitnessConfigSchema }, true],
   // TODO: If we set this to false the visible modules stop resolving
-  [{ schema: PrometheusNodeWitnessConfigSchema }, true],
+  [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]

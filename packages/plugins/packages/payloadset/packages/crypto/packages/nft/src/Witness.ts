@@ -36,7 +36,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
       queries.map(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
-        const nfts = await getNftsOwnedByAddress(address, chainId, this.provider)
+        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex)
         const observation = nfts.map<NftInfoPayload>((nft) => {
           return { ...nft, schema }
         })

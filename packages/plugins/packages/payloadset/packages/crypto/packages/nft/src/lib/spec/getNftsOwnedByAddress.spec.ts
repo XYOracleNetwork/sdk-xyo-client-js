@@ -1,17 +1,14 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { HttpProvider } from 'web3-providers-http'
+import { HDWallet } from '@xyo-network/account'
 
-import { getExternalProviderFromHttpProvider } from '../getExternalProviderFromHttpProvider'
 import { getNftsOwnedByAddress } from '../getNftsOwnedByAddress'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
   const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
   const chainId = 1
-  const network = 'homestead'
-  const apiKey = process.env.INFURA_PROJECT_ID
-  const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
   test('gets NFTs owned by the address', async () => {
-    const nfts = await getNftsOwnedByAddress(address, chainId, provider)
+    const { privateKey } = await HDWallet.random()
+    const nfts = await getNftsOwnedByAddress(address, chainId, privateKey)
     expect(nfts.length).toBeGreaterThan(0)
     for (let i = 0; i < nfts.length; i++) {
       const nft = nfts[i]

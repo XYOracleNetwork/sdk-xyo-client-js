@@ -1,4 +1,3 @@
-import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { Auth, SDK } from '@infura/sdk'
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
@@ -18,10 +17,14 @@ export const getNftsOwnedByAddress = async (
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
   chainId: number,
+  // /**
+  //  * The ethers provider to use to search for NFTs
+  //  */
+  // provider: ExternalProvider | JsonRpcFetchFunc,
   /**
-   * The ethers provider to use to search for NFTs
+   * The private key of the wallet to use to search for NFTs
    */
-  provider: ExternalProvider | JsonRpcFetchFunc,
+  privateKey: string,
   /**
    * The maximum number of NFTs to return. Configurable to prevent
    * large wallets from exhausting Infura API credits.
@@ -32,13 +35,14 @@ export const getNftsOwnedByAddress = async (
   const sdk = new SDK(
     new Auth({
       chainId,
-      // privateKey,
+      privateKey,
       projectId: process.env.INFURA_PROJECT_ID,
       // ipfs: {
       //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,
       //   projectId: process.env.INFURA_IPFS_PROJECT_ID,
       // },
-      provider,
+      // provider,
+      // NOTE: rpcUrl is not required if chainId & projectId are provided
       // rpcUrl: process.env.EVM_RPC_URL,
       secretId: process.env.INFURA_PROJECT_SECRET,
     }),

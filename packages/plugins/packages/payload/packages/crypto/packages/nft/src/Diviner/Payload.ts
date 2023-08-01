@@ -31,3 +31,4 @@ export type NftAnalysis = {
 }
 
 export type NftScorePayload = Payload<{ schema: NftScoreSchema } & Partial<Omit<NftAnalysis, 'schema'>>>
+export const isNftScorePayload = (x?: Payload | null): x is NftScorePayload => x?.schema === NftScoreSchema

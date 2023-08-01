@@ -26,6 +26,7 @@
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "bip39": "^3.1.0",
+    "dotenv": "^16.3.1",
     "lodash": "^4.17.21",
     "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",

@@ -87,7 +87,7 @@ const addModuleToNodeFromConfig = async (
   if (configModuleFactory) {
     const mod = await configModuleFactory.create({ config })
     const { address } = mod
-    node.register(mod)
+    await node.register(mod)
     await node.attach(address, visibility)
   }
 }

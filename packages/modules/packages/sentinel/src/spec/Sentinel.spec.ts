@@ -12,11 +12,11 @@ import { MemoryNode } from '@xyo-network/node'
 import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AbstractWitness } from '@xyo-network/witness'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
-import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '../model'
 
 describe('Sentinel', () => {
   test('all [simple panel send]', async () => {

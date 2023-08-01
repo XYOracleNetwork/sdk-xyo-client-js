@@ -26,6 +26,7 @@ export abstract class AbstractModuleInstance<
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     super(privateConstructorKey, mutatedParams, account)
+    this.upResolver.add(this)
     this.downResolver.add(this)
   }
 

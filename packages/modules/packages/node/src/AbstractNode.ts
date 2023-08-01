@@ -64,7 +64,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
   }
 
   async attachedModules(): Promise<Module[]> {
-    return (await (this.resolve() ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.resolve(undefined, { direction: 'down', maxDepth: 2 }) ?? [])).filter((module) => module.address !== this.address)
   }
 
   override async manifest(ignoreAddresses?: string[]): Promise<NodeManifestPayload> {

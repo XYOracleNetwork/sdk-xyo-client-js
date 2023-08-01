@@ -291,15 +291,15 @@ export abstract class AbstractModule<
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (down ? await (this.downResolver as CompositeModuleResolver).resolve(nameOrAddressOrFilter) : undefined) ??
-          (up ? await (this.upResolver as ModuleResolver).resolve(nameOrAddressOrFilter) : undefined)
+          (down ? await (this.downResolver as CompositeModuleResolver).resolve(nameOrAddressOrFilter, options) : undefined) ??
+          (up ? await (this.upResolver as ModuleResolver).resolve(nameOrAddressOrFilter, options) : undefined)
         )
       }
       default: {
         const filter: ModuleFilter | undefined = nameOrAddressOrFilter
         return [
-          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve(filter) : []),
-          ...(up ? await (this.upResolver as ModuleResolver).resolve(filter) : []),
+          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve(filter, options) : []),
+          ...(up ? await (this.upResolver as ModuleResolver).resolve(filter, options) : []),
         ].filter(duplicateModules)
       }
     }

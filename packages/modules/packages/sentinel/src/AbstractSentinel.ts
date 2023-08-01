@@ -4,9 +4,6 @@ import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundw
 import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
-import uniq from 'lodash/uniq'
-
 import {
   CustomSentinelInstance,
   SentinelConfigSchema,
@@ -15,7 +12,9 @@ import {
   SentinelParams,
   SentinelQueryBase,
   SentinelReportQuerySchema,
-} from './model'
+} from '@xyo-network/sentinel-model'
+import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
+import uniq from 'lodash/uniq'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams = SentinelParams,

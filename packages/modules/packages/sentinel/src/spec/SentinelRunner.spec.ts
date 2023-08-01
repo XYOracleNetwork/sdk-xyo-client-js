@@ -3,11 +3,11 @@ import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node'
+import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
 import { MemorySentinel } from '../MemorySentinel'
-import { SentinelConfig, SentinelConfigSchema } from '../model'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
 describe('SentinelRunner', () => {

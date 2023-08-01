@@ -2,11 +2,10 @@ import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/provider
 import { assertEx } from '@xylabs/assert'
 import {
   CryptoWalletNftWitnessConfig,
+  isNftWitnessQueryPayload,
   NftInfoPayload,
   NftSchema,
   NftWitnessConfigSchema,
-  NftWitnessQueryPayload,
-  NftWitnessQuerySchema,
 } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -32,7 +31,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
-    const queries = payloads?.filter((p): p is NftWitnessQueryPayload => p.schema === NftWitnessQuerySchema) ?? []
+    const queries = payloads?.filter(isNftWitnessQueryPayload) ?? []
     const observations = await Promise.all(
       queries.map(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')

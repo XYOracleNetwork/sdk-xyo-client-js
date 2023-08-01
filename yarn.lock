@@ -6606,6 +6606,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
     "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~"
+    "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
     jest: ^29.6.2
     typescript: ^5.1.6
   languageName: unknown
@@ -6624,7 +6625,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-witness-wallet-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft/packages/witness":
+"@xyo-network/crypto-nft-witness-wallet-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft/packages/witness, @xyo-network/crypto-nft-witness-wallet-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-witness-wallet-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft/packages/witness"
   dependencies:
@@ -6639,7 +6640,6 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.0
     "@xylabs/url": ^2.9.3
     "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/core": "workspace:~"
     "@xyo-network/crypto-wallet-nft-payload-plugin": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module": "workspace:~"

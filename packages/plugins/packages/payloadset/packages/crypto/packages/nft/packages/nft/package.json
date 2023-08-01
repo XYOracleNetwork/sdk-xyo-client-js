@@ -10,7 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~"
+    "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~",
+    "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",

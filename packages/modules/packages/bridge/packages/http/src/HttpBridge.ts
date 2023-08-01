@@ -153,7 +153,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   }
 
   protected override async startHandler() {
-    const start = Date.now()
+    // const start = Date.now()
     await super.startHandler()
     const rootAddress = await this.initRootAddress()
     this.downResolver.addResolver(this.targetDownResolver())
@@ -177,7 +177,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     //notify parents of child modules
     //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
     parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
-    console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
+    // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
     return true
   }
 

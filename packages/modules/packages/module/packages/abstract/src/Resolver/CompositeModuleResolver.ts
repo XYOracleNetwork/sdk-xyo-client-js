@@ -50,15 +50,12 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<ModuleInstance[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddress: string,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   async resolve<T extends ModuleInstance = ModuleInstance>(
     nameOrAddressOrFilter?: ModuleFilter<T> | string,
     options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  ): Promise<T | T[] | undefined> {
     const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth) - 1 }
     if (typeof nameOrAddressOrFilter === 'string') {
       if (mutatedOptions.maxDepth < 0) {
@@ -66,11 +63,11 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
       }
       const results = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: ModuleInstance | undefined = await resolver.resolve(nameOrAddressOrFilter, mutatedOptions)
+          const result: T | undefined = await resolver.resolve<T>(nameOrAddressOrFilter, mutatedOptions)
           return result
         }),
       )
-      const result: ModuleInstance | undefined = results.filter(exists).filter(duplicateModules).pop()
+      const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
       return result
     } else {
       if (mutatedOptions.maxDepth < 0) {
@@ -78,11 +75,11 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
       }
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: ModuleInstance[] = await resolver.resolve(nameOrAddressOrFilter, mutatedOptions)
+          const result: T[] = await resolver.resolve<T>(nameOrAddressOrFilter, mutatedOptions)
           return result
         }),
       )
-      const flatResult: ModuleInstance[] = result.flat()
+      const flatResult: T[] = result.flat()
       return flatResult.filter(duplicateModules)
     }
   }

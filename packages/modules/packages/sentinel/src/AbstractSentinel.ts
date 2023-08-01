@@ -66,7 +66,8 @@ export abstract class AbstractSentinel<
 
   async getWitnesses() {
     const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
-    this._witnesses = this._witnesses ?? ((await this.resolve({ address: addresses }, { identity: isWitnessInstance })) as WitnessInstance[])
+    this._witnesses =
+      this._witnesses ?? (await this.resolve<WitnessInstance>(addresses ? { address: addresses } : undefined, { identity: isWitnessInstance }))
 
     if (addresses.length !== this._witnesses.length) {
       this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)

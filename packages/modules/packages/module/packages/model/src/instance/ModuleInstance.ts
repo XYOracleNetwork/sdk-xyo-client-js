@@ -6,10 +6,13 @@ import { ModuleEventData } from '../Events'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 
-export interface ResolveFunctions<T extends ModuleInstance = ModuleInstance> {
-  resolve(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
-  resolve(nameOrAddressOrFilter?: ModuleFilter<T> | string, options?: ModuleFilterOptions<T>): Promisable<T | T[] | undefined>
+export interface ResolveFunctions {
+  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
+  resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promisable<T | T[] | undefined>
 }
 
 export interface ModuleResolver extends ResolveFunctions {

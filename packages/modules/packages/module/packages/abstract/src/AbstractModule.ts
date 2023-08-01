@@ -279,27 +279,27 @@ export abstract class AbstractModule<
     return validators.every((validator) => validator(query, payloads))
   }
 
-  async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
-  async resolve(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (down ? await (this.downResolver as CompositeModuleResolver).resolve(nameOrAddressOrFilter, options) : undefined) ??
-          (up ? await (this.upResolver as ModuleResolver).resolve(nameOrAddressOrFilter, options) : undefined)
+          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(nameOrAddressOrFilter, options) : undefined) ??
+          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(nameOrAddressOrFilter, options) : undefined)
         )
       }
       default: {
-        const filter: ModuleFilter | undefined = nameOrAddressOrFilter
+        const filter: ModuleFilter<T> | undefined = nameOrAddressOrFilter
         return [
-          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve(filter, options) : []),
-          ...(up ? await (this.upResolver as ModuleResolver).resolve(filter, options) : []),
+          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),
+          ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),
         ].filter(duplicateModules)
       }
     }

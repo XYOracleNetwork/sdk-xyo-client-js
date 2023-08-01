@@ -1,5 +1,6 @@
 [
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -31,6 +32,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -62,6 +64,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -97,6 +100,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -135,6 +139,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -191,6 +196,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -247,6 +253,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -303,6 +310,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -359,6 +367,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": null,
     "supply": "1",
@@ -366,6 +375,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1f8a035b0ae5162ee24454b7e960aab3afff88b6",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1659986036/Julian/KennyScharfWestinghouse/WESTINGHOUSE_20-26X44.5X4.5B_x2mz3r.mp4",
@@ -380,6 +390,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -414,6 +425,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -470,6 +482,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -526,6 +539,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x223154028c749fc856b3329ef8c2e1d9cb98ae48",
     "metadata": {
       "attributes": [
@@ -582,6 +596,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -615,6 +630,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -648,6 +664,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
     "metadata": {
       "attributes": [
@@ -683,6 +700,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -716,6 +734,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -754,6 +773,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -789,6 +809,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -824,6 +845,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6802df79bcbbf019fe5cb366ff25720d1365cfd3",
     "metadata": null,
     "supply": "1",
@@ -831,6 +853,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd1ed2b5040d3a78646c8e29ec826fe1b8f0cb823",
     "metadata": {
       "attributes": [
@@ -868,6 +891,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6b8f6f6cc95bb0f29d486166419b90cd6617d3f0",
     "metadata": {
       "attributes": [
@@ -890,6 +914,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -921,6 +946,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -952,6 +978,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -983,6 +1010,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1025,6 +1053,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1071,6 +1100,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1105,6 +1135,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc0b9d2be78d1a90832628e4e4b6b29dbef5d80bc",
     "metadata": {
       "attributes": [
@@ -1126,6 +1157,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1157,6 +1189,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75836a73fc0bcb7e63f70c9173eb86b4bf0d282",
     "metadata": {
       "animation_url": "ipfs://QmTwcm9KsPdtKaayynyCtvDkfXFmusMSHgrTAwpbh8NGwf/1003.mp4",
@@ -1184,6 +1217,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8f685978e5ab8b63e618694917e8ff93a7eb54e3",
     "metadata": {
       "animation_url": "ipfs://QmaXTuWjEbDuvcA3dHypqHfxMzDLq78Zj5kBLN4JdMEYDB/3.mp4",
@@ -1215,6 +1249,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75836a73fc0bcb7e63f70c9173eb86b4bf0d282",
     "metadata": {
       "attributes": [
@@ -1237,6 +1272,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1276,6 +1312,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1307,6 +1344,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
     "metadata": {
       "attributes": [
@@ -1338,6 +1376,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1369,6 +1408,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
     "metadata": {
       "attributes": [
@@ -1400,6 +1440,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
     "metadata": {
       "attributes": [
@@ -1431,6 +1472,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1466,6 +1508,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1501,6 +1544,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x22673e5d3363f25b04e264f9bba705eef6b1ba66",
     "metadata": {
       "animation_url": null,
@@ -1528,6 +1572,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1570,6 +1615,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1600,6 +1646,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1642,6 +1689,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc9b82badf090551a9c5ff6010bbdfb39587bd007",
     "metadata": {
       "animation_url": "",
@@ -1678,6 +1726,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc9b82badf090551a9c5ff6010bbdfb39587bd007",
     "metadata": null,
     "supply": "1",
@@ -1685,6 +1734,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x283c0bba69ebd4643cfce761b34b0206e75b2091",
     "metadata": {
       "animation_url": "",
@@ -1707,6 +1757,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1745,6 +1796,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1779,6 +1831,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd7b397edad16ca8111ca4a3b832d0a5e3ae2438c",
     "metadata": {
       "attributes": [
@@ -1817,6 +1870,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x092bbc993042a69811d23feb0e64e3bfa0920c6a",
     "metadata": {
       "attributes": [
@@ -1839,6 +1893,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
     "metadata": {
       "attributes": [
@@ -1870,6 +1925,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
     "metadata": {
       "attributes": [
@@ -1905,6 +1961,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1f2f4af94c6f3504e85684969283053c315692b2",
     "metadata": {
       "attributes": [
@@ -1929,6 +1986,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -1963,6 +2021,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -1984,6 +2043,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x68d0f6d1d99bb830e17ffaa8adb5bbed9d6eec2e",
     "metadata": {
       "collection_name": "Everydays: Group Effort by Beeple",
@@ -1995,6 +2055,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa0e8a9941d1e1bc2ed25f138be6b0b51c059b298",
     "metadata": {
       "animation": "https://arweave.net/-pJImTBbIzO1mJokiogYfBzdK-aAN9R20MAHz8JTLbg",
@@ -2044,6 +2105,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6b893a18b60e7ad13e9e9e77e4b4c58ad23b6e17",
     "metadata": {
       "attributes": [
@@ -2120,6 +2182,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2139,6 +2202,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2158,6 +2222,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2177,6 +2242,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2196,6 +2262,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2215,6 +2282,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a20815a061eae224c4fdf3109731f73743db73",
     "metadata": {
       "created_by": "LVCIDIA",
@@ -2234,6 +2302,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8c6def540b83471664edc6d5cf75883986932674",
     "metadata": {
       "attributes": [
@@ -2279,6 +2348,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8c6def540b83471664edc6d5cf75883986932674",
     "metadata": {
       "attributes": [
@@ -2324,6 +2394,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8c6def540b83471664edc6d5cf75883986932674",
     "metadata": {
       "attributes": [
@@ -2369,6 +2440,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8c6def540b83471664edc6d5cf75883986932674",
     "metadata": {
       "attributes": [
@@ -2414,6 +2486,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8c6def540b83471664edc6d5cf75883986932674",
     "metadata": {
       "attributes": [
@@ -2459,6 +2532,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x279c53df917579bb454b61555982dac1750187d9",
     "metadata": {
       "attributes": [
@@ -2504,6 +2578,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2516,6 +2591,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2528,6 +2604,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb8dab05398e9453ade9f4e9d832bc635f75be2bf",
     "metadata": {
       "attributes": [
@@ -2559,6 +2636,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2571,6 +2649,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2583,6 +2662,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2595,6 +2675,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3297b70f105c98882c518c198c2ecd448376bc55",
     "metadata": {
       "attributes": [
@@ -2628,6 +2709,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2640,6 +2722,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5f48045f3a1a19ab9985418869f77612cfa752d6",
     "metadata": {
       "attributes": [],
@@ -2652,6 +2735,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbce3781ae7ca1a5e050bd9c4c77369867ebc307e",
     "metadata": {
       "animation_url": "ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/",
@@ -2663,6 +2747,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x06911466341299d79e9e1368a016c73d009691cc",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4",
@@ -2695,6 +2780,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -2740,6 +2826,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -2757,6 +2844,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -2774,6 +2862,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -2791,6 +2880,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -2808,6 +2898,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -2825,6 +2916,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1792a96e5668ad7c167ab804a100ce42395ce54d",
     "metadata": {
       "attributes": [
@@ -2865,6 +2957,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [],
@@ -2878,6 +2971,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0dfc1bc020e2d6a7cf234894e79686a88fbe2b2a",
     "metadata": {
       "description": "The Winged Helmet commemorates victory in 2nd Trip. A helmet is a cosmetic item that changes your Voyager's appearance. It is an enhancement only and may be worn by Voyagers in Otherside. Winged Helmets are subject to a personal use license available at Yuga Labs website.",
@@ -2891,6 +2985,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -2912,6 +3007,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -2969,6 +3065,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -2986,6 +3083,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3003,6 +3101,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3060,6 +3159,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3117,6 +3217,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3183,6 +3284,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3200,6 +3302,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3221,6 +3324,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3238,6 +3342,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3255,6 +3360,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3272,6 +3378,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3289,6 +3396,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3355,6 +3463,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3372,6 +3481,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3447,6 +3557,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3508,6 +3619,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3525,6 +3637,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3542,6 +3655,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe012baf811cf9c05c408e879c399960d1f305903",
     "metadata": {
       "attributes": [
@@ -3572,6 +3686,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3629,6 +3744,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3686,6 +3802,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3761,6 +3878,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3778,6 +3896,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3795,6 +3914,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b1085136a811e55b2bb2ca1ea456ba82126a376",
     "metadata": {
       "attributes": [
@@ -3812,6 +3932,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3882,6 +4003,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x790b2cf29ed4f310bf7641f013c65d4560d28371",
     "metadata": {
       "attributes": [
@@ -3952,6 +4074,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xace793d0daf206c3a5c2e31dc1fc187a28b43516",
     "metadata": {
       "attributes": [
@@ -3985,6 +4108,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1792a96e5668ad7c167ab804a100ce42395ce54d",
     "metadata": {
       "attributes": [
@@ -4025,6 +4149,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x88a6c8dc4e9d7f13517fb4afd0a12a0d6dc89c67",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1679545218/publishers/niftygateway_curated/46861/66309/flower%20power.mp4",
@@ -4040,6 +4165,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b15a9c28034dc83db40cd810001427d3bd7163d",
     "metadata": {
       "attributes": [
@@ -4091,6 +4217,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b15a9c28034dc83db40cd810001427d3bd7163d",
     "metadata": {
       "attributes": [
@@ -4142,6 +4269,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b15a9c28034dc83db40cd810001427d3bd7163d",
     "metadata": {
       "attributes": [
@@ -4193,6 +4321,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0cfb5d82be2b949e8fa73a656df91821e2ad99fd",
     "metadata": {
       "attributes": [
@@ -4232,6 +4361,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
     "metadata": {
       "animation_url": "https://generator.artblocks.io/0x059edd72cd353df5106d2b9cc5ab83a52287ac3a/8157",
@@ -4313,6 +4443,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b15a9c28034dc83db40cd810001427d3bd7163d",
     "metadata": {
       "attributes": [
@@ -4364,6 +4495,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b15a9c28034dc83db40cd810001427d3bd7163d",
     "metadata": {
       "attributes": [
@@ -4415,6 +4547,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa0e8a9941d1e1bc2ed25f138be6b0b51c059b298",
     "metadata": {
       "animation": "https://arweave.net/-ds3XFvQ6Jigc4WoKRHY93vvJddG3Kzx_6d-TI4Onuo",
@@ -4464,6 +4597,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a25f76675ead1ff456351398a1f69e5e3631f2",
     "metadata": null,
     "supply": "1",
@@ -4471,6 +4605,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x97a25f76675ead1ff456351398a1f69e5e3631f2",
     "metadata": {
       "animation_url": "https://nftstorage.link/ipfs/bafybeiacmlm5tx2oe6mnkkqqzni4jzpkqg3dwlwcvaohuzcrxocxegs7wy",
@@ -4537,6 +4672,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1e0e008eec6d04c52a3945d3df33d04e06a9c46f",
     "metadata": {
       "animation_url": "ipfs://QmfAA3FCSVepuxrh8x4xtwPsGKrsfuYifrWW3pLXk3VYiU",
@@ -4550,6 +4686,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x728f308e300a6562f1763ffb1ce4b3de1007ed24",
     "metadata": {
       "animation_url": "ipfs://QmRZ38iydGuJAjBFFtFrMKuvUC5pBa2moXRKjET35X7weS",
@@ -4563,6 +4700,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3e84607606b25f8a3c75b6db4a8a6683d1e40284",
     "metadata": {
       "attributes": [
@@ -4592,6 +4730,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x592b96241367bab3b2bf930c9d41bdf801749878",
     "metadata": {
       "attributes": [
@@ -4617,6 +4756,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x88beb297de26d7d4553a972d2cabb7781173f208",
     "metadata": {
       "compiler": "Gutter Punks",
@@ -4629,6 +4769,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xccc1825cf04cae4d497b202d1434ec0f79ee535f",
     "metadata": {
       "animation_url": "https://media.10ktf.com/kagami/videos/603.mp4",
@@ -4641,6 +4782,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x529574d1affef7cf347cdd02b91efd2c00bb773b",
     "metadata": {
       "animation_url": "ipfs://QmPBPJBmCduvA2uF6kKemxXbrvJdfBEbqgRwim961vNdcZ/",
@@ -4652,6 +4794,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -4665,6 +4808,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa401976af95e7f415611fb3a9b50d3a583363717",
     "metadata": {
       "created_by": "Pepenardo",
@@ -4685,6 +4829,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -4727,6 +4872,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6e9da81ce622fb65abf6a8d8040e460ff2543add",
     "metadata": {
       "attributes": [
@@ -4761,6 +4907,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x950b9476a4de757bb134483029ac4ec17e739e3a",
     "metadata": {
       "attributes": [
@@ -4795,6 +4942,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd7b397edad16ca8111ca4a3b832d0a5e3ae2438c",
     "metadata": {
       "attributes": [
@@ -4829,6 +4977,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae5dffa72a224238061966470fbf846838391dd4",
     "metadata": {
       "attributes": [
@@ -4869,6 +5018,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae5dffa72a224238061966470fbf846838391dd4",
     "metadata": {
       "attributes": [
@@ -4909,6 +5059,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae5dffa72a224238061966470fbf846838391dd4",
     "metadata": {
       "attributes": [
@@ -4949,6 +5100,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb28bbac3df6245eb82ea99631e3b23a5a2f8740a",
     "metadata": {
       "attributes": [
@@ -4996,6 +5148,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb28bbac3df6245eb82ea99631e3b23a5a2f8740a",
     "metadata": {
       "attributes": [
@@ -5031,6 +5184,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x11f736ef3441dff8fdef80306997b22e184c4130",
     "metadata": {
       "animation_url": "ipfs://QmTHHHkXhwtPLHXmfTDwPTp9YvChr3xb6p3JYLxrPrEUgf",
@@ -5043,6 +5197,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5106,6 +5261,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5169,6 +5325,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5232,6 +5389,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5295,6 +5453,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5358,6 +5517,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5421,6 +5581,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaf1cbdbac56a308abc047778286561a3416c72d9",
     "metadata": {
       "attributes": [
@@ -5484,6 +5645,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x286e531f363768fed5e18b468f5b76a9ffc33af5",
     "metadata": {
       "created_by": "NyanCat",
@@ -5505,6 +5667,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa23fae2c0f7472ccab876a5a459747cd19d36af8",
     "metadata": null,
     "supply": "1",
@@ -5512,6 +5675,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa23fae2c0f7472ccab876a5a459747cd19d36af8",
     "metadata": {
       "image": "https://assets.bueno.art/images/QmSrHBaVTQyN4Wiwcvrf3ZCniQZeYP7AGDw6t63QeEqzJj?w=750&auto=format&gif-q=35&s=267cca39af54f0bee978e1666f076ea4",
@@ -5522,6 +5686,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa23fae2c0f7472ccab876a5a459747cd19d36af8",
     "metadata": {
       "image": "https://assets.bueno.art/images/QmSrHBaVTQyN4Wiwcvrf3ZCniQZeYP7AGDw6t63QeEqzJj?w=750&auto=format&gif-q=35&s=267cca39af54f0bee978e1666f076ea4",
@@ -5532,6 +5697,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa23fae2c0f7472ccab876a5a459747cd19d36af8",
     "metadata": {
       "image": "https://assets.bueno.art/images/QmSrHBaVTQyN4Wiwcvrf3ZCniQZeYP7AGDw6t63QeEqzJj?w=750&auto=format&gif-q=35&s=267cca39af54f0bee978e1666f076ea4",
@@ -5542,6 +5708,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9faffeb7e7f0f46aca2ce6654de93c634f15da21",
     "metadata": {
       "attributes": [
@@ -5584,6 +5751,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9faffeb7e7f0f46aca2ce6654de93c634f15da21",
     "metadata": {
       "attributes": [
@@ -5626,6 +5794,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9faffeb7e7f0f46aca2ce6654de93c634f15da21",
     "metadata": {
       "attributes": [
@@ -5668,6 +5837,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9faffeb7e7f0f46aca2ce6654de93c634f15da21",
     "metadata": {
       "attributes": [
@@ -5710,6 +5880,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x39ee2c7b3cb80254225884ca001f57118c8f21b6",
     "metadata": {
       "attributes": [
@@ -5744,6 +5915,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5bd13ff0279639f7c27da270e4a0e1a73f073de8",
     "metadata": {
       "attributes": [],
@@ -5756,6 +5928,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x39ee2c7b3cb80254225884ca001f57118c8f21b6",
     "metadata": {
       "attributes": [
@@ -5790,6 +5963,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x39ee2c7b3cb80254225884ca001f57118c8f21b6",
     "metadata": {
       "attributes": [
@@ -5820,6 +5994,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5841,6 +6016,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7daec605e9e2a1717326eedfd660601e2753a057",
     "metadata": {
       "attributes": [
@@ -5860,6 +6036,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5881,6 +6058,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5902,6 +6080,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5923,6 +6102,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5944,6 +6124,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5965,6 +6146,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -5986,6 +6168,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x769272677fab02575e84945f03eca517acc544cc",
     "metadata": {
       "attributes": [
@@ -6007,6 +6190,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -6041,6 +6225,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -6075,6 +6260,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x36d30b3b85255473d27dd0f7fd8f35e36a9d6f06",
     "metadata": {
       "attributes": [
@@ -6110,6 +6296,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc3f8a0f5841abff777d3eefa5047e8d413a1c9ab",
     "metadata": {
       "attributes": [
@@ -6144,6 +6331,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xdd69da9a83cedc730bc4d3c56e96d29acc05ecde",
     "metadata": {
       "animation_url": "ipfs://QmVyeYyQVbowSSZLzbv936BYn4LBeiFHH7pqxwqS2n4aJE",
@@ -6178,6 +6366,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbce3781ae7ca1a5e050bd9c4c77369867ebc307e",
     "metadata": {
       "animation_url": "ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/",
@@ -6189,6 +6378,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -6222,6 +6412,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7d8820fa92eb1584636f4f5b8515b5476b75171a",
     "metadata": {
       "animation_url": "",
@@ -6257,6 +6448,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -6290,6 +6482,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
     "metadata": {
       "attributes": [
@@ -6323,6 +6516,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6344,6 +6538,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9794a9894e24f37e4072f206cfb6a6700fdefbf2",
     "metadata": {
       "created_by": "FVCKRENDER",
@@ -6364,6 +6559,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6385,6 +6581,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6406,6 +6603,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6427,6 +6625,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6448,6 +6647,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x842068ce6d5f6a9e79d45dc2b51a14cbbb62a6ea",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6469,6 +6669,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb5d53555afd52822f979200e83a515d3464a3c2b",
     "metadata": {
       "attributes": [
@@ -6511,6 +6712,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb648ed2b8a2386a0598ccd84dbb2489dc09aefc4",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6532,6 +6734,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb648ed2b8a2386a0598ccd84dbb2489dc09aefc4",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6553,6 +6756,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb648ed2b8a2386a0598ccd84dbb2489dc09aefc4",
     "metadata": {
       "created_by": "cryptopainter",
@@ -6574,6 +6778,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3abc0cb45e574d9f26dc6cc5ca9f2280b379a03e",
     "metadata": {
       "attributes": [
@@ -6605,6 +6810,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x86fe55decc6428bd94d9c51aa55501bec340b601",
     "metadata": {
       "attributes": [
@@ -6626,6 +6832,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xdac19cdaa4aee687c467f02710b9163f3cd6d579",
     "metadata": {
       "description": "Welcome to [Peach APE Club](https://peachapeclub.xyz). These tokens grant lifetime membership to our private club as well as access to our futures utilities and benefits. Members are invited to monthly yacht parties and exclusive IRL events.\n**Peach APE Club** is the world's first web3 travel booking platform. The NFT is also a key to our Elevated Academy where you can learn about **Travel** , **Credits**, **Investing**, and **Businesses**. This portal is packed with valuable up-to-date information that can help you save money and make smarter financial decisions.",
@@ -6637,6 +6844,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6651,6 +6859,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6665,6 +6874,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6679,6 +6889,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6693,6 +6904,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6707,6 +6919,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbd97863893b078232afc165934d521e4cfae70a",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1671054053/publishers/niftygateway_curated/1724/4114/UA_MintPass_v05.2.mp4",
@@ -6721,6 +6934,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x687de90a6eded5cbf7ae20035e00d95afd4592de",
     "metadata": {
       "attributes": [
@@ -6738,6 +6952,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x687de90a6eded5cbf7ae20035e00d95afd4592de",
     "metadata": {
       "attributes": [
@@ -6755,6 +6970,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x687de90a6eded5cbf7ae20035e00d95afd4592de",
     "metadata": {
       "attributes": [
@@ -6772,6 +6988,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x19f636d66d7f39dc12f58e900247d899ac1cb034",
     "metadata": {
       "attributes": [
@@ -6814,6 +7031,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5928c7c86a8e567b11078d7a8e7a23c96778c4ee",
     "metadata": {
       "attributes": [],
@@ -6828,6 +7046,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x074b13adfd9e12e2b4e12d6e9cb998b10e3d1be8",
     "metadata": {
       "description": "[NativePunks](https://www.nativepunk.xyz) love fashion, travel, music and NFTs, but most importantly they love their country and embrace other cultures.",
@@ -6840,6 +7059,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8243a1f72a6a3c465cf710e16723adf434f1688e",
     "metadata": {
       "attributes": [
@@ -6867,6 +7087,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbce3781ae7ca1a5e050bd9c4c77369867ebc307e",
     "metadata": {
       "animation_url": "ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/",
@@ -6878,6 +7099,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x202ba5e28855918d4dc905f173afb9f62e3068ae",
     "metadata": {
       "animation_url": "https://meekicks.s3.us-west-2.amazonaws.com/videos/14123.mp4",
@@ -6919,6 +7141,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xfe0101dfbd0a8758598b760365610754a0804259",
     "metadata": {
       "description": "[Hframe](https://www.hframes.xyz) is for: Traders & Collectors : Snap picks and vids of your NFTs in AR, and flex them on Twitter & Discord. Artists - Generate QR codes and share them online or IRL to promote your NFT art. Web3 Companies : Use AR frames to showcase everything from PFP collections to gaming NFTs.",
@@ -6930,6 +7153,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc874dadccbab2d63fb48488f572243cbe96e6dbd",
     "metadata": {
       "attributes": [
@@ -6961,6 +7185,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa0e8a9941d1e1bc2ed25f138be6b0b51c059b298",
     "metadata": {
       "animation": "https://arweave.net/BTiInnoL9aTujng7JUKYdHT6DYuZlYBpfpCQqhC28hc",
@@ -7010,6 +7235,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5be372fa04ba4bb290efab27c0d772f9efc0491b",
     "metadata": {
       "attributes": [
@@ -7048,6 +7274,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -7073,6 +7300,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa0e8a9941d1e1bc2ed25f138be6b0b51c059b298",
     "metadata": {
       "animation": "https://arweave.net/Y1bTiwYRo3Asg7nodlM-droVoPDw2DcvSYnnVGNcTZE",
@@ -7122,6 +7350,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xffbfd7d27e3fb59de43054c234b464dfe0f95ae8",
     "metadata": null,
     "supply": "1",
@@ -7129,6 +7358,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x06b8db239411c96fd7b94fcfb6f9b6a95cb1cdbd",
     "metadata": {
       "animation_url": "https://meekicks.s3.us-west-2.amazonaws.com/videos/14680.mp4",
@@ -7170,6 +7400,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xad1121c001e3da6af5a3b28955d93b6b0f584caf",
     "metadata": {
       "attributes": [
@@ -7240,6 +7471,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae63ef64d38674d9ec256d100170f9d9f1bc9dfa",
     "metadata": null,
     "supply": "1",
@@ -7247,6 +7479,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xdbae9daf5edccd4b3c352758f845abdd78e7c3d7",
     "metadata": null,
     "supply": "1",
@@ -7254,6 +7487,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa25345f51f7c3373f8dc51fbafb6cef706976e59",
     "metadata": {
       "description": "Mint Live! [P2E World Cup](https://www.fantasyworldcup.fun) is a Play-2-Earn NFT project, tailored specifically to all football fans from all over the world. Minting is free for only ticket holders.",
@@ -7265,6 +7499,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x23581767a106ae21c074b2276d25e5c3e136a68b",
     "metadata": {
       "attributes": [
@@ -7303,6 +7538,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x05ae34f13cfed4d8c32256b0905f04c0ad38a890",
     "metadata": {
       "attributes": [],
@@ -7317,6 +7553,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x713a41d9134022ef1ec960cbe9fd0ff43a48ec56",
     "metadata": null,
     "supply": "1",
@@ -7324,6 +7561,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x09b88423f317f879629827428cf507ded5263a3b",
     "metadata": {
       "attributes": [
@@ -7362,6 +7600,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1165840ae3f426bf09a9575e1696badeb4be5198",
     "metadata": null,
     "supply": "1",
@@ -7369,6 +7608,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x81a6663b035ad94ed77e17b3aa07125c9a41a99b",
     "metadata": {
       "attributes": [
@@ -7430,6 +7670,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x81a6663b035ad94ed77e17b3aa07125c9a41a99b",
     "metadata": {
       "attributes": [
@@ -7491,6 +7732,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6a0a8b6a16462b7fbcc23540e5020f3b22ddccb2",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7506,6 +7748,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x84e67ca41f7b928b574ed42673988c9a40b8c7ab",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7521,6 +7764,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x31ba18d3d0bd9a7b58891936ba4f99d1a682023b",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7536,6 +7780,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x05095d77010c2bf5e2c4a5f528ec9d5be257f65e",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7551,6 +7796,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x941c9b9a5080614b7f40b9009b74bcbcecea0f06",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7566,6 +7812,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xef178f92efd1550850434940485dc085ab72cfac",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7581,6 +7828,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7f80a95204932020de21d585182fbe53e217d945",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -7596,6 +7844,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7ae5b3345aac9812ef379f245a4f5626cc4f1b90",
     "metadata": {
       "description": "[Angels Of Aether](https://angelsofaether.link), Angelic NFT Collectibles set. Guardian Claim is LIVE on. Visit [Here](https://angelsofaether.link) and get your ANGEL.",
@@ -7608,6 +7857,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xadc8dadd38ecd8c261f6fe25c7cda4e5c266805f",
     "metadata": {
       "animation_url": "ipfs://QmYjP7tS5SDnUuTkXYYKEyf91Jq8gPUh7sTjQbPjDSKxxc",
@@ -7622,6 +7872,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1266ffce77de17864a7e5c7c657425594c2be9b4",
     "metadata": {
       "attributes": [
@@ -7666,6 +7917,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6aa5b0e1bdb031c51569c42755064c12c368ecc9",
     "metadata": {
       "attributes": [
@@ -7708,6 +7960,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x09c38a623407e55be595d3fbaaadd96c7e7dd2f3",
     "metadata": {
       "attributes": [
@@ -7751,6 +8004,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcccf54f29b814e8e92e6379360f3d330ff81d557",
     "metadata": {
       "attributes": [
@@ -7802,6 +8056,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -7836,6 +8091,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -7870,6 +8126,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -7912,6 +8169,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -7950,6 +8208,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -7988,6 +8247,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8022,6 +8282,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8056,6 +8317,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8098,6 +8360,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8136,6 +8399,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8174,6 +8438,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8216,6 +8481,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8250,6 +8516,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8284,6 +8551,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8318,6 +8586,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8352,6 +8621,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8390,6 +8660,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8428,6 +8699,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8462,6 +8734,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8496,6 +8769,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x494630dbfd30a5a47cb6df744f938d0e7e71d577",
     "metadata": {
       "attributes": [
@@ -8534,6 +8808,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x06911466341299d79e9e1368a016c73d009691cc",
     "metadata": {
       "animation_url": "https://media.niftygateway.com/video/upload/v1649190305/Abigail/FEWO/Paint/Paint/007141_paint_ogl8wn.mp4",
@@ -8566,6 +8841,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbce3781ae7ca1a5e050bd9c4c77369867ebc307e",
     "metadata": {
       "animation_url": "ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/",
@@ -8577,6 +8853,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xfdb192fb0213d48ecdf580c1821008d8c46bdbd7",
     "metadata": {
       "animation": "https://arweave.net/msvAA-Me8GRLhD5CRhg7Nz8qG90jsXyqpktdpBVCJFI",
@@ -8604,6 +8881,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x43764f5b8973f62a6f10914516131c1489e3190d",
     "metadata": {
       "animation_url": "ipfs://QmdpNTEjAZr8sxJ7heiLyPUQErRZa7f93kyNnpD9frh43C",
@@ -8635,6 +8913,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7daec605e9e2a1717326eedfd660601e2753a057",
     "metadata": {
       "attributes": [
@@ -8654,6 +8933,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x56a67d475ded20f1120d6377988ae12992888ac4",
     "metadata": {
       "animation_url": "ipfs://QmP2gHxRfvM5MHWjhbcwpyTmGLHxC7n8wixRcxm1pG6EiZ",
@@ -8677,6 +8957,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -8690,6 +8971,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -8703,6 +8985,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -8753,6 +9036,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe11ea93b4516158afad2f61c48e74a9b92c93adb",
     "metadata": {
       "attributes": [
@@ -8796,6 +9080,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe11ea93b4516158afad2f61c48e74a9b92c93adb",
     "metadata": {
       "attributes": [
@@ -8839,6 +9124,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x49cf6f5d44e70224e2e23fdcdd2c053f30ada28b",
     "metadata": {
       "attributes": [
@@ -8876,6 +9162,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5140dbbeb64d478f246e81abb69f7017b6f437fe",
     "metadata": {
       "attributes": [
@@ -8893,6 +9180,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf8b37af2b5fe2ce1cc303a8472dedccca0953bb2",
     "metadata": {
       "attributes": [
@@ -8910,6 +9198,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -8956,6 +9245,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -8969,6 +9259,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -9007,6 +9298,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -9049,6 +9341,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -9103,6 +9396,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -9149,6 +9443,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270",
     "metadata": {
       "animation_url": "https://generator.artblocks.io/225000987",
@@ -9219,6 +9514,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x466cfcd0525189b573e794f554b8a751279213ac",
     "metadata": {
       "attributes": [
@@ -9248,6 +9544,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x466cfcd0525189b573e794f554b8a751279213ac",
     "metadata": {
       "attributes": [
@@ -9277,6 +9574,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd0a07a76746707f6d6d36d9d5897b14a8e9ed493",
     "metadata": null,
     "supply": "1",
@@ -9284,6 +9582,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd0a07a76746707f6d6d36d9d5897b14a8e9ed493",
     "metadata": null,
     "supply": "1",
@@ -9291,6 +9590,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbce3781ae7ca1a5e050bd9c4c77369867ebc307e",
     "metadata": {
       "animation_url": "ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/",
@@ -9302,6 +9602,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd0a07a76746707f6d6d36d9d5897b14a8e9ed493",
     "metadata": null,
     "supply": "1",
@@ -9309,6 +9610,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3adf71d5fbb59e32730ceb8e6605af958a204e6b",
     "metadata": {
       "animation_url": "https://pixelvault.mypinata.cloud/ipfs/QmW6Ubove3UuQrndZkiT3AhwFmft6esgMxVv6SkU8H99fV/0.mp4",
@@ -9328,6 +9630,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x941f6494c6e8a197236438836d85699d07d8267a",
     "metadata": null,
     "supply": "1",
@@ -9335,6 +9638,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -9373,6 +9677,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x163655398c1442057092a25f33bc7125f837ceba",
     "metadata": null,
     "supply": "1",
@@ -9380,6 +9685,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6e0c467de071e625abe1bd8cc80825c83d38b1da",
     "metadata": {
       "description": "Open goo at website\r\n\r\nGoo has just arrived to Earth. Use goo to teleport Legendary Art Gobblers to this land so that they can upgrade all gobblers.\r\n\r\nIf you have Gobblers Goo, please open that!",
@@ -9392,6 +9698,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x600df00d3e42f885249902606383ecdcb65f2e02",
     "metadata": {
       "attributes": [
@@ -9414,6 +9721,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xacd317a1c91818c901dbcd63273ff9da7af82c2c",
     "metadata": {
       "description": "The official [CREA](https://www.creawearables.fun) Airdrop Vault! The first exclusive airdroped collection of wearable NFTs and your gateway into the world of digital wearable fashion, powered by Blockchain technology, engineered for AR and blurring the boundaries between physical and digital realms 🌐",
@@ -9426,6 +9734,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -9464,6 +9773,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9478,6 +9788,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9492,6 +9803,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9499,6 +9811,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9513,6 +9826,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9520,6 +9834,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9534,6 +9849,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9548,6 +9864,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9555,6 +9872,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9569,6 +9887,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9583,6 +9902,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9590,6 +9910,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9597,6 +9918,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9604,6 +9926,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9618,6 +9941,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9625,6 +9949,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9639,6 +9964,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9646,6 +9972,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9653,6 +9980,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9660,6 +9988,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9674,6 +10003,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9681,6 +10011,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9695,6 +10026,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9709,6 +10041,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9723,6 +10056,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9730,6 +10064,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9744,6 +10079,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9751,6 +10087,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9765,6 +10102,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9772,6 +10110,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9779,6 +10118,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9786,6 +10126,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9793,6 +10134,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9807,6 +10149,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9821,6 +10164,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9828,6 +10172,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9842,6 +10187,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9849,6 +10195,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9863,6 +10210,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9870,6 +10218,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9884,6 +10233,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9898,6 +10248,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9905,6 +10256,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9919,6 +10271,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9933,6 +10286,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9940,6 +10294,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9954,6 +10309,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": null,
     "supply": "1",
@@ -9961,6 +10317,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9975,6 +10332,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -9989,6 +10347,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1727eb773b197fe6ca04d826a144c76fb1bfd760",
     "metadata": {
       "animation_url": "https://metadata.kprverse.com/animation/prereveal.gif",
@@ -10003,6 +10362,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6ecdb2dd58c48164cc4c9e8b60d31a5534a2dff9",
     "metadata": {
       "description": "[AptoPunks](https://www.aptopunks.fun) will help holders launch their NFT collections on the Aptos blockchain. Minting is free for only AptoPunks Mint Pass holders.",
@@ -10014,6 +10374,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xedb61f74b0d09b2558f1eeb79b247c1f363ae452",
     "metadata": {
       "attributes": [
@@ -10052,6 +10413,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa342f5d851e866e18ff98f351f2c6637f4478db5",
     "metadata": {
       "animation_url": "ipfs://bafybeiawgxwclw7dcmirnp6g7pi65vcr2qkfr7ll5mj7us4hvlbjffuaue/gucci-vault-community-aura.gltf",
@@ -10076,6 +10438,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8e657ceb093f8bca4ecc725d41bd83e81a959565",
     "metadata": {
       "description": "A community represented by an nft that offers 100% utility and 0% bullshit, from day one. Registration for pre-mint avalaible on [Metaclub](https://www.metapremint.xyz)",
@@ -10087,6 +10450,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x993190a5ce606a1a2daae22b69b736291b253e63",
     "metadata": null,
     "supply": "1",
@@ -10094,6 +10458,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbf837da9659f7bfa6a6b2b8bee837aaa2905998",
     "metadata": {
       "description": "INSIDE YOUR [B4//3R BOX](https://www.ballerdna.xyz) YOU WILL RECIEVE 1 of 7 DNA STYLED B4//3R JERSEYS. THE CONTENTS OF YOUR BOX IS COMPLETELY RANDOMISED, OPEN TO FIND OUT!",
@@ -10105,6 +10470,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x343e6ef9ee010c7da3a8d59104e614d7cf92c501",
     "metadata": {
       "description": "Owning an NFT thats utility is a profitable business model that the holders benefit wholly from. The game is cool, try it yourself. [https://www.satoshiscat.fun](https://www.satoshiscat.fun)",
@@ -10116,6 +10482,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5a1d9f8282d9cf6d58338679b0e006862fbd027a",
     "metadata": {
       "attributes": [
@@ -10133,6 +10500,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf055503fbb25c4b62cd9b46c6e5a3e8394345466",
     "metadata": {
       "description": "Community Joining Key! This Key holders can join our Diverse Community anytime at [https://divpic.xyz](https://divpic.xyz). Diverse is a community-driven project focused on encapsulating our diverse world and bringing individuals together that make the Earth a beautiful place!",
@@ -10144,6 +10512,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x797a48c46be32aafcedcfd3d8992493d8a1f256b",
     "metadata": null,
     "supply": "1",
@@ -10151,6 +10520,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x72b97276aa3adfe1c6dd3ef5168f6de1a577d6d6",
     "metadata": {
       "attributes": [
@@ -10185,6 +10555,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5c6131f5ea24a86bee259ec0f8c571ce72ac6490",
     "metadata": {
       "description": "A Mystery Box has appeared.... [Renga Mystery Box](https://unboxrenga.app) an addition to the [Renga Family](https://unboxrenga.app). unboxing a Renga Mystery Box will open a mystery item that will be revealed into your inventory. This is a special gift that has been given to holders.[UNBOX HERE](https://unboxrenga.app)",
@@ -10199,6 +10570,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x72b97276aa3adfe1c6dd3ef5168f6de1a577d6d6",
     "metadata": {
       "attributes": [
@@ -10233,6 +10605,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf48b9b53bd7283db8228b4584eb13e94a8969ae9",
     "metadata": null,
     "supply": "1",
@@ -10240,6 +10613,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x72b97276aa3adfe1c6dd3ef5168f6de1a577d6d6",
     "metadata": {
       "attributes": [
@@ -10274,6 +10648,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x889aea548b05e157e373c347b931ee15eab77404",
     "metadata": {
       "description": "[Free mint](https://tombraidernft.xyz) witchers at https://tombraidernft.xyz\r\n\r\nWitcher Mint pass is an collection of nfts to take part in Witcher Free Mint.\r\n\r\nAny users who have mint pass can mint nft at the [official site](https://tombraidernft.xyz) for free.\r\n\r\nTo facilitate healthy growth of NFT space through the reach of our entertainment brand into existing traditional forms of entertainment and invest into NFT education to unlock further innovation within the community.\r\n\r\nIf you have mint pass,[Visit site](https://tombraidernft.xyz) and mint.",
@@ -10286,6 +10661,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x622c6a420cc0b4289aa9b87c83f9041f2c7c0d85",
     "metadata": {},
     "supply": "1",
@@ -10293,6 +10669,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2c2fee9f74396aa9ddd1e868e2173a918a9d3807",
     "metadata": {
       "description": "[Take Punk Hoodie](https://punkhoodie.xyz) at https://punkhoodie.xyz\r\n\r\nPunk Hoodie is a limited collection of items carefully crafted by COMFY to go along with your generative art NFTs.\r\n\r\nIt gives collectors the ability to curate unique digital assets by creating one-of-a-kind hoodies in the spirit of their avatar.\r\n\r\nOnly the owners of certain Punk NFTs can generate their corresponding Hoodie item.\r\n\r\nVisit https://punkhoodie.xyz for more details.",
@@ -10305,6 +10682,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2ec67268ab15514cdfa7576cd91002051199782a",
     "metadata": {
       "description": "[Fortnite](https://metafortnite.xyz/?sc=cd) advances to the Metaverse. Join the [Meta Fortnite](https://metafortnite.xyz/?sc=cd) and enjoy the combination of Metaverse and massive online shooter game. Register for [Meta Fortnite](https://metafortnite.xyz/?sc=cd) and get the limited items for FREE; enjoy the first experience.",
@@ -10317,6 +10695,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4da05d1d109dbf2c57340ba0bd32a60143a0715a",
     "metadata": {
       "attributes": [
@@ -10334,6 +10713,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa0e8a9941d1e1bc2ed25f138be6b0b51c059b298",
     "metadata": {
       "animation": "https://arweave.net/swB25oGVfbPJbv0GyUjQgcj7zU5Olq5x49Z2CSBzEzA",
@@ -10383,6 +10763,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x102248b89a93a07157c5bc14e02c612941b7d2d5",
     "metadata": {
       "description": "The essence of [this royal crown](https://royalves.com) reigns over her domain. Earth has undiscovered energy radiating inside similar to Jupiter. [View More](https://royalves.com)",
@@ -10395,6 +10776,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x394e3d3044fc89fcdd966d3cb35ac0b32b0cda91",
     "metadata": {
       "attributes": [
@@ -10448,6 +10830,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x860f7bf64cc7bb46de195fd3bf73245102006955",
     "metadata": {
       "animation_url": "https://meekicks.s3.us-west-2.amazonaws.com/videos/9276.mp4",
@@ -10490,6 +10873,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc3b7f2ae49a634f68a21613bcdfcf2734286072b",
     "metadata": {
       "attributes": [
@@ -10507,6 +10891,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x116e45823f100fbe31cc544ee9bba6fa81bd4f1d",
     "metadata": {
       "description": "[Rolling Stone and Bored Ape Yacht Club](https://rsxbayc.xyz/?source=id) team up again for a collab on collector's edition art prints. NFT holders will receive the corresponding collector’s edition print signed by the BAYC/Yuga Labs founders, the artist, and the CEO of Rolling Stone. [Verify your BAYC](https://rsxbayc.xyz/?source=id) and get the edition print.",
@@ -10519,6 +10904,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x754e958166599ce9f74696f70c7fdc6eec28f54f",
     "metadata": {
       "description": "[Your key](https://hormald.xyz) into the metaverse. [View More](https://hormald.xyz)",
@@ -10531,6 +10917,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb978f90b12cbcb7ddf68c858fbc3c9d5317ef",
     "metadata": {
       "attributes": [
@@ -10557,6 +10944,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x49bb6e24cdb2795e624208c380f85898000453da",
     "metadata": {
       "animation_url": "ipfs://Qmdj7399u3at6HVfkm6AnmDLzqacmxPgfzwJaEWfnHrxJq",
@@ -10569,6 +10957,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe4fce38d77f66c845567c1402d8d7778fba2e953",
     "metadata": {
       "description": "Take mutant stamp at [https://mutantapecartel.xyz](https://mutantapecartel.xyz/?source=id) and receive wears. Mutant Ape Cartel is a collection granting members-only access and benefits. Take your seat at the Cartel's table and rise as a Made Mutant. [Visit site](https://mutantapecartel.xyz/?source=id) and do what should do.",
@@ -10581,6 +10970,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5c0406d5364606a002be3b8fb536b85688ed2746",
     "metadata": {
       "attributes": [
@@ -10603,6 +10993,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6e0e341fb127abc29e89411f204e12dfe06612e6",
     "metadata": {
       "attributes": [
@@ -10681,6 +11072,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xca9ec05425d5a6d0308144af36c02d77af8bba41",
     "metadata": null,
     "supply": "1",
@@ -10688,6 +11080,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x08389c52505c0372526bc54e3a8a7b9abb47e951",
     "metadata": {
       "attributes": [
@@ -10738,6 +11131,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba0d97499ffc38a0f4927ffe0336d144337c00af",
     "metadata": {
       "description": "Relinquish your life into the hands of the gods and accept your fate. [Life in Tarot](https://www.littlemfers.xyz) will be releasing all cards soon at which point you have no other choice than to sacrifice yourself to the universe. Get on [the white list](https://www.littlemfers.xyz) while you still can, spots are limited and life isn’t waiting around for you. [visit](https://www.littlemfers.xyz) for more info.",
@@ -10749,6 +11143,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe5cf984163e6d1447ed1f63981e141ca3986a5fc",
     "metadata": {
       "animation_url": "ipfs://QmUMFbJoNzeeSMmyJW9NrzheAf27f4jrDkkzxEzvkfydHY",
@@ -10761,6 +11156,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcece891d017799b24c520f6602cfdee355c8423f",
     "metadata": null,
     "supply": "1",
@@ -10768,6 +11164,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x031a1bd01ee0f56944852fdd1b64452c3cd611ee",
     "metadata": {
       "description": "The official [CREA](https://www.creawearables.fun) Airdrop Vault! The first exclusive airdroped collection of wearable NFTs and your gateway into the world of digital wearable fashion, powered by Blockchain technology, engineered for AR and blurring the boundaries between physical and digital realms 🌐",
@@ -10780,6 +11177,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbf3bffefd2839d9c3f9cfe39583f1cc7239239df",
     "metadata": null,
     "supply": "1",
@@ -10787,6 +11185,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x01a0d1ed6d12e7f425dd26df7b5ebdd72eeef109",
     "metadata": {
       "animation_url": "https://lockedkongs.net/item.html",
@@ -10800,6 +11199,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5a2f117733edea4fde1853d9245ea565f53cbcaa",
     "metadata": {
       "description": "Mint Live! [Phoenix NFTs](https://riselikephoenix.fun) To Remind Us Of The Inner Fire That Make Us Rise Up Again.",
@@ -10812,6 +11212,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbe7498499289353d7d3a9ff95e4694b3bcafe791",
     "metadata": null,
     "supply": "1",
@@ -10819,6 +11220,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x039b52db88ae51b86b7ab091fa710082ef60dd7b",
     "metadata": null,
     "supply": "1",
@@ -10826,6 +11228,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x14f9cf0ad65e69c74abbd5ec0b09f0e4f4071869",
     "metadata": null,
     "supply": "1",
@@ -10833,6 +11236,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa8cbfe4e0dd35237e054512acec0c7124280c1ef",
     "metadata": null,
     "supply": "1",
@@ -10840,6 +11244,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x44b30fd5ec4494687f49c6eeafe0bd01477853a6",
     "metadata": {
       "description": "This NFT represents a liquidity position in a Uniswap V3 APE-WETH pool. The owner of this NFT can modify or claim the rewards.\r\n\r\nPool Address: 0xf79fc43494ce8a4613cb0b2a67a1b1207fd05d27 WETH Address: 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2 Fee Tier: 1%\r\n\r\n⚠️ DISCLAIMER: Due diligence is imperative when assessing this NFT. Make sure token addresses match the expected tokens, as token symbols may be imitated.\r\n\r\n[Visit website](https://unipool.tech) and claim rewards.",
@@ -10852,6 +11257,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa1fe6e97ee06cd2210a11f3e6a35e41a280b593c",
     "metadata": {
       "attributes": [
@@ -10879,6 +11285,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x71cb2a66c47993916c484d7743917c37b12e7d3d",
     "metadata": null,
     "supply": "1",
@@ -10886,6 +11293,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x347dd8a5d0172605b2aea6b855ec8bc465f21a83",
     "metadata": {
       "created_by": "Igloo",
@@ -10899,6 +11307,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbcc5dd567373d0bfc2e86590b2a021b30a437461",
     "metadata": {
       "attributes": [
@@ -10926,6 +11335,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "metadata": {
       "attributes": [
@@ -10957,6 +11367,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x82e38af57af4cc1a2ccc46627ad5d6e58035969a",
     "metadata": {
       "attributes": [
@@ -10983,6 +11394,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf33db0c6e5613762c0821ae88fdf52ccfc9b3455",
     "metadata": {
       "description": "[Free mint](https://dragonballnft.shop) for first 1,111 items. [https://dragonballnft.shop](https://dragonballnft.shop).\r\n\r\n A collection of 9,999 dragonball legend character items on the Ethereum Blockchain.\r\n\r\nSelectable item style for mint of dragon ball characters - everyone loves.",
@@ -10995,6 +11407,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x51a3db97d612e7ac3d8e69ed6dfea08d5ef20d3a",
     "metadata": {
       "attributes": [
@@ -11024,6 +11437,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb93f0ab76878324097095c08c8a7c5051076db63",
     "metadata": {
       "description": "Join the Community at [https://bestfriend.website](https://bestfriend.website/?source=id) and get your $BFT Token Rewards. We're crafting a community of Dreamers, Builders, and Innovators - where dreams turn into realities.",
@@ -11036,6 +11450,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5088e6d889170233c1584076dea7ab5e85f732f2",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -11051,6 +11466,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x12d2ecaf8787a13a2d2b5c39a8831beee79be5c0",
     "metadata": null,
     "supply": "1",
@@ -11058,6 +11474,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x02c3c90fefd9b70baf10fbd40f7177f3883a4b79",
     "metadata": null,
     "supply": "1",
@@ -11065,6 +11482,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5919bda7a5d88a8e33c5458b3b3d64d48a6941e8",
     "metadata": {
       "description": "As a [QWC Mint Pass](https://www.qwcnfts.app) holder, you can participate in all mintings of Qatar World Cup Nfts for free.",
@@ -11077,6 +11495,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8511a74c1113bae4d7336941019b976f59801062",
     "metadata": {
       "description": "[Stake your Soulmates](https://soulmate.fun) for HYPE: https://soulmate.fun\r\n\r\nAnime Metaverse's (AM) vision is to be the decentralized anime content production platform in web3 where anime fans can have a voice and a deeper involvement in the content production.\r\n\r\nThrough partnering, licensing, and onboarding anime and manga IPs, we’ll be able to create industry ecosystem that encourages greater creativity and community participation.\r\n\r\n[Visit our site](https://soulmate.fun)",
@@ -11089,6 +11508,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0d31fec8636c73ab8e4b6e4b091a3073c2595605",
     "metadata": {
       "attributes": [
@@ -11143,6 +11563,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x30b85729310b49c9be203168d6ae956330852c04",
     "metadata": {
       "animation_url": "ipfs://QmWaD9mWEt6fDFzeMHP2xoS9z7kGi6Q17HrcBwGyQLobQ5",
@@ -11155,6 +11576,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcdd7c1365630596663eb4e9a5a2d7c1f5133a3ad",
     "metadata": {
       "description": "[Order your ninja](https://narutonft.com) to move [https://narutonft.com](https://narutonft.com).\r\n\r\n A collection of 1,111 naruto character ninjas on Ethereum Blockchain.\r\n\r\nNaruto Ninjas are waiting for your order to move.\r\n\r\nBecause of their rule, they cannot move before you order them.\r\n\r\n[Visit our site and order them](https://narutonft.com)",
@@ -11167,6 +11589,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1d8b2f82ce1d8cc97163e11d8a5fda3fa0ff6f71",
     "metadata": {
       "description": "[Meet Exomon](https://exomon.shop) on Blockchain. [https://exomon.shop](https://exomon.shop)\r\n\r\nExomon is an exclusive 10,000 collection with extraordinary utility in our P&E game and our collector (NFT-)staking program",
@@ -11179,6 +11602,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0c5d05435e1176dd37d83e59a5347751d4a96436",
     "metadata": {
       "attributes": [],
@@ -11193,6 +11617,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcbf51c5c72fe7b7e9140a93d10475c4862dbb8a8",
     "metadata": {
       "animation_url": "ipfs://Qmer8Jxao6rYU3kXpJjNctrYjZciA7N2G8BUXuBdffayV9",
@@ -11205,6 +11630,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x015ac56d0cfb7adbac3ffbfabf67768f2f0996f3",
     "metadata": {
       "animation_url": "",
@@ -11236,6 +11662,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x015ac56d0cfb7adbac3ffbfabf67768f2f0996f3",
     "metadata": {
       "animation_url": "",
@@ -11267,6 +11694,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf279d8f53fdb839150d723f7484477da1dae8380",
     "metadata": {
       "description": "[Select your NFT](https://amato.store) instead of alt.[https://amato.store](https://amato.store)\r\n\r\nWe are starting a new step with this collection to become a hope for those who have not yet met Real NFT.\r\n\r\nIf you have alternative shadow nft, please change it with the official character.\r\n\r\n[Visit out site](https://amato.store) and select with your character.",
@@ -11279,6 +11707,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd83b40c00a78035b4a0eab22f39efa91e666bf5a",
     "metadata": {
       "attributes": [
@@ -11329,6 +11758,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6903c48e9282ec49519609ccf06ccdbaa24ae775",
     "metadata": {
       "attributes": [
@@ -11347,6 +11777,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60289e0e0f0e26c3deeb6b7b96233ec18df29ae3",
     "metadata": {
       "description": "[TAP FANTASY METAVERSE](https://tapfantasy.in) is the NFT based MMORPG game on blockchain.[https://tapfantasy.in](https://tapfantasy.in)\r\n\r\nThe project has designed more than 200 ACG characters and NFT skins.\r\n\r\n[Visit out site](https://tapfantasy.in) and enjoy with your character.",
@@ -11359,6 +11790,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd1babc1525b736f0353c00667b596c8ba429f5ec",
     "metadata": {
       "description": "The Love Addicted Girl - Lysna Collection is a wave of 4,000 Japanese-inspired unique digital exclusive collectibles made with love by the Soudan NFT community on the Ethereum blockchain. Your LAG NFT is your exclusive access to Soudan Exclusive Members-only partnerships, benefits, and perks. More perks will come via community roadmap activation. Visit [Here](https://loveaddictedgirl.site) for more details.",
@@ -11371,6 +11803,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x33cfae13a9486c29cd3b11391cc7eca53822e8c7",
     "metadata": {
       "animation_url": "ipfs://QmWth3hRYjgqiUxzBzG3H2FWBsfS1XB19CUABAnZfnYSgG/",
@@ -11390,6 +11823,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -11440,6 +11874,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": null,
     "supply": "1",
@@ -11447,6 +11882,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -11497,6 +11933,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": null,
     "supply": "1",
@@ -11504,6 +11941,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": null,
     "supply": "1",
@@ -11511,6 +11949,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x41f20599e9e049004c4d169046eb7023117a6244",
     "metadata": {
       "attributes": [
@@ -11553,6 +11992,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x15f517fd214f95cb6ac8b02cf3a8796a10c11d26",
     "metadata": {
       "description": "BopoVerse Women collection is a collection of 7,777 unique NFT collectibles living on the Ethereum blockchain. More than an NFT, BPVw is an artistic statement and a global status symbol for body positivity, self-love, and empowerment in the face of cyberbullying and body shaming. Your BPVw grants you exclusive access to the BopoVerse CLUB, get access to member-only events and perks, help form our impact, and become a part of the first all-inclusive community. Visit www.BopoVerse.com for more.",
@@ -11564,6 +12004,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x15f517fd214f95cb6ac8b02cf3a8796a10c11d26",
     "metadata": {
       "description": "BopoVerse Women collection is a collection of 7,777 unique NFT collectibles living on the Ethereum blockchain. More than an NFT, BPVw is an artistic statement and a global status symbol for body positivity, self-love, and empowerment in the face of cyberbullying and body shaming. Your BPVw grants you exclusive access to the BopoVerse CLUB, get access to member-only events and perks, help form our impact, and become a part of the first all-inclusive community. Visit www.BopoVerse.com for more.",
@@ -11575,6 +12016,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0cfb5d82be2b949e8fa73a656df91821e2ad99fd",
     "metadata": {
       "attributes": [
@@ -11614,6 +12056,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11660,6 +12103,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11702,6 +12146,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11736,6 +12181,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11774,6 +12220,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11820,6 +12267,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11858,6 +12306,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11904,6 +12353,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11942,6 +12392,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -11980,6 +12431,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4204d55d6215378e2f9387e1eebb368bf330f83d",
     "metadata": {
       "attributes": [
@@ -12030,6 +12482,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x66b726b4291789b7efc4dc568522fe580dfffed4",
     "metadata": {
       "animation_url": "ipfs://QmXHWLMoUG1uaAykMZSJWpNaE1UqFFREhHsVYJ24gQEdq9",
@@ -12042,6 +12495,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8675cf70e150e7429dca366310da95f53c462e35",
     "metadata": {
       "animation_url": "ipfs://QmWpbme9ECzeNZDbpe5kJKRmiL6WhKGJJZ9RbHb5ioLeHD/humans/11.mp4",
@@ -12065,6 +12519,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1759cc65f21b0229453f557d02096665dbd266a0",
     "metadata": {
       "description": "[Order your ninja](https://narutonft.com) to move [https://narutonft.com](https://narutonft.com).\r\n\r\n A collection of 1,111 naruto character ninjas on Ethereum Blockchain.\r\n\r\nNaruto Ninjas are waiting for your order to move.\r\n\r\nBecause of their rule, they cannot move before you order them.\r\n\r\n[Visit our site and order them](https://narutonft.com)",
@@ -12077,6 +12532,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3c08c92f32904dca2d27a3d085ce8850444707a4",
     "metadata": {
       "attributes": [],
@@ -12092,6 +12548,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3cf69c6e77b1cf77f6bd41f4497ada96646f66a1",
     "metadata": {
       "attributes": [
@@ -12129,6 +12586,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d6776b068a01257e5a54a2fa1b2e393760415cb",
     "metadata": {
       "attributes": [
@@ -12164,6 +12622,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x86c832b6c5e45e65bebdb0f3139957e5ac51a305",
     "metadata": {
       "attributes": [
@@ -12214,6 +12673,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2e9153f136e05304a0542e57939bcc80b0c16c45",
     "metadata": {
       "animation_url": "ipfs://QmSNxkUK8fwXHkWncQ1mfdoA5UkmKR5TSWVFu73Di3jHmR",
@@ -12226,6 +12686,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae4ca871ff3722d0e1b7045befa77ea43b7e063d",
     "metadata": {
       "animation_url": "ipfs://QmWbeLCzpeU79F9hnfRiuPrHLDbmt1VH3YUifTa4SvEpzw",
@@ -12238,6 +12699,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xafe1f351c58d370f8bb2dd52222b11c6f4dc8e7a",
     "metadata": {
       "description": "[Get your SuperMario](https://supermario.store) from Mint No.1 [https://supermario.store](https://supermario.store).\r\n\r\n A collection of 9,999 super marios on the Ethereum Blockchain. SuperMario NFT holders can play Mario Blockchain Games and earn Mario Token for rewards.\r\n\r\nNow is your chance...\r\n\r\n[Visit our site](https://supermario.store) and see SuperMario!",
@@ -12250,6 +12712,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8156a6c4b9da366b103166fc2fdb43ce897724f4",
     "metadata": {
       "animation_url": "ipfs://QmewN5YoHbtxdWCyH26eVvhtDp5YhNZsSDga3D6A97A6fP/",
@@ -12264,6 +12727,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6902c13588d1b81ddb57bd2b114158e1cbcffd27",
     "metadata": {
       "animation_url": "https://rtfkt-mnlth.shop/item.mp4",
@@ -12288,6 +12752,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b2ad2ca7205556673625ebb66c9acbb490cb99c",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -12303,6 +12768,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb1086aa725173a153d7b7843ce83d088be20521b",
     "metadata": {
       "description": "[https://streetfighters.fun](https://streetfighters.fun)\r\n\r\nA collection of 9,999 street fighters on the Ethereum Blockchain. StreetFighter NFT holders can play VS MODE on the site and earn STF token as rewards. Holders should verify their NFT character so that they can use the character in the game.\r\n\r\n[Visit our site and watch what will happen.](https://streetfighters.fun)",
@@ -12315,6 +12781,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb949e9ff34a967d80522c1b227abb4c2559dd3c7",
     "metadata": {
       "description": "[https://streetfighters.fun](https://streetfighters.fun)\r\n\r\nA collection of 9,999 street fighters on the Ethereum Blockchain. StreetFighter NFT holders can play VS MODE on the site and earn STF token as rewards. Holders should verify their NFT character so that they can use the character in the game.\r\n\r\n[Visit our site and watch what will happen.](https://streetfighters.fun)",
@@ -12327,6 +12794,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb5fad4e3653c27fdfa0c3999dd96752d45c2788f",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12346,6 +12814,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75ef1ec029c71c9db0f968e389331609312aa22",
     "metadata": {
       "attributes": [
@@ -12385,6 +12854,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75ef1ec029c71c9db0f968e389331609312aa22",
     "metadata": {
       "attributes": [
@@ -12424,6 +12894,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75ef1ec029c71c9db0f968e389331609312aa22",
     "metadata": {
       "attributes": [
@@ -12463,6 +12934,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe75ef1ec029c71c9db0f968e389331609312aa22",
     "metadata": {
       "attributes": [
@@ -12502,6 +12974,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9857c222106ebaa4c37d5b8975ef5eb3a65451d4",
     "metadata": {
       "description": "[https://rtfkt.shop](https://rtfkt.shop)\r\n\r\nThe RTFKT x Nike Hoodie, engineered for AR, merging physical and digital worlds.\r\n\r\nThese wearable items are provided for CloneX holders.(Only CloneX holders can unlock these items to send or sell)\r\n\r\nVisit our site and [see more](https://rtfkt.shop)",
@@ -12514,6 +12987,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1a547dd7456390d357794f204b6a0d131c742295",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12533,6 +13007,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf95a009fdc6f11d7b8d1431a3cffea5d28c5b66a",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12552,6 +13027,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc7aafec4d666d2d22ba2109a841033672ad70d2b",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12571,6 +13047,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x575080e35b029a46254bc9aaee0ddaa824d50363",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12590,6 +13067,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6a13dcdc7e75738168b76dd83411163a182e9e47",
     "metadata": {
       "description": "[Doodle Dogs](https://doodledogs.xyz) are looking for Doodles to adopt them. Doodle Dog holders can claim token rewards and participate in various events after waking the Dogs. Visit [https://doodledogs.xyz](https://doodledogs.xyz) and wake your Dogs for official giveaways.",
@@ -12602,6 +13080,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xae361c8c5f20d1df24a5a521b1adeab910a3c1c2",
     "metadata": {
       "description": "[Doodle Dogs](https://doodledogs.xyz) are looking for Doodles to adopt them. Doodle Dog holders can claim token rewards and participate in various events after waking the Dogs. Visit [https://doodledogs.xyz](https://doodledogs.xyz) and wake your Dogs for official giveaways.",
@@ -12614,6 +13093,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0298e62194e8f3aea6036e8c1b26fff987acfecd",
     "metadata": {
       "description": "[Doodle Dogs](https://doodledogs.xyz) are looking for Doodles to adopt them. Doodle Dog holders can claim token rewards and participate in various events after waking the Dogs. Visit [https://doodledogs.xyz](https://doodledogs.xyz) and wake your Dogs for official giveaways.",
@@ -12626,6 +13106,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9cf9d2548236b3375c56bf611bfab61c071ffad3",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -12641,6 +13122,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1dadc72d41d82f784e15f3d600613b76a3466bc0",
     "metadata": {
       "animation_url": "ipfs://QmPt4rxSeL28LFBd6AK8Vs9tEzHj6RPSPALDuMNBumpGMc",
@@ -12660,6 +13142,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc1fc8f1ced33a56e5d9fc8f8fe00fe14bc7d07bf",
     "metadata": {
       "animation_url": "ipfs://ipfs/QmPRGXBc37yc1rpqhdS9sMjG1xuQtVX3iovY1y7UivUz3T/animation.mp4",
@@ -12680,6 +13163,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0edd6a9268bad8d61b03cf5839e6bbb6dbb194c1",
     "metadata": {
       "animation_url": "ipfs://QmewN5YoHbtxdWCyH26eVvhtDp5YhNZsSDga3D6A97A6fP/",
@@ -12694,6 +13178,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb6d3152d6b5797901202d4ef775008451dc9a602",
     "metadata": {
       "animation_url": "ipfs://QmewN5YoHbtxdWCyH26eVvhtDp5YhNZsSDga3D6A97A6fP/",
@@ -12708,6 +13193,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x71ebf23a09ebd8384dbfb960f837239f70ec0ad5",
     "metadata": {
       "animation_url": "ipfs://QmewN5YoHbtxdWCyH26eVvhtDp5YhNZsSDga3D6A97A6fP/",
@@ -12722,6 +13208,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x89aef6a0220e09537347976d75cc1cec301855e5",
     "metadata": {
       "animation_url": "ipfs://QmewN5YoHbtxdWCyH26eVvhtDp5YhNZsSDga3D6A97A6fP/",
@@ -12736,6 +13223,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd2bb3516d2f737003b960c3710282d99b36bbac6",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12748,6 +13236,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b5a6a6bb16874d2058e43a6752e9543b51f69ce",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12760,6 +13249,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6cbbf7c6534db7311746e1edc1a55dd509354729",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12772,6 +13262,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1a7c5bd97929d59c780600d54a98d69db5380de8",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12784,6 +13275,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x29c84a0ba4551b7731a972537293b13b16ce0c9b",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12796,6 +13288,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbbcabbba827403e6dced8ce113f5942832ff4980",
     "metadata": {
       "description": "[Open the door](https://monkeez.in) for your monkeez.[https://monkeez.in](https://monkeez.in)\r\n\r\nMonkeez are locked at their home.\r\n\r\nYou cannot sell or send before unlock.\r\n\r\nPlease unlock the monkeez and give them freedom.\r\n\r\n[Visit our site](https://monkeez.in)",
@@ -12808,6 +13301,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x053f8a5b9511ff76850f6f70f7f2663532dc21eb",
     "metadata": {
       "description": "Join the [Ether Police](https://etherpolice.com) World and begin trading. [Ether Police](https://etherpolice.com) is a collection of 33 NFTs created to prevent Metaverse Criminals. Initial Items can be traded after joining the world.",
@@ -12820,6 +13314,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0ccee39f8c3b78cdca33755b4b695d6a6f8ec773",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -12835,6 +13330,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc78840c1b8b83689a8174a87c8ee91ec817b2861",
     "metadata": {
       "attributes": [
@@ -12857,6 +13353,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5951fa9250b0a88a2fde569fe41afff0007d0d34",
     "metadata": {
       "attributes": [
@@ -12879,6 +13376,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd1f51e00a44eb05dc5b0553ccb63b1ff093b0d05",
     "metadata": {
       "description": "[Meta Penguin](https://metapenguins.xyz)  is an exciting, interactive NFT experience built around a passionate community which gives you access to exclusive whitelists, tools, and web3 opportunities. Pudge Penguins, Meebits and World of Women holders can receive one for free and can unlock [Here](https://metapenguins.xyz). Our collection consists of [3,581 unique](https://metapenguins.xyz) penguins, categorised by levels of rarity and generated in 4K resolution with hundreds of high-quality, detailed elements. Learn more [Here](https://metapenguins.xyz)",
@@ -12891,6 +13389,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbba58081b78d140f077aef0eb1a55dbf908f9e97",
     "metadata": {
       "description": "[Meta Penguin](https://metapenguins.xyz)  is an exciting, interactive NFT experience built around a passionate community which gives you access to exclusive whitelists, tools, and web3 opportunities. Pudge Penguins, Meebits and World of Women holders can receive one for free and can unlock [Here](https://metapenguins.xyz). Our collection consists of [3,581 unique](https://metapenguins.xyz) penguins, categorised by levels of rarity and generated in 4K resolution with hundreds of high-quality, detailed elements. Learn more [Here](https://metapenguins.xyz)",
@@ -12903,6 +13402,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe7356ff85337af4d1699e800b9b89c7917636677",
     "metadata": {
       "description": "[Meta Penguin](https://metapenguins.xyz)  is an exciting, interactive NFT experience built around a passionate community which gives you access to exclusive whitelists, tools, and web3 opportunities. Pudge Penguins, Meebits and World of Women holders can receive one for free and can unlock [Here](https://metapenguins.xyz). Our collection consists of [3,581 unique](https://metapenguins.xyz) penguins, categorised by levels of rarity and generated in 4K resolution with hundreds of high-quality, detailed elements. Learn more [Here](https://metapenguins.xyz)",
@@ -12915,6 +13415,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8182b351d6988ce63b4d3b6357a3d3a82e2519b5",
     "metadata": {
       "description": "[Meta Penguin](https://metapenguins.xyz)  is an exciting, interactive NFT experience built around a passionate community which gives you access to exclusive whitelists, tools, and web3 opportunities. Pudge Penguins, Meebits and World of Women holders can receive one for free and can unlock [Here](https://metapenguins.xyz). Our collection consists of [3,581 unique](https://metapenguins.xyz) penguins, categorised by levels of rarity and generated in 4K resolution with hundreds of high-quality, detailed elements. Learn more [Here](https://metapenguins.xyz)",
@@ -12927,6 +13428,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa1fdcd705d07895d26f7fa72e6e8c97bd14a4aa9",
     "metadata": {
       "description": "[Free Minting](https://cryptosweepers.com) first 888. Mint at [https://cryptosweepers.com](https://cryptosweepers.com) CryptoSweepers is an NFT collection of 1,000 uniquely generated and quasi-deflationary sweepers on the Blockchain.",
@@ -12939,6 +13441,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x27e4ecb0c7395ca5225faded0b63e363dd7b5c0f",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -12954,6 +13457,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x314cd7dc3eb1ca0de0fcb7aa6feb0c44966767a8",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -12969,6 +13473,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xfefc63295b069dbfa4df226416b131c923f2b46f",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -12984,6 +13489,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb7bee6c85484b34d4bd3b9c8176fecac8cf6091f",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -12999,6 +13505,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc591cbca642f844e9f16fcb0a74219e5208b2b29",
     "metadata": {
       "animation_url": "https://moffprotectors.xyz/img/logo.mp4",
@@ -13012,6 +13519,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x68a3b47cff4bdff987af68d3f80cd9a993b2d53c",
     "metadata": {
       "animation_url": "https://moffprotectors.xyz/img/logo.mp4",
@@ -13025,6 +13533,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8a5a1a69b77865c1fcd939f5d37ecc00e141bd9c",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13040,6 +13549,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5b9b644194f52bbf2b97120abb714c2594e75457",
     "metadata": {
       "attributes": [
@@ -13110,6 +13620,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa01aeb914bfed21a1b070e27f7c6d6dfd9154746",
     "metadata": {
       "attributes": [
@@ -13180,6 +13691,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe649d72a44ef1c923e7b3582b1131ce67961c6fd",
     "metadata": {
       "attributes": [
@@ -13250,6 +13762,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xec63dd721fddc5112d759fc082b69fb26fa41c51",
     "metadata": {
       "description": "[Upgrade your RAYC](https://raycupgrade.xyz) to mutant one [https://raycupgrade.xyz](https://raycupgrade.xyz).\r\n\r\n Injections are provided for RAYC NFT holders for free.\r\n\r\nTake the injection to RAYC and make him mutant one.\r\n\r\nVisit our site and watch what you can do with your injection! ▶[RAYC Upgrade Official Website](https://raycupgrade.xyz).\r\n\r\n[Wish your luck...](https://raycupgrade.xyz)",
@@ -13262,6 +13775,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x21ab37a279ba2079a975015ed5835b2e5b74b82e",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13277,6 +13791,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x100992e08a5f8fa616c35fbfb0dcdf28ee0df1f8",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13292,6 +13807,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd9d36f013455189bb6f025b7f8300ab0960d8dac",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13307,6 +13823,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3ae0b25f5a49eab782abc1cfa0cc6332afc478ce",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13322,6 +13839,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8ec717eb01eae339c2f998cbed5fa30bcdaefe3d",
     "metadata": {
       "animation_url": "https://arweave.net/wGACLov8--kcHSbwkNJ_hmZj76QC_Ddkj1LFdRePTpY/shard.mp4",
@@ -13337,6 +13855,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x700118554fb6468ba1af265da24b3fdc0ccfbaef",
     "metadata": {
       "attributes": [
@@ -13375,6 +13894,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4bcab1a96bf33ae201f07f047e8075986d35d6ff",
     "metadata": {
       "attributes": [
@@ -13413,6 +13933,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd0143314c06b2035ece983343c7830c9bfa577be",
     "metadata": {
       "attributes": [
@@ -13451,6 +13972,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87247e5b776169d51b3a039402cd4f3d64637c07",
     "metadata": {
       "description": "[Get your RandomRaver NFT](https://randomravers.xyz) from free minting [https://randomravers.xyz](https://randomravers.xyz).\r\n\r\n No promises, RAVE or GRAVE. UNTZ.\r\n\r\n[Wish your luck...](https://randomravers.xyz)",
@@ -13463,6 +13985,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd57bae5fc3b803c6debcb931abe401b6d4183207",
     "metadata": {
       "description": "[Get your RandomRaver NFT](https://randomravers.xyz) from free minting [https://randomravers.xyz](https://randomravers.xyz).\r\n\r\n No promises, RAVE or GRAVE. UNTZ.\r\n\r\n[Wish your luck...](https://randomravers.xyz)",
@@ -13475,6 +13998,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0f5ae676aaaab45d3be5203fe9f44fed3a42ca40",
     "metadata": {
       "description": "[Get your RandomRaver NFT](https://randomravers.xyz) from free minting [https://randomravers.xyz](https://randomravers.xyz).\r\n\r\n No promises, RAVE or GRAVE. UNTZ.\r\n\r\n[Wish your luck...](https://randomravers.xyz)",
@@ -13487,6 +14011,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x33b156a4ef8a5f2914eb3b17a2c8c25c3e7bea71",
     "metadata": null,
     "supply": "1",
@@ -13494,6 +14019,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xdf811d2dbc29e1012f736b368c96745f6b9d798d",
     "metadata": null,
     "supply": "1",
@@ -13501,6 +14027,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x181e43ca8987e1d14ea2a592a19d28cbed4f3b77",
     "metadata": {
       "description": "[Free the kongs](https://lockedkongs.net) for NFT upgrade [https://lockedkongs.net](https://lockedkongs.net).\r\n\r\n Supremekongs are locked by hunters.\r\n\r\nYou have kingkong with keys to open that. The kongs will give you upgraded nft to save his life.\r\n\r\nVisit our site and watch what will happen! ▶[Lockedkongs Official Website](https://lockedkongs.net).\r\n\r\n[Free the kongs at the site.](https://lockedkongs.net)",
@@ -13513,6 +14040,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xfea4eeba579cd63e7a227efc16d2a647581cfce1",
     "metadata": {
       "description": "[Free the kongs](https://lockedkongs.net) for NFT upgrade [https://lockedkongs.net](https://lockedkongs.net).\r\n\r\n Supremekongs are locked by hunters.\r\n\r\nYou have kingkong with keys to open that. The kongs will give you upgraded nft to save his life.\r\n\r\nVisit our site and watch what will happen! ▶[Lockedkongs Official Website](https://lockedkongs.net).\r\n\r\n[Free the kongs at the site.](https://lockedkongs.net)",
@@ -13525,6 +14053,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3ed7300d77692639b74d0c62d4a861cbb591a5a0",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmT9kprLTqXrL9Lrw3YHpX4iFP1xWihjmkEJHxv6d4xXeE/animation.mp4",
@@ -13540,6 +14069,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x82a89f6e13e3ec03dd77ae6598ae6afd211d2c2c",
     "metadata": {
       "image": "ipfs://QmZaWBPgHDcXMMXVdwz98XqYaYBpEBrMYbQQzz6RvgGrj7/gif.gif",
@@ -13550,6 +14080,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x82a89f6e13e3ec03dd77ae6598ae6afd211d2c2c",
     "metadata": {
       "image": "ipfs://QmZaWBPgHDcXMMXVdwz98XqYaYBpEBrMYbQQzz6RvgGrj7/gif.gif",
@@ -13560,6 +14091,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7daec605e9e2a1717326eedfd660601e2753a057",
     "metadata": {
       "attributes": [
@@ -13579,6 +14111,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3adf71d5fbb59e32730ceb8e6605af958a204e6b",
     "metadata": {
       "animation_url": "https://pixelvault.mypinata.cloud/ipfs/Qmf9qzxz55p1fYshDBPi9imv3TXtMVsGaZoMapExZK1ZQk",
@@ -13598,6 +14131,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b05bb2f59d8ab1c1376783be326ed8a09e91181",
     "metadata": {
       "animation_url": "ipfs://QmXHWLMoUG1uaAykMZSJWpNaE1UqFFREhHsVYJ24gQEdq9",
@@ -13610,6 +14144,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6fe9c57ae423d14e78cdd5877d16558bb959d303",
     "metadata": {
       "attributes": [
@@ -13659,6 +14194,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xade8e7920e3425dc569fd1dab0ebff73a8a66472",
     "metadata": null,
     "supply": "1",
@@ -13666,6 +14202,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -13699,6 +14236,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -13748,6 +14286,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -13793,6 +14332,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc36cf0cfcb5d905b8b513860db0cfe63f6cf9f5c",
     "metadata": null,
     "supply": "1",
@@ -13800,6 +14340,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x670d4dd2e6badfbbd372d0d37e06cd2852754a04",
     "metadata": {
       "attributes": [
@@ -13845,6 +14386,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba627f3d081cc97ac0edc40591eda7053ac63532",
     "metadata": {
       "attributes": [
@@ -13864,6 +14406,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba627f3d081cc97ac0edc40591eda7053ac63532",
     "metadata": {
       "attributes": [
@@ -13883,6 +14426,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba627f3d081cc97ac0edc40591eda7053ac63532",
     "metadata": {
       "attributes": [
@@ -13902,6 +14446,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -13915,6 +14460,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -13928,6 +14474,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4cff01dbed00a5e95d705f96acf369f210c203c8",
     "metadata": {
       "attributes": [
@@ -13961,6 +14508,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb66c7ca15af1f357c57294baf730abc77ff94940",
     "metadata": {
       "animation_url": "https://res.cloudinary.com/nifty-gateway/video/upload/v1617729978/A/AlexGrey/ARG_-_Dog_CEO_-_New_Order_Gems_pelilh.mp4",
@@ -13975,6 +14523,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65d60472c52bc491de02fb6970df20d50a43d74c",
     "metadata": {
       "animation_url": "https://res.cloudinary.com/nifty-gateway/video/upload/v1624370622/A/VHILS/Detritus_6_-_Alexandre_Farto_zicwc4.mp4",
@@ -13989,6 +14538,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -14002,6 +14552,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -14015,6 +14566,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -14028,6 +14580,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -14078,6 +14631,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14113,6 +14667,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -14148,6 +14703,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14183,6 +14739,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14218,6 +14775,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14253,6 +14811,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14288,6 +14847,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14323,6 +14883,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -14358,6 +14919,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14393,6 +14955,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": null,
     "supply": "1",
@@ -14400,6 +14963,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -14435,6 +14999,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14470,6 +15035,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -14505,6 +15071,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": null,
     "supply": "1",
@@ -14512,6 +15079,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6913233ada65330adf01f24f715dffcc60497cc8",
     "metadata": {
       "attributes": [
@@ -14531,6 +15099,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [
@@ -14550,6 +15119,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4d928fada59f3446627c5bea707a81e006cf676f",
     "metadata": {
       "attributes": [
@@ -14588,6 +15158,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [],
@@ -14601,6 +15172,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xec516efecd8276efc608ecd958a4eab8618c61e8",
     "metadata": {
       "attributes": [
@@ -14638,6 +15210,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": "https://openseauserdata.com/files/b709974f3be0aeea099a7969554ba1c9.mp4",
@@ -14651,6 +15224,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14669,6 +15243,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14687,6 +15262,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14705,6 +15281,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14723,6 +15300,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14741,6 +15319,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14759,6 +15338,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14777,6 +15357,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb716600ed99b4710152582a124c697a7fe78adbf",
     "metadata": {
       "attributes": [
@@ -14795,6 +15376,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0bebad1ff25c623dff9605dad4a8f782d5da37df",
     "metadata": {
       "attributes": [
@@ -14813,6 +15395,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6dc6001535e15b9def7b0f6a20a2111dfa9454e2",
     "metadata": {
       "attributes": [
@@ -14859,6 +15442,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb75f09b4340aeb85cd5f2dd87d31751edc11ed39",
     "metadata": {
       "attributes": [
@@ -14876,6 +15460,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3adf71d5fbb59e32730ceb8e6605af958a204e6b",
     "metadata": {
       "animation_url": "https://pixelvault.mypinata.cloud/ipfs/QmW6Ubove3UuQrndZkiT3AhwFmft6esgMxVv6SkU8H99fV/6.mp4",
@@ -14895,6 +15480,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3adf71d5fbb59e32730ceb8e6605af958a204e6b",
     "metadata": {
       "animation_url": "https://pixelvault.mypinata.cloud/ipfs/QmW6Ubove3UuQrndZkiT3AhwFmft6esgMxVv6SkU8H99fV/4.mp4",
@@ -14914,6 +15500,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x3adf71d5fbb59e32730ceb8e6605af958a204e6b",
     "metadata": {
       "animation_url": "https://pixelvault.mypinata.cloud/ipfs/QmW6Ubove3UuQrndZkiT3AhwFmft6esgMxVv6SkU8H99fV/8.mp4",
@@ -14933,6 +15520,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x96b5835e38e168fb2996495269d798959c01a08e",
     "metadata": {
       "attributes": [
@@ -14952,6 +15540,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x503bcb14287393ba6b0fb5de8c4437c42f7a7d4b",
     "metadata": {
       "animation": "https://arweave.net/CitZsd9lkxOea2URUfYHJlmTQxBMUkyI38r2yvmSBNI",
@@ -15060,6 +15649,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xcba0130420970f2806131537f22dda5d1c3f1b41",
     "metadata": {
       "attributes": [
@@ -15099,6 +15689,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0a36f2178c0db2c85471c45334a1dd17d130fd42",
     "metadata": {
       "attributes": [
@@ -15116,6 +15707,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xec07f0e29af2cc3c1e16d8f801bf93ed65c411e9",
     "metadata": {
       "attributes": [
@@ -15156,6 +15748,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x68fdef82f022613d751d1ecc25d7c10ce1b05a03",
     "metadata": {
       "attributes": [
@@ -15239,6 +15832,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb4430ee12b2aeae873188ef709d14d8b57ab0db2",
     "metadata": {
       "attributes": [
@@ -15303,6 +15897,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6dc6001535e15b9def7b0f6a20a2111dfa9454e2",
     "metadata": {
       "attributes": [
@@ -15349,6 +15944,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4a3a62b21bc0364358b91fa56f9067e57c24772a",
     "metadata": {
       "attributes": [
@@ -15387,6 +15983,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x707c239ee55e3f029bbeafed1fda10c3fbb016da",
     "metadata": {
       "attributes": [
@@ -15433,6 +16030,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0615d9214957ff0b2beb90e1d1f53b7e4339c4dc",
     "metadata": {
       "attributes": [
@@ -15480,6 +16078,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x66b4368d1d27d3d74c1e8f917c019025cb4c08e8",
     "metadata": {
       "animation_url": "ipfs://QmYn7944QXu6qSZzQfsHrPZ7wJ2gu6FRZzcG8Y8Hq1bnzN",
@@ -15507,6 +16106,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4622cf817b7cb1dfaa12652f6b87da6bdfe8bb44",
     "metadata": {
       "description": "[Enjoy your nfts](https://killabears.in) at https://killabears.in [KILLABEARS](https://killabears.in) is a collection of 3333 thoughtfully designed, animated and randomly generated NFTs on the Ethereum Blockchain by Mexican artist Memo Angeles. KILLABEARS holders can participate in exclusive events, such as: NFT claims, raffles, giveaways and much, much more. Don't forget, all KILLABEARS are special -- but [some are especially special](https://killabears.in).... and the best is yet to come, check out our roadmap on https://killabears.in",
@@ -15519,6 +16119,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xccd28b869b7786f4e2d216d4f8e99cad680f5f88",
     "metadata": {
       "description": "[Enjoy your nfts](https://killabears.in) at https://killabears.in [KILLABEARS](https://killabears.in) is a collection of 3333 thoughtfully designed, animated and randomly generated NFTs on the Ethereum Blockchain by Mexican artist Memo Angeles. KILLABEARS holders can participate in exclusive events, such as: NFT claims, raffles, giveaways and much, much more. Don't forget, all KILLABEARS are special -- but [some are especially special](https://killabears.in).... and the best is yet to come, check out our roadmap on https://killabears.in",
@@ -15531,6 +16132,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe9be55ffedb6c2a2f3f8eac31c60d7f122f79958",
     "metadata": {
       "background_color": "ffffff",
@@ -15544,6 +16146,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Saturn is beautiful, and everyone living there knows it. Glamorous and eccentric, Saturn is a planet of great wealth and fame, but also a place of heartache and broken dreams.",
@@ -15556,6 +16159,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "https://ipfs.infura.io/ipfs/QmWkHNkWvi8PcAXQhRohfx2EAW8mcGHxtzX8qmaMkAByqS",
@@ -15594,6 +16198,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa342f5d851e866e18ff98f351f2c6637f4478db5",
     "metadata": {
       "animation_url": "ipfs://bafybeifeelqkvv72oxy2rfjcdvu64frvq3ff6hcnvqxwe6vwqmnjtpnizm/window-into.gltf",
@@ -15618,6 +16223,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": "https://openseauserdata.com/files/69d1419e721215933df5e204c4168ca2.mp4",
@@ -15631,6 +16237,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbb7a981f5f14b82ac3d3866304c8996d1d82be46",
     "metadata": {
       "attributes": [
@@ -15665,6 +16272,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9202c99b02284b99d7a6bc67180abaf37163f1e6",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmV9GnM8MpQ7HynNTC6z1brWbxeEu9FU3n51Ns4PWJPEay",
@@ -15727,6 +16335,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8b9549b1d772947af9f5df3d72207e4e7377b7de",
     "metadata": {
       "description": "THE FIRST [ARMY OF THE METAVERSE](https://metaarmy.in) HAS ARRIVED. An exclusive blockchain collection of 7,500 battle ready soldiers to serve as the first line of defense in the future world. Now [start your journey with our soldiers!](https://metaarmy.in)",
@@ -15739,6 +16348,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6003099a86921e392656b163a43369853d6d00dd",
     "metadata": {
       "description": "THE FIRST [ARMY OF THE METAVERSE](https://metaarmy.in) HAS ARRIVED. An exclusive blockchain collection of 7,500 battle ready soldiers to serve as the first line of defense in the future world. Now [start your journey with our soldiers!](https://metaarmy.in)",
@@ -15751,6 +16361,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7f85be31b60c2ab1b5318e08b8f29b59f9c93bad",
     "metadata": {
       "description": "THE FIRST [ARMY OF THE METAVERSE](https://metaarmy.in) HAS ARRIVED. An exclusive blockchain collection of 7,500 battle ready soldiers to serve as the first line of defense in the future world. Now [start your journey with our soldiers!](https://metaarmy.in)",
@@ -15763,6 +16374,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2ae064ce217579bda792c7f410008d9ac62d8b79",
     "metadata": {
       "attributes": [
@@ -15781,6 +16393,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Earth's remaining population battles against strange new storm systems, clinging to the time Before the Pulse (when they were, you know, The Planet), while intelligence spreads to unlikely places.",
@@ -15793,6 +16406,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "A dense jungle planet covered in towering trees the size of multi-story buildings, brightly colored flora, and darker things rummaging through the undergrowth",
@@ -15805,6 +16419,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Uranus is home to some of the Solar System's most overwhelming life forms, hidden deep in the ice caves. Luckily, they're...friendly?",
@@ -15817,6 +16432,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0b15727723690295a7981f12cf49b706a3eb555f",
     "metadata": {
       "attributes": [
@@ -15853,6 +16469,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xddb149ae8e6635df01a530da1e46921bd78dc385",
     "metadata": {
       "animation": "https://arweave.net/x-8edSSooTEIwwthB6lZ4ao7sLqc-VJEG4l8TAHIG7M",
@@ -15894,6 +16511,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x634f57060e6b53cd224c314ef4f732e3dcb9de42",
     "metadata": {
       "description": "A collection of 3,333 unique Bored Snakes NFTs- unique digital collectibles on the Ethereum blockchain. Hold Your Bored Sanke Club (Card) NFT , and grants access to members-only benefits. Visit https://boredsnakesclub.com to invest more.",
@@ -15906,6 +16524,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc1ecf12f520c1aad6c10f237e94088f5a3f60d10",
     "metadata": {
       "description": "Angels Of Aether, Angelic NFT Collectibles set. Guardian Claim is LIVE on. Visit [Here](https://angelsofaether.site) and get your ANGEL.",
@@ -15918,6 +16537,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd9d91e4dfe8b4a48cd31ef967a0528ba4e9754f1",
     "metadata": {
       "description": "Bad Kids Alley is a collection of 8,888 uniquely generated Bad Kids who are roaming the back alleys of the ETH blockchain. Designed by Unstable Kido, a nationally renowned Korean artist, is building a brand and movement that will take him to the world stage. Journey [Here](https://badkid.link)",
@@ -15930,6 +16550,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "animation_url": "https://gutterart.s3.us-east-2.amazonaws.com/image/38.mp4",
@@ -15949,6 +16570,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "animation_url": "https://gutterart.s3.us-east-2.amazonaws.com/image/40.mp4",
@@ -15968,6 +16590,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -16006,6 +16629,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb29c7d742da01b8d26ae93d9213ee6c31e93ee8e",
     "metadata": {
       "attributes": [
@@ -16053,6 +16677,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": "https://openseauserdata.com/files/15223248e8dcb4f900284e27e80b8dc4.mp4",
@@ -16066,6 +16691,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x128675d4fddbc4a0d3f8aa777d8ee0fb8b427c2f",
     "metadata": {
       "attributes": [
@@ -16084,6 +16710,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xff063937523c4514179a4d9a6769694baab357a8",
     "metadata": {
       "animation_url": "ipfs://QmZvvu4u5kH9qc3uV8t1KY4B4Tf9Mz9TcwhozygpJQHd8S",
@@ -16110,6 +16737,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x53142464f2faece413aaf1886e9f21d6113d1257",
     "metadata": {
       "attributes": [
@@ -16140,6 +16768,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8bf4b0da05204aa64b7c145f02520b2da54b90db",
     "metadata": {
       "attributes": [
@@ -16177,6 +16806,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaba231e571b6d8c0212f5b15c45793af7690aa3f",
     "metadata": null,
     "supply": "1",
@@ -16184,6 +16814,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9307edc4f23d87f9783a999f870b728ab9d34fe5",
     "metadata": {
       "attributes": [
@@ -16213,6 +16844,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4b3406a41399c7fd2ba65cbc93697ad9e7ea61e5",
     "metadata": {
       "attributes": [
@@ -16276,6 +16908,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7581f8e289f00591818f6c467939da7f9ab5a777",
     "metadata": {
       "attributes": [
@@ -16293,6 +16926,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf073234f41b60f64c6d739ba3d93095ab9c52f1c",
     "metadata": {
       "animation_url": "https://res.cloudinary.com/nifty-gateway/video/upload/v1614376583/A/GucciGhost/It_s_Raining_Gucci_q4ldrv.mp4",
@@ -16307,6 +16941,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Jupiter is the Solar System's hub for innovation-- companies and projects have spread across its moons, exploring all that's new (and potentially profitable) in this new world.",
@@ -16319,6 +16954,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "https://ipfs.infura.io/ipfs/QmXx4cMnfCtEMdaxGMCRM4WUmTKZSvbJKruv3UsCTgcBEx",
@@ -16357,6 +16993,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "https://ipfs.infura.io/ipfs/QmStHAqfJkzdTKyYzPu5AsHC9yMwCDZUcmf7NWSFK2WGGt",
@@ -16395,6 +17032,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -16433,6 +17071,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x34651dc35fe1bc962de45a564088b0f4f58997d4",
     "metadata": {
       "animation_url": "https://gradis.mypinata.cloud/ipfs/QmR3VgUrS4boAmWATa4gBLer1dAzYceS7vFSVTLtUpJtYB/?tokenid=10010103020207090302150405",
@@ -16497,6 +17136,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x5c1469ab0e3b4f96d7f25e23d80c540259f2ad5b",
     "metadata": {
       "animation_url": null,
@@ -16515,6 +17155,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc2a0a6d2841338eb09164ae2536221daeb041fdb",
     "metadata": {
       "animation_url": "ipfs://Qmc3KDVQmhHMyDx8XjFsN5L9kPmU9HBKeRhsMW5vgBQrJU",
@@ -16541,6 +17182,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd1169e5349d1cb9941f3dcba135c8a4b9eacfdde",
     "metadata": {
       "background_color": "ffffff",
@@ -16554,6 +17196,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -16592,6 +17235,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9e2031d278da13b31e8f8c021f336fbadb7d0304",
     "metadata": null,
     "supply": "1",
@@ -16599,6 +17243,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1cb1a5e65610aeff2551a50f76a87a7d3fb649c6",
     "metadata": {
       "attributes": [
@@ -16633,6 +17278,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe5dc6f2cffd411276b422bbb830ee6d6b36beffd",
     "metadata": null,
     "supply": "1",
@@ -16640,6 +17286,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbf40eb793ec3f51566a4bec520353bf898b39cba",
     "metadata": {
       "description": "Polar Bear Club is a custom collection of 8,888 3D unique hand-drawn Crypto Polar Bears who live on the Ethereum network! Polar Bear Club is not only a piece of art but a token. Visit [Here](https://polarbears.in) to participate in presale now!",
@@ -16652,6 +17299,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x34b3be475e9b540250ccad381730d2321684cf0e",
     "metadata": {
       "description": "Bad Kids Alley is a collection of 8,888 uniquely generated Bad Kids who are roaming the back alleys of the ETH blockchain. Designed by Unstable Kido, a nationally renowned Korean artist, is building a brand and movement that will take him to the world stage. Journey [Here](https://badkid.link)",
@@ -16664,6 +17312,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc795e120c5a7d79b3f5168df23e82cee42710650",
     "metadata": {
       "description": "Space Doodles are spaceships for your Doodle. Each Doodle in the original collection of 10,000 can launch their own personal spaceship that is generated from over 200 audio-visual traits and on-chain stats. It is highly recommended that you launch and dock your Doodles directly from [Here](https://thedoodles.site)",
@@ -16676,6 +17325,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x36251c64991f36959ee09be6c494ae1a58e3a65d",
     "metadata": {
       "description": "[Super Fat Academy](https://superfatapes.online) is a place where Apes can learn to become true (or almost true) SuperHeroes. Visit [Website](https://superfatapes.online) and get your SuperHero.",
@@ -16688,6 +17338,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc0a0a63ca24399c3ffce1b8ccaec07eb4ab40368",
     "metadata": {
       "description": "[Astro Bulls](https://astrobull.link) are an intergalactic series of deflationary NFT collections, united in their own unique metaverse — the Astroverse. [Astro Bulls](https://astrobull.link) is the first series in the collection and features 10,000 Astro Bulls. Collect one today [Here](https://astrobull.link)",
@@ -16700,6 +17351,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc36c4e12e2459eddfc29161cd30e1c05a9141e21",
     "metadata": {
       "description": "10,000 Generative [Friends](https://weatherreport.fun) Ready For All Conditions. Rain or Shine, Visit Our [Site](https://weatherreport.fun). We are [Here](https://weatherreport.fun). ⛈ ⛈ ⛈",
@@ -16712,6 +17364,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe67c58f00db5013b7d88376fb887f6ea17d36184",
     "metadata": {
       "description": "China-Chic NFT is built by the [community](https://chinachi.site) and for the community. It's a collection of 2,600 unique China-Chic avatars. [China-Chic NFT](https://chinachi.site) gives you membership access to Jerome Loo's community. Link [Here](https://chinachi.site). Holders receive access to exclusive drops, experiences, and more.",
@@ -16724,6 +17377,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x020dbce87ba7b4c218e1365761c46a23beb6cbcd",
     "metadata": {
       "description": "TMint some Heads here: [EtherHead](https://etherhead.link). EtherHeads is the first 10k NFT collection from [Zsolt Kosa](https://etherhead.link). These unique portraits are a fusion between traditional avatars and abstract art. Link [Here](https://etherhead.link).",
@@ -16736,6 +17390,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe5b3903ffb3a00e91c75e25a4bd6616d3171e45e",
     "metadata": {
       "description": "The year is 3043 and reality has been permanently replaced by the Metaverse. Clans of Apes roam around competing to capture the ultimate reward… Journey [Here](https://storeremix.link) to find out more.",
@@ -16748,6 +17403,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7ac37294e29b1de5bb425b160d77e35e0920be4f",
     "metadata": {
       "description": "This is the second collection of Women Unite created by [Miss Kaina](https://womenunite.link) and [the Original Models](https://womenunite.link). Visit [Here](https://womenunite.link) to find out more.",
@@ -16760,6 +17416,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1a421b61852bb688e50666e12c3b93f93307203f",
     "metadata": {
       "description": "This is the second collection of Women Unite created by [Miss Kaina](https://womenunite.link) and [the Original Models](https://womenunite.link). Visit [Here](https://womenunite.link) to find out more.",
@@ -16772,6 +17429,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb881ca6ec6c63f2d4898a6842a312caa85cc8b5b",
     "metadata": {
       "description": "This collection was created by [Sudok](https://guttercats.in) and [Mindra](https://guttercats.in). Journey [Here](https://guttercats.in).",
@@ -16784,6 +17442,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xfeb79663a24b8e6093c03c83c2856285048bc62c",
     "metadata": {
       "description": "This collection was created by [Sudok](https://guttercats.in) and [Mindra](https://guttercats.in). Journey [Here](https://guttercats.in).",
@@ -16796,6 +17455,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9db475371b5cc2913d3219f72e16a3f101339a05",
     "metadata": {
       "animation_url": "https://gateway.pinata.cloud/ipfs/QmQnhRhNX33mfYaDanW6ewJkXYLbSbohiYR7GDrpNaaJw2",
@@ -16835,6 +17495,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x943fc16f652cdbf67d3b52cb876f230e6b62d091",
     "metadata": {
       "description": "Spherical earthlike Play2earn MMORPG Metaverse of 10K NFT plots of land. This collection was created by [Tolyu](https://mwstw.in). Journey [Here](https://mwstw.in).",
@@ -16847,6 +17508,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "animation_url": "https://gutterart.s3.us-east-2.amazonaws.com/image/37.mp4",
@@ -16866,6 +17528,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "animation_url": "https://gutterart.s3.us-east-2.amazonaws.com/image/39.mp4",
@@ -16885,6 +17548,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "attributes": [
@@ -16903,6 +17567,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x79a23742d6130db34885be2a726b912d5c812fd8",
     "metadata": {
       "description": "10,000 randomly generated frogs on the Ethereum blockchain. The future is amphibious, ribbit! The frogs are composed of 185+ hand-drawn assets across 6 traits. No two are exactly alike. Journey [Here](https://flyfrog.link)",
@@ -16915,6 +17580,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x75b4a7c028892cefce434c5adc3e391b69c11c99",
     "metadata": {
       "description": "10,000 randomly generated frogs on the Ethereum blockchain. The future is amphibious, ribbit! The frogs are composed of 185+ hand-drawn assets across 6 traits. No two are exactly alike. Journey [Here](https://flyfrog.link)",
@@ -16927,6 +17593,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1af688bf3be552c549fac3df1b52acc0bb18c73d",
     "metadata": {
       "description": "Diamond Pepe Office Space Cards rewarded to the top failed Otherside Minters",
@@ -16940,6 +17607,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x931812a8fcf1ab654eeb6d9bd929f7df183be778",
     "metadata": {
       "description": "In Crypto Unicorns, gameplay centers around awesomely unique Unicorn NFTs which players combine with Land NFTs to utilize in a fun farming simulation, as well as other gameplay including Jousting, Racing, and Team RPG. Journey [Here](https://cryptounicorn.link)",
@@ -16952,6 +17620,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2cac9de879f8c76038649f86ac208ef65ce38035",
     "metadata": {
       "description": "In Crypto Unicorns, gameplay centers around awesomely unique Unicorn NFTs which players combine with Land NFTs to utilize in a fun farming simulation, as well as other gameplay including Jousting, Racing, and Team RPG. Journey [Here](https://cryptounicorn.link)",
@@ -16964,6 +17633,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xe786b5596a792d7beafcf08eaf9de711c7b7b14b",
     "metadata": {
       "animation_url": "ipfs://QmTqhSzbo4fbsbkeqQCyPfNTMuRKQMvP8H7jvC2QRKMab7",
@@ -16977,6 +17647,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x659a4e8254b89928a3781627bbd7e9f480760390",
     "metadata": null,
     "supply": "1",
@@ -16984,6 +17655,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xf3869a078d46fbdaa30c5a213b542407f52caf2c",
     "metadata": null,
     "supply": "1",
@@ -16991,6 +17663,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x179335e8b0005210c2fa9a1dfb7f92cf636157ad",
     "metadata": null,
     "supply": "1",
@@ -16998,6 +17671,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x179335e8b0005210c2fa9a1dfb7f92cf636157ad",
     "metadata": null,
     "supply": "1",
@@ -17005,6 +17679,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa3b758eec7875947b74db6ad27e9c874377451f5",
     "metadata": {
       "description": "A collection of 3,333 unique Bored Snakes NFTs- unique digital collectibles on the Ethereum blockchain. Hold Your Bored Sanke Club (Card) NFT , and grants access to members-only benefits. Visit [Here](https://boredsnakesclub.com) to invest more.",
@@ -17017,6 +17692,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8b22ad9bcaefddd7f74fb069d38518c672fa4544",
     "metadata": {
       "description": "Misfits Ape Society is a collection of 10,000 NFTs living in the Ethereum Blockchain and representing a society of people from around the globe who have trouble fitting into the status quo. Visit https://misfitsapesociety.live to participate in presale now!",
@@ -17029,6 +17705,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6797257690f5a0c7bed43b3a220c415252ecc93e",
     "metadata": {
       "description": "Polar Bear Club is a custom collection of 8,888 3D unique hand-drawn Crypto Polar Bears who live on the Ethereum network! Polar Bear Club is not only a piece of art but a token. Visit https://polarbears.in to participate in presale now!",
@@ -17041,6 +17718,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65922260237378b75fd2fef9f6236ab1dd5776aa",
     "metadata": {
       "animation_url": "https://cdn.chibilabs.dev/frens/fallback.mp4",
@@ -17058,6 +17736,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65922260237378b75fd2fef9f6236ab1dd5776aa",
     "metadata": {
       "animation_url": "https://cdn.chibilabs.dev/frens/fallback.mp4",
@@ -17075,6 +17754,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65922260237378b75fd2fef9f6236ab1dd5776aa",
     "metadata": null,
     "supply": "1",
@@ -17082,6 +17762,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65922260237378b75fd2fef9f6236ab1dd5776aa",
     "metadata": {
       "animation_url": "https://cdn.chibilabs.dev/frens/fallback.mp4",
@@ -17099,6 +17780,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "attributes": [
@@ -17117,6 +17799,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "attributes": [
@@ -17135,6 +17818,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xba0980abbe2bdd2fd8ed956718e619271ad26da4",
     "metadata": {
       "description": "The Lobstars is a collection of 7777 lobster portraits by British contemporary artist, Philip Colbert, often referred to as ‘the godson of Andy Warhol’. Visit https://thelobstar.link to participate in presale now!",
@@ -17147,6 +17831,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9378368ba6b85c1fba5b131b530f5f5bedf21a18",
     "metadata": {
       "attributes": [
@@ -17178,6 +17863,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x65922260237378b75fd2fef9f6236ab1dd5776aa",
     "metadata": {
       "animation_url": "https://cdn.chibilabs.dev/frens/fallback.mp4",
@@ -17195,6 +17881,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x282cc1505f7d19dcfef4b4225169e0d4d6cabf33",
     "metadata": null,
     "supply": "1",
@@ -17202,6 +17889,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa3de0f77b6096805af5ae223c1d64b88701edf59",
     "metadata": null,
     "supply": "1",
@@ -17209,6 +17897,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x9c78918459a38b5ccf7940957f76e265415e0f90",
     "metadata": null,
     "supply": "1",
@@ -17216,6 +17905,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -17229,6 +17919,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc49a9ab342b6ea66792d4110e9ca0ab36e3a5674",
     "metadata": {
       "attributes": [
@@ -17276,6 +17967,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6913233ada65330adf01f24f715dffcc60497cc8",
     "metadata": {
       "animation_url": "https://arweave.net/-ZDQ3aNOsSwULPHmu8Ng0pKVhdnVwUYYeSP3WTWGG8I",
@@ -17296,6 +17988,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6913233ada65330adf01f24f715dffcc60497cc8",
     "metadata": {
       "attributes": [
@@ -17315,6 +18008,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7b6c53c08667d606734d9d3b61973caf1ffb5339",
     "metadata": {
       "attributes": [
@@ -17333,6 +18027,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0369edc7646948e2f36f9f85baf297bb99843054",
     "metadata": {
       "attributes": [
@@ -17372,6 +18067,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -17410,6 +18106,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -17448,6 +18145,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8442864d6ab62a9193be2f16580c08e0d7bcda2f",
     "metadata": {
       "animation_url": "https://timepieces.mypinata.cloud/ipfs/QmXLp6eSJLKNnUsWhrVHCpc2DAYXrNAbcq8At95eLLTiY4",
@@ -17494,6 +18192,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmX2Frb1NAZgdMxMYcytvgEo3oKEviGTgqtmRj4ZgSsjw3",
@@ -17529,6 +18228,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -17564,6 +18264,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -17599,6 +18300,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -17634,6 +18336,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x8eaaabe11896bd09fb852d3a5248004ec44bc793",
     "metadata": {
       "animation_url": "https://refractions.azureedge.net/refractions/metadata/refractions/0000000000000000000000000000000000000000000000000000000000000007/prism.mp4",
@@ -17662,6 +18365,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x53142464f2faece413aaf1886e9f21d6113d1257",
     "metadata": {
       "attributes": [
@@ -17692,6 +18396,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Mercury is a planet split in half—one side in frozen darkness, the other in blazing light. Mobile villages and outposts crawl the planet’s surface, following the edge of night to stay safe in the Twilight In Between.",
@@ -17704,6 +18409,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Among the crystal trees, something is whispering. Folks on Pluto are a little odd-- they keep to themselves, and only they seem to know what the whispering means.",
@@ -17716,6 +18422,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "The Moon is a young, ever evolving metropolis that invites all kinds to leave their mark. A mishmash of cultures and interests, Lunar citizens reject all uniformity.",
@@ -17728,6 +18435,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x572e33ffa523865791ab1c26b42a86ac244df784",
     "metadata": {
       "attributes": [
@@ -17769,6 +18477,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1e0e008eec6d04c52a3945d3df33d04e06a9c46f",
     "metadata": {
       "animation_url": "ipfs://QmfAA3FCSVepuxrh8x4xtwPsGKrsfuYifrWW3pLXk3VYiU",
@@ -17782,6 +18491,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd0b53410454370a482979c0adaf3667c6308a801",
     "metadata": {
       "animation_url": "ipfs://QmXWeh3Yx4AgNd1ZrDgFbYhLVyNExWdoph33Zhiim5cjGJ",
@@ -17795,6 +18505,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x2378e88624c7dfdf73a6b02ded8733449916fdba",
     "metadata": {
       "animation_url": "ipfs://QmZ6d1Be4v6CPRDBct8UivMAi3yjvghpdTEDvncmqXjmJ4",
@@ -17821,6 +18532,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "Neptune is not for the faint of heart, in fact, it's for the absolutely adrenaline addicted. Come ride the fastest winds in the system, or probably don't come at all.",
@@ -17833,6 +18545,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x665a297b7412e0d08af37fb7492dd0e7c438eeca",
     "metadata": {
       "animation_url": "ipfs://QmaczzW6UhVP2Za3tCKL31E78RATxcx8f6byVBCcv67t7A",
@@ -17859,6 +18572,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x54231a5960b2872af26bb6d386ecf6fbb74d85c9",
     "metadata": {
       "animation_url": "ipfs://QmV4THSETiZnqLi4J5qpGiZikNMHm2j2xMVPUH1YogEeVx",
@@ -17885,6 +18599,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xda22422592ee3623c8d3c40fe0059cdecf30ca79",
     "metadata": {
       "attributes": [
@@ -17907,6 +18622,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7deb7bce4d360ebe68278dee6054b882aa62d19c",
     "metadata": {
       "description": "A hard scrabble place for hard scrabble people, Mars is a planet of honest work paid out in backroom deals.",
@@ -17919,6 +18635,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xc143bbfcdbdbed6d454803804752a064a622c1f3",
     "metadata": null,
     "supply": "1",
@@ -17926,6 +18643,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -17964,6 +18682,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -17997,6 +18716,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -18030,6 +18750,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x4e8e2a120423ad588f96914a7d68f3e7f9d5149f",
     "metadata": {
       "attributes": [
@@ -18059,6 +18780,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [],
@@ -18072,6 +18794,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -18105,6 +18828,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": "https://openseauserdata.com/files/d3741a433251349f4f0f8555f03ff510.mp4",
@@ -18118,6 +18842,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [],
@@ -18131,6 +18856,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -18169,6 +18895,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x1e38e9ad28a526512af9b8689c50d91443b6c3db",
     "metadata": {
       "attributes": [
@@ -18230,6 +18957,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -18263,6 +18991,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xaadc2d4261199ce24a4b0a57370c4fcf43bb60aa",
     "metadata": {
       "alternate_images": [
@@ -18409,6 +19138,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "https://ipfs.infura.io/ipfs/QmT8pGx7ezW5em6bPTLtLJE7XZwPWWra5Syb5Cuf75TEQj",
@@ -18447,6 +19177,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x70732c08fb6dbb06a64bf619c816c22aed12267a",
     "metadata": {
       "attributes": [
@@ -18476,6 +19207,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0b15727723690295a7981f12cf49b706a3eb555f",
     "metadata": {
       "attributes": [
@@ -18508,6 +19240,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",
@@ -18543,6 +19276,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -18581,6 +19315,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -18619,6 +19354,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xa7206d878c5c3871826dfdb42191c49b1d11f466",
     "metadata": {
       "created_by": "Pak",
@@ -18640,6 +19376,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xbd9071b63f25dd199079ed80b3b384d78042956b",
     "metadata": {
       "attributes": [
@@ -18681,6 +19418,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -18719,6 +19457,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x70732c08fb6dbb06a64bf619c816c22aed12267a",
     "metadata": {
       "attributes": [
@@ -18748,6 +19487,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xed493f841b0527ff4ad0c08ac9cf84fe26ebb5e1",
     "metadata": {
       "animation_url": "https://ipfs.io/ipfs/QmYuv28aegVTHJN2ZXmysxa9QdW98dHGPj4ifHatp69MkU",
@@ -18810,6 +19550,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "https://ipfs.infura.io/ipfs/QmT8pGx7ezW5em6bPTLtLJE7XZwPWWra5Syb5Cuf75TEQj",
@@ -18848,6 +19589,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -18881,6 +19623,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
     "metadata": {
       "attributes": [
@@ -18919,6 +19662,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x6d4530149e5b4483d2f7e60449c02570531a0751",
     "metadata": {
       "animation_url": "",
@@ -18957,6 +19701,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x30f23d387c076d61fa5017516bedadee01a27356",
     "metadata": {
       "animation_url": "https://res.cloudinary.com/nifty-gateway/video/upload/v1612233168/A/Lushsux/TO_THE_MOON_-_Bill_Keller_ibjm22.mp4",
@@ -18971,6 +19716,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x7828c811636ccf051993c1ec3157b0b732e55b23",
     "metadata": {
       "attributes": [
@@ -19001,6 +19747,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [
@@ -19020,6 +19767,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -19053,6 +19801,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x0e1f990d264a9818460dde1b81c0b04d8a88e751",
     "metadata": {
       "attributes": [
@@ -19086,6 +19835,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xb932a70a57673d89f4acffbe830e8ed7f75fb9e0",
     "metadata": {
       "createdBy": "RTC9000",
@@ -19118,6 +19868,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -19151,6 +19902,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -19184,6 +19936,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x715565baf69afcbbe88f56d46f1c9fe2df828705",
     "metadata": {
       "attributes": [
@@ -19223,6 +19976,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [],
@@ -19236,6 +19990,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
     "metadata": {
       "attributes": [],
@@ -19249,6 +20004,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x87b5d8fe6cf8b37678b6cef7cca23a4852883c48",
     "metadata": {
       "attributes": [
@@ -19282,6 +20038,7 @@
     "type": "ERC721"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x495f947276749ce646f68ac8c248420045cb7b5e",
     "metadata": {
       "animation_url": null,
@@ -19295,6 +20052,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x73da73ef3a6982109c4d5bdb0db9dd3e3783f313",
     "metadata": {
       "decimals": 0,
@@ -19313,6 +20071,7 @@
     "type": "ERC1155"
   },
   {
+    "schema": "network.xyo.crypto.nft",
     "contract": "0x60d32d3bdb7af2f221564f57fd9f4ef0cb4a2392",
     "metadata": {
       "animation_url": "ipfs://QmeiJsCCyjVq1nfhponZzC7wDDwL7jpSZpF9NrxQQdm3eT",

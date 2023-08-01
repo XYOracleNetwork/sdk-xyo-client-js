@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { NftInfo, NftInfoPayload, NftSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
+import { isNftInfoPayload, NftInfoPayload } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
@@ -14,9 +14,7 @@ describe('NftScoreDiviner', () => {
     const nfts = JSON.parse(fileContents)
     expect(nfts).toBeArray()
     if (Array.isArray(nfts)) {
-      data = nfts.map<NftInfoPayload>((info: NftInfo) => {
-        return { ...info, schema: NftSchema }
-      })
+      data = nfts.filter(isNftInfoPayload)
     }
   })
   test('divine', async () => {

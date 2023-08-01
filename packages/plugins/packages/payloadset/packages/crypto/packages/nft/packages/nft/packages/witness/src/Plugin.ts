@@ -4,7 +4,7 @@ import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
 
 import { CryptoWalletNftWitness } from './Witness'
 
-export const CryptoWalletNftPlugin = () =>
+export const CryptoWalletNftWitnessPlugin = () =>
   createPayloadSetWitnessPlugin<CryptoWalletNftWitness>(
     { required: { [NftSchema]: 1 }, schema: PayloadSetSchema },
     {

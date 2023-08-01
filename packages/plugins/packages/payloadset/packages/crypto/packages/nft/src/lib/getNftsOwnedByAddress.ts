@@ -1,6 +1,4 @@
-import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { Auth, SDK } from '@infura/sdk'
-import { HDWallet } from '@xyo-network/account'
 import { NftInfo } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 
 type PublicAddressOptions = {

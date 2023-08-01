@@ -39,7 +39,6 @@ import {
   ModuleQueryBase,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
-  ModuleResolver,
   ModuleSubscribeQuerySchema,
   SchemaString,
   serializableField,

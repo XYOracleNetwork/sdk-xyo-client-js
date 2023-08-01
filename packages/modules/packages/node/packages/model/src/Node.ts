@@ -38,4 +38,5 @@ export type NodeInstance<
   NodeQueryFunctions &
   ModuleInstance & {
     register: (module: ModuleInstance) => void
+    registeredModules(): Promisable<ModuleInstance[]>
   }

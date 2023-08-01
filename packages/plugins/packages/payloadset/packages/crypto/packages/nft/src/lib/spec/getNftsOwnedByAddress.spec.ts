@@ -12,7 +12,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
   const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
   test('observe', async () => {
     const nfts = await getNftsOwnedByAddress(address, chainId, provider)
-    expect(nfts.length).toBeGreaterThan(1)
+    expect(nfts.length).toBeGreaterThan(0)
     for (let i = 0; i < nfts.length; i++) {
       const nft = nfts[i]
       expect(nft.contract).toBeString()

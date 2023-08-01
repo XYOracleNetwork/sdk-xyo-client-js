@@ -1,7 +1,7 @@
 import { HDWallet } from '@xyo-network/account'
 import { NftInfo, NftInfoPayload, NftSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import { join } from 'path'
 
 import { isNftScorePayload, NftScoreDiviner } from '../Diviner'
@@ -33,6 +33,5 @@ describe('NftScoreDiviner', () => {
       const sourceHash = await PayloadWrapper.wrap(data[i]).hashAsync()
       expect(payload?.sources?.[0]).toBe(sourceHash)
     }
-    await writeFile(join(__dirname, 'ratings.json'), JSON.stringify(scores, null, 2))
   })
 })

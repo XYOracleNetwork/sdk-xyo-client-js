@@ -18,11 +18,8 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/error": "workspace:~",
     "@xyo-network/module": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/witness": "workspace:~",
     "lodash": "^4.17.21"

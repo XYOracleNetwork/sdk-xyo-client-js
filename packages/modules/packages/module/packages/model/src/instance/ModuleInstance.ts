@@ -39,6 +39,7 @@ export class IsInstanceFactory<T extends ModuleInstance = ModuleInstance> extend
 export interface ModuleFilterOptions<T extends ModuleInstance = ModuleInstance> {
   direction?: 'up' | 'down' | 'all'
   identity?: InstanceTypeCheck<T>
+  maxDepth?: number
   visibility?: 'public' | 'private' | 'all'
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/sentinel",
+  "name": "@xyo-network/sentinel-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -23,7 +23,6 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/promise": "workspace:~",
-    "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/witness": "workspace:~",
     "lodash": "^4.17.21"
   },

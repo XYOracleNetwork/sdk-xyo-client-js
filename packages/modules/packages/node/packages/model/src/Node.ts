@@ -37,6 +37,6 @@ export type NodeInstance<
 > = NodeModule<TParams, TEventData> &
   NodeQueryFunctions &
   ModuleInstance & {
-    register: (module: ModuleInstance) => void
+    register: (module: ModuleInstance) => Promisable<void>
     registeredModules(): Promisable<ModuleInstance[]>
   }

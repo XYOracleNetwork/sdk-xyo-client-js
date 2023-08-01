@@ -64,5 +64,15 @@ describe('MemoryNode', () => {
         }
       }
     }
+
+    expect((await node.resolve(undefined, { direction: 'up' })).length).toBe(1)
+    expect((await node.resolve(undefined, { direction: 'down' })).length).toBe(3)
+    expect((await node.resolve(undefined, { direction: 'down', maxDepth: 1 })).length).toBe(1)
+    expect((await node.resolve(undefined, { direction: 'all' })).length).toBe(3)
+
+    expect((await archivist.resolve(undefined, { direction: 'up' })).length).toBe(3)
+    expect((await archivist.resolve(undefined, { direction: 'up', maxDepth: 1 })).length).toBe(1)
+    expect((await archivist.resolve(undefined, { direction: 'down' })).length).toBe(1)
+    expect((await archivist.resolve(undefined, { direction: 'all' })).length).toBe(3)
   })
 })

@@ -1,8 +1,13 @@
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-
-import { SentinelInstance, SentinelModule, SentinelReportQuery, SentinelReportQuerySchema } from './model'
-import { isSentinelInstance, isSentinelModule } from './typeChecks'
+import {
+  isSentinelInstance,
+  isSentinelModule,
+  SentinelInstance,
+  SentinelModule,
+  SentinelReportQuery,
+  SentinelReportQuerySchema,
+} from '@xyo-network/sentinel-model'
 
 constructableModuleWrapper()
 export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>

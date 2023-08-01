@@ -1,10 +1,11 @@
 import { exists } from '@xylabs/exists'
 import { Base, BaseParams } from '@xyo-network/core'
-import { duplicateModules, ModuleFilter, ModuleInstance, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolver {
+  static defaultMaxDepth = 4
   protected resolvers: ModuleResolver[] = []
   private localResolver: SimpleModuleResolver
 
@@ -49,22 +50,35 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  async resolve(filter?: ModuleFilter): Promise<ModuleInstance[]>
-  async resolve(nameOrAddress: string): Promise<ModuleInstance | undefined>
-  async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<ModuleInstance[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddress: string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth) - 1 }
     if (typeof nameOrAddressOrFilter === 'string') {
+      if (mutatedOptions.maxDepth < 0) {
+        return undefined
+      }
       const results = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: ModuleInstance | undefined = await resolver.resolve(nameOrAddressOrFilter)
+          const result: ModuleInstance | undefined = await resolver.resolve(nameOrAddressOrFilter, mutatedOptions)
           return result
         }),
       )
       const result: ModuleInstance | undefined = results.filter(exists).filter(duplicateModules).pop()
       return result
     } else {
+      if (mutatedOptions.maxDepth < 0) {
+        return []
+      }
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: ModuleInstance[] = await resolver.resolve(nameOrAddressOrFilter)
+          const result: ModuleInstance[] = await resolver.resolve(nameOrAddressOrFilter, mutatedOptions)
           return result
         }),
       )

@@ -11,6 +11,7 @@ import {
   AddressModuleFilter,
   Module,
   ModuleFilter,
+  ModuleFilterOptions,
   ModuleInstance,
   ModuleResolver,
   NameModuleFilter,
@@ -93,22 +94,37 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     throw new Error('Method not implemented.')
   }
 
-  override async resolve(filter?: ModuleFilter): Promise<ModuleInstance[]>
-  override async resolve(nameOrAddress: string): Promise<ModuleInstance | undefined>
-  override async resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    filter?: ModuleFilter<T>,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddress: string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | undefined>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? BridgeModuleResolver.defaultMaxDepth) - 1 }
     await this.prime()
     await this.resolveRemoteModules()
     if (typeof nameOrAddressOrFilter === 'string') {
-      const result: ModuleInstance | undefined =
-        (await this.resolveByAddress(nameOrAddressOrFilter)) ?? (await this.resolveByName(nameOrAddressOrFilter))
+      if (mutatedOptions.maxDepth < 0) {
+        return undefined
+      }
+      const result: T | undefined = (await this.resolveByAddress<T>(nameOrAddressOrFilter)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
       return result
     } else {
-      const result: ModuleInstance[] = await this.resolveRemoteModules(nameOrAddressOrFilter)
+      if (mutatedOptions.maxDepth < 0) {
+        return []
+      }
+      const result: T[] = await this.resolveRemoteModules<T>(nameOrAddressOrFilter)
       return result
     }
   }
 
-  private async resolveByAddress(targetAddress: string): Promise<ModuleInstance | undefined> {
+  private async resolveByAddress<T extends ModuleInstance = ModuleInstance>(targetAddress: string): Promise<T | undefined> {
     const remoteAddresses = await this.getRemoteAddresses()
 
     //check if it is even there
@@ -118,7 +134,7 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     }
 
     const cached = this.resolvedModules[targetAddress]
-    if (cached) return await cached
+    if (cached) return (await cached) as T
 
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??
@@ -157,52 +173,52 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
         }
       })(targetAddress)
 
-    return await this.resolvedModules[targetAddress]
+    return (await this.resolvedModules[targetAddress]) as T
   }
 
-  private async resolveByName(name: string): Promise<ModuleInstance | undefined> {
+  private async resolveByName<T extends ModuleInstance = ModuleInstance>(name: string): Promise<T | undefined> {
     const modules = await this.currentResolvedModules()
     return Object.values(modules)
       .filter((module) => module.config.name === name)
-      .pop()
+      .pop() as T
   }
 
-  private async resolveByQuery(queries: string[]): Promise<ModuleInstance[]> {
+  private async resolveByQuery<T extends ModuleInstance = ModuleInstance>(queries: string[]): Promise<T[]> {
     return Object.values(await this.currentResolvedModules()).filter((module) => {
       //filter out the requested queries
       const found = module.queries.filter((query) => queries.find((q) => q === query))
 
       //did we find all the requested queries?
       return queries.length === found.length
-    })
+    }) as T[]
   }
 
-  private async resolveRemoteModules(filter?: ModuleFilter): Promise<ModuleInstance[]> {
+  private async resolveRemoteModules<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter): Promise<T[]> {
     if ((filter as AddressModuleFilter)?.address) {
-      return await this.resolveRemoteModulesByAddress(filter as AddressModuleFilter)
+      return await this.resolveRemoteModulesByAddress<T>(filter as AddressModuleFilter)
     }
 
     if ((filter as NameModuleFilter)?.name) {
-      return await this.resolveRemoteModulesByName(filter as NameModuleFilter)
+      return await this.resolveRemoteModulesByName<T>(filter as NameModuleFilter)
     }
 
     if ((filter as QueryModuleFilter)?.query) {
-      return await this.resolveRemoteModulesByQuery(filter as QueryModuleFilter)
+      return await this.resolveRemoteModulesByQuery<T>(filter as QueryModuleFilter)
     }
 
     //get all of them
-    return await this.resolveRemoteModulesByAddress({ address: await this.getRemoteAddresses() })
+    return await this.resolveRemoteModulesByAddress<T>({ address: await this.getRemoteAddresses() })
   }
 
-  private async resolveRemoteModulesByAddress(filter: AddressModuleFilter): Promise<ModuleInstance[]> {
-    return compact(await Promise.all(filter.address.map((address) => this.resolveByAddress(address))))
+  private async resolveRemoteModulesByAddress<T extends ModuleInstance = ModuleInstance>(filter: AddressModuleFilter): Promise<T[]> {
+    return compact(await Promise.all(filter.address.map((address) => this.resolveByAddress<T>(address))))
   }
 
-  private async resolveRemoteModulesByName(filter: NameModuleFilter): Promise<ModuleInstance[]> {
-    return compact(await Promise.all(filter.name.map(async (name) => await this.resolveByName(name))))
+  private async resolveRemoteModulesByName<T extends ModuleInstance = ModuleInstance>(filter: NameModuleFilter): Promise<T[]> {
+    return compact(await Promise.all(filter.name.map(async (name) => await this.resolveByName<T>(name))))
   }
 
-  private async resolveRemoteModulesByQuery(filter: QueryModuleFilter): Promise<ModuleInstance[]> {
-    return compact((await Promise.all(filter.query.map(async (query) => await this.resolveByQuery(query)))).flat())
+  private async resolveRemoteModulesByQuery<T extends ModuleInstance = ModuleInstance>(filter: QueryModuleFilter): Promise<T[]> {
+    return compact((await Promise.all(filter.query.map(async (query) => await this.resolveByQuery<T>(query)))).flat())
   }
 }

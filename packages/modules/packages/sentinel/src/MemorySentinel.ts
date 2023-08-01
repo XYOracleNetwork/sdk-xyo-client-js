@@ -3,10 +3,17 @@ import { fulfilled, rejected } from '@xylabs/promise'
 import { handleError } from '@xyo-network/error'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
+import {
+  SentinelConfig,
+  SentinelConfigSchema,
+  SentinelInstance,
+  SentinelModuleEventData,
+  SentinelParams,
+  SentinelReportQuerySchema,
+} from '@xyo-network/sentinel-model'
 import { WitnessInstance } from '@xyo-network/witness'
 
 import { AbstractSentinel } from './AbstractSentinel'
-import { SentinelConfig, SentinelConfigSchema, SentinelInstance, SentinelModuleEventData, SentinelParams, SentinelReportQuerySchema } from './model'
 
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<
   AnyConfigSchema<TConfig>

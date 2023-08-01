@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
+import { NftWitnessConfigSchema } from '@xyo-network/crypto-wallet-nft-payload-plugin'
 import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceBatchDivinerConfigSchema,
@@ -38,7 +39,11 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
 ]
-const witnesses: ModuleConfigWithVisibility[] = [[{ schema: PrometheusNodeWitnessConfigSchema }, true]] // TODO: If we set this to false the visible modules stop resolving
+const witnesses: ModuleConfigWithVisibility[] = [
+  [{ schema: NftWitnessConfigSchema }, true],
+  // TODO: If we set this to false the visible modules stop resolving
+  [{ schema: PrometheusNodeWitnessConfigSchema }, true],
+]
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
 

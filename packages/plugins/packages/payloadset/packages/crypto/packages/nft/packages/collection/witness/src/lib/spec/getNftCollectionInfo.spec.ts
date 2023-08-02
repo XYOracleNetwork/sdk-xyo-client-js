@@ -10,5 +10,13 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
     const { privateKey } = await HDWallet.random()
     const result = await getNftCollectionInfo(address, chainId, privateKey)
     expect(result).toBeObject()
+    expect(result).toEqual({
+      address,
+      chainId,
+      name: 'BoredApeYachtClub',
+      schema: 'network.xyo.crypto.nft.collection',
+      symbol: 'BAYC',
+      tokenType: 'ERC721',
+    })
   })
 })

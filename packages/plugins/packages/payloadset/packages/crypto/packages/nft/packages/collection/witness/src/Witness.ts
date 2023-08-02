@@ -1,4 +1,3 @@
-import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import {
   isNftCollectionWitnessQueryPayload,
@@ -11,21 +10,12 @@ import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { getNftCollectionInfo } from './lib'
 
-export type CryptoNftCollectionWitnessParams = WitnessParams<
-  AnyConfigSchema<NftCollectionWitnessConfig>,
-  {
-    provider?: ExternalProvider | JsonRpcFetchFunc
-  }
->
+export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<NftCollectionWitnessConfig>>
 
 export class CryptoNftCollectionWitness<
   TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
 > extends AbstractWitness<TParams> {
   static override configSchemas = [NftCollectionWitnessConfigSchema]
-
-  protected get provider() {
-    return assertEx(this.params.provider, 'Provider Required')
-  }
 
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')

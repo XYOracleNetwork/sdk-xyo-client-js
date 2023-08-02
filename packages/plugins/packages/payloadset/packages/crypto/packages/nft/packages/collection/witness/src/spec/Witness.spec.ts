@@ -14,8 +14,15 @@ import { Payload } from '@xyo-network/payload-model'
 import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = (observation: Payload[]) => {
-  const nfts = observation.filter(isNftCollectionInfoPayload)
-  expect(nfts.length).toBeGreaterThan(0)
+  const results = observation.filter(isNftCollectionInfoPayload)
+  expect(results.length).toBeGreaterThan(0)
+  const collectionInfo = results[0]
+  expect(collectionInfo.address).toBeString()
+  expect(collectionInfo.chainId).toBeNumber()
+  expect(collectionInfo.name).toBeString()
+  expect(collectionInfo.tokenType).toBeString()
+  expect(collectionInfo.sources).toBeArray()
+  expect(collectionInfo.sources?.length).toBeGreaterThan(0)
 }
 
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {

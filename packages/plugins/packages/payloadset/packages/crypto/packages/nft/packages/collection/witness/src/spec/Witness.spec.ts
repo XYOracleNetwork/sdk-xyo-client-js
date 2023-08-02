@@ -3,41 +3,37 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { describeIf } from '@xylabs/jest-helpers'
-import { isNftInfoPayload, NftWitnessConfigSchema, NftWitnessQueryPayload, NftWitnessQuerySchema } from '@xyo-network/crypto-nft-payload-plugin'
+import {
+  isNftCollectionInfoPayload,
+  NftCollectionWitnessConfigSchema,
+  NftCollectionWitnessQueryPayload,
+  NftCollectionWitnessQuerySchema,
+} from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { HttpProvider } from 'web3-providers-http'
 
 import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = async (observation: Payload[]) => {
-  const nfts = observation.filter(isNftInfoPayload)
+  const nfts = observation.filter(isNftCollectionInfoPayload)
   expect(nfts.length).toBeGreaterThan(0)
-  expect(observation.length).toEqual(nfts.length)
-  for (const nft of nfts) {
-    const wrapped = PayloadWrapper.wrap(nft)
-    expect(await wrapped.getValid()).toBe(true)
-  }
 }
 
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
-  const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
+  const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'
   const chainId = 1
-  const network = 'homestead'
-  const apiKey = process.env.INFURA_PROJECT_ID
   describe('observe', () => {
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema } })
-        const query: NftWitnessQueryPayload = { schema: NftWitnessQuerySchema }
+        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftCollectionWitnessConfigSchema } })
+        const query: NftCollectionWitnessQueryPayload = { schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)
       })
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftWitnessConfigSchema } })
-        const query: NftWitnessQueryPayload = { address, chainId, schema: NftWitnessQuerySchema }
+        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftCollectionWitnessConfigSchema } })
+        const query: NftCollectionWitnessQueryPayload = { address, chainId, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)
       })

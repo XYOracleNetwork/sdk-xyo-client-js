@@ -17,10 +17,6 @@ export const getNftsOwnedByAddress = async (
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
   chainId: number,
-  // /**
-  //  * The ethers provider to use to search for NFTs
-  //  */
-  // provider: ExternalProvider | JsonRpcFetchFunc,
   /**
    * The private key of the wallet to use to search for NFTs
    */
@@ -31,22 +27,7 @@ export const getNftsOwnedByAddress = async (
    */
   maxNftCount = 1000,
 ): Promise<NftInfo[]> => {
-  // Instantiate SDK
-  const sdk = new SDK(
-    new Auth({
-      chainId,
-      privateKey,
-      projectId: process.env.INFURA_PROJECT_ID,
-      // ipfs: {
-      //   apiKeySecret: process.env.INFURA_IPFS_PROJECT_SECRET,
-      //   projectId: process.env.INFURA_IPFS_PROJECT_ID,
-      // },
-      // provider,
-      // NOTE: rpcUrl is not required if chainId & projectId are provided
-      // rpcUrl: process.env.EVM_RPC_URL,
-      secretId: process.env.INFURA_PROJECT_SECRET,
-    }),
-  )
+  const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const nfts: NftInfo[] = []
   let cursor: string | undefined = undefined
   do {

@@ -8,6 +8,7 @@ export interface NftCollectionInfo {
   name: string
   symbol: string
   tokenType: string
+  total: number
 }
 
 export type NftCollectionInfoPayload = Payload<NftCollectionInfo & { schema: NftCollectionSchema }>

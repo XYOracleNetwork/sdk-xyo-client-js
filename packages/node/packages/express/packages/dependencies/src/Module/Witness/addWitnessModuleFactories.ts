@@ -24,7 +24,11 @@ const getCryptoNftCollectionWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(CryptoNftCollectionWitness, {
     accountDerivationPath: WALLET_PATHS.Witnesses.CryptoNftCollectionWitness,
-    config: { name: TYPES.CryptoNftCollectionWitness.description, schema: CryptoNftCollectionWitness.configSchema },
+    config: {
+      archivist: TYPES.Archivist.description,
+      name: TYPES.CryptoNftCollectionWitness.description,
+      schema: CryptoNftCollectionWitness.configSchema,
+    },
     wallet,
   })
 }

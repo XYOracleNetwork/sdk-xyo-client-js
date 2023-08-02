@@ -1,10 +1,11 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { NftWitnessQuerySchema } from './Schema'
+import { NftCollectionWitnessQuerySchema } from './Schema'
 
-export type NftWitnessQueryPayload = Payload<{
+export type NftCollectionWitnessQueryPayload = Payload<{
   address?: string
   chainId?: number
-  schema: NftWitnessQuerySchema
+  schema: NftCollectionWitnessQuerySchema
 }>
-export const isNftWitnessQueryPayload = (x?: Payload | null): x is NftWitnessQueryPayload => x?.schema === NftWitnessQuerySchema
+export const isNftCollectionWitnessQueryPayload = (x?: Payload | null): x is NftCollectionWitnessQueryPayload =>
+  x?.schema === NftCollectionWitnessQuerySchema

@@ -1,9 +1,9 @@
 import { WitnessConfig } from '@xyo-network/witness'
 
-import { NftWitnessConfigSchema } from './Schema'
+import { NftCollectionWitnessConfigSchema } from './Schema'
 
-export type CryptoWalletNftWitnessConfig = WitnessConfig<{
+export type CryptoWalletNftCollectionWitnessConfig = WitnessConfig<{
   address?: string
   chainId?: number
-  schema: NftWitnessConfigSchema
+  schema: NftCollectionWitnessConfigSchema
 }>

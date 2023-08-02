@@ -2,8 +2,6 @@ import type { ExternalProvider, JsonRpcFetchFunc } from '@ethersproject/provider
 import { assertEx } from '@xylabs/assert'
 import {
   isNftCollectionWitnessQueryPayload,
-  NftCollectionInfoPayload,
-  NftCollectionSchema,
   NftCollectionWitnessConfig,
   NftCollectionWitnessConfigSchema,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/crypto-nft-payload-plugins",
+  "name": "@xyo-network/crypto-nft-collection-payload-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,8 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
-    "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
@@ -51,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.70.1"
+  "version": "2.70.0"
 }

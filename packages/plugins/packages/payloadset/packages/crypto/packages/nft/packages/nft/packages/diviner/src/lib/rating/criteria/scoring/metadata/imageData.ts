@@ -1,7 +1,6 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 import { parse } from 'svg-parser'
-
-import { PASS, ScaledScore } from '../../../score'
 
 const MaxPossibleImageDataScore = 1
 

@@ -1,8 +1,7 @@
 import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { FAIL, PASS, PassFailScoringFunction } from '@xyo-network/crypto-nft-score-model'
 
-import { FAIL, PASS, PassFailScoringFunction } from '../../score'
-
-export const scoreType: PassFailScoringFunction = (nft: NftInfo) => {
+export const scoreType: PassFailScoringFunction<NftInfo> = (nft: NftInfo) => {
   if (!nft.type) return FAIL
   if (typeof nft.type !== 'string') return FAIL
   const type = nft.type.toUpperCase()

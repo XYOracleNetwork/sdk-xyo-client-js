@@ -1,6 +1,6 @@
 import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { FAIL, PASS, PassFailScoringFunction } from '@xyo-network/crypto-nft-score-model'
 
-import { FAIL, PASS, PassFailScoringFunction } from '../../score'
 import { isValidPositiveBigNumber } from './lib'
 
 /**
@@ -9,7 +9,7 @@ import { isValidPositiveBigNumber } from './lib'
  * @param nft
  * @returns
  */
-export const scoreTokenId: PassFailScoringFunction = (nft: NftInfo) => {
+export const scoreTokenId: PassFailScoringFunction<NftInfo> = (nft: NftInfo) => {
   if (!nft.tokenId) return FAIL
   if (typeof nft.tokenId !== 'string') return FAIL
   try {

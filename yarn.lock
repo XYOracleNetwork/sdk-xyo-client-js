@@ -6370,6 +6370,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/crypto-nft-score-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -6412,6 +6413,16 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.0
     "@xyo-network/crypto-nft-plugin": "workspace:~"
     jest: ^29.6.2
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/crypto-nft-score-model@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/score, @xyo-network/crypto-nft-score-model@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/crypto-nft-score-model@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/score"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft

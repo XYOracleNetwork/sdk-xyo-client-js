@@ -16,6 +16,7 @@
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
+    "@xyo-network/crypto-nft-score-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

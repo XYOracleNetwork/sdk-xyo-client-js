@@ -1,4 +1,4 @@
 import { NftCollectionSchema } from '../Schema'
 
-export type NftScoreSchema = `${NftCollectionSchema}.score`
-export const NftScoreSchema: NftScoreSchema = `${NftCollectionSchema}.score`
+export type NftCollectionScoreSchema = `${NftCollectionSchema}.score`
+export const NftCollectionScoreSchema: NftCollectionScoreSchema = `${NftCollectionSchema}.score`

@@ -1,8 +1,8 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { NftScoreSchema } from './Schema'
+import { NftCollectionScoreSchema } from './Schema'
 
-export type NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
-export const NftScoreDivinerConfigSchema: NftScoreDivinerConfigSchema = `${NftScoreSchema}.diviner.config`
+export type NftCollectionScoreDivinerConfigSchema = `${NftCollectionScoreSchema}.diviner.config`
+export const NftCollectionScoreDivinerConfigSchema: NftCollectionScoreDivinerConfigSchema = `${NftCollectionScoreSchema}.diviner.config`
 
-export type NftScoreDivinerConfig = DivinerConfig<{ schema: NftScoreDivinerConfigSchema }>
+export type NftCollectionScoreDivinerConfig = DivinerConfig<{ schema: NftCollectionScoreDivinerConfigSchema }>

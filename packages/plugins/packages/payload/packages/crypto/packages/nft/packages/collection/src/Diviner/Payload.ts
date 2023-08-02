@@ -1,6 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { NftScoreSchema } from './Schema'
+import { NftCollectionScoreSchema } from './Schema'
 
 export type PassFailScore = [total: number, possible: 1]
 export const PASS: PassFailScore = [1, 1]
@@ -30,5 +30,5 @@ export type NftAnalysis = {
   [key in ScoringCriteriaKey]: Score
 }
 
-export type NftScorePayload = Payload<{ schema: NftScoreSchema } & Partial<Omit<NftAnalysis, 'schema'>>>
-export const isNftScorePayload = (x?: Payload | null): x is NftScorePayload => x?.schema === NftScoreSchema
+export type NftCollectionScorePayload = Payload<{ schema: NftCollectionScoreSchema } & Partial<Omit<NftAnalysis, 'schema'>>>
+export const isNftCollectionScorePayload = (x?: Payload | null): x is NftCollectionScorePayload => x?.schema === NftCollectionScoreSchema

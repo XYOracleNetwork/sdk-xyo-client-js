@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
   },
   "devDependencies": {

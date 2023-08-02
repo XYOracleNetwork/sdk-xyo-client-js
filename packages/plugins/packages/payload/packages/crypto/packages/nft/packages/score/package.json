@@ -9,6 +9,9 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
+  "dependencies": {
+    "@xyo-network/payload-model": "workspace:~"
+  },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",

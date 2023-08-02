@@ -1,6 +1,6 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
-import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '../../../score'
 import { isSecure, isValidUrl, isWeb3 } from './lib'
 
 export const scoreNftAnimationUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {

@@ -1,6 +1,5 @@
 import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
-
-import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '../../../score'
+import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
 const isHexColor = /^[0-9A-F]{6}$/i
 

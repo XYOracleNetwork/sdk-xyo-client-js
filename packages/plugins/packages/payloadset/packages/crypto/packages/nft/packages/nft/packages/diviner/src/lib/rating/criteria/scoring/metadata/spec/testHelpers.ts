@@ -1,4 +1,4 @@
-import { PASS, ScaledScore } from '../../../../score'
+import { PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
 export const expectMaxPossibleScore = (score: ScaledScore) => {
   const [total, possible] = score

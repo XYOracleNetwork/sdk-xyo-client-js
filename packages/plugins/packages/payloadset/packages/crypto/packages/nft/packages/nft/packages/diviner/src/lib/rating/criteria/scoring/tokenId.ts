@@ -1,6 +1,6 @@
 import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { FAIL, PASS, PassFailScoringFunction } from '@xyo-network/crypto-nft-score-model'
 
-import { FAIL, PASS, PassFailScoringFunction } from '../../score'
 import { isValidPositiveBigNumber } from './lib'
 
 /**

@@ -20,8 +20,6 @@ export type CryptoNftCollectionWitnessParams = WitnessParams<
   }
 >
 
-const schema = NftCollectionSchema
-
 export class CryptoNftCollectionWitness<
   TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
 > extends AbstractWitness<TParams> {

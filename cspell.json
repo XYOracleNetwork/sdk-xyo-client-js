@@ -27,6 +27,7 @@
     "emittery",
     "ethersproject",
     "ethgasstation",
+    "Evaluable",
     "geomines",
     "GLTF",
     "gten",

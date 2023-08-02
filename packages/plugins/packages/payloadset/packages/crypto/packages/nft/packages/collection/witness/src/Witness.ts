@@ -17,6 +17,13 @@ export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<Nft
 
 const defaultMaxNftSampleSize = 100
 
+/**
+ * A "no operation" Promise to be used
+ * when no action is desired but a Promise
+ * is required to be returned
+ */
+const NoOp = Promise.resolve()
+
 export class CryptoNftCollectionWitness<
   TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
 > extends AbstractWitness<TParams> {
@@ -41,7 +48,7 @@ export class CryptoNftCollectionWitness<
           // Hash all the payloads
           Promise.all(nfts.map((nft) => PayloadHasher.hashAsync(nft))),
           // Insert them into the archivist if we have one
-          archivist ? archivist.insert(nfts) : Promise.resolve(),
+          archivist ? archivist.insert(nfts) : NoOp,
         ])
         return { ...info, ...distribution, schema: NftCollectionSchema, sources, total }
       }),

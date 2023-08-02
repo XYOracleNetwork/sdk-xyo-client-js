@@ -1,8 +1,9 @@
 // Mock Date.now
 const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
-
 import { describeIf } from '@xylabs/jest-helpers'
+import { HDWallet } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import {
   isNftCollectionInfoPayload,
   NftCollectionWitnessConfigSchema,
@@ -28,10 +29,14 @@ const validateObservation = (observation: Payload[]) => {
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
   const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'
   const chainId = 1
+  let account: AccountInstance
   describe('observe', () => {
+    beforeAll(async () => {
+      account = await HDWallet.random()
+    })
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftCollectionWitnessConfigSchema } })
+        const witness = await CryptoNftCollectionWitness.create({ account, config: { address, chainId, schema: NftCollectionWitnessConfigSchema } })
         const query: NftCollectionWitnessQueryPayload = { schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
@@ -39,7 +44,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftCollectionWitnessConfigSchema } })
+        const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema } })
         const query: NftCollectionWitnessQueryPayload = { address, chainId, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)

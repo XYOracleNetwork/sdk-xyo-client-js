@@ -9,7 +9,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HttpProvider } from 'web3-providers-http'
 
 import { getExternalProviderFromHttpProvider } from '../lib'
-import { CryptoWalletNftWitness } from '../Witness'
+import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = async (observation: Payload[]) => {
   const nfts = observation.filter(isNftInfoPayload)
@@ -21,7 +21,7 @@ const validateObservation = async (observation: Payload[]) => {
   }
 }
 
-describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
+describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
   const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
   const chainId = 1
   const network = 'homestead'
@@ -30,7 +30,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
   describe('observe', () => {
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
-        const witness = await CryptoWalletNftWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema }, provider })
         const query: NftWitnessQueryPayload = { schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)
@@ -38,7 +38,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const witness = await CryptoWalletNftWitness.create({ config: { schema: NftWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftWitnessConfigSchema }, provider })
         const query: NftWitnessQueryPayload = { address, chainId, schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)

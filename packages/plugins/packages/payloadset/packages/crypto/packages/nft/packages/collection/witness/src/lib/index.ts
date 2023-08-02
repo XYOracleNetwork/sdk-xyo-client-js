@@ -1,2 +1,3 @@
 export * from './getNftCollectionInfo'
-export * from './getNftsInCollection'
+export * from './getNftCollectionNfts'
+export * from './getNftCollectionTotalNfts'

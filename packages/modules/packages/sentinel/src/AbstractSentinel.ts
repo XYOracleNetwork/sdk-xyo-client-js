@@ -51,13 +51,15 @@ export abstract class AbstractSentinel<
   }
 
   async getArchivists() {
-    const addresses = this.config?.archivists ? (Array.isArray(this.config.archivists) ? this.config?.archivists : [this.config.archivists]) : []
-    this._archivists =
-      this._archivists ??
-      (await this.resolve({ address: addresses })).map((module) =>
-        assertEx(asArchivistInstance(module), 'Tried to resolve a non-archivist as an archivist'),
-      )
-    if (addresses.length !== this._archivists.length) {
+    const addresses = this.config?.archivists
+      ? Array.isArray(this.config.archivists)
+        ? this.config?.archivists
+        : [this.config.archivists]
+      : undefined
+    this._archivists = (await this.resolve(addresses ? { address: addresses, name: addresses } : undefined)).map((module) =>
+      assertEx(asArchivistInstance(module), 'Tried to resolve a non-archivist as an archivist'),
+    )
+    if (addresses && addresses.length !== this._archivists.length) {
       this.logger?.warn(`Not all archivists found [Requested: ${addresses.length}, Found: ${this._archivists.length}]`)
     }
 
@@ -65,11 +67,12 @@ export abstract class AbstractSentinel<
   }
 
   async getWitnesses() {
-    const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : []
-    this._witnesses =
-      this._witnesses ?? (await this.resolve<WitnessInstance>(addresses ? { address: addresses } : undefined, { identity: isWitnessInstance }))
+    const addresses = this.config?.witnesses ? (Array.isArray(this.config.witnesses) ? this.config?.witnesses : [this.config.witnesses]) : undefined
+    this._witnesses = await this.resolve<WitnessInstance>(addresses ? { address: addresses, name: addresses } : undefined, {
+      identity: isWitnessInstance,
+    })
 
-    if (addresses.length !== this._witnesses.length) {
+    if (addresses && addresses.length !== this._witnesses.length) {
       this.logger?.warn(`Not all witnesses found [Requested: ${addresses.length}, Found: ${this._witnesses.length}]`)
     }
 

@@ -1,4 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
+import { CryptoNftCollectionWitness } from '@xyo-network/crypto-nft-collection-witness-plugin'
 import { CryptoWalletNftWitness } from '@xyo-network/crypto-nft-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
@@ -19,6 +20,15 @@ const getCryptoWalletNftWitness = async (container: Container) => {
   })
 }
 
+const getCryptoNftCollectionWitness = async (container: Container) => {
+  const wallet = await getWallet(container)
+  return new ModuleFactory(CryptoNftCollectionWitness, {
+    accountDerivationPath: WALLET_PATHS.Witnesses.CryptoNftCollectionWitness,
+    config: { name: TYPES.CryptoNftCollectionWitness.description, schema: CryptoNftCollectionWitness.configSchema },
+    wallet,
+  })
+}
+
 const getPrometheusNodeWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(PrometheusNodeWitness, {
@@ -30,6 +40,7 @@ const getPrometheusNodeWitness = async (container: Container) => {
 
 export const addWitnessModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
+  dictionary[CryptoNftCollectionWitness.configSchema] = await getCryptoNftCollectionWitness(container)
   dictionary[CryptoWalletNftWitness.configSchema] = await getCryptoWalletNftWitness(container)
   dictionary[PrometheusNodeWitness.configSchema] = await getPrometheusNodeWitness(container)
 }

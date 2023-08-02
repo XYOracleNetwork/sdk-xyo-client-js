@@ -1,6 +1,10 @@
 import { Auth, SDK } from '@infura/sdk'
 import { NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
+/**
+ * These contracts are not evaluable for some
+ * reason (too large, nonsensical, etc.)
+ */
 export const nonEvaluableContractAddresses = [
   // ENS
   '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
@@ -32,7 +36,7 @@ export const getNftCollectionInfo = async (
    * The maximum number of NFTs to return. Configurable to prevent
    * large wallets from exhausting Infura API credits.
    */
-  maxNftCount = 1000,
+  maxNftCount = 20000,
 ): Promise<NftCollectionInfoPayload> => {
   if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)

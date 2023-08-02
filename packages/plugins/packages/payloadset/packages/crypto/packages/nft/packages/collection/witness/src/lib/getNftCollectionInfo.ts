@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftCollectionInfo, NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 

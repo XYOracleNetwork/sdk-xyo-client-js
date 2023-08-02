@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { AbstractModuleInstance, CompositeModuleResolver } from '@xyo-network/module-abstract'
+import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
   Module,
@@ -12,6 +12,7 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import {
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,

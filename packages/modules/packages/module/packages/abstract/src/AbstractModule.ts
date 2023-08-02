@@ -43,6 +43,7 @@ import {
   SchemaString,
   serializableField,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
@@ -53,7 +54,6 @@ import compact from 'lodash/compact'
 import { BaseEmitter } from './BaseEmitter'
 import { ModuleErrorBuilder } from './Error'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
-import { CompositeModuleResolver } from './Resolver'
 
 export abstract class AbstractModule<
     TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<ModuleConfig>,

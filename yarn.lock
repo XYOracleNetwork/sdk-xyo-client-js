@@ -7594,10 +7594,10 @@ __metadata:
     "@xyo-network/express-node-server": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"
@@ -7931,6 +7931,7 @@ __metadata:
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
@@ -7992,6 +7993,7 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -8073,6 +8075,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/module-resolver@workspace:packages/modules/packages/module/packages/resolver, @xyo-network/module-resolver@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/module-resolver@workspace:packages/modules/packages/module/packages/resolver"
+  dependencies:
+    "@xylabs/exists": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/promise": "workspace:~"
+    jest: ^29.6.2
+    jest-mock-extended: ^3.0.4
+    lodash: ^4.17.21
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper, @xyo-network/module-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
@@ -8105,6 +8124,7 @@ __metadata:
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     typescript: ^5.1.6
   languageName: unknown
@@ -8153,6 +8173,7 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"

@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/module-abstract",
+  "name": "@xyo-network/module-resolver",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,26 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.9.3",
     "@xylabs/exists": "^2.9.3",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/core": "workspace:~",
-    "@xyo-network/error": "workspace:~",
-    "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/module-resolver": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
-    "@xyo-network/query-payload-plugin": "workspace:~",
-    "@xyo-network/shared": "workspace:~",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

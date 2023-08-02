@@ -13,6 +13,7 @@
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~"
   },
   "devDependencies": {

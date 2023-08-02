@@ -6325,9 +6325,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-collection-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/nft, @xyo-network/crypto-nft-collection-payload-plugin@workspace:~":
+"@xyo-network/crypto-nft-collection-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/collection, @xyo-network/crypto-nft-collection-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-nft-collection-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/nft"
+  resolution: "@xyo-network/crypto-nft-collection-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/collection"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
@@ -6364,9 +6364,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/collection, @xyo-network/crypto-nft-payload-plugin@workspace:~":
+"@xyo-network/crypto-nft-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/nft, @xyo-network/crypto-nft-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/crypto-nft-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/collection"
+  resolution: "@xyo-network/crypto-nft-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/nft"
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0

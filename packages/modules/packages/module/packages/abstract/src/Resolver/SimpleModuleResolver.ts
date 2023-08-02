@@ -1,6 +1,7 @@
 import {
   AddressModuleFilter,
   ModuleFilter,
+  ModuleFilterOptions,
   ModuleInstance,
   ModuleRepository,
   ModuleResolver,
@@ -48,26 +49,35 @@ export class SimpleModuleResolver implements ModuleRepository {
     throw 'Removing resolvers not supported'
   }
 
-  resolve(filter?: ModuleFilter): Promisable<ModuleInstance[]>
-  resolve(nameOrAddress: string): Promisable<ModuleInstance | undefined>
-  resolve(nameOrAddressOrFilter?: ModuleFilter | string): Promisable<ModuleInstance[] | ModuleInstance | undefined> {
-    if (nameOrAddressOrFilter) {
-      if (typeof nameOrAddressOrFilter === 'string') {
-        const result: ModuleInstance | undefined =
-          this.resolveByName(Object.values(this.modules), [nameOrAddressOrFilter]).pop() ??
-          this.resolveByAddress(Object.values(this.modules), [nameOrAddressOrFilter]).pop()
-        return result
-      } else if ((nameOrAddressOrFilter as AddressModuleFilter).address) {
-        const result: ModuleInstance[] = this.resolveByAddress(Object.values(this.modules), (nameOrAddressOrFilter as AddressModuleFilter).address)
-        return result
-      } else if ((nameOrAddressOrFilter as NameModuleFilter).name) {
-        const result: ModuleInstance[] = this.resolveByName(Object.values(this.modules), (nameOrAddressOrFilter as NameModuleFilter).name)
-        return result
-      } else if ((nameOrAddressOrFilter as QueryModuleFilter).query) {
-        return this.resolveByQuery(Object.values(this.modules), (nameOrAddressOrFilter as QueryModuleFilter).query)
+  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
+  resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promisable<T[] | T | undefined> {
+    const unfiltered = (() => {
+      if (nameOrAddressOrFilter) {
+        if (typeof nameOrAddressOrFilter === 'string') {
+          return (
+            this.resolveByName<T>(Object.values(this.modules), [nameOrAddressOrFilter]).pop() ??
+            this.resolveByAddress<T>(Object.values(this.modules), [nameOrAddressOrFilter]).pop()
+          )
+        } else if ((nameOrAddressOrFilter as AddressModuleFilter).address) {
+          return this.resolveByAddress<T>(Object.values(this.modules), (nameOrAddressOrFilter as AddressModuleFilter).address)
+        } else if ((nameOrAddressOrFilter as NameModuleFilter).name) {
+          return this.resolveByName<T>(Object.values(this.modules), (nameOrAddressOrFilter as NameModuleFilter).name)
+        } else if ((nameOrAddressOrFilter as QueryModuleFilter).query) {
+          return this.resolveByQuery<T>(Object.values(this.modules), (nameOrAddressOrFilter as QueryModuleFilter).query)
+        }
+      } else {
+        return Object.values(this.modules) as T[]
       }
+    })()
+    const identity = options?.identity
+    if (identity) {
+      return Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module)) : identity(unfiltered) ? unfiltered : undefined
     } else {
-      return Object.values(this.modules)
+      return unfiltered
     }
   }
 
@@ -89,40 +99,44 @@ export class SimpleModuleResolver implements ModuleRepository {
     }
   }
 
-  private resolveByAddress<T extends ModuleInstance = ModuleInstance>(modules: T[], address?: string[]): T[] {
-    return address
-      ? compact(
-          flatten(
-            address?.map((address) => {
-              return modules.filter((module) => module.address === address)
-            }),
-          ),
-        )
-      : modules
+  private resolveByAddress<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], address?: string[]): T[] {
+    return (
+      address
+        ? compact(
+            flatten(
+              address?.map((address) => {
+                return modules.filter((module) => module.address === address)
+              }),
+            ),
+          )
+        : modules
+    ) as T[]
   }
 
-  private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: T[], name?: string[]): T[] {
+  private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name?: string[]): T[] {
     if (name) {
-      return compact(name.map((name) => modules.filter((module) => module.config?.name === name)).flat())
+      return compact(name.map((name) => modules.filter((module) => module.config?.name === name)).flat()) as T[]
     }
-    return modules
+    return modules as T[]
   }
 
-  private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: T[], query?: string[][]): T[] {
-    return query
-      ? compact(
-          modules.filter(
-            (module) =>
-              query?.reduce((supported, queryList) => {
-                return (
-                  queryList.reduce((supported, query) => {
-                    const queryable = module.queries.includes(query)
-                    return supported && queryable
-                  }, true) || supported
-                )
-              }, false),
-          ),
-        )
-      : modules
+  private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query?: string[][]): T[] {
+    return (
+      query
+        ? compact(
+            modules.filter(
+              (module) =>
+                query?.reduce((supported, queryList) => {
+                  return (
+                    queryList.reduce((supported, query) => {
+                      const queryable = module.queries.includes(query)
+                      return supported && queryable
+                    }, true) || supported
+                  )
+                }, false),
+            ),
+          )
+        : modules
+    ) as T[]
   }
 }

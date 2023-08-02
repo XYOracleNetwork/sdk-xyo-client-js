@@ -106,21 +106,30 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     nameOrAddressOrFilter?: ModuleFilter<T> | string,
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? BridgeModuleResolver.defaultMaxDepth) - 1 }
-    await this.prime()
-    await this.resolveRemoteModules()
-    if (typeof nameOrAddressOrFilter === 'string') {
-      if (mutatedOptions.maxDepth < 0) {
-        return undefined
+    const unfiltered = await (async () => {
+      const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? BridgeModuleResolver.defaultMaxDepth) - 1 }
+      await this.prime()
+      await this.resolveRemoteModules()
+      if (typeof nameOrAddressOrFilter === 'string') {
+        if (mutatedOptions.maxDepth < 0) {
+          return undefined
+        }
+        const result: T | undefined = (await this.resolveByAddress<T>(nameOrAddressOrFilter)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
+        return result
+      } else {
+        if (mutatedOptions.maxDepth < 0) {
+          return []
+        }
+        const result: T[] = await this.resolveRemoteModules<T>(nameOrAddressOrFilter)
+        return result
       }
-      const result: T | undefined = (await this.resolveByAddress<T>(nameOrAddressOrFilter)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
-      return result
+    })()
+
+    const identity = options?.identity
+    if (identity) {
+      return Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module)) : identity(unfiltered) ? unfiltered : undefined
     } else {
-      if (mutatedOptions.maxDepth < 0) {
-        return []
-      }
-      const result: T[] = await this.resolveRemoteModules<T>(nameOrAddressOrFilter)
-      return result
+      return unfiltered
     }
   }
 

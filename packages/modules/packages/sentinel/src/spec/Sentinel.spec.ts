@@ -54,8 +54,8 @@ describe('Sentinel', () => {
     const sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
     await node.register(sentinel)
     await node.attach(sentinel.address)
-    expect(await sentinel.getArchivists()).toBeArrayOfSize(1)
-    expect(await sentinel.getWitnesses()).toBeArrayOfSize(2)
+    expect(await sentinel.archivists()).toBeArrayOfSize(1)
+    expect(await sentinel.witnesses()).toBeArrayOfSize(2)
     const adhocWitness = (await AdhocWitness.create({
       account: await HDWallet.random(),
       config: {

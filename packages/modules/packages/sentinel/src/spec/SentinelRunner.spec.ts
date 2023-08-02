@@ -1,3 +1,4 @@
+import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
@@ -38,6 +39,8 @@ describe('SentinelRunner', () => {
   })
 
   it('should output interval results', async () => {
+    let triggered = false
+    let timeoutCount = 10
     const intervalAutomation: SentinelIntervalAutomationPayload = {
       frequency: 1,
       frequencyUnits: 'second',
@@ -48,6 +51,7 @@ describe('SentinelRunner', () => {
       witnesses: config.witnesses,
     }
     const onTriggerResult: OnSentinelRunnerTriggerResult = (results) => {
+      triggered = true
       expect(results.length).toBe(2)
       expect(results[0]?.schema).toBe(BoundWitnessSchema)
       expect(results[1]?.schema).toBe(IdSchema)
@@ -55,5 +59,16 @@ describe('SentinelRunner', () => {
 
     const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)
     await runner.start()
+    while (timeoutCount) {
+      if (triggered) {
+        runner.stop()
+        return
+      }
+      timeoutCount--
+      await delay(100)
+    }
+    //should never get here if succeeded
+    expect(false).toBe(true)
+    runner.stop()
   })
 })

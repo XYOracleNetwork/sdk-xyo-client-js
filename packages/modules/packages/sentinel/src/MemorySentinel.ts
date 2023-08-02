@@ -28,7 +28,7 @@ export class MemorySentinel<
   async reportHandler(payloads: Payload[] = []): Promise<Payload[]> {
     await this.started('throw')
     const errors: Error[] = []
-    const allWitnesses = [...(await this.getWitnesses())]
+    const allWitnesses = [...(await this.witnesses())]
     const resultPayloads: Payload[] = []
 
     try {

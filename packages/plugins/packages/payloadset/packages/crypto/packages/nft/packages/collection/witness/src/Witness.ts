@@ -11,7 +11,7 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { getNftCollectionInfo, getNftCollectionNfts, getNftCollectionTotalNfts } from './lib'
+import { getNftCollectionInfo, getNftCollectionMetrics, getNftCollectionNfts, getNftCollectionTotalNfts } from './lib'
 
 export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<NftCollectionWitnessConfig>>
 
@@ -33,13 +33,14 @@ export class CryptoNftCollectionWitness<
           getNftCollectionNfts(address, chainId, this.account.private.hex, 10),
           this.writeArchivist(),
         ])
+        const distribution = getNftCollectionMetrics(nfts)
         const [sources] = await Promise.all([
           // Hash all the payloads
           Promise.all(nfts.map((nft) => PayloadHasher.hashAsync(nft))),
           // Insert them into the archivist if we have one
           archivist ? archivist.insert(nfts) : Promise.resolve(),
         ])
-        return { ...info, schema: NftCollectionSchema, sources, total }
+        return { ...info, ...distribution, schema: NftCollectionSchema, sources, total }
       }),
     )
     return observations.flat()

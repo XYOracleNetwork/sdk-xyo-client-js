@@ -13,7 +13,7 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { CryptoNftCollectionWitness } from '../Witness'
 
-const validateObservation = async (observation: Payload[]) => {
+const validateObservation = (observation: Payload[]) => {
   const nfts = observation.filter(isNftCollectionInfoPayload)
   expect(nfts.length).toBeGreaterThan(0)
 }
@@ -27,7 +27,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
         const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftCollectionWitnessConfigSchema } })
         const query: NftCollectionWitnessQueryPayload = { schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
-        await validateObservation(observation)
+        validateObservation(observation)
       })
     })
     describe('with address and chainId in query', () => {
@@ -35,7 +35,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
         const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftCollectionWitnessConfigSchema } })
         const query: NftCollectionWitnessQueryPayload = { address, chainId, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
-        await validateObservation(observation)
+        validateObservation(observation)
       })
     })
   })

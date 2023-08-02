@@ -17,7 +17,8 @@
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
     "@xyo-network/module": "workspace:~",
-    "@xyo-network/node": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/sentinel": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~"

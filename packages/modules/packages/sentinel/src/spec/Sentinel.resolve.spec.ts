@@ -3,7 +3,7 @@
 
 import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'

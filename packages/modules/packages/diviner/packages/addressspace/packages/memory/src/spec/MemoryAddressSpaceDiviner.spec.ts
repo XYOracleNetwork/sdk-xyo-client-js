@@ -3,7 +3,7 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner'

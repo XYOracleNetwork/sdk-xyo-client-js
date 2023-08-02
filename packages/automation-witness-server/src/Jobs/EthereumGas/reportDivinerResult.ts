@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 import { MemorySentinel, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'

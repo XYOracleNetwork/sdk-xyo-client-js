@@ -16,8 +16,8 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
-import { MemoryNode } from '@xyo-network/node'
 import { TYPES } from '@xyo-network/node-core-types'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'

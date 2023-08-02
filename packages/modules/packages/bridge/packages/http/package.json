@@ -19,7 +19,7 @@
     "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module": "workspace:~",
-    "@xyo-network/node": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",

@@ -8,7 +8,7 @@ import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-m
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

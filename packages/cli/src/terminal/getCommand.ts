@@ -1,4 +1,4 @@
-import { NodeInstance } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node-model'
 import { terminal } from 'terminal-kit'
 
 import { printLine } from '../lib'

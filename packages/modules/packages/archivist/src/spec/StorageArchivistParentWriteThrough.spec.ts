@@ -7,7 +7,7 @@ import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { ModuleQuery } from '@xyo-network/module'
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'

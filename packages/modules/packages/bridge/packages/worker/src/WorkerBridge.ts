@@ -14,7 +14,7 @@ import {
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
-import { NodeAttachQuerySchema } from '@xyo-network/node'
+import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'

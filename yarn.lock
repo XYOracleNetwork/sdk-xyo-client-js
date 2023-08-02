@@ -4508,9 +4508,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:^20.4.2, @types/node@npm:^20.4.5":
-  version: 20.4.5
-  resolution: "@types/node@npm:20.4.5"
-  checksum: 36a0304a8dc346a1b2d2edac4c4633eecf70875793d61a5274d0df052d7a7af7a8e34f29884eac4fbd094c4f0201477dcb39c0ecd3307ca141688806538d1138
+  version: 20.4.6
+  resolution: "@types/node@npm:20.4.6"
+  checksum: 28dfc13da87f579264840bc5b8a2cde2dcb93662464a0d58f0fa98eba1aae978e3c73e893474238c4a1226d0b1a14e3936520ff9795e1c4e06fad3282be83d18
   languageName: node
   linkType: hard
 
@@ -5688,8 +5688,8 @@ __metadata:
     "@xyo-network/gas-price-plugin": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/shared": "workspace:~"
@@ -6011,7 +6011,6 @@ __metadata:
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/network": "workspace:~"
-    "@xyo-network/node": "workspace:~"
     "@xyo-network/node-app": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
@@ -7415,9 +7414,9 @@ __metadata:
     "@xyo-network/diviner-schema-list": "workspace:~"
     "@xyo-network/diviner-schema-stats": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node": "workspace:~"
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/prometheus-node-plugin": "workspace:~"
     body-parser: ^1.20.2
@@ -7472,7 +7471,7 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.3.0
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
-    "@xyo-network/node": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     body-parser: ^1.20.2
     express: ^4.18.2
@@ -7550,9 +7549,9 @@ __metadata:
     "@xyo-network/express-node-dependencies": "workspace:~"
     "@xyo-network/express-node-middleware": "workspace:~"
     "@xyo-network/express-node-routes": "workspace:~"
-    "@xyo-network/node": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     body-parser: ^1.20.2
@@ -7748,7 +7747,7 @@ __metadata:
     "@xyo-network/config-payload-plugin": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
-    "@xyo-network/node": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
@@ -7931,7 +7930,7 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module": "workspace:~"
-    "@xyo-network/node": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
@@ -8142,6 +8141,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/node-abstract@workspace:packages/modules/packages/node/packages/abstract, @xyo-network/node-abstract@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-abstract@workspace:packages/modules/packages/node/packages/abstract"
+  dependencies:
+    "@xylabs/assert": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
+    "@xyo-network/module-abstract": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/promise": "workspace:~"
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app, @xyo-network/node-app@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
@@ -8280,6 +8299,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/node-memory@workspace:packages/modules/packages/node/packages/memory, @xyo-network/node-memory@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/node-memory@workspace:packages/modules/packages/node/packages/memory"
+  dependencies:
+    "@types/lodash": ^4.14.196
+    "@xylabs/assert": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/node-abstract": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    lodash: ^4.17.21
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model, @xyo-network/node-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model"
@@ -8346,22 +8381,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
-    "@types/lodash": ^4.14.196
-    "@xylabs/assert": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
-    "@xyo-network/address-payload-plugin": "workspace:~"
-    "@xyo-network/boundwitness-builder": "workspace:~"
-    "@xyo-network/manifest-model": "workspace:~"
-    "@xyo-network/module": "workspace:~"
-    "@xyo-network/module-abstract": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-abstract": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/node-wrapper": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/promise": "workspace:~"
-    lodash: ^4.17.21
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -9144,7 +9169,7 @@ __metadata:
     "@xyo-network/manifest": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
-    "@xyo-network/node": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -11696,9 +11721,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.477":
-  version: 1.4.480
-  resolution: "electron-to-chromium@npm:1.4.480"
-  checksum: 074b9d81dffa6ca182f604326c62a12d22139ae141d6ffabdb3b267f42fac88ba3e69d3614f9e939f65a0f03a343f0c81f702e24064bc54c4f138e02378b1e54
+  version: 1.4.481
+  resolution: "electron-to-chromium@npm:1.4.481"
+  checksum: 52b7e8d7aeb00046b5eb75fbdb6b1180825e0a83ae9308a31876ef7f1ad3ad82f3ccfdf4d3e3b59ecc73da991d044fbf3d870e41dc3af4c1cec221aa81b7ca03
   languageName: node
   linkType: hard
 

@@ -1,4 +1,4 @@
-import { NodeInstance } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node-model'
 
 import { getCommand } from './getCommand'
 import { stopTerminal } from './stopTerminal'

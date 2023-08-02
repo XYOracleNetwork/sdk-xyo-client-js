@@ -21,7 +21,6 @@
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/network": "workspace:~",
-    "@xyo-network/node": "workspace:~",
     "@xyo-network/node-app": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",

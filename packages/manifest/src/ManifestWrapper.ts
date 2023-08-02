@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
 import { CreatableModuleDictionary } from '@xyo-network/module'
-import { MemoryNode, NodeInstance } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
+import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 

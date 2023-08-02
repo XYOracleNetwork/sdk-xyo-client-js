@@ -2,7 +2,7 @@ import { HDWallet } from '@xyo-network/account'
 import { generateMnemonic, wordlists } from '@xyo-network/bip39'
 import { Logger } from '@xyo-network/logger'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { NodeInstance, NodeModule } from '@xyo-network/node'
+import { NodeInstance } from '@xyo-network/node-model'
 
 import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge'
 
@@ -20,7 +20,7 @@ export interface NodeCreatedMessage extends Message<'nodeCreated'> {
 
 export class WorkerNodeHost {
   constructor(
-    protected node: NodeModule,
+    protected node: NodeInstance,
     protected logger?: Logger,
   ) {}
 

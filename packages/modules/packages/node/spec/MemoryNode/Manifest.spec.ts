@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/sdk'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemoryNode } from '../../src'
 

@@ -20,6 +20,8 @@
       {
         "paths": [
           "@xyo-network/modules",
+          "@xyo-network/node",
+          "@xyo-network/sdk",
           "@xyo-network/plugins",
           "@xyo-network/protocol",
           "lodash",

@@ -4,7 +4,8 @@ import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { MemoryNode, NodeConfigSchema } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { WitnessInstance } from '@xyo-network/witness'
 
 describe('MultiNodeConfiguration', () => {

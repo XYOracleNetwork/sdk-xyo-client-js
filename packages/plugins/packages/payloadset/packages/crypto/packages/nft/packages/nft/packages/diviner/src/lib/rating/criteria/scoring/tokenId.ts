@@ -9,7 +9,7 @@ import { isValidPositiveBigNumber } from './lib'
  * @param nft
  * @returns
  */
-export const scoreTokenId: PassFailScoringFunction = (nft: NftInfo) => {
+export const scoreTokenId: PassFailScoringFunction<NftInfo> = (nft: NftInfo) => {
   if (!nft.tokenId) return FAIL
   if (typeof nft.tokenId !== 'string') return FAIL
   try {

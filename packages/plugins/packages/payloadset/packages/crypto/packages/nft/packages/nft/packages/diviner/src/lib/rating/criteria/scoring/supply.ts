@@ -3,7 +3,7 @@ import { FAIL, PASS, PassFailScoringFunction } from '@xyo-network/crypto-nft-sco
 
 import { isValidPositiveBigNumber } from './lib'
 
-export const scoreSupply: PassFailScoringFunction = (nft: NftInfo) => {
+export const scoreSupply: PassFailScoringFunction<NftInfo> = (nft: NftInfo) => {
   if (!nft.supply) return FAIL
   if (typeof nft.supply !== 'string') return FAIL
   try {

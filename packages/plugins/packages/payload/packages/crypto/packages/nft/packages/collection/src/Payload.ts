@@ -4,7 +4,10 @@ import { NftCollectionSchema } from './Schema'
 
 export interface NftCollectionInfo {
   address: string
-  chainId: string
+  chainId: number
+  name: string
+  symbol: string
+  tokenType: string
 }
 
 export type NftCollectionInfoPayload = Payload<NftCollectionInfo & { schema: NftCollectionSchema }>

@@ -8,7 +8,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { HttpProvider } from 'web3-providers-http'
 
-import { getExternalProviderFromHttpProvider } from '../lib'
 import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = async (observation: Payload[]) => {
@@ -26,11 +25,10 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
   const chainId = 1
   const network = 'homestead'
   const apiKey = process.env.INFURA_PROJECT_ID
-  const provider = getExternalProviderFromHttpProvider(new HttpProvider(`https://${network}.infura.io/v3/${apiKey}`))
   describe('observe', () => {
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({ config: { address, chainId, schema: NftWitnessConfigSchema } })
         const query: NftWitnessQueryPayload = { schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)
@@ -38,7 +36,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({ config: { schema: NftWitnessConfigSchema } })
         const query: NftWitnessQueryPayload = { address, chainId, schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)

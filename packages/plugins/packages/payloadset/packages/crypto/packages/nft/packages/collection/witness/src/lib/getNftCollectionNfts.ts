@@ -27,9 +27,10 @@ export const getNftCollectionNfts = async (
   privateKey: string,
   /**
    * The maximum number of NFTs to return. Configurable to prevent
-   * large wallets from exhausting Infura API credits.
+   * large wallets from exhausting Infura API credits. Ideally a
+   * multiple of 100 as that appears to be the default page size.
    */
-  maxNftCount = 20000,
+  maxNftSampleSize = 100,
 ): Promise<NftInfoPayload[]> => {
   if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
@@ -44,7 +45,7 @@ export const getNftCollectionNfts = async (
     nfts.push(...batch)
     cursor = nextCursor
     if (nfts.length >= total || !cursor) break
-  } while (nfts.length < maxNftCount)
+  } while (nfts.length < maxNftSampleSize)
   return nfts.map((nft) => {
     return { ...nft, schema: NftSchema }
   })

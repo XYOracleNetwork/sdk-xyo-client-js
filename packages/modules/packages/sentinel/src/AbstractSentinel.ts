@@ -12,8 +12,7 @@ import {
   SentinelQueryBase,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
-import { asWitnessInstance, isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
-import compact from 'lodash/compact'
+import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
 import uniq from 'lodash/uniq'
 
 export abstract class AbstractSentinel<

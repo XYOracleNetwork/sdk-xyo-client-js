@@ -6308,7 +6308,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-collection-witness-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/witness":
+"@xyo-network/crypto-nft-collection-witness-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/witness, @xyo-network/crypto-nft-collection-witness-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-collection-witness-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/witness"
   dependencies:
@@ -7402,6 +7402,8 @@ __metadata:
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
+    "@xyo-network/crypto-nft-collection-witness-plugin": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-plugin": "workspace:~"
     "@xyo-network/diviner-address-history": "workspace:~"

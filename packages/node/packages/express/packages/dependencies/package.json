@@ -35,6 +35,8 @@
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
+    "@xyo-network/crypto-nft-collection-witness-plugin": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-plugin": "workspace:~",
     "@xyo-network/diviner-address-history": "workspace:~",

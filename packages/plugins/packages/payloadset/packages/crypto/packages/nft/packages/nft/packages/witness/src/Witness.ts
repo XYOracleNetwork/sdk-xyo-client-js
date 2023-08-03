@@ -16,6 +16,8 @@ export type CryptoWalletNftWitnessParams = WitnessParams<AnyConfigSchema<CryptoW
 
 const schema = NftSchema
 
+const defaultMaxNfts = 100
+
 export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [NftWitnessConfigSchema]
 
@@ -26,7 +28,8 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
       queries.map(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
-        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex)
+        const maxNfts = query?.maxNfts || defaultMaxNfts
+        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts)
         const observation = nfts.map<NftInfoPayload>((nft) => {
           return { ...nft, schema }
         })

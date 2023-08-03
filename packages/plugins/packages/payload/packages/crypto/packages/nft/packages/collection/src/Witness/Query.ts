@@ -9,7 +9,7 @@ export type NftCollectionWitnessQueryPayload = Payload<{
    * The maximum number of NFTs to sample from the collection
    * for determining the collection's schema & distribution
    */
-  maxNftSampleSize?: number
+  maxNfts?: number
   schema: NftCollectionWitnessQuerySchema
 }>
 export const isNftCollectionWitnessQueryPayload = (x?: Payload | null): x is NftCollectionWitnessQueryPayload =>

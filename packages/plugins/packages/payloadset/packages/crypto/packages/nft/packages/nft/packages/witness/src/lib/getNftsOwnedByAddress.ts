@@ -25,7 +25,7 @@ export const getNftsOwnedByAddress = async (
    * The maximum number of NFTs to return. Configurable to prevent
    * large wallets from exhausting Infura API credits.
    */
-  maxNftCount = 1000,
+  maxNfts = 1000,
 ): Promise<NftInfo[]> => {
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const nfts: NftInfo[] = []
@@ -37,6 +37,6 @@ export const getNftsOwnedByAddress = async (
     nfts.push(...batch)
     cursor = nextCursor
     if (nfts.length >= total || !cursor) break
-  } while (nfts.length < maxNftCount)
+  } while (nfts.length < maxNfts)
   return nfts
 }

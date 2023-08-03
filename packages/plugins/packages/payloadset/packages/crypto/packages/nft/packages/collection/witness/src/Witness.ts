@@ -15,7 +15,7 @@ import { getNftCollectionInfo, getNftCollectionMetrics, getNftCollectionNfts, ge
 
 export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<NftCollectionWitnessConfig>>
 
-const defaultMaxNftSampleSize = 100
+const defaultMaxNfts = 100
 
 /**
  * A "no operation" Promise to be used
@@ -36,11 +36,11 @@ export class CryptoNftCollectionWitness<
       queries.map<Promise<NftCollectionInfoPayload>>(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
-        const maxNftSampleSize = query?.maxNftSampleSize || defaultMaxNftSampleSize
+        const maxNfts = query?.maxNfts || defaultMaxNfts
         const [info, total, nfts, archivist] = await Promise.all([
           getNftCollectionInfo(address, chainId, this.account.private.hex),
           getNftCollectionTotalNfts(address, chainId, this.account.private.hex),
-          getNftCollectionNfts(address, chainId, this.account.private.hex, maxNftSampleSize),
+          getNftCollectionNfts(address, chainId, this.account.private.hex, maxNfts),
           this.writeArchivist(),
         ])
         const distribution = getNftCollectionMetrics(nfts)

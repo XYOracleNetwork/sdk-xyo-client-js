@@ -14,7 +14,6 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
       address,
       chainId,
       name: 'BoredApeYachtClub',
-      schema: 'network.xyo.crypto.nft.collection',
       symbol: 'BAYC',
       tokenType: 'ERC721',
     })

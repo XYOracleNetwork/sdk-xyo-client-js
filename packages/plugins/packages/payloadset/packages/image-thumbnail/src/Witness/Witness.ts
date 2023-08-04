@@ -1,7 +1,7 @@
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnailErrorPayload, ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { isPayload, ModuleErrorSchema, Payload } from '@xyo-network/payload-model'
+import { isPayload, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { subClass } from 'gm'
@@ -13,6 +13,8 @@ import shajs from 'sha.js'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
 import { ImageThumbnailWitnessParams } from './Params'
+
+//TODO: Break this into two Witnesses?
 
 const gm = subClass({ imageMagick: '7+' })
 
@@ -128,6 +130,16 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             const response = urlResult as AxiosResponse
 
             if (response.status >= 200 && response.status < 300) {
+              const contentType = response.headers['Content-Type']?.toString()
+              if (response.headers['Content-Type']?.toString().split('/')[0] !== 'image') {
+                const error: ImageThumbnailErrorPayload = {
+                  message: `Invalid file type: ${contentType}`,
+                  schema: ModuleErrorSchema,
+                  url,
+                }
+                this.cache.set(url, error)
+                return error
+              }
               sourceBuffer = Buffer.from(response.data, 'binary')
             } else {
               const error: ImageThumbnailErrorPayload = {

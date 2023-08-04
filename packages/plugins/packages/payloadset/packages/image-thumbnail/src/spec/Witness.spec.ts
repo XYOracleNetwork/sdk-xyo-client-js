@@ -1,4 +1,5 @@
-import { ImageThumbnailPayload } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailErrorPayload, ImageThumbnailPayload } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 
 import { ImageThumbnailWitness } from '../Witness'
@@ -24,6 +25,17 @@ describe('ImageThumbnailWitness', () => {
     const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
     expect(result.length).toBe(1)
     console.log(`HTTPS/AVIF Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
+  })
+  test('HTTPS [medium/png/unsafe]', async () => {
+    const witness = await ImageThumbnailWitness.create()
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://ethercb.com/image.png',
+    }
+    const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
+    expect(result.length).toBe(1)
+    console.log(`HTTPS/PNG/UNSAFE Size: ${result[0].url.length}}`)
     expect(result[0].url.length).toBeLessThan(64000)
   })
   test('HTTPS [medium/svg]', async () => {
@@ -52,6 +64,32 @@ describe('ImageThumbnailWitness', () => {
     expect(result.length).toBe(1)
     console.log(`HTTPS/GIF/ANIMATED Size: ${result[0].url.length}}`)
     expect(result[0].url.length).toBeLessThan(64000)
+  })
+  test('HTTPS [html/error]', async () => {
+    const witness = await ImageThumbnailWitness.create()
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://cnn.com',
+    }
+    const result = (await witness.observe([httpsPayload])) as (ImageThumbnailPayload | ImageThumbnailErrorPayload)[]
+    expect(result.length).toBe(1)
+    const error = result[0] as ImageThumbnailErrorPayload
+    expect(error?.schema).toBe(ModuleErrorSchema)
+    console.log(`HTTPS/CNN Error: ${result[0].url.length}}`)
+    expect(error?.message).toStartWith('Invalid file type')
+  })
+  test('HTTPS [dns/error]', async () => {
+    const witness = await ImageThumbnailWitness.create()
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://sdjkfsdljkfhdskfsd.com',
+    }
+    const result = (await witness.observe([httpsPayload])) as (ImageThumbnailPayload | ImageThumbnailErrorPayload)[]
+    expect(result.length).toBe(1)
+    const error = result[0] as ImageThumbnailErrorPayload
+    expect(error?.schema).toBe(ModuleErrorSchema)
+    console.log(`HTTPS/DNS Error: ${result[0].url.length}}`)
+    expect(error?.message).toStartWith('getaddrinfo ENOTFOUND')
   })
   test('DATA [medium/png]', async () => {
     const witness = await ImageThumbnailWitness.create()

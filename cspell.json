@@ -47,6 +47,7 @@
     "keccak",
     "keypair",
     "libauth",
+    "lognormal",
     "malleate",
     "malleation",
     "Merkle",

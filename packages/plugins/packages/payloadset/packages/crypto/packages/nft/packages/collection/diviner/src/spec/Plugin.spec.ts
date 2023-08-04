@@ -1,10 +1,10 @@
 import { PayloadSetPluginResolver } from '@xyo-network/payloadset-plugin'
 
-import { NftScoreDivinerPlugin } from '../Plugin'
+import { NftCollectionScoreDivinerPlugin } from '../Plugin'
 
-describe('NftScoreDivinerPlugin', () => {
+describe('NftCollectionScoreDivinerPlugin', () => {
   test('Add to Resolver', async () => {
-    const plugin = NftScoreDivinerPlugin()
+    const plugin = NftCollectionScoreDivinerPlugin()
     const resolver = await new PayloadSetPluginResolver().register(plugin)
     expect(resolver.resolve(plugin.set)).toBeDefined()
   })

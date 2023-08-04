@@ -1,35 +1,42 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import {
-  isNftInfoPayload,
-  NftScoreDivinerConfig,
-  NftScoreDivinerConfigSchema,
-  NftScorePayload,
-  NftScoreSchema,
-} from '@xyo-network/crypto-nft-payload-plugin'
+  isNftCollectionInfoPayload,
+  NftCollectionScoreDivinerConfig,
+  NftCollectionScoreDivinerConfigSchema,
+  NftCollectionScorePayload,
+  NftCollectionScoreSchema,
+} from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 
-import { analyzeNft, NftAnalysis } from './lib'
+import { analyzeNftCollection, NftCollectionAnalysis } from './lib'
 
-export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
+export type NftCollectionScoreDivinerParams = DivinerParams<AnyConfigSchema<NftCollectionScoreDivinerConfig>>
 
-const toNftScorePayload = (rating: NftAnalysis): NftScorePayload => {
-  return { ...rating, schema: NftScoreSchema } as NftScorePayload
+const toNftCollectionScorePayload = (rating: NftCollectionAnalysis): NftCollectionScorePayload => {
+  return { ...rating, schema: NftCollectionScoreSchema } as unknown as NftCollectionScorePayload
 }
 
-export const isNftScorePayload = (payload: Payload): payload is NftScorePayload => payload.schema === NftScoreSchema
+export const isNftCollectionScorePayload = (payload: Payload): payload is NftCollectionScorePayload => payload.schema === NftCollectionScoreSchema
 
-export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDivinerParams> extends AbstractDiviner<TParams> {
-  static override configSchemas = [NftScoreDivinerConfigSchema]
+export class NftCollectionScoreDiviner<
+  TParams extends NftCollectionScoreDivinerParams = NftCollectionScoreDivinerParams,
+> extends AbstractDiviner<TParams> {
+  static override configSchemas = [NftCollectionScoreDivinerConfigSchema]
 
   protected override divineHandler = async (payloads?: Payload[]): Promise<Payload[]> => {
-    const nfts = payloads?.filter(isNftInfoPayload) ?? []
+    const nfts = payloads?.filter(isNftCollectionInfoPayload) ?? []
     const results = await Promise.all(
-      nfts.map<Promise<NftScorePayload>>(async (p) => {
-        const [score, sourceHash] = await Promise.all([toNftScorePayload(await analyzeNft(p)), PayloadHasher.hashAsync(p)])
-        return { ...score, sources: [sourceHash] }
+      nfts.map<Promise<NftCollectionScorePayload>>(async (p) => {
+        const [score, sourceHash] = await Promise.all([
+          // Get score
+          toNftCollectionScorePayload(await analyzeNftCollection(p)),
+          // Hash sources
+          PayloadHasher.hashAsync(p),
+        ])
+        return { ...score, schema: NftCollectionScoreSchema, sources: [sourceHash] } as NftCollectionScorePayload
       }),
     )
     return results

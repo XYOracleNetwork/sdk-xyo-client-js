@@ -7447,6 +7447,7 @@ __metadata:
     "@xyo-network/diviner-payload-stats": "workspace:~"
     "@xyo-network/diviner-schema-list": "workspace:~"
     "@xyo-network/diviner-schema-stats": "workspace:~"
+    "@xyo-network/image-thumbnail-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
@@ -7847,7 +7848,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail":
+"@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail, @xyo-network/image-thumbnail-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail"
   dependencies:

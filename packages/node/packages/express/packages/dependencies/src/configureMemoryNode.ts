@@ -16,6 +16,7 @@ import {
   SchemaListDivinerConfigSchema,
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
+import { ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -43,6 +44,7 @@ const diviners: ModuleConfigWithVisibility[] = [
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
+  [{ schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 

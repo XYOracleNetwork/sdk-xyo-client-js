@@ -56,5 +56,6 @@ export const addWitnessModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[CryptoNftCollectionWitness.configSchema] = await getCryptoNftCollectionWitness(container)
   dictionary[CryptoWalletNftWitness.configSchema] = await getCryptoWalletNftWitness(container)
+  dictionary[ImageThumbnailWitness.configSchema] = await getImageThumbnailWitness(container)
   dictionary[PrometheusNodeWitness.configSchema] = await getPrometheusNodeWitness(container)
 }

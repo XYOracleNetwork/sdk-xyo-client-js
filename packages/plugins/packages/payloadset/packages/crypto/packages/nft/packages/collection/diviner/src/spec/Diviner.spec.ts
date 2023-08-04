@@ -1,22 +1,21 @@
 import { HDWallet } from '@xyo-network/account'
-import { isNftInfoPayload, NftInfoPayload } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { readFile } from 'fs/promises'
-import { join } from 'path'
 
 import { isNftCollectionScorePayload, NftCollectionScoreDiviner } from '../Diviner'
 
 describe('NftCollectionScoreDiviner', () => {
-  let data: NftInfoPayload[]
-  beforeAll(async () => {
-    const filePath = join(__dirname, 'testData.json')
-    const fileContents = await readFile(filePath, 'utf8')
-    const nfts = JSON.parse(fileContents)
-    expect(nfts).toBeArray()
-    if (Array.isArray(nfts)) {
-      data = nfts.filter(isNftInfoPayload)
-    }
-  })
+  const data: NftCollectionInfoPayload[] = [
+    {
+      address: '0x0000000000',
+      chainId: 1,
+      name: 'test',
+      schema: NftCollectionSchema,
+      symbol: 'TEST',
+      tokenType: 'ERC721',
+      total: 20000,
+    },
+  ]
   test('divine', async () => {
     const diviner = await NftCollectionScoreDiviner.create({ account: await HDWallet.random() })
     const scores = (await diviner.divine(data)).filter(isNftCollectionScorePayload)

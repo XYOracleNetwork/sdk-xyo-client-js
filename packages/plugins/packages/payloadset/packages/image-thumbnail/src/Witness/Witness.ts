@@ -42,6 +42,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             const bytes = Buffer.from(response.data, 'binary')
             const thumb = await new Promise<Buffer>((resolve, reject) => {
               gm(bytes)
+                .quality(50)
                 .resize(128, 128)
                 .toBuffer('PNG', (error, buffer) => {
                   if (error) {

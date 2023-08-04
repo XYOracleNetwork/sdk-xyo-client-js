@@ -1,11 +1,13 @@
-import { axios } from '@xyo-network/axios'
+import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
-import { ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailErrorPayload, ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { isPayload, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { subClass } from 'gm'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
+import isBuffer from 'lodash/isBuffer'
 import shajs from 'sha.js'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
@@ -29,23 +31,103 @@ export const binaryToSha256 = async (data: Uint8Array) => {
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [ImageThumbnailWitnessConfigSchema]
 
-  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnailPayload[]> {
-    return compact(
+  get encoding() {
+    return this.config.encoding ?? 'PNG'
+  }
+
+  get height() {
+    return this.config.height ?? 128
+  }
+
+  get quality() {
+    return this.config.quality ?? 50
+  }
+
+  get width() {
+    return this.config.width ?? 128
+  }
+
+  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<(ImageThumbnailPayload | ImageThumbnailErrorPayload)[]> {
+    const responsePairs = compact(
       await Promise.all(
-        payloads.map(async ({ url }) => {
+        payloads.map<Promise<[string, ImageThumbnailErrorPayload | AxiosResponse | Buffer]>>(async ({ url }) => {
+          //if it is a data URL, return a Buffer
+          if (url.startsWith('data:image')) {
+            const data = url.split(',')[1]
+            if (data) {
+              const buffer = Buffer.from(Uint8Array.from(atob(data), (c) => c.charCodeAt(0)))
+              console.log(`data buffer: ${buffer.length}`)
+              return [url, buffer]
+            } else {
+              const error: ImageThumbnailErrorPayload = {
+                message: 'Invalid data Url',
+                schema: ModuleErrorSchema,
+                url,
+              }
+              return [url, error]
+            }
+          }
+
           //if it is ipfs, go through cloud flair
           const mutatedUrl = url.replace('ipfs://', 'https://cloudflare-ipfs.com/')
-          const response = await axios.get(mutatedUrl, {
-            responseType: 'arraybuffer',
-          })
-          if (response.status >= 200 && response.status < 300) {
-            const bytes = Buffer.from(response.data, 'binary')
+          try {
+            return [
+              url,
+              await axios.get(mutatedUrl, {
+                responseType: 'arraybuffer',
+              }),
+            ]
+          } catch (ex) {
+            const axiosError = ex as AxiosError
+            if (axiosError.isAxiosError) {
+              //selectively pick fields from AxiosError
+              const errorPayload: ImageThumbnailErrorPayload = {
+                code: axiosError.code,
+                message: axiosError.message,
+                schema: ModuleErrorSchema,
+                status: axiosError.status,
+                url,
+              }
+              return [url, errorPayload]
+            } else {
+              throw ex
+            }
+          }
+        }),
+      ),
+    )
+    return compact(
+      await Promise.all(
+        responsePairs.map(async ([url, urlResult]) => {
+          if (isPayload(urlResult)) {
+            return urlResult
+          }
+
+          let sourceBuffer: Buffer
+
+          if (isBuffer(urlResult)) {
+            sourceBuffer = urlResult as Buffer
+          } else {
+            const response = urlResult as AxiosResponse
+
+            if (response.status >= 200 && response.status < 300) {
+              sourceBuffer = Buffer.from(response.data, 'binary')
+            } else {
+              const error: ImageThumbnailErrorPayload = {
+                schema: ModuleErrorSchema,
+                status: response.status,
+                url,
+              }
+              return error
+            }
+          }
+          try {
             const thumb = await new Promise<Buffer>((resolve, reject) => {
-              gm(bytes)
-                .quality(50)
-                .resize(128, 128)
+              gm(sourceBuffer)
+                .quality(this.quality)
+                .resize(this.width, this.height)
                 .flatten()
-                .toBuffer('PNG', (error, buffer) => {
+                .toBuffer(this.encoding, (error, buffer) => {
                   if (error) {
                     reject(error)
                   } else {
@@ -55,11 +137,18 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             })
             const result: ImageThumbnailPayload = {
               schema: ImageThumbnailSchema,
-              sourceHash: await binaryToSha256(bytes),
+              sourceHash: await binaryToSha256(sourceBuffer),
               sourceUrl: url,
               url: `data:image/png;base64,${thumb.toString('base64')}`,
             }
             return result
+          } catch (ex) {
+            const error: ImageThumbnailErrorPayload = {
+              message: 'Failed to resize image',
+              schema: ModuleErrorSchema,
+              url,
+            }
+            return error
           }
         }),
       ),

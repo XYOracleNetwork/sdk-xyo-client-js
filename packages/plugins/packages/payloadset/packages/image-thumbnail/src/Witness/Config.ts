@@ -5,5 +5,9 @@ export const ImageThumbnailWitnessConfigSchema = `${ImageThumbnailSchema}.witnes
 export type ImageThumbnailWitnessConfigSchema = typeof ImageThumbnailWitnessConfigSchema
 
 export type ImageThumbnailWitnessConfig = WitnessConfig<{
+  encoding?: 'PNG'
+  height?: number
+  quality?: number
   schema: ImageThumbnailWitnessConfigSchema
+  width?: number
 }>

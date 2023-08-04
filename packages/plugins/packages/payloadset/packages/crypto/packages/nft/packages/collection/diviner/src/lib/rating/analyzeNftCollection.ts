@@ -2,6 +2,7 @@ import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-pl
 import { Score } from '@xyo-network/crypto-nft-score-model'
 
 const score = async (nft: NftCollectionInfo): Promise<Score> => {
+  nft.total
   return await Promise.resolve([0, 0])
 }
 

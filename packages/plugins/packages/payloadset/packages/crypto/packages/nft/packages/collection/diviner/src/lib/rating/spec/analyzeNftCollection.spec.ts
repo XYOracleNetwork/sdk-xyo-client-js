@@ -1,4 +1,4 @@
-import { NftCollectionInfo, NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
 import { analyzeNftCollection } from '../analyzeNftCollection'
 

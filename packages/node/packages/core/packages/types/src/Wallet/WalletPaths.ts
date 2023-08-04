@@ -36,5 +36,6 @@ export const WALLET_PATHS = {
     Prometheus: `${ModulePath.Witness}/1'` as const,
     CryptoWalletNftWitness: `${ModulePath.Witness}/2'` as const,
     CryptoNftCollectionWitness: `${ModulePath.Witness}/3'` as const,
+    ImageThumbnailWitness: `${ModulePath.Witness}/4'` as const,
   } as const,
 } as const

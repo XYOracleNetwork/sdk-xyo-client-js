@@ -37,7 +37,7 @@ const getCryptoNftCollectionWitness = async (container: Container) => {
 const getImageThumbnailWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(ImageThumbnailWitness, {
-    accountDerivationPath: WALLET_PATHS.Witnesses.Prometheus,
+    accountDerivationPath: WALLET_PATHS.Witnesses.ImageThumbnailWitness,
     config: { name: TYPES.ImageThumbnailWitness.description, schema: ImageThumbnailWitness.configSchema },
     wallet,
   })

@@ -4516,10 +4516,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.4.2, @types/node@npm:^20.4.6":
-  version: 20.4.6
-  resolution: "@types/node@npm:20.4.6"
-  checksum: 28dfc13da87f579264840bc5b8a2cde2dcb93662464a0d58f0fa98eba1aae978e3c73e893474238c4a1226d0b1a14e3936520ff9795e1c4e06fad3282be83d18
+"@types/node@npm:*, @types/node@npm:^20.4.2, @types/node@npm:^20.4.7":
+  version: 20.4.7
+  resolution: "@types/node@npm:20.4.7"
+  checksum: a40d7003f66b56220a2028179e49f950b46fa6dbf860a4a6ecbd6ba7976f05b2f0b31ced39689ec88a7d9e32d07e088c6a06d270b99d5bc13a28291ac2f30ca7
   languageName: node
   linkType: hard
 
@@ -5715,7 +5715,7 @@ __metadata:
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
     jest: ^29.6.2
-    jest-mock-extended: ^3.0.4
+    jest-mock-extended: ^3.0.5
     node-cache: ^5.1.2
     rollbar: ^2.26.2
     typescript: ^5.1.6
@@ -6003,7 +6003,7 @@ __metadata:
   resolution: "@xyo-network/cli@workspace:packages/cli"
   dependencies:
     "@types/lodash": ^4.14.196
-    "@types/node": ^20.4.6
+    "@types/node": ^20.4.7
     "@types/tail": ^2.2.1
     "@types/terminal-kit": ^2.5.1
     "@xylabs/assert": ^2.9.3
@@ -7536,7 +7536,7 @@ __metadata:
     express-mung: ^0.5.1
     http-status-codes: ^2.2.0
     jest: ^29.6.2
-    jest-mock-extended: ^3.0.4
+    jest-mock-extended: ^3.0.5
     node-cache: ^5.1.2
     rollbar: ^2.26.2
     typescript: ^5.1.6
@@ -8048,7 +8048,7 @@ __metadata:
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     jest: ^29.6.2
-    jest-mock-extended: ^3.0.4
+    jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
     typescript: ^5.1.6
   languageName: unknown
@@ -8134,7 +8134,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     jest: ^29.6.2
-    jest-mock-extended: ^3.0.4
+    jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
     typescript: ^5.1.6
   languageName: unknown
@@ -8350,7 +8350,7 @@ __metadata:
     agenda: ^5.0.0
     inversify: ^6.0.1
     jest: ^29.6.2
-    jest-mock-extended: ^3.0.4
+    jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
     mongodb: ^5.7.0
     reflect-metadata: ^0.1.13
@@ -8874,7 +8874,7 @@ __metadata:
     eslint-plugin-import: ^2.28.0
     jest: ^29.6.2
     jest-environment-jsdom: ^29.6.2
-    jest-extended: ^4.0.0
+    jest-extended: ^4.0.1
     jest-sorted: ^1.0.14
     nodemon: ^3.0.1
     reflect-metadata: ^0.1.13
@@ -15270,9 +15270,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-extended@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "jest-extended@npm:4.0.0"
+"jest-extended@npm:^4.0.0, jest-extended@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "jest-extended@npm:4.0.1"
   dependencies:
     jest-diff: ^29.0.0
     jest-get-type: ^29.0.0
@@ -15281,7 +15281,7 @@ __metadata:
   peerDependenciesMeta:
     jest:
       optional: true
-  checksum: 2fd77a4fcda131a93c6f4a60a955c81fa332abad73d68f58d82fd9548672aa2c4f4ff64d4b44ae561caca3d592707eb0cc237d5da3138d8c568f40a1d8f81751
+  checksum: a5d6a9153c7b7fe48602bb3381f46bbbbb034bc2722497d0fde6b0eac81b8fbda1e69fb59ca72ec545fea7959e065a96500620a1cf0aba77a719455ff5f93da8
   languageName: node
   linkType: hard
 
@@ -15366,15 +15366,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-mock-extended@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "jest-mock-extended@npm:3.0.4"
+"jest-mock-extended@npm:^3.0.4, jest-mock-extended@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "jest-mock-extended@npm:3.0.5"
   dependencies:
     ts-essentials: ^7.0.3
   peerDependencies:
     jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0 || ^28.0.0 || ^29.0.0
     typescript: ^3.0.0 || ^4.0.0 || ^5.0.0
-  checksum: f861253c63508b30d971fbbbc1bf2911ff4406cd260d0e23483a1d4514898b18ba5efbd43fbdf6d94996dc09b20eb1aad1b46aeaea9c99244ba12dc99814fd3f
+  checksum: 440c52f743af588493c2cd02fa7e4e42177748ac3f7ae720f414bd58a4a72fad4271878457bf8796b62abcf9cf32cde4dc5151caad0805037bd965cc9ef07ca8
   languageName: node
   linkType: hard
 

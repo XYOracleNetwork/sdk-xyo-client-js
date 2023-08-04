@@ -1,6 +1,7 @@
 import { HDWallet } from '@xyo-network/account'
 import { CryptoNftCollectionWitness } from '@xyo-network/crypto-nft-collection-witness-plugin'
 import { CryptoWalletNftWitness } from '@xyo-network/crypto-nft-plugin'
+import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
@@ -29,6 +30,15 @@ const getCryptoNftCollectionWitness = async (container: Container) => {
       name: TYPES.CryptoNftCollectionWitness.description,
       schema: CryptoNftCollectionWitness.configSchema,
     },
+    wallet,
+  })
+}
+
+const getImageThumbnailWitness = async (container: Container) => {
+  const wallet = await getWallet(container)
+  return new ModuleFactory(ImageThumbnailWitness, {
+    accountDerivationPath: WALLET_PATHS.Witnesses.Prometheus,
+    config: { name: TYPES.ImageThumbnailWitness.description, schema: ImageThumbnailWitness.configSchema },
     wallet,
   })
 }

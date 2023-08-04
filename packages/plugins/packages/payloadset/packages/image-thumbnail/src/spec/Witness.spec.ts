@@ -36,6 +36,11 @@ describe('ImageThumbnailWitness', () => {
     expect(result.length).toBe(1)
     console.log(`HTTPS/SVG Size: ${result[0].url.length}}`)
     expect(result[0].url.length).toBeLessThan(64000)
+
+    //do a second pass and make sure we get cached result
+    const result2 = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
+    expect(result2.length).toBe(1)
+    expect(result2[0].url.length).toEqual(result[0].url.length)
   })
   test('HTTPS [large/gif (animated)]', async () => {
     const witness = await ImageThumbnailWitness.create()

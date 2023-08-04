@@ -65,7 +65,7 @@
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig-jest": "^2.19.0",
     "jest": "^29.6.2",
-    "mongodb-memory-server": "^8.13.0",
+    "mongodb-memory-server": "^8.14.0",
     "typescript": "^5.1.6"
   },
   "types": "dist/types/index.d.ts"

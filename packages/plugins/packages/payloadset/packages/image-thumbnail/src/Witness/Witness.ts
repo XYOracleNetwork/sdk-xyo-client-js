@@ -1,13 +1,14 @@
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnailErrorPayload, ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { isPayload, ModuleErrorSchema } from '@xyo-network/payload-model'
+import { isPayload, ModuleErrorSchema, Payload } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { subClass } from 'gm'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import isBuffer from 'lodash/isBuffer'
+import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
@@ -31,12 +32,23 @@ export const binaryToSha256 = async (data: Uint8Array) => {
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [ImageThumbnailWitnessConfigSchema]
 
+  private _cache?: LRUCache<string, ImageThumbnailPayload | ImageThumbnailErrorPayload>
+
+  get cache() {
+    this._cache = this._cache ?? new LRUCache<string, ImageThumbnailPayload | ImageThumbnailErrorPayload>({ max: this.maxCacheEntries })
+    return this._cache
+  }
+
   get encoding() {
     return this.config.encoding ?? 'PNG'
   }
 
   get height() {
     return this.config.height ?? 128
+  }
+
+  get maxCacheEntries() {
+    return this.config.maxCacheEntries ?? 5000
   }
 
   get quality() {
@@ -50,7 +62,11 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<(ImageThumbnailPayload | ImageThumbnailErrorPayload)[]> {
     const responsePairs = compact(
       await Promise.all(
-        payloads.map<Promise<[string, ImageThumbnailErrorPayload | AxiosResponse | Buffer]>>(async ({ url }) => {
+        payloads.map<Promise<[string, ImageThumbnailPayload | ImageThumbnailErrorPayload | AxiosResponse | Buffer]>>(async ({ url }) => {
+          const cachedResult = this.cache.get(url)
+          if (cachedResult) {
+            return [url, cachedResult]
+          }
           //if it is a data URL, return a Buffer
           if (url.startsWith('data:image')) {
             const data = url.split(',')[1]
@@ -100,6 +116,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       await Promise.all(
         responsePairs.map(async ([url, urlResult]) => {
           if (isPayload(urlResult)) {
+            this.cache.set(url, urlResult)
             return urlResult
           }
 
@@ -118,6 +135,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                 status: response.status,
                 url,
               }
+              this.cache.set(url, error)
               return error
             }
           }
@@ -141,6 +159,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               sourceUrl: url,
               url: `data:image/png;base64,${thumb.toString('base64')}`,
             }
+            this.cache.set(url, result)
             return result
           } catch (ex) {
             const error: ImageThumbnailErrorPayload = {
@@ -148,6 +167,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               schema: ModuleErrorSchema,
               url,
             }
+            this.cache.set(url, error)
             return error
           }
         }),

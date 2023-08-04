@@ -1,2 +1,2 @@
-export const UrlSchema = 'network.xyo.url' as const
+export const UrlSchema = 'network.xyo.url'
 export type UrlSchema = typeof UrlSchema

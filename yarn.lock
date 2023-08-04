@@ -4313,6 +4313,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gm@npm:^1.25.1":
+  version: 1.25.1
+  resolution: "@types/gm@npm:1.25.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 347bf29c2deb0451602d51aeb8feb107341d98c30445207d0c9c7240451118b08e52f9a90582540292ca9f9ea01c83e879bc7e2ed36768c678c70b71c7b4da8c
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.6
   resolution: "@types/graceful-fs@npm:4.1.6"
@@ -7804,6 +7813,42 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/image-thumbnail-payload-plugin@workspace:packages/plugins/packages/payload/packages/image-thumbnail, @xyo-network/image-thumbnail-payload-plugin@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/image-thumbnail-payload-plugin@workspace:packages/plugins/packages/payload/packages/image-thumbnail"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-plugin": "workspace:~"
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail"
+  dependencies:
+    "@types/gm": ^1.25.1
+    "@types/lodash": ^4.14.196
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/axios": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/image-thumbnail-payload-plugin": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payloadset-plugin": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/witness": "workspace:~"
+    gm: ^1.25.0
+    hash-wasm: ^4.9.0
+    lodash: ^4.17.21
+    sha.js: ^2.4.11
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system/packages/info, @xyo-network/info-system-payload-plugins@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system/packages/info"
@@ -9651,6 +9696,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array-parallel@npm:~0.1.3":
+  version: 0.1.3
+  resolution: "array-parallel@npm:0.1.3"
+  checksum: 0d7e26ad68d073e1ba9f70bfd8403b4f8d810e32fbca616c422e06fdeb0e96a5589ae5816a0ac17707a1b499efd72ded9c6c5b796a8c1d92e743892ad62dcb15
+  languageName: node
+  linkType: hard
+
+"array-series@npm:~0.1.5":
+  version: 0.1.5
+  resolution: "array-series@npm:0.1.5"
+  checksum: 09f500cfd71b27e39ecb2a5fb4f141cd879283f9afb3b9145012b6ff3b3897323ef9a5edfea546963f92ec810cf58737473f0550004c3f8125a47875b1af458b
+  languageName: node
+  linkType: hard
+
 "array-union@npm:^1.0.2":
   version: 1.0.2
   resolution: "array-union@npm:1.0.2"
@@ -11163,6 +11222,16 @@ __metadata:
     is-nan: ^1.3.2
     luxon: ^1.26.0
   checksum: 80096ac1c30fa4017648ad2fa062ae002e6c0d7775b96a00dbadf1e2d7f9e01b3db0324eef2a33fe6136363be3ffb0d6065cf1b91e6a13fd5ed4d3c168abbc69
+  languageName: node
+  linkType: hard
+
+"cross-spawn@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "cross-spawn@npm:4.0.2"
+  dependencies:
+    lru-cache: ^4.0.1
+    which: ^1.2.9
+  checksum: 8ce57b3e11c5c798542a21ddfdc1edef33ab6fe001958b31f3340a6ff684e3334a8baad2751efa78b6200aad442cf12b939396d758b0dd5c42c9b782c28fe06e
   languageName: node
   linkType: hard
 
@@ -13615,6 +13684,18 @@ __metadata:
     pify: ^4.0.1
     slash: ^2.0.0
   checksum: 9b4cb70aa0b43bf89b18cf0e543695185e16d8dd99c17bdc6a1df0a9f88ff9dc8d2467aebace54c3842fc451a564882948c87a3b4fbdb1cacf3e05fd54b6ac5d
+  languageName: node
+  linkType: hard
+
+"gm@npm:^1.25.0":
+  version: 1.25.0
+  resolution: "gm@npm:1.25.0"
+  dependencies:
+    array-parallel: ~0.1.3
+    array-series: ~0.1.5
+    cross-spawn: ^4.0.0
+    debug: ^3.1.0
+  checksum: 4c4b56ef15b2d290d35178515698968f75906db9a7932d477754e0b49c8ee264de7a43a8642433ebfbdb281b3bd65eccf3c81316e91c25a0c353a2a7719773a6
   languageName: node
   linkType: hard
 
@@ -16342,6 +16423,16 @@ __metadata:
   version: 10.0.0
   resolution: "lru-cache@npm:10.0.0"
   checksum: 18f101675fe283bc09cda0ef1e3cc83781aeb8373b439f086f758d1d91b28730950db785999cd060d3c825a8571c03073e8c14512b6655af2188d623031baf50
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^4.0.1":
+  version: 4.1.5
+  resolution: "lru-cache@npm:4.1.5"
+  dependencies:
+    pseudomap: ^1.0.2
+    yallist: ^2.1.2
+  checksum: 4bb4b58a36cd7dc4dcec74cbe6a8f766a38b7426f1ff59d4cf7d82a2aa9b9565cd1cb98f6ff60ce5cd174524868d7bc9b7b1c294371851356066ca9ac4cf135a
   languageName: node
   linkType: hard
 
@@ -19198,6 +19289,13 @@ __metadata:
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
   checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
+"pseudomap@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "pseudomap@npm:1.0.2"
+  checksum: 856c0aae0ff2ad60881168334448e898ad7a0e45fe7386d114b150084254c01e200c957cf378378025df4e052c7890c5bd933939b0e0d2ecfcc1dc2f0b2991f5
   languageName: node
   linkType: hard
 
@@ -24290,6 +24388,13 @@ __metadata:
   version: 5.0.8
   resolution: "y18n@npm:5.0.8"
   checksum: 54f0fb95621ee60898a38c572c515659e51cc9d9f787fb109cef6fde4befbe1c4602dc999d30110feee37456ad0f1660fa2edcfde6a9a740f86a290999550d30
+  languageName: node
+  linkType: hard
+
+"yallist@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "yallist@npm:2.1.2"
+  checksum: 9ba99409209f485b6fcb970330908a6d41fa1c933f75e08250316cce19383179a6b70a7e0721b89672ebb6199cc377bf3e432f55100da6a7d6e11902b0a642cb
   languageName: node
   linkType: hard
 

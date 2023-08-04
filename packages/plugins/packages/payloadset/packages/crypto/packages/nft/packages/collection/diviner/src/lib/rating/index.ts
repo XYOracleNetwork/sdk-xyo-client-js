@@ -1,1 +1,1 @@
-export * from './analyzeNft'
+export * from './analyzeNftCollection'

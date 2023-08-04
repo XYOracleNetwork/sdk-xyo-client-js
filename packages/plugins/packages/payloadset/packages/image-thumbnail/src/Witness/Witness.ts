@@ -44,6 +44,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               gm(bytes)
                 .quality(50)
                 .resize(128, 128)
+                .flatten()
                 .toBuffer('PNG', (error, buffer) => {
                   if (error) {
                     reject(error)

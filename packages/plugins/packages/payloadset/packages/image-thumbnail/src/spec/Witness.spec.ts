@@ -4,7 +4,7 @@ import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { ImageThumbnailWitness } from '../Witness'
 
 describe('ImageThumbnailWitness', () => {
-  test('IPFS', async () => {
+  test('IPFS [jpeg]', async () => {
     const witness = await ImageThumbnailWitness.create()
     const ipfsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -12,9 +12,10 @@ describe('ImageThumbnailWitness', () => {
     }
     const result = (await witness.observe([ipfsPayload])) as ImageThumbnailPayload[]
     expect(result.length).toBe(1)
-    console.log(`Result: ${result[0].url.length}}`)
+    console.log(`IPFS/JPG Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
   })
-  test('HTTPS [small/static]', async () => {
+  test('HTTPS [medium/avif]', async () => {
     const witness = await ImageThumbnailWitness.create()
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -22,9 +23,21 @@ describe('ImageThumbnailWitness', () => {
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
     expect(result.length).toBe(1)
-    console.log(`Result: ${result[0].url.length}}`)
+    console.log(`HTTPS/AVIF Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
   })
-  test('HTTPS [large/animated]', async () => {
+  test('HTTPS [medium/svg]', async () => {
+    const witness = await ImageThumbnailWitness.create()
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://xyo.network/static/media/XYO_Network_Logo_Full_Colored.409bc88a38e9fbe5184378e61c2a795e.svg',
+    }
+    const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
+    expect(result.length).toBe(1)
+    console.log(`HTTPS/SVG Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
+  })
+  test('HTTPS [large/gif (animated)]', async () => {
     const witness = await ImageThumbnailWitness.create()
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -32,6 +45,7 @@ describe('ImageThumbnailWitness', () => {
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
     expect(result.length).toBe(1)
-    console.log(`Result: ${result[0].url.length}}`)
+    console.log(`HTTPS/GIF/ANIMATED Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
   })
 })

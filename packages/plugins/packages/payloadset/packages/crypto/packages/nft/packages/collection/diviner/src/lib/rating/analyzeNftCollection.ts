@@ -1,14 +1,7 @@
 import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Score } from '@xyo-network/crypto-nft-score-model'
 
-const score = async (nft: NftCollectionInfo): Promise<Score> => {
-  nft.total
-  return await Promise.resolve([0, 0])
-}
-
-const scoringCriteria = {
-  rating: { score, weight: 1 },
-}
+import { scoringCriteria } from './criteria'
 
 export type ScoringCriteriaKey = keyof typeof scoringCriteria & PropertyKey
 

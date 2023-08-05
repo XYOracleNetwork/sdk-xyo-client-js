@@ -7867,6 +7867,7 @@ __metadata:
     gm: ^1.25.0
     hash-wasm: ^4.9.0
     lodash: ^4.17.21
+    lru-cache: ^10.0.0
     sha.js: ^2.4.11
     typescript: ^5.1.6
   languageName: unknown
@@ -9150,6 +9151,35 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/witness": "workspace:~"
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/url-safety-payload-plugin@workspace:packages/plugins/packages/payload/packages/url-safety, @xyo-network/url-safety-payload-plugin@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/url-safety-payload-plugin@workspace:packages/plugins/packages/payload/packages/url-safety"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-plugin": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^2.19.0
+    "@xylabs/tsconfig": ^2.19.0
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payloadset-plugin": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/url-safety-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     typescript: ^5.1.6
   languageName: unknown

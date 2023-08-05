@@ -6,5 +6,5 @@ export type UrlWitnessConfigSchema = typeof UrlWitnessConfigSchema
 
 export type UrlWitnessConfig = WitnessConfig<{
   schema: UrlWitnessConfigSchema
-  url?: string
+  urls?: string[]
 }>

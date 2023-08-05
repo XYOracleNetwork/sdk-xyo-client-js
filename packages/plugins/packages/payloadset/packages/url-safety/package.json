@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/image-thumbnail-plugin",
+  "name": "@xyo-network/url-safety-plugin",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,23 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/axios": "workspace:~",
-    "@xyo-network/core": "workspace:~",
-    "@xyo-network/image-thumbnail-payload-plugin": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/url-payload-plugin": "workspace:~",
-    "@xyo-network/witness": "workspace:~",
-    "gm": "^1.25.0",
-    "hash-wasm": "^4.9.0",
-    "lodash": "^4.17.21",
-    "lru-cache": "^10.0.0",
-    "sha.js": "^2.4.11"
+    "@xyo-network/url-safety-payload-plugin": "workspace:~",
+    "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
-    "@types/gm": "^1.25.1",
-    "@types/lodash": "^4.14.196",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
     "typescript": "^5.1.6"
@@ -64,5 +55,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.70.8"
+  "version": "2.70.10"
 }

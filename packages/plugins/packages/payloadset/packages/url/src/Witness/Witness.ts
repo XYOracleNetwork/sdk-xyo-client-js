@@ -9,18 +9,18 @@ import { UrlWitnessParams } from './Params'
 export class UrlWitness<TParams extends UrlWitnessParams = UrlWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [UrlWitnessConfigSchema]
 
-  get url() {
-    return this.config?.url
+  get urls() {
+    return this.config?.urls
   }
 
   protected override async observeHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const urls: UrlPayload[] = this.url
-      ? [{ schema: UrlSchema, url: this.url }]
-      : payloads
-          .filter((p): p is UrlPayload => p.schema === UrlSchema)
-          .map((p) => {
-            return { schema: UrlSchema, url: p.url }
-          })
+    const urls: UrlPayload[] =
+      this.urls?.map((url) => ({ schema: UrlSchema, url })) ??
+      payloads
+        .filter((p): p is UrlPayload => p.schema === UrlSchema)
+        .map((p) => {
+          return { schema: UrlSchema, url: p.url }
+        })
     const hashed = await Promise.all(
       urls.map(async (url) => {
         // TODO: Different schema for hashed url

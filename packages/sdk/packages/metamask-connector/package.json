@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@metamask/providers": "^10.2.1"
+    "@metamask/providers": "^11.1.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

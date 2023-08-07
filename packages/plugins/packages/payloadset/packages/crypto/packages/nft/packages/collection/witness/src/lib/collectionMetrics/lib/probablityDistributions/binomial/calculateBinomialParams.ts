@@ -1,15 +1,4 @@
-/**
- * Parameters of a binomial distribution
- */
-export interface BinomialDistributionParameters {
-  mean: number
-  /**
-   * Success probability
-   */
-  p: number
-  stdDev: number
-  variance: number
-}
+import { BinomialDistributionParameters } from './BinomialDistributionParameters'
 
 /**
  * Calculates the parameters of a binomial distribution given a list of outcomes

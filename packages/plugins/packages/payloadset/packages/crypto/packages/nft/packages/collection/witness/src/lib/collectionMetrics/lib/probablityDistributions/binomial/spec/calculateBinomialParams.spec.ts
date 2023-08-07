@@ -1,4 +1,5 @@
-import { BinomialDistributionParameters, calculateBinomialParams } from '../calculateBinomialParams'
+import { BinomialDistributionParameters } from '../BinomialDistributionParameters'
+import { calculateBinomialParams } from '../calculateBinomialParams'
 
 describe('calculateBinomialParams', () => {
   const data: [values: number[], outcome: BinomialDistributionParameters][] = [

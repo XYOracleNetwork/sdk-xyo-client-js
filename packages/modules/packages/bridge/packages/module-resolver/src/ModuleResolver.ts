@@ -94,18 +94,18 @@ export class BridgeModuleResolver extends CompositeModuleResolver implements Mod
     throw new Error('Method not implemented.')
   }
 
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    filter?: ModuleFilter<T>,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddress: string,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | undefined>
+  reset() {
+    this.primed = undefined
+    this.remoteAddresses = undefined
+    this.resolvedModules = {}
+  }
+
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
     nameOrAddressOrFilter?: ModuleFilter<T> | string,
     options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  ): Promise<T | T[] | undefined> {
     const unfiltered = await (async () => {
       const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? BridgeModuleResolver.defaultMaxDepth) - 1 }
       await this.prime()

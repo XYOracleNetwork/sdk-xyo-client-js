@@ -1,5 +1,5 @@
 import { BinomialDistributionParameters } from '../BinomialDistributionParameters'
-import { calculateBinomialParams } from '../calculateBinomialParams'
+import { calculateBinomialParamsFromOutcomes } from '../calculateBinomialParamsFromOutcomes'
 
 describe('calculateBinomialParams', () => {
   const data: [values: number[], outcome: BinomialDistributionParameters][] = [
@@ -10,7 +10,7 @@ describe('calculateBinomialParams', () => {
     [[0, 0, 0, 0], { mean: 0, p: 0, stdDev: 0, variance: 0 }],
   ]
   it.each(data)('calculates the params', (values, outcome) => {
-    const result = calculateBinomialParams(values)
+    const result = calculateBinomialParamsFromOutcomes(values)
     expect(result).toEqual(outcome)
   })
 })

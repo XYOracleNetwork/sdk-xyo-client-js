@@ -1,2 +1,3 @@
 export * from './BinomialDistributionParameters'
-export * from './calculateBinomialParams'
+export * from './calculateBinomialParamsFromOutcomes'
+export * from './calculateBinomialParamsFromProbability'

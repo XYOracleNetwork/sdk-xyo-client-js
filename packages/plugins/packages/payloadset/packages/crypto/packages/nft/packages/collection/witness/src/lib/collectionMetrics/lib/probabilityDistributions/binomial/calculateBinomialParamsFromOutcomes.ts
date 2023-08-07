@@ -5,7 +5,7 @@ import { BinomialDistributionParameters } from './BinomialDistributionParameters
  * @param outcomes List of outcomes, where 1 is a success and 0 is a failure
  * @returns The mean, standard deviation, and variance of the binomial distribution
  */
-export const calculateBinomialParams = (outcomes: number[]): BinomialDistributionParameters => {
+export const calculateBinomialParamsFromOutcomes = (outcomes: number[]): BinomialDistributionParameters => {
   const n = outcomes.length
   // Calculate p: the proportion of successes
   const sum = outcomes.reduce((acc, value) => acc + value, 0)

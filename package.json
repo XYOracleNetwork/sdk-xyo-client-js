@@ -97,6 +97,7 @@
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
+    "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
     "build-typedoc-site": "typedoc --options typedoc.site.json"
   },
   "sideEffects": false,

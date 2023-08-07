@@ -1,26 +1,7 @@
+import { NftCollectionMetrics, NftTraitMetrics } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftInfo, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
 
-import { BinomialDistributionParameters, calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
-
-export interface NftTraitMetrics {
-  binomial: Partial<BinomialDistributionParameters>
-  count: number
-}
-
-export interface NftCollectionMetrics {
-  metrics: {
-    metadata: {
-      attributes: {
-        [trait: string]: {
-          metrics: NftTraitMetrics
-          values: {
-            [value: string]: NftTraitMetrics
-          }
-        }
-      }
-    }
-  }
-}
+import { calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
 
 type TraitDistributionEntry = [string, { [key: string]: number }]
 

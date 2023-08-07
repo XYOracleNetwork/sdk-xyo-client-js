@@ -1,15 +1,7 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { NftCollectionSchema } from './Schema'
-
-export interface NftCollectionInfo {
-  address: string
-  chainId: number
-  name: string
-  symbol: string
-  tokenType: string
-  total: number
-}
+import { NftCollectionSchema } from '../Schema'
+import { NftCollectionInfo } from './NftCollectionInfo'
 
 export type NftCollectionInfoPayload = Payload<NftCollectionInfo & { schema: NftCollectionSchema }>
 

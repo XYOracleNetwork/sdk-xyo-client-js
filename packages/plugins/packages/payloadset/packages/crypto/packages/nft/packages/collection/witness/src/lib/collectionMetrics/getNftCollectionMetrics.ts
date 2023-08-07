@@ -1,6 +1,11 @@
 import { NftInfo, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
 
-import { calculateAllPropertiesDistribution, Distribution } from './lib'
+import { BinomialDistributionParameters, calculateAllPropertiesDistribution, Distribution } from './lib'
+
+export interface NftAttributeMetrics {
+  binomial: BinomialDistributionParameters
+  count: number
+}
 
 export interface NftCollectionMetrics {
   distribution: {

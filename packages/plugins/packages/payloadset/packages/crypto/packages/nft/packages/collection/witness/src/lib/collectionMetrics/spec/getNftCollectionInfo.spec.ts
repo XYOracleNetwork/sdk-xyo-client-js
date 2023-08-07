@@ -11,8 +11,8 @@ describe('getNftCollectionMetrics', () => {
     const nfts = JSON.parse(fileContents) as NftInfoPayload[]
     const result = getNftCollectionMetrics(nfts)
     expect(result).toBeObject()
-    expect(result?.distribution).toBeObject()
-    expect(result?.distribution?.metadata).toBeObject()
-    expect(result?.distribution?.metadata?.attributes).toBeObject()
+    expect(result?.metrics).toBeObject()
+    expect(result?.metrics?.metadata).toBeObject()
+    expect(result?.metrics?.metadata?.attributes).toBeObject()
   })
 })

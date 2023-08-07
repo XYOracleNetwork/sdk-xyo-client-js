@@ -22,7 +22,8 @@
     "hash-wasm": "^4.9.0",
     "lodash": "^4.17.21",
     "lru-cache": "^10.0.0",
-    "sha.js": "^2.4.11"
+    "sha.js": "^2.4.11",
+    "url-parse": "^1.5.10"
   },
   "devDependencies": {
     "@types/gm": "^1.25.1",

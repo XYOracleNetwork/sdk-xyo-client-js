@@ -7870,6 +7870,7 @@ __metadata:
     lru-cache: ^10.0.0
     sha.js: ^2.4.11
     typescript: ^5.1.6
+    url-parse: ^1.5.10
   languageName: unknown
   linkType: soft
 

@@ -36,9 +36,7 @@ export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics =
       .map(([trait, value]) => {
         const values = Object.fromEntries(
           Object.entries(value).map(([value, count]) => {
-            const binomial = {
-              p: count / nfts.length,
-            }
+            const binomial = { p: count / nfts.length }
             const metrics: NftTraitMetrics = { binomial, count }
             return [value, metrics]
           }),

@@ -2,8 +2,6 @@ import { NftInfo, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-pl
 
 import { BinomialDistributionParameters, calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
 
-export type Foo = { [key: string]: NftTraitMetrics }
-
 export interface NftTraitMetrics {
   binomial: Partial<BinomialDistributionParameters>
   count: number
@@ -24,6 +22,8 @@ export interface NftCollectionMetrics {
   }
 }
 
+type TraitDistributionEntry = [string, { [key: string]: number }]
+
 export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics => {
   const traits = nfts
     .map((nft) => nft.metadata?.attributes as OpenSeaNftAttribute[])
@@ -34,7 +34,7 @@ export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics =
   const n = nfts.length
   const attributes = Object.fromEntries(
     Object.entries(distribution)
-      .filter((v): v is [string, { [key: string]: number }] => v[1] !== undefined)
+      .filter((v): v is TraitDistributionEntry => v[1] !== undefined)
       .map(([trait, entries]) => {
         const traitCount = Object.values(entries).reduce((prev, curr) => prev + curr, 0)
         const binomial = calculateBinomialParamsFromProbability(nfts.length, traitCount / n)

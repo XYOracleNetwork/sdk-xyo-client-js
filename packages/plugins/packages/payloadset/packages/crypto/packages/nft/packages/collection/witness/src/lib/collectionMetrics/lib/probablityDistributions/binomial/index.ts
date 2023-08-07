@@ -1,1 +1,1 @@
-export * from './calculateBinomialDistributionParameters'
+export * from './calculateBinomialParams'

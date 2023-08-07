@@ -1,10 +1,11 @@
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnailErrorPayload, ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { isPayload, ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
+import { isPayload, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { subClass } from 'gm'
+import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import isBuffer from 'lodash/isBuffer'
@@ -100,6 +101,9 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<(ImageThumbnailPayload | ImageThumbnailErrorPayload)[]> {
+    if (!hasbin('magick')) {
+      throw Error('ImageMagick is required for this witness')
+    }
     const responsePairs = compact(
       await Promise.all(
         payloads.map<Promise<[string, ImageThumbnailPayload | ImageThumbnailErrorPayload | AxiosResponse | Buffer]>>(async ({ url }) => {

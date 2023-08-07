@@ -1,11 +1,14 @@
 import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
+import { sync as hasbin } from 'hasbin'
 
 import { ImageThumbnailWitness } from '../Witness'
 
+const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
+
 describe('ImageThumbnailWitness', () => {
-  test('DATA [medium/png]', async () => {
+  testIfHasBin('magick')('DATA [medium/png]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,

@@ -2,11 +2,14 @@ import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnailErrorPayload, ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
+import { sync as hasbin } from 'hasbin'
 
 import { ImageThumbnailWitness } from '../Witness'
 
+const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
+
 describe('ImageThumbnailWitness', () => {
-  test('HTTPS [medium/avif]', async () => {
+  testIfHasBin('magick')('HTTPS [medium/avif]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -18,7 +21,7 @@ describe('ImageThumbnailWitness', () => {
     expect(result[0].url.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  test('HTTPS [medium/png/unsafe]', async () => {
+  testIfHasBin('magick')('HTTPS [medium/png/unsafe]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -30,7 +33,7 @@ describe('ImageThumbnailWitness', () => {
     expect(result[0].url.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  test('HTTPS [medium/svg]', async () => {
+  testIfHasBin('magick')('HTTPS [medium/svg]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -47,7 +50,7 @@ describe('ImageThumbnailWitness', () => {
     expect(result2[0].url.length).toEqual(result[0].url.length)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  test.skip('HTTPS [large/gif (animated)]', async () => {
+  testIfHasBin('magick')('HTTPS [large/gif (animated)]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -59,7 +62,7 @@ describe('ImageThumbnailWitness', () => {
     expect(result[0].url.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  test('HTTPS [html/error]', async () => {
+  testIfHasBin('magick')('HTTPS [html/error]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -72,7 +75,7 @@ describe('ImageThumbnailWitness', () => {
     console.log(`HTTPS/ESPN Error: ${result[0].url.length}}`)
     expect(error?.message).toStartWith('Invalid file type')
   })
-  test('HTTPS [dns/error]', async () => {
+  testIfHasBin('magick')('HTTPS [dns/error]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -84,5 +87,22 @@ describe('ImageThumbnailWitness', () => {
     expect(error?.schema).toBe(ModuleErrorSchema)
     console.log(`HTTPS/DNS Error: ${result[0].url.length}}`)
     expect(error?.message).toStartWith('getaddrinfo ENOTFOUND')
+  })
+  testIfHasBin('magick')('HTTPS [medium/png]', async () => {
+    const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://usdclive.org/usdc.png',
+    }
+    const result = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
+    expect(result.length).toBe(1)
+    console.log(`HTTPS/PNG Size: ${result[0].url.length}}`)
+    expect(result[0].url.length).toBeLessThan(64000)
+
+    //do a second pass and make sure we get cached result
+    const result2 = (await witness.observe([httpsPayload])) as ImageThumbnailPayload[]
+    expect(result2.length).toBe(1)
+    expect(result2[0].url.length).toEqual(result[0].url.length)
+    expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
 })

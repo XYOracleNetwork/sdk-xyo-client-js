@@ -2,11 +2,14 @@ import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
+import { sync as hasbin } from 'hasbin'
 
 import { ImageThumbnailWitness } from '../Witness'
 
+const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
+
 describe('ImageThumbnailWitness', () => {
-  test('IPFS [jpeg]', async () => {
+  testIfHasBin('magick')('IPFS [jpeg]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const ipfsPayload: UrlPayload = {
       schema: UrlSchema,
@@ -23,7 +26,7 @@ describe('ImageThumbnailWitness', () => {
     }
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  test('IPFS [png]', async () => {
+  testIfHasBin('magick')('IPFS [png]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     const ipfsPayload: UrlPayload = {
       schema: UrlSchema,

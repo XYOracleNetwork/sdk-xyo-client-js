@@ -4338,6 +4338,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hasbin@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@types/hasbin@npm:1.2.0"
+  checksum: 49bcead77485a6c3bcd13904c0a55ea2287dcc36af83decd21c038fc9155cec80322e6030f84e44448915b9fc7b16a9f7de69c3170559bde98108aa533b781a8
+  languageName: node
+  linkType: hard
+
 "@types/hast@npm:^2.0.0":
   version: 2.3.5
   resolution: "@types/hast@npm:2.3.5"
@@ -7853,6 +7860,7 @@ __metadata:
   resolution: "@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail"
   dependencies:
     "@types/gm": ^1.25.1
+    "@types/hasbin": ^1.2.0
     "@types/lodash": ^4.14.196
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
@@ -7865,6 +7873,7 @@ __metadata:
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     gm: ^1.25.0
+    hasbin: ^1.2.3
     hash-wasm: ^4.9.0
     lodash: ^4.17.21
     lru-cache: ^10.0.0
@@ -9903,6 +9912,13 @@ __metadata:
   version: 3.2.4
   resolution: "async@npm:3.2.4"
   checksum: 43d07459a4e1d09b84a20772414aa684ff4de085cbcaec6eea3c7a8f8150e8c62aa6cd4e699fe8ee93c3a5b324e777d34642531875a0817a35697522c1b02e89
+  languageName: node
+  linkType: hard
+
+"async@npm:~1.5":
+  version: 1.5.2
+  resolution: "async@npm:1.5.2"
+  checksum: fe5d6214d8f15bd51eee5ae8ec5079b228b86d2d595f47b16369dec2e11b3ff75a567bb5f70d12d79006665fbbb7ee0a7ec0e388524eefd454ecbe651c124ebd
   languageName: node
   linkType: hard
 
@@ -13967,6 +13983,15 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: b9ad53d53be4af90ce5d1c38331e712522417d017d5ef1ebd0507e07c2fbad8686fffb8e12ddecd4c39ca9b9b47431afbb975b8abf7f3c3b82c98e9aad052792
+  languageName: node
+  linkType: hard
+
+"hasbin@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "hasbin@npm:1.2.3"
+  dependencies:
+    async: ~1.5
+  checksum: b30ae3dc4b8427ced20ab55d7a7500ba33f537c6795adb85b49ae8fba1113fb514c67a45cf7c5b0a0b785960fe69fd7edcaf3fba94a95ec41693e430cddb1aa8
   languageName: node
   linkType: hard
 

@@ -3,6 +3,10 @@
  */
 export interface BinomialDistributionParameters {
   mean: number
+  /**
+   * Success probability
+   */
+  p: number
   stdDev: number
   variance: number
 }
@@ -23,5 +27,5 @@ export const calculateBinomialParams = (outcomes: number[]): BinomialDistributio
   const variance = n * p * (1 - p)
   // Standard Deviation (σ)
   const stdDev = Math.sqrt(variance)
-  return { mean, stdDev, variance }
+  return { mean, p, stdDev, variance }
 }

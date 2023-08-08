@@ -3,6 +3,6 @@ export interface NftCollectionInfo {
   chainId: number
   name: string
   symbol: string
-  tokenType: string
+  tokenType: string | null
   total: number
 }

@@ -9,6 +9,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
     ['0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 1, 10_000],
     ['0x60E4d786628Fea6478F785A6d7e704777c86a7c6', 1, 19_481],
     ['0xED5AF388653567Af2F388E6224dC7C4b3241C544', 1, 10_000],
+    ['0x059EDD72Cd353dF5106D2B9cC5ab83a52287aC3a', 1, 10_944],
   ]
   let privateKey = ''
   beforeAll(async () => {

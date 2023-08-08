@@ -44,6 +44,15 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
         tokenType: 'ERC721',
       },
     ],
+    [
+      '0x059EDD72Cd353dF5106D2B9cC5ab83a52287aC3a',
+      1,
+      {
+        name: 'Art Blocks',
+        symbol: 'BLOCKS',
+        tokenType: 'ERC721',
+      },
+    ],
   ]
   let privateKey = ''
   beforeAll(async () => {

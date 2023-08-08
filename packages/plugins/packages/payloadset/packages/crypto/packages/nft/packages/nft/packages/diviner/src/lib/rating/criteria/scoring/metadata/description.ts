@@ -1,7 +1,7 @@
-import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, OpenSeaNftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
 import { incrementTotal, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
-export const scoreNftDescription = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreNftDescription = (nft: NftInfoFields | OpenSeaNftInfoFields): ScaledScore => {
   return scoreDescription(nft.metadata?.description)
 }
 

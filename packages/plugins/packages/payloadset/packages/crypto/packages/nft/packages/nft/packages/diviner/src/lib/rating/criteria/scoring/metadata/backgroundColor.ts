@@ -1,9 +1,9 @@
-import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, OpenSeaNftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
 import { incrementPossible, incrementTotal, incrementTotalAndPossible, PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
 const isHexColor = /^[0-9A-F]{6}$/i
 
-export const scoreNftBackgroundColor = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreNftBackgroundColor = (nft: NftInfoFields | OpenSeaNftInfoFields): ScaledScore => {
   return scoreBackgroundColor(nft.metadata?.background_color)
 }
 

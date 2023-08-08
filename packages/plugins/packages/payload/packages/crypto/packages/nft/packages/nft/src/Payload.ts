@@ -16,7 +16,7 @@ export interface NftMetadata {
   name?: unknown
 }
 
-export interface NftInfo {
+export interface NftInfoFields {
   chainId: number
   contract: string
   metadata?: NftMetadata
@@ -94,11 +94,11 @@ export interface OpenSeaNftMetadata extends NftMetadata {
   youtube_url?: string
 }
 
-export interface OpenSeaNftInfo extends NftInfo {
+export interface OpenSeaNftInfoFields extends NftInfoFields {
   metadata: OpenSeaNftMetadata
 }
 
-export type NftInfoPayload = Payload<NftInfo, NftSchema>
+export type NftInfoPayload = Payload<NftInfoFields, NftSchema>
 
 export const isNftInfoPayload = (payload: Payload): payload is NftInfoPayload => {
   return payload.schema === NftSchema

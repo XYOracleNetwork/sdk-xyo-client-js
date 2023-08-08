@@ -1,11 +1,11 @@
 import { NftCollectionMetrics, NftTraitMetrics } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { NftInfo, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
 
 type TraitDistributionEntry = [string, { [key: string]: number }]
 
-export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics => {
+export const getNftCollectionMetrics = (nfts: NftInfoFields[]): NftCollectionMetrics => {
   const traits = nfts
     .map((nft) => nft?.metadata?.attributes as OpenSeaNftAttribute[] | undefined)
     .filter((v): v is OpenSeaNftAttribute[] => v !== undefined)

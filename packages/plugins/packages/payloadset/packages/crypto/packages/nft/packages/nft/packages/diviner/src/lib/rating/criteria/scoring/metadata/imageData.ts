@@ -1,4 +1,4 @@
-import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, OpenSeaNftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
 import { PASS, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 import { parse } from 'svg-parser'
 
@@ -18,7 +18,7 @@ const isValidImageData = (image_data: string): boolean => {
   }
 }
 
-export const scoreNftImageData = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreNftImageData = (nft: NftInfoFields | OpenSeaNftInfoFields): ScaledScore => {
   // If there's no image data
   if (!nft?.metadata?.image_data) {
     // but there is an image, skip this scoring criteria, otherwise fail it completely

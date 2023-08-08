@@ -27,9 +27,11 @@ const logNormalProbabilityDensity = (x: number, mu: number = defaultMu, sigma: n
 const maxProbabilityDensity = logNormalProbabilityDensity(mode)
 // console.log(`mode: ${mode} maxDensity: ${maxProbabilityDensity}`)
 
+const maxScore = 10
+
 export const scoreTotal = (nft: NftCollectionInfo): Score => {
   const density = logNormalProbabilityDensity(nft.total)
   const normalized = density / maxProbabilityDensity
-  const score = Math.min(Math.floor(normalized * 10), 10)
-  return [score, 10]
+  const score = Math.min(Math.round(normalized * maxScore), maxScore)
+  return [score, maxScore]
 }

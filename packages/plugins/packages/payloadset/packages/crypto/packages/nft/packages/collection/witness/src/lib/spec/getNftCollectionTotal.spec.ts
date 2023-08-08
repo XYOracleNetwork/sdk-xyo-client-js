@@ -10,8 +10,12 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
     ['0x60E4d786628Fea6478F785A6d7e704777c86a7c6', 1, 19_481],
     ['0xED5AF388653567Af2F388E6224dC7C4b3241C544', 1, 10_000],
   ]
+  let privateKey = ''
+  beforeAll(async () => {
+    const wallet = await HDWallet.random()
+    privateKey = wallet.privateKey
+  })
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
-    const { privateKey } = await HDWallet.random()
     const result = await getNftCollectionTotalNfts(address, chainId, privateKey)
     expect(result).toBeNumber()
     expect(result).toEqual(expected)

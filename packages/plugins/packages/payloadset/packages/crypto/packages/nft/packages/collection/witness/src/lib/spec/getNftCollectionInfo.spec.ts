@@ -45,9 +45,13 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
       },
     ],
   ]
+  let privateKey = ''
+  beforeAll(async () => {
+    const wallet = await HDWallet.random()
+    privateKey = wallet.privateKey
+  })
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
     const info: Omit<NftCollectionInfo, 'total'> = { ...expected, address, chainId }
-    const { privateKey } = await HDWallet.random()
     const result = await getNftCollectionInfo(address, chainId, privateKey)
     expect(result).toBeObject()
     expect(result).toEqual(info)

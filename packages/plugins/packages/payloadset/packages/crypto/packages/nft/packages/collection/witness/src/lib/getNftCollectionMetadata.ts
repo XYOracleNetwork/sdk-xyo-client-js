@@ -1,5 +1,6 @@
 import { Auth, SDK } from '@infura/sdk'
 import { NftCollectionMetadata } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 
@@ -31,6 +32,7 @@ export const getNftCollectionMetadata = async (
   }
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const opts: ContractAddressOptions = { contractAddress }
-  const { name, symbol, tokenType } = await sdk.api.getContractMetadata(opts)
+  const { name, symbol, tokenType: type } = await sdk.api.getContractMetadata(opts)
+  const tokenType = toTokenType(type)
   return { address: contractAddress, chainId, name, symbol, tokenType }
 }

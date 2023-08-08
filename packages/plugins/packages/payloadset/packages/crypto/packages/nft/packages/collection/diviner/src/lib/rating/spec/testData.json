@@ -6,929 +6,927 @@
     "symbol": "BAYC",
     "tokenType": "ERC721",
     "metrics": {
-      "metrics": {
-        "metadata": {
-          "attributes": {
-            "Mouth": {
-              "metrics": {
-                "binomial": {
-                  "p": 1
-                },
-                "count": 100
+      "metadata": {
+        "attributes": {
+          "Mouth": {
+            "metrics": {
+              "binomial": {
+                "p": 1
               },
-              "values": {
-                "Bored Cigarette": {
-                  "binomial": {
-                    "p": 0.07
-                  },
-                  "count": 7
-                },
-                "Bored Cigar": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Jovial": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bored": {
-                  "binomial": {
-                    "p": 0.28
-                  },
-                  "count": 28
-                },
-                "Grin": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Bored Unshaven": {
-                  "binomial": {
-                    "p": 0.18
-                  },
-                  "count": 18
-                },
-                "Grin Gold Grill": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Discomfort": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
-                },
-                "Bored Pipe": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Rage": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Phoneme L": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Bored Unshaven Kazoo": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Phoneme Oh": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
-                },
-                "Small Grin": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Phoneme Wah": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Phoneme Vuh": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bored Unshaven Cigar": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bored Kazoo": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Bored Party Horn": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Dumbfounded": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bored Pizza": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
-                },
-                "Bored Unshaven Cigarette": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Bored Unshaven Party horn": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Phoneme  ooo": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                }
-              }
+              "count": 100
             },
-            "Background": {
-              "metrics": {
+            "values": {
+              "Bored Cigarette": {
                 "binomial": {
-                  "p": 1
+                  "p": 0.07
                 },
-                "count": 100
+                "count": 7
               },
-              "values": {
-                "Army Green": {
-                  "binomial": {
-                    "p": 0.08
-                  },
-                  "count": 8
+              "Bored Cigar": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "New Punk Blue": {
-                  "binomial": {
-                    "p": 0.25
-                  },
-                  "count": 25
+                "count": 1
+              },
+              "Jovial": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Orange": {
-                  "binomial": {
-                    "p": 0.13
-                  },
-                  "count": 13
+                "count": 2
+              },
+              "Bored": {
+                "binomial": {
+                  "p": 0.28
                 },
-                "Gray": {
-                  "binomial": {
-                    "p": 0.1
-                  },
-                  "count": 10
+                "count": 28
+              },
+              "Grin": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Purple": {
-                  "binomial": {
-                    "p": 0.09
-                  },
-                  "count": 9
+                "count": 5
+              },
+              "Bored Unshaven": {
+                "binomial": {
+                  "p": 0.18
                 },
-                "Blue": {
-                  "binomial": {
-                    "p": 0.09
-                  },
-                  "count": 9
+                "count": 18
+              },
+              "Grin Gold Grill": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Yellow": {
-                  "binomial": {
-                    "p": 0.1
-                  },
-                  "count": 10
+                "count": 1
+              },
+              "Discomfort": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Aquamarine": {
-                  "binomial": {
-                    "p": 0.16
-                  },
-                  "count": 16
-                }
+                "count": 4
+              },
+              "Bored Pipe": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Rage": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Phoneme L": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Bored Unshaven Kazoo": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Phoneme Oh": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Small Grin": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Phoneme Wah": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Phoneme Vuh": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bored Unshaven Cigar": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bored Kazoo": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Bored Party Horn": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Dumbfounded": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bored Pizza": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Bored Unshaven Cigarette": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Bored Unshaven Party horn": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Phoneme  ooo": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
               }
-            },
-            "Eyes": {
-              "metrics": {
-                "binomial": {
-                  "p": 1
-                },
-                "count": 100
+            }
+          },
+          "Background": {
+            "metrics": {
+              "binomial": {
+                "p": 1
               },
-              "values": {
-                "Eyepatch": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+              "count": 100
+            },
+            "values": {
+              "Army Green": {
+                "binomial": {
+                  "p": 0.08
                 },
-                "Coins": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 8
+              },
+              "New Punk Blue": {
+                "binomial": {
+                  "p": 0.25
                 },
-                "Angry": {
-                  "binomial": {
-                    "p": 0.07
-                  },
-                  "count": 7
+                "count": 25
+              },
+              "Orange": {
+                "binomial": {
+                  "p": 0.13
                 },
-                "Holographic": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 13
+              },
+              "Gray": {
+                "binomial": {
+                  "p": 0.1
                 },
-                "Cyborg": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
+                "count": 10
+              },
+              "Purple": {
+                "binomial": {
+                  "p": 0.09
                 },
-                "Bored": {
-                  "binomial": {
-                    "p": 0.18
-                  },
-                  "count": 18
+                "count": 9
+              },
+              "Blue": {
+                "binomial": {
+                  "p": 0.09
                 },
-                "Robot": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 9
+              },
+              "Yellow": {
+                "binomial": {
+                  "p": 0.1
                 },
-                "Wide Eyed": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 10
+              },
+              "Aquamarine": {
+                "binomial": {
+                  "p": 0.16
                 },
-                "3d": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Closed": {
-                  "binomial": {
-                    "p": 0.09
-                  },
-                  "count": 9
-                },
-                "Sleepy": {
-                  "binomial": {
-                    "p": 0.09
-                  },
-                  "count": 9
-                },
-                "Sad": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Bloodshot": {
-                  "binomial": {
-                    "p": 0.08
-                  },
-                  "count": 8
-                },
-                "Heart": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Scumbag": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Zombie": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Crazy": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Blue Beams": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Sunglasses": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Blindfold": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "X Eyes": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                }
+                "count": 16
               }
-            },
-            "Clothes": {
-              "metrics": {
-                "binomial": {
-                  "p": 0.87
-                },
-                "count": 87
+            }
+          },
+          "Eyes": {
+            "metrics": {
+              "binomial": {
+                "p": 1
               },
-              "values": {
-                "Tuxedo Tee": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+              "count": 100
+            },
+            "values": {
+              "Eyepatch": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Black Holes T": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 3
+              },
+              "Coins": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Black T": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 2
+              },
+              "Angry": {
+                "binomial": {
+                  "p": 0.07
                 },
-                "Stunt Jacket": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 7
+              },
+              "Holographic": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Sleeveless T": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 3
+              },
+              "Cyborg": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Work Vest": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 1
+              },
+              "Bored": {
+                "binomial": {
+                  "p": 0.18
                 },
-                "Navy Striped Tee": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 18
+              },
+              "Robot": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Vietnam Jacket": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 3
+              },
+              "Wide Eyed": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Leather Jacket": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 5
+              },
+              "3d": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Guayabera": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 5
+              },
+              "Closed": {
+                "binomial": {
+                  "p": 0.09
                 },
-                "Bayc T Red": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 9
+              },
+              "Sleepy": {
+                "binomial": {
+                  "p": 0.09
                 },
-                "Wool Turtleneck": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 9
+              },
+              "Sad": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Toga": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 5
+              },
+              "Bloodshot": {
+                "binomial": {
+                  "p": 0.08
                 },
-                "Biker Vest": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 8
+              },
+              "Heart": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Sleeveless Logo T": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
+                "count": 5
+              },
+              "Scumbag": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Lumberjack Shirt": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 3
+              },
+              "Zombie": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Bone Tee": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 3
+              },
+              "Crazy": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Rainbow Suspenders": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 5
+              },
+              "Blue Beams": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Puffy Vest": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 1
+              },
+              "Sunglasses": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Kings Robe": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 3
+              },
+              "Blindfold": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Striped Tee": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 1
+              },
+              "X Eyes": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Hawaiian": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Tanktop": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Blue Dress": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Caveman Pelt": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Prom Dress": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Smoking Jacket": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Admirals Coat": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Tweed Suit": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Service": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bone Necklace": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Bayc T Black": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Pimp Coat": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Lab Coat": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Tie Dye": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Black Suit": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Sailor Shirt": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Prison Jumpsuit": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                }
+                "count": 1
               }
-            },
-            "Fur": {
-              "metrics": {
-                "binomial": {
-                  "p": 1
-                },
-                "count": 100
+            }
+          },
+          "Clothes": {
+            "metrics": {
+              "binomial": {
+                "p": 0.87
               },
-              "values": {
-                "Brown": {
-                  "binomial": {
-                    "p": 0.19
-                  },
-                  "count": 19
+              "count": 87
+            },
+            "values": {
+              "Tuxedo Tee": {
+                "binomial": {
+                  "p": 0.06
                 },
-                "White": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 6
+              },
+              "Black Holes T": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Pink": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 3
+              },
+              "Black T": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Robot": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 2
+              },
+              "Stunt Jacket": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Blue": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 4
+              },
+              "Sleeveless T": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Dark Brown": {
-                  "binomial": {
-                    "p": 0.14
-                  },
-                  "count": 14
+                "count": 4
+              },
+              "Work Vest": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Cream": {
-                  "binomial": {
-                    "p": 0.11
-                  },
-                  "count": 11
+                "count": 4
+              },
+              "Navy Striped Tee": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Gray": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+                "count": 3
+              },
+              "Vietnam Jacket": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Tan": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 3
+              },
+              "Leather Jacket": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Golden Brown": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 3
+              },
+              "Guayabera": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Zombie": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 3
+              },
+              "Bayc T Red": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Black": {
-                  "binomial": {
-                    "p": 0.08
-                  },
-                  "count": 8
+                "count": 2
+              },
+              "Wool Turtleneck": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Noise": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 2
+              },
+              "Toga": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Red": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+                "count": 3
+              },
+              "Biker Vest": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Trippy": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 2
+              },
+              "Sleeveless Logo T": {
+                "binomial": {
+                  "p": 0.01
                 },
-                "Cheetah": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                }
+                "count": 1
+              },
+              "Lumberjack Shirt": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bone Tee": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Rainbow Suspenders": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Puffy Vest": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Kings Robe": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Striped Tee": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Hawaiian": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Tanktop": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Blue Dress": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Caveman Pelt": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Prom Dress": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Smoking Jacket": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Admirals Coat": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Tweed Suit": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Service": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bone Necklace": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Bayc T Black": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Pimp Coat": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Lab Coat": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Tie Dye": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Black Suit": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Sailor Shirt": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Prison Jumpsuit": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
               }
-            },
-            "Hat": {
-              "metrics": {
-                "binomial": {
-                  "p": 0.84
-                },
-                "count": 84
+            }
+          },
+          "Fur": {
+            "metrics": {
+              "binomial": {
+                "p": 1
               },
-              "values": {
-                "Spinner Hat": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+              "count": 100
+            },
+            "values": {
+              "Brown": {
+                "binomial": {
+                  "p": 0.19
                 },
-                "Commie Hat": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 19
+              },
+              "White": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Prussian Helmet": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 4
+              },
+              "Pink": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "Bayc Flipped Brim": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 5
+              },
+              "Robot": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Cowboy Hat": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 4
+              },
+              "Blue": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Bandana Blue": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 4
+              },
+              "Dark Brown": {
+                "binomial": {
+                  "p": 0.14
                 },
-                "Halo": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 14
+              },
+              "Cream": {
+                "binomial": {
+                  "p": 0.11
                 },
-                "Fisherman's Hat": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+                "count": 11
+              },
+              "Gray": {
+                "binomial": {
+                  "p": 0.06
                 },
-                "Seaman's Hat": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 6
+              },
+              "Tan": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Faux Hawk": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
+                "count": 3
+              },
+              "Golden Brown": {
+                "binomial": {
+                  "p": 0.05
                 },
-                "S&m Hat": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 5
+              },
+              "Zombie": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Stuntman Helmet": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+                "count": 4
+              },
+              "Black": {
+                "binomial": {
+                  "p": 0.08
                 },
-                "Party Hat 1": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 8
+              },
+              "Noise": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Fez": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 2
+              },
+              "Red": {
+                "binomial": {
+                  "p": 0.06
                 },
-                "Short Mohawk": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
+                "count": 6
+              },
+              "Trippy": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Bowler": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+                "count": 2
+              },
+              "Cheetah": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Beanie": {
-                  "binomial": {
-                    "p": 0.07
-                  },
-                  "count": 7
-                },
-                "Army Hat": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Vietnam Era Helmet": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "King's Crown": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Horns": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Irish Boho": {
-                  "binomial": {
-                    "p": 0.03
-                  },
-                  "count": 3
-                },
-                "Sea Captain's Hat": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
-                },
-                "Sushi Chef Headband": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Party Hat 2": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Ww2 Pilot Helm": {
-                  "binomial": {
-                    "p": 0.02
-                  },
-                  "count": 2
-                },
-                "Bayc Hat Red": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Girl's Hair Pink": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Bayc Hat Black": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                },
-                "Police Motorcycle Helmet": {
-                  "binomial": {
-                    "p": 0.01
-                  },
-                  "count": 1
-                }
+                "count": 3
               }
-            },
-            "Earring": {
-              "metrics": {
-                "binomial": {
-                  "p": 0.31
-                },
-                "count": 31
+            }
+          },
+          "Hat": {
+            "metrics": {
+              "binomial": {
+                "p": 0.84
               },
-              "values": {
-                "Diamond Stud": {
-                  "binomial": {
-                    "p": 0.04
-                  },
-                  "count": 4
+              "count": 84
+            },
+            "values": {
+              "Spinner Hat": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Silver Hoop": {
-                  "binomial": {
-                    "p": 0.05
-                  },
-                  "count": 5
+                "count": 3
+              },
+              "Commie Hat": {
+                "binomial": {
+                  "p": 0.02
                 },
-                "Silver Stud": {
-                  "binomial": {
-                    "p": 0.1
-                  },
-                  "count": 10
+                "count": 2
+              },
+              "Prussian Helmet": {
+                "binomial": {
+                  "p": 0.03
                 },
-                "Gold Stud": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
+                "count": 3
+              },
+              "Bayc Flipped Brim": {
+                "binomial": {
+                  "p": 0.04
                 },
-                "Gold Hoop": {
-                  "binomial": {
-                    "p": 0.06
-                  },
-                  "count": 6
-                }
+                "count": 4
+              },
+              "Cowboy Hat": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bandana Blue": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Halo": {
+                "binomial": {
+                  "p": 0.05
+                },
+                "count": 5
+              },
+              "Fisherman's Hat": {
+                "binomial": {
+                  "p": 0.06
+                },
+                "count": 6
+              },
+              "Seaman's Hat": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Faux Hawk": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "S&m Hat": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Stuntman Helmet": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Party Hat 1": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Fez": {
+                "binomial": {
+                  "p": 0.05
+                },
+                "count": 5
+              },
+              "Short Mohawk": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bowler": {
+                "binomial": {
+                  "p": 0.06
+                },
+                "count": 6
+              },
+              "Beanie": {
+                "binomial": {
+                  "p": 0.07
+                },
+                "count": 7
+              },
+              "Army Hat": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Vietnam Era Helmet": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "King's Crown": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Horns": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Irish Boho": {
+                "binomial": {
+                  "p": 0.03
+                },
+                "count": 3
+              },
+              "Sea Captain's Hat": {
+                "binomial": {
+                  "p": 0.05
+                },
+                "count": 5
+              },
+              "Sushi Chef Headband": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Party Hat 2": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Ww2 Pilot Helm": {
+                "binomial": {
+                  "p": 0.02
+                },
+                "count": 2
+              },
+              "Bayc Hat Red": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Girl's Hair Pink": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Bayc Hat Black": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              },
+              "Police Motorcycle Helmet": {
+                "binomial": {
+                  "p": 0.01
+                },
+                "count": 1
+              }
+            }
+          },
+          "Earring": {
+            "metrics": {
+              "binomial": {
+                "p": 0.31
+              },
+              "count": 31
+            },
+            "values": {
+              "Diamond Stud": {
+                "binomial": {
+                  "p": 0.04
+                },
+                "count": 4
+              },
+              "Silver Hoop": {
+                "binomial": {
+                  "p": 0.05
+                },
+                "count": 5
+              },
+              "Silver Stud": {
+                "binomial": {
+                  "p": 0.1
+                },
+                "count": 10
+              },
+              "Gold Stud": {
+                "binomial": {
+                  "p": 0.06
+                },
+                "count": 6
+              },
+              "Gold Hoop": {
+                "binomial": {
+                  "p": 0.06
+                },
+                "count": 6
               }
             }
           }

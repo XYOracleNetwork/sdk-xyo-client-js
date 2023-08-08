@@ -1,15 +1,7 @@
+import { NftContractInformation } from './NftContractInformation'
 import { NftMetadata } from './NftMetadata'
 
-/**
- * @deprecated Use NftContractInformation instead
- */
-export interface TempNftContractInformation {
-  chainId: number
-  contract: string
-  type: string | null
-}
-
-export interface NftInfoFields extends TempNftContractInformation {
+export interface NftInfoFields extends NftContractInformation {
   metadata?: NftMetadata
   supply: string
   tokenId: string

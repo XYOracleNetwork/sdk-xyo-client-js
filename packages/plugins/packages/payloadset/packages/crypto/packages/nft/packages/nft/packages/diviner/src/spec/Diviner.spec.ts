@@ -4,7 +4,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 
-import { isNftScorePayload, NftScoreDiviner } from '../Diviner'
+import { isNftScore, NftScoreDiviner } from '../Diviner'
 
 describe('NftScoreDiviner', () => {
   let data: NftInfo[]
@@ -19,7 +19,7 @@ describe('NftScoreDiviner', () => {
   })
   test('divine', async () => {
     const diviner = await NftScoreDiviner.create({ account: await HDWallet.random() })
-    const scores = (await diviner.divine(data)).filter(isNftScorePayload)
+    const scores = (await diviner.divine(data)).filter(isNftScore)
     expect(scores).toBeArrayOfSize(data.length)
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i]

@@ -5,8 +5,10 @@ import { getNftCollectionTotalNfts } from '../getNftCollectionTotalNfts'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionInfo', () => {
   const cases: [address: string, chainId: number, expected: number][] = [
-    ['0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 1, 10_000],
     ['0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB', 1, 9999],
+    ['0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 1, 10_000],
+    ['0x60E4d786628Fea6478F785A6d7e704777c86a7c6', 1, 19_481],
+    ['0xED5AF388653567Af2F388E6224dC7C4b3241C544', 1, 10_000],
   ]
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
     const { privateKey } = await HDWallet.random()

@@ -1,4 +1,4 @@
-export interface NftCollectionMetadataInfo {
+export interface NftCollectionMetadata {
   address: string
   chainId: number
   name: string

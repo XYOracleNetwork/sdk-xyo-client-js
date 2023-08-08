@@ -1,5 +1,5 @@
-import { NftCollectionMetadataInfo } from './NftCollectionMetadataInfo'
+import { NftCollectionMetadata } from './NftCollectionMetadata'
 
-export interface NftCollectionInfo extends NftCollectionMetadataInfo {
+export interface NftCollectionInfo extends NftCollectionMetadata {
   total: number
 }

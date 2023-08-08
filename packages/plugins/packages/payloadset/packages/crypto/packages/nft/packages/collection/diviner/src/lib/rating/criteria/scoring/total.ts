@@ -1,5 +1,5 @@
 import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { Score } from '@xyo-network/crypto-nft-score-model'
+import { normalize, Score } from '@xyo-network/crypto-nft-score-model'
 
 const median = 100000
 const defaultMu = Math.log(median)
@@ -27,9 +27,10 @@ const logNormalProbabilityDensity = (x: number, mu: number = defaultMu, sigma: n
 const maxProbabilityDensity = logNormalProbabilityDensity(mode)
 // console.log(`mode: ${mode} maxDensity: ${maxProbabilityDensity}`)
 
+const maxScore = 10
+
 export const scoreTotal = (nft: NftCollectionInfo): Score => {
   const density = logNormalProbabilityDensity(nft.total)
-  const normalized = density / maxProbabilityDensity
-  const score = Math.min(Math.floor(normalized * 100), 100)
-  return [score, 100]
+  const score: Score = [density, maxProbabilityDensity]
+  return normalize(score, maxScore)
 }

@@ -18,15 +18,15 @@ export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics =
       .filter((v): v is TraitDistributionEntry => v[1] !== undefined)
       .map(([trait, entries]) => {
         const traitCount = Object.values(entries).reduce((prev, curr) => prev + curr, 0)
-        const binomial = calculateBinomialParamsFromProbability(nfts.length, traitCount / n)
+        const { p } = calculateBinomialParamsFromProbability(nfts.length, traitCount / n)
         const values = Object.fromEntries(
           Object.entries(entries).map(([value, traitValueCount]) => {
-            const binomial = calculateBinomialParamsFromProbability(n, traitValueCount / n)
-            const metrics: NftTraitMetrics = { binomial, count: traitValueCount }
+            const { p } = calculateBinomialParamsFromProbability(n, traitValueCount / n)
+            const metrics: NftTraitMetrics = { binomial: { p }, count: traitValueCount }
             return [value, metrics]
           }),
         )
-        return [trait, { metrics: { binomial, count: traitCount }, values }]
+        return [trait, { metrics: { binomial: { p }, count: traitCount }, values }]
       }),
   )
   return { metrics: { metadata: { attributes } } }

@@ -1,13 +1,16 @@
 import { NftMetadata } from './NftMetadata'
 
-export interface NftInfoFields {
+/**
+ * @deprecated Use NftContractInformation instead
+ */
+export interface TempNftContractInformation {
   chainId: number
-  // TODO: Change to address
   contract: string
+  type: string | null
+}
+
+export interface NftInfoFields extends TempNftContractInformation {
   metadata?: NftMetadata
   supply: string
   tokenId: string
-  // TODO: Change to tokenType
-  // TODO: 'ERC721' | 'ERC1155' |null
-  type: string | null
 }

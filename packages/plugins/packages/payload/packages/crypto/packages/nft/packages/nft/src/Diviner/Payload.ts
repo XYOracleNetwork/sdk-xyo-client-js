@@ -1,6 +1,7 @@
 import { Score } from '@xyo-network/crypto-nft-score-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { TempNftContractInformation } from '../Payload'
 import { NftScoreSchema } from './Schema'
 
 export type AttributesScoringCriteria = 'Attributes'
@@ -28,5 +29,7 @@ export interface NftScores {
   scores: NftAnalysis
 }
 
-export type NftScore = Payload<NftScores, NftScoreSchema>
+export type NftScoreFields = TempNftContractInformation & NftScores
+
+export type NftScore = Payload<NftScoreFields, NftScoreSchema>
 export const isNftScore = (x?: Payload | null): x is NftScore => x?.schema === NftScoreSchema

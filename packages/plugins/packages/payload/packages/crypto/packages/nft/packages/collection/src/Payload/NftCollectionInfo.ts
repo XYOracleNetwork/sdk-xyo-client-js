@@ -1,8 +1,5 @@
-export interface NftCollectionInfo {
-  address: string
-  chainId: number
-  name: string
-  symbol: string
-  tokenType: string | null
+import { NftCollectionMetadataInfo } from './NftCollectionMetadataInfo'
+
+export interface NftCollectionInfo extends NftCollectionMetadataInfo {
   total: number
 }

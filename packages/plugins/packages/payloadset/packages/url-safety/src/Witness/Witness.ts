@@ -1,6 +1,8 @@
 import { AxiosJson } from '@xyo-network/axios'
+import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
+import { UrlSafetyPayload, UrlSafetySchema, UrlSafetyThreatType } from '@xyo-network/url-safety-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { UrlSafetyWitnessConfigSchema } from './Config'
@@ -69,7 +71,7 @@ export class UrlSafetyWitness<TParams extends UrlSafetyWitnessParams = UrlSafety
     return this.config?.urls
   }
 
-  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<GoogleSafeBrowsingMatchPayload[]> {
+  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<UrlSafetyPayload[]> {
     const urls: string[] =
       this.urls ??
       payloads
@@ -78,6 +80,23 @@ export class UrlSafetyWitness<TParams extends UrlSafetyWitnessParams = UrlSafety
           return p.url
         })
 
-    return await checkUrlSafety(urls, { key: this.key })
+    const matches = await checkUrlSafety(urls, { key: this.key })
+
+    return urls.map((url) => {
+      const payload = matches.reduce<UrlSafetyPayload>(
+        (prev, match) => {
+          if (match.threat.url === url) {
+            prev.threatTypes = prev.threatTypes ?? []
+            if (!prev.threatTypes.includes(match.threatEntryType as UrlSafetyThreatType)) {
+              prev.threatTypes.push(match.threatEntryType as UrlSafetyThreatType)
+            }
+          }
+          return prev
+        },
+        { schema: UrlSafetySchema, url },
+      )
+      payload.threatTypes = payload.threatTypes?.sort()
+      return payload
+    })
   }
 }

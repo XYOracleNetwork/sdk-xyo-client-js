@@ -2,9 +2,9 @@ import { NftCollectionInfoPayload } from '@xyo-network/crypto-nft-collection-pay
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 
-import { scoreMetadata } from '../metadata'
+import { scoreIndividualAttributes } from '../scoreIndividualAttributes'
 
-describe('scoreMetadata', () => {
+describe('scoreIndividualAttributes', () => {
   let collections: NftCollectionInfoPayload[]
   beforeAll(async () => {
     const filePath = join(__dirname, '../../../../spec', 'testData.json')
@@ -14,7 +14,7 @@ describe('scoreMetadata', () => {
   it('evaluates the NFT collection', async () => {
     await Promise.all(
       collections.map((collection) => {
-        const score = scoreMetadata(collection)
+        const score = scoreIndividualAttributes(collection)
         const [total, possible] = score
         expect(total).toBeNumber()
         expect(total).not.toBeNegative()

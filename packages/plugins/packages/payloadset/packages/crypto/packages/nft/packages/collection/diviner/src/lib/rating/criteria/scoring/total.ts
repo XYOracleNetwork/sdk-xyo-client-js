@@ -27,9 +27,9 @@ const logNormalProbabilityDensity = (x: number, mu: number = defaultMu, sigma: n
 const maxProbabilityDensity = logNormalProbabilityDensity(mode)
 // console.log(`mode: ${mode} maxDensity: ${maxProbabilityDensity}`)
 
-export const scoreTotal = async (nft: NftCollectionInfo): Promise<Score> => {
+export const scoreTotal = (nft: NftCollectionInfo): Score => {
   const density = logNormalProbabilityDensity(nft.total)
   const normalized = density / maxProbabilityDensity
   const score = Math.min(Math.floor(normalized * 100), 100)
-  return await Promise.resolve([score, 100])
+  return [score, 100]
 }

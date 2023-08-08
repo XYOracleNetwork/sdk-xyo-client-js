@@ -29,5 +29,5 @@ export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics =
         return [trait, { metrics: { binomial: { p }, count: traitCount }, values }]
       }),
   )
-  return { metrics: { metadata: { attributes } } }
+  return { metadata: { attributes } }
 }

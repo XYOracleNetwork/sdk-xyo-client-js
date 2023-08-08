@@ -1,16 +1,21 @@
-import { ModuleError, Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from './Schema'
 
-export type ImageThumbnailErrorPayload = ModuleError & {
-  code?: string
-  status?: number
-  url: string
-}
-
-export type ImageThumbnailPayload = Payload<{
-  schema: ImageThumbnailSchema
-  sourceHash: string
-  sourceUrl: string
-  url: string
-}>
+export type ImageThumbnail = Payload<
+  {
+    http?: {
+      dnsError?: string
+      ipAddress?: string
+      status?: number
+    }
+    mime?: {
+      invalid?: boolean
+      type?: string
+    }
+    sourceHash?: string
+    sourceUrl: string
+    url?: string
+  },
+  ImageThumbnailSchema
+>

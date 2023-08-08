@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { ImageThumbnailPayload, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { sync as hasbin } from 'hasbin'
@@ -15,11 +15,11 @@ describe('ImageThumbnailWitness', () => {
       schema: UrlSchema,
       url: 'ipfs://ipfs/QmewywDQGqz9WuWfT11ueSR3Mu86MejfD64v3KtFRzGP2G/image.jpeg',
     }
-    const result = (await witness.observe([ipfsPayload])) as (ImageThumbnailPayload | ModuleError)[]
+    const result = (await witness.observe([ipfsPayload])) as (ImageThumbnail | ModuleError)[]
     expect(result.length).toBe(1)
-    const thumb = result[0] as ImageThumbnailPayload
-    console.log(`IPFS/JPG Size: ${thumb.url.length}}`)
-    expect(thumb.url.length).toBeLessThan(64000)
+    const thumb = result[0] as ImageThumbnail
+    console.log(`IPFS/JPG Size: ${thumb.url?.length}}`)
+    expect(thumb.url?.length).toBeLessThan(64000)
     const error = result[0] as ModuleError
     if (result[0].schema === ModuleErrorSchema) {
       console.log(`Error: ${error.message}`)
@@ -32,15 +32,11 @@ describe('ImageThumbnailWitness', () => {
       schema: UrlSchema,
       url: 'ipfs://bafybeie3vrrqcq7iugzmsdsdxscvmvqnfkqkk7if2ywxu5h436wf72usga/470.png',
     }
-    const result = (await witness.observe([ipfsPayload])) as (ImageThumbnailPayload | ModuleError)[]
+    const result = (await witness.observe([ipfsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
-    const thumb = result[0] as ImageThumbnailPayload
-    console.log(`IPFS/JPG Size: ${thumb.url.length}}`)
-    expect(thumb.url.length).toBeLessThan(64000)
-    const error = result[0] as ModuleError
-    if (result[0].schema === ModuleErrorSchema) {
-      console.log(`Error: ${error.message}`)
-    }
+    const thumb = result[0] as ImageThumbnail
+    console.log(`IPFS/JPG Size: ${thumb.url?.length}}`)
+    expect(thumb.url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
 })

@@ -1,6 +1,7 @@
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConfigSchema,
+  BridgeConnectedQuerySchema,
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,
   BridgeModule,
@@ -20,6 +21,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
+  connected = false
+
   protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
 
   override get queries(): string[] {
@@ -29,35 +32,40 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   protected override get _queryAccountPaths(): Record<BridgeQueryBase['schema'], string> {
     return {
       'network.xyo.query.bridge.connect': '1/1',
+      'network.xyo.query.bridge.connected': '1/3',
       'network.xyo.query.bridge.disconnect': '1/2',
     }
   }
 
-  override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
-  override async resolve(
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'down'
     const down = direction === 'down' || direction === 'all'
     await this.started('throw')
     switch (typeof nameOrAddressOrFilter) {
       case 'string': {
         return (
-          (await super.resolve(nameOrAddressOrFilter, options)) ?? (down ? await this.targetDownResolver().resolve(nameOrAddressOrFilter) : undefined)
+          (await super.resolve<T>(nameOrAddressOrFilter, options)) ??
+          (down ? await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter) : undefined)
         )
       }
       default: {
         return [
-          ...(down ? await this.targetDownResolver().resolve(nameOrAddressOrFilter) : []),
-          ...(await super.resolve(nameOrAddressOrFilter, options)),
+          ...(down ? (await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter)) ?? [] : []),
+          ...(await super.resolve<T>(nameOrAddressOrFilter, options)),
         ].filter(duplicateModules)
       }
     }
   }
 
-  targetDownResolver(address?: string): BridgeModuleResolver {
+  targetDownResolver(address?: string): BridgeModuleResolver | undefined {
+    if (!this.connected) {
+      return undefined
+    }
     this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account)
     return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
   }
@@ -66,9 +74,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   async targetResolve(address: string, nameOrAddress: string): Promise<ModuleInstance | undefined>
   async targetResolve(address: string, nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      return await this.targetDownResolver(address).resolve(nameOrAddressOrFilter)
+      return await this.targetDownResolver(address)?.resolve(nameOrAddressOrFilter)
     } else {
-      return await this.targetDownResolver(address).resolve(nameOrAddressOrFilter)
+      return (await this.targetDownResolver(address)?.resolve(nameOrAddressOrFilter)) ?? []
     }
   }
 
@@ -83,6 +91,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     switch (queryPayload.schema) {
       case BridgeConnectQuerySchema: {
         await this.connect()
+        break
+      }
+      case BridgeConnectedQuerySchema: {
+        resultPayloads.push({ connected: await this.connect(), schema: 'network.xyo.bridge.connected' } as Payload)
         break
       }
       case BridgeDisconnectQuerySchema: {

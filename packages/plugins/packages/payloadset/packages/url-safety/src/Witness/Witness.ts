@@ -1,10 +1,29 @@
 import { AxiosJson } from '@xyo-network/axios'
+import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
-import { UrlSafetyPayload } from '@xyo-network/url-safety-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 
 import { UrlSafetyWitnessConfigSchema } from './Config'
 import { UrlSafetyWitnessParams } from './Params'
+
+export type GoogleSafeBrowsingMatchSchema = 'com.google.safebrowsing.match'
+export const GoogleSafeBrowsingMatchSchema: GoogleSafeBrowsingMatchSchema = 'com.google.safebrowsing.match'
+
+export interface GoogleSafeBrowsingMatch {
+  cacheDuration: string
+  platformType: string
+  threat: {
+    url: string
+  }
+  threatEntryType: string
+  threatType: string
+}
+
+export type GoogleSafeBrowsingMatchPayload = Payload<GoogleSafeBrowsingMatch, GoogleSafeBrowsingMatchSchema>
+
+interface GoogleSafeBrowsingResult {
+  matches?: GoogleSafeBrowsingMatch[]
+}
 
 const checkUrlSafety = async (
   urls: string[],
@@ -12,9 +31,9 @@ const checkUrlSafety = async (
     endPoint?: string
     key?: string
   },
-): Promise<UrlSafetyPayload[]> => {
+): Promise<GoogleSafeBrowsingMatchPayload[]> => {
   const axios = new AxiosJson()
-  const endPoint = config?.endPoint ?? 'https://safebrowsing.googleapis.com/v5/threatMatches:find'
+  const endPoint = config?.endPoint ?? 'https://safebrowsing.googleapis.com/v4/threatMatches:find'
   const key = config?.key
   const mutatedUrls = urls.map((url) => url.replace('ipfs://', 'https://cloudflare-ipfs.com/'))
   if (mutatedUrls.length === 0) {
@@ -32,19 +51,25 @@ const checkUrlSafety = async (
       threatTypes: ['SOCIAL_ENGINEERING', 'POTENTIALLY_HARMFUL_APPLICATION', 'UNWANTED_SOFTWARE', 'THREAT_TYPE_UNSPECIFIED'],
     },
   }
-  const result = (await axios.post(`${endPoint}?key=${key}`, postData)).data
-  console.log(`checkUrlSafety: ${JSON.stringify(result, null, 2)}`)
-  return []
+  console.log(`checkUrlSafetyIn: ${JSON.stringify(postData, null, 2)}`)
+  const result = (await axios.post<GoogleSafeBrowsingResult>(`${endPoint}?key=${key}`, postData, { headers: { referer: 'http://localhost:3000' } }))
+    .data
+  console.log(`checkUrlSafetyOut: ${JSON.stringify(result, null, 2)}`)
+  return result.matches?.map<GoogleSafeBrowsingMatchPayload>((match) => ({ ...match, schema: GoogleSafeBrowsingMatchSchema })) ?? []
 }
 
-export class UrlWitness<TParams extends UrlSafetyWitnessParams = UrlSafetyWitnessParams> extends AbstractWitness<TParams> {
+export class UrlSafetyWitness<TParams extends UrlSafetyWitnessParams = UrlSafetyWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [UrlSafetyWitnessConfigSchema]
+
+  get key() {
+    return this.params.google?.safeBrowsing?.key
+  }
 
   get urls() {
     return this.config?.urls
   }
 
-  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<UrlSafetyPayload[]> {
+  protected override async observeHandler(payloads: UrlPayload[] = []): Promise<GoogleSafeBrowsingMatchPayload[]> {
     const urls: string[] =
       this.urls ??
       payloads
@@ -53,6 +78,6 @@ export class UrlWitness<TParams extends UrlSafetyWitnessParams = UrlSafetyWitnes
           return p.url
         })
 
-    return await checkUrlSafety(urls)
+    return await checkUrlSafety(urls, { key: this.key })
   }
 }

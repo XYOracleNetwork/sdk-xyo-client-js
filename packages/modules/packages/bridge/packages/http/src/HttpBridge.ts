@@ -17,7 +17,6 @@ import {
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
@@ -60,11 +59,66 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     return new Url(this.config?.nodeUrl ?? '/')
   }
 
-  connect(): Promisable<boolean> {
-    return true
+  async connect(): Promise<boolean> {
+    // const start = Date.now()
+    await super.startHandler()
+    const rootAddress = await this.initRootAddress()
+    if (rootAddress) {
+      this.connected = true
+      const rootTargetDownResolver = this.targetDownResolver()
+      if (rootTargetDownResolver) {
+        this.downResolver.addResolver(rootTargetDownResolver)
+        await this.targetDiscover(rootAddress)
+
+        const childAddresses = await rootTargetDownResolver.getRemoteAddresses()
+
+        const children = compact(
+          await Promise.all(
+            childAddresses.map(async (address) => {
+              const resolved = await rootTargetDownResolver.resolve({ address: [address] })
+              return resolved[0]
+            }),
+          ),
+        )
+
+        // Discover all to load cache
+        await Promise.all(children.map((child) => assertEx(child.discover())))
+
+        const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
+        //notify parents of child modules
+        //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
+        parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
+        // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
+        return true
+      } else {
+        this.connected = false
+        return false
+      }
+    } else {
+      this.connected = false
+      return false
+    }
   }
 
-  disconnect(): Promisable<boolean> {
+  async disconnect(): Promise<boolean> {
+    const rootTargetDownResolver = this.targetDownResolver()
+    if (rootTargetDownResolver) {
+      this.downResolver.removeResolver(rootTargetDownResolver)
+      const children = await rootTargetDownResolver.resolve()
+      const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
+      await Promise.all(
+        parentNodes.map(async (node) => {
+          await Promise.all(
+            children.map(async (child) => {
+              await node.emit('moduleDetached', { module: child })
+            }),
+          )
+        }),
+      )
+      rootTargetDownResolver.reset()
+    }
+    this._rootAddress = undefined
+    this.connected = false
     return true
   }
 
@@ -85,6 +139,9 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   }
 
   async targetDiscover(address?: string): Promise<Payload[]> {
+    if (!this.connected) {
+      throw Error('Not connected')
+    }
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root ')
     if (cachedResult) {
@@ -124,10 +181,16 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   }
 
   targetQueries(address: string): string[] {
+    if (!this.connected) {
+      throw Error('Not connected')
+    }
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+    if (!this.connected) {
+      throw Error('Not connected')
+    }
     await this.started('throw')
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
@@ -139,7 +202,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
         this.logger?.error(`targetQuery failed [${moduleUrlString}]`)
         throw `targetQuery failed [${moduleUrlString}] [${result.status}]`
       }
-      return result.data.data
+      return result.data?.data
     } catch (ex) {
       const error = ex as AxiosError
       this.logger?.error(`Error Status: ${error.status}`)
@@ -153,39 +216,20 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   }
 
   protected override async startHandler() {
-    // const start = Date.now()
-    await super.startHandler()
-    const rootAddress = await this.initRootAddress()
-    this.downResolver.addResolver(this.targetDownResolver())
-    await this.targetDiscover(rootAddress)
-
-    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
-
-    const children = compact(
-      await Promise.all(
-        childAddresses.map(async (address) => {
-          const resolved = await this.targetDownResolver().resolve({ address: [address] })
-          return resolved[0]
-        }),
-      ),
-    )
-
-    // Discover all to load cache
-    await Promise.all(children.map((child) => assertEx(child.discover())))
-
-    const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
-    //notify parents of child modules
-    //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
-    // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
+    await this.connect()
     return true
   }
 
   private async initRootAddress() {
     const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
-    const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
-    this._rootAddress = AxiosJson.finalPath(response)
+    try {
+      const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
+      this._rootAddress = AxiosJson.finalPath(response)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger?.warn(`Unable to connect to remote node: ${error.message}`)
+    }
     return this._rootAddress
   }
 }

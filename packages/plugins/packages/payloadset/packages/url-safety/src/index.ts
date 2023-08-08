@@ -1,8 +1,8 @@
-import { UrlPlugin } from './Plugin'
+import { UrlSafetyPlugin } from './Plugin'
 
 export * from './Witness'
 
-export { UrlPlugin }
+export { UrlSafetyPlugin }
 
 // eslint-disable-next-line import/no-default-export
-export default UrlPlugin
+export default UrlSafetyPlugin

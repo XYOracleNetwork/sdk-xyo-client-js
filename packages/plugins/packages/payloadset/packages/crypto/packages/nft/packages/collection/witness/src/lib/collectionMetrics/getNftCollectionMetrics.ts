@@ -7,7 +7,8 @@ type TraitDistributionEntry = [string, { [key: string]: number }]
 
 export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics => {
   const traits = nfts
-    .map((nft) => nft.metadata?.attributes as OpenSeaNftAttribute[])
+    .map((nft) => nft?.metadata?.attributes as OpenSeaNftAttribute[] | undefined)
+    .filter((v): v is OpenSeaNftAttribute[] => v !== undefined)
     .map((attributes) => {
       return Object.fromEntries(attributes.map((attribute) => [attribute.trait_type, attribute.value]))
     })

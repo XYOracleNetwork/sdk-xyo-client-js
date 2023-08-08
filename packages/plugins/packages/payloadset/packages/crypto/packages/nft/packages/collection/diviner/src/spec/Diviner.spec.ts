@@ -17,8 +17,8 @@ describe('NftCollectionScoreDiviner', () => {
       name: 'test',
       schema: NftCollectionSchema,
       symbol: 'TEST',
-      tokenType: 'ERC721',
       total: 20000,
+      type: 'ERC721',
     },
   ]
   test('divine', async () => {

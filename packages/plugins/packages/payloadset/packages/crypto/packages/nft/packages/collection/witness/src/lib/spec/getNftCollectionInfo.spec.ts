@@ -14,7 +14,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'CRYPTOPUNKS',
         symbol: 'Ͼ',
-        tokenType: null,
+        type: null,
       },
     ],
     [
@@ -23,7 +23,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'BoredApeYachtClub',
         symbol: 'BAYC',
-        tokenType: 'ERC721',
+        type: 'ERC721',
       },
     ],
     [
@@ -32,7 +32,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'MutantApeYachtClub',
         symbol: 'MAYC',
-        tokenType: 'ERC721',
+        type: 'ERC721',
       },
     ],
     [
@@ -41,7 +41,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'Azuki',
         symbol: 'AZUKI',
-        tokenType: 'ERC721',
+        type: 'ERC721',
       },
     ],
     [
@@ -50,7 +50,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'Art Blocks',
         symbol: 'BLOCKS',
-        tokenType: 'ERC721',
+        type: 'ERC721',
       },
     ],
   ]

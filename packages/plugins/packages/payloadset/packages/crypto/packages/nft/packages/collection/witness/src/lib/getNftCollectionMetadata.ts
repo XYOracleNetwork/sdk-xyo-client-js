@@ -32,7 +32,7 @@ export const getNftCollectionMetadata = async (
   }
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const opts: ContractAddressOptions = { contractAddress }
-  const { name, symbol, tokenType: type } = await sdk.api.getContractMetadata(opts)
-  const tokenType = toTokenType(type)
-  return { address: contractAddress, chainId, name, symbol, tokenType }
+  const { name, symbol, tokenType } = await sdk.api.getContractMetadata(opts)
+  const type = toTokenType(tokenType)
+  return { address: contractAddress, chainId, name, symbol, type }
 }

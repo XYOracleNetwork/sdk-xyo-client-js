@@ -4,7 +4,7 @@
     "chainId": 1,
     "name": "BoredApeYachtClub",
     "symbol": "BAYC",
-    "tokenType": "ERC721",
+    "type": "ERC721",
     "metrics": {
       "metadata": {
         "attributes": {

@@ -42,9 +42,9 @@ export const getNftCollectionNfts = async (
     const opts: ContractAddressOptions = { contractAddress, cursor }
     const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTsForCollection(opts)
     const batch: NftInfoFields[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
-      const { contract: address, type, ...rest } = asset
-      const tokenType = toTokenType(type)
-      return { address, chainId, tokenType, ...rest }
+      const { contract: address, type: tokenType, ...rest } = asset
+      const type = toTokenType(tokenType)
+      return { address, chainId, type, ...rest }
     })
     nfts.push(...batch)
     cursor = nextCursor

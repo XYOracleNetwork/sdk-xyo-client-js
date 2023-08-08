@@ -21,7 +21,7 @@ const validateObservation = (observation: Payload[]) => {
   expect(collectionInfo.address).toBeString()
   expect(collectionInfo.chainId).toBeNumber()
   expect(collectionInfo.name).toBeString()
-  expect(collectionInfo.tokenType).toBeOneOf(['ERC721', 'ERC1155', null])
+  expect(collectionInfo.type).toBeOneOf(['ERC721', 'ERC1155', null])
   expect(collectionInfo.sources).toBeArray()
   expect(collectionInfo.sources?.length).toBeGreaterThan(0)
 }

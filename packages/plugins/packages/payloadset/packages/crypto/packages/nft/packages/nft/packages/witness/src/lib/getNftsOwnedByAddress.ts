@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 
 type PublicAddressOptions = {
   cursor?: string
@@ -26,15 +26,17 @@ export const getNftsOwnedByAddress = async (
    * large wallets from exhausting Infura API credits.
    */
   maxNfts = 1000,
-): Promise<NftInfo[]> => {
+): Promise<NftInfoFields[]> => {
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
-  const nfts: NftInfo[] = []
+  const nfts: NftInfoFields[] = []
   let cursor: string | undefined = undefined
   do {
     const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
     const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTs(opts)
-    const batch: NftInfo[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
-      return { ...asset, chainId }
+    const batch: NftInfoFields[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
+      const { contract: address, type: tokenType, ...rest } = asset
+      const type = toTokenType(tokenType)
+      return { address, chainId, type, ...rest }
     })
     nfts.push(...batch)
     cursor = nextCursor

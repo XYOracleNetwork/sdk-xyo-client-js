@@ -1,7 +1,8 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import {
-  isNftCollectionInfoPayload,
+  isNftCollectionInfo,
+  NftCollectionInfo,
   NftCollectionScoreDivinerConfig,
   NftCollectionScoreDivinerConfigSchema,
   NftCollectionScorePayload,
@@ -15,8 +16,10 @@ import { analyzeNftCollection, NftCollectionAnalysis } from './lib'
 
 export type NftCollectionScoreDivinerParams = DivinerParams<AnyConfigSchema<NftCollectionScoreDivinerConfig>>
 
-const toNftCollectionScorePayload = (rating: NftCollectionAnalysis): NftCollectionScorePayload => {
-  return { ...rating, schema: NftCollectionScoreSchema } as unknown as NftCollectionScorePayload
+const toNftCollectionScorePayload = (nftCollectionInfo: NftCollectionInfo, scores: NftCollectionAnalysis): NftCollectionScorePayload => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { schema, ...info } = nftCollectionInfo
+  return { ...info, schema: NftCollectionScoreSchema, scores }
 }
 
 export const isNftCollectionScorePayload = (payload: Payload): payload is NftCollectionScorePayload => payload.schema === NftCollectionScoreSchema
@@ -27,14 +30,14 @@ export class NftCollectionScoreDiviner<
   static override configSchemas = [NftCollectionScoreDivinerConfigSchema]
 
   protected override divineHandler = async (payloads?: Payload[]): Promise<Payload[]> => {
-    const nfts = payloads?.filter(isNftCollectionInfoPayload) ?? []
+    const nftCollectionInfos = payloads?.filter(isNftCollectionInfo) ?? []
     const results = await Promise.all(
-      nfts.map<Promise<NftCollectionScorePayload>>(async (p) => {
+      nftCollectionInfos.map<Promise<NftCollectionScorePayload>>(async (nftCollectionInfo) => {
         const [score, sourceHash] = await Promise.all([
           // Get score
-          toNftCollectionScorePayload(await analyzeNftCollection(p)),
+          toNftCollectionScorePayload(nftCollectionInfo, await analyzeNftCollection(nftCollectionInfo)),
           // Hash sources
-          PayloadHasher.hashAsync(p),
+          PayloadHasher.hashAsync(nftCollectionInfo),
         ])
         return { ...score, schema: NftCollectionScoreSchema, sources: [sourceHash] } as NftCollectionScorePayload
       }),

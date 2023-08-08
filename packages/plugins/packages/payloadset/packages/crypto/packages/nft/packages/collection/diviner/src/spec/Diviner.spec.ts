@@ -1,11 +1,11 @@
 import { HDWallet } from '@xyo-network/account'
-import { NftCollectionInfoPayload, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionInfo, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { isNftCollectionScorePayload, NftCollectionScoreDiviner } from '../Diviner'
 
 describe('NftCollectionScoreDiviner', () => {
-  const data: NftCollectionInfoPayload[] = [
+  const data: NftCollectionInfo[] = [
     {
       address: '0x0000000000',
       chainId: 1,
@@ -17,8 +17,8 @@ describe('NftCollectionScoreDiviner', () => {
       name: 'test',
       schema: NftCollectionSchema,
       symbol: 'TEST',
-      tokenType: 'ERC721',
       total: 20000,
+      type: 'ERC721',
     },
   ]
   test('divine', async () => {

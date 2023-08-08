@@ -1,4 +1,4 @@
-import { NftAttribute, NftInfo, OpenSeaNftAttribute, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftAttribute, NftInfoFields, OpenSeaNftAttribute, OpenSeaNftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
 import { incrementPossible, incrementTotal, incrementTotalAndPossible, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
 const isDate = (value: unknown): value is Date => {
@@ -21,7 +21,7 @@ const isNonEmptyString = (value: unknown): value is string => typeof value === '
 
 const isNonEmptyStringOrNumber = (value: unknown): value is string | number => value === 'number' || isNonEmptyString(value)
 
-export const evaluateNftAttributes = (nft: NftInfo | OpenSeaNftInfo): ScaledScore =>
+export const evaluateNftAttributes = (nft: NftInfoFields | OpenSeaNftInfoFields): ScaledScore =>
   !nft?.metadata?.attributes ? [0, 1] : evaluateAttributes(nft?.metadata?.attributes)
 
 export const evaluateAttributes = (attributes: NftAttribute[] | OpenSeaNftAttribute[] | unknown): ScaledScore => {

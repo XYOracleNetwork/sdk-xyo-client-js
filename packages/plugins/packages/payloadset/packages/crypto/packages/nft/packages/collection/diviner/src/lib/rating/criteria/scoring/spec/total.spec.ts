@@ -1,4 +1,4 @@
-import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionCount } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Score } from '@xyo-network/crypto-nft-score-model'
 
 import { scoreTotal } from '../total'
@@ -35,14 +35,7 @@ describe('scoreTotal', () => {
   ]
 
   it.each(values)('scores the total', (total, expectations) => {
-    const collection: NftCollectionInfo = {
-      address: '0x0000000000',
-      chainId: 1,
-      name: 'test',
-      symbol: 'TEST',
-      tokenType: 'ERC721',
-      total,
-    }
+    const collection: NftCollectionCount = { total }
     const [score, possible] = scoreTotal(collection)
     expect(score).toBeNumber()
     expect(score).not.toBeNegative()

@@ -1,9 +1,9 @@
-import { NftInfo, OpenSeaNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, OpenSeaNftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
 import { incrementTotal, ScaledScore } from '@xyo-network/crypto-nft-score-model'
 
 import { isSecure, isValidUrl } from './lib'
 
-export const scoreNftExternalUrl = (nft: NftInfo | OpenSeaNftInfo): ScaledScore => {
+export const scoreNftExternalUrl = (nft: NftInfoFields | OpenSeaNftInfoFields): ScaledScore => {
   return scoreExternalUrl(nft?.metadata?.external_url)
 }
 export const scoreExternalUrl = (external_url: unknown): ScaledScore => {

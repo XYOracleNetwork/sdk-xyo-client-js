@@ -16,7 +16,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
     expect(nfts.length).toBeGreaterThan(0)
     for (let i = 0; i < nfts.length; i++) {
       const nft = nfts[i]
-      expect(nft.contract).toBeString()
+      expect(nft.address).toBeString()
       expect(nft.supply).toBeString()
       if (nft?.metadata) {
         expect(nft.metadata).toBeObject()

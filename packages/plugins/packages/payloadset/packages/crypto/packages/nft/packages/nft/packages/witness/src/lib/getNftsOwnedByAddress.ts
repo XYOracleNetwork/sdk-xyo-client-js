@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 
 type PublicAddressOptions = {
   cursor?: string
@@ -34,8 +34,9 @@ export const getNftsOwnedByAddress = async (
     const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
     const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTs(opts)
     const batch: NftInfoFields[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
-      const { contract: address, metadata, supply, tokenId, type: tokenType } = asset
-      return { address, chainId, metadata, supply, tokenId, tokenType }
+      const { contract: address, type, ...rest } = asset
+      const tokenType = toTokenType(type)
+      return { address, chainId, tokenType, ...rest }
     })
     nfts.push(...batch)
     cursor = nextCursor

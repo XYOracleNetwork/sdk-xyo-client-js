@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftInfo, NftInfoFields, NftSchema } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfo, NftInfoFields, NftSchema, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 
@@ -42,7 +42,9 @@ export const getNftCollectionNfts = async (
     const opts: ContractAddressOptions = { contractAddress, cursor }
     const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTsForCollection(opts)
     const batch: NftInfoFields[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
-      return { ...asset, chainId }
+      const { contract: address, type, ...rest } = asset
+      const tokenType = toTokenType(type)
+      return { address, chainId, tokenType, ...rest }
     })
     nfts.push(...batch)
     cursor = nextCursor

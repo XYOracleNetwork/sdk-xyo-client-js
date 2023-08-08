@@ -17,9 +17,8 @@ import { analyzeNft, NftAnalysis } from './lib'
 export type NftScoreDivinerParams = DivinerParams<AnyConfigSchema<NftScoreDivinerConfig>>
 
 const toNftScorePayload = (nftInfo: NftInfo, scores: NftAnalysis): NftScore => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { chainId, contract, tokenId, type } = nftInfo
-  return { chainId, contract, schema: NftScoreSchema, scores, tokenId, type }
+  const { chainId, contract, type } = nftInfo
+  return { chainId, contract, schema: NftScoreSchema, scores, type }
 }
 
 export const isNftScore = (payload: Payload): payload is NftScore => payload.schema === NftScoreSchema

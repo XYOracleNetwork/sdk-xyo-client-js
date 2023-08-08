@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionMetadata } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 
@@ -8,7 +8,7 @@ type ContractAddressOptions = {
   cursor?: string
 }
 
-export const getNftCollectionInfo = async (
+export const getNftCollectionMetadata = async (
   /**
    * The address of the NFT contract to search for
    */
@@ -25,7 +25,7 @@ export const getNftCollectionInfo = async (
    * The private key of the wallet to use to search for NFTs
    */
   privateKey: string,
-): Promise<Omit<NftCollectionInfo, 'total'>> => {
+): Promise<Omit<NftCollectionMetadata, 'total'>> => {
   if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
   }

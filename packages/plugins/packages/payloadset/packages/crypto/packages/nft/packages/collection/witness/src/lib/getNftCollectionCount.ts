@@ -7,7 +7,7 @@ type ContractAddressOptions = {
   cursor?: string
 }
 
-export const getNftCollectionTotalNfts = async (
+export const getNftCollectionCount = async (
   /**
    * The address of the NFT contract to search for
    */

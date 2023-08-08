@@ -11,7 +11,7 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
-import { getNftCollectionInfo, getNftCollectionMetrics, getNftCollectionNfts, getNftCollectionTotalNfts } from './lib'
+import { getNftCollectionCount, getNftCollectionMetadata, getNftCollectionMetrics, getNftCollectionNfts } from './lib'
 
 export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<NftCollectionWitnessConfig>>
 
@@ -38,8 +38,8 @@ export class CryptoNftCollectionWitness<
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
         const [info, total, nfts, archivist] = await Promise.all([
-          getNftCollectionInfo(address, chainId, this.account.private.hex),
-          getNftCollectionTotalNfts(address, chainId, this.account.private.hex),
+          getNftCollectionMetadata(address, chainId, this.account.private.hex),
+          getNftCollectionCount(address, chainId, this.account.private.hex),
           getNftCollectionNfts(address, chainId, this.account.private.hex, maxNfts),
           this.writeArchivist(),
         ])

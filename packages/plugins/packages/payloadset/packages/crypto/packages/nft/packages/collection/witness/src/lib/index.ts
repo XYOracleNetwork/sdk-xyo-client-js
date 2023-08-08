@@ -1,4 +1,4 @@
 export * from './collectionMetrics'
-export * from './getNftCollectionInfo'
+export * from './getNftCollectionCount'
+export * from './getNftCollectionMetadata'
 export * from './getNftCollectionNfts'
-export * from './getNftCollectionTotalNfts'

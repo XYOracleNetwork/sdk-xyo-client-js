@@ -161,9 +161,10 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
   private async fromHttp(url: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
+    let dnsResult: string[]
     try {
       const urlObj = new Url(url)
-      const dnsResult = await dnsPromises.resolve(urlObj.host)
+      dnsResult = await dnsPromises.resolve(urlObj.host)
       console.log(`dnsResult: ${JSON.stringify(dnsResult, null, 2)}`)
     } catch (ex) {
       const error = ex as DnsError
@@ -186,6 +187,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         //selectively pick fields from AxiosError
         const result: ImageThumbnail = {
           http: {
+            ipAddress: dnsResult[0],
             status: axiosError.status,
           },
           schema: ImageThumbnailSchema,

@@ -7720,7 +7720,6 @@ __metadata:
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/promise": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     lodash: ^4.17.21
     lru-cache: ^10.0.0
@@ -9115,6 +9114,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
     "@xyo-network/axios": "workspace:~"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"

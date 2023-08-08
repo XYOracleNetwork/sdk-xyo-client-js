@@ -1,4 +1,4 @@
-import { NftInfoFields } from '../Payload'
+import { NftInfoFields } from '../Nft'
 import { OpenSeaNftMetadata } from './OpenSeaNftMetadata'
 
 export interface OpenSeaNftInfoFields extends NftInfoFields {

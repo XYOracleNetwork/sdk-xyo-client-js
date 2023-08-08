@@ -1,47 +1,5 @@
-import { Payload } from '@xyo-network/payload-model'
-
-import { NftSchema } from './Schema'
-
-export interface NftAttribute {
-  [key: string]: unknown
-  display_type?: unknown
-  trait_type?: unknown
-  value?: unknown
-}
-export interface NftMetadata {
-  [key: string]: unknown
-  attributes?: NftAttribute[] | unknown
-  description?: unknown
-  image?: unknown
-  name?: unknown
-}
-
-export interface NftInfoFields {
-  chainId: number
-  contract: string
-  metadata?: NftMetadata
-  supply: string
-  tokenId: string
-  type: string
-}
-
-export type DisplayType = 'date' | 'boost_number' | 'boost_percentage' | 'number' | 'string'
-
-export interface OpenSeaNftAttribute extends NftAttribute {
-  /**
-   * A field indicating how you would like it to be displayed. For string traits, you don't have to worry about display_type.
-   */
-  display_type?: DisplayType
-  max_value?: number
-  /**
-   * The name of the trait
-   */
-  trait_type: string
-  /**
-   * The value of the trait
-   */
-  value: string | number
-}
+import { NftMetadata } from '../Nft'
+import { OpenSeaNftAttribute } from './OpenSeaNftAttribute'
 
 /**
  * https://docs.opensea.io/docs/metadata-standards
@@ -92,14 +50,4 @@ export interface OpenSeaNftMetadata extends NftMetadata {
    * A URL to a YouTube video.
    */
   youtube_url?: string
-}
-
-export interface OpenSeaNftInfoFields extends NftInfoFields {
-  metadata: OpenSeaNftMetadata
-}
-
-export type NftInfo = Payload<NftInfoFields, NftSchema>
-
-export const isNftInfo = (payload: Payload): payload is NftInfo => {
-  return payload.schema === NftSchema
 }

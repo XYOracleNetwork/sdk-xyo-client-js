@@ -6,7 +6,7 @@ export interface NftCollectionMetrics {
       [trait: string]: {
         metrics: NftTraitMetrics
         values: {
-          [value: string]: NftTraitMetrics
+          [traitValue: string]: NftTraitMetrics
         }
       }
     }

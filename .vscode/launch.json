@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/image-thumbnail/src/spec/Witness.https.spec.ts"
+        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/diviner/src/lib/rating/spec/analyzeNftCollection.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -1,4 +1,4 @@
-import { BinomialDistributionParameters } from './BinomialDistributionParameters'
+import { BinomialDistributionParameters } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
 /**
  * Calculates the parameters of a binomial distribution given the number of trials and success probability

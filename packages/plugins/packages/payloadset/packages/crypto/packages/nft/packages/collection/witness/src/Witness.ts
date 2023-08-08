@@ -43,14 +43,15 @@ export class CryptoNftCollectionWitness<
           getNftCollectionNfts(address, chainId, this.account.private.hex, maxNfts),
           this.writeArchivist(),
         ])
-        const distribution = getNftCollectionMetrics(nfts)
+        const metrics = getNftCollectionMetrics(nfts)
         const [sources] = await Promise.all([
           // Hash all the payloads
           Promise.all(nfts.map((nft) => PayloadHasher.hashAsync(nft))),
           // Insert them into the archivist if we have one
           archivist ? archivist.insert(nfts) : NoOp,
         ])
-        return { ...info, ...distribution, schema: NftCollectionSchema, sources, total }
+        const payload: NftCollectionInfoPayload = { ...info, metrics, schema: NftCollectionSchema, sources, total }
+        return payload
       }),
     )
     return observations.flat()

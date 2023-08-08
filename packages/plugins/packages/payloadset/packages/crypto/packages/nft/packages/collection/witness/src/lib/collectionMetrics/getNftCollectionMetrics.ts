@@ -1,26 +1,7 @@
+import { NftCollectionMetrics, NftTraitMetrics } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftInfo, OpenSeaNftAttribute } from '@xyo-network/crypto-nft-payload-plugin'
 
-import { BinomialDistributionParameters, calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
-
-export interface NftTraitMetrics {
-  binomial: Partial<BinomialDistributionParameters>
-  count: number
-}
-
-export interface NftCollectionMetrics {
-  metrics: {
-    metadata: {
-      attributes: {
-        [trait: string]: {
-          metrics: NftTraitMetrics
-          values: {
-            [value: string]: NftTraitMetrics
-          }
-        }
-      }
-    }
-  }
-}
+import { calculateAllPropertiesDistribution, calculateBinomialParamsFromProbability } from './lib'
 
 type TraitDistributionEntry = [string, { [key: string]: number }]
 
@@ -37,16 +18,16 @@ export const getNftCollectionMetrics = (nfts: NftInfo[]): NftCollectionMetrics =
       .filter((v): v is TraitDistributionEntry => v[1] !== undefined)
       .map(([trait, entries]) => {
         const traitCount = Object.values(entries).reduce((prev, curr) => prev + curr, 0)
-        const binomial = calculateBinomialParamsFromProbability(nfts.length, traitCount / n)
+        const { p } = calculateBinomialParamsFromProbability(nfts.length, traitCount / n)
         const values = Object.fromEntries(
           Object.entries(entries).map(([value, traitValueCount]) => {
-            const binomial = calculateBinomialParamsFromProbability(n, traitValueCount / n)
-            const metrics: NftTraitMetrics = { binomial, count: traitValueCount }
+            const { p } = calculateBinomialParamsFromProbability(n, traitValueCount / n)
+            const metrics: NftTraitMetrics = { binomial: { p }, count: traitValueCount }
             return [value, metrics]
           }),
         )
-        return [trait, { metrics: { binomial, count: traitCount }, values }]
+        return [trait, { metrics: { binomial: { p }, count: traitCount }, values }]
       }),
   )
-  return { metrics: { metadata: { attributes } } }
+  return { metadata: { attributes } }
 }

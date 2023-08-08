@@ -1,4 +1,5 @@
-import { BinomialDistributionParameters } from '../BinomialDistributionParameters'
+import { BinomialDistributionParameters } from '@xyo-network/crypto-nft-collection-payload-plugin'
+
 import { calculateBinomialParamsFromOutcomes } from '../calculateBinomialParamsFromOutcomes'
 
 describe('calculateBinomialParamsFromOutcomes', () => {

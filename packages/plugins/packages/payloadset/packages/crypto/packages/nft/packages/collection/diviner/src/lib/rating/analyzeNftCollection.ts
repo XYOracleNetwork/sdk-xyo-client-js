@@ -1,4 +1,4 @@
-import { NftCollectionInfo } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftCollectionInfoPayload } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Score } from '@xyo-network/crypto-nft-score-model'
 
 import { scoringCriteria } from './criteria'
@@ -13,7 +13,7 @@ export const analyzeNftCollection = async (
   /**
    * The NFT to evaluate
    */
-  nft: NftCollectionInfo,
+  nft: NftCollectionInfoPayload,
 ): Promise<NftCollectionAnalysis> => {
   const result = Object.fromEntries(
     await Promise.all(

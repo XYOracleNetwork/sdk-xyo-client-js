@@ -107,20 +107,30 @@ export class MemoryArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    return compact(
-      await Promise.all(
-        hashes.map(async (hash) => {
-          const payload = this.cache.get(hash) ?? (await super.getHandler([hash]))[0] ?? null
-          if (this.storeParentReads) {
-            // NOTE: `payload` can actually be `null` here but TS doesn't seem
-            // to recognize it. LRUCache claims not to support `null`s via their
-            // types but seems to under the hood just fine.
-            this.cache.set(hash, payload)
-          }
-          return payload
-        }),
-      ),
+    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
+      (prev, hash) => {
+        const found = this.cache.get(hash)
+        if (found) {
+          prev.found.push(found)
+        } else {
+          prev.notfound.push(hash)
+        }
+        return prev
+      },
+      { found: [], notfound: [] },
     )
+
+    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
+
+    if (this.storeParentReads) {
+      await Promise.all(
+        parentFound.map(async (payload) => {
+          const hash = await PayloadHasher.hashAsync(payload)
+          this.cache.set(hash, payload)
+        }),
+      )
+    }
+    return [...found, ...parentFound]
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {

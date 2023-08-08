@@ -157,17 +157,30 @@ export class StorageArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    this.logger?.log(`get: hashes.length: ${hashes.length}`)
-
-    return await Promise.all(
-      hashes.map(async (hash) => {
-        const payload = this.storage.get(hash) ?? (await super.getHandler([hash]))[0] ?? null
-        if (this.storeParentReads) {
-          this.storage.set(hash, payload)
+    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
+      (prev, hash) => {
+        const found = this.storage.get(hash)
+        if (found) {
+          prev.found.push(found)
+        } else {
+          prev.notfound.push(hash)
         }
-        return payload
-      }),
+        return prev
+      },
+      { found: [], notfound: [] },
     )
+
+    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
+
+    if (this.storeParentReads) {
+      await Promise.all(
+        parentFound.map(async (payload) => {
+          const hash = await PayloadHasher.hashAsync(payload)
+          this.storage.set(hash, payload)
+        }),
+      )
+    }
+    return [...found, ...parentFound]
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {

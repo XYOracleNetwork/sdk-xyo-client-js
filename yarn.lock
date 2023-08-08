@@ -5371,6 +5371,7 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -9114,7 +9115,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
     "@xyo-network/axios": "workspace:~"
-    "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"

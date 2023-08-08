@@ -134,17 +134,31 @@ export class CookieArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    try {
-      return await Promise.all(
-        hashes.map(async (hash) => {
-          const cookieString = Cookies.get(this.keyFromHash(hash))
-          return cookieString ? JSON.parse(cookieString) : (await this.getFromParents(hash)) ?? null
+    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
+      (prev, hash) => {
+        const cookieString = Cookies.get(this.keyFromHash(hash))
+        const found = cookieString ? JSON.parse(cookieString) : undefined
+        if (found) {
+          prev.found.push(found)
+        } else {
+          prev.notfound.push(hash)
+        }
+        return prev
+      },
+      { found: [], notfound: [] },
+    )
+
+    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
+
+    if (this.storeParentReads) {
+      await Promise.all(
+        parentFound.map(async (payload) => {
+          const hash = await PayloadHasher.hashAsync(payload)
+          Cookies.set(hash, JSON.stringify(payload))
         }),
       )
-    } catch (ex) {
-      console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
-      throw ex
     }
+    return [...found, ...parentFound]
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {

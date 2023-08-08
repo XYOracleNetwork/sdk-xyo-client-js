@@ -28,6 +28,7 @@ describe('ImageThumbnailWitness', () => {
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
+    console.log(`medium/png/unsafe: ${JSON.stringify(result[0], null, 2)}`)
     console.log(`HTTPS/PNG/UNSAFE Size: ${result[0].url?.length}}`)
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)

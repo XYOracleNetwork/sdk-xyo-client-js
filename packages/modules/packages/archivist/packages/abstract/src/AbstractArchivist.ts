@@ -4,7 +4,6 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuerySchema,
-  ArchivistGetQuery,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistInstance,
@@ -18,13 +17,14 @@ import {
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { PayloadHasher } from '@xyo-network/core'
 import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 
-export interface ArchivistParentModules {
+export interface ArchivistParentInstances {
   commit?: Record<string, ArchivistInstance>
   read?: Record<string, ArchivistInstance>
   write?: Record<string, ArchivistInstance>
@@ -38,7 +38,7 @@ export abstract class AbstractArchivist<
   implements ArchivistModule<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
-  private _parents?: ArchivistParentModules
+  private _parents?: ArchivistParentInstances
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
@@ -121,37 +121,31 @@ export abstract class AbstractArchivist<
     throw Error('Not implemented')
   }
 
-  protected async getFromParents(hash: string) {
-    const parents = await this.parents()
-    if (Object.entries(parents.read ?? {}).length > 0) {
-      const results = compact(
-        await Promise.all(
-          Object.values(parents.read ?? {}).map(async (parent) => {
-            const queryPayload: ArchivistGetQuery = { hashes: [hash], schema: ArchivistGetQuerySchema }
-            const query = await this.bindQuery(queryPayload)
-            const [, payloads] = (await parent?.query(query[0], query[1])) ?? []
-            const wrapper = payloads?.[0] ? PayloadWrapper.wrap(payloads?.[0]) : undefined
-            if (wrapper && (await wrapper.hashAsync()) !== hash) {
-              console.warn(`Parent [${parent?.address}] returned payload with invalid hash [${hash} != ${wrapper.hashAsync()}]`)
-              return null
-            }
-            return wrapper?.payload()
-          }),
-        ),
-      )
-      return results[0]
+  protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
+    const found = await archivist.get(hashes)
+    const foundHashes = await Promise.all(found.map(async (payload) => await PayloadHasher.hashAsync(payload)))
+    const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
+    return [found, notfound]
+  }
+
+  protected async getFromParents(hashes: string[]): Promise<[Payload[], string[]]> {
+    const parents = Object.values((await this.parents())?.read ?? {})
+    let remainingHashes = hashes
+    const parentIndex = 0
+    let result: Payload[] = []
+
+    //intentionally doing this serially
+    while (parentIndex < parents.length && remainingHashes.length > 0) {
+      const [found, notfound] = await this.getFromParent(remainingHashes, parents[parentIndex])
+      result = [...result, ...found]
+      remainingHashes = notfound
     }
-    return null
+    return [result, remainingHashes]
   }
 
   protected async getHandler(hashes: string[]): Promise<Payload[]> {
-    return compact(
-      await Promise.all(
-        hashes.map(async (hash) => {
-          return (await this.getFromParents(hash)) ?? null
-        }),
-      ),
-    )
+    const [result] = await this.getFromParents(hashes)
+    return result
   }
 
   protected head(): Promisable<Payload | undefined> {

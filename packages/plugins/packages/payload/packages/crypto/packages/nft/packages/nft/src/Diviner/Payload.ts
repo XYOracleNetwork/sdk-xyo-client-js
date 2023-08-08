@@ -24,5 +24,9 @@ export type NftAnalysis = {
   [key in ScoringCriteriaKey]: Score
 }
 
-export type NftScore = Payload<NftAnalysis, NftScoreSchema>
+export interface NftScores {
+  scores: NftAnalysis
+}
+
+export type NftScore = Payload<NftScores, NftScoreSchema>
 export const isNftScore = (x?: Payload | null): x is NftScore => x?.schema === NftScoreSchema

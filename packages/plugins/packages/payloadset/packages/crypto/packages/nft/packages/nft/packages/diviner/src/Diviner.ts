@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import {
-  isNftInfoPayload,
+  isNftInfo,
   NftScoreDivinerConfig,
   NftScoreDivinerConfigSchema,
   NftScorePayload,
@@ -25,7 +25,7 @@ export class NftScoreDiviner<TParams extends NftScoreDivinerParams = NftScoreDiv
   static override configSchemas = [NftScoreDivinerConfigSchema]
 
   protected override divineHandler = async (payloads?: Payload[]): Promise<Payload[]> => {
-    const nfts = payloads?.filter(isNftInfoPayload) ?? []
+    const nfts = payloads?.filter(isNftInfo) ?? []
     const results = await Promise.all(
       nfts.map<Promise<NftScorePayload>>(async (p) => {
         const [score, sourceHash] = await Promise.all([toNftScorePayload(await analyzeNft(p)), PayloadHasher.hashAsync(p)])

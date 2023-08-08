@@ -3,14 +3,14 @@ const now = new Date()
 jest.useFakeTimers().setSystemTime(now)
 
 import { describeIf } from '@xylabs/jest-helpers'
-import { isNftInfoPayload, NftWitnessConfigSchema, NftWitnessQueryPayload, NftWitnessQuerySchema } from '@xyo-network/crypto-nft-payload-plugin'
+import { isNftInfo, NftWitnessConfigSchema, NftWitnessQueryPayload, NftWitnessQuerySchema } from '@xyo-network/crypto-nft-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { CryptoWalletNftWitness } from '../Witness'
 
 const validateObservation = async (observation: Payload[]) => {
-  const nfts = observation.filter(isNftInfoPayload)
+  const nfts = observation.filter(isNftInfo)
   expect(nfts.length).toBeGreaterThan(0)
   expect(observation.length).toEqual(nfts.length)
   for (const nft of nfts) {

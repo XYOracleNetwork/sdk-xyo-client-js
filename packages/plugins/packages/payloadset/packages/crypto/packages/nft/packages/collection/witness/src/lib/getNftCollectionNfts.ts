@@ -1,5 +1,5 @@
 import { Auth, SDK } from '@infura/sdk'
-import { NftInfoFields, NftInfoPayload, NftSchema } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfo, NftInfoFields, NftSchema } from '@xyo-network/crypto-nft-payload-plugin'
 
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 
@@ -31,7 +31,7 @@ export const getNftCollectionNfts = async (
    * multiple of 100 as that appears to be the default page size.
    */
   maxNfts = 100,
-): Promise<NftInfoPayload[]> => {
+): Promise<NftInfo[]> => {
   if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
   }

@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { isNftInfoPayload, NftInfoPayload } from '@xyo-network/crypto-nft-payload-plugin'
+import { isNftInfo, NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
@@ -7,14 +7,14 @@ import { join } from 'path'
 import { isNftScorePayload, NftScoreDiviner } from '../Diviner'
 
 describe('NftScoreDiviner', () => {
-  let data: NftInfoPayload[]
+  let data: NftInfo[]
   beforeAll(async () => {
     const filePath = join(__dirname, 'testData.json')
     const fileContents = await readFile(filePath, 'utf8')
     const nfts = JSON.parse(fileContents)
     expect(nfts).toBeArray()
     if (Array.isArray(nfts)) {
-      data = nfts.filter(isNftInfoPayload)
+      data = nfts.filter(isNftInfo)
     }
   })
   test('divine', async () => {

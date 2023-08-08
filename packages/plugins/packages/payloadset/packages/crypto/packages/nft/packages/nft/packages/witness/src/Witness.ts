@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import {
   CryptoWalletNftWitnessConfig,
   isNftWitnessQueryPayload,
-  NftInfoPayload,
+  NftInfo,
   NftSchema,
   NftWitnessConfigSchema,
 } from '@xyo-network/crypto-nft-payload-plugin'
@@ -30,7 +30,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
         const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts)
-        const observation = nfts.map<NftInfoPayload>((nft) => {
+        const observation = nfts.map<NftInfo>((nft) => {
           return { ...nft, schema }
         })
         return observation

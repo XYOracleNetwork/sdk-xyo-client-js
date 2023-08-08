@@ -98,8 +98,8 @@ export interface OpenSeaNftInfoFields extends NftInfoFields {
   metadata: OpenSeaNftMetadata
 }
 
-export type NftInfoPayload = Payload<NftInfoFields, NftSchema>
+export type NftInfo = Payload<NftInfoFields, NftSchema>
 
-export const isNftInfoPayload = (payload: Payload): payload is NftInfoPayload => {
+export const isNftInfo = (payload: Payload): payload is NftInfo => {
   return payload.schema === NftSchema
 }

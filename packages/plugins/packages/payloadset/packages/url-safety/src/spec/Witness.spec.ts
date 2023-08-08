@@ -3,7 +3,7 @@ import { ModuleError } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload } from '@xyo-network/url-safety-payload-plugin'
 
-import { GoogleSafeBrowsingMatchPayload, UrlSafetyWitness } from '../Witness'
+import { UrlSafetyWitness } from '../Witness'
 
 describe('UrlSafetyWitness', () => {
   test('Safe', async () => {

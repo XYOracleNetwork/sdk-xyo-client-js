@@ -1,6 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { sync as hasbin } from 'hasbin'
 

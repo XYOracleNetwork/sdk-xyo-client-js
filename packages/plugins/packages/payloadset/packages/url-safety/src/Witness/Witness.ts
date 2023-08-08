@@ -1,5 +1,4 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload, UrlSafetySchema, UrlSafetyThreatType } from '@xyo-network/url-safety-payload-plugin'

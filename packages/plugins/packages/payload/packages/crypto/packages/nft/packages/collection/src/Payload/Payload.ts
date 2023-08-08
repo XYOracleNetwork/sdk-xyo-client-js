@@ -3,8 +3,8 @@ import { Payload } from '@xyo-network/payload-model'
 import { NftCollectionSchema } from '../Schema'
 import { NftCollectionInfoFields } from './NftCollectionInfo'
 
-export type NftCollectionInfoPayload = Payload<NftCollectionInfoFields, NftCollectionSchema>
+export type NftCollectionInfo = Payload<NftCollectionInfoFields, NftCollectionSchema>
 
-export const isNftCollectionInfoPayload = (payload: Payload): payload is NftCollectionInfoPayload => {
+export const isNftCollectionInfo = (payload: Payload): payload is NftCollectionInfo => {
   return payload.schema === NftCollectionSchema
 }

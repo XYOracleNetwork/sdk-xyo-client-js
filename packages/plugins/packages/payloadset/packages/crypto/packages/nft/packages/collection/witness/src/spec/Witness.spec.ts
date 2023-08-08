@@ -5,7 +5,7 @@ import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
-  isNftCollectionInfoPayload,
+  isNftCollectionInfo,
   NftCollectionWitnessConfigSchema,
   NftCollectionWitnessQueryPayload,
   NftCollectionWitnessQuerySchema,
@@ -15,7 +15,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = (observation: Payload[]) => {
-  const results = observation.filter(isNftCollectionInfoPayload)
+  const results = observation.filter(isNftCollectionInfo)
   expect(results.length).toBeGreaterThan(0)
   const collectionInfo = results[0]
   expect(collectionInfo.address).toBeString()

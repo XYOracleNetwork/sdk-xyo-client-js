@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   isNftCollectionWitnessQueryPayload,
-  NftCollectionInfoPayload,
+  NftCollectionInfo,
   NftCollectionSchema,
   NftCollectionWitnessConfig,
   NftCollectionWitnessConfigSchema,
@@ -33,7 +33,7 @@ export class CryptoNftCollectionWitness<
     await this.started('throw')
     const queries = payloads?.filter(isNftCollectionWitnessQueryPayload) ?? []
     const observations = await Promise.all(
-      queries.map<Promise<NftCollectionInfoPayload>>(async (query) => {
+      queries.map<Promise<NftCollectionInfo>>(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
@@ -50,7 +50,7 @@ export class CryptoNftCollectionWitness<
           // Insert them into the archivist if we have one
           archivist ? archivist.insert(nfts) : NoOp,
         ])
-        const payload: NftCollectionInfoPayload = { ...info, metrics, schema: NftCollectionSchema, sources, total }
+        const payload: NftCollectionInfo = { ...info, metrics, schema: NftCollectionSchema, sources, total }
         return payload
       }),
     )

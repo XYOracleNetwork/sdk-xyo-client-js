@@ -30,6 +30,10 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   static override instanceIdentityCheck = isBridgeInstance
   static override moduleIdentityCheck = isBridgeModule
 
+  get connected(): boolean {
+    throw Error('Not supported')
+  }
+
   get targetDownResolver() {
     return this.module.targetDownResolver
   }

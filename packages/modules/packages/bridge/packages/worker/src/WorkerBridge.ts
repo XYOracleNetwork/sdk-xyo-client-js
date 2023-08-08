@@ -206,16 +206,18 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   protected override async startHandler() {
     await super.startHandler()
 
-    this.downResolver.addResolver(this.targetDownResolver())
+    const downResolver = assertEx(this.targetDownResolver(), 'Unable to get down resolver')
+
+    this.downResolver.addResolver(downResolver)
 
     await this.targetDiscover()
 
-    const childAddresses = await this.targetDownResolver().getRemoteAddresses()
+    const childAddresses = await downResolver.getRemoteAddresses()
 
     const children = compact(
       await Promise.all(
         childAddresses.map(async (address) => {
-          const resolved = await this.targetDownResolver().resolve({ address: [address] })
+          const resolved = await downResolver.resolve({ address: [address] })
           return resolved[0]
         }),
       ),

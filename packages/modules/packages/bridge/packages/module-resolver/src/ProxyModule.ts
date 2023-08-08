@@ -57,7 +57,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   get downResolver() {
-    return this.bridge.targetDownResolver(this.address)
+    return assertEx(this.bridge.targetDownResolver(this.address), 'Unable to get resolver')
   }
 
   get queries() {

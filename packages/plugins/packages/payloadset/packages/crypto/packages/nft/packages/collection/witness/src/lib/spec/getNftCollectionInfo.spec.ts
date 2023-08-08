@@ -60,7 +60,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
     privateKey = wallet.privateKey
   })
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
-    const info: Omit<NftCollectionInfo, 'total'> = { ...expected, address, chainId }
+    const info: NftCollectionMetadata = { ...expected, address, chainId }
     const result = await getNftCollectionMetadata(address, chainId, privateKey)
     expect(result).toBeObject()
     expect(result).toEqual(info)

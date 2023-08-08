@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/image-thumbnail/src/spec/Witness.https.spec.ts"
+        "packages/plugins/packages/payloadset/packages/url-safety/src/spec/Witness.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

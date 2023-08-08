@@ -1,15 +1,15 @@
 import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
-import { UrlSchema } from '@xyo-network/url-payload-plugin'
+import { UrlSafetySchema } from '@xyo-network/url-safety-payload-plugin'
 
-import { UrlWitness } from './Witness'
+import { UrlSafetyWitness } from './Witness'
 
-export const UrlPlugin = () =>
-  createPayloadSetWitnessPlugin<UrlWitness>(
-    { required: { [UrlSchema]: 1 }, schema: PayloadSetSchema },
+export const UrlSafetyPlugin = () =>
+  createPayloadSetWitnessPlugin<UrlSafetyWitness>(
+    { required: { [UrlSafetySchema]: 1 }, schema: PayloadSetSchema },
     {
       witness: async (params) => {
-        const result = await UrlWitness.create(params)
+        const result = await UrlSafetyWitness.create(params)
         return result
       },
     },

@@ -17,6 +17,7 @@ export interface NftMetadata {
 }
 
 export interface NftInfo {
+  chainId: number
   contract: string
   metadata?: NftMetadata
   supply: string

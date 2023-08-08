@@ -33,7 +33,9 @@ export const getNftsOwnedByAddress = async (
   do {
     const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
     const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTs(opts)
-    const batch: NftInfo[] = assets.slice(0, Math.min(pageSize, total - nfts.length))
+    const batch: NftInfo[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
+      return { ...asset, chainId }
+    })
     nfts.push(...batch)
     cursor = nextCursor
     if (nfts.length >= total || !cursor) break

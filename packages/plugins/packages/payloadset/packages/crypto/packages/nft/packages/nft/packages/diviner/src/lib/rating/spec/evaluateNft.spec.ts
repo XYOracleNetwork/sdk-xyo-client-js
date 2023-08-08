@@ -4,6 +4,7 @@ import { analyzeNft } from '../analyzeNft'
 
 const nfts: NftInfo[] = [
   {
+    chainId: 1,
     contract: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
     metadata: {
       attributes: [
@@ -43,6 +44,7 @@ const nfts: NftInfo[] = [
     type: 'ERC721',
   },
   {
+    chainId: 1,
     contract: '0x8eaaabe11896bd09fb852d3a5248004ec44bc793',
     metadata: {
       animation_url:
@@ -74,6 +76,7 @@ const nfts: NftInfo[] = [
     type: 'ERC1155',
   },
   {
+    chainId: 1,
     contract: '0x0369edc7646948e2f36f9f85baf297bb99843054',
     metadata: {
       attributes: [

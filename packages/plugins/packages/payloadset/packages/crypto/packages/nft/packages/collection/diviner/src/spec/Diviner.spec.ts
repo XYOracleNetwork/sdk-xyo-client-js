@@ -9,6 +9,11 @@ describe('NftCollectionScoreDiviner', () => {
     {
       address: '0x0000000000',
       chainId: 1,
+      metrics: {
+        metadata: {
+          attributes: {},
+        },
+      },
       name: 'test',
       schema: NftCollectionSchema,
       symbol: 'TEST',

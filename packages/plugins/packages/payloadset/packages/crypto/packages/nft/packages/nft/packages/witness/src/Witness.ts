@@ -1,11 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import {
-  CryptoWalletNftWitnessConfig,
-  isNftWitnessQueryPayload,
-  NftInfo,
-  NftSchema,
-  NftWitnessConfigSchema,
-} from '@xyo-network/crypto-nft-payload-plugin'
+import { CryptoWalletNftWitnessConfig, isNftWitnessQuery, NftInfo, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
@@ -23,7 +17,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
-    const queries = payloads?.filter(isNftWitnessQueryPayload) ?? []
+    const queries = payloads?.filter(isNftWitnessQuery) ?? []
     const observations = await Promise.all(
       queries.map(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')

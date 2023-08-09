@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { PayloadHasher } from '@xyo-network/core'
 import {
-  isNftCollectionWitnessQueryPayload,
+  isNftCollectionWitnessQuery,
   NftCollectionInfo,
   NftCollectionSchema,
   NftCollectionWitnessConfig,
@@ -31,7 +31,7 @@ export class CryptoNftCollectionWitness<
 
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
-    const queries = payloads?.filter(isNftCollectionWitnessQueryPayload) ?? []
+    const queries = payloads?.filter(isNftCollectionWitnessQuery) ?? []
     const observations = await Promise.all(
       queries.map<Promise<NftCollectionInfo>>(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')

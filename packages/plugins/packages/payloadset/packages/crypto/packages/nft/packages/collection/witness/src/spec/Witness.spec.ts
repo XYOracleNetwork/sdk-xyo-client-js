@@ -7,7 +7,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import {
   isNftCollectionInfo,
   NftCollectionWitnessConfigSchema,
-  NftCollectionWitnessQueryPayload,
+  NftCollectionWitnessQuery,
   NftCollectionWitnessQuerySchema,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
@@ -37,7 +37,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
         const witness = await CryptoNftCollectionWitness.create({ account, config: { address, chainId, schema: NftCollectionWitnessConfigSchema } })
-        const query: NftCollectionWitnessQueryPayload = { schema: NftCollectionWitnessQuerySchema }
+        const query: NftCollectionWitnessQuery = { schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
       })
@@ -45,7 +45,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
         const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema } })
-        const query: NftCollectionWitnessQueryPayload = { address, chainId, schema: NftCollectionWitnessQuerySchema }
+        const query: NftCollectionWitnessQuery = { address, chainId, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
       })
@@ -61,7 +61,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     ]
     it.each(cases)('witness the collection', async (address, chainId) => {
       const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema } })
-      const query: NftCollectionWitnessQueryPayload = { address, chainId, schema: NftCollectionWitnessQuerySchema }
+      const query: NftCollectionWitnessQuery = { address, chainId, schema: NftCollectionWitnessQuerySchema }
       const observation = await witness.observe([query])
       validateObservation(observation)
     })

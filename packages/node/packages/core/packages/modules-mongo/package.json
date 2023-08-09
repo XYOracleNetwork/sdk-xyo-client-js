@@ -77,7 +77,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.196",
+    "@types/lodash": "^4.14.197",
     "@xylabs/ts-scripts-yarn3": "^2.19.0",
     "@xylabs/tsconfig": "^2.19.0",
     "jest": "^29.6.2",

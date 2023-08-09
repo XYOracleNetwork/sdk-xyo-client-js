@@ -3,6 +3,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import {
   isNftCollectionInfo,
   NftCollectionInfo,
+  NftCollectionMetadata,
   NftCollectionScoreDivinerConfig,
   NftCollectionScoreDivinerConfigSchema,
   NftCollectionScorePayload,
@@ -17,9 +18,9 @@ import { analyzeNftCollection, NftCollectionAnalysis } from './lib'
 export type NftCollectionScoreDivinerParams = DivinerParams<AnyConfigSchema<NftCollectionScoreDivinerConfig>>
 
 const toNftCollectionScorePayload = (nftCollectionInfo: NftCollectionInfo, scores: NftCollectionAnalysis): NftCollectionScorePayload => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { schema, ...info } = nftCollectionInfo
-  return { ...info, schema: NftCollectionScoreSchema, scores }
+  const { name, symbol, address, chainId, type } = nftCollectionInfo
+  const metadata: NftCollectionMetadata = { address, chainId, name, symbol, type }
+  return { ...metadata, schema: NftCollectionScoreSchema, scores }
 }
 
 export const isNftCollectionScorePayload = (payload: Payload): payload is NftCollectionScorePayload => payload.schema === NftCollectionScoreSchema

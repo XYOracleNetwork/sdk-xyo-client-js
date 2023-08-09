@@ -17,13 +17,11 @@ import { analyzeNftCollection, NftCollectionAnalysis } from './lib'
 
 export type NftCollectionScoreDivinerParams = DivinerParams<AnyConfigSchema<NftCollectionScoreDivinerConfig>>
 
-const toNftCollectionScorePayload = (nftCollectionInfo: NftCollectionInfo, scores: NftCollectionAnalysis): NftCollectionScore => {
+const toNftCollectionScore = (nftCollectionInfo: NftCollectionInfo, scores: NftCollectionAnalysis): NftCollectionScore => {
   const { name, symbol, address, chainId, type } = nftCollectionInfo
   const metadata: NftCollectionMetadata = { address, chainId, name, symbol, type }
   return { ...metadata, schema: NftCollectionScoreSchema, scores }
 }
-
-export const isNftCollectionScorePayload = (payload: Payload): payload is NftCollectionScore => payload.schema === NftCollectionScoreSchema
 
 export class NftCollectionScoreDiviner<
   TParams extends NftCollectionScoreDivinerParams = NftCollectionScoreDivinerParams,
@@ -36,7 +34,7 @@ export class NftCollectionScoreDiviner<
       nftCollectionInfos.map<Promise<NftCollectionScore>>(async (nftCollectionInfo) => {
         const [score, sourceHash] = await Promise.all([
           // Get score
-          toNftCollectionScorePayload(nftCollectionInfo, await analyzeNftCollection(nftCollectionInfo)),
+          toNftCollectionScore(nftCollectionInfo, await analyzeNftCollection(nftCollectionInfo)),
           // Hash sources
           PayloadHasher.hashAsync(nftCollectionInfo),
         ])

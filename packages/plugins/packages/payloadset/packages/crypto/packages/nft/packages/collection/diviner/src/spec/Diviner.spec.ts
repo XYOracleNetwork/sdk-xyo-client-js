@@ -1,8 +1,8 @@
 import { HDWallet } from '@xyo-network/account'
-import { NftCollectionInfo, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { isNftCollectionScore, NftCollectionInfo, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { isNftCollectionScorePayload, NftCollectionScoreDiviner } from '../Diviner'
+import { NftCollectionScoreDiviner } from '../Diviner'
 
 describe('NftCollectionScoreDiviner', () => {
   const data: NftCollectionInfo[] = [
@@ -23,7 +23,7 @@ describe('NftCollectionScoreDiviner', () => {
   ]
   test('divine', async () => {
     const diviner = await NftCollectionScoreDiviner.create({ account: await HDWallet.random() })
-    const scores = (await diviner.divine(data)).filter(isNftCollectionScorePayload)
+    const scores = (await diviner.divine(data)).filter(isNftCollectionScore)
     expect(scores).toBeArrayOfSize(data.length)
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i]

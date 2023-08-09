@@ -12,4 +12,4 @@ export interface NftCollectionScores {
 export type NftCollectionScoreFields = NftCollectionMetadata & NftCollectionScores
 
 export type NftCollectionScore = Payload<NftCollectionScoreFields, NftCollectionScoreSchema>
-export const isNftCollectionScorePayload = (x?: Payload | null): x is NftCollectionScore => x?.schema === NftCollectionScoreSchema
+export const isNftCollectionScore = (x?: Payload | null): x is NftCollectionScore => x?.schema === NftCollectionScoreSchema

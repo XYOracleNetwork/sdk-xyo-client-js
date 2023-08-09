@@ -6,8 +6,10 @@ import { NftCollectionScoreSchema } from './Schema'
 export type NftCollectionAnalysis = Record<string, [score: number, total: number]>
 
 export interface NftCollectionScores {
-  scores: Record<string, [score: number, total: number]>
+  scores: NftCollectionAnalysis
 }
 
-export type NftCollectionScorePayload = Payload<NftCollectionMetadata & NftCollectionScores, NftCollectionScoreSchema>
-export const isNftCollectionScorePayload = (x?: Payload | null): x is NftCollectionScorePayload => x?.schema === NftCollectionScoreSchema
+export type NftCollectionScoreFields = NftCollectionMetadata & NftCollectionScores
+
+export type NftCollectionScore = Payload<NftCollectionScoreFields, NftCollectionScoreSchema>
+export const isNftCollectionScorePayload = (x?: Payload | null): x is NftCollectionScore => x?.schema === NftCollectionScoreSchema

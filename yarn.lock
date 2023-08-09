@@ -4379,11 +4379,11 @@ __metadata:
   linkType: hard
 
 "@types/mapbox-gl@npm:^2.7.12":
-  version: 2.7.12
-  resolution: "@types/mapbox-gl@npm:2.7.12"
+  version: 2.7.13
+  resolution: "@types/mapbox-gl@npm:2.7.13"
   dependencies:
     "@types/geojson": "*"
-  checksum: bedfe1b277b4876b62a2c5ca7d21b85f58fd60e6472462d4c19eb641126ced52a57cc895ac7e3d42af6484e72e7bf8665579a493bc365e7783a79b66c2eb58ef
+  checksum: b584222588a3e0fdd9fde3fe6563b7c7b5c274f892e3de00754fe18bca3fa2e2ba80c82cfdf00431fb6409bddc1567e7acd9553a41ce031bddb6992771072fc9
   languageName: node
   linkType: hard
 

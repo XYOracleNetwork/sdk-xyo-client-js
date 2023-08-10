@@ -1,6 +1,11 @@
 import { NftCollectionCount } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { normalize, Score } from '@xyo-network/crypto-nft-score-model'
 
+/**
+ * This "magic" value was obtained using Solver in Excel
+ * to find the median, with mu/sigma fixed, which maximizes
+ * the distribution (the mode for lognormal) at 10,000
+ */
 const median = 81030839.8217352
 const defaultMu = Math.log(median)
 const defaultSigma = 3

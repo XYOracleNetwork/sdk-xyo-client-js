@@ -49,7 +49,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   static async hashAsync<T extends AnyObject>(obj: T): Promise<string> {
     await PayloadHasher.wasmInitialized
     if (PayloadHasher.wasmSupport.canUseWasm) {
-      const stringToHash = this.stringify(obj)
+      const stringToHash = PayloadHasher.stringify(obj)
       try {
         return await sha256(stringToHash)
       } catch (ex) {

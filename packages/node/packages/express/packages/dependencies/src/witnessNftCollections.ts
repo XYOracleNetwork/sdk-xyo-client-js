@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { NftCollectionWitnessQuery, NftCollectionWitnessQuerySchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
@@ -36,7 +37,24 @@ export const witnessNftCollections = async (node: NodeInstance) => {
   const imageThumbnailWitness = assertEx(asWitnessInstance(imageThumbnailWitnessMod), `Creating: ${TYPES.ImageThumbnailWitness.description}`)
 
   try {
-    console.log('Getting NFT collections')
+    console.log('Getting NFT Collections')
+    for (const [address, chainId] of collections) {
+      try {
+        console.log(`${address}: Collection Info: Witness`)
+        const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts: 20000, schema: NftCollectionWitnessQuerySchema }
+        const nftCollectionInfo = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
+        console.log(`${address}: Collection Info: Store`)
+        await archivist.insert(nftCollectionInfo)
+        console.log(`${address}: Collection Score: Divine`)
+        console.log(`${address}: Collection Score: Store`)
+        console.log(`${address}: Collection Thumbnail: Obtain Candidate`)
+        console.log(`${address}: Collection Thumbnail: Witness`)
+        console.log(`${address}: Collection Thumbnail: Store`)
+      } catch (error) {
+        console.log(`${address}: Error`)
+        console.log(error)
+      }
+    }
   } catch (error) {
     console.log('Error getting NFT collections')
     console.log(error)

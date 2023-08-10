@@ -5,13 +5,23 @@ import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance,
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
-import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
-import { PayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-model'
+import {
+  AddressHistoryDivinerConfigSchema,
+  AddressSpaceBatchDivinerConfigSchema,
+  AddressSpaceDivinerConfigSchema,
+  BoundWitnessDivinerConfigSchema,
+  BoundWitnessStatsDivinerConfigSchema,
+  PayloadDivinerConfigSchema,
+  PayloadStatsDivinerConfigSchema,
+  SchemaListDivinerConfigSchema,
+  SchemaStatsDivinerConfigSchema,
+} from '@xyo-network/diviner-models'
 import { ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
+import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'
@@ -23,23 +33,23 @@ type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibi
 const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
 
 const diviners: ModuleConfigWithVisibility[] = [
-  // [{ schema: AddressHistoryDivinerConfigSchema }, true],
-  // [{ schema: AddressSpaceDivinerConfigSchema }, true],
-  // [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
+  [{ schema: AddressHistoryDivinerConfigSchema }, true],
+  [{ schema: AddressSpaceDivinerConfigSchema }, true],
+  [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
   [{ schema: BoundWitnessDivinerConfigSchema }, true],
-  // [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
+  [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   [{ schema: NftScoreDivinerConfigSchema }, true],
   [{ schema: PayloadDivinerConfigSchema }, true],
-  // [{ schema: PayloadStatsDivinerConfigSchema }, true],
-  // [{ schema: SchemaListDivinerConfigSchema }, true],
-  // [{ schema: SchemaStatsDivinerConfigSchema }, true],
+  [{ schema: PayloadStatsDivinerConfigSchema }, true],
+  [{ schema: SchemaListDivinerConfigSchema }, true],
+  [{ schema: SchemaStatsDivinerConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
   [{ schema: ImageThumbnailWitnessConfigSchema }, true],
-  // [{ schema: PrometheusNodeWitnessConfigSchema }, false],
+  [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]

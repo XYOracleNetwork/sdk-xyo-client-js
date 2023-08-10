@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { NftCollectionWitnessQuery, NftCollectionWitnessQuerySchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
@@ -6,7 +7,7 @@ import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
-const collections: [address: string, chainId: number][] = []
+import { collections } from './collections'
 
 export const witnessNftCollections = async (node: NodeInstance) => {
   const archivistMod = assertEx(await node.resolve(TYPES.Archivist.description), `Resolving: ${TYPES.Archivist.description}`)
@@ -38,24 +39,29 @@ export const witnessNftCollections = async (node: NodeInstance) => {
 
   try {
     console.log('Getting NFT Collections')
-    for (const [address, chainId] of collections) {
+    for (const [name, address, chainId] of collections) {
+      console.log(`${address}(${name}): Beginning`)
+      if (!address) {
+        console.log(`${address}(${name}): Beginning: ERROR: No Address`)
+        continue
+      }
       try {
-        console.log(`${address}: Collection Info: Witness`)
+        console.log(`${address}(${name}): Collection Info: Witness`)
         const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts: 20000, schema: NftCollectionWitnessQuerySchema }
         const nftCollectionInfo = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
-        assertEx(nftCollectionInfo?.length > 0, `${address}: ERROR: Collection Info: Witness: Invalid length`)
-        console.log(`${address}: Collection Info: Store`)
+        assertEx(nftCollectionInfo?.length > 0, `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
+        console.log(`${address}(${name}): Collection Info: Store`)
         await archivist.insert(nftCollectionInfo)
-        console.log(`${address}: Collection Score: Divine`)
+        console.log(`${address}(${name}): Collection Score: Divine`)
         const nftCollectionScore = await nftCollectionScoreDiviner.divine(nftCollectionInfo)
-        assertEx(nftCollectionInfo?.length > 0, `${address}: ERROR: Collection Score: Divine: Invalid length`)
-        console.log(`${address}: Collection Score: Store`)
+        assertEx(nftCollectionInfo?.length > 0, `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
+        console.log(`${address}(${name}): Collection Score: Store`)
         await archivist.insert(nftCollectionScore)
-        console.log(`${address}: Collection Thumbnail: Obtain Candidate`)
-        console.log(`${address}: Collection Thumbnail: Witness`)
-        console.log(`${address}: Collection Thumbnail: Store`)
+        console.log(`${address}(${name}): Collection Thumbnail: Obtain Candidate`)
+        console.log(`${address}(${name}): Collection Thumbnail: Witness`)
+        console.log(`${address}(${name}): Collection Thumbnail: Store`)
       } catch (error) {
-        console.log(`${address}: Error`)
+        console.log(`${address}(${name}): ERROR`)
         console.log(error)
       }
     }

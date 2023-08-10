@@ -1,10 +1,12 @@
 import { NftCollectionAttributeMetrics } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { normalize, Score } from '@xyo-network/crypto-nft-score-model'
+import { normalize, Score, SKIP } from '@xyo-network/crypto-nft-score-model'
 
 const maxScore = 10
 
 export const scoreIndividualAttributes = (info: NftCollectionAttributeMetrics): Score => {
   const { attributes } = info.metrics.metadata
+  const entries = Object.entries(attributes)
+  if (entries.length === 0) return SKIP
   const scores = Object.entries(attributes)
     .map(([_trait, { values }]) => {
       return Object.entries(values).map<Score>(([_traitValue, metrics]) => {

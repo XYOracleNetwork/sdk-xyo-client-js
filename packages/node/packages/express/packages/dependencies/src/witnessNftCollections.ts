@@ -21,7 +21,7 @@ interface NftCollectionDisplaySlugInfo {
 
 type NftCollectionDisplaySlugInfos = Record<string, NftCollectionDisplaySlugInfo>
 
-const maxNfts = 100_000
+const maxNfts = 200_000
 
 const filePath = './nftData/beta/nftCollectionDisplaySlugInfos.json'
 

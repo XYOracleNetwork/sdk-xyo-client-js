@@ -1,15 +1,28 @@
 /* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionWitnessQuery, NftCollectionWitnessQuerySchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
+import { readFile, writeFile } from 'fs/promises'
 
 import { collections } from './collections'
+
+interface NftCollectionDisplaySlugInfo {
+  displayName: string
+  imageSlug: string | null
+  score: string
+}
+
+type NftCollectionDisplaySlugInfos = Record<string, NftCollectionDisplaySlugInfo>
+
 // TODO: 45000 (some)
 const maxNfts = 100
+
+const filePath = './nftData/nftCollectionDisplaySlugInfos.json'
 
 export const witnessNftCollections = async (node: NodeInstance) => {
   const archivistMod = assertEx(await node.resolve(TYPES.Archivist.description), `Resolving: ${TYPES.Archivist.description}`)
@@ -50,18 +63,32 @@ export const witnessNftCollections = async (node: NodeInstance) => {
       try {
         console.log(`${address}(${name}): Collection Info: Witness`)
         const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }
-        const nftCollectionInfo = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
-        assertEx(nftCollectionInfo?.length > 0, `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
+        const nftCollectionInfoResult = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
+        const nftCollectionInfo = assertEx(nftCollectionInfoResult?.[0], `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
         console.log(`${address}(${name}): Collection Info: Store`)
-        await archivist.insert(nftCollectionInfo)
+        await archivist.insert([nftCollectionInfo])
         console.log(`${address}(${name}): Collection Score: Divine`)
-        const nftCollectionScore = await nftCollectionScoreDiviner.divine(nftCollectionInfo)
-        assertEx(nftCollectionInfo?.length > 0, `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
+        const nftCollectionScoreResult = await nftCollectionScoreDiviner.divine([nftCollectionInfo])
+        const nftCollectionScore = assertEx(nftCollectionScoreResult?.[0], `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
         console.log(`${address}(${name}): Collection Score: Store`)
-        await archivist.insert(nftCollectionScore)
+        await archivist.insert([nftCollectionScore])
         console.log(`${address}(${name}): Collection Thumbnail: Obtain Candidate`)
         console.log(`${address}(${name}): Collection Thumbnail: Witness`)
         console.log(`${address}(${name}): Collection Thumbnail: Store`)
+        console.log(`${address}(${name}): Collection Thumbnail: Persist Collection`)
+        const fileContents = await readFile(filePath, 'utf8')
+        const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = JSON.parse(fileContents)
+        const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
+        const displayName = name
+        const imageSlug = null
+        const score = await PayloadHasher.hashAsync(nftCollectionScore)
+        const updatedNftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = { displayName, imageSlug, score }
+        const nftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = existingNftCollectionDisplaySlugInfo
+          ? { ...existingNftCollectionDisplaySlugInfo, ...updatedNftCollectionDisplaySlugInfo }
+          : updatedNftCollectionDisplaySlugInfo
+        nftCollectionDisplaySlugInfos[address] = nftCollectionDisplaySlugInfo
+        await writeFile(filePath, JSON.stringify(sortObjectKeys(nftCollectionDisplaySlugInfos), null, 2))
+        console.log(`${address}(${name}): Collection Thumbnail: Collection Persisted`)
       } catch (error) {
         console.log(`${address}(${name}): ERROR`)
         console.log(error)
@@ -71,4 +98,15 @@ export const witnessNftCollections = async (node: NodeInstance) => {
     console.log('Error getting NFT collections')
     console.log(error)
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Dictionary = { [key: string]: any }
+function sortObjectKeys(obj: Dictionary) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((result, key) => {
+      result[key] = obj[key]
+      return result
+    }, {} as Dictionary)
 }

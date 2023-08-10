@@ -25,7 +25,6 @@ const logNormalProbabilityDensity = (x: number, mu: number = defaultMu, sigma: n
  * For a lognormal distribution, the peak of the distribution is the mode
  */
 const maxProbabilityDensity = logNormalProbabilityDensity(mode)
-// console.log(`mode: ${mode} maxDensity: ${maxProbabilityDensity}`)
 
 const maxScore = 10
 

@@ -57,6 +57,6 @@ export const getServer = async (port = 80, node?: MemoryNode) => {
   const host = process.env.PUBLIC_ORIGIN || `http://${hostname}:${port}`
   await configureDoc(app, { host })
   const server = app.listen(port, hostname, () => logger.log(`Server listening at http://${hostname}:${port}`))
-  server.setTimeout(3000)
+  server.setTimeout(10000)
   return server
 }

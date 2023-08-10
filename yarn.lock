@@ -7676,6 +7676,7 @@ __metadata:
     "@xyo-network/diviner-boundwitness": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats": "workspace:~"
     "@xyo-network/diviner-forecasting": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-models": "workspace:~"
     "@xyo-network/diviner-payload": "workspace:~"
     "@xyo-network/diviner-payload-stats": "workspace:~"
@@ -7688,6 +7689,8 @@ __metadata:
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/prometheus-node-plugin": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
     body-parser: ^1.20.2
     dotenv: ^16.3.1
     express: ^4.18.2

@@ -24,6 +24,8 @@ import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
 
+import { witnessNftCollections } from './witnessNftCollections'
+
 const config = { schema: NodeConfigSchema }
 
 type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibility: boolean]
@@ -75,6 +77,9 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
       const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
       await addModulesToNodeByConfig(container, node, additionalConfigs)
     }
+  }
+  if (process.env.WITNESS_NFT_COLLECTIONS) {
+    await witnessNftCollections(node)
   }
 }
 

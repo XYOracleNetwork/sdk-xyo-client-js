@@ -5,7 +5,7 @@ import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleInstance, Mo
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolver {
-  static defaultMaxDepth = 4
+  static defaultMaxDepth = 5
   protected resolvers: ModuleResolver[] = []
   private localResolver: SimpleModuleResolver
 

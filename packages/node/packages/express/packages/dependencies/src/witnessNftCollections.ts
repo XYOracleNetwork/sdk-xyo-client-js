@@ -3,9 +3,11 @@ import { assertEx } from '@xylabs/assert'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionWitnessQuery, NftCollectionWitnessQuerySchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { isNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
+import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 import { readFile, writeFile } from 'fs/promises'
 
@@ -70,19 +72,34 @@ export const witnessNftCollections = async (node: NodeInstance) => {
         console.log(`${address}(${name}): Collection Score: Divine`)
         const nftCollectionScoreResult = await nftCollectionScoreDiviner.divine([nftCollectionInfo])
         const nftCollectionScore = assertEx(nftCollectionScoreResult?.[0], `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
+        const score = await PayloadHasher.hashAsync(nftCollectionScore)
         console.log(`${address}(${name}): Collection Score: Store`)
         await archivist.insert([nftCollectionScore])
         console.log(`${address}(${name}): Collection Thumbnail: Obtain Candidate`)
-        console.log(`${address}(${name}): Collection Thumbnail: Witness`)
-        console.log(`${address}(${name}): Collection Thumbnail: Store`)
+        let imageSlug: string | null = null
+        const sourceNftInfoHash = nftCollectionInfo?.sources?.[0]
+        if (sourceNftInfoHash) {
+          const nftInfo = (await archivist.get([sourceNftInfoHash])).find(isNftInfo)
+          if (typeof nftInfo?.metadata?.image === 'string') {
+            const url = nftInfo.metadata.image
+            const imageThumbnailWitnessQuery: UrlPayload = { schema: UrlSchema, url }
+            try {
+              console.log(`${address}(${name}): Collection Thumbnail: Witness`)
+              const imageThumbnailResult = await imageThumbnailWitness.observe([imageThumbnailWitnessQuery])
+              const imageThumbnail = assertEx(imageThumbnailResult?.[0], `${address}(${name}): ERROR: Collection Thumbnail: Witness: Invalid length`)
+              console.log(`${address}(${name}): Collection Thumbnail: Store`)
+              await archivist.insert([imageThumbnail])
+              imageSlug = await PayloadHasher.hashAsync(imageThumbnail)
+            } catch (error) {
+              console.log(`${address}(${name}): ERROR: Collection Thumbnail: ${error}`)
+            }
+          }
+        }
         console.log(`${address}(${name}): Collection Thumbnail: Persist Collection`)
         const fileContents = await readFile(filePath, 'utf8')
         const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = JSON.parse(fileContents)
         const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
-        const displayName = name
-        const imageSlug = null
-        const score = await PayloadHasher.hashAsync(nftCollectionScore)
-        const updatedNftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = { displayName, imageSlug, score }
+        const updatedNftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = { displayName: name, imageSlug, score }
         const nftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = existingNftCollectionDisplaySlugInfo
           ? { ...existingNftCollectionDisplaySlugInfo, ...updatedNftCollectionDisplaySlugInfo }
           : updatedNftCollectionDisplaySlugInfo

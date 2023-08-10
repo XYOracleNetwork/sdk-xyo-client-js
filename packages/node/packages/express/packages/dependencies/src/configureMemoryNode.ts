@@ -31,23 +31,23 @@ type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibi
 const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
 
 const diviners: ModuleConfigWithVisibility[] = [
-  [{ schema: AddressHistoryDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
-  [{ schema: BoundWitnessDivinerConfigSchema }, true],
-  [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
+  // [{ schema: AddressHistoryDivinerConfigSchema }, true],
+  // [{ schema: AddressSpaceDivinerConfigSchema }, true],
+  // [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
+  // [{ schema: BoundWitnessDivinerConfigSchema }, true],
+  // [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   [{ schema: NftScoreDivinerConfigSchema }, true],
-  [{ schema: PayloadDivinerConfigSchema }, true],
-  [{ schema: PayloadStatsDivinerConfigSchema }, true],
-  [{ schema: SchemaListDivinerConfigSchema }, true],
-  [{ schema: SchemaStatsDivinerConfigSchema }, true],
+  // [{ schema: PayloadDivinerConfigSchema }, true],
+  // [{ schema: PayloadStatsDivinerConfigSchema }, true],
+  // [{ schema: SchemaListDivinerConfigSchema }, true],
+  // [{ schema: SchemaStatsDivinerConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
   [{ schema: ImageThumbnailWitnessConfigSchema }, true],
-  [{ schema: PrometheusNodeWitnessConfigSchema }, false],
+  // [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]

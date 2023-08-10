@@ -30,6 +30,8 @@ export const WALLET_PATHS = {
     LocationCertainty: `${ModulePath.Diviner}/9'` as const,
     Forecasting: `${ModulePath.Diviner}/10'` as const,
     AddressSpaceBatch: `${ModulePath.Diviner}/11'` as const,
+    NftScoreDiviner: `${ModulePath.Diviner}/12'` as const,
+    NftCollectionScoreDiviner: `${ModulePath.Diviner}/13'` as const,
   } as const,
   Witnesses: {
     Witness: `${ModulePath.Witness}/0'` as const,

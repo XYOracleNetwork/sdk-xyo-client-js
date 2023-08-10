@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { CryptoNftCollectionWitness } from '@xyo-network/crypto-nft-collection-witness-plugin'
-import { CryptoWalletNftWitness } from '@xyo-network/crypto-nft-plugin'
+import { CryptoWalletNftWitness } from '@xyo-network/crypto-nft-witness-wallet-plugin'
 import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'

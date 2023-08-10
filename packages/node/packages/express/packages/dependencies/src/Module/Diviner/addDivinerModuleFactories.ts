@@ -1,5 +1,7 @@
 /* eslint-disable max-statements */
 import { HDWallet } from '@xyo-network/account'
+import { NftCollectionScoreDiviner } from '@xyo-network/crypto-nft-collection-diviner-score-plugin'
+import { NftScoreDiviner } from '@xyo-network/crypto-nft-diviner-score-plugin'
 import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness'
@@ -75,6 +77,24 @@ const getMemoryForecastingDiviner = async (container: Container) => {
   }
   return new ModuleFactory(MemoryForecastingDiviner, params)
 }
+const getNftCollectionScoreDiviner = async (container: Container) => {
+  const wallet = await getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.NftCollectionScoreDiviner,
+    config: { name: TYPES.NftCollectionScoreDiviner.description, schema: NftCollectionScoreDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryPayloadDiviner, params)
+}
+const getNftScoreDiviner = async (container: Container) => {
+  const wallet = await getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.NftScoreDiviner,
+    config: { name: TYPES.NftScoreDiviner.description, schema: NftScoreDiviner.configSchema },
+    wallet,
+  }
+  return new ModuleFactory(MemoryPayloadDiviner, params)
+}
 const getPayloadDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
   const params = {
@@ -123,4 +143,6 @@ export const addDivinerModuleFactories = async (container: Container) => {
   dictionary[MemoryPayloadStatsDiviner.configSchema] = await getPayloadStatsDiviner(container)
   dictionary[MemorySchemaListDiviner.configSchema] = await getSchemaListDiviner(container)
   dictionary[MemorySchemaStatsDiviner.configSchema] = await getSchemaStatsDiviner(container)
+  dictionary[NftCollectionScoreDiviner.configSchema] = await getNftCollectionScoreDiviner(container)
+  dictionary[NftScoreDiviner.configSchema] = await getNftScoreDiviner(container)
 }

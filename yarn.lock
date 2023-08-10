@@ -6534,7 +6534,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/crypto-nft-collection-diviner-score-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/diviner":
+"@xyo-network/crypto-nft-collection-diviner-score-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/diviner, @xyo-network/crypto-nft-collection-diviner-score-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-collection-diviner-score-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/diviner"
   dependencies:
@@ -7665,10 +7665,12 @@ __metadata:
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/crypto-nft-collection-diviner-score-plugin": "workspace:~"
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-collection-witness-plugin": "workspace:~"
+    "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
-    "@xyo-network/crypto-nft-plugin": "workspace:~"
+    "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
     "@xyo-network/diviner-address-history": "workspace:~"
     "@xyo-network/diviner-address-space": "workspace:~"
     "@xyo-network/diviner-boundwitness": "workspace:~"

@@ -3,8 +3,8 @@ import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
 import {
   AddressHistoryDivinerConfigSchema,
   AddressSpaceBatchDivinerConfigSchema,
@@ -36,6 +36,8 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
   [{ schema: BoundWitnessDivinerConfigSchema }, true],
   [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
+  [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
+  [{ schema: NftScoreDivinerConfigSchema }, true],
   [{ schema: PayloadDivinerConfigSchema }, true],
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],

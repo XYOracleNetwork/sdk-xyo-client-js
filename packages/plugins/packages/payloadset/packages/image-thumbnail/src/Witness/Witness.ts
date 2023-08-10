@@ -188,7 +188,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         const result: ImageThumbnail = {
           http: {
             ipAddress: dnsResult[0],
-            status: axiosError.status,
+            status: axiosError?.response?.status,
           },
           schema: ImageThumbnailSchema,
           sourceUrl: url,

@@ -9,6 +9,7 @@
     "**/docs",
     "coverage",
     "docker",
+    "nftData",
     "**/testData.json",
     "swagger.json",
     ".yarn"

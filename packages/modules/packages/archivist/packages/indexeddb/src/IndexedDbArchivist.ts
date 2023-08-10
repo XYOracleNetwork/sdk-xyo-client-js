@@ -97,8 +97,11 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const result = await getMany<Payload>(hashes, this.db)
-    return result
+    const found = await getMany<Payload>(hashes, this.db)
+    const foundHashes = await Promise.all(found.map(PayloadHasher.hashAsync))
+    const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
+    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
+    return [...found, ...parentFound]
   }
 
   protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
@@ -109,6 +112,7 @@ export class IndexedDbArchivist<
       }),
     )
     await setMany(entries, this.db)
+    await this.writeToParents(payloads)
     return payloads
   }
 

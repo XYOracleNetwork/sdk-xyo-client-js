@@ -2,7 +2,7 @@ export type NftCollectionWitnessScrapeData = [name: string, address: string, cha
 
 export const collections: NftCollectionWitnessScrapeData[] = [
   // ['CryptoPunks', '0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB', 1],
-  ['Bored Ape Yacht Club', '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 1],
+  // ['Bored Ape Yacht Club', '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D', 1],
   // ['Mutant Ape Yacht Club', '0x60E4d786628Fea6478F785A6d7e704777c86a7c6', 1],
   // ['Azuki', '0xED5AF388653567Af2F388E6224dC7C4b3241C544', 1],
   // ['Opepen Edition', '0x6339e5E072086621540D0362C4e3Cea0d643E114', 1],
@@ -55,6 +55,7 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['Otherside Koda', '0xE012Baf811CF9c05c408e879C399960D1f305903', 1],
   // ['Lil Pudgys', '0x524cAB2ec69124574082676e6F654a18df49A048', 1],
   // ['ENS: Ethereum Name Service', '', 1],
+  // TODO
   // ['Laelaps Master Key', '0x691c77F69a6AE05F5C8cC9f46d7E46Ce97FA2F3B', 1],
   // ['Cool Cats NFT', '0x1A92f7381B9F03921564a437210bB9396471050C', 1],
   // ['The Memes by 6529', '0x33FD426905F149f8376e227d0C9D3340AaD17aF1', 1],

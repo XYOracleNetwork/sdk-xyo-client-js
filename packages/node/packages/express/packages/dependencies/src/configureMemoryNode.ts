@@ -5,24 +5,14 @@ import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance,
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
-import {
-  AddressHistoryDivinerConfigSchema,
-  AddressSpaceBatchDivinerConfigSchema,
-  AddressSpaceDivinerConfigSchema,
-  BoundWitnessDivinerConfigSchema,
-  BoundWitnessStatsDivinerConfigSchema,
-  PayloadDivinerConfigSchema,
-  PayloadStatsDivinerConfigSchema,
-  SchemaListDivinerConfigSchema,
-  SchemaStatsDivinerConfigSchema,
-} from '@xyo-network/diviner-models'
 import { ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
-import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { Container } from 'inversify'
+
+import { witnessNftCollections } from './witnessNftCollections'
 
 const config = { schema: NodeConfigSchema }
 
@@ -75,6 +65,9 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
       const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
       await addModulesToNodeByConfig(container, node, additionalConfigs)
     }
+  }
+  if (process.env.WITNESS_NFT_COLLECTIONS) {
+    await witnessNftCollections(node)
   }
 }
 

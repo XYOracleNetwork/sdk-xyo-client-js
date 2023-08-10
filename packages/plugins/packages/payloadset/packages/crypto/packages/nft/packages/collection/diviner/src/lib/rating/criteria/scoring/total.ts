@@ -1,13 +1,15 @@
 import { NftCollectionCount } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { normalize, Score } from '@xyo-network/crypto-nft-score-model'
 
-const median = 100000
+/**
+ * This "magic" value was obtained using Solver in Excel
+ * to find the median, with mu/sigma fixed, which maximizes
+ * the distribution (the mode for lognormal) at 10,000
+ */
+const median = 81030839.8217352
 const defaultMu = Math.log(median)
-const defaultSigma = 2
-// const mean = Math.exp(defaultMu + Math.pow(defaultSigma, 2) / 2)
+const defaultSigma = 3
 const mode = Math.exp(defaultMu - Math.pow(defaultSigma, 2))
-// console.log(`mean: ${mean} median: ${median} mode: ${mode}`)
-
 /**
  * Calculates the log-normal probability density
  * @param x the value at which you want to calculate the probability density
@@ -25,10 +27,21 @@ const logNormalProbabilityDensity = (x: number, mu: number = defaultMu, sigma: n
  * For a lognormal distribution, the peak of the distribution is the mode
  */
 const maxProbabilityDensity = logNormalProbabilityDensity(mode)
-// console.log(`mode: ${mode} maxDensity: ${maxProbabilityDensity}`)
 
 const maxScore = 10
 
+/**
+ * We're working on some assumptions here:
+ * - If there's < 1000 NFTs in your collection it starts becoming too niche
+ * - If there's > 20,000 NFTs in your collection it starts becoming too broad
+ * So there's a sweet spot somewhere between 2000 and 10,000
+ * where a collection has enough NFTs to be interesting, but
+ * not so many that it's teetering on a diluted money grab.
+ * To model that we're using a log-normal distribution optimized
+ * to maximally reward collections in the aforementioned range
+ * @param nft
+ * @returns
+ */
 export const scoreTotal = (nft: NftCollectionCount): Score => {
   const density = logNormalProbabilityDensity(nft.total)
   const score: Score = [density, maxProbabilityDensity]

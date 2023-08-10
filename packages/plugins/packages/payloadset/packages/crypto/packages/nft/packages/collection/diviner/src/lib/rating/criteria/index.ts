@@ -5,5 +5,5 @@ import { scoreMetadata, scoreTotal } from './scoring'
 
 export const scoringCriteria: { [key: string]: WeightedScoringCriteria<NftCollectionInfo> } = {
   ...scoreMetadata,
-  Total: { score: scoreTotal, weight: 1 },
+  Total: { score: scoreTotal, weight: 2 },
 }

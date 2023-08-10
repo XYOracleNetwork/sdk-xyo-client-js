@@ -8,6 +8,8 @@ import { NodeInstance } from '@xyo-network/node-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
 import { collections } from './collections'
+// TODO: 45000 (some)
+const maxNfts = 100
 
 export const witnessNftCollections = async (node: NodeInstance) => {
   const archivistMod = assertEx(await node.resolve(TYPES.Archivist.description), `Resolving: ${TYPES.Archivist.description}`)
@@ -47,7 +49,7 @@ export const witnessNftCollections = async (node: NodeInstance) => {
       }
       try {
         console.log(`${address}(${name}): Collection Info: Witness`)
-        const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts: 20000, schema: NftCollectionWitnessQuerySchema }
+        const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }
         const nftCollectionInfo = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
         assertEx(nftCollectionInfo?.length > 0, `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
         console.log(`${address}(${name}): Collection Info: Store`)

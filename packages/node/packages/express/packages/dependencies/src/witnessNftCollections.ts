@@ -21,10 +21,9 @@ interface NftCollectionDisplaySlugInfo {
 
 type NftCollectionDisplaySlugInfos = Record<string, NftCollectionDisplaySlugInfo>
 
-// TODO: 45000 (some)
-const maxNfts = 100
+const maxNfts = 100_000
 
-const filePath = './nftData/nftCollectionDisplaySlugInfos.json'
+const filePath = './nftData/beta/nftCollectionDisplaySlugInfos.json'
 
 export const witnessNftCollections = async (node: NodeInstance) => {
   const archivistMod = assertEx(await node.resolve(TYPES.Archivist.description), `Resolving: ${TYPES.Archivist.description}`)

@@ -1,11 +1,10 @@
 import { NftCollectionCount } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { normalize, Score } from '@xyo-network/crypto-nft-score-model'
 
-const median = 100000
+const median = 81030839.8217352
 const defaultMu = Math.log(median)
-const defaultSigma = 2
+const defaultSigma = 3
 const mode = Math.exp(defaultMu - Math.pow(defaultSigma, 2))
-
 /**
  * Calculates the log-normal probability density
  * @param x the value at which you want to calculate the probability density

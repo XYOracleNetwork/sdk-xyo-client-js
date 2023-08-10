@@ -1,46 +1,36 @@
 import { NftCollectionCount } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { Score } from '@xyo-network/crypto-nft-score-model'
 
 import { scoreTotal } from '../total'
 
-type ScoreEvaluationFunction = (score: Score) => void
-
-const expectScoreWithinRange = (lower: number, upper: number): ScoreEvaluationFunction => {
-  return (score: Score) => {
-    expect(score[0]).toBeGreaterThanOrEqual(lower)
-    expect(score[0]).toBeLessThanOrEqual(upper)
-  }
-}
-
 describe('scoreTotal', () => {
-  const values: [total: number, expectation: ScoreEvaluationFunction][] = [
-    [1, (score) => expectScoreWithinRange(0, 1)(score)],
-    [2, (score) => expectScoreWithinRange(0, 1)(score)],
-    [3, (score) => expectScoreWithinRange(0, 1)(score)],
-    [10, (score) => expectScoreWithinRange(0, 1)(score)],
-    [20, (score) => expectScoreWithinRange(0, 1)(score)],
-    [30, (score) => expectScoreWithinRange(1, 2)(score)],
-    [100, (score) => expectScoreWithinRange(2, 5)(score)],
-    [200, (score) => expectScoreWithinRange(5, 7)(score)],
-    [300, (score) => expectScoreWithinRange(5, 7)(score)],
-    [1000, (score) => expectScoreWithinRange(8, 10)(score)],
-    [2000, (score) => expectScoreWithinRange(8, 10)(score)],
-    [3000, (score) => expectScoreWithinRange(8, 10)(score)],
-    [10000, (score) => expectScoreWithinRange(5, 7)(score)],
-    [20000, (score) => expectScoreWithinRange(2, 5)(score)],
-    [30000, (score) => expectScoreWithinRange(2, 5)(score)],
-    [100000, (score) => expectScoreWithinRange(1, 2)(score)],
-    [200000, (score) => expectScoreWithinRange(0, 1)(score)],
-    [300000, (score) => expectScoreWithinRange(0, 1)(score)],
+  const values: [total: number, expected: number][] = [
+    [1, 0],
+    [2, 0],
+    [3, 0],
+    [10, 1],
+    [20, 1],
+    [30, 2],
+    [100, 3],
+    [200, 4],
+    [300, 5],
+    [1000, 7],
+    [2000, 9],
+    [3000, 9],
+    [10000, 10],
+    [20000, 10],
+    [30000, 9],
+    [100000, 7],
+    [200000, 6],
+    [300000, 5],
   ]
 
-  it.each(values)('scores the total', (total, expectations) => {
+  it.each(values)('scores %s as %s', (total, expected) => {
     const collection: NftCollectionCount = { total }
     const [score, possible] = scoreTotal(collection)
     expect(score).toBeNumber()
     expect(score).not.toBeNegative()
-    expect(possible).toBeNumber()
     expect(possible).not.toBeNegative()
-    expectations([score, possible])
+    expect(possible).toBeNumber()
+    expect(score).toBe(expected)
   })
 })

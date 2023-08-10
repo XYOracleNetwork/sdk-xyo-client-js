@@ -84,7 +84,7 @@ const getNftCollectionScoreDiviner = async (container: Container) => {
     config: { name: TYPES.NftCollectionScoreDiviner.description, schema: NftCollectionScoreDiviner.configSchema },
     wallet,
   }
-  return new ModuleFactory(MemoryPayloadDiviner, params)
+  return new ModuleFactory(NftCollectionScoreDiviner, params)
 }
 const getNftScoreDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
@@ -93,7 +93,7 @@ const getNftScoreDiviner = async (container: Container) => {
     config: { name: TYPES.NftScoreDiviner.description, schema: NftScoreDiviner.configSchema },
     wallet,
   }
-  return new ModuleFactory(MemoryPayloadDiviner, params)
+  return new ModuleFactory(NftScoreDiviner, params)
 }
 const getPayloadDiviner = async (container: Container) => {
   const wallet = await getWallet(container)

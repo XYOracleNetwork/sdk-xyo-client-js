@@ -97,7 +97,7 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const found = await getMany<Payload>(hashes, this.db)
+    const found = (await getMany<Payload>(hashes, this.db)).filter((result) => result !== undefined)
     // If we found everything or we don't have parents, return what we have
     if (found.length === hashes.length || !(await this.parents())?.read) return found
     // Otherwise, check parents for any hashes we were unable to find

@@ -59,6 +59,23 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.width ?? 128
   }
 
+  static checkIpfsUrl(urlToCheck: string) {
+    const url = new Url(urlToCheck)
+    let protocol = url.protocol
+    let host = url.host
+    let path = url.pathname
+    const query = url.query
+    if (protocol === 'ipfs:') {
+      protocol = 'https:'
+      host = 'cloudflare-ipfs.com'
+      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
+      const root = `${protocol}//${host}/${path}`
+      return query?.length > 0 ? `root?${query}` : root
+    } else {
+      return urlToCheck
+    }
+  }
+
   private static async binaryToSha256(data: Uint8Array) {
     await PayloadHasher.wasmInitialized
     if (PayloadHasher.wasmSupport.canUseWasm) {
@@ -87,23 +104,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         }
         throw error
       }
-    }
-  }
-
-  private static checkIpfsUrl(urlToCheck: string) {
-    const url = new Url(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.query
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = 'cloudflare-ipfs.com'
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `root?${query}` : root
-    } else {
-      return urlToCheck
     }
   }
 

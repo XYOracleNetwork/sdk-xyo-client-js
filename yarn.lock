@@ -7792,6 +7792,7 @@ __metadata:
     "@types/lodash": ^4.14.197
     "@xylabs/ts-scripts-yarn3": ^2.19.0
     "@xylabs/tsconfig": ^2.19.0
+    "@xylabs/url": ^2.9.3
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/image-thumbnail-payload-plugin": "workspace:~"

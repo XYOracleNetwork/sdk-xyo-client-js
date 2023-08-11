@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/url": "^2.9.3",
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/image-thumbnail-payload-plugin": "workspace:~",

@@ -61,7 +61,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   /**
-   *
+   * Returns the equivalent IPFS gateway URL for the supplied URL.
    * @param urlToCheck The URL to check
    * @returns If the supplied URL is an IPFS URL, it converts the URL to the
    * equivalent IPFS gateway URL. Otherwise, returns the original URL.

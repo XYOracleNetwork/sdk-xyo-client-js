@@ -23,7 +23,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "lodash": "^4.17.21",
-    "lru-cache": "^10.0.0",
+    "lru-cache": "^10.0.1",
     "url-parse": "^1.5.10"
   },
   "devDependencies": {

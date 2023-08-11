@@ -60,6 +60,12 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.width ?? 128
   }
 
+  /**
+   *
+   * @param urlToCheck The URL to check
+   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
+   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
+   */
   static checkIpfsUrl(urlToCheck: string) {
     const url = new URL(urlToCheck)
     let protocol = url.protocol

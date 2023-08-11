@@ -1,5 +1,6 @@
 import { promises as dnsPromises } from 'node:dns'
 
+import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
@@ -60,17 +61,17 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   static checkIpfsUrl(urlToCheck: string) {
-    const url = new Url(urlToCheck)
+    const url = new URL(urlToCheck)
     let protocol = url.protocol
     let host = url.host
     let path = url.pathname
-    const query = url.query
+    const query = url.search
     if (protocol === 'ipfs:') {
       protocol = 'https:'
       host = 'cloudflare-ipfs.com'
       path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
       const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `root?${query}` : root
+      return query?.length > 0 ? `${root}?${query}` : root
     } else {
       return urlToCheck
     }

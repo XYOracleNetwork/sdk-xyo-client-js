@@ -62,6 +62,9 @@ export const witnessNftCollections = async (node: NodeInstance) => {
         continue
       }
       try {
+        console.log(`${address}(${name}): Collection History: Read Existing`)
+        const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = await readCollectionInfo()
+        const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
         console.log(`${address}(${name}): Collection Info: Witness`)
         const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }
         const nftCollectionInfoResult = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
@@ -95,9 +98,6 @@ export const witnessNftCollections = async (node: NodeInstance) => {
           }
         }
         console.log(`${address}(${name}): Collection Thumbnail: Persist Collection`)
-        const fileContents = await readFile(filePath, 'utf8')
-        const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = JSON.parse(fileContents)
-        const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
         const updatedNftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = { displayName: name, imageSlug, score }
         const nftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = existingNftCollectionDisplaySlugInfo
           ? { ...existingNftCollectionDisplaySlugInfo, ...updatedNftCollectionDisplaySlugInfo }
@@ -114,6 +114,12 @@ export const witnessNftCollections = async (node: NodeInstance) => {
     console.log('Error getting NFT collections')
     console.log(error)
   }
+}
+
+const readCollectionInfo = async (): Promise<NftCollectionDisplaySlugInfos> => {
+  const fileContents = await readFile(filePath, 'utf8')
+  const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = JSON.parse(fileContents)
+  return nftCollectionDisplaySlugInfos
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -103,7 +103,7 @@ export const witnessNftCollections = async (node: NodeInstance) => {
           ? { ...existingNftCollectionDisplaySlugInfo, ...updatedNftCollectionDisplaySlugInfo }
           : updatedNftCollectionDisplaySlugInfo
         nftCollectionDisplaySlugInfos[address] = nftCollectionDisplaySlugInfo
-        await writeFile(filePath, JSON.stringify(sortObjectKeys(nftCollectionDisplaySlugInfos), null, 2))
+        await writeCollectionInfo(nftCollectionDisplaySlugInfos)
         console.log(`${address}(${name}): Collection Thumbnail: Collection Persisted`)
       } catch (error) {
         console.log(`${address}(${name}): ERROR`)
@@ -120,6 +120,9 @@ const readCollectionInfo = async (): Promise<NftCollectionDisplaySlugInfos> => {
   const fileContents = await readFile(filePath, 'utf8')
   const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = JSON.parse(fileContents)
   return nftCollectionDisplaySlugInfos
+}
+const writeCollectionInfo = async (nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos): Promise<void> => {
+  await writeFile(filePath, JSON.stringify(sortObjectKeys(nftCollectionDisplaySlugInfos), null, 2))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

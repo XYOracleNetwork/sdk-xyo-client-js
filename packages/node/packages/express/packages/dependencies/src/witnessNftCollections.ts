@@ -2,7 +2,12 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { isNftCollectionScore, NftCollectionWitnessQuery, NftCollectionWitnessQuerySchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import {
+  isNftCollectionInfo,
+  isNftCollectionScore,
+  NftCollectionWitnessQuery,
+  NftCollectionWitnessQuerySchema,
+} from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { isNftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -119,9 +124,14 @@ const generateThumbnail = async (
 ): Promise<string | null> => {
   if (score) {
     console.log(`${address}(${name}): Collection Thumbnail: Obtain Candidate`)
-    const sourceNftInfoPayload = assertEx((await archivist.get([score])).find(isNftCollectionScore), 'ERROR: Collection Thumbnail: Obtain Candidate')
-    const sourceNftInfoHash = await PayloadHasher.hashAsync(sourceNftInfoPayload)
-    const nftInfo = (await archivist.get([sourceNftInfoHash])).find(isNftInfo)
+    const nftCollectionScorePayload = assertEx(
+      (await archivist.get([score])).find(isNftCollectionScore),
+      'ERROR: Collection Thumbnail: Obtain Score Payload',
+    )
+    const nftCollectionInfoHash = assertEx(nftCollectionScorePayload.sources?.[0], 'ERROR: Collection Thumbnail: Obtain NFT Info Hash')
+    const nftCollectionInfoPayload = (await archivist.get([nftCollectionInfoHash])).find(isNftCollectionInfo)
+    const nftInfoHash = assertEx(nftCollectionInfoPayload?.sources?.[0], 'ERROR: Collection Thumbnail: Obtain NFT Info Hash')
+    const nftInfo = (await archivist.get([nftInfoHash])).find(isNftInfo)
     if (typeof nftInfo?.metadata?.image === 'string') {
       const url = nftInfo.metadata.image
       const imageThumbnailWitnessQuery: UrlPayload = { schema: UrlSchema, url }

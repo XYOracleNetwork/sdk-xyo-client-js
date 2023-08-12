@@ -54,8 +54,6 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['Sappy Seals', '0x364C828eE171616a39897688A831c2499aD972ec', 1],
   // ['Otherside Koda', '0xE012Baf811CF9c05c408e879C399960D1f305903', 1],
   // ['Lil Pudgys', '0x524cAB2ec69124574082676e6F654a18df49A048', 1],
-  // ['ENS: Ethereum Name Service', '', 1],
-  // TODO
   // ['Laelaps Master Key', '0x691c77F69a6AE05F5C8cC9f46d7E46Ce97FA2F3B', 1],
   // ['Cool Cats NFT', '0x1A92f7381B9F03921564a437210bB9396471050C', 1],
   // ['The Memes by 6529', '0x33FD426905F149f8376e227d0C9D3340AaD17aF1', 1],

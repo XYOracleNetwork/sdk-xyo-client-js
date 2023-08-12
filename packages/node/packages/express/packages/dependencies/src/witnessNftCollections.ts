@@ -70,7 +70,8 @@ export const witnessNftCollections = async (node: NodeInstance) => {
         console.log(`${address}(${name}): Collection History: Read Existing`)
         const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = await readCollectionInfo()
         const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
-        let { score, imageSlug } = existingNftCollectionDisplaySlugInfo
+        let imageSlug = nftCollectionDisplaySlugInfos?.[address]?.imageSlug
+        let score = nftCollectionDisplaySlugInfos?.[address]?.score
         if (!score) {
           console.log(`${address}(${name}): Collection Info: Witness`)
           const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }

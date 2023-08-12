@@ -1,23 +1,29 @@
+/* eslint-disable max-statements */
 import { promises as dnsPromises } from 'node:dns'
 
+import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
 import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
+import ffmpeg, { setFfmpegPath } from 'fluent-ffmpeg'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
+import { PassThrough, Readable, Writable } from 'stream'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
+
+setFfmpegPath(ffmpegPath)
 
 const gm = subClass({ imageMagick: '7+' })
 
@@ -166,6 +172,38 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return `data:image/png;base64,${thumb.toString('base64')}`
   }
 
+  private async createThumbnailFromVideo(sourceBuffer: Buffer) {
+    // Create a pass-through stream
+    const writableStream = new PassThrough()
+    // Create a promise to handle the 'end' event
+    const imageConversion: Promise<Buffer> = new Promise((resolve) => {
+      const chunks: Buffer[] = []
+      writableStream.on('data', (chunk: Buffer) => chunks.push(chunk))
+      writableStream.on('end', () => resolve(Buffer.concat(chunks)))
+    })
+    // Use ffmpeg to create a image from video
+    const videoConverter = ffmpeg(Readable.from(sourceBuffer), { timeout: 10000 })
+      .withOption([
+        // set the start time offset to 0 seconds
+        '-ss 00:00:00',
+        // Output 1 video frame
+        // '-vframes 1',
+        // Force format
+        // '-f image2pipe',
+      ])
+      .withNoAudio()
+      .frames(1)
+      // .withOutputFormat('image2pipe')
+      .toFormat('png')
+      .output(writableStream, { end: true })
+    // Run the conversion
+    videoConverter.run()
+    // Wait for the output
+    const imageBuffer = await imageConversion
+    // Convert the image to a thumbnail
+    return this.createThumbnail(imageBuffer)
+  }
+
   private async fromHttp(url: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
     let dnsResult: string[]
@@ -216,16 +254,28 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
     if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers['content-type']?.toString()
-      if (contentType.split('/')[0] !== 'image') {
-        // TODO: Use FFMPEG to create a thumbnail for videos
-        // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
-        // Then resize thumbnail using
-        result.mime = result.mime ?? {}
-        result.mime.invalid = true
-      } else {
-        const sourceBuffer = Buffer.from(response.data, 'binary')
-        result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-        result.url = await this.createThumbnail(sourceBuffer)
+      const mediaType = contentType.split('/')[0]
+      switch (mediaType) {
+        case 'image': {
+          const sourceBuffer = Buffer.from(response.data, 'binary')
+          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+          result.url = await this.createThumbnail(sourceBuffer)
+          break
+        }
+        case 'video': {
+          // TODO: Use FFMPEG to create a thumbnail for videos
+          // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
+          // Then resize thumbnail using
+          const sourceBuffer = Buffer.from(response.data, 'binary')
+          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+          result.url = await this.createThumbnailFromVideo(sourceBuffer)
+          break
+        }
+        default: {
+          result.mime = result.mime ?? {}
+          result.mime.invalid = true
+          break
+        }
       }
     }
     return result

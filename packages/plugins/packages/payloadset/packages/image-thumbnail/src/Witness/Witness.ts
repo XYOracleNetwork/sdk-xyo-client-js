@@ -1,14 +1,14 @@
 /* eslint-disable max-statements */
 import { promises as dnsPromises } from 'node:dns'
 
-import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
 import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
-import ffmpeg, { setFfmpegPath } from 'fluent-ffmpeg'
+import { spawn } from 'child_process'
+import ffmpeg from 'fluent-ffmpeg'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -23,7 +23,7 @@ import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
 
-setFfmpegPath(ffmpegPath)
+// setFfmpegPath(ffmpegPath)
 
 const gm = subClass({ imageMagick: '7+' })
 
@@ -171,37 +171,73 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     })
     return `data:image/png;base64,${thumb.toString('base64')}`
   }
-
-  private async createThumbnailFromVideo(sourceBuffer: Buffer) {
-    // Create a pass-through stream
-    const writableStream = new PassThrough()
-    // Create a promise to handle the 'end' event
-    const imageConversion: Promise<Buffer> = new Promise((resolve) => {
-      const chunks: Buffer[] = []
-      writableStream.on('data', (chunk: Buffer) => chunks.push(chunk))
-      writableStream.on('end', () => resolve(Buffer.concat(chunks)))
-    })
-    // Use ffmpeg to create a image from video
-    const videoConverter = ffmpeg(Readable.from(sourceBuffer), { timeout: 10000 })
-      .withOption([
-        // set the start time offset to 0 seconds
-        '-ss 00:00:00',
-        // Output 1 video frame
-        // '-vframes 1',
-        // Force format
-        // '-f image2pipe',
-      ])
-      .withNoAudio()
-      .frames(1)
-      // .withOutputFormat('image2pipe')
-      .toFormat('png')
-      .output(writableStream, { end: true })
-    // Run the conversion
-    videoConverter.run()
-    // Wait for the output
-    const imageBuffer = await imageConversion
+  private async createThumbnailFromVideo(videoBuffer: Buffer) {
+    // const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-f', 'mp4', '-'])
+    const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-'])
     // Convert the image to a thumbnail
     return this.createThumbnail(imageBuffer)
+  }
+  private async createThumbnailFromVideoOld(videoBuffer: Buffer) {
+    const imageBuffer = await new Promise<Buffer>((resolve, reject) => {
+      const videoStream = Readable.from(videoBuffer)
+      const chunks: Buffer[] = []
+      const videoConversion = ffmpeg()
+        .input(videoStream)
+        // .inputFormat('mp4') // Assuming the video buffer format is mp4. Adjust if needed.
+        // .seekInput('00:00:00')
+        // .outputOptions('-vframes 1')
+        // .outputOptions('-f image2pipe')
+        .screenshot({
+          count: 1,
+          timemarks: ['00:00:00'],
+        })
+      // .outputOptions('-vcodec png')
+      // .toFormat('png')
+
+      videoConversion.on('end', (_vals: unknown) => {
+        resolve(Buffer.concat(chunks))
+      })
+      videoConversion.on('error', (err: Error) => {
+        reject(err)
+      })
+      videoConversion.on('data', (chunk: Buffer) => {
+        chunks.push(chunk)
+      })
+      videoConversion.pipe() // Start processing
+    })
+    // Convert the image to a thumbnail
+    return this.createThumbnail(imageBuffer)
+  }
+  /**
+   * Execute FFmpeg with provided input buffer and return output buffer.
+   * @param videoBuffer Input video buffer.
+   * @param ffmpegArgs FFmpeg arguments.
+   */
+  private executeFFmpeg(videoBuffer: Buffer, ffmpegArgs: string[]): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      const ffmpeg = spawn('ffmpeg', ['-i', 'pipe:', '-ss', '00:00:00', '-vframes', '1', '-f', 'image2pipe', ...ffmpegArgs])
+
+      // Create a readable stream from the input buffer
+      const videoStream = new Readable()
+      videoStream.push(videoBuffer)
+      videoStream.push(null)
+
+      // Pipe the input stream to ffmpeg's stdin
+      videoStream.pipe(ffmpeg.stdin)
+      const chunks: Buffer[] = []
+      ffmpeg.stdout.on('data', (chunk: Buffer) => {
+        chunks.push(chunk)
+      })
+      // ffmpeg.stderr.on('data', (data) => {
+      //   console.error(`FFmpeg stderr: ${data}`)
+      // })
+      ffmpeg.on('close', (code) => {
+        if (code !== 0) {
+          return reject(new Error(`FFmpeg exited with code ${code}`))
+        }
+        resolve(Buffer.concat(chunks))
+      })
+    })
   }
 
   private async fromHttp(url: string): Promise<ImageThumbnail> {

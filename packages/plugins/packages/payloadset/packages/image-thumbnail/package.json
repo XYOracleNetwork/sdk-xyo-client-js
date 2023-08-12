@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@xylabs/url": "^2.9.3",
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/core": "workspace:~",

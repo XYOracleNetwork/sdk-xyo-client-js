@@ -58,10 +58,11 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  testIfHasBin('ffmpeg')('HTTPS [large/mp4 (animated)]', async () => {
+  testIfHasBin('ffmpeg').only('HTTPS [large/mp4 (animated)]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4',
+      // url: 'https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4',
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)

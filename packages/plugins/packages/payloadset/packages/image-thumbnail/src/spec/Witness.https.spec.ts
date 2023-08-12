@@ -58,7 +58,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  testIfHasBin('ffmpeg').only('HTTPS [large/mp4 (animated)]', async () => {
+  testIfHasBin('ffmpeg')('HTTPS [large/mp4 (animated)]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4',

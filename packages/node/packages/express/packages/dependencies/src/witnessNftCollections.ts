@@ -65,20 +65,23 @@ export const witnessNftCollections = async (node: NodeInstance) => {
         console.log(`${address}(${name}): Collection History: Read Existing`)
         const nftCollectionDisplaySlugInfos: NftCollectionDisplaySlugInfos = await readCollectionInfo()
         const existingNftCollectionDisplaySlugInfo = nftCollectionDisplaySlugInfos[address]
-        console.log(`${address}(${name}): Collection Info: Witness`)
-        const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }
-        const nftCollectionInfoResult = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
-        const nftCollectionInfo = assertEx(nftCollectionInfoResult?.[0], `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
-        console.log(`${address}(${name}): Collection Info: Store`)
-        await archivist.insert([nftCollectionInfo])
-        console.log(`${address}(${name}): Collection Score: Divine`)
-        const nftCollectionScoreResult = await nftCollectionScoreDiviner.divine([nftCollectionInfo])
-        const nftCollectionScore = assertEx(nftCollectionScoreResult?.[0], `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
-        const score = await PayloadHasher.hashAsync(nftCollectionScore)
-        console.log(`${address}(${name}): Collection Score: Store`)
-        await archivist.insert([nftCollectionScore])
-        console.log(`${address}(${name}): Collection Thumbnail: Obtain Candidate`)
-        const imageSlug = await generateThumbnail(address, name, score, archivist, imageThumbnailWitness)
+        let { score, imageSlug } = existingNftCollectionDisplaySlugInfo
+        if (!score) {
+          console.log(`${address}(${name}): Collection Info: Witness`)
+          const nftCollectionInfoWitnessQuery: NftCollectionWitnessQuery = { address, chainId, maxNfts, schema: NftCollectionWitnessQuerySchema }
+          const nftCollectionInfoResult = await nftCollectionInfoWitness.observe([nftCollectionInfoWitnessQuery])
+          const nftCollectionInfo = assertEx(nftCollectionInfoResult?.[0], `${address}(${name}): ERROR: Collection Info: Witness: Invalid length`)
+          console.log(`${address}(${name}): Collection Info: Store`)
+          await archivist.insert([nftCollectionInfo])
+          console.log(`${address}(${name}): Collection Score: Divine`)
+          const nftCollectionScoreResult = await nftCollectionScoreDiviner.divine([nftCollectionInfo])
+          const nftCollectionScore = assertEx(nftCollectionScoreResult?.[0], `${address}(${name}): ERROR: Collection Score: Divine: Invalid length`)
+          score = await PayloadHasher.hashAsync(nftCollectionScore)
+          console.log(`${address}(${name}): Collection Score: Store`)
+          await archivist.insert([nftCollectionScore])
+        }
+        console.log(`${address}(${name}): Collection Thumbnail: Generate`)
+        imageSlug = await generateThumbnail(address, name, score, archivist, imageThumbnailWitness)
         console.log(`${address}(${name}): Collection Data: Persist Collection Data`)
         const updatedNftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = { displayName: name, imageSlug, score }
         const nftCollectionDisplaySlugInfo: NftCollectionDisplaySlugInfo = existingNftCollectionDisplaySlugInfo

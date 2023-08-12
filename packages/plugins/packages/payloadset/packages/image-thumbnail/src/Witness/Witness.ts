@@ -217,6 +217,9 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers['content-type']?.toString()
       if (contentType.split('/')[0] !== 'image') {
+        // TODO: Use FFMPEG to create a thumbnail for videos
+        // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
+        // Then resize thumbnail using
         result.mime = result.mime ?? {}
         result.mime.invalid = true
       } else {

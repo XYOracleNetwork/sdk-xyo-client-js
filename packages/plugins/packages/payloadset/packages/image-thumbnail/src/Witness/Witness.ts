@@ -212,6 +212,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
    * Execute FFmpeg with provided input buffer and return output buffer.
    * @param videoBuffer Input video buffer.
    * @param ffmpegArgs FFmpeg arguments.
+   * @returns Output buffer.
    */
   private executeFFmpeg(videoBuffer: Buffer, ffmpegArgs: string[]): Promise<Buffer> {
     return new Promise((resolve, reject) => {
@@ -225,12 +226,13 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       // Pipe the input stream to ffmpeg's stdin
       videoStream.pipe(ffmpeg.stdin)
       const chunks: Buffer[] = []
-      ffmpeg.stdout.on('data', (chunk: Buffer) => {
-        chunks.push(chunk)
-      })
-      // ffmpeg.stderr.on('data', (data) => {
-      //   console.error(`FFmpeg stderr: ${data}`)
-      // })
+      ffmpeg.stdout.on('data', (chunk: Buffer) => chunks.push(chunk))
+      // Catch all the errors and just check the return code at the
+      ffmpeg.on('error', () => {})
+      ffmpeg.stdin.on('error', () => {})
+      ffmpeg.stdout.on('error', () => {})
+      ffmpeg.stderr.on('data', () => {})
+      ffmpeg.stdin.on('close', () => {})
       ffmpeg.on('close', (code) => {
         if (code !== 0) {
           return reject(new Error(`FFmpeg exited with code ${code}`))
@@ -299,9 +301,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           break
         }
         case 'video': {
-          // TODO: Use FFMPEG to create a thumbnail for videos
-          // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
-          // Then resize thumbnail using
           const sourceBuffer = Buffer.from(response.data, 'binary')
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
           result.url = await this.createThumbnailFromVideo(sourceBuffer)

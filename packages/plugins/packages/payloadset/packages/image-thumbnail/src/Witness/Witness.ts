@@ -15,7 +15,7 @@ import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
-import { PassThrough, Readable, Writable } from 'stream'
+import { Duplex, PassThrough, Readable, Writable } from 'stream'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
@@ -172,8 +172,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return `data:image/png;base64,${thumb.toString('base64')}`
   }
   private async createThumbnailFromVideo(videoBuffer: Buffer) {
-    // const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-f', 'mp4', '-'])
     const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-'])
+    // const imageBuffer = await this.createThumbnailFromVideoOld(videoBuffer)
     // Convert the image to a thumbnail
     return this.createThumbnail(imageBuffer)
   }
@@ -182,16 +182,18 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const videoStream = new PassThrough()
       videoStream.end(videoBuffer)
       const chunks: Buffer[] = []
-      const videoConversion = ffmpeg()
+      const videoConversion = new Duplex()
+      ffmpeg()
         .input(videoStream)
         // .inputFormat('mp4') // Assuming the video buffer format is mp4. Adjust if needed.
         // .seekInput('00:00:00')
-        // .outputOptions('-vframes 1')
-        // .outputOptions('-f image2pipe')
-        .screenshot({
-          count: 1,
-          timemarks: ['00:00:00'],
-        })
+        .outputOptions('-ss 00:00:00')
+        .outputOptions('-vframes 1')
+        .outputOptions('-f image2pipe')
+      // .screenshot({
+      //   count: 1,
+      //   timemarks: ['00:00:00'],
+      // })
       // .outputOptions('-vcodec png')
       // .toFormat('png')
 
@@ -204,10 +206,9 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       videoConversion.on('data', (chunk: Buffer) => {
         chunks.push(chunk)
       })
-      videoConversion.pipe() // Start processing
+      videoConversion.pipe(videoConversion) // Start processing
     })
-    // Convert the image to a thumbnail
-    return this.createThumbnail(imageBuffer)
+    return imageBuffer
   }
   /**
    * Execute FFmpeg with provided input buffer and return output buffer.

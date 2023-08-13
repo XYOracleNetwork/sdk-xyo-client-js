@@ -179,7 +179,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
   private async createThumbnailFromVideoOld(videoBuffer: Buffer) {
     const imageBuffer = await new Promise<Buffer>((resolve, reject) => {
-      const videoStream = Readable.from(videoBuffer)
+      const videoStream = new PassThrough()
+      videoStream.end(videoBuffer)
       const chunks: Buffer[] = []
       const videoConversion = ffmpeg()
         .input(videoStream)
@@ -219,20 +220,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const ffmpeg = spawn('ffmpeg', ['-i', 'pipe:', '-ss', '00:00:00', '-vframes', '1', '-f', 'image2pipe', ...ffmpegArgs])
 
       // Create a readable stream from the input buffer
-      const videoStream = new Readable()
-      videoStream.push(videoBuffer)
-      videoStream.push(null)
+      const videoStream = new PassThrough().end(videoBuffer)
 
       // Pipe the input stream to ffmpeg's stdin
       videoStream.pipe(ffmpeg.stdin)
       const chunks: Buffer[] = []
       ffmpeg.stdout.on('data', (chunk: Buffer) => chunks.push(chunk))
-      // Catch all the errors and just check the return code at the
-      ffmpeg.on('error', () => {})
+      // TODO: This is required as we're seeing errors thrown due to
+      // how we're piping the data to ffmpeg. Works perfectly though.
       ffmpeg.stdin.on('error', () => {})
-      ffmpeg.stdout.on('error', () => {})
-      ffmpeg.stderr.on('data', () => {})
-      ffmpeg.stdin.on('close', () => {})
       ffmpeg.on('close', (code) => {
         if (code !== 0) {
           return reject(new Error(`FFmpeg exited with code ${code}`))

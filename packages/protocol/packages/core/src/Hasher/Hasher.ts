@@ -1,4 +1,5 @@
 import { sha256 } from 'hash-wasm'
+import cloneDeep from 'lodash/cloneDeep'
 import shajs from 'sha.js'
 
 import { AnyObject, ObjectWrapper } from '../lib'
@@ -61,7 +62,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static hashFields<T extends AnyObject>(obj: T) {
-    return removeEmptyFields(deepOmitUnderscoreFields(obj))
+    return removeEmptyFields(deepOmitUnderscoreFields(cloneDeep(obj)))
   }
 
   static async hashPairs<T extends AnyObject>(objs: T[]): Promise<[T, string][]> {

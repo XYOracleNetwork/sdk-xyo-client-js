@@ -65,7 +65,7 @@ export class MemoryArchivist<
   }
 
   protected override allHandler(): PromisableArray<Payload> {
-    return compact(this.cache.dump().map((value) => value[1].value))
+    return compact(this.cache.dump().map((value) => PayloadHasher.hashFields(value[1].value)))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -111,7 +111,7 @@ export class MemoryArchivist<
       (prev, hash) => {
         const found = this.cache.get(hash)
         if (found) {
-          prev.found.push(found)
+          prev.found.push(PayloadHasher.hashFields(found))
         } else {
           prev.notfound.push(hash)
         }
@@ -147,7 +147,7 @@ export class MemoryArchivist<
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
     const wrapper = PayloadWrapper.wrap(payload)
-    const payloadWithMeta = { ...payload, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
+    const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
     this.cache.set(payloadWithMeta._hash, payloadWithMeta)
     return payloadWithMeta
   }

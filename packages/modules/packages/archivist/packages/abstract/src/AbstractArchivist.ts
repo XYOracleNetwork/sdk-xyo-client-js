@@ -123,7 +123,16 @@ export abstract class AbstractArchivist<
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
     const found = await archivist.get(hashes)
-    const foundHashes = await Promise.all(found.map(async (payload) => await PayloadHasher.hashAsync(payload)))
+
+    //get the actual hashes of the returned payloads and make sure they are ones we asked for
+    const foundHashes = (await Promise.all(found.map(async (payload) => await PayloadHasher.hashAsync(payload)))).filter((hash) => {
+      const askedFor = hashes.includes(hash)
+      if (!askedFor) {
+        console.warn(`Parent returned payload with hash not asked for: ${hash}`)
+        throw Error(`Parent returned payload with hash not asked for: ${hash}`)
+      }
+      return askedFor
+    })
     const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
     return [found, notfound]
   }

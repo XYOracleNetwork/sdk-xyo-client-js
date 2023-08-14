@@ -106,12 +106,9 @@ describe('Sentinel', () => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length)
-          const panelPayloads = await Promise.all(
-            payloads.map(async (payload) => {
-              const wrapped = PayloadWrapper.wrap(payload)
-              return { ...payload, _hash: await wrapped.hashAsync(), _timestamp: expect.toBeNumber() }
-            }),
-          )
+          const panelPayloads = payloads.map((payload) => {
+            return PayloadHasher.hashFields(payload)
+          })
           expect(archivistPayloads).toContainValues(panelPayloads)
         }
       }

@@ -149,7 +149,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     )
   }
 
-  private async createThumbnail(sourceBuffer: Buffer) {
+  private async createThumbnailDataUrl(sourceBuffer: Buffer) {
     const thumb = await new Promise<Buffer>((resolve, reject) => {
       gm(sourceBuffer)
         .quality(this.quality)
@@ -225,7 +225,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       } else {
         const sourceBuffer = Buffer.from(response.data, 'binary')
         result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-        result.url = await this.createThumbnail(sourceBuffer)
+        result.url = await this.createThumbnailDataUrl(sourceBuffer)
       }
     }
     return result

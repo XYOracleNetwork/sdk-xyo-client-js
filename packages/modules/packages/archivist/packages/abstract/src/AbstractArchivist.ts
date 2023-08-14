@@ -122,25 +122,30 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
-    const found = await archivist.get(hashes)
-
-    //get the actual hashes of the returned payloads and make sure they are ones we asked for
-    const foundHashes = (await Promise.all(found.map(async (payload) => await PayloadHasher.hashAsync(payload)))).filter((hash) => {
+    const foundPairs = (
+      await Promise.all(
+        (await archivist.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+      )
+    ).filter(([hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
         console.warn(`Parent returned payload with hash not asked for: ${hash}`)
-        throw Error(`Parent returned payload with hash not asked for: ${hash}`)
+        //throw Error(`Parent returned payload with hash not asked for: ${hash}`)
       }
       return askedFor
     })
+
+    const foundHashes = foundPairs.map(([hash]) => hash)
+    const foundPayloads = foundPairs.map(([, payload]) => payload)
+
     const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
-    return [found, notfound]
+    return [foundPayloads, notfound]
   }
 
   protected async getFromParents(hashes: string[]): Promise<[Payload[], string[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
     let remainingHashes = hashes
-    const parentIndex = 0
+    let parentIndex = 0
     let result: Payload[] = []
 
     //intentionally doing this serially
@@ -148,6 +153,7 @@ export abstract class AbstractArchivist<
       const [found, notfound] = await this.getFromParent(remainingHashes, parents[parentIndex])
       result = [...result, ...found]
       remainingHashes = notfound
+      parentIndex++
     }
     return [result, remainingHashes]
   }

@@ -91,7 +91,7 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['LoudPunx', '0xcB45DcE241a6F6F1e874E9925bEa5840F3FD7d3A', 1],
   // ['Utility Wen', '0xB10B88218E288CdA2218d8B4cc81899Ee5Af4600', 1],
   // ['THE SHIBOSHIS', '0x11450058d796B02EB53e65374be59cFf65d3FE7f', 1],
-  // ['Laelaps Master Key', '0x992d6FBe83f3f4c938F687A6676a1155A523A20b', 1],
+  // ['Laelaps Master Key V2', '0x992d6FBe83f3f4c938F687A6676a1155A523A20b', 1],
   // ['10KTF', '0x0Cfb5d82BE2b949e8fa73A656dF91821E2aD99FD', 1],
   // ['0xTama', '0x7E527e9B8AAd8db0E535bCD265267594059bD529', 1],
   // ['World of Women', '0xe785E82358879F061BC3dcAC6f0444462D4b5330', 1],

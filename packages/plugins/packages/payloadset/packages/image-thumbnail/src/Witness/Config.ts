@@ -7,6 +7,8 @@ export type ImageThumbnailWitnessConfigSchema = typeof ImageThumbnailWitnessConf
 export type ImageThumbnailWitnessConfig = WitnessConfig<{
   encoding?: 'PNG'
   height?: number
+  maxAsyncProcesses?: number
+  maxCacheBytes?: number
   maxCacheEntries?: number
   quality?: number
   schema: ImageThumbnailWitnessConfigSchema

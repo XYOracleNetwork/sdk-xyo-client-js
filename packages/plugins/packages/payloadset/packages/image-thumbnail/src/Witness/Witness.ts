@@ -58,15 +58,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   get maxAsyncProcesses() {
-    return this.config.maxAsyncProcesses ?? 4
+    return this.config.maxAsyncProcesses ?? 2
   }
 
   get maxCacheBytes() {
-    return this.config.maxCacheBytes ?? 1024 * 1024 * 64 //64MB max size
+    return this.config.maxCacheBytes ?? 1024 * 1024 * 16 //64MB max size
   }
 
   get maxCacheEntries() {
-    return this.config.maxCacheEntries ?? 5000
+    return this.config.maxCacheEntries ?? 500
   }
 
   get quality() {

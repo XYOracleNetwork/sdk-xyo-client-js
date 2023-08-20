@@ -6,5 +6,6 @@ export type ImageThumbnailDivinerConfigSchema = typeof ImageThumbnailDivinerConf
 
 export type ImageThumbnailDivinerConfig = DivinerConfig<{
   archivist: string
+  pollFrequency?: number
   schema: ImageThumbnailDivinerConfigSchema
 }>

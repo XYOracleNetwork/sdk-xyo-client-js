@@ -1,5 +1,6 @@
 import { ImageThumbnailPlugin } from './Plugin'
 
+export * from './Diviner'
 export * from './Witness'
 
 export { ImageThumbnailPlugin }

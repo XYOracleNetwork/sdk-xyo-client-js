@@ -12,7 +12,7 @@ export class SentinelRunner {
   protected _automations: Record<string, SentinelAutomationPayload> = {}
   protected onTriggerResult: OnSentinelRunnerTriggerResult | undefined
   protected sentinel: SentinelInstance
-  protected timeoutId?: NodeJS.Timer
+  protected timeoutId?: NodeJS.Timeout | string | number
 
   constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel

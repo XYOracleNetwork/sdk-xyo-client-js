@@ -1,5 +1,5 @@
 import { AnyObject } from '@xyo-network/core'
-import { AnyConfigSchema, Module, ModuleEventData, ModuleInstance, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleEventData, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 
@@ -43,10 +43,5 @@ export type ArchivistQueryFunctions<TReadResponse = Payload, TWriteResponse = Pa
 
 export type ArchivistModule<
   TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
+  TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > = Module<TParams, TEventData>
-
-export type ArchivistInstance<
-  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = ArchivistModule<TParams, TEventData> & ArchivistQueryFunctions & ModuleInstance

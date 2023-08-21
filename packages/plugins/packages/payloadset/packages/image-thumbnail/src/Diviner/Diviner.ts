@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
@@ -13,7 +14,9 @@ import { ImageThumbnailDivinerParams } from './Params'
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
 
-  private _map?: Record<string, ImageThumbnail>
+  private _archivistInstance: Promise<ArchivistInstance> | undefined
+  private _initializeArchivistConnectionIfNeededPromise: Promise<void> | undefined
+  private _map: Record<string, string> | undefined
   private _pollId?: string | number | NodeJS.Timeout
 
   get archivist() {
@@ -24,31 +27,77 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this.config.pollFrequency
   }
 
+  //using promise as mutex
+  async getArchivistInstance(): Promise<ArchivistInstance> {
+    //if previously checked, but not found, clear promise
+    if (this._archivistInstance && !(await this._archivistInstance)) {
+      this._archivistInstance = undefined
+    }
+    this._archivistInstance =
+      this._archivistInstance ??
+      (async () => {
+        const module = await this.resolve(this.archivist)
+        return asArchivistInstance(module, 'Provided archivist address did not resolve to an Archivist')
+      })()
+    return this._archivistInstance
+  }
+
   protected override async divineHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
+    await this.initializeArchivistConnectionIfNeeded()
     const urls = payloads.map((urlPayload) => urlPayload.url)
     const map = await this.getSafeMap()
-    return compact(urls.map((url) => map?.[url]))
+    const archivist = await this.getArchivistInstance()
+    const hashes = compact(urls.map((url) => map?.[url]))
+    return (await archivist.get(hashes)).filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
+  }
+
+  //using promise as mutex
+  protected initializeArchivistConnectionIfNeeded() {
+    this._initializeArchivistConnectionIfNeededPromise =
+      this._initializeArchivistConnectionIfNeededPromise ??
+      (async () => {
+        if (!this._map) {
+          await this.attachArchivistEvents()
+          await this.loadMap()
+          await this.poll()
+        }
+      })()
+    return this._initializeArchivistConnectionIfNeededPromise
   }
 
   protected async loadMap() {
     if (await this.started()) {
-      const archivist = asArchivistInstance(await this.resolve(this.archivist), 'Provided archivist address did not resolve to an Archivist')
-      const allPayloads = await assertEx(archivist.all, "Archivist does not support 'get'")()
-      const imagePayloads = allPayloads.filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
-      this._map = imagePayloads.reduce<Record<string, ImageThumbnail>>((prev, imagePayload) => {
-        prev[imagePayload.sourceUrl] = imagePayload
+      const archivist = await this.getArchivistInstance()
+      assertEx(archivist.all, "Archivist does not support 'all'")
+      const allPayloads = (await archivist.all?.()) ?? []
+      const imagePayloadPairs = await Promise.all(
+        allPayloads
+          .filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
+          .map<Promise<[string, ImageThumbnail]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+      )
+      this._map = imagePayloadPairs.reduce<Record<string, string>>((prev, [hash, payload]) => {
+        prev[payload.sourceUrl] = hash
         return prev
       }, {})
     }
   }
 
-  protected override async startHandler(): Promise<boolean> {
-    if (await super.startHandler()) {
-      await this.poll()
-      return true
-    } else {
-      return false
+  protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
+    if (this._pollId) {
+      clearTimeout(this._pollId)
+      this._pollId = undefined
     }
+    return await super.stopHandler()
+  }
+
+  private async attachArchivistEvents() {
+    const archivist = await this.getArchivistInstance()
+    const mapPromise = this.getSafeMap()
+    archivist.on('inserted', async ({ payloads }) => {
+      const map = await mapPromise
+      const thumbnails = compact(payloads.filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema))
+      await Promise.all(thumbnails.map(async (payload) => (map[payload.sourceUrl] = await PayloadHasher.hashAsync(payload))))
+    })
   }
 
   private async getSafeMap() {

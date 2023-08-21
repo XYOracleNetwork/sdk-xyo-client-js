@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
+    "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"

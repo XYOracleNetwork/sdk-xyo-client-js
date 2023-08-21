@@ -6,6 +6,7 @@ export const DIVINER_TYPES = {
   BoundWitnessStatsDiviner: Symbol('BoundWitnessStatsDiviner'),
   ElevationDiviner: Symbol('ElevationDiviner'),
   ForecastingDiviner: Symbol('ForecastingDiviner'),
+  ImageThumbnailDiviner: Symbol('ImageThumbnailDiviner'),
   NftCollectionScoreDiviner: Symbol('NftCollectionScoreDiviner'),
   NftScoreDiviner: Symbol('NftScoreDiviner'),
   PayloadDiviner: Symbol('PayloadDiviner'),

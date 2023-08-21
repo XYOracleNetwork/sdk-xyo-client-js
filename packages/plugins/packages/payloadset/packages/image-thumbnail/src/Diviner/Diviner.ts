@@ -3,7 +3,8 @@ import { delay } from '@xylabs/delay'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import compact from 'lodash/compact'
@@ -17,10 +18,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   private _archivistInstance: Promise<ArchivistInstance> | undefined
   private _initializeArchivistConnectionIfNeededPromise: Promise<void> | undefined
   private _map: Record<string, string> | undefined
+  private _payloadDivinerInstance: Promise<DivinerInstance> | undefined
   private _pollId?: string | number | NodeJS.Timeout
 
   get archivist() {
     return this.config.archivist
+  }
+
+  get payloadDiviner() {
+    return this.config.payloadDiviner
   }
 
   get pollFrequency() {
@@ -42,6 +48,25 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this._archivistInstance
   }
 
+  //using promise as mutex
+  async getPayloadDivinerInstance(): Promise<DivinerInstance | undefined> {
+    const payloadDivinerAddress = this.payloadDiviner
+    if (payloadDivinerAddress) {
+      //if previously checked, but not found, clear promise
+      if (this._payloadDivinerInstance && !(await this._payloadDivinerInstance)) {
+        this._payloadDivinerInstance = undefined
+      }
+      this._payloadDivinerInstance =
+        this._payloadDivinerInstance ??
+        (async () => {
+          const module = await this.resolve(payloadDivinerAddress)
+          return asDivinerInstance(module, 'Provided payload diviner address did not resolve to a Diviner')
+        })()
+
+      return this._payloadDivinerInstance
+    }
+  }
+
   protected override async divineHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
     await this.initializeArchivistConnectionIfNeeded()
     const urls = payloads.map((urlPayload) => urlPayload.url)
@@ -58,14 +83,23 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       (async () => {
         if (!this._map) {
           await this.attachArchivistEvents()
-          await this.loadMap()
+          console.log('initializeArchivistConnectionIfNeeded: attachArchivistEvents done')
           await this.poll()
+          console.log('initializeArchivistConnectionIfNeeded: poll done')
         }
       })()
     return this._initializeArchivistConnectionIfNeededPromise
   }
 
   protected async loadMap() {
+    if (this.payloadDiviner) {
+      return await this.loadMapWithPayloadDiviner()
+    } else {
+      return await this.loadMapWithAll()
+    }
+  }
+
+  protected async loadMapWithAll() {
     if (await this.started()) {
       const archivist = await this.getArchivistInstance()
       assertEx(archivist.all, "Archivist does not support 'all'")
@@ -79,6 +113,38 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         prev[payload.sourceUrl] = hash
         return prev
       }, {})
+    }
+  }
+
+  protected async loadMapWithPayloadDiviner() {
+    console.log('loadMapWithPayloadDiviner: started')
+    if (await this.started()) {
+      const diviner = await this.getPayloadDivinerInstance()
+      let offsetHash: string | undefined = undefined
+      let moreAvailable = true
+      if (diviner) {
+        const newMap: Record<string, string> = {}
+        while (moreAvailable) {
+          const payloadDivinerQuery: PayloadDivinerQueryPayload = {
+            hash: offsetHash,
+            schema: PayloadDivinerQuerySchema,
+            schemas: [ImageThumbnailSchema],
+          }
+          const payloads = await diviner.divine([payloadDivinerQuery])
+          const lastPayload = payloads[payloads.length - 1]
+          offsetHash = lastPayload ? await PayloadHasher.hashAsync(lastPayload) : undefined
+          moreAvailable = payloads.length > 0
+          console.log(`loadMapWithPayloadDiviner.offsetHash: ${offsetHash}`)
+          console.log(`loadMapWithPayloadDiviner.moreAvailable: ${moreAvailable}`)
+          const imagePayloadPairs = await Promise.all(
+            payloads
+              .filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
+              .map<Promise<[string, ImageThumbnail]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+          )
+          imagePayloadPairs.forEach(([hash, payload]) => (newMap[payload.sourceUrl] = hash))
+        }
+        this._map = newMap
+      }
     }
   }
 

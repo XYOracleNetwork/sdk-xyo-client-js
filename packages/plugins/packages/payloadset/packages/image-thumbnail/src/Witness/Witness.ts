@@ -7,9 +7,9 @@ import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
+import { Semaphore } from 'async-mutex'
 import { spawn } from 'child_process'
 import ffmpeg from 'fluent-ffmpeg'
-import { Semaphore } from 'async-mutex'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -194,7 +194,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-'])
     // const imageBuffer = await this.createThumbnailFromVideoOld(videoBuffer)
     // Convert the image to a thumbnail
-    return this.createThumbnail(imageBuffer)
+    return this.createThumbnailDataUrl(imageBuffer)
   }
   private async createThumbnailFromVideoOld(videoBuffer: Buffer) {
     const imageBuffer = await new Promise<Buffer>((resolve, reject) => {

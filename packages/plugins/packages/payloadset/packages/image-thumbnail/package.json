@@ -38,8 +38,8 @@
     "@types/gm": "^1.25.1",
     "@types/hasbin": "^1.2.0",
     "@types/lodash": "^4.14.197",
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "typescript": "^5.1.6"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

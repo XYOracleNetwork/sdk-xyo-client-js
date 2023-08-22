@@ -30,8 +30,8 @@
     "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.197",
     "@xylabs/delay": "^2.9.3",
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "typescript": "^5.1.6"
   },

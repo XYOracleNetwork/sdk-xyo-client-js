@@ -15,8 +15,8 @@
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "typescript": "^5.1.6"
   },
   "browser": "dist/esm/index.js",

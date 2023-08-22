@@ -14,8 +14,8 @@
     "@xyo-network/payload-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "typescript": "^5.1.6"
   },
   "description": "Contains the information about a module instance",

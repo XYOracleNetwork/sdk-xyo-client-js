@@ -29,6 +29,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this.config.payloadDiviner
   }
 
+  get payloadDivinerLimit() {
+    return this.config.payloadDivinerLimit ?? 10000
+  }
+
   get pollFrequency() {
     return this.config.pollFrequency
   }
@@ -126,7 +130,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         const newMap: Record<string, string> = {}
         while (moreAvailable) {
           const payloadDivinerQuery: PayloadDivinerQueryPayload = {
-            limit: 100000,
+            limit: this.payloadDivinerLimit,
             offset,
             schema: PayloadDivinerQuerySchema,
             schemas: [ImageThumbnailSchema],

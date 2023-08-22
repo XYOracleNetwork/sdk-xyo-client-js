@@ -47,5 +47,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.71.13"
+  "version": "2.71.14"
 }

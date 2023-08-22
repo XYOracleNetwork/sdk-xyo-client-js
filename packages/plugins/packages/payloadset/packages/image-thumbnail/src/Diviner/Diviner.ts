@@ -126,6 +126,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         const newMap: Record<string, string> = {}
         while (moreAvailable) {
           const payloadDivinerQuery: PayloadDivinerQueryPayload = {
+            limit: 100000,
             offset,
             schema: PayloadDivinerQuerySchema,
             schemas: [ImageThumbnailSchema],

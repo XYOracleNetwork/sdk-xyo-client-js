@@ -120,21 +120,20 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     console.log('loadMapWithPayloadDiviner: started')
     if (await this.started()) {
       const diviner = await this.getPayloadDivinerInstance()
-      let offsetHash: string | undefined = undefined
+      let offset: number | undefined = undefined
       let moreAvailable = true
       if (diviner) {
         const newMap: Record<string, string> = {}
         while (moreAvailable) {
           const payloadDivinerQuery: PayloadDivinerQueryPayload = {
-            hash: offsetHash,
+            offset,
             schema: PayloadDivinerQuerySchema,
             schemas: [ImageThumbnailSchema],
           }
           const payloads = await diviner.divine([payloadDivinerQuery])
-          const lastPayload = payloads[payloads.length - 1]
-          offsetHash = lastPayload ? await PayloadHasher.hashAsync(lastPayload) : undefined
+          offset = (offset ?? 0) + payloads.length
           moreAvailable = payloads.length > 0
-          console.log(`loadMapWithPayloadDiviner.offsetHash: ${offsetHash}`)
+          console.log(`loadMapWithPayloadDiviner.offset: ${offset}`)
           console.log(`loadMapWithPayloadDiviner.moreAvailable: ${moreAvailable}`)
           const imagePayloadPairs = await Promise.all(
             payloads

@@ -9,6 +9,7 @@ import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { spawn } from 'child_process'
 import ffmpeg from 'fluent-ffmpeg'
+import { Semaphore } from 'async-mutex'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -40,9 +41,17 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   static override configSchemas = [ImageThumbnailWitnessConfigSchema]
 
   private _cache?: LRUCache<string, ImageThumbnail>
+  private _semaphore = new Semaphore(this.maxAsyncProcesses)
 
   get cache() {
-    this._cache = this._cache ?? new LRUCache<string, ImageThumbnail>({ max: this.maxCacheEntries })
+    this._cache =
+      this._cache ??
+      new LRUCache<string, ImageThumbnail>({
+        max: this.maxCacheEntries,
+        maxSize: this.maxCacheBytes,
+        //just returning the size of the data
+        sizeCalculation: (value) => value.url?.length ?? 1,
+      })
     return this._cache
   }
 
@@ -54,8 +63,16 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.height ?? 128
   }
 
+  get maxAsyncProcesses() {
+    return this.config.maxAsyncProcesses ?? 2
+  }
+
+  get maxCacheBytes() {
+    return this.config.maxCacheBytes ?? 1024 * 1024 * 16 //64MB max size
+  }
+
   get maxCacheEntries() {
-    return this.config.maxCacheEntries ?? 5000
+    return this.config.maxCacheEntries ?? 500
   }
 
   get quality() {
@@ -124,38 +141,40 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     if (!hasbin('magick')) {
       throw Error('ImageMagick is required for this witness')
     }
-    return compact(
-      await Promise.all(
-        payloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
-          const cachedResult = this.cache.get(url)
-          if (cachedResult) {
-            return cachedResult
-          }
-          let result: ImageThumbnail
-
-          //if it is a data URL, return a Buffer
-          const dataBuffer = ImageThumbnailWitness.bufferFromDataUrl(url)
-
-          if (dataBuffer) {
-            result = {
-              schema: ImageThumbnailSchema,
-              sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
-              sourceUrl: url,
-              url,
+    return await this._semaphore.runExclusive(async () =>
+      compact(
+        await Promise.all(
+          payloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
+            const cachedResult = this.cache.get(url)
+            if (cachedResult) {
+              return cachedResult
             }
-          } else {
-            //if it is ipfs, go through cloud flair
-            const mutatedUrl = ImageThumbnailWitness.checkIpfsUrl(url)
-            result = await this.fromHttp(mutatedUrl)
-          }
-          this.cache.set(url, result)
-          return result
-        }),
+            let result: ImageThumbnail
+
+            //if it is a data URL, return a Buffer
+            const dataBuffer = ImageThumbnailWitness.bufferFromDataUrl(url)
+
+            if (dataBuffer) {
+              result = {
+                schema: ImageThumbnailSchema,
+                sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
+                sourceUrl: url,
+                url,
+              }
+            } else {
+              //if it is ipfs, go through cloud flair
+              const mutatedUrl = ImageThumbnailWitness.checkIpfsUrl(url)
+              result = await this.fromHttp(mutatedUrl)
+            }
+            this.cache.set(url, result)
+            return result
+          }),
+        ),
       ),
     )
   }
 
-  private async createThumbnail(sourceBuffer: Buffer) {
+  private async createThumbnailDataUrl(sourceBuffer: Buffer) {
     const thumb = await new Promise<Buffer>((resolve, reject) => {
       gm(sourceBuffer)
         .quality(this.quality)
@@ -294,7 +313,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         case 'image': {
           const sourceBuffer = Buffer.from(response.data, 'binary')
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnail(sourceBuffer)
+          result.url = await this.createThumbnailDataUrl(sourceBuffer)
           break
         }
         case 'video': {

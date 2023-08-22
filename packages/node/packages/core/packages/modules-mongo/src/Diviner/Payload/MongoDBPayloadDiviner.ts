@@ -31,8 +31,9 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { hash, limit, order, offset, schema, schemas, timestamp, ...props } = query
-    const parsedLimit = limit || DefaultLimit
-    const parsedOrder = order || DefaultOrder
+    const parsedLimit = limit ?? DefaultLimit
+    const parsedOrder = order ?? DefaultOrder
+    const parsedOffset = offset ?? 0
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<PayloadWithMeta> = {}
     if (timestamp) {
@@ -42,6 +43,8 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
-    return (await (await this.params.payloadSdk.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (
+      await (await this.params.payloadSdk.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()
+    ).map(removeId)
   }
 }

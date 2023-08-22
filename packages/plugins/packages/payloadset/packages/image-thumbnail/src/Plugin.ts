@@ -1,13 +1,18 @@
 import { ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
-import { createPayloadSetWitnessPlugin } from '@xyo-network/payloadset-plugin'
+import { createPayloadSetDualPlugin } from '@xyo-network/payloadset-plugin'
 
+import { ImageThumbnailDiviner } from './Diviner'
 import { ImageThumbnailWitness } from './Witness'
 
 export const ImageThumbnailPlugin = () =>
-  createPayloadSetWitnessPlugin<ImageThumbnailWitness>(
+  createPayloadSetDualPlugin<ImageThumbnailWitness, ImageThumbnailDiviner>(
     { required: { [ImageThumbnailSchema]: 1 }, schema: PayloadSetSchema },
     {
+      diviner: async (params) => {
+        const result = await ImageThumbnailDiviner.create(params)
+        return result
+      },
       witness: async (params) => {
         const result = await ImageThumbnailWitness.create(params)
         return result

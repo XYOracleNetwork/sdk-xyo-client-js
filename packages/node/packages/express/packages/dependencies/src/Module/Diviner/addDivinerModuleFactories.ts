@@ -11,6 +11,7 @@ import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload'
 import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
 import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
 import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
+import { ImageThumbnailDiviner } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
@@ -58,6 +59,22 @@ const getBoundWitnessStatsDiviner = async (container: Container) => {
   }
   return new ModuleFactory(MemoryBoundWitnessStatsDiviner, params)
 }
+
+const getImageThumbnailDiviner = async (container: Container) => {
+  const wallet = await getWallet(container)
+  const params = {
+    accountDerivationPath: WALLET_PATHS.Diviners.ImageThumbnail,
+    config: {
+      archivist,
+      name: TYPES.ImageThumbnailDiviner.description,
+      payloadDiviner: TYPES.PayloadDiviner.description,
+      schema: ImageThumbnailDiviner.configSchema,
+    },
+    wallet,
+  }
+  return new ModuleFactory(ImageThumbnailDiviner, params)
+}
+
 const getMemoryForecastingDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
   const forecastingMethod = 'arimaForecasting'
@@ -145,4 +162,5 @@ export const addDivinerModuleFactories = async (container: Container) => {
   dictionary[MemorySchemaStatsDiviner.configSchema] = await getSchemaStatsDiviner(container)
   dictionary[NftCollectionScoreDiviner.configSchema] = await getNftCollectionScoreDiviner(container)
   dictionary[NftScoreDiviner.configSchema] = await getNftScoreDiviner(container)
+  dictionary[ImageThumbnailDiviner.configSchema] = await getImageThumbnailDiviner(container)
 }

@@ -11,7 +11,6 @@ import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AbstractWitness } from '@xyo-network/witness'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -106,12 +105,9 @@ describe('Sentinel', () => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length)
-          const panelPayloads = await Promise.all(
-            payloads.map(async (payload) => {
-              const wrapped = PayloadWrapper.wrap(payload)
-              return { ...payload, _hash: await wrapped.hashAsync(), _timestamp: expect.toBeNumber() }
-            }),
-          )
+          const panelPayloads = payloads.map((payload) => {
+            return PayloadHasher.hashFields(payload)
+          })
           expect(archivistPayloads).toContainValues(panelPayloads)
         }
       }

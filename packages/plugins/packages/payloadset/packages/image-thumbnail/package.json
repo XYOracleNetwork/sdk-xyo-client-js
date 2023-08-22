@@ -10,9 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/assert": "^2.9.3",
+    "@xylabs/delay": "^2.9.3",
     "@xylabs/url": "^2.9.3",
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/image-thumbnail-payload-plugin": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -20,6 +26,7 @@
     "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness": "workspace:~",
     "fluent-ffmpeg": "^2.1.2",
+    "async-mutex": "^0.4.0",
     "gm": "^1.25.0",
     "hasbin": "^1.2.3",
     "hash-wasm": "^4.9.0",
@@ -70,5 +77,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.71.8"
+  "version": "2.71.15"
 }

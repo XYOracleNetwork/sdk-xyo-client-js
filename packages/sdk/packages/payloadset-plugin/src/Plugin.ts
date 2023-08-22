@@ -28,6 +28,11 @@ export type PayloadSetWitnessPlugin<TWitness extends WitnessModule = WitnessModu
 
 export type PayloadSetDivinerPlugin<TDiviner extends DivinerModule = DivinerModule> = PayloadSetPluginShared & PayloadSetDivinerField<TDiviner>
 
+export type PayloadSetDualPlugin<
+  TWitness extends WitnessModule = WitnessModule,
+  TDiviner extends DivinerModule = DivinerModule,
+> = PayloadSetWitnessPlugin<TWitness> & PayloadSetDivinerPlugin<TDiviner>
+
 export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = WitnessModule | DivinerModule> = TModule extends WitnessModule
   ? PayloadSetWitnessPlugin<TModule>
   : TModule extends DivinerModule

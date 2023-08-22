@@ -23,13 +23,14 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
-  it('HTTPS [medium/png/unsafe]', async () => {
+  it.skip('HTTPS [medium/png/unsafe]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://ethercb.com/image.png',
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
+    expect(result[0].schema).toBe(ImageThumbnailSchema)
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })

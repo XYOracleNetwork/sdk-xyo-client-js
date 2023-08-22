@@ -8168,8 +8168,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
-    fluent-ffmpeg: ^2.1.2
     async-mutex: ^0.4.0
+    fluent-ffmpeg: ^2.1.2
     gm: ^1.25.0
     hasbin: ^1.2.3
     hash-wasm: ^4.9.0

@@ -10,8 +10,7 @@ const getMongoDBArchivistFactory = async (container: Container) => {
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const accountDerivationPath = WALLET_PATHS.Archivists.Archivist
   return new ModuleFactory(MemoryArchivist, {
-    accountDerivationPath,
-    config: { name: TYPES.Archivist.description, schema: MemoryArchivist.configSchema },
+    config: { accountDerivationPath, name: TYPES.Archivist.description, schema: MemoryArchivist.configSchema },
     wallet,
   })
 }

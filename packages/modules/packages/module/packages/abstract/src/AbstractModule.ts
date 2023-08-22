@@ -150,7 +150,8 @@ export abstract class AbstractModule<
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
-    const { account, config, wallet, accountDerivationPath } = params ?? {}
+    const { account, config, wallet } = params ?? {}
+    const { accountDerivationPath } = config ?? {}
 
     assertEx(
       !(!!account && !!wallet),

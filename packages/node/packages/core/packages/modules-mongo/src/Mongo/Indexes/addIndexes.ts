@@ -15,6 +15,7 @@ const indexesByCollection: Record<Collection, IndexDescription[]> = {
   archivist_stats: ArchivistStatsIndexes,
   bound_witnesses: BoundWitnessesIndexes,
   payloads: PayloadsIndexes,
+  thumbnails: PayloadsIndexes,
   users: [],
 }
 

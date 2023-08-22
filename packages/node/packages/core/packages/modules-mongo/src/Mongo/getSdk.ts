@@ -9,4 +9,6 @@ export const getBoundWitnessSdk = (): BaseMongoSdk<BoundWitnessWithMeta> => getB
 
 export const getPayloadSdk = (): BaseMongoSdk<PayloadWithMeta> => getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Payloads)
 
+export const getThumbnailsSdk = (): BaseMongoSdk<PayloadWithMeta> => getBaseMongoSdk<PayloadWithMeta>(COLLECTIONS.Thumbnails)
+
 export const getAddressSdk = (): BaseMongoSdk<AddressInfo> => getBaseMongoSdk<AddressInfo>(COLLECTIONS.AddressInfo)

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistInstance } from '@xyo-network/archivist/packages/model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { AbstractModuleInstance, creatableModule, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'

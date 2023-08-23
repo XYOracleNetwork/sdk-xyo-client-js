@@ -42,6 +42,7 @@ const getImageThumbnailWitness = async (container: Container) => {
   return new ModuleFactory(ImageThumbnailWitness, {
     config: {
       accountDerivationPath: WALLET_PATHS.Witnesses.ImageThumbnailWitness,
+      archivist: 'ThumbnailArchivist',
       name: TYPES.ImageThumbnailWitness.description,
       schema: ImageThumbnailWitness.configSchema,
     },

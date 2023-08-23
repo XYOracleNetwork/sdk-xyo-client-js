@@ -8,6 +8,7 @@ export const WitnessConfigSchema: WitnessConfigSchema = 'network.xyo.witness.con
 export type WitnessConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
   WithAdditional<
     {
+      archivist?: string
       schema: TConfig extends Payload ? TConfig['schema'] : WitnessConfigSchema
       targetSet?: PayloadSetPayload
     },

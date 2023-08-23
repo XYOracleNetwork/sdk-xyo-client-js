@@ -71,7 +71,7 @@ const diviners: ModuleConfigWithVisibility[] = [
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
-  [{ schema: ImageThumbnailWitnessConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 

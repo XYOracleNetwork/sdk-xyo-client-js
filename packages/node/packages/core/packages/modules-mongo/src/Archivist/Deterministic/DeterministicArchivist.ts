@@ -64,7 +64,6 @@ export class MongoDBDeterministicArchivist<
   }
 
   get boundWitnesses() {
-    console.log(`BaseMongoSdk<BoundWitnessWithMeta>:${this.config.name} ${JSON.stringify(this.boundWitnessSdkConfig, null, 2)}`)
     this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
     return assertEx(this._boundWitnessSdk)
   }
@@ -76,7 +75,6 @@ export class MongoDBDeterministicArchivist<
   }
 
   get payloads() {
-    console.log(`BaseMongoSdk<PayloadWithMeta>:${this.config.name} ${JSON.stringify(this.payloadSdkConfig, null, 2)}`)
     this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
     return assertEx(this._payloadSdk)
   }

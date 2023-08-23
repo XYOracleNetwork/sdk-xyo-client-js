@@ -1,13 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
-import {
-  ArchivistConfig,
-  ArchivistConfigSchema,
-  ArchivistInsertQuerySchema,
-  isArchivistInstance,
-  withArchivistInstance,
-} from '@xyo-network/archivist-model'
+import { ArchivistConfig, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
@@ -38,12 +32,22 @@ const config = { schema: NodeConfigSchema }
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | AnyConfigSchema<MongoDBDeterministicArchivistConfig>>[] = [
-  [{ schema: ArchivistConfigSchema }, true],
+  [
+    {
+      accountDerivationPath: WALLET_PATHS.Archivists.Archivist,
+      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
+      name: 'Archivist',
+      payloadSdkConfig: { collection: 'payloads' },
+      schema: MongoDBDeterministicArchivistConfigSchema,
+    },
+    true,
+  ],
   [
     {
       accountDerivationPath: WALLET_PATHS.Archivists.ThumbnailArchivist,
+      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
       name: 'ThumbnailArchivist',
-      payloadSdkConfig: { collection: 'thumbnail' },
+      payloadSdkConfig: { collection: 'thumbnails' },
       schema: MongoDBDeterministicArchivistConfigSchema,
     },
     true,
@@ -62,7 +66,7 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
-  [{ schema: ImageThumbnailDivinerConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailDivinerConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],

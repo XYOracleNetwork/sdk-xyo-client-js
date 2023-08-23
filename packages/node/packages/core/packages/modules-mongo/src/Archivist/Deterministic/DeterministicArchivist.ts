@@ -10,6 +10,7 @@ import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPrivateConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
+import merge from 'lodash/merge'
 
 import { validByType } from './validByType'
 
@@ -57,30 +58,25 @@ export class MongoDBDeterministicArchivist<
   private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
 
   get boundWitnessSdkConfig(): BaseMongoSdkConfig {
-    return {
-      ...this.params.boundWitnessSdkConfig,
-      ...this.config.boundWitnessSdkConfig,
-      collection: assertEx(
-        this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection,
-        'No boundWitness collection configured',
-      ),
-    }
+    return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
+      collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
+    })
   }
 
   get boundWitnesses() {
+    console.log(`BaseMongoSdk<BoundWitnessWithMeta>:${this.config.name} ${JSON.stringify(this.boundWitnessSdkConfig, null, 2)}`)
     this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
     return assertEx(this._boundWitnessSdk)
   }
 
   get payloadSdkConfig(): BaseMongoSdkConfig {
-    return {
-      ...this.params.payloadSdkConfig,
-      ...this.config.payloadSdkConfig,
-      collection: assertEx(this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection, 'No payload collection configured'),
-    }
+    return merge({}, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
+      collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
+    })
   }
 
   get payloads() {
+    console.log(`BaseMongoSdk<PayloadWithMeta>:${this.config.name} ${JSON.stringify(this.payloadSdkConfig, null, 2)}`)
     this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
     return assertEx(this._payloadSdk)
   }

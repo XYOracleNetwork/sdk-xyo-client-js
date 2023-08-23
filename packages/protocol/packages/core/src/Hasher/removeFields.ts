@@ -24,7 +24,7 @@ export const deepBy = <T extends AnyObject>(obj: T, predicate: ValueKeyIteratee<
 
   const processedObjects = mapValues(pickedObjects, (obj: T) => deepBy(obj, predicate, func))
 
-  return merge(pickedNonObjects, processedObjects) as T
+  return merge({}, pickedNonObjects, processedObjects) as T
 }
 
 export const deepOmitUnderscoreFields = <T extends AnyObject>(obj: T) => {

@@ -28,7 +28,7 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)
     // TODO: Support multiple queries
-    if (!query) return []
+    if (!query) throw Error('Received payload is not a Query')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { hash, limit, order, offset, schema, schemas, timestamp, ...props } = query
     const parsedLimit = limit ?? DefaultLimit

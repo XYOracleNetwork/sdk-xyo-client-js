@@ -33,7 +33,9 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
   create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
     const schema = factory.creatableModule.configSchema
-    const mergedParams: TModule['params'] = merge(factory.defaultParams ?? {}, params, { config: { schema } })
+    const mergedParams: TModule['params'] = merge({}, factory.defaultParams, params, {
+      config: merge({}, factory.defaultParams?.config, params?.config, { schema }),
+    })
     return factory.creatableModule.create<T>(mergedParams)
   }
 

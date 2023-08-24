@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
@@ -11,7 +12,16 @@ const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
 describe('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness
   beforeAll(async () => {
-    witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
+    witness = await ImageThumbnailWitness.create({
+      account: await HDWallet.random(),
+      ipfs: {
+        infura: {
+          endpoint: assertEx(process.env.INFURA_THUMBNAIL_IPFS_ENDPOINT),
+          key: assertEx(process.env.INFURA_THUMBNAIL_IPFS_KEY),
+          secret: assertEx(process.env.INFURA_THUMBNAIL_IPFS_KEY_SECRET),
+        },
+      },
+    })
   })
   testIfHasBin('magick')('IPFS [jpeg]', async () => {
     const ipfsPayload: UrlPayload = {

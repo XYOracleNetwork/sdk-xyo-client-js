@@ -1,7 +1,8 @@
 import { promises as dnsPromises } from 'node:dns'
 
+import { assertEx } from '@xylabs/assert'
 import { URL } from '@xylabs/url'
-import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
+import { Axios, axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
@@ -12,10 +13,12 @@ import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
+import { detectBufferMime } from 'mime-detect'
 import shajs from 'sha.js'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
+import { IpfsBlock } from './IpfsBlock'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
@@ -77,29 +80,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.width ?? 128
   }
 
-  /**
-   * Returns the equivalent IPFS gateway URL for the supplied URL.
-   * @param urlToCheck The URL to check
-   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
-   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
-   */
-  static checkIpfsUrl(urlToCheck: string) {
-    const url = new URL(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.search
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = 'cloudflare-ipfs.com'
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `${root}?${query}` : root
-    } else {
-      return urlToCheck
-    }
-  }
-
   private static async binaryToSha256(data: Uint8Array) {
     await PayloadHasher.wasmInitialized
     if (PayloadHasher.wasmSupport.canUseWasm) {
@@ -156,9 +136,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                 url,
               }
             } else {
-              //if it is ipfs, go through cloud flair
-              const mutatedUrl = ImageThumbnailWitness.checkIpfsUrl(url)
-              result = await this.fromHttp(mutatedUrl)
+              result = (await this.fromIpfs(url)) ?? (await this.fromHttp(url))
             }
             this.cache.set(url, result)
             return result
@@ -248,5 +226,51 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       }
     }
     return result
+  }
+
+  private async fromIpfs(sourceUrl: string) {
+    const url = new URL(sourceUrl)
+    const protocol = url.protocol
+    const ipfsPath = sourceUrl.split('ipfs://')[1]
+    const cleanedIpfsPath = ipfsPath.startsWith('ipfs/') ? ipfsPath.substring(5) : ipfsPath
+    if (protocol === 'ipfs:') {
+      const axios = new Axios({
+        auth: {
+          password: assertEx(this.params.ipfs?.infura?.secret, 'No Infura secret provided'),
+          username: assertEx(this.params.ipfs?.infura?.key, 'No Infura key provided'),
+        },
+      })
+      const requestUrl = `${assertEx(this.params.ipfs?.infura?.endpoint, 'No Infura endpoint provided')}/get?arg=${encodeURIComponent(
+        cleanedIpfsPath,
+      )}&archive=true`
+      const response = await axios.post(requestUrl, null, { responseType: 'text' })
+      const result: ImageThumbnail = {
+        http: {
+          status: response.status,
+        },
+        schema: ImageThumbnailSchema,
+        sourceUrl,
+      }
+      if (response.status >= 200 && response.status < 300) {
+        const bytes = IpfsBlock.decoder(response.data).decode()
+        if (bytes) {
+          const data = Buffer.from(bytes)
+          const contentType = await detectBufferMime(data)
+          console.log(`ContentType: ${contentType}`)
+          if (contentType.split('/')[0] !== 'image') {
+            // TODO: Use FFMPEG to create a thumbnail for videos
+            // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
+            // Then resize thumbnail using
+            result.mime = result.mime ?? {}
+            result.mime.invalid = true
+          } else {
+            result.sourceHash = await ImageThumbnailWitness.binaryToSha256(response.data)
+            result.url = await this.createThumbnailDataUrl(response.data)
+          }
+        }
+      }
+    } else {
+      return undefined
+    }
   }
 }

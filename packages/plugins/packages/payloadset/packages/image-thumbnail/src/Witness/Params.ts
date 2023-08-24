@@ -6,6 +6,13 @@ import { ImageThumbnailWitnessConfig } from './Config'
 export type ImageThumbnailWitnessParams = WitnessParams<
   AnyConfigSchema<ImageThumbnailWitnessConfig>,
   {
+    ipfs?: {
+      infura?: {
+        endpoint: string
+        key: string
+        secret: string
+      }
+    }
     loaders?: string[]
   }
 >

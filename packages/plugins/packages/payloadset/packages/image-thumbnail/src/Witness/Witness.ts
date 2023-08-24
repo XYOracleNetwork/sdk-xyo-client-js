@@ -16,7 +16,7 @@ import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
-import { Duplex, PassThrough, Readable, Writable } from 'stream'
+import { Duplex, PassThrough } from 'stream'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'

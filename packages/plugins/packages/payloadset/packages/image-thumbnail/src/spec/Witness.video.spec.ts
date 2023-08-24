@@ -13,12 +13,12 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   beforeAll(async () => {
     witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
   })
-  testIfHasBin('ffmpeg')('HTTPS [large/mp4 (animated)]', async () => {
-    const httpsPayload: UrlPayload = {
-      schema: UrlSchema,
-      url: 'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4',
-      // url: 'https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4',
-    }
+  const cases = [
+    'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4',
+    'https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4',
+  ]
+  testIfHasBin('ffmpeg').each(cases)('HTTPS [large/mp4 (animated)]', async (url) => {
+    const httpsPayload: UrlPayload = { schema: UrlSchema, url }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
     expect(result[0].url?.length).toBeLessThan(64000)

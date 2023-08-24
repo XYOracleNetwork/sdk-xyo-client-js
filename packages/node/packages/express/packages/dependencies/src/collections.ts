@@ -199,4 +199,6 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['Gemesis', '0xbe9371326F91345777b04394448c23E2BFEaa826', 1],
   // ['10KTF Combat Gear', '0xe75Ef1Ec029c71C9DB0F968E389331609312aa22', 1],
   // ['Moonbirds Oddities', '0x1792a96E5668ad7C167ab804a100ce42395Ce54D', 1],
+  ['XYO World 3.0', '0x85773c1d866c89ca0b7c700f27e95a028a46b9e3', 1],
+  ['COIN Pickaxes', '0x4670185b40096bf6f327b0461119863b7f38bcf2', 137],
 ]

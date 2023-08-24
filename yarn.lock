@@ -5354,13 +5354,13 @@ __metadata:
   linkType: hard
 
 "@xylabs/tsconfig-jest@npm:^2.19.1":
-  version: 2.19.1
-  resolution: "@xylabs/tsconfig-jest@npm:2.19.1"
+  version: 2.19.3
+  resolution: "@xylabs/tsconfig-jest@npm:2.19.3"
   dependencies:
-    "@xylabs/tsconfig": ~2.19.1
+    "@xylabs/tsconfig": ~2.19.3
   peerDependencies:
     typescript: ^5
-  checksum: fcee3e2a92147629273191940c4482923cac6675671f142e9c6968c49c6b65c1616a6996f0285915a60fda6e41d2f6a2384e526f00898122765fae4e6c102b88
+  checksum: 4b678f20aae1bafe1f2d6150f6aaca0532367a1c84f23ef4627a59c954bb38e52448d269ff44ee3c29cc866a407ff62e7bb5de905095570a067c9a711f20364b
   languageName: node
   linkType: hard
 
@@ -5368,6 +5368,13 @@ __metadata:
   version: 2.19.1
   resolution: "@xylabs/tsconfig@npm:2.19.1"
   checksum: cd6efc5858845307731b4406f199a542ca5fdff214ad07dd3e385f20e5070eb5b39239e23b0268324df38f3037b92192011dc1f11bfb57df2f28e830cf69cb1e
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:~2.19.3":
+  version: 2.19.3
+  resolution: "@xylabs/tsconfig@npm:2.19.3"
+  checksum: ae8184bbe0ff896ee018b5735648162738af9e7d34306a5e131b0644bf6451e0fe0150e98bdb3cf3ac9fa26a3cac78e912bc58ab349a504a5bf893e77f05f04d
   languageName: node
   linkType: hard
 

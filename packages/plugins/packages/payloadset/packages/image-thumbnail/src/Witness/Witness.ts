@@ -8,6 +8,7 @@ import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbna
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
+import FileType from 'file-type'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -250,28 +251,60 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers['content-type']?.toString()
       const mediaType = contentType.split('/')[0]
+      result.mime = result.mime ?? {}
+      result.mime.returned = mediaType
+      const sourceBuffer = Buffer.from(response.data, 'binary')
+      try {
+        result.mime.detected = await FileType.fromBuffer(sourceBuffer)
+      } catch (ex) {
+        const error = ex as Error
+        this.logger?.error(`FileType error: ${error.message}`)
+      }
+
+      const processImage = async () => {
+        result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+        result.url = await this.createThumbnailDataUrl(sourceBuffer)
+      }
+
+      const processVideo = async () => {
+        // Gracefully handle the case where ffmpeg is not installed.
+        if (hasbin('ffmpeg')) {
+          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+          result.url = await this.createThumbnailFromVideo(sourceBuffer)
+        } else {
+          result.mime = result.mime ?? {}
+          result.mime.invalid = true
+        }
+      }
+
       switch (mediaType) {
         case 'image': {
-          const sourceBuffer = Buffer.from(response.data, 'binary')
-          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailDataUrl(sourceBuffer)
+          await processImage()
+          result.mime.type = mediaType
           break
         }
         case 'video': {
-          // Gracefully handle the case where ffmpeg is not installed.
-          if (hasbin('ffmpeg')) {
-            const sourceBuffer = Buffer.from(response.data, 'binary')
-            result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-            result.url = await this.createThumbnailFromVideo(sourceBuffer)
-          } else {
-            result.mime = result.mime ?? {}
-            result.mime.invalid = true
-          }
+          await processVideo()
+          result.mime.type = mediaType
           break
         }
         default: {
-          result.mime = result.mime ?? {}
-          result.mime.invalid = true
+          switch (result.mime.detected?.mime) {
+            case 'image': {
+              await processImage()
+              result.mime.type = result.mime.detected?.mime
+              break
+            }
+            case 'video': {
+              await processVideo()
+              result.mime.type = result.mime.detected?.mime
+              break
+            }
+            default: {
+              result.mime.invalid = true
+              break
+            }
+          }
           break
         }
       }

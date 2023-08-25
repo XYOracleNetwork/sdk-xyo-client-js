@@ -258,9 +258,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           break
         }
         case 'video': {
-          const sourceBuffer = Buffer.from(response.data, 'binary')
-          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailFromVideo(sourceBuffer)
+          // Gracefully handle the case where ffmpeg is not installed.
+          if (hasbin('ffmpeg')) {
+            const sourceBuffer = Buffer.from(response.data, 'binary')
+            result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+            result.url = await this.createThumbnailFromVideo(sourceBuffer)
+          } else {
+            result.mime = result.mime ?? {}
+            result.mime.invalid = true
+          }
           break
         }
         default: {

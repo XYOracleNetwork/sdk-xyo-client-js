@@ -257,16 +257,10 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         // .seekInput(0)
         .takeFrames(1)
         .withNoAudio()
-        .on('error', function (err) {
-          console.log('An error occurred: ' + err.message)
-        })
-        .on('end', function () {
-          const pngBuffer = Buffer.concat(pngChunks)
-          resolve(pngBuffer)
-        })
-        .on('data', function (chunk) {
-          pngChunks.push(chunk)
-        })
+        .on('error', (err) => console.log('An error occurred: ' + err.message))
+        // Listen for the 'end' event to combine the chunks and create a PNG buffer
+        .on('end', () => resolve(Buffer.concat(pngChunks)))
+        .on('data', (chunk) => pngChunks.push(chunk))
         // .toFormat('png')
         .outputOptions('-f image2pipe')
       // .outputOptions('-vcodec png')
@@ -275,12 +269,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       // Start processing
       // command.pipe(writableStream)
       command.pipe(writableStream)
-
-      // Listen for the 'finish' event to combine the chunks and create a PNG buffer
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      command.on('data', (chunk: any, encoding: any, callback: any) => {
-        pngChunks.push(chunk)
-      })
     })
     return this.createThumbnailDataUrl(imageBuffer)
   }

@@ -62,7 +62,13 @@ describe(`/${moduleName}`, () => {
     })
     describe('hash', () => {
       const payload: PayloadWrapper = PayloadWrapper.wrap(getNewPayload())
-      beforeAll(async () => await archivist.insert([payload.payload()]))
+      beforeAll(async () => {
+        await archivist.insert([payload.payload()])
+        const hash = await payload.hashAsync()
+        const payloads = await archivist.get([hash])
+        expect(payloads).toBeArrayOfSize(1)
+        console.log(`hash: ${hash}`)
+      })
       it('divines Payloads by hash', async () => {
         const hash = await payload.hashAsync()
         const query: PayloadDivinerQueryPayload = { hash, schema }

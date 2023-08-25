@@ -10,7 +10,6 @@ export type BasicModuleParams<
 > = WithAdditional<
   BaseParams<{
     account?: AccountInstance | 'random'
-    accountDerivationPath?: string
     config: TConfig
     ephemeralQueryAccountEnabled?: boolean
     wallet?: WalletInstance

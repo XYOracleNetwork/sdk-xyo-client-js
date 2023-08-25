@@ -21,6 +21,9 @@ export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
 export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = Payload<
   WithAdditional<
     {
+      /** @field The path to use when creating the account */
+      accountDerivationPath?: string
+
       /** @field The name/address of the Archivist to use for this module */
       readonly archivist?: ArchivistModuleConfig
 

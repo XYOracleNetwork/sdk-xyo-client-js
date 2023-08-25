@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account } from '@xyo-network/account'
-import { ArchivistConfigSchema, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistConfig, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
@@ -18,7 +18,8 @@ import {
 } from '@xyo-network/diviner-models'
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
-import { TYPES } from '@xyo-network/node-core-types'
+import { MongoDBDeterministicArchivistConfig, MongoDBDeterministicArchivistConfigSchema } from '@xyo-network/node-core-modules-mongo'
+import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
@@ -28,9 +29,30 @@ import { witnessNftCollections } from './witnessNftCollections'
 
 const config = { schema: NodeConfigSchema }
 
-type ModuleConfigWithVisibility = [config: AnyConfigSchema<ModuleConfig>, visibility: boolean]
+type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
-const archivists: ModuleConfigWithVisibility[] = [[{ schema: ArchivistConfigSchema }, true]]
+const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | AnyConfigSchema<MongoDBDeterministicArchivistConfig>>[] = [
+  [
+    {
+      accountDerivationPath: WALLET_PATHS.Archivists.Archivist,
+      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
+      name: 'Archivist',
+      payloadSdkConfig: { collection: 'payloads' },
+      schema: MongoDBDeterministicArchivistConfigSchema,
+    },
+    true,
+  ],
+  [
+    {
+      accountDerivationPath: WALLET_PATHS.Archivists.ThumbnailArchivist,
+      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
+      name: 'ThumbnailArchivist',
+      payloadSdkConfig: { collection: 'thumbnails' },
+      schema: MongoDBDeterministicArchivistConfigSchema,
+    },
+    true,
+  ],
+]
 
 const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressHistoryDivinerConfigSchema }, true],
@@ -44,12 +66,12 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
-  [{ schema: ImageThumbnailDivinerConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailDivinerConfigSchema }, true],
 ]
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
-  [{ schema: ImageThumbnailWitnessConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 

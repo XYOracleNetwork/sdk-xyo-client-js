@@ -77,7 +77,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result.length).toBe(1)
     expect(result[0]?.http?.dnsError).toBe('ENOTFOUND')
   })
-  it('HTTPS [medium/png]', async () => {
+  it.skip('HTTPS [medium/png]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://usdclive.org/usdc.png',

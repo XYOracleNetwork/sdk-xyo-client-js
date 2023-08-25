@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.9.3",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module": "workspace:~",
@@ -19,8 +20,8 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "typescript": "^5.1.6"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -56,5 +57,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.71.15"
+  "version": "2.72.1"
 }

@@ -16,6 +16,7 @@ export const WALLET_PATHS = {
   } as const,
   Archivists: {
     Archivist: `${ModulePath.Archivist}/0'` as const,
+    ThumbnailArchivist: `${ModulePath.Archivist}/1'` as const,
   } as const,
   Diviners: {
     Diviner: `${ModulePath.Diviner}/0'` as const,

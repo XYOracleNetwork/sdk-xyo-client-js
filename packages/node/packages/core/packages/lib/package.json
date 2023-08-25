@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.71.15",
+  "version": "2.72.1",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -37,9 +37,9 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@types/source-map-support": "0.5.6",
-    "@xylabs/ts-scripts-yarn3": "^2.19.0",
-    "@xylabs/tsconfig": "^2.19.0",
+    "@types/source-map-support": "0.5.7",
+    "@xylabs/ts-scripts-yarn3": "^2.19.1",
+    "@xylabs/tsconfig": "^2.19.1",
     "typescript": "^5.1.6"
   },
   "types": "dist/types/index.d.ts"

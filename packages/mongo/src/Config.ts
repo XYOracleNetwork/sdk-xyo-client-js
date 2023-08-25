@@ -1,10 +1,15 @@
-export interface BaseMongoSdkConfig {
+export interface BaseMongoSdkPublicConfig {
   closeDelay?: number
   collection: string
+  maxPoolSize?: number
+}
+
+export interface BaseMongoSdkPrivateConfig {
   dbConnectionString?: string
   dbDomain?: string
   dbName?: string
   dbPassword?: string
   dbUserName?: string
-  maxPoolSize?: number
 }
+
+export type BaseMongoSdkConfig = BaseMongoSdkPublicConfig & BaseMongoSdkPrivateConfig

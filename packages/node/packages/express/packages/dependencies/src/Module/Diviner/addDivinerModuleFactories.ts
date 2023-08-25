@@ -6,12 +6,13 @@ import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history'
 import { MemoryAddressSpaceDiviner } from '@xyo-network/diviner-address-space'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness'
 import { MemoryBoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats'
-import { MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
+import { ForecastingDivinerParams, MemoryForecastingDiviner } from '@xyo-network/diviner-forecasting'
+import { DivinerParams } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload'
 import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
 import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
 import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
-import { ImageThumbnailDiviner } from '@xyo-network/image-thumbnail-plugin'
+import { ImageThumbnailDiviner, ImageThumbnailDivinerParams } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
@@ -25,36 +26,52 @@ const archivist = 'Archivist'
 
 const getAddressHistoryDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
-    config: { archivist, name: TYPES.AddressHistoryDiviner.description, schema: AddressHistoryDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
+      archivist,
+      name: TYPES.AddressHistoryDiviner.description,
+      schema: AddressHistoryDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(AddressHistoryDiviner, params)
 }
 const getAddressSpaceDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace,
-    config: { archivist, name: TYPES.AddressSpaceDiviner.description, schema: MemoryAddressSpaceDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace,
+      archivist,
+      name: TYPES.AddressSpaceDiviner.description,
+      schema: MemoryAddressSpaceDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemoryAddressSpaceDiviner, params)
 }
 const getBoundWitnessDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
-    config: { archivist, name: TYPES.BoundWitnessDiviner.description, schema: MemoryBoundWitnessDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
+      archivist,
+      name: TYPES.BoundWitnessDiviner.description,
+      schema: MemoryBoundWitnessDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemoryBoundWitnessDiviner, params)
 }
 const getBoundWitnessStatsDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
-    config: { archivist, name: TYPES.BoundWitnessStatsDiviner.description, schema: MemoryBoundWitnessStatsDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
+      archivist,
+      name: TYPES.BoundWitnessStatsDiviner.description,
+      schema: MemoryBoundWitnessStatsDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemoryBoundWitnessStatsDiviner, params)
@@ -62,10 +79,10 @@ const getBoundWitnessStatsDiviner = async (container: Container) => {
 
 const getImageThumbnailDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.ImageThumbnail,
+  const params: ImageThumbnailDivinerParams = {
     config: {
-      archivist,
+      accountDerivationPath: WALLET_PATHS.Diviners.ImageThumbnail,
+      archivist: 'ThumbnailArchivist',
       name: TYPES.ImageThumbnailDiviner.description,
       payloadDiviner: TYPES.PayloadDiviner.description,
       schema: ImageThumbnailDiviner.configSchema,
@@ -80,9 +97,9 @@ const getMemoryForecastingDiviner = async (container: Container) => {
   const forecastingMethod = 'arimaForecasting'
   const jsonPathExpression = '$.feePerGas.medium'
   const witnessSchema = 'network.xyo.blockchain.ethereum.gas'
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.Forecasting,
+  const params: ForecastingDivinerParams = {
     config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.Forecasting,
       archivist,
       forecastingMethod,
       jsonPathExpression,
@@ -96,54 +113,76 @@ const getMemoryForecastingDiviner = async (container: Container) => {
 }
 const getNftCollectionScoreDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.NftCollectionScoreDiviner,
-    config: { name: TYPES.NftCollectionScoreDiviner.description, schema: NftCollectionScoreDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.NftCollectionScoreDiviner,
+      name: TYPES.NftCollectionScoreDiviner.description,
+      schema: NftCollectionScoreDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(NftCollectionScoreDiviner, params)
 }
 const getNftScoreDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.NftScoreDiviner,
-    config: { name: TYPES.NftScoreDiviner.description, schema: NftScoreDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.NftScoreDiviner,
+      name: TYPES.NftScoreDiviner.description,
+      schema: NftScoreDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(NftScoreDiviner, params)
 }
 const getPayloadDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.Payload,
-    config: { archivist, name: TYPES.PayloadDiviner.description, schema: MemoryPayloadDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.Payload,
+      archivist,
+      name: TYPES.PayloadDiviner.description,
+      schema: MemoryPayloadDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemoryPayloadDiviner, params)
 }
 const getPayloadStatsDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
-    config: { archivist, name: TYPES.PayloadStatsDiviner.description, schema: MemoryPayloadStatsDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
+      archivist,
+      name: TYPES.PayloadStatsDiviner.description,
+      schema: MemoryPayloadStatsDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemoryPayloadStatsDiviner, params)
 }
 const getSchemaListDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
-    config: { archivist, name: TYPES.SchemaListDiviner.description, schema: MemorySchemaListDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.SchemaList,
+      archivist,
+      name: TYPES.SchemaListDiviner.description,
+      schema: MemorySchemaListDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemorySchemaListDiviner, params)
 }
 const getSchemaStatsDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
-  const params = {
-    accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
-    config: { archivist, name: TYPES.SchemaStatsDiviner.description, schema: MemorySchemaStatsDiviner.configSchema },
+  const params: DivinerParams = {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
+      archivist,
+      name: TYPES.SchemaStatsDiviner.description,
+      schema: MemorySchemaStatsDiviner.configSchema,
+    },
     wallet,
   }
   return new ModuleFactory(MemorySchemaStatsDiviner, params)

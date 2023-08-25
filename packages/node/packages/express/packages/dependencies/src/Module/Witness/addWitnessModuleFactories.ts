@@ -15,8 +15,11 @@ const getWallet = (container: Container) => {
 const getCryptoWalletNftWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(CryptoWalletNftWitness, {
-    accountDerivationPath: WALLET_PATHS.Witnesses.CryptoWalletNftWitness,
-    config: { name: TYPES.CryptoWalletNftWitness.description, schema: CryptoWalletNftWitness.configSchema },
+    config: {
+      accountDerivationPath: WALLET_PATHS.Witnesses.CryptoWalletNftWitness,
+      name: TYPES.CryptoWalletNftWitness.description,
+      schema: CryptoWalletNftWitness.configSchema,
+    },
     wallet,
   })
 }
@@ -24,8 +27,8 @@ const getCryptoWalletNftWitness = async (container: Container) => {
 const getCryptoNftCollectionWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(CryptoNftCollectionWitness, {
-    accountDerivationPath: WALLET_PATHS.Witnesses.CryptoNftCollectionWitness,
     config: {
+      accountDerivationPath: WALLET_PATHS.Witnesses.CryptoNftCollectionWitness,
       archivist: TYPES.Archivist.description,
       name: TYPES.CryptoNftCollectionWitness.description,
       schema: CryptoNftCollectionWitness.configSchema,
@@ -37,8 +40,12 @@ const getCryptoNftCollectionWitness = async (container: Container) => {
 const getImageThumbnailWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(ImageThumbnailWitness, {
-    accountDerivationPath: WALLET_PATHS.Witnesses.ImageThumbnailWitness,
-    config: { name: TYPES.ImageThumbnailWitness.description, schema: ImageThumbnailWitness.configSchema },
+    config: {
+      accountDerivationPath: WALLET_PATHS.Witnesses.ImageThumbnailWitness,
+      archivist: 'ThumbnailArchivist',
+      name: TYPES.ImageThumbnailWitness.description,
+      schema: ImageThumbnailWitness.configSchema,
+    },
     wallet,
   })
 }
@@ -46,8 +53,11 @@ const getImageThumbnailWitness = async (container: Container) => {
 const getPrometheusNodeWitness = async (container: Container) => {
   const wallet = await getWallet(container)
   return new ModuleFactory(PrometheusNodeWitness, {
-    accountDerivationPath: WALLET_PATHS.Witnesses.Prometheus,
-    config: { name: TYPES.PrometheusWitness.description, schema: PrometheusNodeWitness.configSchema },
+    config: {
+      accountDerivationPath: WALLET_PATHS.Witnesses.Prometheus,
+      name: TYPES.PrometheusWitness.description,
+      schema: PrometheusNodeWitness.configSchema,
+    },
     wallet,
   })
 }

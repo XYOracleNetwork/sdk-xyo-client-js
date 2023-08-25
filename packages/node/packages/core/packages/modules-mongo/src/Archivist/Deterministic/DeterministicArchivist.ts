@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { fulfilledValues } from '@xylabs/promise'
 import { AbstractArchivist, ArchivistConfig, ArchivistConfigSchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist'
@@ -8,15 +9,25 @@ import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPrivateConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
+import merge from 'lodash/merge'
 
 import { validByType } from './validByType'
 
+export const MongoDBDeterministicArchivistConfigSchema = 'network.xyo.archivist.config'
+export type MongoDBDeterministicArchivistConfigSchema = typeof MongoDBDeterministicArchivistConfigSchema
+
+export type MongoDBDeterministicArchivistConfig = ArchivistConfig<{
+  boundWitnessSdkConfig?: Partial<BaseMongoSdkPublicConfig>
+  payloadSdkConfig?: Partial<BaseMongoSdkPublicConfig>
+  schema: MongoDBDeterministicArchivistConfigSchema
+}>
+
 export type MongoDBDeterministicArchivistParams = ArchivistParams<
-  AnyConfigSchema<ArchivistConfig>,
+  AnyConfigSchema<MongoDBDeterministicArchivistConfig>,
   {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    payloadSdk: BaseMongoSdk<PayloadWithMeta>
+    boundWitnessSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
+    payloadSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
   }
 >
 
@@ -41,14 +52,31 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
 export class MongoDBDeterministicArchivist<
   TParams extends MongoDBDeterministicArchivistParams = MongoDBDeterministicArchivistParams,
 > extends AbstractArchivist<TParams> {
-  static override configSchemas = [ArchivistConfigSchema]
+  static override configSchemas = [MongoDBDeterministicArchivistConfigSchema, ArchivistConfigSchema]
+
+  private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
+  private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
+
+  get boundWitnessSdkConfig(): BaseMongoSdkConfig {
+    return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
+      collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
+    })
+  }
 
   get boundWitnesses() {
-    return this.params.boundWitnessSdk
+    this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
+    return assertEx(this._boundWitnessSdk)
+  }
+
+  get payloadSdkConfig(): BaseMongoSdkConfig {
+    return merge({}, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
+      collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
+    })
   }
 
   get payloads() {
-    return this.params.payloadSdk
+    this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
+    return assertEx(this._payloadSdk)
   }
 
   override get queries(): string[] {

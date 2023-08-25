@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { AbstractModuleInstance, creatableModule, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
@@ -25,6 +26,12 @@ export abstract class AbstractWitness<
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
 
+  private _archivistInstance: ArchivistInstance | undefined
+
+  get archivist() {
+    return this.config.archivist
+  }
+
   override get queries(): string[] {
     return [WitnessObserveQuerySchema, ...super.queries]
   }
@@ -39,6 +46,12 @@ export abstract class AbstractWitness<
     }
   }
 
+  async getArchivistInstance() {
+    const archivistAddress = this.archivist
+    this._archivistInstance = this._archivistInstance ?? (archivistAddress ? await this.resolve(archivistAddress) : undefined)
+    return this._archivistInstance
+  }
+
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
   async observe(inPayloads?: Payload[]): Promise<Payload[]> {
     await this.started('throw')
@@ -46,7 +59,14 @@ export abstract class AbstractWitness<
     const outPayloads = assertEx(await this.observeHandler(inPayloads), 'Trying to witness nothing')
     assertEx(outPayloads.length > 0, 'Trying to witness empty list')
     outPayloads?.forEach((payload) => assertEx(payload.schema, 'observe: Missing Schema'))
+
+    const archivist = await this.getArchivistInstance()
+    if (archivist) {
+      await archivist.insert(outPayloads)
+    }
+
     await this.emit('observeEnd', { inPayloads, module: this, outPayloads })
+
     return outPayloads
   }
 

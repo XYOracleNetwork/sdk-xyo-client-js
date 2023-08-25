@@ -6,7 +6,6 @@ import { sync as hasbin } from 'hasbin'
 import { ImageThumbnailWitness } from '../Witness'
 
 const describeIfHasBin = (bin: string) => (hasbin(bin) ? describe : describe.skip)
-const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
 
 describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness

@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { promises as dnsPromises } from 'node:dns'
 
 import { URL } from '@xylabs/url'
@@ -16,9 +17,12 @@ import shajs from 'sha.js'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
+import { getVideoFrameAsImageFluent } from './ffmpeg'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
+
+// setFfmpegPath(ffmpegPath)
 
 const gm = subClass({ imageMagick: '7+' })
 
@@ -185,6 +189,16 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return `data:image/png;base64,${thumb.toString('base64')}`
   }
 
+  /**
+   * Creates an image thumbnail from a video.
+   * @param videoBuffer The input video buffer.
+   * @returns An buffer containing an image thumbnail for the video.
+   */
+  private async createThumbnailFromVideo(videoBuffer: Buffer) {
+    const imageBuffer = await getVideoFrameAsImageFluent(videoBuffer)
+    return this.createThumbnailDataUrl(imageBuffer)
+  }
+
   private async fromHttp(url: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
     let dnsResult: string[]
@@ -235,16 +249,31 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
     if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers['content-type']?.toString()
-      if (contentType.split('/')[0] !== 'image') {
-        // TODO: Use FFMPEG to create a thumbnail for videos
-        // ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 output.png
-        // Then resize thumbnail using
-        result.mime = result.mime ?? {}
-        result.mime.invalid = true
-      } else {
-        const sourceBuffer = Buffer.from(response.data, 'binary')
-        result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-        result.url = await this.createThumbnailDataUrl(sourceBuffer)
+      const mediaType = contentType.split('/')[0]
+      switch (mediaType) {
+        case 'image': {
+          const sourceBuffer = Buffer.from(response.data, 'binary')
+          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+          result.url = await this.createThumbnailDataUrl(sourceBuffer)
+          break
+        }
+        case 'video': {
+          // Gracefully handle the case where ffmpeg is not installed.
+          if (hasbin('ffmpeg')) {
+            const sourceBuffer = Buffer.from(response.data, 'binary')
+            result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+            result.url = await this.createThumbnailFromVideo(sourceBuffer)
+          } else {
+            result.mime = result.mime ?? {}
+            result.mime.invalid = true
+          }
+          break
+        }
+        default: {
+          result.mime = result.mime ?? {}
+          result.mime.invalid = true
+          break
+        }
       }
     }
     return result

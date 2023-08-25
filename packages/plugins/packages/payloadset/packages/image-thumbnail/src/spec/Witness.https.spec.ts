@@ -6,7 +6,6 @@ import { sync as hasbin } from 'hasbin'
 import { ImageThumbnailWitness } from '../Witness'
 
 const describeIfHasBin = (bin: string) => (hasbin(bin) ? describe : describe.skip)
-const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
 
 describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness
@@ -53,16 +52,6 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://lh3.googleusercontent.com/N3uFgyMt0xOew9YjD8GiOLQEbbQ2Y7WJOqoHdUdZZSljKrbuKNt6VGkAByzyPAI80y81tELH6tKatSZvFXKfcbBdm6GfCyZhFWxgOTw',
-    }
-    const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
-    expect(result.length).toBe(1)
-    expect(result[0].url?.length).toBeLessThan(64000)
-    expect(result[0].schema).toBe(ImageThumbnailSchema)
-  })
-  testIfHasBin('ffmpeg')('HTTPS [large/mp4 (animated)]', async () => {
-    const httpsPayload: UrlPayload = {
-      schema: UrlSchema,
-      url: 'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4',
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)

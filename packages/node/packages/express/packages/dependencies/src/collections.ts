@@ -91,7 +91,7 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['LoudPunx', '0xcB45DcE241a6F6F1e874E9925bEa5840F3FD7d3A', 1],
   // ['Utility Wen', '0xB10B88218E288CdA2218d8B4cc81899Ee5Af4600', 1],
   // ['THE SHIBOSHIS', '0x11450058d796B02EB53e65374be59cFf65d3FE7f', 1],
-  // ['Laelaps Master Key', '0x992d6FBe83f3f4c938F687A6676a1155A523A20b', 1],
+  // ['Laelaps Master Key V2', '0x992d6FBe83f3f4c938F687A6676a1155A523A20b', 1],
   // ['10KTF', '0x0Cfb5d82BE2b949e8fa73A656dF91821E2aD99FD', 1],
   // ['0xTama', '0x7E527e9B8AAd8db0E535bCD265267594059bD529', 1],
   // ['World of Women', '0xe785E82358879F061BC3dcAC6f0444462D4b5330', 1],
@@ -199,4 +199,6 @@ export const collections: NftCollectionWitnessScrapeData[] = [
   // ['Gemesis', '0xbe9371326F91345777b04394448c23E2BFEaa826', 1],
   // ['10KTF Combat Gear', '0xe75Ef1Ec029c71C9DB0F968E389331609312aa22', 1],
   // ['Moonbirds Oddities', '0x1792a96E5668ad7C167ab804a100ce42395Ce54D', 1],
+  ['XYO World 3.0', '0x85773c1d866c89ca0b7c700f27e95a028a46b9e3', 1],
+  ['COIN Pickaxes', '0x4670185b40096bf6f327b0461119863b7f38bcf2', 137],
 ]

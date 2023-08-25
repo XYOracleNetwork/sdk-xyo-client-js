@@ -6,7 +6,7 @@ import { Readable, Writable } from 'stream'
  * @param videoBuffer Input video buffer.
  * @returns Output buffer containing the video thumbnail image.
  */
-export const createThumbnailFromVideoFluent = async (videoBuffer: Buffer) => {
+export const getVideoFrameAsImageFluent = async (videoBuffer: Buffer) => {
   const imageBuffer = await new Promise<Buffer>((resolve, reject) => {
     // const videoStream = new PassThrough()
     // videoStream.end(videoBuffer)

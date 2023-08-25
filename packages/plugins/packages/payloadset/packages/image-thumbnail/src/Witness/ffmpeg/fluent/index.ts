@@ -1,1 +1,1 @@
-export * from './createThumbnailFromVideoFluent'
+export * from './getVideoFrameAsImageFluent'

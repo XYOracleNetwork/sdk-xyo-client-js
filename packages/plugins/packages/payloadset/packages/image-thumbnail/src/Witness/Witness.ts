@@ -17,7 +17,7 @@ import shajs from 'sha.js'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
-import { getVideoFrameAsImage } from './ffmpeg'
+import { getVideoFrameAsImageFluent } from './ffmpeg'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
@@ -195,7 +195,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
    * @returns An buffer containing an image thumbnail for the video.
    */
   private async createThumbnailFromVideo(videoBuffer: Buffer) {
-    const imageBuffer = await getVideoFrameAsImage(videoBuffer)
+    const imageBuffer = await getVideoFrameAsImageFluent(videoBuffer)
     return this.createThumbnailDataUrl(imageBuffer)
   }
 

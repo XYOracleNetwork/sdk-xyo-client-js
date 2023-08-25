@@ -74,3 +74,12 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: ipfs
+    restart: unless-stopped
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8090:8080"

@@ -8,18 +8,16 @@ import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbna
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
-import { spawn } from 'child_process'
-import ffmpeg from 'fluent-ffmpeg'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
-import { Duplex, PassThrough, Readable, Writable } from 'stream'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
+import { executeFFmpeg } from './ffmpeg'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
@@ -27,35 +25,6 @@ import { ImageThumbnailWitnessParams } from './Params'
 // setFfmpegPath(ffmpegPath)
 
 const gm = subClass({ imageMagick: '7+' })
-
-class BufferDuplexStream extends Duplex {
-  constructor(protected buffer: Buffer = Buffer.alloc(0)) {
-    super()
-  }
-  // Called when data is read from the stream
-  override _read(size: number) {
-    if (this.buffer.length === 0) {
-      this.push(null) // Signal the end of data
-      return
-    }
-
-    // Extract data from the internal buffer
-    // eslint-disable-next-line deprecation/deprecation
-    const chunk = this.buffer.slice(0, size)
-    // eslint-disable-next-line deprecation/deprecation
-    this.buffer = this.buffer.slice(size)
-
-    // Push the chunk to the readable side
-    this.push(chunk)
-  }
-  // Called when data is written to the stream
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  override _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
-    // Concatenate the existing buffer with the new chunk
-    this.buffer = Buffer.concat([this.buffer, chunk])
-    callback()
-  }
-}
 
 export interface ImageThumbnailWitnessError extends Error {
   name: 'ImageThumbnailWitnessError'
@@ -220,85 +189,10 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return `data:image/png;base64,${thumb.toString('base64')}`
   }
   private async createThumbnailFromVideo(videoBuffer: Buffer) {
-    const imageBuffer = await this.executeFFmpeg(videoBuffer, ['-'])
+    const imageBuffer = await executeFFmpeg(videoBuffer)
     // const imageBuffer = await this.createThumbnailFromVideoOld(videoBuffer)
     // Convert the image to a thumbnail
     return this.createThumbnailDataUrl(imageBuffer)
-  }
-  private async createThumbnailFromVideoOld(videoBuffer: Buffer) {
-    const imageBuffer = await new Promise<Buffer>((resolve, reject) => {
-      // const videoStream = new PassThrough()
-      // videoStream.end(videoBuffer)
-
-      const videoStream = new Readable()
-      videoStream._read = () => {} // _read is required but you can noop it
-      videoStream.push(videoBuffer)
-      videoStream.push(null)
-
-      // Initialize empty array to collect PNG chunks
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pngChunks: any[] = []
-
-      // Create a Writable stream to collect PNG output from ffmpeg
-      const writableStream = new Writable({
-        write(chunk, encoding, callback) {
-          pngChunks.push(chunk)
-          callback()
-        },
-      })
-
-      const command = ffmpeg()
-        // Uncomment to debug CLI args to ffmpeg
-        // .on('start', function (commandLine) {
-        //   console.log('Spawned Ffmpeg with command: ' + commandLine)
-        // })
-        .input(videoStream)
-        // .seekInput('00:00:00')
-        // .seekInput(0)
-        .takeFrames(1)
-        .withNoAudio()
-        .on('error', (err) => console.log('An error occurred: ' + err.message))
-        // Listen for the 'end' event to combine the chunks and create a PNG buffer
-        .on('end', () => resolve(Buffer.concat(pngChunks)))
-        .on('data', (chunk) => pngChunks.push(chunk))
-        // .toFormat('png')
-        .outputOptions('-f image2pipe')
-      // .outputOptions('-vcodec png')
-      // .output(writableStream, { end: true })
-
-      // Start processing
-      // command.pipe(writableStream)
-      command.pipe(writableStream)
-    })
-    return this.createThumbnailDataUrl(imageBuffer)
-  }
-  /**
-   * Execute FFmpeg with provided input buffer and return output buffer.
-   * @param videoBuffer Input video buffer.
-   * @param ffmpegArgs FFmpeg arguments.
-   * @returns Output buffer.
-   */
-  private executeFFmpeg(videoBuffer: Buffer, ffmpegArgs: string[]): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const ffmpeg = spawn('ffmpeg', ['-i', 'pipe:', '-ss', '00:00:00', '-vframes', '1', '-f', 'image2pipe', ...ffmpegArgs])
-
-      // Create a readable stream from the input buffer
-      const videoStream = new PassThrough().end(videoBuffer)
-
-      // Pipe the input stream to ffmpeg's stdin
-      videoStream.pipe(ffmpeg.stdin)
-      const chunks: Buffer[] = []
-      ffmpeg.stdout.on('data', (chunk: Buffer) => chunks.push(chunk))
-      // TODO: This is required as we're seeing errors thrown due to
-      // how we're piping the data to ffmpeg. Works perfectly though.
-      ffmpeg.stdin.on('error', () => {})
-      ffmpeg.on('close', (code) => {
-        if (code !== 0) {
-          return reject(new Error(`FFmpeg exited with code ${code}`))
-        }
-        resolve(Buffer.concat(chunks))
-      })
-    })
   }
 
   private async fromHttp(url: string): Promise<ImageThumbnail> {
@@ -362,7 +256,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         case 'video': {
           const sourceBuffer = Buffer.from(response.data, 'binary')
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailFromVideoOld(sourceBuffer)
+          result.url = await this.createThumbnailFromVideoFluent(sourceBuffer)
           break
         }
         default: {

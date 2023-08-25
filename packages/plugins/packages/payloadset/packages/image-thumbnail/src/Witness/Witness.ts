@@ -235,9 +235,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       videoStream.push(videoBuffer)
       videoStream.push(null)
 
-      const chunks: Buffer[] = []
-      const videoConversion = new PassThrough()
-
       // Initialize empty array to collect PNG chunks
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const pngChunks: any[] = []
@@ -251,22 +248,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       })
 
       const command = ffmpeg()
-        .on('start', function (commandLine) {
-          console.log('Spawned Ffmpeg with command: ' + commandLine)
-        })
+        // Uncomment to debug CLI args to ffmpeg
+        // .on('start', function (commandLine) {
+        //   console.log('Spawned Ffmpeg with command: ' + commandLine)
+        // })
         .input(videoStream)
         // .seekInput('00:00:00')
+        // .seekInput(0)
         .takeFrames(1)
         .withNoAudio()
-        .on('stdin', function (line) {
-          console.log('Stderr output: ' + line)
-        })
-        .on('stdout', function (line) {
-          console.log('Stderr output: ' + line)
-        })
-        .on('stderr', function (line) {
-          console.log('Stderr output: ' + line)
-        })
         .on('error', function (err) {
           console.log('An error occurred: ' + err.message)
         })
@@ -284,52 +274,13 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
       // Start processing
       // command.pipe(writableStream)
-      const invocation = command.pipe(writableStream)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      invocation.on('stdin', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      invocation.on('stderr', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      invocation.on('stdout', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      invocation.on('data', (chunk: any) => {
-        pngChunks.push(chunk)
-      })
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      command.on('stdin', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      command.on('stderr', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      command.on('stdout', (chunk: any) => {
-        console.log(`stdin: ${chunk}`)
-      })
+      command.pipe(writableStream)
 
       // Listen for the 'finish' event to combine the chunks and create a PNG buffer
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       command.on('data', (chunk: any, encoding: any, callback: any) => {
         pngChunks.push(chunk)
       })
-
-      // writableStream.on('end', () => {
-      //   const pngBuffer = Buffer.concat(pngChunks)
-      //   resolve(pngBuffer)
-      // })
-      // writableStream.on('finish', () => {
-      //   const pngBuffer = Buffer.concat(pngChunks)
-      //   resolve(pngBuffer)
-      // })
     })
     return this.createThumbnailDataUrl(imageBuffer)
   }

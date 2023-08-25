@@ -62,6 +62,10 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.height ?? 128
   }
 
+  get ipfGateway() {
+    return this.config.ipfsGateway ?? 'cloudflare-ipfs.com'
+  }
+
   get maxAsyncProcesses() {
     return this.config.maxAsyncProcesses ?? 2
   }
@@ -80,29 +84,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
   get width() {
     return this.config.width ?? 128
-  }
-
-  /**
-   * Returns the equivalent IPFS gateway URL for the supplied URL.
-   * @param urlToCheck The URL to check
-   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
-   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
-   */
-  static checkIpfsUrl(urlToCheck: string) {
-    const url = new URL(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.search
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = 'cloudflare-ipfs.com'
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `${root}?${query}` : root
-    } else {
-      return urlToCheck
-    }
   }
 
   private static async binaryToSha256(data: Uint8Array) {
@@ -136,6 +117,29 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
   }
 
+  /**
+   * Returns the equivalent IPFS gateway URL for the supplied URL.
+   * @param urlToCheck The URL to check
+   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
+   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
+   */
+  checkIpfsUrl(urlToCheck: string) {
+    const url = new URL(urlToCheck)
+    let protocol = url.protocol
+    let host = url.host
+    let path = url.pathname
+    const query = url.search
+    if (protocol === 'ipfs:') {
+      protocol = 'https:'
+      host = this.ipfGateway
+      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
+      const root = `${protocol}//${host}/${path}`
+      return query?.length > 0 ? `${root}?${query}` : root
+    } else {
+      return urlToCheck
+    }
+  }
+
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
     if (!hasbin('magick')) {
       throw Error('ImageMagick is required for this witness')
@@ -162,7 +166,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               }
             } else {
               //if it is ipfs, go through cloud flair
-              const mutatedUrl = ImageThumbnailWitness.checkIpfsUrl(url)
+              const mutatedUrl = this.checkIpfsUrl(url)
               result = await this.fromHttp(mutatedUrl)
             }
             this.cache.set(url, result)

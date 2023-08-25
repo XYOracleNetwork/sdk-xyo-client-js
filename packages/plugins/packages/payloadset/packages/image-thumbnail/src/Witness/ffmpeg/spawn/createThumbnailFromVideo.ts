@@ -6,6 +6,6 @@ import { executeFFmpeg } from './executeFfmpeg'
  * @returns Output buffer containing the video thumbnail image.
  */
 export const createThumbnailFromVideo = async (videoBuffer: Buffer) => {
-  const imageBuffer = await executeFFmpeg(videoBuffer)
+  const imageBuffer = await executeFFmpeg(videoBuffer, ['-i', 'pipe:', '-ss', '00:00:00', '-vframes', '1', '-f', 'image2pipe', '-'])
   return imageBuffer
 }

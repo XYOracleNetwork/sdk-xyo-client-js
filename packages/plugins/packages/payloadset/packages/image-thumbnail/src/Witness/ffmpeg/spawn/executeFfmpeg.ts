@@ -7,9 +7,9 @@ import { PassThrough } from 'stream'
  * @param ffmpegArgs FFmpeg arguments.
  * @returns Output buffer containing the video thumbnail image.
  */
-export const executeFFmpeg = (videoBuffer: Buffer, ffmpegArgs: string[] = ['-']): Promise<Buffer> => {
+export const executeFFmpeg = (videoBuffer: Buffer, ffmpegArgs: string[]): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    const ffmpeg = spawn('ffmpeg', ['-i', 'pipe:', '-ss', '00:00:00', '-vframes', '1', '-f', 'image2pipe', ...ffmpegArgs])
+    const ffmpeg = spawn('ffmpeg', ffmpegArgs)
 
     // Create a readable stream from the input buffer
     const videoStream = new PassThrough().end(videoBuffer)

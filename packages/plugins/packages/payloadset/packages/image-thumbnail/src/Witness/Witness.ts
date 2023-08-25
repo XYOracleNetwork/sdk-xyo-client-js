@@ -16,7 +16,7 @@ import { sha256 } from 'hash-wasm'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
-import { Duplex, PassThrough } from 'stream'
+import { Duplex, PassThrough, Readable, Writable } from 'stream'
 import Url from 'url-parse'
 
 import { ImageThumbnailWitnessConfigSchema } from './Config'
@@ -27,6 +27,35 @@ import { ImageThumbnailWitnessParams } from './Params'
 // setFfmpegPath(ffmpegPath)
 
 const gm = subClass({ imageMagick: '7+' })
+
+class BufferDuplexStream extends Duplex {
+  constructor(protected buffer: Buffer = Buffer.alloc(0)) {
+    super()
+  }
+  // Called when data is read from the stream
+  override _read(size: number) {
+    if (this.buffer.length === 0) {
+      this.push(null) // Signal the end of data
+      return
+    }
+
+    // Extract data from the internal buffer
+    // eslint-disable-next-line deprecation/deprecation
+    const chunk = this.buffer.slice(0, size)
+    // eslint-disable-next-line deprecation/deprecation
+    this.buffer = this.buffer.slice(size)
+
+    // Push the chunk to the readable side
+    this.push(chunk)
+  }
+  // Called when data is written to the stream
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+    // Concatenate the existing buffer with the new chunk
+    this.buffer = Buffer.concat([this.buffer, chunk])
+    callback()
+  }
+}
 
 export interface ImageThumbnailWitnessError extends Error {
   name: 'ImageThumbnailWitnessError'
@@ -198,36 +227,111 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
   private async createThumbnailFromVideoOld(videoBuffer: Buffer) {
     const imageBuffer = await new Promise<Buffer>((resolve, reject) => {
-      const videoStream = new PassThrough()
-      videoStream.end(videoBuffer)
-      const chunks: Buffer[] = []
-      const videoConversion = new Duplex()
-      ffmpeg()
-        .input(videoStream)
-        // .inputFormat('mp4') // Assuming the video buffer format is mp4. Adjust if needed.
-        // .seekInput('00:00:00')
-        .outputOptions('-ss 00:00:00')
-        .outputOptions('-vframes 1')
-        .outputOptions('-f image2pipe')
-      // .screenshot({
-      //   count: 1,
-      //   timemarks: ['00:00:00'],
-      // })
-      // .outputOptions('-vcodec png')
-      // .toFormat('png')
+      // const videoStream = new PassThrough()
+      // videoStream.end(videoBuffer)
 
-      videoConversion.on('end', (_vals: unknown) => {
-        resolve(Buffer.concat(chunks))
+      const videoStream = new Readable()
+      videoStream._read = () => {} // _read is required but you can noop it
+      videoStream.push(videoBuffer)
+      videoStream.push(null)
+
+      const chunks: Buffer[] = []
+      const videoConversion = new PassThrough()
+
+      // Initialize empty array to collect PNG chunks
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pngChunks: any[] = []
+
+      // Create a Writable stream to collect PNG output from ffmpeg
+      const writableStream = new Writable({
+        write(chunk, encoding, callback) {
+          pngChunks.push(chunk)
+          callback()
+        },
       })
-      videoConversion.on('error', (err: Error) => {
-        reject(err)
+
+      const command = ffmpeg()
+        .on('start', function (commandLine) {
+          console.log('Spawned Ffmpeg with command: ' + commandLine)
+        })
+        .input(videoStream)
+        // .seekInput('00:00:00')
+        .takeFrames(1)
+        .withNoAudio()
+        .on('stdin', function (line) {
+          console.log('Stderr output: ' + line)
+        })
+        .on('stdout', function (line) {
+          console.log('Stderr output: ' + line)
+        })
+        .on('stderr', function (line) {
+          console.log('Stderr output: ' + line)
+        })
+        .on('error', function (err) {
+          console.log('An error occurred: ' + err.message)
+        })
+        .on('end', function () {
+          const pngBuffer = Buffer.concat(pngChunks)
+          resolve(pngBuffer)
+        })
+        .on('data', function (chunk) {
+          pngChunks.push(chunk)
+        })
+        // .toFormat('png')
+        .outputOptions('-f image2pipe')
+      // .outputOptions('-vcodec png')
+      // .output(writableStream, { end: true })
+
+      // Start processing
+      // command.pipe(writableStream)
+      const invocation = command.pipe(writableStream)
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invocation.on('stdin', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
       })
-      videoConversion.on('data', (chunk: Buffer) => {
-        chunks.push(chunk)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invocation.on('stderr', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
       })
-      videoConversion.pipe(videoConversion) // Start processing
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invocation.on('stdout', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invocation.on('data', (chunk: any) => {
+        pngChunks.push(chunk)
+      })
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      command.on('stdin', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      command.on('stderr', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      command.on('stdout', (chunk: any) => {
+        console.log(`stdin: ${chunk}`)
+      })
+
+      // Listen for the 'finish' event to combine the chunks and create a PNG buffer
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      command.on('data', (chunk: any, encoding: any, callback: any) => {
+        pngChunks.push(chunk)
+      })
+
+      // writableStream.on('end', () => {
+      //   const pngBuffer = Buffer.concat(pngChunks)
+      //   resolve(pngBuffer)
+      // })
+      // writableStream.on('finish', () => {
+      //   const pngBuffer = Buffer.concat(pngChunks)
+      //   resolve(pngBuffer)
+      // })
     })
-    return imageBuffer
+    return this.createThumbnailDataUrl(imageBuffer)
   }
   /**
    * Execute FFmpeg with provided input buffer and return output buffer.
@@ -319,7 +423,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         case 'video': {
           const sourceBuffer = Buffer.from(response.data, 'binary')
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailFromVideo(sourceBuffer)
+          result.url = await this.createThumbnailFromVideoOld(sourceBuffer)
           break
         }
         default: {

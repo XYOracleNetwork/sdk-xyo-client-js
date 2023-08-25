@@ -256,7 +256,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         case 'video': {
           const sourceBuffer = Buffer.from(response.data, 'binary')
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailFromVideoFluent(sourceBuffer)
+          result.url = await this.createThumbnailFromVideo(sourceBuffer)
           break
         }
         default: {

@@ -36,14 +36,14 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.197",
-    "@types/node": "^20.5.3",
+    "@types/node": "^20.5.6",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
-    "@xylabs/ts-scripts-yarn3": "^2.19.1",
-    "@xylabs/tsconfig": "^2.19.1",
-    "@xylabs/tsconfig-jest": "^2.19.1",
+    "@xylabs/ts-scripts-yarn3": "^2.19.3",
+    "@xylabs/tsconfig": "^2.19.3",
+    "@xylabs/tsconfig-jest": "^2.19.3",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "browser": "dist/esm/index.js",

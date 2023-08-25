@@ -1,2 +1,2 @@
-export * from './createThumbnailFromVideo'
 export * from './executeFfmpeg'
+export * from './getVideoFrameAsImage'

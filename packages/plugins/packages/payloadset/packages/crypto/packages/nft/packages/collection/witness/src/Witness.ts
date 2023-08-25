@@ -17,13 +17,6 @@ export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<Nft
 
 const defaultMaxNfts = 100
 
-/**
- * A "no operation" Promise to be used
- * when no action is desired but a Promise
- * is required to be returned
- */
-const NoOp = Promise.resolve()
-
 export class CryptoNftCollectionWitness<
   TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
 > extends AbstractWitness<TParams> {
@@ -37,19 +30,14 @@ export class CryptoNftCollectionWitness<
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
-        const [info, total, nfts, archivist] = await Promise.all([
+        const [info, total, nfts] = await Promise.all([
           getNftCollectionMetadata(address, chainId, this.account.private.hex),
           getNftCollectionCount(address, chainId, this.account.private.hex),
           getNftCollectionNfts(address, chainId, this.account.private.hex, maxNfts),
           this.writeArchivist(),
         ])
         const metrics = getNftCollectionMetrics(nfts)
-        const [sources] = await Promise.all([
-          // Hash all the payloads
-          Promise.all(nfts.map((nft) => PayloadHasher.hashAsync(nft))),
-          // Insert them into the archivist if we have one
-          archivist ? archivist.insert(nfts) : NoOp,
-        ])
+        const sources = await Promise.all(nfts.map((nft) => PayloadHasher.hashAsync(nft)))
         const payload: NftCollectionInfo = { ...info, metrics, schema: NftCollectionSchema, sources, total }
         return [payload, nfts]
       }),

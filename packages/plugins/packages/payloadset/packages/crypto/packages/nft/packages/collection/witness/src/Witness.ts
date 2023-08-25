@@ -33,7 +33,7 @@ export class CryptoNftCollectionWitness<
     await this.started('throw')
     const queries = payloads?.filter(isNftCollectionWitnessQuery) ?? []
     const observations = await Promise.all(
-      queries.map<Promise<NftCollectionInfo>>(async (query) => {
+      queries.map<Promise<[NftCollectionInfo, Payload[]]>>(async (query) => {
         const address = assertEx(query?.address || this.config.address, 'params.address is required')
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
@@ -51,9 +51,9 @@ export class CryptoNftCollectionWitness<
           archivist ? archivist.insert(nfts) : NoOp,
         ])
         const payload: NftCollectionInfo = { ...info, metrics, schema: NftCollectionSchema, sources, total }
-        return payload
+        return [payload, nfts]
       }),
     )
-    return observations.flat()
+    return observations.flat(2)
   }
 }

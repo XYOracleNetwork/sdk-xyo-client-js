@@ -45,7 +45,7 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
     const thisFunc = (this as any)[functionName]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}]`)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {

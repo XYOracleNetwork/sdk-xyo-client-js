@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/core": "workspace:~",
+    "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"

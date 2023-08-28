@@ -156,7 +156,7 @@ export abstract class AbstractModule<
     const thisFunc = (this as any)[functionName]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}]`)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   static async create<TModule extends ModuleInstance>(
@@ -238,7 +238,7 @@ export abstract class AbstractModule<
     const thisFunc = (this as any)[functionName]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}]`)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   async busy<R>(closure: () => Promise<R>) {

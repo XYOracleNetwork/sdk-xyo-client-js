@@ -1,7 +1,7 @@
-import { WitnessConfig } from '@xyo-network/witness'
+import { TimestampWitnessConfig } from '@xyo-network/witness'
 
 import { EthereumGasBlocknativeWitnessConfigSchema } from './Schema'
 
-export type EthereumGasBlocknativeWitnessConfig = WitnessConfig<{
+export type EthereumGasBlocknativeWitnessConfig = TimestampWitnessConfig<{
   schema: EthereumGasBlocknativeWitnessConfigSchema
 }>

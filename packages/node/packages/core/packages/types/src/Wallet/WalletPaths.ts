@@ -42,4 +42,7 @@ export const WALLET_PATHS = {
     CryptoNftCollectionWitness: `${ModulePath.Witness}/3'` as const,
     ImageThumbnailWitness: `${ModulePath.Witness}/4'` as const,
   } as const,
+  Sentinels: {
+    ImageThumbnailSentinel: `${ModulePath.Sentinel}/0'` as const,
+  } as const,
 } as const

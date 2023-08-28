@@ -7435,8 +7435,11 @@ __metadata:
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/prometheus-node-plugin": "workspace:~"
+    "@xyo-network/sentinel": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/witness-timestamp": "workspace:~"
     body-parser: ^1.20.2
     dotenv: ^16.3.1
     express: ^4.18.2
@@ -8125,6 +8128,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model@workspace:packages/modules/packages/module/packages/model"
   dependencies:
+    "@xylabs/assert": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
     "@xyo-network/account-model": "workspace:~"
@@ -9218,6 +9222,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
     "@xyo-network/abstract-witness": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"

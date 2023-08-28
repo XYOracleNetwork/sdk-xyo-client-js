@@ -64,6 +64,7 @@ export abstract class AbstractArchivist<
   }
 
   all(): PromisableArray<Payload> {
+    this._noOverride('all')
     return this.busy(async () => {
       await this.started('throw')
       return await this.allHandler()
@@ -71,6 +72,7 @@ export abstract class AbstractArchivist<
   }
 
   clear(): Promisable<void> {
+    this._noOverride('clear')
     return this.busy(async () => {
       await this.started('throw')
       return await this.clearHandler()
@@ -78,6 +80,7 @@ export abstract class AbstractArchivist<
   }
 
   commit(): Promisable<BoundWitness[]> {
+    this._noOverride('commit')
     return this.busy(async () => {
       await this.started('throw')
       return await this.commitHandler()
@@ -85,6 +88,7 @@ export abstract class AbstractArchivist<
   }
 
   delete(hashes: string[]): PromisableArray<Payload> {
+    this._noOverride('delete')
     return this.busy(async () => {
       await this.started('throw')
       return await this.deleteHandler(hashes)
@@ -92,6 +96,7 @@ export abstract class AbstractArchivist<
   }
 
   get(hashes: string[]): Promise<Payload[]> {
+    this._noOverride('get')
     return this.busy(async () => {
       await this.started('throw')
       return await this.getHandler(hashes)
@@ -99,6 +104,7 @@ export abstract class AbstractArchivist<
   }
 
   insert(payloads: Payload[]): PromisableArray<Payload> {
+    this._noOverride('insert')
     return this.busy(async () => {
       await this.started('throw')
       return await this.insertHandler(payloads)

@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/image-thumbnail/src/spec/Diviner.spec.ts"
+        "packages/modules/packages/node/spec/MemoryNode/MemoryNode.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

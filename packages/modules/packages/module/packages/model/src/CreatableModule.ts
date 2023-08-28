@@ -8,6 +8,7 @@ export interface CreatableModule<T extends ModuleInstance = ModuleInstance> {
   configSchemas: string[]
   defaultLogger?: Logger
   new (privateConstructorKey: string, params: T['params'], account: AccountInstance): T
+  _noOverride(functionName: string): void
   create<T extends ModuleInstance>(this: CreatableModule<T>, params?: T['params']): Promise<T>
   factory<T extends ModuleInstance>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>
 }

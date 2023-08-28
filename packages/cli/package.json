@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.197",
-    "@types/node": "^20.5.6",
+    "@types/node": "^20.5.7",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.19.3",

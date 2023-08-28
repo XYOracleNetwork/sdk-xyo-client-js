@@ -73,6 +73,7 @@ export abstract class AbstractSentinel<
   }
 
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
+    this._noOverride('report')
     await this.emit('reportStart', { inPayloads, module: this })
     const payloads = await this.reportHandler(inPayloads)
     const outPayloads = payloads.filter(notBoundWitness)

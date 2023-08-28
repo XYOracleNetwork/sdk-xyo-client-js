@@ -142,10 +142,28 @@ export abstract class AbstractModule<
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
+  static _getRootFunction(funcName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let anyThis = this as any
+    while (anyThis.__proto__[funcName]) {
+      anyThis = anyThis.__proto__
+    }
+    return anyThis[funcName]
+  }
+
+  static _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}]`)
+  }
+
   static async create<TModule extends ModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
+    this._noOverride('create')
     if (!this.configSchemas || this.configSchemas.length === 0) {
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
@@ -206,6 +224,23 @@ export abstract class AbstractModule<
     return ModuleFactory.withParams(this, params)
   }
 
+  _getRootFunction(funcName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let anyThis = this as any
+    while (anyThis.__proto__[funcName]) {
+      anyThis = anyThis.__proto__
+    }
+    return anyThis[funcName]
+  }
+
+  _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}]`)
+  }
+
   async busy<R>(closure: () => Promise<R>) {
     if (this._busyCount <= 0) {
       this._busyCount = 0
@@ -225,6 +260,13 @@ export abstract class AbstractModule<
     }
   }
 
+  override emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
+    return super.emit(eventName, eventArgs)
+  }
+
   previousHash(): Promisable<string | undefined> {
     return this.account.previousHash
   }
@@ -234,6 +276,7 @@ export abstract class AbstractModule<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
+    this._noOverride('query')
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []

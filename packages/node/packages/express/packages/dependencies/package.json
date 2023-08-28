@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.72.3",
+  "version": "2.72.4",
   "description": "XYO Express Node Dependencies",
   "sideeffects": false,
   "engines": {
@@ -35,9 +35,6 @@
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
-    "@xyo-network/sentinel-model": "workspace:~",
-    "@xyo-network/witness-timestamp": "workspace:~",
-    "@xyo-network/sentinel": "workspace:~",
     "@xyo-network/crypto-nft-collection-diviner-score-plugin": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-collection-witness-plugin": "workspace:~",
@@ -62,8 +59,11 @@
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/prometheus-node-plugin": "workspace:~",
+    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
+    "@xyo-network/witness-timestamp": "workspace:~",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

@@ -24,7 +24,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { TimestampWitness, TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
+import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'

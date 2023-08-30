@@ -19,7 +19,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@babel/core": "^7.22.11",
-    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-env": "^7.22.14",
     "@types/jest": "^29.5.4",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
@@ -103,7 +103,7 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.5",
+  "version": "2.72.6",
   "packageManager": "yarn@3.6.2",
   "volta": {
     "node": "18.13.0",

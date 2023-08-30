@@ -63,7 +63,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   get ipfGateway() {
-    return this.config.ipfsGateway ?? 'cloudflare-ipfs.com'
+    return this.config.ipfsGateway ?? '5d7b6582.beta.decentralnetworkservices.com'
   }
 
   get maxAsyncProcesses() {

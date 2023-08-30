@@ -27,7 +27,7 @@ const validateObservation = (observation: Payload[]) => {
   expect(collectionInfo.sources?.length).toBeGreaterThan(0)
 }
 
-describeIf(process.env.INFURA_PROJECT_ID).only('CryptoNftCollectionWitness', () => {
+describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
   let account: AccountInstance
   beforeAll(async () => {
     account = await HDWallet.random()

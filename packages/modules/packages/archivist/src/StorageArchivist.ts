@@ -18,7 +18,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import store, { StoreBase } from 'store2'
 
@@ -154,31 +154,12 @@ export class StorageArchivist<
     return deletedPairs.map(([hash]) => hash)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
-      (prev, hash) => {
-        const found = this.storage.get(hash)
-        if (found) {
-          prev.found.push(found)
-        } else {
-          prev.notfound.push(hash)
-        }
-        return prev
-      },
-      { found: [], notfound: [] },
+  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    return compact(
+      hashes.map((hash) => {
+        return this.storage.get(hash)
+      }),
     )
-
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
-
-    if (this.storeParentReads) {
-      await Promise.all(
-        parentFound.map(async (payload) => {
-          const hash = await PayloadHasher.hashAsync(payload)
-          this.storage.set(hash, payload)
-        }),
-      )
-    }
-    return [...found, ...parentFound]
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {

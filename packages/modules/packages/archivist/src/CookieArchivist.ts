@@ -17,7 +17,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
@@ -131,32 +131,13 @@ export class CookieArchivist<
     return deletedPairs.map(([hash]) => hash)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
-      (prev, hash) => {
+  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    return compact(
+      hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
-        const found = cookieString ? JSON.parse(cookieString) : undefined
-        if (found) {
-          prev.found.push(found)
-        } else {
-          prev.notfound.push(hash)
-        }
-        return prev
-      },
-      { found: [], notfound: [] },
+        return cookieString ? JSON.parse(cookieString) : undefined
+      }),
     )
-
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
-
-    if (this.storeParentReads) {
-      await Promise.all(
-        parentFound.map(async (payload) => {
-          const hash = await PayloadHasher.hashAsync(payload)
-          Cookies.set(hash, JSON.stringify(payload))
-        }),
-      )
-    }
-    return [...found, ...parentFound]
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {

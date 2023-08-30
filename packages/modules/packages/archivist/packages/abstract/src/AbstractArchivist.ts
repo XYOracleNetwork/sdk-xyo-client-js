@@ -17,7 +17,7 @@ import {
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
@@ -108,7 +108,7 @@ export abstract class AbstractArchivist<
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
-      return await this.getHandler(hashes)
+      return await this.getWithConfig(hashes)
     })
   }
 
@@ -185,9 +185,39 @@ export abstract class AbstractArchivist<
     return [result, remainingHashes]
   }
 
-  protected async getHandler(hashes: string[]): Promise<Payload[]> {
-    const [result] = await this.getFromParents(hashes)
-    return result
+  protected getHandler(_hashes: string[]): Promisable<Payload[]> {
+    throw Error('Not implemented')
+  }
+
+  protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const emitEvents = config?.emitEvents ?? true
+    const map = await PayloadWrapper.toMap(await this.getHandler(hashes))
+
+    const { foundPayloads, notfoundHashes } = hashes.reduce<{ foundPayloads: Payload[]; notfoundHashes: string[] }>(
+      (prev, hash) => {
+        const found = map[hash]
+        if (found) {
+          //TODO: Find a better way to scrub meta data without scrubbing _signatures
+          if (found.schema === BoundWitnessSchema) {
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } })
+          } else {
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) })
+          }
+        } else {
+          prev.notfoundHashes.push(hash)
+        }
+        return prev
+      },
+      { foundPayloads: [], notfoundHashes: [] },
+    )
+
+    const [parentFoundPayloads] = await this.getFromParents(notfoundHashes)
+
+    if (this.storeParentReads) {
+      await this.insertWithConfig(parentFoundPayloads)
+    }
+    return [...foundPayloads, ...parentFoundPayloads]
   }
 
   protected head(): Promisable<Payload | undefined> {
@@ -256,7 +286,7 @@ export abstract class AbstractArchivist<
       }
       case ArchivistGetQuerySchema:
         if (queryPayload.hashes?.length) {
-          resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
+          resultPayloads.push(...(await this.getWithConfig(queryPayload.hashes)))
         } else {
           const head = await this.head()
           if (head) resultPayloads.push(head)

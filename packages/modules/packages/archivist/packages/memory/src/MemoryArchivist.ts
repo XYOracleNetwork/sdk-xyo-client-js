@@ -90,7 +90,7 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const payloadPairs: [string, Payload][] = await Promise.all(
       (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
     )
@@ -101,9 +101,7 @@ export class MemoryArchivist<
         }),
       ),
     )
-    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
-    const result = deletedPairs.map(([_, payload]) => payload)
-    return result
+    return deletedPairs.map(([hash]) => hash)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -120,7 +118,7 @@ export class MemoryArchivist<
       { found: [], notfound: [] },
     )
 
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
+    const parentFound = await super.getHandler(notfound)
 
     if (this.storeParentReads) {
       await Promise.all(
@@ -133,22 +131,20 @@ export class MemoryArchivist<
     return [...found, ...parentFound]
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    await Promise.all(
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+    const insertedPayloads = await Promise.all(
       payloads.map((payload) => {
         return this.insertPayloadIntoCache(payload)
       }),
     )
 
-    await this.writeToParents(payloads)
-    await this.emit('inserted', { module: this, payloads })
-    return payloads
+    return insertedPayloads
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
     const wrapper = PayloadWrapper.wrap(payload)
     const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
     this.cache.set(payloadWithMeta._hash, payloadWithMeta)
-    return payloadWithMeta
+    return payload
   }
 }

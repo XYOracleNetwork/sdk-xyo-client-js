@@ -3,6 +3,7 @@ import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
+  ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
@@ -23,6 +24,14 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
+
+export interface ActionConfig {
+  emitEvents?: boolean
+}
+
+export interface InsertConfig extends ActionConfig {
+  writeToParents?: boolean
+}
 
 export interface ArchivistParentInstances {
   commit?: Record<string, ArchivistInstance>
@@ -87,27 +96,27 @@ export abstract class AbstractArchivist<
     })
   }
 
-  delete(hashes: string[]): PromisableArray<Payload> {
+  async delete(hashes: string[]): Promise<string[]> {
     this._noOverride('delete')
-    return this.busy(async () => {
+    return await this.busy(async () => {
       await this.started('throw')
-      return await this.deleteHandler(hashes)
+      return await this.deleteWithConfig(hashes)
     })
   }
 
-  get(hashes: string[]): Promise<Payload[]> {
+  async get(hashes: string[]): Promise<Payload[]> {
     this._noOverride('get')
-    return this.busy(async () => {
+    return await this.busy(async () => {
       await this.started('throw')
       return await this.getHandler(hashes)
     })
   }
 
-  insert(payloads: Payload[]): PromisableArray<Payload> {
+  async insert(payloads: Payload[]): Promise<Payload[]> {
     this._noOverride('insert')
-    return this.busy(async () => {
+    return await this.busy(async () => {
       await this.started('throw')
-      return await this.insertHandler(payloads)
+      return await this.insertWithConfig(payloads)
     })
   }
 
@@ -123,8 +132,20 @@ export abstract class AbstractArchivist<
     throw Error('Not implemented')
   }
 
-  protected deleteHandler(_hashes: string[]): PromisableArray<Payload> {
+  protected deleteHandler(_hashes: string[]): PromisableArray<string> {
     throw Error('Not implemented')
+  }
+
+  protected async deleteWithConfig(hashes: string[], config?: ActionConfig): Promise<string[]> {
+    const emitEvents = config?.emitEvents ?? true
+
+    const deletedHashes = await this.deleteHandler(hashes)
+
+    if (emitEvents) {
+      await this.emit('deleted', { hashes: deletedHashes, module: this })
+    }
+
+    return deletedHashes
   }
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
@@ -150,7 +171,7 @@ export abstract class AbstractArchivist<
 
   protected async getFromParents(hashes: string[]): Promise<[Payload[], string[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
-    let remainingHashes = hashes
+    let remainingHashes = [...hashes]
     let parentIndex = 0
     let result: Payload[] = []
 
@@ -171,6 +192,26 @@ export abstract class AbstractArchivist<
 
   protected head(): Promisable<Payload | undefined> {
     return this._lastInsertedPayload
+  }
+
+  protected insertHandler(_payloads: Payload[]): Promise<Payload[]> {
+    throw Error('Not implemented')
+  }
+
+  protected async insertWithConfig(payloads: Payload[], config?: InsertConfig): Promise<Payload[]> {
+    const emitEvents = config?.emitEvents ?? true
+    const writeToParents = config?.writeToParents ?? true
+
+    const insertedPayloads = await this.insertHandler(payloads)
+
+    if (writeToParents) {
+      await this.writeToParents(insertedPayloads)
+    }
+    if (emitEvents) {
+      await this.emit('inserted', { module: this, payloads: insertedPayloads })
+    }
+
+    return insertedPayloads
   }
 
   protected async parents() {
@@ -205,9 +246,14 @@ export abstract class AbstractArchivist<
       case ArchivistCommitQuerySchema:
         resultPayloads.push(...(await this.commitHandler()))
         break
-      case ArchivistDeleteQuerySchema:
-        resultPayloads.push(...(await this.deleteHandler(wrappedQuery.payloadHashes)))
+      case ArchivistDeleteQuerySchema: {
+        const resultPayload: ArchivistDeleteQuery = {
+          hashes: [...(await this.deleteWithConfig(queryPayload.hashes))],
+          schema: ArchivistDeleteQuerySchema,
+        }
+        resultPayloads.push(resultPayload)
         break
+      }
       case ArchivistGetQuerySchema:
         if (queryPayload.hashes?.length) {
           resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
@@ -221,7 +267,7 @@ export abstract class AbstractArchivist<
         assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
         const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
         assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
-        resultPayloads.push(...(await this.insertHandler(payloads)))
+        resultPayloads.push(...(await this.insertWithConfig(payloads)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
         // can grab the actual last one
@@ -271,6 +317,4 @@ export abstract class AbstractArchivist<
       return prev
     }, {})
   }
-
-  protected abstract insertHandler(item: Payload[]): PromisableArray<Payload>
 }

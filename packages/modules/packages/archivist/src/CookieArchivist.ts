@@ -116,7 +116,7 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const payloadPairs: [string, Payload][] = await Promise.all(
       (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
     )
@@ -128,9 +128,7 @@ export class CookieArchivist<
         }),
       ),
     )
-    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
-    const result = deletedPairs.map(([_, payload]) => payload)
-    return result
+    return deletedPairs.map(([hash]) => hash)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -161,7 +159,7 @@ export class CookieArchivist<
     return [...found, ...parentFound]
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     try {
       const resultPayloads: Payload[] = await Promise.all(
         payloads.map(async (payload) => {
@@ -173,9 +171,7 @@ export class CookieArchivist<
           return wrapper.payload()
         }),
       )
-      await this.writeToParents(resultPayloads)
-      await this.emit('inserted', { module: this, payloads })
-      return payloads
+      return resultPayloads
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

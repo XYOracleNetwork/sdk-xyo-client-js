@@ -22777,11 +22777,11 @@ __metadata:
   linkType: hard
 
 "systeminformation@npm:^5.21.2":
-  version: 5.21.2
-  resolution: "systeminformation@npm:5.21.2"
+  version: 5.21.3
+  resolution: "systeminformation@npm:5.21.3"
   bin:
     systeminformation: lib/cli.js
-  checksum: c720f5adba3916e758f66871e3b71655fdc58e1e999791b4363b33afa3b1cbbd52533b53a9301b61217d55b730e63d0ecf34d9516e140fb0ea86fd3915771283
+  checksum: acc7c81eaf1046d5bc022af45e9622749a2726179cfbef3718fab1dcd603ec9ddeaa09fbfb6180f98c895e429ae691d4e36cd9e05369338a38b6741e8fd97a01
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

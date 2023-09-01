@@ -5,7 +5,7 @@ import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { UrlPayload } from '@xyo-network/url-payload-plugin'
+import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
 import FileType from 'file-type'
@@ -144,10 +144,11 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     if (!hasbin('magick')) {
       throw Error('ImageMagick is required for this witness')
     }
+    const urlPayloads = payloads.filter((payload) => payload.schema === UrlSchema)
     return await this._semaphore.runExclusive(async () =>
       compact(
         await Promise.all(
-          payloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
+          urlPayloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
             const cachedResult = this.cache.get(url)
             if (cachedResult) {
               return cachedResult
@@ -167,7 +168,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             } else {
               //if it is ipfs, go through cloud flair
               const mutatedUrl = this.checkIpfsUrl(url)
-              result = await this.fromHttp(mutatedUrl)
+              result = await this.fromHttp(mutatedUrl, url)
             }
             this.cache.set(url, result)
             return result
@@ -204,7 +205,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.createThumbnailDataUrl(imageBuffer)
   }
 
-  private async fromHttp(url: string): Promise<ImageThumbnail> {
+  private async fromHttp(url: string, sourceUrl?: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
     let dnsResult: string[]
     try {
@@ -218,7 +219,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           dnsError: error.code,
         },
         schema: ImageThumbnailSchema,
-        sourceUrl: url,
+        sourceUrl: sourceUrl ?? url,
       }
       return result
     }
@@ -236,7 +237,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             status: axiosError?.response?.status,
           },
           schema: ImageThumbnailSchema,
-          sourceUrl: url,
+          sourceUrl: sourceUrl ?? url,
         }
         return result
       } else {
@@ -249,7 +250,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         status: response.status,
       },
       schema: ImageThumbnailSchema,
-      sourceUrl: url,
+      sourceUrl: sourceUrl ?? url,
     }
 
     if (response.status >= 200 && response.status < 300) {

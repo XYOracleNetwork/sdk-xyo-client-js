@@ -3,4 +3,5 @@ export const WITNESS_TYPES = {
   CryptoWalletNftWitness: Symbol('CryptoWalletNftWitness'),
   ImageThumbnailWitness: Symbol('ImageThumbnailWitness'),
   PrometheusWitness: Symbol('PrometheusWitness'),
+  TimestampWitness: Symbol('TimestampWitness'),
 }

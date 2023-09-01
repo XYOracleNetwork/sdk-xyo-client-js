@@ -1,5 +1,4 @@
 import { HDWallet } from '@xyo-network/account'
-import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { MemorySentinel, SentinelConfigSchema } from '@xyo-network/sentinel'
@@ -12,12 +11,13 @@ const getWallet = (container: Container) => {
 
 const getImageThumbnailSentinel = async (container: Container) => {
   const wallet = await getWallet(container)
-  return new ModuleFactory(ImageThumbnailWitness, {
+  return new ModuleFactory(MemorySentinel, {
     config: {
       accountDerivationPath: WALLET_PATHS.Sentinels.ImageThumbnailSentinel,
       archivist: 'ThumbnailArchivist',
-      name: TYPES.ImageThumbnailSentinel.description,
+      name: TYPES.ThumbnailSentinel.description,
       schema: SentinelConfigSchema,
+      witnesses: ['ImageThumbnailWitness', 'TimestampWitness'],
     },
     wallet,
   })

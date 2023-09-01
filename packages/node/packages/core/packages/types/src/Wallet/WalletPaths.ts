@@ -34,6 +34,7 @@ export const WALLET_PATHS = {
     NftScoreDiviner: `${ModulePath.Diviner}/12'` as const,
     NftCollectionScoreDiviner: `${ModulePath.Diviner}/13'` as const,
     ImageThumbnail: `${ModulePath.Diviner}/14'` as const,
+    ThumbnailBoundWitness: `${ModulePath.Diviner}/15'` as const,
   } as const,
   Witnesses: {
     Witness: `${ModulePath.Witness}/0'` as const,
@@ -41,6 +42,7 @@ export const WALLET_PATHS = {
     CryptoWalletNftWitness: `${ModulePath.Witness}/2'` as const,
     CryptoNftCollectionWitness: `${ModulePath.Witness}/3'` as const,
     ImageThumbnailWitness: `${ModulePath.Witness}/4'` as const,
+    TimestampWitness: `${ModulePath.Witness}/5'` as const,
   } as const,
   Sentinels: {
     ImageThumbnailSentinel: `${ModulePath.Sentinel}/0'` as const,

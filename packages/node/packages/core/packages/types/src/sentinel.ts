@@ -1,3 +1,3 @@
 export const SENTINEL_TYPES = {
-  ImageThumbnailSentinel: Symbol('ImageThumbnailSentinel'),
+  ThumbnailSentinel: Symbol('ThumbnailSentinel'),
 }

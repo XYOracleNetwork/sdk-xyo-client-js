@@ -7,7 +7,7 @@ import { TimestampWitnessConfigSchema } from './Config'
 import { TimestampWitnessParams } from './Params'
 import { TimeStamp, TimestampSchema } from './Payload'
 
-export abstract class TimestampWitness<P extends TimestampWitnessParams = TimestampWitnessParams> extends AbstractWitness<P> {
+export class TimestampWitness<P extends TimestampWitnessParams = TimestampWitnessParams> extends AbstractWitness<P> {
   static override configSchemas = [TimestampWitnessConfigSchema, WitnessConfigSchema]
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
     const sources = await PayloadWrapper.hashes(payloads ?? [])

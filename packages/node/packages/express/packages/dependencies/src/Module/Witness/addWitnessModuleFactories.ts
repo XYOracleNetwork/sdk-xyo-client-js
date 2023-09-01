@@ -5,6 +5,7 @@ import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
+import { TimestampWitness, TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
 import { Container } from 'inversify'
 
 const getWallet = (container: Container) => {
@@ -62,10 +63,23 @@ const getPrometheusNodeWitness = async (container: Container) => {
   })
 }
 
+const getTimestampWitness = async (container: Container) => {
+  const wallet = await getWallet(container)
+  return new ModuleFactory(TimestampWitness, {
+    config: {
+      accountDerivationPath: WALLET_PATHS.Witnesses.TimestampWitness,
+      name: TYPES.TimestampWitness.description,
+      schema: TimestampWitnessConfigSchema,
+    },
+    wallet,
+  })
+}
+
 export const addWitnessModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[CryptoNftCollectionWitness.configSchema] = await getCryptoNftCollectionWitness(container)
   dictionary[CryptoWalletNftWitness.configSchema] = await getCryptoWalletNftWitness(container)
   dictionary[ImageThumbnailWitness.configSchema] = await getImageThumbnailWitness(container)
   dictionary[PrometheusNodeWitness.configSchema] = await getPrometheusNodeWitness(container)
+  dictionary[TimestampWitnessConfigSchema] = await getTimestampWitness(container)
 }

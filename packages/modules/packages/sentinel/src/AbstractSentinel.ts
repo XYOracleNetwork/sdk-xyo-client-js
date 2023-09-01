@@ -76,6 +76,7 @@ export abstract class AbstractSentinel<
     this._noOverride('report')
     await this.emit('reportStart', { inPayloads, module: this })
     const payloads = await this.reportHandler(inPayloads)
+    this.logger?.debug(`report:payloads: ${JSON.stringify(payloads, null, 2)}`)
     const outPayloads = payloads.filter(notBoundWitness)
     const boundwitnesses = payloads.filter(isBoundWitness)
     const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
@@ -101,8 +102,9 @@ export abstract class AbstractSentinel<
     if (namesOrAddresses && namesOrAddresses.length !== result.length) {
       this.logger?.warn(`Not all witnesses found [Requested: ${namesOrAddresses.length}, Found: ${result.length}]`)
     }
-
-    this.logger?.debug(`witnesses:result: ${result?.length}`)
+    result.map((item) => {
+      this.logger?.debug(`witnesses:result: ${item.config.schema}`)
+    })
 
     return result
   }

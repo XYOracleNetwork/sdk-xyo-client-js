@@ -58,9 +58,9 @@ const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | 
 
 const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressHistoryDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
-  [{ schema: BoundWitnessDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace, schema: AddressSpaceDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch, schema: AddressSpaceBatchDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness, schema: BoundWitnessDivinerConfigSchema }, true],
   [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   [{ schema: NftScoreDivinerConfigSchema }, true],
@@ -69,6 +69,15 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
+  [
+    {
+      accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
+      archivist: 'ThumbnailArchivist',
+      name: 'ThumbnailBoundWitnessDiviner',
+      schema: BoundWitnessDivinerConfigSchema,
+    },
+    true,
+  ],
 ]
 
 const witnesses: ModuleConfigWithVisibility[] = [

@@ -32,7 +32,7 @@ export class MemorySentinel<
     const resultPayloads: Payload[] = []
 
     try {
-      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses, payloads)
+      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses)
       const combinedPayloads = [...generatedPayloads, ...payloads]
       resultPayloads.push(...combinedPayloads)
       errors.push(...generatedErrors)
@@ -47,8 +47,8 @@ export class MemorySentinel<
     return [boundWitness, ...resultPayloads]
   }
 
-  private async generateResults(witnesses: WitnessInstance[], payloadsIn?: Payload[]): Promise<[Payload[], Error[]]> {
-    const results = await Promise.allSettled(witnesses?.map((witness) => witness.observe(payloadsIn)))
+  private async generateResults(witnesses: WitnessInstance[]): Promise<[Payload[], Error[]]> {
+    const results = await Promise.allSettled(witnesses?.map((witness) => witness.observe()))
     const payloads = results
       .filter(fulfilled)
       .map((result) => result.value)

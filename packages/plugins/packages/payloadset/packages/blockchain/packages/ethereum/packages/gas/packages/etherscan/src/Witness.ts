@@ -3,13 +3,13 @@ import { EthereumGasEtherscanPayload, EthereumGasEtherscanSchema } from '@xyo-ne
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { TimestampWitness, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { EthereumGasEtherscanWitnessConfig } from './Config'
 import { getGasFromEtherscan } from './lib'
 import { EthereumGasEtherscanWitnessConfigSchema } from './Schema'
 
-export class EthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<AnyConfigSchema<EthereumGasEtherscanWitnessConfig>>> {
+export class EthereumGasEtherscanWitness extends AbstractWitness<WitnessParams<AnyConfigSchema<EthereumGasEtherscanWitnessConfig>>> {
   static override configSchemas = [EthereumGasEtherscanWitnessConfigSchema]
 
   protected override async observeHandler(): Promise<Payload[]> {
@@ -17,6 +17,6 @@ export class EthereumGasEtherscanWitness extends TimestampWitness<WitnessParams<
     const payload = new PayloadBuilder<EthereumGasEtherscanPayload>({ schema: EthereumGasEtherscanSchema })
       .fields(await getGasFromEtherscan(apiKey))
       .build()
-    return super.observeHandler([payload])
+    return [payload]
   }
 }

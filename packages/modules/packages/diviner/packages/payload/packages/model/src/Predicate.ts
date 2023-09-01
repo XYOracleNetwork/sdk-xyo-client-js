@@ -15,5 +15,6 @@ export type PayloadDivinerPredicate<T extends AnyObject = AnyObject> = Partial<{
   offset: number
   order: SortDirection
   schemas: string[]
+  timestamp?: number
 }> &
   Partial<T>

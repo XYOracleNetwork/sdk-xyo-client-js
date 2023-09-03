@@ -7987,6 +7987,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
+    "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

@@ -75,19 +75,18 @@ services:
     ports:
       - "3000:3000"
 
-  ipfs:
-    image: ipfs/kubo:latest
-    container_name: ipfs
-    restart: unless-stopped
-    # environment:
-    # IPFS_CLUSTER_CONSENSUS: raft
-    # IPFS_PROFILE: server
-    # IPFS_PROFILE: flatfs
-    ports:
-      - "4001:4001"
-      - "5001:5001"
-      - "8080:8080"
-
+  # ipfs:
+  #   image: ipfs/kubo:latest
+  #   container_name: ipfs
+  #   restart: unless-stopped
+  # environment:
+  # IPFS_PROFILE: server
+  # IPFS_PROFILE: default-networking
+  # IPFS_PROFILE: flatfs
+  # ports:
+  #   - "4001:4001"
+  #   - "5001:5001"
+  #   - "8080:8080"
   # ipfs-gateway:
   #   image: ipfs/bifrost-gateway:release
   #   container_name: ipfs-gateway

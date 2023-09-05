@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/shared": "workspace:~",
-    "axios": "^1.4.0",
+    "axios": "^1.5.0",
     "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -53,5 +53,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.1"
+  "version": "2.72.7"
 }

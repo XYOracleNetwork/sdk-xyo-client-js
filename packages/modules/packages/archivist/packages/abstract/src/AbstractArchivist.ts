@@ -3,6 +3,7 @@ import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
+  ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
@@ -16,13 +17,21 @@ import {
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
+
+export interface ActionConfig {
+  emitEvents?: boolean
+}
+
+export interface InsertConfig extends ActionConfig {
+  writeToParents?: boolean
+}
 
 export interface ArchivistParentInstances {
   commit?: Record<string, ArchivistInstance>
@@ -64,6 +73,7 @@ export abstract class AbstractArchivist<
   }
 
   all(): PromisableArray<Payload> {
+    this._noOverride('all')
     return this.busy(async () => {
       await this.started('throw')
       return await this.allHandler()
@@ -71,6 +81,7 @@ export abstract class AbstractArchivist<
   }
 
   clear(): Promisable<void> {
+    this._noOverride('clear')
     return this.busy(async () => {
       await this.started('throw')
       return await this.clearHandler()
@@ -78,30 +89,34 @@ export abstract class AbstractArchivist<
   }
 
   commit(): Promisable<BoundWitness[]> {
+    this._noOverride('commit')
     return this.busy(async () => {
       await this.started('throw')
       return await this.commitHandler()
     })
   }
 
-  delete(hashes: string[]): PromisableArray<Payload> {
-    return this.busy(async () => {
+  async delete(hashes: string[]): Promise<string[]> {
+    this._noOverride('delete')
+    return await this.busy(async () => {
       await this.started('throw')
-      return await this.deleteHandler(hashes)
+      return await this.deleteWithConfig(hashes)
     })
   }
 
-  get(hashes: string[]): Promise<Payload[]> {
-    return this.busy(async () => {
+  async get(hashes: string[]): Promise<Payload[]> {
+    this._noOverride('get')
+    return await this.busy(async () => {
       await this.started('throw')
-      return await this.getHandler(hashes)
+      return await this.getWithConfig(hashes)
     })
   }
 
-  insert(payloads: Payload[]): PromisableArray<Payload> {
-    return this.busy(async () => {
+  async insert(payloads: Payload[]): Promise<Payload[]> {
+    this._noOverride('insert')
+    return await this.busy(async () => {
       await this.started('throw')
-      return await this.insertHandler(payloads)
+      return await this.insertWithConfig(payloads)
     })
   }
 
@@ -117,8 +132,20 @@ export abstract class AbstractArchivist<
     throw Error('Not implemented')
   }
 
-  protected deleteHandler(_hashes: string[]): PromisableArray<Payload> {
+  protected deleteHandler(_hashes: string[]): PromisableArray<string> {
     throw Error('Not implemented')
+  }
+
+  protected async deleteWithConfig(hashes: string[], config?: ActionConfig): Promise<string[]> {
+    const emitEvents = config?.emitEvents ?? true
+
+    const deletedHashes = await this.deleteHandler(hashes)
+
+    if (emitEvents) {
+      await this.emit('deleted', { hashes: deletedHashes, module: this })
+    }
+
+    return deletedHashes
   }
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
@@ -144,7 +171,7 @@ export abstract class AbstractArchivist<
 
   protected async getFromParents(hashes: string[]): Promise<[Payload[], string[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
-    let remainingHashes = hashes
+    let remainingHashes = [...hashes]
     let parentIndex = 0
     let result: Payload[] = []
 
@@ -158,13 +185,63 @@ export abstract class AbstractArchivist<
     return [result, remainingHashes]
   }
 
-  protected async getHandler(hashes: string[]): Promise<Payload[]> {
-    const [result] = await this.getFromParents(hashes)
-    return result
+  protected getHandler(_hashes: string[]): Promisable<Payload[]> {
+    throw Error('Not implemented')
+  }
+
+  protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const emitEvents = config?.emitEvents ?? true
+    const map = await PayloadWrapper.toMap(await this.getHandler(hashes))
+
+    const { foundPayloads, notfoundHashes } = hashes.reduce<{ foundPayloads: Payload[]; notfoundHashes: string[] }>(
+      (prev, hash) => {
+        const found = map[hash]
+        if (found) {
+          //TODO: Find a better way to scrub meta data without scrubbing _signatures
+          if (found.schema === BoundWitnessSchema) {
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } })
+          } else {
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) })
+          }
+        } else {
+          prev.notfoundHashes.push(hash)
+        }
+        return prev
+      },
+      { foundPayloads: [], notfoundHashes: [] },
+    )
+
+    const [parentFoundPayloads] = await this.getFromParents(notfoundHashes)
+
+    if (this.storeParentReads) {
+      await this.insertWithConfig(parentFoundPayloads)
+    }
+    return [...foundPayloads, ...parentFoundPayloads]
   }
 
   protected head(): Promisable<Payload | undefined> {
     return this._lastInsertedPayload
+  }
+
+  protected insertHandler(_payloads: Payload[]): Promise<Payload[]> {
+    throw Error('Not implemented')
+  }
+
+  protected async insertWithConfig(payloads: Payload[], config?: InsertConfig): Promise<Payload[]> {
+    const emitEvents = config?.emitEvents ?? true
+    const writeToParents = config?.writeToParents ?? true
+
+    const insertedPayloads = await this.insertHandler(payloads)
+
+    if (writeToParents) {
+      await this.writeToParents(insertedPayloads)
+    }
+    if (emitEvents) {
+      await this.emit('inserted', { module: this, payloads: insertedPayloads })
+    }
+
+    return insertedPayloads
   }
 
   protected async parents() {
@@ -199,12 +276,17 @@ export abstract class AbstractArchivist<
       case ArchivistCommitQuerySchema:
         resultPayloads.push(...(await this.commitHandler()))
         break
-      case ArchivistDeleteQuerySchema:
-        resultPayloads.push(...(await this.deleteHandler(wrappedQuery.payloadHashes)))
+      case ArchivistDeleteQuerySchema: {
+        const resultPayload: ArchivistDeleteQuery = {
+          hashes: [...(await this.deleteWithConfig(queryPayload.hashes))],
+          schema: ArchivistDeleteQuerySchema,
+        }
+        resultPayloads.push(resultPayload)
         break
+      }
       case ArchivistGetQuerySchema:
         if (queryPayload.hashes?.length) {
-          resultPayloads.push(...(await this.getHandler(queryPayload.hashes)))
+          resultPayloads.push(...(await this.getWithConfig(queryPayload.hashes)))
         } else {
           const head = await this.head()
           if (head) resultPayloads.push(head)
@@ -215,7 +297,7 @@ export abstract class AbstractArchivist<
         assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
         const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
         assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
-        resultPayloads.push(...(await this.insertHandler(payloads)))
+        resultPayloads.push(...(await this.insertWithConfig(payloads)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
         // can grab the actual last one
@@ -265,6 +347,4 @@ export abstract class AbstractArchivist<
       return prev
     }, {})
   }
-
-  protected abstract insertHandler(item: Payload[]): PromisableArray<Payload>
 }

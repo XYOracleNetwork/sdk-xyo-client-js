@@ -45,7 +45,8 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
 
   async delete(hashes: string[]) {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
-    return await this.sendQuery(queryPayload)
+    await this.sendQuery(queryPayload)
+    return hashes
   }
 
   async get(hashes: string[]): Promise<Payload[]> {

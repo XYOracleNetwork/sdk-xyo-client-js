@@ -5,9 +5,10 @@ import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
-import { UrlPayload } from '@xyo-network/url-payload-plugin'
+import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
+import FileType from 'file-type'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -61,6 +62,10 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.height ?? 128
   }
 
+  get ipfGateway() {
+    return this.config.ipfsGateway ?? '5d7b6582.beta.decentralnetworkservices.com'
+  }
+
   get maxAsyncProcesses() {
     return this.config.maxAsyncProcesses ?? 2
   }
@@ -79,29 +84,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
   get width() {
     return this.config.width ?? 128
-  }
-
-  /**
-   * Returns the equivalent IPFS gateway URL for the supplied URL.
-   * @param urlToCheck The URL to check
-   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
-   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
-   */
-  static checkIpfsUrl(urlToCheck: string) {
-    const url = new URL(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.search
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = 'cloudflare-ipfs.com'
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `${root}?${query}` : root
-    } else {
-      return urlToCheck
-    }
   }
 
   private static async binaryToSha256(data: Uint8Array) {
@@ -135,14 +117,38 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
   }
 
+  /**
+   * Returns the equivalent IPFS gateway URL for the supplied URL.
+   * @param urlToCheck The URL to check
+   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
+   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
+   */
+  checkIpfsUrl(urlToCheck: string) {
+    const url = new URL(urlToCheck)
+    let protocol = url.protocol
+    let host = url.host
+    let path = url.pathname
+    const query = url.search
+    if (protocol === 'ipfs:') {
+      protocol = 'https:'
+      host = this.ipfGateway
+      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
+      const root = `${protocol}//${host}/${path}`
+      return query?.length > 0 ? `${root}?${query}` : root
+    } else {
+      return urlToCheck
+    }
+  }
+
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
     if (!hasbin('magick')) {
       throw Error('ImageMagick is required for this witness')
     }
+    const urlPayloads = payloads.filter((payload) => payload.schema === UrlSchema)
     return await this._semaphore.runExclusive(async () =>
       compact(
         await Promise.all(
-          payloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
+          urlPayloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
             const cachedResult = this.cache.get(url)
             if (cachedResult) {
               return cachedResult
@@ -161,8 +167,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               }
             } else {
               //if it is ipfs, go through cloud flair
-              const mutatedUrl = ImageThumbnailWitness.checkIpfsUrl(url)
-              result = await this.fromHttp(mutatedUrl)
+              const mutatedUrl = this.checkIpfsUrl(url)
+              result = await this.fromHttp(mutatedUrl, url)
             }
             this.cache.set(url, result)
             return result
@@ -199,7 +205,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.createThumbnailDataUrl(imageBuffer)
   }
 
-  private async fromHttp(url: string): Promise<ImageThumbnail> {
+  private async fromHttp(url: string, sourceUrl?: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
     let dnsResult: string[]
     try {
@@ -213,7 +219,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           dnsError: error.code,
         },
         schema: ImageThumbnailSchema,
-        sourceUrl: url,
+        sourceUrl: sourceUrl ?? url,
       }
       return result
     }
@@ -231,7 +237,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             status: axiosError?.response?.status,
           },
           schema: ImageThumbnailSchema,
-          sourceUrl: url,
+          sourceUrl: sourceUrl ?? url,
         }
         return result
       } else {
@@ -244,34 +250,66 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         status: response.status,
       },
       schema: ImageThumbnailSchema,
-      sourceUrl: url,
+      sourceUrl: sourceUrl ?? url,
     }
 
     if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers['content-type']?.toString()
       const mediaType = contentType.split('/')[0]
+      result.mime = result.mime ?? {}
+      result.mime.returned = mediaType
+      const sourceBuffer = Buffer.from(response.data, 'binary')
+      try {
+        result.mime.detected = await FileType.fromBuffer(sourceBuffer)
+      } catch (ex) {
+        const error = ex as Error
+        this.logger?.error(`FileType error: ${error.message}`)
+      }
+
+      const processImage = async () => {
+        result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+        result.url = await this.createThumbnailDataUrl(sourceBuffer)
+      }
+
+      const processVideo = async () => {
+        // Gracefully handle the case where ffmpeg is not installed.
+        if (hasbin('ffmpeg')) {
+          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+          result.url = await this.createThumbnailFromVideo(sourceBuffer)
+        } else {
+          result.mime = result.mime ?? {}
+          result.mime.invalid = true
+        }
+      }
+
       switch (mediaType) {
         case 'image': {
-          const sourceBuffer = Buffer.from(response.data, 'binary')
-          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailDataUrl(sourceBuffer)
+          await processImage()
+          result.mime.type = mediaType
           break
         }
         case 'video': {
-          // Gracefully handle the case where ffmpeg is not installed.
-          if (hasbin('ffmpeg')) {
-            const sourceBuffer = Buffer.from(response.data, 'binary')
-            result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-            result.url = await this.createThumbnailFromVideo(sourceBuffer)
-          } else {
-            result.mime = result.mime ?? {}
-            result.mime.invalid = true
-          }
+          await processVideo()
+          result.mime.type = mediaType
           break
         }
         default: {
-          result.mime = result.mime ?? {}
-          result.mime.invalid = true
+          switch (result.mime.detected?.mime) {
+            case 'image': {
+              await processImage()
+              result.mime.type = result.mime.detected?.mime
+              break
+            }
+            case 'video': {
+              await processVideo()
+              result.mime.type = result.mime.detected?.mime
+              break
+            }
+            default: {
+              result.mime.invalid = true
+              break
+            }
+          }
           break
         }
       }

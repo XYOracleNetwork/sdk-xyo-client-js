@@ -26,6 +26,7 @@
     "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness": "workspace:~",
     "async-mutex": "^0.4.0",
+    "file-type": "^16.5.4",
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.25.0",
     "hasbin": "^1.2.3",
@@ -77,5 +78,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.1"
+  "version": "2.72.7"
 }

@@ -13,7 +13,6 @@ export type WithSchema<T extends EmptyPayload | void = void> = T extends EmptyPa
 
 export type PayloadFields = {
   sources?: string[]
-  timestamp?: number
 }
 
 export type WithPayload<T extends EmptyPayload | void = void> = WithSchema<T extends EmptyPayload ? PayloadFields & T : PayloadFields>

@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Logger } from '@xyo-network/logger'
 import merge from 'lodash/merge'
 
@@ -28,6 +29,23 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
     params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
   ) {
     return new ModuleFactory(creatableModule, params)
+  }
+
+  _getRootFunction(funcName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let anyThis = this as any
+    while (anyThis.__proto__[funcName]) {
+      anyThis = anyThis.__proto__
+    }
+    return anyThis[funcName]
+  }
+
+  _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {

@@ -81,7 +81,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.commit()
   }
 
-  protected override deleteHandler(hashes: string[]): PromisableArray<Payload> {
+  protected override deleteHandler(hashes: string[]): PromisableArray<string> {
     return this.memoryArchivist.delete(hashes)
   }
 
@@ -89,7 +89,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.get(hashes)
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/core": "workspace:~",
+    "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
@@ -53,5 +55,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.1"
+  "version": "2.72.7"
 }

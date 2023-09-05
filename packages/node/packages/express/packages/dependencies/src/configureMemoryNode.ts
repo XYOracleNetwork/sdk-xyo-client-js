@@ -23,6 +23,8 @@ import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
+import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
+import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'
@@ -56,9 +58,9 @@ const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | 
 
 const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: AddressHistoryDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceDivinerConfigSchema }, true],
-  [{ schema: AddressSpaceBatchDivinerConfigSchema }, true],
-  [{ schema: BoundWitnessDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace, schema: AddressSpaceDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch, schema: AddressSpaceBatchDivinerConfigSchema }, true],
+  [{ accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness, schema: BoundWitnessDivinerConfigSchema }, true],
   [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   [{ schema: NftScoreDivinerConfigSchema }, true],
@@ -66,16 +68,34 @@ const diviners: ModuleConfigWithVisibility[] = [
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
-  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailDivinerConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
+  [
+    {
+      accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
+      archivist: 'ThumbnailArchivist',
+      name: 'ThumbnailBoundWitnessDiviner',
+      schema: BoundWitnessDivinerConfigSchema,
+    },
+    true,
+  ],
 ]
+
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
-  [{ archivist: 'ThumbnailArchivist', schema: ImageThumbnailWitnessConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
+  [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],
   [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
-const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses]
+const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
+  [
+    { archivist: 'ThumbnailArchivist', name: 'ThumbnailSentinel', schema: SentinelConfigSchema, witnesses: ['ThumbnailWitness', 'TimestampWitness'] },
+    true,
+  ],
+]
+
+const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses, ...sentinels]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
   const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))

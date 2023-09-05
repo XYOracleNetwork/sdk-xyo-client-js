@@ -193,6 +193,14 @@
         "windows"
       ],
       "type": "string"
+    },
+    "payloads": {
+      "description": "List of Modules",
+      "items": {
+        "$ref": "#/definitions/module"
+      },
+      "nullable": true,
+      "type": "array"
     }
   },
   "description": "Describes an XYO Package which is a collection of XYO Modules",

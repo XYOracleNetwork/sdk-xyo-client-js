@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/image-thumbnail/src/spec/Diviner.spec.ts"
+        "packages/modules/packages/sentinel/src/spec/Sentinel.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -48,11 +48,14 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
         readonly disallowed?: Record<SchemaString, AddressString[]>
       }
 
-      /** @field sign every  */
+      /** @field sign every query */
       readonly sign?: boolean
 
       /** @field Store the queries made to the module in an archivist if possible */
       readonly storeQueries?: boolean
+
+      /** @field add a timestamp payload to every query  */
+      readonly timestamp?: boolean
     },
     Omit<TConfig, 'schema'>
   >

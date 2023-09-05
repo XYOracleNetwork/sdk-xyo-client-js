@@ -10,7 +10,12 @@ export type ImageThumbnail = Payload<
       status?: number
     }
     mime?: {
+      detected?: {
+        ext?: string
+        mime?: string
+      }
       invalid?: boolean
+      returned?: string
       type?: string
     }
     sourceHash?: string

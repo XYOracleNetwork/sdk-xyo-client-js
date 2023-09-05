@@ -2,6 +2,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { HDWallet } from '@xyo-network/account'
+import { WalletInstance } from '@xyo-network/account/packages/wallet-model'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -142,10 +143,32 @@ export abstract class AbstractModule<
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
+  get timestamp() {
+    return this.config.timestamp ?? false
+  }
+
+  static _getRootFunction(funcName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let anyThis = this as any
+    while (anyThis.__proto__[funcName]) {
+      anyThis = anyThis.__proto__
+    }
+    return anyThis[funcName]
+  }
+
+  static _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
+  }
+
   static async create<TModule extends ModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
+    this._noOverride('create')
     if (!this.configSchemas || this.configSchemas.length === 0) {
       throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
@@ -171,23 +194,8 @@ export abstract class AbstractModule<
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
 
-    //determine account
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-    let generatedAccount: AccountInstance | undefined = undefined
-    if (wallet) {
-      generatedAccount = assertEx(
-        accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet,
-        'Failed to derive account from path',
-      )
-    } else if (account === 'random') {
-      generatedAccount = await HDWallet.random()
-    } else if (account) {
-      generatedAccount = account
-    } else {
-      //this should eventually be removed/thrown
-      console.warn(`AbstractModule.create: No account provided - Creating Random account [${config?.schema}]`)
-      generatedAccount = await HDWallet.random()
-    }
+    const generatedAccount = await AbstractModule.determineAccount({ account, accountDerivationPath, wallet })
     const address = generatedAccount.address
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
@@ -199,11 +207,50 @@ export abstract class AbstractModule<
     return newModule
   }
 
+  static async determineAccount({
+    account,
+    accountDerivationPath,
+    wallet,
+  }: {
+    account?: AccountInstance | 'random'
+    accountDerivationPath?: string
+    wallet?: WalletInstance
+  }): Promise<AccountInstance> {
+    if (wallet) {
+      return assertEx(accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet, 'Failed to derive account from path')
+    } else if (account === 'random') {
+      return await HDWallet.random()
+    } else if (account) {
+      return account
+    } else {
+      //this should eventually be removed/thrown
+      console.warn('AbstractModule.determineAccount: No account provided - Creating Random account')
+      return await HDWallet.random()
+    }
+  }
+
   static factory<TModule extends ModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {
     return ModuleFactory.withParams(this, params)
+  }
+
+  _getRootFunction(funcName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let anyThis = this as any
+    while (anyThis.__proto__[funcName]) {
+      anyThis = anyThis.__proto__
+    }
+    return anyThis[funcName]
+  }
+
+  _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   async busy<R>(closure: () => Promise<R>) {
@@ -225,6 +272,13 @@ export abstract class AbstractModule<
     }
   }
 
+  override emit<TEventName extends keyof TEventData = keyof TEventData, TEventArgs extends TEventData[TEventName] = TEventData[TEventName]>(
+    eventName: TEventName,
+    eventArgs: TEventArgs,
+  ) {
+    return super.emit(eventName, eventArgs)
+  }
+
   previousHash(): Promisable<string | undefined> {
     return this.account.previousHash
   }
@@ -234,6 +288,7 @@ export abstract class AbstractModule<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
+    this._noOverride('query')
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -257,6 +312,10 @@ export abstract class AbstractModule<
               .build(),
           )
         })
+      }
+      if (this.timestamp) {
+        const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
+        resultPayloads.push(timestamp)
       }
       const result = await this.bindQueryResult(query, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
       const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }

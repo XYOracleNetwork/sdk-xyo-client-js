@@ -83,7 +83,7 @@ export class IndexedDbArchivist<
     await clear(this.db)
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const payloadPairs: [string, Payload][] = await Promise.all(
       (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
     )
@@ -91,23 +91,14 @@ export class IndexedDbArchivist<
     const foundHashesToDelete = payloadPairs.map(([hash, _]) => hash)
     await delMany(foundHashesToDelete, this.db)
 
-    await this.emit('deleted', { hashes: foundHashesToDelete, module: this })
-    const result = payloadPairs.map(([_, payload]) => payload)
-    return result
+    return foundHashesToDelete
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const found = (await getMany<Payload>(hashes, this.db)).filter((result) => result !== undefined)
-    // If we found everything or we don't have parents, return what we have
-    if (found.length === hashes.length || !(await this.parents())?.read) return found
-    // Otherwise, check parents for any hashes we were unable to find
-    const foundHashes = await Promise.all(found.map(PayloadHasher.hashAsync))
-    const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
-    return [...found, ...parentFound]
+    return (await getMany<Payload>(hashes, this.db)).filter((result) => result !== undefined)
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const entries = await Promise.all(
       payloads.map<Promise<[string, Payload]>>(async (payload) => {
         const hash = await PayloadHasher.hashAsync(payload)
@@ -115,7 +106,7 @@ export class IndexedDbArchivist<
       }),
     )
     await setMany(entries, this.db)
-    await this.writeToParents(payloads)
+
     return payloads
   }
 

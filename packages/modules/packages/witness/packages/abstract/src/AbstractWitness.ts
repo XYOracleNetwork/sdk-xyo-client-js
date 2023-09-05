@@ -54,6 +54,7 @@ export abstract class AbstractWitness<
 
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
   async observe(inPayloads?: Payload[]): Promise<Payload[]> {
+    this._noOverride('observe')
     await this.started('throw')
     await this.emit('observeStart', { inPayloads: inPayloads, module: this })
     const outPayloads = assertEx(await this.observeHandler(inPayloads), 'Trying to witness nothing')

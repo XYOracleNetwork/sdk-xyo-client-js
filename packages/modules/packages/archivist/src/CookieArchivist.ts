@@ -17,7 +17,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
 import compact from 'lodash/compact'
 
@@ -116,7 +116,7 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const payloadPairs: [string, Payload][] = await Promise.all(
       (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
     )
@@ -128,40 +128,19 @@ export class CookieArchivist<
         }),
       ),
     )
-    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
-    const result = deletedPairs.map(([_, payload]) => payload)
-    return result
+    return deletedPairs.map(([hash]) => hash)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
-      (prev, hash) => {
+  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    return compact(
+      hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
-        const found = cookieString ? JSON.parse(cookieString) : undefined
-        if (found) {
-          prev.found.push(found)
-        } else {
-          prev.notfound.push(hash)
-        }
-        return prev
-      },
-      { found: [], notfound: [] },
+        return cookieString ? JSON.parse(cookieString) : undefined
+      }),
     )
-
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
-
-    if (this.storeParentReads) {
-      await Promise.all(
-        parentFound.map(async (payload) => {
-          const hash = await PayloadHasher.hashAsync(payload)
-          Cookies.set(hash, JSON.stringify(payload))
-        }),
-      )
-    }
-    return [...found, ...parentFound]
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     try {
       const resultPayloads: Payload[] = await Promise.all(
         payloads.map(async (payload) => {
@@ -173,9 +152,7 @@ export class CookieArchivist<
           return wrapper.payload()
         }),
       )
-      await this.writeToParents(resultPayloads)
-      await this.emit('inserted', { module: this, payloads })
-      return payloads
+      return resultPayloads
     } catch (ex) {
       console.error(`Error: ${JSON.stringify(ex, null, 2)}`)
       throw ex

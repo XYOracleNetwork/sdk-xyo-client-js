@@ -18,7 +18,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { PromisableArray } from '@xyo-network/promise'
+import { Promisable, PromisableArray } from '@xyo-network/promise'
 import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 
@@ -90,7 +90,7 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const payloadPairs: [string, Payload][] = await Promise.all(
       (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
     )
@@ -101,54 +101,27 @@ export class MemoryArchivist<
         }),
       ),
     )
-    await this.emit('deleted', { hashes: deletedPairs.map(([hash, _]) => hash), module: this })
-    const result = deletedPairs.map(([_, payload]) => payload)
-    return result
+    return deletedPairs.map(([hash]) => hash)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const { found, notfound } = hashes.reduce<{ found: Payload[]; notfound: string[] }>(
-      (prev, hash) => {
-        const found = this.cache.get(hash)
-        if (found) {
-          prev.found.push(PayloadHasher.hashFields(found))
-        } else {
-          prev.notfound.push(hash)
-        }
-        return prev
-      },
-      { found: [], notfound: [] },
-    )
-
-    const parentFound = notfound.length > 0 ? await super.getHandler(notfound) : []
-
-    if (this.storeParentReads) {
-      await Promise.all(
-        parentFound.map(async (payload) => {
-          const hash = await PayloadHasher.hashAsync(payload)
-          this.cache.set(hash, payload)
-        }),
-      )
-    }
-    return [...found, ...parentFound]
+  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    return compact(hashes.map((hash) => this.cache.get(hash)))
   }
 
-  protected async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    await Promise.all(
+  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+    const insertedPayloads = await Promise.all(
       payloads.map((payload) => {
         return this.insertPayloadIntoCache(payload)
       }),
     )
 
-    await this.writeToParents(payloads)
-    await this.emit('inserted', { module: this, payloads })
-    return payloads
+    return insertedPayloads
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
     const wrapper = PayloadWrapper.wrap(payload)
     const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
     this.cache.set(payloadWithMeta._hash, payloadWithMeta)
-    return payloadWithMeta
+    return payload
   }
 }

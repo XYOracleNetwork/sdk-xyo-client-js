@@ -7,6 +7,8 @@ export const ModuleManifestPayloadSchema: ModuleManifestPayloadSchema = 'network
 export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 
+import { Payload } from '@xyo-network/payload-model'
+
 export interface Manifest {
   description?: string
 }
@@ -43,5 +45,6 @@ export interface ModuleManifestPayload extends ModuleManifest {
 export interface ManifestPayload {
   modules?: Record<string, ModuleManifest>
   nodes: NodeManifest[]
+  payloads?: Record<string, Payload>
   schema: ManifestPayloadSchema
 }

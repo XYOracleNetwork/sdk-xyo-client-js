@@ -38,6 +38,7 @@ export abstract class AbstractDiviner<
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
   divine(payloads?: Payload[]): Promise<Payload[]> {
+    this._noOverride('divine')
     return this.busy(async () => {
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, module: this })

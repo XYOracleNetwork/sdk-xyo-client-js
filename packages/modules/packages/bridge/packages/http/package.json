@@ -27,7 +27,7 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
-    "@types/url-parse": "^1.4.8",
+    "@types/url-parse": "^1.4.9",
     "@xylabs/ts-scripts-yarn3": "^2.19.3",
     "@xylabs/tsconfig": "^2.19.3",
     "typescript": "^5.2.2"
@@ -65,5 +65,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.1"
+  "version": "2.72.7"
 }

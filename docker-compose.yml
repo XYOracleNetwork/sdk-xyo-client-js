@@ -74,3 +74,24 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+
+  # ipfs:
+  #   image: ipfs/kubo:latest
+  #   container_name: ipfs
+  #   restart: unless-stopped
+  # environment:
+  # IPFS_PROFILE: server
+  # IPFS_PROFILE: default-networking
+  # IPFS_PROFILE: flatfs
+  # ports:
+  #   - "4001:4001"
+  #   - "5001:5001"
+  #   - "8080:8080"
+  # ipfs-gateway:
+  #   image: ipfs/bifrost-gateway:release
+  #   container_name: ipfs-gateway
+  #   restart: unless-stopped
+  #   environment:
+  #     PROXY_GATEWAY_URL: http://ipfs:8080
+  #   ports:
+  #     - "8081:8081"

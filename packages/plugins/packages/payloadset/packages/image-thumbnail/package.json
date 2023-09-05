@@ -40,7 +40,7 @@
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/gm": "^1.25.1",
     "@types/hasbin": "^1.2.0",
-    "@types/lodash": "^4.14.197",
+    "@types/lodash": "^4.14.198",
     "@xylabs/ts-scripts-yarn3": "^2.19.3",
     "@xylabs/tsconfig": "^2.19.3",
     "typescript": "^5.2.2"

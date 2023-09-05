@@ -35,8 +35,8 @@
     "xyo": "dist/cjs/index.js"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.197",
-    "@types/node": "^20.5.7",
+    "@types/lodash": "^4.14.198",
+    "@types/node": "^20.5.9",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.1",
     "@xylabs/ts-scripts-yarn3": "^2.19.3",

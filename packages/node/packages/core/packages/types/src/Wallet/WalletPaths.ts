@@ -35,6 +35,7 @@ export const WALLET_PATHS = {
     NftCollectionScoreDiviner: `${ModulePath.Diviner}/13'` as const,
     ImageThumbnail: `${ModulePath.Diviner}/14'` as const,
     ThumbnailBoundWitness: `${ModulePath.Diviner}/15'` as const,
+    ThumbnailAddressHistory: `${ModulePath.Diviner}/16'` as const,
   } as const,
   Witnesses: {
     Witness: `${ModulePath.Witness}/0'` as const,

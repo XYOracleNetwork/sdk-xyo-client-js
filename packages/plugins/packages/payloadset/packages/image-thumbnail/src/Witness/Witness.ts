@@ -17,7 +17,7 @@ import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
 import Url from 'url-parse'
 
-import { ImageThumbnailWitnessConfigSchema } from './Config'
+import { ImageThumbnailEncoding, ImageThumbnailWitnessConfigSchema } from './Config'
 import { getVideoFrameAsImageFluent } from './ffmpeg'
 import { ImageThumbnailWitnessParams } from './Params'
 
@@ -178,13 +178,13 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     )
   }
 
-  private async createThumbnailDataUrl(sourceBuffer: Buffer) {
+  private async createThumbnailDataUrl(sourceBuffer: Buffer, encoding?: ImageThumbnailEncoding) {
     const thumb = await new Promise<Buffer>((resolve, reject) => {
       gm(sourceBuffer)
         .quality(this.quality)
         .resize(this.width, this.height)
         .flatten()
-        .toBuffer(this.encoding, (error, buffer) => {
+        .toBuffer(encoding ?? this.encoding, (error, buffer) => {
           if (error) {
             reject(error)
           } else {
@@ -254,11 +254,12 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
 
     if (response.status >= 200 && response.status < 300) {
-      const contentType = response.headers['content-type']?.toString()
-      const mediaType = contentType.split('/')[0]
+      const contentType: string = response.headers['content-type']?.toString()
+      const [mediaType, fileType] = contentType.split('/')
       result.mime = result.mime ?? {}
       result.mime.returned = mediaType
       const sourceBuffer = Buffer.from(response.data, 'binary')
+
       try {
         result.mime.detected = await FileType.fromBuffer(sourceBuffer)
       } catch (ex) {
@@ -266,9 +267,9 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         this.logger?.error(`FileType error: ${error.message}`)
       }
 
-      const processImage = async () => {
+      const processImage = async (encoding?: ImageThumbnailEncoding) => {
         result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-        result.url = await this.createThumbnailDataUrl(sourceBuffer)
+        result.url = await this.createThumbnailDataUrl(sourceBuffer, encoding)
       }
 
       const processVideo = async () => {
@@ -282,9 +283,21 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         }
       }
 
+      let encoding: ImageThumbnailEncoding = 'PNG'
+
+      switch (fileType.toUpperCase()) {
+        case 'GIF':
+          encoding = 'GIF'
+          break
+        case 'JPG':
+        case 'JPEG':
+          encoding = 'JPG'
+          break
+      }
+
       switch (mediaType) {
         case 'image': {
-          await processImage()
+          await processImage(encoding)
           result.mime.type = mediaType
           break
         }

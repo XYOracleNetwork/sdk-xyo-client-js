@@ -4,8 +4,10 @@ import { WitnessConfig } from '@xyo-network/witness'
 export const ImageThumbnailWitnessConfigSchema = `${ImageThumbnailSchema}.witness.config` as const
 export type ImageThumbnailWitnessConfigSchema = typeof ImageThumbnailWitnessConfigSchema
 
+export type ImageThumbnailEncoding = 'PNG' | 'JPG' | 'GIF'
+
 export type ImageThumbnailWitnessConfig = WitnessConfig<{
-  encoding?: 'PNG'
+  encoding?: ImageThumbnailEncoding
   height?: number
   ipfsGateway?: string
   maxAsyncProcesses?: number

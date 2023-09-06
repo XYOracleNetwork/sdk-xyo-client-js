@@ -14,7 +14,7 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
@@ -55,5 +55,5 @@
   },
   "sideEffects": false,
   "types": "dist/types/index.d.ts",
-  "version": "2.72.7"
+  "version": "2.72.8"
 }

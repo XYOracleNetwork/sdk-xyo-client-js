@@ -4,7 +4,7 @@ import { EthereumGasEthersPayload, EthereumGasEthersSchema } from '@xyo-network/
 import { AnyConfigSchema } from '@xyo-network/module'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, TimestampWitness, WitnessParams } from '@xyo-network/witness'
+import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
 
 import { EthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'

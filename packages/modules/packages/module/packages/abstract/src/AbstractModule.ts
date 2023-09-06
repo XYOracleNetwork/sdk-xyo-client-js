@@ -2,7 +2,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { HDWallet } from '@xyo-network/account'
-import { WalletInstance } from '@xyo-network/account/packages/wallet-model'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -50,6 +49,7 @@ import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { IdLogger } from '@xyo-network/shared'
+import { WalletInstance } from '@xyo-network/wallet-model'
 import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
@@ -141,11 +141,11 @@ export abstract class AbstractModule<
     return this._queryAccounts
   }
 
-  protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
-
   get timestamp() {
     return this.config.timestamp ?? false
   }
+
+  protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
   static _getRootFunction(funcName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

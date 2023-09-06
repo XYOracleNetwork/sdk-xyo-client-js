@@ -9386,6 +9386,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety"
   dependencies:
+    "@xylabs/jest-helpers": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
     "@xyo-network/axios": "workspace:~"

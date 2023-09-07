@@ -12,8 +12,8 @@
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.3",
-    "@xylabs/tsconfig": "^2.19.3",
+    "@xylabs/ts-scripts-yarn3": "^2.19.5",
+    "@xylabs/tsconfig": "^2.19.5",
     "typescript": "^5.2.2"
   },
   "exports": {

@@ -34,10 +34,10 @@
     "@ethersproject/solidity": "^5.7.0",
     "@types/regression": "^2.0.2",
     "@uniswap/sdk": "^3.0.3",
-    "@uniswap/sdk-core": "^4.0.6",
+    "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/v3-sdk": "^3.10.0",
-    "@xylabs/ts-scripts-yarn3": "^2.19.3",
-    "@xylabs/tsconfig": "^2.19.3",
+    "@xylabs/ts-scripts-yarn3": "^2.19.5",
+    "@xylabs/tsconfig": "^2.19.5",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {

@@ -16,7 +16,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/solidity": "^5.7.0",
     "@uniswap/sdk": "^3.0.3",
-    "@uniswap/sdk-core": "^4.0.6",
+    "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/v3-sdk": "^3.10.0",
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:~",
     "@xyo-network/crypto-asset-plugin": "workspace:~",
@@ -24,8 +24,8 @@
     "@xyo-network/uniswap-crypto-market-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.3",
-    "@xylabs/tsconfig": "^2.19.3",
+    "@xylabs/ts-scripts-yarn3": "^2.19.5",
+    "@xylabs/tsconfig": "^2.19.5",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

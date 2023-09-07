@@ -28,13 +28,14 @@ export const getVideoFrameAsImageFluent = async (videoBuffer: Buffer) => {
       const command = ffmpeg()
         // Uncomment to debug CLI args to ffmpeg
         // .on('start', (commandLine) => console.log('Spawned Ffmpeg with command: ' + commandLine))
-        .input(tmpFile)
-        .takeFrames(1)
-        .withNoAudio()
         .on('error', (err) => reject(err.message))
         // Listen for the 'end' event to combine the chunks and create a PNG buffer
         .on('end', () => resolve(Buffer.concat(pngChunks)))
+        .input(tmpFile)
+        .takeFrames(1)
+        .withNoAudio()
         .outputOptions('-f image2pipe')
+        .videoCodec('png')
 
       // Start processing
       command.pipe(writableStream)

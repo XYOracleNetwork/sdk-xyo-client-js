@@ -11,10 +11,12 @@ export const getVideoFrameAsImageFluent = async (videoBuffer: Buffer) => {
     // const videoStream = new PassThrough()
     // videoStream.end(videoBuffer)
 
-    const videoStream = new Readable()
-    videoStream._read = () => {} // _read is required but you can noop it
-    videoStream.push(videoBuffer)
-    videoStream.push(null)
+    const videoStream = new Readable({
+      read() {
+        this.push(videoBuffer)
+        this.push(null)
+      },
+    })
 
     // Initialize empty array to collect PNG chunks
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

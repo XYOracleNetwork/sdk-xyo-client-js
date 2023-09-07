@@ -8534,9 +8534,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo, @xyo-network/node-core-modules-mongo@workspace:~":
+"@xyo-network/node-core-modules-mongo@workspace:packages/modules-mongo, @xyo-network/node-core-modules-mongo@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/node/packages/core/packages/modules-mongo"
+  resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/modules-mongo"
   dependencies:
     "@types/lodash": ^4.14.198
     "@xylabs/array": ^2.9.3

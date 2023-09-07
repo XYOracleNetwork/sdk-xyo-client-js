@@ -62,7 +62,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
       const cases: MimeWithUrl[] = [
         // Cases
         ['video/mp4', 'https://cdn-longterm.mee6.xyz/assets/avatars-presale.mp4'],
-        ['video/mp4', 'https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4'],
+        ['video/mp4;codecs=avc1', 'https://media.niftygateway.com/video/upload/v1649189105/Abigail/FEWO/Paint/Paint/006266_paint_hf9cft.mp4'],
       ]
       it.each(cases)('video [mime (%s)]', async (_mime, url) => await testVideo(witness, url))
     })

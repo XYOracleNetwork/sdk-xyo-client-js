@@ -21,16 +21,18 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance
   const logger = mock<Console>()
-  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
+  const boundWitnessSdkConfig = {
     collection: COLLECTIONS.BoundWitnesses,
     dbConnectionString: process.env.MONGO_CONNECTION_STRING,
-  })
+  }
+  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>(boundWitnessSdkConfig)
   let sut: MongoDBBoundWitnessDiviner
   beforeAll(async () => {
     account = await Account.create({ phrase })
     sut = await MongoDBBoundWitnessDiviner.create({
       account,
       boundWitnessSdk,
+      boundWitnessSdkConfig,
       config: { schema: BoundWitnessDivinerConfigSchema },
       logger,
     })

@@ -1,6 +1,6 @@
 import { InfuraProvider } from '@ethersproject/providers'
 import { HDWallet } from '@xyo-network/account'
-import { EthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
+import { EthereumGasEthersPayload, EthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { EthereumGasEthersWitnessConfigSchema } from '../Schema'
@@ -22,7 +22,7 @@ describe('EthereumGasEthersWitness', () => {
       provider,
     })
     const [actual] = await sut.observe()
-    expect(actual.timestamp).toBeNumber()
+    expect((actual as EthereumGasEthersPayload).timestamp).toBeNumber()
     expect(actual.schema).toBe(EthereumGasEthersSchema)
     const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)

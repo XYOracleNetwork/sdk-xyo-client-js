@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
+import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,

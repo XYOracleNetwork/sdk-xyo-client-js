@@ -30,6 +30,7 @@
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/shared": "workspace:~",
+    "@xyo-network/wallet-model": "workspace:~",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

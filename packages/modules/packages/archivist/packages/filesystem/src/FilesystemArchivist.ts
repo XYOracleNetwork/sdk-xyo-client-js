@@ -1,8 +1,8 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
-import { AbstractArchivist } from '@xyo-network/abstract-archivist'
 import { HDWallet } from '@xyo-network/account'
+import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistCommitQuerySchema,

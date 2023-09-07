@@ -5609,22 +5609,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract, @xyo-network/abstract-archivist@workspace:~":
+"@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract-deprecated":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract"
+  resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract-deprecated"
   dependencies:
-    "@xylabs/assert": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-builder": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/core": "workspace:~"
-    "@xyo-network/module": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
-    "@xyo-network/promise": "workspace:~"
-    lodash: ^4.17.21
+    "@xyo-network/archivist-abstract": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -5763,6 +5754,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract, @xyo-network/archivist-abstract@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-abstract@workspace:packages/modules/packages/archivist/packages/abstract"
+  dependencies:
+    "@xylabs/assert": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.19.3
+    "@xylabs/tsconfig": ^2.19.3
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/promise": "workspace:~"
+    lodash: ^4.17.21
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
@@ -5771,7 +5782,7 @@ __metadata:
     "@xylabs/delay": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
-    "@xyo-network/abstract-archivist": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
@@ -5801,6 +5812,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-mongodb@workspace:packages/modules/packages/archivist/packages/mongodb, @xyo-network/archivist-mongodb@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-mongodb@workspace:packages/modules/packages/archivist/packages/mongodb"
+  dependencies:
+    "@xylabs/assert": ^2.9.3
+    "@xylabs/exists": ^2.9.3
+    "@xylabs/promise": ^2.9.3
+    "@xylabs/ts-scripts-yarn3": ^2.19.3
+    "@xylabs/tsconfig": ^2.19.3
+    "@xyo-network/archivist-abstract": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/boundwitness-wrapper": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/node-core-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+    fake-indexeddb: ^4.0.2
+    lodash: ^4.17.21
+    typescript: ^5.2.2
+  dependenciesMeta:
+    "@xyo-network/sdk-xyo-mongo-js":
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper, @xyo-network/archivist-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
@@ -5826,8 +5865,8 @@ __metadata:
     "@xylabs/promise": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
-    "@xyo-network/abstract-archivist": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -7868,8 +7907,8 @@ __metadata:
     "@xylabs/assert": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
-    "@xyo-network/abstract-archivist": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/error": "workspace:~"
@@ -8231,7 +8270,7 @@ __metadata:
     "@xylabs/promise": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
-    "@xyo-network/abstract-archivist": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -8283,6 +8322,7 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/shared": "workspace:~"
+    "@xyo-network/wallet-model": "workspace:~"
     jest: ^29.6.4
     jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
@@ -8552,10 +8592,9 @@ __metadata:
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-mongodb": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
-    "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/boundwitness-wrapper": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner": "workspace:~"
     "@xyo-network/diviner-address-history": "workspace:~"
@@ -9386,7 +9425,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety"
   dependencies:
-    "@xylabs/jest-helpers": ^2.9.3
     "@xylabs/ts-scripts-yarn3": ^2.19.3
     "@xylabs/tsconfig": ^2.19.3
     "@xyo-network/axios": "workspace:~"

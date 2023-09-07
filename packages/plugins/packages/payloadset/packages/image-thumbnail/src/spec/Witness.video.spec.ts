@@ -23,7 +23,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     beforeAll(async () => {
       witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     })
-    describe.skip('3GPP', () => {
+    describe('3GPP', () => {
       const cases: MimeWithUrl[] = [
         // Cases
         ['video/3gpp', 'https://filesamples.com/samples/video/3gp/sample_640x360.3gp'],
@@ -80,7 +80,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
       ]
       it.each(cases)('video [mime (%s)]', async (_mime, url) => await testVideo(witness, url))
     })
-    describe.skip('QuickTime File Format (QTFF)', () => {
+    describe('QuickTime File Format (QTFF)', () => {
       const cases: MimeWithUrl[] = [
         // Cases
         ['video/quicktime', 'https://filesamples.com/samples/video/mov/sample_640x360.mov'],
@@ -108,7 +108,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
       ]
       it.each(cases)('video [mime (%s)]', async (_mime, url) => await testVideo(witness, url))
     })
-    describe.skip('MPEG-4 Video', () => {
+    describe('MPEG-4 Video', () => {
       const cases: MimeWithUrl[] = [
         // Cases
         ['video/x-m4v', 'https://filesamples.com/samples/video/m4v/sample_640x360.m4v'],

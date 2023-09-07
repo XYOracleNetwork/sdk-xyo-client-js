@@ -3,10 +3,10 @@ import { HDWallet } from '@xyo-network/account'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 
-import { getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
+import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
 import { MongoDBAddressHistoryDiviner, MongoDBAddressHistoryDivinerParams } from './AddressHistory'
 import {
   MongoDBAddressSpaceBatchDiviner,
@@ -72,8 +72,10 @@ const getMongoDBAddressSpaceBatchDiviner = async (container: Container) => {
 const getMongoDBBoundWitnessDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
+  const boundWitnessSdkConfig: BaseMongoSdkPrivateConfig = getBaseMongoSdkPrivateConfig()
   const params: MongoDBBoundWitnessDivinerParams = {
     boundWitnessSdk,
+    boundWitnessSdkConfig,
     config: {
       accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness,
       name: TYPES.BoundWitnessDiviner.description,

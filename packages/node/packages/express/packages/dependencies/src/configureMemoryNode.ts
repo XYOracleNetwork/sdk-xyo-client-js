@@ -11,6 +11,7 @@ import {
   AddressSpaceDivinerConfigSchema,
   BoundWitnessDivinerConfigSchema,
   BoundWitnessStatsDivinerConfigSchema,
+  DivinerConfig,
   PayloadDivinerConfigSchema,
   PayloadStatsDivinerConfigSchema,
   SchemaListDivinerConfigSchema,
@@ -18,7 +19,11 @@ import {
 } from '@xyo-network/diviner-models'
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
-import { MongoDBDeterministicArchivistConfig, MongoDBDeterministicArchivistConfigSchema } from '@xyo-network/node-core-modules-mongo'
+import {
+  MongoDBBoundWitnessDivinerConfig,
+  MongoDBDeterministicArchivistConfig,
+  MongoDBDeterministicArchivistConfigSchema,
+} from '@xyo-network/node-core-modules-mongo'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
@@ -56,7 +61,7 @@ const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | 
   ],
 ]
 
-const diviners: ModuleConfigWithVisibility[] = [
+const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyConfigSchema<MongoDBBoundWitnessDivinerConfig>>[] = [
   [
     {
       accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
@@ -90,6 +95,9 @@ const diviners: ModuleConfigWithVisibility[] = [
     {
       accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
       archivist: 'ThumbnailArchivist',
+      boundWitnessSdkConfig: {
+        collection: 'thumbnail_bound_witnesses',
+      },
       name: 'ThumbnailBoundWitnessDiviner',
       schema: BoundWitnessDivinerConfigSchema,
     },

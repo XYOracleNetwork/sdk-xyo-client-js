@@ -103,9 +103,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     if (url.startsWith('data:image')) {
       const data = url.split(',')[1]
       if (data) {
-        const buffer = Buffer.from(Uint8Array.from(atob(data), (c) => c.charCodeAt(0)))
-        console.log(`data buffer: ${buffer.length}`)
-        return buffer
+        return Buffer.from(Uint8Array.from(atob(data), (c) => c.charCodeAt(0)))
       } else {
         const error: ImageThumbnailWitnessError = {
           message: 'Invalid data Url',

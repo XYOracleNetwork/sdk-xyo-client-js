@@ -1,5 +1,4 @@
 import { spawn } from 'child_process'
-import { PassThrough } from 'stream'
 
 /**
  * Execute FFmpeg with the provided arguments.
@@ -11,21 +10,19 @@ export const executeFFmpeg = (videoBuffer: Buffer, ffmpegArgs: string[]): Promis
   return new Promise((resolve, reject) => {
     const ffmpeg = spawn('ffmpeg', ffmpegArgs)
 
-    // Create a readable stream from the input buffer
-    const videoStream = new PassThrough().end(videoBuffer)
-
     // Pipe the input stream to ffmpeg's stdin
-    videoStream.pipe(ffmpeg.stdin)
-    const chunks: Buffer[] = []
-    ffmpeg.stdout.on('data', (chunk: Buffer) => chunks.push(chunk))
+    ffmpeg.stdin.end(videoBuffer)
+    const imageData: Buffer[] = []
+    ffmpeg.stdout.on('data', (data: Buffer) => imageData.push(data))
     // TODO: This is required as we're seeing errors thrown due to
     // how we're piping the data to ffmpeg. Works perfectly though.
     ffmpeg.stdin.on('error', () => {})
     ffmpeg.on('close', (code) => {
       if (code !== 0) {
-        return reject(new Error(`FFmpeg exited with code ${code}`))
+        reject(new Error(`FFmpeg exited with code ${code}`))
+      } else {
+        resolve(Buffer.concat(imageData))
       }
-      resolve(Buffer.concat(chunks))
     })
   })
 }

@@ -8,11 +8,8 @@ import { spawn } from 'child_process'
  */
 export const executeFFmpeg = (videoBuffer: Buffer, ffmpegArgs: string[]): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    const ffmpeg = spawn('ffmpeg', ffmpegArgs)
-
-    // Pipe the input stream to ffmpeg's stdin
-    ffmpeg.stdin.end(videoBuffer)
     const imageData: Buffer[] = []
+    const ffmpeg = spawn('ffmpeg', ffmpegArgs)
     ffmpeg.stdout.on('data', (data: Buffer) => imageData.push(data))
     // TODO: This is required as we're seeing errors thrown due to
     // how we're piping the data to ffmpeg. Works perfectly though.
@@ -24,5 +21,7 @@ export const executeFFmpeg = (videoBuffer: Buffer, ffmpegArgs: string[]): Promis
         resolve(Buffer.concat(imageData))
       }
     })
+    // Pipe the input stream to ffmpeg's stdin
+    ffmpeg.stdin.end(videoBuffer)
   })
 }

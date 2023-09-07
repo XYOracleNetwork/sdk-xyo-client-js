@@ -23,7 +23,6 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     beforeAll(async () => {
       witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
     })
-    const problemCases = []
     describe.skip('3GPP', () => {
       const cases: MimeWithUrl[] = [
         // Cases

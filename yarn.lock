@@ -5924,6 +5924,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
     tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
@@ -14251,6 +14252,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob@npm:^8.0.1":
+  version: 8.1.0
+  resolution: "glob@npm:8.1.0"
+  dependencies:
+    fs.realpath: ^1.0.0
+    inflight: ^1.0.4
+    inherits: 2
+    minimatch: ^5.0.1
+    once: ^1.3.0
+  checksum: 92fbea3221a7d12075f26f0227abac435de868dd0736a17170663783296d0dd8d3d532a5672b4488a439bf5d7fb85cdd07c11185d6cd39184f0385cbdfb86a47
+  languageName: node
+  linkType: hard
+
 "glob@npm:^9.2.0":
   version: 9.3.5
   resolution: "glob@npm:9.3.5"
@@ -14880,6 +14894,15 @@ __metadata:
   version: 1.0.1
   resolution: "ignore-by-default@npm:1.0.1"
   checksum: 441509147b3615e0365e407a3c18e189f78c07af08564176c680be1fabc94b6c789cad1342ad887175d4ecd5225de86f73d376cec8e06b42fd9b429505ffcf8a
+  languageName: node
+  linkType: hard
+
+"ignore-walk@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "ignore-walk@npm:5.0.1"
+  dependencies:
+    minimatch: ^5.0.1
+  checksum: 1a4ef35174653a1aa6faab3d9f8781269166536aee36a04946f6e2b319b2475c1903a75ed42f04219274128242f49d0a10e20c4354ee60d9548e97031451150b
   languageName: node
   linkType: hard
 
@@ -17982,6 +18005,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimatch@npm:^5.0.1":
+  version: 5.1.6
+  resolution: "minimatch@npm:5.1.6"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 7564208ef81d7065a370f788d337cd80a689e981042cb9a1d0e6580b6c6a8c9279eba80010516e258835a988363f99f54a6f711a315089b8b42694f5da9d0d77
+  languageName: node
+  linkType: hard
+
 "minimatch@npm:^8.0.2":
   version: 8.0.4
   resolution: "minimatch@npm:8.0.4"
@@ -18700,6 +18732,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"npm-bundled@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "npm-bundled@npm:2.0.1"
+  dependencies:
+    npm-normalize-package-bin: ^2.0.0
+  checksum: 7747293985c48c5268871efe691545b03731cb80029692000cbdb0b3344b9617be5187aa36281cabbe6b938e3651b4e87236d1c31f9e645eef391a1a779413e6
+  languageName: node
+  linkType: hard
+
 "npm-bundled@npm:^3.0.0":
   version: 3.0.0
   resolution: "npm-bundled@npm:3.0.0"
@@ -18767,6 +18808,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"npm-normalize-package-bin@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "npm-normalize-package-bin@npm:2.0.0"
+  checksum: 7c5379f9b188b564c4332c97bdd9a5d6b7b15f02b5823b00989d6a0e6fb31eb0280f02b0a924f930e1fcaf00e60fae333aec8923d2a4c7747613c7d629d8aa25
+  languageName: node
+  linkType: hard
+
 "npm-normalize-package-bin@npm:^3.0.0":
   version: 3.0.1
   resolution: "npm-normalize-package-bin@npm:3.0.1"
@@ -18819,6 +18867,20 @@ __metadata:
   bin:
     npmPkgJsonLint: dist/cli.js
   checksum: 81074023ad52aa1c7102d9608484427fb83d4b3492736ec11488885c114d0e450ac4c4c290bc28795c04d1b785cfff9b34ce25d16a6491144205750e0cf3129f
+  languageName: node
+  linkType: hard
+
+"npm-packlist@npm:^5.1.3":
+  version: 5.1.3
+  resolution: "npm-packlist@npm:5.1.3"
+  dependencies:
+    glob: ^8.0.1
+    ignore-walk: ^5.0.1
+    npm-bundled: ^2.0.0
+    npm-normalize-package-bin: ^2.0.0
+  bin:
+    npm-packlist: bin/index.js
+  checksum: 94cc9c66740e8f80243301de85eb0a2cec5bbd570c3f26b6ad7af1a3eca155f7e810580dc7ea4448f12a8fd82f6db307e7132a5fe69e157eb45b325acadeb22a
   languageName: node
   linkType: hard
 
@@ -20102,6 +20164,19 @@ __metadata:
   version: 1.1.8
   resolution: "pstree.remy@npm:1.1.8"
   checksum: 5cb53698d6bb34dfb278c8a26957964aecfff3e161af5fbf7cee00bbe9d8547c7aced4bd9cb193bce15fb56e9e4220fc02a5bf9c14345ffb13a36b858701ec2d
+  languageName: node
+  linkType: hard
+
+"publint@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "publint@npm:0.2.2"
+  dependencies:
+    npm-packlist: ^5.1.3
+    picocolors: ^1.0.0
+    sade: ^1.8.1
+  bin:
+    publint: lib/cli.js
+  checksum: 4416913bfbd602dca8891e16b20ef2afea34c8b27b111bc869320c497c5a8318a0150352695d35cf4c2b7962f9485b02cf78ef2c09b18b5f22bc9fd674e42b1b
   languageName: node
   linkType: hard
 
@@ -22225,7 +22300,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sade@npm:^1.7.3":
+"sade@npm:^1.7.3, sade@npm:^1.8.1":
   version: 1.8.1
   resolution: "sade@npm:1.8.1"
   dependencies:

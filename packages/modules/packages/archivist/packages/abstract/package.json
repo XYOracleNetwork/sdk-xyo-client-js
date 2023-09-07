@@ -24,24 +24,21 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.3",
     "@xylabs/tsconfig": "^2.19.3",
+    "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "browser": "dist/index.mjs",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
-      "node": {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "browser": {
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
       }
     },
     "./dist/docs.json": {
@@ -66,7 +63,7 @@
     "access": "public"
   },
   "scripts": {
-    "package-compile": "tsup"
+    "package-compile": "publint && tsup"
   },
   "repository": {
     "type": "git",

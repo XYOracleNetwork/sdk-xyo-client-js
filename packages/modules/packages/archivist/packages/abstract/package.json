@@ -63,7 +63,8 @@
     "access": "public"
   },
   "scripts": {
-    "package-compile": "tsup && publint"
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
   },
   "repository": {
     "type": "git",

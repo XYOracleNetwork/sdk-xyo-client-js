@@ -10,18 +10,33 @@
   "engines": {
     "node": ">=16 <17"
   },
-  "esm5": "dist/esm/index.js",
   "exports": {
     ".": {
-      "esm5": "./dist/esm/index.js",
-      "node": {
-        "import": "./dist/cjs/index.js",
-        "require": "./dist/cjs/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./cjs": {
+      "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./esm": {
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.408.0",
     "@xylabs/assert": "^2.10.0",
@@ -40,7 +55,9 @@
     "express-mung": "^0.5.1",
     "http-status-codes": "^2.2.0",
     "node-cache": "^5.1.2",
+    "publint": "^0.2.2",
     "rollbar": "^2.26.2",
+    "tsup": "^7.2.0",
     "winston": "^3.10.0",
     "winston-transport": "^4.5.0"
   },
@@ -49,9 +66,11 @@
     "@xylabs/tsconfig": "^2.19.5",
     "typescript": "^5.2.2"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "scripts": {
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
+  },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
-  "types": "dist/types/index.d.ts"
+  "types": "dist/index.d.ts"
 }

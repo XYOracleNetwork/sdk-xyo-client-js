@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { Buffer } from '@xylabs/buffer'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -8,6 +7,7 @@ import { PayloadWrapper } from '@xyo-network/payload'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Logger } from '@xyo-network/shared'
 import { Mutex } from 'async-mutex'
+import { Buffer } from 'buffer/'
 
 export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */

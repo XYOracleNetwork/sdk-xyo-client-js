@@ -1,4 +1,4 @@
-import { BigNumber } from '@xylabs/bignumber'
+import BigNumber from 'bn.js'
 
 export const toBigNumber = (value: string): BigNumber | undefined => {
   try {

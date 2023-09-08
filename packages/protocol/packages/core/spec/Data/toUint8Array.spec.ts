@@ -1,7 +1,7 @@
 import { base58 } from '@scure/base'
 import { Buffer } from 'buffer'
 
-import { toUint8Array } from '../toUint8Array'
+import { toUint8Array } from '../../src/Data/toUint8Array'
 
 describe('toUint8Array', () => {
   test('Uint8Array Round Trip', () => {

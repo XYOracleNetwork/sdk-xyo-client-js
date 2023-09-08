@@ -1,7 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
-import FileType from 'file-type'
 import { sync as hasbin } from 'hasbin'
 
 import { ImageThumbnailWitness } from '../Witness'
@@ -18,7 +17,8 @@ const testVideoFormat = async (witness: ImageThumbnailWitness, url: string) => {
   expect(result[0].url?.length).toBeGreaterThan(0)
   const imageData = result[0].url?.split(',')[1] ?? ''
   const buffer = Buffer.from(Uint8Array.from(atob(imageData), (c) => c.charCodeAt(0)))
-  const fileType = await FileType.fromBuffer(buffer)
+  const { fileTypeFromBuffer } = await import('file-type')
+  const fileType = await fileTypeFromBuffer(buffer)
   expect(fileType?.mime).toBe('image/png')
 }
 

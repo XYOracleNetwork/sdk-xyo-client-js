@@ -1,6 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { BigNumber } from '@xylabs/bignumber'
-import { Buffer } from '@xylabs/buffer'
 import {
   boundingBoxToCenter,
   GeoJson,
@@ -12,6 +10,8 @@ import {
   tileToBoundingBox,
   tileToQuadkey,
 } from '@xyo-network/sdk-geo'
+import BigNumber from 'bn.js'
+import { Buffer } from 'buffer/'
 import { LngLat, LngLatLike } from 'mapbox-gl'
 
 import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup'

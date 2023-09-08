@@ -8,7 +8,6 @@ import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbna
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
-import FileType from 'file-type'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
@@ -259,7 +258,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const sourceBuffer = Buffer.from(response.data, 'binary')
 
       try {
-        result.mime.detected = await FileType.fromBuffer(sourceBuffer)
+        const { fileTypeFromBuffer } = await import('file-type')
+        result.mime.detected = await fileTypeFromBuffer(sourceBuffer)
       } catch (ex) {
         const error = ex as Error
         this.logger?.error(`FileType error: ${error.message}`)

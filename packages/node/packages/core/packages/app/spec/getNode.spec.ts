@@ -1,4 +1,4 @@
-import { getNode } from '../getNode'
+import { getNode } from '../src/getNode'
 
 describe.skip('getNode', () => {
   it('returns a node', async () => {

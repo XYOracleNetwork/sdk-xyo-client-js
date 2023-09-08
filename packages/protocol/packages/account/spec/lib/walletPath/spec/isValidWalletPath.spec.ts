@@ -1,4 +1,4 @@
-import { isValidAbsoluteWalletPath, isValidRelativeWalletPath } from '../isValidWalletPath'
+import { isValidAbsoluteWalletPath, isValidRelativeWalletPath } from '../../../../src/lib/walletPath/isValidWalletPath'
 
 describe('isValidRelativeWalletPath', () => {
   const validPaths = ['m', 'm/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]

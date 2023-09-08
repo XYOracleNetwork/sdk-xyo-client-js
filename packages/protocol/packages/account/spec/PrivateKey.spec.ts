@@ -1,6 +1,6 @@
 import { toUint8Array } from '@xyo-network/core'
 
-import { PrivateKey, WASMPrivateKey } from '../Key'
+import { PrivateKey, WASMPrivateKey } from '../src/Key'
 
 const signTestIterations = 100
 const verifyTestIterations = 10

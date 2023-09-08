@@ -1,7 +1,7 @@
 import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
 import { BigNumber } from '@xylabs/bignumber'
-import { Buffer, bufferPolyfill } from '@xylabs/buffer'
+import { Buffer } from '@xylabs/buffer'
 import keccak256 from 'keccak256'
 
 import { AbstractData } from './AbstractData'
@@ -45,7 +45,6 @@ export class Data extends AbstractData {
   }
 
   get keccak256() {
-    bufferPolyfill()
     this.checkLength()
     return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))
   }

@@ -1,4 +1,4 @@
-import { AddressValue } from '../Key'
+import { AddressValue } from '../src/Key'
 
 describe('AddressValue', () => {
   const valid: [string, string, string][] = [

@@ -1,4 +1,4 @@
-import { BigNumber } from '@xylabs/bignumber'
+import BigNumber from 'bn.js'
 
 import { AbstractData } from './AbstractData'
 

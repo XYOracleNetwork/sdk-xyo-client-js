@@ -49,8 +49,7 @@
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
-    "quick-lru": "^5",
-    "typescript": "5.1"
+    "quick-lru": "^5"
   },
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
@@ -90,6 +89,8 @@
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",
+    "start-node-cjs": "node ./packages/node/packages/core/packages/app/dist/app.js",
+    "start-node-esm": "node ./packages/node/packages/core/packages/app/dist/app.mjs",
     "perf": "yarn jest -c jest.config.perf.cjs",
     "test": "jest --no-cache --forceExit",
     "test:no-mongo": "jest --no-cache --forceExit -c ./jest.config.no-mongo.cjs",

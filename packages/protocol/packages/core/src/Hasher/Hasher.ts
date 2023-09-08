@@ -1,5 +1,5 @@
 import { sha256 } from 'hash-wasm'
-import cloneDeep from 'lodash/cloneDeep'
+import { cloneDeep } from 'lodash-es'
 import shajs from 'sha.js'
 
 import { AnyObject, ObjectWrapper } from '../lib'

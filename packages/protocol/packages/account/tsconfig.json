@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declarationDir": "./dist/types",
     "experimentalDecorators": true,
-    "typeRoots": []
+    "incremental": false,
+    "typeRoots": [],
   },
   "exclude": ["dist", "docs"],
   "extends": "@xylabs/tsconfig"

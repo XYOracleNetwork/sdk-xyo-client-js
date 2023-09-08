@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "declarationDir": "./dist/types",
+    "incremental": false
+  },
+  "exclude": ["dist", "docs", "src/**/*.spec.*"],
+  "extends": "@xylabs/tsconfig"
+}

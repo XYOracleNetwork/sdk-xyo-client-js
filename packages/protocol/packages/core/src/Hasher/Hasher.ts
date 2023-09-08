@@ -1,5 +1,5 @@
+import { cloneDeep } from '@xylabs/lodash'
 import { sha256 } from 'hash-wasm'
-import cloneDeep from 'lodash/cloneDeep'
 import shajs from 'sha.js'
 
 import { AnyObject, ObjectWrapper } from '../lib'

@@ -1,4 +1,4 @@
-import { Buffer } from 'buffer/'
+import { Buffer } from '@xylabs/buffer'
 
 export const padHex = (hex: string, byteCount?: number) => {
   let result = hex

@@ -27,4 +27,4 @@ const generateJestConfig = ({ esModules }) => {
 }
 
 // eslint-disable-next-line no-undef
-module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex', 'lodash-es', 'uuid'] })
+module.exports = generateJestConfig({ esModules: ['is-ip', 'ip-regex', 'lodash-es', 'uuid', 'lodash-es'] })

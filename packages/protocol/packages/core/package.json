@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.3",
-    "@xylabs/assert": "^2.10.0",
-    "@xylabs/bignumber": "^2.10.0",
-    "@xylabs/buffer": "^2.10.0",
+    "@xylabs/assert": "^2.10.7",
+    "@xylabs/bignumber": "^2.10.7",
+    "@xylabs/buffer": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/logger": "workspace:~",
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
     "hash-wasm": "^4.9.0",
     "keccak256": "^1.0.6",
-    "lodash": "^4.17.21",
     "sha.js": "^2.4.11",
     "uuid": "^9.0.0",
     "wasm-feature-detect": "^1.5.1"
@@ -31,30 +31,39 @@
     "@types/uuid": "^9.0.3",
     "@xylabs/ts-scripts-yarn3": "^2.19.5",
     "@xylabs/tsconfig": "^2.19.5",
+    "lodash": "^4.17.21",
+    "publint": "^0.2.2",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
-  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "browser": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     },
     "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
-    "./package.json": "./package.json",
-    "./LICENSE": "./LICENSE"
+    "./cjs": {
+      "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./esm": {
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-or-later",
   "publishConfig": {
@@ -64,7 +73,11 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
+  "scripts": {
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
+  },
   "sideEffects": false,
-  "types": "dist/types/index.d.ts",
+  "types": "dist/index.d.ts",
   "version": "2.72.9"
 }

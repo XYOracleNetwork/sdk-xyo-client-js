@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.10.0",
-    "@xylabs/bignumber": "^2.10.0",
-    "@xylabs/buffer": "^2.10.0",
+    "@xylabs/assert": "^2.10.7",
+    "@xylabs/bignumber": "^2.10.7",
+    "@xylabs/buffer": "^2.10.7",
     "@xyo-network/sdk-geo": "^2.9.2",
     "mapbox-gl": "^2.15.0"
   },
@@ -20,40 +20,53 @@
     "@types/mapbox-gl": "^2.7.13",
     "@xylabs/ts-scripts-yarn3": "^2.19.5",
     "@xylabs/tsconfig": "^2.19.5",
+    "publint": "^0.2.2",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "browser": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     },
     "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
+    "./cjs": {
+      "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./esm": {
+      "default": "./dist/index.mjs"
+    },
     "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "types": "dist/types/index.d.ts",
+  "types": "dist/index.d.ts",
   "version": "2.72.9"
 }

@@ -18,7 +18,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.22.17",
     "@babel/preset-env": "^7.22.15",
     "@types/jest": "^29.5.4",
     "@types/supertest": "^2.0.12",
@@ -30,7 +30,7 @@
     "@xylabs/tsconfig-dom-jest": "^2.19.5",
     "babel-jest": "^29.6.4",
     "dotenv": "^16.3.1",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-plugin-deprecation": "^1.5.0",
     "eslint-plugin-import": "^2.28.1",

@@ -90,6 +90,8 @@
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",
+    "start-cjs": "node ./packages/node/packages/core/packages/app/dist/app.js",
+    "start-esm": "node ./packages/node/packages/core/packages/app/dist/app.mjs",
     "perf": "yarn jest -c jest.config.perf.cjs",
     "test": "jest --no-cache --forceExit",
     "test:no-mongo": "jest --no-cache --forceExit -c ./jest.config.no-mongo.cjs",
@@ -106,7 +108,7 @@
   "version": "2.72.9",
   "packageManager": "yarn@3.6.2",
   "volta": {
-    "node": "18.13.0",
+    "node": "18.17.1",
     "yarn": "1.22.19"
   }
 }

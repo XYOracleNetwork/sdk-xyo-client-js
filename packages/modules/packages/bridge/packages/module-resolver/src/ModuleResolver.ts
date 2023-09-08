@@ -1,3 +1,4 @@
+import { compact } from '@xylabs/lodash'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { isArchivistModule } from '@xyo-network/archivist-model'
@@ -22,7 +23,6 @@ import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { isSentinelModule, SentinelWrapper } from '@xyo-network/sentinel'
 import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
-import compact from 'lodash/compact'
 
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 

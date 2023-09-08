@@ -1,6 +1,7 @@
 /* eslint-disable max-statements */
 import { promises as dnsPromises } from 'node:dns'
 
+import { compact } from '@xylabs/lodash'
 import { URL } from '@xylabs/url'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
@@ -12,7 +13,6 @@ import FileType from 'file-type'
 import { subClass } from 'gm'
 import { sync as hasbin } from 'hasbin'
 import { sha256 } from 'hash-wasm'
-import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
 import Url from 'url-parse'

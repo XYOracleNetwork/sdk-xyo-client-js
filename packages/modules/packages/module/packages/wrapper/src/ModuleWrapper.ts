@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -33,7 +34,6 @@ import {
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
-import compact from 'lodash/compact'
 
 import { ModuleWrapperParams } from './models'
 

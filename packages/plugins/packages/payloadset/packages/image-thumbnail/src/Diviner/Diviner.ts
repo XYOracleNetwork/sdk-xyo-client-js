@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
+import { compact } from '@xylabs/lodash'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
@@ -7,7 +8,6 @@ import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-ne
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
-import compact from 'lodash/compact'
 
 import { ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'

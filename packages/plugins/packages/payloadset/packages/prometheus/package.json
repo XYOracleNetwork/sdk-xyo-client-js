@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/witness": "workspace:~",
-    "lodash": "^4.17.21",
     "prom-client": "^14.2.0"
   },
   "devDependencies": {

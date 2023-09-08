@@ -1,9 +1,9 @@
+import { merge } from '@xylabs/lodash'
 import { AnyConfigSchema, Module } from '@xyo-network/module'
 import { AbstractModuleInstanceSchema } from '@xyo-network/module-instance-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
-import merge from 'lodash/merge'
 
 export type AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'
 export const AbstractModuleInstanceWitnessConfigSchema: AbstractModuleInstanceWitnessConfigSchema = 'network.xyo.module.instance.config'

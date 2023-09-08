@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import compact from 'lodash/compact'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
 import { HuriPayload, HuriSchema } from '../HuriPayload'

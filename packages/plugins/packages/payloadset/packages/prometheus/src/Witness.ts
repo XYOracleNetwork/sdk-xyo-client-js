@@ -1,8 +1,8 @@
+import { compact } from '@xylabs/lodash'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
 import { createServer, Server } from 'http'
-import compact from 'lodash/compact'
 import { collectDefaultMetrics, Registry } from 'prom-client'
 
 import { PrometheusMetricValuePayload } from './Payload'

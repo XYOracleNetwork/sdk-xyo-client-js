@@ -1,9 +1,9 @@
+import { merge } from '@xylabs/lodash'
 import { BowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
 import Bowser from 'bowser'
-import merge from 'lodash/merge'
 
 import { BowserSystemInfoWitnessConfig, BowserSystemInfoWitnessConfigSchema } from './Config'
 

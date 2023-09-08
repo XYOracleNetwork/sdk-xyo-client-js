@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner'
@@ -12,7 +13,6 @@ import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-p
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import compact from 'lodash/compact'
 
 export type CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'
 export const CoinCurrentUserWitnessSchema: CoinCurrentUserWitnessSchema = 'co.coinapp.current.user.witness'

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
@@ -19,7 +20,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import Cookies from 'js-cookie'
-import compact from 'lodash/compact'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
 export const CookieArchivistConfigSchema: CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'

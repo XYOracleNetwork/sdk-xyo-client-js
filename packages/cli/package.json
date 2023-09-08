@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.10.7",
     "@xylabs/delay": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -26,7 +27,6 @@
     "@xyo-network/query-payload-plugin": "workspace:~",
     "bip39": "^3.1.0",
     "dotenv": "^16.3.1",
-    "lodash": "^4.17.21",
     "tail": "^2.2.6",
     "terminal-kit": "^3.0.0",
     "yargs": "^17.7.2"

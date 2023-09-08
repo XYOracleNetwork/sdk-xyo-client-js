@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.10.7",
     "@xylabs/delay": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -30,7 +31,6 @@
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/sentinel": "workspace:~",
-    "lodash": "^4.17.21",
     "lru-cache": "^10.0.1"
   },
   "devDependencies": {

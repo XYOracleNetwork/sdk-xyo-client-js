@@ -6180,6 +6180,7 @@ __metadata:
     "@types/lodash": ^4.14.198
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/promise": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
@@ -6196,7 +6197,6 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     js-cookie: ^3.0.5
-    lodash: ^4.17.21
     store2: ^2.14.2
     typescript: ^5.2.2
   languageName: unknown
@@ -6552,6 +6552,7 @@ __metadata:
     "@types/terminal-kit": ^2.5.1
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xylabs/tsconfig-jest": ^2.19.5
@@ -6569,7 +6570,6 @@ __metadata:
     "@xyo-network/query-payload-plugin": "workspace:~"
     bip39: ^3.1.0
     dotenv: ^16.3.1
-    lodash: ^4.17.21
     publint: ^0.2.2
     tail: ^2.2.6
     terminal-kit: ^3.0.0
@@ -6642,7 +6642,6 @@ __metadata:
     "@xyo-network/typeof": "workspace:~"
     hash-wasm: ^4.9.0
     keccak256: ^1.0.6
-    lodash: ^4.17.21
     publint: ^0.2.2
     sha.js: ^2.4.11
     tsup: ^7.2.0
@@ -8331,6 +8330,7 @@ __metadata:
   dependencies:
     "@types/url-parse": ^1.4.9
     "@xylabs/assert": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-bridge": "workspace:~"
@@ -8344,7 +8344,6 @@ __metadata:
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
-    lodash: ^4.17.21
     lru-cache: ^10.0.1
     typescript: ^5.2.2
     url-parse: ^1.5.10
@@ -8416,6 +8415,7 @@ __metadata:
     "@types/lodash": ^4.14.198
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xylabs/url": ^2.10.7
@@ -8437,7 +8437,6 @@ __metadata:
     gm: ^1.25.0
     hasbin: ^1.2.3
     hash-wasm: ^4.9.0
-    lodash: ^4.17.21
     lru-cache: ^10.0.1
     sha.js: ^2.4.11
     typescript: ^5.2.2
@@ -8590,6 +8589,7 @@ __metadata:
   resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/promise": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
@@ -8601,7 +8601,6 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
-    lodash: ^4.17.21
     lru-cache: ^10.0.1
     typescript: ^5.2.2
   languageName: unknown
@@ -8908,6 +8907,7 @@ __metadata:
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
     "@xylabs/exists": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/promise": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
@@ -8952,7 +8952,6 @@ __metadata:
     inversify: ^6.0.1
     jest: ^29.6.4
     jest-mock-extended: ^3.0.5
-    lodash: ^4.17.21
     mongodb: ^5.8.1
     reflect-metadata: ^0.1.13
     typescript: ^5.2.2
@@ -9308,13 +9307,13 @@ __metadata:
   resolution: "@xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus"
   dependencies:
     "@types/lodash": ^4.14.198
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
-    lodash: ^4.17.21
     prom-client: ^14.2.0
     typescript: ^5.2.2
   languageName: unknown
@@ -9859,6 +9858,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
+    "@xylabs/lodash": ^2.10.7
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-bridge": "workspace:~"
@@ -9879,7 +9879,6 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
-    lodash: ^4.17.21
     lru-cache: ^10.0.1
     typescript: ^5.2.2
   languageName: unknown

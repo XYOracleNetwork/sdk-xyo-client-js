@@ -1,9 +1,9 @@
+import { compact } from '@xylabs/lodash'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { AnyObject } from '@xyo-network/core'
 import { AbstractModuleInstance, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
-import compact from 'lodash/compact'
 
 export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfig<
   {

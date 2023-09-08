@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { AnyConfigSchema, CompositeModuleResolver, EventListener, Module, ModuleInstance, ModuleResolver } from '@xyo-network/module'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeModuleParams } from '@xyo-network/node-model'
-import compact from 'lodash/compact'
 
 export type MemoryNodeParams = NodeModuleParams<AnyConfigSchema<NodeConfig>>
 

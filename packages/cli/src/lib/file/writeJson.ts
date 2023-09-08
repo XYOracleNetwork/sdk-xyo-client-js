@@ -1,5 +1,5 @@
+import { merge } from '@xylabs/lodash'
 import { stat, writeFile } from 'fs/promises'
-import merge from 'lodash/merge'
 
 import { readJson } from './readJson'
 

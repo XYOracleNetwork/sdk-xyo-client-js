@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { uniq } from '@xylabs/lodash'
 import { AbstractArchivingModule, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
@@ -13,7 +14,6 @@ import {
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
 import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
-import uniq from 'lodash/uniq'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams = SentinelParams,

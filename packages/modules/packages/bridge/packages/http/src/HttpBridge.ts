@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { AxiosError, AxiosJson } from '@xyo-network/axios'
@@ -18,7 +19,6 @@ import {
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
-import compact from 'lodash/compact'
 import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
 

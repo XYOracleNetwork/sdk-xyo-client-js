@@ -1,3 +1,4 @@
+import { compact, flatten } from '@xylabs/lodash'
 import {
   AddressModuleFilter,
   ModuleFilter,
@@ -9,8 +10,6 @@ import {
   QueryModuleFilter,
 } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
-import compact from 'lodash/compact'
-import flatten from 'lodash/flatten'
 
 //This class is now package private (not exported from index.ts)
 export class SimpleModuleResolver implements ModuleRepository {

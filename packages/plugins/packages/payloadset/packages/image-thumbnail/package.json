@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.10.7",
     "@xylabs/delay": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xylabs/url": "^2.10.7",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -31,7 +32,6 @@
     "gm": "^1.25.0",
     "hasbin": "^1.2.3",
     "hash-wasm": "^4.9.0",
-    "lodash": "^4.17.21",
     "lru-cache": "^10.0.1",
     "sha.js": "^2.4.11",
     "url-parse": "^1.5.10"

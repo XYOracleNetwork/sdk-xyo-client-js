@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { compact } from '@xylabs/lodash'
 import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -50,7 +51,6 @@ import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { IdLogger } from '@xyo-network/shared'
 import { WalletInstance } from '@xyo-network/wallet-model'
-import compact from 'lodash/compact'
 
 import { BaseEmitter } from './BaseEmitter'
 import { ModuleErrorBuilder } from './Error'

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { compact } from '@xylabs/lodash'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -23,7 +24,6 @@ import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleQueryHand
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
-import compact from 'lodash/compact'
 
 export interface ActionConfig {
   emitEvents?: boolean

@@ -3,6 +3,6 @@
     "incremental": false,
     "typeRoots": []
   },
-  "exclude": ["dist", "docs"],
+  "exclude": ["dist", "docs", "**/*.spec.*"],
   "extends": "@xylabs/tsconfig"
 }

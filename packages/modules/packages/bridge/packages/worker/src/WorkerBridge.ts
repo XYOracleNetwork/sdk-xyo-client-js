@@ -75,7 +75,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   static async createWorkerNode(manifest: ManifestPayload = defaultNodeManifest as ManifestPayload) {
-    const worker = new Worker(new URL('./worker/Worker.ts', import.meta.url))
+    const worker = new Worker(new URL('./worker/Worker.ts', import.meta?.url ?? __filename))
     worker.postMessage({ manifest, type: 'createNode' })
 
     await new Promise((resolve, reject) => {

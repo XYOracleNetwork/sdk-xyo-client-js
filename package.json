@@ -92,6 +92,8 @@
     "start": "nodemon",
     "start-cjs": "node ./packages/node/packages/core/packages/app/dist/app.js",
     "start-esm": "node ./packages/node/packages/core/packages/app/dist/app.mjs",
+    "start-cli-cjs": "node ./packages/cli/dist/xyo.js",
+    "start-cli-esm": "node ./packages/cli/dist/xyo.mjs",
     "perf": "yarn jest -c jest.config.perf.cjs",
     "test": "jest --no-cache --forceExit",
     "test:no-mongo": "jest --no-cache --forceExit -c ./jest.config.no-mongo.cjs",

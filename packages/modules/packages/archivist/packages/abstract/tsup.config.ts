@@ -2,11 +2,11 @@ import { defineConfig } from 'tsup'
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
-  bundle: false,
+  bundle: true,
   cjsInterop: true,
-  clean: true,
+  clean: false,
   dts: true,
-  entry: ['src'],
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   sourcemap: true,
   splitting: false,

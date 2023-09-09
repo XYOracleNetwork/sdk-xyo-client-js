@@ -25,7 +25,6 @@
           "@xyo-network/sdk",
           "@xyo-network/plugins",
           "@xyo-network/protocol",
-          "lodash",
           "react-player",
           "filepond",
           "aos",

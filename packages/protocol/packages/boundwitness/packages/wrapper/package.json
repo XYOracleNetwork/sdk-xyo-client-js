@@ -12,17 +12,16 @@
   "dependencies": {
     "@xylabs/assert": "^2.10.7",
     "@xylabs/exists": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
-    "lodash": "^4.17.21"
+    "@xyo-network/promise": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.198",
     "@xylabs/ts-scripts-yarn3": "^2.19.5",
     "@xylabs/tsconfig": "^2.19.5",
     "publint": "^0.2.2",
@@ -72,5 +71,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.73.0"
+  "version": "2.73.1"
 }

@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
-    "@types/lodash": "^4.14.198",
     "@xylabs/delay": "^2.10.7",
     "@xylabs/ts-scripts-yarn3": "^2.19.5",
     "@xylabs/tsconfig": "^2.19.5",
@@ -82,5 +81,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.73.0"
+  "version": "2.73.1"
 }

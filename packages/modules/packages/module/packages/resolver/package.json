@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@xylabs/exists": "^2.10.7",
+    "@xylabs/lodash": "^2.10.7",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
-    "lodash": "^4.17.21"
+    "@xyo-network/promise": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.5",
@@ -69,5 +69,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.73.0"
+  "version": "2.73.1"
 }

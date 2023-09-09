@@ -86,5 +86,5 @@
     "package-recompile": "tsup && publint"
   },
   "sideEffects": false,
-  "version": "2.73.0"
+  "version": "2.73.1"
 }

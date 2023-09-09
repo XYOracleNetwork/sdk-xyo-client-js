@@ -5874,9 +5874,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/sdk-api-express-ecs@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@xylabs/sdk-api-express-ecs@npm:1.3.0"
+"@xylabs/sdk-api-express-ecs@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@xylabs/sdk-api-express-ecs@npm:1.4.0"
   peerDependencies:
     "@aws-sdk/client-secrets-manager": ^3.256.0
     "@xylabs/assert": ^2.6.16
@@ -5888,7 +5888,7 @@ __metadata:
     rollbar: ^2.26.1
     winston: ^3.8.2
     winston-transport: ^4.5.0
-  checksum: 60d16fdf63c5a6c90b323cf5e09e25b025e3fe042e4c72a432cfadb8d02401aedc9d24f8ec7f88055248973806e5b5b46facb64a6946aef16431e9cdeffd6fd6
+  checksum: 6a037f21489b33d894f068e11b9ec6007d75900c4cd69a74fbb3bf7d4b1a71262c5e61cce4fc213ea5a681a01f4fe9b20b9969b64ea0416ef96b3270fe0523a2
   languageName: node
   linkType: hard
 
@@ -6367,7 +6367,7 @@ __metadata:
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/assert": ^2.10.11
     "@xylabs/jest-helpers": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xylabs/tsconfig-jest": ^2.19.6
@@ -8333,7 +8333,7 @@ __metadata:
     "@aws-sdk/client-secrets-manager": ^3.409.0
     "@xylabs/assert": ^2.10.11
     "@xylabs/exists": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/account": "workspace:~"
@@ -8391,7 +8391,7 @@ __metadata:
     "@aws-sdk/client-secrets-manager": ^3.409.0
     "@types/express": 4.17.17
     "@xylabs/assert": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/module-model": "workspace:~"
@@ -8418,7 +8418,7 @@ __metadata:
     "@types/express-mung": ^0.5.2
     "@types/swagger-ui-express": ^4.1.3
     "@xylabs/assert": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/node-model": "workspace:~"
@@ -8445,7 +8445,7 @@ __metadata:
     "@types/express": 4.17.17
     "@xylabs/assert": ^2.10.11
     "@xylabs/exists": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/archivist": "workspace:~"
@@ -8493,7 +8493,7 @@ __metadata:
     "@types/express": 4.17.17
     "@types/nconf": ^0.10.3
     "@xylabs/assert": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/express-node-dependencies": "workspace:~"
@@ -9258,7 +9258,7 @@ __metadata:
   dependencies:
     "@aws-sdk/client-secrets-manager": ^3.409.0
     "@xylabs/assert": ^2.10.11
-    "@xylabs/sdk-api-express-ecs": ^1.3.0
+    "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/account": "workspace:~"

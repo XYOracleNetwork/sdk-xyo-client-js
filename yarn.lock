@@ -6049,6 +6049,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/axios": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6068,6 +6070,8 @@ __metadata:
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6279,6 +6283,8 @@ __metadata:
     "@xyo-network/shared": "workspace:~"
     axios: ^1.5.0
     pako: ^2.1.0
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7739,6 +7745,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/axios": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7786,6 +7794,8 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7831,6 +7841,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xylabs/tsconfig-jest": ^2.19.5
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8567,6 +8579,8 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ~2.19.5
     "@xylabs/tsconfig": ~2.19.5
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8632,6 +8646,8 @@ __metadata:
     "@metamask/providers": ^11.1.2
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig-dom": ^2.19.5
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8822,6 +8838,8 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9086,6 +9104,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/logger": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9128,6 +9148,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9217,6 +9239,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9440,6 +9464,8 @@ __metadata:
     "@xyo-network/schema-payload-plugin": "workspace:~"
     ajv: ^8.12.0
     lru-cache: ^10.0.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9451,6 +9477,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/dns": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9564,6 +9592,8 @@ __metadata:
     "@xyo-network/schema-cache": "workspace:~"
     "@xyo-network/schema-name-validator": "workspace:~"
     "@xyo-network/witnesses": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9892,6 +9922,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

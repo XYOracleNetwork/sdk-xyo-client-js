@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "incremental": false,
+    "incremental": false
   },
   "exclude": ["dist", "docs"],
   "extends": "@xylabs/tsconfig"

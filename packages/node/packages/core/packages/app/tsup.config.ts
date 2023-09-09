@@ -6,9 +6,9 @@ export default defineConfig({
   cjsInterop: true,
   clean: false,
   dts: {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/app.ts'],
   },
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/app.ts'],
   format: ['cjs', 'esm'],
   sourcemap: true,
   splitting: false,

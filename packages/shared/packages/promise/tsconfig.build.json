@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "incremental": false
+  },
+  "exclude": ["dist", "docs", "src/**/*.spec.*"],
+  "extends": "@xylabs/tsconfig"
+}

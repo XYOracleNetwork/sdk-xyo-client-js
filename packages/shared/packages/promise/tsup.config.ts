@@ -12,5 +12,5 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   sourcemap: true,
   splitting: false,
-  tsconfig: 'tsconfig.json',
+  tsconfig: 'tsconfig.build.json',
 })

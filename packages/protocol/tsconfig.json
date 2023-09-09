@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declarationDir": "./dist/types",
     "experimentalDecorators": true,
+    "incremental": false,
     "typeRoots": []
   },
   "exclude": ["dist", "docs"],

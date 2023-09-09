@@ -8,7 +8,7 @@ export default defineConfig({
   dts: {
     entry: ['src/index.ts'],
   },
-  entry: ['src'],
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   sourcemap: true,
   splitting: false,

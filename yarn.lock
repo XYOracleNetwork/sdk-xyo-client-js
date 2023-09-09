@@ -8954,6 +8954,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8974,6 +8976,8 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10061,6 +10065,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.6
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/error": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

@@ -26,7 +26,6 @@
     "package-recompile": "tsup && publint"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "types": "dist/index.d.ts",
   "exports": {

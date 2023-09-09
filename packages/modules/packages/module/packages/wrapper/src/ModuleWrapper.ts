@@ -35,7 +35,7 @@ import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/pay
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { Logger } from '@xyo-network/shared'
 
-import { ModuleWrapperParams } from './models'
+import type { ModuleWrapperParams } from './models'
 
 export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   defaultLogger?: Logger

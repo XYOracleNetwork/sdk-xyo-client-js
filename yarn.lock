@@ -4527,6 +4527,128 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@swc/core-darwin-arm64@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-darwin-arm64@npm:1.3.83"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@swc/core-darwin-x64@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-darwin-x64@npm:1.3.83"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm-gnueabihf@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.83"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm64-gnu@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.83"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm64-musl@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-linux-arm64-musl@npm:1.3.83"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-gnu@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-linux-x64-gnu@npm:1.3.83"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-musl@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-linux-x64-musl@npm:1.3.83"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-arm64-msvc@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.83"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-ia32-msvc@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.83"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-x64-msvc@npm:1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core-win32-x64-msvc@npm:1.3.83"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@swc/core@npm:^1.3.83":
+  version: 1.3.83
+  resolution: "@swc/core@npm:1.3.83"
+  dependencies:
+    "@swc/core-darwin-arm64": 1.3.83
+    "@swc/core-darwin-x64": 1.3.83
+    "@swc/core-linux-arm-gnueabihf": 1.3.83
+    "@swc/core-linux-arm64-gnu": 1.3.83
+    "@swc/core-linux-arm64-musl": 1.3.83
+    "@swc/core-linux-x64-gnu": 1.3.83
+    "@swc/core-linux-x64-musl": 1.3.83
+    "@swc/core-win32-arm64-msvc": 1.3.83
+    "@swc/core-win32-ia32-msvc": 1.3.83
+    "@swc/core-win32-x64-msvc": 1.3.83
+    "@swc/types": ^0.1.4
+  peerDependencies:
+    "@swc/helpers": ^0.5.0
+  dependenciesMeta:
+    "@swc/core-darwin-arm64":
+      optional: true
+    "@swc/core-darwin-x64":
+      optional: true
+    "@swc/core-linux-arm-gnueabihf":
+      optional: true
+    "@swc/core-linux-arm64-gnu":
+      optional: true
+    "@swc/core-linux-arm64-musl":
+      optional: true
+    "@swc/core-linux-x64-gnu":
+      optional: true
+    "@swc/core-linux-x64-musl":
+      optional: true
+    "@swc/core-win32-arm64-msvc":
+      optional: true
+    "@swc/core-win32-ia32-msvc":
+      optional: true
+    "@swc/core-win32-x64-msvc":
+      optional: true
+  peerDependenciesMeta:
+    "@swc/helpers":
+      optional: true
+  checksum: 39849d78f16e0aab168d3563245a0995164c07b195626f124651af00c922d166fc714467f85eed1e111377d68078fc726dbb13002516f64fecb729437538911b
+  languageName: node
+  linkType: hard
+
+"@swc/types@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@swc/types@npm:0.1.4"
+  checksum: 9b09de7dca8e4b19bfb43f9e332c771855158cb761d26000807fe858447ecbc5342a6c257b26d9aa5497f7138fc58913693e2bee222e5042e0e8f57c2979ae66
+  languageName: node
+  linkType: hard
+
 "@szmarczak/http-timer@npm:^5.0.1":
   version: 5.0.1
   resolution: "@szmarczak/http-timer@npm:5.0.1"
@@ -5930,6 +6052,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/archivist-abstract": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -5947,6 +6071,8 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -5965,6 +6091,8 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -5983,6 +6111,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6116,6 +6246,8 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     fake-indexeddb: ^4.0.2
     idb-keyval: ^6.2.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6132,6 +6264,8 @@ __metadata:
     "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6157,6 +6291,8 @@ __metadata:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   dependenciesMeta:
     "@xyo-network/sdk-xyo-mongo-js":
@@ -6174,6 +6310,8 @@ __metadata:
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6203,7 +6341,9 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     js-cookie: ^3.0.5
+    publint: ^0.2.2
     store2: ^2.14.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6497,6 +6637,8 @@ __metadata:
     "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6528,6 +6670,8 @@ __metadata:
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6543,6 +6687,8 @@ __metadata:
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6558,6 +6704,8 @@ __metadata:
     "@xyo-network/bridge-module-resolver": "workspace:~"
     "@xyo-network/bridge-wrapper": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7074,6 +7222,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7093,6 +7243,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7106,6 +7258,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7119,6 +7273,8 @@ __metadata:
     "@xyo-network/diviner-address-chain-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-memory": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7132,6 +7288,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7150,6 +7308,8 @@ __metadata:
     "@xyo-network/diviner-address-history-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7162,6 +7322,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7181,6 +7343,8 @@ __metadata:
     "@xyo-network/diviner-address-space-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7193,6 +7357,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7206,6 +7372,8 @@ __metadata:
     "@xyo-network/diviner-address-space-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-memory": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7218,6 +7386,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7235,6 +7405,8 @@ __metadata:
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7250,6 +7422,8 @@ __metadata:
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7262,6 +7436,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7278,6 +7454,8 @@ __metadata:
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7291,6 +7469,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7304,6 +7484,8 @@ __metadata:
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7317,6 +7499,8 @@ __metadata:
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7329,6 +7513,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7342,6 +7528,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7354,6 +7542,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7365,6 +7555,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^2.19.5
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/diviner-coin-user-locations": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7382,6 +7574,8 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7404,6 +7598,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     jsonpath: ^1.1.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7431,6 +7627,8 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7444,6 +7642,8 @@ __metadata:
     "@xyo-network/diviner-forecasting-abstract": "workspace:~"
     "@xyo-network/diviner-forecasting-memory": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7460,6 +7660,8 @@ __metadata:
     "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7481,6 +7683,8 @@ __metadata:
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7493,6 +7697,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7508,6 +7714,8 @@ __metadata:
     "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7522,6 +7730,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7534,6 +7744,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7550,6 +7762,8 @@ __metadata:
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7563,6 +7777,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7576,6 +7792,8 @@ __metadata:
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-memory": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7589,6 +7807,8 @@ __metadata:
     "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7601,6 +7821,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7618,6 +7840,8 @@ __metadata:
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7631,6 +7855,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7644,6 +7870,8 @@ __metadata:
     "@xyo-network/diviner-schema-list-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-memory": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7656,6 +7884,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.5
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7672,6 +7902,8 @@ __metadata:
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7685,6 +7917,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7698,6 +7932,8 @@ __metadata:
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-memory": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7711,6 +7947,8 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7734,6 +7972,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8265,6 +8505,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8371,6 +8613,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     lru-cache: ^10.0.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
     url-parse: ^1.5.10
   languageName: unknown
@@ -8634,6 +8878,8 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     lru-cache: ^10.0.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8682,6 +8928,8 @@ __metadata:
     jest: ^29.6.4
     jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8698,6 +8946,8 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/error": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8752,6 +9002,8 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8769,6 +9021,8 @@ __metadata:
     jest: ^29.6.4
     jest-mock-extended: ^3.0.5
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8792,6 +9046,8 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8807,6 +9063,8 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8824,6 +9082,8 @@ __metadata:
     "@xyo-network/node": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8861,6 +9121,8 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9016,6 +9278,8 @@ __metadata:
     "@xyo-network/node-abstract": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9033,6 +9297,8 @@ __metadata:
     "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9078,6 +9344,8 @@ __metadata:
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9092,6 +9360,8 @@ __metadata:
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/node-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9613,6 +9883,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9637,6 +9909,8 @@ __metadata:
     "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     lodash: ^4.17.21
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9862,6 +10136,8 @@ __metadata:
     "@xyo-network/object-identity": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9878,6 +10154,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9891,6 +10169,8 @@ __metadata:
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9905,6 +10185,8 @@ __metadata:
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9932,6 +10214,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/worker-bridge@workspace:packages/modules/packages/bridge/packages/worker"
   dependencies:
+    "@swc/core": ^1.3.83
     "@xylabs/assert": ^2.10.7
     "@xylabs/delay": ^2.10.7
     "@xylabs/lodash": ^2.10.7
@@ -9956,6 +10239,8 @@ __metadata:
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     lru-cache: ^10.0.1
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

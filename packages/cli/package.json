@@ -91,5 +91,5 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/index.d.ts",
-  "version": "2.73.2"
+  "version": "2.73.3"
 }

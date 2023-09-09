@@ -12,7 +12,7 @@
   "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
   "dependencies": {
-    "@xylabs/assert": "^2.10.7",
+    "@xylabs/assert": "^2.10.11",
     "@xyo-network/http-bridge": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",

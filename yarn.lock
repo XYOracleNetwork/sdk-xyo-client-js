@@ -6466,6 +6466,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6497,6 +6499,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6624,6 +6628,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     bowser: ^2.11.0
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6779,6 +6785,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6856,6 +6864,8 @@ __metadata:
     "@xyo-network/witness": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6899,6 +6909,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/uniswap-crypto-market-payload-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   peerDependencies:
     "@ethersproject/address": ^5.7.0
@@ -6938,6 +6950,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6968,6 +6982,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6996,6 +7012,8 @@ __metadata:
     "@xyo-network/crypto-cards-game-plugin": "workspace:~"
     "@xyo-network/crypto-cards-move-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7034,6 +7052,8 @@ __metadata:
     "@xyo-network/crypto-asset-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/uniswap-crypto-market-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7056,6 +7076,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7095,6 +7117,8 @@ __metadata:
     "@xyo-network/witness": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7120,7 +7144,9 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
     svg-parser: ^2.0.4
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7165,6 +7191,8 @@ __metadata:
     "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~"
     "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7178,6 +7206,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/crypto-nft-plugin": "workspace:~"
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7211,6 +7241,8 @@ __metadata:
     "@xyo-network/witness": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7239,6 +7271,8 @@ __metadata:
     "@xyo-network/crypto-cards-plugins": "workspace:~"
     "@xyo-network/crypto-market-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8053,6 +8087,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8101,6 +8137,8 @@ __metadata:
     "@xyo-network/witness": "workspace:~"
     geotiff: ^2.0.7
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8144,6 +8182,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8170,6 +8210,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8196,6 +8238,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/gas-ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8228,6 +8272,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8260,6 +8306,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8578,6 +8626,8 @@ __metadata:
     "@xyo-network/etherchain-gas-ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/etherscan-ethereum-gas-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8625,7 +8675,9 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
+    publint: ^0.2.2
     regression: ^2.0.1
+    tsup: ^7.2.0
     typescript: ^5.2.2
   peerDependencies:
     "@ethersproject/address": ^5.7.0
@@ -8710,6 +8762,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8760,7 +8814,9 @@ __metadata:
     hasbin: ^1.2.3
     hash-wasm: ^4.9.0
     lru-cache: ^10.0.1
+    publint: ^0.2.2
     sha.js: ^2.4.11
+    tsup: ^7.2.0
     typescript: ^5.2.2
     url-parse: ^1.5.10
   languageName: unknown
@@ -8791,6 +8847,8 @@ __metadata:
     "@xyo-network/bowser-system-info-plugin": "workspace:~"
     "@xyo-network/node-system-info-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8838,6 +8896,8 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8869,6 +8929,8 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9035,6 +9097,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9383,7 +9447,9 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
     systeminformation: ^5.21.4
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9591,6 +9657,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/schema-plugin": "workspace:~"
     "@xyo-network/system-plugins": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9623,6 +9691,8 @@ __metadata:
     "@xyo-network/pentair-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     node-screenlogic: ^2.0.0
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9707,6 +9777,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     prom-client: ^14.2.0
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9843,6 +9915,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/schema-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10022,6 +10096,8 @@ __metadata:
     "@xylabs/tsconfig": ^2.19.6
     "@xyo-network/info-system-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10094,6 +10170,8 @@ __metadata:
     "@xyo-network/witness": "workspace:~"
     ethers: ^5.7.2
     jest: ^29.6.4
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   peerDependencies:
     "@uniswap/sdk": ^3.0.3
@@ -10149,6 +10227,8 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10181,6 +10261,8 @@ __metadata:
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/url-safety-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    publint: ^0.2.2
+    tsup: ^7.2.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

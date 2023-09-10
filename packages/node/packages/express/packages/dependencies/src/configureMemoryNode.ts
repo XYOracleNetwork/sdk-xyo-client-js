@@ -34,15 +34,15 @@ import { witnessNftCollections } from './witnessNftCollections'
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyConfigSchema<MongoDBBoundWitnessDivinerConfig>>[] = [
-  [
-    {
-      accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
-      archivist: 'Archivist',
-      name: 'AddressHistoryDiviner',
-      schema: AddressHistoryDivinerConfigSchema,
-    },
-    true,
-  ],
+  // [
+  //   {
+  //     accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
+  //     archivist: 'Archivist',
+  //     name: 'AddressHistoryDiviner',
+  //     schema: AddressHistoryDivinerConfigSchema,
+  //   },
+  //   true,
+  // ],
   [
     {
       accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailAddressHistory,

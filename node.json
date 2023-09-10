@@ -28,6 +28,15 @@
               "payloadSdkConfig": { "collection": "thumbnails" },
               "schema": "network.xyo.archivist.mongodb.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/1'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "AddressHistoryDiviner",
+              "schema": "network.xyo.diviner.address.history.config"
+            }
           }
         ]
       }

@@ -24,19 +24,11 @@ const getWallet = (container: Container) => {
 
 const archivist = 'Archivist'
 
-const getAddressHistoryDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
-  const params: DivinerParams = {
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
-      archivist,
-      name: TYPES.AddressHistoryDiviner.description,
-      schema: AddressHistoryDiviner.configSchema,
-    },
-    wallet,
-  }
+const getAddressHistoryDiviner = () => {
+  const params: DivinerParams = { config: { schema: AddressHistoryDiviner.configSchema } }
   return new ModuleFactory(AddressHistoryDiviner, params)
 }
+
 const getAddressSpaceDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
   const params: DivinerParams = {
@@ -190,7 +182,7 @@ const getSchemaStatsDiviner = async (container: Container) => {
 
 export const addDivinerModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[AddressHistoryDiviner.configSchema] = await getAddressHistoryDiviner(container)
+  // dictionary[AddressHistoryDiviner.configSchema] = getAddressHistoryDiviner()
   dictionary[MemoryAddressSpaceDiviner.configSchema] = await getAddressSpaceDiviner(container)
   dictionary[MemoryBoundWitnessDiviner.configSchema] = await getBoundWitnessDiviner(container)
   dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = await getBoundWitnessStatsDiviner(container)

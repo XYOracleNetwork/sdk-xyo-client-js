@@ -26,18 +26,9 @@ const getWallet = (container: Container) => {
   return HDWallet.fromMnemonic(mnemonic)
 }
 
-const getMongoDBAddressHistoryDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
+const getMongoDBAddressHistoryDiviner = () => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBAddressHistoryDivinerParams = {
-    boundWitnessSdk,
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
-      name: TYPES.AddressHistoryDiviner.description,
-      schema: MongoDBAddressHistoryDiviner.configSchema,
-    },
-    wallet,
-  }
+  const params: MongoDBAddressHistoryDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressHistoryDiviner.configSchema } }
   return new ModuleFactory(MongoDBAddressHistoryDiviner, params)
 }
 const getMongoDBAddressSpaceDiviner = async (container: Container) => {
@@ -166,7 +157,7 @@ const getMongoDBSchemaStatsDiviner = async (container: Container) => {
 
 export const addDivinerModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[MongoDBAddressHistoryDiviner.configSchema] = await getMongoDBAddressHistoryDiviner(container)
+  dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner()
   dictionary[MongoDBAddressSpaceDiviner.configSchema] = await getMongoDBAddressSpaceDiviner(container)
   dictionary[MongoDBAddressSpaceBatchDiviner.configSchema] = await getMongoDBAddressSpaceBatchDiviner(container)
   dictionary[MongoDBBoundWitnessDiviner.configSchema] = await getMongoDBBoundWitnessDiviner(container)

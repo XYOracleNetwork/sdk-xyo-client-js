@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistConfig, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
@@ -18,6 +18,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
+import { isManifestPayload, ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import {
   MongoDBBoundWitnessDivinerConfig,
@@ -30,6 +31,7 @@ import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
+import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'
@@ -149,6 +151,8 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
   if (process.env.WITNESS_NFT_COLLECTIONS) {
     await witnessNftCollections(node)
   }
+  const nodeConfig = await node.discover()
+  writeFileSync('node.json', JSON.stringify(JSON.stringify(nodeConfig), null, 2))
 }
 
 const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {
@@ -168,5 +172,16 @@ const addModuleToNodeFromConfig = async (
     const { address } = mod
     await node.register(mod)
     await node.attach(address, visibility)
+  }
+}
+
+const loadNodeFromConfig = async (container: Container, config: string = 'node.json') => {
+  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
+  const wallet = await HDWallet.fromMnemonic(mnemonic)
+  const file = JSON.parse(await readFile(config, 'utf8'))
+  if (isManifestPayload(file)) {
+    const manifestPayload = file as ManifestPayload
+    const manifest = new ManifestWrapper(manifestPayload, wallet)
+    const [node] = await manifest.loadNodes()
   }
 }

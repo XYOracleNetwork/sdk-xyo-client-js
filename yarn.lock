@@ -8358,6 +8358,7 @@ __metadata:
     "@xyo-network/diviner-schema-list": "workspace:~"
     "@xyo-network/diviner-schema-stats": "workspace:~"
     "@xyo-network/image-thumbnail-plugin": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"

@@ -18,7 +18,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
-import { isManifestPayload, ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
+import { ManifestPayload, ManifestPayloadSchema, ManifestWrapper, NodeManifest } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import {
   MongoDBBoundWitnessDivinerConfig,
@@ -41,16 +41,16 @@ const config = { schema: NodeConfigSchema }
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | AnyConfigSchema<MongoDBDeterministicArchivistConfig>>[] = [
-  [
-    {
-      accountDerivationPath: WALLET_PATHS.Archivists.Archivist,
-      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
-      name: 'Archivist',
-      payloadSdkConfig: { collection: 'payloads' },
-      schema: MongoDBDeterministicArchivistConfigSchema,
-    },
-    true,
-  ],
+  // [
+  //   {
+  //     accountDerivationPath: WALLET_PATHS.Archivists.Archivist,
+  //     boundWitnessSdkConfig: { collection: 'bound_witnesses' },
+  //     name: 'Archivist',
+  //     payloadSdkConfig: { collection: 'payloads' },
+  //     schema: MongoDBDeterministicArchivistConfigSchema,
+  //   },
+  //   true,
+  // ],
   [
     {
       accountDerivationPath: WALLET_PATHS.Archivists.ThumbnailArchivist,
@@ -125,7 +125,8 @@ const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
 const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses, ...sentinels]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
-  const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))
+  const node = await loadNodeFromConfig(container)
+  // const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))
   container.bind<NodeInstance>(TYPES.Node).toConstantValue(node)
   await addModulesToNodeByConfig(container, node, configs)
   const configHashes = process.env.CONFIG_HASHES
@@ -151,8 +152,6 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
   if (process.env.WITNESS_NFT_COLLECTIONS) {
     await witnessNftCollections(node)
   }
-  const nodeConfig = await node.discover()
-  writeFileSync('node.json', JSON.stringify(JSON.stringify(nodeConfig), null, 2))
 }
 
 const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {
@@ -177,11 +176,13 @@ const addModuleToNodeFromConfig = async (
 
 const loadNodeFromConfig = async (container: Container, config: string = 'node.json') => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
+  const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const file = JSON.parse(await readFile(config, 'utf8'))
-  if (isManifestPayload(file)) {
-    const manifestPayload = file as ManifestPayload
-    const manifest = new ManifestWrapper(manifestPayload, wallet)
-    const [node] = await manifest.loadNodes()
-  }
+  const manifest = file as NodeManifest
+  // TODO: This shouldn't be necessary
+  const payload: ManifestPayload = { nodes: [], schema: ManifestPayloadSchema }
+  const wrapper = new ManifestWrapper(payload, wallet)
+  const node = await wrapper.loadNodeFromManifest(manifest, WALLET_PATHS.Diviners.Forecasting, dictionary)
+  return node
 }

@@ -18,7 +18,7 @@ import {
   SchemaStatsDivinerConfigSchema,
 } from '@xyo-network/diviner-models'
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
-import { ManifestPayload, ManifestPayloadSchema, ManifestWrapper, NodeManifest } from '@xyo-network/manifest'
+import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import {
   MongoDBBoundWitnessDivinerConfig,
@@ -26,8 +26,7 @@ import {
   MongoDBDeterministicArchivistConfigSchema,
 } from '@xyo-network/node-core-modules-mongo'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
-import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
+import { NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
@@ -35,8 +34,6 @@ import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'
-
-const config = { schema: NodeConfigSchema }
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
@@ -179,10 +176,8 @@ const loadNodeFromConfig = async (container: Container, config: string = 'node.j
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const file = JSON.parse(await readFile(config, 'utf8'))
-  const manifest = file as NodeManifest
-  // TODO: This shouldn't be necessary
-  const payload: ManifestPayload = { nodes: [], schema: ManifestPayloadSchema }
-  const wrapper = new ManifestWrapper(payload, wallet)
-  const node = await wrapper.loadNodeFromManifest(manifest, WALLET_PATHS.Diviners.Forecasting, dictionary)
+  const manifest = file as ManifestPayload
+  const wrapper = new ManifestWrapper(manifest, wallet)
+  const [node] = await wrapper.loadNodes(undefined, dictionary)
   return node
 }

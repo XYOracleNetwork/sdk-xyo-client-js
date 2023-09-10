@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
-import { ArchivistConfig, ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
@@ -20,11 +20,7 @@ import {
 import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
-import {
-  MongoDBBoundWitnessDivinerConfig,
-  MongoDBDeterministicArchivistConfig,
-  MongoDBDeterministicArchivistConfigSchema,
-} from '@xyo-network/node-core-modules-mongo'
+import { MongoDBBoundWitnessDivinerConfig } from '@xyo-network/node-core-modules-mongo'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
@@ -36,29 +32,6 @@ import { Container } from 'inversify'
 import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
-
-const archivists: ModuleConfigWithVisibility<AnyConfigSchema<ArchivistConfig> | AnyConfigSchema<MongoDBDeterministicArchivistConfig>>[] = [
-  // [
-  //   {
-  //     accountDerivationPath: WALLET_PATHS.Archivists.Archivist,
-  //     boundWitnessSdkConfig: { collection: 'bound_witnesses' },
-  //     name: 'Archivist',
-  //     payloadSdkConfig: { collection: 'payloads' },
-  //     schema: MongoDBDeterministicArchivistConfigSchema,
-  //   },
-  //   true,
-  // ],
-  [
-    {
-      accountDerivationPath: WALLET_PATHS.Archivists.ThumbnailArchivist,
-      boundWitnessSdkConfig: { collection: 'bound_witnesses' },
-      name: 'ThumbnailArchivist',
-      payloadSdkConfig: { collection: 'thumbnails' },
-      schema: MongoDBDeterministicArchivistConfigSchema,
-    },
-    true,
-  ],
-]
 
 const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyConfigSchema<MongoDBBoundWitnessDivinerConfig>>[] = [
   [
@@ -119,7 +92,7 @@ const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
   ],
 ]
 
-const configs: ModuleConfigWithVisibility[] = [...archivists, ...diviners, ...witnesses, ...sentinels]
+const configs: ModuleConfigWithVisibility[] = [...diviners, ...witnesses, ...sentinels]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
   const node = await loadNodeFromConfig(container)
@@ -149,6 +122,7 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
   if (process.env.WITNESS_NFT_COLLECTIONS) {
     await witnessNftCollections(node)
   }
+  console.log(await node.discover())
 }
 
 const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {

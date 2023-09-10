@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    {
+      "config": {
+        "accountPath": "m/44'/60'/3'/0'/0'",
+        "name": "XYOPublic",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "private": [],
+        "public": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/0'",
+              "language": "javascript",
+              "name": "Archivist",
+              "schema": "network.xyo.archivist.mongodb.config"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

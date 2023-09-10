@@ -41,20 +41,17 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
 
   async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary) {
     const node = await MemoryNode.create({ config: manifest.config, wallet: await this.wallet.derivePath(path) })
-    await Promise.all([
-      // Load Private Modules
-      Promise.all(
-        manifest.modules?.private?.map(async (moduleManifest) => {
-          await this.loadModule(node, moduleManifest, false, additionalCreatableModules)
-        }) ?? [() => null],
-      ),
-      // Load Public Modules
-      Promise.all(
-        manifest.modules?.public?.map(async (moduleManifest) => {
-          await this.loadModule(node, moduleManifest, true, additionalCreatableModules)
-        }) ?? [() => null],
-      ),
-    ])
+    // Load Private Modules
+    const privateModules =
+      manifest.modules?.private?.map(async (moduleManifest) => {
+        await this.loadModule(node, moduleManifest, false, additionalCreatableModules)
+      }) ?? []
+    // Load Public Modules
+    const publicModules =
+      manifest.modules?.public?.map(async (moduleManifest) => {
+        await this.loadModule(node, moduleManifest, true, additionalCreatableModules)
+      }) ?? []
+    await Promise.all([...privateModules, ...publicModules])
     return node
   }
 

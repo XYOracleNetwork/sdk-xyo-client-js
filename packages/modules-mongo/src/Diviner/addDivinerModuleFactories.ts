@@ -36,19 +36,9 @@ const getMongoDBAddressSpaceDiviner = () => {
   const params: MongoDBAddressSpaceDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressSpaceDiviner.configSchema } }
   return new ModuleFactory(MongoDBAddressSpaceDiviner, params)
 }
-const getMongoDBAddressSpaceBatchDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
+const getMongoDBAddressSpaceBatchDiviner = () => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBAddressSpaceBatchDivinerParams = {
-    boundWitnessSdk,
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch,
-      archivist: 'Archivist',
-      name: TYPES.AddressSpaceBatchDiviner.description,
-      schema: MongoDBAddressSpaceBatchDiviner.configSchema,
-    },
-    wallet,
-  }
+  const params: MongoDBAddressSpaceBatchDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressSpaceBatchDiviner.configSchema } }
   return new ModuleFactory(MongoDBAddressSpaceBatchDiviner, params)
 }
 const getMongoDBBoundWitnessDiviner = async (container: Container) => {
@@ -150,7 +140,7 @@ export const addDivinerModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[MongoDBAddressHistoryDiviner.configSchema] = getMongoDBAddressHistoryDiviner()
   dictionary[MongoDBAddressSpaceDiviner.configSchema] = getMongoDBAddressSpaceDiviner()
-  dictionary[MongoDBAddressSpaceBatchDiviner.configSchema] = await getMongoDBAddressSpaceBatchDiviner(container)
+  dictionary[MongoDBAddressSpaceBatchDiviner.configSchema] = getMongoDBAddressSpaceBatchDiviner()
   dictionary[MongoDBBoundWitnessDiviner.configSchema] = await getMongoDBBoundWitnessDiviner(container)
   dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = await getMongoDBBoundWitnessStatsDiviner(container)
   dictionary[MongoDBPayloadDiviner.configSchema] = await getMongoDBPayloadDiviner(container)

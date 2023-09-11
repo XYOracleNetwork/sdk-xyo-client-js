@@ -55,6 +55,15 @@
               "name": "AddressSpaceDiviner",
               "schema": "network.xyo.diviner.address.space.diviner.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/11'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "AddressSpaceBatchDiviner",
+              "schema": "network.xyo.diviner.address.space.batch.diviner.config"
+            }
           }
         ]
       }

@@ -62,7 +62,7 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   // [{ schema: PayloadStatsDivinerConfigSchema }, true],
   // [{ schema: SchemaListDivinerConfigSchema }, true],
   // [{ schema: SchemaStatsDivinerConfigSchema }, true],
-  [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
+  // [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
   [
     {
       accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,

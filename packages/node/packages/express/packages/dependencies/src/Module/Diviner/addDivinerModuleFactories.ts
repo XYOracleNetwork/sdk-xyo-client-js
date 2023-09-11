@@ -38,26 +38,20 @@ const getBoundWitnessDiviner = () => {
   return new ModuleFactory(MemoryBoundWitnessDiviner, params)
 }
 const getBoundWitnessStatsDiviner = () => {
-  const params: DivinerParams = { config: { archivist, schema: MemoryBoundWitnessStatsDiviner.configSchema } }
+  const params: DivinerParams = { config: { schema: MemoryBoundWitnessStatsDiviner.configSchema } }
   return new ModuleFactory(MemoryBoundWitnessStatsDiviner, params)
 }
-const getImageThumbnailDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
-  const params: ImageThumbnailDivinerParams = {
+const getImageThumbnailDiviner = () => {
+  // TODO: Why can't we cast to generic params like others
+  const params = {
     config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.ImageThumbnail,
-      archivist: 'ThumbnailArchivist',
-      name: TYPES.ImageThumbnailDiviner.description,
-      payloadDiviner: TYPES.PayloadDiviner.description,
       schema: ImageThumbnailDiviner.configSchema,
     },
-    wallet,
   }
   return new ModuleFactory(ImageThumbnailDiviner, params)
 }
 
-const getMemoryForecastingDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
+const getMemoryForecastingDiviner = () => {
   const forecastingMethod = 'arimaForecasting'
   const jsonPathExpression = '$.feePerGas.medium'
   const witnessSchema = 'network.xyo.blockchain.ethereum.gas'
@@ -71,7 +65,6 @@ const getMemoryForecastingDiviner = async (container: Container) => {
       schema: MemoryForecastingDiviner.configSchema,
       witnessSchema,
     },
-    wallet,
   }
   return new ModuleFactory(MemoryForecastingDiviner, params)
 }
@@ -100,14 +93,14 @@ const getSchemaStatsDiviner = () => {
   return new ModuleFactory(MemorySchemaStatsDiviner, params)
 }
 
-export const addDivinerModuleFactories = async (container: Container) => {
+export const addDivinerModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   // dictionary[AddressHistoryDiviner.configSchema] = getAddressHistoryDiviner()
   // dictionary[MemoryAddressSpaceDiviner.configSchema] = getAddressSpaceDiviner()
   // dictionary[MemoryBoundWitnessDiviner.configSchema] = getBoundWitnessDiviner()
   // dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = getBoundWitnessStatsDiviner()
-  dictionary[ImageThumbnailDiviner.configSchema] = await getImageThumbnailDiviner(container)
-  dictionary[MemoryForecastingDiviner.configSchema] = await getMemoryForecastingDiviner(container)
+  dictionary[ImageThumbnailDiviner.configSchema] = getImageThumbnailDiviner()
+  dictionary[MemoryForecastingDiviner.configSchema] = getMemoryForecastingDiviner()
   // dictionary[MemoryPayloadDiviner.configSchema] = getPayloadDiviner()
   // dictionary[MemoryPayloadStatsDiviner.configSchema] = getPayloadStatsDiviner()
   // dictionary[MemorySchemaListDiviner.configSchema] = getSchemaListDiviner()

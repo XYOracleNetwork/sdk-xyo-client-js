@@ -10,6 +10,7 @@ import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
+import defaultNode from './node.json'
 import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
@@ -65,12 +66,11 @@ const addModuleToNodeFromConfig = async (
   }
 }
 
-const loadNodeFromConfig = async (container: Container, config: string = 'node.json') => {
+const loadNodeFromConfig = async (container: Container, config?: string) => {
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
-  const file = JSON.parse(await readFile(config, 'utf8'))
-  const manifest = file as ManifestPayload
+  const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as ManifestPayload) : (defaultNode as ManifestPayload)
   const wrapper = new ManifestWrapper(manifest, wallet)
   const [node] = await wrapper.loadNodes(undefined, dictionary)
   return node

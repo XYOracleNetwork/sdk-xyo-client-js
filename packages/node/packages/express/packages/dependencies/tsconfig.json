@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "typeRoots": []
   },
+  "include": ["src", "./src/node.json"],
   "exclude": ["dist", "docs"],
   "extends": "@xylabs/tsconfig"
 }

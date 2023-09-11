@@ -25,17 +25,8 @@ const getCryptoWalletNftWitness = async (container: Container) => {
   })
 }
 
-const getCryptoNftCollectionWitness = async (container: Container) => {
-  const wallet = await getWallet(container)
-  return new ModuleFactory(CryptoNftCollectionWitness, {
-    config: {
-      accountDerivationPath: WALLET_PATHS.Witnesses.CryptoNftCollectionWitness,
-      archivist: TYPES.Archivist.description,
-      name: TYPES.CryptoNftCollectionWitness.description,
-      schema: CryptoNftCollectionWitness.configSchema,
-    },
-    wallet,
-  })
+const getCryptoNftCollectionWitness = () => {
+  return new ModuleFactory(CryptoNftCollectionWitness, { config: { schema: CryptoNftCollectionWitness.configSchema } })
 }
 
 const getImageThumbnailWitness = async (container: Container) => {
@@ -69,7 +60,7 @@ const getTimestampWitness = async (container: Container) => {
 
 export const addWitnessModuleFactories = async (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[CryptoNftCollectionWitness.configSchema] = await getCryptoNftCollectionWitness(container)
+  dictionary[CryptoNftCollectionWitness.configSchema] = getCryptoNftCollectionWitness()
   dictionary[CryptoWalletNftWitness.configSchema] = await getCryptoWalletNftWitness(container)
   dictionary[ImageThumbnailWitness.configSchema] = await getImageThumbnailWitness(container)
   dictionary[PrometheusNodeWitness.configSchema] = getPrometheusNodeWitness()

@@ -20,7 +20,7 @@ import { witnessNftCollections } from './witnessNftCollections'
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 const witnesses: ModuleConfigWithVisibility[] = [
-  [{ schema: NftCollectionWitnessConfigSchema }, true],
+  // [{ schema: NftCollectionWitnessConfigSchema }, true],
   [{ schema: NftWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],

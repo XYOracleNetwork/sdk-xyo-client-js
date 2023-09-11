@@ -169,6 +169,15 @@
               "name": "ThumbnailBoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/3'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "CryptoNftCollectionWitness",
+              "schema": "network.xyo.crypto.nft.collection.witness.config"
+            }
           }
         ]
       }

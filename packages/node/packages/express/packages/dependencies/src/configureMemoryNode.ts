@@ -3,29 +3,17 @@ import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
-import { ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
 import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
 import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
-
-const witnesses: ModuleConfigWithVisibility[] = [
-  // [{ schema: NftCollectionWitnessConfigSchema }, true],
-  // [{ schema: NftWitnessConfigSchema }, true],
-  // [{ archivist: 'ThumbnailArchivist', name: 'ImageThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
-  [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],
-  // [{ schema: PrometheusNodeWitnessConfigSchema }, false],
-]
 
 const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
   [
@@ -39,7 +27,7 @@ const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
   ],
 ]
 
-const configs: ModuleConfigWithVisibility[] = [...witnesses, ...sentinels]
+const configs: ModuleConfigWithVisibility[] = [...sentinels]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
   const node = await loadNodeFromConfig(container)

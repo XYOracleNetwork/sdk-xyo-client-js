@@ -8,6 +8,6 @@ import { addWitnessModuleFactories } from './Witness'
 export const addMemoryModules = async (container: Container) => {
   addArchivistModuleFactories(container)
   addDivinerModuleFactories(container)
-  await addWitnessModuleFactories(container)
+  addWitnessModuleFactories(container)
   await addSentinelModuleFactories(container)
 }

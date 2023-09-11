@@ -29,23 +29,19 @@ const getPrometheusNodeWitness = () => {
   return new ModuleFactory(PrometheusNodeWitness, { config: { schema: PrometheusNodeWitness.configSchema } })
 }
 
-const getTimestampWitness = async (container: Container) => {
-  const wallet = await getWallet(container)
+const getTimestampWitness = () => {
   return new ModuleFactory(TimestampWitness, {
     config: {
-      accountDerivationPath: WALLET_PATHS.Witnesses.TimestampWitness,
-      name: TYPES.TimestampWitness.description,
       schema: TimestampWitnessConfigSchema,
     },
-    wallet,
   })
 }
 
-export const addWitnessModuleFactories = async (container: Container) => {
+export const addWitnessModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[CryptoNftCollectionWitness.configSchema] = getCryptoNftCollectionWitness()
   dictionary[CryptoWalletNftWitness.configSchema] = getCryptoWalletNftWitness()
   dictionary[ImageThumbnailWitness.configSchema] = getImageThumbnailWitness()
   dictionary[PrometheusNodeWitness.configSchema] = getPrometheusNodeWitness()
-  dictionary[TimestampWitnessConfigSchema] = await getTimestampWitness(container)
+  dictionary[TimestampWitnessConfigSchema] = getTimestampWitness()
 }

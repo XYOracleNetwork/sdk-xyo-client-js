@@ -1,4 +1,4 @@
-import { MemoryNode } from '@xyo-network/node'
+import { MemoryNode } from '@xyo-network/node-memory'
 
 import { NodeConfigurationFunction } from '../../../model'
 

@@ -63,18 +63,18 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   // [{ schema: SchemaListDivinerConfigSchema }, true],
   // [{ schema: SchemaStatsDivinerConfigSchema }, true],
   // [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
-  [
-    {
-      accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
-      archivist: 'ThumbnailArchivist',
-      boundWitnessSdkConfig: {
-        collection: 'thumbnail_bound_witnesses',
-      },
-      name: 'ThumbnailBoundWitnessDiviner',
-      schema: BoundWitnessDivinerConfigSchema,
-    },
-    true,
-  ],
+  // [
+  //   {
+  //     accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
+  //     archivist: 'ThumbnailArchivist',
+  //     boundWitnessSdkConfig: {
+  //       collection: 'thumbnail_bound_witnesses',
+  //     },
+  //     name: 'ThumbnailBoundWitnessDiviner',
+  //     schema: BoundWitnessDivinerConfigSchema,
+  //   },
+  //   true,
+  // ],
 ]
 
 const witnesses: ModuleConfigWithVisibility[] = [

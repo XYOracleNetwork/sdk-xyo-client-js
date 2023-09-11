@@ -69,6 +69,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/3'",
               "archivist": "Archivist",
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
               "language": "javascript",
               "name": "BoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
@@ -144,6 +147,18 @@
               "language": "javascript",
               "name": "ThumbnailDiviner",
               "schema": "network.xyo.image.thumbnail.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/15'",
+              "archivist": "ThumbnailArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "thumbnail_bound_witnesses"
+              },
+              "language": "javascript",
+              "name": "ThumbnailBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
             }
           }
         ]

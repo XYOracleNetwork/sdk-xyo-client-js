@@ -109,6 +109,15 @@
               "name": "PayloadDiviner",
               "schema": "network.xyo.diviner.payload.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/7'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "PayloadStatsDiviner",
+              "schema": "network.xyo.diviner.payload.stats.config"
+            }
           }
         ]
       }

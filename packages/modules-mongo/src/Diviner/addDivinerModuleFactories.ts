@@ -73,21 +73,17 @@ const getMongoDBPayloadDiviner = () => {
   }
   return new ModuleFactory(MongoDBPayloadDiviner, params)
 }
-const getMongoDBPayloadStatsDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
+const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = getPayloadSdk()
   const params: MongoDBPayloadStatsDivinerParams = {
     boundWitnessSdk,
     config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.PayloadStats,
-      name: TYPES.PayloadStatsDiviner.description,
       schema: MongoDBPayloadStatsDiviner.configSchema,
     },
     jobQueue,
     payloadSdk,
-    wallet,
   }
   return new ModuleFactory(MongoDBPayloadStatsDiviner, params)
 }
@@ -130,7 +126,7 @@ export const addDivinerModuleFactories = async (container: Container) => {
   dictionary[MongoDBBoundWitnessDiviner.configSchema] = getMongoDBBoundWitnessDiviner()
   dictionary[MongoDBBoundWitnessStatsDiviner.configSchema] = getMongoDBBoundWitnessStatsDiviner(container)
   dictionary[MongoDBPayloadDiviner.configSchema] = getMongoDBPayloadDiviner()
-  dictionary[MongoDBPayloadStatsDiviner.configSchema] = await getMongoDBPayloadStatsDiviner(container)
+  dictionary[MongoDBPayloadStatsDiviner.configSchema] = getMongoDBPayloadStatsDiviner(container)
   dictionary[MongoDBSchemaListDiviner.configSchema] = await getMongoDBSchemaListDiviner(container)
   dictionary[MongoDBSchemaStatsDiviner.configSchema] = await getMongoDBSchemaStatsDiviner(container)
 }

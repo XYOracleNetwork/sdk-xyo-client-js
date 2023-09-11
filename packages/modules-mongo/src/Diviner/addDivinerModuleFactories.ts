@@ -1,8 +1,7 @@
 /* eslint-disable max-statements */
-import { HDWallet } from '@xyo-network/account'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
+import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 
@@ -20,11 +19,6 @@ import { MongoDBPayloadDiviner, MongoDBPayloadDivinerParams } from './Payload'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerParams } from './PayloadStats'
 import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerParams } from './SchemaList'
 import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerParams } from './SchemaStats'
-
-const getWallet = (container: Container) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  return HDWallet.fromMnemonic(mnemonic)
-}
 
 const getMongoDBAddressHistoryDiviner = () => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()

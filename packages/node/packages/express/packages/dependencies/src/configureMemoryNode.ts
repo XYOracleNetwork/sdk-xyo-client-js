@@ -7,7 +7,6 @@ import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
-import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
@@ -15,25 +14,10 @@ import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
-const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
-  [
-    {
-      archivist: 'ThumbnailArchivist',
-      name: 'ThumbnailSentinel',
-      schema: SentinelConfigSchema,
-      witnesses: ['ImageThumbnailWitness', 'TimestampWitness'],
-    },
-    true,
-  ],
-]
-
-const configs: ModuleConfigWithVisibility[] = [...sentinels]
-
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
   const node = await loadNodeFromConfig(container)
   // const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))
   container.bind<NodeInstance>(TYPES.Node).toConstantValue(node)
-  await addModulesToNodeByConfig(container, node, configs)
   const configHashes = process.env.CONFIG_HASHES
   if (configHashes) {
     const hashes = configHashes.split(',').filter(exists)

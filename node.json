@@ -205,6 +205,16 @@
               "name": "TimestampWitness",
               "schema": "network.xyo.witness.timestamp.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/3'/0'",
+              "archivist": "ThumbnailArchivist",
+              "language": "javascript",
+              "name": "ThumbnailSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "witnesses": ["ImageThumbnailWitness", "TimestampWitness"]
+            }
           }
         ]
       }

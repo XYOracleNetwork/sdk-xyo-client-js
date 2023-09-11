@@ -75,16 +75,8 @@ const getMemoryForecastingDiviner = async (container: Container) => {
   }
   return new ModuleFactory(MemoryForecastingDiviner, params)
 }
-const getNftCollectionScoreDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
-  const params: DivinerParams = {
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.NftCollectionScoreDiviner,
-      name: TYPES.NftCollectionScoreDiviner.description,
-      schema: NftCollectionScoreDiviner.configSchema,
-    },
-    wallet,
-  }
+const getNftCollectionScoreDiviner = () => {
+  const params: DivinerParams = { config: { schema: NftCollectionScoreDiviner.configSchema } }
   return new ModuleFactory(NftCollectionScoreDiviner, params)
 }
 const getNftScoreDiviner = async (container: Container) => {
@@ -158,12 +150,12 @@ export const addDivinerModuleFactories = async (container: Container) => {
   // dictionary[MemoryAddressSpaceDiviner.configSchema] = getAddressSpaceDiviner()
   // dictionary[MemoryBoundWitnessDiviner.configSchema] = getBoundWitnessDiviner()
   // dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = getBoundWitnessStatsDiviner()
+  dictionary[ImageThumbnailDiviner.configSchema] = await getImageThumbnailDiviner(container)
   dictionary[MemoryForecastingDiviner.configSchema] = await getMemoryForecastingDiviner(container)
   dictionary[MemoryPayloadDiviner.configSchema] = await getPayloadDiviner(container)
   dictionary[MemoryPayloadStatsDiviner.configSchema] = await getPayloadStatsDiviner(container)
   dictionary[MemorySchemaListDiviner.configSchema] = await getSchemaListDiviner(container)
   dictionary[MemorySchemaStatsDiviner.configSchema] = await getSchemaStatsDiviner(container)
-  dictionary[NftCollectionScoreDiviner.configSchema] = await getNftCollectionScoreDiviner(container)
+  dictionary[NftCollectionScoreDiviner.configSchema] = getNftCollectionScoreDiviner()
   dictionary[NftScoreDiviner.configSchema] = await getNftScoreDiviner(container)
-  dictionary[ImageThumbnailDiviner.configSchema] = await getImageThumbnailDiviner(container)
 }

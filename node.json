@@ -82,6 +82,15 @@
               "name": "BoundWitnessStatsDiviner",
               "schema": "network.xyo.diviner.boundwitness.stats.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/13'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "NftCollectionScoreDiviner",
+              "schema": "network.xyo.crypto.nft.collection.score.diviner.config"
+            }
           }
         ]
       }

@@ -5,7 +5,7 @@ export const ImageThumbnailDivinerConfigSchema = `${ImageThumbnailSchema}.divine
 export type ImageThumbnailDivinerConfigSchema = typeof ImageThumbnailDivinerConfigSchema
 
 export type ImageThumbnailDivinerConfig = DivinerConfig<{
-  archivist: string
+  archivist?: string
   payloadDiviner?: string
   payloadDivinerLimit?: number
   pollFrequency?: number

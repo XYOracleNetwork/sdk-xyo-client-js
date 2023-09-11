@@ -4,14 +4,12 @@ import { MongoDBDeterministicArchivistConfigSchema } from '@xyo-network/node-cor
 import { TYPES } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
-const getMongoDBArchivistFactory = () => {
-  return new ModuleFactory(MemoryArchivist, {
-    config: { schema: MemoryArchivist.configSchema },
-  })
+const getMemoryArchivistFactory = () => {
+  return new ModuleFactory(MemoryArchivist, { config: { schema: MemoryArchivist.configSchema } })
 }
 
 export const addArchivistModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  dictionary[MongoDBDeterministicArchivistConfigSchema] = getMongoDBArchivistFactory()
-  dictionary[MemoryArchivist.configSchema] = getMongoDBArchivistFactory()
+  dictionary[MongoDBDeterministicArchivistConfigSchema] = getMemoryArchivistFactory()
+  dictionary[MemoryArchivist.configSchema] = getMemoryArchivistFactory()
 }

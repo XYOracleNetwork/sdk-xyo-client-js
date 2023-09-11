@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.10.11",
-    "@xylabs/ts-scripts-yarn3": "^2.19.6",
-    "@xylabs/tsconfig": "^2.19.6",
+    "@xylabs/ts-scripts-yarn3": "^2.19.8",
+    "@xylabs/tsconfig": "^2.19.8",
     "jest": "^29.6.4",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",

@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "incremental": false,
   },
   "exclude": [
     "**/build",

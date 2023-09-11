@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "declarationDir": "./dist/types",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "incremental": false,
     "typeRoots": []
   },
   "exclude": [".*", "**/dist", "node_modules", "storybook-static", "build"],

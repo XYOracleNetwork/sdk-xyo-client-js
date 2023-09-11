@@ -1,5 +1,5 @@
-import { GetValidator } from '@xyo-network/node-core-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { GetValidator } from '@xyo-network/node-core-model'
+import type { Payload } from '@xyo-network/payload-model'
 
 import { getPayloadValidatorFromSchemaCache } from './getPayloadValidatorFromSchemaCache'
 

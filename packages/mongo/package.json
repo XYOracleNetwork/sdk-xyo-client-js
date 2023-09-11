@@ -17,28 +17,44 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js.git"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
-  "browser": {
-    "mongodb": false
-  },
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./cjs": {
+      "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./esm": {
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "keywords": [
     "xyo",
     "utility",
     "typescript",
     "mongo"
   ],
+  "scripts": {
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -51,8 +67,10 @@
     "mongodb": "^5.8.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.6",
-    "@xylabs/tsconfig": "^2.19.6",
+    "@xylabs/ts-scripts-yarn3": "^2.19.8",
+    "@xylabs/tsconfig": "^2.19.8",
+    "publint": "^0.2.2",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

@@ -1,4 +1,4 @@
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import type { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 
 export const removePayloads = (boundWitnesses: BoundWitnessWithMeta[]): Omit<BoundWitnessWithMeta, '_payloads'>[] => {
   return boundWitnesses.map((boundWitness) => {

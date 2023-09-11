@@ -22,12 +22,12 @@
     "@babel/preset-env": "^7.22.15",
     "@types/jest": "^29.5.4",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
-    "@xylabs/eslint-config": "^2.19.6",
-    "@xylabs/ts-scripts-yarn3": "^2.19.6",
-    "@xylabs/tsconfig": "^2.19.6",
-    "@xylabs/tsconfig-dom-jest": "^2.19.6",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@xylabs/eslint-config": "^2.19.8",
+    "@xylabs/ts-scripts-yarn3": "^2.19.8",
+    "@xylabs/tsconfig": "^2.19.8",
+    "@xylabs/tsconfig-dom-jest": "^2.19.8",
     "babel-jest": "^29.6.4",
     "dotenv": "^16.3.1",
     "eslint": "^8.49.0",
@@ -39,40 +39,49 @@
     "jest-extended": "^4.0.1",
     "jest-sorted": "^1.0.14",
     "nodemon": "^3.0.1",
+    "publint": "^0.2.2",
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
     "typedoc": "^0.25.1",
     "typescript": "^5.2.2"
   },
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
-    "quick-lru": "^5",
-    "typescript": "5.1"
+    "quick-lru": "^5"
   },
-  "browser": "dist/esm/index.js",
   "docs": "dist/docs.json",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "browser": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     },
     "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
+    "./cjs": {
+      "default": "./dist/index.js"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./esm": {
+      "default": "./dist/index.mjs"
+    },
     "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "name": "@xyo-network/sdk-xyo-client-js",
@@ -103,10 +112,11 @@
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
-    "build-typedoc-site": "typedoc --options typedoc.site.json"
+    "build-typedoc-site": "typedoc --options typedoc.site.json",
+    "package-compile": "tsup && publint",
+    "package-recompile": "tsup && publint"
   },
   "sideEffects": false,
-  "types": "dist/types/index.d.ts",
   "version": "2.73.3",
   "packageManager": "yarn@3.6.2",
   "volta": {

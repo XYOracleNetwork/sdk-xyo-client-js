@@ -21,6 +21,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   private _payloadDivinerInstance: Promise<DivinerInstance> | undefined
   private _pollId?: string | number | NodeJS.Timeout
 
+  // static override get configSchema() {
+  //   return ImageThumbnailDivinerConfigSchema
+  // }
+
   get archivist() {
     return this.config.archivist
   }
@@ -46,7 +50,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     this._archivistInstance =
       this._archivistInstance ??
       (async () => {
-        const module = await this.resolve(this.archivist)
+        const module = this.archivist ? await this.resolve(this.archivist) : undefined
         return asArchivistInstance(module, 'Provided archivist address did not resolve to an Archivist')
       })()
     return this._archivistInstance

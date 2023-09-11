@@ -46,7 +46,7 @@ export const configureDependencies = async (node?: NodeInstance) => {
     // const config = { defaultMeta }
     return service ? logger : logger
   })
-  await addMemoryModules(container)
+  addMemoryModules(container)
   if (canAddMongoModules()) await addMongoModules(container)
   await configureMemoryNode(container, node)
 }

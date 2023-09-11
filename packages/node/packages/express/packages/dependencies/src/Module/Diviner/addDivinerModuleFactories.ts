@@ -95,17 +95,8 @@ const getSchemaListDiviner = () => {
   const params: DivinerParams = { config: { schema: MemorySchemaListDiviner.configSchema } }
   return new ModuleFactory(MemorySchemaListDiviner, params)
 }
-const getSchemaStatsDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
-  const params: DivinerParams = {
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.SchemaStats,
-      archivist,
-      name: TYPES.SchemaStatsDiviner.description,
-      schema: MemorySchemaStatsDiviner.configSchema,
-    },
-    wallet,
-  }
+const getSchemaStatsDiviner = () => {
+  const params: DivinerParams = { config: { schema: MemorySchemaStatsDiviner.configSchema } }
   return new ModuleFactory(MemorySchemaStatsDiviner, params)
 }
 
@@ -120,7 +111,7 @@ export const addDivinerModuleFactories = async (container: Container) => {
   // dictionary[MemoryPayloadDiviner.configSchema] = getPayloadDiviner()
   // dictionary[MemoryPayloadStatsDiviner.configSchema] = getPayloadStatsDiviner()
   // dictionary[MemorySchemaListDiviner.configSchema] = getSchemaListDiviner()
-  dictionary[MemorySchemaStatsDiviner.configSchema] = await getSchemaStatsDiviner(container)
+  // dictionary[MemorySchemaStatsDiviner.configSchema] = getSchemaStatsDiviner()
   dictionary[NftCollectionScoreDiviner.configSchema] = getNftCollectionScoreDiviner()
   dictionary[NftScoreDiviner.configSchema] = getNftScoreDiviner()
 }

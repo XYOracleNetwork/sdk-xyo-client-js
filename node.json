@@ -127,6 +127,15 @@
               "name": "SchemaListDiviner",
               "schema": "network.xyo.diviner.schema.list.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/8'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "SchemaStatsDiviner",
+              "schema": "network.xyo.diviner.schema.stats.config"
+            }
           }
         ]
       }

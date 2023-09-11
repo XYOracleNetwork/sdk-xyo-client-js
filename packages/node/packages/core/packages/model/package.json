@@ -10,7 +10,6 @@
   "engines": {
     "node": ">=16 <17"
   },
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "require": {
@@ -26,12 +25,14 @@
       "default": "./dist/docs.json"
     },
     "./cjs": {
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./docs": {
       "default": "./dist/docs.json"
     },
     "./esm": {
+      "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
@@ -55,8 +56,8 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.8",
-    "@xylabs/tsconfig": "^2.19.8",
+    "@xylabs/ts-scripts-yarn3": "^2.19.9",
+    "@xylabs/tsconfig": "^2.19.9",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"

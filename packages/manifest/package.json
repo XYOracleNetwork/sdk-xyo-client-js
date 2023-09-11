@@ -14,7 +14,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^2.10.11",
+    "@xylabs/assert": "^2.10.14",
     "@xyo-network/http-bridge": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
@@ -26,8 +26,8 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.8",
-    "@xylabs/tsconfig": "^2.19.8",
+    "@xylabs/ts-scripts-yarn3": "^2.19.9",
+    "@xylabs/tsconfig": "^2.19.9",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"

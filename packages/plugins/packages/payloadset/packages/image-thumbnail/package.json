@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.10.11",
-    "@xylabs/delay": "^2.10.11",
-    "@xylabs/lodash": "^2.10.11",
-    "@xylabs/url": "^2.10.11",
+    "@xylabs/assert": "^2.10.14",
+    "@xylabs/delay": "^2.10.14",
+    "@xylabs/lodash": "^2.10.14",
+    "@xylabs/url": "^2.10.14",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/axios": "workspace:~",
@@ -40,8 +40,8 @@
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/gm": "^1.25.1",
     "@types/hasbin": "^1.2.0",
-    "@xylabs/ts-scripts-yarn3": "^2.19.8",
-    "@xylabs/tsconfig": "^2.19.8",
+    "@xylabs/ts-scripts-yarn3": "^2.19.9",
+    "@xylabs/tsconfig": "^2.19.9",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"

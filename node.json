@@ -7,7 +7,16 @@
         "schema": "network.xyo.node.config"
       },
       "modules": {
-        "private": [],
+        "private": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/1'",
+              "language": "javascript",
+              "name": "PrometheusWitness",
+              "schema": "network.xyo.prometheus.node.witness.config"
+            }
+          }
+        ],
         "public": [
           {
             "config": {

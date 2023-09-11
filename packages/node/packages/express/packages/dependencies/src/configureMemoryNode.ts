@@ -10,7 +10,6 @@ import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
-import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
 import { readFile } from 'fs/promises'
@@ -25,7 +24,7 @@ const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],
-  [{ schema: PrometheusNodeWitnessConfigSchema }, false],
+  // [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
 const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [

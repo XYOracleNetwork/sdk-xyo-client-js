@@ -91,6 +91,15 @@
               "name": "NftCollectionScoreDiviner",
               "schema": "network.xyo.crypto.nft.collection.score.diviner.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/12'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "NftScoreDiviner",
+              "schema": "network.xyo.crypto.nft.score.diviner.config"
+            }
           }
         ]
       }

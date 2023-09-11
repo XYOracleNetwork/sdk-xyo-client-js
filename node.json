@@ -37,6 +37,15 @@
               "name": "AddressHistoryDiviner",
               "schema": "network.xyo.diviner.address.history.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/16'",
+              "archivist": "ThumbnailArchivist",
+              "language": "javascript",
+              "name": "ThumbnailAddressHistoryDiviner",
+              "schema": "network.xyo.diviner.address.history.config"
+            }
           }
         ]
       }

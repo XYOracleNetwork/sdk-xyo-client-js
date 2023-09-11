@@ -43,15 +43,15 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   //   },
   //   true,
   // ],
-  [
-    {
-      accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailAddressHistory,
-      archivist: 'ThumbnailArchivist',
-      name: 'ThumbnailAddressHistoryDiviner',
-      schema: AddressHistoryDivinerConfigSchema,
-    },
-    true,
-  ],
+  // [
+  //   {
+  //     accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailAddressHistory,
+  //     archivist: 'ThumbnailArchivist',
+  //     name: 'ThumbnailAddressHistoryDiviner',
+  //     schema: AddressHistoryDivinerConfigSchema,
+  //   },
+  //   true,
+  // ],
   [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace, schema: AddressSpaceDivinerConfigSchema }, true],
   [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch, schema: AddressSpaceBatchDivinerConfigSchema }, true],
   [{ accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness, archivist: 'Archivist', schema: BoundWitnessDivinerConfigSchema }, true],

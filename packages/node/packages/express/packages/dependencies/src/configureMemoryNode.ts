@@ -14,7 +14,8 @@ import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
-export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
+// TODO: How to inject account for node that is to be created from config?
+export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, _account = Account.randomSync()) => {
   const node = await loadNodeFromConfig(container)
   // const node: NodeInstance = memoryNode ?? (await MemoryNode.create({ account, config }))
   container.bind<NodeInstance>(TYPES.Node).toConstantValue(node)

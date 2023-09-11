@@ -64,6 +64,15 @@
               "name": "AddressSpaceBatchDiviner",
               "schema": "network.xyo.diviner.address.space.batch.diviner.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/3'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "BoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
           }
         ]
       }

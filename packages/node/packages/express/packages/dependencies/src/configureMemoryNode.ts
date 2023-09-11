@@ -60,7 +60,7 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   // [{ schema: NftScoreDivinerConfigSchema }, true],
   // [{ schema: PayloadDivinerConfigSchema }, true],
   // [{ schema: PayloadStatsDivinerConfigSchema }, true],
-  [{ schema: SchemaListDivinerConfigSchema }, true],
+  // [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
   [

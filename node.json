@@ -118,6 +118,15 @@
               "name": "PayloadStatsDiviner",
               "schema": "network.xyo.diviner.payload.stats.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/5'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "SchemaListDiviner",
+              "schema": "network.xyo.diviner.schema.list.config"
+            }
           }
         ]
       }

@@ -55,7 +55,7 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   // [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace, schema: AddressSpaceDivinerConfigSchema }, true],
   // [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch, schema: AddressSpaceBatchDivinerConfigSchema }, true],
   // [{ accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness, archivist: 'Archivist', schema: BoundWitnessDivinerConfigSchema }, true],
-  [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
+  // [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   [{ schema: NftScoreDivinerConfigSchema }, true],
   [{ schema: PayloadDivinerConfigSchema }, true],

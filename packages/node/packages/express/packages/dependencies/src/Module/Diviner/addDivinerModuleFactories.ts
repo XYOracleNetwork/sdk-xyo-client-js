@@ -37,20 +37,10 @@ const getBoundWitnessDiviner = () => {
   const params: DivinerParams = { config: { schema: MemoryBoundWitnessDiviner.configSchema } }
   return new ModuleFactory(MemoryBoundWitnessDiviner, params)
 }
-const getBoundWitnessStatsDiviner = async (container: Container) => {
-  const wallet = await getWallet(container)
-  const params: DivinerParams = {
-    config: {
-      accountDerivationPath: WALLET_PATHS.Diviners.BoundWitnessStats,
-      archivist,
-      name: TYPES.BoundWitnessStatsDiviner.description,
-      schema: MemoryBoundWitnessStatsDiviner.configSchema,
-    },
-    wallet,
-  }
+const getBoundWitnessStatsDiviner = () => {
+  const params: DivinerParams = { config: { archivist, schema: MemoryBoundWitnessStatsDiviner.configSchema } }
   return new ModuleFactory(MemoryBoundWitnessStatsDiviner, params)
 }
-
 const getImageThumbnailDiviner = async (container: Container) => {
   const wallet = await getWallet(container)
   const params: ImageThumbnailDivinerParams = {
@@ -167,7 +157,7 @@ export const addDivinerModuleFactories = async (container: Container) => {
   // dictionary[AddressHistoryDiviner.configSchema] = getAddressHistoryDiviner()
   // dictionary[MemoryAddressSpaceDiviner.configSchema] = getAddressSpaceDiviner()
   // dictionary[MemoryBoundWitnessDiviner.configSchema] = getBoundWitnessDiviner()
-  dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = await getBoundWitnessStatsDiviner(container)
+  // dictionary[MemoryBoundWitnessStatsDiviner.configSchema] = getBoundWitnessStatsDiviner()
   dictionary[MemoryForecastingDiviner.configSchema] = await getMemoryForecastingDiviner(container)
   dictionary[MemoryPayloadDiviner.configSchema] = await getPayloadDiviner(container)
   dictionary[MemoryPayloadStatsDiviner.configSchema] = await getPayloadStatsDiviner(container)

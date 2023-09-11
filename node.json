@@ -73,6 +73,15 @@
               "name": "BoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/6'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "BoundWitnessStatsDiviner",
+              "schema": "network.xyo.diviner.boundwitness.stats.config"
+            }
           }
         ]
       }

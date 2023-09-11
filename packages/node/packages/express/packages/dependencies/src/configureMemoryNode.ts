@@ -3,25 +3,12 @@ import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { NftCollectionScoreDivinerConfigSchema, NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { NftScoreDivinerConfigSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
-import {
-  AddressHistoryDivinerConfigSchema,
-  AddressSpaceBatchDivinerConfigSchema,
-  AddressSpaceDivinerConfigSchema,
-  BoundWitnessDivinerConfigSchema,
-  BoundWitnessStatsDivinerConfigSchema,
-  DivinerConfig,
-  PayloadDivinerConfigSchema,
-  PayloadStatsDivinerConfigSchema,
-  SchemaListDivinerConfigSchema,
-  SchemaStatsDivinerConfigSchema,
-} from '@xyo-network/diviner-models'
-import { ImageThumbnailDivinerConfigSchema, ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
+import { NftCollectionWitnessConfigSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
+import { NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
+import { ImageThumbnailWitnessConfigSchema } from '@xyo-network/image-thumbnail-plugin'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
-import { MongoDBBoundWitnessDivinerConfig } from '@xyo-network/node-core-modules-mongo'
-import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
+import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { PrometheusNodeWitnessConfigSchema } from '@xyo-network/prometheus-node-plugin'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
@@ -32,50 +19,6 @@ import { Container } from 'inversify'
 import { witnessNftCollections } from './witnessNftCollections'
 
 type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
-
-const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyConfigSchema<MongoDBBoundWitnessDivinerConfig>>[] = [
-  // [
-  //   {
-  //     accountDerivationPath: WALLET_PATHS.Diviners.AddressHistory,
-  //     archivist: 'Archivist',
-  //     name: 'AddressHistoryDiviner',
-  //     schema: AddressHistoryDivinerConfigSchema,
-  //   },
-  //   true,
-  // ],
-  // [
-  //   {
-  //     accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailAddressHistory,
-  //     archivist: 'ThumbnailArchivist',
-  //     name: 'ThumbnailAddressHistoryDiviner',
-  //     schema: AddressHistoryDivinerConfigSchema,
-  //   },
-  //   true,
-  // ],
-  // [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpace, schema: AddressSpaceDivinerConfigSchema }, true],
-  // [{ accountDerivationPath: WALLET_PATHS.Diviners.AddressSpaceBatch, schema: AddressSpaceBatchDivinerConfigSchema }, true],
-  // [{ accountDerivationPath: WALLET_PATHS.Diviners.BoundWitness, archivist: 'Archivist', schema: BoundWitnessDivinerConfigSchema }, true],
-  // [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
-  // [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
-  // [{ schema: NftScoreDivinerConfigSchema }, true],
-  // [{ schema: PayloadDivinerConfigSchema }, true],
-  // [{ schema: PayloadStatsDivinerConfigSchema }, true],
-  // [{ schema: SchemaListDivinerConfigSchema }, true],
-  // [{ schema: SchemaStatsDivinerConfigSchema }, true],
-  // [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailDiviner', schema: ImageThumbnailDivinerConfigSchema }, true],
-  // [
-  //   {
-  //     accountDerivationPath: WALLET_PATHS.Diviners.ThumbnailBoundWitness,
-  //     archivist: 'ThumbnailArchivist',
-  //     boundWitnessSdkConfig: {
-  //       collection: 'thumbnail_bound_witnesses',
-  //     },
-  //     name: 'ThumbnailBoundWitnessDiviner',
-  //     schema: BoundWitnessDivinerConfigSchema,
-  //   },
-  //   true,
-  // ],
-]
 
 const witnesses: ModuleConfigWithVisibility[] = [
   [{ schema: NftCollectionWitnessConfigSchema }, true],
@@ -92,7 +35,7 @@ const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
   ],
 ]
 
-const configs: ModuleConfigWithVisibility[] = [...diviners, ...witnesses, ...sentinels]
+const configs: ModuleConfigWithVisibility[] = [...witnesses, ...sentinels]
 
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, account = Account.randomSync()) => {
   const node = await loadNodeFromConfig(container)

@@ -10,8 +10,8 @@ import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { AbstractWitness } from '@xyo-network/witness'
 import { Semaphore } from 'async-mutex'
 import FileType from 'file-type'
-import { subClass } from 'gm'
-import { sync as hasbin } from 'hasbin'
+import graphicsMagick from 'gm'
+import hasbin from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
@@ -25,7 +25,8 @@ import { ImageThumbnailWitnessParams } from './Params'
 
 // setFfmpegPath(ffmpegPath)
 
-const gm = subClass({ imageMagick: '7+' })
+// eslint-disable-next-line import/no-named-as-default-member
+const gm = graphicsMagick.subClass({ imageMagick: '7+' })
 
 export interface ImageThumbnailWitnessError extends Error {
   name: 'ImageThumbnailWitnessError'
@@ -139,7 +140,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
-    if (!hasbin('magick')) {
+    // eslint-disable-next-line import/no-named-as-default-member
+    if (!hasbin.sync('magick')) {
       throw Error('ImageMagick is required for this witness')
     }
     const urlPayloads = payloads.filter((payload) => payload.schema === UrlSchema)
@@ -272,7 +274,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
       const processVideo = async () => {
         // Gracefully handle the case where ffmpeg is not installed.
-        if (hasbin('ffmpeg')) {
+        // eslint-disable-next-line import/no-named-as-default-member
+        if (hasbin.sync('ffmpeg')) {
           result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
           result.url = await this.createThumbnailFromVideo(sourceBuffer)
         } else {

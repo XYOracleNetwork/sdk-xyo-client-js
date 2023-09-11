@@ -13,13 +13,14 @@ import {
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
-import { value } from 'jsonpath'
+import jsonpath from 'jsonpath'
 
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {
-    const ret = value(x, pathExpression)
+    // eslint-disable-next-line import/no-named-as-default-member
+    const ret = jsonpath.value(x, pathExpression)
     if (typeof ret === 'number') return ret
     throw new Error('Parsed invalid payload value')
   }

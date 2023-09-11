@@ -3,11 +3,12 @@ import { MemoryArchivist } from '@xyo-network/archivist'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
-import { sync as hasbin } from 'hasbin'
+import hasbin from 'hasbin'
 
 import { ImageThumbnailDiviner, ImageThumbnailDivinerConfigSchema } from '../Diviner'
 
-const describeIfHasBin = (bin: string) => (hasbin(bin) ? describe : describe.skip)
+// eslint-disable-next-line import/no-named-as-default-member
+const describeIfHasBin = (bin: string) => (hasbin.sync(bin) ? describe : describe.skip)
 
 describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   let node: MemoryNode

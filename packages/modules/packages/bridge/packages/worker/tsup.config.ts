@@ -9,7 +9,7 @@ export default defineConfig({
     entry: ['src/index.ts'],
   },
   entry: ['src/index.ts'],
-  format: ['cjs', 'esm'],
+  format: ['esm'],
   sourcemap: true,
   splitting: false,
   tsconfig: 'tsconfig.json',

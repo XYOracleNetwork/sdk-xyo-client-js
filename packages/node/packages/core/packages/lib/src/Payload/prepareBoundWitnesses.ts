@@ -1,5 +1,3 @@
-import 'source-map-support/register'
-
 import type { BoundWitnessMeta, BoundWitnessWithMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 
 import { BoundWitnessMapResult, flatMapBoundWitness } from '../BoundWitness'

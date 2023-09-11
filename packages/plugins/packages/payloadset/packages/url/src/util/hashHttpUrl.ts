@@ -1,10 +1,10 @@
-import { createHash } from 'crypto'
+import crypto from 'crypto'
 import http from 'http'
 import https from 'https'
 
 export const hashHttpUrl = (url: string): Promise<string> => {
   const ret = new Promise<string>((resolve, reject) => {
-    const hash = createHash('sha256')
+    const hash = crypto.createHash('sha256')
     const lib = url.startsWith('https') ? https : http
     lib
       .get(url, (res) => {

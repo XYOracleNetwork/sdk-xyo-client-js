@@ -12,9 +12,9 @@
   "dependencies": {
     "@bitauth/libauth": "^1.19.1",
     "@ethersproject/hdnode": "^5.7.0",
-    "@xylabs/array": "^2.10.14",
-    "@xylabs/assert": "^2.10.14",
-    "@xylabs/static-implements": "^2.10.14",
+    "@xylabs/array": "^2.10.16",
+    "@xylabs/assert": "^2.10.16",
+    "@xylabs/static-implements": "^2.10.16",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/bip39": "workspace:~",
     "@xyo-network/core": "workspace:~",
@@ -29,8 +29,8 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.1",
-    "@xylabs/ts-scripts-yarn3": "^2.19.9",
-    "@xylabs/tsconfig": "^2.19.9",
+    "@xylabs/ts-scripts-yarn3": "^2.19.12",
+    "@xylabs/tsconfig": "^2.19.12",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2"

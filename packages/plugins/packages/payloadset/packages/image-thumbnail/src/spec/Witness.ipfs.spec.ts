@@ -2,11 +2,12 @@ import { HDWallet } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
-import { sync as hasbin } from 'hasbin'
+import hasbin from 'hasbin'
 
 import { ImageThumbnailWitness } from '../Witness'
 
-const testIfHasBin = (bin: string) => (hasbin(bin) ? it : it.skip)
+// eslint-disable-next-line import/no-named-as-default-member
+const testIfHasBin = (bin: string) => (hasbin.sync(bin) ? it : it.skip)
 
 describe('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness

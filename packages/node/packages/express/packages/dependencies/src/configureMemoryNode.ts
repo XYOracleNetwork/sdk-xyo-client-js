@@ -22,14 +22,19 @@ type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyCon
 const witnesses: ModuleConfigWithVisibility[] = [
   // [{ schema: NftCollectionWitnessConfigSchema }, true],
   // [{ schema: NftWitnessConfigSchema }, true],
-  [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
+  // [{ archivist: 'ThumbnailArchivist', name: 'ImageThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],
   // [{ schema: PrometheusNodeWitnessConfigSchema }, false],
 ]
 
 const sentinels: ModuleConfigWithVisibility<SentinelConfig>[] = [
   [
-    { archivist: 'ThumbnailArchivist', name: 'ThumbnailSentinel', schema: SentinelConfigSchema, witnesses: ['ThumbnailWitness', 'TimestampWitness'] },
+    {
+      archivist: 'ThumbnailArchivist',
+      name: 'ThumbnailSentinel',
+      schema: SentinelConfigSchema,
+      witnesses: ['ImageThumbnailWitness', 'TimestampWitness'],
+    },
     true,
   ],
 ]

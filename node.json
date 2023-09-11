@@ -187,6 +187,15 @@
               "name": "CryptoWalletNftWitness",
               "schema": "network.xyo.crypto.nft.witness.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/4'",
+              "archivist": "ThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailWitness",
+              "schema": "network.xyo.image.thumbnail.witness.config"
+            }
           }
         ]
       }

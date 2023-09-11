@@ -21,7 +21,7 @@ type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyCon
 
 const witnesses: ModuleConfigWithVisibility[] = [
   // [{ schema: NftCollectionWitnessConfigSchema }, true],
-  [{ schema: NftWitnessConfigSchema }, true],
+  // [{ schema: NftWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'ThumbnailWitness', schema: ImageThumbnailWitnessConfigSchema }, true],
   [{ archivist: 'ThumbnailArchivist', name: 'TimestampWitness', schema: TimestampWitnessConfigSchema }, true],
   // [{ schema: PrometheusNodeWitnessConfigSchema }, false],

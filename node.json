@@ -178,6 +178,15 @@
               "name": "CryptoNftCollectionWitness",
               "schema": "network.xyo.crypto.nft.collection.witness.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/2'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "CryptoWalletNftWitness",
+              "schema": "network.xyo.crypto.nft.witness.config"
+            }
           }
         ]
       }

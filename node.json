@@ -100,6 +100,15 @@
               "name": "NftScoreDiviner",
               "schema": "network.xyo.crypto.nft.score.diviner.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/4'",
+              "archivist": "Archivist",
+              "language": "javascript",
+              "name": "PayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
           }
         ]
       }

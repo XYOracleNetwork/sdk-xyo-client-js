@@ -58,7 +58,7 @@ const diviners: ModuleConfigWithVisibility<AnyConfigSchema<DivinerConfig> | AnyC
   // [{ schema: BoundWitnessStatsDivinerConfigSchema }, true],
   // [{ schema: NftCollectionScoreDivinerConfigSchema }, true],
   // [{ schema: NftScoreDivinerConfigSchema }, true],
-  [{ schema: PayloadDivinerConfigSchema }, true],
+  // [{ schema: PayloadDivinerConfigSchema }, true],
   [{ schema: PayloadStatsDivinerConfigSchema }, true],
   [{ schema: SchemaListDivinerConfigSchema }, true],
   [{ schema: SchemaStatsDivinerConfigSchema }, true],

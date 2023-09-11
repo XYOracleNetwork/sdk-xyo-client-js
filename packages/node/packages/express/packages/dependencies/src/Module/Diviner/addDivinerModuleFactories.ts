@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-statements */
 import { NftCollectionScoreDiviner } from '@xyo-network/crypto-nft-collection-diviner-score-plugin'
 import { NftScoreDiviner } from '@xyo-network/crypto-nft-diviner-score-plugin'

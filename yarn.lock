@@ -5573,11 +5573,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/array@npm:^2.10.16":
-  version: 2.10.16
-  resolution: "@xylabs/array@npm:2.10.16"
+  version: 2.10.18
+  resolution: "@xylabs/array@npm:2.10.18"
   dependencies:
-    "@xylabs/exists": ~2.10.16
-  checksum: a8be9c0e13752ef2518cb1b4872bc6b23626fd80464303b67a659fbf4359c2667f84f5b4d84d296e9cc6117b100007fd5226bc3e2dfe6fa834790a1f1eb28e68
+    "@xylabs/exists": ~2.10.18
+  checksum: 08a88aef10aa4b4cc3919a5e1e5c9d3d0c82542ac22b20c150658a42a965196b26635c965d7ff39ba10bd2b3ee66f8e6933fb53406c775853ce2f0f1b816c0a7
   languageName: node
   linkType: hard
 
@@ -5643,10 +5643,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:^2.10.16, @xylabs/exists@npm:~2.10.16":
+"@xylabs/exists@npm:^2.10.16":
   version: 2.10.16
   resolution: "@xylabs/exists@npm:2.10.16"
   checksum: 6fcdcc766cde92b82c4bbdf789991bb4638c773740f470029146e2387fd156c70b633a374ddf68ccbfde0a083eefcb7f9d416de6fe3af4f90eaf62bc9a73feb8
+  languageName: node
+  linkType: hard
+
+"@xylabs/exists@npm:~2.10.18":
+  version: 2.10.18
+  resolution: "@xylabs/exists@npm:2.10.18"
+  checksum: f39bffafe05f62500ed1ec4a9dd0ced66d0adcf9fb7d6db5eacd5e59a6b6d94258c098a335fd14b9940cd0123fad18eeb9087d0febeca5af9349fca068d90e5e
   languageName: node
   linkType: hard
 

@@ -3,8 +3,7 @@ import { merge } from '@xylabs/lodash'
 import { Logger } from '@xyo-network/logger'
 
 import { ModuleInstance } from '../instance'
-import { CreatableModule } from './CreatableModule'
-import { CreatableModuleFactory } from './CreatableModuleFactory'
+import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
 
 export class ModuleFactory<TModule extends ModuleInstance> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']

@@ -2,7 +2,10 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { Logger } from '@xyo-network/logger'
 
 import { ModuleInstance } from '../instance'
-import { CreatableModuleFactory } from './CreatableModuleFactory'
+
+export type CreatableModuleFactory<T extends ModuleInstance = ModuleInstance> = Omit<Omit<CreatableModule<T>, 'new'>, 'create'> & {
+  create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
+}
 
 export interface CreatableModule<T extends ModuleInstance = ModuleInstance> {
   configSchema: string

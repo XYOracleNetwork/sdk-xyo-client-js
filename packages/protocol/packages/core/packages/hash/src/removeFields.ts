@@ -1,8 +1,7 @@
 import { isObject, mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
+import { AnyObject } from '@xyo-network/object'
 // eslint-disable-next-line no-restricted-imports
 import type { ValueKeyIteratee } from 'lodash'
-
-import { AnyObject } from '../lib'
 
 export const deepBy = <T extends AnyObject>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy): T => {
   if (Array.isArray(obj)) {

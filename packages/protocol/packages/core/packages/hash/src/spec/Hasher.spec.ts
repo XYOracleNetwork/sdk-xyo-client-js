@@ -1,4 +1,4 @@
-import { PayloadHasher } from '../Hasher'
+import { PayloadHasher } from '../PayloadHasher'
 
 describe('Hasher', () => {
   const testObject = {

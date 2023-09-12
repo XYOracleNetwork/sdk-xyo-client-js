@@ -51,6 +51,7 @@
     "@xylabs/exists": "^2.10.16",
     "@xylabs/lodash": "^2.10.16",
     "@xylabs/promise": "^2.10.16",
+    "@xylabs/static-implements": "^2.10.16",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",

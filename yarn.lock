@@ -9167,6 +9167,7 @@ __metadata:
     "@xylabs/exists": ^2.10.16
     "@xylabs/lodash": ^2.10.16
     "@xylabs/promise": ^2.10.16
+    "@xylabs/static-implements": ^2.10.16
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
     "@xyo-network/abstract-diviner": "workspace:~"

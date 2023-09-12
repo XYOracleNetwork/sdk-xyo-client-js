@@ -1,4 +1,4 @@
-import { CreatableModuleFactory } from './CreatableModule'
+import { CreatableModuleFactory } from './CreatableModuleFactory'
 
 export interface CreatableModuleDictionary {
   [key: string]: CreatableModuleFactory

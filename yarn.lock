@@ -5598,11 +5598,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/buffer@npm:^2.10.16":
-  version: 2.10.16
-  resolution: "@xylabs/buffer@npm:2.10.16"
+  version: 2.10.18
+  resolution: "@xylabs/buffer@npm:2.10.18"
   dependencies:
     buffer: ^6.0.3
-  checksum: 6b1d6d0f9a0067ea1a9934d9cd03f3418c7514056f8e4dc5b389b893cda6e6c7cd0ba6525c1d52f9b1d535558ec04dd9ca53016c0e481b92a0de8dd50f8d406a
+  checksum: bce69cff16c47a07f83e551e5eccad00136fec43725aa0b897a720e3437373fd6953ea3edd004578ca978dc5b998800bd9a3ffce13c5c616c7a47a3eaea575ed
   languageName: node
   linkType: hard
 

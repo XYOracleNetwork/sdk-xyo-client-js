@@ -5589,11 +5589,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/bignumber@npm:^2.10.16":
-  version: 2.10.16
-  resolution: "@xylabs/bignumber@npm:2.10.16"
+  version: 2.10.18
+  resolution: "@xylabs/bignumber@npm:2.10.18"
   dependencies:
     bn.js: ^5.2.1
-  checksum: 3f5e0f0888cc96c40ac0158fc47b494a71b6367dd5985b6568f351e47c637ed3aace3da9a6a03b8c495f9e88663d5cf048de726c9b00ef21d75cd41267849e60
+  checksum: dd8503d97d8897d8366417e8778a5be611e59b2d3f6ffefe2782ceb8f1d83d34981cef4965c48ff55be5428ed6fc7a7be7c9435209f99c1c0507ede338006a71
   languageName: node
   linkType: hard
 

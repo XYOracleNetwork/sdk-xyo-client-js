@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
 import {
+  assignCreatableModuleRegistry,
   CreatableModuleDictionary,
   CreatableModuleFactoryLocator,
   CreatableModuleRegistry,
@@ -40,7 +41,11 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
       return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length !== 0
     }
 
-    const creatableModules = { ...standardCreatableModules, ...additionalCreatableModules }
+    const creatableModules = assignCreatableModuleRegistry(
+      {},
+      toCreatableModuleRegistry(standardCreatableModules),
+      toCreatableModuleRegistry(additionalCreatableModules ?? {}),
+    )
     if (!(await collision(node, manifest.config.name, external))) {
       if (manifest.config.language && manifest.config.language === 'javascript') {
         assertEx(
@@ -111,7 +116,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     const registry = toCreatableModuleRegistry(creatableModules ?? {})
     // TODO: Incorporate labels
     // const creatableModule = new CreatableModuleFactoryLocator(registry).locate(manifest.config.name, manifest.config.labels)
-    const creatableModule = new CreatableModuleFactoryLocator(registry).locate(manifest.config.name)
+    const creatableModule = new CreatableModuleFactoryLocator(registry).locate(manifest.config.schema)
     const module = await creatableModule.create({
       account: manifest.config.accountPath ? await this.wallet.derivePath(manifest.config.accountPath) : this.wallet,
       config: assertEx(manifest.config, 'Missing config'),

@@ -149,13 +149,13 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     ]
     it.each(cases)('%s', async (_title, getData) => {
       const payloads = getData()
-      const results = await archivist.get(payloads.map((p) => p.hash))
+      const results = await archivist.get(payloads.map((p) => p.hashSync()))
       expect(results).toBeTruthy()
       expect(results).toBeArrayOfSize(payloads.length)
       const resultPayloads = results.map((result) => PayloadWrapper.wrap(result as Payload))
       const resultHashes = await Promise.all(resultPayloads.map((p) => p.hashAsync()))
       payloads.map((p) => {
-        expect(resultHashes).toInclude(p.hash)
+        expect(resultHashes).toInclude(p.hashSync())
       })
       expect(results).toMatchSnapshot()
     })

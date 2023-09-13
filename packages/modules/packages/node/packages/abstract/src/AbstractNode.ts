@@ -20,7 +20,7 @@ import {
   NodeDetachQuerySchema,
   NodeModule,
   NodeModuleEventData,
-  NodeModuleParams,
+  NodeParams,
   NodeQuery,
   NodeQueryBase,
   NodeRegisteredQuerySchema,
@@ -29,7 +29,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModuleParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {

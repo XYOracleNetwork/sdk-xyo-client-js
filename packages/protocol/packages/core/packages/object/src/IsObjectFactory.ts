@@ -1,19 +1,15 @@
-/* eslint-disable deprecation/deprecation */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
 import { Logger } from '@xyo-network/logger'
 
 import { isType, ObjectTypeShape } from './isType'
 
-/** @deprecated use from @xyo-network/object instead */
 export interface ObjectTypeConfig {
   log?: boolean | Logger
 }
 
-/** @deprecated use from @xyo-network/object instead */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
 export type ObjectTypeCheck<T extends {} = {}> = (obj: any, config?: ObjectTypeConfig) => obj is T
 
-/** @deprecated use from @xyo-network/object instead */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class IsObjectFactory<T extends {}> {
   create(shape?: ObjectTypeShape, additionalChecks?: ObjectTypeCheck[]): ObjectTypeCheck<T> {
     return (obj, { log } = {}): obj is T => {

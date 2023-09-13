@@ -1,9 +1,9 @@
 import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
 
-import { WitnessConfig } from './Config'
+import { NodeConfig } from './Config'
 
-export type WitnessParams<
-  TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,
+export type NodeParams<
+  TConfig extends AnyConfigSchema<NodeConfig> = AnyConfigSchema<NodeConfig>,
   TAdditionalParams extends AnyObject | void = void,
 > = ModuleParams<TConfig, TAdditionalParams>

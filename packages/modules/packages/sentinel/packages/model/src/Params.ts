@@ -5,5 +5,5 @@ import { SentinelConfig } from './Config'
 
 export type SentinelParams<
   TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>,
-  TAdditionalParams extends AnyObject | undefined = undefined,
+  TAdditionalParams extends AnyObject | void = void,
 > = ModuleParams<TConfig, TAdditionalParams>

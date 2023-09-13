@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { deepOmitUnderscoreFields, PayloadHasher, removeEmptyFields } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -20,6 +21,11 @@ export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>
     return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
   }
 
+  get schema() {
+    this._schema = this._schema ?? this._fields['schema']
+    return this._schema
+  }
+
   build(withMeta = false) {
     const hashableFields = this.hashableFields()
     if (withMeta) {
@@ -39,7 +45,7 @@ export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>
   hashableFields() {
     return {
       ...removeEmptyFields(deepOmitUnderscoreFields(this._fields)),
-      schema: this._schema,
+      schema: assertEx(this.schema, 'Payload: Missing Schema'),
     } as T
   }
 }

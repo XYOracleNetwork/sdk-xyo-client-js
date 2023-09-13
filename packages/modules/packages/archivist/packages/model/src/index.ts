@@ -1,5 +1,6 @@
 export * from './Archivist'
 export * from './ArchivistInstance'
 export * from './Config'
+export * from './Params'
 export * from './Queries'
 export * from './typeChecks'

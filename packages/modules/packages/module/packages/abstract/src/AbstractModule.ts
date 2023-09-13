@@ -56,10 +56,7 @@ import { BaseEmitter } from './BaseEmitter'
 import { ModuleErrorBuilder } from './Error'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 
-export abstract class AbstractModule<
-    TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<ModuleConfig>,
-    TEventData extends ModuleEventData = ModuleEventData,
-  >
+export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
@@ -190,9 +187,9 @@ export abstract class AbstractModule<
       allowedSchemas.filter((allowedSchema) => allowedSchema === schema).length > 0,
       `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`,
     )
-    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema }
+    const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
-    const mutatedParams = { ...params, config: mutatedConfig } as TModule['params']
+    const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
 
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     const generatedAccount = await AbstractModule.determineAccount({ account, accountDerivationPath, wallet })
@@ -514,6 +511,16 @@ export abstract class AbstractModule<
     return compact([config, configSchema, address, ...queries])
   }
 
+  protected async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
+    if (!this.config.archivist) return undefined
+    const filter =
+      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
+        ? (this.config.archivist as string)
+        : (this.config?.archivist?.[kind] as string)
+    const resolved = await this.upResolver.resolve(filter)
+    return asArchivistInstance(resolved)
+  }
+
   protected async initializeQueryAccounts() {
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
@@ -646,14 +653,4 @@ export abstract class AbstractModule<
   }
 
   protected writeArchivist = () => this.getArchivist('write')
-
-  private async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
-    const filter =
-      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
-        ? (this.config.archivist as string)
-        : (this.config?.archivist?.[kind] as string)
-    const resolved = await this.upResolver.resolve(filter)
-    return asArchivistInstance(resolved)
-  }
 }

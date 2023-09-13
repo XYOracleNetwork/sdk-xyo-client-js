@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -16,18 +15,13 @@ export type ArchivistPayloadDivinerParams<
 export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
-  protected async archivist(): Promise<ArchivistInstance | undefined> {
-    const configArchivistAddress = this.config?.archivist
-    return configArchivistAddress ? asArchivistInstance(await this.resolve(configArchivistAddress), 'Failed to cast resolved archivist') : undefined
-  }
-
   protected async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const huriPayloads = assertEx(
       payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.map((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash)).flat()
-    const activeArchivist = await this.archivist()
+    const activeArchivist = await this.getArchivist('read')
     return (await activeArchivist?.get(hashes)) ?? []
   }
 }

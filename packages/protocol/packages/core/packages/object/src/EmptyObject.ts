@@ -1,1 +1,1 @@
-export type EmptyObject = { [key: string]: never }
+export type EmptyObject = { [key: string | number | symbol]: never }

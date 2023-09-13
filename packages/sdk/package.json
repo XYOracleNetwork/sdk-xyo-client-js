@@ -17,7 +17,6 @@
     "@xyo-network/logger": "workspace:~",
     "@xyo-network/metamask-connector": "workspace:~",
     "@xyo-network/network": "workspace:~",
-    "@xyo-network/object-identity": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/schema-cache": "workspace:~",

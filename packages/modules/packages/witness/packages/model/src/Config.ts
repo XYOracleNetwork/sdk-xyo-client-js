@@ -5,7 +5,7 @@ import { Payload, PayloadSetPayload } from '@xyo-network/payload-model'
 export type WitnessConfigSchema = 'network.xyo.witness.config'
 export const WitnessConfigSchema: WitnessConfigSchema = 'network.xyo.witness.config'
 
-export type WitnessConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
+export type WitnessConfig<TConfig extends Payload | void = void> = ModuleConfig<
   WithAdditional<
     {
       archivist?: string

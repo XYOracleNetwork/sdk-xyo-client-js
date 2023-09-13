@@ -2,27 +2,26 @@ import { assertEx } from '@xylabs/assert'
 
 import { ObjectTypeCheck, ObjectTypeConfig } from './IsObjectFactory'
 
-/** @deprecated use from @xyo-network/object instead */
 export const AsObjectFactory = {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  create: <T extends {}>(typeCheck: ObjectTypeCheck<T>) => {
-    function func(
+  create: <T extends object>(typeCheck: ObjectTypeCheck<T>) => {
+    function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: any,
+      obj: TObject,
       config?: ObjectTypeConfig,
-    ): T | undefined
-    function func(
+    ): TObject | undefined
+    function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: any,
+      obj: TObject,
       assert: string | (() => string),
       config?: ObjectTypeConfig,
-    ): T
-    function func(
+    ): TObject
+    function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: any,
+      obj: TObject,
       assertOrConfig?: string | (() => string) | ObjectTypeConfig,
       config?: ObjectTypeConfig,
-    ): T | undefined {
+    ): TObject | undefined {
       const resolvedAssert = typeof assertOrConfig === 'object' ? undefined : assertOrConfig
       const resolvedConfig = typeof assertOrConfig === 'object' ? assertOrConfig : config
       const result = typeCheck(obj, resolvedConfig) ? obj : undefined

@@ -141,7 +141,7 @@ describe(`/${moduleName}`, () => {
           const response = await diviner.divine([query])
           expect(response).toBeArrayOfSize(payloads.length)
           const responseHashes = await Promise.all(response.map((p) => PayloadWrapper.hashAsync(p)))
-          expect(responseHashes).toContainAllValues(payloads.map((p) => p.hash))
+          expect(responseHashes).toContainAllValues(payloads.map((p) => p.hashSync()))
         })
       })
     })

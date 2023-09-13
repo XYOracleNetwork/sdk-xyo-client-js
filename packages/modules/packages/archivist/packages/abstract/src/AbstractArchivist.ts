@@ -9,7 +9,6 @@ import {
   ArchivistGetQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistInstance,
-  ArchivistModule,
   ArchivistModuleEventData,
   ArchivistParams,
   ArchivistQuery,
@@ -44,7 +43,7 @@ export abstract class AbstractArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements ArchivistModule<TParams>
+  implements ArchivistInstance<TParams>
 {
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentInstances
@@ -200,9 +199,9 @@ export abstract class AbstractArchivist<
         if (found) {
           //TODO: Find a better way to scrub meta data without scrubbing _signatures
           if (found.schema === BoundWitnessSchema) {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } })
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } } as BoundWitness)
           } else {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) })
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) } as Payload)
           }
         } else {
           prev.notfoundHashes.push(hash)

@@ -57,7 +57,7 @@ describe(`/${moduleName}`, () => {
   describe('ArchivistGetQuerySchema', () => {
     describe('with existing hash', () => {
       it.each(cases)('finds %s by hash', async (_, wrapped) => {
-        const hashes = wrapped.map((w) => w.hash)
+        const hashes = wrapped.map((w) => w.hashSync())
         const response = await archivist.get(hashes)
         expect(response).toBeArray()
         expect(response).toBeArrayOfSize(wrapped.length)

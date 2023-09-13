@@ -1,11 +1,10 @@
 import { compact } from '@xylabs/lodash'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { AnyObject } from '@xyo-network/core'
-import { AbstractModuleInstance, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
+import { AbstractModuleInstance, AnyConfigSchema, Module, ModuleConfig, ModuleEventData, ModuleParams, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
 
-export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfig<
+export type ArchivingModuleConfig<T extends ModuleConfig = ModuleConfig> = ModuleConfig<
   {
     archivists?: string[]
     schema: string
@@ -13,7 +12,7 @@ export type ArchivingModuleConfig<T extends AnyObject = AnyObject> = ModuleConfi
 >
 // @creatableModule()
 export abstract class AbstractArchivingModule<
-    TParams extends ModuleParams<ArchivingModuleConfig> = ModuleParams<ArchivingModuleConfig>,
+    TParams extends ModuleParams<AnyConfigSchema<ArchivingModuleConfig>> = ModuleParams<AnyConfigSchema<ArchivingModuleConfig>>,
     TEventData extends ModuleEventData = ModuleEventData,
   >
   extends AbstractModuleInstance<TParams, TEventData>

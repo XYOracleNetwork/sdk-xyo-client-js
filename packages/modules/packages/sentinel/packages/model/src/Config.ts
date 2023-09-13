@@ -1,13 +1,14 @@
 import { ArchivingModuleConfig } from '@xyo-network/archivist'
-import { ModuleConfig } from '@xyo-network/module'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type SentinelConfigSchema = 'network.xyo.sentinel.config'
 export const SentinelConfigSchema: SentinelConfigSchema = 'network.xyo.sentinel.config'
 
-export type SentinelConfig<TConfig extends Payload = Payload> = ModuleConfig<
+export type SentinelConfig<TConfig extends Payload | void = void> = ModuleConfig<
+  TConfig,
   ArchivingModuleConfig & {
-    schema: SentinelConfigSchema
     witnesses?: string[]
-  } & TConfig
+  },
+  TConfig extends Payload ? TConfig['schema'] : SentinelConfigSchema
 >

@@ -121,7 +121,7 @@
   "version": "2.73.4",
   "packageManager": "yarn@3.6.3",
   "volta": {
-    "node": "16.18.1",
+    "node": "18.17.1",
     "yarn": "1.22.19"
   }
 }

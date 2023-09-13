@@ -5,7 +5,7 @@ export type BaseParamsFields = {
   logger?: Logger
 }
 
-export type BaseParams<TAdditionalParams extends AnyObject | undefined = undefined> = TAdditionalParams extends AnyObject
+export type BaseParams<TAdditionalParams extends AnyObject | void = void> = TAdditionalParams extends AnyObject
   ? BaseParamsFields & TAdditionalParams
   : BaseParamsFields
 

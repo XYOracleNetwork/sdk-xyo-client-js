@@ -1,23 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import {
-  AddressPreviousHashPayload,
-  AnyConfigSchema,
-  Module,
-  ModuleConfig,
-  ModuleDescriptionPayload,
-  ModuleEventData,
-  ModuleParams,
-} from '@xyo-network/module-model'
+import { AddressPreviousHashPayload, Module, ModuleDescriptionPayload, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
 
-export abstract class AbstractModuleInstance<
-    TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<ModuleConfig>,
-    TEventData extends ModuleEventData = ModuleEventData,
-  >
+export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
   implements Module<TParams, TEventData>
 {

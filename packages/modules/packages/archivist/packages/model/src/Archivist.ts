@@ -1,4 +1,3 @@
-import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, Module, ModuleEventData, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
@@ -20,11 +19,6 @@ export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, T
 export interface StashArchivist<TWriteResponse> {
   commit?(): PromisableArray<TWriteResponse>
 }
-
-export type ArchivistParams<
-  TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,
-  TAdditionalParams extends AnyObject | undefined = undefined,
-> = ModuleParams<TConfig, TAdditionalParams>
 
 export interface Archivist<TReadResponse = Payload, TWriteResponse = Payload, TWrite = TReadResponse, TId = string>
   extends ReadArchivist<TReadResponse, TId>,

@@ -1,14 +1,11 @@
-/* eslint-disable deprecation/deprecation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/** @deprecated use from @xyo-network/object instead */
 export type FieldType = 'string' | 'number' | 'object' | 'symbol' | 'symbol' | 'undefined' | 'null' | 'array' | 'function'
 
-/** @deprecated use from @xyo-network/object instead */
 export type ObjectTypeShape = Record<string | number | symbol, FieldType>
 
-/** @deprecated use from @xyo-network/object instead */
 export const isType = (value: unknown, expectedType: FieldType) => {
+  const typeofValue = typeof value
   switch (expectedType) {
     case 'array':
       return Array.isArray(value)
@@ -16,7 +13,15 @@ export const isType = (value: unknown, expectedType: FieldType) => {
       return value === null
     case 'undefined':
       return value === undefined
+    case 'object': {
+      //nulls resolve to objects, so exclude them
+      if (value === null) {
+        return false
+      }
+      //arrays resolve to objects, so exclude them
+      return typeofValue === 'object' && !Array.isArray(value)
+    }
     default:
-      return typeof value === expectedType
+      return typeofValue === expectedType
   }
 }

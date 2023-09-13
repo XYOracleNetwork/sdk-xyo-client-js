@@ -2,11 +2,11 @@ import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
-import { AnyConfigSchema, ModuleConfig } from '../Config'
+import { ModuleConfig } from '../Config'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
-export type ModuleFields<TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>> = {
+export type ModuleFields<TParams extends ModuleParams = ModuleParams> = {
   address: string
   config: TParams['config']
 

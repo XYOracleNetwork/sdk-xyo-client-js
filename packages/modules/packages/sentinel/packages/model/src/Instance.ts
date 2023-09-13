@@ -10,7 +10,7 @@ import { Sentinel } from './Sentinel'
 
 export type SentinelInstance<TParams extends SentinelParams = SentinelParams> = SentinelModule<TParams> &
   Sentinel &
-  ModuleInstance & {
+  ModuleInstance<TParams> & {
     archivists: () => Promisable<ArchivistInstance[]>
     witnesses: () => Promisable<WitnessInstance[]>
   }

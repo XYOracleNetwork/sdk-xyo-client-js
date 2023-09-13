@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 
+import { hasAllLabels, Labels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
 import { CreatableModuleRegistry } from './CreatableModuleRegistry'
 import { hasLabels, LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory'
-import { hasAllLabels, Labels } from './Labels'
 
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories

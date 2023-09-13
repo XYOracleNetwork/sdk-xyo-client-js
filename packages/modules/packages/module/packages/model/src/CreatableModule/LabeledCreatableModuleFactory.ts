@@ -1,5 +1,5 @@
+import { WithLabels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
-import { WithLabels } from './Labels'
 
 export type LabeledCreatableModuleFactory = CreatableModuleFactory & WithLabels
 

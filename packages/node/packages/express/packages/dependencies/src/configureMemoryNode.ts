@@ -4,7 +4,7 @@ import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
+import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
@@ -71,7 +71,9 @@ const loadNodeFromConfig = async (container: Container, config?: string) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as ManifestPayload) : (defaultNode as ManifestPayload)
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   const wrapper = new ManifestWrapper(manifest, wallet)
-  const [node] = await wrapper.loadNodes(undefined, dictionary)
+  const registry = locator.registry
+  const [node] = await wrapper.loadNodes(undefined, registry)
   return node
 }

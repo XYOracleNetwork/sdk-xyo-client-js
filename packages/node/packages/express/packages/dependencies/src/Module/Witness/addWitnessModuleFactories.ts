@@ -1,7 +1,7 @@
 import { CryptoNftCollectionWitness } from '@xyo-network/crypto-nft-collection-witness-plugin'
 import { CryptoWalletNftWitness } from '@xyo-network/crypto-nft-witness-wallet-plugin'
 import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
+import { CreatableModuleDictionary, ModuleFactory, ModuleFactoryLocator, toCreatableModuleRegistry } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
 import { TimestampWitness, TimestampWitnessConfigSchema } from '@xyo-network/witness-timestamp'
@@ -38,4 +38,8 @@ export const addWitnessModuleFactories = (container: Container) => {
   dictionary[ImageThumbnailWitness.configSchema] = getImageThumbnailWitness()
   dictionary[PrometheusNodeWitness.configSchema] = getPrometheusNodeWitness()
   dictionary[TimestampWitnessConfigSchema] = getTimestampWitness()
+
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  const registry = toCreatableModuleRegistry(dictionary)
+  locator.registerAdditional(registry)
 }

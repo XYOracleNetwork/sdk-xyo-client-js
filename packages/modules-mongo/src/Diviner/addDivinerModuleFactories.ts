@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
+import { CreatableModuleDictionary, ModuleFactory, ModuleFactoryLocator, toCreatableModuleRegistry } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mongo-js'
@@ -115,4 +115,8 @@ export const addDivinerModuleFactories = (container: Container) => {
   dictionary[MongoDBPayloadStatsDiviner.configSchema] = getMongoDBPayloadStatsDiviner(container)
   dictionary[MongoDBSchemaListDiviner.configSchema] = getMongoDBSchemaListDiviner()
   dictionary[MongoDBSchemaStatsDiviner.configSchema] = getMongoDBSchemaStatsDiviner(container)
+
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  const registry = toCreatableModuleRegistry(dictionary)
+  locator.registerAdditional(registry)
 }

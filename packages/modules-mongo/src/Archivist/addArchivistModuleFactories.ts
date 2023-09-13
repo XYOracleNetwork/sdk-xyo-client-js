@@ -21,7 +21,8 @@ export const addArchivistModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[ArchivistConfigSchema] = getMongoDBArchivistFactory()
   dictionary[MongoDBDeterministicArchivist.configSchema] = getMongoDBArchivistFactory()
-  const registry = toCreatableModuleRegistry(dictionary)
+
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  const registry = toCreatableModuleRegistry(dictionary)
   locator.registerAdditional(registry)
 }

@@ -13,7 +13,7 @@ import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
 import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
 import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
 import { ImageThumbnailDiviner, ImageThumbnailDivinerParams } from '@xyo-network/image-thumbnail-plugin'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
+import { CreatableModuleDictionary, ModuleFactory, ModuleFactoryLocator, toCreatableModuleRegistry } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
 
@@ -95,4 +95,8 @@ export const addDivinerModuleFactories = (container: Container) => {
   // dictionary[MemorySchemaStatsDiviner.configSchema] = getSchemaStatsDiviner()
   dictionary[NftCollectionScoreDiviner.configSchema] = getNftCollectionScoreDiviner()
   dictionary[NftScoreDiviner.configSchema] = getNftScoreDiviner()
+
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  const registry = toCreatableModuleRegistry(dictionary)
+  locator.registerAdditional(registry)
 }

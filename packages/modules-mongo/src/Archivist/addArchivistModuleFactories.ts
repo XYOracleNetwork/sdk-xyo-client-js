@@ -1,5 +1,5 @@
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
+import { CreatableModuleDictionary, ModuleFactory, ModuleFactoryLocator, toCreatableModuleRegistry } from '@xyo-network/module'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -21,4 +21,7 @@ export const addArchivistModuleFactories = (container: Container) => {
   const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
   dictionary[ArchivistConfigSchema] = getMongoDBArchivistFactory()
   dictionary[MongoDBDeterministicArchivist.configSchema] = getMongoDBArchivistFactory()
+  const registry = toCreatableModuleRegistry(dictionary)
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  locator.registerAdditional(registry)
 }

@@ -5644,9 +5644,9 @@ __metadata:
   linkType: hard
 
 "@xylabs/exists@npm:^2.10.16, @xylabs/exists@npm:~2.10.16":
-  version: 2.10.16
-  resolution: "@xylabs/exists@npm:2.10.16"
-  checksum: 6fcdcc766cde92b82c4bbdf789991bb4638c773740f470029146e2387fd156c70b633a374ddf68ccbfde0a083eefcb7f9d416de6fe3af4f90eaf62bc9a73feb8
+  version: 2.10.18
+  resolution: "@xylabs/exists@npm:2.10.18"
+  checksum: f39bffafe05f62500ed1ec4a9dd0ced66d0adcf9fb7d6db5eacd5e59a6b6d94258c098a335fd14b9940cd0123fad18eeb9087d0febeca5af9349fca068d90e5e
   languageName: node
   linkType: hard
 

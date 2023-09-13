@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
-import { CreatableModuleDictionary } from '@xyo-network/module'
+import { CreatableModuleDictionary, CreatableModuleRegistry, ModuleInstance } from '@xyo-network/module'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -16,7 +16,19 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     super(payload)
   }
 
-  async loadModule(node: MemoryNode, manifest: ModuleManifest, external = true, additionalCreatableModules?: CreatableModuleDictionary) {
+  async loadModule(node: MemoryNode, manifest: ModuleManifest, external: boolean, additionalCreatableModules?: CreatableModuleRegistry): Promise<void>
+  async loadModule(
+    node: MemoryNode,
+    manifest: ModuleManifest,
+    external: boolean,
+    additionalCreatableModules?: CreatableModuleDictionary,
+  ): Promise<void>
+  async loadModule(
+    node: MemoryNode,
+    manifest: ModuleManifest,
+    external = true,
+    additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
+  ): Promise<void> {
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
       const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length !== 0 : false
       return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length !== 0
@@ -34,12 +46,20 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     }
   }
 
-  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary) {
+  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode>
+  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
+  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode> {
     const manifest = assertEx(this.nodeManifest(index), 'Failed to find Node Manifest')
     return await this.loadNodeFromManifest(manifest, manifest.config.accountPath ?? `${index}'`, additionalCreatableModules)
   }
 
-  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary) {
+  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode>
+  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
+  async loadNodeFromManifest(
+    manifest: NodeManifest,
+    path: string,
+    additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
+  ): Promise<MemoryNode> {
     const node = await MemoryNode.create({ config: manifest.config, wallet: await this.wallet.derivePath(path) })
     // Load Private Modules
     const privateModules =
@@ -55,7 +75,9 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     return node
   }
 
-  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary) {
+  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode[]>
+  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode[]>
+  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode[]> {
     const start = Date.now()
     const result = await Promise.all(
       this.payload().nodes?.map(async (nodeManifest, index) => {
@@ -72,7 +94,13 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     return this.payload().nodes?.[index]
   }
 
-  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary) {
+  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleRegistry): Promise<ModuleInstance>
+  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary): Promise<ModuleInstance>
+  async registerModule(
+    node: MemoryNode,
+    manifest: ModuleManifest,
+    creatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
+  ): Promise<ModuleInstance> {
     const creatableModule = assertEx(
       creatableModules?.[manifest.config.schema],
       `No module with [${manifest.config.schema}] config schema available for registration`,

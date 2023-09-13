@@ -8,7 +8,22 @@ export interface CreatableModuleRegistry {
 
 export const toCreatableModuleRegistry = (dict: CreatableModuleDictionary | CreatableModuleRegistry): CreatableModuleRegistry => {
   return Object.entries(dict).reduce((registry, [schema, factory]) => {
-    registry[schema] = [factory]
+    registry[schema] = Array.isArray(factory) ? factory : [factory]
     return registry
   }, {} as CreatableModuleRegistry)
+}
+
+export const assignCreatableModuleRegistry = (
+  target: CreatableModuleRegistry = {},
+  ...sources: CreatableModuleRegistry[]
+): CreatableModuleRegistry => {
+  sources.map((source) =>
+    Object.entries(source).map(([schema, factories]) => {
+      if (factories) {
+        const existingFactories = target[schema]
+        target[schema] = existingFactories ? (target[schema] = [...existingFactories, ...factories]) : factories
+      }
+    }),
+  )
+  return target
 }

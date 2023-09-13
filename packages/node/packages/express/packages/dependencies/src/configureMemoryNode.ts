@@ -67,13 +67,11 @@ const addModuleToNodeFromConfig = async (
 }
 
 const loadNodeFromConfig = async (container: Container, config?: string) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  const wallet = await HDWallet.fromMnemonic(mnemonic)
   const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as ManifestPayload) : (defaultNode as ManifestPayload)
+  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
+  const wallet = await HDWallet.fromMnemonic(mnemonic)
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
-  const wrapper = new ManifestWrapper(manifest, wallet)
-  const registry = locator.registry
-  const [node] = await wrapper.loadNodes(undefined, registry)
+  const wrapper = new ManifestWrapper(manifest, wallet, locator)
+  const [node] = await wrapper.loadNodes()
   return node
 }

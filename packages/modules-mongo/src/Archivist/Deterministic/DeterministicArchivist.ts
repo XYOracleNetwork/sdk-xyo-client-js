@@ -11,11 +11,11 @@ export type MongoDBDeterministicArchivistConfig = MongoDBArchivistConfig
 export type MongoDBDeterministicArchivistParams = MongoDBArchivistParams
 
 interface MongoStorageClassLabels extends Labels {
-  storageClass: 'mongodb'
+  'network.xyo.storage.class': 'mongodb'
 }
 
 const MongoStorageClassLabels: MongoStorageClassLabels = {
-  storageClass: 'mongodb',
+  'network.xyo.storage.class': 'mongodb',
 }
 
 @staticImplements<WithLabels<MongoStorageClassLabels>>()

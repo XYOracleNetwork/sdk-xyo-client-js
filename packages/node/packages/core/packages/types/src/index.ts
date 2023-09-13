@@ -14,6 +14,7 @@ export const TYPES = {
   ...WITNESS_TYPES,
   AccountMnemonic: Symbol('AccountMnemonic'),
   CreatableModuleDictionary: Symbol('CreatableModuleDictionary'),
+  CreatableModuleRegistry: Symbol('CreatableModuleRegistry'),
   Logger: Symbol('Logger'),
 }
 

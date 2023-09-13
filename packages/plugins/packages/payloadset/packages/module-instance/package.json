@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/lodash": "^2.10.16",
+    "@xylabs/lodash": "^2.10.18",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-instance-payload-plugin": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

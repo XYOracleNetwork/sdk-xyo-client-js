@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "~2.10.16",
+    "@xylabs/assert": "~2.10.18",
     "@xyo-network/logger": "workspace:~"
   },
   "devDependencies": {

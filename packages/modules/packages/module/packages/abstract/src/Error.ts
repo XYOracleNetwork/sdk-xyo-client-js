@@ -1,7 +1,7 @@
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 
-export class ModuleErrorBuilder extends PayloadBuilder {
+export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
   _message?: string
   _name?: string
   _query?: string
@@ -10,14 +10,14 @@ export class ModuleErrorBuilder extends PayloadBuilder {
     super({ schema: ModuleErrorSchema })
   }
 
-  override build(): ModuleError {
-    return {
+  override fields(fields?: Partial<Omit<ModuleError, 'schema'>>) {
+    return super.fields({
       message: this._message,
       name: this._name,
       query: this._query,
-      schema: ModuleErrorSchema,
       sources: this._sources,
-    }
+      ...fields,
+    })
   }
 
   message(message: string) {

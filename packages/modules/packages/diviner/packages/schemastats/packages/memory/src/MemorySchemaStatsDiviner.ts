@@ -47,6 +47,8 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
     if (!query) return []
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
-    return counts.map((count) => new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build())
+    return await Promise.all(
+      counts.map(async (count) => await new PayloadBuilder<SchemaStatsPayload>({ schema: SchemaStatsDivinerSchema }).fields({ count }).build()),
+    )
   }
 }

@@ -40,7 +40,7 @@ describe('MemoryNode', () => {
     const foundNamedArchivist = asArchivistInstance(await node.resolve('Archivist'))
     expect(foundNamedArchivist).toBeDefined()
     expect(foundArchivist?.address).toBe(archivist.address)
-    const testPayload = new PayloadBuilder<Payload<{ schema: PayloadSchema; test: boolean }>>({ schema: PayloadSchema })
+    const testPayload = await new PayloadBuilder<Payload<{ schema: PayloadSchema; test: boolean }>>({ schema: PayloadSchema })
       .fields({ test: true })
       .build()
 

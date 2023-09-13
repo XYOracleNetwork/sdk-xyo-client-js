@@ -15,7 +15,7 @@ describe('Witness', () => {
   })
   /*const config: WitnessConfig = { schema: WitnessConfigSchema }
   const params: ModuleParams<WitnessConfig> = { config }
-  const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+  const observed = await new PayloadBuilder({ schema: 'network.xyo.test' }).build()
 
   describe('fulfills type of', () => {
     let account: AccountInstance

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+    "incremental": false,
+    "typeRoots": []
+  },
+  "exclude": ["dist", "docs"],
+  "extends": "@xylabs/tsconfig"
+}
+

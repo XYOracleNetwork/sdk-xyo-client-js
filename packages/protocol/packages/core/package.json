@@ -14,7 +14,6 @@
     "@xylabs/assert": "^2.10.16",
     "@xylabs/bignumber": "^2.10.16",
     "@xylabs/buffer": "^2.10.16",
-    "@xylabs/lodash": "^2.10.16",
     "@xyo-network/address": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/logger": "workspace:~",
@@ -22,18 +21,12 @@
     "@xyo-network/promise": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
-    "hash-wasm": "^4.9.0",
     "keccak256": "^1.0.6",
-    "sha.js": "^2.4.11",
-    "uuid": "^9.0.0",
-    "wasm-feature-detect": "^1.5.1"
+    "uuid": "^9.0.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/lodash": "^4.14.198",
-    "@types/sha.js": "^2.4.1",
     "@types/uuid": "^9.0.3",
-    "@xylabs/lodash": "^2.10.16",
     "@xylabs/ts-scripts-yarn3": "^2.19.12",
     "@xylabs/tsconfig": "^2.19.12",
     "publint": "^0.2.2",

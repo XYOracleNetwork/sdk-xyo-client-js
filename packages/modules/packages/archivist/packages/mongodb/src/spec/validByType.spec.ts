@@ -15,8 +15,8 @@ type DebugPayloadWithMeta = PayloadWithMeta & { nonce: string }
 
 describe('validByType', () => {
   const account = Account.randomSync()
-  const payload1: Payload = new PayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
-  const payload2: Payload = new PayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
+  const payload1: Payload = await new PayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+  const payload2: Payload = await new PayloadBuilder<DebugPayloadWithMeta>({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
   describe('QueryBoundWitness with Payloads & nested BoundWitnesses', () => {
     let result: [BoundWitnessWrapper[], PayloadWrapper[]]
     beforeAll(async () => {

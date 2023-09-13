@@ -1,4 +1,5 @@
 export * from './AnyObject'
 export * from './EmptyObject'
 export * from './ObjectWrapper'
+export * from './SerializableObject'
 export * from './StringKeyObject'

@@ -4,10 +4,10 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AnyConfigSchema,
-  Module,
   ModuleConfig,
   ModuleDescriptionPayload,
   ModuleEventData,
+  ModuleInstance,
   ModuleParams,
 } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -19,7 +19,7 @@ export abstract class AbstractModuleInstance<
     TEventData extends ModuleEventData = ModuleEventData,
   >
   extends AbstractModule<TParams, TEventData>
-  implements Module<TParams, TEventData>
+  implements ModuleInstance<TParams, TEventData>
 {
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')

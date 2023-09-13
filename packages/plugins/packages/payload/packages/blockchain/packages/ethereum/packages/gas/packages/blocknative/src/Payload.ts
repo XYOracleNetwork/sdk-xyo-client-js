@@ -15,7 +15,7 @@ export interface EstimatedPrice {
   price: number
 }
 
-export interface BlockPrice {
+export type BlockPrice = {
   baseFeePerGas: number
   blockNumber: number
   estimatedPrices: WithConfidence<EstimatedPrice>[]
@@ -41,7 +41,7 @@ export interface EthereumGasBlocknativeResponse {
 
 export type EthereumGasBlocknativePayload = Payload<
   EthereumGasBlocknativeResponse & {
-    schema: EthereumGasBlocknativeSchema
     timestamp: number
-  }
+  },
+  EthereumGasBlocknativeSchema
 >

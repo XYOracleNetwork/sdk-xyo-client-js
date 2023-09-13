@@ -8,8 +8,8 @@ import { BoundWitnessMapResult, flatMapBoundWitness } from '../flatMapBoundWitne
 const config: BoundWitnessBuilderConfig = { inlinePayloads: true }
 
 describe('flatMapBoundWitness', () => {
-  const payload1: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
-  const payload2: Payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
+  const payload1: Payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '1' }).build()
+  const payload2: Payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).fields({ nonce: '2' }).build()
   describe('BoundWitness with Payloads & nested BoundWitnesses', () => {
     let inner: [BoundWitness, Payload[], ModuleError[]]
     let outer: [BoundWitness, Payload[], ModuleError[]]

@@ -200,9 +200,9 @@ export abstract class AbstractArchivist<
         if (found) {
           //TODO: Find a better way to scrub meta data without scrubbing _signatures
           if (found.schema === BoundWitnessSchema) {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } })
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } } as BoundWitness)
           } else {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) })
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) } as Payload)
           }
         } else {
           prev.notfoundHashes.push(hash)

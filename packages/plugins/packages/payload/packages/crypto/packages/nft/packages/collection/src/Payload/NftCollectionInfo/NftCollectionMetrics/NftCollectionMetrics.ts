@@ -1,6 +1,6 @@
 import { NftTraitMetrics } from './NftTraitMetrics'
 
-export interface NftCollectionMetrics {
+export type NftCollectionMetrics = {
   metadata: {
     attributes: {
       [trait: string]: {

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { ElevationPayload, ElevationSchema } from '@xyo-network/elevation-payload-plugin'
-import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
+import { GeographicCoordinateSystemLocation, LocationPayload, QuadkeyLocation, QuadkeyLocationPayload } from '@xyo-network/location-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
@@ -54,9 +54,9 @@ export type ElevationWitnessConfig = WitnessConfig<{
   zoom?: number
 }>
 
-export const locationToQuadkey = (location: Location, zoom = 16) => {
+export const locationToQuadkey = (location: LocationPayload, zoom = 16) => {
   return assertEx(
-    (location as QuadkeyLocation).quadkey
+    (location as QuadkeyLocationPayload).quadkey
       ? Quadkey.fromString(zoom, (location as QuadkeyLocation).quadkey)
       : Quadkey.fromLngLat(
           { lat: (location as GeographicCoordinateSystemLocation).latitude, lng: (location as GeographicCoordinateSystemLocation).longitude },

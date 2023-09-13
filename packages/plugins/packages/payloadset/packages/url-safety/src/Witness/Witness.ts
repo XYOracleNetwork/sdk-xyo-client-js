@@ -1,4 +1,5 @@
 import { AxiosJson } from '@xyo-network/axios'
+import { Serializable } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload, UrlSafetySchema, UrlSafetyThreatType } from '@xyo-network/url-safety-payload-plugin'
@@ -10,7 +11,7 @@ import { UrlSafetyWitnessParams } from './Params'
 export type GoogleSafeBrowsingMatchSchema = 'com.google.safebrowsing.match'
 export const GoogleSafeBrowsingMatchSchema: GoogleSafeBrowsingMatchSchema = 'com.google.safebrowsing.match'
 
-export interface GoogleSafeBrowsingMatch {
+export type GoogleSafeBrowsingMatch = {
   cacheDuration: string
   platformType: string
   threat: {
@@ -22,7 +23,7 @@ export interface GoogleSafeBrowsingMatch {
 
 export type GoogleSafeBrowsingMatchPayload = Payload<GoogleSafeBrowsingMatch, GoogleSafeBrowsingMatchSchema>
 
-interface GoogleSafeBrowsingResult {
+export type GoogleSafeBrowsingResult = {
   matches?: GoogleSafeBrowsingMatch[]
 }
 
@@ -84,7 +85,7 @@ export class UrlSafetyWitness<TParams extends UrlSafetyWitnessParams = UrlSafety
     return urls.map((url) => {
       const payload = matches.reduce<UrlSafetyPayload>(
         (prev, match) => {
-          if (match.threat.url === url) {
+          if (match.threat?.url === url) {
             prev.threatTypes = prev.threatTypes ?? []
             if (!prev.threatTypes.includes(match.threatEntryType as UrlSafetyThreatType)) {
               prev.threatTypes.push(match.threatEntryType as UrlSafetyThreatType)

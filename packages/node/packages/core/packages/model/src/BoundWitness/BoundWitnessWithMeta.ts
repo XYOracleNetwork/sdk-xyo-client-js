@@ -1,5 +1,6 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyObject } from '@xyo-network/core'
+import { Payload } from '@xyo-network/payload-model'
 
 import { PayloadWithPartialMeta } from '../Payload'
 import { BoundWitnessMetaBase } from './BoundWitnessMeta'
@@ -9,10 +10,10 @@ export type BoundWitnessMeta<T extends AnyObject = AnyObject, P extends PayloadW
 export type PartialBoundWitnessMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
   Partial<BoundWitnessMetaBase<P>>
 
-export type BoundWitnessWithMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
-  BoundWitnessMetaBase<P> &
-  BoundWitness
+export type BoundWitnessWithMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = Payload<
+  T & BoundWitnessMetaBase<P> & BoundWitness
+>
 
-export type BoundWitnessWithPartialMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = T &
-  Partial<BoundWitnessMetaBase<P>> &
-  BoundWitness
+export type BoundWitnessWithPartialMeta<T extends AnyObject = AnyObject, P extends PayloadWithPartialMeta = PayloadWithPartialMeta> = Payload<
+  T & Partial<BoundWitnessMetaBase<P>> & BoundWitness
+>

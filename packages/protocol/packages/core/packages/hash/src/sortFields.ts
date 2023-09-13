@@ -1,4 +1,4 @@
-import { AnyObject, StringKeyObject } from '@xyo-network/object'
+import { StringKeyObject } from '@xyo-network/object'
 import { typeOf } from '@xyo-network/typeof'
 
 //if an object, sub-sort
@@ -11,7 +11,7 @@ const subSort = (value: unknown) => {
   }
 }
 
-export const sortFields = <T extends AnyObject = AnyObject>(obj: T) => {
+export const sortFields = <T extends object>(obj: T) => {
   const stringyObj = obj as StringKeyObject
 
   const result: StringKeyObject = {}

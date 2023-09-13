@@ -25,7 +25,7 @@ describeIf(canAddMongoModules())('MongoDBPayloadDiviner', () => {
       payloadSdk,
     })
     // TODO: Insert via archivist
-    const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+    const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).build()
     await payloadSdk.insertOne(payload as unknown as PayloadWithMeta)
   })
   describe('divine', () => {

@@ -1,7 +1,6 @@
 import { NftAttribute } from './NftAttribute'
 
-export interface NftMetadata {
-  [key: string]: unknown
+export type NftMetadata = {
   attributes?: NftAttribute[] | unknown
   description?: unknown
   image?: unknown

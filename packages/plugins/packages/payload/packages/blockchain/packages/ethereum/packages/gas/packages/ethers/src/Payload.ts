@@ -1,3 +1,4 @@
+import { Serializable } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { EthereumGasEthersSchema } from './Schema'
@@ -5,7 +6,7 @@ import { EthereumGasEthersSchema } from './Schema'
 /**
  * https://docs.ethers.io/v5/api/providers/types/#providers-FeeData
  */
-export interface EthereumGasEthersResponse {
+export type EthereumGasEthersResponse = {
   /**
    * The gasPrice to use for legacy transactions or networks which do
    * not support EIP-1559.

@@ -1,9 +1,10 @@
+import { Serializable } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { GeographicCoordinateSystemLocationSchema, QuadkeyLocationSchema } from './GeographicCoordinateSystemLocationSchema'
 
 // Geographic Coordinate system (GCS) is the official name of lng/lat system
-export interface GeographicCoordinateSystemLocation {
+export type GeographicCoordinateSystemLocation = {
   accuracy?: number
   altitude?: number
   altitudeAccuracy?: number
@@ -11,7 +12,7 @@ export interface GeographicCoordinateSystemLocation {
   longitude: number
 }
 
-export interface QuadkeyLocation {
+export type QuadkeyLocation = {
   altitude?: number
   altitudeAccuracy?: number
   quadkey: string

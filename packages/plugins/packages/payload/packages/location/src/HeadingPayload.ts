@@ -1,3 +1,4 @@
+import { Serializable } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { LocationHeadingSchema } from './HeadingSchema'

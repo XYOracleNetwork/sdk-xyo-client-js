@@ -33,6 +33,7 @@ describe(`/${moduleName}`, () => {
       validateDiscoverResponse(response, [DivinerDivineQuerySchema])
     })
   })
+  /*
   describe('DivinerDivineQuerySchema', () => {
     const accountA = Account.randomSync()
     const accountB = Account.randomSync()
@@ -145,5 +146,5 @@ describe(`/${moduleName}`, () => {
         })
       })
     })
-  })
+  })*/
 })

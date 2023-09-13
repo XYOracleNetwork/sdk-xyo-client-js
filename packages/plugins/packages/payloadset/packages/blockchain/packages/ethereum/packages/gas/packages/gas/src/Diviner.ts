@@ -3,7 +3,6 @@ import { DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/divine
 import { EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 import { divineGas } from './lib'
 import { EthereumGasDivinerConfigSchema } from './Schema'
@@ -18,8 +17,8 @@ export class EthereumGasDiviner<TParams extends EthereumGasDivinerParams = Ether
   static override readonly configSchemas: string[] = [EthereumGasDivinerConfigSchema]
   static override targetSchema: string = EthereumGasSchema
 
-  protected override divineHandler(payloads?: Payload[]): Promisable<Payload[]> {
-    const cost = divineGas(payloads ?? [])
+  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+    const cost = await divineGas(payloads ?? [])
     return [cost]
   }
 }

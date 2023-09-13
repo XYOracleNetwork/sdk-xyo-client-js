@@ -1,14 +1,13 @@
+import { Address } from '@xyo-network/address-model'
 import { WithAdditional } from '@xyo-network/core'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'
 
-export type AddressString = string
 export type CosigningAddressSet = string[]
-export type SchemaString = string
 
-export type NameOrAddress = string
+export type NameOrAddress = string | Address
 
 export interface IndividualArchivistConfig {
   readonly commit?: NameOrAddress
@@ -42,10 +41,10 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
         readonly allowAnonymous?: boolean
 
         /** @field If schema in record, then only these address sets can access query */
-        readonly allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+        readonly allowed?: Record<Schema, (Address | CosigningAddressSet)[]>
 
         /** @field If schema in record, then anyone except these addresses can access query */
-        readonly disallowed?: Record<SchemaString, AddressString[]>
+        readonly disallowed?: Record<Schema, Address[]>
       }
 
       /** @field sign every query */
@@ -63,12 +62,12 @@ export type ModuleConfigBase<TConfig extends Payload | undefined = undefined> = 
 
 export type ModuleConfig<TConfig extends Payload | undefined = undefined> = ModuleConfigBase<TConfig>
 
-export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =
+export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: Schema } = Omit<ModuleConfig, 'schema'> & { schema: Schema }> =
   ModuleConfig<
     WithAdditional<
       Omit<TConfig, 'schema'>,
       {
-        schema: string
+        schema: Schema
       }
     >
   >

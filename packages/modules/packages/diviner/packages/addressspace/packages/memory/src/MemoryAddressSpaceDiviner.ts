@@ -29,6 +29,6 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
         .flat()
         .map((address) => address.toLowerCase()),
     )
-    return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+    return await Promise.all([...addresses].map(async (address) => await new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()))
   }
 }

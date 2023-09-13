@@ -75,7 +75,7 @@ export class LocationCertaintyDiviner<TParam extends LocationCertaintyDivinerPar
 
       const heuristics = LocationCertaintyDiviner.locationsToHeuristics(elevations, locations)
 
-      const result = new PayloadBuilder<LocationCertaintyPayload>({ schema: LocationCertaintySchema })
+      const result = await new PayloadBuilder<LocationCertaintyPayload>({ schema: LocationCertaintySchema })
         .fields({
           altitude: LocationCertaintyDiviner.calcHeuristic(heuristics.altitude),
           elevation: LocationCertaintyDiviner.calcHeuristic(heuristics.elevation),

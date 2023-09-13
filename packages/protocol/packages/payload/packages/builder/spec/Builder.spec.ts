@@ -6,7 +6,7 @@ const schema = 'network.xyo.temp'
 
 describe('BoundWitnessBuilder', () => {
   test('build', () => {
-    let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
+    let builder = await new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
       testArray: [1, 2, 3],

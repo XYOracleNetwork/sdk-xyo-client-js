@@ -1,6 +1,7 @@
-import { Payload } from './Payload'
+import { EmptyPayload } from './EmptyPayload'
+import { Payload, Schema } from './Payload'
 
-export interface QueryFields {
+export type QueryFields = EmptyPayload & {
   /** @field The addresses of the intended handlers */
   address?: string | [string]
 
@@ -14,4 +15,6 @@ export interface QueryFields {
   minBid?: number
 }
 
-export type Query<T extends Payload | void = void> = T extends Payload ? Payload<T & QueryFields> : Payload<QueryFields>
+export type Query<T extends Payload | void = void, S extends Schema | void = void> = T extends Payload
+  ? Payload<T & QueryFields, S>
+  : Payload<QueryFields, S>

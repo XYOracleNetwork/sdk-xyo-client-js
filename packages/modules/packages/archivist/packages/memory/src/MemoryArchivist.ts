@@ -17,8 +17,8 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable, PromisableArray } from '@xyo-network/promise'
 import { LRUCache } from 'lru-cache'
 
@@ -64,7 +64,7 @@ export class MemoryArchivist<
     ]
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): Promisable<Payload[]> {
     return compact(this.cache.dump().map((value) => PayloadHasher.hashFields(value[1].value)))
   }
 
@@ -119,9 +119,8 @@ export class MemoryArchivist<
   }
 
   private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
-    const wrapper = PayloadWrapper.wrap(payload)
-    const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
-    this.cache.set(payloadWithMeta._hash, payloadWithMeta)
+    const payloadWithMeta = await new PayloadBuilder(payload).build(true)
+    this.cache.set(payloadWithMeta._hash, await new PayloadBuilder(payload).build(true))
     return payload
   }
 }

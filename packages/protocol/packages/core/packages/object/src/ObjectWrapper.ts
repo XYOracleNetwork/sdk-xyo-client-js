@@ -1,7 +1,7 @@
-import { EmptyObject } from './EmptyObject'
+import { AnyObject } from './AnyObject'
 import { StringKeyObject } from './StringKeyObject'
 
-export abstract class ObjectWrapper<T extends EmptyObject = EmptyObject> {
+export abstract class ObjectWrapper<T extends AnyObject = AnyObject> {
   readonly obj: T
   constructor(obj: T) {
     this.obj = obj

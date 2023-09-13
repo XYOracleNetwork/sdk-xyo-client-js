@@ -22,10 +22,10 @@ export const deepBy = <T extends AnyObject>(obj: T, predicate: ValueKeyIteratee<
   return merge({}, pickedNonObjects, processedObjects) as T
 }
 
-export const deepOmitUnderscoreFields = <T extends AnyObject>(obj: T) => {
+export const deepOmitUnderscoreFields = <T extends object>(obj: T) => {
   return deepBy(obj, (_, key) => key.startsWith('_'), omitBy)
 }
 
-export const deepPickUnderscoreFields = <T extends AnyObject>(obj: T) => {
+export const deepPickUnderscoreFields = <T extends object>(obj: T) => {
   return deepBy(obj, (_, key) => key.startsWith('_'), pickBy)
 }

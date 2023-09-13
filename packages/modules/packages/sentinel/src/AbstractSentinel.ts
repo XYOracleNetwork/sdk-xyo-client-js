@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { uniq } from '@xylabs/lodash'
 import { AbstractArchivingModule, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
@@ -34,6 +33,7 @@ export abstract class AbstractSentinel<
     }
   }
 
+  /*
   addArchivist(address: string[]) {
     this.config.archivists = uniq([...address, ...(this.config.archivists ?? [])])
   }
@@ -41,6 +41,7 @@ export abstract class AbstractSentinel<
   addWitness(address: string[]) {
     this.config.witnesses = uniq([...address, ...(this.config.witnesses ?? [])])
   }
+  */
 
   async archivists() {
     this.logger?.debug(`archivists:config:archivist: ${this.config?.archivists?.length}`)
@@ -64,6 +65,7 @@ export abstract class AbstractSentinel<
     return result
   }
 
+  /*
   removeArchivist(address: string[]) {
     this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
   }
@@ -71,6 +73,7 @@ export abstract class AbstractSentinel<
   removeWitness(address: string[]) {
     this.config.witnesses = (this.config.witnesses ?? []).filter((witness) => !address.includes(witness))
   }
+  */
 
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')

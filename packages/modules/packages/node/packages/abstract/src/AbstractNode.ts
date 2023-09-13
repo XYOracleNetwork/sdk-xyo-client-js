@@ -128,8 +128,11 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
 
   protected override async discoverHandler(): Promise<Payload[]> {
     const childMods = await this.attachedModules()
-    const childModAddresses = childMods.map((mod) =>
-      new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+    const childModAddresses = await Promise.all(
+      childMods.map(
+        async (mod) =>
+          await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+      ),
     )
 
     return [...(await super.discoverHandler()), ...childModAddresses]
@@ -170,7 +173,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       case NodeAttachQuerySchema: {
         const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
         if (address) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = await new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -178,7 +181,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       case NodeDetachQuerySchema: {
         const address = await this.detach(queryPayload.nameOrAddress)
         if (address) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = await new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -186,7 +189,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       case NodeAttachedQuerySchema: {
         const addresses = await this.attached()
         for (const address of addresses) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = await new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -194,7 +197,7 @@ export abstract class AbstractNode<TParams extends NodeModuleParams = NodeModule
       case NodeRegisteredQuerySchema: {
         const addresses = await this.registered()
         for (const address of addresses) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = await new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break

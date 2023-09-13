@@ -14,8 +14,8 @@ export const getNewBlock = async (...payloads: Payload[]): Promise<BoundWitnessW
   )[0]
 }
 
-export const getNewBlockWithPayloads = (numPayloads = 1) => {
-  return getNewBlock(...getNewPayloads(numPayloads))
+export const getNewBlockWithPayloads = async (numPayloads = 1) => {
+  return await getNewBlock(...(await getNewPayloads(numPayloads)))
 }
 
 export const getNewBlocks = async (numBoundWitnesses = 1): Promise<Array<BoundWitnessWithPartialMeta & PayloadWithPartialMeta>> => {
@@ -37,7 +37,7 @@ export const getNewBlocksWithPayloads = async (
       return (
         await new BoundWitnessBuilder({ inlinePayloads: true })
           .witness(await unitTestSigningAccount())
-          .payloads(getNewPayloads(numPayloads))
+          .payloads(await getNewPayloads(numPayloads))
           .build()
       )[0]
     }),

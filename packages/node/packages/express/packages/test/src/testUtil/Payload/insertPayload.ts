@@ -5,8 +5,9 @@ import { unitTestSigningAccount } from '../Account'
 import { getArchivist } from '../Archivist'
 import { getNewPayload } from './getNewPayload'
 
-export const insertPayload = async (payloads: Payload | Payload[] = getNewPayload(), account?: AccountInstance): Promise<Payload[]> => {
+export const insertPayload = async (payloads?: Payload | Payload[], account?: AccountInstance): Promise<Payload[]> => {
+  const resolvedPayloads = payloads ?? (await getNewPayload())
   const archivist = await getArchivist(account ?? (await unitTestSigningAccount()))
-  const data = Array.isArray(payloads) ? payloads : [payloads]
+  const data = Array.isArray(resolvedPayloads) ? resolvedPayloads : [resolvedPayloads]
   return archivist.insert(data)
 }

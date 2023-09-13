@@ -2,7 +2,7 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { EthereumGasEtherchainV2Schema } from './Schema'
 
-export interface EthereumGasEtherchainV2Response {
+export type EthereumGasEtherchainV2Response = {
   code: number
   data: {
     fast: number
@@ -16,7 +16,7 @@ export interface EthereumGasEtherchainV2Response {
 
 export type EthereumGasEtherchainV2Payload = Payload<
   EthereumGasEtherchainV2Response & {
-    schema: EthereumGasEtherchainV2Schema
     timestamp: number
-  }
+  },
+  EthereumGasEtherchainV2Schema
 >

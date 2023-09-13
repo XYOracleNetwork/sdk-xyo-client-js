@@ -11,6 +11,8 @@ import {
   ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescription,
+  ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
@@ -87,7 +89,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     }
   }
 
-  async describe(): Promise<ModuleDescription> {
+  async describe(): Promise<ModuleDescriptionPayload> {
     return await this.busy(async () => {
       const description: ModuleDescription = {
         address: this.address,
@@ -106,7 +108,8 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
         }) ?? [],
       )
 
-      return description
+      const payload: ModuleDescriptionPayload = { ...description, schema: ModuleDescriptionSchema }
+      return payload
     })
   }
 

@@ -1,5 +1,7 @@
+import { Address } from '@xyo-network/address-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { AddressString, AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
+import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery } from '@xyo-network/module-model'
+import { Schema } from '@xyo-network/payload-model'
 
 import { Queryable, QueryValidator } from './QueryValidator'
 
@@ -8,8 +10,8 @@ export type SortedPipedAddressesString = string
 const delimiter = ''
 
 export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleConfig>> implements QueryValidator {
-  protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
-  protected disallowed: Record<SchemaString, AddressString[]> = {}
+  protected allowed: Record<Schema, SortedPipedAddressesString[]> = {}
+  protected disallowed: Record<Schema, Address[]> = {}
   protected readonly hasAllowedRules: boolean
   protected readonly hasDisallowedRules: boolean
   protected readonly hasRules: boolean
@@ -39,7 +41,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
 
-  protected queryAllowed = (schema: SchemaString, addresses: string[]): boolean => {
+  protected queryAllowed = (schema: Schema, addresses: string[]): boolean => {
     if (!this.hasAllowedRules) return true
     // All cosigners must sign
     if (addresses.length > 1) {
@@ -50,7 +52,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     // OR all signers have to be allowed individually
     return addresses.every((address) => this.allowed?.[schema]?.includes(address) || false)
   }
-  protected queryDisallowed = (schema: SchemaString, addresses: string[]): boolean => {
+  protected queryDisallowed = (schema: Schema, addresses: string[]): boolean => {
     if (!this.hasDisallowedRules) return false
     return addresses.some((address) => this.disallowed?.[schema]?.includes(address))
   }

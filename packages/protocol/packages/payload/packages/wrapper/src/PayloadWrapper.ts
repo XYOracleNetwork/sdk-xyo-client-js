@@ -63,7 +63,7 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     const result: Record<string, PayloadWrapper<T>> = {}
     await Promise.all(
       payloads.map(async (payload) => {
-        result[await PayloadWrapper.hashAsync(payload)] = PayloadWrapper.wrap(payload)
+        result[await PayloadWrapper.hashAsync(assertEx(PayloadWrapper.unwrap(payload)))] = PayloadWrapper.wrap(payload)
       }),
     )
     return result

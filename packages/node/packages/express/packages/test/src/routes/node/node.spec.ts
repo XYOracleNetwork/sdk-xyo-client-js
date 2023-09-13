@@ -27,7 +27,7 @@ describe('Node API', () => {
     })
     describe('POST', () => {
       it('issues query to Node', async () => {
-        const queryPayload = new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const queryPayload = await new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = await new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const send = [query[0], [...query[1]]]
         const response = await client.post(path, send)
@@ -77,7 +77,7 @@ describe('Node API', () => {
         return [bw, payloads]
       }
       it('issues query to module at address', async () => {
-        const queryPayload = new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
+        const queryPayload = await new PayloadBuilder({ schema: ModuleDiscoverQuerySchema }).build()
         const query = await new QueryBoundWitnessBuilder({ inlinePayloads: true }).witness(account).query(queryPayload).build()
         const data = [query[0], [...query[1]]] as [QueryBoundWitness, Payload[]]
         await postModuleQuery(data, address)

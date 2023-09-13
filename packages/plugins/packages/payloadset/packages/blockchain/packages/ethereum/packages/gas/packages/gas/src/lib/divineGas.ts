@@ -18,7 +18,7 @@ import {
   transformGasFromEthgasstation,
 } from './transforms'
 
-export const divineGas = (payloads: Payload[]): EthereumGasPayload => {
+export const divineGas = async (payloads: Payload[]): Promise<EthereumGasPayload> => {
   const blocknative = payloads.filter(isEthereumGasBlocknativePayload).map(transformGasFromBlocknative)
   const etherchainV2 = payloads.filter(isEthereumGasEtherchainV2Payload).map(transformGasFromEtherchainV2)
   const ethers = payloads.filter(isEthereumGasEthersPayload).map(transformGasFromEthers)
@@ -27,6 +27,6 @@ export const divineGas = (payloads: Payload[]): EthereumGasPayload => {
   const transactionCosts: FeeData[] = [...blocknative, ...etherchainV2, ...ethers, ...etherscan, ...ethgasstation]
   const avg = average(transactionCosts)
   const timestamp = Date.now()
-  const payload = new PayloadBuilder<EthereumGasPayload>({ schema: EthereumGasSchema }).fields({ ...avg, timestamp }).build()
+  const payload = await new PayloadBuilder<EthereumGasPayload>({ schema: EthereumGasSchema }).fields({ ...avg, timestamp }).build()
   return payload
 }

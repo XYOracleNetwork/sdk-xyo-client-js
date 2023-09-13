@@ -19,7 +19,7 @@ import {
   ModuleAddressQuerySchema,
   ModuleDescribeQuery,
   ModuleDescribeQuerySchema,
-  ModuleDescription,
+  ModuleDescriptionPayload,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
@@ -231,9 +231,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   //TODO: Make ModuleDescription into real payload
-  async describe(): Promise<ModuleDescription> {
+  async describe(): Promise<ModuleDescriptionPayload> {
     const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    return (await this.sendQuery(queryPayload))[0] as unknown as ModuleDescription
+    return (await this.sendQuery(queryPayload))[0] as ModuleDescriptionPayload
   }
 
   async discover(): Promise<Payload[]> {

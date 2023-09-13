@@ -15,12 +15,12 @@ export class BoundWitnessWrapper<
   private _allPayloadMap: Record<string, TPayload> | undefined
   private _moduleErrors: PayloadWrapper[]
   private _payloadMap: Record<string, TPayload> | undefined
-  private _payloads: PayloadWrapper<TPayload>[]
+  private _payloads: TPayload[]
   private isBoundWitnessWrapper = true
 
   protected constructor(boundwitness: TBoundWitness, payloads?: (TPayload | undefined)[], moduleErrors?: (Payload | undefined)[]) {
     super(boundwitness)
-    this._payloads = payloads ? compact(payloads.filter(exists).map((payload) => PayloadWrapper.wrap<TPayload>(payload))) : []
+    this._payloads = payloads ? compact(payloads.filter(exists)) : []
     this._moduleErrors = moduleErrors ? compact(moduleErrors.filter(exists).map((error) => PayloadWrapper.wrap<Payload>(error))) : []
   }
 
@@ -40,7 +40,7 @@ export class BoundWitnessWrapper<
     return this.boundwitness.payload_schemas
   }
 
-  get payloadsArray(): PayloadWrapper<TPayload>[] {
+  get payloadsArray(): TPayload[] {
     return Object.values(this._payloads ?? {})
   }
 
@@ -136,7 +136,7 @@ export class BoundWitnessWrapper<
     const result: Record<string, BoundWitnessWrapper<T>> = {}
     await Promise.all(
       boundWitnesses.map(async (payload) => {
-        result[await BoundWitnessWrapper.hashAsync(payload)] = BoundWitnessWrapper.parse(payload)
+        result[await BoundWitnessWrapper.hashAsync(assertEx(BoundWitnessWrapper.unwrap(payload)))] = BoundWitnessWrapper.parse(payload)
       }),
     )
     return result
@@ -173,7 +173,7 @@ export class BoundWitnessWrapper<
   }
 
   getAllWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {
-    return this._payloads
+    return this._payloads.map((payload) => PayloadWrapper.wrap(payload))
   }
 
   async getMissingPayloads() {
@@ -190,7 +190,7 @@ export class BoundWitnessWrapper<
   }
 
   getWrappedPayloads(): Promisable<PayloadWrapper<TPayload>[]> {
-    return this._payloads
+    return this._payloads.map((payload) => PayloadWrapper.wrap(payload))
   }
 
   hashesBySchema(schema: string) {

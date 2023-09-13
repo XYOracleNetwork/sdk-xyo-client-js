@@ -1,3 +1,4 @@
+import { ObjectHasher } from '../ObjectHasher'
 import { PayloadHasher } from '../PayloadHasher'
 
 describe('Hasher', () => {
@@ -69,13 +70,13 @@ describe('Hasher', () => {
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
-      await new PayloadHasher({ ...bigObject, nonce: x }).hashAsync()
+      await new ObjectHasher({ ...bigObject, nonce: x }).hashAsync()
     }
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 10000; x++) {
-      await new PayloadHasher({ ...bigObject, nonce: x }).hashAsync()
+      await new ObjectHasher({ ...bigObject, nonce: x }).hashAsync()
     }
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()
@@ -89,17 +90,17 @@ describe('Hasher', () => {
 
   test('wasm vs js (performance-parallel)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
-    const jsTestObjects: PayloadHasher[] = []
+    const jsTestObjects: ObjectHasher[] = []
     for (let x = 0; x < 10000; x++) {
-      jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
+      jsTestObjects.push(new ObjectHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
     await Promise.all(jsTestObjects.map((obj) => obj.hashAsync()))
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
-    const wasmTestObjects: PayloadHasher[] = []
+    const wasmTestObjects: ObjectHasher[] = []
     for (let x = 0; x < 10000; x++) {
-      wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
+      wasmTestObjects.push(new ObjectHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()
     await Promise.all(wasmTestObjects.map((obj) => obj.hashAsync()))

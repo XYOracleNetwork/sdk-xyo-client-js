@@ -5,7 +5,7 @@ import { EthereumGasEtherscanSchema } from './Schema'
 /**
  * https://docs.etherscan.io/api-endpoints/gas-tracker#get-gas-oracle
  */
-export interface EthereumGasEtherscanResponse {
+export type EthereumGasEtherscanResponse = {
   message: string
   result: {
     /**

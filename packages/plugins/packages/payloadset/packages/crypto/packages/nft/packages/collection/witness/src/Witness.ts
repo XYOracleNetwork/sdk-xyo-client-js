@@ -50,7 +50,7 @@ export class CryptoNftCollectionWitness<
           // Insert them into the archivist if we have one
           archivist ? archivist.insert(nfts) : NoOp,
         ])
-        const payload: NftCollectionInfo = { ...info, metrics, schema: NftCollectionSchema, sources, total }
+        const payload = { ...info, metrics, schema: NftCollectionSchema, sources, total } as NftCollectionInfo
         return payload
       }),
     )

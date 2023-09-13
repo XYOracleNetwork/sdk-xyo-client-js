@@ -1,11 +1,11 @@
-import { WithAdditional } from '@xyo-network/core'
-import { AddressString, ModuleConfig } from '@xyo-network/module-model'
+import { Address, WithAdditional } from '@xyo-network/core'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface ArchivistParents {
-  commit?: AddressString[]
-  read?: AddressString[]
-  write?: AddressString[]
+  commit?: Address[]
+  read?: Address[]
+  write?: Address[]
 }
 
 export type ArchivistConfigSchema = 'network.xyo.archivist.config'

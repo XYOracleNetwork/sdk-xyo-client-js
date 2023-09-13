@@ -41,12 +41,11 @@ import {
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleSubscribeQuerySchema,
-  SchemaString,
   serializableField,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query, Schema } from '@xyo-network/payload-model'
 import { Promisable, PromiseEx } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { IdLogger } from '@xyo-network/shared'
@@ -304,7 +303,7 @@ export abstract class AbstractModule<
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {
           errorPayloads.push(
-            new ModuleErrorBuilder()
+            await new ModuleErrorBuilder()
               .sources([await PayloadHasher.hashAsync(query)])
               .name(this.config.name ?? '<Unknown>')
               .query(query.schema)
@@ -424,7 +423,7 @@ export abstract class AbstractModule<
     })
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
+  protected bindHashes(hashes: string[], schema: Schema[], account?: AccountInstance) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
@@ -433,7 +432,7 @@ export abstract class AbstractModule<
     return promise
   }
 
-  protected async bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
+  protected async bindHashesInternal(hashes: string[], schema: Schema[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
@@ -501,17 +500,31 @@ export abstract class AbstractModule<
     return description
   }
 
-  protected discoverHandler(): Promisable<Payload[]> {
-    const config = this.config
-    const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config?.name }).build()
-    const queries = this.queries.map((query) => {
-      return new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
-    })
+  protected async discoverHandler(): Promise<Payload[]> {
+    const config: Payload = this.config
+    const address: Payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
+      .fields({ address: this.address, name: this.config?.name })
+      .build()
+    const queries: Payload[] = await Promise.all(
+      this.queries.map(async (query) => {
+        return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
+      }),
+    )
     const configSchema: ConfigPayload = {
       config: config.schema,
       schema: ConfigSchema,
     }
     return compact([config, configSchema, address, ...queries])
+  }
+
+  protected async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
+    if (!this.config.archivist) return undefined
+    const filter =
+      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
+        ? (this.config.archivist as string)
+        : (this.config?.archivist?.[kind] as string)
+    const resolved = await this.upResolver.resolve(filter)
+    return asArchivistInstance(resolved)
   }
 
   protected async initializeQueryAccounts() {
@@ -646,14 +659,4 @@ export abstract class AbstractModule<
   }
 
   protected writeArchivist = () => this.getArchivist('write')
-
-  private async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
-    const filter =
-      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
-        ? (this.config.archivist as string)
-        : (this.config?.archivist?.[kind] as string)
-    const resolved = await this.upResolver.resolve(filter)
-    return asArchivistInstance(resolved)
-  }
 }

@@ -6,7 +6,7 @@ export interface CreatableModuleRegistry {
   [key: string]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined
 }
 
-export const toCreatableModuleRegistry = (dict: CreatableModuleDictionary): CreatableModuleRegistry => {
+export const toCreatableModuleRegistry = (dict: CreatableModuleDictionary | CreatableModuleRegistry): CreatableModuleRegistry => {
   return Object.entries(dict).reduce((registry, [schema, factory]) => {
     registry[schema] = [factory]
     return registry

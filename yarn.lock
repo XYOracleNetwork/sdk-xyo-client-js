@@ -5711,9 +5711,9 @@ __metadata:
   linkType: hard
 
 "@xylabs/static-implements@npm:^2.10.16":
-  version: 2.10.16
-  resolution: "@xylabs/static-implements@npm:2.10.16"
-  checksum: 012fac44d243ea11c85e573fc1ae913ecb75119e3d8b60e69dc728e80961f48cd94a11fd1da6f6b62d5244dcd1be5b07d0c2b81366bc32c979835417511c7957
+  version: 2.10.18
+  resolution: "@xylabs/static-implements@npm:2.10.18"
+  checksum: 07b754534f019ad1fefaf6bd24d7749fc3ab5585fb9af465403e939d21d4f9d3d04ef3c8d7ed0d0ef9c0f54792604cd1fe6a52b563bfff935550c6efd02f0b2a
   languageName: node
   linkType: hard
 

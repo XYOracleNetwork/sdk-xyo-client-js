@@ -8,7 +8,7 @@ import { hasLabels, LabeledCreatableModuleFactory } from './LabeledCreatableModu
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
-export class CreatableModuleFactoryLocator {
+export class ModuleFactoryLocator {
   constructor(protected readonly registry: CreatableModuleRegistry = {}) {}
 
   /**

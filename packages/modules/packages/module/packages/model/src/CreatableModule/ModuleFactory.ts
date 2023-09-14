@@ -3,6 +3,7 @@ import { merge } from '@xylabs/lodash'
 import { Logger } from '@xyo-network/logger'
 
 import { ModuleInstance } from '../instance'
+import { Labels, WithOptionalLabels } from '../Labels'
 import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
 
 export class ModuleFactory<TModule extends ModuleInstance> implements CreatableModuleFactory<TModule> {
@@ -14,10 +15,17 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
 
   defaultParams?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] }
 
-  constructor(creatableModule: CreatableModule<TModule>, params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] }) {
+  labels?: Labels
+
+  constructor(
+    creatableModule: CreatableModule<TModule>,
+    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    labels: Labels = {},
+  ) {
     this.creatableModule = creatableModule
     this.defaultParams = params
     this.configSchemas = creatableModule.configSchemas
+    this.labels = Object.assign({}, (creatableModule as WithOptionalLabels).labels ?? {}, labels ?? {})
   }
 
   get configSchema(): string {
@@ -27,8 +35,9 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
   static withParams<T extends ModuleInstance>(
     creatableModule: CreatableModule<T>,
     params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
+    labels: Labels = {},
   ) {
-    return new ModuleFactory(creatableModule, params)
+    return new ModuleFactory(creatableModule, params, labels)
   }
 
   _getRootFunction(funcName: string) {

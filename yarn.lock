@@ -5316,7 +5316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:6.7.0":
+"@typescript-eslint/utils@npm:6.7.0, @typescript-eslint/utils@npm:^6.0.0":
   version: 6.7.0
   resolution: "@typescript-eslint/utils@npm:6.7.0"
   dependencies:
@@ -9842,7 +9842,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: ^8.49.0
     eslint-import-resolver-typescript: ^3.6.0
-    eslint-plugin-deprecation: ^1.5.0
+    eslint-plugin-deprecation: ^2.0.0
     eslint-plugin-import: ^2.28.1
     jest: ^29.7.0
     jest-environment-jsdom: ^29.7.0
@@ -13431,6 +13431,20 @@ __metadata:
     eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     typescript: ^3.7.5 || ^4.0.0 || ^5.0.0
   checksum: ec0ff3df1dbbbb85d14c8f6656bb126377280db58789c2ba3c4500250b291559c651a0fb2ac29aa977408fef3a919ad41e706100b55672ceb6c1ad09550e7396
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-deprecation@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "eslint-plugin-deprecation@npm:2.0.0"
+  dependencies:
+    "@typescript-eslint/utils": ^6.0.0
+    tslib: ^2.3.1
+    tsutils: ^3.21.0
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+    typescript: ^4.2.4 || ^5.0.0
+  checksum: d79611e902ac419a21e51eab582fcdbcf8170aff820c5e5197e7d242e7ca6bda59c0077d88404970c25993017398dd65c96df7d31a833e332d45dd330935324b
   languageName: node
   linkType: hard
 

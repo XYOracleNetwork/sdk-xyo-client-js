@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { staticImplements } from '@xylabs/static-implements'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -7,7 +8,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceBatchDivinerConfig, AddressSpaceBatchDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
 import { BoundWitnessPointerPayload, BoundWitnessPointerSchema, BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -16,6 +17,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
+import { MongoDBStorageClassLabels } from '../../Mongo'
 import { difference, union } from '../../Util'
 
 export type MongoDBAddressSpaceBatchDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
@@ -27,10 +29,12 @@ export type MongoDBAddressSpaceBatchDivinerParams<TConfig extends AddressSpaceBa
 
 const moduleName = 'MongoDBAddressSpaceBatchDiviner'
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBAddressSpaceBatchDiviner<
   TParams extends MongoDBAddressSpaceBatchDivinerParams = MongoDBAddressSpaceBatchDivinerParams,
 > extends AddressSpaceDiviner<TParams> {
   static override configSchemas = [AddressSpaceBatchDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   // TODO: Get via config or default
   protected readonly batchSize = 50

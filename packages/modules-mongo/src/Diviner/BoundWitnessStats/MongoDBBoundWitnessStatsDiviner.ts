@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { staticImplements } from '@xylabs/static-implements'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
@@ -13,7 +14,7 @@ import {
   BoundWitnessStatsQueryPayload,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
-import { AnyConfigSchema, ModuleParams } from '@xyo-network/module'
+import { AnyConfigSchema, ModuleParams, WithLabels } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -25,6 +26,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { defineJobs, scheduleJobs } from '../../JobQueue'
+import { MongoDBStorageClassLabels } from '../../Mongo'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -46,11 +48,13 @@ export type MongoDBBoundWitnessStatsDivinerParams = ModuleParams<
 
 const moduleName = 'MongoDBBoundWitnessStatsDiviner'
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitnessStatsDivinerParams = MongoDBBoundWitnessStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements BoundWitnessStatsDiviner, JobProvider
 {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

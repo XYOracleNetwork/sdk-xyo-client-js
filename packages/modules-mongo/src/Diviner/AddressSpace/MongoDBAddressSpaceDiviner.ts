@@ -1,8 +1,9 @@
 import { exists } from '@xylabs/exists'
+import { staticImplements } from '@xylabs/static-implements'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -10,6 +11,7 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
+import { MongoDBStorageClassLabels } from '../../Mongo'
 
 export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
@@ -18,10 +20,12 @@ export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDiviner
   }
 >
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBAddressSpaceDiviner<
   TParams extends MongoDBAddressSpaceDivinerParams = MongoDBAddressSpaceDivinerParams,
 > extends AddressSpaceDiviner<TParams> {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(_payloads?: Payload[]): Promise<Payload[]> {
     // TODO: Most Recently Used, Most Frequently Used, Addresses of Value/Importance to Me

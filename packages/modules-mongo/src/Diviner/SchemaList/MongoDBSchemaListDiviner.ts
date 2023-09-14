@@ -1,3 +1,4 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
@@ -8,11 +9,13 @@ import {
   SchemaListPayload,
   SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+
+import { MongoDBStorageClassLabels } from '../../Mongo'
 
 export type MongoDBSchemaListDivinerParams = DivinerParams<
   AnyConfigSchema<SchemaListDivinerConfig>,
@@ -21,10 +24,12 @@ export type MongoDBSchemaListDivinerParams = DivinerParams<
   }
 >
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBSchemaListDiviner<
   TParams extends MongoDBSchemaListDivinerParams = MongoDBSchemaListDivinerParams,
 > extends SchemaListDiviner<TParams> {
   static override configSchemas = [SchemaListDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   /**
    * The amount of time to allow the aggregate query to execute

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
+import { staticImplements } from '@xylabs/static-implements'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { asDivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
@@ -13,7 +14,7 @@ import {
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
 } from '@xyo-network/diviner-payload-stats-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -25,6 +26,7 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { defineJobs, scheduleJobs } from '../../JobQueue'
+import { MongoDBStorageClassLabels } from '../../Mongo'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }
@@ -47,11 +49,13 @@ export type MongoDBPayloadStatsDivinerParams = DivinerParams<
 
 const moduleName = 'MongoDBPayloadStatsDiviner'
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivinerParams = MongoDBPayloadStatsDivinerParams>
   extends AbstractDiviner<TParams>
   implements PayloadStatsDiviner, JobProvider
 {
   static override configSchemas = [PayloadStatsDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   /**
    * Iterates over know addresses obtained from AddressDiviner

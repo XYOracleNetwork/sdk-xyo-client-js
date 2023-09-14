@@ -1,6 +1,7 @@
 import { flatten } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
+import { staticImplements } from '@xylabs/static-implements'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { normalizeAddress } from '@xyo-network/core'
@@ -11,14 +12,14 @@ import {
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { removeId } from '../../Mongo'
+import { MongoDBStorageClassLabels, removeId } from '../../Mongo'
 
 export type MongoDBBoundWitnessDivinerConfig = BoundWitnessDivinerConfig & {
   boundWitnessSdkConfig?: Partial<BaseMongoSdkPublicConfig>
@@ -31,10 +32,14 @@ export type MongoDBBoundWitnessDivinerParams = DivinerParams<
     boundWitnessSdkConfig: Partial<BaseMongoSdkConfig>
   }
 >
+
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBBoundWitnessDiviner<
   TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
 > extends AbstractDiviner<TParams> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
+
   private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
 
   get boundWitnessSdkConfig(): BaseMongoSdkConfig {

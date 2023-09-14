@@ -39,9 +39,23 @@ export class ModuleFactoryLocator {
   registerAdditional(additional: CreatableModuleRegistry): this {
     Object.entries(additional).map(([schema, factories]) => {
       if (factories) {
-        const existingFactories = this.registry[schema]
-        this._registry[schema] = existingFactories ? (this._registry[schema] = [...existingFactories, ...factories]) : factories
+        const existingFactories = this._registry[schema]
+        this._registry[schema] = existingFactories ? [...existingFactories, ...factories] : factories
       }
+    })
+    return this
+  }
+
+  /**
+   * Registers additional module factories with the locator
+   * @param additional Additional module factories to register
+   */
+  registerModule(mod: LabeledCreatableModuleFactory, labels?: Labels): this {
+    mod.configSchemas.map((schema) => {
+      const existingFactories = this._registry[schema]
+      const factory: LabeledCreatableModuleFactory = { ...mod, labels: {} }
+      Object.assign({}, mod.labels ?? {}, labels ?? {})
+      this._registry[schema] = existingFactories ? [...existingFactories, factory] : [factory]
     })
     return this
   }

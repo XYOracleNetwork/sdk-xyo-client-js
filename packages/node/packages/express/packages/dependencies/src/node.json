@@ -28,7 +28,7 @@
               "language": "javascript",
               "name": "Archivist",
               "payloadSdkConfig": { "collection": "payloads" },
-              "schema": "network.xyo.archivist.mongodb.config"
+              "schema": "network.xyo.archivist.config"
             }
           },
           {
@@ -38,7 +38,7 @@
               "language": "javascript",
               "name": "ThumbnailArchivist",
               "payloadSdkConfig": { "collection": "thumbnails" },
-              "schema": "network.xyo.archivist.mongodb.config"
+              "schema": "network.xyo.archivist.config"
             }
           },
           {

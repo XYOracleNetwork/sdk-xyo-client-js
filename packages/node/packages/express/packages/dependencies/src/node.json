@@ -45,6 +45,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/1'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "AddressHistoryDiviner",
               "schema": "network.xyo.diviner.address.history.config"
@@ -63,6 +66,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/2'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "AddressSpaceDiviner",
               "schema": "network.xyo.diviner.address.space.diviner.config"
@@ -72,6 +78,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/11'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "AddressSpaceBatchDiviner",
               "schema": "network.xyo.diviner.address.space.batch.diviner.config"
@@ -84,6 +93,9 @@
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
               },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "BoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
@@ -93,6 +105,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/6'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "BoundWitnessStatsDiviner",
               "schema": "network.xyo.diviner.boundwitness.stats.config"
@@ -120,6 +135,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/4'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "PayloadDiviner",
               "schema": "network.xyo.diviner.payload.config"
@@ -129,6 +147,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/7'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "PayloadStatsDiviner",
               "schema": "network.xyo.diviner.payload.stats.config"
@@ -138,6 +159,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/5'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "SchemaListDiviner",
               "schema": "network.xyo.diviner.schema.list.config"
@@ -147,6 +171,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/8'",
               "archivist": "Archivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "SchemaStatsDiviner",
               "schema": "network.xyo.diviner.schema.stats.config"

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 
+import { ModuleInstance } from '../instance'
 import { hasAllLabels, Labels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
 import { CreatableModuleRegistry } from './CreatableModuleRegistry'
@@ -36,13 +37,15 @@ export class ModuleFactoryLocator {
    * Registers a single module factory (with optional tags) with the locator
    * @param additional Additional module factories to register
    */
-  register(mod: CreatableModuleFactory | LabeledCreatableModuleFactory, labels?: Labels): this {
+  register<TModule extends ModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
     mod.configSchemas.map((schema) => {
       const existingFactories = this._registry[schema]
-      const factory: LabeledCreatableModuleFactory = {
+      const factory: LabeledCreatableModuleFactory<TModule> = {
+        // Destructure instance properties
         ...mod,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        create: mod.create.bind(mod) as any,
+        // Copy static methods
+        create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
+        // Merge module & supplied labels
         labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
       }
       this._registry[schema] = existingFactories ? [...existingFactories, factory] : [factory]

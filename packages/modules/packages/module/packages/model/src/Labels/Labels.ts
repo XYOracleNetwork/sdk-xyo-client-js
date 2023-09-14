@@ -25,9 +25,10 @@ export interface WithOptionalLabels<T extends Labels = Labels> {
  * @param required Set of labels to check for in source
  * @returns True of the source object has all the labels from the required set
  */
-export const hasAllLabels = (source: Labels, required: Labels): boolean => {
+export const hasAllLabels = (source?: Labels, required?: Labels): boolean => {
+  if (!required) return true
   return Object.entries(required).every(([key, value]) => {
     // eslint-disable-next-line no-prototype-builtins
-    return source.hasOwnProperty(key as keyof typeof source) && source?.[key as keyof typeof source] === value
+    return source?.hasOwnProperty(key as keyof typeof source) && source?.[key as keyof typeof source] === value
   })
 }

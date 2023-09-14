@@ -4719,11 +4719,11 @@ __metadata:
   linkType: hard
 
 "@types/fluent-ffmpeg@npm:^2.1.21":
-  version: 2.1.21
-  resolution: "@types/fluent-ffmpeg@npm:2.1.21"
+  version: 2.1.22
+  resolution: "@types/fluent-ffmpeg@npm:2.1.22"
   dependencies:
     "@types/node": "*"
-  checksum: 412e29bf578a2619b6600a0c0977568b3e3c7dafb155e80a2743a5f2a8169d2e3654a6db526e7a35bd03c6437fb6f7542db5ca869b5f3b028438219ae933e593
+  checksum: 9c8fea2810cef1342294a3320857a62a32fbccba5c8b578877206fca2923596878274b8095340c2fc520951088e41546b98b491474e0b42c32a50acdf3fb0dcd
   languageName: node
   linkType: hard
 

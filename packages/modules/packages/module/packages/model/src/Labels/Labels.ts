@@ -13,6 +13,13 @@ export interface WithLabels<T extends Labels = Labels> {
 }
 
 /**
+ * Interface for objects that have labels.
+ */
+export interface WithOptionalLabels<T extends Labels = Labels> {
+  labels?: T
+}
+
+/**
  * Returns true if the source object has all the labels from the required set
  * @param source Source object to check against
  * @param required Set of labels to check for in source

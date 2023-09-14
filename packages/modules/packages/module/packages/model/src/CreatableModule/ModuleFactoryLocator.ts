@@ -39,8 +39,10 @@ export class ModuleFactoryLocator {
   register(mod: CreatableModuleFactory | LabeledCreatableModuleFactory, labels?: Labels): this {
     mod.configSchemas.map((schema) => {
       const existingFactories = this._registry[schema]
-      const factory: LabeledCreatableModuleFactory = { ...mod, labels: {} }
-      Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {})
+      const factory: LabeledCreatableModuleFactory = {
+        ...mod,
+        labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
+      }
       this._registry[schema] = existingFactories ? [...existingFactories, factory] : [factory]
     })
     return this

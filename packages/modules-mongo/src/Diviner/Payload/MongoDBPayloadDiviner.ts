@@ -1,3 +1,4 @@
+import { staticImplements } from '@xylabs/static-implements'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import {
@@ -6,14 +7,14 @@ import {
   PayloadDivinerConfigSchema,
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { removeId } from '../../Mongo'
+import { MongoDBStorageClassLabels, removeId } from '../../Mongo'
 
 export type MongoDBPayloadDivinerParams = DivinerParams<
   AnyConfigSchema<PayloadDivinerConfig>,
@@ -22,8 +23,10 @@ export type MongoDBPayloadDivinerParams = DivinerParams<
   }
 >
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [PayloadDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)

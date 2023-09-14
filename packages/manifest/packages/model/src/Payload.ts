@@ -16,6 +16,7 @@ export interface Manifest {
 export interface ConfigManifest {
   accountPath?: string
   features?: string[]
+  labels?: Record<string, string | undefined>
   language?: string
   name: string
   os?: string

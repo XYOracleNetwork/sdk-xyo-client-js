@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { staticImplements } from '@xylabs/static-implements'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
@@ -9,14 +10,14 @@ import {
   isAddressHistoryQueryPayload,
 } from '@xyo-network/diviner-address-history'
 import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
 import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
-import { removeId } from '../../Mongo'
+import { MongoDBStorageClassLabels, removeId } from '../../Mongo'
 
 export type MongoDBAddressHistoryDivinerParams = DivinerParams<
   AnyConfigSchema<AddressHistoryDivinerConfig>,
@@ -25,10 +26,12 @@ export type MongoDBAddressHistoryDivinerParams = DivinerParams<
   }
 >
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBAddressHistoryDiviner<
   TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams,
 > extends AddressHistoryDiviner<TParams> {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)

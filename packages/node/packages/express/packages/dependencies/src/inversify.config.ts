@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
-import { CreatableModuleDictionary, CreatableModuleRegistry } from '@xyo-network/module-model'
+import { ModuleFactoryLocator } from '@xyo-network/module-model'
 import { addMongoModules, canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
@@ -37,8 +37,7 @@ export const configureDependencies = async (node?: NodeInstance) => {
   const logger = getLogger(verbosity)
 
   container.bind<string>(TYPES.AccountMnemonic).toConstantValue(mnemonic)
-  container.bind<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary).toConstantValue({})
-  container.bind<CreatableModuleRegistry>(TYPES.CreatableModuleRegistry).toConstantValue({})
+  container.bind<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator).toConstantValue(new ModuleFactoryLocator())
 
   container.bind<Logger>(TYPES.Logger).toDynamicValue((context) => {
     const service = tryGetServiceName(context)

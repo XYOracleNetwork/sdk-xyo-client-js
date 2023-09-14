@@ -4,7 +4,7 @@ import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
@@ -12,8 +12,6 @@ import { Container } from 'inversify'
 
 import defaultNode from './node.json'
 import { witnessNftCollections } from './witnessNftCollections'
-
-type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 // TODO: How to inject account for node that is to be created from config?
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, _account = Account.randomSync()) => {
@@ -36,8 +34,7 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
           )
         })
       }
-      const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
-      await addModulesToNodeByConfig(container, node, additionalConfigs)
+      // TODO: Register additional modules specified by hashes
     }
   }
   if (process.env.WITNESS_NFT_COLLECTIONS) {
@@ -46,32 +43,12 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
   console.log(await node.discover())
 }
 
-const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {
-  const creatableModuleDictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  await Promise.all(configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(creatableModuleDictionary, node, config, visibility)))
-}
-
-const addModuleToNodeFromConfig = async (
-  creatableModuleDictionary: CreatableModuleDictionary,
-  node: NodeInstance,
-  config: AnyConfigSchema<ModuleConfig>,
-  visibility = true,
-) => {
-  const configModuleFactory = creatableModuleDictionary[config.schema]
-  if (configModuleFactory) {
-    const mod = await configModuleFactory.create({ config })
-    const { address } = mod
-    await node.register(mod)
-    await node.attach(address, visibility)
-  }
-}
-
 const loadNodeFromConfig = async (container: Container, config?: string) => {
-  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const dictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  const wallet = await HDWallet.fromMnemonic(mnemonic)
   const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as ManifestPayload) : (defaultNode as ManifestPayload)
-  const wrapper = new ManifestWrapper(manifest, wallet)
-  const [node] = await wrapper.loadNodes(undefined, dictionary)
+  const mnemonic = container.get<string>(TYPES.AccountMnemonic)
+  const wallet = await HDWallet.fromMnemonic(mnemonic)
+  const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
+  const wrapper = new ManifestWrapper(manifest, wallet, locator)
+  const [node] = await wrapper.loadNodes()
   return node
 }

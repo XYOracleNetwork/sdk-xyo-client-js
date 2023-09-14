@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 
+import { ModuleInstance } from '../instance'
 import { hasAllLabels, Labels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
 import { CreatableModuleRegistry } from './CreatableModuleRegistry'
@@ -8,8 +9,15 @@ import { hasLabels, LabeledCreatableModuleFactory } from './LabeledCreatableModu
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
-export class CreatableModuleFactoryLocator {
-  constructor(protected readonly registry: CreatableModuleRegistry = {}) {}
+export class ModuleFactoryLocator {
+  constructor(protected readonly _registry: CreatableModuleRegistry = {}) {}
+
+  /**
+   * The current registry for the module factory
+   */
+  get registry(): Readonly<CreatableModuleRegistry> {
+    return this._registry
+  }
 
   /**
    * Locates a module factory that matches the supplied schema and labels
@@ -26,16 +34,37 @@ export class CreatableModuleFactoryLocator {
   }
 
   /**
-   * Registers additional module factories with the locator
+   * Registers a single module factory (with optional tags) with the locator
    * @param additional Additional module factories to register
    */
-  registerAdditional(additional: CreatableModuleRegistry) {
+  register<TModule extends ModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
+    mod.configSchemas.map((schema) => {
+      const existingFactories = this._registry[schema]
+      const factory: LabeledCreatableModuleFactory<TModule> = {
+        // Destructure instance properties
+        ...mod,
+        // Copy static methods
+        create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
+        // Merge module & supplied labels
+        labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
+      }
+      this._registry[schema] = existingFactories ? [...existingFactories, factory] : [factory]
+    })
+    return this
+  }
+
+  /**
+   * Registers multiple module factories with the locator
+   * @param additional Additional module factories to register
+   */
+  registerMany(additional: CreatableModuleRegistry): this {
     Object.entries(additional).map(([schema, factories]) => {
       if (factories) {
-        const existingFactories = this.registry[schema]
-        this.registry[schema] = existingFactories ? (this.registry[schema] = [...existingFactories, ...factories]) : factories
+        const existingFactories = this._registry[schema]
+        this._registry[schema] = existingFactories ? [...existingFactories, ...factories] : factories
       }
     })
+    return this
   }
 
   /**
@@ -48,8 +77,8 @@ export class CreatableModuleFactoryLocator {
     // If labels were provided
     return labels
       ? // Find the first factory that has labels and has all the labels provided
-        this.registry[schema]?.filter(hasLabels).find((factory) => hasAllLabels(factory?.labels, labels))
+        this._registry[schema]?.filter(hasLabels).find((factory) => hasAllLabels(factory?.labels, labels))
       : // Otherwise, return the first factory
-        this.registry[schema]?.[0]
+        this._registry[schema]?.[0]
   }
 }

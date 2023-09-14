@@ -3,8 +3,8 @@ import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/mani
 import {
   assignCreatableModuleRegistry,
   CreatableModuleDictionary,
-  CreatableModuleFactoryLocator,
   CreatableModuleRegistry,
+  ModuleFactoryLocator,
   ModuleInstance,
   toCreatableModuleRegistry,
 } from '@xyo-network/module'
@@ -18,7 +18,8 @@ import { standardCreatableModules } from './standardCreatableModules'
 export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   constructor(
     payload: ManifestPayload,
-    protected wallet: WalletInstance,
+    protected readonly wallet: WalletInstance,
+    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
   ) {
     super(payload)
   }
@@ -114,9 +115,9 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     creatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<ModuleInstance> {
     const registry = toCreatableModuleRegistry(creatableModules ?? {})
-    // TODO: Incorporate labels
-    // const creatableModule = new CreatableModuleFactoryLocator(registry).locate(manifest.config.name, manifest.config.labels)
-    const creatableModule = new CreatableModuleFactoryLocator(registry).locate(manifest.config.schema)
+    const creatableModule = new ModuleFactoryLocator(this.locator.registry)
+      .registerMany(registry)
+      .locate(manifest.config.schema, manifest.config.labels)
     const module = await creatableModule.create({
       account: manifest.config.accountPath ? await this.wallet.derivePath(manifest.config.accountPath) : this.wallet,
       config: assertEx(manifest.config, 'Missing config'),

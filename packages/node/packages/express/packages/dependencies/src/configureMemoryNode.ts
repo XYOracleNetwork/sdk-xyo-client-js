@@ -4,7 +4,7 @@ import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { AnyConfigSchema, CreatableModuleDictionary, ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { AnyConfigSchema, ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
@@ -36,34 +36,15 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
           )
         })
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
-      await addModulesToNodeByConfig(container, node, additionalConfigs)
+      // TODO: Register additional modules specified by hashes
     }
   }
   if (process.env.WITNESS_NFT_COLLECTIONS) {
     await witnessNftCollections(node)
   }
   console.log(await node.discover())
-}
-
-const addModulesToNodeByConfig = async (container: Container, node: NodeInstance, configs: ModuleConfigWithVisibility[]) => {
-  const creatableModuleDictionary = container.get<CreatableModuleDictionary>(TYPES.CreatableModuleDictionary)
-  await Promise.all(configs.map(async ([config, visibility]) => await addModuleToNodeFromConfig(creatableModuleDictionary, node, config, visibility)))
-}
-
-const addModuleToNodeFromConfig = async (
-  creatableModuleDictionary: CreatableModuleDictionary,
-  node: NodeInstance,
-  config: AnyConfigSchema<ModuleConfig>,
-  visibility = true,
-) => {
-  const configModuleFactory = creatableModuleDictionary[config.schema]
-  if (configModuleFactory) {
-    const mod = await configModuleFactory.create({ config })
-    const { address } = mod
-    await node.register(mod)
-    await node.attach(address, visibility)
-  }
 }
 
 const loadNodeFromConfig = async (container: Container, config?: string) => {

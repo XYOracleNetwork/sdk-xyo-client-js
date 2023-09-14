@@ -4,7 +4,7 @@ import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
-import { AnyConfigSchema, ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
@@ -12,8 +12,6 @@ import { Container } from 'inversify'
 
 import defaultNode from './node.json'
 import { witnessNftCollections } from './witnessNftCollections'
-
-type ModuleConfigWithVisibility<T extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = [config: T, visibility: boolean]
 
 // TODO: How to inject account for node that is to be created from config?
 export const configureMemoryNode = async (container: Container, memoryNode?: NodeInstance, _account = Account.randomSync()) => {
@@ -36,8 +34,6 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
           )
         })
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const additionalConfigs = Object.values(configPayloads).map<ModuleConfigWithVisibility>((configPayload) => [configPayload, true])
       // TODO: Register additional modules specified by hashes
     }
   }

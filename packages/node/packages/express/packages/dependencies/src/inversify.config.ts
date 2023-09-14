@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { assertEx } from '@xylabs/assert'
 import { getLogger, Logger, LoggerVerbosity } from '@xylabs/sdk-api-express-ecs'
-import { CreatableModuleDictionary, CreatableModuleRegistry, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { CreatableModuleDictionary, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { addMongoModules, canAddMongoModules } from '@xyo-network/node-core-modules-mongo'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'

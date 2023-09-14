@@ -115,7 +115,7 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     creatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<ModuleInstance> {
     const registry = toCreatableModuleRegistry(creatableModules ?? {})
-    const creatableModule = new ModuleFactoryLocator(this.locator.registry).registerAdditional(registry).locate(manifest.config.schema)
+    const creatableModule = new ModuleFactoryLocator(this.locator.registry).registerMany(registry).locate(manifest.config.schema)
     const module = await creatableModule.create({
       account: manifest.config.accountPath ? await this.wallet.derivePath(manifest.config.accountPath) : this.wallet,
       config: assertEx(manifest.config, 'Missing config'),

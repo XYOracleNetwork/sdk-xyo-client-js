@@ -24,5 +24,5 @@ export const addArchivistModuleFactories = (container: Container) => {
 
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   const registry = toCreatableModuleRegistry(dictionary)
-  locator.registerAdditional(registry)
+  locator.registerMany(registry)
 }

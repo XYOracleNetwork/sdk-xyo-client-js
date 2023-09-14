@@ -13,7 +13,6 @@ export const TYPES = {
   ...SENTINEL_TYPES,
   ...WITNESS_TYPES,
   AccountMnemonic: Symbol('AccountMnemonic'),
-  CreatableModuleDictionary: Symbol('CreatableModuleDictionary'),
   Logger: Symbol('Logger'),
   ModuleFactoryLocator: Symbol('ModuleFactoryLocator'),
 }

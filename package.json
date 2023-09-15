@@ -18,7 +18,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.22.17",
+    "@babel/core": "^7.22.19",
     "@babel/preset-env": "^7.22.15",
     "@types/jest": "^29.5.4",
     "@types/supertest": "^2.0.12",
@@ -32,7 +32,7 @@
     "dotenv": "^16.3.1",
     "eslint": "^8.49.0",
     "eslint-import-resolver-typescript": "^3.6.0",
-    "eslint-plugin-deprecation": "^1.5.0",
+    "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.28.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -114,8 +114,8 @@
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
     "build-typedoc-site": "typedoc --options typedoc.site.json",
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
+    "package-compile": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration && publint",
+    "package-recompile": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --declaration && publint"
   },
   "sideEffects": false,
   "version": "2.73.4",

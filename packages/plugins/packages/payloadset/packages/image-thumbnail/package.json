@@ -37,7 +37,7 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
-    "@types/fluent-ffmpeg": "^2.1.21",
+    "@types/fluent-ffmpeg": "^2.1.22",
     "@types/gm": "^1.25.1",
     "@types/hasbin": "^1.2.0",
     "@xylabs/ts-scripts-yarn3": "^2.19.12",

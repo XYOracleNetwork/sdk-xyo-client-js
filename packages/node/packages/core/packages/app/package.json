@@ -38,7 +38,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.410.0",
+    "@aws-sdk/client-secrets-manager": "^3.413.0",
     "@xylabs/assert": "^2.10.18",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",

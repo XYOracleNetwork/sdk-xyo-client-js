@@ -32,22 +32,22 @@ export abstract class MongoDBModule<
     schema: 'network.xyo.module.mongodb.config',
     secrets: {
       database0: {
-        kind: 'network.xyo.secrets.environment.template',
         placeholders: {
           domain: 'DOMAIN',
           password: 'PASSWORD',
           username: 'USERNAME',
         },
+        schema: 'network.xyo.secrets.environment.template',
         value: 'mongodb+srv://${username}:${password}@${domain}/?authSource=admin&replicaSet=myRepl',
       },
       database1: {
-        kind: 'network.xyo.secrets.environment.template',
         placeholders: {
           host: 'MONGO_HOST',
           password: 'MONGO_PASSWORD',
           port: 'MONGO_PORT',
           username: 'MONGO_USERNAME',
         },
+        schema: 'network.xyo.secrets.environment.template',
         value: 'mongodb://${username}:${password}@${host}:${port}/?retryWrites=true&w=majority',
       },
     },

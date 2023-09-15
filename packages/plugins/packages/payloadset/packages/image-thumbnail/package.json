@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.1",
-    "@xylabs/delay": "^2.11.1",
-    "@xylabs/lodash": "^2.11.1",
-    "@xylabs/url": "^2.11.1",
+    "@xylabs/assert": "^2.11.3",
+    "@xylabs/delay": "^2.11.3",
+    "@xylabs/lodash": "^2.11.3",
+    "@xylabs/url": "^2.11.3",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/axios": "workspace:~",

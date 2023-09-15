@@ -60,9 +60,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.1",
-    "@xylabs/delay": "^2.11.1",
-    "@xylabs/forget": "^2.11.1",
+    "@xylabs/assert": "^2.11.3",
+    "@xylabs/delay": "^2.11.3",
+    "@xylabs/forget": "^2.11.3",
     "async-mutex": "^0.4.0",
     "mongodb": "^5.9.0"
   },

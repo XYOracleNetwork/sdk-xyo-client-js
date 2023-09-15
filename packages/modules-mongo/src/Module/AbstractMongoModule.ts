@@ -43,9 +43,9 @@ export abstract class MongoDBModule<
       database1: {
         kind: 'network.xyo.secrets.environment.template',
         placeholders: {
-          host: 'MONGO_DOMAIN',
+          host: 'MONGO_HOST',
           password: 'MONGO_PASSWORD',
-          port: 'MONGO_DOMAIN',
+          port: 'MONGO_PORT',
           username: 'MONGO_USERNAME',
         },
         value: 'mongodb://${username}:${password}@${host}:${port}/?retryWrites=true&w=majority',

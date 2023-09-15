@@ -13,19 +13,19 @@ export abstract class MongoDBModule<
   protected readonly sampleConfig = {
     configMap: {
       boundWitnessCollection: {
-        from: 'network.xyo.literal',
+        from: 'network.xyo.value.literal',
         value: 'boundwitness',
       },
       boundWitnessDb: {
-        from: 'network.xyo.secrets',
+        from: 'network.xyo.value.hash',
         value: 'database1',
       },
       payloadCollection: {
-        from: 'network.xyo.literal',
+        from: 'network.xyo.value.literal',
         value: 'boundwitness',
       },
       payloadDb: {
-        from: 'network.xyo.secrets',
+        from: 'network.xyo.value.hash',
         value: 'database0',
       },
     },
@@ -37,7 +37,7 @@ export abstract class MongoDBModule<
           password: 'PASSWORD',
           username: 'USERNAME',
         },
-        schema: 'network.xyo.secrets.environment.template',
+        schema: 'network.xyo.environment.witness.template',
         value: 'mongodb+srv://${username}:${password}@${domain}/?authSource=admin&replicaSet=myRepl',
       },
       database1: {
@@ -47,8 +47,17 @@ export abstract class MongoDBModule<
           port: 'MONGO_PORT',
           username: 'MONGO_USERNAME',
         },
-        schema: 'network.xyo.secrets.environment.template',
+        replacementHash: '0xdeadbeef',
+        schema: 'network.xyo.environment.witness.template',
         value: 'mongodb://${username}:${password}@${host}:${port}/?retryWrites=true&w=majority',
+      },
+      database2: {
+        path: '/User/shatoshin/payloads.json',
+        schema: 'network.xyo.file',
+      },
+      database3: {
+        path: '0xdeadbeef', // Points to 'network.xyo.environment.witness.template'
+        schema: 'network.xyo.secrets.hash',
       },
     },
   }

@@ -6239,7 +6239,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom@npm:^2.19.12, @xylabs/tsconfig-dom@npm:~2.19.12":
+"@xylabs/tsconfig-dom@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig-dom@npm:3.0.11"
+  dependencies:
+    "@xylabs/tsconfig": ~3.0.11
+  checksum: dc5ef439d378231185bb2b0775be59e77d9355b61f08f70f20e993a18bc652905885d1ac06534a564686ad11dba1c12711f2c5623130ced233482f118da33c58
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig-dom@npm:~2.19.12":
   version: 2.19.12
   resolution: "@xylabs/tsconfig-dom@npm:2.19.12"
   dependencies:
@@ -6263,6 +6272,13 @@ __metadata:
   version: 2.19.12
   resolution: "@xylabs/tsconfig@npm:2.19.12"
   checksum: 5b127989c4f028c2ab3b1bce0290c47f4b7594163928c3a115a561ed176c360acac28dcc7cd0280feb7dedd88ea9be7aac1b92cfafbb0c82801467da3fcd752b
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:~3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig@npm:3.0.11"
+  checksum: f2dcb3eedac642c5013954d0633a2c53e9a6ca84406cfa02d20298380d67a274ce8a2c38e82aba89e05eb2497a01fb41a842fc53b00dc2c0e907b2fbb5d6b01b
   languageName: node
   linkType: hard
 
@@ -6864,7 +6880,7 @@ __metadata:
   dependencies:
     "@xylabs/lodash": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
-    "@xylabs/tsconfig-dom": ^2.19.12
+    "@xylabs/tsconfig-dom": ^3.0.11
     "@xylabs/tsconfig-dom-jest": ^2.19.12
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -9197,7 +9213,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
-    "@xylabs/tsconfig-dom": ^2.19.12
+    "@xylabs/tsconfig-dom": ^3.0.11
     "@xylabs/tsconfig-dom-jest": ^2.19.12
     "@xyo-network/location-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -9295,7 +9311,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@metamask/providers": ^11.1.2
     "@xylabs/ts-scripts-yarn3": ^2.19.12
-    "@xylabs/tsconfig-dom": ^2.19.12
+    "@xylabs/tsconfig-dom": ^3.0.11
     publint: ^0.2.2
     tsup: ^7.2.0
     typescript: ^5.2.2
@@ -10171,7 +10187,7 @@ __metadata:
   dependencies:
     "@xylabs/delay": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
-    "@xylabs/tsconfig-dom": ^2.19.12
+    "@xylabs/tsconfig-dom": ^3.0.11
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/domain-payload-plugin": "workspace:~"
     "@xyo-network/error": "workspace:~"

@@ -27,7 +27,7 @@
     "@xylabs/eslint-config": "^2.19.12",
     "@xylabs/ts-scripts-yarn3": "^2.19.12",
     "@xylabs/tsconfig": "^2.19.12",
-    "@xylabs/tsconfig-dom-jest": "^2.19.12",
+    "@xylabs/tsconfig-dom-jest": "^3.0.11",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.49.0",

@@ -6230,21 +6230,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom-jest@npm:^2.19.12":
-  version: 2.19.12
-  resolution: "@xylabs/tsconfig-dom-jest@npm:2.19.12"
+"@xylabs/tsconfig-dom-jest@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig-dom-jest@npm:3.0.11"
   dependencies:
-    "@xylabs/tsconfig-dom": ~2.19.12
-  checksum: 7236adcdd6fa16c0b6b8ab1fb11ee83f44a294748abb2f4b111965ba80f8c3926b1dad8320df02744ba6a0978440bd7b68f0e234381102dbbf6c79f2f017168b
+    "@xylabs/tsconfig-dom": ~3.0.11
+  checksum: 3ba748bafcdb2df283d366e7e58a56d5e508da51f23da057bf6e9db9bb2267d67f70463bde798ebcb09fed42186a011bc74d3a5c557bf13fa70c9c4d59e7b246
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom@npm:^2.19.12, @xylabs/tsconfig-dom@npm:~2.19.12":
+"@xylabs/tsconfig-dom@npm:^2.19.12":
   version: 2.19.12
   resolution: "@xylabs/tsconfig-dom@npm:2.19.12"
   dependencies:
     "@xylabs/tsconfig": ~2.19.12
   checksum: 8d5ae1f8980b9c1d1fbf9bdbe3f70085224770c4bba884d4ed258ad9596f901b0bf9a48929ea14d03cbf4b49461d5dd878c5a5db6d401d0ed13f98fe20d56837
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig-dom@npm:~3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig-dom@npm:3.0.11"
+  dependencies:
+    "@xylabs/tsconfig": ~3.0.11
+  checksum: dc5ef439d378231185bb2b0775be59e77d9355b61f08f70f20e993a18bc652905885d1ac06534a564686ad11dba1c12711f2c5623130ced233482f118da33c58
   languageName: node
   linkType: hard
 
@@ -6263,6 +6272,13 @@ __metadata:
   version: 2.19.12
   resolution: "@xylabs/tsconfig@npm:2.19.12"
   checksum: 5b127989c4f028c2ab3b1bce0290c47f4b7594163928c3a115a561ed176c360acac28dcc7cd0280feb7dedd88ea9be7aac1b92cfafbb0c82801467da3fcd752b
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:~3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig@npm:3.0.11"
+  checksum: f2dcb3eedac642c5013954d0633a2c53e9a6ca84406cfa02d20298380d67a274ce8a2c38e82aba89e05eb2497a01fb41a842fc53b00dc2c0e907b2fbb5d6b01b
   languageName: node
   linkType: hard
 
@@ -6865,7 +6881,7 @@ __metadata:
     "@xylabs/lodash": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig-dom": ^2.19.12
-    "@xylabs/tsconfig-dom-jest": ^2.19.12
+    "@xylabs/tsconfig-dom-jest": ^3.0.11
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -9198,7 +9214,7 @@ __metadata:
     "@xylabs/assert": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig-dom": ^2.19.12
-    "@xylabs/tsconfig-dom-jest": ^2.19.12
+    "@xylabs/tsconfig-dom-jest": ^3.0.11
     "@xyo-network/location-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -10254,7 +10270,7 @@ __metadata:
     "@xylabs/eslint-config": ^2.19.12
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
-    "@xylabs/tsconfig-dom-jest": ^2.19.12
+    "@xylabs/tsconfig-dom-jest": ^3.0.11
     "@xyo-network/modules": "workspace:~"
     "@xyo-network/plugins": "workspace:~"
     "@xyo-network/sdk": "workspace:~"

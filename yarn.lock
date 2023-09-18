@@ -24731,11 +24731,11 @@ __metadata:
   linkType: hard
 
 "systeminformation@npm:^5.21.5":
-  version: 5.21.5
-  resolution: "systeminformation@npm:5.21.5"
+  version: 5.21.6
+  resolution: "systeminformation@npm:5.21.6"
   bin:
     systeminformation: lib/cli.js
-  checksum: 52d23aae128be39645738e44e6fdbe91b5d6a2b3e3aa22265dca603bd0af9054864aefb95037a6752dd4a194512b298d76864874a773e5d923a6bb64161353e4
+  checksum: 94de870e8befff080c1c3a1a102f197cff9f506eabca5ea71f880aa9f05fef2a0f3ac08d3d467049944a75a9b2fb8275bca0e2729f701609b3d928d8c2f840c5
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

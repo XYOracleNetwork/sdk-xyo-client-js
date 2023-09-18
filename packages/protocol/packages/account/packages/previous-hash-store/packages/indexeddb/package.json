@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
+    "@xylabs/tsconfig": "^3.0.11",
     "fake-indexeddb": "^4.0.2",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",

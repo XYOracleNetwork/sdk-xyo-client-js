@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^2.11.3",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
+    "@xylabs/ts-scripts-yarn3": "^3.0.11",
     "@xylabs/tsconfig": "^2.19.12",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "fake-indexeddb": "^4.0.2",

@@ -6248,14 +6248,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-jest@npm:^2.19.12":
-  version: 2.19.12
-  resolution: "@xylabs/tsconfig-jest@npm:2.19.12"
+"@xylabs/tsconfig-jest@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig-jest@npm:3.0.11"
   dependencies:
-    "@xylabs/tsconfig": ~2.19.12
+    "@xylabs/tsconfig": ~3.0.11
   peerDependencies:
     typescript: ^5
-  checksum: eb41ec24620cc72a309826217d3d0155da77f5ca616a069687449af61d6a256a057196743d59bcdc6b40b749d4e1cfb7e557423ce836b1cd3e0bc9a36de38470
+  checksum: aea937f753523eca09a1b5f7e564271f63de593e2d7cabbbe551ab60c2edcaeef3f9aaf343a51a5d9772f50511887d65213c5128526e575eb1b5c30f7874edf1
   languageName: node
   linkType: hard
 
@@ -6263,6 +6263,13 @@ __metadata:
   version: 2.19.12
   resolution: "@xylabs/tsconfig@npm:2.19.12"
   checksum: 5b127989c4f028c2ab3b1bce0290c47f4b7594163928c3a115a561ed176c360acac28dcc7cd0280feb7dedd88ea9be7aac1b92cfafbb0c82801467da3fcd752b
+  languageName: node
+  linkType: hard
+
+"@xylabs/tsconfig@npm:~3.0.11":
+  version: 3.0.11
+  resolution: "@xylabs/tsconfig@npm:3.0.11"
+  checksum: f2dcb3eedac642c5013954d0633a2c53e9a6ca84406cfa02d20298380d67a274ce8a2c38e82aba89e05eb2497a01fb41a842fc53b00dc2c0e907b2fbb5d6b01b
   languageName: node
   linkType: hard
 
@@ -6612,7 +6619,7 @@ __metadata:
     "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
-    "@xylabs/tsconfig-jest": ^2.19.12
+    "@xylabs/tsconfig-jest": ^3.0.11
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
@@ -6976,7 +6983,7 @@ __metadata:
     "@xylabs/lodash": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
-    "@xylabs/tsconfig-jest": ^2.19.12
+    "@xylabs/tsconfig-jest": ^3.0.11
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -8393,7 +8400,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
-    "@xylabs/tsconfig-jest": ^2.19.12
+    "@xylabs/tsconfig-jest": ^3.0.11
     publint: ^0.2.2
     tsup: ^7.2.0
     typescript: ^5.2.2
@@ -8779,7 +8786,7 @@ __metadata:
     "@xylabs/assert": ^2.11.3
     "@xylabs/forget": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
-    "@xylabs/tsconfig-jest": ^2.19.12
+    "@xylabs/tsconfig-jest": ^3.0.11
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -9347,7 +9354,7 @@ __metadata:
     "@xylabs/forget": ^2.11.3
     "@xylabs/ts-scripts-yarn3": ^2.19.12
     "@xylabs/tsconfig": ^2.19.12
-    "@xylabs/tsconfig-jest": ^2.19.12
+    "@xylabs/tsconfig-jest": ^3.0.11
     "@xyo-network/core": "workspace:~"
     "@xyo-network/error": "workspace:~"
     "@xyo-network/promise": "workspace:~"

@@ -40,7 +40,7 @@
     "@types/terminal-kit": "^2.5.2",
     "@xylabs/ts-scripts-yarn3": "^2.19.12",
     "@xylabs/tsconfig": "^2.19.12",
-    "@xylabs/tsconfig-jest": "^2.19.12",
+    "@xylabs/tsconfig-jest": "^3.0.11",
     "publint": "^0.2.2",
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0",

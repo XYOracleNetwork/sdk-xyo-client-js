@@ -9814,8 +9814,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/value-payload-plugin@workspace:packages/plugins/packages/payload/packages/value"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.27
-    "@xylabs/tsconfig": ^3.0.27
+    "@xylabs/ts-scripts-yarn3": ^3.0.28
+    "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -9827,8 +9827,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/values-payload-plugin@workspace:packages/plugins/packages/payload/packages/values"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.27
-    "@xylabs/tsconfig": ^3.0.27
+    "@xylabs/ts-scripts-yarn3": ^3.0.28
+    "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     "@xyo-network/value-payload-plugin": "workspace:~"
@@ -9863,8 +9863,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-environment@workspace:packages/modules/packages/witness/packages/environment"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.27
-    "@xylabs/tsconfig": ^3.0.27
+    "@xylabs/ts-scripts-yarn3": ^3.0.28
+    "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"

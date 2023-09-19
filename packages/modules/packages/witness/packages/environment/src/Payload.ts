@@ -9,7 +9,7 @@ export interface EnvironmentVariables {
 
 export type Environment = Payload<
   {
-    environment: EnvironmentVariables
+    env: EnvironmentVariables
   },
   EnvironmentSchema
 >

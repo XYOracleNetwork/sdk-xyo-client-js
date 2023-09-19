@@ -7,11 +7,15 @@ import { EnvironmentWitnessConfigSchema } from './Config'
 import { EnvironmentWitnessParams } from './Params'
 import { Environment, EnvironmentSchema } from './Payload'
 
+const schema = EnvironmentSchema
+
 export class EnvironmentWitness<P extends EnvironmentWitnessParams = EnvironmentWitnessParams> extends AbstractWitness<P> {
   static override configSchemas = [EnvironmentWitnessConfigSchema, WitnessConfigSchema]
   protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
+    // TODO: Filter to template
     const sources = await PayloadWrapper.hashes(payloads ?? [])
-    const payload: Environment = { environment: process.env, schema: EnvironmentSchema, sources }
+    const env = process.env
+    const payload: Environment = { env, schema, sources }
     return [payload]
   }
 }

@@ -3,7 +3,7 @@ import { Module, ModuleEventData, ModuleInstance, ModuleParams } from '@xyo-netw
 import { Promisable } from '@xyo-network/promise'
 
 import { NodeConfig } from './Config'
-import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './Events'
+import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
 import { NodeParams } from './Params'
 
 export interface NodeQueryFunctions {

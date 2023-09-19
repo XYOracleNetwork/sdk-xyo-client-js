@@ -91,7 +91,7 @@ export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBAr
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
     const gets = await Promise.allSettled([payloads, bws].flat())
-    const succeeded = gets.reduce<(PayloadWithPartialMeta | null)[]>(fulfilledValues, [])
+    const succeeded = gets.reduce<(PayloadWithPartialMeta | null)[]>(fulfilledValues, []) as Payload[]
     return succeeded.filter(exists).map(toReturnValue)
   }
 

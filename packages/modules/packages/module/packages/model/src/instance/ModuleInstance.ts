@@ -2,7 +2,7 @@ import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object-identity'
 import { Promisable } from '@xyo-network/promise'
 
 import { AnyConfigSchema, ModuleConfig } from '../Config'
-import { ModuleEventData } from '../Events'
+import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.3",
+    "@xylabs/assert": "^2.11.4",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
@@ -21,18 +21,12 @@
     "idb-keyval": "^6.2.1"
   },
   "devDependencies": {
-    "@xylabs/delay": "^2.11.3",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
+    "@xylabs/delay": "^2.11.4",
+    "@xylabs/ts-scripts-yarn3": "^3.0.23",
+    "@xylabs/tsconfig": "^3.0.23",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "fake-indexeddb": "^4.0.2",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
-  },
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",

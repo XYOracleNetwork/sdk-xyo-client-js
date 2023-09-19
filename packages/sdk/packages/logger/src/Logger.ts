@@ -1,7 +1,3 @@
-declare global {
-  let console: Logger
-}
-
 export type LogFunction = (message?: unknown) => void
 
 /**

@@ -41,10 +41,6 @@
   "module": "dist/index.mjs",
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "dependencies": {
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -56,10 +52,8 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.23",
+    "@xylabs/tsconfig": "^3.0.23",
     "typescript": "^5.2.2"
   }
 }

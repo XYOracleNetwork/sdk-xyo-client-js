@@ -1,5 +1,5 @@
 import { scoreYoutubeUrl } from '../youtubeUrl'
-import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore, expectNoScore } from './testHelpers'
+import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore, expectNoScore } from './testHelpers.spec'
 
 const secure = ['https://lostpoets.xyz/']
 const insecure = ['http://lvcidia.xyz/']

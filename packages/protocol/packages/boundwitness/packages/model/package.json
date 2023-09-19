@@ -11,10 +11,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.23",
+    "@xylabs/tsconfig": "^3.0.23",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -32,17 +30,8 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
-    },
     "./docs": {
       "default": "./dist/docs.json"
-    },
-    "./esm": {
-      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -52,10 +41,6 @@
   "license": "LGPL-3.0",
   "publishConfig": {
     "access": "public"
-  },
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
   },
   "repository": {
     "type": "git",

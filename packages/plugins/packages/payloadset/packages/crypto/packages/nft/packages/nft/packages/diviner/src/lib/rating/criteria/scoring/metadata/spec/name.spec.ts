@@ -1,5 +1,5 @@
 import { scoreName } from '../name'
-import { expectMaxPossibleScore, expectMiniumScore } from './testHelpers'
+import { expectMaxPossibleScore, expectMiniumScore } from './testHelpers.spec'
 
 const valid = ['Foo Friends #3042', '🔥 Fire & Such']
 const invalid = [{}]

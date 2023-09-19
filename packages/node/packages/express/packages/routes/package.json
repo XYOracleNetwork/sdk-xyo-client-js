@@ -38,16 +38,12 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.3",
-    "@xylabs/exists": "^2.11.3",
+    "@xylabs/assert": "^2.11.4",
+    "@xylabs/exists": "^2.11.4",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -81,12 +77,10 @@
   },
   "devDependencies": {
     "@types/express": "4.17.17",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
+    "@xylabs/ts-scripts-yarn3": "^3.0.23",
+    "@xylabs/tsconfig": "^3.0.23",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   }
 }

@@ -3,9 +3,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "incremental": false,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
   },
-  "exclude": ["dist", "docs"],
+  "exclude": ["dist", "docs", "packages", "node_modules"],
   "extends": "@xylabs/tsconfig"
 }

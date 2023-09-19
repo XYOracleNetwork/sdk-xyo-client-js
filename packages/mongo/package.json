@@ -51,26 +51,20 @@
     "typescript",
     "mongo"
   ],
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.3",
-    "@xylabs/delay": "^2.11.3",
-    "@xylabs/forget": "^2.11.3",
+    "@xylabs/assert": "^2.11.4",
+    "@xylabs/delay": "^2.11.4",
+    "@xylabs/forget": "^2.11.4",
     "async-mutex": "^0.4.0",
     "mongodb": "^5.9.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.23",
+    "@xylabs/tsconfig": "^3.0.23",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

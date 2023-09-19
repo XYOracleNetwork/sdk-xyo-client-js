@@ -1,7 +1,8 @@
 import { HDWallet } from '@xyo-network/account'
+import { isValuesPayload } from '@xyo-network/values-payload-plugin'
 
 import { EnvironmentWitnessConfigSchema } from '../Config'
-import { EnvironmentSubset, EnvironmentSubsetSchema, isValuesPayload } from '../Payload'
+import { EnvironmentSubset, EnvironmentSubsetSchema } from '../Payload'
 import { EnvironmentWitness } from '../Witness'
 
 describe('EnvironmentWitness', () => {

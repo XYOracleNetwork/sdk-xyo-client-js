@@ -5819,7 +5819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^3.0.28":
+"@xylabs/ts-scripts-yarn3@npm:^3.0.27, @xylabs/ts-scripts-yarn3@npm:^3.0.28":
   version: 3.0.28
   resolution: "@xylabs/ts-scripts-yarn3@npm:3.0.28"
   dependencies:
@@ -5950,7 +5950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^3.0.28, @xylabs/tsconfig@npm:~3.0.28":
+"@xylabs/tsconfig@npm:^3.0.27, @xylabs/tsconfig@npm:^3.0.28, @xylabs/tsconfig@npm:~3.0.28":
   version: 3.0.28
   resolution: "@xylabs/tsconfig@npm:3.0.28"
   checksum: c1297cf7616b08990c88ecdff76557a63cb09722f91bbdc5df908190d79acf95c5d4967416814b87a17e269aa20dd582dbd3161fa76ac5b04181b84f20cb7f41
@@ -9883,7 +9883,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2

@@ -127,7 +127,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     throw Error('Unsupported')
   }
 
-  get module(): Module {
+  get module() {
     return this.wrapperParams.module
   }
 

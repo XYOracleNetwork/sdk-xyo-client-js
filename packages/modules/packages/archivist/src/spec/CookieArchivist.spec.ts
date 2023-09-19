@@ -5,7 +5,7 @@
 import { HDWallet } from '@xyo-network/account'
 
 import { CookieArchivist, CookieArchivistConfigSchema } from '../CookieArchivist'
-import { testArchivistAll, testArchivistRoundTrip } from './testArchivist.spec'
+import { testArchivistAll, testArchivistRoundTrip } from './testArchivist'
 
 testArchivistRoundTrip(
   (async () =>

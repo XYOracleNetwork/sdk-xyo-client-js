@@ -1,5 +1,5 @@
 import { scoreImage } from '../image'
-import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore } from './testHelpers.spec'
+import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore } from './testHelpers'
 
 const web3Urls = ['ipfs://QmaXTuWjEbDuvcA3dHypqHfxMzDLq78Zj5kBLN4JdMEYDB/3.mp4', 'ipfs://QmTxDYfccVVWoucpbvFECxtysRkMBADDL8j4zVYSRM7Kp3/']
 const secureWeb2Urls = [

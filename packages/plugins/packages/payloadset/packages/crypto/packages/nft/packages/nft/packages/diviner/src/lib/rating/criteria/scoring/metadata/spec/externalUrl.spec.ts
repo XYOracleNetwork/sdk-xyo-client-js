@@ -1,5 +1,5 @@
 import { scoreExternalUrl } from '../externalUrl'
-import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore } from './testHelpers.spec'
+import { expectLoweredScore, expectMaxPossibleScore, expectMiniumScore } from './testHelpers'
 
 const secure = ['https://lostpoets.xyz/']
 const insecure = ['http://lvcidia.xyz/']

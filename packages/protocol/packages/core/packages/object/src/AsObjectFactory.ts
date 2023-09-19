@@ -7,18 +7,18 @@ export const AsObjectFactory = {
   create: <T extends object>(typeCheck: ObjectTypeCheck<T>) => {
     function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: object | undefined,
+      obj: object | undefined | null,
       config?: ObjectTypeConfig,
     ): TObject | undefined
     function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: object | undefined,
+      obj: object | undefined | null,
       assert: string | (() => string),
       config?: ObjectTypeConfig,
     ): TObject
     function func<TObject extends T>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      obj: object | undefined,
+      obj: object | undefined | null,
       assertOrConfig?: string | (() => string) | ObjectTypeConfig,
       config?: ObjectTypeConfig,
     ): TObject | undefined {
@@ -28,6 +28,10 @@ export const AsObjectFactory = {
       }
 
       if (obj === undefined) {
+        return undefined
+      }
+
+      if (obj === null) {
         return undefined
       }
       const resolvedAssert = typeof assertOrConfig === 'object' ? undefined : assertOrConfig

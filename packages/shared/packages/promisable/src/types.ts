@@ -1,4 +1,3 @@
-/* eslint-disable deprecation/deprecation */
 /** @deprecated use from @xyo-network/promise instead */
 export type Promisable<T> = Promise<T> | T
 /** @deprecated use from @xyo-network/promise instead */

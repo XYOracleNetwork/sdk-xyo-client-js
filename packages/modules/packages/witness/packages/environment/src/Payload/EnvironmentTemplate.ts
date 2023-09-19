@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { EnvironmentSchema } from './Environment'
 
@@ -14,3 +14,5 @@ export type EnvironmentTemplate = Payload<
   },
   EnvironmentTemplateSchema
 >
+
+export const isEnvironmentTemplatePayload = isPayloadOfSchemaType<EnvironmentTemplate>(EnvironmentTemplateSchema)

@@ -22,32 +22,19 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
-    },
     "./docs": {
       "default": "./dist/docs.json"
-    },
-    "./esm": {
-      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.3",
-    "@xylabs/exists": "^2.11.3",
+    "@xylabs/assert": "^2.11.5",
+    "@xylabs/exists": "^2.11.5",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
@@ -93,10 +80,8 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   }
 }

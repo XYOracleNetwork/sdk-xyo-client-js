@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.3",
-    "@xylabs/exists": "^2.11.3",
-    "@xylabs/lodash": "^2.11.3",
-    "@xylabs/promise": "^2.11.3",
+    "@xylabs/assert": "^2.11.5",
+    "@xylabs/exists": "^2.11.5",
+    "@xylabs/lodash": "^2.11.5",
+    "@xylabs/promise": "^2.11.5",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
@@ -24,21 +24,20 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
   },
+  "peerDependenciesMeta": {
+    "@xyo-network/sdk-xyo-mongo-js": {
+      "optional": true
+    }
+  },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "fake-indexeddb": "^4.0.2",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
-  },
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",
@@ -57,14 +56,8 @@
     "./dist/docs.json": {
       "default": "./dist/docs.json"
     },
-    "./cjs": {
-      "default": "./dist/index.js"
-    },
     "./docs": {
       "default": "./dist/docs.json"
-    },
-    "./esm": {
-      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },

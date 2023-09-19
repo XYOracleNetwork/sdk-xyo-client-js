@@ -1,6 +1,6 @@
 import { EventFunctions } from '@xyo-network/module-events'
 
-import { ModuleEventData } from '../Events'
+import { ModuleEventData } from '../EventsModels'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleFields } from './ModuleFields'
 

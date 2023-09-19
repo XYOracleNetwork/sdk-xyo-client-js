@@ -9,19 +9,13 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
     "@xyo-network/error": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

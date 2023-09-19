@@ -12,9 +12,9 @@
   "dependencies": {
     "@bitauth/libauth": "^1.19.1",
     "@ethersproject/hdnode": "^5.7.0",
-    "@xylabs/array": "^2.11.3",
-    "@xylabs/assert": "^2.11.3",
-    "@xylabs/static-implements": "^2.11.3",
+    "@xylabs/array": "^2.11.5",
+    "@xylabs/assert": "^2.11.5",
+    "@xylabs/static-implements": "^2.11.5",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/bip39": "workspace:~",
     "@xyo-network/core": "workspace:~",
@@ -29,10 +29,8 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/sha.js": "^2.4.1",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -71,10 +69,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
-  },
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",

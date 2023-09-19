@@ -1,5 +1,5 @@
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
-import { AsObjectFactory } from '@xyo-network/object-identity'
+import { AsObjectFactory } from '@xyo-network/object'
 
 import { WitnessInstance } from './Instance'
 import { WitnessModule } from './Module'

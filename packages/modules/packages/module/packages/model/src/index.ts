@@ -1,6 +1,6 @@
 export * from './Config'
 export * from './CreatableModule'
-export * from './Events'
+export * from './EventsModels'
 export * from './instance'
 export * from './Labels'
 export * from './lib'

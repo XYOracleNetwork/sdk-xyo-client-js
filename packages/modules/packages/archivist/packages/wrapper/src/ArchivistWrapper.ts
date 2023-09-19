@@ -22,7 +22,7 @@ import { Payload } from '@xyo-network/payload-model'
 constructableModuleWrapper()
 export class ArchivistWrapper<TWrappedModule extends ArchivistModule = ArchivistModule>
   extends ModuleWrapper<TWrappedModule>
-  implements ArchivistInstance<TWrappedModule['params']>
+  implements ArchivistInstance<ArchivistModule['params']>
 {
   static override instanceIdentityCheck = isArchivistInstance
   static override moduleIdentityCheck = isArchivistModule

@@ -8,23 +8,13 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
-  "scripts": {
-    "package-compile": "ts-node ./build.ts && publint",
-    "package-recompile": "ts-node ./build.ts && publint"
-  },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.4",
-    "@rollup/plugin-typescript": "^11.1.3",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "rollup": "^3.29.2",
-    "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -40,17 +30,8 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
-    },
     "./docs": {
       "default": "./dist/docs.json"
-    },
-    "./esm": {
-      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },

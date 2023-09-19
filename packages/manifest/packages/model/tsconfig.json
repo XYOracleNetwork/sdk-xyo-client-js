@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": false
   },
-  "exclude": ["dist", "docs"],
+  "exclude": ["dist", "docs", "packages", "node_modules"],
   "extends": "@xylabs/tsconfig"
 }
 

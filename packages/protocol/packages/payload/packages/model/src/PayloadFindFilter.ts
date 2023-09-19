@@ -7,7 +7,6 @@ export interface PayloadFindFilterHashOffset {
   offset?: string
 }
 
-// eslint-disable-next-line deprecation/deprecation
 export type PayloadFindFilterOffset = PayloadFindFilterTimeOffset | PayloadFindFilterHashOffset
 
 export type PayloadFindFilter = {

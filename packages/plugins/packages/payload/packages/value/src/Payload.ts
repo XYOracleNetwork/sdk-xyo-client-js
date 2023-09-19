@@ -1,14 +1,14 @@
-import { AnyObject, WithAdditional } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 import { ValueSchema } from './Schema'
 
-export type ValueInstance = string | undefined
+type JsonValue = string | number | boolean | null | JsonObject | JsonArray
+type JsonObject = { [key: string]: JsonValue }
+type JsonArray = JsonValue[]
 
-export type Value<T extends AnyObject | undefined = undefined> = WithAdditional<
-  Payload<{
-    schema: ValueSchema
-    value: ValueInstance
-  }>,
-  T
->
+export type ValueInstance<T extends JsonValue = JsonValue> = T | undefined
+
+export type Value<T extends JsonValue = JsonValue> = Payload<{
+  schema: ValueSchema
+  value: T
+}>

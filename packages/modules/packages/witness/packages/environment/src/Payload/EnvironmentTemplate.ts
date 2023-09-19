@@ -1,6 +1,8 @@
 import { Payload } from '@xyo-network/payload-model'
 
-export const EnvironmentTemplateSchema = 'network.xyo.environment.template'
+import { EnvironmentSchema } from './Environment'
+
+export const EnvironmentTemplateSchema = `${EnvironmentSchema}.template`
 export type EnvironmentTemplateSchema = typeof EnvironmentTemplateSchema
 
 export type EnvironmentTemplate = Payload<

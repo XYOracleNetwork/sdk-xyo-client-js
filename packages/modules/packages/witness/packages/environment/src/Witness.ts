@@ -5,8 +5,7 @@ import { WitnessConfigSchema } from '@xyo-network/witness-model'
 
 import { EnvironmentWitnessConfigSchema } from './Config'
 import { EnvironmentWitnessParams } from './Params'
-import { Environment } from './Payload'
-import { EnvironmentSchema } from './Schema'
+import { Environment, EnvironmentSchema } from './Payload'
 
 const schema = EnvironmentSchema
 

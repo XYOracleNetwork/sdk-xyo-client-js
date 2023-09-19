@@ -1,6 +1,7 @@
 import { Payload } from '@xyo-network/payload-model'
 
-import { EnvironmentSchema } from '../Schema'
+export const EnvironmentSchema = 'network.xyo.environment'
+export type EnvironmentSchema = typeof EnvironmentSchema
 
 export interface EnvironmentVariables {
   [key: string]: string | undefined

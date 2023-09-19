@@ -1,6 +1,6 @@
 import { PayloadPluginResolver } from '@xyo-network/payload-plugin'
 
-import { EthereumGasEthersPayloadPlugin } from './Plugin'
+import { EthereumGasEthersPayloadPlugin } from '../Plugin'
 
 describe('EthereumGasEthersPayloadPlugin', () => {
   test('Add to Resolver', () => {

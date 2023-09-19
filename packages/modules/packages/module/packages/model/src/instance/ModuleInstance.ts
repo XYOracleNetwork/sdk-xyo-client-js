@@ -1,4 +1,4 @@
-import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object-identity'
+import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object'
 import { Promisable } from '@xyo-network/promise'
 
 import { AnyConfigSchema, ModuleConfig } from '../Config'

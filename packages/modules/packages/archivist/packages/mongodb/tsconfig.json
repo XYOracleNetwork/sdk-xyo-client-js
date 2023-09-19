@@ -2,7 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": false,
+    "incremental": false
   },
   "exclude": ["dist", "docs", "packages", "node_modules"],
   "extends": "@xylabs/tsconfig"

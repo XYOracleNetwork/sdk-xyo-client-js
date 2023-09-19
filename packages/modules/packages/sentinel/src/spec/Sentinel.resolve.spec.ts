@@ -1,4 +1,3 @@
-/* eslint-disable deprecation/deprecation */
 /* eslint-disable import/no-deprecated */
 
 import { HDWallet } from '@xyo-network/account'

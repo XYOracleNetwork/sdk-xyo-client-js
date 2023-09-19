@@ -50,8 +50,8 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.23",
-    "@xylabs/tsconfig": "^3.0.23",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   }
 }

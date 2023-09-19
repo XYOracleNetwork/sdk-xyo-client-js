@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.4",
-    "@xylabs/delay": "^2.11.4",
-    "@xylabs/lodash": "^2.11.4",
+    "@xylabs/assert": "^2.11.5",
+    "@xylabs/delay": "^2.11.5",
+    "@xylabs/lodash": "^2.11.5",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -34,9 +34,8 @@
     "lru-cache": "^10.0.1"
   },
   "devDependencies": {
-    "@swc/core": "^1.3.86",
-    "@xylabs/ts-scripts-yarn3": "^3.0.23",
-    "@xylabs/tsconfig": "^3.0.23",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -69,6 +68,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
+    "package-compile": "echo Not Compiling...",
+    "package-recompile": "echo Not Recompiling...",
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,

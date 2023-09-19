@@ -1,4 +1,3 @@
-/* eslint-disable deprecation/deprecation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /** @deprecated use from @xyo-network/object instead */

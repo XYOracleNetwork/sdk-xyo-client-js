@@ -1,4 +1,4 @@
-import { AsObjectFactory } from '@xyo-network/object-identity'
+import { AsObjectFactory } from '@xyo-network/object'
 
 import { isModule } from './isModule'
 

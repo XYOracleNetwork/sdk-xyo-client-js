@@ -13,8 +13,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.23",
-    "@xylabs/tsconfig": "^3.0.23",
+    "@xylabs/ts-scripts-yarn3": "^3.0.27",
+    "@xylabs/tsconfig": "^3.0.27",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -30,17 +30,8 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
-    },
     "./docs": {
       "default": "./dist/docs.json"
-    },
-    "./esm": {
-      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },

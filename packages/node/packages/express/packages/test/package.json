@@ -41,8 +41,8 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.11.5",
-    "@xylabs/forget": "^2.11.5",
+    "@xylabs/assert": "^2.11.6",
+    "@xylabs/forget": "^2.11.6",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",

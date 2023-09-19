@@ -39,7 +39,7 @@
   "module": "dist/index.mjs",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.5",
+    "@xylabs/assert": "^2.11.6",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",

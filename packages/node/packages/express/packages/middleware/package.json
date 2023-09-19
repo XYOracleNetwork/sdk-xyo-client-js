@@ -42,7 +42,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.5",
+    "@xylabs/assert": "^2.11.6",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/shared": "workspace:~",

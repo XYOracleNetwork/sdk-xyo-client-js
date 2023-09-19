@@ -1,1 +1,1 @@
-export * from './MemoryTransformDiviner'
+export * from './Diviner'

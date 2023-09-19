@@ -9009,6 +9009,7 @@ __metadata:
   dependencies:
     "@xylabs/array": ^2.11.6
     "@xylabs/assert": ^2.11.6
+    "@xylabs/crypto": ^2.11.6
     "@xylabs/delay": ^2.11.6
     "@xylabs/exists": ^2.11.6
     "@xylabs/lodash": ^2.11.6
@@ -9836,6 +9837,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
   dependencies:
+    "@xylabs/crypto": ^2.11.6
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/module": "workspace:~"
@@ -9889,19 +9891,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/values-payload-plugin@workspace:packages/plugins/packages/payload/packages/values, @xyo-network/values-payload-plugin@workspace:~":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/values-payload-plugin@workspace:packages/plugins/packages/payload/packages/values"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.28
-    "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-plugin": "workspace:~"
-    "@xyo-network/value-payload-plugin": "workspace:~"
-    typescript: ^5.2.2
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model, @xyo-network/wallet-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
@@ -9935,7 +9924,7 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/values-payload-plugin": "workspace:~"
+    "@xyo-network/value-payload-plugin": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown

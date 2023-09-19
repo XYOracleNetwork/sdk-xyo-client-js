@@ -5,8 +5,8 @@ import { ValueSchema } from './Schema'
 
 export type ValuePayload<T extends AnyObject | undefined = undefined> = WithAdditional<
   Payload<{
-    value: string
     schema: ValueSchema
+    value: string | undefined
   }>,
   T
 >

@@ -3,5 +3,5 @@ import { ValueSchema } from './Schema'
 
 export const valuePayloadTemplate = (): ValuePayload => ({
   schema: ValueSchema,
-  value: '',
+  value: undefined,
 })

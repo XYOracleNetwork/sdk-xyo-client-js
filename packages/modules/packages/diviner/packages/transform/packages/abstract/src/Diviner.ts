@@ -1,10 +1,11 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import {
-  isTransformDivinerQueryPayload,
   PayloadTransformer,
+  Transform,
   TransformDivinerConfig,
   TransformDivinerConfigSchema,
+  TransformDivinerSchema,
 } from '@xyo-network/diviner-transform-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -15,11 +16,14 @@ export abstract class AbstractTransformDiviner<TParams extends TransformDivinerP
   static override configSchemas = [TransformDivinerConfigSchema]
 
   protected override divineHandler(payloads?: Payload[]): Payload[] {
-    return payloads?.filter((p) => !isTransformDivinerQueryPayload(p)).map(this.transformer()) || []
+    const transforms: Transform[] = []
+    if (this.config.transform) {
+      transforms.push({ schema: TransformDivinerSchema, transform: this.config.transform })
+    }
+    return transforms.map((transform) => payloads?.map(this.transformer(transform)) || []).flat()
   }
 
-  protected abstract transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(): PayloadTransformer<
-    TSource,
-    TDestination
-  >
+  protected abstract transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(
+    transform: Transform,
+  ): PayloadTransformer<TSource, TDestination>
 }

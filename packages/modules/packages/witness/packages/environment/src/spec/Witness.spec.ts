@@ -25,13 +25,14 @@ describe('EnvironmentWitness', () => {
     })
     describe('with subset payload', () => {
       it('should return only the environment subset', async () => {
+        type EnvironmentWithPath = { PATH: string }
         const template: EnvironmentSubset = { schema: EnvironmentSubsetSchema, values: ['PATH'] }
         const result = await sut.observe([template])
         expect(result).toBeArrayOfSize(1)
         const env = result.filter(isValuePayload)[0]
         expect(env).toBeDefined()
         expect(env.value).toContainAllKeys(template.values)
-        expect((env.value as { PATH: string })?.PATH).toEqual(process.env.PATH)
+        expect((env.value as EnvironmentWithPath)?.PATH).toEqual(process.env.PATH)
       })
     })
   })

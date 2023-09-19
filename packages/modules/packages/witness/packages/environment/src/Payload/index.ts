@@ -1,3 +1,3 @@
-export * from './Environment'
 export * from './EnvironmentSubset'
-export * from './EnvironmentTemplate'
+export * from './Values'
+export * from './ValuesTemplate'

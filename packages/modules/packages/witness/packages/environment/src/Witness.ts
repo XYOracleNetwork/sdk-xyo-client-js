@@ -4,7 +4,7 @@ import { WitnessConfigSchema } from '@xyo-network/witness-model'
 
 import { EnvironmentWitnessConfigSchema } from './Config'
 import { EnvironmentWitnessParams } from './Params'
-import { Environment, EnvironmentSchema, EnvironmentSubset, isEnvironmentSubsetPayload } from './Payload'
+import { EnvironmentSubset, isEnvironmentSubsetPayload, ValuesDictionary, ValuesSchema } from './Payload'
 
 const schema = EnvironmentSchema
 
@@ -16,8 +16,8 @@ export class EnvironmentWitness<P extends EnvironmentWitnessParams = Environment
   }
 }
 
-const getEnv = (payload?: EnvironmentSubset): Environment => {
+const getEnv = (payload?: EnvironmentSubset): ValuesDictionary => {
   const subset = payload?.values
   const env = subset ? subset.reduce((acc, key) => ({ ...acc, [key]: process.env[key] }), {}) : process.env
-  return { env, schema }
+  return { schema, values: env }
 }

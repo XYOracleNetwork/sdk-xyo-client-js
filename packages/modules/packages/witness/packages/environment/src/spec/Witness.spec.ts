@@ -1,7 +1,7 @@
 import { HDWallet } from '@xyo-network/account'
 
 import { EnvironmentWitnessConfigSchema } from '../Config'
-import { EnvironmentTemplateSchema, isEnvironmentPayload } from '../Payload'
+import { EnvironmentSubset, EnvironmentSubsetSchema, isEnvironmentPayload } from '../Payload'
 import { EnvironmentWitness } from '../Witness'
 
 describe('EnvironmentWitness', () => {
@@ -22,21 +22,15 @@ describe('EnvironmentWitness', () => {
         expect(env.env).toEqual(process.env)
       })
     })
-    describe('with template payload', () => {
-      it('should return just the environment from the template', async () => {
-        const template = {
-          placeholders: {
-            environmentPath: 'PATH',
-          },
-          schema: EnvironmentTemplateSchema,
-          value: '{environmentPath}',
-        }
+    describe('with subset payload', () => {
+      it('should return only the environment subset', async () => {
+        const template: EnvironmentSubset = { schema: EnvironmentSubsetSchema, values: ['PATH'] }
         const result = await sut.observe([template])
         expect(result).toBeArrayOfSize(1)
         const env = result.filter(isEnvironmentPayload)[0]
         expect(env).toBeDefined()
-        expect(env.env).toBeDefined()
-        expect(env.env?.path).toEqual(process.env?.PATH)
+        expect(env.env).toContainAllKeys(template.values)
+        expect(env.env.PATH).toEqual(process.env.PATH)
       })
     })
   })

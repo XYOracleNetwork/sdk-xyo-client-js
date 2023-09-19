@@ -14,7 +14,6 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {

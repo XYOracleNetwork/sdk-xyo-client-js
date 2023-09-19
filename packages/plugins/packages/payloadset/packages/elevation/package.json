@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.11.5",
-    "@xylabs/ts-scripts-yarn3": "^3.0.27",
-    "@xylabs/tsconfig": "^3.0.27",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"
   },

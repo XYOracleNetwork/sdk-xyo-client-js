@@ -1,12 +1,17 @@
-import { AnyObject, WithAdditional } from '@xyo-network/core'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { Value } from '@xyo-network/value-payload-plugin'
 
 import { ValuesSchema } from './Schema'
 
-export type ValuesPayload<T extends AnyObject | undefined = undefined> = WithAdditional<
-  Payload<{
-    schema: ValuesSchema
-    values: string | undefined
-  }>,
-  T
+export interface ValuesDictionary {
+  [key: string]: Value
+}
+
+export type Values = Payload<
+  {
+    values: ValuesDictionary
+  },
+  ValuesSchema
 >
+
+export const isValuesPayload = isPayloadOfSchemaType<Values>(ValuesSchema)

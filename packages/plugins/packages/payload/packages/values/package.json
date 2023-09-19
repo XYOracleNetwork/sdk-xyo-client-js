@@ -12,7 +12,8 @@
   "dependencies": {
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~"
+    "@xyo-network/payload-plugin": "workspace:~",
+    "@xyo-network/value-payload-plugin": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.0.27",

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractTransformDiviner, TransformDivinerParams } from '@xyo-network/diviner-transform-abstract'
-import { PayloadValueTransformer, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
+import { PayloadTransformer, PayloadValueTransformer, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
 import { Payload } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
@@ -15,7 +15,10 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
 export class MemoryTransformDiviner<TParams extends TransformDivinerParams = TransformDivinerParams> extends AbstractTransformDiviner<TParams> {
   static override configSchemas = [TransformDivinerConfigSchema]
 
-  protected override get transformer(): PayloadValueTransformer {
+  protected override get transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(): PayloadTransformer<
+    TSource,
+    TDestination
+  > {
     const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')
     return getJsonPathTransformer(pathExpression)
   }

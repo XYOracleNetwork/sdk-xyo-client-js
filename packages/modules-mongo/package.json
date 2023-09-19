@@ -43,6 +43,7 @@
   "dependencies": {
     "@xylabs/array": "^2.11.6",
     "@xylabs/assert": "^2.11.6",
+    "@xylabs/crypto": "^2.11.6",
     "@xylabs/delay": "^2.11.6",
     "@xylabs/exists": "^2.11.6",
     "@xylabs/lodash": "^2.11.6",

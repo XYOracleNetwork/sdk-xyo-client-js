@@ -9009,6 +9009,7 @@ __metadata:
   dependencies:
     "@xylabs/array": ^2.11.6
     "@xylabs/assert": ^2.11.6
+    "@xylabs/crypto": ^2.11.6
     "@xylabs/delay": ^2.11.6
     "@xylabs/exists": ^2.11.6
     "@xylabs/lodash": ^2.11.6
@@ -9836,6 +9837,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
   dependencies:
+    "@xylabs/crypto": ^2.11.6
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/module": "workspace:~"

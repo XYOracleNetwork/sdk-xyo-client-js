@@ -3,12 +3,12 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { ValueSchema } from './Schema'
 
-export type Value = string | undefined
+export type ValueInstance = string | undefined
 
-export type ValuePayload<T extends AnyObject | undefined = undefined> = WithAdditional<
+export type Value<T extends AnyObject | undefined = undefined> = WithAdditional<
   Payload<{
     schema: ValueSchema
-    value: Value
+    value: ValueInstance
   }>,
   T
 >

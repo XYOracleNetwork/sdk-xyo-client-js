@@ -1,11 +1,11 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { ValuePayload } from './Payload'
+import { Value } from './Payload'
 import { ValueSchema } from './Schema'
 import { valuePayloadTemplate } from './Template'
 
 export const ValuePayloadPlugin = () =>
-  createPayloadPlugin<ValuePayload>({
+  createPayloadPlugin<Value>({
     schema: ValueSchema,
     template: valuePayloadTemplate,
   })

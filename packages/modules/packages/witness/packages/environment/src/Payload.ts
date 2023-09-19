@@ -1,6 +1,8 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-export const EnvironmentSubsetSchema = 'network.xyo.environment.subset'
+import { EnvironmentSchema } from './Schema'
+
+export const EnvironmentSubsetSchema = `${EnvironmentSchema}.subset`
 export type EnvironmentSubsetSchema = typeof EnvironmentSubsetSchema
 
 export type EnvironmentSubset = Payload<{ values: string[] }, EnvironmentSubsetSchema>

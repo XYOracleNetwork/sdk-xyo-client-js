@@ -1,10 +1,10 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { ValueInstance } from '@xyo-network/value-payload-plugin'
 
-export const ValuesSchema = 'network.xyo.values'
-export type ValuesSchema = typeof ValuesSchema
+import { ValuesSchema } from '../Schema'
 
 export interface ValuesDictionary {
-  [key: string]: string | undefined
+  [key: string]: ValueInstance
 }
 
 export type Values = Payload<

@@ -1,6 +1,6 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { ValuesSchema } from './Values'
+import { ValuesSchema } from '../Schema'
 
 export const ValuesTemplateSchema = `${ValuesSchema}.template`
 export type ValuesTemplateSchema = typeof ValuesTemplateSchema

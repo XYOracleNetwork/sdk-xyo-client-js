@@ -9889,19 +9889,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/values-payload-plugin@workspace:packages/plugins/packages/payload/packages/values, @xyo-network/values-payload-plugin@workspace:~":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/values-payload-plugin@workspace:packages/plugins/packages/payload/packages/values"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.28
-    "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-plugin": "workspace:~"
-    "@xyo-network/value-payload-plugin": "workspace:~"
-    typescript: ^5.2.2
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model, @xyo-network/wallet-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
@@ -9935,7 +9922,6 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/values-payload-plugin": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown

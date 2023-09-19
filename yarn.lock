@@ -9846,6 +9846,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/witness-environment@workspace:packages/modules/packages/witness/packages/environment":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/witness-environment@workspace:packages/modules/packages/witness/packages/environment"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^3.0.27
+    "@xylabs/tsconfig": ^3.0.27
+    "@xyo-network/abstract-witness": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model, @xyo-network/witness-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model"

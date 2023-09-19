@@ -19,8 +19,8 @@ describe('EnvironmentWitness', () => {
         expect(result).toBeArrayOfSize(1)
         const env = result.filter(isValuePayload)[0]
         expect(env).toBeDefined()
-        expect(env.values).toBeDefined()
-        expect(env.values).toEqual(process.env)
+        expect(env.value).toBeDefined()
+        expect(env.value).toEqual(process.env)
       })
     })
     describe('with subset payload', () => {
@@ -30,8 +30,8 @@ describe('EnvironmentWitness', () => {
         expect(result).toBeArrayOfSize(1)
         const env = result.filter(isValuePayload)[0]
         expect(env).toBeDefined()
-        expect(env.values).toContainAllKeys(template.values)
-        expect(env.values.PATH).toEqual(process.env.PATH)
+        expect(env.value).toContainAllKeys(template.values)
+        expect((env.value as { PATH: string })?.PATH).toEqual(process.env.PATH)
       })
     })
   })

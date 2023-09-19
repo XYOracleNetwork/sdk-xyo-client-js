@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.74.0",
+  "version": "2.74.1",
   "description": "XYO Express Node Routes",
   "sideeffects": false,
   "engines": {
@@ -42,8 +42,8 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.5",
-    "@xylabs/exists": "^2.11.5",
+    "@xylabs/assert": "^2.11.6",
+    "@xylabs/exists": "^2.11.6",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -77,8 +77,8 @@
   },
   "devDependencies": {
     "@types/express": "4.17.17",
-    "@xylabs/ts-scripts-yarn3": "^3.0.27",
-    "@xylabs/tsconfig": "^3.0.27",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"

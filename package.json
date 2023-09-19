@@ -24,10 +24,10 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "@xylabs/eslint-config": "^3.0.27",
-    "@xylabs/ts-scripts-yarn3": "^3.0.27",
-    "@xylabs/tsconfig": "^3.0.27",
-    "@xylabs/tsconfig-dom-jest": "^3.0.27",
+    "@xylabs/eslint-config": "^3.0.28",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
+    "@xylabs/tsconfig-dom-jest": "^3.0.28",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.49.0",
@@ -114,7 +114,7 @@
     "build-typedoc-site": "typedoc --options typedoc.site.json"
   },
   "sideEffects": false,
-  "version": "2.74.0",
+  "version": "2.74.1",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

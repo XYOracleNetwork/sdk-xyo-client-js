@@ -11,12 +11,12 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^2.11.5",
+    "@xylabs/assert": "^2.11.6",
     "@xyo-network/logger": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.27",
-    "@xylabs/tsconfig": "^3.0.27",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -58,5 +58,5 @@
   },
   "sideEffects": false,
   "types": "dist/index.d.ts",
-  "version": "2.74.0"
+  "version": "2.74.1"
 }

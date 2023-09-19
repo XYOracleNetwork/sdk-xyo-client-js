@@ -1,13 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractTransformDiviner, TransformDivinerParams } from '@xyo-network/diviner-transform-abstract'
-import { PayloadTransformer, PayloadValueTransformer, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
+import { PayloadTransformer, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
 import { Payload } from '@xyo-network/payload-model'
+import { ValueSchema } from '@xyo-network/value-payload-plugin'
 import jsonpath from 'jsonpath'
 
-const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
-  const transformer: PayloadValueTransformer = (x: Payload) => {
+const getJsonPathTransformer = <TSource extends Payload = Payload, TDestination extends Payload = Payload>(
+  pathExpression: string,
+): PayloadTransformer<TSource, TDestination> => {
+  const transformer: PayloadTransformer<TSource, TDestination> = (x: TSource) => {
     // eslint-disable-next-line import/no-named-as-default-member
-    return jsonpath.value(x, pathExpression)
+    const value = jsonpath.value(x, pathExpression)
+    // TODO: Render this cast unnecessary
+    return { schema: ValueSchema, value } as unknown as TDestination
   }
   return transformer
 }
@@ -15,7 +20,7 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
 export class MemoryTransformDiviner<TParams extends TransformDivinerParams = TransformDivinerParams> extends AbstractTransformDiviner<TParams> {
   static override configSchemas = [TransformDivinerConfigSchema]
 
-  protected override get transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(): PayloadTransformer<
+  protected override transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(): PayloadTransformer<
     TSource,
     TDestination
   > {

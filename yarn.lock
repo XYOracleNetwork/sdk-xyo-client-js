@@ -7720,12 +7720,10 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.27
     "@xylabs/tsconfig": ^3.0.27
     "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/promise": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7735,17 +7733,12 @@ __metadata:
   resolution: "@xyo-network/diviner-transform-memory@workspace:packages/modules/packages/diviner/packages/transform/packages/memory"
   dependencies:
     "@types/jsonpath": ^0.2.1
-    "@xylabs/assert": ^2.11.5
-    "@xylabs/exists": ^2.11.5
     "@xylabs/ts-scripts-yarn3": ^3.0.27
     "@xylabs/tsconfig": ^3.0.27
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/value-payload-plugin": "workspace:~"
     jsonpath: ^1.1.1
     typescript: ^5.2.2
   languageName: unknown
@@ -7758,9 +7751,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.27
     "@xylabs/tsconfig": ^3.0.27
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/promise": "workspace:~"
     "@xyo-network/value-payload-plugin": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9882,7 +9873,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.27
     "@xylabs/tsconfig": ^3.0.27
-    "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2

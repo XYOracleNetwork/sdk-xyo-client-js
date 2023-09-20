@@ -1,5 +1,10 @@
 /* eslint-disable max-statements */
-import { MongoDBPayloadDiviner, MongoDBPayloadDivinerParams } from '@xyo-network/diviner-mongodb'
+import {
+  MongoDBBoundWitnessDiviner,
+  MongoDBBoundWitnessDivinerParams,
+  MongoDBPayloadDiviner,
+  MongoDBPayloadDivinerParams,
+} from '@xyo-network/diviner-mongodb'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -14,7 +19,6 @@ import {
   MongoDBAddressSpaceDiviner,
   MongoDBAddressSpaceDivinerParams,
 } from './AddressSpace'
-import { MongoDBBoundWitnessDiviner, MongoDBBoundWitnessDivinerParams } from './BoundWitness'
 import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerParams } from './BoundWitnessStats'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerParams } from './PayloadStats'
 import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerParams } from './SchemaList'

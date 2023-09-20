@@ -2,12 +2,15 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { merge } from '@xylabs/lodash'
 import { fulfilledValues } from '@xylabs/promise'
+import { staticImplements } from '@xylabs/static-implements'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema, MongoDBArchivistParams } from '@xyo-network/archivist-model-mongodb'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { WithLabels } from '@xyo-network/module-model'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -33,8 +36,10 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
   return { ...wrapper.payload(), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
+@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
 export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> extends AbstractArchivist<TParams> {
   static override configSchemas = [MongoDBArchivistConfigSchema, ArchivistConfigSchema]
+  static labels = MongoDBStorageClassLabels
 
   private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
   private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined

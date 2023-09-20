@@ -1,5 +1,7 @@
 /* eslint-disable max-statements */
 import {
+  MongoDBAddressHistoryDiviner,
+  MongoDBAddressHistoryDivinerParams,
   MongoDBBoundWitnessDiviner,
   MongoDBBoundWitnessDivinerParams,
   MongoDBPayloadDiviner,
@@ -12,7 +14,6 @@ import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mo
 import { Container } from 'inversify'
 
 import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
-import { MongoDBAddressHistoryDiviner, MongoDBAddressHistoryDivinerParams } from './AddressHistory'
 import {
   MongoDBAddressSpaceBatchDiviner,
   MongoDBAddressSpaceBatchDivinerParams,

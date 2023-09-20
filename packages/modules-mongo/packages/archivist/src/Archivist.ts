@@ -36,8 +36,20 @@ const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMe
   return { ...wrapper.payload(), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
 }
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> extends AbstractArchivist<TParams> {
+export interface MongoDBModuleStatic<T extends MongoDBStorageClassLabels = MongoDBStorageClassLabels> {
+  labels: T
+}
+export interface MongoDBModule {
+  get boundWitnessSdkConfig(): BaseMongoSdkConfig
+  get boundWitnesses(): BaseMongoSdk<BoundWitnessWithMeta>
+  get payloadSdkConfig(): BaseMongoSdkConfig
+  get payloads(): BaseMongoSdk<PayloadWithMeta>
+}
+@staticImplements<MongoDBModuleStatic>()
+export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams>
+  extends AbstractArchivist<TParams>
+  implements MongoDBModule
+{
   static override configSchemas = [MongoDBArchivistConfigSchema, ArchivistConfigSchema]
   static labels = MongoDBStorageClassLabels
 

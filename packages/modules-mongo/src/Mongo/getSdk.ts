@@ -1,7 +1,7 @@
+import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { COLLECTIONS } from '../collections'
 import { AddressInfo } from './AddressInfo'
 import { getBaseMongoSdk } from './getBaseMongoSdk'
 

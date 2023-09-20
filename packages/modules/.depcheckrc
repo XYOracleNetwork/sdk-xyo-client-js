@@ -1,0 +1,4 @@
+ignores:
+  [
+    "@swc/core"
+  ]

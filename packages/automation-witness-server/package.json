@@ -98,7 +98,7 @@
     "@types/compression": "^1.7.3",
     "@types/cors": "^2.8.14",
     "@types/express": "4.17.17",
-    "@xylabs/jest-helpers": "^2.11.6",
+    "@xylabs/jest-helpers": "^2.11.7",
     "@xylabs/ts-scripts-yarn3": "^3.0.28",
     "@xylabs/tsconfig": "^3.0.28",
     "@xylabs/tsconfig-jest": "^3.0.28",

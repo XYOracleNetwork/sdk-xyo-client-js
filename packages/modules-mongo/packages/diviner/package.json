@@ -1,0 +1,110 @@
+{
+  "name": "@xyo-network/diviner-mongodb",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/array": "^2.11.7",
+    "@xylabs/assert": "^2.11.7",
+    "@xylabs/crypto": "^2.11.7",
+    "@xylabs/delay": "^2.11.7",
+    "@xylabs/exists": "^2.11.7",
+    "@xylabs/lodash": "^2.11.7",
+    "@xylabs/promise": "^2.11.7",
+    "@xylabs/set": "^2.11.7",
+    "@xylabs/static-implements": "^2.11.7",
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/archivist-wrapper": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/core": "workspace:~",
+    "@xyo-network/diviner": "workspace:~",
+    "@xyo-network/diviner-address-history": "workspace:~",
+    "@xyo-network/diviner-address-space-abstract": "workspace:~",
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:~",
+    "@xyo-network/diviner-boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~",
+    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/diviner-models": "workspace:~",
+    "@xyo-network/diviner-payload-model": "workspace:~",
+    "@xyo-network/diviner-payload-stats-abstract": "workspace:~",
+    "@xyo-network/diviner-payload-stats-model": "workspace:~",
+    "@xyo-network/diviner-schema-list-abstract": "workspace:~",
+    "@xyo-network/diviner-schema-list-model": "workspace:~",
+    "@xyo-network/diviner-schema-stats-abstract": "workspace:~",
+    "@xyo-network/diviner-schema-stats-model": "workspace:~",
+    "@xyo-network/location-payload-plugin": "workspace:~",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-abstract-mongodb": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-model-mongodb": "workspace:~",
+    "@xyo-network/node-core-model": "workspace:~",
+    "@xyo-network/node-core-types": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/shared": "workspace:~",
+    "mongodb": "^5.9.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+  },
+  "peerDependenciesMeta": {
+    "@xyo-network/sdk-xyo-mongo-js": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
+    "fake-indexeddb": "^4.0.2",
+    "typescript": "^5.2.2"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "docs": "dist/docs.json",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/docs.json": {
+      "default": "./dist/docs.json"
+    },
+    "./docs": {
+      "default": "./dist/docs.json"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "version": "2.74.1"
+}

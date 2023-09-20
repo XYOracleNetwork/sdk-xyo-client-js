@@ -8,13 +8,13 @@ import {
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '@xyo-network/module-abstract-mongodb'
 import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBPayloadDivinerParams = DivinerParams<

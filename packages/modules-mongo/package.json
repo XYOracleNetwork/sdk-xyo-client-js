@@ -77,6 +77,7 @@
     "@xyo-network/location-payload-plugin": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
+    "@xyo-network/module-abstract-mongodb": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/node-core-types": "workspace:~",

@@ -10,6 +10,7 @@ import {
   isAddressHistoryQueryPayload,
 } from '@xyo-network/diviner-address-history'
 import { DivinerParams } from '@xyo-network/diviner-model'
+import { DefaultLimit, DefaultMaxTimeMS } from '@xyo-network/module-abstract-mongodb'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
 import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
@@ -17,7 +18,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
-import { DefaultLimit, DefaultMaxTimeMS } from '../../defaults'
 import { removeId } from '../../Mongo'
 
 export type MongoDBAddressHistoryDivinerParams = DivinerParams<

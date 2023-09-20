@@ -1,4 +1,4 @@
-import { Crypto } from '@xylabs/crypto'
+import Crypto from 'crypto'
 import { createReadStream } from 'fs'
 import { fileURLToPath } from 'url'
 

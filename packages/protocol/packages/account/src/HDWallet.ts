@@ -1,9 +1,9 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
-import { generateMnemonic, wordlists } from '@xyo-network/bip39'
 import { toUint8Array } from '@xyo-network/core'
 import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
+import { generateMnemonic, wordlists } from 'bip39'
 
 import { Account } from './Account'
 import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
@@ -99,7 +99,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   static random() {
-    return this.fromMnemonic(generateMnemonic(wordlists.english, 256))
+    return this.fromMnemonic(generateMnemonic(256, undefined, wordlists.english))
   }
 
   protected static getWallet(mnemonic?: Partial<Mnemonic>): HDWallet | undefined {

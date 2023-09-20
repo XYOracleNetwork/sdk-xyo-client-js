@@ -55,7 +55,6 @@
     "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/v3-sdk": "^3.10.0",
     "@xylabs/assert": "^2.11.6",
-    "@xylabs/crypto": "^2.11.6",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",

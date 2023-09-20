@@ -12,7 +12,7 @@
   "dependencies": {
     "@ethersproject/address": "^5.7.0",
     "@xylabs/bignumber": "^2.11.7",
-    "@xylabs/url": "^2.11.6",
+    "@xylabs/url": "^2.11.7",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",

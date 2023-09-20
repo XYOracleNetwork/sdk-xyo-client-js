@@ -13,7 +13,7 @@
     "@xylabs/assert": "^2.11.7",
     "@xylabs/delay": "^2.11.7",
     "@xylabs/lodash": "^2.11.7",
-    "@xylabs/url": "^2.11.6",
+    "@xylabs/url": "^2.11.7",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/axios": "workspace:~",

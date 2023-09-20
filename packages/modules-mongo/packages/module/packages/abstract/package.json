@@ -11,20 +11,12 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.11.6",
-    "@xylabs/exists": "^2.11.6",
     "@xylabs/lodash": "^2.11.6",
-    "@xylabs/promise": "^2.11.6",
-    "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/boundwitness-wrapper": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xylabs/static-implements": "^2.11.6",
+    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-model-mongodb": "workspace:~",
-    "@xyo-network/node-core-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/node-core-model": "workspace:~"
   },
   "peerDependencies": {
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"

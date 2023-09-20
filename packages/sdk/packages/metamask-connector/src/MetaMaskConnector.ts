@@ -4,9 +4,9 @@ import { MetaMaskInpageProvider } from '@metamask/providers'
 export class MetaMaskConnector {
   private account = ''
   private ethereum = window.ethereum as MetaMaskInpageProvider
-  private provider: Web3Provider | undefined
 
   private listeners: Listener[] = []
+  private provider: Web3Provider | undefined
 
   constructor(provider?: Web3Provider) {
     if (provider) {
@@ -16,26 +16,12 @@ export class MetaMaskConnector {
     }
   }
 
-  get currentAccount() {
-    return this.ethereum?.selectedAddress
-  }
-
   get chainId() {
     return this.ethereum?.networkVersion
   }
 
-  on(event: string, listener: Listener) {
-    this.provider.on(event, listener)
-    this.listeners.push(listener)
-  }
-
-  removeListener(event: string, listener: Listener) {
-    this.provider.removeListener(event, listener)
-    this.listeners = this.listeners.filter(savedListener => listener !== savedListener)
-  }
-
-  removeListeners() {
-    this.provider.removeAllListeners()
+  get currentAccount() {
+    return this.ethereum?.selectedAddress
   }
 
   async connectWallet() {
@@ -64,6 +50,20 @@ export class MetaMaskConnector {
       return true
     }
     return false
+  }
+
+  on(event: string, listener: Listener) {
+    this.provider?.on(event, listener)
+    this.listeners.push(listener)
+  }
+
+  removeListener(event: string, listener: Listener) {
+    this.provider?.removeListener(event, listener)
+    this.listeners = this.listeners.filter((savedListener) => listener !== savedListener)
+  }
+
+  removeListeners() {
+    this.provider?.removeAllListeners()
   }
 
   async signMessage(message: string) {

@@ -30,11 +30,6 @@ export class MongoDBSchemaListDiviner<
   static override configSchemas = [SchemaListDivinerConfigSchema]
   static labels = MongoDBStorageClassLabels
 
-  /**
-   * The amount of time to allow the aggregate query to execute
-   */
-  protected readonly aggregateTimeoutMs = 10_000
-
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<SchemaListPayload>[]> {
     const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
     const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined

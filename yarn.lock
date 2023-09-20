@@ -9045,6 +9045,7 @@ __metadata:
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     "@xyo-network/location-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
+    "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"

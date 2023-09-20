@@ -1,1 +1,1 @@
-export * from './AbstractMongoModule'
+export * from './MongoDBModule'

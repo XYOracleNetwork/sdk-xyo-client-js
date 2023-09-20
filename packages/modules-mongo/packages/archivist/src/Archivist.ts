@@ -9,7 +9,7 @@ import { MongoDBArchivistConfigSchema, MongoDBArchivistParams } from '@xyo-netwo
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { WithLabels } from '@xyo-network/module-model'
+import { Module } from '@xyo-network/module'
 import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -45,6 +45,44 @@ export interface MongoDBModule {
   get payloadSdkConfig(): BaseMongoSdkConfig
   get payloads(): BaseMongoSdk<PayloadWithMeta>
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyModule<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> = abstract new (...args: any[]) => Module<TParams>
+
+const MongoDBModuleMixin = <T extends AnyModule = AnyModule>(BaseClass: T) => {
+  @staticImplements<MongoDBModuleStatic>()
+  abstract class MongoModule extends BaseClass implements MongoDBModule {
+    static labels = MongoDBStorageClassLabels
+    private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
+    private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
+
+    get boundWitnessSdkConfig(): BaseMongoSdkConfig {
+      return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
+        collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
+      })
+    }
+
+    get boundWitnesses() {
+      this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
+      return assertEx(this._boundWitnessSdk)
+    }
+
+    get payloadSdkConfig(): BaseMongoSdkConfig {
+      return merge({}, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
+        collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
+      })
+    }
+
+    get payloads() {
+      this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
+      return assertEx(this._payloadSdk)
+    }
+  }
+  return MongoModule
+}
+
+const MongoDBArchivistBase = MongoDBModuleMixin(AbstractArchivist)
+
 @staticImplements<MongoDBModuleStatic>()
 export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams>
   extends AbstractArchivist<TParams>

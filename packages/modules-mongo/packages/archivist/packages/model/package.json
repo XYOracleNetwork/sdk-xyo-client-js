@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/module-abstract-mongodb",
+  "name": "@xyo-network/archivist-model-mongodb",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -20,8 +20,6 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/module": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/module-model-mongodb": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~"

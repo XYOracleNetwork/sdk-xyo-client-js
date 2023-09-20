@@ -2,6 +2,8 @@
 import {
   MongoDBAddressHistoryDiviner,
   MongoDBAddressHistoryDivinerParams,
+  MongoDBAddressSpaceBatchDiviner,
+  MongoDBAddressSpaceBatchDivinerParams,
   MongoDBAddressSpaceDiviner,
   MongoDBAddressSpaceDivinerParams,
   MongoDBBoundWitnessDiviner,
@@ -16,7 +18,6 @@ import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mo
 import { Container } from 'inversify'
 
 import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
-import { MongoDBAddressSpaceBatchDiviner, MongoDBAddressSpaceBatchDivinerParams } from './AddressSpace'
 import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerParams } from './BoundWitnessStats'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerParams } from './PayloadStats'
 import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerParams } from './SchemaList'

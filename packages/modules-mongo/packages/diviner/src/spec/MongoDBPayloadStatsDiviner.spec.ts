@@ -7,12 +7,12 @@ import {
   PayloadStatsQueryPayload,
   PayloadStatsQuerySchema,
 } from '@xyo-network/diviner-payload-stats-model'
+import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../canAddMongoModules'
-import { COLLECTIONS } from '../../../collections'
+import { canAddMongoModules } from '../../../../src/canAddMongoModules'
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
 describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {

@@ -8,8 +8,14 @@ import {
   MongoDBAddressSpaceDivinerParams,
   MongoDBBoundWitnessDiviner,
   MongoDBBoundWitnessDivinerParams,
+  MongoDBBoundWitnessStatsDiviner,
+  MongoDBBoundWitnessStatsDivinerParams,
   MongoDBPayloadDiviner,
   MongoDBPayloadDivinerParams,
+  MongoDBPayloadStatsDiviner,
+  MongoDBPayloadStatsDivinerParams,
+  MongoDBSchemaListDiviner,
+  MongoDBSchemaListDivinerParams,
   MongoDBSchemaStatsDiviner,
   MongoDBSchemaStatsDivinerParams,
 } from '@xyo-network/diviner-mongodb'
@@ -20,9 +26,6 @@ import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mo
 import { Container } from 'inversify'
 
 import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
-import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerParams } from './BoundWitnessStats'
-import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerParams } from './PayloadStats'
-import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerParams } from './SchemaList'
 
 const getMongoDBAddressHistoryDiviner = () => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()

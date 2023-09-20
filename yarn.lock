@@ -7528,6 +7528,68 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-mongodb@workspace:packages/modules-mongo/packages/diviner, @xyo-network/diviner-mongodb@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-mongodb@workspace:packages/modules-mongo/packages/diviner"
+  dependencies:
+    "@xylabs/array": ^2.11.6
+    "@xylabs/assert": ^2.11.6
+    "@xylabs/crypto": ^2.11.6
+    "@xylabs/delay": ^2.11.6
+    "@xylabs/exists": ^2.11.6
+    "@xylabs/lodash": ^2.11.6
+    "@xylabs/promise": ^2.11.6
+    "@xylabs/static-implements": ^2.11.6
+    "@xylabs/ts-scripts-yarn3": ^3.0.28
+    "@xylabs/tsconfig": ^3.0.28
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/account-model": "workspace:~"
+    "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/diviner": "workspace:~"
+    "@xyo-network/diviner-address-history": "workspace:~"
+    "@xyo-network/diviner-address-space-abstract": "workspace:~"
+    "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
+    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-models": "workspace:~"
+    "@xyo-network/diviner-payload-model": "workspace:~"
+    "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
+    "@xyo-network/diviner-payload-stats-model": "workspace:~"
+    "@xyo-network/diviner-schema-list-abstract": "workspace:~"
+    "@xyo-network/diviner-schema-list-model": "workspace:~"
+    "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
+    "@xyo-network/diviner-schema-stats-model": "workspace:~"
+    "@xyo-network/location-payload-plugin": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/module-abstract-mongodb": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-model-mongodb": "workspace:~"
+    "@xyo-network/node-core-model": "workspace:~"
+    "@xyo-network/node-core-types": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+    "@xyo-network/shared": "workspace:~"
+    fake-indexeddb: ^4.0.2
+    mongodb: ^5.9.0
+    reflect-metadata: ^0.1.13
+    typescript: ^5.2.2
+  peerDependencies:
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+  peerDependenciesMeta:
+    "@xyo-network/sdk-xyo-mongo-js":
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract, @xyo-network/diviner-payload-abstract@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract"
@@ -8764,8 +8826,10 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
+    mongodb: ^5.9.0
     typescript: ^5.2.2
   peerDependencies:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -9090,50 +9154,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/modules-mongo"
   dependencies:
-    "@xylabs/array": ^2.11.6
     "@xylabs/assert": ^2.11.6
     "@xylabs/crypto": ^2.11.6
-    "@xylabs/delay": ^2.11.6
     "@xylabs/exists": ^2.11.6
-    "@xylabs/lodash": ^2.11.6
-    "@xylabs/promise": ^2.11.6
-    "@xylabs/static-implements": ^2.11.6
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
-    "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-mongodb": "workspace:~"
-    "@xyo-network/archivist-wrapper": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/core": "workspace:~"
-    "@xyo-network/diviner": "workspace:~"
-    "@xyo-network/diviner-address-history": "workspace:~"
-    "@xyo-network/diviner-address-space-abstract": "workspace:~"
-    "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
-    "@xyo-network/diviner-boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
-    "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
-    "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/diviner-models": "workspace:~"
-    "@xyo-network/diviner-payload-model": "workspace:~"
-    "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
-    "@xyo-network/diviner-payload-stats-model": "workspace:~"
-    "@xyo-network/diviner-schema-list-abstract": "workspace:~"
-    "@xyo-network/diviner-schema-list-model": "workspace:~"
-    "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
-    "@xyo-network/diviner-schema-stats-model": "workspace:~"
-    "@xyo-network/location-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-mongodb": "workspace:~"
     "@xyo-network/module": "workspace:~"
-    "@xyo-network/module-abstract": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-abstract-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     "@xyo-network/shared": "workspace:~"
@@ -9142,7 +9174,6 @@ __metadata:
     jest: ^29.7.0
     jest-mock-extended: ^3.0.5
     mongodb: ^5.9.0
-    reflect-metadata: ^0.1.13
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

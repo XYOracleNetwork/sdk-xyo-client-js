@@ -1,6 +1,5 @@
+import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
 import { IndexDescription } from 'mongodb'
-
-import { COLLECTIONS } from '../../../../collections'
 
 export const UX_address: IndexDescription = {
   // eslint-disable-next-line sort-keys-fix/sort-keys-fix

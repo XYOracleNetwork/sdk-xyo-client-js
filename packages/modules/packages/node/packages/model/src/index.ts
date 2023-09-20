@@ -1,5 +1,5 @@
 export * from './Config'
-export * from './Events'
+export * from './EventsModels'
 export * from './Node'
 export * from './Params'
 export * from './Queries'

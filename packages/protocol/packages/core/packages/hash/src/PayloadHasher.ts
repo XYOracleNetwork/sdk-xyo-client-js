@@ -38,7 +38,6 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
         this.wasmSupport.allowWasm = false
       }
     }
-    // eslint-disable-next-line deprecation/deprecation
     return this.hashSync(obj)
   }
 

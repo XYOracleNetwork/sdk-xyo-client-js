@@ -15,7 +15,6 @@ import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
-  AnyConfigSchema,
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,

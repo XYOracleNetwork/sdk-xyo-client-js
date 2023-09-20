@@ -96,7 +96,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         PayloadHasher.wasmSupport.allowWasm = false
       }
     }
-    // eslint-disable-next-line deprecation/deprecation
+
     return shajs('sha256').update(data).digest().toString()
   }
 

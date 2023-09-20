@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.10.18",
-    "@xylabs/delay": "^2.10.18",
-    "@xylabs/lodash": "^2.10.18",
+    "@xylabs/assert": "^2.11.6",
+    "@xylabs/delay": "^2.11.6",
+    "@xylabs/lodash": "^2.11.6",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -35,15 +35,13 @@
     "xyo": "dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.6.2",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.2",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "@xylabs/tsconfig-jest": "^2.19.12",
-    "publint": "^0.2.2",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
+    "@xylabs/tsconfig-jest": "^3.0.28",
     "ts-node": "^10.9.1",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -86,10 +84,8 @@
   },
   "sideEffects": false,
   "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint",
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/index.d.ts",
-  "version": "2.73.4"
+  "version": "2.74.1"
 }

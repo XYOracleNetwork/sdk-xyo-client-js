@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.73.4",
+  "version": "2.74.1",
   "description": "XYO Express Node Server",
   "sideeffects": false,
   "engines": {
@@ -38,15 +38,11 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "scripts": {
-    "package-compile": "tsup && publint",
-    "package-recompile": "tsup && publint"
-  },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.413.0",
-    "@xylabs/assert": "^2.10.18",
+    "@aws-sdk/client-secrets-manager": "^3.414.0",
+    "@xylabs/assert": "^2.11.6",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/express-node-dependencies": "workspace:~",
     "@xyo-network/express-node-middleware": "workspace:~",
@@ -73,10 +69,8 @@
     "@types/cors": "^2.8.14",
     "@types/express": "4.17.17",
     "@types/nconf": "^0.10.3",
-    "@xylabs/ts-scripts-yarn3": "^2.19.12",
-    "@xylabs/tsconfig": "^2.19.12",
-    "publint": "^0.2.2",
-    "tsup": "^7.2.0",
+    "@xylabs/ts-scripts-yarn3": "^3.0.28",
+    "@xylabs/tsconfig": "^3.0.28",
     "typescript": "^5.2.2"
   }
 }

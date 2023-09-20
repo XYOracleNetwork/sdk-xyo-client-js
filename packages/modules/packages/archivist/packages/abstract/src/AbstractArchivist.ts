@@ -315,7 +315,6 @@ export abstract class AbstractArchivist<
 
   protected async writeToParents(payloads: Payload[]): Promise<Payload[]> {
     const parents = await this.parents()
-    this.logger?.log(parents.write?.length ?? 0)
     return compact(
       await Promise.all(
         Object.values(parents.write ?? {}).map(async (parent) => {

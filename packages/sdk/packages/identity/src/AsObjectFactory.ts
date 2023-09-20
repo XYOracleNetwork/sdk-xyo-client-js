@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { assertEx } from '@xylabs/assert'
 
 import { ObjectTypeCheck, ObjectTypeConfig } from './IsObjectFactory'

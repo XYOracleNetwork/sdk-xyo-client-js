@@ -34,15 +34,15 @@ export type ModuleConfig<
         /** @field The name/address of the Archivist to use for this module */
         readonly archivist?: ArchivistModuleConfig
 
-      /**
-       * @field The labels used for this module. If a label is specified, then the
-       * ModuleFactoryLocator will attempt to find a ModuleFactory with the corresponding
-       * labels to construct this module.
-       */
-      readonly labels?: Labels
+        /**
+         * @field The labels used for this module. If a label is specified, then the
+         * ModuleFactoryLocator will attempt to find a ModuleFactory with the corresponding
+         * labels to construct this module.
+         */
+        readonly labels?: Labels
 
-      /** @field Friendly name of module (not collision resistent). Can be used to resolve module when registered/attached to Node. */
-      readonly name?: string
+        /** @field Friendly name of module (not collision resistent). Can be used to resolve module when registered/attached to Node. */
+        readonly name?: string
 
         /** @field paging settings for queries */
         readonly paging?: Record<string, { size?: number }>

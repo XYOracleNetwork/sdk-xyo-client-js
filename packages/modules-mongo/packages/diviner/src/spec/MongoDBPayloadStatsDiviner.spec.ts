@@ -12,7 +12,7 @@ import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/no
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src/canAddMongoModules'
+import { canAddMongoModules } from '../../../../src'
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
 describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {

@@ -13,7 +13,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { canAddMongoModules } from '../../../../src/canAddMongoModules'
+import { canAddMongoModules } from '../../../../src'
 import { MongoDBArchivist } from '../Archivist'
 
 describeIf(canAddMongoModules())('DeterministicArchivist', () => {

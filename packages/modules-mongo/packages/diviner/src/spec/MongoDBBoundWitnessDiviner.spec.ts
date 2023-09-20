@@ -14,7 +14,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src/canAddMongoModules'
+import { canAddMongoModules } from '../../../../src'
 import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
 
 describeIf(canAddMongoModules())('MongoDBBoundWitnessDiviner', () => {

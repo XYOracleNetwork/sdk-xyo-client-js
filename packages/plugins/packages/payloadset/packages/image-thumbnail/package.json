@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/fluent-ffmpeg": "^2.1.22",
-    "@types/gm": "^1.25.1",
+    "@types/gm": "^1.25.2",
     "@types/hasbin": "^1.2.0",
     "@xylabs/ts-scripts-yarn3": "^3.0.28",
     "@xylabs/tsconfig": "^3.0.28",

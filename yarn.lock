@@ -4836,12 +4836,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/gm@npm:^1.25.1":
-  version: 1.25.1
-  resolution: "@types/gm@npm:1.25.1"
+"@types/gm@npm:^1.25.2":
+  version: 1.25.2
+  resolution: "@types/gm@npm:1.25.2"
   dependencies:
     "@types/node": "*"
-  checksum: 347bf29c2deb0451602d51aeb8feb107341d98c30445207d0c9c7240451118b08e52f9a90582540292ca9f9ea01c83e879bc7e2ed36768c678c70b71c7b4da8c
+  checksum: 04e98969fb5230f695b663f9727ffe3aa227dec6ca3295078d19724ceda4ed11ace195da8cc567d9b7bd17d4033efd42c9b00acb14f44ee9cced223e61a74cbc
   languageName: node
   linkType: hard
 
@@ -6064,12 +6064,12 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/bip39": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     async-mutex: ^0.4.0
+    bip39: ^3.1.0
     elliptic: ^6.5.4
     sha.js: ^2.4.11
     typescript: ^5.2.2
@@ -6360,7 +6360,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bip39@workspace:packages/protocol/packages/bip39, @xyo-network/bip39@workspace:~":
+"@xyo-network/bip39@workspace:packages/protocol/packages/bip39":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bip39@workspace:packages/protocol/packages/bip39"
   dependencies:
@@ -8613,7 +8613,7 @@ __metadata:
   resolution: "@xyo-network/image-thumbnail-plugin@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail"
   dependencies:
     "@types/fluent-ffmpeg": ^2.1.22
-    "@types/gm": ^1.25.1
+    "@types/gm": ^1.25.2
     "@types/hasbin": ^1.2.0
     "@xylabs/assert": ^2.11.7
     "@xylabs/delay": ^2.11.7
@@ -9162,7 +9162,6 @@ __metadata:
   resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/modules-mongo"
   dependencies:
     "@xylabs/assert": ^2.11.7
-    "@xylabs/crypto": ^2.11.7
     "@xylabs/exists": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
@@ -9958,7 +9957,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
   dependencies:
-    "@xylabs/crypto": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/module": "workspace:~"
@@ -10139,7 +10137,6 @@ __metadata:
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/bip39": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
@@ -10154,6 +10151,7 @@ __metadata:
     "@xyo-network/promise": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
+    bip39: ^3.1.0
     lru-cache: ^10.0.1
     typescript: ^5.2.2
   languageName: unknown

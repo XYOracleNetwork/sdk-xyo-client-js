@@ -11,7 +11,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src/canAddMongoModules'
+import { canAddMongoModules } from '../../../../src'
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
 describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {

@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeterministicArchivist get gets multiple boundwitness 1`] = `
+[
+  {
+    "_signatures": [
+      "325501822063bf69e34f6a64f96ef1e55e8eed5060c0dc300271be82b4df024163b2b294018c5d06df160b20394f460b955c77d8a5147ec7f1bafa79b4798662",
+    ],
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "_signatures": [
+      "1810b9f9c6623adf38d0093ea6f3c2125570ed1ee757dbe9e9221b4ffb3920ec0b11175fdffc7e0bfee5d844f9e43c7e261d2bfcd1b273b46caa5cb23a4c798d",
+    ],
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "1c9033e467d6877e2c84a70b29212a585bd6fd448bccfcc12adf0505c18984f6",
+    ],
+    "payload_schemas": [
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "58c138dd2aab7bd78bd2c3d80bebf900d3f99f506e201f1f0ace1d473fc45d76",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+  {
+    "_signatures": [
+      "29a8dfe2cf7675e8c371763d6d8c7d9b0990145191967c6e399fff7854cd22390d6a8a7f4ae7628ac62deea6c34af33c37623950b1aba6ae4b8c88683d615c20",
+    ],
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "1137543b5805a18e8f39cb7debe49ddf58a1de00c46ed7310baf7ebcfdf435a2",
+      "aa36451ef0079af6cc2f86eaa05c7a93fb3c92098e18d0ce857e9e3072b32a85",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+      "network.xyo.test",
+    ],
+    "previous_hashes": [
+      "c5e4a2513ea22a7ccfa359207b4d83af68688dca8c9a3f5d39106ba6e599b481",
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets multiple payloads 1`] = `
+[
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+  {
+    "nonce": 2,
+    "schema": "network.xyo.test",
+  },
+  {
+    "nonce": 3,
+    "schema": "network.xyo.debug",
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets single boundwitness 1`] = `
+[
+  {
+    "_signatures": [
+      "325501822063bf69e34f6a64f96ef1e55e8eed5060c0dc300271be82b4df024163b2b294018c5d06df160b20394f460b955c77d8a5147ec7f1bafa79b4798662",
+    ],
+    "addresses": [
+      "10ca1959336ea208bcdf00dd6d6637aec91a4c0e",
+    ],
+    "payload_hashes": [
+      "15b8d0e30ca5aa96ca6cc9e1528c075aec88cd3f2c3eb0394fde647eb4bf4547",
+    ],
+    "payload_schemas": [
+      "network.xyo.debug",
+    ],
+    "previous_hashes": [
+      null,
+    ],
+    "schema": "network.xyo.boundwitness",
+    "timestamp": 123456789000,
+  },
+]
+`;
+
+exports[`DeterministicArchivist get gets single payload 1`] = `
+[
+  {
+    "nonce": 1,
+    "schema": "network.xyo.debug",
+  },
+]
+`;

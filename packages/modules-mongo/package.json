@@ -67,6 +67,7 @@
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-models": "workspace:~",
+    "@xyo-network/diviner-mongodb": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~",
     "@xyo-network/diviner-payload-stats-model": "workspace:~",

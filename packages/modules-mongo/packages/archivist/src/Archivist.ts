@@ -3,34 +3,17 @@ import { exists } from '@xylabs/exists'
 import { merge } from '@xylabs/lodash'
 import { fulfilledValues } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
-import { ArchivistConfig, ArchivistConfigSchema, ArchivistInsertQuerySchema, ArchivistParams } from '@xyo-network/archivist-model'
+import { ArchivistConfigSchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
+import { MongoDBArchivistConfigSchema, MongoDBArchivistParams } from '@xyo-network/archivist-model-mongodb'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { AnyConfigSchema } from '@xyo-network/module'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPrivateConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
+import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { validByType } from './validByType'
-
-export const MongoDBArchivistConfigSchema = 'network.xyo.archivist.mongodb.config'
-export type MongoDBArchivistConfigSchema = typeof MongoDBArchivistConfigSchema
-
-export type MongoDBArchivistConfig = ArchivistConfig<{
-  boundWitnessSdkConfig?: Partial<BaseMongoSdkPublicConfig>
-  payloadSdkConfig?: Partial<BaseMongoSdkPublicConfig>
-  schema: MongoDBArchivistConfigSchema
-}>
-
-export type MongoDBArchivistParams = ArchivistParams<
-  AnyConfigSchema<MongoDBArchivistConfig>,
-  {
-    boundWitnessSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
-    payloadSdkConfig: BaseMongoSdkPrivateConfig & Partial<BaseMongoSdkPublicConfig>
-  }
->
+import { validByType } from './lib'
 
 const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): Promise<BoundWitnessWithMeta> => {
   const bw = wrapper.boundwitness as BoundWitness

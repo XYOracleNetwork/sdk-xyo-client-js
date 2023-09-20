@@ -49,12 +49,12 @@ export interface MongoDBModule {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyModule<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> = abstract new (...args: any[]) => Module<TParams>
 
-const MongoDBModuleMixin = <T extends AnyModule = AnyModule>(BaseClass: T) => {
+const MongoDBModuleMixin = <TModule extends AnyModule = AnyModule>(ModuleBase: TModule) => {
   @staticImplements<MongoDBModuleStatic>()
-  abstract class MongoModule extends BaseClass implements MongoDBModule {
+  abstract class MongoModuleBase extends ModuleBase implements MongoDBModule {
     static labels = MongoDBStorageClassLabels
-    private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
-    private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
+    _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
+    _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
 
     get boundWitnessSdkConfig(): BaseMongoSdkConfig {
       return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
@@ -78,47 +78,15 @@ const MongoDBModuleMixin = <T extends AnyModule = AnyModule>(BaseClass: T) => {
       return assertEx(this._payloadSdk)
     }
   }
-  return MongoModule
+  return MongoModuleBase
 }
 
 const MongoDBArchivistBase = MongoDBModuleMixin(AbstractArchivist)
 
-@staticImplements<MongoDBModuleStatic>()
-export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams>
-  extends AbstractArchivist<TParams>
-  implements MongoDBModule
-{
+export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> extends MongoDBArchivistBase implements MongoDBModule {
   static override configSchemas = [MongoDBArchivistConfigSchema, ArchivistConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
-  private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
-  private _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
-
-  get boundWitnessSdkConfig(): BaseMongoSdkConfig {
-    return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
-      collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
-    })
-  }
-
-  get boundWitnesses() {
-    this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
-    return assertEx(this._boundWitnessSdk)
-  }
-
-  get payloadSdkConfig(): BaseMongoSdkConfig {
-    return merge({}, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
-      collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
-    })
-  }
-
-  get payloads() {
-    this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
-    return assertEx(this._payloadSdk)
-  }
-
-  override get queries(): string[] {
-    return [ArchivistInsertQuerySchema, ...super.queries]
-  }
+  override readonly queries: string[] = [ArchivistInsertQuerySchema, ...super.queries]
 
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()

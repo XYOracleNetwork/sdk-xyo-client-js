@@ -41,9 +41,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.11.6",
-    "@xylabs/crypto": "^2.11.6",
-    "@xylabs/exists": "^2.11.6",
+    "@xylabs/assert": "^2.11.7",
+    "@xylabs/crypto": "^2.11.7",
+    "@xylabs/exists": "^2.11.7",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-mongodb": "workspace:~",
     "@xyo-network/diviner-mongodb": "workspace:~",

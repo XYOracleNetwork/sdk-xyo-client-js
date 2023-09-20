@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.6",
-    "@xylabs/lodash": "^2.11.6",
-    "@xylabs/static-implements": "^2.11.6",
+    "@xylabs/assert": "^2.11.7",
+    "@xylabs/lodash": "^2.11.7",
+    "@xylabs/static-implements": "^2.11.7",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-model-mongodb": "workspace:~",

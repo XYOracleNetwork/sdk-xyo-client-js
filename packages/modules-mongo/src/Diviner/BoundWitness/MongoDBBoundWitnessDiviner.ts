@@ -13,13 +13,14 @@ import {
 } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
 import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder } from '../../defaults'
-import { MongoDBStorageClassLabels, removeId } from '../../Mongo'
+import { removeId } from '../../Mongo'
 
 export type MongoDBBoundWitnessDivinerConfig = BoundWitnessDivinerConfig & {
   boundWitnessSdkConfig?: Partial<BaseMongoSdkPublicConfig>

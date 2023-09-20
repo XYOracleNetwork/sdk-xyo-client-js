@@ -7528,6 +7528,39 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-mongodb@workspace:packages/modules-mongo/packages/diviner":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-mongodb@workspace:packages/modules-mongo/packages/diviner"
+  dependencies:
+    "@xylabs/assert": ^2.11.6
+    "@xylabs/exists": ^2.11.6
+    "@xylabs/lodash": ^2.11.6
+    "@xylabs/promise": ^2.11.6
+    "@xylabs/static-implements": ^2.11.6
+    "@xylabs/ts-scripts-yarn3": ^3.0.28
+    "@xylabs/tsconfig": ^3.0.28
+    "@xyo-network/archivist-abstract": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-model-mongodb": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/boundwitness-wrapper": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-model-mongodb": "workspace:~"
+    "@xyo-network/node-core-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+    fake-indexeddb: ^4.0.2
+    typescript: ^5.2.2
+  peerDependencies:
+    "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
+  peerDependenciesMeta:
+    "@xyo-network/sdk-xyo-mongo-js":
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract, @xyo-network/diviner-payload-abstract@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract"

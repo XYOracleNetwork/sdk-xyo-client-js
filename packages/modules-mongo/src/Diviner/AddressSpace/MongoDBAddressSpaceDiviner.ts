@@ -4,6 +4,7 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfig, AddressSpaceDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
@@ -11,7 +12,6 @@ import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { DefaultMaxTimeMS } from '../../defaults'
-import { MongoDBStorageClassLabels } from '../../Mongo'
 
 export type MongoDBAddressSpaceDivinerParams<TConfig extends AddressSpaceDivinerConfig = AddressSpaceDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,

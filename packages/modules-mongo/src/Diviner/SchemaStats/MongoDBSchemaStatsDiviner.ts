@@ -14,6 +14,7 @@ import {
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -25,7 +26,6 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { defineJobs, scheduleJobs } from '../../JobQueue'
-import { MongoDBStorageClassLabels } from '../../Mongo'
 import { fromDbProperty, SetIterator, toDbProperty } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }

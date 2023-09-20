@@ -3,10 +3,9 @@ import { merge } from '@xylabs/lodash'
 import { staticImplements } from '@xylabs/static-implements'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { AnyConfigSchema, ModuleConfig, ModuleEventData, ModuleParams, WithLabels } from '@xyo-network/module-model'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPrivateConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
-
-import { MongoDBStorageClassLabels } from '../Mongo'
 
 export const MongoDBModuleConfigSchema = 'network.xyo.module.mongodb.config'
 export type MongoDBModuleConfigSchema = typeof MongoDBModuleConfigSchema

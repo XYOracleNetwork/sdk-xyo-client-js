@@ -15,6 +15,7 @@ import {
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
 import { AnyConfigSchema, ModuleParams, WithLabels } from '@xyo-network/module'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -26,7 +27,6 @@ import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeTo
 import { COLLECTIONS } from '../../collections'
 import { DATABASES } from '../../databases'
 import { defineJobs, scheduleJobs } from '../../JobQueue'
-import { MongoDBStorageClassLabels } from '../../Mongo'
 import { SetIterator } from '../../Util'
 
 const updateOptions: UpdateOptions = { upsert: true }

@@ -10,12 +10,11 @@ import {
   SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
+import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-
-import { MongoDBStorageClassLabels } from '../../Mongo'
 
 export type MongoDBSchemaListDivinerParams = DivinerParams<
   AnyConfigSchema<SchemaListDivinerConfig>,

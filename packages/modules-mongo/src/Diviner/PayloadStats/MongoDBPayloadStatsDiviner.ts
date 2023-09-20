@@ -15,6 +15,7 @@ import {
   PayloadStatsQueryPayload,
 } from '@xyo-network/diviner-payload-stats-model'
 import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
+import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
 import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
@@ -24,8 +25,6 @@ import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
-import { DATABASES } from '../../databases'
 import { defineJobs, scheduleJobs } from '../../JobQueue'
 import { SetIterator } from '../../Util'
 

@@ -24110,14 +24110,14 @@ __metadata:
   linkType: hard
 
 "swagger-autogen@npm:^2.23.5":
-  version: 2.23.5
-  resolution: "swagger-autogen@npm:2.23.5"
+  version: 2.23.6
+  resolution: "swagger-autogen@npm:2.23.6"
   dependencies:
     acorn: ^7.4.1
     deepmerge: ^4.2.2
     glob: ^7.1.7
     json5: ^2.2.3
-  checksum: 490bf0dd842216a3fbb037c2d3b122fca0ecdad34e0cb322498f265747328749ea088b42ee3e419339b175a8a857aa5a73bd3483f5be07ed8408b4998f9e93ee
+  checksum: f4a92c0dcfcf45994c1bfb6d322393e75d67c827f47f789db22a61967723e847a13e3df21c3379b134a5879ddbe4e97a1da3649e3fe70358ef55495d5c429dcf
   languageName: node
   linkType: hard
 

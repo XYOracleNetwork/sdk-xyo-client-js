@@ -1,4 +1,5 @@
 export * from './MongoDBAddressHistoryDiviner'
+export * from './MongoDBAddressSpaceDiviner'
 export * from './MongoDBBoundWitnessDiviner'
 export * from './MongoDBPayloadDiviner'
 export * from './UserLocationsDiviner'

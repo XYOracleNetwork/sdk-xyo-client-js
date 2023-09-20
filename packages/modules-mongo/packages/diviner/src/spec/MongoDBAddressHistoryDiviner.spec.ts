@@ -4,13 +4,13 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQueryPayload, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history'
+import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
 import { canAddMongoModules } from '../../../../src/canAddMongoModules'
-import { COLLECTIONS } from '../../../../src/collections'
 import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
 
 describeIf(canAddMongoModules())('MongoDBAddressHistoryDiviner', () => {

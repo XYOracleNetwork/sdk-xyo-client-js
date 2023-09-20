@@ -1,8 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
 import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
-import { COLLECTIONS } from '../../collections'
-import { DATABASES } from '../../databases'
 import { getMongoDBConfig } from '../getMongoDBConfig'
 import { AddressInfoIndexes, ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
 

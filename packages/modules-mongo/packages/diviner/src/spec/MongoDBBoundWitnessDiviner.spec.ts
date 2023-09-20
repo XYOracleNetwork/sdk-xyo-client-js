@@ -8,13 +8,13 @@ import {
   BoundWitnessDivinerQueryPayload,
   BoundWitnessDivinerQuerySchema,
 } from '@xyo-network/diviner-boundwitness-model'
+import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
 import { canAddMongoModules } from '../../../canAddMongoModules'
-import { COLLECTIONS } from '../../../collections'
 import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
 
 describeIf(canAddMongoModules())('MongoDBBoundWitnessDiviner', () => {

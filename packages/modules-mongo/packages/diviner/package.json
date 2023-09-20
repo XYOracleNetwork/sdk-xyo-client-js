@@ -17,6 +17,7 @@
     "@xylabs/exists": "^2.11.7",
     "@xylabs/lodash": "^2.11.7",
     "@xylabs/promise": "^2.11.7",
+    "@xylabs/set": "^2.11.7",
     "@xylabs/static-implements": "^2.11.7",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/account": "workspace:~",

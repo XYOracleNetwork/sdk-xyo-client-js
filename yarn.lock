@@ -5812,6 +5812,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/set@npm:^2.11.7":
+  version: 2.11.7
+  resolution: "@xylabs/set@npm:2.11.7"
+  checksum: 35c11d30bd8ca0204bf9e332dc03af83d071cc67ab3e4cb1c8fce32c7a06cc31c3f4b82671ff16c44d8d9a3ffaee74367066593237e03ba97deb0106e7843e71
+  languageName: node
+  linkType: hard
+
 "@xylabs/static-implements@npm:^2.11.7":
   version: 2.11.7
   resolution: "@xylabs/static-implements@npm:2.11.7"
@@ -7539,6 +7546,7 @@ __metadata:
     "@xylabs/exists": ^2.11.7
     "@xylabs/lodash": ^2.11.7
     "@xylabs/promise": ^2.11.7
+    "@xylabs/set": ^2.11.7
     "@xylabs/static-implements": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28

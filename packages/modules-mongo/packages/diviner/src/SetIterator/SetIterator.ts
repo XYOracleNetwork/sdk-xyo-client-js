@@ -1,13 +1,5 @@
-// TODO: Import from xylabs js-sdk once published
-const union = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set([...a, ...b])
-}
-const intersection = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set(Array.from(a).filter((x) => b.has(x)))
-}
-const difference = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set(Array.from(a).filter((x) => !b.has(x)))
-}
+import { difference, intersection, union } from '@xylabs/set'
+
 export class SetIterator<T> implements Iterator<T> {
   private done: Set<T>
   private todo: Set<T>

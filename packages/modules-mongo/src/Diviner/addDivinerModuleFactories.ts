@@ -10,6 +10,8 @@ import {
   MongoDBBoundWitnessDivinerParams,
   MongoDBPayloadDiviner,
   MongoDBPayloadDivinerParams,
+  MongoDBSchemaStatsDiviner,
+  MongoDBSchemaStatsDivinerParams,
 } from '@xyo-network/diviner-mongodb'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
@@ -21,7 +23,6 @@ import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from 
 import { MongoDBBoundWitnessStatsDiviner, MongoDBBoundWitnessStatsDivinerParams } from './BoundWitnessStats'
 import { MongoDBPayloadStatsDiviner, MongoDBPayloadStatsDivinerParams } from './PayloadStats'
 import { MongoDBSchemaListDiviner, MongoDBSchemaListDivinerParams } from './SchemaList'
-import { MongoDBSchemaStatsDiviner, MongoDBSchemaStatsDivinerParams } from './SchemaStats'
 
 const getMongoDBAddressHistoryDiviner = () => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()

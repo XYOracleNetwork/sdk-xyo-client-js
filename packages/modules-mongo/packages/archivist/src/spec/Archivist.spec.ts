@@ -12,9 +12,9 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { canAddMongoModules } from '../../../canAddMongoModules'
-import { COLLECTIONS } from '../../../collections'
-import { MongoDBDeterministicArchivist } from '../DeterministicArchivist'
+import { canAddMongoModules } from '../../../../src/canAddMongoModules'
+import { COLLECTIONS } from '../../../../src/collections'
+import { MongoDBArchivist } from '../Archivist'
 
 describeIf(canAddMongoModules())('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
@@ -48,10 +48,10 @@ describeIf(canAddMongoModules())('DeterministicArchivist', () => {
     boundWitnessesConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
     payloadsConfig.dbConnectionString = process.env.MONGO_CONNECTION_STRING
 
-    const module = await MongoDBDeterministicArchivist.create({
+    const module = await MongoDBArchivist.create({
       account: moduleAccount,
       boundWitnessSdkConfig: boundWitnessesConfig,
-      config: { schema: MongoDBDeterministicArchivist.configSchema },
+      config: { schema: MongoDBArchivist.configSchema },
       payloadSdkConfig: payloadsConfig,
     })
     expect(module.address).toBe(moduleAccount.address)

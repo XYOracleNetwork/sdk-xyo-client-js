@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { Listener, Web3Provider } from '@ethersproject/providers'
 import { MetaMaskInpageProvider } from '@metamask/providers'
 
 export class MetaMaskConnector {
@@ -6,13 +6,14 @@ export class MetaMaskConnector {
   private ethereum = window.ethereum as MetaMaskInpageProvider
   private provider: Web3Provider | undefined
 
+  private listeners: Listener[] = []
+
   constructor(provider?: Web3Provider) {
     if (provider) {
       this.provider = provider
     } else if (this.ethereum) {
       this.provider = new Web3Provider(window.ethereum)
     }
-    this.provider?.on
   }
 
   get currentAccount() {
@@ -21,6 +22,20 @@ export class MetaMaskConnector {
 
   get chainId() {
     return this.ethereum?.networkVersion
+  }
+
+  on(event: string, listener: Listener) {
+    this.provider.on(event, listener)
+    this.listeners.push(listener)
+  }
+
+  removeListener(event: string, listener: Listener) {
+    this.provider.removeListener(event, listener)
+    this.listeners = this.listeners.filter(savedListener => listener !== savedListener)
+  }
+
+  removeListeners() {
+    this.provider.removeAllListeners()
   }
 
   async connectWallet() {

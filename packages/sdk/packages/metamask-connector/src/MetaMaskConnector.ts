@@ -19,6 +19,10 @@ export class MetaMaskConnector {
     return this.ethereum?.selectedAddress
   }
 
+  get chainId() {
+    return this.ethereum?.networkVersion
+  }
+
   async connectWallet() {
     if (!this.provider) {
       this.logProviderMissing()

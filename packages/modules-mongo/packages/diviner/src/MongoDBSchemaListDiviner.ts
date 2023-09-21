@@ -1,34 +1,19 @@
-import { staticImplements } from '@xylabs/static-implements'
-import { DivinerParams } from '@xyo-network/diviner-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
   isSchemaListQueryPayload,
-  SchemaListDivinerConfig,
   SchemaListDivinerConfigSchema,
   SchemaListDivinerSchema,
   SchemaListPayload,
   SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-export type MongoDBSchemaListDivinerParams = DivinerParams<
-  AnyConfigSchema<SchemaListDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(SchemaListDiviner)
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBSchemaListDiviner<
-  TParams extends MongoDBSchemaListDivinerParams = MongoDBSchemaListDivinerParams,
-> extends SchemaListDiviner<TParams> {
+export class MongoDBSchemaListDiviner extends MongoDBDivinerBase {
   static override configSchemas = [SchemaListDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<SchemaListPayload>[]> {
     const query = payloads?.find<SchemaListQueryPayload>(isSchemaListQueryPayload)
@@ -38,14 +23,14 @@ export class MongoDBSchemaListDiviner<
   }
 
   private divineAddress = async (archive: string): Promise<string[]> => {
-    const result = await this.params.boundWitnessSdk.useCollection((collection) => {
+    const result = await this.boundWitnesses.useCollection((collection) => {
       return collection.distinct('payload_schemas', { addresses: { $in: [archive] } })
     })
     return result
   }
 
   private divineAllAddresses = async (): Promise<string[]> => {
-    const result = await this.params.boundWitnessSdk.useCollection((collection) => {
+    const result = await this.boundWitnesses.useCollection((collection) => {
       return collection.distinct('payload_schemas')
     })
     return result

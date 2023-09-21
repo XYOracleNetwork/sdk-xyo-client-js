@@ -4,19 +4,15 @@ import {
   MongoDBAddressSpaceDiviner,
   MongoDBBoundWitnessDiviner,
   MongoDBBoundWitnessStatsDiviner,
-  MongoDBBoundWitnessStatsDivinerParams,
   MongoDBPayloadDiviner,
-  MongoDBPayloadDivinerParams,
   MongoDBPayloadStatsDiviner,
-  MongoDBPayloadStatsDivinerParams,
   MongoDBSchemaListDiviner,
-  MongoDBSchemaListDivinerParams,
   MongoDBSchemaStatsDiviner,
   MongoDBSchemaStatsDivinerParams,
 } from '@xyo-network/diviner-mongodb'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module'
 import { MongoDBModuleParams } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
@@ -34,16 +30,6 @@ const getMongoDBPayloadStatsDiviner = (container: Container) => {
   const schema = MongoDBPayloadStatsDiviner.configSchema
   const params: MongoDBModuleParams = { config: { schema }, jobQueue }
   return ModuleFactory.withParams(MongoDBPayloadStatsDiviner, params)
-}
-const getMongoDBSchemaListDiviner = () => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBSchemaListDivinerParams = {
-    boundWitnessSdk,
-    config: {
-      schema: MongoDBSchemaListDiviner.configSchema,
-    },
-  }
-  return ModuleFactory.withParams(MongoDBSchemaListDiviner, params)
 }
 const getMongoDBSchemaStatsDiviner = (container: Container) => {
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
@@ -67,6 +53,6 @@ export const addDivinerModuleFactories = (container: Container) => {
   locator.register(getMongoDBBoundWitnessStatsDiviner(container))
   locator.register(MongoDBPayloadDiviner)
   locator.register(getMongoDBPayloadStatsDiviner(container))
-  locator.register(getMongoDBSchemaListDiviner())
+  locator.register(MongoDBSchemaListDiviner)
   locator.register(getMongoDBSchemaStatsDiviner(container))
 }

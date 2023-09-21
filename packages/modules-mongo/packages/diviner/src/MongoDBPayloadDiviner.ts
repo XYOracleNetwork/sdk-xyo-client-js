@@ -1,31 +1,13 @@
-import { staticImplements } from '@xylabs/static-implements'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import {
-  isPayloadDivinerQueryPayload,
-  PayloadDivinerConfig,
-  PayloadDivinerConfigSchema,
-  PayloadDivinerQueryPayload,
-} from '@xyo-network/diviner-payload-model'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
-import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, removeId } from '@xyo-network/module-abstract-mongodb'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
+import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
+import { isPayloadDivinerQueryPayload, PayloadDivinerConfigSchema, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-export type MongoDBPayloadDivinerParams = DivinerParams<
-  AnyConfigSchema<PayloadDivinerConfig>,
-  {
-    payloadSdk: BaseMongoSdk<PayloadWithMeta>
-  }
->
-
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams = MongoDBPayloadDivinerParams> extends AbstractDiviner<TParams> {
+const MongoDBDivinerBase = MongoDBModuleMixin(PayloadDiviner)
+export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
   static override configSchemas = [PayloadDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadDivinerQueryPayload>(isPayloadDivinerQueryPayload)
@@ -45,8 +27,8 @@ export class MongoDBPayloadDiviner<TParams extends MongoDBPayloadDivinerParams =
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
-    return (
-      await (await this.params.payloadSdk.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()
-    ).map(removeId)
+    return (await (await this.payloads.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(
+      removeId,
+    )
   }
 }

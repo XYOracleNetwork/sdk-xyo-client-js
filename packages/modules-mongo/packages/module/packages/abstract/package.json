@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.11.7",
+    "@xylabs/exists": "^2.11.7",
     "@xylabs/lodash": "^2.11.7",
     "@xylabs/static-implements": "^2.11.7",
     "@xyo-network/module-model": "workspace:~",

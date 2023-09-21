@@ -8819,6 +8819,7 @@ __metadata:
   resolution: "@xyo-network/module-abstract-mongodb@workspace:packages/modules-mongo/packages/module/packages/abstract"
   dependencies:
     "@xylabs/assert": ^2.11.7
+    "@xylabs/exists": ^2.11.7
     "@xylabs/lodash": ^2.11.7
     "@xylabs/static-implements": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28

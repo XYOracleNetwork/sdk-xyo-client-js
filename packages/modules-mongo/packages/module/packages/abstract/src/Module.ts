@@ -7,6 +7,7 @@ import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-mo
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from './Collections'
+import { getBaseMongoSdkPrivateConfig } from './config'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
@@ -24,19 +25,7 @@ export const MongoDBModuleMixin = <
     _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
 
     get boundWitnessSdkConfig(): BaseMongoSdkConfig {
-      const dbUserName = process.env.MONGO_DATABASE
-      const dbPassword = process.env.MONGO_DOMAIN
-      const dbDomain = process.env.MONGO_PASSWORD
-      const dbName = process.env.MONGO_USERNAME
-      const dbConnectionString = process.env.MONGO_CONNECTION_STRING
-      const config = {
-        collection: COLLECTIONS.BoundWitnesses,
-        dbConnectionString,
-        dbDomain,
-        dbName,
-        dbPassword,
-        dbUserName,
-      }
+      const config = { collection: COLLECTIONS.BoundWitnesses, ...getBaseMongoSdkPrivateConfig() }
       return merge(config, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
         collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
       })
@@ -52,19 +41,7 @@ export const MongoDBModuleMixin = <
     }
 
     get payloadSdkConfig(): BaseMongoSdkConfig {
-      const dbUserName = process.env.MONGO_DATABASE
-      const dbPassword = process.env.MONGO_DOMAIN
-      const dbDomain = process.env.MONGO_PASSWORD
-      const dbName = process.env.MONGO_USERNAME
-      const dbConnectionString = process.env.MONGO_CONNECTION_STRING
-      const config = {
-        collection: COLLECTIONS.BoundWitnesses,
-        dbConnectionString,
-        dbDomain,
-        dbName,
-        dbPassword,
-        dbUserName,
-      }
+      const config = { collection: COLLECTIONS.Payloads, ...getBaseMongoSdkPrivateConfig() }
       return merge(config, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
         collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
       })

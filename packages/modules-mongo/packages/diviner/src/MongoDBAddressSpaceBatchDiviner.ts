@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { difference, union } from '@xylabs/set'
 import { staticImplements } from '@xylabs/static-implements'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -16,13 +17,6 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 
-// TODO: Import from xylabs js-sdk once published
-const union = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set([...a, ...b])
-}
-const difference = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set(Array.from(a).filter((x) => !b.has(x)))
-}
 export type MongoDBAddressSpaceBatchDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
   AnyConfigSchema<TConfig>,
   {

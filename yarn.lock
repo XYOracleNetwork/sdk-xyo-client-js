@@ -6209,11 +6209,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-mongodb@workspace:packages/modules-mongo/packages/archivist"
   dependencies:
-    "@xylabs/assert": ^2.11.7
     "@xylabs/exists": ^2.11.7
-    "@xylabs/lodash": ^2.11.7
     "@xylabs/promise": ^2.11.7
-    "@xylabs/static-implements": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -6222,8 +6219,7 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/module-model-mongodb": "workspace:~"
+    "@xyo-network/module-abstract-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -7546,12 +7542,11 @@ __metadata:
     "@xylabs/lodash": ^2.11.7
     "@xylabs/promise": ^2.11.7
     "@xylabs/set": ^2.11.7
-    "@xylabs/static-implements": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
+    "@xyo-network/address": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
@@ -7566,6 +7561,7 @@ __metadata:
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-models": "workspace:~"
+    "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -7574,10 +7570,8 @@ __metadata:
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     "@xyo-network/location-payload-plugin": "workspace:~"
-    "@xyo-network/module": "workspace:~"
     "@xyo-network/module-abstract-mongodb": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -8829,7 +8823,6 @@ __metadata:
     "@xylabs/static-implements": ^2.11.7
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
-    "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
@@ -8930,6 +8923,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
     typescript: ^5.2.2
@@ -9170,6 +9164,7 @@ __metadata:
     "@xyo-network/diviner-mongodb": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-abstract-mongodb": "workspace:~"
+    "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"

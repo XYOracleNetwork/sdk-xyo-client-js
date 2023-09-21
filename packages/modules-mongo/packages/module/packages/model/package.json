@@ -10,7 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-core-model": "workspace:~"
   },
   "peerDependencies": {
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"

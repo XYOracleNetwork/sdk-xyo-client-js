@@ -1,43 +1,24 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { staticImplements } from '@xylabs/static-implements'
+import { difference, union } from '@xylabs/set'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { PayloadHasher } from '@xyo-network/core'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
-import { AddressSpaceBatchDivinerConfig, AddressSpaceBatchDivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-models'
-import { COLLECTIONS, DATABASES, DefaultMaxTimeMS } from '@xyo-network/module-abstract-mongodb'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessPointerPayload, BoundWitnessPointerSchema, BoundWitnessWithMeta } from '@xyo-network/node-core-model'
+import { AddressSpaceBatchDivinerConfigSchema } from '@xyo-network/diviner-models'
+import { COLLECTIONS, DATABASES, DefaultMaxTimeMS, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { BoundWitnessPointerPayload, BoundWitnessPointerSchema } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
-
-// TODO: Import from xylabs js-sdk once published
-const union = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set([...a, ...b])
-}
-const difference = <TKey>(a: Set<TKey>, b: Set<TKey>): Set<TKey> => {
-  return new Set(Array.from(a).filter((x) => !b.has(x)))
-}
-export type MongoDBAddressSpaceBatchDivinerParams<TConfig extends AddressSpaceBatchDivinerConfig = AddressSpaceBatchDivinerConfig> = DivinerParams<
-  AnyConfigSchema<TConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-  }
->
 
 const moduleName = 'MongoDBAddressSpaceBatchDiviner'
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBAddressSpaceBatchDiviner<
-  TParams extends MongoDBAddressSpaceBatchDivinerParams = MongoDBAddressSpaceBatchDivinerParams,
-> extends AddressSpaceDiviner<TParams> {
+const MongoDBDivinerBase = MongoDBModuleMixin(AddressSpaceDiviner)
+
+export class MongoDBAddressSpaceBatchDiviner extends MongoDBDivinerBase {
   static override configSchemas = [AddressSpaceBatchDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   // TODO: Get via config or default
   protected readonly batchSize = 50
@@ -51,7 +32,7 @@ export class MongoDBAddressSpaceBatchDiviner<
     try {
       this.currentlyRunning = true
       if (await this.initializeArchivist()) {
-        const result = await this.params.boundWitnessSdk.useMongo((db) => {
+        const result = await this.boundWitnesses.useMongo((db) => {
           return db.db(DATABASES.Archivist).command(
             {
               distinct: COLLECTIONS.BoundWitnesses,

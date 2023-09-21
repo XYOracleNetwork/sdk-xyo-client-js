@@ -1,56 +1,21 @@
 import { flatten } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
-import { merge } from '@xylabs/lodash'
-import { staticImplements } from '@xylabs/static-implements'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { normalizeAddress } from '@xyo-network/core'
+import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
-  BoundWitnessDivinerConfig,
   BoundWitnessDivinerConfigSchema,
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
-import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, removeId } from '@xyo-network/module-abstract-mongodb'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk, BaseMongoSdkConfig, BaseMongoSdkPublicConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter, SortDirection } from 'mongodb'
 
-export type MongoDBBoundWitnessDivinerConfig = BoundWitnessDivinerConfig & {
-  boundWitnessSdkConfig?: Partial<BaseMongoSdkPublicConfig>
-}
+const MongoDBDivinerBase = MongoDBModuleMixin(BoundWitnessDiviner)
 
-export type MongoDBBoundWitnessDivinerParams = DivinerParams<
-  AnyConfigSchema<MongoDBBoundWitnessDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    boundWitnessSdkConfig: Partial<BaseMongoSdkConfig>
-  }
->
-
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBBoundWitnessDiviner<
-  TParams extends MongoDBBoundWitnessDivinerParams = MongoDBBoundWitnessDivinerParams,
-> extends AbstractDiviner<TParams> {
+export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
-
-  private _boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> | undefined
-
-  get boundWitnessSdkConfig(): BaseMongoSdkConfig {
-    return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
-      collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
-    })
-  }
-
-  get boundWitnesses() {
-    this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
-    return assertEx(this._boundWitnessSdk)
-  }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<BoundWitnessDivinerQueryPayload>(isBoundWitnessDivinerQueryPayload)

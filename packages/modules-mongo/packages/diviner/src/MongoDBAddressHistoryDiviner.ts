@@ -1,36 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { staticImplements } from '@xylabs/static-implements'
+import { trimAddressPrefix } from '@xyo-network/address'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
-  AddressHistoryDivinerConfig,
   AddressHistoryDivinerConfigSchema,
   AddressHistoryQueryPayload,
   isAddressHistoryQueryPayload,
 } from '@xyo-network/diviner-address-history'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { DefaultLimit, DefaultMaxTimeMS, removeId } from '@xyo-network/module-abstract-mongodb'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
+import { DefaultLimit, DefaultMaxTimeMS, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
-export type MongoDBAddressHistoryDivinerParams = DivinerParams<
-  AnyConfigSchema<AddressHistoryDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(AddressHistoryDiviner)
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBAddressHistoryDiviner<
-  TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams,
-> extends AddressHistoryDiviner<TParams> {
+export class MongoDBAddressHistoryDiviner extends MongoDBDivinerBase {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
@@ -38,6 +24,9 @@ export class MongoDBAddressHistoryDiviner<
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { address, schema, limit, offset, order, ...props } = query
+    // TODO: The address field seems to be meant for the address
+    // of the intended handler but is being used here to filter
+    // for the query. This should be fixed to use a separate field.
     const addresses = sanitizeAddress(address)
     assertEx(addresses, 'MongoDBAddressHistoryDiviner: Missing address for query')
     if (offset) assertEx(typeof offset === 'string', 'MongoDBAddressHistoryDiviner: Supplied offset must be a hash')
@@ -52,9 +41,7 @@ export class MongoDBAddressHistoryDiviner<
     for (let i = 0; i < limit; i++) {
       const filter: Filter<BoundWitnessWithMeta> = { addresses: address }
       if (nextHash) filter._hash = nextHash
-      const block = (
-        await (await this.params.boundWitnessSdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()
-      ).pop()
+      const block = (await (await this.boundWitnesses.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
       if (!block) break
       blocks.push(block)
       const addressIndex = block.addresses.findIndex((value) => value === address)
@@ -67,10 +54,13 @@ export class MongoDBAddressHistoryDiviner<
 }
 
 const sanitizeAddress = (a: string | string[] | undefined): string => {
-  return ([] as (string | undefined)[])
-    .concat(a)
-    .filter(exists)
-    .map((x) => x.toLowerCase())
-    .map((x) => (x.startsWith('0x') ? x.substring(2) : x))
-    .reduce((x) => x)
+  return (
+    ([] as (string | undefined)[])
+      .concat(a)
+      .filter(exists)
+      .map((x) => x.toLowerCase())
+      .map(trimAddressPrefix)
+      // TODO: We're only taking the last address with this
+      .reduce((x) => x)
+  )
 }

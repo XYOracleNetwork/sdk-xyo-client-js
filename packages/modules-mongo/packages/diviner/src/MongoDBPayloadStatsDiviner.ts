@@ -1,27 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { staticImplements } from '@xylabs/static-implements'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { asDivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import {
   isPayloadStatsQueryPayload,
-  PayloadStatsDivinerConfig,
   PayloadStatsDivinerConfigSchema,
   PayloadStatsDivinerSchema,
   PayloadStatsPayload,
   PayloadStatsQueryPayload,
 } from '@xyo-network/diviner-payload-stats-model'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
-import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { COLLECTIONS, DATABASES, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
+import { MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
@@ -36,25 +31,12 @@ interface Stats {
     count?: number
   }
 }
-
-export type MongoDBPayloadStatsDivinerParams = DivinerParams<
-  AnyConfigSchema<PayloadStatsDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    jobQueue: JobQueue
-    payloadSdk: BaseMongoSdk<PayloadWithMeta>
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(PayloadStatsDiviner)
 
 const moduleName = 'MongoDBPayloadStatsDiviner'
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivinerParams = MongoDBPayloadStatsDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements PayloadStatsDiviner, JobProvider
-{
+export class MongoDBPayloadStatsDiviner extends MongoDBDivinerBase implements PayloadStatsDiviner, JobProvider {
   static override configSchemas = [PayloadStatsDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   /**
    * Iterates over know addresses obtained from AddressDiviner
@@ -121,9 +103,8 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   protected override async startHandler() {
     await super.startHandler()
     await this.registerWithChangeStream()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    defineJobs(this.jobQueue, this.jobs)
+    this.jobQueue.once('ready', async () => await scheduleJobs(this.jobQueue, this.jobs))
     return true
   }
 
@@ -145,7 +126,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private divineAddress = async (address: string) => {
-    const stats = await this.params.payloadSdk.useMongo(async (mongo) => {
+    const stats = await this.payloads.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = stats?.payloads?.count || 0
@@ -156,7 +137,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   private divineAddressFull = async (address: string) => {
     let total = 0
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
-      const count = await this.params.boundWitnessSdk.useCollection((collection) => {
+      const count = await this.boundWitnesses.useCollection((collection) => {
         return collection
           .aggregate<{ payload_hashes: number }>([
             // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -196,7 +177,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private divineAllAddresses = () => this.params.payloadSdk.useCollection((collection) => collection.estimatedDocumentCount())
+  private divineAllAddresses = () => this.payloads.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
@@ -211,7 +192,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.boundWitnesses.uri, this.boundWitnesses.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
@@ -223,7 +204,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
   }
 
   private storeDivinedResult = async (address: string, count: number) => {
-    await this.params.payloadSdk.useMongo(async (mongo) => {
+    await this.payloads.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -238,7 +219,7 @@ export class MongoDBPayloadStatsDiviner<TParams extends MongoDBPayloadStatsDivin
       const count = this.pendingCounts[address]
       this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.Payloads}.count`]: count }
-      return this.params.payloadSdk.useMongo(async (mongo) => {
+      return this.payloads.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })

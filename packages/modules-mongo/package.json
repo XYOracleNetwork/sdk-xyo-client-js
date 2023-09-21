@@ -48,6 +48,7 @@
     "@xyo-network/diviner-mongodb": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-abstract-mongodb": "workspace:~",
+    "@xyo-network/module-model-mongodb": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/node-core-types": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~",

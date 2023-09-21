@@ -1,36 +1,21 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { staticImplements } from '@xylabs/static-implements'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
-  AddressHistoryDivinerConfig,
   AddressHistoryDivinerConfigSchema,
   AddressHistoryQueryPayload,
   isAddressHistoryQueryPayload,
 } from '@xyo-network/diviner-address-history'
-import { DivinerParams } from '@xyo-network/diviner-model'
-import { DefaultLimit, DefaultMaxTimeMS, removeId } from '@xyo-network/module-abstract-mongodb'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module-model'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
+import { DefaultLimit, DefaultMaxTimeMS, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Filter } from 'mongodb'
 
-export type MongoDBAddressHistoryDivinerParams = DivinerParams<
-  AnyConfigSchema<AddressHistoryDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(AddressHistoryDiviner)
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBAddressHistoryDiviner<
-  TParams extends MongoDBAddressHistoryDivinerParams = MongoDBAddressHistoryDivinerParams,
-> extends AddressHistoryDiviner<TParams> {
+export class MongoDBAddressHistoryDiviner extends MongoDBDivinerBase {
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload<BoundWitness>[]> {
     const query = payloads?.find<AddressHistoryQueryPayload>(isAddressHistoryQueryPayload)
@@ -52,9 +37,7 @@ export class MongoDBAddressHistoryDiviner<
     for (let i = 0; i < limit; i++) {
       const filter: Filter<BoundWitnessWithMeta> = { addresses: address }
       if (nextHash) filter._hash = nextHash
-      const block = (
-        await (await this.params.boundWitnessSdk.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()
-      ).pop()
+      const block = (await (await this.boundWitnesses.find(filter)).sort({ _timestamp: -1 }).limit(1).maxTimeMS(DefaultMaxTimeMS).toArray()).pop()
       if (!block) break
       blocks.push(block)
       const addressIndex = block.addresses.findIndex((value) => value === address)

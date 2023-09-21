@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { trimAddressPrefix } from '@xyo-network/address'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
@@ -23,6 +24,9 @@ export class MongoDBAddressHistoryDiviner extends MongoDBDivinerBase {
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { address, schema, limit, offset, order, ...props } = query
+    // TODO: The address field seems to be meant for the address
+    // of the intended handler but is being used here to filter
+    // for the query. This should be fixed to use a separate field.
     const addresses = sanitizeAddress(address)
     assertEx(addresses, 'MongoDBAddressHistoryDiviner: Missing address for query')
     if (offset) assertEx(typeof offset === 'string', 'MongoDBAddressHistoryDiviner: Supplied offset must be a hash')
@@ -50,10 +54,13 @@ export class MongoDBAddressHistoryDiviner extends MongoDBDivinerBase {
 }
 
 const sanitizeAddress = (a: string | string[] | undefined): string => {
-  return ([] as (string | undefined)[])
-    .concat(a)
-    .filter(exists)
-    .map((x) => x.toLowerCase())
-    .map((x) => (x.startsWith('0x') ? x.substring(2) : x))
-    .reduce((x) => x)
+  return (
+    ([] as (string | undefined)[])
+      .concat(a)
+      .filter(exists)
+      .map((x) => x.toLowerCase())
+      .map(trimAddressPrefix)
+      // TODO: We're only taking the last address with this
+      .reduce((x) => x)
+  )
 }

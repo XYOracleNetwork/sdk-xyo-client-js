@@ -83,7 +83,7 @@ const MongoDBModuleMixin = <TModule extends AnyModule = AnyModule>(ModuleBase: T
 
 const MongoDBArchivistBase = MongoDBModuleMixin(AbstractArchivist)
 
-export class MongoDBArchivist<TParams extends MongoDBArchivistParams = MongoDBArchivistParams> extends MongoDBArchivistBase implements MongoDBModule {
+export class MongoDBArchivist extends MongoDBArchivistBase {
   static override configSchemas = [MongoDBArchivistConfigSchema, ArchivistConfigSchema]
 
   override readonly queries: string[] = [ArchivistInsertQuerySchema, ...super.queries]

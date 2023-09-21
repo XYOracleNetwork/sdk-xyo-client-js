@@ -6,8 +6,10 @@ import { MongoDBModule, MongoDBModuleParams, MongoDBModuleStatic, MongoDBStorage
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
+import { COLLECTIONS } from './Collections'
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
+export type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
 
 export const MongoDBModuleMixin = <
   TParams extends MongoDBModuleParams = MongoDBModuleParams,
@@ -22,7 +24,20 @@ export const MongoDBModuleMixin = <
     _payloadSdk: BaseMongoSdk<PayloadWithMeta> | undefined
 
     get boundWitnessSdkConfig(): BaseMongoSdkConfig {
-      return merge({}, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
+      const dbUserName = process.env.MONGO_DATABASE
+      const dbPassword = process.env.MONGO_DOMAIN
+      const dbDomain = process.env.MONGO_PASSWORD
+      const dbName = process.env.MONGO_USERNAME
+      const dbConnectionString = process.env.MONGO_CONNECTION_STRING
+      const config = {
+        collection: COLLECTIONS.BoundWitnesses,
+        dbConnectionString,
+        dbDomain,
+        dbName,
+        dbPassword,
+        dbUserName,
+      }
+      return merge(config, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
         collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
       })
     }
@@ -37,7 +52,20 @@ export const MongoDBModuleMixin = <
     }
 
     get payloadSdkConfig(): BaseMongoSdkConfig {
-      return merge({}, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
+      const dbUserName = process.env.MONGO_DATABASE
+      const dbPassword = process.env.MONGO_DOMAIN
+      const dbDomain = process.env.MONGO_PASSWORD
+      const dbName = process.env.MONGO_USERNAME
+      const dbConnectionString = process.env.MONGO_CONNECTION_STRING
+      const config = {
+        collection: COLLECTIONS.BoundWitnesses,
+        dbConnectionString,
+        dbDomain,
+        dbName,
+        dbPassword,
+        dbUserName,
+      }
+      return merge(config, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
         collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
       })
     }

@@ -6,9 +6,6 @@ import { staticImplements } from '@xylabs/static-implements'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema, MongoDBArchivistParams } from '@xyo-network/archivist-model-mongodb'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Module } from '@xyo-network/module'
 import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
@@ -16,25 +13,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { validByType } from './lib'
-
-const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): Promise<BoundWitnessWithMeta> => {
-  const bw = wrapper.boundwitness as BoundWitness
-  return { ...bw, _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
-}
-
-const toReturnValue = (value: Payload | BoundWitness): Payload => {
-  const _signatures = (value as BoundWitness)?._signatures
-  if (_signatures) {
-    return { ...PayloadWrapper.wrap(value).body(), _signatures } as BoundWitness
-  } else {
-    return { ...PayloadWrapper.wrap(value).body() }
-  }
-}
-
-const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMeta> => {
-  return { ...wrapper.payload(), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
-}
+import { toBoundWitnessWithMeta, toPayloadWithMeta, toReturnValue, validByType } from './lib'
 
 export interface MongoDBModuleStatic<T extends MongoDBStorageClassLabels = MongoDBStorageClassLabels> {
   labels: T

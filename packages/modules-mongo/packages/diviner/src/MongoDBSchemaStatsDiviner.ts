@@ -1,26 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { staticImplements } from '@xylabs/static-implements'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { asDivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import {
   isSchemaStatsQueryPayload,
-  SchemaStatsDivinerConfig,
   SchemaStatsDivinerConfigSchema,
   SchemaStatsDivinerSchema,
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
-import { AnyConfigSchema, WithLabels } from '@xyo-network/module'
-import { COLLECTIONS, DATABASES, fromDbProperty, toDbProperty } from '@xyo-network/module-abstract-mongodb'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
+import { COLLECTIONS, DATABASES, fromDbProperty, MongoDBModuleMixin, toDbProperty } from '@xyo-network/module-abstract-mongodb'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
+import { MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
@@ -41,23 +37,12 @@ interface Stats {
   }
 }
 
-export type MongoDBSchemaStatsDivinerParams = DivinerParams<
-  AnyConfigSchema<SchemaStatsDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    jobQueue: JobQueue
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(SchemaStatsDiviner)
 
 const moduleName = 'MongoDBSchemaStatsDiviner'
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDivinerParams = MongoDBSchemaStatsDivinerParams>
-  extends SchemaStatsDiviner<TParams>
-  implements JobProvider
-{
+export class MongoDBSchemaStatsDiviner extends MongoDBDivinerBase implements JobProvider {
   static override configSchemas = [SchemaStatsDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   /**
    * Iterates over know addresses obtained from AddressDiviner
@@ -134,9 +119,8 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   protected override async startHandler() {
     await super.startHandler()
     await this.registerWithChangeStream()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    defineJobs(this.jobQueue, this.jobs)
+    this.jobQueue.once('ready', async () => await scheduleJobs(this.jobQueue, this.jobs))
     return true
   }
 
@@ -158,7 +142,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
   }
 
   private divineAddress = async (address: string): Promise<Record<string, number>> => {
-    const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
+    const stats = await this.boundWitnesses.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = Object.fromEntries(
@@ -183,7 +167,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
     const sortStartTime = Date.now()
     const totals: Record<string, number> = {}
     for (let iteration = 0; iteration < this.aggregateMaxIterations; iteration++) {
-      const result: PayloadSchemaCountsAggregateResult[] = await this.params.boundWitnessSdk.useCollection((collection) => {
+      const result: PayloadSchemaCountsAggregateResult[] = await this.boundWitnesses.useCollection((collection) => {
         return collection
           .aggregate()
           .sort({ _timestamp: 1 })
@@ -237,7 +221,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.boundWitnesses.uri, this.boundWitnesses.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
@@ -254,7 +238,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         return [toDbProperty(schema), count]
       }),
     )
-    await this.params.boundWitnessSdk.useMongo(async (mongo) => {
+    await this.boundWitnesses.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -272,7 +256,7 @@ export class MongoDBSchemaStatsDiviner<TParams extends MongoDBSchemaStatsDiviner
         })
         .reduce((prev, curr) => Object.assign(prev, curr), {})
       this.pendingCounts[address] = {}
-      return this.params.boundWitnessSdk.useMongo(async (mongo) => {
+      return this.boundWitnesses.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })

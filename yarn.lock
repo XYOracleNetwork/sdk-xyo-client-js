@@ -7580,7 +7580,7 @@ __metadata:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     fake-indexeddb: ^4.0.2
-    mongodb: ^5.9.0
+    mongodb: ^6.1.0
     reflect-metadata: ^0.1.13
     typescript: ^5.2.2
   peerDependencies:
@@ -8829,7 +8829,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
-    mongodb: ^5.9.0
+    mongodb: ^6.1.0
     typescript: ^5.2.2
   peerDependencies:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -9174,7 +9174,7 @@ __metadata:
     inversify: ^6.0.1
     jest: ^29.7.0
     jest-mock-extended: ^3.0.5
-    mongodb: ^5.9.0
+    mongodb: ^6.1.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9729,7 +9729,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.28
     "@xylabs/tsconfig": ^3.0.28
     async-mutex: ^0.4.0
-    mongodb: ^5.9.0
+    mongodb: ^6.1.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -11233,10 +11233,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "bson@npm:5.5.0"
-  checksum: 61afd240dfcaaa07346c3278d42586606b4c09bd8dcf865f6d79e26ee9cf3d6b140b8347257c598f65340e26ba640f96f6a3b9b6ff2baef963a1d321fc4c281e
+"bson@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "bson@npm:6.1.0"
+  checksum: 8250c8158c22d2a0ca0e7677c0cbef9fa6341c176382b835dbf4c7f8aebdfd74d530f7225c6f3b98ca78a68aab4f1ad3d2fad54160a98b3e6ed9823b80db2e48
   languageName: node
   linkType: hard
 
@@ -18860,27 +18860,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^5.9.0":
-  version: 5.9.0
-  resolution: "mongodb@npm:5.9.0"
+"mongodb@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "mongodb@npm:6.1.0"
   dependencies:
     "@mongodb-js/saslprep": ^1.1.0
-    bson: ^5.5.0
+    bson: ^6.1.0
     mongodb-connection-string-url: ^2.6.0
-    socks: ^2.7.1
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.188.0
-    "@mongodb-js/zstd": ^1.0.0
-    kerberos: ^1.0.0 || ^2.0.0
-    mongodb-client-encryption: ">=2.3.0 <3"
+    "@mongodb-js/zstd": ^1.1.0
+    gcp-metadata: ^5.2.0
+    kerberos: ^2.0.1
+    mongodb-client-encryption: ">=6.0.0 <7"
     snappy: ^7.2.2
-  dependenciesMeta:
-    "@mongodb-js/saslprep":
-      optional: true
+    socks: ^2.7.1
   peerDependenciesMeta:
     "@aws-sdk/credential-providers":
       optional: true
     "@mongodb-js/zstd":
+      optional: true
+    gcp-metadata:
       optional: true
     kerberos:
       optional: true
@@ -18888,7 +18888,9 @@ __metadata:
       optional: true
     snappy:
       optional: true
-  checksum: 5fb828d6503b7291c0bcc984ed35bdd0e2f166cd9d637a5ff9e8c2e497ef6260eea5a3f700f2850200cd8108057c858f96e37394ed2953aff3b85fe760bbd777
+    socks:
+      optional: true
+  checksum: ed60c14f0a7e2e9088ba58f29b0425bc5c00d81e3f692938e3bb887b2fdbb411935e845a8bab3faa7609e6e52e94b9705cf60fac61684d21b8bc92a5c3938964
   languageName: node
   linkType: hard
 

@@ -1,27 +1,22 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { fulfilled, rejected } from '@xylabs/promise'
-import { staticImplements } from '@xylabs/static-implements'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
 import {
   asDivinerInstance,
-  BoundWitnessStatsDivinerConfig,
   BoundWitnessStatsDivinerConfigSchema,
   BoundWitnessStatsDivinerSchema,
   BoundWitnessStatsPayload,
   BoundWitnessStatsQueryPayload,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
-import { AnyConfigSchema, ModuleParams, WithLabels } from '@xyo-network/module'
-import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
-import { MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
+import { COLLECTIONS, DATABASES, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { BaseMongoSdk, MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
+import { MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
 import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
@@ -37,23 +32,12 @@ interface Stats {
   }
 }
 
-export type MongoDBBoundWitnessStatsDivinerParams = ModuleParams<
-  AnyConfigSchema<BoundWitnessStatsDivinerConfig>,
-  {
-    boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta>
-    jobQueue: JobQueue
-  }
->
+const MongoDBDivinerBase = MongoDBModuleMixin(BoundWitnessStatsDiviner)
 
 const moduleName = 'MongoDBBoundWitnessStatsDiviner'
 
-@staticImplements<WithLabels<MongoDBStorageClassLabels>>()
-export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitnessStatsDivinerParams = MongoDBBoundWitnessStatsDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements BoundWitnessStatsDiviner, JobProvider
-{
+export class MongoDBBoundWitnessStatsDiviner extends MongoDBDivinerBase implements BoundWitnessStatsDiviner, JobProvider {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
-  static labels = MongoDBStorageClassLabels
 
   /**
    * Iterates over know addresses obtained from AddressDiviner
@@ -104,9 +88,8 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   protected override async startHandler() {
     await super.startHandler()
     await this.registerWithChangeStream()
-    const { jobQueue } = this.params
-    defineJobs(jobQueue, this.jobs)
-    jobQueue.once('ready', async () => await scheduleJobs(jobQueue, this.jobs))
+    defineJobs(this.jobQueue, this.jobs)
+    this.jobQueue.once('ready', async () => await scheduleJobs(this.jobQueue, this.jobs))
     return true
   }
 
@@ -128,7 +111,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private divineAddress = async (address: string) => {
-    const stats = await this.params.boundWitnessSdk.useMongo(async (mongo) => {
+    const stats = await this.boundWitnesses.useMongo(async (mongo) => {
       return await mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats).findOne({ address: address })
     })
     const remote = stats?.bound_witnesses?.count || 0
@@ -137,7 +120,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private divineAddressFull = async (address: string) => {
-    const count = await this.params.boundWitnessSdk.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
+    const count = await this.boundWitnesses.useCollection((collection) => collection.countDocuments({ addresses: { $in: [address] } }))
     await this.storeDivinedResult(address, count)
     return count
   }
@@ -154,7 +137,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
     this.logger?.log(`${moduleName}.DivineAddressesBatch: Updated Addresses`)
   }
 
-  private divineAllAddresses = () => this.params.boundWitnessSdk.useCollection((collection) => collection.estimatedDocumentCount())
+  private divineAllAddresses = () => this.boundWitnesses.useCollection((collection) => collection.estimatedDocumentCount())
 
   private processChange = (change: ChangeStreamInsertDocument<BoundWitnessWithMeta>) => {
     this.resumeAfter = change._id
@@ -166,7 +149,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
 
   private registerWithChangeStream = async () => {
     this.logger?.log(`${moduleName}.RegisterWithChangeStream: Registering`)
-    const wrapper = MongoClientWrapper.get(this.params.boundWitnessSdk.uri, this.params.boundWitnessSdk.config.maxPoolSize)
+    const wrapper = MongoClientWrapper.get(this.boundWitnesses.uri, this.boundWitnesses.config.maxPoolSize)
     const connection = await wrapper.connect()
     assertEx(connection, `${moduleName}.RegisterWithChangeStream: Connection failed`)
     const collection = connection.db(DATABASES.Archivist).collection(COLLECTIONS.BoundWitnesses)
@@ -178,7 +161,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
   }
 
   private storeDivinedResult = async (address: string, count: number) => {
-    await this.params.boundWitnessSdk.useMongo(async (mongo) => {
+    await this.boundWitnesses.useMongo(async (mongo) => {
       await mongo
         .db(DATABASES.Archivist)
         .collection(COLLECTIONS.ArchivistStats)
@@ -193,7 +176,7 @@ export class MongoDBBoundWitnessStatsDiviner<TParams extends MongoDBBoundWitness
       const count = this.pendingCounts[address]
       this.pendingCounts[address] = 0
       const $inc = { [`${COLLECTIONS.BoundWitnesses}.count`]: count }
-      return this.params.boundWitnessSdk.useMongo(async (mongo) => {
+      return this.boundWitnesses.useMongo(async (mongo) => {
         await mongo.db(DATABASES.Archivist).collection(COLLECTIONS.ArchivistStats).updateOne({ address }, { $inc }, updateOptions)
       })
     })

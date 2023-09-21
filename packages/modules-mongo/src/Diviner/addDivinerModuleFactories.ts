@@ -1,13 +1,8 @@
-/* eslint-disable max-statements */
 import {
   MongoDBAddressHistoryDiviner,
-  MongoDBAddressHistoryDivinerParams,
   MongoDBAddressSpaceBatchDiviner,
-  MongoDBAddressSpaceBatchDivinerParams,
   MongoDBAddressSpaceDiviner,
-  MongoDBAddressSpaceDivinerParams,
   MongoDBBoundWitnessDiviner,
-  MongoDBBoundWitnessDivinerParams,
   MongoDBBoundWitnessStatsDiviner,
   MongoDBBoundWitnessStatsDivinerParams,
   MongoDBPayloadDiviner,
@@ -20,48 +15,18 @@ import {
   MongoDBSchemaStatsDivinerParams,
 } from '@xyo-network/diviner-mongodb'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module'
+import { MongoDBModuleParams } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
-import { BaseMongoSdk, BaseMongoSdkPrivateConfig } from '@xyo-network/sdk-xyo-mongo-js'
+import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { Container } from 'inversify'
 
-import { getBaseMongoSdkPrivateConfig, getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
+import { getBoundWitnessSdk, getPayloadSdk } from '../Mongo'
 
-const getMongoDBAddressHistoryDiviner = () => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBAddressHistoryDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressHistoryDiviner.configSchema } }
-  return ModuleFactory.withParams(MongoDBAddressHistoryDiviner, params)
-}
-const getMongoDBAddressSpaceDiviner = () => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBAddressSpaceDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressSpaceDiviner.configSchema } }
-  return ModuleFactory.withParams(MongoDBAddressSpaceDiviner, params)
-}
-const getMongoDBAddressSpaceBatchDiviner = () => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const params: MongoDBAddressSpaceBatchDivinerParams = { boundWitnessSdk, config: { schema: MongoDBAddressSpaceBatchDiviner.configSchema } }
-  return ModuleFactory.withParams(MongoDBAddressSpaceBatchDiviner, params)
-}
-const getMongoDBBoundWitnessDiviner = () => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
-  const boundWitnessSdkConfig: BaseMongoSdkPrivateConfig = getBaseMongoSdkPrivateConfig()
-  const params: MongoDBBoundWitnessDivinerParams = {
-    boundWitnessSdk,
-    boundWitnessSdkConfig,
-    config: { schema: MongoDBBoundWitnessDiviner.configSchema },
-  }
-  return ModuleFactory.withParams(MongoDBBoundWitnessDiviner, params)
-}
 const getMongoDBBoundWitnessStatsDiviner = (container: Container) => {
-  const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = getBoundWitnessSdk()
   const jobQueue = container.get<JobQueue>(TYPES.JobQueue)
-  const params: MongoDBBoundWitnessStatsDivinerParams = {
-    boundWitnessSdk,
-    config: {
-      schema: MongoDBBoundWitnessStatsDiviner.configSchema,
-    },
-    jobQueue,
-  }
+  const schema = MongoDBBoundWitnessStatsDiviner.configSchema
+  const params: MongoDBModuleParams = { config: { schema }, jobQueue }
   return ModuleFactory.withParams(MongoDBBoundWitnessStatsDiviner, params)
 }
 const getMongoDBPayloadDiviner = () => {
@@ -113,10 +78,10 @@ const getMongoDBSchemaStatsDiviner = (container: Container) => {
 
 export const addDivinerModuleFactories = (container: Container) => {
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
-  locator.register(getMongoDBAddressHistoryDiviner())
-  locator.register(getMongoDBAddressSpaceDiviner())
-  locator.register(getMongoDBAddressSpaceBatchDiviner())
-  locator.register(getMongoDBBoundWitnessDiviner())
+  locator.register(MongoDBAddressHistoryDiviner)
+  locator.register(MongoDBAddressSpaceDiviner)
+  locator.register(MongoDBAddressSpaceBatchDiviner)
+  locator.register(MongoDBBoundWitnessDiviner)
   locator.register(getMongoDBBoundWitnessStatsDiviner(container))
   locator.register(getMongoDBPayloadDiviner())
   locator.register(getMongoDBPayloadStatsDiviner(container))

@@ -1,13 +1,13 @@
-import { Listener, Web3Provider } from '@ethersproject/providers';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+import { Listener, Web3Provider } from '@ethersproject/providers'
+import { MetaMaskInpageProvider } from '@metamask/providers'
 
 export class MetaMaskConnector {
   private account = ''
   private ethereum = window.ethereum as MetaMaskInpageProvider
 
   private listeners: Listener[] = []
-  private providerListeners: [event: string, listener: Listener][] = []
   private provider: Web3Provider | undefined
+  private providerListeners: [event: string, listener: Listener][] = []
 
   constructor(provider?: Web3Provider) {
     if (provider) {
@@ -41,15 +41,6 @@ export class MetaMaskConnector {
     }
   }
 
-  async requestAccounts(): Promise<string[] | null> {
-    if (!this.provider) {
-      this.logProviderMissing()
-      return
-    }
-
-    return await this.provider.send('eth_requestAccounts', [])
-  }
-
   isMetaMaskInstalled() {
     return this.ethereum && this.ethereum.isMetaMask
   }
@@ -62,54 +53,48 @@ export class MetaMaskConnector {
     return false
   }
 
-  /** Web3Provider Listeners - https://docs.ethers.org/v5/api/providers/provider/#Provider--events */
-  on(event: string, listener: Listener) {
-    this.provider?.on(event, listener)
-    this.listeners.push(listener)
-  }
-
-  removeListener(event: string, listener: Listener) {
-    this.provider?.removeListener(event, listener)
-    this.listeners = this.listeners.filter((savedListener) => listener !== savedListener)
-  }
-
-  removeListeners() {
-    this.provider?.removeAllListeners()
-  }
-
-  /** 
+  /**
    * EIP-1193 Event Listeners
-   * 
+   *
    * .on in Web3Provider does not understand EIP-1193 events
    * see - https://github.com/ethers-io/ethers.js/discussions/1560#discussioncomment-730893
    */
-  onAccountsChanged(listener: Listener) {
+  providerOnAccountsChanged(listener: Listener) {
     this.ethereum?.on('accountsChanged', listener)
     this.providerListeners.push(['accountsChanged', listener])
   }
 
-  onDisconnect(listener: Listener) {
-    this.ethereum?.on('disconnect', listener)
-    this.providerListeners.push(['disconnect', listener])
-  }
-
-  onChainChanged(listener: Listener) {
+  providerOnChainChanged(listener: Listener) {
     this.ethereum?.on('chainChanged', listener)
     this.providerListeners.push(['chainChanged', listener])
   }
 
-  onConnect(listener: Listener) {
+  providerOnConnect(listener: Listener) {
     this.ethereum?.on('connect', listener)
     this.providerListeners.push(['connect', listener])
   }
 
-  removeProviderListener(event: string, listener: Listener) {
-    this.ethereum?.removeListener(event, listener)
-    this.providerListeners = this.providerListeners.filter(([,savedListener]) => listener !== savedListener)
+  providerOnDisconnect(listener: Listener) {
+    this.ethereum?.on('disconnect', listener)
+    this.providerListeners.push(['disconnect', listener])
   }
 
-  removeProviderListeners() {
+  providerRemoveListener(event: string, listener: Listener) {
+    this.ethereum?.removeListener(event, listener)
+    this.providerListeners = this.providerListeners.filter(([, savedListener]) => listener !== savedListener)
+  }
+
+  providerRemoveListeners() {
     this.providerListeners.forEach(([event, listener]) => this.ethereum?.removeListener(event, listener))
+  }
+
+  async requestAccounts(): Promise<string[] | null> {
+    if (!this.provider) {
+      this.logProviderMissing()
+      return null
+    }
+
+    return await this.provider.send('eth_requestAccounts', [])
   }
 
   async signMessage(message: string) {
@@ -122,6 +107,21 @@ export class MetaMaskConnector {
     await signer.getAddress()
     const signature = await signer.signMessage(message)
     return signature
+  }
+
+  /** Web3Provider Listeners - https://docs.ethers.org/v5/api/providers/provider/#Provider--events */
+  web3ProviderOn(event: string, listener: Listener) {
+    this.provider?.on(event, listener)
+    this.listeners.push(listener)
+  }
+
+  web3ProviderRemoveListener(event: string, listener: Listener) {
+    this.provider?.removeListener(event, listener)
+    this.listeners = this.listeners.filter((savedListener) => listener !== savedListener)
+  }
+
+  web3ProviderRemoveListeners() {
+    this.provider?.removeAllListeners()
   }
 
   private logProviderMissing() {

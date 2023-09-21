@@ -9,7 +9,12 @@ import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
 
-export const MongoDBModuleMixin = <TModule extends AnyAbstractModule = AnyAbstractModule>(ModuleBase: TModule) => {
+export const MongoDBModuleMixin = <
+  TParams extends MongoDBModuleParams = MongoDBModuleParams,
+  TModule extends AnyAbstractModule<TParams> = AnyAbstractModule<TParams>,
+>(
+  ModuleBase: TModule,
+) => {
   @staticImplements<MongoDBModuleStatic>()
   abstract class MongoModuleBase extends ModuleBase implements MongoDBModule {
     static labels = MongoDBStorageClassLabels
@@ -25,6 +30,10 @@ export const MongoDBModuleMixin = <TModule extends AnyAbstractModule = AnyAbstra
     get boundWitnesses() {
       this._boundWitnessSdk = this._boundWitnessSdk ?? new BaseMongoSdk<BoundWitnessWithMeta>(this.boundWitnessSdkConfig)
       return assertEx(this._boundWitnessSdk)
+    }
+
+    get jobQueue() {
+      return assertEx(this.params.jobQueue, 'MongoDBModule Error: jobQueue required for this module but is not defined')
     }
 
     get payloadSdkConfig(): BaseMongoSdkConfig {

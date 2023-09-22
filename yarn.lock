@@ -5665,11 +5665,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/array@npm:^2.11.7":
-  version: 2.11.7
-  resolution: "@xylabs/array@npm:2.11.7"
+  version: 2.11.11
+  resolution: "@xylabs/array@npm:2.11.11"
   dependencies:
-    "@xylabs/exists": ~2.11.7
-  checksum: e6c2004e34837e6530e506b799057b1df63325496ed7f7ef8d42f2ad7aa9df230f6772e7d3cf8936a981c0e0a821c7de348cb07f35cf2ed335b486d838c83e5e
+    "@xylabs/exists": ~2.11.11
+  checksum: fe0316543d878d28c63d0dd7162a9da5c83c7b29ab0209bc1b5eca23696d77f4cf2efd21bab2eff239855a9ce00e6864cf45bb3c0f26b7c8c795b59efccb7804
   languageName: node
   linkType: hard
 
@@ -5745,10 +5745,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:^2.11.7, @xylabs/exists@npm:~2.11.7":
+"@xylabs/exists@npm:^2.11.7":
   version: 2.11.7
   resolution: "@xylabs/exists@npm:2.11.7"
   checksum: 90f5b6c15ff435cb88ffbbee6bdb0a79999678b296d80283743cbebfddfada38ad1690eca0287bb61d606eebc9eaa1c58671c260749c3e91a18e68b7a50db2ea
+  languageName: node
+  linkType: hard
+
+"@xylabs/exists@npm:~2.11.11":
+  version: 2.11.11
+  resolution: "@xylabs/exists@npm:2.11.11"
+  checksum: 3f385a3236368341aaed93f5741b674055ba386883bcbec1f79cea18ba1acbece8e22d6879b939f25c8d57840dc65d81733e0f3d85a227991b10be1a5c4385d4
   languageName: node
   linkType: hard
 

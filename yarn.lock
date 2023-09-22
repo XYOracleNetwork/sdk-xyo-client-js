@@ -5681,11 +5681,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/bignumber@npm:^2.11.7":
-  version: 2.11.7
-  resolution: "@xylabs/bignumber@npm:2.11.7"
+  version: 2.11.11
+  resolution: "@xylabs/bignumber@npm:2.11.11"
   dependencies:
     bn.js: ^5.2.1
-  checksum: e4518ad64483e70259dd4e3e963911acd03f8bf6485d5f4b05af7479ea0829e0180cbe18b5ceda787b50df9a51fa9a79349a335c755bc7092919cc5d03439a01
+  checksum: a3f53add6894176d8ff6b5d6e2f2d918fca1df30005020975b3fc09ae37d7feabdc10713408ca455a4ad98838ed822c25b004ad832420d85cb8f02ef27b53a14
   languageName: node
   linkType: hard
 

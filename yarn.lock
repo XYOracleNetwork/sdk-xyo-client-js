@@ -5813,9 +5813,9 @@ __metadata:
   linkType: hard
 
 "@xylabs/set@npm:^2.11.7":
-  version: 2.11.7
-  resolution: "@xylabs/set@npm:2.11.7"
-  checksum: 35c11d30bd8ca0204bf9e332dc03af83d071cc67ab3e4cb1c8fce32c7a06cc31c3f4b82671ff16c44d8d9a3ffaee74367066593237e03ba97deb0106e7843e71
+  version: 2.11.11
+  resolution: "@xylabs/set@npm:2.11.11"
+  checksum: e0aed0f8ceba8686adf7421d42a3168c5ea0a8b5493bf35697868b1b3be9fbaf318c2b5656138286466fc5eaed90791a4196dc6259d764dfefd6460c9a381d98
   languageName: node
   linkType: hard
 

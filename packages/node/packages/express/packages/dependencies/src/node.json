@@ -196,6 +196,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/1'/1'",
               "boundWitnessSdkConfig": { "collection": "bound_witnesses" },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "ThumbnailArchivist",
               "payloadSdkConfig": { "collection": "thumbnails" },
@@ -206,6 +209,9 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/16'",
               "archivist": "ThumbnailArchivist",
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
               "language": "javascript",
               "name": "ThumbnailAddressHistoryDiviner",
               "schema": "network.xyo.diviner.address.history.config"
@@ -226,6 +232,9 @@
               "archivist": "ThumbnailArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "thumbnail_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
               },
               "language": "javascript",
               "name": "ThumbnailBoundWitnessDiviner",

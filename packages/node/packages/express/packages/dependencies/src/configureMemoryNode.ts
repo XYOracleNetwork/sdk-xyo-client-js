@@ -52,7 +52,7 @@ const loadNodeFromConfig = async (container: Container, config?: string) => {
   const [parentNode, ...childNodes] = await wrapper.loadNodes()
   if (childNodes?.length) {
     await Promise.all(childNodes.map((childNode) => parentNode.register(childNode)))
-    await Promise.all(childNodes.map((childNode) => parentNode.attach(childNode.address)))
+    await Promise.all(childNodes.map((childNode) => parentNode.attach(childNode.address, true)))
   }
   return parentNode
 }

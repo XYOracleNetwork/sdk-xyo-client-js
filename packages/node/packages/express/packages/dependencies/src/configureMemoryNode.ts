@@ -49,6 +49,10 @@ const loadNodeFromConfig = async (container: Container, config?: string) => {
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   const wrapper = new ManifestWrapper(manifest, wallet, locator)
-  const [node] = await wrapper.loadNodes()
-  return node
+  const [parentNode, ...childNodes] = await wrapper.loadNodes()
+  if (childNodes?.length) {
+    await Promise.all(childNodes.map((childNode) => parentNode.register(childNode)))
+    await Promise.all(childNodes.map((childNode) => parentNode.attach(childNode.address)))
+  }
+  return parentNode
 }

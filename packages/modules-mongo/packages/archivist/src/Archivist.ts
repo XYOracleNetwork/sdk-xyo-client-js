@@ -75,21 +75,6 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
     return head[0] ? PayloadWrapper.wrap(head[0]).body() : undefined
   }
 
-  override start = async (timeout?: number): Promise<boolean> => {
-    const status = await super.start(timeout)
-    await this.boundWitnesses.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getBoundWitnessesIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
-    await this.payloads.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getPayloadsIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
-    return status
-  }
-
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
     const payloads = hashes.map((_hash) => this.payloads.findOne({ _hash }))
     const bws = hashes.map((_hash) => this.boundWitnesses.findOne({ _hash }))
@@ -113,5 +98,20 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
     return payloads ?? []
+  }
+
+  protected override async startHandler() {
+    await super.startHandler()
+    await this.boundWitnesses.useCollection(async (collection) => {
+      const { collectionName } = collection
+      const indexes = getBoundWitnessesIndexes(collectionName)
+      await collection.createIndexes(indexes)
+    })
+    await this.payloads.useCollection(async (collection) => {
+      const { collectionName } = collection
+      const indexes = getPayloadsIndexes(collectionName)
+      await collection.createIndexes(indexes)
+    })
+    return true
   }
 }

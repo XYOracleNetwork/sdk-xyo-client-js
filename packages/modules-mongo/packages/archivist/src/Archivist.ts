@@ -11,7 +11,9 @@ import { IndexDescription } from 'mongodb'
 
 import { toBoundWitnessWithMeta, toPayloadWithMeta, toReturnValue, validByType } from './lib'
 
-const getBoundWitnessesIndexes = (collectionName: string): IndexDescription[] => {
+type CollectionIndexFunction = (collectionName: string) => IndexDescription[]
+
+const getBoundWitnessesIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
   return [
     {
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -41,7 +43,7 @@ const getBoundWitnessesIndexes = (collectionName: string): IndexDescription[] =>
   ]
 }
 
-const getPayloadsIndexes = (collectionName: string): IndexDescription[] => {
+const getPayloadsIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
   return [
     {
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -77,11 +79,13 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
     const status = await super.start(timeout)
     await this.boundWitnesses.useCollection(async (collection) => {
       const { collectionName } = collection
-      await collection.createIndexes(getBoundWitnessesIndexes(collectionName))
+      const indexes = getBoundWitnessesIndexes(collectionName)
+      await collection.createIndexes(indexes)
     })
     await this.payloads.useCollection(async (collection) => {
       const { collectionName } = collection
-      await collection.createIndexes(getPayloadsIndexes(collectionName))
+      const indexes = getPayloadsIndexes(collectionName)
+      await collection.createIndexes(indexes)
     })
     return status
   }

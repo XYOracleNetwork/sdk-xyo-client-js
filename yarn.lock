@@ -6180,6 +6180,7 @@ __metadata:
     "@xyo-network/module": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
+    mongodb: ^6.1.0
     typescript: ^5.2.2
   peerDependencies:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"

@@ -3,15 +3,13 @@ import { fulfilledValues } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema } from '@xyo-network/archivist-model-mongodb'
-import { MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { CollectionIndexFunction, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { IndexDescription } from 'mongodb'
 
 import { toBoundWitnessWithMeta, toPayloadWithMeta, toReturnValue, validByType } from './lib'
-
-type CollectionIndexFunction = (collectionName: string) => IndexDescription[]
 
 const getBoundWitnessesIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
   return [

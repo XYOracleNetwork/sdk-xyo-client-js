@@ -18,26 +18,6 @@ const getBoundWitnessesIndexes: CollectionIndexFunction = (collectionName: strin
       key: { _hash: 1 },
       name: `${collectionName}.IX__hash`,
     },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _timestamp: -1, addresses: 1 },
-      name: `${collectionName}.IX__timestamp_addresses`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { addresses: 1, _timestamp: -1 },
-      name: `${collectionName}.IX_addresses__timestamp`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { addresses: 1 },
-      name: `${collectionName}.IX_addresses`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { payload_hashes: 1 },
-      name: `${collectionName}.IX_payload_hashes`,
-    },
   ]
 }
 
@@ -47,16 +27,6 @@ const getPayloadsIndexes: CollectionIndexFunction = (collectionName: string): In
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
       key: { _hash: 1 },
       name: `${collectionName}.IX__hash`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _timestamp: 1 },
-      name: `${collectionName}.IX__timestamp`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { schema: 1, _timestamp: -1 },
-      name: `${collectionName}.IX_schema__timestamp`,
     },
   ]
 }

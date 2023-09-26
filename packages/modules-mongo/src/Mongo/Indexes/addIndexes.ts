@@ -1,21 +1,11 @@
 import { assertEx } from '@xylabs/assert'
-import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
+import { DATABASES, getMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
-import { getMongoDBConfig } from '../getMongoDBConfig'
-import { AddressInfoIndexes, ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
+import { AddressInfoIndexes } from './Specifications'
 
-type ValueOf<T> = T[keyof T]
-
-type Collection = ValueOf<typeof COLLECTIONS>
-
-const indexesByCollection: Record<Collection, IndexDescription[]> = {
+const indexesByCollection: Record<string, IndexDescription[]> = {
   address_info: AddressInfoIndexes,
-  archivist_stats: ArchivistStatsIndexes,
-  bound_witnesses: BoundWitnessesIndexes,
-  payloads: PayloadsIndexes,
-  thumbnails: PayloadsIndexes,
-  users: [],
 }
 
 const oneMinute = 60 * 1000

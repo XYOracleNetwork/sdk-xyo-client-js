@@ -10,16 +10,15 @@ import {
   BoundWitnessStatsQuerySchema,
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
-import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src'
 import { MongoDBBoundWitnessStatsDiviner } from '../MongoDBBoundWitnessStatsDiviner'
 
-describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
+describeIf(hasMongoDBConfig())('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance
   let address: string
@@ -35,7 +34,6 @@ describeIf(canAddMongoModules())('MongoDBBoundWitnessStatsDiviner', () => {
     address = account.address
     sut = await MongoDBBoundWitnessStatsDiviner.create({
       account: await HDWallet.random(),
-      boundWitnessSdk,
       config: { schema: BoundWitnessStatsDivinerConfigSchema },
       jobQueue,
       logger,

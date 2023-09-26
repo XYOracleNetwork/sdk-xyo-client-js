@@ -1,6 +1,7 @@
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 
 export const toBoundWitnessWithMeta = async (wrapper: BoundWitnessWrapper | QueryBoundWitnessWrapper): Promise<BoundWitnessWithMeta> => {
   const bw = wrapper.boundwitness as BoundWitness

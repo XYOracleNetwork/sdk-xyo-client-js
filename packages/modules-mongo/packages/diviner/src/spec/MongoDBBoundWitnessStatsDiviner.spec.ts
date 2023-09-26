@@ -34,7 +34,6 @@ describeIf(hasMongoDBConfig())('MongoDBBoundWitnessStatsDiviner', () => {
     address = account.address
     sut = await MongoDBBoundWitnessStatsDiviner.create({
       account: await HDWallet.random(),
-      boundWitnessSdk,
       config: { schema: BoundWitnessStatsDivinerConfigSchema },
       jobQueue,
       logger,

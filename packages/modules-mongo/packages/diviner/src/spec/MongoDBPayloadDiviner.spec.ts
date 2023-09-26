@@ -21,7 +21,6 @@ describeIf(hasMongoDBConfig())('MongoDBPayloadDiviner', () => {
       account: await HDWallet.random(),
       config: { schema: PayloadDivinerConfigSchema },
       logger,
-      payloadSdk,
     })
     // TODO: Insert via archivist
     const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()

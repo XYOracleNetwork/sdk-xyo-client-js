@@ -32,7 +32,6 @@ describeIf(hasMongoDBConfig())('MongoDBSchemaListDiviner', () => {
     address = account.address
     sut = await MongoDBSchemaListDiviner.create({
       account: await HDWallet.random(),
-      boundWitnessSdk,
       config: { schema: SchemaListDivinerConfigSchema },
       logger,
     })

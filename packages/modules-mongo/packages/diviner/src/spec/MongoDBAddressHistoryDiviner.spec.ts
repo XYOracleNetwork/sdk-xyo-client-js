@@ -27,7 +27,6 @@ describeIf(hasMongoDBConfig())('MongoDBAddressHistoryDiviner', () => {
     address = account.address
     sut = await MongoDBAddressHistoryDiviner.create({
       account: await HDWallet.random(),
-      boundWitnessSdk,
       config: { schema: AddressHistoryDivinerConfigSchema },
       logger,
     })

@@ -26,7 +26,6 @@ describeIf(hasMongoDBConfig())('MongoDBAddressSpaceDiviner', () => {
     account = await Account.create({ phrase })
     sut = await MongoDBAddressSpaceDiviner.create({
       account,
-      boundWitnessSdk,
       config: { schema: AddressSpaceDivinerConfigSchema },
       logger,
     })

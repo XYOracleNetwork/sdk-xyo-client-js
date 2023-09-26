@@ -7,9 +7,8 @@ import {
   PayloadStatsQueryPayload,
   PayloadStatsQuerySchema,
 } from '@xyo-network/diviner-payload-stats-model'
-import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
-import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
-import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
+import { hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
+import { JobQueue } from '@xyo-network/node-core-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
@@ -18,25 +17,16 @@ describeIf(hasMongoDBConfig())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
   let address: string
   const logger = mock<Console>()
-  const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({
-    collection: COLLECTIONS.BoundWitnesses,
-    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
-  })
-  const payloadSdk = new BaseMongoSdk<PayloadWithMeta>({
-    collection: COLLECTIONS.Payloads,
-    dbConnectionString: process.env.MONGO_CONNECTION_STRING,
-  })
+
   const jobQueue: MockProxy<JobQueue> = mock<JobQueue>()
   let sut: MongoDBPayloadStatsDiviner
   beforeAll(async () => {
     address = (await Account.create({ phrase })).address
     sut = await MongoDBPayloadStatsDiviner.create({
       account: await HDWallet.random(),
-      boundWitnessSdk,
       config: { schema: PayloadStatsDivinerConfigSchema },
       jobQueue,
       logger,
-      payloadSdk,
     })
   })
   describe('divine', () => {

@@ -30,7 +30,6 @@ describeIf(hasMongoDBConfig())('MongoDBBoundWitnessDiviner', () => {
     account = await Account.create({ phrase })
     sut = await MongoDBBoundWitnessDiviner.create({
       account,
-      boundWitnessSdk,
       boundWitnessSdkConfig,
       config: { schema: BoundWitnessDivinerConfigSchema },
       logger,

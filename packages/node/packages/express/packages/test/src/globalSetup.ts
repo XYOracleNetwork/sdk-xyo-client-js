@@ -30,8 +30,8 @@ const setupMongo = async () => {
   const mongo = await MongoMemoryReplSet.create({
     instanceOpts: [
       { port: 55391, replicaMemberConfig: { buildIndexes: true } },
-      { port: 55392, replicaMemberConfig: { buildIndexes: true } },
-      { port: 55393, replicaMemberConfig: { buildIndexes: true } },
+      { port: 55392, replicaMemberConfig: { arbiterOnly: true, buildIndexes: true } },
+      { port: 55393, replicaMemberConfig: { arbiterOnly: true, buildIndexes: true } },
     ],
     replSet: { count: 3, storageEngine: 'wiredTiger' },
   }) // This will create an ReplSet with 3 members and storage-engine "wiredTiger"

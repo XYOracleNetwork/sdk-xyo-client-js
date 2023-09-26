@@ -9,16 +9,15 @@ import {
   SchemaListQueryPayload,
   SchemaListQuerySchema,
 } from '@xyo-network/diviner-schema-list-model'
-import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src'
 import { MongoDBSchemaListDiviner } from '../MongoDBSchemaListDiviner'
 
-describeIf(canAddMongoModules())('MongoDBSchemaListDiviner', () => {
+describeIf(hasMongoDBConfig())('MongoDBSchemaListDiviner', () => {
   let account: AccountInstance
   let address: string
   const phrase = 'temp'

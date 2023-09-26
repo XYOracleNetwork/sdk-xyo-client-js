@@ -4,17 +4,16 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
-import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src'
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
-describeIf(canAddMongoModules())('MongoDBAddressSpaceDiviner', () => {
+describeIf(hasMongoDBConfig())('MongoDBAddressSpaceDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance
   const logger = mock<Console>()

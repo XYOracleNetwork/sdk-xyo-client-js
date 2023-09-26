@@ -8,15 +8,14 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 import { BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
-import { canAddMongoModules } from '../../../../src'
 import { MongoDBArchivist } from '../Archivist'
 
-describeIf(canAddMongoModules())('DeterministicArchivist', () => {
+describeIf(hasMongoDBConfig())('DeterministicArchivist', () => {
   const boundWitnessesConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.BoundWitnesses }
   const payloadsConfig: BaseMongoSdkConfig = { collection: COLLECTIONS.Payloads }
   let archiveAccount: AccountInstance

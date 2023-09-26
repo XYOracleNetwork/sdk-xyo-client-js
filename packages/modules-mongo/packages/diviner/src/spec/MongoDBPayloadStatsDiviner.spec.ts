@@ -7,15 +7,14 @@ import {
   PayloadStatsQueryPayload,
   PayloadStatsQuerySchema,
 } from '@xyo-network/diviner-payload-stats-model'
-import { COLLECTIONS } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta, JobQueue, PayloadWithMeta } from '@xyo-network/node-core-model'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { canAddMongoModules } from '../../../../src'
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
-describeIf(canAddMongoModules())('MongoDBPayloadStatsDiviner', () => {
+describeIf(hasMongoDBConfig())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
   let address: string
   const logger = mock<Console>()

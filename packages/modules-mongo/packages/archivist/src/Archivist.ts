@@ -7,8 +7,59 @@ import { MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { IndexDescription } from 'mongodb'
 
 import { toBoundWitnessWithMeta, toPayloadWithMeta, toReturnValue, validByType } from './lib'
+
+const getBoundWitnessesIndexes = (collectionName: string): IndexDescription[] => {
+  return [
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { _hash: 1 },
+      name: `${collectionName}.IX__hash`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { _timestamp: -1, addresses: 1 },
+      name: `${collectionName}.IX__timestamp_addresses`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { addresses: 1, _timestamp: -1 },
+      name: `${collectionName}.IX_addresses__timestamp`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { addresses: 1 },
+      name: `${collectionName}.IX_addresses`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { payload_hashes: 1 },
+      name: `${collectionName}.IX_payload_hashes`,
+    },
+  ]
+}
+
+const getPayloadsIndexes = (collectionName: string): IndexDescription[] => {
+  return [
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { _hash: 1 },
+      name: `${collectionName}.IX__hash`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { _timestamp: 1 },
+      name: `${collectionName}.IX__timestamp`,
+    },
+    {
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      key: { schema: 1, _timestamp: -1 },
+      name: `${collectionName}.IX_schema__timestamp`,
+    },
+  ]
+}
 
 const MongoDBArchivistBase = MongoDBModuleMixin(AbstractArchivist)
 
@@ -20,6 +71,19 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
     return head[0] ? PayloadWrapper.wrap(head[0]).body() : undefined
+  }
+
+  override start = async (timeout?: number): Promise<boolean> => {
+    const status = await super.start(timeout)
+    await this.boundWitnesses.useCollection(async (collection) => {
+      const { collectionName } = collection
+      await collection.createIndexes(getBoundWitnessesIndexes(collectionName))
+    })
+    await this.payloads.useCollection(async (collection) => {
+      const { collectionName } = collection
+      await collection.createIndexes(getPayloadsIndexes(collectionName))
+    })
+    return status
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {

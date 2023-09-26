@@ -7,7 +7,6 @@ import { AddressInfoIndexes, ArchivistStatsIndexes } from './Specifications'
 const indexesByCollection: Record<string, IndexDescription[]> = {
   address_info: AddressInfoIndexes,
   archivist_stats: ArchivistStatsIndexes,
-  users: [],
 }
 
 const oneMinute = 60 * 1000

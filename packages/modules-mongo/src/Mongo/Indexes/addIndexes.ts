@@ -2,11 +2,10 @@ import { assertEx } from '@xylabs/assert'
 import { DATABASES, getMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
-import { AddressInfoIndexes, ArchivistStatsIndexes } from './Specifications'
+import { AddressInfoIndexes } from './Specifications'
 
 const indexesByCollection: Record<string, IndexDescription[]> = {
   address_info: AddressInfoIndexes,
-  archivist_stats: ArchivistStatsIndexes,
 }
 
 const oneMinute = 60 * 1000

@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/module": "workspace:~",
-    "mongodb": "^6.1.0"
+    "@xyo-network/module": "workspace:~"
   },
   "peerDependencies": {
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"

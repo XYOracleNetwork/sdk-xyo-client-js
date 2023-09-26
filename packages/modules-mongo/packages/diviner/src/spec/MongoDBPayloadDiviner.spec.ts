@@ -10,6 +10,7 @@ import { mock } from 'jest-mock-extended'
 import { MongoDBPayloadDiviner } from '../MongoDBPayloadDiviner'
 
 describeIf(hasMongoDBConfig())('MongoDBPayloadDiviner', () => {
+  const testSchema = 'network.xyo.test'
   const logger = mock<Console>()
   const payloadSdk: BaseMongoSdk<PayloadWithMeta> = new BaseMongoSdk<PayloadWithMeta>({
     collection: COLLECTIONS.Payloads,
@@ -23,13 +24,13 @@ describeIf(hasMongoDBConfig())('MongoDBPayloadDiviner', () => {
       logger,
     })
     // TODO: Insert via archivist
-    const payload = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+    const payload = new PayloadBuilder({ schema: testSchema }).build()
     await payloadSdk.insertOne(payload as unknown as PayloadWithMeta)
   })
   describe('divine', () => {
     describe('with valid query', () => {
       it('divines', async () => {
-        const query: PayloadDivinerQueryPayload = { limit: 1, schema: PayloadDivinerQuerySchema }
+        const query: PayloadDivinerQueryPayload = { limit: 1, schema: PayloadDivinerQuerySchema, schemas: [testSchema] }
         const result = await sut.divine([query])
         expect(result).toBeArrayOfSize(1)
         const actual = result[0] as BoundWitnessWithPartialMeta

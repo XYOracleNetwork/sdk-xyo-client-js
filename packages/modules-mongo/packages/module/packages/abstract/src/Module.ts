@@ -27,7 +27,7 @@ export const MongoDBModuleMixin = <
     get boundWitnessSdkConfig(): BaseMongoSdkConfig {
       const config = { collection: COLLECTIONS.BoundWitnesses, ...getBaseMongoSdkPrivateConfig() }
       return merge(config, this.params.boundWitnessSdkConfig, this.config.boundWitnessSdkConfig, {
-        collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? 'bound_witnesses',
+        collection: this.config.boundWitnessSdkConfig?.collection ?? this.params.boundWitnessSdkConfig?.collection ?? COLLECTIONS.BoundWitnesses,
       })
     }
 
@@ -43,7 +43,7 @@ export const MongoDBModuleMixin = <
     get payloadSdkConfig(): BaseMongoSdkConfig {
       const config = { collection: COLLECTIONS.Payloads, ...getBaseMongoSdkPrivateConfig() }
       return merge(config, this.params.payloadSdkConfig, this.config.payloadSdkConfig, {
-        collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? 'payload',
+        collection: this.config.payloadSdkConfig?.collection ?? this.params.payloadSdkConfig?.collection ?? COLLECTIONS.Payloads,
       })
     }
 

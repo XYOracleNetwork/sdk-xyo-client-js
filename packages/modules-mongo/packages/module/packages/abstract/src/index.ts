@@ -1,4 +1,5 @@
 export * from './Collections'
+export * from './config'
 export * from './Databases'
 export * from './Defaults'
 export * from './Module'

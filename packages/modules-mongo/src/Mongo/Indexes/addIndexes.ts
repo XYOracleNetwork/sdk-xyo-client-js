@@ -1,8 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { COLLECTIONS, DATABASES } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, DATABASES, getMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 
-import { getMongoDBConfig } from '../getMongoDBConfig'
 import { AddressInfoIndexes, ArchivistStatsIndexes, BoundWitnessesIndexes, PayloadsIndexes } from './Specifications'
 
 type ValueOf<T> = T[keyof T]

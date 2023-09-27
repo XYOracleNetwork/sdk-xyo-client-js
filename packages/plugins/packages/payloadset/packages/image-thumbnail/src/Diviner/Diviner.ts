@@ -202,15 +202,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * preemptions, reboots, etc.
    */
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
-    let hash: string | undefined = undefined
+    let hash: string = ''
     const stateStoreBoundWitnessDiviner = assertEx(
       this.config.stateStore?.boundWitnessDiviner,
       `${moduleName}: No stateStore boundWitnessDiviner configured`,
     )
     await withDivinerModule(
       assertEx(await this.resolve(stateStoreBoundWitnessDiviner), `${moduleName}: Failed to resolve stateStore boundWitnessDiviner`),
-      async (diviner) => {
-        const mod = DivinerWrapper.wrap(diviner, this.account)
+      async (mod) => {
+        const diviner = DivinerWrapper.wrap(mod, this.account)
         const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
           address: this.account.address,
           limit: 1,
@@ -218,7 +218,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           order: 'desc',
           schemas: [ImageThumbnailSchema],
         })
-        const boundWitnesses = await mod.divine([query])
+        const boundWitnesses = await diviner.divine([query])
         if (boundWitnesses.length > 0) {
           const boundWitness = boundWitnesses[0]
           if (isBoundWitness(boundWitness)) {
@@ -227,9 +227,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
               .map((address, index) => ({ address, index }))
               .filter(({ address }) => address === this.account.address)
               .map(({ index }) => index)
-              .reduce<string | undefined>((prev, curr) => {
-                return boundWitness.payload_schemas?.[curr] === ModuleStateSchema ? boundWitness.payload_hashes[curr] : prev
-              }, undefined)
+              .reduce((prev, curr) => (boundWitness.payload_schemas?.[curr] === ModuleStateSchema ? boundWitness.payload_hashes[curr] : prev), '')
           }
         }
       },
@@ -241,9 +239,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       const stateStoreArchivist = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore archivist configured`)
       await withArchivistModule(
         assertEx(await this.resolve(stateStoreArchivist), `${moduleName}: Failed to resolve stateStore archivist`),
-        async (archivist) => {
-          const mod = ArchivistWrapper.wrap(archivist, this.account)
-          const payloads = await mod.get([hash])
+        async (mod) => {
+          const archivist = ArchivistWrapper.wrap(mod, this.account)
+          const payloads = await archivist.get([hash])
           if (payloads.length > 0) {
             const payload = payloads[0]
             if (isModuleState(payload)) {

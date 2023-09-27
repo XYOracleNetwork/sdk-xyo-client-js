@@ -6332,6 +6332,7 @@ __metadata:
     "@uniswap/sdk-core": ^4.0.7
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/assert": ^2.12.10
+    "@xylabs/crypto": ^2.12.10
     "@xylabs/jest-helpers": ^2.12.10
     "@xylabs/sdk-api-express-ecs": ^1.4.0
     "@xylabs/ts-scripts-yarn3": ^3.0.77
@@ -9195,6 +9196,7 @@ __metadata:
   resolution: "@xyo-network/node-core-modules-mongo@workspace:packages/modules-mongo"
   dependencies:
     "@xylabs/assert": ^2.12.10
+    "@xylabs/crypto": ^2.12.10
     "@xylabs/exists": ^2.12.10
     "@xylabs/ts-scripts-yarn3": ^3.0.77
     "@xylabs/tsconfig": ^3.0.77
@@ -9753,7 +9755,6 @@ __metadata:
     reflect-metadata: ^0.1.13
     supertest: ^6.3.3
     ts-jest: ^29.1.1
-    ts-jest-resolver: ^2.0.1
     ts-node: ^10.9.1
     typedoc: ^0.25.1
     typescript: ^5.2.2
@@ -9993,6 +9994,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
   dependencies:
+    "@xylabs/crypto": ^2.12.10
     "@xylabs/ts-scripts-yarn3": ^3.0.77
     "@xylabs/tsconfig": ^3.0.77
     "@xyo-network/module": "workspace:~"
@@ -16755,7 +16757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-resolve@npm:^29.5.0, jest-resolve@npm:^29.7.0":
+"jest-resolve@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-resolve@npm:29.7.0"
   dependencies:
@@ -24691,15 +24693,6 @@ __metadata:
   version: 0.1.13
   resolution: "ts-interface-checker@npm:0.1.13"
   checksum: 20c29189c2dd6067a8775e07823ddf8d59a33e2ffc47a1bd59a5cb28bb0121a2969a816d5e77eda2ed85b18171aa5d1c4005a6b88ae8499ec7cc49f78571cb5e
-  languageName: node
-  linkType: hard
-
-"ts-jest-resolver@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "ts-jest-resolver@npm:2.0.1"
-  dependencies:
-    jest-resolve: ^29.5.0
-  checksum: 0845b9ab6a7d5c7b872e7573550607e9da1a2281c4db7a9d900c52b518bf5237ca265d56356b2ebb6d5aad705613e55e406c0eb66cad60ab2a303d17e6b0844e
   languageName: node
   linkType: hard
 

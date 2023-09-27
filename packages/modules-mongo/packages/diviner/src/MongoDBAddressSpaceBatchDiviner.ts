@@ -12,6 +12,7 @@ import { COLLECTIONS, DATABASES, DefaultMaxTimeMS, MongoDBModuleMixin } from '@x
 import { BoundWitnessPointerPayload, BoundWitnessPointerSchema } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
+import { RunCommandOptions } from 'mongodb'
 
 const moduleName = 'MongoDBAddressSpaceBatchDiviner'
 
@@ -38,7 +39,7 @@ export class MongoDBAddressSpaceBatchDiviner extends MongoDBDivinerBase {
               distinct: COLLECTIONS.BoundWitnesses,
               key: 'addresses',
             },
-            { maxTimeMS: DefaultMaxTimeMS },
+            { maxTimeMS: DefaultMaxTimeMS } as RunCommandOptions,
           )
         })
         // Ensure uniqueness on case

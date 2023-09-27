@@ -43,7 +43,6 @@
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "ts-jest-resolver": "^2.0.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.25.1",
     "typescript": "^5.2.2"
@@ -120,7 +119,7 @@
     "build-typedoc-site": "typedoc --options typedoc.site.json"
   },
   "sideEffects": false,
-  "version": "2.75.0",
+  "version": "2.75.1",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

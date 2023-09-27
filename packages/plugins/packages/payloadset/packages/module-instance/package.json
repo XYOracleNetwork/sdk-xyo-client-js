@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/lodash": "^2.11.24",
+    "@xylabs/lodash": "^2.12.10",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-instance-payload-plugin": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -19,8 +19,8 @@
     "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "description": "Contains the information about a module instance",
@@ -30,7 +30,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {

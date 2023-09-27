@@ -22,7 +22,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -59,15 +59,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.24",
-    "@xylabs/delay": "^2.11.24",
-    "@xylabs/forget": "^2.11.24",
+    "@xylabs/assert": "^2.12.10",
+    "@xylabs/delay": "^2.12.10",
+    "@xylabs/forget": "^2.12.10",
     "async-mutex": "^0.4.0",
     "mongodb": "^6.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

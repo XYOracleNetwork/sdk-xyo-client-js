@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/exists": "^2.11.24",
+    "@xylabs/exists": "^2.12.10",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
@@ -36,8 +36,8 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/v3-sdk": "^3.10.0",
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
@@ -57,7 +57,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {

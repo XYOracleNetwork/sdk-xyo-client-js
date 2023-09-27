@@ -15,7 +15,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -42,8 +42,8 @@
   "main": "dist/node/index.js",
   "module": "dist/node/index.mjs",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "homepage": "https://xyo.network",

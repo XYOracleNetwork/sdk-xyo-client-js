@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.11.24",
-    "@xylabs/assert": "^2.11.24",
-    "@xylabs/crypto": "^2.11.24",
-    "@xylabs/delay": "^2.11.24",
-    "@xylabs/exists": "^2.11.24",
-    "@xylabs/lodash": "^2.11.24",
-    "@xylabs/promise": "^2.11.24",
-    "@xylabs/set": "^2.11.24",
+    "@xylabs/array": "^2.12.10",
+    "@xylabs/assert": "^2.12.10",
+    "@xylabs/crypto": "^2.12.10",
+    "@xylabs/delay": "^2.12.10",
+    "@xylabs/exists": "^2.12.10",
+    "@xylabs/lodash": "^2.12.10",
+    "@xylabs/promise": "^2.12.10",
+    "@xylabs/set": "^2.12.10",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address": "workspace:~",
@@ -64,8 +64,8 @@
     }
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.2.2"
@@ -77,7 +77,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {

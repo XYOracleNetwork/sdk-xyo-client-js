@@ -25,10 +25,10 @@
     "@types/supertest": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
-    "@xylabs/eslint-config": "^3.0.74",
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
-    "@xylabs/tsconfig-dom-jest": "^3.0.74",
+    "@xylabs/eslint-config": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/tsconfig-dom-jest": "^3.0.77",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
@@ -60,7 +60,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {

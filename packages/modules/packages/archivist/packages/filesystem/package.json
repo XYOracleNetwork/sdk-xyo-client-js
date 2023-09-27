@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.24",
+    "@xylabs/assert": "^2.12.10",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -23,25 +23,14 @@
     "@xyo-network/promise": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",
-  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
-      "browser": {
-        "require": {
-          "types": "./dist/browser/index.d.ts",
-          "default": "./dist/browser/index.cjs"
-        },
-        "import": {
-          "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
-        }
-      },
       "node": {
         "require": {
           "types": "./dist/node/index.d.ts",
@@ -60,6 +49,7 @@
   },
   "main": "dist/node/index.js",
   "module": "dist/node/index.mjs",
+  "types": "dist/node/index.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "publishConfig": {

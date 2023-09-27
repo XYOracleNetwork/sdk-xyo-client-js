@@ -35,8 +35,8 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.418.0",
-    "@xylabs/assert": "^2.11.24",
-    "@xylabs/exists": "^2.11.24",
+    "@xylabs/assert": "^2.12.10",
+    "@xylabs/exists": "^2.12.10",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
@@ -82,15 +82,15 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.74",
-    "@xylabs/tsconfig": "^3.0.74",
+    "@xylabs/ts-scripts-yarn3": "^3.0.77",
+    "@xylabs/tsconfig": "^3.0.77",
     "typescript": "^5.2.2"
   },
   "xy": {
     "compile": {
       "browser": false,
       "node": {
-        "src": true
+        "src": {}
       }
     }
   }

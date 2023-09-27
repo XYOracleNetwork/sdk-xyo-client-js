@@ -192,7 +192,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }
   }
 
-  static with<TModuleWrapper extends ModuleWrapper, R extends void = void>(
+  static with<TModuleWrapper extends ModuleWrapper, R extends Promisable<void> = void>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     module: any,

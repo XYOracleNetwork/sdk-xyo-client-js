@@ -2,16 +2,41 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { compact } from '@xylabs/lodash'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { PayloadHasher } from '@xyo-network/core'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { EmptyObject, PayloadHasher } from '@xyo-network/core'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, withDivinerModule } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 
 import { ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
 
+/**
+ * TODO: Once the shape settles, make a generic payload so that it
+ * can be used for other modules
+ */
+interface State<T extends EmptyObject = EmptyObject> {
+  state: T
+}
+
+type ImageThumbnailDivinerState = EmptyObject & {
+  hash: string
+}
+
+const ModuleStateSchema = 'network.xyo.module.state' as const
+type ModuleStateSchema = typeof ModuleStateSchema
+
+type ModuleState = Payload<State<ImageThumbnailDivinerState>, ModuleStateSchema>
+
+const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
+
+const moduleName = 'ImageThumbnailDiviner'
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
 
@@ -73,6 +98,22 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
 
       return this._payloadDivinerInstance
     }
+  }
+
+  /**
+   * Commit the internal state of the Diviner process. This is similar
+   * to a transaction completion in a database and should only be called
+   * when results have been successfully persisted to the appropriate
+   * external stores.
+   */
+  protected async commitState(state: ImageThumbnailDivinerState) {
+    const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore configured`)
+    const module = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore`)
+    await withArchivistModule(module, async (archivist) => {
+      const mod = ArchivistWrapper.wrap(archivist, this.account)
+      const payload = new PayloadBuilder<ModuleState>({ schema: ModuleStateSchema }).fields({ state }).build()
+      await mod.insert([payload])
+    })
   }
 
   protected override async divineHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
@@ -154,6 +195,65 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         this._map = newMap
       }
     }
+  }
+
+  /**
+   * Retrieves the last state of the Diviner process. Used to recover state after
+   * preemptions, reboots, etc.
+   */
+  protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
+    let hash: string | undefined = undefined
+    const stateStoreBoundWitnessDiviner = assertEx(
+      this.config.stateStore?.boundWitnessDiviner,
+      `${moduleName}: No stateStore boundWitnessDiviner configured`,
+    )
+    await withDivinerModule(
+      assertEx(await this.resolve(stateStoreBoundWitnessDiviner), `${moduleName}: Failed to resolve stateStore boundWitnessDiviner`),
+      async (diviner) => {
+        const mod = DivinerWrapper.wrap(diviner, this.account)
+        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
+          address: this.account.address,
+          limit: 1,
+          offset: 0,
+          order: 'desc',
+          schemas: [ImageThumbnailSchema],
+        })
+        const boundWitnesses = await mod.divine([query])
+        if (boundWitnesses.length > 0) {
+          const boundWitness = boundWitnesses[0]
+          if (isBoundWitness(boundWitness)) {
+            // Find the fist index for this address in the BoundWitness that is a ModuleState
+            hash = boundWitness.addresses
+              .map((address, index) => ({ address, index }))
+              .filter(({ address }) => address === this.account.address)
+              .map(({ index }) => index)
+              .reduce<string | undefined>((prev, curr) => {
+                return boundWitness.payload_schemas?.[curr] === ModuleStateSchema ? boundWitness.payload_hashes[curr] : prev
+              }, undefined)
+          }
+        }
+      },
+    )
+
+    // If we able to located the last state
+    if (hash) {
+      // Get last state
+      const stateStoreArchivist = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore archivist configured`)
+      await withArchivistModule(
+        assertEx(await this.resolve(stateStoreArchivist), `${moduleName}: Failed to resolve stateStore archivist`),
+        async (archivist) => {
+          const mod = ArchivistWrapper.wrap(archivist, this.account)
+          const payloads = await mod.get([hash])
+          if (payloads.length > 0) {
+            const payload = payloads[0]
+            if (isModuleState(payload)) {
+              return payload.state
+            }
+          }
+        },
+      )
+    }
+    return undefined
   }
 
   protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {

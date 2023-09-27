@@ -5799,11 +5799,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/jest-helpers@npm:^2.11.24":
-  version: 2.11.24
-  resolution: "@xylabs/jest-helpers@npm:2.11.24"
+  version: 2.12.2
+  resolution: "@xylabs/jest-helpers@npm:2.12.2"
   peerDependencies:
     jest: "*"
-  checksum: 63c69c0a1868727e8dfa12dae88ab259df9583ad9d67870fe49faac965f93283702bad6cc458367d70739a26fc31ae1835fee2edb21032cafed2eb732c246448
+  checksum: 0f83eb46afdbb06dd703389d6075fffdc08171f787138a3664afcd1e2653c5be861017f96fbeabf03d8c46a3a302a473676bc839b12d5c1436781004143cda54
   languageName: node
   linkType: hard
 

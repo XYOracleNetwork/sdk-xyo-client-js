@@ -5782,7 +5782,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/exists@npm:^2.11.24, @xylabs/exists@npm:~2.11.24":
+"@xylabs/exists@npm:^2.11.24":
+  version: 2.12.2
+  resolution: "@xylabs/exists@npm:2.12.2"
+  checksum: 9ba5330c684b29c6ab729fadafed10420c51bf4d8ef1975e2510c2876f4469dcaf9d4c4b963f5adb8944f6c581e42d2ac440eed954781396f756535f6133a120
+  languageName: node
+  linkType: hard
+
+"@xylabs/exists@npm:~2.11.24":
   version: 2.11.24
   resolution: "@xylabs/exists@npm:2.11.24"
   checksum: f239f1d5832d548e32d9115088162cc94f0f2e71d392e0827e9a6986893cdfdc3f19edd5cb2c5efc361f84bfdd3e6650c284c4ce9c5df93de29c9aa4ef93e8e1

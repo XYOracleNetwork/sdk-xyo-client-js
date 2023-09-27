@@ -5744,10 +5744,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/delay@npm:^2.11.24, @xylabs/delay@npm:~2.11.24":
+"@xylabs/delay@npm:^2.11.24":
   version: 2.11.24
   resolution: "@xylabs/delay@npm:2.11.24"
   checksum: 52a1af95f5218258f3dce95c3a6fd8d2142136418a9314c499b74a58cb6fc2d8539d01498d9ce54dc5e5f003c64ad75f6f641b4d9f85a57f34e4478a78c504e8
+  languageName: node
+  linkType: hard
+
+"@xylabs/delay@npm:~2.12.2":
+  version: 2.12.2
+  resolution: "@xylabs/delay@npm:2.12.2"
+  checksum: b4068da7eac031f760c2e0f8f3ef18d35a13466c8ecf0d981fe16fa826222ec67d9217718a9304bb7fdfd77eb8c2e44757b47bddadaab5a78267bbd2033edd7d
   languageName: node
   linkType: hard
 
@@ -5790,11 +5797,11 @@ __metadata:
   linkType: hard
 
 "@xylabs/forget@npm:^2.11.24":
-  version: 2.11.24
-  resolution: "@xylabs/forget@npm:2.11.24"
+  version: 2.12.2
+  resolution: "@xylabs/forget@npm:2.12.2"
   dependencies:
-    "@xylabs/delay": ~2.11.24
-  checksum: 9fb6ca9488c587f0c7a1fff3e9101362672180afe7c73169dadff22bb6869e1a98d80ba1067e183dd0f538e7f49598b94d1ac76f1bbeb3f0217cb5f9120c8fa8
+    "@xylabs/delay": ~2.12.2
+  checksum: ec6ca994d5d298428dd01c6150dde39e06ee9f376a8daab80eb48f368307097e349d5b600b17014ef6e8a8a307ce4c55177f87ff107acde8f322f6ebf8d671f1
   languageName: node
   linkType: hard
 

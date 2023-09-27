@@ -14,6 +14,7 @@
     "@ethersproject/hdnode": "^5.7.0",
     "@xylabs/array": "^2.12.10",
     "@xylabs/assert": "^2.12.10",
+    "@xylabs/buffer": "^2.12.10",
     "@xylabs/static-implements": "^2.12.10",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/core": "workspace:~",

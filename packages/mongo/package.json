@@ -17,34 +17,37 @@
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js.git"
   },
-  "types": "dist/index.d.ts",
+  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.ts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
       },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.ts",
+          "default": "./dist/node/index.js"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.mjs"
+        }
       }
-    },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
     },
     "./docs": {
       "default": "./dist/docs.json"
     },
-    "./esm": {
-      "default": "./dist/index.mjs"
-    },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/node/index.js",
+  "module": "dist/node/index.mjs",
   "keywords": [
     "xyo",
     "utility",
@@ -56,15 +59,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.7",
-    "@xylabs/delay": "^2.11.7",
-    "@xylabs/forget": "^2.11.7",
+    "@xylabs/assert": "^2.11.22",
+    "@xylabs/delay": "^2.11.22",
+    "@xylabs/forget": "^2.11.22",
     "async-mutex": "^0.4.0",
     "mongodb": "^6.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.28",
-    "@xylabs/tsconfig": "^3.0.28",
+    "@xylabs/ts-scripts-yarn3": "^3.0.70",
+    "@xylabs/tsconfig": "^3.0.70",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

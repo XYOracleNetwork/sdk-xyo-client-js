@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.7",
-    "@xylabs/delay": "^2.11.7",
-    "@xylabs/lodash": "^2.11.7",
+    "@xylabs/assert": "^2.11.22",
+    "@xylabs/delay": "^2.11.22",
+    "@xylabs/lodash": "^2.11.22",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -35,12 +35,12 @@
     "xyo": "dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "^20.6.3",
+    "@types/node": "^20.7.0",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.2",
-    "@xylabs/ts-scripts-yarn3": "^3.0.28",
-    "@xylabs/tsconfig": "^3.0.28",
-    "@xylabs/tsconfig-jest": "^3.0.28",
+    "@xylabs/ts-scripts-yarn3": "^3.0.70",
+    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/tsconfig-jest": "^3.0.70",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
@@ -48,31 +48,24 @@
   "docs": "dist/docs.json",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.ts",
+          "default": "./dist/node/index.js"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.mjs"
+        }
       }
-    },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
     },
     "./docs": {
       "default": "./dist/docs.json"
     },
-    "./esm": {
-      "default": "./dist/index.mjs"
-    },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/node/index.js",
+  "module": "dist/node/index.mjs",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0",
   "publishConfig": {
@@ -86,6 +79,14 @@
   "scripts": {
     "xyo-ts": "ts-node src/index.ts"
   },
-  "types": "dist/index.d.ts",
-  "version": "2.74.5"
+  "types": "dist/node/index.d.ts",
+  "version": "2.74.5",
+  "xy": {
+    "compile": {
+      "browser": false,
+      "node": {
+        "src": true
+      }
+    }
+  }
 }

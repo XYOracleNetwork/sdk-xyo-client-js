@@ -1,4 +1,4 @@
-import Crypto from 'crypto'
+import { Crypto } from '@xylabs/crypto'
 import http from 'http'
 import https from 'https'
 

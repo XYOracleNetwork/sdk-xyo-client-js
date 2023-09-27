@@ -12,34 +12,27 @@
   },
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.ts",
+          "default": "./dist/node/index.js"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.mjs"
+        }
       }
-    },
-    "./dist/docs.json": {
-      "default": "./dist/docs.json"
-    },
-    "./cjs": {
-      "default": "./dist/index.js"
     },
     "./docs": {
       "default": "./dist/docs.json"
     },
-    "./esm": {
-      "default": "./dist/index.mjs"
-    },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/node/index.js",
+  "module": "dist/node/index.mjs",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.414.0",
-    "@xylabs/assert": "^2.11.7",
+    "@aws-sdk/client-secrets-manager": "^3.418.0",
+    "@xylabs/assert": "^2.11.22",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
@@ -60,16 +53,19 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.28",
-    "@xylabs/tsconfig": "^3.0.28",
+    "@xylabs/ts-scripts-yarn3": "^3.0.70",
+    "@xylabs/tsconfig": "^3.0.70",
     "typescript": "^5.2.2"
   },
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
-  "types": "dist/index.d.ts",
+  "types": "dist/node/index.d.ts",
   "xy": {
     "compile": {
-      "depth": 1
+      "browser": false,
+      "node": {
+        "src": true
+      }
     }
   }
 }

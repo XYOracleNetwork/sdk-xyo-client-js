@@ -1,6 +1,5 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
-import { bufferPolyfill } from '@xylabs/buffer'
 import { staticImplements } from '@xylabs/static-implements'
 import { toUint8Array } from '@xyo-network/core'
 import { Mnemonic, WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
@@ -20,8 +19,6 @@ export class HDWallet extends Account implements WalletInstance {
     key: unknown,
     protected readonly node: HDNode,
   ) {
-    //we call this  incase we are in a browser [HDNode needs it]
-    bufferPolyfill()
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
     assertEx(!privateKey || privateKey?.length === 32, `Private key must be 32 bytes [${privateKey?.length}]`)
     super(key, privateKey ? { privateKey } : undefined)
@@ -77,15 +74,11 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   static async fromExtendedKey(key: string): Promise<WalletInstance> {
-    //we call this  incase we are in a browser [HDNode needs it]
-    bufferPolyfill()
     const node = HDNode.fromExtendedKey(key)
     return await HDWallet.create(node)
   }
 
   static override async fromMnemonic(mnemonic: string): Promise<HDWallet> {
-    //we call this  incase we are in a browser [HDNode needs it]
-    bufferPolyfill()
     const existing = HDWallet._mnemonicMap[mnemonic]?.deref()
     if (existing) return existing
     const node = HDNode.fromMnemonic(mnemonic)
@@ -97,8 +90,6 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   static async fromSeed(seed: string | Uint8Array): Promise<HDWallet> {
-    //we call this  incase we are in a browser [HDNode needs it]
-    bufferPolyfill()
     const node = HDNode.fromSeed(seed)
     return await HDWallet.create(node)
   }

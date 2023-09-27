@@ -1,6 +1,5 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
-import { bufferPolyfill } from '@xylabs/buffer'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -22,8 +21,6 @@ export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 const nameOf = <T>(name: keyof T) => name
 
 const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
-  //we call this  incase we are in a browser [HDNode needs it]
-  bufferPolyfill()
   const node = HDNode.fromMnemonic(mnemonic)
   const wallet = path ? node.derivePath?.(path) : node
   return wallet.privateKey.padStart(64, '0')
@@ -43,8 +40,6 @@ export class Account extends KeyPair implements AccountInstance {
   private readonly _signingMutex = new Mutex()
 
   constructor(key: unknown, params?: AccountConfig) {
-    //we call this  incase we are in a browser [HDNode needs it]
-    bufferPolyfill()
     assertEx(key === Account._protectedConstructorKey, 'Do not call this protected constructor')
     let privateKeyToUse: DataLike | undefined = undefined
     let node: HDNode | undefined = undefined

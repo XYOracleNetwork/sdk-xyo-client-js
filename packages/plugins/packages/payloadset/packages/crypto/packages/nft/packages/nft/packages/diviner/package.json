@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@ethersproject/address": "^5.7.0",
-    "@xylabs/bignumber": "^2.11.22",
-    "@xylabs/url": "^2.11.22",
+    "@xylabs/bignumber": "^2.11.24",
+    "@xylabs/url": "^2.11.24",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "@types/svg-parser": "^2.0.4",
-    "@xylabs/jest-helpers": "^2.11.22",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/jest-helpers": "^2.11.24",
+    "@xylabs/ts-scripts-yarn3": "^3.0.74",
+    "@xylabs/tsconfig": "^3.0.74",
     "ethers": "^5.7.2",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"

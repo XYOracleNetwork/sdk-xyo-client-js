@@ -45,7 +45,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.418.0",
-    "@xylabs/assert": "^2.11.22",
+    "@xylabs/assert": "^2.11.24",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/shared": "workspace:~",
@@ -64,8 +64,8 @@
     "@types/express": "4.17.18",
     "@types/express-mung": "^0.5.3",
     "@types/swagger-ui-express": "^4.1.4",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.74",
+    "@xylabs/tsconfig": "^3.0.74",
     "typescript": "^5.2.2"
   }
 }

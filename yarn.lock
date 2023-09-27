@@ -5710,10 +5710,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.11.24, @xylabs/assert@npm:~2.11.24":
+"@xylabs/assert@npm:^2.11.24":
   version: 2.11.24
   resolution: "@xylabs/assert@npm:2.11.24"
   checksum: 8e61f338d39f837693d8cc311fe5428b54b20468068420c9766e542dcba7ecf371608f185d23a272c50b074bde1e40dc060766ccc1806d33088570b5bda14785
+  languageName: node
+  linkType: hard
+
+"@xylabs/assert@npm:~2.12.4":
+  version: 2.12.4
+  resolution: "@xylabs/assert@npm:2.12.4"
+  checksum: 8711881884083b4b6841ea7f04e326ee0d5250102af85bfaefdfc8cb01de31ab558099dcf8b4fb2563ca5f629227819e22b381da1a3935f79169ce372d4f186e
   languageName: node
   linkType: hard
 
@@ -9323,7 +9330,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/object-identity@workspace:packages/sdk/packages/identity"
   dependencies:
-    "@xylabs/assert": ~2.11.24
+    "@xylabs/assert": ~2.12.4
     "@xylabs/ts-scripts-yarn3": ^3.0.74
     "@xylabs/tsconfig": ^3.0.74
     "@xyo-network/logger": "workspace:~"

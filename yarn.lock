@@ -6097,6 +6097,7 @@ __metadata:
     "@types/sha.js": ^2.4.2
     "@xylabs/array": ^2.12.10
     "@xylabs/assert": ^2.12.10
+    "@xylabs/buffer": ^2.12.10
     "@xylabs/static-implements": ^2.12.10
     "@xylabs/ts-scripts-yarn3": ^3.0.77
     "@xylabs/tsconfig": ^3.0.77

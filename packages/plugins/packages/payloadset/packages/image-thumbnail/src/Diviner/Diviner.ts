@@ -222,12 +222,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         if (boundWitnesses.length > 0) {
           const boundWitness = boundWitnesses[0]
           if (isBoundWitness(boundWitness)) {
-            // Find the fist index for this address in the BoundWitness that is a ModuleState
+            // Find the index for this address in the BoundWitness that is a ModuleState
             hash = boundWitness.addresses
               .map((address, index) => ({ address, index }))
               .filter(({ address }) => address === this.account.address)
-              .map(({ index }) => index)
-              .reduce((prev, curr) => (boundWitness.payload_schemas?.[curr] === ModuleStateSchema ? boundWitness.payload_hashes[curr] : prev), '')
+              .reduce(
+                (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
+                '',
+              )
           }
         }
       },

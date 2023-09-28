@@ -6,7 +6,7 @@ import { ArchivistInstance, asArchivistInstance, withArchivistModule } from '@xy
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { EmptyObject, PayloadHasher } from '@xyo-network/core'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, withDivinerModule } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
@@ -14,7 +14,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { UrlPayload } from '@xyo-network/url-payload-plugin'
 
-import { ImageThumbnailDivinerConfigSchema } from './Config'
+import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
 
 /**
@@ -35,6 +35,10 @@ type ModuleStateSchema = typeof ModuleStateSchema
 type ModuleState = Payload<State<ImageThumbnailDivinerState>, ModuleStateSchema>
 
 const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
+
+type ConfigModuleStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
+
+type ConfigModuleStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigModuleStoreKey>
 
 const moduleName = 'ImageThumbnailDiviner'
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
@@ -125,6 +129,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return (await archivist.get(hashes)).filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
   }
 
+  protected async getBoundWitnessDiviner(store: ConfigModuleStore) {
+    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, `${moduleName}: Config for ${store} does not specify boundWitnessDiviner`)
+    const mod = assertEx(await this.resolve(name), `${moduleName}: Failed to resolve ${store} boundWitnessDiviner`)
+    return DivinerWrapper.wrap(mod, this.account)
+  }
+
   //using promise as mutex
   protected initializeArchivistConnectionIfNeeded() {
     this._initializeArchivistConnectionIfNeededPromise =
@@ -203,37 +213,28 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    */
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
     let hash: string = ''
-    const stateStoreBoundWitnessDiviner = assertEx(
-      this.config.stateStore?.boundWitnessDiviner,
-      `${moduleName}: No stateStore boundWitnessDiviner configured`,
-    )
-    await withDivinerModule(
-      assertEx(await this.resolve(stateStoreBoundWitnessDiviner), `${moduleName}: Failed to resolve stateStore boundWitnessDiviner`),
-      async (mod) => {
-        const diviner = DivinerWrapper.wrap(mod, this.account)
-        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
-          address: this.account.address,
-          limit: 1,
-          offset: 0,
-          order: 'desc',
-          schemas: [ImageThumbnailSchema],
-        })
-        const boundWitnesses = await diviner.divine([query])
-        if (boundWitnesses.length > 0) {
-          const boundWitness = boundWitnesses[0]
-          if (isBoundWitness(boundWitness)) {
-            // Find the index for this address in the BoundWitness that is a ModuleState
-            hash = boundWitness.addresses
-              .map((address, index) => ({ address, index }))
-              .filter(({ address }) => address === this.account.address)
-              .reduce(
-                (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
-                '',
-              )
-          }
-        }
-      },
-    )
+    const diviner = await this.getBoundWitnessDiviner('stateStore')
+    const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
+      address: this.account.address,
+      limit: 1,
+      offset: 0,
+      order: 'desc',
+      schemas: [ImageThumbnailSchema],
+    })
+    const boundWitnesses = await diviner.divine([query])
+    if (boundWitnesses.length > 0) {
+      const boundWitness = boundWitnesses[0]
+      if (isBoundWitness(boundWitness)) {
+        // Find the index for this address in the BoundWitness that is a ModuleState
+        hash = boundWitness.addresses
+          .map((address, index) => ({ address, index }))
+          .filter(({ address }) => address === this.account.address)
+          .reduce(
+            (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
+            '',
+          )
+      }
+    }
 
     // If we able to located the last state
     if (hash) {

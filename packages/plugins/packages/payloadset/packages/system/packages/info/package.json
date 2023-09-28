@@ -27,22 +27,22 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.cts",
-          "default": "./dist/browser/index.cjs"
+          "types": "./dist/browser/indexBrowser.d.cts",
+          "default": "./dist/browser/indexBrowser.cjs"
         },
         "import": {
-          "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "types": "./dist/browser/indexBrowser.d.mts",
+          "default": "./dist/browser/indexBrowser.js"
         }
       },
       "node": {
         "require": {
-          "types": "./dist/node/index.d.ts",
-          "default": "./dist/node/index.js"
+          "types": "./dist/node/indexNode.d.ts",
+          "default": "./dist/node/indexNode.js"
         },
         "import": {
-          "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
+          "types": "./dist/node/indexNode.d.mts",
+          "default": "./dist/node/indexNode.mjs"
         }
       }
     },

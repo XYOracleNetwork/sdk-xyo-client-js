@@ -40,7 +40,26 @@ type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
 
 type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 
+const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
+type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
+
+interface ImageThumbnailResultInfo {
+  sources: string[]
+  status: string
+  timestamp: number
+  url: string
+}
+
+type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
+
+type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & { schemas: [typeof ImageThumbnailSchema] } & Pick<
+    ImageThumbnailResult,
+    // NOTE: These are the fields that will need to be indexed on in the underlying store
+    'url' | 'timestamp' | 'status'
+  >
+
 const moduleName = 'ImageThumbnailDiviner'
+
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
 
@@ -129,11 +148,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const indexedResults = (
       await Promise.all(
         urls.map(async (url) => {
-          type IndexedImageThumbnailQuery = PayloadDivinerQueryPayload & {
-            schemas: [typeof ImageThumbnailSchema]
-            url: string
-          }
-          const query = new PayloadBuilder<IndexedImageThumbnailQuery>({ schema: PayloadDivinerQuerySchema })
+          const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
             .fields({ limit: 1, offset: 0, order: 'desc', url })
             .build()
           return await diviner.divine([query])

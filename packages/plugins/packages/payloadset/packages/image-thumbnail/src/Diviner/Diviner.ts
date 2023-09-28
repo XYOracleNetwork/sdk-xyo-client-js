@@ -121,15 +121,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnail[]> {
-    await this.initializeArchivistConnectionIfNeeded()
     const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
-    const map = await this.getSafeMap()
-    const archivist = await this.getArchivistInstance()
-    const hashes = compact(urls.map((url) => map?.[url]))
-    return (await archivist.get(hashes)).filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
+    // Input is URL
+    // Store value is hash
+    // Output should be Image Thumbnail payloads
+    await Promise.resolve()
+    throw new Error('TODO: Implement divineHandler')
   }
 
-  protected async getArchivistFromConfig(store: ConfigStore, wrap?: boolean) {
+  protected async getArchivistForStore(store: ConfigStore, wrap?: boolean) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
     return wrap
@@ -137,12 +137,18 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       : asArchivistInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not an Archivist`)
   }
 
-  protected async getBoundWitnessDiviner(store: ConfigStore, wrap?: boolean) {
+  protected async getBoundWitnessDivinerForStore(store: ConfigStore, wrap?: boolean) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
     return wrap
       ? DivinerWrapper.wrap(mod, this.account)
       : asDivinerInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not a Diviner`)
+  }
+
+  protected async getPayloadDivinerForStore(store: ConfigStore, wrap?: boolean) {
+    const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
+    return wrap ? DivinerWrapper.wrap(mod, this.account) : asDivinerInstance(mod, () => `${moduleName}: ${store}.payloadDiviner is not a Diviner`)
   }
 
   //using promise as mutex
@@ -223,7 +229,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    */
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
     let hash: string = ''
-    const diviner = await this.getBoundWitnessDiviner('stateStore')
+    const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
     const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
       address: this.account.address,
       limit: 1,

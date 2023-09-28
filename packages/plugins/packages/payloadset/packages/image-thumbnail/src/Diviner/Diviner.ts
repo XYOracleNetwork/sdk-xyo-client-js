@@ -52,10 +52,19 @@ interface ImageThumbnailResultInfo {
 
 type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
 
-type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & { schemas: [typeof ImageThumbnailSchema] } & Pick<
+const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
+
+/**
+ * The fields that will need to be indexed on in the underlying store
+ */
+type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResult, 'url' | 'timestamp' | 'status'>
+
+/**
+ * The query that will be used to retrieve the results from the underlying store
+ */
+type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & { schemas: [ImageThumbnailSchema] } & Pick<
     ImageThumbnailResult,
-    // NOTE: These are the fields that will need to be indexed on in the underlying store
-    'url' | 'timestamp' | 'status'
+    QueryableImageThumbnailResultProperties
   >
 
 const moduleName = 'ImageThumbnailDiviner'
@@ -139,16 +148,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
   }
 
-  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnail[]> {
-    // Input is URL
+  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
     const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
-    // Store value is hash
     const diviner = await this.getPayloadDivinerForStore('indexStore')
-    // TODO: Use BW diviner to get only payloads signed by us
-    const indexedResults = (
+    const results = (
       await Promise.all(
         urls.map(async (url) => {
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
+            // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
             .fields({ limit: 1, offset: 0, order: 'desc', url })
             .build()
           return await diviner.divine([query])
@@ -156,10 +163,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       )
     )
       .flat()
-      .filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
-    // TODO: Filter for payloads of type we want
-    // Output should be Image Thumbnail payloads
-    throw new Error('TODO: Implement divineHandler')
+      .filter(isImageThumbnailResult)
+    return results
   }
 
   protected async getArchivistForStore(store: ConfigStore, wrap?: boolean) {

@@ -12,7 +12,7 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { UrlPayload } from '@xyo-network/url-payload-plugin'
+import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
 
 import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
@@ -120,9 +120,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
   }
 
-  protected override async divineHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
+  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnail[]> {
     await this.initializeArchivistConnectionIfNeeded()
-    const urls = payloads.map((urlPayload) => urlPayload.url)
+    const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
     const map = await this.getSafeMap()
     const archivist = await this.getArchivistInstance()
     const hashes = compact(urls.map((url) => map?.[url]))

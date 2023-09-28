@@ -12,7 +12,7 @@ import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
+import { isUrlPayload } from '@xyo-network/url-payload-plugin'
 
 import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
@@ -121,11 +121,29 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnail[]> {
-    const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
     // Input is URL
+    const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
     // Store value is hash
+    const diviner = await this.getPayloadDivinerForStore('indexStore')
+    // TODO: Use BW diviner to get only payloads signed by us
+    const indexedResults = (
+      await Promise.all(
+        urls.map(async (url) => {
+          type IndexedImageThumbnailQuery = PayloadDivinerQueryPayload & {
+            schemas: [typeof ImageThumbnailSchema]
+            url: string
+          }
+          const query = new PayloadBuilder<IndexedImageThumbnailQuery>({ schema: PayloadDivinerQuerySchema })
+            .fields({ limit: 1, offset: 0, order: 'desc', url })
+            .build()
+          return await diviner.divine([query])
+        }),
+      )
+    )
+      .flat()
+      .filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
+    // TODO: Filter for payloads of type we want
     // Output should be Image Thumbnail payloads
-    await Promise.resolve()
     throw new Error('TODO: Implement divineHandler')
   }
 

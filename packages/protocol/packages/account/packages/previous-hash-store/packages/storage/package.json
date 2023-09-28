@@ -15,8 +15,8 @@
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -61,5 +61,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.75.3"
+  "version": "2.75.4"
 }

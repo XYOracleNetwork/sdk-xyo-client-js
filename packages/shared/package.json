@@ -14,8 +14,8 @@
     "@xyo-network/error": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -60,5 +60,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.3"
+  "version": "2.75.4"
 }

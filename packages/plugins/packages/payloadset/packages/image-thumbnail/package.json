@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.10",
-    "@xylabs/delay": "^2.12.10",
-    "@xylabs/lodash": "^2.12.10",
-    "@xylabs/url": "^2.12.10",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/delay": "^2.12.14",
+    "@xylabs/lodash": "^2.12.14",
+    "@xylabs/url": "^2.12.14",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/axios": "workspace:~",
@@ -40,8 +40,8 @@
     "@types/fluent-ffmpeg": "^2.1.22",
     "@types/gm": "^1.25.2",
     "@types/hasbin": "^1.2.0",
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -77,7 +77,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.3",
+  "version": "2.75.4",
   "xy": {
     "compile": {
       "browser": false,

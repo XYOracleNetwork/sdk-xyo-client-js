@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.12.10",
-    "@xylabs/assert": "^2.12.10",
-    "@xylabs/crypto": "^2.12.10",
-    "@xylabs/delay": "^2.12.10",
-    "@xylabs/exists": "^2.12.10",
-    "@xylabs/lodash": "^2.12.10",
-    "@xylabs/promise": "^2.12.10",
-    "@xylabs/set": "^2.12.10",
+    "@xylabs/array": "^2.12.14",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/crypto": "^2.12.14",
+    "@xylabs/delay": "^2.12.14",
+    "@xylabs/exists": "^2.12.14",
+    "@xylabs/lodash": "^2.12.14",
+    "@xylabs/promise": "^2.12.14",
+    "@xylabs/set": "^2.12.14",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address": "workspace:~",
@@ -64,8 +64,8 @@
     }
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.2.2"
@@ -113,5 +113,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.3"
+  "version": "2.75.4"
 }

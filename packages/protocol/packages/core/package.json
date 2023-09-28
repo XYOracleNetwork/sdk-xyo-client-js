@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.3",
-    "@xylabs/assert": "^2.12.10",
-    "@xylabs/bignumber": "^2.12.10",
-    "@xylabs/buffer": "^2.12.10",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/bignumber": "^2.12.14",
+    "@xylabs/buffer": "^2.12.14",
     "@xyo-network/address": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/logger": "workspace:~",
@@ -27,8 +27,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^9.0.4",
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -73,6 +73,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.75.3",
+  "version": "2.75.4",
   "type": "module"
 }

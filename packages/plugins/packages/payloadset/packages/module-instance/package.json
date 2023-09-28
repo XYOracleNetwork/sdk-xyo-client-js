@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/lodash": "^2.12.10",
+    "@xylabs/lodash": "^2.12.14",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/module-instance-payload-plugin": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -19,8 +19,8 @@
     "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.77",
-    "@xylabs/tsconfig": "^3.0.77",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "description": "Contains the information about a module instance",
@@ -66,5 +66,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.3"
+  "version": "2.75.4"
 }

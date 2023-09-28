@@ -36,9 +36,9 @@ type ModuleState = Payload<State<ImageThumbnailDivinerState>, ModuleStateSchema>
 
 const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
 
-type ConfigModuleStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
+type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
 
-type ConfigModuleStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigModuleStoreKey>
+type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 
 const moduleName = 'ImageThumbnailDiviner'
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
@@ -129,10 +129,20 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return (await archivist.get(hashes)).filter((payload): payload is ImageThumbnail => payload.schema === ImageThumbnailSchema)
   }
 
-  protected async getBoundWitnessDiviner(store: ConfigModuleStore) {
-    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, `${moduleName}: Config for ${store} does not specify boundWitnessDiviner`)
-    const mod = assertEx(await this.resolve(name), `${moduleName}: Failed to resolve ${store} boundWitnessDiviner`)
-    return DivinerWrapper.wrap(mod, this.account)
+  protected async getArchivistFromConfig(store: ConfigStore, wrap?: boolean) {
+    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.archivist not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
+    return wrap
+      ? ArchivistWrapper.wrap(mod, this.account)
+      : asArchivistInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not an Archivist`)
+  }
+
+  protected async getBoundWitnessDiviner(store: ConfigStore, wrap?: boolean) {
+    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
+    return wrap
+      ? DivinerWrapper.wrap(mod, this.account)
+      : asDivinerInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not a Diviner`)
   }
 
   //using promise as mutex

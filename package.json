@@ -25,10 +25,10 @@
     "@types/supertest": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
-    "@xylabs/eslint-config": "^3.0.70",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
-    "@xylabs/tsconfig-dom-jest": "^3.0.70",
+    "@xylabs/eslint-config": "^3.0.79",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
+    "@xylabs/tsconfig-dom-jest": "^3.0.79",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
@@ -43,7 +43,6 @@
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "ts-jest-resolver": "^2.0.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.25.1",
     "typescript": "^5.2.2"
@@ -60,7 +59,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -103,8 +102,8 @@
     "deploy": "xy deploy",
     "lint-pkg": "npmPkgJsonLint .",
     "start": "nodemon",
-    "start-cjs": "node ./packages/node/packages/core/packages/app/dist/app.js",
-    "start-esm": "node ./packages/node/packages/core/packages/app/dist/app.mjs",
+    "start-cjs": "node ./packages/node/packages/core/packages/app/dist/node/app.js",
+    "start-esm": "node ./packages/node/packages/core/packages/app/dist/node/app.mjs",
     "start-cli-cjs": "node ./packages/cli/dist/xyo.js",
     "start-cli-esm": "node ./packages/cli/dist/xyo.mjs",
     "perf": "yarn jest -c jest.config.perf.cjs",
@@ -120,7 +119,7 @@
     "build-typedoc-site": "typedoc --options typedoc.site.json"
   },
   "sideEffects": false,
-  "version": "2.75.0",
+  "version": "2.75.4",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

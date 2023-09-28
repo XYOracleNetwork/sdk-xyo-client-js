@@ -21,9 +21,9 @@
     "@xyo-network/payloadset-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.11.22",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/jest-helpers": "^2.12.14",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "ethers": "^5.7.2",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"
@@ -35,7 +35,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -71,5 +71,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.0"
+  "version": "2.75.4"
 }

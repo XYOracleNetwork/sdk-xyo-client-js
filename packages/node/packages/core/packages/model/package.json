@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.75.0",
+  "version": "2.75.4",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -14,7 +14,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -53,8 +53,8 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   }
 }

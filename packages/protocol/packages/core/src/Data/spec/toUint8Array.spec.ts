@@ -1,5 +1,5 @@
 import { base58 } from '@scure/base'
-import { Buffer } from 'buffer'
+import { Buffer } from '@xylabs/buffer'
 
 import { toUint8Array } from '../toUint8Array'
 

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/exists": "^2.11.22",
+    "@xylabs/exists": "^2.12.14",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:~",
     "@xyo-network/crypto-asset-payload-plugin": "workspace:~",
@@ -31,8 +31,8 @@
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^4.0.7",
     "@uniswap/v3-sdk": "^3.10.0",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
@@ -52,7 +52,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -88,5 +88,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.75.0"
+  "version": "2.75.4"
 }

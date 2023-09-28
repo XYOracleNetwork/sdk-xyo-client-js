@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.75.0",
+  "version": "2.75.4",
   "description": "XYO Express Node Dependencies",
   "sideeffects": false,
   "engines": {
@@ -34,9 +34,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.418.0",
-    "@xylabs/assert": "^2.11.22",
-    "@xylabs/exists": "^2.11.22",
+    "@aws-sdk/client-secrets-manager": "^3.421.0",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/exists": "^2.12.14",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
@@ -82,15 +82,15 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "xy": {
     "compile": {
       "browser": false,
       "node": {
-        "src": true
+        "src": {}
       }
     }
   }

@@ -15,8 +15,8 @@
     "idb": "^7.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.2.2"
   },
@@ -25,7 +25,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -62,5 +62,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.75.0"
+  "version": "2.75.4"
 }

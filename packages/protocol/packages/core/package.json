@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.3",
-    "@xylabs/assert": "^2.11.22",
-    "@xylabs/bignumber": "^2.11.22",
-    "@xylabs/buffer": "^2.11.22",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/bignumber": "^2.12.14",
+    "@xylabs/buffer": "^2.12.14",
     "@xyo-network/address": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/logger": "workspace:~",
@@ -27,8 +27,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/uuid": "^9.0.4",
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -36,21 +36,23 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/node/index.d.ts",
-          "default": "./dist/node/index.js"
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
         },
         "import": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.mts",
           "default": "./dist/browser/index.js"
         }
       },
-      "require": {
-        "types": "./dist/node/index.d.ts",
-        "default": "./dist/node/index.js"
-      },
-      "import": {
-        "types": "./dist/node/index.d.mts",
-        "default": "./dist/node/index.mjs"
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.js"
+        }
       }
     },
     "./docs": {
@@ -58,8 +60,8 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.js",
-  "module": "dist/node/index.mjs",
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-or-later",
   "publishConfig": {
@@ -71,5 +73,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.75.0"
+  "version": "2.75.4",
+  "type": "module"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-xyo-mongo-js",
-  "version": "2.75.0",
+  "version": "2.75.4",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",
@@ -22,7 +22,7 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.ts",
+          "types": "./dist/browser/index.d.cts",
           "default": "./dist/browser/index.cjs"
         },
         "import": {
@@ -59,15 +59,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.11.22",
-    "@xylabs/delay": "^2.11.22",
-    "@xylabs/forget": "^2.11.22",
+    "@xylabs/assert": "^2.12.14",
+    "@xylabs/delay": "^2.12.14",
+    "@xylabs/forget": "^2.12.14",
     "async-mutex": "^0.4.0",
     "mongodb": "^6.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.70",
-    "@xylabs/tsconfig": "^3.0.70",
+    "@xylabs/ts-scripts-yarn3": "^3.0.79",
+    "@xylabs/tsconfig": "^3.0.79",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

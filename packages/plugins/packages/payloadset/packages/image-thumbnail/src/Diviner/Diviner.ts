@@ -23,7 +23,7 @@ interface State<T> {
 }
 
 interface ImageThumbnailDivinerState {
-  hash: string
+  offset: number
 }
 
 const ModuleStateSchema = 'network.xyo.module.state' as const
@@ -88,9 +88,19 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected backgroundDivine = async (): Promise<void> => {
-    const lastState = (await this.retrieveState()) ?? { hash: '' }
-    // TODO: Work
-    const currentState = { ...lastState, hash: '' }
+    const lastState = (await this.retrieveState()) ?? { offset: 0 }
+    const { offset } = lastState
+    const diviner = await this.getPayloadDivinerForStore('thumbnailStore')
+    const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
+      limit: this.payloadDivinerLimit,
+      offset,
+      order: 'asc',
+      schemas: [ImageThumbnailSchema],
+    })
+    const batch = await diviner.divine([query])
+    // TODO: Process and re-index the results
+    const nextOffset = offset + batch.length + 1
+    const currentState = { ...lastState, offset: nextOffset }
     await this.commitState(currentState)
   }
 

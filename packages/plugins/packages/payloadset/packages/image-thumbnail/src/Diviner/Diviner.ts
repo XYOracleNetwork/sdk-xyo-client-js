@@ -97,6 +97,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       payload_schemas: [ImageThumbnailSchema, TimestampSchema],
     })
     const batch = await boundWitnessDiviner.divine([query])
+    if (batch.length === 0) return
     const imageThumbnailTimestampTuples = batch
       .filter(isBoundWitness)
       .map((bw) => {

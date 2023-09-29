@@ -1,4 +1,4 @@
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from './Schema'
 
@@ -24,3 +24,5 @@ export type ImageThumbnail = Payload<
   },
   ImageThumbnailSchema
 >
+
+export const isImageThumbnail = isPayloadOfSchemaType<ImageThumbnail>(ImageThumbnailSchema)

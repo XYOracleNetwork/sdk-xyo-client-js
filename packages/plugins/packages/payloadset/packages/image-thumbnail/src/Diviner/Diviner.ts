@@ -3,7 +3,6 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { EmptyObject } from '@xyo-network/core'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
@@ -19,11 +18,11 @@ import { ImageThumbnailDivinerParams } from './Params'
  * TODO: Once the shape settles, make a generic payload so that it
  * can be used for other modules
  */
-interface State<T extends EmptyObject = EmptyObject> {
+interface State<T> {
   state: T
 }
 
-type ImageThumbnailDivinerState = EmptyObject & {
+interface ImageThumbnailDivinerState {
   hash: string
 }
 
@@ -89,7 +88,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected backgroundDivine = async (): Promise<void> => {
-    await Promise.resolve()
+    const lastState = (await this.retrieveState()) ?? { hash: '' }
+    // TODO: Work
+    const currentState = { ...lastState, hash: '' }
+    await this.commitState(currentState)
   }
 
   /**

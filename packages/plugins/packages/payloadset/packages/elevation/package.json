@@ -17,7 +17,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/quadkey": "workspace:~",
-    "@xyo-network/sdk-geo": "^2.9.2",
+    "@xyo-network/sdk-geo": "^2.10.0",
     "@xyo-network/witness": "workspace:~",
     "geotiff": "^2.0.7"
   },

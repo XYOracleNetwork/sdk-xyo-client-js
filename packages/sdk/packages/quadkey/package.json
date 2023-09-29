@@ -13,7 +13,7 @@
     "@xylabs/assert": "^2.12.14",
     "@xylabs/bignumber": "^2.12.14",
     "@xylabs/buffer": "^2.12.14",
-    "@xyo-network/sdk-geo": "^2.9.2",
+    "@xyo-network/sdk-geo": "^2.10.0",
     "mapbox-gl": "^2.15.0"
   },
   "devDependencies": {

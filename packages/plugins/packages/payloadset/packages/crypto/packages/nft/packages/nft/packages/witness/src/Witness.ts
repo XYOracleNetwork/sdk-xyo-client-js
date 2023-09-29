@@ -30,6 +30,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
         return observation
       }),
     )
-    return observations.flat()
+
+    return [...(payloads ?? []), ...observations.flat()]
   }
 }

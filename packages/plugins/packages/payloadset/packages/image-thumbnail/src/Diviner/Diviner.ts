@@ -1,15 +1,19 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { PayloadHasher } from '@xyo-network/core'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailSchema, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isUrlPayload } from '@xyo-network/url-payload-plugin'
+import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
@@ -42,7 +46,8 @@ type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
 
 interface ImageThumbnailResultInfo {
   sources: string[]
-  status: string
+  // TODO: Something richer than HTTP status code that allows for info about failure modes
+  status: number
   timestamp: number
   url: string
 }
@@ -71,14 +76,6 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
 
   private _pollId?: string | number | NodeJS.Timeout
 
-  get archivist() {
-    return this.config.archivist
-  }
-
-  get payloadDiviner() {
-    return this.config.payloadDiviner
-  }
-
   get payloadDivinerLimit() {
     return this.config.payloadDivinerLimit ?? 1_0000
   }
@@ -88,17 +85,59 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected backgroundDivine = async (): Promise<void> => {
+    // Load last state
     const lastState = (await this.retrieveState()) ?? { offset: 0 }
     const { offset } = lastState
-    const diviner = await this.getPayloadDivinerForStore('thumbnailStore')
-    const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
+    // Get next batch of results
+    const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore('thumbnailStore')
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).fields({
       limit: this.payloadDivinerLimit,
       offset,
       order: 'asc',
-      schemas: [ImageThumbnailSchema],
+      payload_schemas: [ImageThumbnailSchema, TimestampSchema],
     })
-    const batch = await diviner.divine([query])
-    // TODO: Process and re-index the results
+    const batch = await boundWitnessDiviner.divine([query])
+    const imageThumbnailTimestampTuples = batch
+      .filter(isBoundWitness)
+      .map((bw) => {
+        const imageThumbnailIndex = bw.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
+        const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+        if (!imageThumbnailIndex || !timestampIndex) return undefined
+        const imageThumbnail = bw.payload_hashes?.[imageThumbnailIndex]
+        const timestamp = bw.payload_hashes?.[timestampIndex]
+        return [imageThumbnail, timestamp] as const
+      })
+      .filter(exists)
+    const archivist = await this.getArchivistForStore('thumbnailStore')
+    const payloadTuples = (
+      await Promise.all(
+        imageThumbnailTimestampTuples.map(async ([imageThumbnailHash, timestampHash]) => {
+          const results = await archivist.get([imageThumbnailHash, timestampHash])
+          const imageThumbnailPayload = results.find(isImageThumbnail)
+          const timestampPayload = results.find(isTimestamp)
+          if (!imageThumbnailPayload || !timestampPayload) return undefined
+          const calculatedImageThumbnailHash = await PayloadHasher.hashAsync(imageThumbnailPayload)
+          const calculatedTimestampHash = await PayloadHasher.hashAsync(timestampPayload)
+          if (imageThumbnailHash !== calculatedImageThumbnailHash || timestampHash !== calculatedTimestampHash) return undefined
+          return [imageThumbnailHash, imageThumbnailPayload, timestampHash, timestampPayload] as const
+        }),
+      )
+    ).filter(exists)
+    // Build index results
+    const indexedResults = payloadTuples.map(([thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
+      const { url } = thumbnailPayload
+      const { timestamp } = timestampPayload
+      const status = thumbnailPayload.http?.status ?? -1
+      const sources = [thumbnailHash, timestampHash]
+      const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
+        .fields({ sources, status, timestamp, url })
+        .build()
+      return result
+    })
+    // Insert index results
+    const indexArchivist = await this.getArchivistForStore('indexStore')
+    await indexArchivist.insert(indexedResults)
+    // Update state
     const nextOffset = offset + batch.length + 1
     const currentState = { ...lastState, offset: nextOffset }
     await this.commitState(currentState)

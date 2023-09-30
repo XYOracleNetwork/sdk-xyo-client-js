@@ -1,7 +1,6 @@
 [![logo][]](https://xyo.network)
 
-# sdk-xyo-client-js
-
+#sdk-xyo-client-js
 [![main-build][]][main-build-link]
 [![npm-badge][]][npm-link]
 [![codacy-badge][]][codacy-link]

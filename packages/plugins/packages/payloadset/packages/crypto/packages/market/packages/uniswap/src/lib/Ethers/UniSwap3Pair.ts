@@ -5,7 +5,7 @@ import { Pool } from '@uniswap/v3-sdk'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { IERC20Metadata, IERC20Metadata__factory } from '@xyo-network/typechain'
-import { IUniswapV3Pool, IUniswapV3Pool__factory } from '@xyo-network/uniswap-typechain'
+import * as UniswapTypechain from '@xyo-network/uniswap-typechain'
 
 import { logErrors, logErrorsAsync } from '../logErrors'
 import { EthersUniswap3PoolSlot0Wrapper } from './Uniswap3PoolSlot0Wrapper'
@@ -22,7 +22,7 @@ export class EthersUniSwap3Pair {
   protected provider: Provider
 
   private _pool?: Pool | null
-  private _poolContract?: IUniswapV3Pool
+  private _poolContract?: UniswapTypechain.IUniswapV3Pool
   private _slot0?: EthersUniswap3PoolSlot0Wrapper | null
   private _tokenContracts: (IERC20Metadata | null | undefined)[] = [undefined, undefined]
   private _tokens: (Token | null | undefined)[] = [undefined, undefined]
@@ -51,9 +51,9 @@ export class EthersUniSwap3Pair {
     })
   }
 
-  poolContract(): IUniswapV3Pool {
+  poolContract(): UniswapTypechain.IUniswapV3Pool {
     return logErrors(() => {
-      this._poolContract = this._poolContract ?? IUniswapV3Pool__factory.connect(this.address, this.provider)
+      this._poolContract = this._poolContract ?? UniswapTypechain.IUniswapV3Pool__factory.connect(this.address, this.provider)
       return assertEx(this._poolContract)
     })
   }

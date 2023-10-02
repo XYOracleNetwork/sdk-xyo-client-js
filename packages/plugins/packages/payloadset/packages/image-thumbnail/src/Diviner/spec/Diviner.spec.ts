@@ -99,12 +99,14 @@ describe('ImageThumbnailDiviner', () => {
       }),
     )
   })
-  it('should have tests', async () => {
-    expect(diviner).toBeDefined()
-    const url = 'https://xyo.network'
-    const schema = UrlSchema
-    const payload: UrlPayload = { schema, url }
-    const result = await diviner.divine([payload])
-    expect(result).toBeArrayOfSize(0)
+  describe('with no thumbnail for the provided URL', () => {
+    it('returns nothing', async () => {
+      expect(diviner).toBeDefined()
+      const url = 'https://xyo.network'
+      const schema = UrlSchema
+      const payload: UrlPayload = { schema, url }
+      const result = await diviner.divine([payload])
+      expect(result).toBeArrayOfSize(0)
+    })
   })
 })

@@ -34,7 +34,7 @@
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
+          "default": "./dist/node/index.js"
         }
       }
     },
@@ -114,5 +114,6 @@
   "volta": {
     "node": "16.15.1",
     "yarn": "1.22.19"
-  }
+  },
+  "type": "module"
 }

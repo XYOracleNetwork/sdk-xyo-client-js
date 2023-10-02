@@ -8,6 +8,7 @@ import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from './Collections'
 import { getBaseMongoSdkPrivateConfig } from './config'
+import { IndexDescription } from './IndexDescription'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
@@ -50,6 +51,25 @@ export const MongoDBModuleMixin = <
     get payloads() {
       this._payloadSdk = this._payloadSdk ?? new BaseMongoSdk<PayloadWithMeta>(this.payloadSdkConfig)
       return assertEx(this._payloadSdk)
+    }
+
+    /**
+     * Ensures any indexes specified within the config are created. This method should be idempotent
+     * allowing for multiple calls without causing errors while ensuring the desired state.
+     */
+    async ensureIndexes(): Promise<void> {
+      const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
+      await this.boundWitnesses.useCollection(async (collection) => {
+        const collectionName = collection.collectionName.toLowerCase()
+        const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
+        await collection.createIndexes(indexes)
+      })
+      await this.payloads.useCollection(async (collection) => {
+        const collectionName = collection.collectionName.toLowerCase()
+        const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
+        await collection.createIndexes(indexes)
+      })
+      await Promise.resolve()
     }
   }
   return MongoModuleBase

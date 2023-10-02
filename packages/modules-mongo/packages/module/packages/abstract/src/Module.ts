@@ -9,6 +9,12 @@ import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 import { COLLECTIONS } from './Collections'
 import { getBaseMongoSdkPrivateConfig } from './config'
 
+// name?: string;
+// key: {
+//     [key: string]: IndexDirection;
+// } | Map<string, IndexDirection>;
+// unique?: boolean;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyAbstractModule<TParams extends MongoDBModuleParams = MongoDBModuleParams> = abstract new (...args: any[]) => Module<TParams>
 

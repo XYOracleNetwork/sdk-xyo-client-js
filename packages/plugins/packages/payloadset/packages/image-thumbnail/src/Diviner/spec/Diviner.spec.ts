@@ -1,6 +1,7 @@
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -141,9 +142,12 @@ describe('ImageThumbnailDiviner', () => {
       await delay(10000)
     })
     it.only('returns the most recent success', async () => {
-      const payload: UrlPayload = { schema: UrlSchema, url: thumbnail.url }
+      const payload: UrlPayload = { schema: UrlSchema, url: thumbnail.sourceUrl }
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
+      const actual = await PayloadHasher.hashAsync(result[0])
+      const expected = await PayloadHasher.hashAsync(thumbnail)
+      expect(actual).toEqual(expected)
     })
   })
 })

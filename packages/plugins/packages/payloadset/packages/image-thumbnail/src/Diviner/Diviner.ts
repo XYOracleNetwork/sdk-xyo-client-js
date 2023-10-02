@@ -208,12 +208,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
     let hash: string = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
-    const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).fields({
       address: this.account.address,
       limit: 1,
       offset: 0,
       order: 'desc',
-      schemas: [ImageThumbnailSchema],
+      payload_schemas: [ModuleStateSchema],
     })
     const boundWitnesses = await diviner.divine([query])
     if (boundWitnesses.length > 0) {
@@ -251,6 +251,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return undefined
   }
 
+  protected override async startHandler(): Promise<boolean> {
+    await super.startHandler()
+    this.poll()
+    return true
+  }
+
   protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
     if (this._pollId) {
       clearTimeout(this._pollId)
@@ -259,13 +265,17 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return await super.stopHandler()
   }
 
-  private async poll() {
-    if (await this.started()) {
-      this._pollId = setTimeout(async () => {
-        this._pollId = undefined
+  private poll() {
+    this._pollId = setTimeout(async () => {
+      try {
         await this.backgroundDivine()
-        await this.poll()
-      }, this.pollFrequency)
-    }
+      } catch (e) {
+        console.log(e)
+      } finally {
+        if (this._pollId) clearTimeout(this._pollId)
+        this._pollId = undefined
+        this.poll()
+      }
+    }, this.pollFrequency)
   }
 }

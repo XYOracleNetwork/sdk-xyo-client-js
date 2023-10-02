@@ -7,42 +7,10 @@ import {
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import {
-  CollectionIndexFunction,
-  DefaultLimit,
-  DefaultMaxTimeMS,
-  DefaultOrder,
-  MongoDBModuleMixin,
-  removeId,
-} from '@xyo-network/module-abstract-mongodb'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Filter, IndexDescription, SortDirection } from 'mongodb'
-
-const getBoundWitnessesIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _timestamp: -1, addresses: 1 },
-      name: `${collectionName}.IX__timestamp_addresses`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { addresses: 1, _timestamp: -1 },
-      name: `${collectionName}.IX_addresses__timestamp`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { addresses: 1 },
-      name: `${collectionName}.IX_addresses`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { payload_hashes: 1 },
-      name: `${collectionName}.IX_payload_hashes`,
-    },
-  ]
-}
+import { Filter, SortDirection } from 'mongodb'
 
 const MongoDBDivinerBase = MongoDBModuleMixin(BoundWitnessDiviner)
 
@@ -78,11 +46,7 @@ export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
 
   protected override async startHandler() {
     await super.startHandler()
-    await this.boundWitnesses.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getBoundWitnessesIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
+    await this.ensureIndexes()
     return true
   }
 }

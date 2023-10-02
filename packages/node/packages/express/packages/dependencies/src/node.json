@@ -92,7 +92,27 @@
               },
               "language": "javascript",
               "name": "BoundWitnessDiviner",
-              "schema": "network.xyo.diviner.boundwitness.config"
+              "schema": "network.xyo.diviner.boundwitness.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "name": "bound_witnesses.IX__timestamp_addresses"
+                  },
+                  {
+                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "name": "bound_witnesses.IX_addresses__timestamp"
+                  },
+                  {
+                    "key": { "addresses": 1 },
+                    "name": "bound_witnesses.IX_addresses"
+                  },
+                  {
+                    "key": { "payload_hashes": 1 },
+                    "name": "bound_witnesses.IX_payload_hashes"
+                  }
+                ]
+              }
             }
           },
           {
@@ -250,7 +270,27 @@
               },
               "language": "javascript",
               "name": "ThumbnailBoundWitnessDiviner",
-              "schema": "network.xyo.diviner.boundwitness.config"
+              "schema": "network.xyo.diviner.boundwitness.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "name": "thumbnail_bound_witnesses.IX__timestamp_addresses"
+                  },
+                  {
+                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "name": "thumbnail_bound_witnesses.IX_addresses__timestamp"
+                  },
+                  {
+                    "key": { "addresses": 1 },
+                    "name": "thumbnail_bound_witnesses.IX_addresses"
+                  },
+                  {
+                    "key": { "payload_hashes": 1 },
+                    "name": "thumbnail_bound_witnesses.IX_payload_hashes"
+                  }
+                ]
+              }
             }
           },
           {

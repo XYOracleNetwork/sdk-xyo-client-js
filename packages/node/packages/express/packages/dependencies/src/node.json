@@ -124,6 +124,7 @@
               },
               "language": "javascript",
               "name": "BoundWitnessStatsDiviner",
+              "payloadSdkConfig": { "collection": "archivist_stats" },
               "schema": "network.xyo.diviner.boundwitness.stats.config",
               "storage": {
                 "indexes": [
@@ -188,6 +189,7 @@
               },
               "language": "javascript",
               "name": "PayloadStatsDiviner",
+              "payloadSdkConfig": { "collection": "archivist_stats" },
               "schema": "network.xyo.diviner.payload.stats.config",
               "storage": {
                 "indexes": [
@@ -221,6 +223,7 @@
               },
               "language": "javascript",
               "name": "SchemaStatsDiviner",
+              "payloadSdkConfig": { "collection": "archivist_stats" },
               "schema": "network.xyo.diviner.schema.stats.config",
               "storage": {
                 "indexes": [

@@ -135,7 +135,7 @@ describe('ImageThumbnailDiviner', () => {
     beforeAll(async () => {
       // Insert payload into thumbnail archivist
       const timestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-      const [bw, payloads] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
+      const [bw, payloads] = await new BoundWitnessBuilder().payloads([thumbnail, timestamp]).build()
       await thumbnailArchivist.insert([bw, ...payloads])
       // Allow diviner to divine
       await delay(10000)

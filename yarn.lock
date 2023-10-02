@@ -3782,7 +3782,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openzeppelin/contracts@npm:^4.9.3":
+"@openzeppelin/contracts@npm:^4.8.3":
   version: 4.9.3
   resolution: "@openzeppelin/contracts@npm:4.9.3"
   checksum: 4932063e733b35fa7669b9fe2053f69b062366c5c208b0c6cfa1ac451712100c78acff98120c3a4b88d94154c802be05d160d71f37e7d74cadbe150964458838
@@ -9980,12 +9980,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/solidity@npm:~2.2.0":
-  version: 2.2.0
-  resolution: "@xyo-network/solidity@npm:2.2.0"
+"@xyo-network/solidity@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@xyo-network/solidity@npm:2.2.4"
   dependencies:
-    "@openzeppelin/contracts": ^4.9.3
-  checksum: 6b95da9fabbcbbdbfe5ada015d02a283436ffa3cf947ffb775030d82abf1812712031e0bda785f9add21eafe68304a8f52d76271c5b8cff7a6d83462efad6f85
+    "@openzeppelin/contracts": ^4.8.3
+  checksum: 8df94c1917684823943564e81b79f50c2c4ca0c6b9839244846350616a3d64a8418d348f37425980bc321ccb4c7ae457c481c31ce5d149e16edbf280ec657293
   languageName: node
   linkType: hard
 
@@ -10014,15 +10014,15 @@ __metadata:
   linkType: soft
 
 "@xyo-network/typechain@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@xyo-network/typechain@npm:2.2.0"
+  version: 2.2.4
+  resolution: "@xyo-network/typechain@npm:2.2.4"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/bytes": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@xyo-network/solidity": ~2.2.0
-  checksum: cc87ab00f1b612eea9a5c1fb0d4e0b4924aee9642461ba3e9653976d946830650b9c69803b999320988eeab3e0a8fac61e6e34d506ad6b336c7030d970c75ae7
+    "@xyo-network/solidity": ^2.2.4
+  checksum: 72fd0272deb93293ae99703cf964401a0f5f46d8518a23250aeb29c5d526ed218f44926ff84b5ec512d375834a2f33309d2003928a5887113acafe2939c58508
   languageName: node
   linkType: hard
 

@@ -10085,25 +10085,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/uniswap-solidity@npm:~2.2.0":
-  version: 2.2.0
-  resolution: "@xyo-network/uniswap-solidity@npm:2.2.0"
+"@xyo-network/uniswap-solidity@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@xyo-network/uniswap-solidity@npm:2.2.4"
   dependencies:
     "@uniswap/v3-core": ^1.0.1
-  checksum: a019119c8b5ba4b3630362ff9644a4f2337abde9d11f46a9f74d3fa6a255568fd880571ffc4dc12c6ece099e39b9ef64c3ec3db4afdba035e87bb377f75bd90c
+  checksum: c51824948ebe8ff8d9d76a0e4fb28e4243a7c67910c57b7852440b66d383ecfe3cb7b01d2c5c03a20524dbc81601a057af24394292b3a1107e094afd7744f3a9
   languageName: node
   linkType: hard
 
 "@xyo-network/uniswap-typechain@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@xyo-network/uniswap-typechain@npm:2.2.0"
+  version: 2.2.4
+  resolution: "@xyo-network/uniswap-typechain@npm:2.2.4"
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/bytes": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/providers": ^5.7.2
-    "@xyo-network/uniswap-solidity": ~2.2.0
-  checksum: fcbcfc107feb095da4afccb2f9a7700bf5463d81805fbdbefc0f41a51affca7b05f90203fb8ed2daabb9b68232e387f3cc491b96e530ea2cbd540a332089a1f6
+    "@xyo-network/uniswap-solidity": ^2.2.4
+  checksum: 2fa466d673e6057a80db1259311b19e866fb607e0f3158105f07e6b8a7a5eeaa96660bf27699b33c6aced4470a2d643385d51d00b70750d637336c201098fcad
   languageName: node
   linkType: hard
 

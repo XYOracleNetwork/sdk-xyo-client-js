@@ -101,13 +101,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const imageThumbnailTimestampTuples = batch
       .filter(isBoundWitness)
       .map((bw) => {
-        const imageThumbnailIndex = bw.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
+        const imageThumbnailIndexes = bw.payload_schemas?.map((schema, index) => (schema === ImageThumbnailSchema ? index : undefined)).filter(exists)
         const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-        if (!imageThumbnailIndex || !timestampIndex) return undefined
-        const imageThumbnail = bw.payload_hashes?.[imageThumbnailIndex]
+        if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
+        const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
         const timestamp = bw.payload_hashes?.[timestampIndex]
-        return [imageThumbnail, timestamp] as const
+        return imageThumbnails.map((imageThumbnail) => [imageThumbnail, timestamp] as const)
       })
+      .flat()
       .filter(exists)
     const archivist = await this.getArchivistForStore('thumbnailStore')
     const payloadTuples = (
@@ -126,7 +127,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     ).filter(exists)
     // Build index results
     const indexedResults = payloadTuples.map(([thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
-      const { url } = thumbnailPayload
+      const { sourceUrl: url } = thumbnailPayload
       const { timestamp } = timestampPayload
       const status = thumbnailPayload.http?.status ?? -1
       const sources = [thumbnailHash, timestampHash]
@@ -180,11 +181,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected async getArchivistForStore(store: ConfigStore, wrap?: boolean) {
-    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.archivist not specified`)
+    const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
-    return wrap
-      ? ArchivistWrapper.wrap(mod, this.account)
-      : asArchivistInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not an Archivist`)
+    return wrap ? ArchivistWrapper.wrap(mod, this.account) : asArchivistInstance(mod, () => `${moduleName}: ${store}.archivist is not an Archivist`)
   }
 
   protected async getBoundWitnessDivinerForStore(store: ConfigStore, wrap?: boolean) {

@@ -124,7 +124,16 @@
               },
               "language": "javascript",
               "name": "BoundWitnessStatsDiviner",
-              "schema": "network.xyo.diviner.boundwitness.stats.config"
+              "schema": "network.xyo.diviner.boundwitness.stats.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "address": 1 },
+                    "name": "archivist_stats.UX_address",
+                    "unique": true
+                  }
+                ]
+              }
             }
           },
           {
@@ -166,7 +175,16 @@
               },
               "language": "javascript",
               "name": "PayloadStatsDiviner",
-              "schema": "network.xyo.diviner.payload.stats.config"
+              "schema": "network.xyo.diviner.payload.stats.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "address": 1 },
+                    "name": "archivist_stats.UX_address",
+                    "unique": true
+                  }
+                ]
+              }
             }
           },
           {
@@ -190,7 +208,16 @@
               },
               "language": "javascript",
               "name": "SchemaStatsDiviner",
-              "schema": "network.xyo.diviner.schema.stats.config"
+              "schema": "network.xyo.diviner.schema.stats.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "address": 1 },
+                    "name": "archivist_stats.UX_address",
+                    "unique": true
+                  }
+                ]
+              }
             }
           },
 

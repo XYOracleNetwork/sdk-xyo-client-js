@@ -11,21 +11,14 @@ import {
   SchemaStatsPayload,
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
-import {
-  CollectionIndexFunction,
-  COLLECTIONS,
-  DATABASES,
-  fromDbProperty,
-  MongoDBModuleMixin,
-  toDbProperty,
-} from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, DATABASES, fromDbProperty, MongoDBModuleMixin, toDbProperty } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
-import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, IndexDescription, ResumeToken, UpdateOptions } from 'mongodb'
+import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { defineJobs, scheduleJobs } from './JobQueue'
 import { SetIterator } from './SetIterator'
@@ -42,17 +35,6 @@ interface Stats {
   schema?: {
     count?: Record<string, number>
   }
-}
-
-const getArchivistStatsIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { address: 1 },
-      name: `${collectionName}.UX_address`,
-      unique: true,
-    },
-  ]
 }
 
 const MongoDBDivinerBase = MongoDBModuleMixin(SchemaStatsDiviner)
@@ -136,12 +118,7 @@ export class MongoDBSchemaStatsDiviner extends MongoDBDivinerBase implements Job
 
   protected override async startHandler() {
     await super.startHandler()
-    await this.boundWitnesses.useMongo(async (mongo) => {
-      const collection = mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats)
-      const { collectionName } = collection
-      const indexes = getArchivistStatsIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
+    await this.ensureIndexes()
     await this.registerWithChangeStream()
     defineJobs(this.jobQueue, this.jobs)
     this.jobQueue.once('ready', async () => await scheduleJobs(this.jobQueue, this.jobs))

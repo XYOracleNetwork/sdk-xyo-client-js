@@ -1,0 +1,8 @@
+{
+  "extends": [
+    "@xylabs"
+  ],
+  "ignorePatterns": [
+    "node.json"
+  ]
+}

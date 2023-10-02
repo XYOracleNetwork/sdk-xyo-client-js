@@ -28,7 +28,19 @@
               "language": "javascript",
               "name": "Archivist",
               "payloadSdkConfig": { "collection": "payloads" },
-              "schema": "network.xyo.archivist.config"
+              "schema": "network.xyo.archivist.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "_hash": 1 },
+                    "name": "bound_witnesses.IX__hash"
+                  },
+                  {
+                    "key": { "_hash": 1 },
+                    "name": "payloads.IX__hash"
+                  }
+                ]
+              }
             }
           },
           {

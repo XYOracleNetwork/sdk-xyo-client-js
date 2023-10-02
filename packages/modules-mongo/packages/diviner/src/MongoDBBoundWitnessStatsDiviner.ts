@@ -11,14 +11,14 @@ import {
   BoundWitnessStatsQueryPayload,
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-models'
-import { CollectionIndexFunction, COLLECTIONS, DATABASES, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { COLLECTIONS, DATABASES, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { MongoClientWrapper } from '@xyo-network/sdk-xyo-mongo-js'
 import { Job, JobProvider } from '@xyo-network/shared'
-import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, IndexDescription, ResumeToken, UpdateOptions } from 'mongodb'
+import { ChangeStream, ChangeStreamInsertDocument, ChangeStreamOptions, ResumeToken, UpdateOptions } from 'mongodb'
 
 import { defineJobs, scheduleJobs } from './JobQueue'
 import { SetIterator } from './SetIterator'

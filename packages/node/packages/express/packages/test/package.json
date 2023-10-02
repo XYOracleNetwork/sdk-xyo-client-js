@@ -69,8 +69,8 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
-    "@xylabs/ts-scripts-yarn3": "^3.0.80",
-    "@xylabs/tsconfig-jest": "^3.0.80",
+    "@xylabs/ts-scripts-yarn3": "^3.0.82",
+    "@xylabs/tsconfig-jest": "^3.0.82",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^8.15.1",
     "typescript": "^5.2.2"

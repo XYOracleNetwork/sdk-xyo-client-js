@@ -25,10 +25,10 @@
     "@types/supertest": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
-    "@xylabs/eslint-config": "^3.0.80",
-    "@xylabs/ts-scripts-yarn3": "^3.0.80",
-    "@xylabs/tsconfig": "^3.0.80",
-    "@xylabs/tsconfig-dom-jest": "^3.0.80",
+    "@xylabs/eslint-config": "^3.0.82",
+    "@xylabs/ts-scripts-yarn3": "^3.0.82",
+    "@xylabs/tsconfig": "^3.0.82",
+    "@xylabs/tsconfig-dom-jest": "^3.0.82",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
@@ -44,16 +44,13 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.25.1",
     "typescript": "^5.2.2"
   },
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
     "quick-lru": "^5",
-    "postcss": "^8.4.31",
-    "typedoc": "^0.24",
-    "typescript": "5.1"
+    "postcss": "^8.4.31"
   },
   "docs": "dist/docs.json",
   "types": "dist/node/index.d.ts",

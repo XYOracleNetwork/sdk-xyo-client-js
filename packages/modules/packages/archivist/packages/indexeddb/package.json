@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^2.12.14",
-    "@xylabs/ts-scripts-yarn3": "^3.0.80",
-    "@xylabs/tsconfig": "^3.0.80",
+    "@xylabs/ts-scripts-yarn3": "^3.0.82",
+    "@xylabs/tsconfig": "^3.0.82",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "@xyo-network/promise": "workspace:^",

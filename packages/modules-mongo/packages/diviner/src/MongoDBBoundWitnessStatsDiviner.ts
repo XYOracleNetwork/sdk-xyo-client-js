@@ -32,17 +32,6 @@ interface Stats {
   }
 }
 
-const getArchivistStatsIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { address: 1 },
-      name: `${collectionName}.UX_address`,
-      unique: true,
-    },
-  ]
-}
-
 const MongoDBDivinerBase = MongoDBModuleMixin(BoundWitnessStatsDiviner)
 
 const moduleName = 'MongoDBBoundWitnessStatsDiviner'
@@ -98,12 +87,7 @@ export class MongoDBBoundWitnessStatsDiviner extends MongoDBDivinerBase implemen
 
   protected override async startHandler() {
     await super.startHandler()
-    await this.boundWitnesses.useMongo(async (mongo) => {
-      const collection = mongo.db(DATABASES.Archivist).collection<Stats>(COLLECTIONS.ArchivistStats)
-      const { collectionName } = collection
-      const indexes = getArchivistStatsIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
+    await this.ensureIndexes()
     await this.registerWithChangeStream()
     defineJobs(this.jobQueue, this.jobs)
     this.jobQueue.once('ready', async () => await scheduleJobs(this.jobQueue, this.jobs))

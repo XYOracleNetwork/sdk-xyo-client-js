@@ -3,33 +3,12 @@ import { fulfilledValues } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import { ArchivistConfigSchema, ArchivistInsertQuerySchema } from '@xyo-network/archivist-model'
 import { MongoDBArchivistConfigSchema } from '@xyo-network/archivist-model-mongodb'
-import { CollectionIndexFunction, MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
+import { MongoDBModuleMixin } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { IndexDescription } from 'mongodb'
 
 import { toBoundWitnessWithMeta, toPayloadWithMeta, toReturnValue, validByType } from './lib'
-
-const getBoundWitnessesIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _hash: 1 },
-      name: `${collectionName}.IX__hash`,
-    },
-  ]
-}
-
-const getPayloadsIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _hash: 1 },
-      name: `${collectionName}.IX__hash`,
-    },
-  ]
-}
 
 const MongoDBArchivistBase = MongoDBModuleMixin(AbstractArchivist)
 
@@ -70,16 +49,7 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
 
   protected override async startHandler() {
     await super.startHandler()
-    await this.boundWitnesses.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getBoundWitnessesIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
-    await this.payloads.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getPayloadsIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
+    await this.ensureIndexes()
     return true
   }
 }

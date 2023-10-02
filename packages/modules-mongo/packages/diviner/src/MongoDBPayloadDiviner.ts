@@ -1,31 +1,9 @@
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerConfigSchema, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import {
-  CollectionIndexFunction,
-  DefaultLimit,
-  DefaultMaxTimeMS,
-  DefaultOrder,
-  MongoDBModuleMixin,
-  removeId,
-} from '@xyo-network/module-abstract-mongodb'
+import { DefaultLimit, DefaultMaxTimeMS, DefaultOrder, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Filter, IndexDescription, SortDirection } from 'mongodb'
-
-const getPayloadsIndexes: CollectionIndexFunction = (collectionName: string): IndexDescription[] => {
-  return [
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { _timestamp: 1 },
-      name: `${collectionName}.IX__timestamp`,
-    },
-    {
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      key: { schema: 1, _timestamp: -1 },
-      name: `${collectionName}.IX_schema__timestamp`,
-    },
-  ]
-}
+import { Filter, SortDirection } from 'mongodb'
 
 const MongoDBDivinerBase = MongoDBModuleMixin(PayloadDiviner)
 
@@ -57,11 +35,7 @@ export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
 
   protected override async startHandler() {
     await super.startHandler()
-    await this.payloads.useCollection(async (collection) => {
-      const { collectionName } = collection
-      const indexes = getPayloadsIndexes(collectionName)
-      await collection.createIndexes(indexes)
-    })
+    await this.ensureIndexes()
     return true
   }
 }

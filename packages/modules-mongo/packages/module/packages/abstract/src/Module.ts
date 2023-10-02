@@ -62,11 +62,13 @@ export const MongoDBModuleMixin = <
       await this.boundWitnesses.useCollection(async (collection) => {
         const collectionName = collection.collectionName.toLowerCase()
         const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
+        if (indexes.length === 0) return
         await collection.createIndexes(indexes)
       })
       await this.payloads.useCollection(async (collection) => {
         const collectionName = collection.collectionName.toLowerCase()
         const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
+        if (indexes.length === 0) return
         await collection.createIndexes(indexes)
       })
     }

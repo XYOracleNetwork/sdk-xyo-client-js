@@ -35,6 +35,12 @@ export class MongoDBAddressHistoryDiviner extends MongoDBDivinerBase {
     return blocks.map(removeId)
   }
 
+  protected override async startHandler() {
+    await super.startHandler()
+    await this.ensureIndexes()
+    return true
+  }
+
   private getBlocks = async (hash: string, address: string, limit: number): Promise<BoundWitnessWithMeta[]> => {
     let nextHash = hash
     const blocks: BoundWitnessWithMeta[] = []

@@ -69,7 +69,6 @@ export const MongoDBModuleMixin = <
         const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
         await collection.createIndexes(indexes)
       })
-      await Promise.resolve()
     }
   }
   return MongoModuleBase

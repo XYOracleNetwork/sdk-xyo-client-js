@@ -163,7 +163,20 @@
               },
               "language": "javascript",
               "name": "PayloadDiviner",
-              "schema": "network.xyo.diviner.payload.config"
+              "payloadSdkConfig": { "collection": "payloads" },
+              "schema": "network.xyo.diviner.payload.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": { "_timestamp": 1 },
+                    "name": "payloads.IX__timestamp"
+                  },
+                  {
+                    "key": { "schema": 1, "_timestamp": -1 },
+                    "name": "payloads.IX_schema__timestamp"
+                  }
+                ]
+              }
             }
           },
           {

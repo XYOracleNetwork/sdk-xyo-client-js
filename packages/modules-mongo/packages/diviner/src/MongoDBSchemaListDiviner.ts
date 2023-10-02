@@ -22,6 +22,12 @@ export class MongoDBSchemaListDiviner extends MongoDBDivinerBase {
     return counts.map((schemas) => new PayloadBuilder<SchemaListPayload>({ schema: SchemaListDivinerSchema }).fields({ schemas }).build())
   }
 
+  protected override async startHandler() {
+    await super.startHandler()
+    await this.ensureIndexes()
+    return true
+  }
+
   private divineAddress = async (archive: string): Promise<string[]> => {
     const result = await this.boundWitnesses.useCollection((collection) => {
       return collection.distinct('payload_schemas', { addresses: { $in: [archive] } })

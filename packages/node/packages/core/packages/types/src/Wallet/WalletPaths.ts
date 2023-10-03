@@ -13,10 +13,13 @@ const ModulePath = {
 export const WALLET_PATHS = {
   Nodes: {
     Node: `${ModulePath.Node}/0'` as const,
+    ImageThumbnailNode: `${ModulePath.Node}/1'` as const,
   } as const,
   Archivists: {
     Archivist: `${ModulePath.Archivist}/0'` as const,
-    ThumbnailArchivist: `${ModulePath.Archivist}/1'` as const,
+    AddressStateArchivist: `${ModulePath.Archivist}/1'` as const,
+    ImageThumbnailArchivist: `${ModulePath.Archivist}/2'` as const,
+    ImageThumbnailDivinerIndexArchivist: `${ModulePath.Archivist}/3'` as const,
   } as const,
   Diviners: {
     Diviner: `${ModulePath.Diviner}/0'` as const,
@@ -33,9 +36,13 @@ export const WALLET_PATHS = {
     AddressSpaceBatch: `${ModulePath.Diviner}/11'` as const,
     NftScoreDiviner: `${ModulePath.Diviner}/12'` as const,
     NftCollectionScoreDiviner: `${ModulePath.Diviner}/13'` as const,
-    ImageThumbnail: `${ModulePath.Diviner}/14'` as const,
-    ThumbnailBoundWitness: `${ModulePath.Diviner}/15'` as const,
-    ThumbnailAddressHistory: `${ModulePath.Diviner}/16'` as const,
+    ImageThumbnailDiviner: `${ModulePath.Diviner}/14'` as const,
+    ImageThumbnailBoundWitnessDiviner: `${ModulePath.Diviner}/15'` as const,
+    ImageThumbnailPayloadDiviner: `${ModulePath.Diviner}/16'` as const,
+    ImageThumbnailDivinerIndexBoundWitnessDiviner: `${ModulePath.Diviner}/17'` as const,
+    ImageThumbnailDivinerIndexPayloadDiviner: `${ModulePath.Diviner}/18'` as const,
+    AddressStateBoundWitnessDiviner: `${ModulePath.Diviner}/19'` as const,
+    AddressStatePayloadDiviner: `${ModulePath.Diviner}/20'` as const,
   } as const,
   Witnesses: {
     Witness: `${ModulePath.Witness}/0'` as const,
@@ -46,6 +53,7 @@ export const WALLET_PATHS = {
     TimestampWitness: `${ModulePath.Witness}/5'` as const,
   } as const,
   Sentinels: {
-    ImageThumbnailSentinel: `${ModulePath.Sentinel}/0'` as const,
+    Sentinel: `${ModulePath.Sentinel}/0'` as const,
+    ImageThumbnailSentinel: `${ModulePath.Sentinel}/1'` as const,
   } as const,
 } as const

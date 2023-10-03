@@ -18,8 +18,7 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     if (!filter) return []
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = filter
-    const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
-    let bws = all.filter(isBoundWitness)
+    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map(normalizeAddress)
     if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))

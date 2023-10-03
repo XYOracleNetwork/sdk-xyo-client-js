@@ -33,12 +33,10 @@ export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
     if (Object.keys(props).length > 0) {
       const additionalFilterCriteria = Object.entries(props)
       for (const [prop, propFilter] of additionalFilterCriteria) {
-        const property = prop as keyof Payload
-        if (Array.isArray(propFilter)) {
-          filter[property] = { $in: propFilter }
-        } else {
-          filter[property] = propFilter as string
-        }
+        // Skip any reserved properties
+        if (`${prop}`?.startsWith('$')) continue
+        // Add the filter criteria
+        filter[prop as keyof Payload] = Array.isArray(propFilter) ? { $in: propFilter } : (propFilter as string)
       }
     }
 

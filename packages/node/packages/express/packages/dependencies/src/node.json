@@ -265,39 +265,57 @@
         "schema": "network.xyo.node.config"
       },
       "modules": {
-        "private": [],
-        "public": [
+        "private": [
           {
             "config": {
               "accountPath": "m/44'/60'/3'/1'/1'",
-              "boundWitnessSdkConfig": { "collection": "bound_witnesses" },
+              "boundWitnessSdkConfig": {
+                "collection": "address_state_bound_witnesses"
+              },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
               },
               "language": "javascript",
-              "name": "ThumbnailArchivist",
-              "payloadSdkConfig": { "collection": "thumbnails" },
+              "name": "AddressStateArchivist",
+              "payloadSdkConfig": { "collection": "address_state_payloads" },
               "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/16'",
-              "archivist": "ThumbnailArchivist",
+              "accountPath": "m/44'/60'/3'/1'/2'",
+              "boundWitnessSdkConfig": { "collection": "bound_witnesses" },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
               },
               "language": "javascript",
-              "name": "ThumbnailAddressHistoryDiviner",
-              "schema": "network.xyo.diviner.address.history.config"
+              "name": "ImageThumbnailArchivist",
+              "payloadSdkConfig": { "collection": "payloads" },
+              "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
+              "accountPath": "m/44'/60'/3'/1'/3'",
+              "boundWitnessSdkConfig": {
+                "collection": "thumbnail_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexArchivist",
+              "payloadSdkConfig": { "collection": "thumbnail_payloads" },
+              "schema": "network.xyo.archivist.config"
+            }
+          }
+        ],
+        "public": [
+          {
+            "config": {
               "accountPath": "m/44'/60'/3'/2'/14'",
-              "archivist": "ThumbnailArchivist",
               "indexStore": {
-                "archivist": "",
+                "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "",
                 "payloadDiviner": ""
               },
@@ -305,12 +323,12 @@
               "name": "ThumbnailDiviner",
               "schema": "network.xyo.image.thumbnail.diviner.config",
               "stateStore": {
-                "archivist": "ThumbnailArchivist",
-                "boundWitnessDiviner": "ThumbnailBoundWitnessDiviner",
+                "archivist": "AddressStateArchivist",
+                "boundWitnessDiviner": "",
                 "payloadDiviner": ""
               },
               "thumbnailStore": {
-                "archivist": "",
+                "archivist": "ImageThumbnailArchivist",
                 "boundWitnessDiviner": "",
                 "payloadDiviner": ""
               }
@@ -319,7 +337,7 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/2'/15'",
-              "archivist": "ThumbnailArchivist",
+              "archivist": "ImageThumbnailArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "thumbnail_bound_witnesses"
               },
@@ -354,7 +372,7 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/4'/4'",
-              "archivist": "ThumbnailArchivist",
+              "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "ImageThumbnailWitness",
               "schema": "network.xyo.image.thumbnail.witness.config"
@@ -363,7 +381,7 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/4'/5'",
-              "archivist": "ThumbnailArchivist",
+              "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "TimestampWitness",
               "schema": "network.xyo.witness.timestamp.config"
@@ -372,7 +390,7 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/3'/0'",
-              "archivist": "ThumbnailArchivist",
+              "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "ThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",

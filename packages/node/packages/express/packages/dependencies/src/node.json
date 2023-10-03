@@ -544,21 +544,21 @@
               "accountPath": "m/44'/60'/3'/2'/14'",
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
-                "boundWitnessDiviner": "",
-                "payloadDiviner": ""
+                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
               },
               "language": "javascript",
               "name": "ThumbnailDiviner",
               "schema": "network.xyo.image.thumbnail.diviner.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",
-                "boundWitnessDiviner": "",
-                "payloadDiviner": ""
+                "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
+                "payloadDiviner": "AddressStatePayloadDiviner"
               },
               "thumbnailStore": {
                 "archivist": "ImageThumbnailArchivist",
-                "boundWitnessDiviner": "",
-                "payloadDiviner": ""
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
               }
             }
           },
@@ -583,10 +583,10 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/3'/0'",
+              "accountPath": "m/44'/60'/3'/3'/1'",
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
-              "name": "ThumbnailSentinel",
+              "name": "ImageThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",
               "witnesses": ["ImageThumbnailWitness", "TimestampWitness"]
             }

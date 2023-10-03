@@ -9,7 +9,7 @@ export interface NodeQueryFunctions {
   attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
-  manifest(): Promise<NodeManifestPayload>
+  manifest(maxDepth?: number): Promise<NodeManifestPayload>
   registered(): Promisable<string[]>
 }
 

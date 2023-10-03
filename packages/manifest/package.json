@@ -51,6 +51,9 @@
         }
       }
     },
+    "./schema": {
+      "default": "./src/schema.json"
+    },
     "./docs": {
       "default": "./dist/docs.json"
     },

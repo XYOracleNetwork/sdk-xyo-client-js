@@ -116,7 +116,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     })
   }
 
-  manifest(): Promisable<ModuleManifestPayload> {
+  manifest(_depth?: number): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ManifestPayloadSchema }
   }

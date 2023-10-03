@@ -8,6 +8,6 @@ import { AddressPreviousHashPayload } from '../Queries'
 export type ModuleQueryFunctions = {
   describe: () => Promise<ModuleDescription>
   discover: () => Promisable<Payload[]>
-  manifest: (ignoreAddresses?: string[]) => Promisable<ModuleManifestPayload>
+  manifest: (maxDepth?: number, ignoreAddresses?: string[]) => Promisable<ModuleManifestPayload>
   moduleAddress: () => Promisable<AddressPreviousHashPayload[]>
 }

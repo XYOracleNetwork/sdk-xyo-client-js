@@ -540,7 +540,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected manifestHandler(_ignoreAddresses?: string[]): Promisable<ModuleManifestPayload> {
+  protected manifestHandler(_depth?: number, _ignoreAddresses?: string[]): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
   }
@@ -581,7 +581,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case ModuleManifestQuerySchema: {
-        resultPayloads.push(await this.manifestHandler())
+        resultPayloads.push(await this.manifestHandler(queryPayload.depth))
         break
       }
       case ModuleDiscoverQuerySchema: {

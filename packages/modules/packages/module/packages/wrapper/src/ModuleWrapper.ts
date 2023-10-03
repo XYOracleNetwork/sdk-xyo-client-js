@@ -253,8 +253,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.listenerCount(eventNames)
   }
 
-  async manifest(): Promise<ModuleManifestPayload> {
-    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema }
+  async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth !== undefined ? { maxDepth } : {}) }
     return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 

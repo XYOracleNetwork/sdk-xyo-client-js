@@ -46,8 +46,8 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     return payloads.pop()?.address
   }
 
-  override async manifest(): Promise<NodeManifestPayload> {
-    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema }
+  override async manifest(maxDepth?: number): Promise<NodeManifestPayload> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth ? { maxDepth } : {}) }
     const payloads: NodeManifestPayload[] = (await this.sendQuery(queryPayload)).filter(
       isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema),
     )

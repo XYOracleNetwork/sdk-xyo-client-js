@@ -31,9 +31,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
-  manifest(ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
+  manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
     return this.busy(async () => {
-      return await this.manifestHandler(ignoreAddresses)
+      return await this.manifestHandler(maxDepth, ignoreAddresses)
     })
   }
 

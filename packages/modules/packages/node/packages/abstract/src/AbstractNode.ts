@@ -71,8 +71,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await (this.resolve(undefined, { direction: 'down', maxDepth: 2 }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  override async manifest(ignoreAddresses?: string[]): Promise<NodeManifestPayload> {
-    return await this.manifestHandler(ignoreAddresses)
+  override async manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<NodeManifestPayload> {
+    return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
   register(_module: ModuleInstance): Promisable<void> {
@@ -135,20 +135,20 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [...(await super.discoverHandler()), ...childModAddresses]
   }
 
-  protected override async manifestHandler(ignoreAddresses: string[] = []): Promise<NodeManifestPayload> {
+  protected override async manifestHandler(maxDepth?: number, ignoreAddresses: string[] = []): Promise<NodeManifestPayload> {
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
     const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
     const toManifest = (module: ModuleInstance) => module.manifest(newIgnoreAddresses)
 
-    const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
+    /*const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
     if (privateModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.private = privateModules
-    }
+    }*/
 
-    const publicModules = await Promise.all((await this.resolve()).filter(notThisModule).map(toManifest))
+    const publicModules = await Promise.all((await this.resolve(undefined, { direction: 'down', maxDepth })).filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

@@ -548,7 +548,7 @@
                 "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
               },
               "language": "javascript",
-              "name": "ThumbnailDiviner",
+              "name": "ImageThumbnailDiviner",
               "schema": "network.xyo.image.thumbnail.diviner.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",

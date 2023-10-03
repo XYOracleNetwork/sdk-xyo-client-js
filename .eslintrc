@@ -11,6 +11,7 @@
     "docker",
     "nftData",
     "**/testData.json",
+    "*.stories.*",
     "swagger.json",
     ".yarn"
   ],

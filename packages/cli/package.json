@@ -35,7 +35,7 @@
     "xyo": "dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "^20.8.0",
+    "@types/node": "^20.8.2",
     "@types/tail": "^2.2.1",
     "@types/terminal-kit": "^2.5.2",
     "@xylabs/ts-scripts-yarn3": "^3.0.82",

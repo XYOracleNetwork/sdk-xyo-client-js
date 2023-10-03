@@ -22,7 +22,7 @@
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-typescript": "^7.23.0",
     "@types/jest": "^29.5.5",
-    "@types/supertest": "^2.0.13",
+    "@types/supertest": "^2.0.14",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "@xylabs/eslint-config": "^3.0.82",

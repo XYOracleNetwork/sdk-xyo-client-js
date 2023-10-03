@@ -28,6 +28,20 @@ export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
     if (hash) filter._hash = hash
     // TODO: Optimize for single schema supplied too
     if (schemas?.length) filter.schema = { $in: schemas }
+
+    // Add additional filter criteria
+    if (Object.keys(props).length > 0) {
+      const additionalFilterCriteria = Object.entries(props)
+      for (const [prop, propFilter] of additionalFilterCriteria) {
+        const property = prop as keyof Payload
+        if (Array.isArray(propFilter)) {
+          filter[property] = { $in: propFilter }
+        } else {
+          filter[property] = propFilter as string
+        }
+      }
+    }
+
     return (await (await this.payloads.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(
       removeId,
     )

@@ -45,13 +45,22 @@ describe('MemoryPayloadDiviner', () => {
     )
   })
   describe('with filter for', () => {
-    describe('schema', () => {
-      it('only returns payloads of that schema', async () => {
-        const schemas = ['network.xyo.test']
+    describe('single schema', () => {
+      it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
+        const schemas = [schema]
         const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
         const results = await sut.divine([query])
-        expect(results.length).toBe(1)
-        expect(results[0]?.schema).toBe(schemas[0])
+        expect(results.length).toBeGreaterThan(0)
+        expect(results.every((result) => result.schema === schema)).toBe(true)
+      })
+    })
+    describe('multiple schemas', () => {
+      it('only returns payloads of that schema', async () => {
+        const schemas = ['network.xyo.test', 'network.xyo.debug']
+        const query = new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ schemas }).build()
+        const results = await sut.divine([query])
+        expect(results.length).toBeGreaterThan(0)
+        expect(results.every((result) => schemas.includes(result.schema))).toBe(true)
       })
     })
   })

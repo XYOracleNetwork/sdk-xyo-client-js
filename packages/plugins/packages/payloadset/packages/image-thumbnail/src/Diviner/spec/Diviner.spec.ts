@@ -146,7 +146,7 @@ describe('ImageThumbnailDiviner', () => {
     })
   })
   describe('with successful thumbnail for the provided URL', () => {
-    it.only('returns the most recent success', async () => {
+    it('returns the most recent success', async () => {
       const payload: UrlPayload = { schema: UrlSchema, url: thumbnail.sourceUrl }
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)

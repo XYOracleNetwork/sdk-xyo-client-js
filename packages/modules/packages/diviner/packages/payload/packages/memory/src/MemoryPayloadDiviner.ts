@@ -11,17 +11,21 @@ export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = Payload
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
-    const { schemas, limit, offset, hash, order, schema: _schema, ...props } = filter
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { schemas, limit, offset, hash, order, schema, ...props } = filter
     let all = await archivist.all?.()
     if (all) {
       if (order === 'desc') all = all.reverse()
-      if (schemas?.length) all = all.filter((bw) => schemas.includes(bw.schema))
+      if (schemas?.length) all = all.filter((payload) => schemas.includes(payload.schema))
       if (Object.keys(props).length > 0) {
         const additionalFilterCriteria = Object.entries(props)
-        for (const [key, value] of additionalFilterCriteria) {
-          const prop = key as keyof Payload
-          all = all.filter((bw) => bw?.[prop] === value)
-          // TODO: Handle Array vs other types
+        for (const [prop, filter] of additionalFilterCriteria) {
+          const property = prop as keyof Payload
+          if (Array.isArray(filter)) {
+            all = all.filter((payload) => filter.every((value) => payload?.[property]?.includes(value)))
+          } else {
+            all = all.filter((payload) => payload?.[property] === filter)
+          }
         }
       }
       const parsedLimit = limit || all.length

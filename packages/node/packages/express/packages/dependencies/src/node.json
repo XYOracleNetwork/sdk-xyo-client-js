@@ -296,9 +296,24 @@
             "config": {
               "accountPath": "m/44'/60'/3'/2'/14'",
               "archivist": "ThumbnailArchivist",
+              "indexStore": {
+                "archivist": "",
+                "boundWitnessDiviner": "",
+                "payloadDiviner": ""
+              },
               "language": "javascript",
               "name": "ThumbnailDiviner",
-              "schema": "network.xyo.image.thumbnail.diviner.config"
+              "schema": "network.xyo.image.thumbnail.diviner.config",
+              "stateStore": {
+                "archivist": "ThumbnailArchivist",
+                "boundWitnessDiviner": "ThumbnailBoundWitnessDiviner",
+                "payloadDiviner": ""
+              },
+              "thumbnailStore": {
+                "archivist": "",
+                "boundWitnessDiviner": "",
+                "payloadDiviner": ""
+              }
             }
           },
           {

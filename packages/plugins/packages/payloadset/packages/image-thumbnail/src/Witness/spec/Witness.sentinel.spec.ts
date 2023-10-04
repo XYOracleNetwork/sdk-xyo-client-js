@@ -48,8 +48,7 @@ describe('Witness', () => {
       )
     })
     it('witnesses thumbnail for url', async () => {
-      // const url =
-      //   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" fill="%23000000"><path d="M9 6v5h.06l2.48 2.47 1.41-1.41L11 10.11V6z"/><path d="M10 1a9 9 0 00-7.85 13.35L.5 16H6v-5.5l-2.38 2.38A7 7 0 1110 17v2a9 9 0 000-18z"/></svg>'
+      // TODO: Replace with data url for speed
       const url = 'https://placekitten.com/200/300'
       const query = new PayloadBuilder({ schema: UrlSchema }).fields({ url }).build()
       const values = await sentinel.report([query])

@@ -67,7 +67,6 @@ describe(`/${moduleName}`, () => {
         const hash = await payload.hashAsync()
         const payloads = await archivist.get([hash])
         expect(payloads).toBeArrayOfSize(1)
-        console.log(`hash: ${hash}`)
       })
       it('divines Payloads by hash', async () => {
         const hash = await payload.hashAsync()

@@ -29,8 +29,8 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.4",
     "@xylabs/delay": "^2.12.14",
-    "@xylabs/ts-scripts-yarn3": "^3.0.83",
-    "@xylabs/tsconfig": "^3.0.83",
+    "@xylabs/ts-scripts-yarn3": "^3.0.84",
+    "@xylabs/tsconfig": "^3.0.84",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "typescript": "^5.2.2"
   },

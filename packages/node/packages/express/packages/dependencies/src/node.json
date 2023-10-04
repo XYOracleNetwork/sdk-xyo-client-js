@@ -573,6 +573,7 @@
             "config": {
               "accountPath": "m/44'/60'/3'/3'/1'",
               "archivist": "ImageThumbnailArchivist",
+              "archivists": ["ImageThumbnailArchivist"],
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",

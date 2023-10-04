@@ -13,7 +13,6 @@ import FileType from 'file-type'
 import graphicsMagick from 'gm'
 import hasbin from 'hasbin'
 import { sha256 } from 'hash-wasm'
-import { LRUCache } from 'lru-cache'
 import shajs from 'sha.js'
 import Url from 'url-parse'
 
@@ -40,20 +39,7 @@ export interface DnsError extends Error {
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [ImageThumbnailWitnessConfigSchema]
 
-  private _cache?: LRUCache<string, ImageThumbnail>
   private _semaphore = new Semaphore(this.maxAsyncProcesses)
-
-  get cache() {
-    this._cache =
-      this._cache ??
-      new LRUCache<string, ImageThumbnail>({
-        max: this.maxCacheEntries,
-        maxSize: this.maxCacheBytes,
-        //just returning the size of the data
-        sizeCalculation: (value) => value.url?.length ?? 1,
-      })
-    return this._cache
-  }
 
   get encoding() {
     return this.config.encoding ?? 'PNG'
@@ -69,14 +55,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
   get maxAsyncProcesses() {
     return this.config.maxAsyncProcesses ?? 2
-  }
-
-  get maxCacheBytes() {
-    return this.config.maxCacheBytes ?? 1024 * 1024 * 16 //64MB max size
-  }
-
-  get maxCacheEntries() {
-    return this.config.maxCacheEntries ?? 500
   }
 
   get quality() {
@@ -149,10 +127,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       compact(
         await Promise.all(
           urlPayloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
-            const cachedResult = this.cache.get(url)
-            if (cachedResult) {
-              return cachedResult
-            }
             let result: ImageThumbnail
 
             //if it is a data URL, return a Buffer
@@ -170,7 +144,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               const mutatedUrl = this.checkIpfsUrl(url)
               result = await this.fromHttp(mutatedUrl, url)
             }
-            this.cache.set(url, result)
             return result
           }),
         ),

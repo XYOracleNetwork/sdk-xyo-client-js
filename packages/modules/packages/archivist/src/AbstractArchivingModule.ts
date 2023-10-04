@@ -30,11 +30,10 @@ export abstract class AbstractArchivingModule<
   }
 
   protected async resolveArchivists(): Promise<ArchivistInstance[]> {
-    return compact(
-      (await Promise.all((await this.resolve({ address: this.config.archivists ?? [] })) ?? [])).map((module) =>
-        asArchivistInstance(module, () => `Module failed to cast to Archivist [${module.config.name}]`),
-      ),
-    )
+    const archivists = this.config.archivists
+    if (!archivists) return []
+    const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
+    return compact(resolved.map((mod) => asArchivistInstance(mod)))
   }
 
   protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {

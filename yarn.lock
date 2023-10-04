@@ -6567,10 +6567,14 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig-dom": ^3.0.84
     "@xylabs/tsconfig-dom-jest": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-validator": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
+    "@xyo-network/schema-name-validator": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     bowser: ^2.11.0
     typescript: ^5.2.2
@@ -8844,6 +8848,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
     "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/elevation-payload-plugin": "workspace:~"
     "@xyo-network/elevation-plugin": "workspace:~"
@@ -9405,9 +9410,11 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-system-info-payload-plugin": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     systeminformation: ^5.21.9
@@ -9676,6 +9683,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     fake-indexeddb: ^4.0.2
     idb: ^7.1.1
@@ -9699,6 +9707,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     store2: ^2.14.2
     typescript: ^5.2.2
@@ -10177,8 +10186,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety"
   dependencies:
+    "@xylabs/jest-helpers": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"

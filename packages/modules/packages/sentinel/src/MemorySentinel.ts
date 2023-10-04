@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { handleError } from '@xyo-network/error'
+import { AnyConfigSchema } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import {
   SentinelConfig,
@@ -14,7 +15,7 @@ import { WitnessInstance } from '@xyo-network/witness'
 
 import { AbstractSentinel } from './AbstractSentinel'
 
-export type MemorySentinelParams<TConfig extends SentinelConfig = SentinelConfig> = SentinelParams<TConfig>
+export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
 
 export class MemorySentinel<
   TParams extends MemorySentinelParams = MemorySentinelParams,

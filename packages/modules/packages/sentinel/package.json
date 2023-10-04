@@ -26,8 +26,17 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
+    "@xylabs/delay": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/boundwitness-validator": "workspace:~",
+    "@xyo-network/boundwitness-wrapper": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/id-plugin": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/node-system-info-plugin": "workspace:~",
+    "@xyo-network/witnesses": "workspace:~",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

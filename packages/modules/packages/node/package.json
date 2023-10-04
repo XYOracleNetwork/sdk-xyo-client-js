@@ -16,8 +16,19 @@
     "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {
+    "@xylabs/delay": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
+    "@xyo-network/module": "workspace:~",
+    "@xyo-network/payload": "workspace:~",
+    "@xyo-network/witnesses": "workspace:~",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

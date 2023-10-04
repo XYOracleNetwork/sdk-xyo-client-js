@@ -71,6 +71,12 @@
     "@types/jest": "^29.5.5",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig-jest": "^3.0.84",
+    "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/boundwitness-wrapper": "workspace:~",
+    "@xyo-network/diviner": "workspace:~",
+    "@xyo-network/diviner-address-history-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-payload-model": "workspace:~",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^8.15.1",
     "typescript": "^5.2.2"

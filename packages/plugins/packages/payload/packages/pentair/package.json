@@ -15,8 +15,8 @@
     "node-screenlogic": "^2.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.84",
-    "@xylabs/tsconfig": "^3.0.84",
+    "@xylabs/ts-scripts-yarn3": "^3.0.85",
+    "@xylabs/tsconfig": "^3.0.85",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

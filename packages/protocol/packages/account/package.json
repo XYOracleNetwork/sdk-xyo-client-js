@@ -29,8 +29,8 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.15",
     "@types/sha.js": "^2.4.2",
-    "@xylabs/ts-scripts-yarn3": "^3.0.84",
-    "@xylabs/tsconfig": "^3.0.84",
+    "@xylabs/ts-scripts-yarn3": "^3.0.85",
+    "@xylabs/tsconfig": "^3.0.85",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

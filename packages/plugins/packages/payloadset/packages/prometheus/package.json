@@ -18,8 +18,8 @@
     "prom-client": "^14.2.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.84",
-    "@xylabs/tsconfig": "^3.0.84",
+    "@xylabs/ts-scripts-yarn3": "^3.0.85",
+    "@xylabs/tsconfig": "^3.0.85",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.2.2"

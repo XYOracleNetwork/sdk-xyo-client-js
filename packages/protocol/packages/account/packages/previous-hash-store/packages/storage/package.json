@@ -15,8 +15,8 @@
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.84",
-    "@xylabs/tsconfig": "^3.0.84",
+    "@xylabs/ts-scripts-yarn3": "^3.0.85",
+    "@xylabs/tsconfig": "^3.0.85",
     "@xyo-network/core": "workspace:~",
     "typescript": "^5.2.2"
   },

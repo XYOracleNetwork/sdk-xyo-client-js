@@ -9,52 +9,29 @@ import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from 
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { ImageThumbnailSchema, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
+import {
+  ImageThumbnailResult,
+  ImageThumbnailResultIndexSchema,
+  ImageThumbnailSchema,
+  isImageThumbnail,
+  isImageThumbnailResult,
+} from '@xyo-network/image-thumbnail-payload-plugin'
+import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { isUrlPayload } from '@xyo-network/url-payload-plugin'
+import { Payload } from '@xyo-network/payload-model'
+import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
 import { ImageThumbnailDivinerParams } from './Params'
 
-/**
- * TODO: Once the shape settles, make a generic payload so that it
- * can be used for other modules
- */
-interface State<T> {
-  state: T
-}
-
-interface ImageThumbnailDivinerState {
+export type ImageThumbnailDivinerState = StateDictionary & {
   offset: number
 }
-
-const ModuleStateSchema = 'network.xyo.module.state' as const
-type ModuleStateSchema = typeof ModuleStateSchema
-
-type ModuleState = Payload<State<ImageThumbnailDivinerState>, ModuleStateSchema>
-
-const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
 
 type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
 
 type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
-
-const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
-type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
-
-export interface ImageThumbnailResultInfo {
-  sources: string[]
-  // TODO: Something richer than HTTP status code that allows for info about failure modes
-  status: number
-  timestamp: number
-  url: string
-}
-
-export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
-
-export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
 
 /**
  * The fields that will need to be indexed on in the underlying store
@@ -156,20 +133,22 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const module = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore`)
     await withArchivistModule(module, async (archivist) => {
       const mod = ArchivistWrapper.wrap(archivist, this.account)
-      const payload = new PayloadBuilder<ModuleState>({ schema: ModuleStateSchema }).fields({ state }).build()
+      const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
       await mod.insert([payload])
     })
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
-    const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
+    const urls = payloads.filter(isUrlPayload)
     const diviner = await this.getPayloadDivinerForStore('indexStore')
     const results = (
       await Promise.all(
-        urls.map(async (url) => {
+        urls.map(async (payload) => {
+          const { url, status: payloadStatus } = payload as UrlPayload & { status: number }
+          const status = payloadStatus ?? 200
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
             // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
-            .fields({ limit: 1, offset: 0, order: 'desc', url })
+            .fields({ limit: 1, offset: 0, order: 'desc', status, url })
             .build()
           return await diviner.divine([query])
         }),

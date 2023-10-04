@@ -6179,6 +6179,7 @@ __metadata:
     "@xylabs/delay": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6268,6 +6269,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
@@ -6287,15 +6289,18 @@ __metadata:
     "@xylabs/promise": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:^"
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -8594,6 +8599,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
     "@xyo-network/abstract-bridge": "workspace:~"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -8850,6 +8856,7 @@ __metadata:
     "@xylabs/promise": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"

@@ -31,7 +31,10 @@
     "@xylabs/delay": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:^",
+    "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@types/url-parse": "^1.4.9",
-    "@xylabs/ts-scripts-yarn3": "^3.0.85",
-    "@xylabs/tsconfig": "^3.0.85",
+    "@xylabs/ts-scripts-yarn3": "^3.0.84",
+    "@xylabs/tsconfig": "^3.0.84",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

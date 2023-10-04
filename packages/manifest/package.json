@@ -22,8 +22,8 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.85",
-    "@xylabs/tsconfig": "^3.0.85",
+    "@xylabs/ts-scripts-yarn3": "^3.0.84",
+    "@xylabs/tsconfig": "^3.0.84",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "typescript": "^5.2.2"

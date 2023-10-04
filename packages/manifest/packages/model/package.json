@@ -13,8 +13,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.85",
-    "@xylabs/tsconfig": "^3.0.85",
+    "@xylabs/ts-scripts-yarn3": "^3.0.84",
+    "@xylabs/tsconfig": "^3.0.84",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

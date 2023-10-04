@@ -7165,14 +7165,20 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
     "@xyo-network/diviner-address-chain-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7224,10 +7230,14 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
     "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
     "@xyo-network/diviner-address-history-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     typescript: ^5.2.2
@@ -7254,13 +7264,17 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
     "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-address-space-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7678,9 +7692,13 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
+    "@xyo-network/memory-archivist": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -7898,6 +7916,7 @@ __metadata:
     "@types/jsonpath": ^0.2.1
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7956,12 +7975,14 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.84
     "@xylabs/tsconfig": ^3.0.84
     "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
     typescript: ^5.2.2
@@ -8601,14 +8622,17 @@ __metadata:
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     lru-cache: ^10.0.1
     typescript: ^5.2.2

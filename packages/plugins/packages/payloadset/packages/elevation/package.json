@@ -25,6 +25,7 @@
     "@xylabs/jest-helpers": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/payload-wrapper": "workspace:~",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"
   },

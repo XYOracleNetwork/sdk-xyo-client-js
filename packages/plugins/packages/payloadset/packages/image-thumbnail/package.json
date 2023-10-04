@@ -36,6 +36,13 @@
     "@types/hasbin": "^1.2.0",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/witness-timestamp": "workspace:~",
+    "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

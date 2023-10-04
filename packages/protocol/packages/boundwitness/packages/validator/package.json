@@ -21,6 +21,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/schema-name-validator": "workspace:~",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

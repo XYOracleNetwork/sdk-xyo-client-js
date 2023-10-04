@@ -29,8 +29,15 @@
     "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {
+    "@xylabs/delay": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/diviner-boundwitness-memory": "workspace:~",
+    "@xyo-network/diviner-payload-memory": "workspace:~",
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

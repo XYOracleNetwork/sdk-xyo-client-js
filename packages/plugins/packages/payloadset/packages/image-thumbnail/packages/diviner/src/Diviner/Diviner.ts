@@ -10,6 +10,9 @@ import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-mod
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
+  ImageThumbnailDivinerConfig,
+  ImageThumbnailDivinerConfigSchema,
+  ImageThumbnailDivinerParams,
   ImageThumbnailResult,
   ImageThumbnailResultIndexSchema,
   ImageThumbnailSchema,
@@ -21,9 +24,6 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-
-import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
-import { ImageThumbnailDivinerParams } from './Params'
 
 export type ImageThumbnailDivinerState = StateDictionary & {
   offset: number

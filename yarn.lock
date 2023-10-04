@@ -7517,6 +7517,50 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-image-thumbnail@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail/packages/diviner, @xyo-network/diviner-image-thumbnail@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-image-thumbnail@workspace:packages/plugins/packages/payloadset/packages/image-thumbnail/packages/diviner"
+  dependencies:
+    "@types/fluent-ffmpeg": ^2.1.22
+    "@types/gm": ^1.25.2
+    "@types/hasbin": ^1.2.0
+    "@xylabs/assert": ^2.12.14
+    "@xylabs/exists": ^2.12.14
+    "@xylabs/lodash": ^2.12.14
+    "@xylabs/ts-scripts-yarn3": ^3.0.84
+    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/url": ^2.12.14
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/axios": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/core": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-payload-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
+    "@xyo-network/image-thumbnail-payload-plugin": "workspace:~"
+    "@xyo-network/module": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payloadset-plugin": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-timestamp": "workspace:~"
+    async-mutex: ^0.4.0
+    file-type: ^16.5.4
+    fluent-ffmpeg: ^2.1.2
+    gm: ^1.25.0
+    hasbin: ^1.2.3
+    hash-wasm: ^4.9.0
+    lru-cache: ^10.0.1
+    sha.js: ^2.4.11
+    typescript: ^5.2.2
+    url-parse: ^1.5.10
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-model@workspace:^, @xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model, @xyo-network/diviner-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model"
@@ -8646,6 +8690,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-image-thumbnail": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"

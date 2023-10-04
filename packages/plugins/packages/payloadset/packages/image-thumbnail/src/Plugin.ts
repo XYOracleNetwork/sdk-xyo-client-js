@@ -1,8 +1,8 @@
+import { ImageThumbnailDiviner } from '@xyo-network/diviner-image-thumbnail'
 import { ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadSetSchema } from '@xyo-network/payload-model'
 import { createPayloadSetDualPlugin } from '@xyo-network/payloadset-plugin'
 
-import { ImageThumbnailDiviner } from './Diviner'
 import { ImageThumbnailWitness } from './Witness'
 
 export const ImageThumbnailPlugin = () =>

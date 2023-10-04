@@ -4,12 +4,12 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
+import { SearchableStorage } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { SearchableStorage } from '../Config'
 import { ImageThumbnailDiviner } from '../Diviner'
 
 describe('ImageThumbnailDiviner', () => {

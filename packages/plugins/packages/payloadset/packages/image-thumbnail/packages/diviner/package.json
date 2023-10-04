@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/image-thumbnail-plugin",
+  "name": "@xyo-network/diviner-image-thumbnail",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -21,7 +21,6 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-image-thumbnail": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
@@ -56,6 +55,16 @@
   "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
+      },
       "node": {
         "require": {
           "types": "./dist/node/index.d.ts",

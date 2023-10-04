@@ -205,6 +205,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.createThumbnailDataUrl(imageBuffer)
   }
 
+  // eslint-disable-next-line complexity
   private async fromHttp(url: string, sourceUrl?: string): Promise<ImageThumbnail> {
     let response: AxiosResponse
     let dnsResult: string[]
@@ -254,8 +255,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
 
     if (response.status >= 200 && response.status < 300) {
-      const contentType: string = response.headers['content-type']?.toString()
-      const [mediaType, fileType] = contentType.split('/')
+      const contentType: string | undefined = response.headers['content-type']?.toString()
+      const [mediaType, fileType] = contentType?.split('/') ?? ['', '']
       result.mime = result.mime ?? {}
       result.mime.returned = mediaType
       const sourceBuffer = Buffer.from(response.data, 'binary')
@@ -308,7 +309,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           break
         }
         default: {
-          switch (result.mime.detected?.mime) {
+          const [detectedMediaType] = result.mime.detected?.mime?.split('/') ?? ['', '']
+          switch (detectedMediaType) {
             case 'image': {
               await processImage()
               result.mime.type = result.mime.detected?.mime

@@ -64,10 +64,16 @@
     }
   },
   "devDependencies": {
+    "@xylabs/jest-helpers": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/diviner-address-space-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-stats-model": "workspace:~",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "fake-indexeddb": "^4.0.2",
+    "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

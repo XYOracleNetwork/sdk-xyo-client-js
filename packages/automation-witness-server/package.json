@@ -106,6 +106,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.0.84",
     "@xylabs/tsconfig": "^3.0.84",
     "@xylabs/tsconfig-jest": "^3.0.84",
+    "@xyo-network/payload-builder": "workspace:~",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"

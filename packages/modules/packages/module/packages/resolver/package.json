@@ -17,8 +17,8 @@
     "@xyo-network/promise": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.82",
-    "@xylabs/tsconfig": "^3.0.82",
+    "@xylabs/ts-scripts-yarn3": "^3.0.83",
+    "@xylabs/tsconfig": "^3.0.83",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"

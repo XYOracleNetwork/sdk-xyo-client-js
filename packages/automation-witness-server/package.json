@@ -103,9 +103,9 @@
     "@types/cors": "^2.8.14",
     "@types/express": "4.17.18",
     "@xylabs/jest-helpers": "^2.12.14",
-    "@xylabs/ts-scripts-yarn3": "^3.0.82",
-    "@xylabs/tsconfig": "^3.0.82",
-    "@xylabs/tsconfig-jest": "^3.0.82",
+    "@xylabs/ts-scripts-yarn3": "^3.0.83",
+    "@xylabs/tsconfig": "^3.0.83",
+    "@xylabs/tsconfig-jest": "^3.0.83",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"

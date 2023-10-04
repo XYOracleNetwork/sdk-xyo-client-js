@@ -11,8 +11,8 @@
     "node": ">=16 <17"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.82",
-    "@xylabs/tsconfig": "^3.0.82",
+    "@xylabs/ts-scripts-yarn3": "^3.0.83",
+    "@xylabs/tsconfig": "^3.0.83",
     "typescript": "^5.2.2"
   },
   "types": "dist/node/index.d.ts",

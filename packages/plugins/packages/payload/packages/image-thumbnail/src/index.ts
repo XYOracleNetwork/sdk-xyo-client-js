@@ -1,6 +1,6 @@
 import { ImageThumbnailPayloadPlugin } from './Plugin'
 
-export * from './Payload/ImageThumbnail'
+export * from './Payload'
 export * from './Schema'
 
 export { ImageThumbnailPayloadPlugin }

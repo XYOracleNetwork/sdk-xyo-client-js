@@ -9,7 +9,7 @@ import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from 
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { ImageThumbnailSchema, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailResult, ImageThumbnailSchema, isImageThumbnail, isImageThumbnailResult } from '@xyo-network/image-thumbnail-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isUrlPayload } from '@xyo-network/url-payload-plugin'
@@ -40,21 +40,6 @@ const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
 type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
 
 type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
-
-const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
-type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
-
-export interface ImageThumbnailResultInfo {
-  sources: string[]
-  // TODO: Something richer than HTTP status code that allows for info about failure modes
-  status: number
-  timestamp: number
-  url: string
-}
-
-export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
-
-export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
 
 /**
  * The fields that will need to be indexed on in the underlying store

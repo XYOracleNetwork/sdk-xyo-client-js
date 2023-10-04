@@ -2,8 +2,8 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from '../Schema'
 
-const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
-type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
+export const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
+export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
 
 export interface ImageThumbnailResultInfo {
   sources: string[]

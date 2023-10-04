@@ -9,11 +9,17 @@ import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from 
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { ImageThumbnailResult, ImageThumbnailSchema, isImageThumbnail, isImageThumbnailResult } from '@xyo-network/image-thumbnail-payload-plugin'
+import {
+  ImageThumbnailResult,
+  ImageThumbnailResultIndexSchema,
+  ImageThumbnailSchema,
+  isImageThumbnail,
+  isImageThumbnailResult,
+} from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { isUrlPayload } from '@xyo-network/url-payload-plugin'
+import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerConfig, ImageThumbnailDivinerConfigSchema } from './Config'
@@ -133,15 +139,16 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
-    const urls = payloads.filter(isUrlPayload).map((urlPayload) => urlPayload.url)
+    const urls = payloads.filter(isUrlPayload)
     const diviner = await this.getPayloadDivinerForStore('indexStore')
     const results = (
       await Promise.all(
-        urls.map(async (url) => {
+        urls.map(async (payload) => {
+          const { url, status: payloadStatus } = payload as UrlPayload & { status: number }
+          const status = payloadStatus ?? 200
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
             // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
-            // TODO: Filter on successful status
-            .fields({ limit: 1, offset: 0, order: 'desc', url })
+            .fields({ limit: 1, offset: 0, order: 'desc', status, url })
             .build()
           return await diviner.divine([query])
         }),

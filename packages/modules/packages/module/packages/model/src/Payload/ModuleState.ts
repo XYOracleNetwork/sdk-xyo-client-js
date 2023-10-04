@@ -1,7 +1,7 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export interface StateDictionary {
-  [key: string]: string | undefined
+  [key: string]: string | number | undefined
 }
 export interface State<T extends StateDictionary = StateDictionary> {
   state: T

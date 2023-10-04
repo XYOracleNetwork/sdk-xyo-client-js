@@ -44,7 +44,7 @@ type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
 type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
 
-interface ImageThumbnailResultInfo {
+export interface ImageThumbnailResultInfo {
   sources: string[]
   // TODO: Something richer than HTTP status code that allows for info about failure modes
   status: number
@@ -52,9 +52,9 @@ interface ImageThumbnailResultInfo {
   url: string
 }
 
-type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
+export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
 
-const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
+export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
 
 /**
  * The fields that will need to be indexed on in the underlying store

@@ -169,6 +169,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         urls.map(async (url) => {
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
             // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
+            // TODO: Filter on successful status
             .fields({ limit: 1, offset: 0, order: 'desc', url })
             .build()
           return await diviner.divine([query])

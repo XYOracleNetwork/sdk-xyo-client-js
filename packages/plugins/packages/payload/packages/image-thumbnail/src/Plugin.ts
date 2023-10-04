@@ -1,6 +1,6 @@
 import { createPayloadPlugin } from '@xyo-network/payload-plugin'
 
-import { ImageThumbnail } from './Payload'
+import { ImageThumbnail } from './Payload/ImageThumbnail'
 import { ImageThumbnailSchema } from './Schema'
 
 export const ImageThumbnailPayloadPlugin = () =>

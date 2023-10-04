@@ -1,6 +1,6 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { ImageThumbnailSchema } from './Schema'
+import { ImageThumbnailSchema } from '../Schema'
 
 export type ImageThumbnail = Payload<
   {

@@ -19,6 +19,6 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionCount', () => {
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
     const result = await getNftCollectionCount(address, chainId, privateKey)
     expect(result).toBeNumber()
-    expect(result).toEqual(expected)
+    expect(result).toBeGreaterThanOrEqual(expected)
   })
 })

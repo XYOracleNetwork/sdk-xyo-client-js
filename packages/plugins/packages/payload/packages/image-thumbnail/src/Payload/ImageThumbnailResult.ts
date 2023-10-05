@@ -7,7 +7,8 @@ export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSc
 
 export interface ImageThumbnailResultInfo {
   sources: string[]
-  status: boolean
+  status?: number
+  success: boolean
   timestamp: number
   url: string
 }

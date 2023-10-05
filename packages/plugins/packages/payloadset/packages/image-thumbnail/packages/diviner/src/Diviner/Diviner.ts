@@ -16,6 +16,7 @@ import {
   ImageThumbnailDivinerParams,
   ImageThumbnailResult,
   ImageThumbnailResultIndexSchema,
+  ImageThumbnailResultInfo,
   ImageThumbnailSchema,
   isImageThumbnail,
   isImageThumbnailDivinerQuery,
@@ -37,7 +38,7 @@ type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 /**
  * The fields that will need to be indexed on in the underlying store
  */
-type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResult, 'url' | 'timestamp' | 'status'>
+type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResultInfo, 'status' | 'success' | 'timestamp' | 'url'>
 
 /**
  * The query that will be used to retrieve the results from the underlying store
@@ -129,11 +130,11 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
         const { sourceUrl: url } = thumbnailPayload
         const { timestamp } = timestampPayload
-        const status = thumbnailPayload.http?.status ? true : false
+        const status = thumbnailPayload.http?.status
+        const success = thumbnailPayload.http?.status ? true : false
         const sources = [boundWitnessHash, thumbnailHash, timestampHash]
-        const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
-          .fields({ sources, status, timestamp, url })
-          .build()
+        const fields = status ? { sources, status, success, timestamp, url } : { sources, success, timestamp, url }
+        const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema }).fields(fields).build()
         return result
       },
     )
@@ -168,13 +169,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const results = (
       await Promise.all(
         urls.map(async (payload) => {
-          const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder, status: payloadStatus, url } = payload
+          const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder, status: payloadStatus, success: payloadSuccess, url } = payload
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
-          const status = payloadStatus ?? true
+          const status = payloadStatus ?? 200
+          const success = payloadSuccess ?? true
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
-            .fields({ limit, offset, order, status, url })
+            .fields({ limit, offset, order, status, success, url })
             .build()
           return await diviner.divine([query])
         }),

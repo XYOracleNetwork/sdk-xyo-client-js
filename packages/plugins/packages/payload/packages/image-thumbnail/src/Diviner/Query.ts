@@ -7,6 +7,6 @@ export type ImageThumbnailDivinerQuerySchema = `${ImageThumbnailDivinerSchema}.q
 export const ImageThumbnailDivinerQuerySchema: ImageThumbnailDivinerQuerySchema = `${ImageThumbnailDivinerSchema}.query`
 
 export type ImageThumbnailDivinerQuery = Pick<PayloadDivinerPredicate, 'limit' | 'offset' | 'order'> &
-  Payload<{ status?: boolean; url: string }, ImageThumbnailDivinerQuerySchema>
+  Payload<{ status?: number; success?: boolean; url: string }, ImageThumbnailDivinerQuerySchema>
 
 export const isImageThumbnailDivinerQuery = isPayloadOfSchemaType<ImageThumbnailDivinerQuery>(ImageThumbnailDivinerQuerySchema)

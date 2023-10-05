@@ -7,7 +7,7 @@ import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema, SortDirection } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
   ImageThumbnail,
@@ -62,6 +62,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this.config.pollFrequency ?? 10_000
   }
 
+  /**
+   * Works in the background to populate index for the Diviner
+   * @returns
+   */
   protected backgroundDivine = async (): Promise<void> => {
     // Load last state
     const lastState = (await this.retrieveState()) ?? { offset: 0 }
@@ -76,6 +80,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return
+    // Find all the indexable hashes in this batch
     type IndexableHashes = Readonly<[boundWitnessHash: string, imageThumbnailHash: string, timestampHash: string]>
     const indexableHashes: IndexableHashes[] = (
       await Promise.all(
@@ -95,6 +100,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       .flat()
       .filter(exists)
     const archivist = await this.getArchivistForStore('thumbnailStore')
+    // Find all the indexable data associated with the indexable hashes
     type IndexableData = Readonly<
       [
         boundWitnessHash: string,
@@ -118,12 +124,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         }),
       )
     ).filter(exists)
-    // Build index results
+    // Build index results from the indexable data
     const indexes: ImageThumbnailResult[] = indexableData.map(
       ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
         const { sourceUrl: url } = thumbnailPayload
         const { timestamp } = timestampPayload
-        const status = thumbnailPayload.http?.status ?? -1
+        const status = thumbnailPayload.http?.status ? true : false
         const sources = [boundWitnessHash, thumbnailHash, timestampHash]
         const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
           .fields({ sources, status, timestamp, url })
@@ -162,11 +168,20 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const results = (
       await Promise.all(
         urls.map(async (payload) => {
-          const { url, status: payloadStatus } = payload as UrlPayload & { status: number }
-          const status = payloadStatus ?? 200
+          const {
+            limit: payloadLimit,
+            offset: payloadOffset,
+            order: payloadOrder,
+            status: payloadStatus,
+            url,
+          } = payload as UrlPayload & { limit: number; offset: number; order: SortDirection; status: boolean }
+          // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
+          const limit = payloadLimit ?? 1
+          const order = payloadOrder ?? 'desc'
+          const offset = payloadOffset ?? 0
+          const status = payloadStatus ?? true
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema })
-            // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
-            .fields({ limit: 1, offset: 0, order: 'desc', status, url })
+            .fields({ limit, offset, order, status, url })
             .build()
           return await diviner.divine([query])
         }),

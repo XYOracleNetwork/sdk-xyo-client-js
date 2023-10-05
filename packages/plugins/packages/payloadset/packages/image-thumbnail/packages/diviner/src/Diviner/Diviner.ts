@@ -10,6 +10,7 @@ import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-mod
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
+  ImageThumbnail,
   ImageThumbnailDivinerConfig,
   ImageThumbnailDivinerConfigSchema,
   ImageThumbnailDivinerParams,
@@ -23,7 +24,7 @@ import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
-import { isTimestamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 export type ImageThumbnailDivinerState = StateDictionary & {
   offset: number
@@ -75,7 +76,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return
-    const imageThumbnailTimestampTuples = (
+    const indexableHashes = (
       await Promise.all(
         batch.filter(isBoundWitness).map(async (bw) => {
           const imageThumbnailIndexes = bw.payload_schemas
@@ -84,18 +85,26 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
           if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
           const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
-          const timestamp = bw.payload_hashes?.[timestampIndex]
+          const timestampHash = bw.payload_hashes?.[timestampIndex]
           const boundWitnessHash = await PayloadHasher.hashAsync(bw)
-          return imageThumbnails.map((imageThumbnail) => [boundWitnessHash, imageThumbnail, timestamp] as const)
+          return imageThumbnails.map((imageThumbnailHash) => [boundWitnessHash, imageThumbnailHash, timestampHash] as const)
         }),
       )
     )
       .flat()
       .filter(exists)
     const archivist = await this.getArchivistForStore('thumbnailStore')
-    const payloadTuples = (
+    const indexableData: Readonly<
+      [
+        boundWitnessHash: string,
+        imageThumbnailHash: string,
+        imageThumbnailPayload: ImageThumbnail,
+        timestampHash: string,
+        timestampPayload: TimeStamp,
+      ]
+    >[] = (
       await Promise.all(
-        imageThumbnailTimestampTuples.map(async ([boundWitnessHash, imageThumbnailHash, timestampHash]) => {
+        indexableHashes.map(async ([boundWitnessHash, imageThumbnailHash, timestampHash]) => {
           const results = await archivist.get([imageThumbnailHash, timestampHash])
           const imageThumbnailPayload = results.find(isImageThumbnail)
           const timestampPayload = results.find(isTimestamp)
@@ -108,7 +117,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       )
     ).filter(exists)
     // Build index results
-    const indexedResults = payloadTuples.map(([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
+    const indexes = indexableData.map(([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
       const { sourceUrl: url } = thumbnailPayload
       const { timestamp } = timestampPayload
       const status = thumbnailPayload.http?.status ?? -1
@@ -120,7 +129,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
-    await indexArchivist.insert(indexedResults)
+    await indexArchivist.insert(indexes)
     // Update state
     const nextOffset = offset + batch.length + 1
     const currentState = { ...lastState, offset: nextOffset }

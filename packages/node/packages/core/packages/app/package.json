@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.75.8",
+  "version": "2.75.9",
   "description": "XYO Node App",
   "sideeffects": false,
   "engines": {

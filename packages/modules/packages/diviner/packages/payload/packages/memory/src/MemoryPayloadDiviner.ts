@@ -30,7 +30,7 @@ export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = Payload
       }
       const parsedLimit = limit || all.length
       const parsedOffset = offset || 0
-      return parsedOffset
+      return offset !== undefined
         ? all.slice(parsedOffset, parsedLimit)
         : (async () => {
             const allPairs = await Promise.all(

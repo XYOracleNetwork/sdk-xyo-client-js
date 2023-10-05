@@ -140,7 +140,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
     const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
-    const toManifest = (module: ModuleInstance) => module.manifest(newIgnoreAddresses)
+    const toManifest = (module: ModuleInstance) => module.manifest(maxDepth, newIgnoreAddresses)
 
     /*const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
     if (privateModules.length > 0) {

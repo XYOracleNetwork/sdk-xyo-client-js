@@ -15,11 +15,11 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/witness": "workspace:~",
-    "systeminformation": "^5.21.9"
+    "systeminformation": "^5.21.10"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.0.84",
-    "@xylabs/tsconfig": "^3.0.84",
+    "@xylabs/ts-scripts-yarn3": "^3.0.88",
+    "@xylabs/tsconfig": "^3.0.88",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.2.2"

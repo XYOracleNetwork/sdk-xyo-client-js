@@ -134,49 +134,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.423.0":
-  version: 3.423.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.423.0"
+"@aws-sdk/client-secrets-manager@npm:^3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/client-secrets-manager@npm:3.425.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.423.0
-    "@aws-sdk/credential-provider-node": 3.423.0
-    "@aws-sdk/middleware-host-header": 3.418.0
-    "@aws-sdk/middleware-logger": 3.418.0
-    "@aws-sdk/middleware-recursion-detection": 3.418.0
-    "@aws-sdk/middleware-signing": 3.418.0
-    "@aws-sdk/middleware-user-agent": 3.418.0
-    "@aws-sdk/region-config-resolver": 3.418.0
-    "@aws-sdk/types": 3.418.0
-    "@aws-sdk/util-endpoints": 3.418.0
-    "@aws-sdk/util-user-agent-browser": 3.418.0
-    "@aws-sdk/util-user-agent-node": 3.418.0
-    "@smithy/config-resolver": ^2.0.10
-    "@smithy/fetch-http-handler": ^2.1.5
-    "@smithy/hash-node": ^2.0.9
-    "@smithy/invalid-dependency": ^2.0.9
-    "@smithy/middleware-content-length": ^2.0.11
-    "@smithy/middleware-endpoint": ^2.0.9
-    "@smithy/middleware-retry": ^2.0.12
-    "@smithy/middleware-serde": ^2.0.9
-    "@smithy/middleware-stack": ^2.0.2
-    "@smithy/node-config-provider": ^2.0.12
-    "@smithy/node-http-handler": ^2.1.5
-    "@smithy/protocol-http": ^3.0.5
-    "@smithy/smithy-client": ^2.1.6
-    "@smithy/types": ^2.3.3
-    "@smithy/url-parser": ^2.0.9
+    "@aws-sdk/client-sts": 3.425.0
+    "@aws-sdk/credential-provider-node": 3.425.0
+    "@aws-sdk/middleware-host-header": 3.425.0
+    "@aws-sdk/middleware-logger": 3.425.0
+    "@aws-sdk/middleware-recursion-detection": 3.425.0
+    "@aws-sdk/middleware-signing": 3.425.0
+    "@aws-sdk/middleware-user-agent": 3.425.0
+    "@aws-sdk/region-config-resolver": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@aws-sdk/util-endpoints": 3.425.0
+    "@aws-sdk/util-user-agent-browser": 3.425.0
+    "@aws-sdk/util-user-agent-node": 3.425.0
+    "@smithy/config-resolver": ^2.0.11
+    "@smithy/fetch-http-handler": ^2.2.1
+    "@smithy/hash-node": ^2.0.10
+    "@smithy/invalid-dependency": ^2.0.10
+    "@smithy/middleware-content-length": ^2.0.12
+    "@smithy/middleware-endpoint": ^2.0.10
+    "@smithy/middleware-retry": ^2.0.13
+    "@smithy/middleware-serde": ^2.0.10
+    "@smithy/middleware-stack": ^2.0.4
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/node-http-handler": ^2.1.6
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/smithy-client": ^2.1.9
+    "@smithy/types": ^2.3.4
+    "@smithy/url-parser": ^2.0.10
     "@smithy/util-base64": ^2.0.0
     "@smithy/util-body-length-browser": ^2.0.0
     "@smithy/util-body-length-node": ^2.1.0
-    "@smithy/util-defaults-mode-browser": ^2.0.10
-    "@smithy/util-defaults-mode-node": ^2.0.12
-    "@smithy/util-retry": ^2.0.2
+    "@smithy/util-defaults-mode-browser": ^2.0.13
+    "@smithy/util-defaults-mode-node": ^2.0.15
+    "@smithy/util-retry": ^2.0.3
     "@smithy/util-utf8": ^2.0.0
     tslib: ^2.5.0
     uuid: ^8.3.2
-  checksum: 79650a37be40aa533987f16d6c6d3bb656c5c9cecf54181dbcf57ccde536e7be02fcd5cd583d0ed8cccc9a084049a7ea68db9a73b6b410bfa33120c15ec1d2f2
+  checksum: a8e530aceb56ce32c861f58ae59aa3e4ece12df57db54fe1545c91bfc27182eb6e68f7b0d118100553ce69dd1bc5515c5159f7a1f2da87f92d1428e3248a26a7
   languageName: node
   linkType: hard
 
@@ -219,6 +219,48 @@ __metadata:
     "@smithy/util-utf8": ^2.0.0
     tslib: ^2.5.0
   checksum: 49b1ec33a27714c3534ccfb081dc601725912ba813d81e7ea280a562f2482a49cc47e27b99b79f186ee3b52555182bbbfe02cdc683730490160507307c946d78
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/client-sso@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/client-sso@npm:3.425.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/middleware-host-header": 3.425.0
+    "@aws-sdk/middleware-logger": 3.425.0
+    "@aws-sdk/middleware-recursion-detection": 3.425.0
+    "@aws-sdk/middleware-user-agent": 3.425.0
+    "@aws-sdk/region-config-resolver": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@aws-sdk/util-endpoints": 3.425.0
+    "@aws-sdk/util-user-agent-browser": 3.425.0
+    "@aws-sdk/util-user-agent-node": 3.425.0
+    "@smithy/config-resolver": ^2.0.11
+    "@smithy/fetch-http-handler": ^2.2.1
+    "@smithy/hash-node": ^2.0.10
+    "@smithy/invalid-dependency": ^2.0.10
+    "@smithy/middleware-content-length": ^2.0.12
+    "@smithy/middleware-endpoint": ^2.0.10
+    "@smithy/middleware-retry": ^2.0.13
+    "@smithy/middleware-serde": ^2.0.10
+    "@smithy/middleware-stack": ^2.0.4
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/node-http-handler": ^2.1.6
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/smithy-client": ^2.1.9
+    "@smithy/types": ^2.3.4
+    "@smithy/url-parser": ^2.0.10
+    "@smithy/util-base64": ^2.0.0
+    "@smithy/util-body-length-browser": ^2.0.0
+    "@smithy/util-body-length-node": ^2.1.0
+    "@smithy/util-defaults-mode-browser": ^2.0.13
+    "@smithy/util-defaults-mode-node": ^2.0.15
+    "@smithy/util-retry": ^2.0.3
+    "@smithy/util-utf8": ^2.0.0
+    tslib: ^2.5.0
+  checksum: 54831158021465161cfed08cea50ccc24c0ca63c1058e404aa9e6e3d3d99fe485f57816566504ce8236c988f18bfbf9c1750a083c0f54c54b11c1d63783b0f73
   languageName: node
   linkType: hard
 
@@ -268,6 +310,52 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/client-sts@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/client-sts@npm:3.425.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/credential-provider-node": 3.425.0
+    "@aws-sdk/middleware-host-header": 3.425.0
+    "@aws-sdk/middleware-logger": 3.425.0
+    "@aws-sdk/middleware-recursion-detection": 3.425.0
+    "@aws-sdk/middleware-sdk-sts": 3.425.0
+    "@aws-sdk/middleware-signing": 3.425.0
+    "@aws-sdk/middleware-user-agent": 3.425.0
+    "@aws-sdk/region-config-resolver": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@aws-sdk/util-endpoints": 3.425.0
+    "@aws-sdk/util-user-agent-browser": 3.425.0
+    "@aws-sdk/util-user-agent-node": 3.425.0
+    "@smithy/config-resolver": ^2.0.11
+    "@smithy/fetch-http-handler": ^2.2.1
+    "@smithy/hash-node": ^2.0.10
+    "@smithy/invalid-dependency": ^2.0.10
+    "@smithy/middleware-content-length": ^2.0.12
+    "@smithy/middleware-endpoint": ^2.0.10
+    "@smithy/middleware-retry": ^2.0.13
+    "@smithy/middleware-serde": ^2.0.10
+    "@smithy/middleware-stack": ^2.0.4
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/node-http-handler": ^2.1.6
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/smithy-client": ^2.1.9
+    "@smithy/types": ^2.3.4
+    "@smithy/url-parser": ^2.0.10
+    "@smithy/util-base64": ^2.0.0
+    "@smithy/util-body-length-browser": ^2.0.0
+    "@smithy/util-body-length-node": ^2.1.0
+    "@smithy/util-defaults-mode-browser": ^2.0.13
+    "@smithy/util-defaults-mode-node": ^2.0.15
+    "@smithy/util-retry": ^2.0.3
+    "@smithy/util-utf8": ^2.0.0
+    fast-xml-parser: 4.2.5
+    tslib: ^2.5.0
+  checksum: 0799fe93897991f2267d427f5ffe32c71275e1a5abfc9dfda351b1405f19429b3e689b607c0eba715aa9911f9fe2cb130febfc6f030c11e1015b001c689a81de
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/credential-provider-cognito-identity@npm:3.423.0":
   version: 3.423.0
   resolution: "@aws-sdk/credential-provider-cognito-identity@npm:3.423.0"
@@ -290,6 +378,18 @@ __metadata:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: 2fc6187ee8539dcf56d5196f29435bd5dae2e586307da467ae399b4cd3fc6587aba531bf2312518504bd1852453c63c00522a0b588a16b6e29a64ca102c0f733
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/credential-provider-env@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-env@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 286d372686e7de3fa35f52564db616c50831ab6502fafd4156fd87bf28e0e90db3847a1b4e29499eeb9c38f6145d809c0e693096b5f1076c2a9b0fce56aa9051
   languageName: node
   linkType: hard
 
@@ -326,6 +426,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/credential-provider-ini@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-ini@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/credential-provider-env": 3.425.0
+    "@aws-sdk/credential-provider-process": 3.425.0
+    "@aws-sdk/credential-provider-sso": 3.425.0
+    "@aws-sdk/credential-provider-web-identity": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@smithy/credential-provider-imds": ^2.0.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/shared-ini-file-loader": ^2.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 8889f2647f8c5fc04aba8378facf15754a55bd3494cd45290b2dfa4fae5274298604ffe802cddbe513dd5a6dce6f2d35330525e50b06eae14427c2b9e7dc5e3f
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/credential-provider-node@npm:3.423.0":
   version: 3.423.0
   resolution: "@aws-sdk/credential-provider-node@npm:3.423.0"
@@ -345,6 +463,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/credential-provider-node@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-node@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/credential-provider-env": 3.425.0
+    "@aws-sdk/credential-provider-ini": 3.425.0
+    "@aws-sdk/credential-provider-process": 3.425.0
+    "@aws-sdk/credential-provider-sso": 3.425.0
+    "@aws-sdk/credential-provider-web-identity": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@smithy/credential-provider-imds": ^2.0.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/shared-ini-file-loader": ^2.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: b0faaf7000edc2a3f6d0c63232b6f86b59014c77af7b33f63db0f548ba0ac12163a29c70ae52f65771ef9aae81131a2c4a15a66690fbbe284e2471557ec27735
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/credential-provider-process@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/credential-provider-process@npm:3.418.0"
@@ -355,6 +492,19 @@ __metadata:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: f366232ab89736add60cb1c8f9b7dca693565ea168af66121d173c21ee3a0f2e2c5c79df67a6f503ab70e371429243f96c0b0105e9aa7dde24d257c5b781c7fc
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/credential-provider-process@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-process@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/shared-ini-file-loader": ^2.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 010b0d1c11d0c85e7a2ed758eefb968bfb6be96d217f0f7bf5352abb7c019ddcaaa74e15fbd2445ea701ec14a5062c36f639619c7a16a06eea8038b652335ef0
   languageName: node
   linkType: hard
 
@@ -373,6 +523,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/credential-provider-sso@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-sso@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/client-sso": 3.425.0
+    "@aws-sdk/token-providers": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/shared-ini-file-loader": ^2.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: e74d82bbba40b4c76aa090cfc5979db19ad09102558979a4061f50a620aacb1325151a532d3b77d162a5997c574063eab4630f5f1ef733078d60c03dce1f32fa
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/credential-provider-web-identity@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/credential-provider-web-identity@npm:3.418.0"
@@ -382,6 +547,18 @@ __metadata:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: 2b7da12aeb4c0abb22386a3c84f4287e7eefcf8d609b4ed855ae79971b59d8e409a239b6eba7fe8b189f165e9ce0045daad8fa68352f92efa38629045973467c
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/credential-provider-web-identity@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/credential-provider-web-identity@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 097474425b56d9d109fffcb2d8ee46289eaf7c31d0629cd8cd9a0d063bd46f0f4a60bcbfc7c7e1a39bb81a3ad6526b414219939da51a776509ca29ddfdcb30d0
   languageName: node
   linkType: hard
 
@@ -421,6 +598,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-host-header@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-host-header@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: d9b477b31480ccf7d15d2769411cbed28e08caf5aa7fa5e96c771998325f769154bdf9356e5354d03b77bb459971b9399fec6e3c9fc764e1591964142041bb4c
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-logger@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/middleware-logger@npm:3.418.0"
@@ -429,6 +618,17 @@ __metadata:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: 0a432e60386f10cd90d3e660107430ff3fe6be84913e9944abf476780d2903c8439df5c536803226e0bb30c6e2890408aed89461a8d1294b4df005f33153130e
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/middleware-logger@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-logger@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 406622466ba0ed4f531bd2cb27628da83993df1476e3375743cb2ba896e553b4211632034e6b9b290e1c9796067010192fe52c8bf3b73dceab8bbd85cc2a39c0
   languageName: node
   linkType: hard
 
@@ -444,6 +644,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-recursion-detection@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-recursion-detection@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: ab845ad59db5bf0048f59d990c5163feb9f5e8dd65792d4a560fd1eff88f10ba7677bb5f71135054e7f0e83f0049e749b5cc62f4e5f37a55d002b552d61c72b3
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-sdk-sts@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/middleware-sdk-sts@npm:3.418.0"
@@ -453,6 +665,18 @@ __metadata:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: 50d3850f9d140af43f9177115f707926c4bb7423c56a8b20c08823ace300c3427ebbfe321e1d513573f8cb9e3878cf8c4e1944e0fd03a56129fe8716fc1ef2aa
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/middleware-sdk-sts@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-sdk-sts@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/middleware-signing": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: e99e4c7b6e00f0ccfb2c23ec580a3b932dfe8daa7c6f15821714157b34393f96bd7f0576e37a17821dff458ad047820e5837035b6f7b8e0db1fc4d1527dfd76b
   languageName: node
   linkType: hard
 
@@ -471,6 +695,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-signing@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-signing@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/signature-v4": ^2.0.0
+    "@smithy/types": ^2.3.4
+    "@smithy/util-middleware": ^2.0.3
+    tslib: ^2.5.0
+  checksum: 34996415395cdbcc67051c21421e70d4648402b745278976d228500885848a7219e37b9ed22d75a94ab594477ca32f59526e763fa6a1458414ae2749f7bb8a70
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-user-agent@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/middleware-user-agent@npm:3.418.0"
@@ -484,6 +723,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-user-agent@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/middleware-user-agent@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@aws-sdk/util-endpoints": 3.425.0
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 1d74d5bdd56685c0c6e905dc831e7231dd6eecf484d10bc3339e84263a5702e018b0bedbab4c73ad17d3780fd7eb9b16c244174586fe2ab8834309e28505398e
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/region-config-resolver@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/region-config-resolver@npm:3.418.0"
@@ -494,6 +746,19 @@ __metadata:
     "@smithy/util-middleware": ^2.0.2
     tslib: ^2.5.0
   checksum: f7f990d233e3dfc831d8bccfe4746461a54f464a46e779588bcb7677da1984b4d8bce812910641004a1a635021c61bddf82a2dba2b01961944286fab5cf43440
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/region-config-resolver@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/region-config-resolver@npm:3.425.0"
+  dependencies:
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/types": ^2.3.4
+    "@smithy/util-config-provider": ^2.0.0
+    "@smithy/util-middleware": ^2.0.3
+    tslib: ^2.5.0
+  checksum: 00241c54c5ff83f82dc45443c18a67515fe99aff54e7f234b3897551cb90fc6b341afc0a7cc30267463ace6d4ed398782faec584829de23115cb9a8301b74738
   languageName: node
   linkType: hard
 
@@ -540,13 +805,66 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/types@npm:3.418.0, @aws-sdk/types@npm:^3.222.0":
+"@aws-sdk/token-providers@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/token-providers@npm:3.425.0"
+  dependencies:
+    "@aws-crypto/sha256-browser": 3.0.0
+    "@aws-crypto/sha256-js": 3.0.0
+    "@aws-sdk/middleware-host-header": 3.425.0
+    "@aws-sdk/middleware-logger": 3.425.0
+    "@aws-sdk/middleware-recursion-detection": 3.425.0
+    "@aws-sdk/middleware-user-agent": 3.425.0
+    "@aws-sdk/types": 3.425.0
+    "@aws-sdk/util-endpoints": 3.425.0
+    "@aws-sdk/util-user-agent-browser": 3.425.0
+    "@aws-sdk/util-user-agent-node": 3.425.0
+    "@smithy/config-resolver": ^2.0.11
+    "@smithy/fetch-http-handler": ^2.2.1
+    "@smithy/hash-node": ^2.0.10
+    "@smithy/invalid-dependency": ^2.0.10
+    "@smithy/middleware-content-length": ^2.0.12
+    "@smithy/middleware-endpoint": ^2.0.10
+    "@smithy/middleware-retry": ^2.0.13
+    "@smithy/middleware-serde": ^2.0.10
+    "@smithy/middleware-stack": ^2.0.4
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/node-http-handler": ^2.1.6
+    "@smithy/property-provider": ^2.0.0
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/shared-ini-file-loader": ^2.0.6
+    "@smithy/smithy-client": ^2.1.9
+    "@smithy/types": ^2.3.4
+    "@smithy/url-parser": ^2.0.10
+    "@smithy/util-base64": ^2.0.0
+    "@smithy/util-body-length-browser": ^2.0.0
+    "@smithy/util-body-length-node": ^2.1.0
+    "@smithy/util-defaults-mode-browser": ^2.0.13
+    "@smithy/util-defaults-mode-node": ^2.0.15
+    "@smithy/util-retry": ^2.0.3
+    "@smithy/util-utf8": ^2.0.0
+    tslib: ^2.5.0
+  checksum: a32833eb78f7687e2fa140b7f66640aa58633ba09f61c29b296d030f47e7b56def0dc31e263c7c4f88dd144fc04bbb010719d816ad8dddf2590afb60d8a6e6fb
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/types@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/types@npm:3.418.0"
   dependencies:
     "@smithy/types": ^2.3.3
     tslib: ^2.5.0
   checksum: b3e7526538a95b36d69498a8d807b8d1494a2f21190052a322096d3c555998b5b1fefc573ce7707badaa7540b84ff7c961ef01fe33e1c2bc6e3df7c24c780eb8
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/types@npm:3.425.0, @aws-sdk/types@npm:^3.222.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/types@npm:3.425.0"
+  dependencies:
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  checksum: 82ab4741179a16cc90ff75549bf07c7174cf4d0db9b3c2e1d7283c7489eb41a1ec49607d4c7bb33975e6424dfb809783ff0e243d721d4544dc21b7b31d94acc0
   languageName: node
   linkType: hard
 
@@ -557,6 +875,16 @@ __metadata:
     "@aws-sdk/types": 3.418.0
     tslib: ^2.5.0
   checksum: 95ac699caa2c7d5936001ee511caf68bfd01d4a70988ca43bbd42f37cb79d1f097b3456d41ac76f636ac74409862beefc59d30c57d69fa3f2c7ed2fa611b0d69
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-endpoints@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/util-endpoints@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    tslib: ^2.5.0
+  checksum: 40db1a6305c613c3fc2bc618f00817ced3ca36407f8b75e8a001e04bcf94300a91a68d06ca74aeb65f0c6bcb7ef3172987d847a5fbd7a2b240d1229812463adc
   languageName: node
   linkType: hard
 
@@ -581,6 +909,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/util-user-agent-browser@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/util-user-agent-browser@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/types": ^2.3.4
+    bowser: ^2.11.0
+    tslib: ^2.5.0
+  checksum: 2f75c2bc97d9dc07f50ffe270408aa1d3ebd9e67de8a180e26776f64f9ca397ca9c3ffc21c677dfa4a917f5399f10ae8766f7c94478eaf31e11431d8189e8734
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/util-user-agent-node@npm:3.418.0":
   version: 3.418.0
   resolution: "@aws-sdk/util-user-agent-node@npm:3.418.0"
@@ -595,6 +935,23 @@ __metadata:
     aws-crt:
       optional: true
   checksum: 70c84a7006ef3026339a638fc101681ea3911bfb4e7eddee5488bd8bf3bfb8391e27afe78ee61c50cb4e27d2100a43141ca6827c30f11a0aeacd084e54bd9500
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-user-agent-node@npm:3.425.0":
+  version: 3.425.0
+  resolution: "@aws-sdk/util-user-agent-node@npm:3.425.0"
+  dependencies:
+    "@aws-sdk/types": 3.425.0
+    "@smithy/node-config-provider": ^2.0.13
+    "@smithy/types": ^2.3.4
+    tslib: ^2.5.0
+  peerDependencies:
+    aws-crt: ">=1.0.0"
+  peerDependenciesMeta:
+    aws-crt:
+      optional: true
+  checksum: ccb8cc91adda5beca5aef4ac9af2c256612d90b284609f731ac1327e31c54b5e994d9224a00e8b25c32a3753c0a34c04e39fbe4b50c3bd3a43bf6d9057917835
   languageName: node
   linkType: hard
 
@@ -4111,7 +4468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/hash-node@npm:^2.0.9":
+"@smithy/hash-node@npm:^2.0.10, @smithy/hash-node@npm:^2.0.9":
   version: 2.0.10
   resolution: "@smithy/hash-node@npm:2.0.10"
   dependencies:
@@ -4123,7 +4480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/invalid-dependency@npm:^2.0.9":
+"@smithy/invalid-dependency@npm:^2.0.10, @smithy/invalid-dependency@npm:^2.0.9":
   version: 2.0.10
   resolution: "@smithy/invalid-dependency@npm:2.0.10"
   dependencies:
@@ -4142,7 +4499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/middleware-content-length@npm:^2.0.11":
+"@smithy/middleware-content-length@npm:^2.0.11, @smithy/middleware-content-length@npm:^2.0.12":
   version: 2.0.12
   resolution: "@smithy/middleware-content-length@npm:2.0.12"
   dependencies:
@@ -4153,7 +4510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/middleware-endpoint@npm:^2.0.9":
+"@smithy/middleware-endpoint@npm:^2.0.10, @smithy/middleware-endpoint@npm:^2.0.9":
   version: 2.0.10
   resolution: "@smithy/middleware-endpoint@npm:2.0.10"
   dependencies:
@@ -4166,7 +4523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/middleware-retry@npm:^2.0.12":
+"@smithy/middleware-retry@npm:^2.0.12, @smithy/middleware-retry@npm:^2.0.13":
   version: 2.0.13
   resolution: "@smithy/middleware-retry@npm:2.0.13"
   dependencies:
@@ -4382,7 +4739,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/util-defaults-mode-browser@npm:^2.0.10":
+"@smithy/util-defaults-mode-browser@npm:^2.0.10, @smithy/util-defaults-mode-browser@npm:^2.0.13":
   version: 2.0.13
   resolution: "@smithy/util-defaults-mode-browser@npm:2.0.13"
   dependencies:
@@ -4395,7 +4752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/util-defaults-mode-node@npm:^2.0.12":
+"@smithy/util-defaults-mode-node@npm:^2.0.12, @smithy/util-defaults-mode-node@npm:^2.0.15":
   version: 2.0.15
   resolution: "@smithy/util-defaults-mode-node@npm:2.0.15"
   dependencies:
@@ -5736,9 +6093,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/eslint-config@npm:^3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/eslint-config@npm:3.0.84"
+"@xylabs/eslint-config@npm:^3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/eslint-config@npm:3.0.88"
   dependencies:
     "@babel/core": ^7.23.0
     "@babel/eslint-parser": ^7.22.15
@@ -5763,7 +6120,7 @@ __metadata:
     typescript: ^5.2.2
   peerDependencies:
     eslint: ^8.23.0
-  checksum: c313ea20981d445e45a8848d545b09a3bacc5fe4eea73e2ec30cae27392e7a07f9d03819cb7ee32bec912b8a5f75cc49673ab73460e4c11df92c77d86d5fae03
+  checksum: 3a7c58a1bc9fb4ff16601091ff855f9432a5f247bb0e72c4145e0f3a9288a48100f8baa55da1eefb3c7206114880955583c0ceaa7088688e82154e38f18c0db6
   languageName: node
   linkType: hard
 
@@ -5848,9 +6205,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/ts-scripts-yarn3@npm:3.0.84"
+"@xylabs/ts-scripts-yarn3@npm:^3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/ts-scripts-yarn3@npm:3.0.88"
   dependencies:
     "@babel/core": ^7.23.0
     "@babel/preset-env": ^7.22.20
@@ -5861,7 +6218,7 @@ __metadata:
     "@types/yargs": ^17.0.26
     "@typescript-eslint/eslint-plugin": ^6.7.3
     "@typescript-eslint/parser": ^6.7.3
-    "@xylabs/tsconfig": ~3.0.84
+    "@xylabs/tsconfig": ~3.0.88
     chalk: ^4.1.2
     cosmiconfig: ^8.3.6
     cpy: ^8.1.2
@@ -5947,43 +6304,43 @@ __metadata:
     xy: dist/bin/xy.js
     xy-ts: src/bin/xy-ts.ts
     yarn3only: dist/bin/yarn3only.js
-  checksum: ce7b16cb7a252888610bb9fbc5bf2cce5d4a0d5f69f27ae2220737e9e833a520d3c0127595838b6b48e84a14e4e3969059cb5e9b85619edbe0bf3d23373a62e3
+  checksum: c7e2d58702ec88fc258ff4094a2849a9c8c54d5720ff608f98c526ccaf3560d28a47b876d936b92ed7554ec95e14e8f3a9a37863b9ba04680b05c4d80eee20c1
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom-jest@npm:^3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/tsconfig-dom-jest@npm:3.0.84"
+"@xylabs/tsconfig-dom-jest@npm:^3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/tsconfig-dom-jest@npm:3.0.88"
   dependencies:
-    "@xylabs/tsconfig-dom": ~3.0.84
-  checksum: 8399704a17a40d05bc8d16ead6fc96a4f699f8e94e8ab11f5ede463102ff924106e28b7a7ed85b1e05b40a0391af8754fc6bc68fa2dcad46dcf44c7ff08fa36f
+    "@xylabs/tsconfig-dom": ~3.0.88
+  checksum: 45a50984df7d69281b59f8d0ebe0ee3a4f2a201fad3d7aa4840a6ecdee694980eaae2cf51f25e6fd39cbb42d6101eb7d25536ef60fc85ad4d3320f5aa47c46e6
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom@npm:^3.0.84, @xylabs/tsconfig-dom@npm:~3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/tsconfig-dom@npm:3.0.84"
+"@xylabs/tsconfig-dom@npm:^3.0.88, @xylabs/tsconfig-dom@npm:~3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/tsconfig-dom@npm:3.0.88"
   dependencies:
-    "@xylabs/tsconfig": ~3.0.84
-  checksum: f27f5d6ae81a419778ca3b2edd91430dae4f2de399116f3553814294d427dfed90db2fc4dd4fb13b947577f20dfdf16fe6ad2bb7be991ccf65b3ec5ddd88b324
+    "@xylabs/tsconfig": ~3.0.88
+  checksum: 97d7d3c8f9cfadc4ad9abfe427311515e64361ec56a715d74e57c253ddf27839dca0a905bdba071fbf580ce754fd6f58cf2765ae07e14e9995e157ec3fcc2258
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-jest@npm:^3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/tsconfig-jest@npm:3.0.84"
+"@xylabs/tsconfig-jest@npm:^3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/tsconfig-jest@npm:3.0.88"
   dependencies:
-    "@xylabs/tsconfig": ~3.0.84
+    "@xylabs/tsconfig": ~3.0.88
   peerDependencies:
     typescript: ^5
-  checksum: 0135e95f642f0541ff4f4c84525696328fdac51f4314658cbed9fa92018132cf79ecb1b4e7fce83d589c20c1de59e4b00b5f58179a12d34c7bd5211f09084956
+  checksum: 789720e3b7d1ceedc0828b7f66991250ba79db47da13bed896adcc83f0417ca906cd82cbd224531b74c00da14f4868ab662950b9f5a619696ddb35973cad4d1b
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig@npm:^3.0.84, @xylabs/tsconfig@npm:~3.0.84":
-  version: 3.0.84
-  resolution: "@xylabs/tsconfig@npm:3.0.84"
-  checksum: 4de02c5e296d0e250a33fd913167549bba599a0ab70d46aad3ea62aa98f91bc9a8f3f798b1633003bda8722c802b0eb8ec0dba762c903e38062ac7a78ef33211
+"@xylabs/tsconfig@npm:^3.0.88, @xylabs/tsconfig@npm:~3.0.88":
+  version: 3.0.88
+  resolution: "@xylabs/tsconfig@npm:3.0.88"
+  checksum: 7a717a3f96ccc2560891c55a4987f2922ffb832cf59bb523359f2e4457ea1035abc8296e38c4ec4356f9bc3bd31b9926fb8b782b44c160ade5845a9a2ae2e625
   languageName: node
   linkType: hard
 
@@ -6000,8 +6357,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-archivist@workspace:packages/modules/packages/archivist/packages/abstract-deprecated"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-abstract": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -6011,8 +6368,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
@@ -6029,8 +6386,8 @@ __metadata:
   resolution: "@xyo-network/abstract-diviner@workspace:packages/modules/packages/diviner/packages/abstract"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -6047,8 +6404,8 @@ __metadata:
   resolution: "@xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6064,8 +6421,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account-model@workspace:packages/protocol/packages/account/packages/account-model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
@@ -6084,8 +6441,8 @@ __metadata:
     "@xylabs/array": ^2.12.14
     "@xylabs/assert": ^2.12.14
     "@xylabs/static-implements": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
@@ -6103,8 +6460,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/address-payload-plugin@workspace:packages/plugins/packages/payload/packages/address"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6115,8 +6472,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/address@workspace:packages/protocol/packages/core/packages/address"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6125,8 +6482,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/api-models@workspace:packages/sdk/packages/api-models"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/axios": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -6137,8 +6494,8 @@ __metadata:
   resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
   dependencies:
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/axios": "workspace:~"
@@ -6159,8 +6516,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -6179,8 +6536,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -6200,8 +6557,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model-mongodb@workspace:packages/modules-mongo/packages/archivist/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -6219,8 +6576,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-model@workspace:packages/modules/packages/archivist/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6238,8 +6595,8 @@ __metadata:
     "@xylabs/exists": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -6269,8 +6626,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/memory-archivist": "workspace:~"
@@ -6289,8 +6646,8 @@ __metadata:
     "@xylabs/delay": ^2.12.14
     "@xylabs/lodash": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
@@ -6316,7 +6673,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/automation-witness-server@workspace:packages/automation-witness-server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@ethersproject/address": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/networks": ^5.7.1
@@ -6332,9 +6689,9 @@ __metadata:
     "@xylabs/crypto": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
-    "@xylabs/tsconfig-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
+    "@xylabs/tsconfig-jest": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
@@ -6384,8 +6741,8 @@ __metadata:
   resolution: "@xyo-network/axios@workspace:packages/sdk/packages/axios"
   dependencies:
     "@types/pako": ^2.0.1
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/shared": "workspace:~"
     axios: ^1.5.1
     pako: ^2.1.0
@@ -6399,8 +6756,8 @@ __metadata:
   dependencies:
     "@noble/hashes": ~1.3.2
     "@scure/base": ~1.1.3
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -6409,8 +6766,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/ethereum-blockchain-payload-plugins": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6421,8 +6778,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-plugins@workspace:packages/plugins/packages/payloadset/packages/blockchain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6433,8 +6790,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blocknative-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6445,8 +6802,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blocknative-ethereum-gas-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/blocknative"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:~"
@@ -6467,8 +6824,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/buffer": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -6489,8 +6846,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness-model@workspace:packages/protocol/packages/boundwitness/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -6501,8 +6858,8 @@ __metadata:
   resolution: "@xyo-network/boundwitness-validator@workspace:packages/protocol/packages/boundwitness/packages/validator"
   dependencies:
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6520,8 +6877,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-validator": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6536,8 +6893,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/boundwitness@workspace:packages/protocol/packages/boundwitness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-validator": "workspace:~"
@@ -6550,8 +6907,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bowser-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/bowser"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     bowser: ^2.11.0
@@ -6564,9 +6921,9 @@ __metadata:
   resolution: "@xyo-network/bowser-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/bowser"
   dependencies:
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig-dom": ^3.0.84
-    "@xylabs/tsconfig-dom-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig-dom": ^3.0.88
+    "@xylabs/tsconfig-dom-jest": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -6585,8 +6942,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -6604,8 +6961,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -6633,8 +6990,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-wrapper@workspace:packages/modules/packages/bridge/packages/wrapper"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -6648,8 +7005,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge@workspace:packages/modules/packages/bridge"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
@@ -6669,9 +7026,9 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
-    "@xylabs/tsconfig-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
+    "@xylabs/tsconfig-jest": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -6700,8 +7057,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/coingecko"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6712,8 +7069,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/coingecko-crypto-market-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/market/packages/coingecko"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:~"
@@ -6730,8 +7087,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/config-payload-plugin@workspace:packages/plugins/packages/payload/packages/config"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -6748,8 +7105,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/bignumber": ^2.12.14
     "@xylabs/buffer": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/address": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/logger": "workspace:~"
@@ -6767,8 +7124,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-address-transaction-history-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/transaction"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6782,8 +7139,8 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-address-transaction-history-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6800,8 +7157,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-asset-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/asset"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6822,8 +7179,8 @@ __metadata:
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:~"
@@ -6852,8 +7209,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6864,8 +7221,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-game-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/game"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6880,8 +7237,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -6892,8 +7249,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-move-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards/packages/move"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6908,8 +7265,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/cards"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:~"
     "@xyo-network/crypto-cards-move-payload-plugin": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -6921,8 +7278,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-cards-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/cards"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-game-plugin": "workspace:~"
     "@xyo-network/crypto-cards-move-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -6934,8 +7291,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-market-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/market"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/coingecko-crypto-market-payload-plugin": "workspace:~"
     "@xyo-network/crypto-asset-payload-plugin": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -6956,8 +7313,8 @@ __metadata:
     "@uniswap/sdk": ^3.0.3
     "@uniswap/sdk-core": ^4.0.7
     "@uniswap/v3-sdk": ^3.10.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/coingecko-crypto-market-plugin": "workspace:~"
     "@xyo-network/crypto-asset-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -6971,8 +7328,8 @@ __metadata:
   resolution: "@xyo-network/crypto-nft-collection-diviner-score-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/diviner"
   dependencies:
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -6994,8 +7351,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-collection-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/collection"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7012,8 +7369,8 @@ __metadata:
     "@infura/sdk": ^2.4.3
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -7037,8 +7394,8 @@ __metadata:
     "@types/svg-parser": ^2.0.4
     "@xylabs/bignumber": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xylabs/url": ^2.12.14
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
@@ -7061,8 +7418,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/nft"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-nft-score-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7076,8 +7433,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -7088,8 +7445,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-nft-diviner-score-plugin": "workspace:~"
     "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
     jest: ^29.7.0
@@ -7102,8 +7459,8 @@ __metadata:
   resolution: "@xyo-network/crypto-nft-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft"
   dependencies:
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-nft-plugin": "workspace:~"
     jest: ^29.7.0
     typescript: ^5.2.2
@@ -7114,8 +7471,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-nft-score-model@workspace:packages/plugins/packages/payload/packages/crypto/packages/nft/packages/score"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -7128,8 +7485,8 @@ __metadata:
     "@infura/sdk": ^2.4.3
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -7147,8 +7504,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-payload-plugins@workspace:packages/plugins/packages/payload/packages/crypto"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-payload-plugins": "workspace:~"
     "@xyo-network/crypto-market-payload-plugins": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -7160,8 +7517,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/crypto-plugins@workspace:packages/plugins/packages/payloadset/packages/crypto"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/crypto-cards-plugins": "workspace:~"
     "@xyo-network/crypto-market-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -7173,8 +7530,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-abstract@workspace:packages/modules/packages/diviner/packages/addresschain/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     typescript: ^5.2.2
@@ -7186,8 +7543,8 @@ __metadata:
   resolution: "@xyo-network/diviner-address-chain-memory@workspace:packages/modules/packages/diviner/packages/addresschain/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -7210,8 +7567,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain-model@workspace:packages/modules/packages/diviner/packages/addresschain/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7223,8 +7580,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-address-chain-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-memory": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
@@ -7236,8 +7593,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-history-model@workspace:packages/modules/packages/diviner/packages/addresshistory/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7250,8 +7607,8 @@ __metadata:
   resolution: "@xyo-network/diviner-address-history@workspace:packages/modules/packages/diviner/packages/addresshistory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
@@ -7271,8 +7628,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-abstract@workspace:packages/modules/packages/diviner/packages/addressspace/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
     typescript: ^5.2.2
@@ -7284,8 +7641,8 @@ __metadata:
   resolution: "@xyo-network/diviner-address-space-memory@workspace:packages/modules/packages/diviner/packages/addressspace/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -7306,8 +7663,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space-model@workspace:packages/modules/packages/diviner/packages/addressspace/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     typescript: ^5.2.2
@@ -7318,8 +7675,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-address-space-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-memory": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
@@ -7331,8 +7688,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-abstract@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     typescript: ^5.2.2
@@ -7345,8 +7702,8 @@ __metadata:
   dependencies:
     "@xylabs/array": ^2.12.14
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
@@ -7360,8 +7717,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-model@workspace:packages/modules/packages/diviner/packages/boundwitness/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -7375,8 +7732,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-abstract@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
     typescript: ^5.2.2
@@ -7388,8 +7745,8 @@ __metadata:
   resolution: "@xyo-network/diviner-boundwitness-stats-memory@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
@@ -7403,8 +7760,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats-model@workspace:packages/modules/packages/diviner/packages/boundwitnessstats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7416,8 +7773,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
@@ -7429,8 +7786,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
@@ -7442,8 +7799,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations-abstract@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
     typescript: ^5.2.2
@@ -7454,8 +7811,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations-model@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7467,8 +7824,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin-user-locations@workspace:packages/modules/packages/diviner/packages/coin/packages/userlocations"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-coin-user-locations-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
     typescript: ^5.2.2
@@ -7479,8 +7836,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-coin@workspace:packages/modules/packages/diviner/packages/coin"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-coin-user-locations": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -7490,8 +7847,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
@@ -7510,8 +7867,8 @@ __metadata:
     "@types/jsonpath": ^0.2.1
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
@@ -7529,8 +7886,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-method-arima@workspace:packages/node/packages/core/packages/forecasting/packages/arima"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-forecasting-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     arima: ^0.2.5
@@ -7542,8 +7899,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7556,8 +7913,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-forecasting-abstract": "workspace:~"
     "@xyo-network/diviner-forecasting-memory": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
@@ -7572,8 +7929,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
     "@xylabs/exists": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -7603,8 +7960,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -7619,8 +7976,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-models@workspace:packages/modules/packages/diviner/packages/models"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     "@xyo-network/diviner-address-history-model": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
@@ -7649,8 +8006,8 @@ __metadata:
     "@xylabs/lodash": ^2.12.14
     "@xylabs/promise": ^2.12.14
     "@xylabs/set": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
@@ -7707,8 +8064,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-abstract@workspace:packages/modules/packages/diviner/packages/payload/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     typescript: ^5.2.2
@@ -7720,8 +8077,8 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-memory@workspace:packages/modules/packages/diviner/packages/payload/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-payload-abstract": "workspace:~"
@@ -7738,8 +8095,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-model@workspace:packages/modules/packages/diviner/packages/payload/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -7752,8 +8109,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-abstract@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     typescript: ^5.2.2
@@ -7765,8 +8122,8 @@ __metadata:
   resolution: "@xyo-network/diviner-payload-stats-memory@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -7780,8 +8137,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats-model@workspace:packages/modules/packages/diviner/packages/payloadstats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7793,8 +8150,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-stats@workspace:packages/modules/packages/diviner/packages/payloadstats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-payload-stats-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-memory": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
@@ -7806,8 +8163,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-payload-abstract": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -7819,8 +8176,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     typescript: ^5.2.2
@@ -7833,8 +8190,8 @@ __metadata:
   dependencies:
     "@xylabs/array": ^2.12.14
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-schema-list-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
@@ -7848,8 +8205,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-model@workspace:packages/modules/packages/diviner/packages/schemalist/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7861,8 +8218,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list@workspace:packages/modules/packages/diviner/packages/schemalist"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-schema-list-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-memory": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
@@ -7874,8 +8231,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-abstract@workspace:packages/modules/packages/diviner/packages/schemastats/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     typescript: ^5.2.2
@@ -7887,8 +8244,8 @@ __metadata:
   resolution: "@xyo-network/diviner-schema-stats-memory@workspace:packages/modules/packages/diviner/packages/schemastats/packages/memory"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
@@ -7902,8 +8259,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats-model@workspace:packages/modules/packages/diviner/packages/schemastats/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7915,8 +8272,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-stats@workspace:packages/modules/packages/diviner/packages/schemastats"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-memory": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
@@ -7928,8 +8285,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform-abstract@workspace:packages/modules/packages/diviner/packages/transform/packages/abstract"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -7944,8 +8301,8 @@ __metadata:
   resolution: "@xyo-network/diviner-transform-memory@workspace:packages/modules/packages/diviner/packages/transform/packages/memory"
   dependencies:
     "@types/jsonpath": ^0.2.1
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -7960,8 +8317,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform-model@workspace:packages/modules/packages/diviner/packages/transform/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/value-payload-plugin": "workspace:~"
@@ -7973,8 +8330,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-transform@workspace:packages/modules/packages/diviner/packages/transform"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-memory": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
@@ -7986,8 +8343,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -8002,8 +8359,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -8023,8 +8380,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/dns@workspace:packages/sdk/packages/dns"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/axios": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -8035,8 +8392,8 @@ __metadata:
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/plugins/packages/payload/packages/domain"
   dependencies:
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -8054,8 +8411,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-plugin@workspace:packages/plugins/packages/payloadset/packages/domain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/domain-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -8071,8 +8428,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain@workspace:packages/sdk/packages/domain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8081,8 +8438,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/elevation-payload-plugin@workspace:packages/plugins/packages/payload/packages/elevation"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8095,8 +8452,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/elevation-payload-plugin": "workspace:~"
     "@xyo-network/location-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -8116,9 +8473,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/error@workspace:packages/sdk/packages/error"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
-    "@xylabs/tsconfig-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
+    "@xylabs/tsconfig-jest": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8127,8 +8484,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8139,8 +8496,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-ethereum-gas-v2-plugin@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain/packages/v2"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:~"
@@ -8157,8 +8514,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/etherchain-ethereum-gas-v2-payload-plugin": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8169,8 +8526,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherchain-gas-ethereum-blockchain-plugins@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas/packages/etherchain"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/etherchain-ethereum-gas-v2-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8181,8 +8538,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/gas-ethereum-blockchain-payload-plugins": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8193,8 +8550,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethereum-blockchain-plugins@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/gas-ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8205,8 +8562,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethers-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/ethers"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8220,8 +8577,8 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/ethers-ethereum-gas-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -8238,8 +8595,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/etherscan-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/etherscan"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8252,8 +8609,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -8270,8 +8627,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/ethgasstation-ethereum-gas-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/ethgasstation"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8282,12 +8639,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-dependencies@workspace:packages/node/packages/express/packages/dependencies"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -8338,12 +8695,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-lib@workspace:packages/node/packages/express/packages/lib"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@types/express": 4.17.18
     "@xylabs/assert": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
@@ -8363,14 +8720,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-middleware@workspace:packages/node/packages/express/packages/middleware"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@types/express": 4.17.18
     "@types/express-mung": ^0.5.3
     "@types/swagger-ui-express": ^4.1.4
     "@xylabs/assert": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     body-parser: ^1.20.2
@@ -8391,13 +8748,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-routes@workspace:packages/node/packages/express/packages/routes"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@types/express": 4.17.18
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
@@ -8439,15 +8796,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/express-node-server@workspace:packages/node/packages/express/packages/server"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@types/compression": ^1.7.3
     "@types/cors": ^2.8.14
     "@types/express": 4.17.18
     "@types/nconf": ^0.10.4
     "@xylabs/assert": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/express-node-dependencies": "workspace:~"
     "@xyo-network/express-node-middleware": "workspace:~"
     "@xyo-network/express-node-routes": "workspace:~"
@@ -8478,8 +8835,8 @@ __metadata:
     "@types/jest": ^29.5.5
     "@xylabs/assert": ^2.12.14
     "@xylabs/forget": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig-jest": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -8527,8 +8884,8 @@ __metadata:
   resolution: "@xyo-network/express-node@workspace:packages/node"
   dependencies:
     "@swc/core": ^1.3.91
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/express-node-dependencies": "workspace:~"
     "@xyo-network/express-node-lib": "workspace:~"
     "@xyo-network/express-node-middleware": "workspace:~"
@@ -8543,8 +8900,8 @@ __metadata:
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -8563,8 +8920,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/gas-ethereum-blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/etherchain-gas-ethereum-blockchain-payload-plugins": "workspace:~"
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -8576,8 +8933,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/gas-ethereum-blockchain-plugins@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/ethereum/packages/gas"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/etherchain-gas-ethereum-blockchain-plugins": "workspace:~"
     "@xyo-network/etherscan-ethereum-gas-plugin": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -8589,8 +8946,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/gas-price-payload-plugin@workspace:packages/plugins/packages/payload/packages/blockchain/packages/ethereum/packages/gas/packages/gas"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8611,8 +8968,8 @@ __metadata:
     "@uniswap/sdk-core": ^4.0.7
     "@uniswap/v3-sdk": ^3.10.0
     "@xylabs/exists": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:~"
@@ -8651,8 +9008,8 @@ __metadata:
   dependencies:
     "@types/lodash": ^4.14.199
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/object": "workspace:~"
     "@xyo-network/typeof": "workspace:~"
     "@xyo-network/wasm": "workspace:^"
@@ -8669,8 +9026,8 @@ __metadata:
     "@types/url-parse": ^1.4.9
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/api-models": "workspace:~"
@@ -8698,8 +9055,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -8712,8 +9069,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-payload-plugin@workspace:packages/plugins/packages/payload/packages/id"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8724,8 +9081,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/id-plugin@workspace:packages/plugins/packages/payloadset/packages/id"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -8742,8 +9099,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/image-thumbnail-payload-plugin@workspace:packages/plugins/packages/payload/packages/image-thumbnail"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -8760,8 +9117,8 @@ __metadata:
     "@types/gm": ^1.25.2
     "@types/hasbin": ^1.2.0
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xylabs/url": ^2.12.14
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
@@ -8795,8 +9152,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/info-system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system/packages/info"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/node-system-info-payload-plugin": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -8808,8 +9165,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/info-system-plugins@workspace:packages/plugins/packages/payloadset/packages/system/packages/info"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/bowser-system-info-payload-plugin": "workspace:~"
     "@xyo-network/bowser-system-info-plugin": "workspace:~"
     "@xyo-network/node-system-info-plugin": "workspace:~"
@@ -8822,8 +9179,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/key-model@workspace:packages/protocol/packages/account/packages/keypair-model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -8833,8 +9190,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-certainty-payload-plugin@workspace:packages/plugins/packages/payload/packages/location-certainty"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8845,8 +9202,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-certainty-plugin@workspace:packages/plugins/packages/payloadset/packages/location-certainty"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -8866,8 +9223,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/location-payload-plugin@workspace:packages/plugins/packages/payload/packages/location"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -8879,9 +9236,9 @@ __metadata:
   resolution: "@xyo-network/location-plugin@workspace:packages/plugins/packages/payloadset/packages/location"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig-dom": ^3.0.84
-    "@xylabs/tsconfig-dom-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig-dom": ^3.0.88
+    "@xylabs/tsconfig-dom-jest": ^3.0.88
     "@xyo-network/location-payload-plugin": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -8895,8 +9252,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/logger@workspace:packages/sdk/packages/logger"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8905,8 +9262,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest-model@workspace:packages/manifest/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -8917,8 +9274,8 @@ __metadata:
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
@@ -8941,8 +9298,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -8963,8 +9320,8 @@ __metadata:
   dependencies:
     "@ethersproject/providers": ^5.7.2
     "@metamask/providers": ^11.1.2
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig-dom": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig-dom": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8977,8 +9334,8 @@ __metadata:
     "@xylabs/exists": ^2.12.14
     "@xylabs/lodash": ^2.12.14
     "@xylabs/static-implements": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
@@ -9002,8 +9359,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/exists": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -9034,9 +9391,9 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
     "@xylabs/forget": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
-    "@xylabs/tsconfig-jest": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
+    "@xylabs/tsconfig-jest": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/error": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -9048,8 +9405,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-instance-payload-plugin@workspace:packages/plugins/packages/payload/packages/module-instance"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -9061,8 +9418,8 @@ __metadata:
   resolution: "@xyo-network/module-instance-plugin@workspace:packages/plugins/packages/payloadset/packages/module-instance"
   dependencies:
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -9080,8 +9437,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model-mongodb@workspace:packages/modules-mongo/packages/module/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-model": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -9101,8 +9458,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -9123,8 +9480,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-mongodb@workspace:packages/modules-mongo/packages/module"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module-abstract-mongodb": "workspace:~"
     "@xyo-network/module-model-mongodb": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -9144,8 +9501,8 @@ __metadata:
   dependencies:
     "@xylabs/exists": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -9161,8 +9518,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -9182,8 +9539,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/module@workspace:packages/modules/packages/module"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -9198,8 +9555,8 @@ __metadata:
   resolution: "@xyo-network/modules@workspace:packages/modules"
   dependencies:
     "@swc/core": ^1.3.91
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -9222,8 +9579,8 @@ __metadata:
   resolution: "@xyo-network/network@workspace:packages/sdk/packages/network"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -9236,8 +9593,8 @@ __metadata:
   resolution: "@xyo-network/node-abstract@workspace:packages/modules/packages/node/packages/abstract"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
@@ -9256,11 +9613,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-app@workspace:packages/node/packages/core/packages/app"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.423.0
+    "@aws-sdk/client-secrets-manager": ^3.425.0
     "@xylabs/assert": ^2.12.14
     "@xylabs/sdk-api-express-ecs": ^1.4.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/express-node-server": "workspace:~"
@@ -9286,8 +9643,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-lib@workspace:packages/node/packages/core/packages/lib"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -9306,8 +9663,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-model@workspace:packages/node/packages/core/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -9328,8 +9685,8 @@ __metadata:
     "@xylabs/crypto": ^2.12.14
     "@xylabs/exists": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-mongodb": "workspace:~"
     "@xyo-network/diviner-mongodb": "workspace:~"
@@ -9354,8 +9711,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-core-types@workspace:packages/node/packages/core/packages/types"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9366,8 +9723,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-abstract": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
@@ -9379,8 +9736,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
@@ -9396,8 +9753,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-payload-plugin@workspace:packages/plugins/packages/payload/packages/system/packages/info/packages/node"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -9408,8 +9765,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-system-info-plugin@workspace:packages/plugins/packages/payloadset/packages/system/packages/info/packages/node"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-system-info-payload-plugin": "workspace:~"
@@ -9417,7 +9774,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
-    systeminformation: ^5.21.9
+    systeminformation: ^5.21.10
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9426,8 +9783,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-wrapper@workspace:packages/modules/packages/node/packages/wrapper"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -9444,8 +9801,8 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -9469,8 +9826,8 @@ __metadata:
   resolution: "@xyo-network/object-identity@workspace:packages/sdk/packages/identity"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/logger": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9481,8 +9838,8 @@ __metadata:
   resolution: "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/logger": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9493,8 +9850,8 @@ __metadata:
   resolution: "@xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
@@ -9505,8 +9862,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/object": "workspace:^"
     typescript: ^5.2.2
   languageName: unknown
@@ -9517,8 +9874,8 @@ __metadata:
   resolution: "@xyo-network/payload-plugin@workspace:packages/sdk/packages/payload-plugin"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -9532,8 +9889,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-plugins@workspace:packages/plugins/packages/payload"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/blockchain-payload-plugins": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
@@ -9554,8 +9911,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-validator@workspace:packages/protocol/packages/payload/packages/validator"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -9569,8 +9926,8 @@ __metadata:
   resolution: "@xyo-network/payload-wrapper@workspace:packages/protocol/packages/payload/packages/wrapper"
   dependencies:
     "@xylabs/assert": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"
@@ -9583,8 +9940,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload@workspace:packages/protocol/packages/payload"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -9598,8 +9955,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payloadset-plugin@workspace:packages/sdk/packages/payloadset-plugin"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner": "workspace:~"
@@ -9615,8 +9972,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payloadset-plugins@workspace:packages/plugins/packages/payloadset"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/blockchain-plugins": "workspace:~"
     "@xyo-network/crypto-plugins": "workspace:~"
     "@xyo-network/domain-plugin": "workspace:~"
@@ -9636,8 +9993,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/pentair-payload-plugin@workspace:packages/plugins/packages/payload/packages/pentair"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     node-screenlogic: ^2.0.0
@@ -9651,8 +10008,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -9669,8 +10026,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/plugins@workspace:packages/plugins"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-plugins": "workspace:~"
     "@xyo-network/payloadset-plugins": "workspace:~"
     typescript: ^5.2.2
@@ -9681,8 +10038,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     fake-indexeddb: ^4.0.2
@@ -9695,8 +10052,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-model@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9705,8 +10062,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     store2: ^2.14.2
@@ -9718,8 +10075,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/previous-hash-store-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9730,8 +10087,8 @@ __metadata:
   resolution: "@xyo-network/prometheus-node-plugin@workspace:packages/plugins/packages/payloadset/packages/prometheus"
   dependencies:
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -9747,8 +10104,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/promisable@workspace:packages/shared/packages/promisable"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9757,8 +10114,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/promise@workspace:packages/shared/packages/promise"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9767,8 +10124,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/protocol@workspace:packages/protocol"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/boundwitness": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -9785,8 +10142,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/bignumber": ^2.12.14
     "@xylabs/buffer": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/sdk-geo": ^2.10.0
     mapbox-gl: ^2.15.0
     typescript: ^5.2.2
@@ -9797,8 +10154,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/query-payload-plugin@workspace:packages/plugins/packages/payload/packages/query"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -9811,8 +10168,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig-dom": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig-dom": ^3.0.88
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/domain-payload-plugin": "workspace:~"
     "@xyo-network/error": "workspace:~"
@@ -9831,8 +10188,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-name-validator@workspace:packages/sdk/packages/schema-name-validator"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/dns": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9842,8 +10199,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/plugins/packages/payload/packages/schema"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -9855,8 +10212,8 @@ __metadata:
   resolution: "@xyo-network/schema-plugin@workspace:packages/plugins/packages/payloadset/packages/schema"
   dependencies:
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -9887,10 +10244,10 @@ __metadata:
     "@types/supertest": ^2.0.14
     "@typescript-eslint/eslint-plugin": ^6.7.4
     "@typescript-eslint/parser": ^6.7.4
-    "@xylabs/eslint-config": ^3.0.84
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
-    "@xylabs/tsconfig-dom-jest": ^3.0.84
+    "@xylabs/eslint-config": ^3.0.88
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
+    "@xylabs/tsconfig-dom-jest": ^3.0.88
     "@xyo-network/modules": "workspace:~"
     "@xyo-network/plugins": "workspace:~"
     "@xyo-network/sdk": "workspace:~"
@@ -9920,8 +10277,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
     "@xylabs/forget": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     async-mutex: ^0.4.0
     mongodb: ^6.1.0
     typescript: ^5.2.2
@@ -9932,8 +10289,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sdk@workspace:packages/sdk"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/dns": "workspace:~"
@@ -9954,8 +10311,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -9977,8 +10334,8 @@ __metadata:
     "@xylabs/delay": ^2.12.14
     "@xylabs/lodash": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
@@ -10005,8 +10362,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/shared"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/error": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -10025,8 +10382,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/system-payload-plugins@workspace:packages/plugins/packages/payload/packages/system"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/info-system-payload-plugins": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -10037,8 +10394,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/system-plugins@workspace:packages/plugins/packages/payloadset/packages/system"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/info-system-plugins": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -10062,8 +10419,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/typeof@workspace:packages/shared/packages/typeof"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10072,8 +10429,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/uniswap-crypto-market-payload-plugin@workspace:packages/plugins/packages/payload/packages/crypto/packages/market/packages/uniswap"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -10098,8 +10455,8 @@ __metadata:
     "@xylabs/delay": ^2.12.14
     "@xylabs/jest-helpers": ^2.12.14
     "@xylabs/promise": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -10145,8 +10502,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-payload-plugin@workspace:packages/plugins/packages/payload/packages/url"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -10158,8 +10515,8 @@ __metadata:
   resolution: "@xyo-network/url-plugin@workspace:packages/plugins/packages/payloadset/packages/url"
   dependencies:
     "@xylabs/crypto": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -10173,8 +10530,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/url-safety-payload-plugin@workspace:packages/plugins/packages/payload/packages/url-safety"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
@@ -10187,8 +10544,8 @@ __metadata:
   resolution: "@xyo-network/url-safety-plugin@workspace:packages/plugins/packages/payloadset/packages/url-safety"
   dependencies:
     "@xylabs/jest-helpers": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -10205,8 +10562,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/value-payload-plugin@workspace:packages/plugins/packages/payload/packages/value"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
     typescript: ^5.2.2
@@ -10218,8 +10575,8 @@ __metadata:
   resolution: "@xyo-network/wallet-model@workspace:packages/protocol/packages/account/packages/wallet-model"
   dependencies:
     "@ethersproject/hdnode": ^5.7.0
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -10229,8 +10586,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/wasm@workspace:packages/protocol/packages/core/packages/wasm"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     typescript: ^5.2.2
     wasm-feature-detect: ^1.5.1
   languageName: unknown
@@ -10240,8 +10597,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-environment@workspace:packages/modules/packages/witness/packages/environment"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/core": "workspace:~"
@@ -10257,8 +10614,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -10273,8 +10630,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-timestamp@workspace:packages/modules/packages/witness/packages/timestamp"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -10289,8 +10646,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-wrapper@workspace:packages/modules/packages/witness/packages/wrapper"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/module": "workspace:~"
@@ -10305,8 +10662,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness@workspace:packages/modules/packages/witness"
   dependencies:
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
@@ -10321,8 +10678,8 @@ __metadata:
   dependencies:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/account": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -10342,8 +10699,8 @@ __metadata:
     "@xylabs/assert": ^2.12.14
     "@xylabs/delay": ^2.12.14
     "@xylabs/lodash": ^2.12.14
-    "@xylabs/ts-scripts-yarn3": ^3.0.84
-    "@xylabs/tsconfig": ^3.0.84
+    "@xylabs/ts-scripts-yarn3": ^3.0.88
+    "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -24382,12 +24739,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.21.9":
-  version: 5.21.9
-  resolution: "systeminformation@npm:5.21.9"
+"systeminformation@npm:^5.21.10":
+  version: 5.21.10
+  resolution: "systeminformation@npm:5.21.10"
   bin:
     systeminformation: lib/cli.js
-  checksum: 33f8ee313f4e15d5dfde98e071110c5ee377dace8e34d5a4775224efd4cc1005771898a99a4f20ef4948c5249ad4ad961c10f10f235a11c3042399e879677b87
+  checksum: a63dce32d3d05a383f1639a22a936dc91a700dae6821c49a2f1d072814e0bdc4f6d12a63f64200dfbc0f2a3b1edbe5945a30b345cd99a38e41084f166fa26513
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

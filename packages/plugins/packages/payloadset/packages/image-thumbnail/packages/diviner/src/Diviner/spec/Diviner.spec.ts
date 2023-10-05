@@ -12,6 +12,7 @@ import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import { ImageThumbnailDiviner } from '../Diviner'
 
 describe('ImageThumbnailDiviner', () => {
+  const pollFrequency = 10
   const indexArchivistName = 'indexArchivist'
   const stateArchivistName = 'stateArchivist'
   const thumbnailArchivistName = 'thumbnailArchivist'
@@ -59,19 +60,63 @@ describe('ImageThumbnailDiviner', () => {
   let thumbnailPayloadDiviner: MemoryPayloadDiviner
 
   beforeAll(async () => {
-    // Create thumbnail store
-    thumbnailArchivist = await MemoryArchivist.create({
-      config: { name: thumbnailArchivistName, schema: MemoryArchivist.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    thumbnailBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
-      config: { archivist: thumbnailArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    thumbnailPayloadDiviner = await MemoryPayloadDiviner.create({
-      config: { archivist: thumbnailArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
+    ;[
+      thumbnailArchivist,
+      thumbnailBoundWitnessDiviner,
+      thumbnailPayloadDiviner,
+      indexArchivist,
+      indexBoundWitnessDiviner,
+      indexPayloadDiviner,
+      stateArchivist,
+      stateBoundWitnessDiviner,
+      statePayloadDiviner,
+      node,
+    ] = await Promise.all([
+      // Create thumbnail store
+      await MemoryArchivist.create({
+        config: { name: thumbnailArchivistName, schema: MemoryArchivist.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryBoundWitnessDiviner.create({
+        config: { archivist: thumbnailArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryPayloadDiviner.create({
+        config: { archivist: thumbnailArchivistName, schema: MemoryPayloadDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      // Create index store
+      await MemoryArchivist.create({
+        config: { name: indexArchivistName, schema: MemoryArchivist.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryBoundWitnessDiviner.create({
+        config: { archivist: indexArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryPayloadDiviner.create({
+        config: { archivist: indexArchivistName, schema: MemoryPayloadDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      // Create state store
+      await MemoryArchivist.create({
+        config: { name: stateArchivistName, schema: MemoryArchivist.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryBoundWitnessDiviner.create({
+        config: { archivist: stateArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      await MemoryPayloadDiviner.create({
+        config: { archivist: stateArchivistName, schema: MemoryPayloadDiviner.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+      // Create node
+      await MemoryNode.create({
+        config: { schema: MemoryNode.configSchema },
+        wallet: await HDWallet.random(),
+      }),
+    ])
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
@@ -98,47 +143,18 @@ describe('ImageThumbnailDiviner', () => {
       boundWitnessDiviner: thumbnailBoundWitnessDiviner.address,
       payloadDiviner: thumbnailPayloadDiviner.address,
     }
-
-    // Create index store
-    indexArchivist = await MemoryArchivist.create({
-      config: { name: indexArchivistName, schema: MemoryArchivist.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    indexBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
-      config: { archivist: indexArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    indexPayloadDiviner = await MemoryPayloadDiviner.create({
-      config: { archivist: indexArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
     const indexStore: SearchableStorage = {
       archivist: indexArchivist.address,
       boundWitnessDiviner: indexBoundWitnessDiviner.address,
       payloadDiviner: indexPayloadDiviner.address,
     }
-
-    // Create state store
-    stateArchivist = await MemoryArchivist.create({
-      config: { name: stateArchivistName, schema: MemoryArchivist.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    stateBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
-      config: { archivist: stateArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
-    statePayloadDiviner = await MemoryPayloadDiviner.create({
-      config: { archivist: stateArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      wallet: await HDWallet.random(),
-    })
     const stateStore: SearchableStorage = {
       archivist: stateArchivist.address,
       boundWitnessDiviner: stateBoundWitnessDiviner.address,
       payloadDiviner: statePayloadDiviner.address,
     }
-
     sut = await ImageThumbnailDiviner.create({
-      config: { indexStore, pollFrequency: 1, schema: ImageThumbnailDiviner.configSchema, stateStore, thumbnailStore },
+      config: { indexStore, pollFrequency, schema: ImageThumbnailDiviner.configSchema, stateStore, thumbnailStore },
       wallet: await HDWallet.random(),
     })
     const modules = [
@@ -153,10 +169,7 @@ describe('ImageThumbnailDiviner', () => {
       thumbnailPayloadDiviner,
       sut,
     ]
-    node = await MemoryNode.create({
-      config: { schema: MemoryNode.configSchema },
-      wallet: await HDWallet.random(),
-    })
+
     await node.start()
     await Promise.all(
       modules.map(async (mod) => {
@@ -166,8 +179,8 @@ describe('ImageThumbnailDiviner', () => {
     )
 
     // Allow enough time for diviner to divine
-    await delay(1000)
-  })
+    await delay(pollFrequency * 10)
+  }, 20000)
   describe('with no thumbnail for the provided URL', () => {
     const url = 'https://does.not.exist.io'
     const schema = ImageThumbnailDivinerQuerySchema

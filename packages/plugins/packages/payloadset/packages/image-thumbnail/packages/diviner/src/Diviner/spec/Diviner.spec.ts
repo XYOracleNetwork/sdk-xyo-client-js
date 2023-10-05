@@ -163,9 +163,8 @@ describe('ImageThumbnailDiviner', () => {
       const payload: UrlPayload = { schema: UrlSchema, url: successfulThumbnail.sourceUrl }
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
-      const actual = result[0]?.sources?.[0]
       const expected = await PayloadHasher.hashAsync(successfulThumbnail)
-      expect(actual).toEqual(expected)
+      expect(result[0]?.sources).toContain(expected)
     })
   })
 })

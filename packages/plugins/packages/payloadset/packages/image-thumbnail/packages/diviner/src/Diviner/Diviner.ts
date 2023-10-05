@@ -75,22 +75,27 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return
-    const imageThumbnailTimestampTuples = batch
-      .filter(isBoundWitness)
-      .map((bw) => {
-        const imageThumbnailIndexes = bw.payload_schemas?.map((schema, index) => (schema === ImageThumbnailSchema ? index : undefined)).filter(exists)
-        const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-        if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
-        const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
-        const timestamp = bw.payload_hashes?.[timestampIndex]
-        return imageThumbnails.map((imageThumbnail) => [imageThumbnail, timestamp] as const)
-      })
+    const imageThumbnailTimestampTuples = (
+      await Promise.all(
+        batch.filter(isBoundWitness).map(async (bw) => {
+          const imageThumbnailIndexes = bw.payload_schemas
+            ?.map((schema, index) => (schema === ImageThumbnailSchema ? index : undefined))
+            .filter(exists)
+          const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+          if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
+          const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
+          const timestamp = bw.payload_hashes?.[timestampIndex]
+          const boundWitnessHash = await PayloadHasher.hashAsync(bw)
+          return imageThumbnails.map((imageThumbnail) => [boundWitnessHash, imageThumbnail, timestamp] as const)
+        }),
+      )
+    )
       .flat()
       .filter(exists)
     const archivist = await this.getArchivistForStore('thumbnailStore')
     const payloadTuples = (
       await Promise.all(
-        imageThumbnailTimestampTuples.map(async ([imageThumbnailHash, timestampHash]) => {
+        imageThumbnailTimestampTuples.map(async ([boundWitnessHash, imageThumbnailHash, timestampHash]) => {
           const results = await archivist.get([imageThumbnailHash, timestampHash])
           const imageThumbnailPayload = results.find(isImageThumbnail)
           const timestampPayload = results.find(isTimestamp)
@@ -98,16 +103,16 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const calculatedImageThumbnailHash = await PayloadHasher.hashAsync(imageThumbnailPayload)
           const calculatedTimestampHash = await PayloadHasher.hashAsync(timestampPayload)
           if (imageThumbnailHash !== calculatedImageThumbnailHash || timestampHash !== calculatedTimestampHash) return undefined
-          return [imageThumbnailHash, imageThumbnailPayload, timestampHash, timestampPayload] as const
+          return [boundWitnessHash, imageThumbnailHash, imageThumbnailPayload, timestampHash, timestampPayload] as const
         }),
       )
     ).filter(exists)
     // Build index results
-    const indexedResults = payloadTuples.map(([thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
+    const indexedResults = payloadTuples.map(([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
       const { sourceUrl: url } = thumbnailPayload
       const { timestamp } = timestampPayload
       const status = thumbnailPayload.http?.status ?? -1
-      const sources = [thumbnailHash, timestampHash]
+      const sources = [boundWitnessHash, thumbnailHash, timestampHash]
       const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
         .fields({ sources, status, timestamp, url })
         .build()

@@ -86,7 +86,9 @@
   "version": "2.75.9",
   "xy": {
     "compile": {
-      "browser": false,
+      "browser": {
+        "src": true
+      },
       "node": {
         "src": true
       }

@@ -25,7 +25,6 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {

@@ -7951,7 +7951,6 @@ __metadata:
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -9106,6 +9105,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.0.88
     "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"

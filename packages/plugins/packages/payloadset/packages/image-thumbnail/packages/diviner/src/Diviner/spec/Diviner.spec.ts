@@ -4,7 +4,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ImageThumbnailDivinerQueryPayload, ImageThumbnailDivinerQuerySchema, SearchableStorage } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailDivinerQuery, ImageThumbnailDivinerQuerySchema, SearchableStorage } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -152,14 +152,14 @@ describe('ImageThumbnailDiviner', () => {
   })
   describe('with no thumbnail for the provided URL', () => {
     it('returns nothing', async () => {
-      const payload: ImageThumbnailDivinerQueryPayload = { schema: ImageThumbnailDivinerQuerySchema, url: 'https://does.not.exist.io' }
+      const payload: ImageThumbnailDivinerQuery = { schema: ImageThumbnailDivinerQuerySchema, url: 'https://does.not.exist.io' }
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(0)
     })
   })
   describe('with successful thumbnail for the provided URL', () => {
     it('returns the most recent success', async () => {
-      const payload: ImageThumbnailDivinerQueryPayload = { schema: ImageThumbnailDivinerQuerySchema, url: successfulThumbnail.sourceUrl }
+      const payload: ImageThumbnailDivinerQuery = { schema: ImageThumbnailDivinerQuerySchema, url: successfulThumbnail.sourceUrl }
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
       const expected = await PayloadHasher.hashAsync(successfulThumbnail)

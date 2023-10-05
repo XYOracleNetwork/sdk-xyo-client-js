@@ -18,7 +18,7 @@ import {
   ImageThumbnailResultIndexSchema,
   ImageThumbnailSchema,
   isImageThumbnail,
-  isImageThumbnailDivinerQueryPayload,
+  isImageThumbnailDivinerQuery,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
@@ -163,7 +163,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
-    const urls = payloads.filter(isImageThumbnailDivinerQueryPayload)
+    const urls = payloads.filter(isImageThumbnailDivinerQuery)
     const diviner = await this.getPayloadDivinerForStore('indexStore')
     const results = (
       await Promise.all(

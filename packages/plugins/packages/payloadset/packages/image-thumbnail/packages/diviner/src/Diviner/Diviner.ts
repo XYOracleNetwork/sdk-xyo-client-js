@@ -7,7 +7,7 @@ import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema, SortDirection } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
   ImageThumbnail,
@@ -18,12 +18,12 @@ import {
   ImageThumbnailResultIndexSchema,
   ImageThumbnailSchema,
   isImageThumbnail,
+  isImageThumbnailDivinerQuery,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { isUrlPayload, UrlPayload } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 export type ImageThumbnailDivinerState = StateDictionary & {
@@ -163,19 +163,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
-    const urls = payloads.filter(isUrlPayload)
+    const urls = payloads.filter(isImageThumbnailDivinerQuery)
     const diviner = await this.getPayloadDivinerForStore('indexStore')
     const results = (
       await Promise.all(
         urls.map(async (payload) => {
-          const {
-            limit: payloadLimit,
-            offset: payloadOffset,
-            order: payloadOrder,
-            status: payloadStatus,
-            url,
-          } = payload as UrlPayload & { limit: number; offset: number; order: SortDirection; status: boolean }
-          // TODO: Expose status, limit (and possibly offset) to caller.  Currently only exposing URL
+          const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder, status: payloadStatus, url } = payload
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0

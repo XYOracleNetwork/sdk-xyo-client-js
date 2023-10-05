@@ -191,9 +191,21 @@ describe('ImageThumbnailDiviner', () => {
     })
     describe('with filter criteria', () => {
       describe('for status code', () => {
-        it.each([thumbnailHttpSuccess, thumbnailHttpFail])('returns the most recent instance of that status code', async (payload) => {
+        const cases = [thumbnailHttpSuccess, thumbnailHttpFail]
+        it.each(cases)('returns the most recent instance of that status code', async (payload) => {
           const { status } = payload.http
           const query: ImageThumbnailDivinerQuery = { schema, status, url }
+          const result = await sut.divine([query])
+          expect(result).toBeArrayOfSize(1)
+          const expected = await PayloadHasher.hashAsync(payload)
+          expect(result[0]?.sources).toContain(expected)
+        })
+      })
+      describe('for success', () => {
+        const cases = [thumbnailHttpFail, thumbnailWitnessFail]
+        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
+          const success = (payload?.http as { status?: number })?.status ? true : false
+          const query: ImageThumbnailDivinerQuery = { schema, success, url }
           const result = await sut.divine([query])
           expect(result).toBeArrayOfSize(1)
           const expected = await PayloadHasher.hashAsync(payload)

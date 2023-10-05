@@ -76,7 +76,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     })
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return
-    const indexableHashes = (
+    type IndexableHashes = Readonly<[boundWitnessHash: string, imageThumbnailHash: string, timestampHash: string]>
+    const indexableHashes: IndexableHashes[] = (
       await Promise.all(
         batch.filter(isBoundWitness).map(async (bw) => {
           const imageThumbnailIndexes = bw.payload_schemas
@@ -94,7 +95,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       .flat()
       .filter(exists)
     const archivist = await this.getArchivistForStore('thumbnailStore')
-    const indexableData: Readonly<
+    type IndexableData = Readonly<
       [
         boundWitnessHash: string,
         imageThumbnailHash: string,
@@ -102,7 +103,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         timestampHash: string,
         timestampPayload: TimeStamp,
       ]
-    >[] = (
+    >
+    const indexableData: IndexableData[] = (
       await Promise.all(
         indexableHashes.map(async ([boundWitnessHash, imageThumbnailHash, timestampHash]) => {
           const results = await archivist.get([imageThumbnailHash, timestampHash])
@@ -117,16 +119,18 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       )
     ).filter(exists)
     // Build index results
-    const indexes = indexableData.map(([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
-      const { sourceUrl: url } = thumbnailPayload
-      const { timestamp } = timestampPayload
-      const status = thumbnailPayload.http?.status ?? -1
-      const sources = [boundWitnessHash, thumbnailHash, timestampHash]
-      const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
-        .fields({ sources, status, timestamp, url })
-        .build()
-      return result
-    })
+    const indexes: ImageThumbnailResult[] = indexableData.map(
+      ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
+        const { sourceUrl: url } = thumbnailPayload
+        const { timestamp } = timestampPayload
+        const status = thumbnailPayload.http?.status ?? -1
+        const sources = [boundWitnessHash, thumbnailHash, timestampHash]
+        const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema })
+          .fields({ sources, status, timestamp, url })
+          .build()
+        return result
+      },
+    )
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
     await indexArchivist.insert(indexes)

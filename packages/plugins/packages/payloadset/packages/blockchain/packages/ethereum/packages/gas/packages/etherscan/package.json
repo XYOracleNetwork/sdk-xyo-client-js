@@ -24,6 +24,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.0.88",
     "@xylabs/tsconfig": "^3.0.88",
     "@xyo-network/payload-wrapper": "workspace:~",
+    "jest": "^29.7.0",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

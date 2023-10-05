@@ -6613,6 +6613,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
+    jest: ^29.7.0
     typescript: ^5.2.2
   peerDependencies:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -8048,6 +8049,7 @@ __metadata:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     "@xyo-network/shared": "workspace:~"
     fake-indexeddb: ^4.0.2
+    jest: ^29.7.0
     jest-mock-extended: ^3.0.5
     mongodb: ^6.1.0
     reflect-metadata: ^0.1.13
@@ -8587,6 +8589,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    jest: ^29.7.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8619,6 +8622,7 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    jest: ^29.7.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9141,6 +9145,7 @@ __metadata:
     gm: ^1.25.0
     hasbin: ^1.2.3
     hash-wasm: ^4.9.0
+    jest: ^29.7.0
     jest-mock-extended: ^3.0.5
     sha.js: ^2.4.11
     typescript: ^5.2.2
@@ -10017,6 +10022,7 @@ __metadata:
     "@xyo-network/payloadset-plugin": "workspace:~"
     "@xyo-network/pentair-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    jest: ^29.7.0
     node-screenlogic: ^2.0.0
     typescript: ^5.2.2
   languageName: unknown
@@ -10554,6 +10560,7 @@ __metadata:
     "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/url-safety-payload-plugin": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    jest: ^29.7.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

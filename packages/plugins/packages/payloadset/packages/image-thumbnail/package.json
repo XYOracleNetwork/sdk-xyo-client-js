@@ -42,6 +42,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/sentinel": "workspace:~",
     "@xyo-network/witness-timestamp": "workspace:~",
+    "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "typescript": "^5.2.2"
   },

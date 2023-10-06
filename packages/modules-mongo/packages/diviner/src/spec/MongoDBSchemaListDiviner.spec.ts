@@ -17,6 +17,10 @@ import { mock } from 'jest-mock-extended'
 
 import { MongoDBSchemaListDiviner } from '../MongoDBSchemaListDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBSchemaListDiviner', () => {
   let account: AccountInstance
   let address: string

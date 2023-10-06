@@ -16,6 +16,10 @@ import { mock } from 'jest-mock-extended'
 
 import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBBoundWitnessDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance

@@ -18,6 +18,10 @@ import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBBoundWitnessStatsDiviner } from '../MongoDBBoundWitnessStatsDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBBoundWitnessStatsDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance

@@ -13,6 +13,10 @@ import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBPayloadStatsDiviner', () => {
   const phrase = 'temp'
   let address: string

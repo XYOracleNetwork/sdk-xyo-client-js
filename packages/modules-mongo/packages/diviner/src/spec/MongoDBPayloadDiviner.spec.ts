@@ -9,6 +9,10 @@ import { mock } from 'jest-mock-extended'
 
 import { MongoDBPayloadDiviner } from '../MongoDBPayloadDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBPayloadDiviner', () => {
   const testSchema = 'network.xyo.test'
   const logger = mock<Console>()

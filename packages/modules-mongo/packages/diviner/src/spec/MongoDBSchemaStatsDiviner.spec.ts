@@ -15,6 +15,10 @@ import { mock, MockProxy } from 'jest-mock-extended'
 
 import { MongoDBSchemaStatsDiviner } from '../MongoDBSchemaStatsDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBSchemaStatsDiviner', () => {
   const phrase = 'temp'
   let address: string

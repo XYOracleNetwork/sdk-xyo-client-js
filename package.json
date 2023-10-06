@@ -110,7 +110,7 @@
     "test-esm": "node $(yarn jest --no-cache --forceExit)",
     "test": "jest --no-cache --forceExit",
     "test:no-slow": "jest . --passWithNoTests --forceExit -- --group=-slow",
-    "test:no-mongo": "jest --no-cache --forceExit -c ./jest.config.no-mongo.cjs",
+    "test:no-mongo": "jest . --passWithNoTests --forceExit -c ./jest.config.no-mongo.ts -- --group=-mongo",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",

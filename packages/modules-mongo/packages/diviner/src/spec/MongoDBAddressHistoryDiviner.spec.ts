@@ -12,6 +12,10 @@ import { mock } from 'jest-mock-extended'
 
 import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBAddressHistoryDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance

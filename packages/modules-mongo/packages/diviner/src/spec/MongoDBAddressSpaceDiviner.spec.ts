@@ -13,6 +13,10 @@ import { mock } from 'jest-mock-extended'
 
 import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
 
+/**
+ * @group mongo
+ */
+
 describeIf(hasMongoDBConfig())('MongoDBAddressSpaceDiviner', () => {
   const phrase = 'temp'
   let account: AccountInstance

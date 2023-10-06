@@ -1,5 +1,6 @@
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { AddressString, AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
+import { Address } from '@xyo-network/core'
+import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
 
 import { Queryable, QueryValidator } from './QueryValidator'
 
@@ -9,7 +10,7 @@ const delimiter = ''
 
 export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleConfig>> implements QueryValidator {
   protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
-  protected disallowed: Record<SchemaString, AddressString[]> = {}
+  protected disallowed: Record<SchemaString, Address[]> = {}
   protected readonly hasAllowedRules: boolean
   protected readonly hasDisallowedRules: boolean
   protected readonly hasRules: boolean

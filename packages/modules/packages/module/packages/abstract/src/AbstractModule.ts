@@ -470,6 +470,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
     const result: ModuleQueryResult = [(await builder.build())[0], payloads, errors ?? []]
+    if (this.config.archiving) {
+      await this.storeToArchivists(result.flat())
+    }
     return result
   }
 
@@ -608,6 +611,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected readArchivist = () => this.getArchivist('read')
 
+  protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
+    const archivists = this.config.archiving?.archivists
+    if (!archivists) return []
+    const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
+    return compact(resolved.map((mod) => asArchivistInstance(mod)))
+  }
+
   protected async startHandler(): Promise<boolean> {
     this.validateConfig()
     await this.initializeQueryAccounts()
@@ -618,6 +628,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected stopHandler(_timeout?: number): Promisable<boolean> {
     this._started = undefined
     return true
+  }
+
+  protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {
+    const archivists = await this.resolveArchivingArchivists()
+    return (
+      await Promise.all(
+        archivists.map((archivist) => {
+          return archivist.insert?.(payloads)
+        }),
+      )
+    ).map(([bw]) => bw)
   }
 
   protected subscribeHandler() {

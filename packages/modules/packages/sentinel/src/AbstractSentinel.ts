@@ -1,9 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { uniq } from '@xylabs/lodash'
-import { AbstractArchivingModule, asArchivistInstance } from '@xyo-network/archivist'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
+import { AbstractModuleInstance, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
 import { Payload } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
@@ -19,7 +18,7 @@ export abstract class AbstractSentinel<
     TParams extends SentinelParams = SentinelParams,
     TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
   >
-  extends AbstractArchivingModule<TParams, TEventData>
+  extends AbstractModuleInstance<TParams, TEventData>
   implements CustomSentinelInstance<TParams, TEventData>
 {
   history: BoundWitness[] = []
@@ -34,42 +33,8 @@ export abstract class AbstractSentinel<
     }
   }
 
-  addArchivist(address: string[]) {
-    this.config.archivists = uniq([...address, ...(this.config.archivists ?? [])])
-  }
-
   addWitness(address: string[]) {
     this.config.witnesses = uniq([...address, ...(this.config.witnesses ?? [])])
-  }
-
-  async archivists() {
-    this.logger?.debug(`archivists:config:archivist: ${this.config?.archivists?.length}`)
-    const namesOrAddresses = this.config?.archivists
-      ? Array.isArray(this.config.archivists)
-        ? this.config?.archivists
-        : [this.config.archivists]
-      : undefined
-    this.logger?.debug(`archivist:namesOrAddresses: ${namesOrAddresses?.length}`)
-    const result = [
-      ...(await this.resolve(namesOrAddresses ? { address: namesOrAddresses } : undefined)),
-      ...(await this.resolve(namesOrAddresses ? { name: namesOrAddresses } : undefined)),
-    ].map((module) => assertEx(asArchivistInstance(module), 'Tried to resolve a non-archivist as an archivist'))
-
-    if (namesOrAddresses && namesOrAddresses.length !== result.length) {
-      this.logger?.warn(`Not all archivists found [Requested: ${namesOrAddresses.length}, Found: ${result.length}]`)
-    }
-
-    this.logger?.debug(`archivists:result: ${result?.length}`)
-
-    return result
-  }
-
-  removeArchivist(address: string[]) {
-    this.config.archivists = (this.config.archivists ?? []).filter((archivist) => !address.includes(archivist))
-  }
-
-  removeWitness(address: string[]) {
-    this.config.witnesses = (this.config.witnesses ?? []).filter((witness) => !address.includes(witness))
   }
 
   async report(inPayloads?: Payload[]): Promise<Payload[]> {

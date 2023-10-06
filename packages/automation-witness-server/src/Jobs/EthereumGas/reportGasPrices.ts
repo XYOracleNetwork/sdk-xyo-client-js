@@ -20,7 +20,9 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
     }),
   )
   const config: SentinelConfig = {
-    archivists: archivists.map((mod) => mod.address),
+    archiving: {
+      archivists: archivists.map((mod) => mod.address),
+    },
     schema: SentinelConfigSchema,
     witnesses: witnesses.map((mod) => mod.address),
   }

@@ -1,4 +1,4 @@
-import { AnyObject, WithAdditional } from '@xyo-network/core'
+import { Address, AnyObject, WithAdditional } from '@xyo-network/core'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { Labels } from './Labels'
@@ -6,19 +6,26 @@ import { Labels } from './Labels'
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'
 
-export type AddressString = string
 export type CosigningAddressSet = string[]
 export type SchemaString = string
 
 export type NameOrAddress = string
 
+/** @deprecated */
 export interface IndividualArchivistConfig {
   readonly commit?: NameOrAddress
   readonly read?: NameOrAddress
   readonly write?: NameOrAddress
 }
 
+/** @deprecated */
 export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
+
+export interface ArchivingModuleConfig {
+  readonly archiving?: {
+    readonly archivists?: Address[]
+  }
+}
 
 export type ModuleConfig<
   TConfig extends Payload | void = void,
@@ -53,10 +60,10 @@ export type ModuleConfig<
           readonly allowAnonymous?: boolean
 
           /** @field If schema in record, then only these address sets can access query */
-          readonly allowed?: Record<SchemaString, (AddressString | CosigningAddressSet)[]>
+          readonly allowed?: Record<SchemaString, (Address | CosigningAddressSet)[]>
 
           /** @field If schema in record, then anyone except these addresses can access query */
-          readonly disallowed?: Record<SchemaString, AddressString[]>
+          readonly disallowed?: Record<SchemaString, Address[]>
         }
 
         /** @field sign every query */
@@ -67,7 +74,7 @@ export type ModuleConfig<
 
         /** @field add a timestamp payload to every query  */
         readonly timestamp?: boolean
-      },
+      } & ArchivingModuleConfig,
       TConfig
     >,
     TAdditionalParams

@@ -46,7 +46,9 @@ describe('Sentinel', () => {
     const params: MemorySentinelParams<SentinelConfig> = {
       account: await HDWallet.random(),
       config: {
-        archivists: [archivistA.address, archivistB.address],
+        archiving: {
+          archivists: [archivistA.address, archivistB.address],
+        },
         schema: SentinelConfigSchema,
       },
     }

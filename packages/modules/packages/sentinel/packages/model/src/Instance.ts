@@ -1,4 +1,3 @@
-import { ArchivistInstance } from '@xyo-network/archivist'
 import { ModuleInstance } from '@xyo-network/module-model'
 import { Promisable } from '@xyo-network/promise'
 import { WitnessInstance } from '@xyo-network/witness-model'
@@ -11,7 +10,6 @@ import { Sentinel } from './Sentinel'
 export type SentinelInstance<TParams extends SentinelParams = SentinelParams> = SentinelModule<TParams> &
   Sentinel &
   ModuleInstance<TParams> & {
-    archivists: () => Promisable<ArchivistInstance[]>
     witnesses: () => Promisable<WitnessInstance[]>
   }
 

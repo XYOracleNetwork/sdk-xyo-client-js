@@ -36,7 +36,7 @@ describe('Witness', () => {
         wallet: await HDWallet.random(),
       })
       sentinel = await MemorySentinel.create({
-        config: { archivists: [archivistName], schema: MemorySentinel.configSchema },
+        config: { archiving: { archivists: [archivistName] }, schema: MemorySentinel.configSchema },
         logger,
         wallet: await HDWallet.random(),
       })

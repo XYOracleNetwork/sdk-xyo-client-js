@@ -20,7 +20,9 @@ export const reportCryptoPrices = async (provider = getProvider()): Promise<Payl
     }),
   )
   const config: SentinelConfig = {
-    archivists: archivists.map((mod) => mod.address),
+    archiving: {
+      archivists: archivists.map((mod) => mod.address),
+    },
     schema: SentinelConfigSchema,
     witnesses: witnesses.map((mod) => mod.address),
   }

@@ -1,4 +1,5 @@
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
+import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   ModuleConfig,
@@ -29,6 +30,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
   targetConfig(address: string): ModuleConfig
   targetDiscover(address?: string): Promisable<Payload[]>
   targetDownResolver(address?: string): ModuleResolver | undefined
+  targetManifest(address?: string, maxDepth?: number): Promisable<ManifestPayload>
   targetQueries(address: string): string[]
   targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
   targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>

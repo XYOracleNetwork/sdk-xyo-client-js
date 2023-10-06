@@ -14,6 +14,7 @@ export type BridgeConfig<TConfig extends Payload | undefined = undefined> = Modu
   WithAdditional<
     {
       discoverCache?: CacheConfig | true
+      maxDepth?: number
       schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
     },
     TConfig

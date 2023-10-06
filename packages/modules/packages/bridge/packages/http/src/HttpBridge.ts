@@ -6,6 +6,7 @@ import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -13,11 +14,13 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
@@ -178,6 +181,14 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     this.discoverCache?.set(address ?? 'root', discover)
 
     return discover
+  }
+
+  async targetManifest(address: string, maxDepth?: number) {
+    const addressToCall = address ?? (await this.getRootAddress())
+    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
+    const boundQuery = await this.bindQuery(queryPayload)
+    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    return assertEx(manifest.find(isPayloadOfSchemaType(ManifestPayloadSchema)), 'Did not receive manifest') as ManifestPayload
   }
 
   targetQueries(address: string): string[] {

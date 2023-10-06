@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import {
   BridgeConnectQuerySchema,
@@ -8,6 +9,7 @@ import {
   isBridgeInstance,
   isBridgeModule,
 } from '@xyo-network/bridge-model'
+import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   constructableModuleWrapper,
   ModuleConfig,
@@ -16,10 +18,12 @@ import {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleInstance,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleQueryResult,
   ModuleWrapper,
 } from '@xyo-network/module'
-import { Payload, Query } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 
 constructableModuleWrapper()
@@ -61,6 +65,11 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   async targetDiscover(address: string): Promise<Payload[]> {
     const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     return await this.sendTargetQuery(address, queryPayload)
+  }
+
+  async targetManifest(address: string, maxDepth?: number): Promise<ManifestPayload> {
+    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
+    return assertEx((await this.sendTargetQuery(address, queryPayload)).find(isPayloadOfSchemaType(ManifestPayloadSchema))) as ManifestPayload
   }
 
   targetQueries(address: string): string[] {

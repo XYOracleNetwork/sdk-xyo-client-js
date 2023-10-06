@@ -4,6 +4,6 @@ export type ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'
 export const ModuleManifestQuerySchema: ModuleManifestQuerySchema = 'network.xyo.query.module.manifest'
 
 export type ModuleManifestQuery = Query<{
-  depth?: number
+  maxDepth?: number
   schema: ModuleManifestQuerySchema
 }>

@@ -5,18 +5,20 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ManifestPayload } from '@xyo-network/manifest-model'
+import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { Promisable } from '@xyo-network/promise'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -158,6 +160,14 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     //if caching, set entry
     this.discoverCache?.set(address ?? 'root', discover)
     return discover
+  }
+
+  async targetManifest(address: string, maxDepth?: number) {
+    const addressToCall = address ?? (await this.getRootAddress())
+    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
+    const boundQuery = await this.bindQuery(queryPayload)
+    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    return assertEx(manifest.find(isPayloadOfSchemaType(ManifestPayloadSchema)), 'Did not receive manifest') as ManifestPayload
   }
 
   targetQueries(address: string): string[] {

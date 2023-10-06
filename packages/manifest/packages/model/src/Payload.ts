@@ -37,6 +37,9 @@ export interface NodeManifestPayload extends NodeManifest {
 export interface ModuleManifest extends Manifest {
   config: ConfigManifest
   lazyStart?: boolean
+  status?: {
+    address: string
+  }
 }
 
 export interface ModuleManifestPayload extends ModuleManifest {

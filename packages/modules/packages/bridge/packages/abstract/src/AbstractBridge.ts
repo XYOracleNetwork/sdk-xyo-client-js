@@ -10,6 +10,7 @@ import {
   BridgeQueryBase,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
+import { ManifestPayload } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleEventData, ModuleFilter, ModuleQueryResult } from '@xyo-network/module'
 import { ModuleFilterOptions, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
@@ -55,28 +56,44 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       }
       default: {
         return [
-          ...(down ? (await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter)) ?? [] : []),
+          ...(down ? (await this.targetDownResolver()?.resolve(nameOrAddressOrFilter)) ?? [] : []),
           ...(await super.resolve<T>(nameOrAddressOrFilter, options)),
         ].filter(duplicateModules)
       }
     }
   }
 
-  targetDownResolver(address?: string): BridgeModuleResolver | undefined {
+  targetDownResolver<T extends ModuleInstance = ModuleInstance>(
+    address?: string,
+    options?: ModuleFilterOptions<T>,
+  ): BridgeModuleResolver<T> | undefined {
     if (!this.connected) {
       return undefined
     }
-    this._targetDownResolvers[address ?? 'root'] = this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account)
-    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver
+    this._targetDownResolvers[address ?? 'root'] =
+      this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account, options)
+    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver<T>
   }
 
-  async targetResolve(address: string, filter?: ModuleFilter): Promise<ModuleInstance[]>
-  async targetResolve(address: string, nameOrAddress: string): Promise<ModuleInstance | undefined>
-  async targetResolve(address: string, nameOrAddressOrFilter?: ModuleFilter | string): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  async targetResolve<T extends ModuleInstance = ModuleInstance>(
+    address: string,
+    filter?: ModuleFilter<T>,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance[]>
+  async targetResolve<T extends ModuleInstance = ModuleInstance>(
+    address: string,
+    nameOrAddress: string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | undefined>
+  async targetResolve<T extends ModuleInstance = ModuleInstance>(
+    address: string,
+    nameOrAddressOrFilter?: ModuleFilter | string,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof nameOrAddressOrFilter === 'string') {
-      return await this.targetDownResolver(address)?.resolve(nameOrAddressOrFilter)
+      return await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
     } else {
-      return (await this.targetDownResolver(address)?.resolve(nameOrAddressOrFilter)) ?? []
+      return (await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
     }
   }
 
@@ -115,6 +132,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract targetConfig(address: string): ModuleConfig
 
   abstract targetDiscover(address: string): Promisable<Payload[]>
+
+  abstract targetManifest(address: string, maxDepth?: number): Promisable<ManifestPayload>
 
   abstract targetQueries(address: string): string[]
 

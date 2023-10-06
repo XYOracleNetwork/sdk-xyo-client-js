@@ -30,7 +30,7 @@ export class MemorySentinel<
     const resultPayloads: Payload[] = []
 
     try {
-      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses, payloads)
+      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses)
       const combinedPayloads = [...generatedPayloads, ...payloads]
       resultPayloads.push(...combinedPayloads)
       errors.push(...generatedErrors)

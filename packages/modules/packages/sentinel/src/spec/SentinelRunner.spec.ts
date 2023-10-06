@@ -11,6 +11,10 @@ import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../
 import { MemorySentinel } from '../MemorySentinel'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
+/**
+ * @group sentinel
+ */
+
 describe('SentinelRunner', () => {
   let sentinel: MemorySentinel
   let config: SentinelConfig

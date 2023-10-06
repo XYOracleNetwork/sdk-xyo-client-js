@@ -11,6 +11,10 @@ const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 import { testIf } from '@xylabs/jest-helpers'
 
+/**
+ * @group crypto
+ */
+
 describe('EthereumGasEthersWitness', () => {
   testIf(projectId && projectSecret)('returns observation', async () => {
     const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })

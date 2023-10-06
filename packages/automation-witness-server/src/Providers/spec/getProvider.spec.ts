@@ -1,5 +1,11 @@
 import { getProvider } from '../getProvider'
 
+/**
+ * @group crypto
+ * @group infura
+ * @group slow
+ */
+
 describe('getProvider', () => {
   beforeEach(() => {
     process.env.INFURA_PROJECT_ID = 'foo'

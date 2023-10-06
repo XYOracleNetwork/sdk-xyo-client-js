@@ -11,6 +11,9 @@ import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDiviner } from '../Diviner'
 
+/**
+ * @group slow
+ */
 describe('ImageThumbnailDiviner', () => {
   const pollFrequency = 10
   const indexArchivistName = 'indexArchivist'

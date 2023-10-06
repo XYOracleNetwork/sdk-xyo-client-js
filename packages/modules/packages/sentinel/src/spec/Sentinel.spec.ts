@@ -16,6 +16,10 @@ import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
+/**
+ * @group sentinel
+ */
+
 describe('Sentinel', () => {
   test('all [simple panel send]', async () => {
     const node = await MemoryNode.create({ account: await HDWallet.random() })
@@ -114,7 +118,7 @@ describe('Sentinel', () => {
         const paramsA = {
           account: await HDWallet.random(),
           config: {
-            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            payload: { nonce: Date.now() * 8, schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },
@@ -122,7 +126,7 @@ describe('Sentinel', () => {
         const paramsB = {
           account: await HDWallet.random(),
           config: {
-            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            payload: { nonce: Date.now() * 9, schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
             targetSchema: PayloadSchema,
           },
@@ -233,7 +237,7 @@ describe('Sentinel', () => {
         const paramsA = {
           account: await HDWallet.random(),
           config: {
-            payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+            payload: { nonce: Date.now() * 7, schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
           },
         }

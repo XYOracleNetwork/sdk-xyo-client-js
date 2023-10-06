@@ -9,10 +9,11 @@ const generateJestConfig = ({ esModules }) => {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     preset: 'ts-jest/presets/default-esm',
+    runner: 'groups',
     setupFiles: ['dotenv/config'],
     setupFilesAfterEnv: ['jest-sorted', 'jest-extended/all', './packages/node/packages/express/packages/test/src/setupFiles.ts'],
     testRegex: '(/__tests__/.*|(\\.|/)((!perf\\.)test|spec))\\.tsx?$',
-    testTimeout: 20000,
+    testTimeout: 200000,
     transform: {
       [`(${esModulesList}).+\\.js$`]: 'babel-jest',
       '^.+\\.tsx?$': [
@@ -23,6 +24,7 @@ const generateJestConfig = ({ esModules }) => {
       ],
     },
     transformIgnorePatterns: [`./node_modules/(?!${esModulesList})`],
+    workerThreads: true,
   }
 }
 

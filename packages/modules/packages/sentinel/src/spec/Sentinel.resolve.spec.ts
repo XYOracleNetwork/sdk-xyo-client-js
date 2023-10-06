@@ -9,6 +9,10 @@ import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
+/**
+ * @group sentinel
+ */
+
 describe('Sentinel', () => {
   test('report [resolve]', async () => {
     const paramsA = {

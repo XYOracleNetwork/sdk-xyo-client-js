@@ -19,6 +19,7 @@
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

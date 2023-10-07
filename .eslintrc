@@ -21,11 +21,15 @@
       "warn",
       {
         "paths": [
+          "@xyo-network/bridge",
+          "@xyo-network/node",
+          "@xyo-network/module",
           "@xyo-network/modules",
           "@xyo-network/node",
           "@xyo-network/sdk",
           "@xyo-network/plugins",
           "@xyo-network/protocol",
+          "@xyo-network/witness",
           "react-player",
           "filepond",
           "aos",

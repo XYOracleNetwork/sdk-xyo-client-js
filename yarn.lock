@@ -6059,6 +6059,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/assert@npm:^2.12.20":
+  version: 2.12.20
+  resolution: "@xylabs/assert@npm:2.12.20"
+  checksum: 690fdb043c17ea594c305925f46e959ce461fe84df572a4abbd105ae9128933d85d8656dd985ee7c03ecf2541bb19d32e9cf77e41af3500e0a07c2b225cfd394
+  languageName: node
+  linkType: hard
+
 "@xylabs/bignumber@npm:^2.12.14":
   version: 2.12.14
   resolution: "@xylabs/bignumber@npm:2.12.14"
@@ -6373,6 +6380,7 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -6947,6 +6955,7 @@ __metadata:
     "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
@@ -6991,10 +7000,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-wrapper@workspace:packages/modules/packages/bridge/packages/wrapper"
   dependencies:
+    "@xylabs/assert": ^2.12.20
     "@xylabs/ts-scripts-yarn3": ^3.0.88
     "@xylabs/tsconfig": ^3.0.88
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/promise": "workspace:~"
@@ -9040,6 +9051,7 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
@@ -10320,7 +10332,6 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.0.88
     "@xylabs/tsconfig": ^3.0.88
-    "@xyo-network/archivist": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/module": "workspace:~"

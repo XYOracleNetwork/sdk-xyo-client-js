@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xyo-network/core'
-import { ModuleConfig, ModuleConfigSchema } from '@xyo-network/module'
+import { ModuleConfig, ModuleConfigSchema } from '@xyo-network/module-model'
 import { CommandBuilder, CommandModule } from 'yargs'
 
 import { readFileDeep } from '../../../lib'

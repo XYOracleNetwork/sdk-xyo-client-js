@@ -1,8 +1,8 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AxiosJson } from '@xyo-network/axios'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload, UrlSafetySchema, UrlSafetyThreatType } from '@xyo-network/url-safety-payload-plugin'
-import { AbstractWitness } from '@xyo-network/witness'
 
 import { UrlSafetyWitnessConfigSchema } from './Config'
 import { UrlSafetyWitnessParams } from './Params'

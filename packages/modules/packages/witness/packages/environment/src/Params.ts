@@ -1,4 +1,4 @@
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { WitnessParams } from '@xyo-network/witness-model'
 
 import { EnvironmentWitnessConfig } from './Config'

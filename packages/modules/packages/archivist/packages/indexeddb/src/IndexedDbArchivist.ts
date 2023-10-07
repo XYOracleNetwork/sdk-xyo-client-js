@@ -10,7 +10,7 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 

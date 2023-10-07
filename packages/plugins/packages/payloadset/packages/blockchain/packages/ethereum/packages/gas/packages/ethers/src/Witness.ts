@@ -1,10 +1,11 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { EthereumGasEthersPayload, EthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { EthereumGasEthersWitnessConfig } from './Config'
 import { getGasFromEthers } from './lib'

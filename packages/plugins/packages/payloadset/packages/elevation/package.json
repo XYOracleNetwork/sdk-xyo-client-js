@@ -11,14 +11,15 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.12.14",
+    "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/elevation-payload-plugin": "workspace:~",
     "@xyo-network/location-payload-plugin": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/quadkey": "workspace:~",
     "@xyo-network/sdk-geo": "^2.10.0",
-    "@xyo-network/witness": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~",
     "geotiff": "^2.0.7"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import {
   isWitnessInstance,

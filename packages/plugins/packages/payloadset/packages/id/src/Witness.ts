@@ -1,8 +1,9 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
+import { WitnessConfig, WitnessParams } from '@xyo-network/witness-model'
 
 export type IdWitnessConfigSchema = 'network.xyo.id.witness.config'
 export const IdWitnessConfigSchema: IdWitnessConfigSchema = 'network.xyo.id.witness.config'

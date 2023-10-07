@@ -1,4 +1,4 @@
-import { WitnessConfig } from '@xyo-network/witness'
+import { WitnessConfig } from '@xyo-network/witness-model'
 
 import { NftCollectionWitnessConfigSchema } from './Schema'
 

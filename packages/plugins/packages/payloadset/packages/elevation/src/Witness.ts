@@ -1,11 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { ElevationPayload, ElevationSchema } from '@xyo-network/elevation-payload-plugin'
 import { GeographicCoordinateSystemLocation, Location, LocationPayload, QuadkeyLocation } from '@xyo-network/location-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Quadkey } from '@xyo-network/quadkey'
 import { MercatorBoundingBox } from '@xyo-network/sdk-geo'
-import { AbstractWitness, WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness'
+import { WitnessConfig, WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 // eslint-disable-next-line import/no-named-as-default
 import GeoTIFF, { fromFile, GeoTIFFImage } from 'geotiff'
 

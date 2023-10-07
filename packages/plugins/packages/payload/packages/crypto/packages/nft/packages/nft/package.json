@@ -14,7 +14,7 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~",
-    "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.0.88",

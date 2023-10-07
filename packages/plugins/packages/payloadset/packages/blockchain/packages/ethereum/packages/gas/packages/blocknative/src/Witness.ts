@@ -1,8 +1,9 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { EthereumGasBlocknativePayload, EthereumGasBlocknativeSchema } from '@xyo-network/blocknative-ethereum-gas-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, TimestampWitnessParams } from '@xyo-network/witness'
+import { TimestampWitnessParams } from '@xyo-network/witness-timestamp'
 
 import { EthereumGasBlocknativeWitnessConfig } from './Config'
 import { getGasFromBlocknative } from './lib'

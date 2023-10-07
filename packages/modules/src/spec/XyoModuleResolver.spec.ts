@@ -3,8 +3,8 @@ import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
-import { CompositeModuleResolver } from '@xyo-network/module'
-import { WitnessInstance, WitnessObserveQuerySchema } from '@xyo-network/witness'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { WitnessInstance, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
 
 describe('ModuleResolver', () => {
   let archivist: ArchivistInstance

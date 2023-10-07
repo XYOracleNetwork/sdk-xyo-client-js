@@ -6,7 +6,7 @@ import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-n
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
-import { WitnessInstance } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness-model'
 
 describe('MultiNodeConfiguration', () => {
   let primaryArchivist: ArchivistInstance

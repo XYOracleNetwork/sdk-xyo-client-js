@@ -3,7 +3,7 @@ import { Validator } from '@xyo-network/core'
 import { DivinerModule } from '@xyo-network/diviner'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { WitnessModule } from '@xyo-network/witness'
+import { WitnessModule } from '@xyo-network/witness-model'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PayloadSetPluginFunc = () => PayloadSetPlugin<any>

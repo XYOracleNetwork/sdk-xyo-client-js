@@ -5,7 +5,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module'
+import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module-model'
 import { ModuleAttachedEventArgs, NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload'
 

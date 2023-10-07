@@ -1,7 +1,7 @@
 import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module'
+import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'

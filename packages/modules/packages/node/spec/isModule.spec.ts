@@ -1,5 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
-import { isModuleInstance } from '@xyo-network/module'
+import { isModuleInstance } from '@xyo-network/module-model'
 
 import { isNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper } from '../src'
 

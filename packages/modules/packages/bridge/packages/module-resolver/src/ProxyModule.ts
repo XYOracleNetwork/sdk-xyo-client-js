@@ -4,10 +4,9 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ManifestPayloadSchema, ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
-  BaseEmitter,
-  CompositeModuleResolver,
   ModuleBusyEventArgs,
   ModuleConfig,
   ModuleDescription,
@@ -17,7 +16,8 @@ import {
   ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
-} from '@xyo-network/module'
+} from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

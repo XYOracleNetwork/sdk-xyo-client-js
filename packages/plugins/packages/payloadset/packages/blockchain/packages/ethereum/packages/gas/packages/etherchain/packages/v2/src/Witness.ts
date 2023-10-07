@@ -1,7 +1,8 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { EthereumGasEtherchainV2Payload, EthereumGasEtherchainV2Schema } from '@xyo-network/etherchain-ethereum-gas-v2-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { EthereumGasEtherchainV2WitnessConfig } from './Config'
 import { getV2GasFromEtherchain } from './lib'

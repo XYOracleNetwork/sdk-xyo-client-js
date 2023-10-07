@@ -18,17 +18,20 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/error": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-abstract": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
-    "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/delay": "^2.12.14",
     "@xylabs/ts-scripts-yarn3": "^3.0.88",
     "@xylabs/tsconfig": "^3.0.88",
+    "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",

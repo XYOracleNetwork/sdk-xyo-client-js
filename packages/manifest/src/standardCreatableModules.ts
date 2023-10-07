@@ -1,6 +1,6 @@
 import { HttpBridge } from '@xyo-network/http-bridge'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module'
+import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { MemorySentinel } from '@xyo-network/sentinel'
 

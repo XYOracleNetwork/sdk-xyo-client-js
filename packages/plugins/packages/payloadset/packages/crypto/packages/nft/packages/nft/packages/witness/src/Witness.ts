@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { CryptoWalletNftWitnessConfig, isNftWitnessQuery, NftInfo, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftsOwnedByAddress } from './lib'
 

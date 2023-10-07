@@ -11,8 +11,17 @@ import {
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ManifestPayload } from '@xyo-network/manifest-model'
-import { AbstractModuleInstance, duplicateModules, ModuleConfig, ModuleEventData, ModuleFilter, ModuleQueryResult } from '@xyo-network/module'
-import { ModuleFilterOptions, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { AbstractModuleInstance } from '@xyo-network/module-abstract'
+import {
+  duplicateModules,
+  ModuleConfig,
+  ModuleEventData,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleInstance,
+  ModuleQueryHandlerResult,
+  ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

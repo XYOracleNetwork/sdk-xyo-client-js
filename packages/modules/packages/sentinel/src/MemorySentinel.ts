@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { handleError } from '@xyo-network/error'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
   SentinelConfig,
@@ -11,7 +11,7 @@ import {
   SentinelParams,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
-import { WitnessInstance } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness-model'
 
 import { AbstractSentinel } from './AbstractSentinel'
 

@@ -1,5 +1,6 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessConfigSchema, WitnessParams } from '@xyo-network/witness'
+import { WitnessConfigSchema, WitnessParams } from '@xyo-network/witness-model'
 
 import { PluginPayload } from './Payload'
 

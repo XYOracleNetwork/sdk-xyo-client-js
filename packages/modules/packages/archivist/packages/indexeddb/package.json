@@ -14,7 +14,7 @@
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "idb-keyval": "^6.2.1"
   },

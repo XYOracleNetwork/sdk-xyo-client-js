@@ -3,7 +3,7 @@ import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'

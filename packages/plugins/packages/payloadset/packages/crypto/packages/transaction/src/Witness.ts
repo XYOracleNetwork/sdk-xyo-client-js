@@ -1,5 +1,6 @@
 import type { EtherscanProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   AddressTransactionHistoryPayload,
   AddressTransactionHistorySchema,
@@ -7,7 +8,7 @@ import {
 } from '@xyo-network/crypto-address-transaction-history-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { AddressTransactionHistoryWitnessConfig } from './Config'
 import { getTransactionsForAddress } from './lib'

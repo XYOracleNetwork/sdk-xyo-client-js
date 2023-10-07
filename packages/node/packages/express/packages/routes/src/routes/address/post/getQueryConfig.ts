@@ -1,6 +1,7 @@
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { AbstractModule, Module, ModuleConfig, ModuleConfigSchema } from '@xyo-network/module'
+import { AbstractModule } from '@xyo-network/module-abstract'
+import { Module, ModuleConfig, ModuleConfigSchema } from '@xyo-network/module-model'
 import { ArchiveModuleConfig } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Request } from 'express'

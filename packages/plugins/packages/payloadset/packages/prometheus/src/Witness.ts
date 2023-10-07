@@ -1,7 +1,8 @@
 import { compact } from '@xylabs/lodash'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessConfig, WitnessParams } from '@xyo-network/witness'
+import { WitnessConfig, WitnessParams } from '@xyo-network/witness-model'
 import { createServer, Server } from 'http'
 import { collectDefaultMetrics, Registry } from 'prom-client'
 

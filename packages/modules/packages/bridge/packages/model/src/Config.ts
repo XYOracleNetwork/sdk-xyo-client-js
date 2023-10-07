@@ -1,5 +1,5 @@
 import { WithAdditional } from '@xyo-network/core'
-import { ModuleConfig } from '@xyo-network/module'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type BridgeConfigSchema = 'network.xyo.bridge.config'

@@ -1,5 +1,6 @@
 import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
@@ -7,7 +8,7 @@ import {
   UniswapCryptoMarketSchema,
   UniswapCryptoMarketWitnessConfigSchema,
 } from '@xyo-network/uniswap-crypto-market-payload-plugin'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { UniswapCryptoMarketWitnessConfig } from './Config'
 import { createUniswapPoolContracts, EthersUniSwap3Pair, pricesFromUniswap3, UniswapPoolContracts } from './lib'

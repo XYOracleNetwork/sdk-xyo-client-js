@@ -10,11 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-system-info-payload-plugin": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/witness": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~",
     "systeminformation": "^5.21.10"
   },
   "devDependencies": {

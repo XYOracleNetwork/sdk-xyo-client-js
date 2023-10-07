@@ -1,5 +1,5 @@
 import { ArchivistInstance } from '@xyo-network/archivist'
-import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import {
   isSentinelInstance,
@@ -9,7 +9,7 @@ import {
   SentinelReportQuery,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
-import { WitnessInstance } from '@xyo-network/witness'
+import { WitnessInstance } from '@xyo-network/witness-model'
 
 constructableModuleWrapper()
 export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>

@@ -26,7 +26,7 @@
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload": "workspace:~",
     "@xyo-network/witnesses": "workspace:~",
     "typescript": "^5.2.2"

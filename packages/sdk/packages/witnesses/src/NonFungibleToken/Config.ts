@@ -1,6 +1,6 @@
 import { AnyObject } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
-import { WitnessConfig } from '@xyo-network/witness'
+import { WitnessConfig } from '@xyo-network/witness-model'
 
 export type ExternalAddressSchema = 'network.xyo.address.external'
 export const ExternalAddressSchema = 'network.xyo.address.external'

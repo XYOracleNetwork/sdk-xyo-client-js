@@ -2,7 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { uniq } from '@xylabs/lodash'
 import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness } from '@xyo-network/boundwitness-model'
-import { AbstractModuleInstance, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module'
+import { AbstractModuleInstance } from '@xyo-network/module-abstract'
+import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
@@ -12,7 +13,7 @@ import {
   SentinelQueryBase,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
-import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness'
+import { isWitnessInstance, WitnessInstance } from '@xyo-network/witness-model'
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams = SentinelParams,

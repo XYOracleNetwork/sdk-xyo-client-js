@@ -1,5 +1,5 @@
 import { UrlSafetySchema } from '@xyo-network/url-safety-payload-plugin'
-import { WitnessConfig } from '@xyo-network/witness'
+import { WitnessConfig } from '@xyo-network/witness-model'
 
 export const UrlSafetyWitnessConfigSchema = `${UrlSafetySchema}.witness.config` as const
 export type UrlSafetyWitnessConfigSchema = typeof UrlSafetyWitnessConfigSchema

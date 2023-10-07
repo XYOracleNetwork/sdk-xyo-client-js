@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { LocationHeadingPayload, LocationHeadingSchema, LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness } from '@xyo-network/witness'
 
 import { CurrentLocationWitnessConfigSchema, CurrentLocationWitnessParams } from './Config'
 

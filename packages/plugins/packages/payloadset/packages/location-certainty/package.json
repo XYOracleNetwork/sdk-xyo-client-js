@@ -16,7 +16,7 @@
     "@xyo-network/elevation-plugin": "workspace:~",
     "@xyo-network/location-certainty-payload-plugin": "workspace:~",
     "@xyo-network/location-payload-plugin": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -25,6 +25,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.0.88",
     "@xylabs/tsconfig": "^3.0.88",
     "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/module-resolver": "workspace:~",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

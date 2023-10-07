@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerConfig, DivinerModule, DivinerParams } from '@xyo-network/diviner'
 import { EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

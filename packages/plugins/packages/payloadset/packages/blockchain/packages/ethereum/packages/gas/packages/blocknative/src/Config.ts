@@ -1,4 +1,4 @@
-import { TimestampWitnessConfig } from '@xyo-network/witness'
+import { TimestampWitnessConfig } from '@xyo-network/witness-timestamp'
 
 import { EthereumGasBlocknativeWitnessConfigSchema } from './Schema'
 

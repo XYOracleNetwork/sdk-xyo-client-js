@@ -1,8 +1,9 @@
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { DomainSchema } from '@xyo-network/domain-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, WitnessModule, WitnessParams } from '@xyo-network/witness'
+import { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 
 import { DomainWitnessConfig, DomainWitnessConfigSchema } from './Config'
 

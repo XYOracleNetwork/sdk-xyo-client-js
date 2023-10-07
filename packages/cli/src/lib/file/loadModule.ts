@@ -1,4 +1,4 @@
-import { Module, ModuleResolver } from '@xyo-network/module'
+import { Module, ModuleResolver } from '@xyo-network/module-model'
 
 export const loadModule = async (pkg: string, name?: string, resolver?: ModuleResolver): Promise<Module> => {
   const loadedPkg = await import(pkg)

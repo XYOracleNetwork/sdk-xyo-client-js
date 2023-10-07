@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
-import { AbstractWitness, WitnessConfig, WitnessConfigSchema, WitnessModule, WitnessParams } from '@xyo-network/witness'
+import { WitnessConfig, WitnessConfigSchema, WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 
 export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'
 export const AdhocWitnessConfigSchema: AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'

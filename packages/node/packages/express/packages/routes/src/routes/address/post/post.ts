@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
-import { Module, ModuleQueryResult } from '@xyo-network/module'
+import { Module, ModuleQueryResult } from '@xyo-network/module-model'
 import { trimAddressPrefix } from '@xyo-network/node-core-lib'
 import { Payload } from '@xyo-network/payload-model'
 import { RequestHandler } from 'express'

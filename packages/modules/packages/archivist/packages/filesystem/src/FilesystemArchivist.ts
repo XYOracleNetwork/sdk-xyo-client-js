@@ -13,7 +13,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { handleError } from '@xyo-network/error'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { PromisableArray } from '@xyo-network/promise'

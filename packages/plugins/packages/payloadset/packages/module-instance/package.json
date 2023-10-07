@@ -11,12 +11,13 @@
   },
   "dependencies": {
     "@xylabs/lodash": "^2.12.14",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/module-instance-payload-plugin": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/promise": "workspace:~",
-    "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.0.88",

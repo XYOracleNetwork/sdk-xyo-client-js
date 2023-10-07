@@ -7,7 +7,7 @@ import {
   ModuleFactoryLocator,
   ModuleInstance,
   toCreatableModuleRegistry,
-} from '@xyo-network/module'
+} from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

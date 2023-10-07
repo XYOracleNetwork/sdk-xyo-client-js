@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.12.14",
+    "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/etherscan-ethereum-gas-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.12.14",

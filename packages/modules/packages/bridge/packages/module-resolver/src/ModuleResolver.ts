@@ -7,7 +7,6 @@ import { BridgeModule } from '@xyo-network/bridge-model'
 import { DivinerWrapper } from '@xyo-network/diviner'
 import { isDivinerModule } from '@xyo-network/diviner-model'
 import { handleError } from '@xyo-network/error'
-import { CompositeModuleResolver, ModuleWrapper } from '@xyo-network/module'
 import {
   AddressModuleFilter,
   Module,
@@ -18,6 +17,8 @@ import {
   NameModuleFilter,
   QueryModuleFilter,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isNodeModule } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { isSentinelModule, SentinelWrapper } from '@xyo-network/sentinel'

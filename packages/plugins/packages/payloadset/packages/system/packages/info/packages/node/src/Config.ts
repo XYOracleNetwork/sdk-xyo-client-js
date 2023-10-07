@@ -1,4 +1,4 @@
-import { WitnessConfig } from '@xyo-network/witness'
+import { WitnessConfig } from '@xyo-network/witness-model'
 
 export type NodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'
 export const NodeSystemInfoWitnessConfigSchema: NodeSystemInfoWitnessConfigSchema = 'network.xyo.system.info.witness.node.config'

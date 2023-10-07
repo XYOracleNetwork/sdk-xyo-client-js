@@ -1,7 +1,7 @@
 import { AbstractArchivist, MemoryArchivist } from '@xyo-network/archivist'
 import { LocationCertaintyPayload, LocationCertaintySchema } from '@xyo-network/location-certainty-payload-plugin'
 import { LocationPayload, LocationSchema } from '@xyo-network/location-payload-plugin'
-import { CompositeModuleResolver } from '@xyo-network/module'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
 import { LocationCertaintyDivinerConfigSchema } from '../Config'
 import { LocationCertaintyDiviner } from '../Diviner'

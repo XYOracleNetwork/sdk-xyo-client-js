@@ -1,5 +1,6 @@
 /* eslint-disable import/no-deprecated */
 
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { HDWallet } from '@xyo-network/account'
 import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -11,7 +12,6 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { AbstractWitness } from '@xyo-network/witness'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'

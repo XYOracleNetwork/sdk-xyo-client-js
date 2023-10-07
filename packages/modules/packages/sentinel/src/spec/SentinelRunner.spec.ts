@@ -1,11 +1,11 @@
 import { delay } from '@xylabs/delay'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { AbstractWitness } from '@xyo-network/witness'
 
 import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
 import { MemorySentinel } from '../MemorySentinel'

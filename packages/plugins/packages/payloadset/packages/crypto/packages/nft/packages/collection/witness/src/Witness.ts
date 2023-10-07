@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   isNftCollectionWitnessQuery,
@@ -7,9 +8,9 @@ import {
   NftCollectionWitnessConfig,
   NftCollectionWitnessConfigSchema,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module'
+import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { AbstractWitness, WitnessParams } from '@xyo-network/witness'
+import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftCollectionCount, getNftCollectionMetadata, getNftCollectionMetrics, getNftCollectionNfts } from './lib'
 

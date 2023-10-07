@@ -11,7 +11,6 @@ import {
 } from '@xyo-network/bridge-model'
 import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
-  constructableModuleWrapper,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -21,8 +20,8 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  ModuleWrapper,
-} from '@xyo-network/module'
+} from '@xyo-network/module-model'
+import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isPayloadOfSchemaType, Payload, Query } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

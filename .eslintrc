@@ -22,7 +22,6 @@
       {
         "paths": [
           "@xyo-network/bridge",
-          "@xyo-network/node",
           "@xyo-network/module",
           "@xyo-network/modules",
           "@xyo-network/node",
@@ -41,7 +40,7 @@
           "../../../..",
           "../../../../..",
           "../../../../../..",
-          "../../../../../../..",
+          "../../../../../../.."
         ]
       }
     ],

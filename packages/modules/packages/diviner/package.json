@@ -18,7 +18,6 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/huri": "workspace:~",
-    "@xyo-network/module": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/promise": "workspace:~"

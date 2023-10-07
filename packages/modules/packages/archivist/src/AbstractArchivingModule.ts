@@ -1,4 +1,5 @@
-import { AbstractModuleInstance, AnyConfigSchema, Module, ModuleConfig, ModuleEventData, ModuleParams } from '@xyo-network/module'
+import { AbstractModuleInstance } from '@xyo-network/module-abstract'
+import { AnyConfigSchema, Module, ModuleConfig, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
 
 /** @deprecated use AbstractModule which now has this functionality included */
 export type ArchivingModuleBaseConfig<T extends ModuleConfig = ModuleConfig> = ModuleConfig<

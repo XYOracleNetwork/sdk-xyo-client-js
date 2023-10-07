@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/module": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

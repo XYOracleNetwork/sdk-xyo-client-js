@@ -16,7 +16,7 @@ import {
   ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueryResult,
-} from '@xyo-network/module'
+} from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

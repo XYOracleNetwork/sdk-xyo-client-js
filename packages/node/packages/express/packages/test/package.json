@@ -34,8 +34,8 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@xylabs/assert": "^2.12.14",
-    "@xylabs/forget": "^2.12.14",
+    "@xylabs/assert": "^2.12.22",
+    "@xylabs/forget": "^2.12.22",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
@@ -78,7 +78,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "jest": "^29.7.0",
-    "mongodb-memory-server": "^8.15.1",
+    "mongodb-memory-server": "^8.16.0",
     "typescript": "^5.2.2"
   },
   "xy": {

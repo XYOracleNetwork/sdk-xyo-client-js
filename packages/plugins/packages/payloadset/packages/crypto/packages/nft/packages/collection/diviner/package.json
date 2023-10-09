@@ -21,7 +21,7 @@
     "@xyo-network/payloadset-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.12.14",
+    "@xylabs/jest-helpers": "^2.12.22",
     "@xylabs/ts-scripts-yarn3": "^3.0.88",
     "@xylabs/tsconfig": "^3.0.88",
     "@xyo-network/account": "workspace:~",

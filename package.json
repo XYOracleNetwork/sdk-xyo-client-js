@@ -31,7 +31,7 @@
     "@xylabs/tsconfig-dom-jest": "^3.0.88",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.50.0",
+    "eslint": "^8.51.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.28.1",
@@ -50,8 +50,7 @@
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
-    "quick-lru": "^5",
-    "postcss": "^8.4.31"
+    "quick-lru": "^5"
   },
   "docs": "dist/docs.json",
   "types": "dist/node/index.d.ts",

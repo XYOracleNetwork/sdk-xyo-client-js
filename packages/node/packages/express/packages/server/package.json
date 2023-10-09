@@ -44,8 +44,8 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.425.0",
-    "@xylabs/assert": "^2.12.14",
+    "@aws-sdk/client-secrets-manager": "^3.427.0",
+    "@xylabs/assert": "^2.12.22",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/express-node-dependencies": "workspace:~",
     "@xyo-network/express-node-middleware": "workspace:~",
@@ -64,7 +64,7 @@
     "nconf": "^0.12.0",
     "node-cache": "^5.1.2",
     "rollbar": "^2.26.2",
-    "winston": "^3.10.0",
+    "winston": "^3.11.0",
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {

@@ -23,7 +23,7 @@
     "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
     "async-mutex": "^0.4.0",
-    "file-type": "^16",
+    "file-type": "^16.5.4",
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.25.0",
     "hasbin": "^1.2.3",

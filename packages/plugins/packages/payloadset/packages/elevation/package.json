@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.22",
+    "@xylabs/assert": "^2.12.23",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/elevation-payload-plugin": "workspace:~",
     "@xyo-network/location-payload-plugin": "workspace:~",
@@ -23,9 +23,9 @@
     "geotiff": "^2.0.7"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.12.22",
-    "@xylabs/ts-scripts-yarn3": "^3.0.88",
-    "@xylabs/tsconfig": "^3.0.88",
+    "@xylabs/jest-helpers": "^2.12.23",
+    "@xylabs/ts-scripts-yarn3": "^3.1.3",
+    "@xylabs/tsconfig": "^3.1.3",
     "@xyo-network/payload-wrapper": "workspace:~",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"

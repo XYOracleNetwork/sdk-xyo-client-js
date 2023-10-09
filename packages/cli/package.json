@@ -79,7 +79,7 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/node/index.d.ts",
-  "version": "2.75.14",
+  "version": "2.75.15",
   "xy": {
     "compile": {
       "browser": false,

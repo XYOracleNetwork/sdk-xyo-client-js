@@ -16,7 +16,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "prom-client": "^14.2.0"
+    "prom-client": "^15.0.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.0.88",

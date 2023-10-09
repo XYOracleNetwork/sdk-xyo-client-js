@@ -78,7 +78,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "jest": "^29.7.0",
-    "mongodb-memory-server": "^8.16.0",
+    "mongodb-memory-server": "^8",
     "typescript": "^5.2.2"
   },
   "xy": {

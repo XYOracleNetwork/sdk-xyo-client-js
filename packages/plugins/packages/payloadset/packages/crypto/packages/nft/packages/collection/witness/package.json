@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@infura/sdk": "^2.4.3",
-    "@xylabs/assert": "^2.12.23",
+    "@xylabs/assert": "^2.12.24",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
@@ -22,9 +22,9 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.12.23",
-    "@xylabs/ts-scripts-yarn3": "^3.1.3",
-    "@xylabs/tsconfig": "^3.1.3",
+    "@xylabs/jest-helpers": "^2.12.24",
+    "@xylabs/ts-scripts-yarn3": "^3.1.9",
+    "@xylabs/tsconfig": "^3.1.9",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "ethers": "^5.7.2",

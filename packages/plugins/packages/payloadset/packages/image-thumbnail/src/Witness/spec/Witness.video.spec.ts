@@ -23,6 +23,10 @@ const testVideoFormat = async (witness: ImageThumbnailWitness, url: string) => {
   expect(fileType?.mime).toBe('image/png')
 }
 
+/**
+ * @group thumbnail
+ */
+
 describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   describe('with video type', () => {
     let witness: ImageThumbnailWitness

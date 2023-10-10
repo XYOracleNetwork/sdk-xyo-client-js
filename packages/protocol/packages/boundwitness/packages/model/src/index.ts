@@ -1,2 +1,3 @@
-export * from './isBoundWitnessPayload'
-export * from './models'
+export * from './BoundWitness'
+export * from './isBoundWitness'
+export * from './QueryBoundWitness'

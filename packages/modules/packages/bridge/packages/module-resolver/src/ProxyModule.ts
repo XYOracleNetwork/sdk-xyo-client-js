@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { ManifestPayloadSchema, ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-abstract'

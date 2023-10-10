@@ -1,4 +1,4 @@
-import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 import { Promisable } from '@xyo-network/promise'
 

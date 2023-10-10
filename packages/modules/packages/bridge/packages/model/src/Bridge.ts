@@ -1,4 +1,4 @@
-import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,

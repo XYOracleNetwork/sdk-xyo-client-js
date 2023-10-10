@@ -10,6 +10,10 @@ import { mock } from 'jest-mock-extended'
 
 import { ImageThumbnailWitness } from '../Witness'
 
+/**
+ * @group thumbnail
+ */
+
 describe('Witness', () => {
   describe('when behind sentinel', () => {
     const archivistName = 'archivist'

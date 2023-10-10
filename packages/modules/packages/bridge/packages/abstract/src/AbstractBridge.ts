@@ -1,4 +1,5 @@
-import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
   BridgeConfigSchema,
   BridgeConnectedQuerySchema,

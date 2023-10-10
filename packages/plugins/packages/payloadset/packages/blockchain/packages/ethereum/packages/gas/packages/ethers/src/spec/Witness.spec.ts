@@ -13,6 +13,7 @@ import { testIf } from '@xylabs/jest-helpers'
 
 /**
  * @group crypto
+ * @group slow
  */
 
 describe('EthereumGasEthersWitness', () => {

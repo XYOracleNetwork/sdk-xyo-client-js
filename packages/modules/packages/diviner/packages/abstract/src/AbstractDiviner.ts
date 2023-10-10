@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   CustomDivinerModule,

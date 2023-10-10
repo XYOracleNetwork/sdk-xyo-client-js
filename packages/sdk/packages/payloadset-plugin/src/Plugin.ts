@@ -1,4 +1,5 @@
-import { QueryBoundWitness, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Validator } from '@xyo-network/core'
 import { DivinerModule } from '@xyo-network/diviner'
 import { PayloadSetPayload } from '@xyo-network/payload-model'

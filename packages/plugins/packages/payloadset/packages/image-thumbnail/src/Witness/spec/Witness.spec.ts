@@ -3,6 +3,10 @@ import { mock } from 'jest-mock-extended'
 
 import { ImageThumbnailWitness } from '../Witness'
 
+/**
+ * @group thumbnail
+ */
+
 describe('Witness', () => {
   describe('checkIpfsUrl', () => {
     const logger = mock<Console>()

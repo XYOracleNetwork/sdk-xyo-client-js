@@ -8,6 +8,10 @@ import { ImageThumbnailWitness } from '../Witness'
 // eslint-disable-next-line import/no-named-as-default-member
 const testIfHasBin = (bin: string) => (hasbin.sync(bin) ? it : it.skip)
 
+/**
+ * @group thumbnail
+ */
+
 describe('ImageThumbnailWitness', () => {
   testIfHasBin('magick')('DATA [medium/png]', async () => {
     const witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })

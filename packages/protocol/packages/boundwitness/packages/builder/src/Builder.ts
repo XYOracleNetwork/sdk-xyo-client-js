@@ -24,6 +24,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   private _payloadHashes: string[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
+  private _sourceQuery: string | undefined
   private _timestamp = Date.now()
 
   constructor(
@@ -110,6 +111,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
       result.timestamp = this._timestamp
     }
 
+    if (this._sourceQuery) {
+      result.sourceQuery = this._sourceQuery
+    }
+
     return result
   }
 
@@ -135,6 +140,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
         this.payload(payload)
       }
     })
+    return this
+  }
+
+  sourceQuery(hash?: string) {
+    this._sourceQuery = hash
     return this
   }
 

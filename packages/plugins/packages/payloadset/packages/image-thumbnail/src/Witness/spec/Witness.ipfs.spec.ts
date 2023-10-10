@@ -9,6 +9,10 @@ import { ImageThumbnailWitness } from '../Witness'
 // eslint-disable-next-line import/no-named-as-default-member
 const testIfHasBin = (bin: string) => (hasbin.sync(bin) ? it : it.skip)
 
+/**
+ * @group thumbnail
+ */
+
 describe('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness
   beforeAll(async () => {

@@ -6,8 +6,8 @@ import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { BoundWitnessBuilder, QueryBoundWitness, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessBuilder, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { PayloadHasher } from '@xyo-network/core'
 import { handleError, handleErrorAsync } from '@xyo-network/error'
@@ -52,6 +52,7 @@ import { IdLogger } from '@xyo-network/shared'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { BaseEmitter } from './BaseEmitter'
+import { determineAccount } from './determineAccount'
 import { ModuleErrorBuilder } from './Error'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
 
@@ -203,26 +204,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return newModule
   }
 
-  static async determineAccount({
-    account,
-    accountDerivationPath,
-    wallet,
-  }: {
+  static async determineAccount(params: {
     account?: AccountInstance | 'random'
     accountDerivationPath?: string
     wallet?: WalletInstance
   }): Promise<AccountInstance> {
-    if (wallet) {
-      return assertEx(accountDerivationPath ? await wallet.derivePath(accountDerivationPath) : wallet, 'Failed to derive account from path')
-    } else if (account === 'random') {
-      return await HDWallet.random()
-    } else if (account) {
-      return account
-    } else {
-      //this should eventually be removed/thrown
-      console.warn('AbstractModule.determineAccount: No account provided - Creating Random account')
-      return await HDWallet.random()
-    }
+    return await determineAccount(params)
   }
 
   static factory<TModule extends ModuleInstance>(
@@ -285,6 +272,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this._noOverride('query')
+    const sourceQuery = await PayloadHasher.hashAsync(query)
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -313,7 +301,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
         resultPayloads.push(timestamp)
       }
-      const result = await this.bindQueryResult(query, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
+      const result = await this.bindQueryResult(query, resultPayloads, sourceQuery, queryAccount ? [queryAccount] : [], errorPayloads)
       const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
       await this.emit('moduleQueried', args)
       return result
@@ -462,10 +450,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async bindQueryResult<T extends Query>(
     query: T,
     payloads: Payload[],
+    sourceQuery?: string,
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(sourceQuery)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)

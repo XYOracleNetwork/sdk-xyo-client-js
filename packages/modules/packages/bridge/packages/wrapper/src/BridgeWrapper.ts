@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-builder'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,

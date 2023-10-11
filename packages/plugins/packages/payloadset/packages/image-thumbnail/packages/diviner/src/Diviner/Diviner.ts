@@ -73,12 +73,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const { offset } = lastState
     // Get next batch of results
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore('thumbnailStore')
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).fields({
-      limit: this.payloadDivinerLimit,
-      offset,
-      order: 'asc',
-      payload_schemas: [ImageThumbnailSchema, TimestampSchema],
-    })
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+      .fields({
+        limit: this.payloadDivinerLimit,
+        offset,
+        order: 'asc',
+        payload_schemas: [ImageThumbnailSchema, TimestampSchema],
+      })
+      .build()
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return
     // Find all the indexable hashes in this batch
@@ -216,13 +218,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
     let hash: string = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema }).fields({
-      address: this.account.address,
-      limit: 1,
-      offset: 0,
-      order: 'desc',
-      payload_schemas: [ModuleStateSchema],
-    })
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+      .fields({
+        address: this.account.address,
+        limit: 1,
+        offset: 0,
+        order: 'desc',
+        payload_schemas: [ModuleStateSchema],
+      })
+      .build()
     const boundWitnesses = await diviner.divine([query])
     if (boundWitnesses.length > 0) {
       const boundWitness = boundWitnesses[0]

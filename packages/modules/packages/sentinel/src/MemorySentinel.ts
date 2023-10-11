@@ -57,8 +57,8 @@ export class MemorySentinel<
       .filter(rejected)
       .map((result) => result.reason)
       .flat()
-    console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
-    console.log(`errors: ${JSON.stringify(errors, null, 2)}`)
+    // console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
+    // console.log(`errors: ${JSON.stringify(errors, null, 2)}`)
     return [payloads, errors]
   }
 }

@@ -246,7 +246,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     if (hash) {
       // Get last state
       const stateStoreArchivist = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore archivist configured`)
-      await withArchivistModule(
+      return await withArchivistModule(
         assertEx(await this.resolve(stateStoreArchivist), `${moduleName}: Failed to resolve stateStore archivist`),
         async (mod) => {
           const archivist = ArchivistWrapper.wrap(mod, this.account)
@@ -254,7 +254,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           if (payloads.length > 0) {
             const payload = payloads[0]
             if (isModuleState(payload)) {
-              return payload.state
+              return payload.state as ImageThumbnailDivinerState
             }
           }
         },

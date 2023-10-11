@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../../../../manifest/src/schema.json",
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
   "nodes": [
     {
       "config": {

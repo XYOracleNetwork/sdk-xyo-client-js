@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../../../../manifest/src/schema.json",
   "nodes": [
     {
       "config": {
@@ -572,8 +573,8 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/3'/1'",
+              "archiving": { "archivists": ["ImageThumbnailArchivist"] },
               "archivist": "ImageThumbnailArchivist",
-              "archivists": ["ImageThumbnailArchivist"],
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",

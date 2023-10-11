@@ -43,8 +43,8 @@ export abstract class AbstractSentinel<
     await this.emit('reportStart', { inPayloads, module: this })
     const payloads = await this.reportHandler(inPayloads)
     //this.logger?.debug(`report:payloads: ${JSON.stringify(payloads, null, 2)}`)
-    const outPayloads = payloads.filter(notBoundWitness)
     const boundwitnesses = payloads.filter(isBoundWitness)
+    const outPayloads = payloads.filter(notBoundWitness)
     const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
     await this.emit('reportEnd', { boundwitness, inPayloads, module: this, outPayloads })
     return payloads

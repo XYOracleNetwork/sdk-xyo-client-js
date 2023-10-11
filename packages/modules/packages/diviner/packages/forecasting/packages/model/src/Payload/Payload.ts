@@ -8,6 +8,7 @@ export const ForecastPayloadSchema: ForecastPayloadSchema = `${ForecastingDivine
 
 export type ForecastPayload = Payload<{
   schema: ForecastPayloadSchema
+  sources: string[]
   values: Forecast[]
 }>
 export const isForecastPayload = (x?: Payload | null): x is ForecastPayload => x?.schema === ForecastPayloadSchema

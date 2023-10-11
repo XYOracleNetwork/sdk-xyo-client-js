@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -24,6 +23,8 @@ export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParam
   }
 
   protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
-    return payloads ?? [assertEx(this.config.payload, 'AdhocWitness asked to witness no payload without a default payload in config')]
+    const configPayloads = this.payload ? [this.payload] : []
+    const inPayloads = payloads ? payloads : []
+    return [...configPayloads, ...inPayloads]
   }
 }

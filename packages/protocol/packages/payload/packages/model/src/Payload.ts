@@ -13,9 +13,8 @@ export type SchemaFields = {
 
 export type WithSchema<T extends EmptyPayload | void = void> = T extends EmptyPayload ? SchemaFields & T : SchemaFields
 
-export type PayloadFields = {
-  sources?: string[]
-}
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type PayloadFields = {}
 
 export type WithPayload<T extends EmptyPayload | void = void> = WithSchema<T extends EmptyPayload ? PayloadFields & T : PayloadFields>
 

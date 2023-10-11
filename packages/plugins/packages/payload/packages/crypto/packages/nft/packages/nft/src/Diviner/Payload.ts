@@ -29,7 +29,7 @@ export interface NftScores {
   scores: NftAnalysis
 }
 
-export type NftScoreFields = NftContractInformation & NftScores
+export type NftScoreFields = NftContractInformation & NftScores & { sources?: string[] }
 
 export type NftScore = Payload<NftScoreFields, NftScoreSchema>
 export const isNftScore = (x?: Payload | null): x is NftScore => x?.schema === NftScoreSchema

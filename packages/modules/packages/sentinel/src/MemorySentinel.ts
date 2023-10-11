@@ -30,10 +30,12 @@ export class MemorySentinel<
     const resultPayloads: Payload[] = []
 
     try {
-      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses)
-      const combinedPayloads = [...generatedPayloads, ...payloads]
-      resultPayloads.push(...combinedPayloads)
+      const [generatedPayloads, generatedErrors] = await this.generateResults(allWitnesses, payloads)
+      resultPayloads.push(...generatedPayloads)
       errors.push(...generatedErrors)
+      if (this.config.passthrough) {
+        resultPayloads.push(...payloads)
+      }
     } catch (ex) {
       handleError(ex, (error) => {
         errors.push(error)
@@ -46,7 +48,7 @@ export class MemorySentinel<
   }
 
   private async generateResults(witnesses: WitnessInstance[], inPayloads?: Payload[]): Promise<[Payload[], Error[]]> {
-    const results = await Promise.allSettled(witnesses?.map((witness) => witness.observe(inPayloads)))
+    const results: PromiseSettledResult<Payload[]>[] = await Promise.allSettled(witnesses?.map((witness) => witness.observe(inPayloads)))
     const payloads = results
       .filter(fulfilled)
       .map((result) => result.value)
@@ -55,6 +57,8 @@ export class MemorySentinel<
       .filter(rejected)
       .map((result) => result.reason)
       .flat()
+    console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
+    console.log(`errors: ${JSON.stringify(errors, null, 2)}`)
     return [payloads, errors]
   }
 }

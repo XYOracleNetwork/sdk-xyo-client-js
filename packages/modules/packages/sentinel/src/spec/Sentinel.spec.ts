@@ -214,6 +214,7 @@ describe('Sentinel', () => {
             archiving: {
               archivists: [archivistA.address, archivistB.address],
             },
+            passthrough: true,
             schema: SentinelConfigSchema,
             witnesses: [],
           },

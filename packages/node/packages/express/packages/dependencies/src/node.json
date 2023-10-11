@@ -42,7 +42,8 @@
                     "name": "address_state_payloads.IX__hash"
                   }
                 ]
-              }
+              },
+              "storeQueries": true
             }
           },
           {

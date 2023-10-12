@@ -144,7 +144,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const indexArchivist = await this.getArchivistForStore('indexStore')
     await indexArchivist.insert(indexes)
     // Update state
-    const nextOffset = offset + batch.length + 1
+    const nextOffset = offset + batch.length
     const currentState = { ...lastState, offset: nextOffset }
     await this.commitState(currentState)
   }

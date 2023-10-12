@@ -157,13 +157,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * external stores.
    */
   protected async commitState(state: ImageThumbnailDivinerState) {
-    const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore.archivist configured`)
-    const mod = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore.archivist`)
-    await withArchivistInstance(mod, async (archivist) => {
-      const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
-      const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
-      await archivist.insert([bw, payload])
-    })
+    const archivist = await this.getArchivistForStore('stateStore')
+    const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
+    const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
+    await archivist.insert([bw, payload])
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
@@ -246,17 +243,11 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     // If we able to located the last state
     if (hash) {
       // Get last state
-      const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore.archivist configured`)
-      const mod = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore.archivist`)
-      return await withArchivistInstance(mod, async (archivist) => {
-        const payloads = await archivist.get([hash])
-        if (payloads.length > 0) {
-          const payload = payloads[0]
-          if (isModuleState(payload)) {
-            return payload.state as ImageThumbnailDivinerState
-          }
-        }
-      })
+      const archivist = await this.getArchivistForStore('stateStore')
+      const payload = (await archivist.get([hash])).find(isModuleState)
+      if (payload) {
+        return payload.state as ImageThumbnailDivinerState
+      }
     }
     return undefined
   }

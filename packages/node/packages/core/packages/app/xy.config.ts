@@ -3,7 +3,7 @@ const config: XyTsupConfig = {
   compile: {
     browser: {},
     node: {
-      src: true,
+      src: { entry: ['src/index.ts', 'src/app.ts'] },
     },
   },
 }

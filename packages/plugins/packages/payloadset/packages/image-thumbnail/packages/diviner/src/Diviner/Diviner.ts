@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
+import { asArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -157,13 +157,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * external stores.
    */
   protected async commitState(state: ImageThumbnailDivinerState) {
-    const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore configured`)
-    const module = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore`)
-    await withArchivistModule(module, async (archivist) => {
-      const mod = ArchivistWrapper.wrap(archivist, this.account)
+    const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore.archivist configured`)
+    const mod = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore.archivist`)
+    await withArchivistInstance(mod, async (archivist) => {
       const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
       const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
-      await mod.insert([bw, payload])
+      await archivist.insert([bw, payload])
     })
   }
 
@@ -247,20 +246,17 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     // If we able to located the last state
     if (hash) {
       // Get last state
-      const stateStoreArchivist = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore archivist configured`)
-      return await withArchivistModule(
-        assertEx(await this.resolve(stateStoreArchivist), `${moduleName}: Failed to resolve stateStore archivist`),
-        async (mod) => {
-          const archivist = ArchivistWrapper.wrap(mod, this.account)
-          const payloads = await archivist.get([hash])
-          if (payloads.length > 0) {
-            const payload = payloads[0]
-            if (isModuleState(payload)) {
-              return payload.state as ImageThumbnailDivinerState
-            }
+      const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore.archivist configured`)
+      const mod = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore.archivist`)
+      return await withArchivistInstance(mod, async (archivist) => {
+        const payloads = await archivist.get([hash])
+        if (payloads.length > 0) {
+          const payload = payloads[0]
+          if (isModuleState(payload)) {
+            return payload.state as ImageThumbnailDivinerState
           }
-        },
-      )
+        }
+      })
     }
     return undefined
   }

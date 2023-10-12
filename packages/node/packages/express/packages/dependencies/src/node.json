@@ -539,6 +539,7 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailDiviner",
+              "pollFrequency": 1000,
               "schema": "network.xyo.image.thumbnail.diviner.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",

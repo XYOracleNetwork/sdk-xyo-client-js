@@ -49,8 +49,8 @@ describe('Sentinel', () => {
         archiving: {
           archivists: [archivistA.address, archivistB.address],
         },
-        passthrough: true,
         schema: SentinelConfigSchema,
+        tasks: [{ module: witnessA.address }, { module: witnessB.address }],
       },
     }
     const sentinel = await MemorySentinel.create(params)
@@ -61,9 +61,6 @@ describe('Sentinel', () => {
     })
     await node.register(sentinel)
     await node.attach(sentinel.address)
-    const witnesses = await sentinel.witnesses()
-    witnesses.forEach((witness) => console.log(`Witness: ${witness.address}`))
-    expect(witnesses).toBeArrayOfSize(2)
     const result = await sentinel.report()
     result.forEach((payload) => console.log(`Result: ${payload.schema}`))
     expect(result?.length).toBe(3)

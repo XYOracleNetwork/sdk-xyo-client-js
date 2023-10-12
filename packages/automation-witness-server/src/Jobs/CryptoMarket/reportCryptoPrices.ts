@@ -24,7 +24,7 @@ export const reportCryptoPrices = async (provider = getProvider()): Promise<Payl
       archivists: archivists.map((mod) => mod.address),
     },
     schema: SentinelConfigSchema,
-    witnesses: witnesses.map((mod) => mod.address),
+    tasks: witnesses.map((mod) => ({ module: mod.address })),
   }
   const account = await getAccount(WalletPaths.CryptoMarket.Sentinel.Market)
   const sentinel = await MemorySentinel.create({ account, config })

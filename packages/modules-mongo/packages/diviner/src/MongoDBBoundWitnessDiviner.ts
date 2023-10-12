@@ -23,9 +23,10 @@ export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
     if (!query) return []
     // NOTE: We're supporting address (which is deprecated) until we can ensure that all
     // clients are using addresses
-    const { address, addresses, hash, limit, order, payload_hashes, payload_schemas, timestamp } = query
+    const { address, addresses, hash, limit, offset, order, payload_hashes, payload_schemas, timestamp } = query
     const parsedLimit = limit || DefaultLimit
     const parsedOrder = order || DefaultOrder
+    const parsedOffset = offset || 0
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<BoundWitnessWithMeta> = {}
     if (timestamp) {
@@ -41,7 +42,9 @@ export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
     if (allAddresses.length) filter.addresses = allAddresses.length === 1 ? allAddresses[0] : { $all: allAddresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }
     if (payload_schemas?.length) filter.payload_schemas = { $in: payload_schemas }
-    return (await (await this.boundWitnesses.find(filter)).sort(sort).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
+    return (
+      await (await this.boundWitnesses.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()
+    ).map(removeId)
   }
 
   protected override async startHandler() {

@@ -15,10 +15,10 @@ export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
     // TODO: Support multiple queries
     if (!query) throw Error('Received payload is not a Query')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { hash, limit, order, offset, schema, schemas, timestamp, ...props } = query
-    const parsedLimit = limit ?? DefaultLimit
-    const parsedOrder = order ?? DefaultOrder
-    const parsedOffset = offset ?? 0
+    const { hash, limit, offset, order, schema, schemas, timestamp, ...props } = query
+    const parsedLimit = limit || DefaultLimit
+    const parsedOrder = order || DefaultOrder
+    const parsedOffset = offset || 0
     const sort: { [key: string]: SortDirection } = { _timestamp: parsedOrder === 'asc' ? 1 : -1 }
     const filter: Filter<PayloadWithMeta> = {}
     if (timestamp) {

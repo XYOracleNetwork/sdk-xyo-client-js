@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
   "nodes": [
     {
       "config": {
@@ -41,7 +42,8 @@
                     "name": "address_state_payloads.IX__hash"
                   }
                 ]
-              }
+              },
+              "storeQueries": true
             }
           },
           {
@@ -572,8 +574,8 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/3'/1'",
+              "archiving": { "archivists": ["ImageThumbnailArchivist"] },
               "archivist": "ImageThumbnailArchivist",
-              "archivists": ["ImageThumbnailArchivist"],
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",

@@ -12,6 +12,7 @@
   "dependencies": {
     "@infura/sdk": "^2.4.3",
     "@xylabs/assert": "^2.12.24",
+    "@xylabs/eth-address": "^2.12.24",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",

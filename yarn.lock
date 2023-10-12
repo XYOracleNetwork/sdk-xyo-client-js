@@ -5644,14 +5644,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:^2.12.24":
+"@xylabs/assert@npm:^2.12.24, @xylabs/assert@npm:~2.12.24":
   version: 2.12.24
   resolution: "@xylabs/assert@npm:2.12.24"
   checksum: b614be519c3cc3ecdbea6b8e37a8a451c0d5abcc54b6ef718f07e68ab0c2526375e54a5e16258c2bc3bb18a64bdbb279acb6dd045324b4655c3ba2769e43dfce
   languageName: node
   linkType: hard
 
-"@xylabs/bignumber@npm:^2.12.24":
+"@xylabs/bignumber@npm:^2.12.24, @xylabs/bignumber@npm:~2.12.24":
   version: 2.12.24
   resolution: "@xylabs/bignumber@npm:2.12.24"
   dependencies:
@@ -5711,6 +5711,16 @@ __metadata:
   peerDependencies:
     eslint: ^8.23.0
   checksum: 7a7f402a0cb151f7308592870721b24aff7526c29189594f886231374d950abee3e81f1eeefb036e4bd8f6b5793088a6b9d703930a1f28338fabc03efd4b65db
+  languageName: node
+  linkType: hard
+
+"@xylabs/eth-address@npm:^2.12.24":
+  version: 2.12.24
+  resolution: "@xylabs/eth-address@npm:2.12.24"
+  dependencies:
+    "@xylabs/assert": ~2.12.24
+    "@xylabs/bignumber": ~2.12.24
+  checksum: 1634e4ce3d2b6cd1d61c2fb2d2dc23236388869a96c850ee84778759f73acbc97b589c6ae2142bf7cc4eadc50e20babb71b737a417633c7b803fa8aa4f49fe9e
   languageName: node
   linkType: hard
 
@@ -6978,6 +6988,7 @@ __metadata:
   dependencies:
     "@infura/sdk": ^2.4.3
     "@xylabs/assert": ^2.12.24
+    "@xylabs/eth-address": ^2.12.24
     "@xylabs/jest-helpers": ^2.12.24
     "@xylabs/ts-scripts-yarn3": ^3.1.9
     "@xylabs/tsconfig": ^3.1.9

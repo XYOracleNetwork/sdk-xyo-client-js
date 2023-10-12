@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { PayloadHasher } from '@xyo-network/core'
 import {
@@ -35,7 +36,10 @@ export class CryptoNftCollectionWitness<
     const queries = payloads?.filter(isNftCollectionWitnessQuery) ?? []
     const observations = await Promise.all(
       queries.map<Promise<NftCollectionInfo>>(async (query) => {
-        const address = assertEx(query?.address || this.config.address, 'params.address is required')
+        const address = assertEx(
+          EthAddress.parse(assertEx(query?.address || this.config.address, 'params.address is required')),
+          'Failed to parse params.address',
+        ).toString()
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
         const [info, total, nfts, archivist] = await Promise.all([

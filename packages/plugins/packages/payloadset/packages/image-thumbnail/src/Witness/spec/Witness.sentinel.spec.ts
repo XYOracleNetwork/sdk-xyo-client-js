@@ -3,7 +3,7 @@ import { isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { MemorySentinel } from '@xyo-network/sentinel'
+import { MemorySentinel, SentinelWrapper } from '@xyo-network/sentinel'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimestampWitness } from '@xyo-network/witness-timestamp'
 import { mock } from 'jest-mock-extended'
@@ -12,6 +12,7 @@ import { ImageThumbnailWitness } from '../Witness'
 
 /**
  * @group thumbnail
+ * @group sentinel
  */
 
 describe('Witness', () => {
@@ -40,7 +41,11 @@ describe('Witness', () => {
         wallet: await HDWallet.random(),
       })
       sentinel = await MemorySentinel.create({
-        config: { archiving: { archivists: [archivistName] }, schema: MemorySentinel.configSchema },
+        config: {
+          archiving: { archivists: [archivistName] },
+          schema: MemorySentinel.configSchema,
+          tasks: [{ input: true, module: thumbnailWitness.address }, { module: timestampWitness.address }],
+        },
         logger,
         wallet: await HDWallet.random(),
       })
@@ -64,7 +69,9 @@ describe('Witness', () => {
       //   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='yellow' stroke='black' stroke-width='2'/><circle cx='35' cy='35' r='5' fill='black'/><circle cx='65' cy='35' r='5' fill='black'/><path d='M 35 70 Q 50 85, 65 70' fill='none' stroke='black' stroke-width='2'/></svg>"
       const url = 'https://placekitten.com/200/300'
       const query = new PayloadBuilder({ schema: UrlSchema }).fields({ url }).build()
-      const values = await sentinel.report([query])
+      const sentinelWrapper = SentinelWrapper.wrap(sentinel, await HDWallet.random())
+      //using wrapper for archiving
+      const values = await sentinelWrapper.report([query])
       const timestamps = values.filter(isTimestamp)
       expect(timestamps.length).toBe(1)
       const thumbnails = values.filter(isImageThumbnail)

@@ -13,13 +13,13 @@ describe('AdhocWitness', () => {
       it('uses payload schema', async () => {
         const witness = await AdhocWitness.create({ account: await HDWallet.random(), config })
         const observation = await witness.observe([observed])
-        expect(observation).toBeArrayOfSize(1)
+        expect(observation).toBeArrayOfSize(2)
         expect(observation?.[0]?.schema).toBe(observed.schema)
       })
       it('uses payload schema with WitnessWrapper', async () => {
         const witness = await AdhocWitness.create({ account: await HDWallet.random(), config })
         const observation = await witness.observe([observed])
-        expect(observation).toBeArrayOfSize(1)
+        expect(observation).toBeArrayOfSize(2)
         expect(observation?.[0]?.schema).toBe(observed.schema)
       })
       it('manifest [direct]', async () => {

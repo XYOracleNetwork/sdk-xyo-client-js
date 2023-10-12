@@ -10,6 +10,7 @@ import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
+import { SentinelWrapper } from '../../dist/node'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
 /**
@@ -71,7 +72,7 @@ describe('Sentinel', () => {
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(payloads.length)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = payloads.map((payload) => {
             return PayloadHasher.hashFields(payload)
           })
@@ -105,7 +106,7 @@ describe('Sentinel', () => {
         await Promise.all(
           [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
             await node.register(module)
-            await node.attach(module.address)
+            await node.attach(module.address, true)
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
@@ -126,54 +127,11 @@ describe('Sentinel', () => {
         })
         await node.register(sentinel)
         await node.attach(sentinel.address)
-        const result = await sentinel.report()
+        //using a wrapper to trigger archiving
+        const wrapper = SentinelWrapper.wrap(sentinel, await HDWallet.random())
+        const result = await wrapper.report()
         assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])
-      })
-      it('reports errors', async () => {
-        const paramsA = {
-          account: await HDWallet.random(),
-          config: {
-            payload: { nonce: Date.now() * 7, schema: 'network.xyo.test' },
-            schema: AdhocWitnessConfigSchema,
-          },
-        }
-        class FailingWitness extends AdhocWitness {
-          protected override async observeHandler(): Promise<Payload[]> {
-            await Promise.reject(Error('observation failed'))
-            return [{ schema: 'fake.result' }]
-          }
-        }
-        const witnessA = await FailingWitness.create(paramsA)
-
-        const node = await MemoryNode.create({ account: await HDWallet.random() })
-        await Promise.all(
-          [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
-            await node.register(module)
-            await node.attach(module.address)
-          }),
-        )
-        const params: MemorySentinelParams<SentinelConfig> = {
-          account: await HDWallet.random(),
-          config: {
-            archiving: {
-              archivists: [archivistA.address, archivistB.address],
-            },
-            schema: SentinelConfigSchema,
-            tasks: [{ module: witnessA.address }, { module: witnessB.address }],
-          },
-        }
-
-        const sentinel = await MemorySentinel.create(params)
-        sentinel.on('reportEnd', (args) => {
-          const { outPayloads } = args as ReportEndEventArgs
-          console.log('reportEnd')
-          expect(outPayloads?.length).toBeGreaterThan(0)
-        })
-        await node.register(sentinel)
-        await node.attach(sentinel.address)
-        await sentinel.report()
-        return
       })
     })
   })

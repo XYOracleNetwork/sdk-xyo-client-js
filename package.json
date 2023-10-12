@@ -18,9 +18,9 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.22.20",
-    "@babel/preset-typescript": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-typescript": "^7.23.2",
     "@types/jest": "^29.5.5",
     "@types/supertest": "^2.0.14",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
@@ -120,7 +120,7 @@
     "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
   },
   "sideEffects": false,
-  "version": "2.75.18",
+  "version": "2.76.0",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

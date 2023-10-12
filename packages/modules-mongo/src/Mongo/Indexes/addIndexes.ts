@@ -5,6 +5,8 @@ import { IndexDescription, MongoClient, WriteConcern } from 'mongodb'
 import { AddressInfoIndexes } from './Specifications'
 
 const indexesByCollection: Record<string, IndexDescription[]> = {
+  // TODO: This collection can be removed once MongoDBPreviousHashStore
+  // has a way of bootstrapping itself with indexes like our modules do
   address_info: AddressInfoIndexes,
 }
 

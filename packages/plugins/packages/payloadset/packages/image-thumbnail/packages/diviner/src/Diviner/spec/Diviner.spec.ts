@@ -4,7 +4,12 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ImageThumbnailDivinerQuery, ImageThumbnailDivinerQuerySchema, SearchableStorage } from '@xyo-network/image-thumbnail-payload-plugin'
+import {
+  ImageThumbnailDivinerQuery,
+  ImageThumbnailDivinerQuerySchema,
+  isImageThumbnailResult,
+  SearchableStorage,
+} from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -199,10 +204,11 @@ describe('ImageThumbnailDiviner', () => {
     describe('with no filter criteria', () => {
       it('returns the most recent success', async () => {
         const query: ImageThumbnailDivinerQuery = { schema, url }
-        const result = await sut.divine([query])
-        expect(result).toBeArrayOfSize(1)
+        const results = await sut.divine([query])
+        const result = results.find(isImageThumbnailResult)
+        expect(result).toBeDefined()
         const expected = await PayloadHasher.hashAsync(thumbnailHttpSuccess)
-        expect(result[0]?.sources).toContain(expected)
+        expect(result?.sources).toContain(expected)
       })
     })
     describe('with filter criteria', () => {
@@ -211,10 +217,11 @@ describe('ImageThumbnailDiviner', () => {
         it.each(cases)('returns the most recent instance of that status code', async (payload) => {
           const { status } = payload.http
           const query: ImageThumbnailDivinerQuery = { schema, status, url }
-          const result = await sut.divine([query])
-          expect(result).toBeArrayOfSize(1)
+          const results = await sut.divine([query])
+          const result = results.find(isImageThumbnailResult)
+          expect(result).toBeDefined()
           const expected = await PayloadHasher.hashAsync(payload)
-          expect(result[0]?.sources).toContain(expected)
+          expect(result?.sources).toContain(expected)
         })
       })
       describe('for success', () => {
@@ -222,10 +229,11 @@ describe('ImageThumbnailDiviner', () => {
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
           const success = (payload?.http as { status?: number })?.status ? true : false
           const query: ImageThumbnailDivinerQuery = { schema, success, url }
-          const result = await sut.divine([query])
-          expect(result).toBeArrayOfSize(1)
+          const results = await sut.divine([query])
+          const result = results.find(isImageThumbnailResult)
+          expect(result).toBeDefined()
           const expected = await PayloadHasher.hashAsync(payload)
-          expect(result[0]?.sources).toContain(expected)
+          expect(result?.sources).toContain(expected)
         })
       })
     })

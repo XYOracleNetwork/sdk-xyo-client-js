@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
@@ -156,13 +156,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * external stores.
    */
   protected async commitState(state: ImageThumbnailDivinerState) {
-    const stateStore = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore configured`)
-    const module = assertEx(await this.resolve(stateStore), `${moduleName}: Failed to resolve stateStore`)
-    await withArchivistModule(module, async (archivist) => {
-      const mod = ArchivistWrapper.wrap(archivist, this.account)
-      const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
-      await mod.insert([payload])
-    })
+    const archivist = await this.getArchivistForStore('stateStore')
+    const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
+    const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
+    await archivist.insert([bw, payload])
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
@@ -191,24 +188,22 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return results
   }
 
-  protected async getArchivistForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getArchivistForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
-    return wrap ? ArchivistWrapper.wrap(mod, this.account) : asArchivistInstance(mod, () => `${moduleName}: ${store}.archivist is not an Archivist`)
+    return ArchivistWrapper.wrap(mod, this.account)
   }
 
-  protected async getBoundWitnessDivinerForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getBoundWitnessDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
-    return wrap
-      ? DivinerWrapper.wrap(mod, this.account)
-      : asDivinerInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not a Diviner`)
+    return DivinerWrapper.wrap(mod, this.account)
   }
 
-  protected async getPayloadDivinerForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getPayloadDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
-    return wrap ? DivinerWrapper.wrap(mod, this.account) : asDivinerInstance(mod, () => `${moduleName}: ${store}.payloadDiviner is not a Diviner`)
+    return DivinerWrapper.wrap(mod, this.account)
   }
 
   /**
@@ -245,20 +240,11 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     // If we able to located the last state
     if (hash) {
       // Get last state
-      const stateStoreArchivist = assertEx(this.config.stateStore?.archivist, `${moduleName}: No stateStore archivist configured`)
-      return await withArchivistModule(
-        assertEx(await this.resolve(stateStoreArchivist), `${moduleName}: Failed to resolve stateStore archivist`),
-        async (mod) => {
-          const archivist = ArchivistWrapper.wrap(mod, this.account)
-          const payloads = await archivist.get([hash])
-          if (payloads.length > 0) {
-            const payload = payloads[0]
-            if (isModuleState(payload)) {
-              return payload.state as ImageThumbnailDivinerState
-            }
-          }
-        },
-      )
+      const archivist = await this.getArchivistForStore('stateStore')
+      const payload = (await archivist.get([hash])).find(isModuleState)
+      if (payload) {
+        return payload.state as ImageThumbnailDivinerState
+      }
     }
     return undefined
   }

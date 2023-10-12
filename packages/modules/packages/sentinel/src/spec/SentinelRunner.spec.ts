@@ -34,7 +34,7 @@ describe('SentinelRunner', () => {
 
     config = {
       schema: SentinelConfigSchema,
-      witnesses,
+      tasks: witnesses.map((module) => ({ module })),
     }
 
     sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
@@ -51,14 +51,13 @@ describe('SentinelRunner', () => {
       remaining: 1,
       schema: SentinelAutomationSchema,
       start: Date.now() - 1,
+      tasks: config.tasks,
       type: 'interval',
-      witnesses: config.witnesses,
     }
     const onTriggerResult: OnSentinelRunnerTriggerResult = (results) => {
       triggered = true
-      expect(results.length).toBe(2)
-      expect(results[0]?.schema).toBe(BoundWitnessSchema)
-      expect(results[1]?.schema).toBe(IdSchema)
+      expect(results.length).toBe(1)
+      expect(results[0]?.schema).toBe(IdSchema)
     }
 
     const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)

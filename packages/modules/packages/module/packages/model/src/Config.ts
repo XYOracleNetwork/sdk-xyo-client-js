@@ -8,8 +8,8 @@ export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config
 
 export type CosigningAddressSet = string[]
 export type SchemaString = string
-
-export type NameOrAddress = string
+export type ModuleName = string
+export type NameOrAddress = Address | ModuleName
 
 /** @deprecated */
 export interface IndividualArchivistConfig {

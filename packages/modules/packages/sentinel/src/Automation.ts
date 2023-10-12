@@ -1,5 +1,6 @@
 import { AnyObject } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
+import { SentinelTask } from '@xyo-network/sentinel-model'
 
 export type SentinelAutomationSchema = 'network.xyo.automation'
 export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.automation'
@@ -7,9 +8,8 @@ export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.a
 export type SentinelBaseAutomationPayload<T extends AnyObject = AnyObject> = Payload<
   T & {
     schema: SentinelAutomationSchema
+    tasks?: SentinelTask[]
     type?: 'interval' | 'change'
-    /** @field The list of witnesses to invoke [all if undefined] */
-    witnesses?: string[]
   }
 >
 

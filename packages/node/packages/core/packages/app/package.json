@@ -23,6 +23,18 @@
         }
       }
     },
+    "./app": {
+      "node": {
+        "require": {
+          "types": "./dist/node/app.d.ts",
+          "default": "./dist/node/app.js"
+        },
+        "import": {
+          "types": "./dist/node/app.d.mts",
+          "default": "./dist/node/app.mjs"
+        }
+      }
+    },
     "./docs": {
       "default": "./dist/docs.json"
     },

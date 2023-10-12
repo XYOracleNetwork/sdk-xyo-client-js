@@ -1,13 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { asArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
@@ -189,24 +188,22 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return results
   }
 
-  protected async getArchivistForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getArchivistForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
-    return wrap ? ArchivistWrapper.wrap(mod, this.account) : asArchivistInstance(mod, () => `${moduleName}: ${store}.archivist is not an Archivist`)
+    return ArchivistWrapper.wrap(mod, this.account)
   }
 
-  protected async getBoundWitnessDivinerForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getBoundWitnessDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
-    return wrap
-      ? DivinerWrapper.wrap(mod, this.account)
-      : asDivinerInstance(mod, () => `${moduleName}: ${store}.boundWitnessDiviner is not a Diviner`)
+    return DivinerWrapper.wrap(mod, this.account)
   }
 
-  protected async getPayloadDivinerForStore(store: ConfigStore, wrap?: boolean) {
+  protected async getPayloadDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
-    return wrap ? DivinerWrapper.wrap(mod, this.account) : asDivinerInstance(mod, () => `${moduleName}: ${store}.payloadDiviner is not a Diviner`)
+    return DivinerWrapper.wrap(mod, this.account)
   }
 
   /**

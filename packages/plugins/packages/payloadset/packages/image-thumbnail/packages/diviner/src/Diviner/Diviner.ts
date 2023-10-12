@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { asArchivistInstance, withArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -161,7 +162,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     await withArchivistModule(module, async (archivist) => {
       const mod = ArchivistWrapper.wrap(archivist, this.account)
       const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
-      await mod.insert([payload])
+      const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
+      await mod.insert([bw, payload])
     })
   }
 

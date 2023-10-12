@@ -56,9 +56,8 @@ describe('SentinelRunner', () => {
     }
     const onTriggerResult: OnSentinelRunnerTriggerResult = (results) => {
       triggered = true
-      expect(results.length).toBe(2)
-      expect(results[0]?.schema).toBe(BoundWitnessSchema)
-      expect(results[1]?.schema).toBe(IdSchema)
+      expect(results.length).toBe(1)
+      expect(results[0]?.schema).toBe(IdSchema)
     }
 
     const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)

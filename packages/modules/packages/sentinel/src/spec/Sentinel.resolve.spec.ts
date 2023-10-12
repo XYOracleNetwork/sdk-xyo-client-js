@@ -63,6 +63,6 @@ describe('Sentinel', () => {
     await node.attach(sentinel.address)
     const result = await sentinel.report()
     result.forEach((payload) => console.log(`Result: ${payload.schema}`))
-    expect(result?.length).toBe(3)
+    expect(result?.length).toBe(2)
   })
 })

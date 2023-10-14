@@ -22,8 +22,8 @@
     "@xyo-network/payloadset-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.9",
-    "@xylabs/tsconfig": "^3.1.9",
+    "@xylabs/ts-scripts-yarn3": "^3.1.11",
+    "@xylabs/tsconfig": "^3.1.11",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/module-resolver": "workspace:~",
     "typescript": "^5.2.2"

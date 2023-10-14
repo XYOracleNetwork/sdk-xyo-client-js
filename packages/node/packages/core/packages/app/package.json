@@ -40,8 +40,8 @@
   "main": "dist/node/index.js",
   "module": "dist/node/index.mjs",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.427.0",
-    "@xylabs/assert": "^2.12.24",
+    "@aws-sdk/client-secrets-manager": "^3.428.0",
+    "@xylabs/assert": "^2.12.28",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
@@ -59,11 +59,11 @@
     "node-cache": "^5.1.2",
     "rollbar": "^2.26.2",
     "winston": "^3.11.0",
-    "winston-transport": "^4.5.0"
+    "winston-transport": "^4.6.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.9",
-    "@xylabs/tsconfig": "^3.1.9",
+    "@xylabs/ts-scripts-yarn3": "^3.1.11",
+    "@xylabs/tsconfig": "^3.1.11",
     "typescript": "^5.2.2"
   },
   "author": "Arie Trouw",

@@ -10,16 +10,16 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.24",
-    "@xylabs/bignumber": "^2.12.24",
-    "@xylabs/buffer": "^2.12.24",
+    "@xylabs/assert": "^2.12.28",
+    "@xylabs/bignumber": "^2.12.28",
+    "@xylabs/buffer": "^2.12.28",
     "@xyo-network/sdk-geo": "^2.10.1",
     "mapbox-gl": "^2.15.0"
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.15",
-    "@xylabs/ts-scripts-yarn3": "^3.1.9",
-    "@xylabs/tsconfig": "^3.1.9",
+    "@xylabs/ts-scripts-yarn3": "^3.1.11",
+    "@xylabs/tsconfig": "^3.1.11",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

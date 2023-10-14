@@ -39,9 +39,6 @@
         }
       }
     },
-    "./docs": {
-      "default": "./dist/docs.json"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/node/index.js",

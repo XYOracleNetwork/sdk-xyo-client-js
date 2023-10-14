@@ -76,15 +76,12 @@
         }
       }
     },
-    "./docs": {
-      "default": "./dist/docs.json"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/node/index.cjs",
   "module": "dist/node/index.js",
   "homepage": "https://xyo.network",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "name": "@xyo-network/sdk-xyo-client-js",
   "publishConfig": {
     "access": "public"

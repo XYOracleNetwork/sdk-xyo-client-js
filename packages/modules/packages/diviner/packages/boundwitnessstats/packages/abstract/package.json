@@ -44,15 +44,12 @@
         }
       }
     },
-    "./docs": {
-      "default": "./dist/docs.json"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/node/index.js",
   "module": "dist/node/index.mjs",
   "homepage": "https://xyo.network",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "publishConfig": {
     "access": "public"
   },

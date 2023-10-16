@@ -10,8 +10,8 @@ import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
-import { SentinelWrapper } from '../../dist/node'
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
+import { SentinelWrapper } from '../Wrapper'
 
 /**
  * @group sentinel

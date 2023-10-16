@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.76.2",
+  "version": "2.77.0",
   "description": "XYO Express Node Server",
   "sideeffects": false,
   "engines": {

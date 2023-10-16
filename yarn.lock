@@ -9009,7 +9009,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/hash@workspace:packages/protocol/packages/core/packages/hash"
   dependencies:
+    "@scure/base": ^1.1.3
     "@types/lodash": ^4.14.199
+    "@xylabs/buffer": ^2.12.28
     "@xylabs/lodash": ^2.12.28
     "@xylabs/ts-scripts-yarn3": ^3.1.12
     "@xylabs/tsconfig": ^3.1.12

@@ -9,6 +9,7 @@ export const SentinelConfigSchema: SentinelConfigSchema = 'network.xyo.sentinel.
 export type SentinelConfig<TConfig extends Payload | void = void> = ModuleConfig<
   TConfig,
   {
+    synchronous?: boolean
     tasks: SentinelTask[]
   },
   TConfig extends Payload ? TConfig['schema'] : SentinelConfigSchema

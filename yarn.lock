@@ -10334,6 +10334,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/sentinel-abstract@workspace:packages/modules/packages/sentinel/packages/abstract, @xyo-network/sentinel-abstract@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/sentinel-abstract@workspace:packages/modules/packages/sentinel/packages/abstract"
+  dependencies:
+    "@xylabs/assert": ^2.12.28
+    "@xylabs/forget": ^2.12.28
+    "@xylabs/ts-scripts-yarn3": ^3.1.12
+    "@xylabs/tsconfig": ^3.1.12
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/module-abstract": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model, @xyo-network/sentinel-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model"
@@ -10363,19 +10381,17 @@ __metadata:
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
-    "@xyo-network/boundwitness-builder": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/id-plugin": "workspace:~"
-    "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-system-info-plugin": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sentinel-abstract": "workspace:~"
     "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witnesses": "workspace:~"

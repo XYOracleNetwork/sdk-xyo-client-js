@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
@@ -34,6 +35,10 @@ export abstract class AbstractSentinel<
     return [SentinelReportQuerySchema, ...super.queries]
   }
 
+  get synchronous(): boolean {
+    return this.config.synchronous ?? false
+  }
+
   protected override get _queryAccountPaths(): Record<SentinelQueryBase['schema'], string> {
     return {
       'network.xyo.query.sentinel.report': '1/1',
@@ -42,14 +47,25 @@ export abstract class AbstractSentinel<
 
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')
-    await this.emit('reportStart', { inPayloads, module: this })
-    const payloads = await this.reportHandler(inPayloads)
-    //this.logger?.debug(`report:payloads: ${JSON.stringify(payloads, null, 2)}`)
-    const boundwitnesses = payloads.filter(isBoundWitness)
-    const outPayloads = payloads.filter(notBoundWitness)
+    const reportPromise = (async () => {
+      await this.emit('reportStart', { inPayloads, module: this })
+      const payloads = await this.reportHandler(inPayloads)
+      await this.emitReportEnd(inPayloads, payloads)
+      return payloads
+    })()
+    if (this.synchronous) {
+      return await reportPromise
+    } else {
+      forget(reportPromise)
+      return []
+    }
+  }
+
+  protected async emitReportEnd(inPayloads?: Payload[], payloads?: Payload[]) {
+    const boundwitnesses = payloads?.filter(isBoundWitness) ?? []
+    const outPayloads = payloads?.filter(notBoundWitness) ?? []
     const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
     await this.emit('reportEnd', { boundwitness, inPayloads, module: this, outPayloads })
-    return payloads
   }
 
   protected async generateJob() {

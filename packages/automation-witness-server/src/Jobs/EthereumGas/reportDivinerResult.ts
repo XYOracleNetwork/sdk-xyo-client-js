@@ -24,6 +24,7 @@ export const reportDivinerResult = async (payload: Payload): Promise<Payload[]> 
       archivists: archivists.map((mod) => mod.address),
     },
     schema: SentinelConfigSchema,
+    synchronous: true,
     tasks: witnesses.map((mod) => ({ module: mod.address })),
   }
   const sentinelAccount = await getAccount(WalletPaths.EthereumGas.Sentinel.PriceDivinerResult)

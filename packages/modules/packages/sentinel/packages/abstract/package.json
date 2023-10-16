@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/sentinel",
+  "name": "@xyo-network/sentinel-abstract",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,30 +11,18 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.12.28",
-    "@xylabs/promise": "^2.12.28",
-    "@xyo-network/archivist": "workspace:~",
-    "@xyo-network/core": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
+    "@xylabs/forget": "^2.12.28",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/sentinel-abstract": "workspace:~",
-    "@xyo-network/sentinel-model": "workspace:~",
-    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/delay": "^2.12.28",
     "@xylabs/ts-scripts-yarn3": "^3.1.12",
     "@xylabs/tsconfig": "^3.1.12",
-    "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/id-payload-plugin": "workspace:~",
-    "@xyo-network/id-plugin": "workspace:~",
-    "@xyo-network/node-memory": "workspace:~",
-    "@xyo-network/node-system-info-plugin": "workspace:~",
-    "@xyo-network/witnesses": "workspace:~",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

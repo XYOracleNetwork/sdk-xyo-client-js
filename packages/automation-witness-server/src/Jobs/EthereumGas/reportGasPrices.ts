@@ -24,6 +24,7 @@ export const reportGasPrices = async (provider = getProvider()): Promise<Payload
       archivists: archivists.map((mod) => mod.address),
     },
     schema: SentinelConfigSchema,
+    synchronous: true,
     tasks: witnesses.map((mod) => ({ module: mod.address })),
   }
   const account = await getAccount(WalletPaths.EthereumGas.Sentinel.Gas)

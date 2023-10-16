@@ -49,6 +49,7 @@ describe('Sentinel', () => {
         archivists: [archivist.address],
       },
       schema: SentinelConfigSchema,
+      synchronous: true,
       tasks: witnesses.map((witness) => ({ module: witness.address })),
     }
 
@@ -57,8 +58,8 @@ describe('Sentinel', () => {
     await node.attach(sentinel.address)
 
     const report1Result = await sentinel.report()
-    const report1 = report1Result[0]
-    expect(report1.schema).toBe(IdSchema)
+    const report1 = report1Result.at(0)
+    expect(report1?.schema).toBe(IdSchema)
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {
@@ -116,6 +117,7 @@ describe('Sentinel', () => {
               archivists: [archivistA.address, archivistB.address],
             },
             schema: SentinelConfigSchema,
+            synchronous: true,
             tasks: [{ module: witnessA.address }, { module: witnessB.address }],
           },
         }

@@ -33,6 +33,7 @@ describe('SentinelRunner', () => {
 
     config = {
       schema: SentinelConfigSchema,
+      synchronous: true,
       tasks: witnesses.map((module) => ({ module })),
     }
 

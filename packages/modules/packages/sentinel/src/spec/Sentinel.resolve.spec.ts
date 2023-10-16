@@ -50,6 +50,7 @@ describe('Sentinel', () => {
           archivists: [archivistA.address, archivistB.address],
         },
         schema: SentinelConfigSchema,
+        synchronous: true,
         tasks: [{ module: witnessA.address }, { module: witnessB.address }],
       },
     }

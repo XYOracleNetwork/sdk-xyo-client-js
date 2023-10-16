@@ -3,6 +3,7 @@ import { Address } from '@xyo-network/core'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
+import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import {
   ResolvedSentinelTask,
   SentinelConfig,
@@ -12,8 +13,6 @@ import {
   SentinelParams,
 } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
-
-import { AbstractSentinel } from './AbstractSentinel'
 
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
 

@@ -11,8 +11,11 @@ import { Mutex } from 'async-mutex'
 
 export interface BoundWitnessBuilderConfig {
   /** Whether or not the payloads should be included in the metadata sent to and recorded by the ArchivistApi */
+  /** @deprecated We will be removing support for inlinePayloads soon */
   readonly inlinePayloads?: boolean
+  /** @deprecated We will be removing support for meta soon */
   readonly meta?: boolean
+  /** @deprecated We will be removing support for timestamp soon */
   readonly timestamp?: boolean
 }
 
@@ -42,6 +45,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   async build(meta = false): Promise<[TBoundWitness, TPayload[], ModuleError[]]> {
+    if (meta) {
+      console.log('BoundWitnessBuilder: Calling build with meta=true will be disallowed soon')
+    }
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const hashableFields = await this.hashableFields()
       const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
@@ -170,6 +176,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   private inlinePayloads() {
+    console.log('BoundWitnessBuilder: Using inlinePayloads will soon be disallowed')
+
     return this._payloads.map<TPayload>((payload, index) => {
       return {
         ...payload,

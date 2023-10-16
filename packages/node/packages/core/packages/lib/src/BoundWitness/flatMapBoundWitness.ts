@@ -2,8 +2,10 @@ import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-mode
 import { BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
 
+/** @deprecated This type will be moved to mongodb specific package soon */
 export type BoundWitnessMapResult = [Array<BoundWitness>, Array<Payload>]
 
+/** @deprecated This type will be moved to mongodb specific package soon */
 export const flatMapBoundWitness = (boundWitness: BoundWitnessWithPartialMeta): BoundWitnessMapResult => {
   const all = flatten(boundWitness)
   const boundWitnesses: BoundWitness[] = all.filter((x) => x.schema === BoundWitnessSchema) as BoundWitness[]
@@ -11,6 +13,7 @@ export const flatMapBoundWitness = (boundWitness: BoundWitnessWithPartialMeta): 
   return [boundWitnesses, payloads]
 }
 
+/** @deprecated This type will be moved to mongodb specific package soon */
 const flatten = (boundWitness: BoundWitnessWithPartialMeta): Payload[] => {
   const payloads: Payload[] =
     boundWitness?._payloads

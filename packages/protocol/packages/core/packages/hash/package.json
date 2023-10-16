@@ -14,14 +14,14 @@
     "@xyo-network/object": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
     "@xyo-network/wasm": "workspace:^",
-    "hash-wasm": "^4.9.0",
+    "hash-wasm": "^4.10.0",
     "sha.js": "^2.4.11"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/lodash": "^4.14.199",
-    "@xylabs/ts-scripts-yarn3": "^3.1.11",
-    "@xylabs/tsconfig": "^3.1.11",
+    "@xylabs/ts-scripts-yarn3": "^3.1.12",
+    "@xylabs/tsconfig": "^3.1.12",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",

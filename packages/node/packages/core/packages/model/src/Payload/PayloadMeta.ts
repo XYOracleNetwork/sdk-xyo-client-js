@@ -1,5 +1,6 @@
 import { Payload } from '@xyo-network/payload-model'
 
+/** @deprecated This type will be moved to mongodb specific package soon */
 export interface PayloadMetaBase {
   _archive?: string
   _client?: string

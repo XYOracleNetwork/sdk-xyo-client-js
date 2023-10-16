@@ -29,8 +29,8 @@
     }
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.11",
-    "@xylabs/tsconfig": "^3.1.11",
+    "@xylabs/ts-scripts-yarn3": "^3.1.12",
+    "@xylabs/tsconfig": "^3.1.12",
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.2.2"

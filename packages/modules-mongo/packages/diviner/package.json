@@ -65,8 +65,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.12.28",
-    "@xylabs/ts-scripts-yarn3": "^3.1.11",
-    "@xylabs/tsconfig": "^3.1.11",
+    "@xylabs/ts-scripts-yarn3": "^3.1.12",
+    "@xylabs/tsconfig": "^3.1.12",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-address-space-model": "workspace:~",

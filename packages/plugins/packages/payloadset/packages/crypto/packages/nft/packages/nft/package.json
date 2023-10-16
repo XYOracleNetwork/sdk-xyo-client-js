@@ -14,8 +14,8 @@
     "@xyo-network/crypto-nft-witness-wallet-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.11",
-    "@xylabs/tsconfig": "^3.1.11",
+    "@xylabs/ts-scripts-yarn3": "^3.1.12",
+    "@xylabs/tsconfig": "^3.1.12",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"
   },

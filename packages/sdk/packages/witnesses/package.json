@@ -20,8 +20,8 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.11",
-    "@xylabs/tsconfig": "^3.1.11",
+    "@xylabs/ts-scripts-yarn3": "^3.1.12",
+    "@xylabs/tsconfig": "^3.1.12",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

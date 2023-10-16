@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/bridge-module-resolver": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",

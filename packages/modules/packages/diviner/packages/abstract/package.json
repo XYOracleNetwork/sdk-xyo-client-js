@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.12.28",
     "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",

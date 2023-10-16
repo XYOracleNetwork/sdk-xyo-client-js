@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.12.28",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

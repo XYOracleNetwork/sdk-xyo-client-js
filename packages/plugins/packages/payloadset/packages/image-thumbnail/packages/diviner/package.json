@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.12.28",
     "@xylabs/exists": "^2.12.28",
     "@xyo-network/abstract-diviner": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",

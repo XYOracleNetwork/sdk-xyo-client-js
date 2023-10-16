@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

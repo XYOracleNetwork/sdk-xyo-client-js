@@ -13,7 +13,7 @@
     "@xylabs/lodash": "^2.12.28",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
-    "@xyo-network/wasm": "workspace:^",
+    "@xyo-network/wasm": "workspace:~",
     "hash-wasm": "^4.10.0",
     "sha.js": "^2.4.11"
   },

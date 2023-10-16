@@ -110,6 +110,8 @@
     "test:sentinel": "jest . --passWithNoTests --forceExit -- --group=sentinel",
     "test:thumbnail": "jest . --passWithNoTests --forceExit -- --group=thumbnail",
     "test:no-mongo": "jest . --passWithNoTests --forceExit -c ./jest.config.no-mongo.ts -- --group=-mongo",
+    "test:hash-perf": "jest packages/protocol/packages/core/packages/hash/src/spec/PayloadHasher.bigobj.perf.spec.ts -c ./jest.config.no-mongo.ts",
+    "test:hash-perf-parallel": "jest packages/protocol/packages/core/packages/hash/src/spec/PayloadHasher.bigobj-parallel.perf.spec.ts -c ./jest.config.no-mongo.ts",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "xyo": "node ./packages/cli/dist/cjs/index.js",
     "xyo-ts": "yarn workspace @xyo-network/node-cli xyo-ts",

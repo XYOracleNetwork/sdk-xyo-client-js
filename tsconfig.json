@@ -6,5 +6,12 @@
     "typeRoots": []
   },
   "exclude": [".*", "dist", "node_modules", "storybook-static", "build", "docs"],
-  "extends": "@xylabs/tsconfig"
+  "extends": "@xylabs/tsconfig",
+  "ts-node": {
+    "compilerOptions": {
+      "module": "ESNext"
+    },
+    "files": true,
+    "transpileOnly": true
+  }
 }

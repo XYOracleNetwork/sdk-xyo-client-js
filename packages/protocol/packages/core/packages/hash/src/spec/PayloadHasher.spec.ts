@@ -65,28 +65,6 @@ describe('Hasher', () => {
     )
   })
 
-  test('wasm vs js (performance-big-obj)', async () => {
-    PayloadHasher.wasmSupport.allowWasm = false
-    const jsHashStart = Date.now()
-    for (let x = 0; x < 10000; x++) {
-      await new PayloadHasher({ ...bigObject, nonce: x }).hashAsync()
-    }
-    const jsHashDuration = Date.now() - jsHashStart
-    PayloadHasher.wasmSupport.allowWasm = true
-    const wasmHashStart = Date.now()
-    for (let x = 0; x < 10000; x++) {
-      await new PayloadHasher({ ...bigObject, nonce: x }).hashAsync()
-    }
-    const wasmHashDuration = Date.now() - wasmHashStart
-    expect(wasmHashDuration).toBeDefined()
-    expect(jsHashDuration).toBeDefined()
-    console.log(
-      `Wasm is ${jsHashDuration - wasmHashDuration}ms (${((1 - wasmHashDuration / jsHashDuration) * 100).toPrecision(
-        2,
-      )}%) faster [${wasmHashDuration}ms vs ${jsHashDuration}ms ]`,
-    )
-  })
-
   test('wasm vs js (performance-parallel)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
     const jsTestObjects: PayloadHasher[] = []

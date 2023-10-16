@@ -1,5 +1,8 @@
+import { base16 } from '@scure/base'
+import { Buffer } from '@xylabs/buffer'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
+import { subtle } from 'crypto'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
@@ -11,6 +14,7 @@ import { sortFields } from './sortFields'
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
 export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
+  static allowSubtle = true
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
@@ -29,6 +33,19 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static async hashAsync<T extends AnyObject>(obj: T): Promise<Hash> {
+    if (PayloadHasher.allowSubtle) {
+      try {
+        const enc = new TextEncoder()
+        const stringToHash = this.stringifyHashFields(obj)
+        const b = enc.encode(stringToHash)
+        const hashArray = await subtle.digest('SHA-256', b)
+        return base16.encode(Buffer.from(hashArray)).toLowerCase()
+      } catch (ex) {
+        console.log('Setting allowSubtle to false')
+        PayloadHasher.allowSubtle = false
+      }
+    }
+
     await this.wasmInitialized
     if (this.wasmSupport.canUseWasm) {
       const stringToHash = this.stringifyHashFields(obj)

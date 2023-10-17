@@ -81,6 +81,16 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result.length).toBe(1)
     expect(result[0]?.http?.dnsError).toBe('ENOTFOUND')
   })
+  it('HTTPS [other/error]', async () => {
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://profilesetting.in/mier/logo.gif',
+    }
+    const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
+    expect(result.length).toBe(1)
+    console.log(`HTTPS [other/error]: ${JSON.stringify(result)}`)
+    expect(result[0]?.http?.dnsError).toBe('ENOTFOUND')
+  })
   it.skip('HTTPS [medium/png]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,

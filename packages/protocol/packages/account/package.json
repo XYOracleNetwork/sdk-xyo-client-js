@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@bitauth/libauth": "^1.19.1",
     "@ethersproject/hdnode": "^5.7.0",
     "@xylabs/array": "^2.12.30",
     "@xylabs/assert": "^2.12.30",
@@ -27,6 +26,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
+    "@bitauth/libauth": "^1.19.1",
     "@types/elliptic": "^6.4.15",
     "@types/sha.js": "^2.4.2",
     "@xylabs/ts-scripts-yarn3": "^3.1.12",

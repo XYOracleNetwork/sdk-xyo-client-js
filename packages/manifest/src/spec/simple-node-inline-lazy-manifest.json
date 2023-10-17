@@ -32,6 +32,7 @@
               "accountPath": "3'",
               "language": "javascript",
               "name": "SimpleSentinel",
+              "synchronous": true,
               "schema": "network.xyo.sentinel.config"
             }
           },

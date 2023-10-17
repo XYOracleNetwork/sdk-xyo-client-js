@@ -17,7 +17,6 @@
               "schema": "network.xyo.prometheus.node.witness.config"
             }
           },
-
           {
             "config": {
               "accountPath": "m/44'/60'/3'/1'/1'",
@@ -29,16 +28,22 @@
               },
               "language": "javascript",
               "name": "AddressStateArchivist",
-              "payloadSdkConfig": { "collection": "address_state_payloads" },
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
               "schema": "network.xyo.archivist.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "address_state_bound_witnesses.IX__hash"
                   },
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "address_state_payloads.IX__hash"
                   }
                 ]
@@ -58,24 +63,36 @@
               },
               "language": "javascript",
               "name": "AddressStateBoundWitnessDiviner",
-              "payloadSdkConfig": { "collection": "address_state_payloads" },
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
               "schema": "network.xyo.diviner.boundwitness.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
                     "name": "address_state_bound_witnesses.IX__timestamp_addresses"
                   },
                   {
-                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
                     "name": "address_state_bound_witnesses.IX_addresses__timestamp"
                   },
                   {
-                    "key": { "addresses": 1 },
+                    "key": {
+                      "addresses": 1
+                    },
                     "name": "address_state_bound_witnesses.IX_addresses"
                   },
                   {
-                    "key": { "payload_hashes": 1 },
+                    "key": {
+                      "payload_hashes": 1
+                    },
                     "name": "address_state_bound_witnesses.IX_payload_hashes"
                   }
                 ]
@@ -94,16 +111,23 @@
               },
               "language": "javascript",
               "name": "AddressStatePayloadDiviner",
-              "payloadSdkConfig": { "collection": "address_state_payloads" },
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
               "schema": "network.xyo.diviner.payload.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": 1 },
+                    "key": {
+                      "_timestamp": 1
+                    },
                     "name": "address_state_payloads.IX__timestamp"
                   },
                   {
-                    "key": { "schema": 1, "_timestamp": -1 },
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
                     "name": "address_state_payloads.IX_schema__timestamp"
                   }
                 ]
@@ -113,22 +137,30 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/1'/2'",
-              "boundWitnessSdkConfig": { "collection": "bound_witnesses" },
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
               },
               "language": "javascript",
               "name": "ImageThumbnailArchivist",
-              "payloadSdkConfig": { "collection": "payloads" },
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
               "schema": "network.xyo.archivist.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "bound_witnesses.IX__hash"
                   },
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "payloads.IX__hash"
                   }
                 ]
@@ -147,24 +179,36 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailBoundWitnessDiviner",
-              "payloadSdkConfig": { "collection": "payloads" },
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
               "schema": "network.xyo.diviner.boundwitness.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
                     "name": "bound_witnesses.IX__timestamp_addresses"
                   },
                   {
-                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
                     "name": "bound_witnesses.IX_addresses__timestamp"
                   },
                   {
-                    "key": { "addresses": 1 },
+                    "key": {
+                      "addresses": 1
+                    },
                     "name": "bound_witnesses.IX_addresses"
                   },
                   {
-                    "key": { "payload_hashes": 1 },
+                    "key": {
+                      "payload_hashes": 1
+                    },
                     "name": "bound_witnesses.IX_payload_hashes"
                   }
                 ]
@@ -183,16 +227,23 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailPayloadDiviner",
-              "payloadSdkConfig": { "collection": "payloads" },
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
               "schema": "network.xyo.diviner.payload.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": 1 },
+                    "key": {
+                      "_timestamp": 1
+                    },
                     "name": "payloads.IX__timestamp"
                   },
                   {
-                    "key": { "schema": 1, "_timestamp": -1 },
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
                     "name": "payloads.IX_schema__timestamp"
                   }
                 ]
@@ -210,16 +261,22 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailDivinerIndexArchivist",
-              "payloadSdkConfig": { "collection": "thumbnail_payloads" },
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
               "schema": "network.xyo.archivist.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "thumbnail_bound_witnesses.IX__hash"
                   },
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "thumbnail_payloads.IX__hash"
                   }
                 ]
@@ -238,24 +295,36 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
-              "payloadSdkConfig": { "collection": "thumbnail_payloads" },
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
               "schema": "network.xyo.diviner.boundwitness.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
                     "name": "thumbnail_bound_witnesses.IX__timestamp_addresses"
                   },
                   {
-                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
                     "name": "thumbnail_bound_witnesses.IX_addresses__timestamp"
                   },
                   {
-                    "key": { "addresses": 1 },
+                    "key": {
+                      "addresses": 1
+                    },
                     "name": "thumbnail_bound_witnesses.IX_addresses"
                   },
                   {
-                    "key": { "payload_hashes": 1 },
+                    "key": {
+                      "payload_hashes": 1
+                    },
                     "name": "thumbnail_bound_witnesses.IX_payload_hashes"
                   }
                 ]
@@ -274,16 +343,23 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailDivinerIndexPayloadDiviner",
-              "payloadSdkConfig": { "collection": "thumbnail_payloads" },
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
               "schema": "network.xyo.diviner.payload.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": 1 },
+                    "key": {
+                      "_timestamp": 1
+                    },
                     "name": "thumbnail_payloads.IX__timestamp"
                   },
                   {
-                    "key": { "schema": 1, "_timestamp": -1 },
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
                     "name": "thumbnail_payloads.IX_schema__timestamp"
                   }
                 ]
@@ -295,22 +371,30 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/1'/0'",
-              "boundWitnessSdkConfig": { "collection": "bound_witnesses" },
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
               },
               "language": "javascript",
               "name": "Archivist",
-              "payloadSdkConfig": { "collection": "payloads" },
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
               "schema": "network.xyo.archivist.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "bound_witnesses.IX__hash"
                   },
                   {
-                    "key": { "_hash": 1 },
+                    "key": {
+                      "_hash": 1
+                    },
                     "name": "payloads.IX__hash"
                   }
                 ]
@@ -329,7 +413,6 @@
               "schema": "network.xyo.diviner.address.history.config"
             }
           },
-
           {
             "config": {
               "accountPath": "m/44'/60'/3'/2'/2'",
@@ -370,19 +453,29 @@
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": -1, "addresses": 1 },
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
                     "name": "bound_witnesses.IX__timestamp_addresses"
                   },
                   {
-                    "key": { "addresses": 1, "_timestamp": -1 },
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
                     "name": "bound_witnesses.IX_addresses__timestamp"
                   },
                   {
-                    "key": { "addresses": 1 },
+                    "key": {
+                      "addresses": 1
+                    },
                     "name": "bound_witnesses.IX_addresses"
                   },
                   {
-                    "key": { "payload_hashes": 1 },
+                    "key": {
+                      "payload_hashes": 1
+                    },
                     "name": "bound_witnesses.IX_payload_hashes"
                   }
                 ]
@@ -398,12 +491,16 @@
               },
               "language": "javascript",
               "name": "BoundWitnessStatsDiviner",
-              "payloadSdkConfig": { "collection": "archivist_stats" },
+              "payloadSdkConfig": {
+                "collection": "archivist_stats"
+              },
               "schema": "network.xyo.diviner.boundwitness.stats.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "address": 1 },
+                    "key": {
+                      "address": 1
+                    },
                     "name": "archivist_stats.UX_address",
                     "unique": true
                   }
@@ -438,16 +535,23 @@
               },
               "language": "javascript",
               "name": "PayloadDiviner",
-              "payloadSdkConfig": { "collection": "payloads" },
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
               "schema": "network.xyo.diviner.payload.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "_timestamp": 1 },
+                    "key": {
+                      "_timestamp": 1
+                    },
                     "name": "payloads.IX__timestamp"
                   },
                   {
-                    "key": { "schema": 1, "_timestamp": -1 },
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
                     "name": "payloads.IX_schema__timestamp"
                   }
                 ]
@@ -463,12 +567,16 @@
               },
               "language": "javascript",
               "name": "PayloadStatsDiviner",
-              "payloadSdkConfig": { "collection": "archivist_stats" },
+              "payloadSdkConfig": {
+                "collection": "archivist_stats"
+              },
               "schema": "network.xyo.diviner.payload.stats.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "address": 1 },
+                    "key": {
+                      "address": 1
+                    },
                     "name": "archivist_stats.UX_address",
                     "unique": true
                   }
@@ -497,12 +605,16 @@
               },
               "language": "javascript",
               "name": "SchemaStatsDiviner",
-              "payloadSdkConfig": { "collection": "archivist_stats" },
+              "payloadSdkConfig": {
+                "collection": "archivist_stats"
+              },
               "schema": "network.xyo.diviner.schema.stats.config",
               "storage": {
                 "indexes": [
                   {
-                    "key": { "address": 1 },
+                    "key": {
+                      "address": 1
+                    },
                     "name": "archivist_stats.UX_address",
                     "unique": true
                   }
@@ -510,7 +622,6 @@
               }
             }
           },
-
           {
             "config": {
               "accountPath": "m/44'/60'/3'/4'/3'",
@@ -553,7 +664,6 @@
               }
             }
           },
-
           {
             "config": {
               "accountPath": "m/44'/60'/3'/4'/4'",
@@ -575,12 +685,20 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/3'/1'",
-              "archiving": { "archivists": ["ImageThumbnailArchivist"] },
+              "archiving": {
+                "archivists": [
+                  "ImageThumbnailArchivist"
+                ]
+              },
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
+              "synchronous": true,
               "schema": "network.xyo.sentinel.config",
-              "witnesses": ["ImageThumbnailWitness", "TimestampWitness"]
+              "witnesses": [
+                "ImageThumbnailWitness",
+                "TimestampWitness"
+              ]
             }
           }
         ]

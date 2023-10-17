@@ -693,7 +693,6 @@
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
-              "synchronous": true,
               "schema": "network.xyo.sentinel.config",
               "witnesses": [
                 "ImageThumbnailWitness",

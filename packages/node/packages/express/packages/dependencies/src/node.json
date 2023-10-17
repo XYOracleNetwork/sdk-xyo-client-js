@@ -694,9 +694,15 @@
               "language": "javascript",
               "name": "ImageThumbnailSentinel",
               "schema": "network.xyo.sentinel.config",
-              "witnesses": [
-                "ImageThumbnailWitness",
-                "TimestampWitness"
+              "tasks": [
+                {
+                  "module": "ImageThumbnailWitness",
+                  "input": true
+                },
+                {
+                  "module": "TimestampWitness",
+                  "input": false
+                }
               ]
             }
           }

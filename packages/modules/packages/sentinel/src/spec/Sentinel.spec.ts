@@ -1,8 +1,8 @@
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { HDWallet } from '@xyo-network/account'
 import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
+import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
@@ -59,7 +59,7 @@ describe('Sentinel', () => {
 
     const report1Result = await sentinel.report()
     const report1 = report1Result.at(0)
-    expect(report1?.schema).toBe(IdSchema)
+    expect(report1?.schema).toBe(BoundWitnessSchema)
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {
@@ -68,7 +68,7 @@ describe('Sentinel', () => {
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
       const assertPanelReport = (panelReport: Payload[]) => {
-        expect(panelReport).toBeArrayOfSize(2)
+        expect(panelReport).toBeArrayOfSize(3)
       }
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {

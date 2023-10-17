@@ -5,7 +5,7 @@ import { ImageThumbnailSchema } from '../Schema'
 export type ImageThumbnail = Payload<
   {
     http?: {
-      dnsError?: string
+      code?: string
       ipAddress?: string
       status?: number
     }

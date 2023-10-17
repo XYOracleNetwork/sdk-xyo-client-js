@@ -44,4 +44,14 @@ describe('ImageThumbnailWitness', () => {
     expect(thumb.url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
+  testIfHasBin('magick')('IPFS [bad (ipfs.io)]', async () => {
+    const ipfsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://ipfs.io/ipfs/QmTkxZExjY97XSCTGoqGNxgYUE4kDakMykjbL1NVnH9xE9',
+    }
+    const result = (await witness.observe([ipfsPayload])) as ImageThumbnail[]
+    expect(result.length).toBe(1)
+    console.log(`result: ${JSON.stringify(result, null, 2)}`)
+    expect(result[0].schema).toBe(ImageThumbnailSchema)
+  })
 })

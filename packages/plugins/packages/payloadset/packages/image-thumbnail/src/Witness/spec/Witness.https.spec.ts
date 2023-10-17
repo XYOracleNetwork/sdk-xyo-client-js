@@ -79,7 +79,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
-    expect(result[0]?.http?.dnsError).toBe('ENOTFOUND')
+    expect(result[0]?.http?.code).toBe('ENOTFOUND')
   })
   it('HTTPS [other/error]', async () => {
     const httpsPayload: UrlPayload = {
@@ -89,7 +89,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
     console.log(`HTTPS [other/error]: ${JSON.stringify(result)}`)
-    expect(result[0]?.http?.dnsError).toBe('ENOTFOUND')
+    expect(result[0]?.http?.code).toBe('ENOTFOUND')
   })
   it.skip('HTTPS [medium/png]', async () => {
     const httpsPayload: UrlPayload = {

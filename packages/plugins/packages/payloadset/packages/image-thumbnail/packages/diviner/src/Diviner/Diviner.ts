@@ -172,10 +172,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
-          const success = payloadSuccess ?? true
+          const success = payloadSuccess
           const fields: Partial<ImageThumbnailResultQuery> = { limit, offset, order, success, url }
           // Default to filtering on 200 status code if success was not supplied
-          if (payloadSuccess === undefined) fields.status = payloadStatus ?? 200
+          if (payloadSuccess === true) fields.status = payloadStatus ?? 200
           // If success is true and status was supplied, use it
           if (success === true && payloadStatus !== undefined) fields.status = payloadStatus
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()

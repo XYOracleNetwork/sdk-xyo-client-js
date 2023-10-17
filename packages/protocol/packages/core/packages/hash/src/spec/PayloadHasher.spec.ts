@@ -12,18 +12,7 @@ describe('Hasher', () => {
     testString: 'hello there.  this is a pretty long string.  what do you think?',
     testUndefined: undefined,
   }
-  const bigObject = {
-    testArray: [1, 2, 3],
-    testBoolean: true,
-    testNull: null,
-    testNullObject: { t: null, x: undefined },
-    testNumber: 5,
-    testObjArray: [testObject, testObject, testObject, testObject, testObject, testObject, testObject, testObject, testObject],
-    testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: undefined },
-    testString: 'hello there.  this is a pretty long string.  what do you think?',
-    testUndefined: undefined,
-  }
+
   beforeAll(async () => {
     await PayloadHasher.wasmInitialized
   })

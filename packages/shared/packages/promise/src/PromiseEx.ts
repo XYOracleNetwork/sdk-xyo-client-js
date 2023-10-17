@@ -1,7 +1,11 @@
+/** @deprecated use from @xylabs/promise instead */
 export type PromiseExSubFunc<T, TResult = T> = (value: T) => TResult
+/** @deprecated use from @xylabs/promise instead */
 export type PromiseExFunc<T> = (resolve?: PromiseExSubFunc<T, void>, reject?: PromiseExSubFunc<T, void>) => void
+/** @deprecated use from @xylabs/promise instead */
 export type PromiseExValueFunc<V> = (value?: V) => boolean
 
+/** @deprecated use from @xylabs/promise instead */
 export class PromiseEx<T, V = void> extends Promise<T> {
   cancelled?: boolean
   private _value?: V

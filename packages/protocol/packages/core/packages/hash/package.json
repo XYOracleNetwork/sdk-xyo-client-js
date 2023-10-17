@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.3",
-    "@xylabs/buffer": "^2.12.29",
-    "@xylabs/lodash": "^2.12.29",
-    "@xylabs/platform": "^2.12.29",
+    "@xylabs/buffer": "^2.12.30",
+    "@xylabs/lodash": "^2.12.30",
+    "@xylabs/platform": "^2.12.30",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
     "@xyo-network/wasm": "workspace:~",

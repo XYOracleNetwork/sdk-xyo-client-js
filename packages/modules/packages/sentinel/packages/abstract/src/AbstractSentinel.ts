@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
+import { BoundWitnessBuilder, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
@@ -50,8 +50,12 @@ export abstract class AbstractSentinel<
     const reportPromise = (async () => {
       await this.emit('reportStart', { inPayloads, module: this })
       const payloads = await this.reportHandler(inPayloads)
-      await this.emitReportEnd(inPayloads, payloads)
-      return payloads
+
+      //create boundwitness
+      const result = (await new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()).flat()
+
+      await this.emitReportEnd(inPayloads, result)
+      return result
     })()
     if (this.synchronous) {
       return await reportPromise

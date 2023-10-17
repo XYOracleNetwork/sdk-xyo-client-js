@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@scure/base": "^1.1.3",
-    "@xylabs/buffer": "^2.12.28",
-    "@xylabs/lodash": "^2.12.28",
+    "@xylabs/buffer": "^2.12.29",
+    "@xylabs/lodash": "^2.12.29",
+    "@xylabs/platform": "^2.12.29",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/typeof": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
@@ -65,5 +66,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.77.0"
+  "version": "2.77.1"
 }

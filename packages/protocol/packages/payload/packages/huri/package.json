@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.28",
+    "@xylabs/assert": "^2.12.29",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/axios": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^2.12.28",
+    "@xylabs/delay": "^2.12.29",
     "@xylabs/ts-scripts-yarn3": "^3.1.12",
     "@xylabs/tsconfig": "^3.1.12",
     "typescript": "^5.2.2"
@@ -62,5 +62,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.77.0"
+  "version": "2.77.1"
 }

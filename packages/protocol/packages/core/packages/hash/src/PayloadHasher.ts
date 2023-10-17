@@ -1,8 +1,8 @@
 import { base16 } from '@scure/base'
 import { Buffer } from '@xylabs/buffer'
+import { subtle } from '@xylabs/platform'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
-import { subtle } from 'crypto'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 

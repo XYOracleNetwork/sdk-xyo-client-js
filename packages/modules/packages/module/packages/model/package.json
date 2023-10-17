@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.28",
-    "@xylabs/lodash": "^2.12.28",
+    "@xylabs/assert": "^2.12.29",
+    "@xylabs/lodash": "^2.12.29",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -69,5 +69,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.77.0"
+  "version": "2.77.1"
 }

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.28",
+    "@xylabs/assert": "^2.12.29",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-stats-abstract": "workspace:~",
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~",
@@ -62,5 +62,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.77.0"
+  "version": "2.77.1"
 }

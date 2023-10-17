@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-xyo-mongo-js",
-  "version": "2.77.0",
+  "version": "2.77.1",
   "homepage": "https://xyo.network",
   "bugs": {
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-mongo-js/issues",
@@ -56,9 +56,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.28",
-    "@xylabs/delay": "^2.12.28",
-    "@xylabs/forget": "^2.12.28",
+    "@xylabs/assert": "^2.12.29",
+    "@xylabs/delay": "^2.12.29",
+    "@xylabs/forget": "^2.12.29",
     "async-mutex": "^0.4.0",
     "mongodb": "^6.1.0"
   },

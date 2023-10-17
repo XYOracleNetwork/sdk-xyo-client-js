@@ -21,7 +21,7 @@
     "@xyo-network/payloadset-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.12.28",
+    "@xylabs/jest-helpers": "^2.12.29",
     "@xylabs/ts-scripts-yarn3": "^3.1.12",
     "@xylabs/tsconfig": "^3.1.12",
     "@xyo-network/account": "workspace:~",
@@ -70,5 +70,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.77.0"
+  "version": "2.77.1"
 }

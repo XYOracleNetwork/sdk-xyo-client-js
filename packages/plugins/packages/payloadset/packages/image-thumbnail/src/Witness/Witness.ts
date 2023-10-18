@@ -191,6 +191,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const result: ImageThumbnail = {
         http: {
           code: error.code,
+          status: 500,
         },
         schema: ImageThumbnailSchema,
         sourceUrl: sourceUrl ?? url,
@@ -207,12 +208,21 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         //selectively pick fields from AxiosError
         const result: ImageThumbnail = {
           http: {
-            code: axiosError.code,
             ipAddress: dnsResult[0],
-            status: axiosError?.response?.status,
           },
           schema: ImageThumbnailSchema,
           sourceUrl: sourceUrl ?? url,
+        }
+        if (axiosError?.response?.status !== undefined) {
+          result.http = result.http ?? {}
+          result.http.status = axiosError?.response?.status
+        } else {
+          result.http = result.http ?? {}
+          result.http.status = 500
+        }
+        if (axiosError?.code !== undefined) {
+          result.http = result.http ?? {}
+          result.http.code = axiosError?.code
         }
         return result
       } else {

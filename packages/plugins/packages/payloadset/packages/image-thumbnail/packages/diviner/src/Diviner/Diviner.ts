@@ -119,7 +119,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const results = await archivist.get([imageThumbnailHash, timestampHash])
           const imageThumbnailPayload = results.find(isImageThumbnail)
           const timestampPayload = results.find(isTimestamp)
-          if (!imageThumbnailPayload || !timestampPayload) return undefined
+          if (!imageThumbnailPayload || !timestampPayload) {
+            console.log('Could not find payload from hash to index')
+            return undefined
+          }
           const calculatedImageThumbnailHash = await PayloadHasher.hashAsync(imageThumbnailPayload)
           const calculatedTimestampHash = await PayloadHasher.hashAsync(timestampPayload)
           if (imageThumbnailHash !== calculatedImageThumbnailHash || timestampHash !== calculatedTimestampHash) return undefined

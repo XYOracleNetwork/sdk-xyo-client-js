@@ -40,9 +40,9 @@ export class MongoDBPayloadDiviner extends MongoDBDivinerBase {
       }
     }
 
-    return (await (await this.payloads.find(filter)).sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(
-      removeId,
-    )
+    const filtered = await this.payloads.find(filter)
+
+    return (await filtered.sort(sort).skip(parsedOffset).limit(parsedLimit).maxTimeMS(DefaultMaxTimeMS).toArray()).map(removeId)
   }
 
   protected override async startHandler() {

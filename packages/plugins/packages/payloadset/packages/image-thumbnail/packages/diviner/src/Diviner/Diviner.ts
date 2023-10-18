@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -48,6 +49,8 @@ type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & { schemas: [ImageT
     QueryableImageThumbnailResultProperties
   >
 
+type IndexableHashes = Readonly<[boundWitnessHash: string, imageThumbnailHash: string, timestampHash: string]>
+
 const moduleName = 'ImageThumbnailDiviner'
 
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
@@ -63,46 +66,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this.config.pollFrequency ?? 10_000
   }
 
-  /**
-   * Works in the background to populate index for the Diviner
-   * @returns
-   */
-  protected backgroundDivine = async (): Promise<void> => {
-    // Load last state
-    const lastState = (await this.retrieveState()) ?? { offset: 0 }
-    const { offset } = lastState
-    // Get next batch of results
-    const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore('thumbnailStore')
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-      .fields({
-        limit: this.payloadDivinerLimit,
-        offset,
-        order: 'asc',
-        payload_schemas: [ImageThumbnailSchema, TimestampSchema],
-      })
-      .build()
-    const batch = await boundWitnessDiviner.divine([query])
-    if (batch.length === 0) return
-    // Find all the indexable hashes in this batch
-    type IndexableHashes = Readonly<[boundWitnessHash: string, imageThumbnailHash: string, timestampHash: string]>
-    const indexableHashes: IndexableHashes[] = (
-      await Promise.all(
-        batch.filter(isBoundWitness).map(async (bw) => {
-          const imageThumbnailIndexes = bw.payload_schemas
-            ?.map((schema, index) => (schema === ImageThumbnailSchema ? index : undefined))
-            .filter(exists)
-          const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-          if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
-          const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
-          const timestampHash = bw.payload_hashes?.[timestampIndex]
-          const boundWitnessHash = await PayloadHasher.hashAsync(bw)
-          return imageThumbnails.map((imageThumbnailHash) => [boundWitnessHash, imageThumbnailHash, timestampHash] as const)
-        }),
-      )
-    )
-      .flat()
-      .filter(exists)
-    const archivist = await this.getArchivistForStore('thumbnailStore')
+  private static async indexableData(indexableHashes: IndexableHashes[], archivist: ArchivistInstance) {
     // Find all the indexable data associated with the indexable hashes
     type IndexableData = Readonly<
       [
@@ -130,6 +94,54 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         }),
       )
     ).filter(exists)
+    return indexableData
+  }
+
+  private static async indexableHashes(batch: Payload[]) {
+    // Find all the indexable hashes in this batch
+    const indexableHashes: IndexableHashes[] = (
+      await Promise.all(
+        batch.filter(isBoundWitness).map(async (bw) => {
+          const imageThumbnailIndexes = bw.payload_schemas
+            ?.map((schema, index) => (schema === ImageThumbnailSchema ? index : undefined))
+            .filter(exists)
+          const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+          if (!imageThumbnailIndexes.length || timestampIndex === -1) return undefined
+          const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
+          const timestampHash = bw.payload_hashes?.[timestampIndex]
+          const boundWitnessHash = await PayloadHasher.hashAsync(bw)
+          return imageThumbnails.map((imageThumbnailHash) => [boundWitnessHash, imageThumbnailHash, timestampHash] as const)
+        }),
+      )
+    )
+      .flat()
+      .filter(exists)
+    return indexableHashes
+  }
+
+  /**
+   * Works in the background to populate index for the Diviner
+   * @returns
+   */
+  protected backgroundDivine = async (): Promise<void> => {
+    // Load last state
+    const lastState = (await this.retrieveState()) ?? { offset: 0 }
+    const { offset } = lastState
+    // Get next batch of results
+    const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore('thumbnailStore')
+    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+      .fields({
+        limit: this.payloadDivinerLimit,
+        offset,
+        order: 'asc',
+        payload_schemas: [ImageThumbnailSchema, TimestampSchema],
+      })
+      .build()
+    const batch = await boundWitnessDiviner.divine([query])
+    if (batch.length === 0) return
+    const indexableHashes = await ImageThumbnailDiviner.indexableHashes(batch)
+    const archivist = await this.getArchivistForStore('thumbnailStore')
+    const indexableData = await ImageThumbnailDiviner.indexableData(indexableHashes, archivist)
     // Build index results from the indexable data
     const indexes: ImageThumbnailResult[] = indexableData.map(
       ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {

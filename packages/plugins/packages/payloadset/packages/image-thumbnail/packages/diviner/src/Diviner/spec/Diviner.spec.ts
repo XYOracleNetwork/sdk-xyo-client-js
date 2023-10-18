@@ -5,6 +5,7 @@ import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import {
+  ImageThumbnail,
   ImageThumbnailDivinerQuery,
   ImageThumbnailDivinerQuerySchema,
   isImageThumbnailResult,
@@ -25,7 +26,7 @@ describe('ImageThumbnailDiviner', () => {
   const stateArchivistName = 'stateArchivist'
   const thumbnailArchivistName = 'thumbnailArchivist'
   const sourceUrl = 'https://placekitten.com/200/300'
-  const thumbnailHttpSuccess = {
+  const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
       status: 200,
     },
@@ -35,7 +36,7 @@ describe('ImageThumbnailDiviner', () => {
     url: 'data:image/png;base64,===',
   }
 
-  const thumbnailHttpFail = {
+  const thumbnailHttpFail: ImageThumbnail = {
     http: {
       ipAddress: '104.17.96.13',
       status: 429,
@@ -44,7 +45,15 @@ describe('ImageThumbnailDiviner', () => {
     sourceUrl,
   }
 
-  const thumbnailWitnessFail = {
+  const thumbnailCodeFail: ImageThumbnail = {
+    http: {
+      code: 'FAILED',
+    },
+    schema: 'network.xyo.image.thumbnail',
+    sourceUrl,
+  }
+
+  const thumbnailWitnessFail: ImageThumbnail = {
     http: {
       ipAddress: '104.17.96.13',
     },
@@ -133,10 +142,15 @@ describe('ImageThumbnailDiviner', () => {
       .build()
     const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [httpFailBoundWitness, httpFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp]).build()
+
     const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
       .payloads([thumbnailWitnessFail, witnessFailTimestamp])
       .build()
+
+    const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const [codeFailBoundWitness, codeFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp]).build()
+
     await thumbnailArchivist.insert([
       httpSuccessBoundWitness,
       ...httpSuccessPayloads,
@@ -144,6 +158,8 @@ describe('ImageThumbnailDiviner', () => {
       ...httpFailPayloads,
       witnessFailBoundWitness,
       ...witnessFailPayloads,
+      codeFailBoundWitness,
+      ...codeFailPayloads,
     ])
 
     const thumbnailStore: SearchableStorage = {
@@ -188,6 +204,7 @@ describe('ImageThumbnailDiviner', () => {
 
     // Allow enough time for diviner to divine
     await delay(pollFrequency * 10)
+    //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
   }, 20000)
   describe('with no thumbnail for the provided URL', () => {
     const url = 'https://does.not.exist.io'
@@ -203,7 +220,7 @@ describe('ImageThumbnailDiviner', () => {
     const schema = ImageThumbnailDivinerQuerySchema
     describe('with no filter criteria', () => {
       it('returns the most recent success', async () => {
-        const query: ImageThumbnailDivinerQuery = { schema, url }
+        const query: ImageThumbnailDivinerQuery = { schema, success: true, url }
         const results = await sut.divine([query])
         const result = results.find(isImageThumbnailResult)
         expect(result).toBeDefined()
@@ -213,9 +230,9 @@ describe('ImageThumbnailDiviner', () => {
     })
     describe('with filter criteria', () => {
       describe('for status code', () => {
-        const cases = [thumbnailHttpSuccess, thumbnailHttpFail]
+        const cases: ImageThumbnail[] = [thumbnailHttpSuccess, thumbnailHttpFail]
         it.each(cases)('returns the most recent instance of that status code', async (payload) => {
-          const { status } = payload.http
+          const { status } = payload.http ?? {}
           const query: ImageThumbnailDivinerQuery = { schema, status, url }
           const results = await sut.divine([query])
           const result = results.find(isImageThumbnailResult)
@@ -224,10 +241,22 @@ describe('ImageThumbnailDiviner', () => {
           expect(result?.sources).toContain(expected)
         })
       })
-      describe('for success', () => {
-        const cases = [thumbnailHttpFail, thumbnailWitnessFail]
+      describe('for success (most recent)', () => {
+        const cases: ImageThumbnail[] = [thumbnailHttpSuccess]
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
-          const success = (payload?.http as { status?: number })?.status ? true : false
+          const success = !!(payload.url ?? false)
+          const query: ImageThumbnailDivinerQuery = { schema, success, url }
+          const results = await sut.divine([query])
+          const result = results.find(isImageThumbnailResult)
+          expect(result).toBeDefined()
+          const expected = await PayloadHasher.hashAsync(payload)
+          expect(result?.sources).toContain(expected)
+        })
+      })
+      describe('for failure (most recent)', () => {
+        const cases: ImageThumbnail[] = [thumbnailCodeFail]
+        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
+          const success = !!(payload.url ?? false)
           const query: ImageThumbnailDivinerQuery = { schema, success, url }
           const results = await sut.divine([query])
           const result = results.find(isImageThumbnailResult)

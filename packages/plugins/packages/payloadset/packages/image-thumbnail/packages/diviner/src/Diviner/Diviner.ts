@@ -136,9 +136,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         const { sourceUrl: url } = thumbnailPayload
         const { timestamp } = timestampPayload
         const status = thumbnailPayload.http?.status
-        const success = thumbnailPayload.http?.status ? true : false
+        //call anything with a thumbnail url a success
+        const success = !!thumbnailPayload.url
         const sources = [boundWitnessHash, thumbnailHash, timestampHash]
-        const fields = status ? { sources, status, success, timestamp, url } : { sources, success, timestamp, url }
+        const fields = { sources, status, success, timestamp, url }
         const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema }).fields(fields).build()
         return result
       },
@@ -176,11 +177,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
           const success = payloadSuccess
-          const fields: Partial<ImageThumbnailResultQuery> = { limit, offset, order, success, url }
-          // Default to filtering on 200 status code if success was not supplied
-          if (payloadSuccess === true) fields.status = payloadStatus ?? 200
-          // If success is true and status was supplied, use it
-          if (success === true && payloadStatus !== undefined) fields.status = payloadStatus
+          const status = payloadStatus
+          const fields: Partial<ImageThumbnailResultQuery> = { ...{ limit, offset, order, status, success, url } }
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
           return await diviner.divine([query])
         }),

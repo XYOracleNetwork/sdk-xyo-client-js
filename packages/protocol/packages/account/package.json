@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@ethersproject/hdnode": "^5.7.0",
-    "@xylabs/array": "^2.12.30",
-    "@xylabs/assert": "^2.12.30",
-    "@xylabs/static-implements": "^2.12.30",
+    "@xylabs/array": "^2.13.3",
+    "@xylabs/assert": "^2.13.3",
+    "@xylabs/libauth": "^2.12.34",
+    "@xylabs/static-implements": "^2.13.3",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/key-model": "workspace:~",
@@ -26,11 +27,10 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@bitauth/libauth": "^1.19.1",
-    "@types/elliptic": "^6.4.15",
-    "@types/sha.js": "^2.4.2",
-    "@xylabs/ts-scripts-yarn3": "^3.1.12",
-    "@xylabs/tsconfig": "^3.1.12",
+    "@types/elliptic": "^6.4.16",
+    "@types/sha.js": "^2.4.3",
+    "@xylabs/ts-scripts-yarn3": "^3.1.13",
+    "@xylabs/tsconfig": "^3.1.13",
     "typescript": "^5.2.2"
   },
   "exports": {

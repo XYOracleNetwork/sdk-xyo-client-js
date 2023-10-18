@@ -41,9 +41,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.429.0",
-    "@xylabs/assert": "^2.12.30",
-    "@xylabs/exists": "^2.12.30",
+    "@aws-sdk/client-secrets-manager": "^3.431.0",
+    "@xylabs/assert": "^2.13.3",
+    "@xylabs/exists": "^2.13.3",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -75,9 +75,9 @@
     "winston-transport": "^4.6.0"
   },
   "devDependencies": {
-    "@types/express": "4.17.19",
-    "@xylabs/ts-scripts-yarn3": "^3.1.12",
-    "@xylabs/tsconfig": "^3.1.12",
+    "@types/express": "4.17.20",
+    "@xylabs/ts-scripts-yarn3": "^3.1.13",
+    "@xylabs/tsconfig": "^3.1.13",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",

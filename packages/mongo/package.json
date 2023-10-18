@@ -56,15 +56,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.12.30",
-    "@xylabs/delay": "^2.12.30",
-    "@xylabs/forget": "^2.12.30",
+    "@xylabs/assert": "^2.13.3",
+    "@xylabs/delay": "^2.13.3",
+    "@xylabs/forget": "^2.13.3",
     "async-mutex": "^0.4.0",
     "mongodb": "^6.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.12",
-    "@xylabs/tsconfig": "^3.1.12",
+    "@xylabs/ts-scripts-yarn3": "^3.1.13",
+    "@xylabs/tsconfig": "^3.1.13",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

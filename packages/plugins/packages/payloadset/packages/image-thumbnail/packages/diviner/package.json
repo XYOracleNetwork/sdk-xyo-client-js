@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.13.3",
     "@xylabs/exists": "^2.13.3",
     "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
@@ -78,5 +79,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.77.4"
+  "version": "2.77.5"
 }

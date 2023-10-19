@@ -1,4 +1,4 @@
-import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
+import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { DataLike, toUint8Array, WasmFeature } from '@xyo-network/core'
 import { PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'

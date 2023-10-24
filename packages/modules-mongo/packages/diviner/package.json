@@ -52,7 +52,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/shared": "workspace:~",
-    "mongodb": "^6.1.0",
+    "mongodb": "^6.2.0",
     "reflect-metadata": "^0.1.13"
   },
   "peerDependencies": {

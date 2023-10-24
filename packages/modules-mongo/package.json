@@ -56,8 +56,8 @@
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~",
     "@xyo-network/shared": "workspace:~",
     "agenda": "^5.0.0",
-    "inversify": "^6.0.1",
-    "mongodb": "^6.1.0"
+    "inversify": "^6.0.2",
+    "mongodb": "^6.2.0"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.3",

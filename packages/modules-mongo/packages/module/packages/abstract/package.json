@@ -18,7 +18,7 @@
     "@xyo-network/module-model-mongodb": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "mongodb": "^6.1.0"
+    "mongodb": "^6.2.0"
   },
   "peerDependencies": {
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"

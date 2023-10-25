@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { Promisable } from '@xyo-network/promise'
+import { Promisable } from '@xylabs/promise'
 
 import { Events } from '../Events'
 

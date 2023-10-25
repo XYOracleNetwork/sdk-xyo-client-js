@@ -1,3 +1,4 @@
+import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
@@ -24,7 +25,6 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>

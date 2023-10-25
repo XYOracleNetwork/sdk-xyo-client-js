@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
+import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistParams } from '@xyo-network/archivist-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>> = ArchivistParams<TConfig>
 

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
+import { Promisable, PromisableArray } from '@xylabs/promise'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -23,7 +24,6 @@ import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable, PromisableArray } from '@xyo-network/promise'
 
 export interface ActionConfig {
   emitEvents?: boolean

@@ -3,11 +3,11 @@
  */
 
 import { delay } from '@xylabs/delay'
+import { Promisable } from '@xylabs/promise'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable } from '@xyo-network/promise'
 
 export const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>, name: string) => {
   test(`Archivist RoundTrip [${name}]`, async () => {

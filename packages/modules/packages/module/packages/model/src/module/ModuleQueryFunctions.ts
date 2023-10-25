@@ -1,6 +1,6 @@
+import { Promisable } from '@xylabs/promise'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 import { ModuleDescription } from '../ModuleDescription'
 import { AddressPreviousHashPayload } from '../Queries'

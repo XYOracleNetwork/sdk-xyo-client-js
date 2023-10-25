@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-validator": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/payload-validator": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",

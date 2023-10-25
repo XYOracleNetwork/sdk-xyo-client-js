@@ -1,7 +1,7 @@
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { HDWallet } from '@xyo-network/account'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { isWitnessInstance, WitnessConfigSchema } from '@xyo-network/witness-model'
 
 import { WitnessWrapper } from '../WitnessWrapper'

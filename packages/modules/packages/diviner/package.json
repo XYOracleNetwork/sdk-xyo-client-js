@@ -19,8 +19,7 @@
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",

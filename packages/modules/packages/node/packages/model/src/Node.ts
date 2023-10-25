@@ -1,6 +1,6 @@
+import { Promisable } from '@xylabs/promise'
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { Module, ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
-import { Promisable } from '@xyo-network/promise'
 
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
 import { NodeParams } from './Params'

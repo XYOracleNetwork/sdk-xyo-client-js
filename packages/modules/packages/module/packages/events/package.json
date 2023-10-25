@@ -12,9 +12,9 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.3",
     "@xylabs/forget": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/core": "workspace:~",
-    "@xyo-network/error": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/error": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/delay": "^2.13.3",

@@ -1,6 +1,6 @@
+import { Promisable, PromisableArray } from '@xylabs/promise'
 import { AnyConfigSchema, Module, ModuleEventData, ModuleParams, ModuleQueryFunctions } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable, PromisableArray } from '@xyo-network/promise'
 
 import { ArchivistConfig } from './Config'
 import { ClearedEventData, DeletedEventData, InsertedEventData } from './EventModels'

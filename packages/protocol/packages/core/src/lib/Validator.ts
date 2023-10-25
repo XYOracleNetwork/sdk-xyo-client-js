@@ -1,5 +1,5 @@
+import { Promisable } from '@xylabs/promise'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
-import { Promisable } from '@xyo-network/promise'
 
 export interface Validator<T extends AnyObject = AnyObject> {
   validate(payload: T): Promisable<Error[]>

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
-import { fulfilled } from '@xylabs/promise'
+import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -19,7 +19,6 @@ import { PayloadHasher } from '@xyo-network/core'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { Promisable, PromisableArray } from '@xyo-network/promise'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'

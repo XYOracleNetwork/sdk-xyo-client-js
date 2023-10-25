@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
+import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule } from '@xyo-network/bridge-model'
@@ -19,7 +20,6 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 export type ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'
 export const ProxyModuleConfigSchema: ProxyModuleConfigSchema = 'network.xyo.module.proxy.config'

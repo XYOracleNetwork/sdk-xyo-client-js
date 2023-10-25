@@ -11,14 +11,14 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",

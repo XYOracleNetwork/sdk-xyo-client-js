@@ -1,3 +1,4 @@
+import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ManifestPayload } from '@xyo-network/manifest-model'
 import {
@@ -12,7 +13,6 @@ import {
   ModuleResolver,
 } from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 import { BridgeConfig } from './Config'
 

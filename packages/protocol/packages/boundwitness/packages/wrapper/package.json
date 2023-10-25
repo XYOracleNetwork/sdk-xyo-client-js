@@ -13,12 +13,12 @@
     "@xylabs/assert": "^2.13.3",
     "@xylabs/exists": "^2.13.3",
     "@xylabs/lodash": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

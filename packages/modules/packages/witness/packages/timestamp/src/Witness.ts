@@ -1,6 +1,6 @@
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { WitnessConfigSchema } from '@xyo-network/witness-model'
 
 import { TimestampWitnessConfigSchema } from './Config'

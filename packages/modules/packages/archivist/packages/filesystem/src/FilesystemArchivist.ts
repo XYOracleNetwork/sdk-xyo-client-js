@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
+import { PromisableArray } from '@xylabs/promise'
 import { HDWallet } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
@@ -16,7 +17,6 @@ import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { PromisableArray } from '@xyo-network/promise'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]

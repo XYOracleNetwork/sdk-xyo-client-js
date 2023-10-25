@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
   BridgeConnectQuerySchema,
@@ -23,7 +24,6 @@ import {
 } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isPayloadOfSchemaType, Payload, Query } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 
 constructableModuleWrapper()
 export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>

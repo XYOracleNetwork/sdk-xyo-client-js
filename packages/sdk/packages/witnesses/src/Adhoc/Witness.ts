@@ -1,7 +1,7 @@
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { Promisable } from '@xyo-network/promise'
 import { WitnessConfig, WitnessConfigSchema, WitnessModule, WitnessParams } from '@xyo-network/witness-model'
 
 export type AdhocWitnessConfigSchema = 'network.xyo.witness.adhoc.config'

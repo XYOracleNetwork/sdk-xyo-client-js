@@ -1,5 +1,5 @@
+import { Promisable } from '@xylabs/promise'
 import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object'
-import { Promisable } from '@xyo-network/promise'
 
 import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleEventData } from '../EventsModels'

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/exists": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
@@ -23,7 +24,6 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
     "regression": "^2.0.1"
   },
   "devDependencies": {

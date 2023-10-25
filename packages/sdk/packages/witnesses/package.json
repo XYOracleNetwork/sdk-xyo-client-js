@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@xylabs/delay": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/promise": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {

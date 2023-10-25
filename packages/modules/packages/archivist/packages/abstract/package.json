@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.3",
     "@xylabs/lodash": "^2.13.3",
+    "@xylabs/promise": "^2.13.3",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -19,8 +20,7 @@
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/promise": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",

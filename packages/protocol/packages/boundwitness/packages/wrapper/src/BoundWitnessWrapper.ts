@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { compact } from '@xylabs/lodash'
-import { BoundWitness, BoundWitnessSchema, isBoundWitnessPayload } from '@xyo-network/boundwitness-model'
+import { Promisable } from '@xylabs/promise'
+import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { DataLike, PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
-import { Promisable } from '@xyo-network/promise'
 
 export class BoundWitnessWrapper<
   TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,
@@ -55,9 +55,9 @@ export class BoundWitnessWrapper<
   static async load(address: DataLike) {
     const wrapper = await PayloadWrapper.load(address)
     const payload = wrapper?.payload()
-    assertEx(payload && isBoundWitnessPayload(payload), 'Attempt to load non-boundwitness')
+    assertEx(payload && isBoundWitness(payload), 'Attempt to load non-boundwitness')
 
-    const boundWitness: BoundWitness | undefined = payload && isBoundWitnessPayload(payload) ? payload : undefined
+    const boundWitness: BoundWitness | undefined = payload && isBoundWitness(payload) ? payload : undefined
     return boundWitness ? BoundWitnessWrapper.wrap(boundWitness) : null
   }
 

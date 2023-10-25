@@ -210,6 +210,12 @@
                       "payload_hashes": 1
                     },
                     "name": "bound_witnesses.IX_payload_hashes"
+                  },
+                  {
+                    "key": {
+                      "payload_schemas": 1
+                    },
+                    "name": "bound_witnesses.IX_payload_schemas"
                   }
                 ]
               }
@@ -686,9 +692,7 @@
             "config": {
               "accountPath": "m/44'/60'/3'/3'/1'",
               "archiving": {
-                "archivists": [
-                  "ImageThumbnailArchivist"
-                ]
+                "archivists": ["ImageThumbnailArchivist"]
               },
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",

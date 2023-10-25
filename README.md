@@ -7,11 +7,12 @@
 [![codacy-badge][]][codacy-link]
 [![codeclimate-badge][]][codeclimate-link]
 [![snyk-badge][]][snyk-link]
+[![license-badge][]][license-link]
 
-> The XYO Foundation provides this source code available in our efforts to
+> The XYO Foundation provides this source code in our efforts to
 > advance the understanding of the XYO Protocol and its possible uses.
 > We continue to maintain this software in the interest of developer education.
-> Usage of this source code is not intended for production.
+
 
 ## Table of Contents
 -   [Title](#sdk-xyo-client-js)
@@ -89,3 +90,6 @@ yarn xy compile
 
 [snyk-badge]: https://snyk.io/test/github/XYOracleNetwork/sdk-xyo-client-js/badge.svg?targetFile=package.json
 [snyk-link]: https://snyk.io/test/github/XYOracleNetwork/sdk-xyo-client-js?targetFile=package.json
+
+[license-badge]: https://img.shields.io/github/license/XYOracleNetwork/sdk-xyo-client-js
+[license-link]: https://github.com/XYOracleNetwork/sdk-xyo-client-js/blob/main/LICENSE

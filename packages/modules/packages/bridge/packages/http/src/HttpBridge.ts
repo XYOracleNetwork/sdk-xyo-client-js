@@ -35,6 +35,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
   implements BridgeModule<TParams, TEventData>
 {
   static override configSchemas = [HttpBridgeConfigSchema]
+  static maxPayloadSizeWarning = 256 * 256
 
   private _axios?: AxiosJson
   private _discoverCache?: LRUCache<string, Payload[]>
@@ -205,6 +206,10 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     await this.started('throw')
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
+      const payloadSize = JSON.stringify([query, payloads]).length
+      if (payloadSize > HttpBridge.maxPayloadSizeWarning) {
+        this.logger?.warn(`Large targetQuery being sent: ${payloadSize} bytes [${address}] [${query.schema}] [${payloads.length}]`)
+      }
       const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])
       if (result.status === 404) {
         throw `target module not found [${moduleUrlString}] [${result.status}]`

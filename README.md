@@ -66,7 +66,7 @@ yarn xy compile
 
 ## License
 
-> See the [LICENSE](LICENSE) file for license details
+> See the [LICENSE](https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/LICENSE) file for license details
 
 ## Credits
 

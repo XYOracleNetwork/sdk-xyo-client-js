@@ -13,7 +13,6 @@
 > advance the understanding of the XYO Protocol and its possible uses.
 > We continue to maintain this software in the interest of developer education.
 
-
 ## Table of Contents
 -   [Title](#sdk-xyo-client-js)
 -   [Table of Contents](#table-of-contents)

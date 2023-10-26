@@ -238,7 +238,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         limit: 1,
         offset: 0,
         order: 'desc',
-        payload_schemas: [ModuleStateSchema],
+        // NOTE: This is currently doing a full scan of the store in Mongo as
+        // there's no way to index on 2 arrays (addresses & payload_schemas) &
+        // a scalar value (timestamp implied). If we maintain the contract that:
+        // • The only writing we do to this collection is BWs for payloads of
+        // type ModuleStateSchema then we can remove the following filter criteria
+        // payload_schemas: [ModuleStateSchema],
       })
       .build()
     const boundWitnesses = await diviner.divine([query])

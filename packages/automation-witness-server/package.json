@@ -45,7 +45,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.435.0",
+    "@aws-sdk/client-secrets-manager": "^3.436.0",
     "@ethersproject/address": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/networks": "^5.7.1",

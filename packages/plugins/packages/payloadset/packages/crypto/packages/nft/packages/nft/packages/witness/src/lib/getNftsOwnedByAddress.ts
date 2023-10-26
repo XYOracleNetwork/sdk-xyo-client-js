@@ -1,5 +1,9 @@
 import { Auth, SDK } from '@infura/sdk'
+import { AxiosJson } from '@xyo-network/axios'
 import { NftInfoFields, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
+import { ERC721__factory } from '@xyo-network/world-typechain'
+
+import { getInfuraProvider } from './getInfuraProvider'
 
 type PublicAddressOptions = {
   cursor?: string
@@ -29,6 +33,7 @@ export const getNftsOwnedByAddress = async (
 ): Promise<NftInfoFields[]> => {
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const nfts: NftInfoFields[] = []
+  const axios = new AxiosJson()
   let cursor: string | undefined = undefined
   do {
     const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
@@ -42,5 +47,24 @@ export const getNftsOwnedByAddress = async (
     cursor = nextCursor
     if (nfts.length >= total || !cursor) break
   } while (nfts.length < maxNfts)
-  return nfts
+
+  return await Promise.all(
+    nfts.map(async (nft) => {
+      if (nft.metadata === null) {
+        try {
+          const contract = ERC721__factory.connect(nft.address, getInfuraProvider())
+          const uri = await contract.tokenURI(nft.tokenId)
+          const metadata = (await axios.get(uri))?.data
+          return {
+            ...nft,
+            ...{ metadata },
+          }
+        } catch (ex) {
+          return nft
+        }
+      } else {
+        return nft
+      }
+    }),
+  )
 }

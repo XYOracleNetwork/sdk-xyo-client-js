@@ -34,15 +34,15 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
     const [bw, p] = await validByType(payloads)
     const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
     const payloadsWithMeta = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
-    if (boundWitnesses.length) {
-      const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
-      if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
-        throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
-    }
     if (payloadsWithMeta.length) {
       const payloadsResult = await this.payloads.insertMany(payloadsWithMeta)
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloadsWithMeta.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
+    }
+    if (boundWitnesses.length) {
+      const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
+      if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)
+        throw new Error('MongoDBDeterministicArchivist: Error inserting BoundWitnesses')
     }
     return payloads ?? []
   }

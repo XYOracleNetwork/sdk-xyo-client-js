@@ -84,13 +84,13 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const imageThumbnailPayload = results.find(isImageThumbnail)
           if (!imageThumbnailPayload) {
             console.log(
-              `${moduleName}: Could not ImageThumbnail payload from BoundWitness ${boundWitnessHash} with Payload hash ${imageThumbnailHash}`,
+              `${moduleName}: Could not find ${ImageThumbnailSchema} Payload (${imageThumbnailHash}) from BoundWitness (${boundWitnessHash})`,
             )
             return undefined
           }
           const timestampPayload = results.find(isTimestamp)
           if (!timestampPayload) {
-            console.log(`${moduleName}: Could not Timestamp payload from BoundWitness ${boundWitnessHash} with Payload hash ${timestampHash}`)
+            console.log(`${moduleName}: Could not find ${TimestampSchema} Payload (${timestampHash}) from BoundWitness (${boundWitnessHash})`)
             return undefined
           }
           const calculatedImageThumbnailHash = await PayloadHasher.hashAsync(imageThumbnailPayload)

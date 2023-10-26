@@ -82,9 +82,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         indexableHashes.map(async ([boundWitnessHash, imageThumbnailHash, timestampHash]) => {
           const results = await archivist.get([imageThumbnailHash, timestampHash])
           const imageThumbnailPayload = results.find(isImageThumbnail)
+          if (!imageThumbnailPayload) {
+            console.log(
+              `${moduleName}: Could not ImageThumbnail payload from BoundWitness ${boundWitnessHash} with Payload hash ${imageThumbnailHash}`,
+            )
+            return undefined
+          }
           const timestampPayload = results.find(isTimestamp)
-          if (!imageThumbnailPayload || !timestampPayload) {
-            console.log('Could not find payload from hash to index')
+          if (!timestampPayload) {
+            console.log(`${moduleName}: Could not Timestamp payload from BoundWitness ${boundWitnessHash} with Payload hash ${timestampHash}`)
             return undefined
           }
           const calculatedImageThumbnailHash = await PayloadHasher.hashAsync(imageThumbnailPayload)

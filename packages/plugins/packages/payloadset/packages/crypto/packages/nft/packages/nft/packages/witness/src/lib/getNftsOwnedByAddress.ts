@@ -1,7 +1,7 @@
 import { Auth, SDK } from '@infura/sdk'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftInfoFields, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721__factory } from '@xyo-network/world-typechain'
+import { ERC721__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
 
@@ -10,6 +10,31 @@ type PublicAddressOptions = {
   includeMetadata?: boolean
   publicAddress: string
   tokenAddresses?: string[]
+}
+
+const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
+
+/**
+ * Returns the equivalent IPFS gateway URL for the supplied URL.
+ * @param urlToCheck The URL to check
+ * @returns If the supplied URL is an IPFS URL, it converts the URL to the
+ * equivalent IPFS gateway URL. Otherwise, returns the original URL.
+ */
+export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
+  const url = new URL(urlToCheck)
+  let protocol = url.protocol
+  let host = url.host
+  let path = url.pathname
+  const query = url.search
+  if (protocol === 'ipfs:') {
+    protocol = 'https:'
+    host = ipfsGateway
+    path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
+    const root = `${protocol}//${host}/${path}`
+    return query?.length > 0 ? `${root}?${query}` : root
+  } else {
+    return urlToCheck
+  }
 }
 
 export const getNftsOwnedByAddress = async (
@@ -51,15 +76,29 @@ export const getNftsOwnedByAddress = async (
   return await Promise.all(
     nfts.map(async (nft) => {
       if (nft.metadata === null) {
+        let cookedUri: string | undefined = undefined
         try {
           const contract = ERC721__factory.connect(nft.address, getInfuraProvider())
           const uri = await contract.tokenURI(nft.tokenId)
-          const metadata = (await axios.get(uri))?.data
+          cookedUri = checkIpfsUrl(uri, ipfsGateway)
+        } catch (ex) {
+          try {
+            const contract = ERC1155__factory.connect(nft.address, getInfuraProvider())
+            const uri = await contract.uri(nft.tokenId)
+            cookedUri = checkIpfsUrl(uri, ipfsGateway)
+          } catch (ex) {
+            console.log(`missing metadata failed [${ex}]`)
+            return nft
+          }
+        }
+        try {
+          const metadata = (await axios.get(cookedUri))?.data
           return {
             ...nft,
             ...{ metadata },
           }
         } catch (ex) {
+          console.log(`missing metadata failed [${cookedUri}] [${ex}]`)
           return nft
         }
       } else {

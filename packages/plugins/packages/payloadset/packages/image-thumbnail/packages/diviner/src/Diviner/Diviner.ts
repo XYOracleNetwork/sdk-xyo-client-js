@@ -194,9 +194,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
-          const success = payloadSuccess
-          const status = payloadStatus
-          const fields: Partial<ImageThumbnailResultQuery> = { ...{ limit, offset, order, status, success, url } }
+          const fields: Partial<ImageThumbnailResultQuery> = { limit, offset, order, url }
+          if (payloadSuccess !== undefined) fields.success = payloadSuccess
+          if (payloadStatus !== undefined) fields.status = payloadStatus
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
           return await diviner.divine([query])
         }),

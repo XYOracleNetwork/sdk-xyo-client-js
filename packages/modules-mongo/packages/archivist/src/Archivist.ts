@@ -32,13 +32,13 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
 
   protected override async insertHandler(payloads?: Payload[]): Promise<Payload[]> {
     const [bw, p] = await validByType(payloads)
-    const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
     const payloadsWithMeta = await Promise.all(p.map((x) => toPayloadWithMeta(x)))
     if (payloadsWithMeta.length) {
       const payloadsResult = await this.payloads.insertMany(payloadsWithMeta)
       if (!payloadsResult.acknowledged || payloadsResult.insertedCount !== payloadsWithMeta.length)
         throw new Error('MongoDBDeterministicArchivist: Error inserting Payloads')
     }
+    const boundWitnesses = await Promise.all(bw.map((x) => toBoundWitnessWithMeta(x)))
     if (boundWitnesses.length) {
       const boundWitnessesResult = await this.boundWitnesses.insertMany(boundWitnesses)
       if (!boundWitnessesResult.acknowledged || boundWitnessesResult.insertedCount !== boundWitnesses.length)

@@ -284,6 +284,15 @@
                       "_hash": 1
                     },
                     "name": "thumbnail_payloads.IX__hash"
+                  },
+                  {
+                    "key": {
+                      "_timestamp": 1,
+                      "url": 1,
+                      "success": 1,
+                      "status": 1
+                    },
+                    "name": "thumbnail_payloads.IX__timestamp_url_success_status"
                   }
                 ]
               }

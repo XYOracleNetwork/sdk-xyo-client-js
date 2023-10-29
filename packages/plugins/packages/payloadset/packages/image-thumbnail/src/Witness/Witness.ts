@@ -310,6 +310,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         }
       }
     }
-    return result
+    return JSON.parse(JSON.stringify(result))
   }
 }

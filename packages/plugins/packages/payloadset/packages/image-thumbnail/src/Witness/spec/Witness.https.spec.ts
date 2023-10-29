@@ -1,4 +1,5 @@
 import { HDWallet } from '@xyo-network/account'
+import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import hasbin from 'hasbin'
@@ -53,12 +54,35 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
     expect(result2[0].url?.length).toEqual(result[0].url?.length)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
+  it('HTTPS [medium/ens]', async () => {
+    const httpsPayload: UrlPayload = {
+      schema: UrlSchema,
+      url: 'https://metadata.ens.domains/mainnet/0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85/0x7d26d96c6c36f4edabfb87287e2ebfca83a454b05c34d684b9b19a5af30d7994/image',
+    }
+    const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
+    console.log(`ENS-SourceHash: ${result[0].sourceHash}`)
+    console.log(`ENS-Hash: ${await PayloadHasher.hashAsync(result[0])}`)
+    console.log(`ENS-DataHash: ${await PayloadHasher.hashAsync({ url: result[0].url })}`)
+    console.log(`ENS-Result: ${JSON.stringify(result[0], null, 2)}`)
+    expect(result.length).toBe(1)
+    expect(result[0].url?.length).toBeLessThan(64000)
+
+    //do a second pass and make sure we get cached result
+    const result2 = (await witness.observe([httpsPayload])) as ImageThumbnail[]
+    expect(result2.length).toBe(1)
+    expect(result2[0].url?.length).toEqual(result[0].url?.length)
+    expect(result[0].schema).toBe(ImageThumbnailSchema)
+  })
   it('HTTPS [large/gif (animated)]', async () => {
     const httpsPayload: UrlPayload = {
       schema: UrlSchema,
       url: 'https://lh3.googleusercontent.com/N3uFgyMt0xOew9YjD8GiOLQEbbQ2Y7WJOqoHdUdZZSljKrbuKNt6VGkAByzyPAI80y81tELH6tKatSZvFXKfcbBdm6GfCyZhFWxgOTw',
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
+    console.log(`GIF-SourceHash: ${result[0].sourceHash}`)
+    console.log(`GIF-Hash: ${await PayloadHasher.hashAsync(result[0])}`)
+    console.log(`GIF-DataHash: ${await PayloadHasher.hashAsync({ url: result[0].url })}`)
+    console.log(`GIF-Result: ${JSON.stringify(result[0], null, 2)}`)
     expect(result.length).toBe(1)
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)

@@ -56,6 +56,7 @@ const moduleName = 'ImageThumbnailDiviner'
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
 
+  private _lastState?: ImageThumbnailDivinerState
   private _pollId?: string | number | NodeJS.Timeout
 
   get payloadDivinerLimit() {
@@ -178,6 +179,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * external stores.
    */
   protected async commitState(state: ImageThumbnailDivinerState) {
+    this._lastState = state
     const archivist = await this.getArchivistForStore('stateStore')
     const payload = new PayloadBuilder<ModuleState<ImageThumbnailDivinerState>>({ schema: ModuleStateSchema }).fields({ state }).build()
     const [bw] = await new BoundWitnessBuilder().payloads([payload]).witness(this.account).build()
@@ -230,6 +232,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * preemptions, reboots, etc.
    */
   protected async retrieveState(): Promise<ImageThumbnailDivinerState | undefined> {
+    if (this._lastState) return this._lastState
     let hash: string = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
@@ -264,6 +267,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       if (payload) {
         return payload.state as ImageThumbnailDivinerState
       }
+    } else {
+      console.log('Failed to locate last state')
     }
     return undefined
   }

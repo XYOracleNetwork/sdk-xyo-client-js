@@ -5,7 +5,7 @@ import { AnyObject, ObjectWrapper } from '@xyo-network/object'
 import { PayloadHasher } from './PayloadHasher'
 
 export interface PayloadHasherAnalyzeError extends Error {
-  code: 'INVALID_ROUNDTRIP' | 'INVALID_FIELD_NAME' | 'INVALID_SYNC_HASH'
+  code: 'INVALID_ROUNDTRIP' | 'INVALID_FIELD_NAME' | 'INVALID_SYNC_HASH' | 'INVALID_META_HASH'
   field: string
 }
 
@@ -17,7 +17,12 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
     obj: T,
   ): Promise<Error[]> {
     const errors: Error[] = []
-    errors.push(...(await this.analyzeRoundtrip(obj)), ...(await this.analyzeFieldNames(obj)))
+    errors.push(
+      ...(await this.analyzeSyncHash(obj)),
+      ...(await this.analyzeWithMetaHash(obj)),
+      ...(await this.analyzeRoundtrip(obj)),
+      ...(await this.analyzeFieldNames(obj)),
+    )
     return errors
   }
 
@@ -52,16 +57,6 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
   ): Promise<Error[]> {
     const errors: Error[] = []
     const objAsyncHash = await PayloadHasher.hashAsync(obj)
-    const objSyncHash = PayloadHasher.hashSync(obj)
-    if (objAsyncHash !== objSyncHash) {
-      const error: PayloadHasherAnalyzeError = {
-        code: 'INVALID_SYNC_HASH',
-        field: 'root',
-        message: `JSON async/sync hash failed [${objAsyncHash}] [${objSyncHash}]`,
-        name: 'PayloadHasherAnalyzeError',
-      }
-      errors.push(error)
-    }
 
     const roundTripped = JSON.parse(JSON.stringify(obj))
     const roundTrippedHash = await PayloadHasher.hashAsync(roundTripped)
@@ -107,5 +102,46 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
       }
       return error
     }
+  }
+
+  /** @function analyzeSyncHash Verify that the hash of the object is equal even if hashing sync (shajs) vs async (wasm) */
+  static async analyzeSyncHash<T extends AnyObject>(
+    /** @param obj The object being analyzed */
+    obj: T,
+  ): Promise<Error[]> {
+    const errors: Error[] = []
+    const objAsyncHash = await PayloadHasher.hashAsync(obj)
+    const objSyncHash = PayloadHasher.hashSync(obj)
+    if (objAsyncHash !== objSyncHash) {
+      const error: PayloadHasherAnalyzeError = {
+        code: 'INVALID_SYNC_HASH',
+        field: 'root',
+        message: `async/sync hash failed [${objAsyncHash}] [${objSyncHash}]`,
+        name: 'PayloadHasherAnalyzeError',
+      }
+      errors.push(error)
+    }
+    return errors
+  }
+
+  /** @function analyzeWithMetaHash Verify that the hash of the object is equal even if meta fields set */
+  static async analyzeWithMetaHash<T extends AnyObject>(
+    /** @param obj The object being analyzed */
+    obj: T,
+  ): Promise<Error[]> {
+    const errors: Error[] = []
+    const objAsyncHash = await PayloadHasher.hashAsync(obj)
+    const objWithMeta = { ...obj, _hash: objAsyncHash, _timestamp: Date.now() }
+    const objWithMetaHash = PayloadHasher.hashSync(objWithMeta)
+    if (objAsyncHash !== objWithMetaHash) {
+      const error: PayloadHasherAnalyzeError = {
+        code: 'INVALID_META_HASH',
+        field: 'root',
+        message: `adding meta hash failed [${objAsyncHash}] [${objWithMetaHash}]`,
+        name: 'PayloadHasherAnalyzeError',
+      }
+      errors.push(error)
+    }
+    return errors
   }
 }

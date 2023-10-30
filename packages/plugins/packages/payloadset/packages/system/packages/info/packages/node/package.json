@@ -16,7 +16,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "systeminformation": "^5.21.14"
+    "systeminformation": "^5.21.15"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
@@ -55,5 +55,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.77.14"
+  "version": "2.77.15"
 }

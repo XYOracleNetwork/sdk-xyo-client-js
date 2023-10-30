@@ -21,10 +21,10 @@
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-typescript": "^7.23.2",
-    "@types/jest": "^29.5.6",
+    "@types/jest": "^29.5.7",
     "@types/supertest": "^2.0.15",
-    "@typescript-eslint/eslint-plugin": "^6.9.0",
-    "@typescript-eslint/parser": "^6.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
     "@xylabs/eslint-config": "^3.1.13",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",
@@ -122,7 +122,7 @@
     "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
   },
   "sideEffects": false,
-  "version": "2.77.14",
+  "version": "2.77.15",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

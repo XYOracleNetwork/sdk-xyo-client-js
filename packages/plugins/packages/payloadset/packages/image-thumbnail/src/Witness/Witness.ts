@@ -310,13 +310,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         }
       }
     }
-    const errors = await PayloadHashableAnalyzer.analyze(result)
-    if (errors.length === 0) {
-      console.log('ImageThumbnailWitness: No Hashable Errors')
-    }
-    errors.forEach((error) => {
-      console.error(`ImageThumbnailWitness: ${error.message}`)
-    })
-    return JSON.parse(JSON.stringify(result))
+    return result
   }
 }

@@ -10,7 +10,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
   private _errors?: Error[]
 
   protected constructor(payload: TPayload) {
-    super(payload)
+    super(PayloadHasher.hashFields(payload))
   }
 
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
@@ -44,6 +44,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return payload as TPayload
   }
 
+  /** @deprecated use payload() instead */
   body() {
     return deepOmitUnderscoreFields<TPayload>(this.obj)
   }

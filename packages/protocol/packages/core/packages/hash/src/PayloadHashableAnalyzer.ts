@@ -1,11 +1,19 @@
 import { exists } from '@xylabs/exists'
 import { Promisable } from '@xylabs/promise'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
+import { isEqual } from 'lodash'
 
 import { PayloadHasher } from './PayloadHasher'
 
 export interface PayloadHasherAnalyzeError extends Error {
-  code: 'INVALID_ROUNDTRIP' | 'INVALID_FIELD_NAME' | 'INVALID_SYNC_HASH' | 'INVALID_META_HASH'
+  code:
+    | 'INVALID_ROUNDTRIP'
+    | 'INVALID_FIELD_NAME'
+    | 'INVALID_SYNC_HASH'
+    | 'INVALID_META_HASH'
+    | 'INVALID_BYTE_LENGTH'
+    | 'INVALID_LENGTH'
+    | 'NOT_EQUAL'
   field: string
 }
 
@@ -54,12 +62,40 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
   static async analyzeRoundtrip<T extends AnyObject>(
     /** @param obj The object being analyzed */
     obj: T,
+    /** @param path The path of the object if it is a field of another object */
+    path?: string,
   ): Promise<Error[]> {
     const errors: Error[] = []
     const objAsyncHash = await PayloadHasher.hashAsync(obj)
+    const enc = new TextEncoder()
+    const stringified = PayloadHasher.stringifyHashFields(obj)
+    const bytes = enc.encode(stringified)
 
     const roundTripped = JSON.parse(JSON.stringify(obj))
+    const roundTrippedStringified = PayloadHasher.stringifyHashFields(roundTripped)
+    const roundTrippedBytes = enc.encode(roundTrippedStringified)
     const roundTrippedHash = await PayloadHasher.hashAsync(roundTripped)
+
+    if (bytes.length !== roundTrippedBytes.length) {
+      const error: PayloadHasherAnalyzeError = {
+        code: 'INVALID_LENGTH',
+        field: 'root',
+        message: `JSON roundtrip length mismatch [${bytes.byteLength}] [${roundTrippedBytes.byteLength}]`,
+        name: 'PayloadHasherAnalyzeError',
+      }
+      errors.push(error)
+    }
+
+    if (bytes.byteLength !== roundTrippedBytes.byteLength) {
+      const error: PayloadHasherAnalyzeError = {
+        code: 'INVALID_BYTE_LENGTH',
+        field: 'root',
+        message: `JSON roundtrip bytelength mismatch [${bytes.byteLength}] [${roundTrippedBytes.byteLength}]`,
+        name: 'PayloadHasherAnalyzeError',
+      }
+      errors.push(error)
+    }
+
     if (objAsyncHash !== roundTrippedHash) {
       const error: PayloadHasherAnalyzeError = {
         code: 'INVALID_ROUNDTRIP',
@@ -72,7 +108,7 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
     const fieldRoundtripErrors = (
       await Promise.all(
         Object.entries(obj).map(async ([field, value]) => {
-          return await this.analyzeRoundtripField(field, value)
+          return await this.analyzeRoundtripField(`${path ?? ''}/${field}`, value)
         }),
       )
     ).filter(exists)
@@ -93,6 +129,33 @@ export class PayloadHashableAnalyzer<T extends AnyObject = AnyObject> extends Ob
     const fieldOnlyObjectHash = await PayloadHasher.hashAsync(fieldOnlyObject)
     const roundTripped = JSON.parse(JSON.stringify(fieldOnlyObject))
     const roundTrippedHash = await PayloadHasher.hashAsync(roundTripped)
+
+    if (typeof value === 'object') {
+      if (value !== null) {
+        if (Array.isArray(value)) {
+          const errors = value.map(async (item, index) => await this.analyzeRoundtripField(`${field}/${index}`, item))
+          if (errors.length > 0) {
+            return errors[0]
+          }
+        } else {
+          const errors = await this.analyzeRoundtrip(value, field)
+          if (errors.length > 0) {
+            return errors[0]
+          }
+        }
+      }
+    }
+
+    if (!isEqual(fieldOnlyObject, roundTripped)) {
+      const error: PayloadHasherAnalyzeError = {
+        code: 'NOT_EQUAL',
+        field,
+        message: `JSON roundtrip isEqual failed [${field}]`,
+        name: 'PayloadHasherAnalyzeError',
+      }
+      return error
+    }
+
     if (fieldOnlyObjectHash !== roundTrippedHash) {
       const error: PayloadHasherAnalyzeError = {
         code: 'INVALID_ROUNDTRIP',

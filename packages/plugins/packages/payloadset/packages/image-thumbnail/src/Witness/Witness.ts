@@ -5,7 +5,7 @@ import { compact } from '@xylabs/lodash'
 import { URL } from '@xylabs/url'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
-import { PayloadHasher } from '@xyo-network/core'
+import { PayloadHashableAnalyzer, PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { Semaphore } from 'async-mutex'
@@ -310,6 +310,13 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
         }
       }
     }
+    const errors = await PayloadHashableAnalyzer.analyze(result)
+    if (errors.length === 0) {
+      console.log('ImageThumbnailWitness: No Hashable Errors')
+    }
+    errors.forEach((error) => {
+      console.error(`ImageThumbnailWitness: ${error.message}`)
+    })
     return JSON.parse(JSON.stringify(result))
   }
 }

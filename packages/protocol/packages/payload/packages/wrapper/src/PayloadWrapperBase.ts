@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
-import { DataLike, deepOmitUnderscoreFields, PayloadHasher } from '@xyo-network/core'
+import { DataLike, PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
@@ -44,8 +44,9 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return payload as TPayload
   }
 
+  /** @deprecated use jsonPayload instead */
   body() {
-    return deepOmitUnderscoreFields<TPayload>(this.obj)
+    return this.jsonPayload()
   }
 
   async getErrors() {
@@ -57,13 +58,14 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return (await this.getErrors()).length === 0
   }
 
+  /** @deprecated use jsonPayload(true) instead */
   payload(): TPayload {
-    return assertEx(this.obj, 'Missing payload object')
+    return this.jsonPayload(true)
   }
 
   //intentionally a function to prevent confusion with payload
   schema(): string {
-    return assertEx(this.payload()?.schema, 'Missing payload schema')
+    return assertEx(this.jsonPayload()?.schema, 'Missing payload schema')
   }
 
   validate(): Promisable<Error[]> {

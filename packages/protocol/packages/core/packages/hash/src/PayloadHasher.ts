@@ -74,6 +74,16 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
   }
 
+  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
+  static jsonPayload<T extends AnyObject>(
+    /** @param payload The payload to process */
+    payload: T,
+    /** @param meta Keeps underscore (meta) fields if set to true */
+    meta = false,
+  ): T {
+    return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
+  }
+
   static stringifyHashFields<T extends AnyObject>(obj: T) {
     return JSON.stringify(this.hashFields(obj))
   }
@@ -90,5 +100,13 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
 
   hashSync(): Hash {
     return PayloadHasher.hashSync(this.obj)
+  }
+
+  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
+  jsonPayload(
+    /** @param meta Keeps underscore (meta) fields if set to true */
+    meta = false,
+  ): T {
+    return PayloadHasher.jsonPayload(this.obj, meta)
   }
 }

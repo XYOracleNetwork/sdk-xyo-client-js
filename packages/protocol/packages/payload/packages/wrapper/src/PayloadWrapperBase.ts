@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
-import { DataLike, deepOmitUnderscoreFields, PayloadHasher } from '@xyo-network/core'
+import { DataLike, PayloadHasher } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
@@ -10,7 +10,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
   private _errors?: Error[]
 
   protected constructor(payload: TPayload) {
-    super(PayloadHasher.hashFields(payload))
+    super(payload)
   }
 
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
@@ -44,11 +44,6 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return payload as TPayload
   }
 
-  /** @deprecated use payload() instead */
-  body() {
-    return deepOmitUnderscoreFields<TPayload>(this.obj)
-  }
-
   async getErrors() {
     this._errors = this._errors ?? (await this.validate())
     return this._errors
@@ -58,6 +53,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return (await this.getErrors()).length === 0
   }
 
+  /** @function payload Retrieves the un-mutated wrapped payload */
   payload(): TPayload {
     return assertEx(this.obj, 'Missing payload object')
   }

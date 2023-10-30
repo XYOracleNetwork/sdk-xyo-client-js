@@ -19,7 +19,7 @@ export class MongoDBArchivist extends MongoDBArchivistBase {
 
   override async head(): Promise<Payload | undefined> {
     const head = await (await this.payloads.find({})).sort({ _timestamp: -1 }).limit(1).toArray()
-    return head[0] ? PayloadWrapper.wrap(head[0]).body() : undefined
+    return head[0] ? PayloadWrapper.wrap(head[0]).jsonPayload() : undefined
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {

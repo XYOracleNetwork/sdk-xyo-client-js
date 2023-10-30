@@ -156,8 +156,10 @@ export class BoundWitnessWrapper<
       const innerBoundwitnessPayload = (await BoundWitnessWrapper.mapWrappedPayloads(await this.getPayloads()))[innerBoundwitnessHash]
       const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
         ? new BoundWitnessWrapper<TBoundWitness>(
-            innerBoundwitnessPayload.body() as unknown as TBoundWitness,
-            (await PayloadHasher.filterExclude(this.payloadsArray, innerBoundwitnessHash)).map((item) => item.body() as unknown as TBoundWitness),
+            innerBoundwitnessPayload.jsonPayload() as unknown as TBoundWitness,
+            (await PayloadHasher.filterExclude(this.payloadsArray, innerBoundwitnessHash)).map(
+              (item) => item.jsonPayload() as unknown as TBoundWitness,
+            ),
           )
         : undefined
       if (innerBoundwitness) {
@@ -221,7 +223,7 @@ export class BoundWitnessWrapper<
   }
 
   toResult() {
-    return [this.boundwitness, this.payloadsArray.map((payload) => payload.body())]
+    return [this.boundwitness, this.payloadsArray.map((payload) => payload.jsonPayload())]
   }
 
   override async validate(): Promise<Error[]> {

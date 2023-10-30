@@ -25,16 +25,6 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     }, {}) as T
   }
 
-  static decodeUTF16LE<T extends string>(input: T) {
-    const binaryStr = atob(input)
-    const cp = []
-    for (let i = 0; i < binaryStr.length; i += 2) {
-      cp.push(binaryStr.charCodeAt(i) | (binaryStr.charCodeAt(i + 1) << 8))
-    }
-
-    return String.fromCharCode(...cp)
-  }
-
   static decodeValue<T>(value: T): T {
     if (value === null) {
       return null as T
@@ -71,9 +61,8 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   static async hashAsync<T extends AnyObject>(obj: T): Promise<Hash> {
     if (PayloadHasher.allowSubtle) {
       try {
-        const enc = new TextEncoder()
         const stringified = this.stringifyHashFields(obj)
-        const bytes = enc.encode(stringified)
+        const bytes = Buffer.from(stringified)
         const hashArray = await subtle.digest('SHA-256', bytes)
         return base16.encode(Buffer.from(hashArray)).toLowerCase()
       } catch (ex) {
@@ -84,11 +73,9 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
 
     await this.wasmInitialized
     if (this.wasmSupport.canUseWasm) {
-      const enc = new TextEncoder()
       const stringified = this.stringifyHashFields(obj)
-      const bytes = enc.encode(stringified)
       try {
-        return await sha256(bytes)
+        return await sha256(stringified)
       } catch (ex) {
         this.wasmSupport.allowWasm = false
       }
@@ -96,27 +83,36 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     return this.hashSync(obj)
   }
 
+  /** @deprecated use jsonPayload instead */
   static hashFields<T extends AnyObject>(obj: T): T {
-    return sortFields(this.decodeStrings(removeEmptyFields(deepOmitUnderscoreFields(obj))))
+    return this.jsonPayload(obj)
   }
 
-  static async hashPairs<T extends AnyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
+  static async hashPairs<T extends AnyObject>(objs: T[], meta = false): Promise<[T, Hash][]> {
+    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [this.jsonPayload(obj, meta), await PayloadHasher.hashAsync(obj)]))
   }
 
   static hashSync<T extends AnyObject>(obj: T): Hash {
-    const enc = new TextEncoder()
     const stringified = this.stringifyHashFields(obj)
-    const bytes = enc.encode(stringified)
-    return shajs('sha256').update(bytes).digest().toString('hex')
+    return shajs('sha256').update(stringified).digest().toString('hex')
   }
 
   static async hashes<T extends AnyObject>(objs: T[]): Promise<Hash[]> {
     return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
   }
 
+  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
+  static jsonPayload<T extends AnyObject>(
+    /** @param payload The payload to process */
+    payload: T,
+    /** @param meta Keeps underscore (meta) fields if set to true */
+    meta = false,
+  ): T {
+    return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
+  }
+
   static stringifyHashFields<T extends AnyObject>(obj: T) {
-    return JSON.stringify(this.hashFields(obj))
+    return JSON.stringify(this.jsonPayload(obj))
   }
 
   static async toMap<T extends AnyObject>(objs: T[]): Promise<Record<Hash, T>> {
@@ -131,5 +127,13 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
 
   hashSync(): Hash {
     return PayloadHasher.hashSync(this.obj)
+  }
+
+  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
+  jsonPayload(
+    /** @param meta Keeps underscore (meta) fields if set to true */
+    meta = false,
+  ): T {
+    return PayloadHasher.jsonPayload(this.obj, meta)
   }
 }

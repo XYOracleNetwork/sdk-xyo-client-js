@@ -1,9 +1,15 @@
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { CryptoWalletNftWitnessConfig, isNftWitnessQuery, NftInfo, NftSchema, NftWitnessConfigSchema } from '@xyo-network/crypto-nft-payload-plugin'
+import {
+  CryptoWalletNftWitnessConfig,
+  isNftWitnessQuery,
+  NftInfo,
+  NftSchema,
+  NftWitnessConfigSchema,
+  NftWitnessQuery,
+} from '@xyo-network/crypto-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
 import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftsOwnedByAddress } from './lib'
@@ -14,10 +20,14 @@ const schema = NftSchema
 
 const defaultMaxNfts = 100
 
-export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<TParams> {
+export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<
+  TParams,
+  NftWitnessQuery,
+  NftInfo
+> {
   static override configSchemas = [NftWitnessConfigSchema]
 
-  protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async observeHandler(payloads?: NftWitnessQuery[]): Promise<NftInfo[]> {
     await this.started('throw')
     const queries = payloads?.filter(isNftWitnessQuery) ?? []
     const observations = await Promise.all(

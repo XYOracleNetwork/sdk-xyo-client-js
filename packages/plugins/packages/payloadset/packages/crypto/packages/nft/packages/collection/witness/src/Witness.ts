@@ -8,9 +8,9 @@ import {
   NftCollectionSchema,
   NftCollectionWitnessConfig,
   NftCollectionWitnessConfigSchema,
+  NftCollectionWitnessQuery,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
 import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftCollectionCount, getNftCollectionMetadata, getNftCollectionMetrics, getNftCollectionNfts } from './lib'
@@ -26,12 +26,14 @@ const defaultMaxNfts = 100
  */
 const NoOp = Promise.resolve()
 
-export class CryptoNftCollectionWitness<
-  TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
-> extends AbstractWitness<TParams> {
+export class CryptoNftCollectionWitness<TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams> extends AbstractWitness<
+  TParams,
+  NftCollectionWitnessQuery,
+  NftCollectionInfo
+> {
   static override configSchemas = [NftCollectionWitnessConfigSchema]
 
-  protected override async observeHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async observeHandler(payloads?: NftCollectionWitnessQuery[]): Promise<NftCollectionInfo[]> {
     await this.started('throw')
     const queries = payloads?.filter(isNftCollectionWitnessQuery) ?? []
     const observations = await Promise.all(

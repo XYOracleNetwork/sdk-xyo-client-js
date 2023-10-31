@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { Address } from '@xyo-network/core'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
@@ -45,12 +46,21 @@ export class MemorySentinel<
       tasks?.map(async (task) => {
         const witness = asWitnessInstance(task.module)
         const input = task.input ?? false
+        const inPayloadsFound =
+          input === true
+            ? inPayloads
+            : input === false
+            ? []
+            : assertEx(
+                previousResults[assertEx((await this.resolve(input))?.address, `Unable to locate input [${input}]`)],
+                `Unable to locate results [${input}]`,
+              )
         if (witness) {
-          return [witness.address, await witness.observe(input === true ? inPayloads : input === false ? [] : previousResults[input])]
+          return [witness.address, await witness.observe(inPayloadsFound)]
         }
         const diviner = asDivinerInstance(task.module)
         if (diviner) {
-          return [diviner.address, await diviner.divine(input === true ? inPayloads : input === false ? [] : previousResults[input])]
+          return [diviner.address, await diviner.divine(inPayloadsFound)]
         }
         throw Error('Unsupported module type')
       }),

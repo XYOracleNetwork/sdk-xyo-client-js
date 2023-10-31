@@ -61,23 +61,16 @@ export const getNftMetadataUri = async (address: string, tokenId: string) => {
 }
 
 export const getNftsOwnedByAddress = async (
-  /**
-   * The address of the wallet to search for NFTs
-   */
+  /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
-  /**
-   * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
-   */
+  /** @param chainId The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on */
   chainId: number,
-  /**
-   * The private key of the wallet to use to search for NFTs
-   */
+  /** @param privateKey The private key of the wallet to use to search for NFTs */
   privateKey: string,
-  /**
-   * The maximum number of NFTs to return. Configurable to prevent
-   * large wallets from exhausting Infura API credits.
-   */
+  /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 1000,
+  /** @param httpTimeout The connection timeout for http call to get metadata */
+  timeout = 2000,
 ): Promise<NftInfoFields[]> => {
   const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const nfts: NftInfoFields[] = []
@@ -103,7 +96,7 @@ export const getNftsOwnedByAddress = async (
         nft.metaDataUri = metaDataUri
         const cookedUri = checkIpfsUrl(metaDataUri, ipfsGateway)
         try {
-          nft.metadata = (await axios.get(cookedUri, { timeout: 2000 }))?.data
+          nft.metadata = (await axios.get(cookedUri, { timeout }))?.data
         } catch (ex) {
           console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
         }

@@ -27,6 +27,10 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 > {
   static override configSchemas = [NftWitnessConfigSchema]
 
+  get timeout() {
+    return this.config.timeout ?? 2000
+  }
+
   protected override async observeHandler(payloads?: NftWitnessQuery[]): Promise<NftInfo[]> {
     await this.started('throw')
     const queries = payloads?.filter(isNftWitnessQuery) ?? []
@@ -38,7 +42,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
         ).toString()
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
-        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts)
+        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts, this.timeout)
         const observation = nfts.map<NftInfo>((nft) => {
           return { ...nft, schema }
         })

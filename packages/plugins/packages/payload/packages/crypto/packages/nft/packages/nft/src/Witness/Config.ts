@@ -6,4 +6,5 @@ export type CryptoWalletNftWitnessConfig = WitnessConfig<{
   address?: string
   chainId?: number
   schema: NftWitnessConfigSchema
+  timeout?: number
 }>

@@ -103,7 +103,7 @@ export const getNftsOwnedByAddress = async (
         nft.metaDataUri = metaDataUri
         const cookedUri = checkIpfsUrl(metaDataUri, ipfsGateway)
         try {
-          nft.metadata = (await axios.get(cookedUri))?.data
+          nft.metadata = (await axios.get(cookedUri, { timeout: 2000 }))?.data
         } catch (ex) {
           console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
         }

@@ -21,10 +21,16 @@ import {
 creatableModule()
 export abstract class AbstractWitness<
     TParams extends WitnessParams = WitnessParams,
-    TEventData extends WitnessModuleEventData<WitnessInstance<TParams>> = WitnessModuleEventData<WitnessInstance<TParams>>,
+    TIn extends Payload = Payload,
+    TOut extends Payload = Payload,
+    TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+      WitnessInstance<TParams, TIn, TOut>,
+      TIn,
+      TOut
+    >,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomWitnessInstance<TParams, TEventData>
+  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
 
@@ -55,7 +61,7 @@ export abstract class AbstractWitness<
   }
 
   /** @function observe The main entry point for a witness.  Do not override this function.  Implement/override observeHandler for custom functionality */
-  async observe(inPayloads?: Payload[]): Promise<Payload[]> {
+  async observe(inPayloads?: TIn[]): Promise<TOut[]> {
     this._noOverride('observe')
     await this.started('throw')
     await this.emit('observeStart', { inPayloads: inPayloads, module: this })
@@ -84,7 +90,7 @@ export abstract class AbstractWitness<
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     // Remove the query payload from the arguments passed to us so we don't observe it
-    const filteredObservation = await PayloadHasher.filterExclude(payloads, query.query)
+    const filteredObservation = (await PayloadHasher.filterExclude(payloads, query.query)) as TIn[]
     switch (queryPayload.schema) {
       case WitnessObserveQuerySchema: {
         const observePayloads = await this.observe(filteredObservation)
@@ -99,5 +105,5 @@ export abstract class AbstractWitness<
   }
 
   /** @function observeHandler Implement or override to add custom functionality to a witness */
-  protected abstract observeHandler(payloads?: Payload[]): Promisable<Payload[]>
+  protected abstract observeHandler(payloads?: TIn[]): Promisable<TOut[]>
 }

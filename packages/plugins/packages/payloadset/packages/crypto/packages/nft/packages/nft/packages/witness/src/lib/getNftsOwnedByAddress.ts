@@ -75,33 +75,33 @@ export const getNftsOwnedByAddress = async (
 
   return await Promise.all(
     nfts.map(async (nft) => {
-      if (nft.metadata === null) {
-        let cookedUri: string | undefined = undefined
+      let cookedUri: string | undefined = undefined
+      try {
+        const contract = ERC721__factory.connect(nft.address, getInfuraProvider())
+        nft.metaDataUri = await contract.tokenURI(nft.tokenId)
+        cookedUri = checkIpfsUrl(nft.metaDataUri, ipfsGateway)
+      } catch (ex) {
         try {
-          const contract = ERC721__factory.connect(nft.address, getInfuraProvider())
-          const uri = await contract.tokenURI(nft.tokenId)
-          cookedUri = checkIpfsUrl(uri, ipfsGateway)
+          const contract = ERC1155__factory.connect(nft.address, getInfuraProvider())
+          nft.metaDataUri = await contract.uri(nft.tokenId)
+          cookedUri = checkIpfsUrl(nft.metaDataUri, ipfsGateway)
         } catch (ex) {
-          try {
-            const contract = ERC1155__factory.connect(nft.address, getInfuraProvider())
-            const uri = await contract.uri(nft.tokenId)
-            cookedUri = checkIpfsUrl(uri, ipfsGateway)
-          } catch (ex) {
-            console.log(`missing metadata failed [${ex}]`)
-            return nft
-          }
-        }
-        try {
-          const metadata = (await axios.get(cookedUri))?.data
-          return {
-            ...nft,
-            ...{ metadata },
-          }
-        } catch (ex) {
-          console.log(`missing metadata failed [${cookedUri}] [${ex}]`)
+          console.log(`failed to get NTF metaDataUri [${ex}]`)
           return nft
         }
-      } else {
+      }
+      if (!cookedUri) {
+        console.log(`failed to get NTF metadata [${cookedUri}]`)
+        return nft
+      }
+      try {
+        const metadata = (await axios.get(cookedUri))?.data
+        return {
+          ...nft,
+          ...{ metadata },
+        }
+      } catch (ex) {
+        console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
         return nft
       }
     }),

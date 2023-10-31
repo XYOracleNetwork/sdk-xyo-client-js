@@ -37,6 +37,29 @@ export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
   }
 }
 
+export const getErc721MetadataUri = async (address: string, tokenId: string): Promise<[string | undefined, Error | undefined]> => {
+  try {
+    const contract = ERC721__factory.connect(address, getInfuraProvider())
+    return [await contract.tokenURI(tokenId), undefined]
+  } catch (ex) {
+    return [undefined, ex as Error]
+  }
+}
+
+export const getErc1155MetadataUri = async (address: string, tokenId: string): Promise<[string | undefined, Error | undefined]> => {
+  try {
+    const contract = ERC1155__factory.connect(address, getInfuraProvider())
+    return [await contract.uri(tokenId), undefined]
+  } catch (ex) {
+    return [undefined, ex as Error]
+  }
+}
+
+export const getNftMetadataUri = async (address: string, tokenId: string) => {
+  const results = await Promise.all([getErc721MetadataUri(address, tokenId), getErc1155MetadataUri(address, tokenId)])
+  return results[0][0] ?? results[1][0]
+}
+
 export const getNftsOwnedByAddress = async (
   /**
    * The address of the wallet to search for NFTs
@@ -75,35 +98,19 @@ export const getNftsOwnedByAddress = async (
 
   return await Promise.all(
     nfts.map(async (nft) => {
-      let cookedUri: string | undefined = undefined
-      try {
-        const contract = ERC721__factory.connect(nft.address, getInfuraProvider())
-        nft.metaDataUri = await contract.tokenURI(nft.tokenId)
-        cookedUri = checkIpfsUrl(nft.metaDataUri, ipfsGateway)
-      } catch (ex) {
+      const metaDataUri = await getNftMetadataUri(nft.address, nft.tokenId)
+      if (metaDataUri) {
+        nft.metaDataUri = metaDataUri
+        const cookedUri = checkIpfsUrl(metaDataUri, ipfsGateway)
         try {
-          const contract = ERC1155__factory.connect(nft.address, getInfuraProvider())
-          nft.metaDataUri = await contract.uri(nft.tokenId)
-          cookedUri = checkIpfsUrl(nft.metaDataUri, ipfsGateway)
+          nft.metadata = (await axios.get(cookedUri))?.data
         } catch (ex) {
-          console.log(`failed to get NTF metaDataUri [${ex}]`)
-          return nft
+          console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
         }
+      } else {
+        console.log('failed to get NTF metadata URI')
       }
-      if (!cookedUri) {
-        console.log(`failed to get NTF metadata [${cookedUri}]`)
-        return nft
-      }
-      try {
-        const metadata = (await axios.get(cookedUri))?.data
-        return {
-          ...nft,
-          ...{ metadata },
-        }
-      } catch (ex) {
-        console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
-        return nft
-      }
+      return nft
     }),
   )
 }

@@ -67,7 +67,13 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return this.config.pollFrequency ?? 10_000
   }
 
-  private static async indexableData(indexableHashes: IndexableHashes[], archivist: ArchivistInstance) {
+  /**
+   * Finds all the IndexableData associated with the IndexableHashes, for all hashes which could be retrieved.
+   * @param indexableHashes The IndexableHashes to retrieve
+   * @param archivist The Archivist to retrieve the IndexableData from
+   * @returns The IndexableData referenced by the IndexableHashes, for all hashes which could be retrieved.
+   */
+  private static async findIndexableData(indexableHashes: IndexableHashes[], archivist: ArchivistInstance) {
     // Find all the indexable data associated with the indexable hashes
     type IndexableData = Readonly<
       [
@@ -104,6 +110,11 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return indexableData
   }
 
+  /**
+   * Maps an BoundWitness containing an ImageThumbnail & Timestamp payload to an array of IndexableHashes
+   * @param batch The batch of BoundWitnesses from the source archivist
+   * @returns An array of IndexableHashes constructed from the batch of BoundWitness
+   */
   private static async indexableHashes(batch: Payload[]) {
     // Find all the indexable hashes in this batch
     const indexableHashes: IndexableHashes[] = (
@@ -117,7 +128,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const imageThumbnails = bw.payload_hashes.map((hash, index) => (imageThumbnailIndexes.includes(index) ? hash : undefined)).filter(exists)
           const timestampHash = bw.payload_hashes?.[timestampIndex]
           const boundWitnessHash = await PayloadHasher.hashAsync(bw)
-          return imageThumbnails.map((imageThumbnailHash) => [boundWitnessHash, imageThumbnailHash, timestampHash] as const)
+          return imageThumbnails.map<IndexableHashes>((imageThumbnailHash) => [boundWitnessHash, imageThumbnailHash, timestampHash] as const)
         }),
       )
     )
@@ -127,8 +138,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   /**
-   * Works in the background to populate index for the Diviner
-   * @returns
+   * Works via batched iteration of the source archivist to populate the index.
+   * @returns A promise that resolves when the background process is complete
    */
   protected backgroundDivine = async (): Promise<void> => {
     // Load last state
@@ -148,7 +159,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     if (batch.length === 0) return
     const indexableHashes = await ImageThumbnailDiviner.indexableHashes(batch)
     const archivist = await this.getArchivistForStore('thumbnailStore')
-    const indexableData = await ImageThumbnailDiviner.indexableData(indexableHashes, archivist)
+    const indexableData = await ImageThumbnailDiviner.findIndexableData(indexableHashes, archivist)
     // Build index results from the indexable data
     const indexes: ImageThumbnailResult[] = indexableData.map(
       ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
@@ -177,6 +188,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * to a transaction completion in a database and should only be called
    * when results have been successfully persisted to the appropriate
    * external stores.
+   * @param state The state to commit
    */
   protected async commitState(state: ImageThumbnailDivinerState) {
     this._lastState = state
@@ -209,18 +221,33 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return results
   }
 
+  /**
+   * Retrieves the archivist for the specified store
+   * @param store The store to retrieve the archivist for
+   * @returns The archivist for the specified store
+   */
   protected async getArchivistForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
     return ArchivistWrapper.wrap(mod, this.account)
   }
 
+  /**
+   * Retrieves the BoundWitness Diviner for the specified store
+   * @param store The store to retrieve the BoundWitness Diviner for
+   * @returns The BoundWitness Diviner for the specified store
+   */
   protected async getBoundWitnessDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
     return DivinerWrapper.wrap(mod, this.account)
   }
 
+  /**
+   * Retrieves the Payload Diviner for the specified store
+   * @param store The store to retrieve the Payload Diviner for
+   * @returns The Payload Diviner for the specified store
+   */
   protected async getPayloadDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
     const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
@@ -287,6 +314,10 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return await super.stopHandler()
   }
 
+  /**
+   * Runs the background divine process on a loop with a delay
+   * specified by the `config.pollFrequency`
+   */
   private poll() {
     this._pollId = setTimeout(async () => {
       try {

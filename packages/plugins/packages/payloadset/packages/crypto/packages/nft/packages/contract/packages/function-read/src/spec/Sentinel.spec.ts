@@ -5,11 +5,7 @@ jest.useFakeTimers().setSystemTime(now)
 import { InfuraProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
-import {
-  CryptoContractFunctionCall,
-  CryptoContractFunctionCallSchema,
-  CryptoContractFunctionReadWitnessConfigSchema,
-} from '@xyo-network/crypto-contract-function-read-payload-plugin'
+import { CryptoContractFunctionCall, CryptoContractFunctionCallSchema } from '@xyo-network/crypto-contract-function-read-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
@@ -18,9 +14,9 @@ import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
-import { CryptoContractErc721Diviner, CryptoContractErc721DivinerConfigSchema, Erc721ContractInfo, Erc721ContractInfoSchema } from '../Erc721Diviner'
+import { CryptoContractErc721Diviner, Erc721ContractInfo, Erc721ContractInfoSchema } from '../Erc721Diviner'
 import erc721SentinelManifest from '../Erc721Sentinel.json'
-import { CryptoContractErc1155Diviner, CryptoContractErc1155DivinerConfigSchema } from '../Erc1155Diviner'
+import { CryptoContractErc1155Diviner } from '../Erc1155Diviner'
 import { CryptoContractFunctionReadWitness } from '../Witness'
 
 describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {

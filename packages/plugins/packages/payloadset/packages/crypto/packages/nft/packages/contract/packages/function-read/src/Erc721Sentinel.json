@@ -61,10 +61,10 @@
                 "functionName": "uri",
                 "params": []
               },
-              "language": "javascript",
               "labels": {
                 "network.xyo.crypto.contract.interface": "Erc1155"
               },
+              "language": "javascript",
               "name": "Erc1155UriWitness",
               "schema": "network.xyo.crypto.contract.function.read.config"
             }
@@ -94,34 +94,34 @@
               "synchronous": "true",
               "tasks": [
                 {
-                  "module": "Erc721NameWitness",
-                  "input": true
+                  "input": true,
+                  "module": "Erc721NameWitness"
                 },
                 {
-                  "module": "Erc721SymbolWitness",
-                  "input": true
+                  "input": true,
+                  "module": "Erc721SymbolWitness"
                 },
                 {
-                  "module": "Erc721TotalSupplyWitness",
-                  "input": true
+                  "input": true,
+                  "module": "Erc721TotalSupplyWitness"
                 },
                 {
-                  "module": "Erc1155UriWitness",
-                  "input": true
+                  "input": true,
+                  "module": "Erc1155UriWitness"
                 },
                 {
-                  "module": "Erc721ContractInfoDiviner",
                   "input": [
                     "Erc721NameWitness",
                     "Erc721SymbolWitness",
                     "Erc721TotalSupplyWitness"
-                  ]
+                  ],
+                  "module": "Erc721ContractInfoDiviner"
                 },
                 {
-                  "module": "Erc1155ContractInfoDiviner",
                   "input": [
                     "Erc1155UriWitness"
-                  ]
+                  ],
+                  "module": "Erc1155ContractInfoDiviner"
                 }
               ]
             }

@@ -1,5 +1,4 @@
-import { assertEx } from '@xylabs/assert'
-import { fulfilled, rejected } from '@xylabs/promise'
+import { fulfilled } from '@xylabs/promise'
 import { Address } from '@xyo-network/core'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
@@ -64,8 +63,8 @@ export class MemorySentinel<
       finalResult[address] = finalResult[address] ?? []
       finalResult[address].push(...payloads)
     })
-    const errors = results.filter(rejected).map((result) => result.reason)
-    /*if (errors.length > 0) {
+    /*const errors = results.filter(rejected).map((result) => result.reason)
+    if (errors.length > 0) {
       throw Error('At least one module failed')
     }*/
     return finalResult

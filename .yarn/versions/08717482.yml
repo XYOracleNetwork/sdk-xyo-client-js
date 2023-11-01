@@ -1,0 +1,16 @@
+releases:
+  "@xyo-network/automation-witness-server": patch
+  "@xyo-network/cli": patch
+  "@xyo-network/manifest": patch
+  "@xyo-network/manifest-model": patch
+  "@xyo-network/modules": patch
+  "@xyo-network/node-core-modules-mongo": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+
+undecided:
+  - "@xyo-network/node-app"
+  - "@xyo-network/express-node-dependencies"
+  - "@xyo-network/express-node-lib"
+  - "@xyo-network/express-node-middleware"
+  - "@xyo-network/express-node-routes"
+  - "@xyo-network/express-node-server"

@@ -5,14 +5,35 @@ import { ImageThumbnailSchema } from '../Schema'
 export const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
 export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
 
-export interface ImageThumbnailResultInfo {
+/**
+ * Data used for indexing ImageThumbnailResults
+ */
+export interface ImageThumbnailResultIndex {
+  /**
+   * The hashes of the timestamp & image thumbnail payloads used to create this result
+   */
   sources: string[]
+  /**
+   * The HTTP status code of the thumbnail generation request
+   */
   status?: number
+  /**
+   * True for successful thumbnail witnessing, false for failure
+   */
   success: boolean
+  /**
+   * The timestamp of the thumbnail generation request
+   */
   timestamp: number
+  /**
+   * The URL of the thumbnail
+   */
   url: string
 }
 
-export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
+// @deprecated: Use ImageThumbnailResultIndex instead
+export type ImageThumbnailResultInfo = ImageThumbnailResultIndex
+
+export type ImageThumbnailResult = Payload<ImageThumbnailResultIndex, ImageThumbnailResultIndexSchema>
 
 export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)

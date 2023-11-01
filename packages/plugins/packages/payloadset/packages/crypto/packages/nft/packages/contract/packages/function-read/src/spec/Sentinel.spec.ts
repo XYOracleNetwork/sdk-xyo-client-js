@@ -14,10 +14,11 @@ import CryptoContractFunctionCallPayloadPlugin, {
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { ERC721__factory } from '@xyo-network/open-zeppelin-typechain'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
-import { CryptoContractErc721Diviner, CryptoContractErc721DivinerConfigSchema, Erc721ContractInfo } from '../Erc721Diviner'
+import { CryptoContractErc721Diviner, CryptoContractErc721DivinerConfigSchema, Erc721ContractInfo, Erc721ContractInfoSchema } from '../Erc721Diviner'
 import erc721SentinelManifest from '../Erc721Sentinel.json'
 import { CryptoContractFunctionReadWitness } from '../Witness'
 
@@ -51,7 +52,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       const callPayload: CryptoContractFunctionCall = { address, schema: CryptoContractFunctionCallSchema }
       const report = (await sentinel?.report([callPayload])) as Erc721ContractInfo[]
       console.log(`Report: ${JSON.stringify(report, null, 2)}`)
-      expect(report[0].name).toBe('X')
+      expect(report.find(isPayloadOfSchemaType(Erc721ContractInfoSchema))?.symbol).toBe('HAAS')
     })
   })
 })

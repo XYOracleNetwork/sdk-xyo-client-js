@@ -47,14 +47,7 @@ export class MemorySentinel<
         const witness = asWitnessInstance(task.module)
         const input = task.input ?? false
         const inPayloadsFound =
-          input === true
-            ? inPayloads
-            : input === false
-            ? []
-            : assertEx(
-                previousResults[assertEx((await this.resolve(input))?.address, `Unable to locate input [${input}]`)],
-                `Unable to locate results [${input}]`,
-              )
+          input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         if (witness) {
           return [witness.address, await witness.observe(inPayloadsFound)]
         }
@@ -76,5 +69,18 @@ export class MemorySentinel<
       throw Error('At least one module failed')
     }
     return finalResult
+  }
+
+  private async inputAddresses(input: string | string[]): Promise<string[]> {
+    if (Array.isArray(input)) {
+      return (await Promise.all(input.map(async (inputItem) => await this.inputAddresses(inputItem)))).flat()
+    } else {
+      const resolved = await this.resolve(input)
+      return resolved ? [resolved.address] : []
+    }
+  }
+
+  private processPreviousResults(payloads: Record<string, Payload[]>, inputs: string[]) {
+    return inputs.map((input) => payloads[input] ?? []).flat()
   }
 }

@@ -42,7 +42,6 @@ export class CryptoContractFunctionReadWitness<
         const result: CryptoContractFunctionCallResult['result'] = BigNumber.isBigNumber(rawResult)
           ? { type: 'BigNumber', value: rawResult.toHexString() }
           : { value: rawResult }
-        console.log(`fullCallPayload: ${JSON.stringify(fullCallPayload, null, 2)}`)
         const observation: CryptoContractFunctionCallResult = {
           address: validatedAddress,
           call: await PayloadHasher.hashAsync(fullCallPayload),
@@ -50,7 +49,6 @@ export class CryptoContractFunctionReadWitness<
           result,
           schema: CryptoContractFunctionCallResultSchema,
         }
-        console.log(`fullCallPayload.hash: ${observation.call}`)
         return observation
       }),
     )

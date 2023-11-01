@@ -1,5 +1,4 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import {
   CryptoContractFunctionCall,
   CryptoContractFunctionCallResult,
@@ -34,10 +33,7 @@ const generateCallHash = async (address: string, functionName: string, params: u
     params,
     schema: CryptoContractFunctionCallSchema,
   }
-  console.log(`generateCallHash: ${JSON.stringify(callPayload, null, 2)}`)
-  const hash = await PayloadHasher.hashAsync(callPayload)
-  console.log(`generateCallHash.hash: ${hash}`)
-  return hash
+  return await PayloadHasher.hashAsync(callPayload)
 }
 
 const findCallResult = async (address: string, functionName: string, params: unknown[], payloads: CryptoContractFunctionCallResult[]) => {
@@ -60,7 +56,7 @@ export class CryptoContractErc721Diviner<
         return prev
       }, {}),
     )
-    return await Promise.all(
+    const result = await Promise.all(
       addresses.map(async (address) => {
         const erc721Info: Erc721ContractInfo = {
           name: await findCallResult(address, 'name', [], callResults),
@@ -70,5 +66,7 @@ export class CryptoContractErc721Diviner<
         return erc721Info
       }),
     )
+
+    return result
   }
 }

@@ -47,6 +47,7 @@
               "language": "javascript",
               "name": "Erc721InfoSentinel",
               "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
               "tasks": [
                 {
                   "module": "Erc721NameWitness",
@@ -58,7 +59,10 @@
                 },
                 {
                   "module": "Erc721ContractInfoDiviner",
-                  "input": "Erc721NameWitness"
+                  "input": [
+                    "Erc721NameWitness",
+                    "Erc721SymbolWitness"
+                  ]
                 }
               ]
             }

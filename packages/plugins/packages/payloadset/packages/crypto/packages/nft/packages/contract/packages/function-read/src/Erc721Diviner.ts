@@ -1,3 +1,5 @@
+import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import {
   CryptoContractFunctionCall,
@@ -20,8 +22,11 @@ export type Erc721ContractInfoSchema = typeof Erc721ContractInfoSchema
 
 export type Erc721ContractInfo = Payload<
   {
-    name: string
-    symbol: string
+    address: string
+    chainId: string
+    name?: string
+    symbol?: string
+    totalSupply?: string
   },
   Erc721ContractInfoSchema
 >
@@ -36,10 +41,25 @@ const generateCallHash = async (address: string, functionName: string, params: u
   return await PayloadHasher.hashAsync(callPayload)
 }
 
-const findCallResult = async (address: string, functionName: string, params: unknown[], payloads: CryptoContractFunctionCallResult[]) => {
+const matchingExistingField = <R = string, T extends Payload = Payload>(objs: T[], field: keyof T) => {
+  const expectedValue = objs.at(0)?.[field] as R
+  const didNotMatch = objs.reduce((prev, obj) => {
+    return prev || obj[field] !== expectedValue
+  }, false)
+  return didNotMatch ? undefined : expectedValue
+}
+
+type FindCallResult<TResult = string, TPayload = Payload> = [TResult, TPayload] | [undefined, TPayload] | [undefined, undefined]
+
+const findCallResult = async <TResult = string>(
+  address: string,
+  functionName: string,
+  params: unknown[],
+  payloads: CryptoContractFunctionCallResult[],
+): Promise<FindCallResult<TResult, CryptoContractFunctionCallResult>> => {
   const callHash = await generateCallHash(address, functionName, params)
   const foundPayload = payloads.find((payload) => payload.call === callHash)
-  return foundPayload?.result.value as string
+  return foundPayload ? [foundPayload?.result.value as TResult, foundPayload] : [undefined, undefined]
 }
 
 export class CryptoContractErc721Diviner<
@@ -58,10 +78,16 @@ export class CryptoContractErc721Diviner<
     )
     const result = await Promise.all(
       addresses.map(async (address) => {
+        const [name, namePayload] = await findCallResult(address, 'name', [], callResults)
+        const [symbol, symbolPayload] = await findCallResult(address, 'symbol', [], callResults)
+        const callResultPayloads = [namePayload, symbolPayload].filter(exists)
+
         const erc721Info: Erc721ContractInfo = {
-          name: await findCallResult(address, 'name', [], callResults),
+          address: assertEx(matchingExistingField(callResultPayloads, 'address'), 'Mismatched address'),
+          chainId: assertEx(matchingExistingField(callResultPayloads, 'chainId'), 'Mismatched chainId'),
+          name,
           schema: Erc721ContractInfoSchema,
-          symbol: await findCallResult(address, 'symbol', [], callResults),
+          symbol,
         }
         return erc721Info
       }),

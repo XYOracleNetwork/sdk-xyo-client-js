@@ -65,9 +65,9 @@ export class MemorySentinel<
       finalResult[address].push(...payloads)
     })
     const errors = results.filter(rejected).map((result) => result.reason)
-    if (errors.length > 0) {
+    /*if (errors.length > 0) {
       throw Error('At least one module failed')
-    }
+    }*/
     return finalResult
   }
 

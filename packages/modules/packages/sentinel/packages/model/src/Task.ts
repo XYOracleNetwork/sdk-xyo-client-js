@@ -5,4 +5,5 @@ export interface SentinelTask {
   input?: boolean | string | string[]
   /** @field the modules that performs the task */
   module: NameOrAddress
+  required?: boolean
 }

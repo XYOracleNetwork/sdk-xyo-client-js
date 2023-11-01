@@ -2,6 +2,16 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from '../Schema'
 
+export interface ImageThumbnailMime {
+  detected?: {
+    ext?: string
+    mime?: string
+  }
+  invalid?: boolean
+  returned?: string
+  type?: string
+}
+
 export type ImageThumbnail = Payload<
   {
     http?: {
@@ -9,15 +19,7 @@ export type ImageThumbnail = Payload<
       ipAddress?: string
       status?: number
     }
-    mime?: {
-      detected?: {
-        ext?: string
-        mime?: string
-      }
-      invalid?: boolean
-      returned?: string
-      type?: string
-    }
+    mime?: ImageThumbnailMime
     sourceHash?: string
     sourceUrl: string
     url?: string

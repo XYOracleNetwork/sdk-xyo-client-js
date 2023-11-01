@@ -208,18 +208,22 @@ describe('ImageThumbnailDiviner', () => {
     await delay(pollFrequency * 10)
     //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
   }, 20000)
-  describe.only('diviner state', () => {
+  describe('diviner state', () => {
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
       const statePayloads = payloads.filter(isModuleState)
       expect(statePayloads).toBeArrayOfSize(1)
       const statePayload = statePayloads[0]
-      expect(statePayload.state).toEqual({ offset: witnessedThumbnails.length })
+      expect(statePayload).toBeObject()
+      expect(statePayload.state).toBeObject()
+      expect(statePayload.state?.offset).toBe(witnessedThumbnails.length)
     })
   })
-  describe.skip('diviner index', () => {
+  describe('diviner index', () => {
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
+      const indexPayloads = payloads.filter(isImageThumbnailResult)
+      expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })
   })
   describe('with no thumbnail for the provided URL', () => {

@@ -6,7 +6,7 @@ export const ImageThumbnailResultSchema = `${ImageThumbnailSchema}.result` as co
 export type ImageThumbnailResultSchema = typeof ImageThumbnailResultSchema
 
 /**
- * Data associated with an image thumbnail witness result
+ * The result of an image thumbnail witness
  */
 export interface ImageThumbnailResultFields {
   /**
@@ -31,6 +31,12 @@ export interface ImageThumbnailResultFields {
   url: string
 }
 
+/**
+ * A payload containing the result of an image thumbnail witness
+ */
 export type ImageThumbnailResult = Payload<ImageThumbnailResultFields, ImageThumbnailResultSchema>
 
+/**
+ * A type guard for ImageThumbnailResult
+ */
 export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultSchema)

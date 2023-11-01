@@ -18,13 +18,16 @@ export type HashKeyedIndex<T> = T & {
 }
 
 /**
- * The indexed fields of an ImageThumbnailResult
+ * The hash-keyed index of an ImageThumbnailResult
  */
 export type ImageThumbnailResultIndexFields = HashKeyedIndex<Omit<ImageThumbnailResultFields, 'url'>>
 
 /**
- * Data used for indexing ImageThumbnailResults
+ * A payload containing the hash-keyed index of an ImageThumbnailResult
  */
 export type ImageThumbnailResultIndex = Payload<ImageThumbnailResultIndexFields, ImageThumbnailResultIndexSchema>
 
+/**
+ * A type guard for ImageThumbnailResultIndex
+ */
 export const isImageThumbnailResultIndex = isPayloadOfSchemaType<ImageThumbnailResultIndex>(ImageThumbnailResultIndexSchema)

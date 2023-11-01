@@ -1,6 +1,6 @@
 [![logo][]](https://xyo.network)
 
-Part of [sdk-xyo-clint-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
+Part of [sdk-xyo-client-js](https://www.npmjs.com/package/@xyo-network/sdk-xyo-client-js)
 
 [![Socket Badge](https://socket.dev/api/badge/npm/package/@xyo-network/core)](https://socket.dev/npm/package/@xyo-network/core)
 

@@ -88,11 +88,20 @@ export abstract class AbstractSentinel<
       const previousTasks = job.tasks.length ? job.tasks[job.tasks.length - 1] : []
       const newList =
         //add all tasks that either require no previous input or have the previous input module already added
-        tasks.filter(
-          (task) =>
-            typeof task.input === 'boolean' ||
-            previousTasks.find((prevTask) => prevTask.module.address === task.input || prevTask.module.config.name === task.input),
-        )
+        tasks.filter((task) => {
+          const input = task.input
+          if (typeof input === 'boolean') {
+            return true
+          }
+          if (typeof input === 'string') {
+            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.config.name === input)
+          }
+          if (Array.isArray(input)) {
+            return previousTasks.find(
+              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.config.name ?? prevTask.module.address),
+            )
+          }
+        })
       assertEx(newList.length > 0, `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)
       //remove the tasks we just added

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/a5a229a767e3998e13cce8160fd1c2b027317424/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "accountPath": "m/44'/60'/1'/0'/0'",
+        "name": "Erc721Info",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/1'/0'",
+              "call": {
+                "functionName": "name",
+                "params": []
+              },
+              "language": "javascript",
+              "name": "Erc721NameWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/2'/0'",
+              "call": {
+                "functionName": "symbol",
+                "params": []
+              },
+              "language": "javascript",
+              "name": "Erc721SymbolWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/3'/0'",
+              "language": "javascript",
+              "name": "Erc721ContractInfoDiviner",
+              "schema": "network.xyo.crypto.contract.erc721.info.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/4'/0'",
+              "language": "javascript",
+              "name": "Erc721InfoSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "module": "Erc721NameWitness",
+                  "input": true
+                },
+                {
+                  "module": "Erc721SymbolWitness",
+                  "input": true
+                },
+                {
+                  "module": "Erc721ContractInfoDiviner",
+                  "input": [
+                    "Erc721NameWitness",
+                    "Erc721SymbolWitness"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

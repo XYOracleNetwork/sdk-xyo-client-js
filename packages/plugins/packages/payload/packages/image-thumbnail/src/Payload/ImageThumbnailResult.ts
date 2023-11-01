@@ -8,7 +8,7 @@ export type ImageThumbnailResultSchema = typeof ImageThumbnailResultSchema
 /**
  * Data associated with an image thumbnail witness result
  */
-export interface ImageThumbnailResultInfo {
+export interface ImageThumbnailResultFields {
   /**
    * The hashes of the timestamp & image thumbnail payloads used to create this result
    */
@@ -31,6 +31,6 @@ export interface ImageThumbnailResultInfo {
   url: string
 }
 
-export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultSchema>
+export type ImageThumbnailResult = Payload<ImageThumbnailResultFields, ImageThumbnailResultSchema>
 
 export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultSchema)

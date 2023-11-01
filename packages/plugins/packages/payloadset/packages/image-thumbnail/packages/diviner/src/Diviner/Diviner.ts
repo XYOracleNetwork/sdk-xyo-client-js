@@ -16,12 +16,15 @@ import {
   ImageThumbnailDivinerConfigSchema,
   ImageThumbnailDivinerParams,
   ImageThumbnailResult,
+  ImageThumbnailResultFields,
   ImageThumbnailResultIndex,
   ImageThumbnailResultIndexSchema,
+  ImageThumbnailResultSchema,
   ImageThumbnailSchema,
   isImageThumbnail,
   isImageThumbnailDivinerQuery,
   isImageThumbnailResult,
+  isImageThumbnailResultIndex,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -215,7 +218,13 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           if (payloadSuccess !== undefined) fields.success = payloadSuccess
           if (payloadStatus !== undefined) fields.status = payloadStatus
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
-          return await diviner.divine([query])
+          const results = await diviner.divine([query])
+          return results.filter(isImageThumbnailResultIndex).map<ImageThumbnailResult>((imageThumbnailResultIndex) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { key, schema, ...commonFields } = imageThumbnailResultIndex
+            const fields: ImageThumbnailResultFields = { ...commonFields, url }
+            return new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultSchema }).fields(fields).build()
+          })
         }),
       )
     )

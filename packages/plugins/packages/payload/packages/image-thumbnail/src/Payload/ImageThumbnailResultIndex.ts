@@ -1,6 +1,7 @@
 import { Hash } from '@xyo-network/hash'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { ImageThumbnailResult, ImageThumbnailResultSchema } from './ImageThumbnailResult'
+import { ImageThumbnailResultFields, ImageThumbnailResultSchema } from './ImageThumbnailResult'
 
 export const ImageThumbnailResultIndexSchema = `${ImageThumbnailResultSchema}.index` as const
 export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
@@ -17,6 +18,13 @@ export type HashKeyedIndex<T> = T & {
 }
 
 /**
+ * The indexed fields of an ImageThumbnailResult
+ */
+export type ImageThumbnailResultIndexFields = HashKeyedIndex<Omit<ImageThumbnailResultFields, 'url'>>
+
+/**
  * Data used for indexing ImageThumbnailResults
  */
-export type ImageThumbnailResultIndex = HashKeyedIndex<Omit<ImageThumbnailResult, 'url'>>
+export type ImageThumbnailResultIndex = Payload<ImageThumbnailResultIndexFields, ImageThumbnailResultIndexSchema>
+
+export const isImageThumbnailResultIndex = isPayloadOfSchemaType<ImageThumbnailResultIndex>(ImageThumbnailResultSchema)

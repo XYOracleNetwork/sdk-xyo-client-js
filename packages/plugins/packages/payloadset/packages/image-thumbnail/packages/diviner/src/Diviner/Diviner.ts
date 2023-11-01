@@ -16,8 +16,8 @@ import {
   ImageThumbnailDivinerConfigSchema,
   ImageThumbnailDivinerParams,
   ImageThumbnailResult,
+  ImageThumbnailResultIndex,
   ImageThumbnailResultIndexSchema,
-  ImageThumbnailResultInfo,
   ImageThumbnailSchema,
   isImageThumbnail,
   isImageThumbnailDivinerQuery,
@@ -39,7 +39,7 @@ type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 /**
  * The fields that will need to be indexed on in the underlying store
  */
-type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResultInfo, 'status' | 'success' | 'timestamp' | 'url'>
+type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResultIndex, 'status' | 'success' | 'timestamp' | 'url'>
 
 /**
  * The query that will be used to retrieve the results from the underlying store

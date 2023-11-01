@@ -26,6 +26,7 @@ import {
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
+import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 export type ImageThumbnailDivinerState = StateDictionary & {
@@ -39,7 +40,7 @@ type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 /**
  * The fields that will need to be indexed on in the underlying store
  */
-type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResultIndex, 'status' | 'success' | 'timestamp' | 'url'>
+type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResultIndex, 'status' | 'success' | 'timestamp' | 'key'>
 
 /**
  * The query that will be used to retrieve the results from the underlying store
@@ -208,7 +209,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
-          const fields: Partial<ImageThumbnailResultQuery> = { limit, offset, order, url }
+          const urlPayload = { schema: UrlSchema, url }
+          const key = await PayloadHasher.hashAsync(urlPayload)
+          const fields: Partial<ImageThumbnailResultQuery> = { key, limit, offset, order }
           if (payloadSuccess !== undefined) fields.success = payloadSuccess
           if (payloadStatus !== undefined) fields.status = payloadStatus
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()

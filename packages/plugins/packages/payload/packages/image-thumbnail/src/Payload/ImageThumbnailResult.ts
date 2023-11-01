@@ -1,3 +1,4 @@
+import { Hash } from '@xyo-network/hash'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from '../Schema'
@@ -6,9 +7,24 @@ export const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` a
 export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
 
 /**
+ * An index which is keyed by a hash. Used to create uniformity in the way
+ * we index data (key length, character set, etc).
+ */
+export type HashKeyedIndex<T> = T & {
+  /**
+   * The key for the index. Should be a hash of the relevant identifying data.
+   */
+  key: Hash
+}
+
+/**
  * Data used for indexing ImageThumbnailResults
  */
-export interface ImageThumbnailResultIndex {
+export type ImageThumbnailResultIndex = HashKeyedIndex<{
+  /**
+   * The key for the index
+   */
+  key: string
   /**
    * The hashes of the timestamp & image thumbnail payloads used to create this result
    */
@@ -26,10 +42,10 @@ export interface ImageThumbnailResultIndex {
    */
   timestamp: number
   /**
-   * The URL of the thumbnail
+   * @deprecated Use key instead
    */
   url: string
-}
+}>
 
 // @deprecated: Use ImageThumbnailResultIndex instead
 export type ImageThumbnailResultInfo = ImageThumbnailResultIndex

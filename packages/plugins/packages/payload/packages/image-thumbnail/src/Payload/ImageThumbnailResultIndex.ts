@@ -27,4 +27,4 @@ export type ImageThumbnailResultIndexFields = HashKeyedIndex<Omit<ImageThumbnail
  */
 export type ImageThumbnailResultIndex = Payload<ImageThumbnailResultIndexFields, ImageThumbnailResultIndexSchema>
 
-export const isImageThumbnailResultIndex = isPayloadOfSchemaType<ImageThumbnailResultIndex>(ImageThumbnailResultSchema)
+export const isImageThumbnailResultIndex = isPayloadOfSchemaType<ImageThumbnailResultIndex>(ImageThumbnailResultIndexSchema)

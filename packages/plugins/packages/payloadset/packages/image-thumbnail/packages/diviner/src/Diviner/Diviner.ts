@@ -18,6 +18,7 @@ import {
   ImageThumbnailResult,
   ImageThumbnailResultFields,
   ImageThumbnailResultIndex,
+  ImageThumbnailResultIndexFields,
   ImageThumbnailResultIndexSchema,
   ImageThumbnailResultSchema,
   ImageThumbnailSchema,
@@ -48,10 +49,7 @@ type QueryableImageThumbnailResultProperties = Extract<keyof ImageThumbnailResul
 /**
  * The query that will be used to retrieve the results from the underlying store
  */
-type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & { schemas: [ImageThumbnailSchema] } & Pick<
-    ImageThumbnailResult,
-    QueryableImageThumbnailResultProperties
-  >
+type ImageThumbnailResultQuery = PayloadDivinerQueryPayload & Pick<ImageThumbnailResultIndex, QueryableImageThumbnailResultProperties>
 
 type IndexableHashes = Readonly<[boundWitnessHash: string, imageThumbnailHash: string, timestampHash: string]>
 
@@ -165,18 +163,19 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const archivist = await this.getArchivistForStore('thumbnailStore')
     const indexableData = await ImageThumbnailDiviner.findIndexableData(indexableHashes, archivist)
     // Build index results from the indexable data
-    const indexes: ImageThumbnailResult[] = indexableData.map(
-      ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
+    const indexes: ImageThumbnailResultIndex[] = await Promise.all(
+      indexableData.map(async ([boundWitnessHash, thumbnailHash, thumbnailPayload, timestampHash, timestampPayload]) => {
         const { sourceUrl: url } = thumbnailPayload
         const { timestamp } = timestampPayload
         const status = thumbnailPayload.http?.status
         //call anything with a thumbnail url a success
         const success = !!thumbnailPayload.url
         const sources = [boundWitnessHash, thumbnailHash, timestampHash]
-        const fields = { sources, status, success, timestamp, url }
-        const result = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultIndexSchema }).fields(fields).build()
-        return result
-      },
+        const urlPayload = { schema: UrlSchema, url }
+        const key = await PayloadHasher.hashAsync(urlPayload)
+        const fields: ImageThumbnailResultIndexFields = { key, sources, status, success, timestamp }
+        return new PayloadBuilder<ImageThumbnailResultIndex>({ schema: ImageThumbnailResultIndexSchema }).fields(fields).build()
+      }),
     )
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
@@ -208,6 +207,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const results = (
       await Promise.all(
         urls.map(async (payload) => {
+          // Sanitize the query
           const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder, status: payloadStatus, success: payloadSuccess, url } = payload
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
@@ -218,7 +218,9 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
           if (payloadSuccess !== undefined) fields.success = payloadSuccess
           if (payloadStatus !== undefined) fields.status = payloadStatus
           const query = new PayloadBuilder<ImageThumbnailResultQuery>({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
+          // Divine the results
           const results = await diviner.divine([query])
+          // Convert hash-indexed results to public representation
           return results.filter(isImageThumbnailResultIndex).map<ImageThumbnailResult>((imageThumbnailResultIndex) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { key, schema, ...commonFields } = imageThumbnailResultIndex

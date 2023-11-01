@@ -10,6 +10,7 @@ import {
   ImageThumbnailDivinerQuery,
   ImageThumbnailDivinerQuerySchema,
   isImageThumbnailResult,
+  isImageThumbnailResultIndex,
   SearchableStorage,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -241,7 +242,7 @@ describe('ImageThumbnailDiviner', () => {
     })
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
-      const indexPayloads = payloads.filter(isImageThumbnailResult)
+      const indexPayloads = payloads.filter(isImageThumbnailResultIndex)
       expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })
   })

@@ -4,7 +4,7 @@
     {
       "config": {
         "accountPath": "m/44'/60'/1'/0'/0'",
-        "name": "Erc721Info",
+        "name": "NftInfo",
         "schema": "network.xyo.node.config"
       },
       "modules": {
@@ -47,7 +47,7 @@
                 "params": []
               },
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721"
+                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
               },
               "language": "javascript",
               "name": "Erc721TotalSupplyWitness",
@@ -89,7 +89,7 @@
             "config": {
               "accountPath": "m/44'/60'/1'/3'/0'",
               "language": "javascript",
-              "name": "Erc721InfoSentinel",
+              "name": "NftInfoSentinel",
               "schema": "network.xyo.sentinel.config",
               "synchronous": "true",
               "tasks": [

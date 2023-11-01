@@ -32,10 +32,12 @@ export class CryptoContractErc721Diviner<
   ): Promise<OmittedContractInfo<Erc721ContractInfo>> {
     const name = await CryptoContractErc721Diviner.findCallResult(address, 'name', [], callResults)
     const symbol = await CryptoContractErc721Diviner.findCallResult(address, 'symbol', [], callResults)
+    const totalSupply = await CryptoContractErc721Diviner.findCallResult(address, 'totalSupply', [], callResults)
     return {
       name,
       schema: Erc721ContractInfoSchema,
       symbol,
+      totalSupply,
     }
   }
 }

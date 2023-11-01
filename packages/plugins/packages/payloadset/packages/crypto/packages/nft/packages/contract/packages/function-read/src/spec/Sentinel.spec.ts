@@ -9,7 +9,7 @@ import { CryptoContractFunctionCall, CryptoContractFunctionCallSchema } from '@x
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
-import { ERC721__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
+import { ERC721__factory, ERC721Enumerable__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
@@ -42,6 +42,13 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
 
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
+          factory: (address: string) => ERC721Enumerable__factory.connect(address, provider),
+        }),
+        { 'network.xyo.crypto.contract.interface': 'Erc721Enumerable' },
+      )
+
+      locator.register(
+        new ModuleFactory(CryptoContractFunctionReadWitness, {
           factory: (address: string) => ERC1155__factory.connect(address, provider),
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc1155' },
@@ -52,7 +59,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       const mods = await node.resolve()
       expect(mods.length).toBeGreaterThan(5)
 
-      const sentinel = asSentinelInstance(await node.resolve('Erc721InfoSentinel'))
+      const sentinel = asSentinelInstance(await node.resolve('NftInfoSentinel'))
       expect(sentinel).toBeDefined()
 
       const nameWitness = asWitnessInstance(await node.resolve('Erc721NameWitness'))

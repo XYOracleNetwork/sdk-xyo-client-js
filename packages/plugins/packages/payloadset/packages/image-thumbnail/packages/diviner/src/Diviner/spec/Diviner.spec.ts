@@ -230,6 +230,15 @@ describe('ImageThumbnailDiviner', () => {
     })
   })
   describe('diviner index', () => {
+    it('has expected bound witnesses', async () => {
+      const payloads = await stateArchivist.all()
+      const indexBoundWitnesses = payloads.filter(isBoundWitness)
+      expect(indexBoundWitnesses).toBeArrayOfSize(1)
+      const indexBoundWitness = indexBoundWitnesses[0]
+      expect(indexBoundWitness).toBeObject()
+      expect(indexBoundWitness.addresses).toBeArrayOfSize(1)
+      expect(indexBoundWitness.addresses).toContain(sut.address)
+    })
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
       const indexPayloads = payloads.filter(isImageThumbnailResult)

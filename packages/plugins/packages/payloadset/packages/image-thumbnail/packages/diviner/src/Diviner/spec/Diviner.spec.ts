@@ -12,6 +12,7 @@ import {
   SearchableStorage,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
+import { isModuleState } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -60,6 +61,7 @@ describe('ImageThumbnailDiviner', () => {
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
+  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
   let sut: ImageThumbnailDiviner
   let node: MemoryNode
@@ -206,6 +208,14 @@ describe('ImageThumbnailDiviner', () => {
     await delay(pollFrequency * 10)
     //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
   }, 20000)
+  describe('diviner state', () => {
+    it('has a state', async () => {
+      // Has expected offset
+      const payloads = await stateArchivist.all()
+      const statePayloads = payloads.filter(isModuleState)
+      expect(statePayloads).toBeArrayOfSize(1)
+    })
+  })
   describe('with no thumbnail for the provided URL', () => {
     const url = 'https://does.not.exist.io'
     const schema = ImageThumbnailDivinerQuerySchema

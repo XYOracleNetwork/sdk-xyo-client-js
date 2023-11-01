@@ -1,6 +1,7 @@
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
@@ -209,6 +210,15 @@ describe('ImageThumbnailDiviner', () => {
     //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
   }, 20000)
   describe('diviner state', () => {
+    it('has expected bound witnesses', async () => {
+      const payloads = await stateArchivist.all()
+      const stateBoundWitnesses = payloads.filter(isBoundWitness)
+      expect(stateBoundWitnesses).toBeArrayOfSize(1)
+      const stateBoundWitness = stateBoundWitnesses[0]
+      expect(stateBoundWitness).toBeObject()
+      expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
+      expect(stateBoundWitness.addresses).toContain(sut.address)
+    })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
       const statePayloads = payloads.filter(isModuleState)

@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
+import { exists } from '@xylabs/exists'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   CryptoWalletNftWitnessConfig,
@@ -42,14 +43,17 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
         ).toString()
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
-        const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts, this.timeout)
-        const observation = nfts.map<NftInfo>((nft) => {
-          return { ...nft, schema }
-        })
-        return observation
+        try {
+          const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts, this.timeout)
+          const observation = nfts.map<NftInfo>((nft) => {
+            return { ...nft, schema }
+          })
+          return observation
+        } catch (error) {
+          throw new Error(`Failed to get nfts for address ${address} on chainId ${chainId}`)
+        }
       }),
     )
-
-    return observations.flat()
+    return observations.filter(exists).flat()
   }
 }

@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
-import { exists } from '@xylabs/exists'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   CryptoWalletNftWitnessConfig,
@@ -54,6 +53,6 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
         }
       }),
     )
-    return observations.filter(exists).flat()
+    return observations.flat()
   }
 }

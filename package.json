@@ -14,7 +14,7 @@
   "dependencies": {
     "@xyo-network/modules": "workspace:~",
     "@xyo-network/plugins": "workspace:~",
-    "@xyo-network/sdk": "workspace:~"
+    "@xyo-network/sdk": "2.29.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

@@ -30,15 +30,19 @@ export type CryptoContractFunctionCall<
 export const CryptoContractFunctionCallResultSchema = 'network.xyo.crypto.contract.function.call.result'
 export type CryptoContractFunctionCallResultSchema = typeof CryptoContractFunctionCallResultSchema
 
+export interface ContractFunctionResult<TResult = unknown> {
+  type?: 'BigNumber'
+  value: TResult
+}
+
 export type CryptoContractFunctionCallResult<TResult = unknown> = Payload<
   {
     address: string
     call: string
     chainId: number
-    result: {
-      type?: 'BigNumber'
-      value: TResult
-    }
+    functionName: string
+    params: unknown[]
+    result: ContractFunctionResult<TResult>
   },
   CryptoContractFunctionCallResultSchema
 >

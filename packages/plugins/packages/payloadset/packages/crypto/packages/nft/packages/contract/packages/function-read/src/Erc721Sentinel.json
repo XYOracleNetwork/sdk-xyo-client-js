@@ -43,6 +43,34 @@
             "config": {
               "accountPath": "m/44'/60'/1'/1'/2'",
               "call": {
+                "functionName": "tokenURI"
+              },
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721TokenURIWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/1'/3'",
+              "call": {
+                "functionName": "ownerOf"
+              },
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721OwnerOfWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/1'/4'",
+              "call": {
                 "functionName": "totalSupply",
                 "params": []
               },
@@ -56,7 +84,21 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/1'/1'/3'",
+              "accountPath": "m/44'/60'/1'/1'/5'",
+              "call": {
+                "functionName": "tokenByIndex"
+              },
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
+              },
+              "language": "javascript",
+              "name": "Erc721TokenByIndexWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/1'/8'",
               "call": {
                 "functionName": "uri",
                 "params": []
@@ -74,7 +116,7 @@
               "accountPath": "m/44'/60'/1'/2'/0'",
               "language": "javascript",
               "name": "Erc721ContractInfoDiviner",
-              "schema": "network.xyo.crypto.contract.erc721.info.diviner.config"
+              "schema": "network.xyo.crypto.contract.diviner.config"
             }
           },
           {
@@ -82,7 +124,7 @@
               "accountPath": "m/44'/60'/1'/2'/1'",
               "language": "javascript",
               "name": "Erc1155ContractInfoDiviner",
-              "schema": "network.xyo.crypto.contract.erc1155.info.diviner.config"
+              "schema": "network.xyo.crypto.contract.diviner.config"
             }
           },
           {
@@ -122,6 +164,46 @@
                     "Erc1155UriWitness"
                   ],
                   "module": "Erc1155ContractInfoDiviner"
+                }
+              ]
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/1'/3'/1'",
+              "language": "javascript",
+              "name": "NftTokenInfoSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "Erc721NameWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc721SymbolWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc721TotalSupplyWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc1155UriWitness"
+                },
+                {
+                  "input": [
+                    "Erc721TokenURIWitness",
+                    "Erc721OwnerOfWitness"
+                  ],
+                  "module": "Erc721TokenContractInfoDiviner"
+                },
+                {
+                  "input": [
+                    "Erc1155UriWitness"
+                  ],
+                  "module": "Erc1155TokenContractInfoDiviner"
                 }
               ]
             }

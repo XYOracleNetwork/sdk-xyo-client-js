@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import {
+  ContractFunctionResult,
   CryptoContractFunctionCall,
   CryptoContractFunctionCallResult,
   CryptoContractFunctionCallResultSchema,
@@ -16,31 +17,24 @@ export type FindCallResult<TResult = string, TPayload = Payload> = [TResult, TPa
 export const CryptoContractDivinerConfigSchema = 'network.xyo.crypto.contract.diviner.config'
 export type CryptoContractDivinerConfigSchema = typeof CryptoContractDivinerConfigSchema
 
-export type CryptoContractDivinerConfig = DivinerConfig
+export type CryptoContractDivinerConfig = DivinerConfig<{
+  schema: CryptoContractDivinerConfigSchema
+}>
 export type CryptoContractDivinerParams = DivinerParams<CryptoContractDivinerConfig>
 
 export const ContractInfoSchema = 'network.xyo.crypto.contract.info'
 export type ContractInfoSchema = typeof ContractInfoSchema
 
-export type OmittedContractInfo<TFields extends object | Payload | null = null, TSchema extends string | null = null> = Omit<
-  ContractInfo<TFields, TSchema extends null ? (TFields extends Payload ? TFields['schema'] : never) : TSchema>,
-  'address' | 'chainId'
+export type ContractInfo = Payload<
+  {
+    address: string
+    chainId: string
+    results?: Record<string, ContractFunctionResult>
+  },
+  ContractInfoSchema
 >
 
-export type ContractInfo<TFields extends object | null = null, TSchema extends string = ContractInfoSchema> = Payload<
-  TFields extends null
-    ? object
-    : TFields & {
-        address: string
-        chainId: string
-      },
-  TSchema
->
-
-export abstract class CryptoContractDiviner<
-  TContractInfo extends Payload<Omit<ContractInfo, 'schema'>> = ContractInfo,
-  TParams extends CryptoContractDivinerParams = CryptoContractDivinerParams,
-> extends AbstractDiviner<TParams> {
+export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams = CryptoContractDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [CryptoContractDivinerConfigSchema]
 
   protected static async findCallResult<TResult = string>(
@@ -64,7 +58,7 @@ export abstract class CryptoContractDiviner<
     return await PayloadHasher.hashAsync(callPayload)
   }
 
-  protected static matchingExistingField<R = string, T extends Payload = Payload>(objs: T[], field: keyof T) {
+  protected static matchingExistingField<R = string, T extends Payload = Payload>(objs: T[], field: keyof T): R | undefined {
     const expectedValue = objs.at(0)?.[field] as R
     const didNotMatch = objs.reduce((prev, obj) => {
       return prev || obj[field] !== expectedValue
@@ -72,14 +66,15 @@ export abstract class CryptoContractDiviner<
     return didNotMatch ? undefined : expectedValue
   }
 
-  protected contractInfoRequiredFields(callResults: CryptoContractFunctionCallResult[]): Promisable<Omit<ContractInfo, 'schema'>> {
+  protected contractInfoRequiredFields(callResults: CryptoContractFunctionCallResult[]): ContractInfo {
     return {
       address: assertEx(CryptoContractDiviner.matchingExistingField(callResults, 'address'), 'Mismatched address'),
       chainId: assertEx(CryptoContractDiviner.matchingExistingField(callResults, 'chainId'), 'Mismatched chainId'),
+      schema: ContractInfoSchema,
     }
   }
 
-  protected override async divineHandler(inPayloads: CryptoContractFunctionCallResult[] = []): Promise<TContractInfo[]> {
+  protected override async divineHandler(inPayloads: CryptoContractFunctionCallResult[] = []): Promise<ContractInfo[]> {
     const callResults = inPayloads.filter(isPayloadOfSchemaType<CryptoContractFunctionCallResult>(CryptoContractFunctionCallResultSchema))
     const addresses = Object.keys(
       callResults.reduce<Record<string, boolean>>((prev, result) => {
@@ -92,18 +87,21 @@ export abstract class CryptoContractDiviner<
     const result = await Promise.all(
       addresses.map(async (address) => {
         const foundCallResults = callResults.filter((callResult) => callResult.address === address)
-        return {
-          ...(await this.reduceResults(address, foundCallResults)),
+        const info: ContractInfo = {
+          ...{ results: await this.reduceResults(foundCallResults) },
           ...this.contractInfoRequiredFields(foundCallResults),
-        } as TContractInfo
+        }
+        return info
       }),
     )
 
     return result
   }
 
-  protected abstract reduceResults(
-    address: string,
-    callResults: CryptoContractFunctionCallResult[],
-  ): Promisable<Omit<TContractInfo, 'address' | 'chainId'>>
+  protected reduceResults(callResults: CryptoContractFunctionCallResult[]): Promisable<ContractInfo['results']> {
+    return callResults.reduce<Record<string, ContractFunctionResult>>((prev, callResult) => {
+      prev[callResult.functionName] = callResult.result
+      return prev
+    }, {})
+  }
 }

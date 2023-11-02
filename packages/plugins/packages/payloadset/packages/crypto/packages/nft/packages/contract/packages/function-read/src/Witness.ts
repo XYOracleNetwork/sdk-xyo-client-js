@@ -37,8 +37,9 @@ export class CryptoContractFunctionReadWitness<
           const fullCallPayload = { ...{ params: [] }, ...this.config.call, ...callPayload }
           const { address, functionName, params } = fullCallPayload
           const validatedAddress = assertEx(address, 'Missing address')
+          const validatedFunctionName = assertEx(functionName, 'Missing functionName')
           const contract = this.params.factory(validatedAddress)
-          const func = assertEx(contract.callStatic[assertEx(functionName, 'missing functionName')], `functionName [${functionName}] not found`)
+          const func = assertEx(contract.callStatic[validatedFunctionName], `functionName [${validatedFunctionName}] not found`)
           const rawResult = await func(...(params ?? []))
           const result: CryptoContractFunctionCallResult['result'] = BigNumber.isBigNumber(rawResult)
             ? { type: 'BigNumber', value: rawResult.toHexString() }
@@ -47,6 +48,8 @@ export class CryptoContractFunctionReadWitness<
             address: validatedAddress,
             call: await PayloadHasher.hashAsync(fullCallPayload),
             chainId: (await contract.provider.getNetwork()).chainId,
+            functionName: validatedFunctionName,
+            params,
             result,
             schema: CryptoContractFunctionCallResultSchema,
           }

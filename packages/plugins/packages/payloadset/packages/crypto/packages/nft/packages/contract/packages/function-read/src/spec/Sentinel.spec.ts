@@ -14,9 +14,8 @@ import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
-import { CryptoContractErc721Diviner, Erc721ContractInfo, Erc721ContractInfoSchema } from '../Erc721Diviner'
+import { ContractInfo, ContractInfoSchema, CryptoContractDiviner } from '../CryptoContractDiviner'
 import erc721SentinelManifest from '../Erc721Sentinel.json'
-import { CryptoContractErc1155Diviner } from '../Erc1155Diviner'
 import { CryptoContractFunctionReadWitness } from '../Witness'
 
 describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
@@ -30,8 +29,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromMnemonic(mnemonic)
       const locator = new ModuleFactoryLocator()
-      locator.register(CryptoContractErc1155Diviner)
-      locator.register(CryptoContractErc721Diviner)
+      locator.register(CryptoContractDiviner)
 
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
@@ -72,9 +70,9 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       expect(diviner).toBeDefined()
 
       const callPayload: CryptoContractFunctionCall = { address, schema: CryptoContractFunctionCallSchema }
-      const report = (await sentinel?.report([callPayload])) as Erc721ContractInfo[]
-      console.log(`Report: ${JSON.stringify(report, null, 2)}`)
-      expect(report.find(isPayloadOfSchemaType(Erc721ContractInfoSchema))?.symbol).toBe('HAAS')
+      const report = await sentinel?.report([callPayload])
+      const info = report?.find(isPayloadOfSchemaType(ContractInfoSchema)) as ContractInfo | undefined
+      expect(info?.results?.['symbol']?.value).toBe('HAAS')
     })
   })
 })

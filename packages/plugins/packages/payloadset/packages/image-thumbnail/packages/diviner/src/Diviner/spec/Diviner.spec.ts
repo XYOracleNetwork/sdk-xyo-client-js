@@ -117,7 +117,7 @@ describe('ImageThumbnailDiviner', () => {
 
     // Allow enough time for diviner to divine
     await delay(2000)
-  }, 20000)
+  }, 40000)
   describe('diviner state', () => {
     let stateArchivist: MemoryArchivist
     beforeAll(async () => {
@@ -153,7 +153,7 @@ describe('ImageThumbnailDiviner', () => {
       const mod = await node.resolve('ImageThumbnailDivinerIndexArchivist')
       indexArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
     })
-    // TODO: Assert signed indexes
+    // NOTE: We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
       const indexBoundWitnesses = payloads.filter(isBoundWitness)

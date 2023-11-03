@@ -38,7 +38,6 @@ export interface ContractFunctionResult<TResult = unknown> {
 export type CryptoContractFunctionCallResult<TResult = unknown> = Payload<
   {
     address: string
-    call: string
     chainId: number
     functionName: string
     params: unknown[]

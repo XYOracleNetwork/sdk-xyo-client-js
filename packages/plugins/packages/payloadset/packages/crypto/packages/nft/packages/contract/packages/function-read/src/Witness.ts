@@ -9,9 +9,7 @@ import {
   CryptoContractFunctionReadWitnessConfig,
   CryptoContractFunctionReadWitnessConfigSchema,
 } from '@xyo-network/crypto-contract-function-read-payload-plugin'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { ERC721Enumerable__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { WitnessParams } from '@xyo-network/witness-model'
 import { BigNumber, Contract } from 'ethers'
@@ -56,7 +54,6 @@ export class CryptoContractFunctionReadWitness<
             : { value: rawResult }
           const observation: CryptoContractFunctionCallResult = {
             address: validatedAddress,
-            call: await PayloadHasher.hashAsync(fullCallPayload),
             chainId: (await contract.provider.getNetwork()).chainId,
             functionName: validatedFunctionName,
             params,

@@ -37,14 +37,13 @@ export type ContractInfo = Payload<
 export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams = CryptoContractDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [CryptoContractDivinerConfigSchema]
 
-  protected static async findCallResult<TResult = string>(
+  protected static findCallResult<TResult = string>(
     address: string,
     functionName: string,
     params: unknown[],
     payloads: CryptoContractFunctionCallResult[],
-  ): Promise<TResult | undefined> {
-    const callHash = await this.generateCallHash(address, functionName, params)
-    const foundPayload = payloads.find((payload) => payload.call === callHash)
+  ): TResult | undefined {
+    const foundPayload = payloads.find((payload) => payload.functionName === functionName && payload.address === address)
     return foundPayload?.result.value as TResult | undefined
   }
 

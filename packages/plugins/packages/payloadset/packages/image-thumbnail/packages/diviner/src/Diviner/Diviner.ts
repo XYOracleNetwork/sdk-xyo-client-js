@@ -4,7 +4,7 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
@@ -342,5 +342,52 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         this.poll()
       }
     }, this.pollFrequency)
+  }
+}
+
+export class PayloadToImageThumbnailResultTransformDiviner extends AbstractDiviner {
+  static override configSchemas = [DivinerConfigSchema]
+
+  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
+    const bw: BoundWitness | undefined = payloads.find(isBoundWitness)
+    const imageThumbnailPayload: ImageThumbnail | undefined = payloads.find(isImageThumbnail)
+    const timestampPayload: TimeStamp | undefined = payloads.find(isTimestamp)
+    if (bw && imageThumbnailPayload && timestampPayload) {
+      const { sourceUrl: url } = imageThumbnailPayload
+      const { timestamp } = timestampPayload
+      const status = imageThumbnailPayload.http?.status
+      const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success
+      const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
+      const fields: ImageThumbnailResultFields = { sources, success, timestamp, url }
+      if (status) fields.status = status
+      const result: ImageThumbnailResult = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultSchema }).fields(fields).build()
+      return [result]
+    }
+    return Promise.resolve([])
+  }
+}
+export class PayloadToImageThumbnailResultIndexTransformDiviner extends AbstractDiviner {
+  static override configSchemas = [DivinerConfigSchema]
+
+  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultIndex[]> {
+    const bw: BoundWitness | undefined = payloads.find(isBoundWitness)
+    const imageThumbnailPayload: ImageThumbnail | undefined = payloads.find(isImageThumbnail)
+    const timestampPayload: TimeStamp | undefined = payloads.find(isTimestamp)
+    if (bw && imageThumbnailPayload && timestampPayload) {
+      const { sourceUrl: url } = imageThumbnailPayload
+      const { timestamp } = timestampPayload
+      const status = imageThumbnailPayload.http?.status
+      const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success
+      const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
+      const urlPayload = { schema: UrlSchema, url }
+      const key = await PayloadHasher.hashAsync(urlPayload)
+      const fields: ImageThumbnailResultIndexFields = { key, sources, success, timestamp }
+      if (status) fields.status = status
+      const result: ImageThumbnailResultIndex = new PayloadBuilder<ImageThumbnailResultIndex>({ schema: ImageThumbnailResultIndexSchema })
+        .fields(fields)
+        .build()
+      return [result]
+    }
+    return Promise.resolve([])
   }
 }

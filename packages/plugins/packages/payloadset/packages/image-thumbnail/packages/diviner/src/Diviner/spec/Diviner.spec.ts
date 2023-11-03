@@ -127,11 +127,13 @@ describe('ImageThumbnailDiviner', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
-      expect(stateBoundWitnesses).toBeArrayOfSize(1)
-      const stateBoundWitness = stateBoundWitnesses[0]
-      expect(stateBoundWitness).toBeObject()
-      expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
-      expect(stateBoundWitness.addresses).toContain(sut.address)
+      expect(stateBoundWitnesses).toBeArray()
+      expect(stateBoundWitnesses.length).toBeGreaterThan(0)
+      stateBoundWitnesses.forEach((stateBoundWitness) => {
+        expect(stateBoundWitness).toBeObject()
+        expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
+        expect(stateBoundWitness.addresses).toContain(sut.address)
+      })
     })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()

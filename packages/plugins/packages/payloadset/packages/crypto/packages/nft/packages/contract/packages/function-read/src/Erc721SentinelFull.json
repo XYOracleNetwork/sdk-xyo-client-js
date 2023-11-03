@@ -178,7 +178,28 @@
               "tasks": [
                 {
                   "input": true,
-                  "module": "Erc721TokenByIndexWitness"
+                  "module": "Erc721TokenURIWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc721OwnerOfWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc1155UriWitness"
+                },
+                {
+                  "input": [
+                    "Erc721TokenByIndexWitness",
+                    "Erc721OwnerOfWitness"
+                  ],
+                  "module": "Erc721ContractInfoDiviner"
+                },
+                {
+                  "input": [
+                    "Erc1155UriWitness"
+                  ],
+                  "module": "Erc1155ContractInfoDiviner"
                 }
               ]
             }

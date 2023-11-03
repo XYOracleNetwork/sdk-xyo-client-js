@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/contract/packages/function-read/src/spec/Sentinel.spec.ts"
+        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/contract/packages/function-read/src/spec/Sentinel.token.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

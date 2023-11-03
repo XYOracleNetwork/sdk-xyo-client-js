@@ -13,12 +13,14 @@ import {
   isImageThumbnailResultIndex,
   SearchableStorage,
 } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { isModuleState } from '@xyo-network/module-model'
+import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDiviner } from '../Diviner'
+import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
  * @group slow
@@ -81,6 +83,13 @@ describe('ImageThumbnailDiviner', () => {
   let thumbnailPayloadDiviner: MemoryPayloadDiviner
 
   beforeAll(async () => {
+    const wallet = await HDWallet.random()
+    const locator = new ModuleFactoryLocator()
+    locator.register(ImageThumbnailDiviner)
+    const manifest = new ManifestWrapper(imageThumbnailDivinerManifest as ManifestPayload, wallet, locator)
+    node = await manifest.loadNodeFromIndex(0)
+    // const mods = await node.resolve()
+    // expect(mods.length).toBeGreaterThan(5)
     ;[
       thumbnailArchivist,
       thumbnailBoundWitnessDiviner,

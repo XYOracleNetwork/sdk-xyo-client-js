@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/a5a229a767e3998e13cce8160fd1c2b027317424/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "accountPath": "m/44'/60'/1'/0'/0'",
+        "name": "DivinerTest",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": []
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

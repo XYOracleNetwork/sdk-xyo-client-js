@@ -141,10 +141,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                   url,
                 }
               } else {
-                result = await this.processImage(dataBuffer, {
-                  schema: ImageThumbnailSchema,
-                  sourceUrl: url,
-                })
+                const contentType = url.split(',')[0].split(':')[1].split(';')[0]
+                result = await this.processImage(
+                  dataBuffer,
+                  {
+                    schema: ImageThumbnailSchema,
+                    sourceUrl: url,
+                  },
+                  contentType,
+                )
               }
             } else {
               //if it is ipfs, go through cloud flair

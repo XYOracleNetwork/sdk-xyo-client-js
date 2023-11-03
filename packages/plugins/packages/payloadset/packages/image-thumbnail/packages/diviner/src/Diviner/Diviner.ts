@@ -308,8 +308,6 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       if (payload) {
         return payload.state as ImageThumbnailDivinerState
       }
-    } else {
-      console.log('Failed to locate last state')
     }
     return undefined
   }

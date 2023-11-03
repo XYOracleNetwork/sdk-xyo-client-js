@@ -8,6 +8,87 @@
         "schema": "network.xyo.node.config"
       },
       "modules": {
+        "private": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/1'",
+              "language": "javascript",
+              "name": "AddressStateArchivist",
+              "schema": "network.xyo.archivist.config",
+              "storeQueries": true
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/19'",
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStateBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/20'",
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStatePayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/2'",
+              "language": "javascript",
+              "name": "ImageThumbnailArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/15'",
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/16'",
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailPayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/3'",
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/17'",
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/18'",
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexPayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          }
+        ],
         "public": []
       }
     }

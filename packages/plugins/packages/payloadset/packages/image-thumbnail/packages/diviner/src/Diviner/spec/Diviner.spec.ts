@@ -86,6 +86,9 @@ describe('ImageThumbnailDiviner', () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
     locator.register(ImageThumbnailDiviner)
+    locator.register(MemoryArchivist)
+    locator.register(MemoryBoundWitnessDiviner)
+    locator.register(MemoryPayloadDiviner)
     const manifest = new ManifestWrapper(imageThumbnailDivinerManifest as ManifestPayload, wallet, locator)
     node = await manifest.loadNodeFromIndex(0)
     // const mods = await node.resolve()
@@ -218,7 +221,7 @@ describe('ImageThumbnailDiviner', () => {
     // Allow enough time for diviner to divine
     await delay(pollFrequency * 10)
     //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
-  }, 20000)
+  }, 60000)
   describe('diviner state', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()

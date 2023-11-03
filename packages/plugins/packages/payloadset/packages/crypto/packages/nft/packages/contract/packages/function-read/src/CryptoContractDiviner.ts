@@ -1,15 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import {
-  ContractFunctionResult,
-  CryptoContractFunctionCall,
-  CryptoContractFunctionCallResult,
-  CryptoContractFunctionCallResultSchema,
-  CryptoContractFunctionCallSchema,
-} from '@xyo-network/crypto-contract-function-read-payload-plugin'
+import { CryptoContractFunctionCallResult, CryptoContractFunctionCallResultSchema } from '@xyo-network/crypto-contract-function-read-payload-plugin'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export type FindCallResult<TResult = string, TPayload = Payload> = [TResult, TPayload] | [undefined, TPayload] | [undefined, undefined]
@@ -29,7 +22,7 @@ export type ContractInfo = Payload<
   {
     address: string
     chainId: string
-    results?: Record<string, ContractFunctionResult>
+    results?: Record<string, unknown>
   },
   ContractInfoSchema
 >
@@ -40,21 +33,10 @@ export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams =
   protected static findCallResult<TResult = string>(
     address: string,
     functionName: string,
-    params: unknown[],
     payloads: CryptoContractFunctionCallResult[],
   ): TResult | undefined {
     const foundPayload = payloads.find((payload) => payload.functionName === functionName && payload.address === address)
-    return foundPayload?.result.value as TResult | undefined
-  }
-
-  protected static async generateCallHash(address: string, functionName: string, params: unknown[]) {
-    const callPayload: CryptoContractFunctionCall = {
-      address,
-      functionName,
-      params,
-      schema: CryptoContractFunctionCallSchema,
-    }
-    return await PayloadHasher.hashAsync(callPayload)
+    return foundPayload?.result as TResult | undefined
   }
 
   protected static matchingExistingField<R = string, T extends Payload = Payload>(objs: T[], field: keyof T): R | undefined {
@@ -98,7 +80,7 @@ export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams =
   }
 
   protected reduceResults(callResults: CryptoContractFunctionCallResult[]): Promisable<ContractInfo['results']> {
-    return callResults.reduce<Record<string, ContractFunctionResult>>((prev, callResult) => {
+    return callResults.reduce<Record<string, unknown>>((prev, callResult) => {
       prev[callResult.functionName] = callResult.result
       return prev
     }, {})

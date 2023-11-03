@@ -1,5 +1,5 @@
-export type ManifestPayloadSchema = 'network.xyo.manifest'
-export const ManifestPayloadSchema: ManifestPayloadSchema = 'network.xyo.manifest'
+export type PackageManifestPayloadSchema = 'network.xyo.manifest.package'
+export const PackageManifestPayloadSchema: PackageManifestPayloadSchema = 'network.xyo.manifest.package'
 
 export type ModuleManifestPayloadSchema = 'network.xyo.module.manifest'
 export const ModuleManifestPayloadSchema: ModuleManifestPayloadSchema = 'network.xyo.module.manifest'
@@ -46,11 +46,11 @@ export interface ModuleManifestPayload extends ModuleManifest {
   schema: ModuleManifestPayloadSchema | string
 }
 
-export interface ManifestPayload {
-  modules?: Record<string, ModuleManifest>
+export interface PackageManifest extends Manifest {
   nodes: NodeManifest[]
-  payloads?: Record<string, Payload>
-  schema: ManifestPayloadSchema
+  schema: PackageManifestPayloadSchema
 }
 
-export const isManifestPayload = isPayloadOfSchemaType<ManifestPayload>(ManifestPayloadSchema)
+export type PackageManifestPayload = Payload<PackageManifest, PackageManifestPayloadSchema>
+
+export const isPackageManifestPayload = isPayloadOfSchemaType<PackageManifestPayload>(PackageManifestPayloadSchema)

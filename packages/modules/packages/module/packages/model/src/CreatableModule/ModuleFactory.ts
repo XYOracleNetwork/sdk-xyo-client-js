@@ -13,13 +13,13 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
 
   defaultLogger?: Logger | undefined
 
-  defaultParams?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] }
+  defaultParams?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> }
 
   labels?: Labels
 
   constructor(
     creatableModule: CreatableModule<TModule>,
-    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    params?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> },
     labels: Labels = {},
   ) {
     this.creatableModule = creatableModule

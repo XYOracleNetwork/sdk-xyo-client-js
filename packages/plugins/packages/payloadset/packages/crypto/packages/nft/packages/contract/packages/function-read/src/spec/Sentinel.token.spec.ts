@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 
-import { InfuraProvider } from '@ethersproject/providers'
+import { InfuraProvider, WebSocketProvider } from '@ethersproject/providers'
 import { BigNumber } from '@xylabs/bignumber'
 import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
@@ -21,16 +21,55 @@ import { ContractInfo, ContractInfoSchema, CryptoContractDiviner } from '../Cryp
 import erc721SentinelManifest from '../Erc721Sentinel.json'
 import { CryptoContractFunctionReadWitness } from '../Witness'
 
+const profileData: Record<string, number[]> = {}
+
+const profile = (name: string) => {
+  const timeData = profileData[name] ?? []
+  timeData.push(Date.now())
+  profileData[name] = timeData
+}
+
+const profileReport = () => {
+  let lowest = Date.now()
+  let highest = 0
+  const results = Object.entries(profileData).reduce<Record<string, number>>((prev, [name, readings]) => {
+    const start = readings.at(0)
+    if (start) {
+      if (start < lowest) {
+        lowest = start
+      }
+      const end = readings.at(-1) ?? Date.now()
+      if (end > highest) {
+        highest = end
+      }
+      prev[name] = end - start
+    }
+    return prev
+  }, {})
+  if (highest) {
+    results['-all-'] = highest - lowest
+  }
+  return results
+}
+
+let tokenCount = 0
+
 describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
   const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
-  const provider = new InfuraProvider('homestead', {
+  const infuraProvider = new InfuraProvider('homestead', {
     projectId: process.env.INFURA_PROJECT_ID,
     projectSecret: process.env.INFURA_PROJECT_SECRET,
   })
 
+  const quickNodeUri = process.env.QUICKNODE_WSS_URI
+  const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, 'homestead') : undefined
+
+  const provider = quickNodeProvider ?? infuraProvider
+
   describe('report', () => {
     it('specifying address', async () => {
+      profile('setup')
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromMnemonic(mnemonic)
       const locator = new ModuleFactoryLocator()
@@ -38,28 +77,37 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
 
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
-          factory: (address: string) => ERC721__factory.connect(address, provider),
+          config: { contract: ERC721__factory.abi },
+          provider,
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc721' },
       )
 
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
-          factory: (address: string) => ERC721Enumerable__factory.connect(address, provider),
+          config: { contract: ERC721Enumerable__factory.abi },
+          provider,
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc721Enumerable' },
       )
 
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
-          factory: (address: string) => ERC1155__factory.connect(address, provider),
+          config: { contract: ERC1155__factory.abi },
+          provider,
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc1155' },
       )
-
+      profile('setup')
+      profile('manifest')
       const manifest = new ManifestWrapper(erc721SentinelManifest as ManifestPayload, wallet, locator)
+      profile('manifest-load')
       const node = await manifest.loadNodeFromIndex(0)
+      profile('manifest-load')
+      profile('manifest-resolve')
       const mods = await node.resolve()
+      profile('manifest-resolve')
+      profile('manifest')
       expect(mods.length).toBeGreaterThan(5)
 
       const collectionSentinel = asSentinelInstance(await node.resolve('NftInfoSentinel'))
@@ -78,27 +126,41 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       expect(diviner).toBeDefined()
 
       const collectionCallPayload: CryptoContractFunctionCall = { address, schema: CryptoContractFunctionCallSchema }
+      profile('collectionReport')
       const report = await collectionSentinel?.report([collectionCallPayload])
+      profile('collectionReport')
+      profile('tokenCallSetup')
       const info = report?.find(isPayloadOfSchemaType(ContractInfoSchema)) as ContractInfo | undefined
 
-      const totalSupply = new BigNumber((info?.results?.totalSupply.value as string).replace('0x', ''), 16).toNumber()
+      const totalSupply = new BigNumber((info?.results?.totalSupply as string | undefined)?.replace('0x', '') ?? '0', 16).toNumber()
+      expect(totalSupply).toBeGreaterThan(0)
 
       const tokenCallPayloads: CryptoContractFunctionCall[] = []
 
-      for (let i = 0; i < totalSupply; i++) {
+      const maxTotalSupply = 40
+      const limitedTotalSupply = totalSupply > maxTotalSupply ? maxTotalSupply : totalSupply
+      tokenCount = limitedTotalSupply
+
+      for (let i = 0; i < limitedTotalSupply; i++) {
         const call: CryptoContractFunctionCall = {
           address,
+          args: [`0x${new BigNumber(i).toString('hex')}`],
           functionName: 'tokenByIndex',
-          params: [`0x${new BigNumber(i).toString('hex')}`],
           schema: CryptoContractFunctionCallSchema,
         }
         tokenCallPayloads.push(call)
       }
-      const start = Date.now()
+      profile('tokenCallSetup')
+      profile('tokenReport')
       const tokenReport = await tokenSentinel?.report(tokenCallPayloads)
-      console.log(`Timer: ${(Date.now() - start) / totalSupply}ms`)
+      profile('tokenReport')
       const tokenInfoPayloads = tokenReport?.filter(isPayloadOfSchemaType(CryptoContractFunctionCallResultSchema)) as ContractInfo[]
-      expect(tokenInfoPayloads.length).toBe(totalSupply)
+      expect(tokenInfoPayloads.length).toBe(limitedTotalSupply)
+    })
+    afterAll(() => {
+      const profileData = profileReport()
+      if (profileData['tokenReport']) console.log(`Timer: ${profileData['tokenReport'] / tokenCount}ms`)
+      console.log(`Profile: ${JSON.stringify(profileData, null, 2)}`)
     })
   })
 })

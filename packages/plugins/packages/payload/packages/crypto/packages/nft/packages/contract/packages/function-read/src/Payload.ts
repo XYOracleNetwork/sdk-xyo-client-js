@@ -1,28 +1,26 @@
+import { ContractInterface } from '@ethersproject/contracts'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig } from '@xyo-network/witness-model'
 
 export const CryptoContractFunctionReadWitnessConfigSchema = 'network.xyo.crypto.contract.function.read.config'
 export type CryptoContractFunctionReadWitnessConfigSchema = typeof CryptoContractFunctionReadWitnessConfigSchema
 
-export type CryptoContractFunctionReadWitnessConfig<
-  TFunctions extends string | number | symbol = string | number | symbol,
-  TParams extends unknown[] = unknown[],
-> = WitnessConfig<{
-  call?: Partial<Omit<CryptoContractFunctionCall<TFunctions, TParams>, 'schema'>>
+export type CryptoContractFunctionReadWitnessConfig = WitnessConfig<{
+  address?: string
+  args?: unknown[]
+  contract: ContractInterface
+  functionName?: string
   schema: CryptoContractFunctionReadWitnessConfigSchema
 }>
 
 export const CryptoContractFunctionCallSchema = 'network.xyo.crypto.contract.function.call'
 export type CryptoContractFunctionCallSchema = typeof CryptoContractFunctionCallSchema
 
-export type CryptoContractFunctionCall<
-  TFunctions extends string | number | symbol = string | number | symbol,
-  TParams extends unknown[] = unknown[],
-> = Payload<
+export type CryptoContractFunctionCall = Payload<
   {
     address?: string
-    functionName?: Extract<TFunctions, string>
-    params?: TParams
+    args?: unknown[]
+    functionName?: string
   },
   CryptoContractFunctionCallSchema
 >
@@ -30,18 +28,13 @@ export type CryptoContractFunctionCall<
 export const CryptoContractFunctionCallResultSchema = 'network.xyo.crypto.contract.function.call.result'
 export type CryptoContractFunctionCallResultSchema = typeof CryptoContractFunctionCallResultSchema
 
-export interface ContractFunctionResult<TResult = unknown> {
-  type?: 'BigNumber'
-  value: TResult
-}
-
-export type CryptoContractFunctionCallResult<TResult = unknown> = Payload<
+export type CryptoContractFunctionCallResult = Payload<
   {
     address: string
+    args: unknown[]
     chainId: number
     functionName: string
-    params: unknown[]
-    result: ContractFunctionResult<TResult>
+    result: unknown
   },
   CryptoContractFunctionCallResultSchema
 >

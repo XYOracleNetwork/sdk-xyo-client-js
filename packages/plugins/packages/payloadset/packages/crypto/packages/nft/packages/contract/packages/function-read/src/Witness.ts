@@ -19,7 +19,7 @@ import { WitnessParams } from '@xyo-network/witness-model'
 export type CryptoContractFunctionReadWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoContractFunctionReadWitnessConfig>,
   {
-    provider: JsonRpcProvider
+    providers: JsonRpcProvider[]
   }
 >
 
@@ -33,7 +33,8 @@ export class CryptoContractFunctionReadWitness<
     try {
       const observations = await Promise.allSettled(
         inPayloads.filter(isPayloadOfSchemaType(CryptoContractFunctionCallSchema)).map(async ({ functionName, args, address }) => {
-          const { provider } = this.params
+          const { providers } = this.params
+          const provider = providers[Date.now() % providers.length] //pick a random provider
           const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]

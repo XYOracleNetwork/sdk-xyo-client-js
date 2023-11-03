@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 
-import { InfuraProvider, WebSocketProvider } from '@ethersproject/providers'
+import { InfuraProvider, JsonRpcProvider, WebSocketProvider } from '@ethersproject/providers'
 import { BigNumber } from '@xylabs/bignumber'
 import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
@@ -16,6 +16,7 @@ import { ERC721__factory, ERC721Enumerable__factory, ERC1155__factory } from '@x
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
+import { Semaphore } from 'async-mutex'
 
 import { ContractInfo, ContractInfoSchema, CryptoContractDiviner } from '../CryptoContractDiviner'
 import erc721SentinelManifest from '../Erc721Sentinel.json'
@@ -53,21 +54,37 @@ const profileReport = () => {
 }
 
 let tokenCount = 0
+const maxProviders = 32
 
-describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
+describe('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
   const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
-  const infuraProvider = new InfuraProvider('homestead', {
-    projectId: process.env.INFURA_PROJECT_ID,
-    projectSecret: process.env.INFURA_PROJECT_SECRET,
-  })
 
-  const quickNodeUri = process.env.QUICKNODE_WSS_URI
-  const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, 'homestead') : undefined
+  const getProvider = () => {
+    const infuraWssUri = process.env.INFURA_WSS_URI
+    const infuraProvider = new InfuraProvider('homestead', {
+      projectId: process.env.INFURA_PROJECT_ID,
+      projectSecret: process.env.INFURA_PROJECT_SECRET,
+    })
 
-  const provider = quickNodeProvider ?? infuraProvider
+    const infuraWebsocketProvider = infuraWssUri ? new WebSocketProvider(infuraWssUri, 'homestead') : undefined
 
-  describe('report', () => {
+    const quickNodeUri = process.env.QUICKNODE_WSS_URI
+    const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, 'homestead') : undefined
+
+    const provider = infuraWebsocketProvider ?? infuraProvider ?? infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
+    return provider
+  }
+
+  const getProviders = () => {
+    const providers: JsonRpcProvider[] = []
+    for (let i = 0; i < maxProviders; i++) {
+      providers.push(getProvider())
+    }
+    return providers
+  }
+
+  describeIf(getProvider())('report', () => {
     it('specifying address', async () => {
       profile('setup')
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
@@ -78,7 +95,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
           config: { contract: ERC721__factory.abi },
-          provider,
+          providers: getProviders(),
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc721' },
       )
@@ -86,7 +103,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
           config: { contract: ERC721Enumerable__factory.abi },
-          provider,
+          providers: getProviders(),
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc721Enumerable' },
       )
@@ -94,7 +111,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(CryptoContractFunctionReadWitness, {
           config: { contract: ERC1155__factory.abi },
-          provider,
+          providers: getProviders(),
         }),
         { 'network.xyo.crypto.contract.interface': 'Erc1155' },
       )
@@ -135,27 +152,50 @@ describeIf(process.env.INFURA_PROJECT_ID)('Erc721Sentinel', () => {
       const totalSupply = new BigNumber((info?.results?.totalSupply as string | undefined)?.replace('0x', '') ?? '0', 16).toNumber()
       expect(totalSupply).toBeGreaterThan(0)
 
-      const tokenCallPayloads: CryptoContractFunctionCall[] = []
+      const chunkSize = 100
+      const maxChunks = totalSupply / chunkSize
+      const chunks: CryptoContractFunctionCall[][] = []
 
-      const maxTotalSupply = 40
-      const limitedTotalSupply = totalSupply > maxTotalSupply ? maxTotalSupply : totalSupply
-      tokenCount = limitedTotalSupply
+      let offset = 0
+      while (offset < totalSupply && chunks.length < maxChunks) {
+        offset = chunks.length * chunkSize
 
-      for (let i = 0; i < limitedTotalSupply; i++) {
-        const call: CryptoContractFunctionCall = {
-          address,
-          args: [`0x${new BigNumber(i).toString('hex')}`],
-          functionName: 'tokenByIndex',
-          schema: CryptoContractFunctionCallSchema,
+        const chunkList: CryptoContractFunctionCall[] = []
+
+        for (let i = offset; i < offset + chunkSize && i < totalSupply; i++) {
+          const call: CryptoContractFunctionCall = {
+            address,
+            args: [`0x${new BigNumber(i).toString('hex')}`],
+            functionName: 'tokenByIndex',
+            schema: CryptoContractFunctionCallSchema,
+          }
+          chunkList.push(call)
         }
-        tokenCallPayloads.push(call)
+        chunks.push(chunkList)
       }
       profile('tokenCallSetup')
-      profile('tokenReport')
-      const tokenReport = await tokenSentinel?.report(tokenCallPayloads)
-      profile('tokenReport')
-      const tokenInfoPayloads = tokenReport?.filter(isPayloadOfSchemaType(CryptoContractFunctionCallResultSchema)) as ContractInfo[]
-      expect(tokenInfoPayloads.length).toBe(limitedTotalSupply)
+      const maxConcurrent = 8
+      if (tokenSentinel) {
+        profile('tokenReport')
+        const semaphore = new Semaphore(maxConcurrent)
+        const tokenReportArrays = await Promise.all(
+          chunks.map(async (chunk, index) => {
+            return await semaphore.runExclusive(async () => {
+              console.log(`runExclusive-start: ${chunk.length} [${index + 1}/${chunks.length}]`)
+              const start = Date.now()
+              const result = await tokenSentinel.report(chunk)
+              const end = Date.now()
+              console.log(`runExclusive-end: ${result.length} [${index + 1}/${chunks.length}] ${end - start}ms (${(end - start) / chunk.length}ms)`)
+              return result
+            })
+          }),
+        )
+        profile('tokenReport')
+        const tokenReport = tokenReportArrays.flat()
+        tokenCount = tokenReport.length
+        const tokenInfoPayloads = tokenReport.filter(isPayloadOfSchemaType(CryptoContractFunctionCallResultSchema)) as ContractInfo[]
+        expect(tokenInfoPayloads.length).toBe(totalSupply)
+      }
     })
     afterAll(() => {
       const profileData = profileReport()

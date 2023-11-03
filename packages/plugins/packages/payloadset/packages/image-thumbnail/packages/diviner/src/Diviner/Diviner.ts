@@ -30,7 +30,7 @@ import {
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { isUrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
+import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 export type ImageThumbnailDivinerState = StateDictionary & {
@@ -116,7 +116,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       await Promise.all(batch.filter(isBoundWitness).map((bw) => ImageThumbnailDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)))
     ).filter(exists)
     // Transform to index results
-    const toIndexTransformDiviner = await this.getTransformDiviner('toIndexTransform')
+    const toIndexTransformDiviner = await this.getTransformDiviner('dataToIndexData')
     const indexes = (await Promise.all(transformInputs.map((input) => toIndexTransformDiviner.divine(input)))).flat().filter(exists)
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
@@ -146,7 +146,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     const urls = payloads.filter(isImageThumbnailDivinerQuery)
     const indexDiviner = await this.getPayloadDivinerForStore('indexStore')
     const transformQuery = await this.getTransformDiviner('divinerQueryToIndexQuery')
-    const transformResponse = await this.getTransformDiviner('indexQueryResponseToDivinerResponse')
+    const transformResponse = await this.getTransformDiviner('indexResponseToDivinerResponse')
     const results = (
       await Promise.all(
         urls.map(async (divinerQuery) => {
@@ -197,14 +197,14 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     return DivinerWrapper.wrap(mod, this.account)
   }
 
-  protected async getTransformDiviner(transform: 'toIndexTransform' | 'divinerQueryToIndexQuery' | 'indexQueryResponseToDivinerResponse') {
+  protected async getTransformDiviner(transform: 'dataToIndexData' | 'divinerQueryToIndexQuery' | 'indexResponseToDivinerResponse') {
     // TODO: Actually get these from config
     switch (transform) {
-      case 'toIndexTransform':
+      case 'dataToIndexData':
         return await PayloadToImageThumbnailResultIndexTransformDiviner.create()
       case 'divinerQueryToIndexQuery':
         return await DivinerQueryToIndexQueryTransformDiviner.create()
-      case 'indexQueryResponseToDivinerResponse':
+      case 'indexResponseToDivinerResponse':
         return await IndexToResponseTransformDiviner.create()
     }
   }
@@ -286,28 +286,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 }
 
-export class PayloadToImageThumbnailResultTransformDiviner extends AbstractDiviner {
-  static override configSchemas = [DivinerConfigSchema]
-
-  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
-    const bw: BoundWitness | undefined = payloads.find(isBoundWitness)
-    const imageThumbnailPayload: ImageThumbnail | undefined = payloads.find(isImageThumbnail)
-    const timestampPayload: TimeStamp | undefined = payloads.find(isTimestamp)
-    if (bw && imageThumbnailPayload && timestampPayload) {
-      const { sourceUrl: url } = imageThumbnailPayload
-      const { timestamp } = timestampPayload
-      const status = imageThumbnailPayload.http?.status
-      const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success
-      const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
-      const fields: ImageThumbnailResultFields = { sources, success, timestamp, url }
-      if (status) fields.status = status
-      const result: ImageThumbnailResult = new PayloadBuilder<ImageThumbnailResult>({ schema: ImageThumbnailResultSchema }).fields(fields).build()
-      return [result]
-    }
-    return Promise.resolve([])
-  }
-}
-export class PayloadToImageThumbnailResultIndexTransformDiviner extends AbstractDiviner {
+class PayloadToImageThumbnailResultIndexTransformDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultIndex[]> {
@@ -332,7 +311,7 @@ export class PayloadToImageThumbnailResultIndexTransformDiviner extends Abstract
     return Promise.resolve([])
   }
 }
-export class DivinerQueryToIndexQueryTransformDiviner extends AbstractDiviner {
+class DivinerQueryToIndexQueryTransformDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultQuery[]> {
@@ -354,7 +333,7 @@ export class DivinerQueryToIndexQueryTransformDiviner extends AbstractDiviner {
   }
 }
 
-export class IndexToResponseTransformDiviner extends AbstractDiviner {
+class IndexToResponseTransformDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
 
   protected override divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {

@@ -1,9 +1,12 @@
+import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import {
   ImageThumbnail,
@@ -11,7 +14,6 @@ import {
   ImageThumbnailDivinerQuerySchema,
   isImageThumbnailResult,
   isImageThumbnailResultIndex,
-  SearchableStorage,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -26,10 +28,6 @@ import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
  * @group slow
  */
 describe('ImageThumbnailDiviner', () => {
-  const pollFrequency = 10
-  const indexArchivistName = 'indexArchivist'
-  const stateArchivistName = 'stateArchivist'
-  const thumbnailArchivistName = 'thumbnailArchivist'
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
@@ -70,86 +68,22 @@ describe('ImageThumbnailDiviner', () => {
   let sut: ImageThumbnailDiviner
   let node: MemoryNode
 
-  let indexArchivist: MemoryArchivist
-  let indexBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let indexPayloadDiviner: MemoryPayloadDiviner
-
-  let stateArchivist: MemoryArchivist
-  let stateBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let statePayloadDiviner: MemoryPayloadDiviner
-
-  let thumbnailArchivist: MemoryArchivist
-  let thumbnailBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let thumbnailPayloadDiviner: MemoryPayloadDiviner
-
   beforeAll(async () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
-    locator.register(ImageThumbnailDiviner)
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    const manifest = new ManifestWrapper(imageThumbnailDivinerManifest as ManifestPayload, wallet, locator)
-    node = await manifest.loadNodeFromIndex(0)
-    // const mods = await node.resolve()
-    // expect(mods.length).toBeGreaterThan(5)
-    ;[
-      thumbnailArchivist,
-      thumbnailBoundWitnessDiviner,
-      thumbnailPayloadDiviner,
-      indexArchivist,
-      indexBoundWitnessDiviner,
-      indexPayloadDiviner,
-      stateArchivist,
-      stateBoundWitnessDiviner,
-      statePayloadDiviner,
-      node,
-    ] = await Promise.all([
-      // Create thumbnail store
-      await MemoryArchivist.create({
-        config: { name: thumbnailArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        config: { archivist: thumbnailArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryPayloadDiviner.create({
-        config: { archivist: thumbnailArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      // Create index store
-      await MemoryArchivist.create({
-        config: { name: indexArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        config: { archivist: indexArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryPayloadDiviner.create({
-        config: { archivist: indexArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      // Create state store
-      await MemoryArchivist.create({
-        config: { name: stateArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        config: { archivist: stateArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      await MemoryPayloadDiviner.create({
-        config: { archivist: stateArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-      // Create node
-      await MemoryNode.create({
-        config: { schema: MemoryNode.configSchema },
-        wallet: await HDWallet.random(),
-      }),
-    ])
+    locator.register(ImageThumbnailDiviner)
+    const manifest = imageThumbnailDivinerManifest as ManifestPayload
+    const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
+    node = await manifestWrapper.loadNodeFromIndex(0)
+    await node.start()
+
+    const privateModules = manifest.nodes[0].modules?.private ?? []
+    const publicModules = manifest.nodes[0].modules?.public ?? []
+    const mods = await node.resolve()
+    expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
@@ -167,6 +101,7 @@ describe('ImageThumbnailDiviner', () => {
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [codeFailBoundWitness, codeFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp]).build()
 
+    const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([
       httpSuccessBoundWitness,
       ...httpSuccessPayloads,
@@ -178,51 +113,17 @@ describe('ImageThumbnailDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    const thumbnailStore: SearchableStorage = {
-      archivist: thumbnailArchivist.address,
-      boundWitnessDiviner: thumbnailBoundWitnessDiviner.address,
-      payloadDiviner: thumbnailPayloadDiviner.address,
-    }
-    const indexStore: SearchableStorage = {
-      archivist: indexArchivist.address,
-      boundWitnessDiviner: indexBoundWitnessDiviner.address,
-      payloadDiviner: indexPayloadDiviner.address,
-    }
-    const stateStore: SearchableStorage = {
-      archivist: stateArchivist.address,
-      boundWitnessDiviner: stateBoundWitnessDiviner.address,
-      payloadDiviner: statePayloadDiviner.address,
-    }
-    sut = await ImageThumbnailDiviner.create({
-      config: { indexStore, pollFrequency, schema: ImageThumbnailDiviner.configSchema, stateStore, thumbnailStore },
-      wallet: await HDWallet.random(),
-    })
-    const modules = [
-      stateArchivist,
-      stateBoundWitnessDiviner,
-      statePayloadDiviner,
-      indexArchivist,
-      indexBoundWitnessDiviner,
-      indexPayloadDiviner,
-      thumbnailArchivist,
-      thumbnailBoundWitnessDiviner,
-      thumbnailPayloadDiviner,
-      sut,
-    ]
-
-    await node.start()
-    await Promise.all(
-      modules.map(async (mod) => {
-        await node.register(mod)
-        await node.attach(mod.address, true)
-      }),
-    )
+    sut = assertEx(asDivinerInstance<ImageThumbnailDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
-    await delay(pollFrequency * 10)
-    //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
-  }, 60000)
+    await delay(2000)
+  }, 20000)
   describe('diviner state', () => {
+    let stateArchivist: MemoryArchivist
+    beforeAll(async () => {
+      const mod = await node.resolve('AddressStateArchivist')
+      stateArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
+    })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
@@ -243,8 +144,13 @@ describe('ImageThumbnailDiviner', () => {
     })
   })
   describe('diviner index', () => {
+    let indexArchivist: MemoryArchivist
+    beforeAll(async () => {
+      const mod = await node.resolve('ImageThumbnailDivinerIndexArchivist')
+      indexArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
+    })
     it('has expected bound witnesses', async () => {
-      const payloads = await stateArchivist.all()
+      const payloads = await indexArchivist.all()
       const indexBoundWitnesses = payloads.filter(isBoundWitness)
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]

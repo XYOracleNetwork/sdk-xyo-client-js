@@ -8,7 +8,7 @@
         "schema": "network.xyo.node.config"
       },
       "modules": {
-        "private": [
+        "public": [
           {
             "config": {
               "accountPath": "m/44'/60'/3'/1'/1'",
@@ -87,9 +87,32 @@
               "name": "ImageThumbnailDivinerIndexPayloadDiviner",
               "schema": "network.xyo.diviner.payload.config"
             }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/14'",
+              "indexStore": {
+                "archivist": "ImageThumbnailDivinerIndexArchivist",
+                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDiviner",
+              "pollFrequency": 1000,
+              "schema": "network.xyo.image.thumbnail.diviner.config",
+              "stateStore": {
+                "archivist": "AddressStateArchivist",
+                "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
+                "payloadDiviner": "AddressStatePayloadDiviner"
+              },
+              "thumbnailStore": {
+                "archivist": "ImageThumbnailArchivist",
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
+              }
+            }
           }
-        ],
-        "public": []
+        ]
       }
     }
   ],

@@ -116,7 +116,7 @@ describe('ImageThumbnailDiviner', () => {
     sut = assertEx(asDivinerInstance<ImageThumbnailDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
-    await delay(2000)
+    await delay(3000)
   }, 40000)
   describe('diviner state', () => {
     let stateArchivist: MemoryArchivist
@@ -127,10 +127,7 @@ describe('ImageThumbnailDiviner', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
-      expect(stateBoundWitnesses).toBeArray()
-      expect(stateBoundWitnesses.length).toBeGreaterThan(0)
-      // TODO: This should only be an array of length 1
-      // mock jest system time to prevent multiple ticks
+      expect(stateBoundWitnesses).toBeArrayOfSize(1)
       stateBoundWitnesses.forEach((stateBoundWitness) => {
         expect(stateBoundWitness).toBeObject()
         expect(stateBoundWitness.addresses).toBeArrayOfSize(1)

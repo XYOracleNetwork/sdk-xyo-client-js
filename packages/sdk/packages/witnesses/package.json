@@ -66,5 +66,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.77.20"
+  "version": "2.78.0"
 }

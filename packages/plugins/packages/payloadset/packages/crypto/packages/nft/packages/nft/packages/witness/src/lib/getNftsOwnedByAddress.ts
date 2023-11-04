@@ -1,5 +1,5 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { NftInfoFields } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
@@ -54,6 +54,7 @@ export const getNftMetadataUri = async (address: string, tokenId: string) => {
 
 interface QuickNodeNft {
   contractAddress: string
+  metadata: NftMetadata
   tokenId: string
 }
 
@@ -79,11 +80,12 @@ export const getNftsOwnedByAddress = async (
     query: `query Query {
     ethereum {
       walletByAddress(address: "${publicAddress}") {
-        walletNFTs {
+        walletNFTs (first: 1000) {
           edges {
             node {
               nft {
                 contractAddress
+                metadata
                 tokenId
               }
             }
@@ -99,11 +101,12 @@ export const getNftsOwnedByAddress = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Object.values(result.data.data.ethereum.walletByAddress.walletNFTs.edges).map(async (nft: any) => {
       try {
-        const { contractAddress, tokenId } = nft.node.nft as QuickNodeNft
+        const { contractAddress, tokenId, metadata } = nft.node.nft as QuickNodeNft
         const { supply, type } = await getNftFields(contractAddress, provider, tokenId)
         const fields: NftInfoFields = {
           address: contractAddress,
           chainId,
+          metadata,
           supply,
           tokenId,
           type,

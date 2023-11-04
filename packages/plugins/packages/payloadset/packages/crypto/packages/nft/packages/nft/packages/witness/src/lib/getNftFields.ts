@@ -46,7 +46,7 @@ export const getNftFields = async (
    */
   tokenId: string,
 ): Promise<NftInfo> => {
-  const axios = new AxiosJson({ timeout: 500 })
+  const axios = new AxiosJson({ timeout: 2000 })
   const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
   const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
   const { type: nftType } = await getNftCollectionMetadata(contractAddress, provider)

@@ -50,7 +50,7 @@ export const getNftCollectionNfts = async (
   if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
   }
-  const axios = new AxiosJson({ timeout: 500 })
+  const axios = new AxiosJson({ timeout: 2000 })
   const provider = getProviderFromEnv(chainId)
   const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
   const storage = ERC721URIStorage__factory.connect(contractAddress, provider)

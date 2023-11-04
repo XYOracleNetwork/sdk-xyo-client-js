@@ -61,8 +61,8 @@ export const getNftCollectionNfts = async (
   for (let i = 0; i < maxNfts; i++) {
     const tokenId = (await enumerable.tokenByIndex(i)).toHexString()
     const supply = nftType === toTokenType('ERC11155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
-    const metaDataUri = await storage.tokenURI(tokenId)
-    const checkedMetaDataUri = checkIpfsUrl(metaDataUri, ipfsGateway)
+    const metadataUri = await storage.tokenURI(tokenId)
+    const checkedMetaDataUri = checkIpfsUrl(metadataUri, ipfsGateway)
     let metadata: NftMetadata | undefined = undefined
     try {
       metadata = (await axios.get(checkedMetaDataUri)).data
@@ -74,8 +74,8 @@ export const getNftCollectionNfts = async (
     const info: NftInfo = {
       address: contractAddress,
       chainId,
-      metaDataUri,
       metadata,
+      metadataUri,
       schema: NftSchema,
       supply,
       tokenId,

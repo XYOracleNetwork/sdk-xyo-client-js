@@ -1,9 +1,10 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { NftInfoFields, NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
+import { NftInfoFields, NftMetadata, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
+import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
-import { getNftFields } from './getNftFields'
+import { getNftCollectionMetadata } from './getNftCollectionMetadata'
+import { getNftMetadata } from './getNftMetadata'
 import { getProviderFromEnv } from './getProvider'
 
 /**
@@ -54,7 +55,9 @@ export const getNftMetadataUri = async (address: string, tokenId: string) => {
 
 interface QuickNodeNft {
   contractAddress: string
+  externalUrl: string
   metadata: NftMetadata
+  name: string
   tokenId: string
 }
 
@@ -70,8 +73,7 @@ export const getNftsOwnedByAddress = async (
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 2000,
 ): Promise<NftInfoFields[]> => {
-  const axios = new AxiosJson()
-  const nfts: NftInfoFields[] = []
+  const axios = new AxiosJson({ timeout })
   const provider = getProviderFromEnv()
 
   const qnUri = 'https://api.quicknode.com/graphql'
@@ -80,13 +82,15 @@ export const getNftsOwnedByAddress = async (
     query: `query Query {
     ethereum {
       walletByAddress(address: "${publicAddress}") {
-        walletNFTs (first: 1000) {
+        walletNFTs (first: ${maxNfts}) {
           edges {
             node {
               nft {
                 contractAddress
                 metadata
                 tokenId
+                externalUrl
+                name
               }
             }
           }
@@ -101,15 +105,31 @@ export const getNftsOwnedByAddress = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Object.values(result.data.data.ethereum.walletByAddress.walletNFTs.edges).map(async (nft: any) => {
       try {
-        const { contractAddress, tokenId, metadata } = nft.node.nft as QuickNodeNft
-        const { supply, type } = await getNftFields(contractAddress, provider, tokenId)
+        const { contractAddress, tokenId, metadata, externalUrl } = nft.node.nft as QuickNodeNft
+        let supply = '0x01'
+        let type = toTokenType('ERC721')
+        try {
+          const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
+          const { type: nftType } = await getNftCollectionMetadata(contractAddress, provider)
+          type = nftType
+          supply = nftType === toTokenType('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
+        } catch (ex) {
+          const error = ex as Error
+          console.error(`supply: ${error.message}`)
+        }
         const fields: NftInfoFields = {
           address: contractAddress,
           chainId,
           metadata,
+          metadataUri: externalUrl,
           supply,
           tokenId,
           type,
+        }
+        if (!fields.metadataUri || !fields.metadata) {
+          const [metadataUri, metadata] = await getNftMetadata(contractAddress, provider, fields.tokenId)
+          fields.metadata = metadata
+          fields.metadataUri = metadataUri
         }
         return fields
       } catch (ex) {

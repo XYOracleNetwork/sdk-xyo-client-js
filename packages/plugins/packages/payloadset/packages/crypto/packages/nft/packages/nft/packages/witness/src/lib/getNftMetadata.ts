@@ -1,9 +1,7 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
-import { NftInfo, NftMetadata, NftSchema, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
-
-import { getNftCollectionMetadata } from './getNftCollectionMetadata'
+import { NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
+import { ERC721URIStorage__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
 
@@ -30,7 +28,7 @@ export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
   }
 }
 
-export const getNftFields = async (
+export const getNftMetadata = async (
   /**
    * The address of the NFT contract to search for
    */
@@ -45,29 +43,30 @@ export const getNftFields = async (
    * multiple of 100 as that appears to be the default page size.
    */
   tokenId: string,
-): Promise<NftInfo> => {
+): Promise<[string | undefined, NftMetadata | undefined]> => {
   const axios = new AxiosJson({ timeout: 2000 })
   const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
-  const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-  const { type: nftType } = await getNftCollectionMetadata(contractAddress, provider)
+  const storage1155 = ERC1155URIStorage__factory.connect(contractAddress, provider)
 
-  let supply: string | undefined
+  let uri1155: string | undefined
   try {
-    supply = nftType === toTokenType('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
-  } catch (ex) {
-    const error = ex as Error
-    console.error(`supply: ${error.message}`)
-  }
-
-  let metaDataUri: string | undefined
-  try {
-    metaDataUri = await storage.tokenURI(tokenId)
+    uri1155 = await storage1155.uri(tokenId)
   } catch (ex) {
     const error = ex as Error
     console.error(`metaDataUri: ${error.message}`)
   }
 
-  const checkedMetaDataUri = metaDataUri ? checkIpfsUrl(metaDataUri, ipfsGateway) : metaDataUri
+  let metadataUri: string | undefined
+  try {
+    metadataUri = await storage.tokenURI(tokenId)
+  } catch (ex) {
+    const error = ex as Error
+    console.error(`metadataUri: ${error.message}`)
+  }
+
+  const tokenMetadataUri = metadataUri ?? uri1155
+
+  const checkedMetaDataUri = tokenMetadataUri ? checkIpfsUrl(tokenMetadataUri, ipfsGateway) : tokenMetadataUri
   let metadata: NftMetadata | undefined = undefined
   try {
     metadata = checkedMetaDataUri ? (await axios.get(checkedMetaDataUri)).data : undefined
@@ -76,15 +75,5 @@ export const getNftFields = async (
     console.error(`metadata: ${error.message}`)
   }
 
-  const info: NftInfo = {
-    address: contractAddress,
-    chainId: provider.network.chainId,
-    metaDataUri,
-    metadata,
-    schema: NftSchema,
-    supply: supply ?? '1',
-    tokenId,
-    type: nftType,
-  }
-  return info
+  return [tokenMetadataUri, metadata]
 }

@@ -45,9 +45,9 @@ export class CryptoNftCollectionWitness<TParams extends CryptoNftCollectionWitne
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
         const [info, total, nfts, archivist] = await Promise.all([
-          getNftCollectionMetadata(address, chainId, this.account.private.hex),
-          getNftCollectionCount(address, chainId, this.account.private.hex),
-          getNftCollectionNfts(address, chainId, this.account.private.hex, maxNfts),
+          getNftCollectionMetadata(address, chainId),
+          getNftCollectionCount(address, chainId),
+          getNftCollectionNfts(address, chainId, maxNfts),
           this.writeArchivist(),
         ])
         const metrics = getNftCollectionMetrics(nfts)

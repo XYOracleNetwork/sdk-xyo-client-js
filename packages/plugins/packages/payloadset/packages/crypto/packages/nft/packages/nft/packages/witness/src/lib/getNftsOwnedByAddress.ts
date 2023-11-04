@@ -1,18 +1,13 @@
-import { Auth, SDK } from '@infura/sdk'
+import { AbiCoder } from '@ethersproject/abi'
+import { hexZeroPad } from '@ethersproject/bytes'
+import { Log } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftInfoFields, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
+import { utils } from 'ethers'
 
 import { getInfuraProvider } from './getInfuraProvider'
-
-type PublicAddressOptions = {
-  cursor?: string
-  includeMetadata?: boolean
-  publicAddress: string
-  tokenAddresses?: string[]
-}
-
-const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
+import { getProviderFromEnv } from './getProvider'
 
 /**
  * Returns the equivalent IPFS gateway URL for the supplied URL.
@@ -72,38 +67,39 @@ export const getNftsOwnedByAddress = async (
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 2000,
 ): Promise<NftInfoFields[]> => {
-  const sdk = new SDK(new Auth({ chainId, privateKey, projectId: process.env.INFURA_PROJECT_ID, secretId: process.env.INFURA_PROJECT_SECRET }))
   const nfts: NftInfoFields[] = []
-  const axios = new AxiosJson()
-  let cursor: string | undefined = undefined
-  do {
-    const opts: PublicAddressOptions = { cursor, includeMetadata: true, publicAddress }
-    const { cursor: nextCursor, pageSize, total, assets } = await sdk.api.getNFTs(opts)
-    const batch: NftInfoFields[] = assets.slice(0, Math.min(pageSize, total - nfts.length)).map((asset) => {
-      const { contract: address, type: tokenType, ...rest } = asset
-      const type = toTokenType(tokenType)
-      return { address, chainId, type, ...rest }
-    })
-    nfts.push(...batch)
-    cursor = nextCursor
-    if (nfts.length >= total || !cursor) break
-  } while (nfts.length < maxNfts)
+  const provider = getProviderFromEnv()
+  const currentBlock = await provider.getBlockNumber()
+  const filterFrom = {
+    fromBlock: currentBlock - 10000,
+    toBlock: currentBlock,
+    topics: [utils.id('Transfer(address,address,uint256)'), hexZeroPad(publicAddress, 32)],
+  }
 
-  return await Promise.all(
-    nfts.map(async (nft) => {
-      const metaDataUri = await getNftMetadataUri(nft.address, nft.tokenId)
-      if (metaDataUri) {
-        nft.metaDataUri = metaDataUri
-        const cookedUri = checkIpfsUrl(metaDataUri, ipfsGateway)
-        try {
-          nft.metadata = (await axios.get(cookedUri, { timeout }))?.data
-        } catch (ex) {
-          console.log(`failed to get NTF metadata [${cookedUri}] [${ex}]`)
-        }
-      } else {
-        console.log('failed to get NTF metadata URI')
-      }
-      return nft
-    }),
+  // List all token transfers  *to*  myAddress:
+  const filterTo = {
+    fromBlock: currentBlock - 10000,
+    toBlock: currentBlock,
+    topics: [utils.id('Transfer(address,address,uint256)'), null, hexZeroPad(publicAddress, 32)],
+  }
+
+  const toLogs = await provider.getLogs(filterTo)
+  const fromLogs = await provider.getLogs(filterFrom)
+
+  const l: Log = toLogs[0]
+
+  const typesArray = [
+    { name: 'from', type: 'uint256' },
+    { name: 'to', type: 'uint256' },
+    { name: 'tokenId', type: 'uint256' },
+  ]
+
+  const abiCoder = new AbiCoder()
+  const eventData = abiCoder.decode(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [{ name: 'from', type: 'uint256' } as any, { name: 'to', type: 'uint256' } as any, { name: 'tokenId', type: 'uint256' } as any],
+    l.data,
   )
+
+  return nfts
 }

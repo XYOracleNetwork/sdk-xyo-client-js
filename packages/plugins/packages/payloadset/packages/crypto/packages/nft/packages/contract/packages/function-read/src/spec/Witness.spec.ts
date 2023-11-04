@@ -24,7 +24,7 @@ const validateObservation = (observation: Payload[]) => {
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
   const address = '0x55296f69f40ea6d20e478533c15a6b08b654e758' //XYO ERC20
   const functionName = 'balanceOf'
-  const params = ['0xaDe7DFBC532A01dB67BFEA3b728D4eA22869f381'] //Random Holder
+  const args = ['0xaDe7DFBC532A01dB67BFEA3b728D4eA22869f381'] //Random Holder
   const provider = new InfuraProvider('homestead', {
     projectId: process.env.INFURA_PROJECT_ID,
     projectSecret: process.env.INFURA_PROJECT_SECRET,
@@ -33,10 +33,10 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
         const witness = await CryptoContractFunctionReadWitness.create({
-          config: { schema: CryptoContractFunctionReadWitnessConfigSchema },
-          factory: (address: string) => ERC20__factory.connect(address, provider),
+          config: { contract: ERC20__factory.abi, schema: CryptoContractFunctionReadWitnessConfigSchema },
+          providers: [provider],
         })
-        const call: CryptoContractFunctionCall = { address, functionName, params, schema: CryptoContractFunctionCallSchema }
+        const call: CryptoContractFunctionCall = { address, args, functionName, schema: CryptoContractFunctionCallSchema }
         const observation = await witness.observe([call])
         await validateObservation(observation)
       })

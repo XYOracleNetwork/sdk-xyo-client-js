@@ -5,7 +5,7 @@ import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
 import { CryptoContractFunctionCall, CryptoContractFunctionCallSchema } from '@xyo-network/crypto-contract-function-read-payload-plugin'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { ERC721__factory, ERC721Enumerable__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
@@ -111,7 +111,7 @@ describe('Erc721Sentinel', () => {
       )
       profile('setup')
       profile('manifest')
-      const manifest = new ManifestWrapper(erc721SentinelManifest as ManifestPayload, wallet, locator)
+      const manifest = new ManifestWrapper(erc721SentinelManifest as PackageManifestPayload, wallet, locator)
       profile('manifest-load')
       const node = await manifest.loadNodeFromIndex(0)
       profile('manifest-load')

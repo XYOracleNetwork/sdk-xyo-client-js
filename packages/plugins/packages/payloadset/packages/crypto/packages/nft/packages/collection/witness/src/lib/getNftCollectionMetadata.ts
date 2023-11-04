@@ -32,8 +32,27 @@ export const getNftCollectionMetadata = async (
   const provider = getProviderFromEnv(chainId)
   const contract721 = ERC721Enumerable__factory.connect(contractAddress, provider)
   const contract1155 = ERC1155__factory.connect(contractAddress, provider)
-  const name = await contract721.name()
-  const symbol = await contract721.symbol()
-  const is1155 = await contract1155.supportsInterface(getInterfaceID(ERC1155__factory.getInterface(ERC1155__factory.abi)))
+  let name: string = ''
+  try {
+    name = await contract721.name()
+  } catch (ex) {
+    const error = ex as Error
+    console.log(`name: ${error.message}`)
+  }
+  let symbol: string = ''
+  try {
+    symbol = await contract721.symbol()
+  } catch (ex) {
+    const error = ex as Error
+    console.log(`symbol: ${error.message}`)
+  }
+  let is1155: boolean = false
+  try {
+    is1155 = await contract1155.supportsInterface(getInterfaceID(ERC1155__factory.getInterface(ERC1155__factory.abi)))
+  } catch (ex) {
+    const error = ex as Error
+    console.log(`is1155: ${error.message}`)
+    is1155 = false
+  }
   return { address: contractAddress, chainId, name, symbol, type: is1155 ? 'ERC1155' : 'ERC721' }
 }

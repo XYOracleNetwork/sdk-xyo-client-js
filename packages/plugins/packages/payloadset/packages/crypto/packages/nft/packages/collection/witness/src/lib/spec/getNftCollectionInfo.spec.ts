@@ -14,7 +14,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       {
         name: 'CRYPTOPUNKS',
         symbol: 'Ͼ',
-        type: null,
+        type: 'ERC721',
       },
     ],
     [
@@ -54,14 +54,10 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
       },
     ],
   ]
-  let privateKey = ''
-  beforeAll(async () => {
-    const wallet = await HDWallet.random()
-    privateKey = wallet.privateKey
-  })
+
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
     const info: NftCollectionMetadata = { ...expected, address, chainId }
-    const result = await getNftCollectionMetadata(address, chainId, privateKey)
+    const result = await getNftCollectionMetadata(address, chainId)
     expect(result).toBeObject()
     expect(result).toEqual(info)
   })

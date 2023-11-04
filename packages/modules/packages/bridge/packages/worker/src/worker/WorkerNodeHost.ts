@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { Logger } from '@xyo-network/logger'
-import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { NodeInstance } from '@xyo-network/node-model'
 import { generateMnemonic, wordlists } from 'bip39'
 
@@ -9,7 +9,7 @@ import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge'
 export type QueryEvent = MessageEvent<QueryMessage>
 
 export interface CreateNodeMessage extends Message<'createNode'> {
-  manifest: ManifestPayload
+  manifest: PackageManifestPayload
 }
 
 export type CreateNodeEvent = MessageEvent<CreateNodeMessage>
@@ -24,7 +24,7 @@ export class WorkerNodeHost {
     protected logger?: Logger,
   ) {}
 
-  static async create(config: ManifestPayload) {
+  static async create(config: PackageManifestPayload) {
     const mnemonic = generateMnemonic(256, undefined, wordlists.english)
     const manifest = new ManifestWrapper(config, await HDWallet.fromMnemonic(mnemonic))
     const [node] = await manifest.loadNodes()

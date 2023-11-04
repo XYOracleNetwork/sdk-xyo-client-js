@@ -34,3 +34,5 @@ export type Payload<T extends void | object | WithSchema = void, S extends Schem
     {
       schema: S extends Schema ? S : Schema
     } & PayloadFields
+
+export type OverridablePayload<T extends Payload> = Omit<T, 'schema'> & { schema: string }

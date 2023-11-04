@@ -15,7 +15,8 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "typescript-json-schema": "^0.62.0"
   },
   "docs": "dist/docs.json",
   "types": "dist/node/index.d.ts",
@@ -42,6 +43,9 @@
         }
       }
     },
+    "./schema/package": {
+      "default": "./dist/PackageManifest.schema.json"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/node/index.js",
@@ -55,6 +59,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "scripts": {
+    "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
   "version": "2.78.0"

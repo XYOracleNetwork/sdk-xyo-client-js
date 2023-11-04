@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
+import { Account } from '@xyo-network/account'
+import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   assignCreatableModuleRegistry,
   CreatableModuleDictionary,
@@ -15,9 +16,9 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './standardCreatableModules'
 
-export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
+export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   constructor(
-    payload: ManifestPayload,
+    payload: PackageManifestPayload,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
   ) {
@@ -70,10 +71,12 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
   async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
   async loadNodeFromManifest(
     manifest: NodeManifest,
-    path: string,
+    path?: string,
     additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<MemoryNode> {
-    const node = await MemoryNode.create({ config: manifest.config, wallet: await this.wallet.derivePath(path) })
+    const wallet = path ? await this.wallet.derivePath(path) : undefined
+    const account = path ? undefined : Account.randomSync()
+    const node = await MemoryNode.create({ account, config: manifest.config, wallet })
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     // Load Private Modules
     const privateModules =
@@ -118,9 +121,13 @@ export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
     const creatableModule = new ModuleFactoryLocator(this.locator.registry)
       .registerMany(registry)
       .locate(manifest.config.schema, manifest.config.labels)
+    const path = manifest.config.accountPath
+    const wallet = path ? await this.wallet.derivePath(path) : undefined
+    const account = path ? undefined : Account.randomSync()
     const module = await creatableModule.create({
-      account: manifest.config.accountPath ? await this.wallet.derivePath(manifest.config.accountPath) : this.wallet,
+      account,
       config: assertEx(manifest.config, 'Missing config'),
+      wallet,
     })
     await node.register(module)
     return module

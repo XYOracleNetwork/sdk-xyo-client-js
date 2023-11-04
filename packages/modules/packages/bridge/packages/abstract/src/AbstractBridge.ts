@@ -12,7 +12,7 @@ import {
   BridgeQueryBase,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
-import { ManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
@@ -143,7 +143,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   abstract targetDiscover(address: string): Promisable<Payload[]>
 
-  abstract targetManifest(address: string, maxDepth?: number): Promisable<ManifestPayload>
+  abstract targetManifest(address: string, maxDepth?: number): Promisable<ModuleManifestPayload>
 
   abstract targetQueries(address: string): string[]
 

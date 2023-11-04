@@ -4,7 +4,7 @@ import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { ManifestPayloadSchema, ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
@@ -118,7 +118,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
 
   manifest(_depth?: number): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    return { config: { name, ...this.config }, schema: ManifestPayloadSchema }
+    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema }
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {

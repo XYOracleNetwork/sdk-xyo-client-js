@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@infura/sdk": "^2.4.3",
     "@xylabs/assert": "^2.13.3",
     "@xylabs/eth-address": "^2.13.3",
     "@xyo-network/abstract-witness": "workspace:~",

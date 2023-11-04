@@ -10,7 +10,7 @@ import {
   isBridgeInstance,
   isBridgeModule,
 } from '@xyo-network/bridge-model'
-import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -66,9 +66,13 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
     return await this.sendTargetQuery(address, queryPayload)
   }
 
-  async targetManifest(address: string, maxDepth?: number): Promise<ManifestPayload> {
+  async targetManifest(address: string, maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
-    return assertEx((await this.sendTargetQuery(address, queryPayload)).find(isPayloadOfSchemaType(ManifestPayloadSchema))) as ManifestPayload
+    return assertEx(
+      (await this.sendTargetQuery(address, queryPayload)).find(
+        isPayloadOfSchemaType(ModuleManifestPayloadSchema) || isPayloadOfSchemaType(NodeManifestPayloadSchema),
+      ),
+    ) as ModuleManifestPayload
   }
 
   targetQueries(address: string): string[] {

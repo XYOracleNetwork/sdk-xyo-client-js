@@ -28,13 +28,36 @@ export type CryptoContractFunctionCall = Payload<
 export const CryptoContractFunctionCallResultSchema = 'network.xyo.crypto.contract.function.call.result'
 export type CryptoContractFunctionCallResultSchema = typeof CryptoContractFunctionCallResultSchema
 
-export type CryptoContractFunctionCallResult = Payload<
+export type CryptoContractFunctionCallResultBase = Payload<
   {
     address: string
     args: unknown[]
     chainId: number
     functionName: string
-    result: unknown
   },
   CryptoContractFunctionCallResultSchema
 >
+
+export type CryptoContractFunctionCallSuccess = CryptoContractFunctionCallResultBase & {
+  result: unknown
+}
+
+export type CryptoContractFunctionCallFailure = CryptoContractFunctionCallResultBase & {
+  error: string
+}
+
+export type CryptoContractFunctionCallResult = CryptoContractFunctionCallSuccess | CryptoContractFunctionCallFailure
+
+export const isCryptoContractFunctionCallSuccess = (payload?: CryptoContractFunctionCallResult): payload is CryptoContractFunctionCallSuccess => {
+  return (payload as CryptoContractFunctionCallSuccess | undefined)?.result !== undefined
+}
+
+export const isCryptoContractFunctionCallFailure = (payload?: CryptoContractFunctionCallResult): payload is CryptoContractFunctionCallFailure => {
+  return (payload as CryptoContractFunctionCallFailure | undefined)?.error !== undefined
+}
+
+export const asCryptoContractFunctionCallSuccess = (payload?: CryptoContractFunctionCallResult) =>
+  isCryptoContractFunctionCallSuccess(payload) ? payload : undefined
+
+export const asCryptoContractFunctionCallFailure = (payload?: CryptoContractFunctionCallResult) =>
+  isCryptoContractFunctionCallFailure(payload) ? payload : undefined

@@ -1,7 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { CryptoContractFunctionCallResult, CryptoContractFunctionCallResultSchema } from '@xyo-network/crypto-contract-function-read-payload-plugin'
+import {
+  asCryptoContractFunctionCallSuccess,
+  CryptoContractFunctionCallResult,
+  CryptoContractFunctionCallResultSchema,
+} from '@xyo-network/crypto-contract-function-read-payload-plugin'
 import { DivinerConfig, DivinerParams } from '@xyo-network/diviner-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
@@ -36,7 +40,7 @@ export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams =
     payloads: CryptoContractFunctionCallResult[],
   ): TResult | undefined {
     const foundPayload = payloads.find((payload) => payload.functionName === functionName && payload.address === address)
-    return foundPayload?.result as TResult | undefined
+    return asCryptoContractFunctionCallSuccess(foundPayload)?.result as TResult | undefined
   }
 
   protected static matchingExistingField<R = string, T extends Payload = Payload>(objs: T[], field: keyof T): R | undefined {
@@ -81,7 +85,7 @@ export class CryptoContractDiviner<TParams extends CryptoContractDivinerParams =
 
   protected reduceResults(callResults: CryptoContractFunctionCallResult[]): Promisable<ContractInfo['results']> {
     return callResults.reduce<Record<string, unknown>>((prev, callResult) => {
-      prev[callResult.functionName] = callResult.result
+      prev[callResult.functionName] = asCryptoContractFunctionCallSuccess(callResult)?.result
       return prev
     }, {})
   }

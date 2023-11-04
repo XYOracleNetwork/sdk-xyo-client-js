@@ -42,9 +42,7 @@ export interface ModuleManifest extends Manifest {
   }
 }
 
-export interface ModuleManifestPayload extends ModuleManifest {
-  schema: ModuleManifestPayloadSchema | string
-}
+export type ModuleManifestPayload = Payload<ModuleManifest, ModuleManifestPayloadSchema | NodeManifestPayloadSchema>
 
 export interface PackageManifest extends Manifest {
   nodes: NodeManifest[]

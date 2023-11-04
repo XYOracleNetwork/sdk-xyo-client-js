@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { ManifestPayload, ModuleManifest, NodeManifest } from '@xyo-network/manifest-model'
+import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   assignCreatableModuleRegistry,
   CreatableModuleDictionary,
@@ -16,9 +16,9 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './standardCreatableModules'
 
-export class ManifestWrapper extends PayloadWrapper<ManifestPayload> {
+export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   constructor(
-    payload: ManifestPayload,
+    payload: PackageManifestPayload,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
   ) {

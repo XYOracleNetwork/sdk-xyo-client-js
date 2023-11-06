@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
 import { NftInfoFields, NftMetadata, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
-import { AnyObject, JsonObject } from '@xyo-network/object'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'

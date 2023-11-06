@@ -44,22 +44,26 @@ export type GraphqlQuery = Payload<
 export const GraphqlResultSchema = 'network.xyo.graphql.result'
 export type GraphqlResultSchema = typeof GraphqlResultSchema
 
-export type GraphqlResult = Payload<
+export type GraphqlResult<TData = Record<string, unknown>, TExtensions = Record<string, unknown>> = Payload<
   {
     http?: {
       code?: string
       ipAddress?: string
       status?: number
     }
-    result?: ExecutionResult
+    result?: ExecutionResult<TData, TExtensions>
   },
   GraphqlResultSchema
 >
 
 export const isGraphqlQuery = isPayloadOfSchemaType<GraphqlQuery>(GraphqlQuerySchema)
 
-export class ApiGraphqlWitness<TParams extends ApiGraphqlWitnessParams = ApiGraphqlWitnessParams> extends AbstractWitness<TParams> {
-  static override configSchemas = [NftCollectionWitnessConfigSchema]
+export class ApiGraphqlWitness<TParams extends ApiGraphqlWitnessParams = ApiGraphqlWitnessParams> extends AbstractWitness<
+  TParams,
+  GraphqlQuery,
+  GraphqlResult
+> {
+  static override configSchemas = [ApiGraphqlWitnessConfigSchema]
 
   get endpoint() {
     return assertEx(this.config.endpoint ?? this.params.endpoint, 'No endpoint specified')
@@ -73,7 +77,7 @@ export class ApiGraphqlWitness<TParams extends ApiGraphqlWitnessParams = ApiGrap
     return this.config.timeout
   }
 
-  protected override async observeHandler(payloads?: GraphqlQuery[]): Promise<Payload[]> {
+  protected override async observeHandler(payloads?: GraphqlQuery[]): Promise<GraphqlResult[]> {
     await this.started('throw')
     const queries = payloads?.filter(isGraphqlQuery) ?? []
     const axios = new AxiosJson({ headers: this.headers, timeout: this.timeout })

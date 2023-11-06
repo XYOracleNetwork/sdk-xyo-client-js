@@ -1,5 +1,8 @@
-import { AxiosJson } from '@xyo-network/axios'
+import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
+import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
 import { NftInfoFields, NftMetadata, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
+import { AnyObject, JsonObject } from '@xyo-network/object'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
@@ -73,37 +76,43 @@ export const getNftsOwnedByAddress = async (
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 2000,
 ): Promise<NftInfoFields[]> => {
-  const axios = new AxiosJson({ timeout })
-  const provider = getProviderFromEnv()
-
-  const qnUri = 'https://api.quicknode.com/graphql'
-
-  const result = await axios.post(qnUri, {
+  const endpoint = 'https://api.quicknode.com/graphql'
+  const witness = await ApiGraphqlWitness.create({
+    account: Account.randomSync(),
+    config: { schema: ApiGraphqlWitnessConfigSchema, timeout },
+    endpoint,
+  })
+  const query: GraphqlQuery = {
     query: `query Query {
-    ethereum {
-      walletByAddress(address: "${publicAddress}") {
-        walletNFTs (first: ${maxNfts}) {
-          edges {
-            node {
-              nft {
-                contractAddress
-                metadata
-                tokenId
-                externalUrl
-                name
+      ethereum {
+        walletByAddress(address: "${publicAddress}") {
+          walletNFTs (first: ${maxNfts}) {
+            edges {
+              node {
+                nft {
+                  contractAddress
+                  metadata
+                  tokenId
+                  externalUrl
+                  name
+                }
               }
             }
           }
         }
       }
-    }
-  }`,
+    }`,
+    schema: GraphqlQuerySchema,
     variables: {},
-  })
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const results = (await witness.observe([query])) as GraphqlResult<any>[]
+  const witnessResult = assertEx(results.at(0), 'ApiGraphqlWitness failed')
+  const provider = getProviderFromEnv()
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Object.values(result.data.data.ethereum.walletByAddress.walletNFTs.edges).map(async (nft: any) => {
+    Object.values(witnessResult.result?.data?.ethereum?.walletByAddress?.walletNFTs?.edges ?? {}).map(async (nft: any) => {
       try {
         const { contractAddress, tokenId, metadata, externalUrl } = nft.node.nft as QuickNodeNft
         let supply = '0x01'

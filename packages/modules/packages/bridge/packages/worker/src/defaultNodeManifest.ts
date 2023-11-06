@@ -1,9 +1,9 @@
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
-import { ManifestPayload } from '@xyo-network/manifest-model'
+import { PackageManifestPayload, PackageManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { SentinelConfigSchema } from '@xyo-network/sentinel'
 
-export const defaultNodeManifest: ManifestPayload = {
+export const defaultPackageManifest: PackageManifestPayload = {
   nodes: [
     {
       config: {
@@ -39,5 +39,5 @@ export const defaultNodeManifest: ManifestPayload = {
       },
     },
   ],
-  schema: 'network.xyo.manifest',
+  schema: PackageManifestPayloadSchema,
 }

@@ -1,5 +1,5 @@
 import { Promisable } from '@xylabs/promise'
-import { NodeManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { Module, ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
 
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
@@ -9,7 +9,7 @@ export interface NodeQueryFunctions {
   attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
-  manifest(maxDepth?: number): Promise<NodeManifestPayload>
+  manifest(maxDepth?: number): Promise<ModuleManifestPayload>
   registered(): Promisable<string[]>
 }
 

@@ -1,58 +1,78 @@
+import { BigNumber } from '@ethersproject/bignumber'
+import { Contract } from '@ethersproject/contracts'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   CryptoContractFunctionCall,
+  CryptoContractFunctionCallFailure,
   CryptoContractFunctionCallResult,
   CryptoContractFunctionCallResultSchema,
   CryptoContractFunctionCallSchema,
+  CryptoContractFunctionCallSuccess,
   CryptoContractFunctionReadWitnessConfig,
   CryptoContractFunctionReadWitnessConfigSchema,
 } from '@xyo-network/crypto-contract-function-read-payload-plugin'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { WitnessParams } from '@xyo-network/witness-model'
-import { BigNumber, Contract } from 'ethers'
 
-export type CryptoContractFunctionReadWitnessParams<TContract extends Contract> = WitnessParams<
+export type CryptoContractFunctionReadWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoContractFunctionReadWitnessConfig>,
   {
-    factory: (address: string) => TContract
+    providers: JsonRpcProvider[]
   }
 >
 
 export class CryptoContractFunctionReadWitness<
-  TContract extends Contract = Contract,
-  TParams extends CryptoContractFunctionReadWitnessParams<TContract> = CryptoContractFunctionReadWitnessParams<TContract>,
-> extends AbstractWitness<TParams, CryptoContractFunctionCall<keyof TContract['callStatic']>, CryptoContractFunctionCallResult> {
+  TParams extends CryptoContractFunctionReadWitnessParams = CryptoContractFunctionReadWitnessParams,
+> extends AbstractWitness<TParams, CryptoContractFunctionCall, CryptoContractFunctionCallResult> {
   static override configSchemas = [CryptoContractFunctionReadWitnessConfigSchema]
 
-  protected override async observeHandler(
-    inPayloads: CryptoContractFunctionCall<keyof TContract['callStatic']>[] = [],
-  ): Promise<CryptoContractFunctionCallResult[]> {
+  protected override async observeHandler(inPayloads: CryptoContractFunctionCall[] = []): Promise<CryptoContractFunctionCallResult[]> {
     await this.started('throw')
-    const observations = await Promise.all(
-      inPayloads.filter(isPayloadOfSchemaType(CryptoContractFunctionCallSchema)).map(async (callPayload) => {
-        const fullCallPayload = { ...{ params: [] }, ...this.config.call, ...callPayload }
-        const { address, functionName, params } = fullCallPayload
-        const validatedAddress = assertEx(address, 'Missing address')
-        const contract = this.params.factory(validatedAddress)
-        const func = assertEx(contract.callStatic[assertEx(functionName, 'missing functionName')], `functionName [${functionName}] not found`)
-        const rawResult = await func(...(params ?? []))
-        const result: CryptoContractFunctionCallResult['result'] = BigNumber.isBigNumber(rawResult)
-          ? { type: 'BigNumber', value: rawResult.toHexString() }
-          : { value: rawResult }
-        const observation: CryptoContractFunctionCallResult = {
-          address: validatedAddress,
-          call: await PayloadHasher.hashAsync(fullCallPayload),
-          chainId: (await contract.provider.getNetwork()).chainId,
-          result,
-          schema: CryptoContractFunctionCallResultSchema,
-        }
-        return observation
-      }),
-    )
+    try {
+      const observations = await Promise.all(
+        inPayloads.filter(isPayloadOfSchemaType(CryptoContractFunctionCallSchema)).map(async ({ functionName, args, address }) => {
+          const { providers } = this.params
+          const provider = providers[Date.now() % providers.length] //pick a random provider
+          const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
+          const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
+          const mergedArgs = [...(args ?? this.config.args ?? [])]
 
-    return observations.flat()
+          const contract = new Contract(validatedAddress, this.config.contract, provider)
+          try {
+            const result = await contract.callStatic[validatedFunctionName](...mergedArgs)
+            const transformedResult = BigNumber.isBigNumber(result) ? result.toHexString() : result
+            const observation: CryptoContractFunctionCallSuccess = {
+              address: validatedAddress,
+              args: mergedArgs,
+              chainId: provider.network.chainId,
+              functionName: validatedFunctionName,
+              result: transformedResult,
+              schema: CryptoContractFunctionCallResultSchema,
+            }
+            return observation
+          } catch (ex) {
+            const error = ex as Error & { code: string }
+            console.log(`Error [${this.config.name}]: ${error.code}`)
+            const observation: CryptoContractFunctionCallFailure = {
+              address: validatedAddress,
+              args: mergedArgs,
+              chainId: provider.network.chainId,
+              error: error.code,
+              functionName: validatedFunctionName,
+              schema: CryptoContractFunctionCallResultSchema,
+            }
+            return observation
+          }
+        }),
+      )
+      return observations
+    } catch (ex) {
+      const error = ex as Error
+      console.log(`Error [${this.config.name}]: ${error.message}`)
+      throw error
+    }
   }
 }

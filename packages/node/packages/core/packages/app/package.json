@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.77.15",
+  "version": "2.78.2",
   "description": "XYO Node App",
   "sideeffects": false,
   "engines": {
@@ -40,7 +40,7 @@
   "main": "dist/node/index.js",
   "module": "dist/node/index.mjs",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.438.0",
+    "@aws-sdk/client-secrets-manager": "^3.441.0",
     "@xylabs/assert": "^2.13.3",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/account": "workspace:~",

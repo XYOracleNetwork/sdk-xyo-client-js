@@ -3,7 +3,7 @@ import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
@@ -72,7 +72,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await (this.resolve(undefined, { direction: 'down', maxDepth: 2 }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  override async manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<NodeManifestPayload> {
+  override async manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
@@ -136,7 +136,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [...(await super.discoverHandler()), ...childModAddresses]
   }
 
-  protected override async manifestHandler(maxDepth?: number, ignoreAddresses: string[] = []): Promise<NodeManifestPayload> {
+  protected override async manifestHandler(maxDepth?: number, ignoreAddresses: string[] = []): Promise<ModuleManifestPayload> {
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 

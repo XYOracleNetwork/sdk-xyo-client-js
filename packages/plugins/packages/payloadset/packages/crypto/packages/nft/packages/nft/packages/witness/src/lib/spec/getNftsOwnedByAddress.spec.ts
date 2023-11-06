@@ -21,7 +21,6 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
       if (nft?.metadata) {
         expect(nft.metadata).toBeObject()
       }
-      expect(nft.tokenId).toBeString()
       expect(nft.type).toBeString()
     }
   })

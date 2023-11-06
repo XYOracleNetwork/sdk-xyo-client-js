@@ -6,7 +6,7 @@ import { AxiosError, AxiosJson } from '@xyo-network/axios'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -189,7 +189,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
-    return assertEx(manifest.find(isPayloadOfSchemaType(ManifestPayloadSchema)), 'Did not receive manifest') as ManifestPayload
+    return assertEx(manifest.find(isPayloadOfSchemaType(ModuleManifestPayloadSchema)), 'Did not receive manifest') as ModuleManifestPayload
   }
 
   targetQueries(address: string): string[] {

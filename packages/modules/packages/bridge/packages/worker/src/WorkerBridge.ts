@@ -6,7 +6,7 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ManifestPayload, ManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayloadSchema, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   ModuleConfig,
@@ -24,7 +24,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
-import { defaultNodeManifest } from './defaultNodeManifest'
+import { defaultPackageManifest } from './defaultNodeManifest'
 import { WorkerBridgeConfig, WorkerBridgeConfigSchema } from './WorkerBridgeConfig'
 
 export type WorkerBridgeParams<TConfig extends AnyConfigSchema<WorkerBridgeConfig> = AnyConfigSchema<WorkerBridgeConfig>> = ModuleParams<
@@ -76,7 +76,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return assertEx(this.params.worker)
   }
 
-  static async createWorkerNode(manifest: ManifestPayload = defaultNodeManifest as ManifestPayload) {
+  static async createWorkerNode(manifest: PackageManifestPayload = defaultPackageManifest as PackageManifestPayload) {
     const worker = new Worker(new URL('./worker/Worker.ts', import.meta?.url ?? __filename))
     worker.postMessage({ manifest, type: 'createNode' })
 
@@ -167,7 +167,10 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
-    return assertEx(manifest.find(isPayloadOfSchemaType(ManifestPayloadSchema)), 'Did not receive manifest') as ManifestPayload
+    return assertEx(
+      manifest.find(isPayloadOfSchemaType(ModuleManifestQuerySchema) || manifest.find(isPayloadOfSchemaType(NodeManifestPayloadSchema))),
+      'Did not receive manifest',
+    ) as ModuleManifestPayload
   }
 
   targetQueries(address: string): string[] {

@@ -1,5 +1,6 @@
 import { CryptoContractFunctionReadWitnessPlugin } from './Plugin'
 
+export * from './CryptoContractDiviner'
 export * from './Witness'
 
 export { CryptoContractFunctionReadWitnessPlugin }

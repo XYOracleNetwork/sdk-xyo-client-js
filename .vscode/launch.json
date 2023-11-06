@@ -99,7 +99,29 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/contract/packages/function-read/src/spec/Sentinel.spec.ts"
+        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/contract/packages/function-read/src/spec/Sentinel.token.spec.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Jest-NoMongo",
+      "type": "node",
+      "request": "launch",
+      "osx": {
+        "program": "${workspaceRoot}/node_modules/.bin/jest"
+      },
+      "windows": {
+        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"
+      },
+      "args": [
+        "--forceExit",
+        "--runInBand",
+        "--testTimeout=120000",
+        "-c=./jest.config.no-mongo.ts",
+        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/witness/src/lib/spec/getNftCollectionInfo.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

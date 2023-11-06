@@ -110,7 +110,7 @@
     "test:no-slow": "jest . --passWithNoTests --forceExit -- --group=-slow",
     "test:sentinel": "jest . --passWithNoTests --forceExit -- --group=sentinel",
     "test:thumbnail": "jest . --passWithNoTests --forceExit -- --group=thumbnail",
-    "test:no-mongo": "jest . --passWithNoTests --forceExit -c ./jest.config.no-mongo.ts -- --group=-mongo",
+    "test:no-mongo": "jest ${0} --passWithNoTests --forceExit -c ./jest.config.no-mongo.ts -- --group=-mongo",
     "test:hash-perf": "jest packages/protocol/packages/core/packages/hash/src/spec/PayloadHasher.bigobj.perf.spec.ts -c ./jest.config.no-mongo.ts",
     "test:hash-perf-parallel": "jest packages/protocol/packages/core/packages/hash/src/spec/PayloadHasher.bigobj-parallel.perf.spec.ts -c ./jest.config.no-mongo.ts",
     "test:ci": "jest --runInBand --coverage --forceExit --passWithNoTests",
@@ -122,7 +122,7 @@
     "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
   },
   "sideEffects": false,
-  "version": "2.77.15",
+  "version": "2.78.2",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

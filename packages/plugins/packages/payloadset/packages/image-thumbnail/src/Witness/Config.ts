@@ -7,6 +7,7 @@ export type ImageThumbnailWitnessConfigSchema = typeof ImageThumbnailWitnessConf
 export type ImageThumbnailEncoding = 'PNG' | 'JPG' | 'GIF'
 
 export type ImageThumbnailWitnessConfig = WitnessConfig<{
+  dataUrlPassthrough?: boolean
   encoding?: ImageThumbnailEncoding
   height?: number
   ipfsGateway?: string
@@ -14,6 +15,7 @@ export type ImageThumbnailWitnessConfig = WitnessConfig<{
   maxCacheBytes?: number
   maxCacheEntries?: number
   quality?: number
+  runExclusive?: boolean
   schema: ImageThumbnailWitnessConfigSchema
   width?: number
 }>

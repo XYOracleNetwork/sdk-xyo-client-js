@@ -123,8 +123,8 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       throw Error('ImageMagick is required for this witness')
     }
     const urlPayloads = payloads.filter((payload) => payload.schema === UrlSchema)
-    return await this._semaphore.runExclusive(async () =>
-      compact(
+    const process = async () => {
+      return compact(
         await Promise.all(
           urlPayloads.map<Promise<ImageThumbnail>>(async ({ url }) => {
             let result: ImageThumbnail
@@ -133,11 +133,23 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             const dataBuffer = ImageThumbnailWitness.bufferFromDataUrl(url)
 
             if (dataBuffer) {
-              result = {
-                schema: ImageThumbnailSchema,
-                sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
-                sourceUrl: url,
-                url,
+              if (this.config.dataUrlPassthrough) {
+                result = {
+                  schema: ImageThumbnailSchema,
+                  sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
+                  sourceUrl: url,
+                  url,
+                }
+              } else {
+                const contentType = url.split(',')[0].split(':')[1].split(';')[0]
+                result = await this.processImage(
+                  dataBuffer,
+                  {
+                    schema: ImageThumbnailSchema,
+                    sourceUrl: url,
+                  },
+                  contentType,
+                )
               }
             } else {
               //if it is ipfs, go through cloud flair
@@ -147,8 +159,9 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
             return result
           }),
         ),
-      ),
-    )
+      )
+    }
+    return this.config.runExclusive ? await this._semaphore.runExclusive(() => process()) : process()
   }
 
   private async createThumbnailDataUrl(sourceBuffer: Buffer, encoding?: ImageThumbnailEncoding) {
@@ -236,80 +249,86 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
 
     if (response.status >= 200 && response.status < 300) {
       const contentType: string | undefined = response.headers['content-type']?.toString()
-      const [mediaType, fileType] = contentType?.split('/') ?? ['', '']
-      result.mime = result.mime ?? {}
-      result.mime.returned = mediaType
       const sourceBuffer = Buffer.from(response.data, 'binary')
 
-      try {
-        result.mime.detected = await FileType.fromBuffer(sourceBuffer)
-      } catch (ex) {
-        const error = ex as Error
-        this.logger?.error(`FileType error: ${error.message}`)
-      }
-
-      const processImage = async (encoding?: ImageThumbnailEncoding) => {
-        result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-        result.url = await this.createThumbnailDataUrl(sourceBuffer, encoding)
-      }
-
-      const processVideo = async () => {
-        // Gracefully handle the case where ffmpeg is not installed.
-        // eslint-disable-next-line import/no-named-as-default-member
-        if (hasbin.sync('ffmpeg')) {
-          result.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
-          result.url = await this.createThumbnailFromVideo(sourceBuffer)
-        } else {
-          result.mime = result.mime ?? {}
-          result.mime.invalid = true
-        }
-      }
-
-      let encoding: ImageThumbnailEncoding = 'PNG'
-
-      switch (fileType.toUpperCase()) {
-        case 'GIF':
-          encoding = 'GIF'
-          break
-        case 'JPG':
-        case 'JPEG':
-          encoding = 'JPG'
-          break
-      }
-
-      switch (mediaType) {
-        case 'image': {
-          await processImage(encoding)
-          result.mime.type = mediaType
-          break
-        }
-        case 'video': {
-          await processVideo()
-          result.mime.type = mediaType
-          break
-        }
-        default: {
-          const [detectedMediaType] = result.mime.detected?.mime?.split('/') ?? ['', '']
-          switch (detectedMediaType) {
-            case 'image': {
-              await processImage()
-              result.mime.type = result.mime.detected?.mime
-              break
-            }
-            case 'video': {
-              await processVideo()
-              result.mime.type = result.mime.detected?.mime
-              break
-            }
-            default: {
-              result.mime.invalid = true
-              break
-            }
-          }
-          break
-        }
-      }
+      return this.processImage(sourceBuffer, result, contentType)
     }
     return result
+  }
+
+  private async processImage(sourceBuffer: Buffer, imageThumbnail: ImageThumbnail, contentType?: string): Promise<ImageThumbnail> {
+    const [mediaType, fileType] = contentType?.split('/') ?? ['', '']
+    imageThumbnail.mime = imageThumbnail.mime ?? {}
+    imageThumbnail.mime.returned = mediaType
+
+    try {
+      imageThumbnail.mime.detected = await FileType.fromBuffer(sourceBuffer)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger?.error(`FileType error: ${error.message}`)
+    }
+
+    const processImage = async (encoding?: ImageThumbnailEncoding) => {
+      imageThumbnail.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+      imageThumbnail.url = await this.createThumbnailDataUrl(sourceBuffer, encoding)
+    }
+
+    const processVideo = async () => {
+      // Gracefully handle the case where ffmpeg is not installed.
+      // eslint-disable-next-line import/no-named-as-default-member
+      if (hasbin.sync('ffmpeg')) {
+        imageThumbnail.sourceHash = await ImageThumbnailWitness.binaryToSha256(sourceBuffer)
+        imageThumbnail.url = await this.createThumbnailFromVideo(sourceBuffer)
+      } else {
+        imageThumbnail.mime = imageThumbnail.mime ?? {}
+        imageThumbnail.mime.invalid = true
+      }
+    }
+
+    let encoding: ImageThumbnailEncoding = 'PNG'
+
+    switch (fileType.toUpperCase()) {
+      case 'GIF':
+        encoding = 'GIF'
+        break
+      case 'JPG':
+      case 'JPEG':
+        encoding = 'JPG'
+        break
+    }
+
+    switch (mediaType) {
+      case 'image': {
+        await processImage(encoding)
+        imageThumbnail.mime.type = mediaType
+        break
+      }
+      case 'video': {
+        await processVideo()
+        imageThumbnail.mime.type = mediaType
+        break
+      }
+      default: {
+        const [detectedMediaType] = imageThumbnail.mime.detected?.mime?.split('/') ?? ['', '']
+        switch (detectedMediaType) {
+          case 'image': {
+            await processImage()
+            imageThumbnail.mime.type = imageThumbnail.mime.detected?.mime
+            break
+          }
+          case 'video': {
+            await processVideo()
+            imageThumbnail.mime.type = imageThumbnail.mime.detected?.mime
+            break
+          }
+          default: {
+            imageThumbnail.mime.invalid = true
+            break
+          }
+        }
+        break
+      }
+    }
+    return imageThumbnail
   }
 }

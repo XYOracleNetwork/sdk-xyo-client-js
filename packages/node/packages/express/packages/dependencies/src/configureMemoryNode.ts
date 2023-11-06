@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Account, HDWallet } from '@xyo-network/account'
 import { ArchivistInsertQuerySchema, isArchivistInstance, withArchivistInstance } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { ModuleConfig, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { NodeInstance } from '@xyo-network/node-model'
@@ -44,7 +44,7 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
 }
 
 const loadNodeFromConfig = async (container: Container, config?: string) => {
-  const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as ManifestPayload) : (defaultNode as ManifestPayload)
+  const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as PackageManifestPayload) : (defaultNode as PackageManifestPayload)
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)

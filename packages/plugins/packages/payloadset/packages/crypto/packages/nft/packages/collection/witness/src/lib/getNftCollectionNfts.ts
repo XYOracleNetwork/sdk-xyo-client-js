@@ -1,10 +1,10 @@
 import { AxiosJson } from '@xyo-network/axios'
-import { NftInfo, NftMetadata, NftSchema, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
-import { getNftCollectionMetadata } from './getNftCollectionMetadata'
-import { getProviderFromEnv } from './getProvider'
+import { getProviderFromEnv } from './getProviderFromEnv'
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
+import { tokenTypes } from './tokenTypes'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
 
@@ -40,6 +40,7 @@ export const getNftCollectionNfts = async (
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
   chainId: number,
+  types?: TokenType[],
   /**
    * The maximum number of NFTs to return. Configurable to prevent
    * large wallets from exhausting Infura API credits. Ideally a
@@ -55,12 +56,13 @@ export const getNftCollectionNfts = async (
   const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
   const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
   const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
+  const finalTypes = types ?? (await tokenTypes(enumerable))
   const result: NftInfo[] = []
-  const { type: nftType } = await getNftCollectionMetadata(contractAddress, chainId)
 
   for (let i = 0; i < maxNfts; i++) {
+    console.log(`Getting Token [${i}]`)
     const tokenId = (await enumerable.tokenByIndex(i)).toHexString()
-    const supply = nftType === toTokenType('ERC11155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
+    const supply = finalTypes.includes(toTokenType('ERC1155')) ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
     const metadataUri = await storage.tokenURI(tokenId)
     const checkedMetaDataUri = checkIpfsUrl(metadataUri, ipfsGateway)
     let metadata: NftMetadata | undefined = undefined
@@ -79,7 +81,8 @@ export const getNftCollectionNfts = async (
       schema: NftSchema,
       supply,
       tokenId,
-      type: nftType,
+      type: finalTypes.at(0),
+      types,
     }
     result.push(info)
   }

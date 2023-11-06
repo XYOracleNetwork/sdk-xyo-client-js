@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
-import { NftInfoFields, NftMetadata, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
+import { NftInfoFields, NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
-import { getNftCollectionMetadata } from './getNftCollectionMetadata'
 import { getNftMetadata } from './getNftMetadata'
 import { getProviderFromEnv } from './getProvider'
+import { tokenTypes } from './tokenTypes'
 
 /**
  * Returns the equivalent IPFS gateway URL for the supplied URL.
@@ -115,12 +115,10 @@ export const getNftsOwnedByAddress = async (
       try {
         const { contractAddress, tokenId, metadata, externalUrl } = nft.node.nft as QuickNodeNft
         let supply = '0x01'
-        let type = toTokenType('ERC721')
+        const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
+        const types = await tokenTypes(supply1155)
         try {
-          const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-          const { type: nftType } = await getNftCollectionMetadata(contractAddress, provider)
-          type = nftType
-          supply = nftType === toTokenType('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
+          supply = types.includes('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
         } catch (ex) {
           const error = ex as Error
           console.error(`supply: ${error.message}`)
@@ -132,7 +130,8 @@ export const getNftsOwnedByAddress = async (
           metadataUri: externalUrl,
           supply,
           tokenId,
-          type,
+          type: types.at(0),
+          types,
         }
         if (!fields.metadataUri || !fields.metadata) {
           const [metadataUri, metadata] = await getNftMetadata(contractAddress, provider, fields.tokenId)

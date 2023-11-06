@@ -1,8 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { HDWallet } from '@xyo-network/account'
 import { NftCollectionMetadata } from '@xyo-network/crypto-nft-collection-payload-plugin'
 
-import { getNftCollectionMetadata } from '../getNftCollectionMetadata'
+import { getNftCollectionNfts } from '../getNftCollectionNfts'
 
 type Expected = Omit<Omit<NftCollectionMetadata, 'address'>, 'chainId'>
 
@@ -57,7 +56,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {
 
   it.each(cases)('gets NFTs owned by the address', async (address, chainId, expected) => {
     const info: NftCollectionMetadata = { ...expected, address, chainId }
-    const result = await getNftCollectionMetadata(address, chainId)
+    const result = await getNftCollectionNfts(address, chainId)
     expect(result).toBeObject()
     expect(result).toEqual(info)
   })

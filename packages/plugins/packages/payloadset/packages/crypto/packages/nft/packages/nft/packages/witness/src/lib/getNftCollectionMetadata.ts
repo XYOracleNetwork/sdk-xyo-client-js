@@ -4,8 +4,6 @@ import { NftCollectionMetadata } from '@xyo-network/crypto-nft-collection-payloa
 import { ERC721Enumerable__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { constants } from 'ethers'
 
-import { getProviderFromEnv } from './getProvider'
-
 export function getInterfaceID(contractInterface: Interface) {
   let interfaceID = constants.Zero
   const functions: string[] = Object.keys(contractInterface.functions)

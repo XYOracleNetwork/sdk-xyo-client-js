@@ -12,4 +12,6 @@ export type ModuleStateSchema = typeof ModuleStateSchema
 
 export type ModuleState<T extends StateDictionary = StateDictionary> = Payload<State<T>, ModuleStateSchema>
 
-export const isModuleState = isPayloadOfSchemaType<ModuleState>(ModuleStateSchema)
+export const isModuleState = <T extends StateDictionary = StateDictionary>(payload?: Payload | null): payload is ModuleState<T> => {
+  return isPayloadOfSchemaType<ModuleState<T>>(ModuleStateSchema)(payload)
+}

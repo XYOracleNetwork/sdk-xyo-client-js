@@ -12,6 +12,9 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailDivinerLabels, ImageThumbnailDivinerStageLabels } from './ImageThumbnailDivinerLabels'
 
+/**
+ * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response
+ */
 export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: ImageThumbnailDivinerStageLabels = {

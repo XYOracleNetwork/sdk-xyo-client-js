@@ -1,4 +1,5 @@
 export * from './Diviner'
+export * from './ImageThumbnailDivinerLabels'
 export * from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
 export * from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 export * from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'

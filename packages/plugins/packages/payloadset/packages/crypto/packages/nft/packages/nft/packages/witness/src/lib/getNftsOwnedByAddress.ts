@@ -2,12 +2,12 @@ import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
 import { NftInfoFields, NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
+import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
 import { getNftMetadata } from './getNftMetadata'
 import { getProviderFromEnv } from './getProvider'
-import { tokenTypes } from './tokenTypes'
+import { hasFunctions, isErc1155, tokenTypes } from './tokenTypes'
 
 /**
  * Returns the equivalent IPFS gateway URL for the supplied URL.
@@ -116,12 +116,15 @@ export const getNftsOwnedByAddress = async (
         const { contractAddress, tokenId, metadata, externalUrl } = nft.node.nft as QuickNodeNft
         let supply = '0x01'
         const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-        const types = await tokenTypes(supply1155)
-        try {
-          supply = types.includes('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
-        } catch (ex) {
-          const error = ex as Error
-          console.error(`supply: ${error.message}`)
+        const storage1155 = ERC1155URIStorage__factory.connect(contractAddress, provider)
+        const types = await tokenTypes(storage1155)
+        if (types.includes('ERC1155')) {
+          try {
+            supply = (await supply1155.totalSupply(tokenId)).toHexString()
+          } catch (ex) {
+            //const error = ex as Error
+            //console.error(`supply: ${error.message}`)
+          }
         }
         const fields: NftInfoFields = {
           address: contractAddress,

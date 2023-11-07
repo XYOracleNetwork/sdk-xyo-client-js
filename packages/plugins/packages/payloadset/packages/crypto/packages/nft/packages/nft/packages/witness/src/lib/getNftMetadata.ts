@@ -1,7 +1,10 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
+import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721URIStorage__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
+import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
+
+import { isErc721, isErc1155 } from './tokenTypes'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
 
@@ -45,23 +48,34 @@ export const getNftMetadata = async (
   tokenId: string,
 ): Promise<[string | undefined, NftMetadata | undefined]> => {
   const axios = new AxiosJson({ timeout: 2000 })
-  const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
+  const enumerable721 = ERC721Enumerable__factory.connect(contractAddress, provider)
+  const storage721 = ERC721URIStorage__factory.connect(contractAddress, provider)
   const storage1155 = ERC1155URIStorage__factory.connect(contractAddress, provider)
 
+  const is1155 = await isErc1155(storage1155)
   let uri1155: string | undefined
-  try {
-    uri1155 = await storage1155.uri(tokenId)
-  } catch (ex) {
-    const error = ex as Error
-    console.error(`metaDataUri: ${error.message}`)
+  if (is1155) {
+    try {
+      uri1155 = await storage1155.uri(tokenId)
+    } catch (ex) {
+      //const error = ex as Error
+      //console.error(`metaDataUri: ${error.message}`)
+    }
   }
 
+  const is721 = await isErc721(enumerable721)
   let metadataUri: string | undefined
-  try {
-    metadataUri = await storage.tokenURI(tokenId)
-  } catch (ex) {
-    const error = ex as Error
-    console.error(`metadataUri: ${error.message}`)
+  if (is721) {
+    try {
+      metadataUri = await enumerable721.tokenURI(tokenId)
+    } catch (ex) {
+      try {
+        metadataUri = await storage721.tokenURI(tokenId)
+      } catch (ex) {
+        //const error = ex as Error
+        //console.error(`metadataUri[${contractAddress}][${error.name}]: ${error.message}`)
+      }
+    }
   }
 
   const tokenMetadataUri = metadataUri ?? uri1155
@@ -71,8 +85,8 @@ export const getNftMetadata = async (
   try {
     metadata = checkedMetaDataUri ? (await axios.get(checkedMetaDataUri)).data : undefined
   } catch (ex) {
-    const error = ex as Error
-    console.error(`metadata: ${error.message}`)
+    //const error = ex as Error
+    //console.error(`metadata: ${error.message}`)
   }
 
   return [tokenMetadataUri, metadata]

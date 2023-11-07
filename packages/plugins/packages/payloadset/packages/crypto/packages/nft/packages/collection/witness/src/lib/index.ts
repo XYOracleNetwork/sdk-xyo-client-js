@@ -1,5 +1,4 @@
 export * from './collectionMetrics'
-export * from './getInterfaceID'
 export * from './getNftCollectionNfts'
 export * from './getProviderFromEnv'
 export * from './tokenTypes'

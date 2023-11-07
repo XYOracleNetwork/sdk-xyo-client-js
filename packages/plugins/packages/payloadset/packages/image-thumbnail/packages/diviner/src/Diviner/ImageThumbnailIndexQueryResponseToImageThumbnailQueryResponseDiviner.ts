@@ -26,10 +26,13 @@ export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDivine
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
+    // Filter out the two operands
     const imageThumbnailDivinerQueries = payloads.filter(isImageThumbnailDivinerQuery)
     const imageThumbnailResultIndexes = payloads.filter(isImageThumbnailResultIndex)
 
+    // If we have operands
     if (imageThumbnailDivinerQueries.length && imageThumbnailResultIndexes.length) {
+      // Create a dictionary to translate index keys to the urls that represent them
       const keyToUrlDictionary = Object.fromEntries(
         await Promise.all(
           imageThumbnailDivinerQueries.map(async (imageThumbnailDivinerQuery) => {
@@ -40,7 +43,8 @@ export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDivine
           }),
         ),
       )
-      const results = imageThumbnailResultIndexes
+      // Map the indexes to responses using the dictionary
+      return imageThumbnailResultIndexes
         .map((imageThumbnailResultIndex) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { key, schema, ...commonFields } = imageThumbnailResultIndex
@@ -51,8 +55,7 @@ export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDivine
           }
         })
         .filter(exists)
-      return results
     }
-    return Promise.resolve([])
+    return []
   }
 }

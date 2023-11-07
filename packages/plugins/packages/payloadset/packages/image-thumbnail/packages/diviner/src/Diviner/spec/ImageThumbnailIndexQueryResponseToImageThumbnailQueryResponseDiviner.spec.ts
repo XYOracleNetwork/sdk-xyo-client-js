@@ -30,7 +30,7 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
         sources: [],
         status: 200,
         success: true,
-        timestamp,
+        timestamp: 1234567890,
       },
     ],
     [
@@ -40,15 +40,15 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
         sources: [],
         status: 200,
         success: true,
-        timestamp,
+        timestamp: 1234567891,
       },
       {
         key: 'setInBeforeAll',
         schema: ImageThumbnailResultIndexSchema,
         sources: [],
-        status: 200,
-        success: true,
-        timestamp,
+        status: 500,
+        success: false,
+        timestamp: 1234567892,
       },
     ],
   ]
@@ -70,11 +70,12 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
         const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])
         expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
         expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(imageThumbnailResultIndex.length)
-        results.filter(isImageThumbnailResult).forEach((result) => {
+        results.filter(isImageThumbnailResult).forEach((result, i) => {
+          const index = imageThumbnailResultIndex[i]
           expect(result.url).toBe(imageThumbnailDivinerQuery.url)
-          expect(result.success).toBe(true)
-          expect(result.timestamp).toBe(1234567890)
-          expect(result.status).toBe(200)
+          expect(result.success).toBe(index.success)
+          expect(result.timestamp).toBe(index.timestamp)
+          expect(result.status).toBe(index.status)
         })
       })
     })

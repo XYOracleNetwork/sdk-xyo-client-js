@@ -17,38 +17,88 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
       schema: ImageThumbnailDivinerQuerySchema,
       url: 'https://xyo.network',
     },
-  ]
-  const indexes: ImageThumbnailResultIndex[] = [
     {
-      key: 'setInBeforeAll',
-      schema: ImageThumbnailResultIndexSchema,
-      sources: [],
-      status: 200,
-      success: true,
-      timestamp,
+      schema: ImageThumbnailDivinerQuerySchema,
+      url: 'https://explore.xyo.network',
     },
+  ]
+  const indexes: ImageThumbnailResultIndex[][] = [
+    [
+      {
+        key: 'setInBeforeAll',
+        schema: ImageThumbnailResultIndexSchema,
+        sources: [],
+        status: 200,
+        success: true,
+        timestamp,
+      },
+    ],
+    [
+      {
+        key: 'setInBeforeAll',
+        schema: ImageThumbnailResultIndexSchema,
+        sources: [],
+        status: 200,
+        success: true,
+        timestamp,
+      },
+      {
+        key: 'setInBeforeAll',
+        schema: ImageThumbnailResultIndexSchema,
+        sources: [],
+        status: 200,
+        success: true,
+        timestamp,
+      },
+    ],
   ]
   let diviner: ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner
   beforeAll(async () => {
     diviner = await ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner.create()
     await Promise.all(
-      queries.map(async (query, i) => {
-        indexes[i].key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: query.url })
+      queries.map((query, i) => {
+        indexes[i].forEach(async (index) => {
+          index.key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: query.url })
+        })
       }),
     )
   })
-  const cases: [ImageThumbnailDivinerQuery, ImageThumbnailResultIndex][] = queries.map((query, i) => [query, indexes[i]])
+  const cases: [ImageThumbnailDivinerQuery, ImageThumbnailResultIndex[]][] = queries.map((query, i) => [query, indexes[i]])
   describe('divine', () => {
-    describe('with single index result', () => {
-      it.each(cases)('transforms single index result', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
-        const results = await diviner.divine([imageThumbnailDivinerQuery, imageThumbnailResultIndex])
-        expect(results).toBeArrayOfSize(1)
-        expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(1)
-        const [result] = results.filter(isImageThumbnailResult)
-        expect(result.url).toBe(imageThumbnailDivinerQuery.url)
-        expect(result.success).toBe(true)
-        expect(result.timestamp).toBe(1234567890)
-        expect(result.status).toBe(200)
+    describe('with single url in index result', () => {
+      it.each(cases)('transforms single url index results', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
+        const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])
+        expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
+        expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(imageThumbnailResultIndex.length)
+        results.filter(isImageThumbnailResult).forEach((result) => {
+          expect(result.url).toBe(imageThumbnailDivinerQuery.url)
+          expect(result.success).toBe(true)
+          expect(result.timestamp).toBe(1234567890)
+          expect(result.status).toBe(200)
+        })
+      })
+    })
+    describe('with multiple urls in index result', () => {
+      it('transforms multiple url index results', async () => {
+        const indexesLength = indexes.flat().length
+        const results = await diviner.divine([...queries, ...indexes.flat()])
+        expect(results).toBeArrayOfSize(indexesLength)
+        const resultsIndexes = results.filter(isImageThumbnailResult)
+        expect(resultsIndexes).toBeArrayOfSize(indexesLength)
+        let resultsIterator = 0
+        for (let i = 0; i < queries.length; i++) {
+          const { url } = queries[i]
+          const indexSet = indexes[i]
+          for (let j = 0; j < indexSet.length; j++) {
+            const index = indexSet[j]
+            const result = resultsIndexes[resultsIterator]
+            expect(result.url).toBe(url)
+            expect(result.success).toBe(index.success)
+            expect(result.timestamp).toBe(index.timestamp)
+            expect(result.status).toBe(index.status)
+            resultsIterator = ++resultsIterator
+          }
+        }
       })
     })
   })

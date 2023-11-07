@@ -8,7 +8,7 @@ import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from 
 import { DivinerConfig, DivinerConfigSchema, DivinerParams } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { ImageThumbnail, ImageThumbnailSchema, isImageThumbnail, SearchableStorage } from '@xyo-network/image-thumbnail-payload-plugin'
-import { AnyConfigSchema, isModuleState } from '@xyo-network/module-model'
+import { AnyConfigSchema, isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -41,7 +41,7 @@ const moduleName = 'ImageThumbnailStateToIndexCandidateDiviner'
 export class ImageThumbnailStateToIndexCandidateDiviner<
   TParams extends ImageThumbnailStateToIndexCandidateDivinerParams = ImageThumbnailStateToIndexCandidateDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchemas = [DivinerConfigSchema]
+  static override configSchemas = [DivinerConfigSchema, ImageThumbnailStateToIndexCandidateDivinerConfigSchema]
   static labels: ImageThumbnailDivinerStageLabels = {
     ...ImageThumbnailDivinerLabels,
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',
@@ -74,13 +74,11 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     return [bw, imageThumbnailPayload, timestampPayload]
   }
 
-  protected override async divineHandler(
-    payloads: Payload[] = [],
-  ): Promise<[ImageThumbnailDivinerState?, BoundWitness?, ImageThumbnail?, TimeStamp?]> {
-    const lastState = payloads.find(isModuleState)
+  // TODO: Make response type more specific
+  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
+    const lastState = payloads.find(isModuleState<ImageThumbnailDivinerState>)
     if (!lastState) return []
-    const { offset } = lastState
-    // TODO: Refactor into StateToIndexCandidateDiviner and move thumbnailStore config out of this diviner
+    const { offset } = lastState.state
     // Get next batch of results
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
@@ -100,7 +98,13 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
         batch.filter(isBoundWitness).map((bw) => ImageThumbnailStateToIndexCandidateDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)),
       )
     ).filter(exists)
-    return indexCandidates
+    const nextState: ModuleState<ImageThumbnailDivinerState> = {
+      schema: ModuleStateSchema,
+      state: {
+        offset: batch.length,
+      },
+    }
+    return [nextState, ...indexCandidates.flat()]
   }
   /**
    * Retrieves the archivist for the specified store

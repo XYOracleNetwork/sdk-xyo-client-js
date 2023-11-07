@@ -23,6 +23,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
+import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
 import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
@@ -40,6 +41,7 @@ const moduleName = 'ImageThumbnailDiviner'
 
 export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
+  static labels: ImageThumbnailDivinerLabels = ImageThumbnailDivinerLabels
 
   private _lastState?: ImageThumbnailDivinerState
   private _pollId?: string | number | NodeJS.Timeout

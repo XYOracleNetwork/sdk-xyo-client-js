@@ -10,8 +10,14 @@ import {
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
+import { ImageThumbnailDivinerLabels, ImageThumbnailDivinerStageLabels } from './ImageThumbnailDivinerLabels'
+
 export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
+  static labels: ImageThumbnailDivinerStageLabels = {
+    ...ImageThumbnailDivinerLabels,
+    'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',
+  }
 
   protected override divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
     const imageThumbnailDivinerQuery = payloads.find(isImageThumbnailDivinerQuery)

@@ -8,20 +8,15 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 
+import { ImageThumbnailDivinerLabels, ImageThumbnailDivinerStageLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailResultQuery } from './ImageThumbnailResultQuery'
 
-export interface ImageThumbnailDivinerLabels extends Labels {
-  'network.xyo.storage.class': 'mongodb'
-}
-
-export const ImageThumbnailDivinerLabels: ImageThumbnailDivinerLabels = {
-  'network.xyo.storage.class': 'mongodb',
-}
-
 export class ImageThumbnailQueryToImageThumbnailIndexQueryDiviner extends AbstractDiviner {
-  static labels = ImageThumbnailDivinerLabels
   static override configSchemas = [DivinerConfigSchema]
-
+  static labels: ImageThumbnailDivinerStageLabels = {
+    ...ImageThumbnailDivinerLabels,
+    'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
+  }
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultQuery[]> {
     const payload = payloads.find(isImageThumbnailDivinerQuery)
     if (payload) {

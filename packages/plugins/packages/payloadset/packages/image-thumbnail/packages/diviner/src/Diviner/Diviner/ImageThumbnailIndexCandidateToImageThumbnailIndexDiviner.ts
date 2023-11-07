@@ -14,8 +14,14 @@ import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp } from '@xyo-network/witness-timestamp'
 
+import { ImageThumbnailDivinerLabels, ImageThumbnailDivinerStageLabels } from './ImageThumbnailDivinerLabels'
+
 export class ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
+  static labels: ImageThumbnailDivinerStageLabels = {
+    ...ImageThumbnailDivinerLabels,
+    'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
+  }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultIndex[]> {
     const bw: BoundWitness | undefined = payloads.find(isBoundWitness)

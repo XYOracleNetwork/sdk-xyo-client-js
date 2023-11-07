@@ -1,11 +1,13 @@
-import { AxiosJson } from '@xyo-network/axios'
-import { NftInfoFields, NftMetadata, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
-import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
+import { assertEx } from '@xylabs/assert'
+import { Account } from '@xyo-network/account'
+import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
+import { NftInfoFields, NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
+import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
 
 import { getInfuraProvider } from './getInfuraProvider'
-import { getNftCollectionMetadata } from './getNftCollectionMetadata'
 import { getNftMetadata } from './getNftMetadata'
 import { getProviderFromEnv } from './getProvider'
+import { hasFunctions, isErc1155, tokenTypes } from './tokenTypes'
 
 /**
  * Returns the equivalent IPFS gateway URL for the supplied URL.
@@ -73,49 +75,56 @@ export const getNftsOwnedByAddress = async (
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 2000,
 ): Promise<NftInfoFields[]> => {
-  const axios = new AxiosJson({ timeout })
-  const provider = getProviderFromEnv()
-
-  const qnUri = 'https://api.quicknode.com/graphql'
-
-  const result = await axios.post(qnUri, {
+  const endpoint = 'https://api.quicknode.com/graphql'
+  const witness = await ApiGraphqlWitness.create({
+    account: Account.randomSync(),
+    config: { schema: ApiGraphqlWitnessConfigSchema, timeout },
+    endpoint,
+  })
+  const query: GraphqlQuery = {
     query: `query Query {
-    ethereum {
-      walletByAddress(address: "${publicAddress}") {
-        walletNFTs (first: ${maxNfts}) {
-          edges {
-            node {
-              nft {
-                contractAddress
-                metadata
-                tokenId
-                externalUrl
-                name
+      ethereum {
+        walletByAddress(address: "${publicAddress}") {
+          walletNFTs (first: ${maxNfts}) {
+            edges {
+              node {
+                nft {
+                  contractAddress
+                  metadata
+                  tokenId
+                  externalUrl
+                  name
+                }
               }
             }
           }
         }
       }
-    }
-  }`,
+    }`,
+    schema: GraphqlQuerySchema,
     variables: {},
-  })
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const results = (await witness.observe([query])) as GraphqlResult<any>[]
+  const witnessResult = assertEx(results.at(0), 'ApiGraphqlWitness failed')
+  const provider = getProviderFromEnv()
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Object.values(result.data.data.ethereum.walletByAddress.walletNFTs.edges).map(async (nft: any) => {
+    Object.values(witnessResult.result?.data?.ethereum?.walletByAddress?.walletNFTs?.edges ?? {}).map(async (nft: any) => {
       try {
         const { contractAddress, tokenId, metadata, externalUrl } = nft.node.nft as QuickNodeNft
         let supply = '0x01'
-        let type = toTokenType('ERC721')
-        try {
-          const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-          const { type: nftType } = await getNftCollectionMetadata(contractAddress, provider)
-          type = nftType
-          supply = nftType === toTokenType('ERC1155') ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
-        } catch (ex) {
-          const error = ex as Error
-          console.error(`supply: ${error.message}`)
+        const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
+        const storage1155 = ERC1155URIStorage__factory.connect(contractAddress, provider)
+        const types = await tokenTypes(storage1155)
+        if (types.includes('ERC1155')) {
+          try {
+            supply = (await supply1155.totalSupply(tokenId)).toHexString()
+          } catch (ex) {
+            //const error = ex as Error
+            //console.error(`supply: ${error.message}`)
+          }
         }
         const fields: NftInfoFields = {
           address: contractAddress,
@@ -124,7 +133,8 @@ export const getNftsOwnedByAddress = async (
           metadataUri: externalUrl,
           supply,
           tokenId,
-          type,
+          type: types.at(0),
+          types,
         }
         if (!fields.metadataUri || !fields.metadata) {
           const [metadataUri, metadata] = await getNftMetadata(contractAddress, provider, fields.tokenId)

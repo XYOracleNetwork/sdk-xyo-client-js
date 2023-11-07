@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/contracts": "^5.7.0",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"

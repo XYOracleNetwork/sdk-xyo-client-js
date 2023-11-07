@@ -16,6 +16,9 @@ import { isTimestamp, TimeStamp } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerLabels, ImageThumbnailDivinerStageLabels } from './ImageThumbnailDivinerLabels'
 
+/**
+ * Transforms candidates for image thumbnail indexing into their indexed representation
+ */
 export class ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: ImageThumbnailDivinerStageLabels = {

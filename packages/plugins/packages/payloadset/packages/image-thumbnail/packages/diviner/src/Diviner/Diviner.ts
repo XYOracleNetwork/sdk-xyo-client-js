@@ -18,20 +18,17 @@ import {
   isImageThumbnailDivinerQuery,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
-import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
+import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
+import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
 import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
 import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
 import { IndexingDivinerStage } from './IndexingDivinerStage'
-
-export type ImageThumbnailDivinerState = StateDictionary & {
-  offset: number
-}
 
 type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
 
@@ -100,12 +97,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     if (batch.length === 0) return
     // Get source data
     const sourceArchivist = await this.getArchivistForStore('thumbnailStore')
-    const transformInputs: [BoundWitness, ImageThumbnail, TimeStamp][] = (
+    const indexCandidates: [BoundWitness, ImageThumbnail, TimeStamp][] = (
       await Promise.all(batch.filter(isBoundWitness).map((bw) => ImageThumbnailDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)))
     ).filter(exists)
     // Transform to index results
     const toIndexTransformDiviner = await this.getTransformDiviner('indexCandidateToIndexDiviner')
-    const indexes = (await Promise.all(transformInputs.map((input) => toIndexTransformDiviner.divine(input)))).flat().filter(exists)
+    const indexes = (await Promise.all(indexCandidates.map((input) => toIndexTransformDiviner.divine(input)))).flat().filter(exists)
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
     await indexArchivist.insert(indexes)

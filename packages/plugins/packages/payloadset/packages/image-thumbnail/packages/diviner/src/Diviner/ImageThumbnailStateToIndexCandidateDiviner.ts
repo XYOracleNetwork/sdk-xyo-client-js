@@ -101,6 +101,7 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     const nextState: ModuleState<ImageThumbnailDivinerState> = {
       schema: ModuleStateSchema,
       state: {
+        ...lastState.state,
         offset: batch.length,
       },
     }

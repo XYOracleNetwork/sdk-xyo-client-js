@@ -1,1 +1,6 @@
 export * from './Diviner'
+export * from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
+export * from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
+export * from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
+export * from './ImageThumbnailResultQuery'
+export * from './IndexingDivinerStage'

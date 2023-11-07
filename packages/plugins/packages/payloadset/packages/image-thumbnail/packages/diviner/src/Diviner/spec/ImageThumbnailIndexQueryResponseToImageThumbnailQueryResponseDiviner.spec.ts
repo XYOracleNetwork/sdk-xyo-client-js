@@ -18,7 +18,7 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
       url: 'https://xyo.network',
     },
   ]
-  const results: ImageThumbnailResultIndex[] = [
+  const indexes: ImageThumbnailResultIndex[] = [
     {
       key: 'setInBeforeAll',
       schema: ImageThumbnailResultIndexSchema,
@@ -33,21 +33,23 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
     diviner = await ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner.create()
     await Promise.all(
       queries.map(async (query, i) => {
-        results[i].key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: query.url })
+        indexes[i].key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: query.url })
       }),
     )
   })
-  const cases: [ImageThumbnailDivinerQuery, ImageThumbnailResultIndex][] = queries.map((query, i) => [query, results[i]])
+  const cases: [ImageThumbnailDivinerQuery, ImageThumbnailResultIndex][] = queries.map((query, i) => [query, indexes[i]])
   describe('divine', () => {
-    it.each(cases)('transforms', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
-      const results = await diviner.divine([imageThumbnailDivinerQuery, imageThumbnailResultIndex])
-      expect(results).toBeArrayOfSize(1)
-      expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(1)
-      const [result] = results.filter(isImageThumbnailResult)
-      expect(result.url).toBe(imageThumbnailDivinerQuery.url)
-      expect(result.success).toBe(true)
-      expect(result.timestamp).toBe(1234567890)
-      expect(result.status).toBe(200)
+    describe('with single index result', () => {
+      it.each(cases)('transforms single index result', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
+        const results = await diviner.divine([imageThumbnailDivinerQuery, imageThumbnailResultIndex])
+        expect(results).toBeArrayOfSize(1)
+        expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(1)
+        const [result] = results.filter(isImageThumbnailResult)
+        expect(result.url).toBe(imageThumbnailDivinerQuery.url)
+        expect(result.success).toBe(true)
+        expect(result.timestamp).toBe(1234567890)
+        expect(result.status).toBe(200)
+      })
     })
   })
 })

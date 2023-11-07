@@ -72,6 +72,12 @@ describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
           await validateResult(input, [result])
         })
       })
+      it('handles sparse inputs', async () => {
+        const [bw] = await new BoundWitnessBuilder().payloads(cases[0]).build()
+        const results = await diviner.divine([bw, ...cases.flat()])
+        expect(results).toBeArrayOfSize(1)
+        await validateResult([bw, ...cases[0]], results)
+      })
     })
   })
 })

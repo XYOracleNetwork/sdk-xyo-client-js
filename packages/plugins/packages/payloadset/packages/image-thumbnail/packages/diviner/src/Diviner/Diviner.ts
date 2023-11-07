@@ -101,7 +101,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       await Promise.all(batch.filter(isBoundWitness).map((bw) => ImageThumbnailDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)))
     ).filter(exists)
     // Transform to index results
-    const toIndexTransformDiviner = await this.getTransformDiviner('indexCandidateToIndexDiviner')
+    const toIndexTransformDiviner = await this.getIndexingDivinerStage('indexCandidateToIndexDiviner')
     const indexes = (await Promise.all(indexCandidates.map((input) => toIndexTransformDiviner.divine(input)))).flat().filter(exists)
     // Insert index results
     const indexArchivist = await this.getArchivistForStore('indexStore')
@@ -130,8 +130,8 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const urls = payloads.filter(isImageThumbnailDivinerQuery)
     const indexPayloadDiviner = await this.getPayloadDivinerForStore('indexStore')
-    const divinerQueryToIndexQueryDiviner = await this.getTransformDiviner('divinerQueryToIndexQueryDiviner')
-    const indexQueryResponseToDivinerQueryResponseDiviner = await this.getTransformDiviner('indexQueryResponseToDivinerQueryResponseDiviner')
+    const divinerQueryToIndexQueryDiviner = await this.getIndexingDivinerStage('divinerQueryToIndexQueryDiviner')
+    const indexQueryResponseToDivinerQueryResponseDiviner = await this.getIndexingDivinerStage('indexQueryResponseToDivinerQueryResponseDiviner')
     const results = (
       await Promise.all(
         urls.map(async (divinerQuery) => {
@@ -174,17 +174,11 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   }
 
   /**
-   * Retrieves the Payload Diviner for the specified store
-   * @param store The store to retrieve the Payload Diviner for
-   * @returns The Payload Diviner for the specified store
+   * Gets the Diviner for the supplied Indexing Diviner stage
+   * @param transform The Indexing Diviner stage
+   * @returns The diviner corresponding to the Indexing Diviner stage
    */
-  protected async getPayloadDivinerForStore(store: ConfigStore) {
-    const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
-    return DivinerWrapper.wrap(mod, this.account)
-  }
-
-  protected async getTransformDiviner(transform: IndexingDivinerStage) {
+  protected async getIndexingDivinerStage(transform: IndexingDivinerStage) {
     // TODO: Actually get these diviners from config
     switch (transform) {
       case 'stateToIndexCandidateDiviner':
@@ -196,6 +190,17 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
       case 'indexQueryResponseToDivinerQueryResponseDiviner':
         return await ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner.create()
     }
+  }
+
+  /**
+   * Retrieves the Payload Diviner for the specified store
+   * @param store The store to retrieve the Payload Diviner for
+   * @returns The Payload Diviner for the specified store
+   */
+  protected async getPayloadDivinerForStore(store: ConfigStore) {
+    const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
+    return DivinerWrapper.wrap(mod, this.account)
   }
 
   /**

@@ -1,6 +1,8 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema, isImageThumbnailResultIndex } from '@xyo-network/image-thumbnail-payload-plugin'
+import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -27,6 +29,19 @@ describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
     schema: ImageThumbnailSchema,
     sourceUrl: 'https://xyo.network',
   }
+  const validateResult = async (input: [boundWitness: BoundWitness, thumbnail: ImageThumbnail, timestamp: TimeStamp], result: Payload[]) => {
+    const [boundWitness, thumbnail, timestamp] = input
+    const payloadDictionary = await PayloadHasher.toMap([boundWitness, thumbnail, timestamp])
+    expect(result).toBeArrayOfSize(1)
+    expect(result.filter(isImageThumbnailResultIndex)).toBeArrayOfSize(1)
+    const [index] = result.filter(isImageThumbnailResultIndex)
+    const key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: thumbnail.sourceUrl })
+    expect(index.key).toBe(key)
+    expect(index.sources).toEqual(Object.keys(payloadDictionary))
+    expect(index.success).toBe(thumbnail.http?.status === 200)
+    expect(index.timestamp).toBe(timestamp.timestamp)
+    expect(index.status).toBe(thumbnail.http?.status)
+  }
   beforeAll(async () => {
     diviner = await ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner.create()
   })
@@ -39,31 +54,23 @@ describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
       it.each(cases)('transforms single result', async (thumbnail, timestamp) => {
         const [boundWitness] = await new BoundWitnessBuilder().payloads([thumbnail, timestamp]).build()
         const result = await diviner.divine([boundWitness, thumbnail, timestamp])
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, thumbnail, timestamp])
-        expect(result).toBeArrayOfSize(1)
-        expect(result.filter(isImageThumbnailResultIndex)).toBeArrayOfSize(1)
-        const [index] = result.filter(isImageThumbnailResultIndex)
-        const key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: thumbnail.sourceUrl })
-        expect(index.key).toBe(key)
-        expect(index.sources).toEqual(Object.keys(payloadDictionary))
-        expect(index.success).toBe(thumbnail.http?.status === 200)
-        expect(index.timestamp).toBe(timestamp.timestamp)
-        expect(index.status).toBe(thumbnail.http?.status)
+        await validateResult([boundWitness, thumbnail, timestamp], result)
       })
     })
     describe('with multiple results', () => {
       it('transforms multiple results', async () => {
-        const data = (
-          await Promise.all(
-            cases.map(async (payloads) => {
-              const [bw] = await new BoundWitnessBuilder().payloads(payloads).build()
-              return [bw, ...payloads]
-            }),
-          )
-        ).flat()
-        const result = await diviner.divine(data)
-        const payloadDictionary = await PayloadHasher.toMap(data)
-        expect(result).toBeArrayOfSize(2)
+        const data: [BoundWitness, ImageThumbnail, TimeStamp][] = await Promise.all(
+          cases.map(async (payloads) => {
+            const [bw] = await new BoundWitnessBuilder().payloads(payloads).build()
+            return [bw, ...payloads]
+          }),
+        )
+        const results = await diviner.divine(data.flat())
+        expect(results).toBeArrayOfSize(2)
+        data.forEach(async (input, i) => {
+          const result = results[i]
+          await validateResult(input, [result])
+        })
       })
     })
   })

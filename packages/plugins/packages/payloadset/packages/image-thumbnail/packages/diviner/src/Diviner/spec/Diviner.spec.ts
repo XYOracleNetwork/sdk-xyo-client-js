@@ -15,7 +15,7 @@ import {
   isImageThumbnailResult,
   isImageThumbnailResultIndex,
 } from '@xyo-network/image-thumbnail-payload-plugin'
-import { ManifestPayload, ManifestWrapper } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -75,7 +75,7 @@ describe('ImageThumbnailDiviner', () => {
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
     locator.register(ImageThumbnailDiviner)
-    const manifest = imageThumbnailDivinerManifest as ManifestPayload
+    const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()

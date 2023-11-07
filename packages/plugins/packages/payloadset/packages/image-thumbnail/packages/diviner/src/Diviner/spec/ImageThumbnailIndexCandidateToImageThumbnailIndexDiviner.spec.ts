@@ -56,6 +56,12 @@ describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
         const result = await diviner.divine([boundWitness, thumbnail, timestamp])
         await validateResult([boundWitness, thumbnail, timestamp], result)
       })
+      it.each(cases)('handles sparse inputs', async (thumbnail, timestamp) => {
+        const [boundWitness] = await new BoundWitnessBuilder().payloads([thumbnail, timestamp]).build()
+        expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
+        expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
+        expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
+      })
     })
     describe('with multiple results', () => {
       it('transforms multiple results', async () => {

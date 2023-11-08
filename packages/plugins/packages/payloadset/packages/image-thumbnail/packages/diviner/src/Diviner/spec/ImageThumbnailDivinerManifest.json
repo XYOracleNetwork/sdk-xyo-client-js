@@ -80,6 +80,22 @@
           },
           {
             "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailStateToIndexCandidateDiviner",
+              "schema": "network.xyo.diviner.config",
+              "payloadStore": {
+                "archivist": "ImageThumbnailArchivist",
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
+              }
+            }
+          },
+          {
+            "config": {
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",

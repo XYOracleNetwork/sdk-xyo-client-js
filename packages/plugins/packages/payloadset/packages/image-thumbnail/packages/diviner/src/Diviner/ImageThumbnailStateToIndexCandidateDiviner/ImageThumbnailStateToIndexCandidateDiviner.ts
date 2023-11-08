@@ -37,7 +37,7 @@ export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
 /**
  * The required payload_schemas within BoundWitnesses to identify index candidates
  */
-const payload_schemas = [ImageThumbnailSchema, TimestampSchema] as const
+const payload_schemas = [ImageThumbnailSchema, TimestampSchema]
 
 /**
  * The identity functions to verify the payload_schemas within BoundWitnesses conform to the required payload_schemas

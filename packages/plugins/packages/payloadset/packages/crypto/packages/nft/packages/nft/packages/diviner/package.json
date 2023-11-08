@@ -24,7 +24,7 @@
     "svg-parser": "^2.0.4"
   },
   "devDependencies": {
-    "@types/svg-parser": "^2.0.5",
+    "@types/svg-parser": "^2.0.6",
     "@xylabs/jest-helpers": "^2.13.3",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",

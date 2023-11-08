@@ -1,4 +1,4 @@
-import { InfuraProvider, WebSocketProvider } from '@ethersproject/providers'
+import { InfuraProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
@@ -17,7 +17,12 @@ import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftCollectionMetrics, getNftCollectionNfts, getProviderFromEnv, tokenTypes } from './lib'
 
-export type CryptoNftCollectionWitnessParams = WitnessParams<AnyConfigSchema<NftCollectionWitnessConfig>>
+export type CryptoNftCollectionWitnessParams = WitnessParams<
+  AnyConfigSchema<NftCollectionWitnessConfig>,
+  {
+    provider: Provider
+  }
+>
 
 const defaultMaxNfts = 100
 
@@ -74,7 +79,7 @@ export class CryptoNftCollectionWitness<TParams extends CryptoNftCollectionWitne
           await this.writeArchivist(),
         ])
         const types = resolvedValue(typesSettled, true)
-        const nfts = await getNftCollectionNfts(address, chainId, types, maxNfts)
+        const nfts = await getNftCollectionNfts(address, provider, types, maxNfts)
         const metrics = getNftCollectionMetrics(nfts)
         const archivist = resolvedValue(archivistSettled)
         const [sources] = await Promise.all([

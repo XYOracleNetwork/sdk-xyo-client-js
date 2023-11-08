@@ -1,7 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { HDWallet } from '@xyo-network/account'
 
 import { getNftsOwnedByAddress } from '../getNftsOwnedByAddress'
+import { getProviderFromEnv } from '../getProvider'
 
 type TestData = [chainName: string, address: string, chainId: number]
 
@@ -11,8 +11,8 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddress', () => {
     ['Polygon Mainnet', '0x5ABa56bF7eeB050796e14504c8547e0f6cA1d794', 137],
   ]
   it.each(testData)('gets NFTs owned by the address on %s', async (_chainName, address, chainId) => {
-    const { privateKey } = await HDWallet.random()
-    const nfts = await getNftsOwnedByAddress(address, chainId, privateKey)
+    const provider = getProviderFromEnv(chainId)
+    const nfts = await getNftsOwnedByAddress(address, provider)
     expect(nfts.length).toBeGreaterThan(0)
     for (let i = 0; i < nfts.length; i++) {
       const nft = nfts[i]

@@ -26,7 +26,7 @@
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.5",
+    "@types/js-cookie": "^3.0.6",
     "@xylabs/delay": "^2.13.3",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",

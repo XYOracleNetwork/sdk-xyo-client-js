@@ -1,6 +1,5 @@
 import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
-import { Crypto } from '@xylabs/crypto'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -13,6 +12,7 @@ import {
 import { Data, DataLike, toUint8Array } from '@xyo-network/core'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
+import randomBytes from 'randombytes'
 import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
@@ -101,7 +101,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   static randomSync(): Account {
-    return new Account(Account._protectedConstructorKey, { privateKey: Crypto.randomBytes(32) })
+    return new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
   }
 
   async loadPreviousHash(previousHash?: Uint8Array | string): Promise<this> {

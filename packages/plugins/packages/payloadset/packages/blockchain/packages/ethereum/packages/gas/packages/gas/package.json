@@ -32,7 +32,7 @@
     "@ethersproject/networks": "^5.7.1",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/solidity": "^5.7.0",
-    "@types/regression": "^2.0.4",
+    "@types/regression": "^2.0.5",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/sdk-core": "^4.0.9",
     "@uniswap/v3-sdk": "^3.10.0",

@@ -1,3 +1,4 @@
+import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
@@ -14,7 +15,12 @@ import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftsOwnedByAddress } from './lib'
 
-export type CryptoWalletNftWitnessParams = WitnessParams<AnyConfigSchema<CryptoWalletNftWitnessConfig>>
+export type CryptoWalletNftWitnessParams = WitnessParams<
+  AnyConfigSchema<CryptoWalletNftWitnessConfig>,
+  {
+    provider: Provider
+  }
+>
 
 const schema = NftSchema
 
@@ -26,6 +32,10 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
   NftInfo
 > {
   static override configSchemas = [NftWitnessConfigSchema]
+
+  get provider() {
+    return this.params.provider
+  }
 
   get timeout() {
     return this.config.timeout ?? 2000
@@ -40,10 +50,11 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
           EthAddress.parse(assertEx(query?.address || this.config.address, 'params.address is required')),
           'Failed to parse params.address',
         ).toString()
-        const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
+        const network = await this.provider.getNetwork()
+        const chainId = assertEx(network.chainId, 'params.chainId is required')
         const maxNfts = query?.maxNfts || defaultMaxNfts
         try {
-          const nfts = await getNftsOwnedByAddress(address, chainId, this.account.private.hex, maxNfts, this.timeout)
+          const nfts = await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
           const observation = nfts.map<NftInfo>((nft) => {
             return { ...nft, schema }
           })

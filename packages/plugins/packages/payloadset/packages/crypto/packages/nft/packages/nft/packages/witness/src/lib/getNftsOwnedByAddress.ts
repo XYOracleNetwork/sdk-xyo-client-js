@@ -1,3 +1,4 @@
+import { Provider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ApiGraphqlWitness, ApiGraphqlWitnessConfigSchema, GraphqlQuery, GraphqlQuerySchema, GraphqlResult } from '@xyo-network/api-graphql-plugin'
@@ -6,8 +7,7 @@ import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory, ERC1155URISt
 
 import { getInfuraProvider } from './getInfuraProvider'
 import { getNftMetadata } from './getNftMetadata'
-import { getProviderFromEnv } from './getProvider'
-import { hasFunctions, isErc1155, tokenTypes } from './tokenTypes'
+import { tokenTypes } from './tokenTypes'
 
 /**
  * Returns the equivalent IPFS gateway URL for the supplied URL.
@@ -66,10 +66,8 @@ interface QuickNodeNft {
 export const getNftsOwnedByAddress = async (
   /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
-  /** @param chainId The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on */
-  chainId: number,
-  /** @param privateKey The private key of the wallet to use to search for NFTs */
-  privateKey: string,
+  /** @param provider The provider to use for accessing the block chain */
+  provider: Provider,
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 1000,
   /** @param httpTimeout The connection timeout for http call to get metadata */
@@ -107,7 +105,6 @@ export const getNftsOwnedByAddress = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const results = (await witness.observe([query])) as GraphqlResult<any>[]
   const witnessResult = assertEx(results.at(0), 'ApiGraphqlWitness failed')
-  const provider = getProviderFromEnv()
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -128,7 +125,7 @@ export const getNftsOwnedByAddress = async (
         }
         const fields: NftInfoFields = {
           address: contractAddress,
-          chainId,
+          chainId: (await provider.getNetwork()).chainId,
           metadata,
           metadataUri: externalUrl,
           supply,

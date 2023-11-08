@@ -28,7 +28,7 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
-    "@types/url-parse": "^1.4.10",
+    "@types/url-parse": "^1.4.11",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",
     "@xyo-network/account": "workspace:~",

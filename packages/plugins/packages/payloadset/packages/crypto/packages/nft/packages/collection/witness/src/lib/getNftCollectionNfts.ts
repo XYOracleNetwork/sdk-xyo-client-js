@@ -1,8 +1,8 @@
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
-import { getProviderFromEnv } from './getProviderFromEnv'
 import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 import { tokenTypes } from './tokenTypes'
 
@@ -39,7 +39,7 @@ export const getNftCollectionNfts = async (
   /**
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
-  chainId: number,
+  provider: JsonRpcProvider,
   types?: TokenType[],
   /**
    * The maximum number of NFTs to return. Configurable to prevent
@@ -52,7 +52,6 @@ export const getNftCollectionNfts = async (
     throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
   }
   const axios = new AxiosJson({ timeout: 2000 })
-  const provider = getProviderFromEnv(chainId)
   const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
   const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
   const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
@@ -75,7 +74,7 @@ export const getNftCollectionNfts = async (
 
     const info: NftInfo = {
       address: contractAddress,
-      chainId,
+      chainId: provider.network.chainId,
       metadata,
       metadataUri,
       schema: NftSchema,

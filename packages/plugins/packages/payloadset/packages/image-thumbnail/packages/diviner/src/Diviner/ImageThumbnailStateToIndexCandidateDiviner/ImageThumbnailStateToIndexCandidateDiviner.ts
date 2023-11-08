@@ -18,8 +18,6 @@ import { ImageThumbnailDivinerState } from '../ImageThumbnailDivinerState'
 import { ImageThumbnailStateToIndexCandidateDivinerConfigSchema } from './Config'
 import { ImageThumbnailStateToIndexCandidateDivinerParams } from './Params'
 
-const moduleName = 'ImageThumbnailStateToIndexCandidateDiviner'
-
 /**
  * The response from the ImageThumbnailStateToIndexCandidateDiviner
  */
@@ -48,6 +46,11 @@ const payload_schemas = [ImageThumbnailSchema, TimestampSchema]
  * The default order to search Bound Witnesses to identify index candidates
  */
 const order = 'asc'
+
+/**
+ * The name of the module (for logging purposes)
+ */
+const moduleName = 'ImageThumbnailStateToIndexCandidateDiviner'
 
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
@@ -96,7 +99,7 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailStateToIndexCandidateDivinerResponse> {
-    // Retrieve the last state
+    // Retrieve the last state from what was passed in
     const lastState = payloads.find(isModuleState<ImageThumbnailDivinerState>)
     // If there is no last state, start from the beginning
     if (!lastState) return [{ schema: ModuleStateSchema, state: { offset: 0 } }]

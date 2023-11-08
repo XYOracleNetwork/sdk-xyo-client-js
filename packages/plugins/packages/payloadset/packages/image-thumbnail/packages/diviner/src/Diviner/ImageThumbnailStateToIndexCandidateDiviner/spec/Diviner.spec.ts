@@ -13,7 +13,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerState } from '../../ImageThumbnailDivinerState'
-import { ImageThumbnailStateToIndexCandidateDiviner } from '../ImageThumbnailStateToIndexCandidateDiviner'
+import { ImageThumbnailStateToIndexCandidateDiviner } from '../Diviner'
 import ImageThumbnailStateToIndexCandidateDivinerManifest from './ImageThumbnailStateToIndexCandidateDiviner.json'
 
 /**

@@ -19,6 +19,11 @@ import { ImageThumbnailStateToIndexCandidateDivinerConfigSchema } from './Config
 import { ImageThumbnailStateToIndexCandidateDivinerParams } from './Params'
 
 /**
+ * All Payload types involved in index candidates for indexing
+ */
+export type IndexCandidate = BoundWitness | ImageThumbnail | TimeStamp
+
+/**
  * The response from the ImageThumbnailStateToIndexCandidateDiviner
  */
 export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
@@ -29,7 +34,7 @@ export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
   /**
    * The index candidates
    */
-  ...(BoundWitness | ImageThumbnail | TimeStamp)[],
+  ...IndexCandidate[],
 ]
 
 /**
@@ -38,9 +43,9 @@ export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
 const payload_schemas = [ImageThumbnailSchema, TimestampSchema]
 
 /**
- * The identity functions to verify the payload_schemas within BoundWitnesses conform to the required payload_schemas
+ * Index candidate identity functions
  */
-// const payloadSchemaIdentityFunctions = [isImageThumbnail, isTimestamp] as const
+const indexCandidateIdentityFunctions = [isImageThumbnail, isTimestamp] as const
 
 /**
  * The default order to search Bound Witnesses to identify index candidates
@@ -68,34 +73,14 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     return this.config.payloadDivinerLimit ?? 1_0000
   }
 
-  protected static async getPayloadsInBoundWitness(
-    bw: BoundWitness,
-    archivist: ArchivistInstance,
-  ): Promise<[BoundWitness, ImageThumbnail, TimeStamp] | undefined> {
-    // TODO: Simplify & make more generic for reuse
-    // const indexes = payload_schemas.map((schema) => bw.payload_schemas?.findIndex((s) => s === schema))
-    // const hashes = indexes.map((index) => bw.payload_hashes?.[index])
-    // const payloads = await archivist.get(hashes)
-    // const foo = payloadSchemaIdentityFunctions.map((is) => payloads.find(is))
-    // if (foo.some((f) => f === undefined)) return undefined
-    // return [bw, ...foo]
-    const imageThumbnailIndex = bw.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
-    const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-    if (imageThumbnailIndex === -1 || timestampIndex === -1) return undefined
-    const imageThumbnailHash = bw.payload_hashes?.[imageThumbnailIndex]
-    const timestampHash = bw.payload_hashes?.[timestampIndex]
-    const results = await archivist.get([imageThumbnailHash, timestampHash])
-    const imageThumbnailPayload = results.find(isImageThumbnail)
-    if (!imageThumbnailPayload) {
-      console.log(`${moduleName}: Could not find ${ImageThumbnailSchema} Payload (${imageThumbnailHash})`)
-      return undefined
-    }
-    const timestampPayload = results.find(isTimestamp)
-    if (!timestampPayload) {
-      console.log(`${moduleName}: Could not find ${TimestampSchema} Payload (${timestampHash})`)
-      return undefined
-    }
-    return [bw, imageThumbnailPayload, timestampPayload]
+  protected static async getPayloadsInBoundWitness(bw: BoundWitness, archivist: ArchivistInstance): Promise<IndexCandidate[] | undefined> {
+    const indexes = payload_schemas.map((schema) => bw.payload_schemas?.findIndex((s) => s === schema))
+    const hashes = indexes.map((index) => bw.payload_hashes?.[index])
+    const results = await archivist.get(hashes)
+    const filteredResults = indexCandidateIdentityFunctions.map((is) => results.find(is))
+    if (filteredResults.some((f) => f === undefined)) return undefined
+    const indexCandidates: IndexCandidate[] = filteredResults.filter(exists) as IndexCandidate[]
+    return [bw, ...indexCandidates]
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailStateToIndexCandidateDivinerResponse> {
@@ -114,13 +99,15 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     if (batch.length === 0) return [lastState]
     // Get source data
     const sourceArchivist = await this.getArchivistForStore()
-    const indexCandidates: [BoundWitness, ImageThumbnail, TimeStamp][] = (
+    const indexCandidates: IndexCandidate[] = (
       await Promise.all(
         batch.filter(isBoundWitness).map((bw) => ImageThumbnailStateToIndexCandidateDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)),
       )
-    ).filter(exists)
+    )
+      .filter(exists)
+      .flat()
     const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: offset + batch.length } }
-    return [nextState, ...indexCandidates.flat()]
+    return [nextState, ...indexCandidates]
   }
   /**
    * Retrieves the archivist for the payloadStore

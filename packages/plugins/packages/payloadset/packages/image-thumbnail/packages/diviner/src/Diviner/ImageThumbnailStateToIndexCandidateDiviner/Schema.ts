@@ -1,0 +1,2 @@
+export type ImageThumbnailStateToIndexCandidateDivinerSchema = ''
+export const ImageThumbnailStateToIndexCandidateDivinerSchema: ImageThumbnailStateToIndexCandidateDivinerSchema = ''

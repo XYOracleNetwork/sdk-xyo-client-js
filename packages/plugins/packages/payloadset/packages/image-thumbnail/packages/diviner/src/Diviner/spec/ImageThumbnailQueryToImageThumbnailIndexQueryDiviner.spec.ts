@@ -125,11 +125,19 @@ describe('ImageThumbnailQueryToImageThumbnailIndexQueryDiviner', () => {
   })
   describe('divine', () => {
     describe('with single query', () => {
-      it.each(cases)('transforms', async (query, expected) => {
+      it.each(cases)('transforms query', async (query, expected) => {
         const results = await diviner.divine([query])
         const actual = results.filter(isImageThumbnailResultQuery)
         expect(actual).toBeArrayOfSize(1)
         expect(actual?.[0]).toEqual(expected)
+      })
+    })
+    describe('with multiple queries', () => {
+      it('transforms queries', async () => {
+        const results = await diviner.divine(queries)
+        const actual = results.filter(isImageThumbnailResultQuery)
+        expect(actual).toBeArrayOfSize(expected.length)
+        expect(actual).toEqual(expected)
       })
     })
   })

@@ -11,7 +11,6 @@ import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 
 describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner', () => {
-  const timestamp = 1234567890
   const queries: ImageThumbnailDivinerQuery[] = [
     {
       schema: ImageThumbnailDivinerQuerySchema,

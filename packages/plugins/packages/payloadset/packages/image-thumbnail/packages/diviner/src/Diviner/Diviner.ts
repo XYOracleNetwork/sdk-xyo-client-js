@@ -76,13 +76,15 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
    * to a transaction completion in a database and should only be called
    * when results have been successfully persisted to the appropriate
    * external stores.
-   * @param state The state to commit
+   * @param nextState The state to commit
    */
-  protected async commitState(state: ModuleState<ImageThumbnailDivinerState>) {
-    this._lastState = state
+  protected async commitState(nextState: ModuleState<ImageThumbnailDivinerState>) {
+    // Don't commit state if no state has changed
+    if (nextState.state.offset === this._lastState?.state.offset) return
+    this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
-    const [bw] = await new BoundWitnessBuilder().payload(state).witness(this.account).build()
-    await archivist.insert([bw, state])
+    const [bw] = await new BoundWitnessBuilder().payload(nextState).witness(this.account).build()
+    await archivist.insert([bw, nextState])
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {

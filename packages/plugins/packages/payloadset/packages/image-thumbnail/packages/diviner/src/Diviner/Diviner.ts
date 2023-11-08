@@ -28,6 +28,7 @@ import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
 import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
 import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
+import { ImageThumbnailStateToIndexCandidateDiviner } from './ImageThumbnailStateToIndexCandidateDiviner'
 import { IndexingDivinerStage } from './IndexingDivinerStage'
 
 type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
@@ -181,8 +182,12 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   protected async getIndexingDivinerStage(transform: IndexingDivinerStage) {
     // TODO: Actually get these diviners from config
     switch (transform) {
-      case 'stateToIndexCandidateDiviner':
-        throw new Error('Diviner not implemented yet')
+      case 'stateToIndexCandidateDiviner': {
+        const payloadStore = this.config.thumbnailStore
+        const schema = DivinerConfigSchema
+        const config = { payloadStore, schema }
+        return await ImageThumbnailStateToIndexCandidateDiviner.create({ config })
+      }
       case 'indexCandidateToIndexDiviner':
         return await ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner.create()
       case 'divinerQueryToIndexQueryDiviner':

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@xylabs/assert": "^2.13.3",
     "@xylabs/eth-address": "^2.13.3",
@@ -75,5 +76,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.78.2"
+  "version": "2.78.3"
 }

@@ -28,7 +28,7 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
-    "@types/url-parse": "^1.4.10",
+    "@types/url-parse": "^1.4.11",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",
     "@xyo-network/account": "workspace:~",
@@ -77,5 +77,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.78.2"
+  "version": "2.78.3"
 }

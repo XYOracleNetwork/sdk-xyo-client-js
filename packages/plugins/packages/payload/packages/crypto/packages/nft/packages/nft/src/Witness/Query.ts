@@ -5,7 +5,6 @@ import { NftWitnessQuerySchema } from './Schema'
 export type NftWitnessQuery = Payload<
   {
     address?: string
-    chainId?: number
     /**
      * The maximum number of NFTs to return. Configurable to prevent
      * large wallets from exhausting Infura API credits.

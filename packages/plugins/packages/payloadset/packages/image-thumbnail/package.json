@@ -32,9 +32,9 @@
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
-    "@types/fluent-ffmpeg": "^2.1.23",
-    "@types/gm": "^1.25.3",
-    "@types/hasbin": "^1.2.1",
+    "@types/fluent-ffmpeg": "^2.1.24",
+    "@types/gm": "^1.25.4",
+    "@types/hasbin": "^1.2.2",
     "@xylabs/ts-scripts-yarn3": "^3.1.13",
     "@xylabs/tsconfig": "^3.1.13",
     "@xyo-network/account": "workspace:~",
@@ -77,5 +77,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.78.2"
+  "version": "2.78.3"
 }

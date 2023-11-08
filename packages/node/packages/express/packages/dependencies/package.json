@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.78.2",
+  "version": "2.78.3",
   "description": "XYO Express Node Dependencies",
   "sideeffects": false,
   "engines": {
@@ -31,7 +31,7 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.441.0",
+    "@aws-sdk/client-secrets-manager": "^3.445.0",
     "@xylabs/assert": "^2.13.3",
     "@xylabs/exists": "^2.13.3",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",

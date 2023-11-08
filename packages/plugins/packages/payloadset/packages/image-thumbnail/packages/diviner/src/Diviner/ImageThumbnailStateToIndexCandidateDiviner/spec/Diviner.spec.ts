@@ -2,15 +2,16 @@ import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ImageThumbnail, isImageThumbnailResultIndex } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnail, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { isModuleState, ModuleFactoryLocator, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDivinerState } from '../../ImageThumbnailDivinerState'
 import { ImageThumbnailStateToIndexCandidateDiviner } from '../Diviner'
@@ -116,6 +117,33 @@ describe('ImageThumbnailStateToIndexCandidateDiviner', () => {
         const state = results.find(isModuleState<ImageThumbnailDivinerState>)
         expect(state).toBeDefined()
         expect(state?.state.offset).toBe(0)
+      })
+    })
+    describe('with previous state', () => {
+      const states: ModuleState<ImageThumbnailDivinerState>[] = [
+        { schema: ModuleStateSchema, state: { offset: 0 } },
+        // { schema: ModuleStateSchema, state: { offset: witnessedThumbnails.length - 2 } },
+      ]
+      it.each(states)('return next state and batch results', async (lastState) => {
+        const results = await sut.divine([lastState])
+
+        // Validate expected results length
+        const expectedIndividualResults = witnessedThumbnails.length - lastState.state.offset
+        const expectedResults = expectedIndividualResults * 3 + 1
+        expect(results.length).toBe(expectedResults)
+
+        // Validate expected state
+        const nextState = results.find(isModuleState<ImageThumbnailDivinerState>)
+        expect(nextState).toBeDefined()
+        expect(nextState?.state.offset).toBe(witnessedThumbnails.length)
+
+        // Validate expected individual results
+        const bws = results.filter(isBoundWitness)
+        expect(bws).toBeArrayOfSize(expectedIndividualResults)
+        const images = results.filter(isImageThumbnail)
+        expect(images).toBeArrayOfSize(expectedIndividualResults)
+        const timestamps = results.filter(isTimestamp)
+        expect(timestamps).toBeArrayOfSize(expectedIndividualResults)
       })
     })
   })

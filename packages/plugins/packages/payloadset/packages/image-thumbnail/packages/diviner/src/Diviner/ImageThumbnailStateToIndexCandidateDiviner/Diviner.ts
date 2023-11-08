@@ -70,7 +70,7 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
   }
 
   get payloadDivinerLimit() {
-    return this.config.payloadDivinerLimit ?? 1_0000
+    return this.config.payloadDivinerLimit ?? 1_000
   }
 
   protected static async getPayloadsInBoundWitness(bw: BoundWitness, archivist: ArchivistInstance): Promise<IndexCandidate[] | undefined> {

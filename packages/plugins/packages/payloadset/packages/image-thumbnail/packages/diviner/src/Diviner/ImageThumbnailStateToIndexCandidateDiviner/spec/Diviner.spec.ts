@@ -120,10 +120,10 @@ describe('ImageThumbnailStateToIndexCandidateDiviner', () => {
       })
     })
     describe('with previous state', () => {
-      const states: ModuleState<ImageThumbnailDivinerState>[] = [
-        { schema: ModuleStateSchema, state: { offset: 0 } },
-        // { schema: ModuleStateSchema, state: { offset: witnessedThumbnails.length - 2 } },
-      ]
+      // Test across all offsets
+      const states: ModuleState<ImageThumbnailDivinerState>[] = witnessedThumbnails.map((_, offset) => {
+        return { schema: ModuleStateSchema, state: { offset } }
+      })
       it.each(states)('return next state and batch results', async (lastState) => {
         const results = await sut.divine([lastState])
 

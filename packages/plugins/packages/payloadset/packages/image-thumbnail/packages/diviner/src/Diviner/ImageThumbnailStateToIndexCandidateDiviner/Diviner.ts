@@ -119,7 +119,7 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
         batch.filter(isBoundWitness).map((bw) => ImageThumbnailStateToIndexCandidateDiviner.getPayloadsInBoundWitness(bw, sourceArchivist)),
       )
     ).filter(exists)
-    const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: batch.length } }
+    const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: offset + batch.length } }
     return [nextState, ...indexCandidates.flat()]
   }
   /**

@@ -37,7 +37,12 @@ export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
 /**
  * The required payload_schemas within BoundWitnesses to identify index candidates
  */
-const payload_schemas = [ImageThumbnailSchema, TimestampSchema]
+const payload_schemas = [ImageThumbnailSchema, TimestampSchema] as const
+
+/**
+ * The identity functions to verify the payload_schemas within BoundWitnesses conform to the required payload_schemas
+ */
+// const payloadSchemaIdentityFunctions = [isImageThumbnail, isTimestamp] as const
 
 /**
  * The default order to search Bound Witnesses to identify index candidates
@@ -64,6 +69,13 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     bw: BoundWitness,
     archivist: ArchivistInstance,
   ): Promise<[BoundWitness, ImageThumbnail, TimeStamp] | undefined> {
+    // TODO: Simplify & make more generic for reuse
+    // const indexes = payload_schemas.map((schema) => bw.payload_schemas?.findIndex((s) => s === schema))
+    // const hashes = indexes.map((index) => bw.payload_hashes?.[index])
+    // const payloads = await archivist.get(hashes)
+    // const foo = payloadSchemaIdentityFunctions.map((is) => payloads.find(is))
+    // if (foo.some((f) => f === undefined)) return undefined
+    // return [bw, ...foo]
     const imageThumbnailIndex = bw.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
     const timestampIndex = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
     if (imageThumbnailIndex === -1 || timestampIndex === -1) return undefined

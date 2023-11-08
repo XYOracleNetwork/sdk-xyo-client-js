@@ -129,6 +129,7 @@ describe('ImageThumbnailStateToIndexCandidateDiviner', () => {
 
         // Validate expected results length
         const expectedIndividualResults = witnessedThumbnails.length - lastState.state.offset
+        // expectedIndividualResults * 3 [BW, ImageThumbnail, TimeStamp] + 1 [ModuleState]
         const expectedResults = expectedIndividualResults * 3 + 1
         expect(results.length).toBe(expectedResults)
 

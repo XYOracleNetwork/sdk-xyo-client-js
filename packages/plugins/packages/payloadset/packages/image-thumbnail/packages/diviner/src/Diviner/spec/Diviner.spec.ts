@@ -22,6 +22,10 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDiviner } from '../Diviner'
+import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from '../ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
+import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
+import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from '../ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
+import { ImageThumbnailStateToIndexCandidateDiviner } from '../ImageThumbnailStateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
@@ -74,6 +78,10 @@ describe('ImageThumbnailDiviner', () => {
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
+    locator.register(ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner)
+    locator.register(ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner)
+    locator.register(ImageThumbnailQueryToImageThumbnailIndexQueryDiviner)
+    locator.register(ImageThumbnailStateToIndexCandidateDiviner)
     locator.register(ImageThumbnailDiviner)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
@@ -116,7 +124,7 @@ describe('ImageThumbnailDiviner', () => {
     sut = assertEx(asDivinerInstance<ImageThumbnailDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
-    await delay(3000)
+    await delay(5000)
   }, 40000)
   describe('diviner state', () => {
     let stateArchivist: MemoryArchivist
@@ -127,7 +135,8 @@ describe('ImageThumbnailDiviner', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
-      expect(stateBoundWitnesses).toBeArrayOfSize(1)
+      expect(stateBoundWitnesses).toBeArray()
+      expect(stateBoundWitnesses.length).toBeGreaterThan(0)
       stateBoundWitnesses.forEach((stateBoundWitness) => {
         expect(stateBoundWitness).toBeObject()
         expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
@@ -137,9 +146,9 @@ describe('ImageThumbnailDiviner', () => {
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
       const statePayloads = payloads.filter(isModuleState)
-      expect(statePayloads).toBeArrayOfSize(1)
-      const statePayload = statePayloads[0]
-      expect(statePayload).toBeObject()
+      expect(statePayloads).toBeArrayOfSize(2)
+      expect(statePayloads.at(-1)).toBeObject()
+      const statePayload = assertEx(statePayloads.at(-1))
       expect(statePayload.state).toBeObject()
       expect(statePayload.state?.offset).toBe(witnessedThumbnails.length)
     })

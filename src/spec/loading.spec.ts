@@ -5,8 +5,8 @@ import * as Sdk from '@xyo-network/sdk'
 
 describe('Loading Client SDKs', () => {
   test('Monolithic', () => {
-    Object.entries(Modules).forEach(([key, value]) => console.log(`Modules[${key}]: ${typeof value}`))
-    Object.entries(Plugins).forEach(([key, value]) => console.log(`Plugins[${key}]: ${typeof value}`))
-    Object.entries(Sdk).forEach(([key, value]) => console.log(`Sdk[${key}]: ${typeof value}`))
+    Object.entries(Modules).map(([key, value]) => `Modules[${key}]: ${typeof value}`)
+    Object.entries(Plugins).map(([key, value]) => `Plugins[${key}]: ${typeof value}`)
+    Object.entries(Sdk).map(([key, value]) => `Sdk[${key}]: ${typeof value}`)
   })
 })

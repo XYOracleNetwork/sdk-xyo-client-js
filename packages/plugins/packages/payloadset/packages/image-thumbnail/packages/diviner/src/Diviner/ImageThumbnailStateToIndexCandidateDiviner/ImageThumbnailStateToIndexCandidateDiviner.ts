@@ -35,6 +35,16 @@ export type ImageThumbnailStateToIndexCandidateDivinerResponse = [
 ]
 
 /**
+ * The required payload_schemas within BoundWitnesses to identify index candidates
+ */
+const payload_schemas = [ImageThumbnailSchema, TimestampSchema]
+
+/**
+ * The default order to search Bound Witnesses to identify index candidates
+ */
+const order = 'asc'
+
+/**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
 export class ImageThumbnailStateToIndexCandidateDiviner<
@@ -74,18 +84,16 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailStateToIndexCandidateDivinerResponse> {
+    // Retrieve the last state
     const lastState = payloads.find(isModuleState<ImageThumbnailDivinerState>)
+    // If there is no last state, start from the beginning
     if (!lastState) return [{ schema: ModuleStateSchema, state: { offset: 0 } }]
+    // Otherwise, get the last offset
     const { offset } = lastState.state
-    // Get next batch of results
+    // Get next batch of results starting from the offset
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-      .fields({
-        limit: this.payloadDivinerLimit,
-        offset,
-        order: 'asc',
-        payload_schemas: [ImageThumbnailSchema, TimestampSchema],
-      })
+      .fields({ limit: this.payloadDivinerLimit, offset, order, payload_schemas })
       .build()
     const batch = await boundWitnessDiviner.divine([query])
     if (batch.length === 0) return [lastState]
@@ -100,9 +108,8 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
     return [nextState, ...indexCandidates.flat()]
   }
   /**
-   * Retrieves the archivist for the specified store
-   * @param store The store to retrieve the archivist for
-   * @returns The archivist for the specified store
+   * Retrieves the archivist for the payloadStore
+   * @returns The archivist for the payloadStore
    */
   protected async getArchivistForStore() {
     const name = assertEx(this.config?.payloadStore?.archivist, () => `${moduleName}: Config for payloadStore.archivist not specified`)
@@ -111,9 +118,8 @@ export class ImageThumbnailStateToIndexCandidateDiviner<
   }
 
   /**
-   * Retrieves the BoundWitness Diviner for the specified store
-   * @param store The store to retrieve the BoundWitness Diviner for
-   * @returns The BoundWitness Diviner for the specified store
+   * Retrieves the BoundWitness Diviner for the payloadStore
+   * @returns The BoundWitness Diviner for the payloadStore
    */
   protected async getBoundWitnessDivinerForStore() {
     const name = assertEx(

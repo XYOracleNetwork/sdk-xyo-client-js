@@ -22,9 +22,6 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
-import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from './ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
-import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
-import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
 import { IndexingDivinerStage } from './IndexingDivinerStage'
 
 type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
@@ -44,7 +41,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
   private _pollId?: string | number | NodeJS.Timeout
 
   get payloadDivinerLimit() {
-    return this.config.payloadDivinerLimit ?? 1_0000
+    return this.config.payloadDivinerLimit ?? 1_000
   }
 
   get pollFrequency() {

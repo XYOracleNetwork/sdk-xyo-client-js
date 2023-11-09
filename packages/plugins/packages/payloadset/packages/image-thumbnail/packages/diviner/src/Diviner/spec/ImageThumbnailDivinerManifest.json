@@ -129,6 +129,12 @@
           },
           {
             "config": {
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",

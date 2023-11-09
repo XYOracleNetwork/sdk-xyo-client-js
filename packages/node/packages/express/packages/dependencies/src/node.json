@@ -706,6 +706,12 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/2'/14'",
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",

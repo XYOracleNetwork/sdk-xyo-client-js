@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
@@ -24,25 +24,25 @@ describe('MultiNodeConfiguration', () => {
   let rightWitness: WitnessInstance
 
   beforeAll(async () => {
-    primaryNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'primaryNode', schema: NodeConfigSchema } })
+    primaryNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'primaryNode', schema: NodeConfigSchema } })
     primaryArchivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'primaryArchivist', schema: MemoryArchivist.configSchema },
     })
     await primaryNode.register(primaryArchivist)
     await primaryNode.attach(primaryArchivist.address, true)
 
-    rightNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'rightNode', schema: NodeConfigSchema } })
+    rightNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'rightNode', schema: NodeConfigSchema } })
     rightInternalArchivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'rightInternalArchivist', schema: MemoryArchivist.configSchema },
     })
     rightExternalArchivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'archivist', schema: MemoryArchivist.configSchema },
     })
     rightWitness = await IdWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema },
     })
     await rightNode.register(rightInternalArchivist)
@@ -52,21 +52,21 @@ describe('MultiNodeConfiguration', () => {
     await rightNode.register(rightWitness)
     await rightNode.attach(rightWitness.address, true)
 
-    leftNode = await MemoryNode.create({ account: await HDWallet.random(), config: { name: 'leftNode', schema: NodeConfigSchema } })
+    leftNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'leftNode', schema: NodeConfigSchema } })
     leftInternalArchivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'leftInternalArchivist', schema: MemoryArchivist.configSchema },
     })
     leftInternalArchivist2 = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.configSchema },
     })
     leftExternalArchivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'archivist', schema: MemoryArchivist.configSchema },
     })
     leftDiviner = await AddressHistoryDiviner.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { address: leftNode.address, name: 'leftDiviner', schema: AddressHistoryDivinerConfigSchema },
     })
     await leftNode.register(leftInternalArchivist)

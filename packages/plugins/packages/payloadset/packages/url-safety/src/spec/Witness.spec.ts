@@ -1,5 +1,5 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ModuleError } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload } from '@xyo-network/url-safety-payload-plugin'
@@ -11,7 +11,7 @@ describeIf(process.env.GOOGLE_SAFEBROWSING_KEY)('UrlSafetyWitness', () => {
   const schema = UrlSchema
   beforeAll(async () => {
     witness = await UrlSafetyWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       google: { safeBrowsing: { key: process.env.GOOGLE_SAFEBROWSING_KEY } },
     })
   })

@@ -3,7 +3,7 @@
  */
 
 import { delay } from '@xylabs/delay'
-import { Account, HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -20,7 +20,7 @@ describe('Various StorageArchivist types', () => {
       'local',
       (async () =>
         await StorageArchivist.create({
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' },
         }))(),
     ],
@@ -28,7 +28,7 @@ describe('Various StorageArchivist types', () => {
       'session',
       (async () =>
         await StorageArchivist.create({
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session' },
         }))(),
     ],
@@ -36,7 +36,7 @@ describe('Various StorageArchivist types', () => {
       'page',
       (async () =>
         await StorageArchivist.create({
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page' },
         }))(),
     ],
@@ -103,8 +103,8 @@ test('Archivist passed account', async () => {
 })
 
 test('Archivist Parent Reads', async () => {
-  const parent = await MemoryArchivist.create({ account: await HDWallet.random() })
-  const memoryNode = await MemoryNode.create({ account: await HDWallet.random() })
+  const parent = await MemoryArchivist.create({ account: Account.randomSync() })
+  const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
 
   expect(isModuleObject(parent)).toBeTrue()
 
@@ -118,7 +118,7 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.attach(parent.address, true)
 
   const storage = await StorageArchivist.create({
-    account: await HDWallet.random(),
+    account: Account.randomSync(),
     config: {
       namespace: 'test',
       parents: { read: [parent.address] },

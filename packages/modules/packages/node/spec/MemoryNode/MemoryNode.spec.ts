@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { delay } from '@xylabs/delay'
-import { Account, HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist'
@@ -73,7 +73,7 @@ describe('MemoryNode', () => {
   })
   describe('register', () => {
     it('registers module', async () => {
-      const module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      const module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
     })
   })
@@ -87,7 +87,7 @@ describe('MemoryNode', () => {
     describe('with modules registered', () => {
       let module: ModuleInstance
       beforeEach(async () => {
-        module = await MemoryArchivist.create({ account: await HDWallet.random() })
+        module = await MemoryArchivist.create({ account: Account.randomSync() })
         await node.register(module)
       })
       it('lists addresses of registered modules', () => {
@@ -100,7 +100,7 @@ describe('MemoryNode', () => {
   describe('attach', () => {
     let module: ModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
     })
     it('attaches module', async () => {
@@ -140,7 +140,7 @@ describe('MemoryNode', () => {
   describe('attached', () => {
     let module: ModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
     })
     describe('with no modules attached', () => {
@@ -161,7 +161,7 @@ describe('MemoryNode', () => {
   describe('detach', () => {
     let module: ModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
       await node.attach(module.address, true)
     })
@@ -175,7 +175,7 @@ describe('MemoryNode', () => {
   describe('registeredModules', () => {
     let module: ModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      module = await MemoryArchivist.create({ account: Account.randomSync() })
     })
     describe('with no modules registered', () => {
       it('returns empty array', () => {
@@ -194,7 +194,7 @@ describe('MemoryNode', () => {
   })
   describe('unregister', () => {
     it('un-registers module', async () => {
-      const module = await MemoryArchivist.create({ account: await HDWallet.random() })
+      const module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
       expect(node.registeredModules()).toContain(module)
       await node.unregister(module)
@@ -269,9 +269,9 @@ describe('MemoryNode', () => {
         })
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const memoryNode = await MemoryNode.create({ account: await HDWallet.random() })
-        const archivist1 = await MemoryArchivist.create({ account: await HDWallet.random() })
-        const archivist2 = await MemoryArchivist.create({ account: await HDWallet.random() })
+        const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
+        const archivist1 = await MemoryArchivist.create({ account: Account.randomSync() })
+        const archivist2 = await MemoryArchivist.create({ account: Account.randomSync() })
         await memoryNode.register(archivist1)
         await memoryNode.attach(archivist1.address, true)
         await memoryNode.register(archivist2)
@@ -311,7 +311,7 @@ describe('MemoryNode', () => {
     })
     describe('node with child modules', () => {
       it('describes node and child modules', async () => {
-        const memoryNode = await MemoryNode.create({ account: await HDWallet.random() })
+        const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
         const modules = await Promise.all([
           await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
@@ -332,7 +332,7 @@ describe('MemoryNode', () => {
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
-        node = await MemoryNode.create({ account: await HDWallet.random() })
+        node = await MemoryNode.create({ account: Account.randomSync() })
         const attachEvents: Module[] = []
         node.on('moduleAttached', (args) => {
           const { module } = args as ModuleAttachedEventArgs

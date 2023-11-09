@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
@@ -11,22 +11,22 @@ describe('AdhocWitness', () => {
     describe('with payload supplied to observe', () => {
       const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
       it('uses payload schema', async () => {
-        const witness = await AdhocWitness.create({ account: await HDWallet.random(), config })
+        const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
         const observation = await witness.observe([observed])
         expect(observation).toBeArrayOfSize(2)
         expect(observation?.[0]?.schema).toBe(payload.schema)
         expect(observation?.[1]?.schema).toBe(observed.schema)
       })
       it('manifest [direct]', async () => {
-        const witness = await AdhocWitness.create({ account: await HDWallet.random(), config })
+        const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
         const manifest = await witness.manifest()
         expect(manifest).toBeDefined()
         expect(manifest.config.schema).toBe(AdhocWitnessConfigSchema)
         expect(manifest.config.name).toBe('AdhocWitness')
       })
       it('manifest [indirect]', async () => {
-        const witness = await AdhocWitness.create({ account: await HDWallet.random(), config })
-        const wrapper = ModuleWrapper.wrap(witness, await HDWallet.random())
+        const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
+        const wrapper = ModuleWrapper.wrap(witness, Account.randomSync())
         const manifest = await wrapper.manifest()
         expect(manifest).toBeDefined()
         expect(manifest.config.schema).toBe(AdhocWitnessConfigSchema)

@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 
 import { DomainWitnessConfigSchema } from '../Config'
 import { DomainWitness } from '../Witness'
@@ -6,7 +6,7 @@ import { DomainWitness } from '../Witness'
 describe('DomainConfigWitness', () => {
   test('valid-instantiation', async () => {
     const witness = await DomainWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: {
         domain: 'xyo.network',
         schema: DomainWitnessConfigSchema,

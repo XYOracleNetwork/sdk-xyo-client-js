@@ -1,6 +1,6 @@
 import { delay } from '@xylabs/delay'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -19,9 +19,9 @@ describe('SentinelRunner', () => {
   let config: SentinelConfig
 
   beforeEach(async () => {
-    const node = (await MemoryNode.create({ account: await HDWallet.random() })) as MemoryNode
+    const node = (await MemoryNode.create({ account: Account.randomSync() })) as MemoryNode
     const witnessModules: AbstractWitness[] = [
-      await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
+      await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
     ]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {
@@ -37,7 +37,7 @@ describe('SentinelRunner', () => {
       tasks: witnesses.map((module) => ({ module })),
     }
 
-    sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
+    sentinel = (await MemorySentinel.create({ account: Account.randomSync(), config })) as MemorySentinel
     await node.register(sentinel)
     await node.attach(sentinel.address)
   })

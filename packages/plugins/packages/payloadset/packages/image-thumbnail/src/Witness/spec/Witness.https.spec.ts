@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
@@ -16,7 +16,7 @@ const describeIfHasBin = (bin: string) => (hasbin.sync(bin) ? describe : describ
 describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness
   beforeAll(async () => {
-    witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
+    witness = await ImageThumbnailWitness.create({ account: Account.randomSync() })
   })
   it('HTTPS [medium/avif]', async () => {
     const httpsPayload: UrlPayload = {
@@ -79,10 +79,6 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
       url: 'https://lh3.googleusercontent.com/N3uFgyMt0xOew9YjD8GiOLQEbbQ2Y7WJOqoHdUdZZSljKrbuKNt6VGkAByzyPAI80y81tELH6tKatSZvFXKfcbBdm6GfCyZhFWxgOTw',
     }
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
-    console.log(`GIF-SourceHash: ${result[0].sourceHash}`)
-    console.log(`GIF-Hash: ${await PayloadHasher.hashAsync(result[0])}`)
-    console.log(`GIF-DataHash: ${await PayloadHasher.hashAsync({ url: result[0].url })}`)
-    console.log(`GIF-Result: ${JSON.stringify(result[0], null, 2)}`)
     expect(result.length).toBe(1)
     expect(result[0].url?.length).toBeLessThan(64000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)

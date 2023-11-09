@@ -1,5 +1,5 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { PayloadDivinerConfigSchema, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { PayloadWithMeta } from '@xyo-network/node-core-model'
@@ -24,7 +24,7 @@ describeIf(hasMongoDBConfig())('MongoDBPayloadDiviner', () => {
   let sut: MongoDBPayloadDiviner
   beforeAll(async () => {
     sut = await MongoDBPayloadDiviner.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { schema: PayloadDivinerConfigSchema },
       logger,
     })

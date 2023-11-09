@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { CryptoMarketAssetPayload, CryptoMarketAssetSchema } from '@xyo-network/crypto-asset-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -16,7 +16,7 @@ describe('Diviner', () => {
     ['no inputs', 'empty observation', []],
   ]
   test.each(cases)('with %s returns %s', async (_input: string, _expected: string, data: Payload[]) => {
-    const diviner = await CryptoMarketAssetDiviner.create({ account: await HDWallet.random() })
+    const diviner = await CryptoMarketAssetDiviner.create({ account: Account.randomSync() })
     const payloads = await diviner.divine(data)
     expect(payloads).toBeArray()
     expect(payloads.length).toBe(1)

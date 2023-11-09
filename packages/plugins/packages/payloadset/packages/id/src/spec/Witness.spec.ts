@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { IdPayload, IdSchema } from '@xyo-network/id-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -17,14 +17,14 @@ describe('IdWitness', () => {
       }
       describe('with payloads supplied to observe', () => {
         it('without salt uses config salt', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random(), config })
+          const witness = await IdWitness.create({ account: Account.randomSync(), config })
           const observations = (await witness.observe()) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations
           expect(observation.salt).toBe(witness.config.salt)
         })
         it('with salt uses payload salt', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random(), config })
+          const witness = await IdWitness.create({ account: Account.randomSync(), config })
           const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema }] as IdPayload[])) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations
@@ -33,7 +33,7 @@ describe('IdWitness', () => {
       })
       describe('with no payloads supplied to observe', () => {
         it('uses config salt', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random(), config })
+          const witness = await IdWitness.create({ account: Account.randomSync(), config })
           const observations = (await witness.observe()) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations
@@ -44,14 +44,14 @@ describe('IdWitness', () => {
     describe('with no config', () => {
       describe('with payloads supplied to observe', () => {
         it('without salt uses random numeric string', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random() })
+          const witness = await IdWitness.create({ account: Account.randomSync() })
           const observations = (await witness.observe()) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations
           expect(parseInt(observation.salt)).toBeInteger()
         })
         it('with salt uses payload salt', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random() })
+          const witness = await IdWitness.create({ account: Account.randomSync() })
           const observations = (await witness.observe([{ salt: payloadSalt, schema: IdSchema } as Payload])) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations
@@ -60,7 +60,7 @@ describe('IdWitness', () => {
       })
       describe('with no payloads supplied to observe', () => {
         it('uses random numeric string', async () => {
-          const witness = await IdWitness.create({ account: await HDWallet.random() })
+          const witness = await IdWitness.create({ account: Account.randomSync() })
           const observations = (await witness.observe()) as IdPayload[]
           await validateObservationShape(observations)
           const [observation] = observations

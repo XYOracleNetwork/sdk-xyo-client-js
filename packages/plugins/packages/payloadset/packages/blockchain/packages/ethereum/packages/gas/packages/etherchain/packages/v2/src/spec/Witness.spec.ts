@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { EthereumGasEtherchainV2Payload, EthereumGasEtherchainV2Schema } from '@xyo-network/etherchain-ethereum-gas-v2-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -8,7 +8,7 @@ import { EtherchainEthereumGasWitnessV2 } from '../Witness'
 describe('EtherchainEthereumGasWitnessV2', () => {
   test('returns observation', async () => {
     const sut = await EtherchainEthereumGasWitnessV2.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { schema: EthereumGasEtherchainV2WitnessConfigSchema },
     })
     const [actual] = (await sut.observe()) as EthereumGasEtherchainV2Payload[]
@@ -22,7 +22,7 @@ describe('EtherchainEthereumGasWitnessV2', () => {
     expect(await answerWrapper.getValid()).toBe(true)
   })
   test('returns observation [no config]', async () => {
-    const sut = await EtherchainEthereumGasWitnessV2.create({ account: await HDWallet.random() })
+    const sut = await EtherchainEthereumGasWitnessV2.create({ account: Account.randomSync() })
     const [actual] = (await sut.observe()) as EthereumGasEtherchainV2Payload[]
     expect(actual).toBeObject()
     expect(actual.code).toBeNumber()

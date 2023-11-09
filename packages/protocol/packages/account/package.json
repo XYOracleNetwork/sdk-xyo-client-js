@@ -32,8 +32,8 @@
     "@types/elliptic": "^6.4.17",
     "@types/randombytes": "^2.0.3",
     "@types/sha.js": "^2.4.4",
-    "@xylabs/ts-scripts-yarn3": "^3.1.13",
-    "@xylabs/tsconfig": "^3.1.13",
+    "@xylabs/ts-scripts-yarn3": "^3.1.21",
+    "@xylabs/tsconfig": "^3.1.21",
     "typescript": "^5.2.2"
   },
   "exports": {

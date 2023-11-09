@@ -79,6 +79,7 @@ export const getNftsOwnedByAddress = async (
     config: { schema: ApiGraphqlWitnessConfigSchema, timeout },
     endpoint,
   })
+
   const query: GraphqlQuery = {
     query: `query Query {
       ethereum {
@@ -102,6 +103,7 @@ export const getNftsOwnedByAddress = async (
     schema: GraphqlQuerySchema,
     variables: {},
   }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const results = (await witness.observe([query])) as GraphqlResult<any>[]
   const witnessResult = assertEx(results.at(0), 'ApiGraphqlWitness failed')

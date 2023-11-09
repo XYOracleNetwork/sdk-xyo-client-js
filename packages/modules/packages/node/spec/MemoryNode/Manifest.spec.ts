@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
@@ -7,19 +7,19 @@ import { MemoryNode } from '../../src'
 describe('MemoryNode', () => {
   it('Creates MemoryNode from Manifest', async () => {
     const memoryNode = await MemoryNode.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'MemoryNode', schema: 'network.xyo.node.config' },
     })
     const privateWitnesses = [
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { name: 'PrivateWitness1', schema: AdhocWitnessConfigSchema } }),
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { name: 'PrivateWitness2', schema: AdhocWitnessConfigSchema } }),
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { name: 'PrivateWitness3', schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { name: 'PrivateWitness1', schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { name: 'PrivateWitness2', schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { name: 'PrivateWitness3', schema: AdhocWitnessConfigSchema } }),
     ]
     const publicWitnesses = [
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { name: 'PublicWitness1', schema: AdhocWitnessConfigSchema } }),
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { name: 'PublicWitness2', schema: AdhocWitnessConfigSchema } }),
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { schema: AdhocWitnessConfigSchema } }),
-      await AdhocWitness.create({ account: await HDWallet.random(), config: { schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { name: 'PublicWitness1', schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { name: 'PublicWitness2', schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } }),
     ]
     await Promise.all(
       publicWitnesses.map(async (witness) => {

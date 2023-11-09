@@ -72,7 +72,7 @@ describe('Erc721Sentinel', () => {
     const quickNodeUri = process.env.QUICKNODE_WSS_URI
     const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, 'homestead') : undefined
 
-    const provider = infuraWebsocketProvider ?? infuraProvider ?? infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
+    const provider = infuraProvider ?? infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
     return provider
   }
 

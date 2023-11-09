@@ -1,5 +1,5 @@
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
@@ -19,15 +19,15 @@ import { SentinelWrapper } from '../Wrapper'
 
 describe('Sentinel', () => {
   test('all [simple sentinel report]', async () => {
-    const node = await MemoryNode.create({ account: await HDWallet.random() })
-    const archivist = await MemoryArchivist.create({ account: await HDWallet.random() })
+    const node = await MemoryNode.create({ account: Account.randomSync() })
+    const archivist = await MemoryArchivist.create({ account: Account.randomSync() })
     await node.register(archivist)
     await node.attach(archivist.address)
 
     const witnesses: AbstractWitness[] = [
-      await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
+      await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
       await NodeSystemInfoWitness.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: {
           nodeValues: {
             osInfo: '*',
@@ -53,7 +53,7 @@ describe('Sentinel', () => {
       tasks: witnesses.map((witness) => ({ module: witness.address })),
     }
 
-    const sentinel = (await MemorySentinel.create({ account: await HDWallet.random(), config })) as MemorySentinel
+    const sentinel = (await MemorySentinel.create({ account: Account.randomSync(), config })) as MemorySentinel
     await node.register(sentinel)
     await node.attach(sentinel.address)
 
@@ -82,7 +82,7 @@ describe('Sentinel', () => {
       }
       beforeEach(async () => {
         const paramsA = {
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: {
             payload: { nonce: Date.now() * 8, schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
@@ -90,7 +90,7 @@ describe('Sentinel', () => {
           },
         }
         const paramsB = {
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: {
             payload: { nonce: Date.now() * 9, schema: 'network.xyo.test' },
             schema: AdhocWitnessConfigSchema,
@@ -99,11 +99,11 @@ describe('Sentinel', () => {
         }
         witnessA = (await AdhocWitness.create(paramsA)) as AdhocWitness
         witnessB = (await AdhocWitness.create(paramsB)) as AdhocWitness
-        archivistA = await MemoryArchivist.create({ account: await HDWallet.random() })
-        archivistB = await MemoryArchivist.create({ account: await HDWallet.random() })
+        archivistA = await MemoryArchivist.create({ account: Account.randomSync() })
+        archivistB = await MemoryArchivist.create({ account: Account.randomSync() })
       })
       it('config', async () => {
-        const node = await MemoryNode.create({ account: await HDWallet.random() })
+        const node = await MemoryNode.create({ account: Account.randomSync() })
         await Promise.all(
           [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
             await node.register(module)
@@ -111,7 +111,7 @@ describe('Sentinel', () => {
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
-          account: await HDWallet.random(),
+          account: Account.randomSync(),
           config: {
             archiving: {
               archivists: [archivistA.address, archivistB.address],
@@ -130,7 +130,7 @@ describe('Sentinel', () => {
         await node.register(sentinel)
         await node.attach(sentinel.address)
         //using a wrapper to trigger archiving
-        const wrapper = SentinelWrapper.wrap(sentinel, await HDWallet.random())
+        const wrapper = SentinelWrapper.wrap(sentinel, Account.randomSync())
         const result = await wrapper.report()
         assertPanelReport(result)
         await assertArchivistStateMatchesPanelReport(result, [archivistA, archivistB])

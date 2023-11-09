@@ -1,5 +1,5 @@
 /* eslint-disable import/no-internal-modules */
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
@@ -12,10 +12,10 @@ describe('ModuleResolver', () => {
   let resolver: CompositeModuleResolver
   beforeAll(async () => {
     archivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'memory-archivist', schema: MemoryArchivist.configSchema },
     })
-    witness = await IdWitness.create({ account: await HDWallet.random(), config: { salt: 'test', schema: IdWitnessConfigSchema } })
+    witness = await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } })
     resolver = new CompositeModuleResolver()
     resolver.add(archivist)
     resolver.add(witness)

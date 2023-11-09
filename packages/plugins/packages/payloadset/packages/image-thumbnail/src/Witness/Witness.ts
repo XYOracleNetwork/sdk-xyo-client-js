@@ -2,7 +2,6 @@
 import { promises as dnsPromises } from 'node:dns'
 
 import { compact } from '@xylabs/lodash'
-import { URL } from '@xylabs/url'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
@@ -18,6 +17,7 @@ import Url from 'url-parse'
 
 import { ImageThumbnailEncoding, ImageThumbnailWitnessConfigSchema } from './Config'
 import { getVideoFrameAsImageFluent } from './ffmpeg'
+import { checkIpfsUrl, createDataUrl, resolveDynamicSvg } from './lib'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
@@ -49,12 +49,12 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.height ?? 128
   }
 
-  get ipfGateway() {
+  get ipfsGateway() {
     return this.config.ipfsGateway ?? '5d7b6582.beta.decentralnetworkservices.com'
   }
 
   get maxAsyncProcesses() {
-    return this.config.maxAsyncProcesses ?? 2
+    return this.config.maxAsyncProcesses ?? 4
   }
 
   get quality() {
@@ -94,29 +94,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
   }
 
-  /**
-   * Returns the equivalent IPFS gateway URL for the supplied URL.
-   * @param urlToCheck The URL to check
-   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
-   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
-   */
-  checkIpfsUrl(urlToCheck: string) {
-    const url = new URL(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.search
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = this.ipfGateway
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `${root}?${query}` : root
-    } else {
-      return urlToCheck
-    }
-  }
-
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
     // eslint-disable-next-line import/no-named-as-default-member
     if (!hasbin.sync('magick')) {
@@ -141,9 +118,19 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                   url,
                 }
               } else {
-                const contentType = url.split(',')[0].split(':')[1].split(';')[0]
-                result = await this.processImage(
-                  dataBuffer,
+                let cookedDataBuffer = dataBuffer
+                const urlParts = url.split(';')
+                const [, contentType] = urlParts[0].split(':')
+                if (contentType.startsWith('image/svg')) {
+                  const [encoding, byteString] = urlParts[1].split(',')
+                  if (encoding === 'base64') {
+                    const newSvg = await resolveDynamicSvg(byteString)
+                    const newSvgDataUrl = createDataUrl(Buffer.from(newSvg), contentType)
+                    cookedDataBuffer = ImageThumbnailWitness.bufferFromDataUrl(newSvgDataUrl) ?? dataBuffer
+                  }
+                }
+                result = await this.processMedia(
+                  cookedDataBuffer,
                   {
                     schema: ImageThumbnailSchema,
                     sourceUrl: url,
@@ -153,7 +140,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               }
             } else {
               //if it is ipfs, go through cloud flair
-              const mutatedUrl = this.checkIpfsUrl(url)
+              const mutatedUrl = checkIpfsUrl(url, this.ipfsGateway)
               result = await this.fromHttp(mutatedUrl, url)
             }
             return result
@@ -178,7 +165,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           }
         })
     })
-    return `data:image/png;base64,${thumb.toString('base64')}`
+    return createDataUrl(thumb, 'image/png')
   }
 
   /**
@@ -198,7 +185,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     try {
       const urlObj = new Url(url)
       dnsResult = await dnsPromises.resolve(urlObj.host)
-      // console.log(`dnsResult: ${JSON.stringify(dnsResult, null, 2)}`)
     } catch (ex) {
       const error = ex as DnsError
       const result: ImageThumbnail = {
@@ -251,12 +237,12 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const contentType: string | undefined = response.headers['content-type']?.toString()
       const sourceBuffer = Buffer.from(response.data, 'binary')
 
-      return this.processImage(sourceBuffer, result, contentType)
+      return this.processMedia(sourceBuffer, result, contentType)
     }
     return result
   }
 
-  private async processImage(sourceBuffer: Buffer, imageThumbnail: ImageThumbnail, contentType?: string): Promise<ImageThumbnail> {
+  private async processMedia(sourceBuffer: Buffer, imageThumbnail: ImageThumbnail, contentType?: string): Promise<ImageThumbnail> {
     const [mediaType, fileType] = contentType?.split('/') ?? ['', '']
     imageThumbnail.mime = imageThumbnail.mime ?? {}
     imageThumbnail.mime.returned = mediaType

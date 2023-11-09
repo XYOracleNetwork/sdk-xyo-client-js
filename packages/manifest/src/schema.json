@@ -59,7 +59,6 @@
         }
       },
       "required": [
-        "accountPath",
         "name",
         "schema"
       ],

@@ -12,13 +12,13 @@ import {
   ImageThumbnailDivinerParams,
   ImageThumbnailDivinerQuery,
   ImageThumbnailDivinerQuerySchema,
+  ImageThumbnailResult,
   isImageThumbnail,
   isImageThumbnailDivinerQuery,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
@@ -106,7 +106,7 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     await archivist.insert([bw, nextState])
   }
 
-  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
+  protected override async divineHandler(payloads: ImageThumbnailDivinerQuery[] = []): Promise<ImageThumbnailResult[]> {
     const divinerQueries = payloads.filter(isImageThumbnailDivinerQuery)
     const indexPayloadDiviner = await this.getPayloadDivinerForStore('indexStore')
     const divinerQueryToIndexQueryDiviner = await this.getIndexingDivinerStage('divinerQueryToIndexQueryDiviner')

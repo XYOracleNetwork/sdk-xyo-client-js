@@ -4,7 +4,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -21,7 +21,12 @@ type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
 const moduleName = 'IndexingDiviner'
 
-export class IndexingDiviner<TParams extends IndexingDivinerParams = IndexingDivinerParams> extends AbstractDiviner<TParams> {
+export class IndexingDiviner<
+  TParams extends IndexingDivinerParams = IndexingDivinerParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [IndexingDivinerConfigSchema, DivinerConfigSchema]
 
   private _lastState?: ModuleState<IndexingDivinerState>
@@ -76,7 +81,7 @@ export class IndexingDiviner<TParams extends IndexingDivinerParams = IndexingDiv
     await archivist.insert([bw, nextState])
   }
 
-  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
+  protected override async divineHandler(payloads: TIn[] = []): Promise<TOut[]> {
     const indexPayloadDiviner = await this.getPayloadDivinerForStore('indexStore')
     const divinerQueryToIndexQueryDiviner = await this.getIndexingDivinerStage('divinerQueryToIndexQueryDiviner')
     const indexQueryResponseToDivinerQueryResponseDiviner = await this.getIndexingDivinerStage('indexQueryResponseToDivinerQueryResponseDiviner')
@@ -94,7 +99,8 @@ export class IndexingDiviner<TParams extends IndexingDivinerParams = IndexingDiv
         }),
       )
     ).flat()
-    return results
+    // TODO: Infer this type over casting to this type
+    return results as TOut[]
   }
 
   /**

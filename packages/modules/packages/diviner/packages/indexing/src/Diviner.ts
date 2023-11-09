@@ -131,25 +131,12 @@ export class IndexingDiviner<
    * @returns The diviner corresponding to the Indexing Diviner stage
    */
   protected async getIndexingDivinerStage(transform: IndexingDivinerStage) {
-    // TODO: Actually get these diviners from config
-    switch (transform) {
-      case 'stateToIndexCandidateDiviner': {
-        const mod = await this.resolve('ImageThumbnailStateToIndexCandidateDiviner')
-        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
-      }
-      case 'indexCandidateToIndexDiviner': {
-        const mod = await this.resolve('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner')
-        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
-      }
-      case 'divinerQueryToIndexQueryDiviner': {
-        const mod = await this.resolve('ImageThumbnailQueryToImageThumbnailIndexQueryDiviner')
-        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
-      }
-      case 'indexQueryResponseToDivinerQueryResponseDiviner': {
-        const mod = await this.resolve('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner')
-        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
-      }
-    }
+    const nameOrAddress = assertEx(
+      this.config?.indexingDivinerStages?.[transform],
+      () => `${moduleName}: Config for indexingDivinerStages.${transform} not specified`,
+    )
+    const mod = await this.resolve(nameOrAddress)
+    return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve indexing diviner stage for ${transform}`)
   }
 
   /**

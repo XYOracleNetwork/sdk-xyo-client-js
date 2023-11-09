@@ -6,21 +6,21 @@ export const DivinerStageSchema: DivinerStageSchema = 'network.xyo.diviner.stage
  */
 export type IndexingDivinerStage =
   /**
-   * Uses the current state to determine the next batch of index candidates
+   * Transforms a diviner query into an index query
    */
-  | 'stateToIndexCandidateDiviner'
+  | 'divinerQueryToIndexQueryDiviner'
   /**
    * Transforms the index candidates into indexes
    */
   | 'indexCandidateToIndexDiviner'
   /**
-   * Transforms a diviner query into an index query
-   */
-  | 'divinerQueryToIndexQueryDiviner'
-  /**
    * Transforms an index query response into a diviner divine query response
    */
   | 'indexQueryResponseToDivinerQueryResponseDiviner'
+  /**
+   * Uses the current state to determine the next batch of index candidates
+   */
+  | 'stateToIndexCandidateDiviner'
 
 /**
  * Config section for declaring each indexing diviner stage

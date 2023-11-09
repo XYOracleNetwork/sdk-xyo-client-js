@@ -21,3 +21,10 @@ export type IndexingDivinerStage =
    * Transforms an index query response into a diviner divine query response
    */
   | 'indexQueryResponseToDivinerQueryResponseDiviner'
+
+/**
+ * Config section for declaring each indexing diviner stage
+ */
+export type IndexingDivinerStageConfig = {
+  [key in IndexingDivinerStage]: string
+}

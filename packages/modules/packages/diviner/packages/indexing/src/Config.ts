@@ -2,6 +2,7 @@ import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { IndexingDivinerSchema } from './Schema'
 import { SearchableStorage } from './SearchableStorage'
+import { IndexingDivinerStageConfig } from './Stage'
 
 export const IndexingDivinerConfigSchema = `${IndexingDivinerSchema}.config` as const
 export type IndexingDivinerConfigSchema = typeof IndexingDivinerConfigSchema
@@ -11,6 +12,10 @@ export type IndexingDivinerConfig = DivinerConfig<{
    * Where the diviner should store it's index
    */
   indexStore?: SearchableStorage
+  /**
+   * Config section for individual indexing diviner stages
+   */
+  indexingDivinerStages: IndexingDivinerStageConfig
   /**
    * The maximum number of payloads to index at a time
    */

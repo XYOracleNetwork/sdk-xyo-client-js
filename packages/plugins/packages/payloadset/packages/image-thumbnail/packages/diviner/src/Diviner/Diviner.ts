@@ -167,12 +167,18 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
         const mod = await this.resolve('ImageThumbnailStateToIndexCandidateDiviner')
         return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
       }
-      case 'indexCandidateToIndexDiviner':
-        return await ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner.create()
-      case 'divinerQueryToIndexQueryDiviner':
-        return await ImageThumbnailQueryToImageThumbnailIndexQueryDiviner.create()
-      case 'indexQueryResponseToDivinerQueryResponseDiviner':
-        return await ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner.create()
+      case 'indexCandidateToIndexDiviner': {
+        const mod = await this.resolve('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner')
+        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
+      }
+      case 'divinerQueryToIndexQueryDiviner': {
+        const mod = await this.resolve('ImageThumbnailQueryToImageThumbnailIndexQueryDiviner')
+        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
+      }
+      case 'indexQueryResponseToDivinerQueryResponseDiviner': {
+        const mod = await this.resolve('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner')
+        return assertEx(asDivinerInstance(mod), () => `${moduleName}: Failed to resolve diviner for ${transform}`)
+      }
     }
   }
 

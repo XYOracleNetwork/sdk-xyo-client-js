@@ -27,7 +27,7 @@ export class IndexingDiviner<
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [IndexingDivinerConfigSchema, DivinerConfigSchema]
+  static override readonly configSchemas = [IndexingDivinerConfigSchema, DivinerConfigSchema]
 
   private _lastState?: ModuleState<IndexingDivinerState>
   private _pollId?: string | number | NodeJS.Timeout

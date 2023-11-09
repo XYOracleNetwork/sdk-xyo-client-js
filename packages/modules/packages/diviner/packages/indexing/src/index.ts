@@ -1,1 +1,1 @@
-export * from './IndexingDivinerStage'
+export * from './Stage'

@@ -96,6 +96,39 @@
           },
           {
             "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",

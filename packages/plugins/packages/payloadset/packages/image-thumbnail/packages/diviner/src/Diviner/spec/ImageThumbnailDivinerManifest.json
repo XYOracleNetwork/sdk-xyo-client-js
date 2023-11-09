@@ -142,11 +142,6 @@
                 "archivist": "AddressStateArchivist",
                 "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
                 "payloadDiviner": "AddressStatePayloadDiviner"
-              },
-              "thumbnailStore": {
-                "archivist": "ImageThumbnailArchivist",
-                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
-                "payloadDiviner": "ImageThumbnailPayloadDiviner"
               }
             }
           }

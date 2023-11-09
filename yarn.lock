@@ -7468,6 +7468,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^3.1.21
+    "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model, @xyo-network/diviner-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model"

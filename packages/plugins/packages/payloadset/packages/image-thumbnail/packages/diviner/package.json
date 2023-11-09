@@ -18,6 +18,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-indexing": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",

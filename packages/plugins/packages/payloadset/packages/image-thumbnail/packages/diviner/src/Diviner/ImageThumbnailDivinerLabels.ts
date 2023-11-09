@@ -1,6 +1,5 @@
+import { DivinerStageSchema, IndexingDivinerStage } from '@xyo-network/diviner-indexing'
 import { Labels } from '@xyo-network/module-model'
-
-import { DivinerStageSchema, IndexingDivinerStage } from './IndexingDivinerStage'
 
 /**
  * Labels for Image Thumbnail Diviner components

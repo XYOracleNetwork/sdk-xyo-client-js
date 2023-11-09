@@ -6,4 +6,3 @@ export * from './ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDi
 export * from './ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
 export * from './ImageThumbnailResultQuery'
 export * from './ImageThumbnailStateToIndexCandidateDiviner'
-export * from './IndexingDivinerStage'

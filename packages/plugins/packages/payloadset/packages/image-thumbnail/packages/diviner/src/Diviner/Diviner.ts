@@ -4,6 +4,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { IndexingDivinerStage } from '@xyo-network/diviner-indexing'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
@@ -22,7 +23,6 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
-import { IndexingDivinerStage } from './IndexingDivinerStage'
 
 type ConfigStoreKey = 'indexStore' | 'stateStore'
 

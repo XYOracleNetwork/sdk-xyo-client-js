@@ -6,36 +6,23 @@ import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import {
-  ImageThumbnailDivinerConfig,
-  ImageThumbnailDivinerConfigSchema,
-  ImageThumbnailDivinerParams,
-  ImageThumbnailDivinerQuery,
-  ImageThumbnailDivinerQuerySchema,
-  ImageThumbnailResult,
-  isImageThumbnail,
-  isImageThumbnailDivinerQuery,
-  isImageThumbnailResult,
-} from '@xyo-network/image-thumbnail-payload-plugin'
 import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 
-import { ImageThumbnailDivinerLabels } from './Labels'
+import { IndexingDivinerConfig, IndexingDivinerConfigSchema } from './Config'
+import { IndexingDivinerParams } from './Params'
 import { IndexingDivinerStage } from './Stage'
 import { IndexingDivinerState } from './State'
 
 type ConfigStoreKey = 'indexStore' | 'stateStore'
 
-type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
+type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
-// TODO: Remove and use the config
-const emitEvents = false
+const moduleName = 'IndexingDiviner'
 
-const moduleName = 'ImageThumbnailDiviner'
-
-export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams = ImageThumbnailDivinerParams> extends AbstractDiviner<TParams> {
-  static override configSchemas = [ImageThumbnailDivinerConfigSchema, DivinerConfigSchema]
-  static labels: ImageThumbnailDivinerLabels = ImageThumbnailDivinerLabels
+export class IndexingDiviner<TParams extends IndexingDivinerParams = IndexingDivinerParams> extends AbstractDiviner<TParams> {
+  static override configSchemas = [IndexingDivinerConfigSchema, DivinerConfigSchema]
 
   private _lastState?: ModuleState<IndexingDivinerState>
   private _pollId?: string | number | NodeJS.Timeout
@@ -71,23 +58,6 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     if (nextState) {
       await this.commitState(nextState)
     }
-    // Emit events for new indexes
-    if (emitEvents) {
-      // TODO: Make custom diviner for event transforms
-      const indexQueryResponseToDivinerQueryResponseDiviner = await this.getIndexingDivinerStage('indexQueryResponseToDivinerQueryResponseDiviner')
-      // Create pseudo-queries to emit events for all the new indexes
-      const divinerQueries = indexCandidates.filter(isImageThumbnail).map((imageThumbnail) => {
-        return new PayloadBuilder<ImageThumbnailDivinerQuery>({ schema: ImageThumbnailDivinerQuerySchema })
-          .fields({
-            url: imageThumbnail.url,
-          })
-          .build()
-      })
-      const results = (await indexQueryResponseToDivinerQueryResponseDiviner.divine([...divinerQueries, ...indexes])).filter(isImageThumbnailResult)
-      results.forEach(async (result) => {
-        await this.emit('indexUpdated', result)
-      })
-    }
   }
 
   /**
@@ -106,27 +76,24 @@ export class ImageThumbnailDiviner<TParams extends ImageThumbnailDivinerParams =
     await archivist.insert([bw, nextState])
   }
 
-  protected override async divineHandler(payloads: ImageThumbnailDivinerQuery[] = []): Promise<ImageThumbnailResult[]> {
-    const divinerQueries = payloads.filter(isImageThumbnailDivinerQuery)
+  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const indexPayloadDiviner = await this.getPayloadDivinerForStore('indexStore')
     const divinerQueryToIndexQueryDiviner = await this.getIndexingDivinerStage('divinerQueryToIndexQueryDiviner')
     const indexQueryResponseToDivinerQueryResponseDiviner = await this.getIndexingDivinerStage('indexQueryResponseToDivinerQueryResponseDiviner')
     const results = (
       await Promise.all(
-        divinerQueries.map(async (divinerQuery) => {
-          const indexQuery = await divinerQueryToIndexQueryDiviner.divine([divinerQuery])
+        payloads.map(async (payload) => {
+          const indexQuery = await divinerQueryToIndexQueryDiviner.divine([payload])
           // Divine the results
           const indexedResults = await indexPayloadDiviner.divine(indexQuery)
           // Transform the results to the response shape
           const response = await Promise.all(
-            indexedResults.flat().map((indexedResult) => indexQueryResponseToDivinerQueryResponseDiviner.divine([divinerQuery, indexedResult])),
+            indexedResults.flat().map((indexedResult) => indexQueryResponseToDivinerQueryResponseDiviner.divine([payload, indexedResult])),
           )
           return response.flat()
         }),
       )
-    )
-      .flat()
-      .filter(isImageThumbnailResult)
+    ).flat()
     return results
   }
 

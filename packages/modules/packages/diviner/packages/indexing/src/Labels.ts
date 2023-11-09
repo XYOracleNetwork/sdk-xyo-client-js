@@ -3,25 +3,11 @@ import { Labels } from '@xyo-network/module-model'
 import { DivinerStageSchema, IndexingDivinerStage } from './Stage'
 
 /**
- * Labels for Image Thumbnail Diviner components
+ * Labels for Indexing Diviner Stage Diviners
  */
-export interface ImageThumbnailDivinerLabels extends Labels {
-  'network.xyo.image.thumbnail': 'diviner'
-}
-
-/**
- * Labels for Image Thumbnail Diviner components
- */
-export const ImageThumbnailDivinerLabels: ImageThumbnailDivinerLabels = {
-  'network.xyo.image.thumbnail': 'diviner',
-}
-
-/**
- * Labels for Image Thumbnail Diviner Stage Diviners
- */
-export type ImageThumbnailDivinerStageLabels = ImageThumbnailDivinerLabels & {
+export type IndexingDivinerStageLabels = Labels & {
   /**
-   * Labels for the stage of the Image Thumbnail Diviner Stage Diviner
+   * Labels for the stage of the Indexing Diviner Stage Diviner
    */
   [key in DivinerStageSchema]: IndexingDivinerStage
 }

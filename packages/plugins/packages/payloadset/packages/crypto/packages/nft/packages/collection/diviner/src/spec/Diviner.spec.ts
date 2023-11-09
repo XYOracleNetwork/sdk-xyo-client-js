@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { isNftCollectionScore, NftCollectionInfo, NftCollectionSchema } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile, writeFile } from 'fs/promises'
@@ -24,7 +24,7 @@ describe('NftCollectionScoreDiviner', () => {
   ]
   let diviner: NftCollectionScoreDiviner
   beforeAll(async () => {
-    const account = await HDWallet.random()
+    const account = Account.randomSync()
     diviner = await NftCollectionScoreDiviner.create({ account })
   })
   const cases: [address: string, chainId: number][] = [

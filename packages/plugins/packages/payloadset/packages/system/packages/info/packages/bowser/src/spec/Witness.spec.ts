@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BowserSystemInfoSchema } from '@xyo-network/bowser-system-info-payload-plugin'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -25,7 +25,7 @@ cryptoPolyfill(window)
 describe('BowserSystemInfo', () => {
   test('observe', async () => {
     const witness = await BowserSystemInfoWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: {
         schema: BowserSystemInfoWitnessConfigSchema,
       },
@@ -35,7 +35,7 @@ describe('BowserSystemInfo', () => {
     expect(await PayloadWrapper.wrap(observation).getValid()).toBe(true)
   })
   test('observe [no config]', async () => {
-    const witness = await BowserSystemInfoWitness.create({ account: await HDWallet.random() })
+    const witness = await BowserSystemInfoWitness.create({ account: Account.randomSync() })
     const [observation] = await witness.observe()
     expect(observation.schema).toBe(BowserSystemInfoSchema)
     expect(await PayloadWrapper.wrap(observation).getValid()).toBe(true)

@@ -19,10 +19,12 @@ import { Payload } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
-    TEventData extends DivinerModuleEventData<DivinerModule<TParams>> = DivinerModuleEventData<DivinerModule<TParams>>,
+    TIn extends Payload = Payload,
+    TOut extends Payload = Payload,
+    TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomDivinerModule<TParams, TEventData>
+  implements CustomDivinerModule<TParams, TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
@@ -38,7 +40,7 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads?: Payload[]): Promise<Payload[]> {
+  divine(payloads?: TIn[]): Promise<TOut[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       await this.started('throw')
@@ -63,7 +65,7 @@ export abstract class AbstractDiviner<
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema:
-        resultPayloads.push(...(await this.divine(cleanPayloads)))
+        resultPayloads.push(...(await this.divine(cleanPayloads as TIn[])))
         break
       default:
         return super.queryHandler(query, payloads)
@@ -72,5 +74,5 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divineHandler Implement or override to add custom functionality to a diviner */
-  protected abstract divineHandler(payloads?: Payload[]): Promisable<Payload[]>
+  protected abstract divineHandler(payloads?: TIn[]): Promisable<TOut[]>
 }

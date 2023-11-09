@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { Transform, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
 import { Payload } from '@xyo-network/payload-model'
 import { isValuePayload, Value, ValueSchema } from '@xyo-network/value-payload-plugin'
@@ -37,14 +37,14 @@ const cases: [transform: Transform, payload: Payload, expected: Value][] = [
 
 describe('MemoryTransformDiviner', () => {
   let sut: MemoryTransformDiviner
-  let wallet: HDWallet
-  beforeAll(async () => {
-    wallet = await HDWallet.random()
+  let account: Account
+  beforeAll(() => {
+    account = Account.randomSync()
   })
   describe('divine', () => {
     it.each(cases)('should transform the input according to the transform', async (transform, payload, expected) => {
       const config = { schema: TransformDivinerConfigSchema, transform: transform.transform }
-      sut = await MemoryTransformDiviner.create({ config, wallet })
+      sut = await MemoryTransformDiviner.create({ account, config })
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
       const actual = result.filter(isValuePayload)[0]

@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
@@ -20,10 +20,10 @@ describe('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: await HDWallet.random() })
+    const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
     const bridge: BridgeInstance = await HttpBridge.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
@@ -55,9 +55,9 @@ describe('HttpBridge', () => {
     expect(roundTripPayload).toBeDefined()
   })
   it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
-    const memNode1 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
-    const memNode2 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
-    const memNode3 = await MemoryNode.create({ account: await HDWallet.random(), config: { schema: 'network.xyo.node.config' } })
+    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
 
     await memNode1.register(memNode2)
     await memNode1.attach(memNode2.address, true)
@@ -65,7 +65,7 @@ describe('HttpBridge', () => {
     await memNode2.attach(memNode3.address, true)
 
     const bridge = await HttpBridge.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

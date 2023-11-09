@@ -3,7 +3,7 @@
  */
 
 import { delay } from '@xylabs/delay'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -18,7 +18,7 @@ describe('IndexedDbArchivist', () => {
     it('supplied via config uses config value', async () => {
       const dbName = 'testDbName'
       const archivist = await IndexedDbArchivist.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: { dbName, schema: IndexedDbArchivistConfigSchema },
       })
       expect(archivist.dbName).toBe(dbName)
@@ -26,13 +26,13 @@ describe('IndexedDbArchivist', () => {
     it('not supplied via config uses module name', async () => {
       const name = 'testModuleName'
       const archivist = await IndexedDbArchivist.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: { name, schema: IndexedDbArchivistConfigSchema },
       })
       expect(archivist.dbName).toBe(name)
     })
     it('not supplied via config or module name uses default value', async () => {
-      const archivist = await IndexedDbArchivist.create({ account: await HDWallet.random(), config: { schema: IndexedDbArchivistConfigSchema } })
+      const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
       expect(archivist.dbName).toBe(IndexedDbArchivist.defaultDbName)
     })
   })
@@ -40,13 +40,13 @@ describe('IndexedDbArchivist', () => {
     it('supplied via config uses config value', async () => {
       const storeName = 'testStoreName'
       const archivist = await IndexedDbArchivist.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: { schema: IndexedDbArchivistConfigSchema, storeName },
       })
       expect(archivist.storeName).toBe(storeName)
     })
     it('not supplied via config uses default value', async () => {
-      const archivist = await IndexedDbArchivist.create({ account: await HDWallet.random(), config: { schema: IndexedDbArchivistConfigSchema } })
+      const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
       expect(archivist.storeName).toBe(IndexedDbArchivist.defaultStoreName)
     })
   })
@@ -60,7 +60,7 @@ describe('IndexedDbArchivist', () => {
       const payloadWrapper = PayloadWrapper.wrap(idPayload)
 
       const archivistModule = await IndexedDbArchivist.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: { schema: IndexedDbArchivistConfigSchema },
       })
       const insertResult = await archivistModule.insert([idPayload])
@@ -81,7 +81,7 @@ describe('IndexedDbArchivist', () => {
         schema: IdSchema,
       }
       const archivistModule = await IndexedDbArchivist.create({
-        account: await HDWallet.random(),
+        account: Account.randomSync(),
         config: { schema: IndexedDbArchivistConfigSchema },
       })
       for (let x = 0; x < 10; x++) {

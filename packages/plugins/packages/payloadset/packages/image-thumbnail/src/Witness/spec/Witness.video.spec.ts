@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import FileType from 'file-type'
@@ -31,7 +31,7 @@ describeIfHasBin('magick')('ImageThumbnailWitness', () => {
   describe('with video type', () => {
     let witness: ImageThumbnailWitness
     beforeAll(async () => {
-      witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
+      witness = await ImageThumbnailWitness.create({ account: Account.randomSync() })
     })
     describe('3GPP', () => {
       const cases: MimeWithUrl[] = [['video/3gpp', 'https://filesamples.com/samples/video/3gp/sample_640x360.3gp']]

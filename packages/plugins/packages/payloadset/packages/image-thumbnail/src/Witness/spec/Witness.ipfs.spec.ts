@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
@@ -16,7 +16,7 @@ const testIfHasBin = (bin: string) => (hasbin.sync(bin) ? it : it.skip)
 describe('ImageThumbnailWitness', () => {
   let witness: ImageThumbnailWitness
   beforeAll(async () => {
-    witness = await ImageThumbnailWitness.create({ account: await HDWallet.random() })
+    witness = await ImageThumbnailWitness.create({ account: Account.randomSync() })
   })
   testIfHasBin('magick')('IPFS [jpeg]', async () => {
     const ipfsPayload: UrlPayload = {

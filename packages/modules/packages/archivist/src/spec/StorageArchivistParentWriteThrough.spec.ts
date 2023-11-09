@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
@@ -13,11 +13,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
 test('Archivist Parent Write Through', async () => {
-  const node = await MemoryNode.create({ account: await HDWallet.random() })
-  const memory = await MemoryArchivist.create({ account: await HDWallet.random() })
+  const node = await MemoryNode.create({ account: Account.randomSync() })
+  const memory = await MemoryArchivist.create({ account: Account.randomSync() })
 
   const storage = (await StorageArchivist.create({
-    account: await HDWallet.random(),
+    account: Account.randomSync(),
     config: {
       namespace: 'test',
       parents: { write: [memory.address] },

@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { isValuePayload } from '@xyo-network/value-payload-plugin'
 
 import { EnvironmentWitnessConfigSchema } from '../Config'
@@ -9,8 +9,8 @@ describe('EnvironmentWitness', () => {
   let sut: EnvironmentWitness
   beforeAll(async () => {
     const config = { schema: EnvironmentWitnessConfigSchema }
-    const wallet = await HDWallet.random()
-    sut = await EnvironmentWitness.create({ config, wallet })
+    const account = Account.randomSync()
+    sut = await EnvironmentWitness.create({ account, config })
   })
   describe('witness', () => {
     describe('without template payload', () => {

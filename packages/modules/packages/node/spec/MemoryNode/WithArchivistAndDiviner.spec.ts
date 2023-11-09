@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import {
@@ -16,9 +16,9 @@ import { MemoryNode } from '../../src'
 
 describe('MemoryNode', () => {
   it('WithArchivistAndDiviner', async () => {
-    const node = await MemoryNode.create({ account: await HDWallet.random() })
+    const node = await MemoryNode.create({ account: Account.randomSync() })
     const archivist = await MemoryArchivist.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { name: 'Archivist', schema: MemoryArchivistConfigSchema },
     })
 
@@ -26,7 +26,7 @@ describe('MemoryNode', () => {
     await node.attach(archivist.address, true)
 
     const diviner: DivinerInstance = await ArchivistPayloadDiviner.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
     })
     await node.register(diviner)

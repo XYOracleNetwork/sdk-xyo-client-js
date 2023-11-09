@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
@@ -91,47 +91,47 @@ describe('ImageThumbnailDiviner', () => {
     ] = await Promise.all([
       // Create thumbnail store
       await MemoryArchivist.create({
+        account: Account.randomSync(),
         config: { name: thumbnailArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryBoundWitnessDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: thumbnailArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryPayloadDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: thumbnailArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       // Create index store
       await MemoryArchivist.create({
+        account: Account.randomSync(),
         config: { name: indexArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryBoundWitnessDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: indexArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryPayloadDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: indexArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       // Create state store
       await MemoryArchivist.create({
+        account: Account.randomSync(),
         config: { name: stateArchivistName, schema: MemoryArchivist.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryBoundWitnessDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: stateArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       await MemoryPayloadDiviner.create({
+        account: Account.randomSync(),
         config: { archivist: stateArchivistName, schema: MemoryPayloadDiviner.configSchema },
-        wallet: await HDWallet.random(),
       }),
       // Create node
       await MemoryNode.create({
+        account: Account.randomSync(),
         config: { schema: MemoryNode.configSchema },
-        wallet: await HDWallet.random(),
       }),
     ])
 
@@ -178,8 +178,8 @@ describe('ImageThumbnailDiviner', () => {
       payloadDiviner: statePayloadDiviner.address,
     }
     sut = await ImageThumbnailDiviner.create({
+      account: Account.randomSync(),
       config: { indexStore, pollFrequency, schema: ImageThumbnailDiviner.configSchema, stateStore, thumbnailStore },
-      wallet: await HDWallet.random(),
     })
     const modules = [
       stateArchivist,

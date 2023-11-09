@@ -1,6 +1,6 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { Payload } from '@xyo-network/payload-model'
 import { isWitnessInstance, WitnessConfigSchema } from '@xyo-network/witness-model'
 
@@ -15,11 +15,11 @@ class TestWitness extends AbstractWitness {
 describe('WitnessWrapper', () => {
   test('Is it a WitnessInstance', async () => {
     const witness = await TestWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { schema: WitnessConfigSchema },
     })
     expect(isWitnessInstance(witness)).toBeTrue()
-    const wrapper = WitnessWrapper.wrap(witness, await HDWallet.random())
+    const wrapper = WitnessWrapper.wrap(witness, Account.randomSync())
     expect(isWitnessInstance(wrapper)).toBeTrue()
   })
 })

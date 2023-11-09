@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { isNftInfo, NftInfo } from '@xyo-network/crypto-nft-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { readFile } from 'fs/promises'
@@ -18,7 +18,7 @@ describe('NftScoreDiviner', () => {
     }
   })
   test('divine', async () => {
-    const diviner = await NftScoreDiviner.create({ account: await HDWallet.random() })
+    const diviner = await NftScoreDiviner.create({ account: Account.randomSync() })
     const scores = (await diviner.divine(data)).filter(isNftScore)
     expect(scores).toBeArrayOfSize(data.length)
     for (let i = 0; i < scores.length; i++) {

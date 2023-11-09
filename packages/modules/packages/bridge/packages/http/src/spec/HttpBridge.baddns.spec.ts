@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
@@ -15,10 +15,10 @@ describe('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: await HDWallet.random() })
+    const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
     const bridge: BridgeInstance = await HttpBridge.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

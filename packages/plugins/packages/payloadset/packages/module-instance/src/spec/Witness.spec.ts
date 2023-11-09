@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -6,9 +6,9 @@ import { AbstractModuleInstanceWitness, AbstractModuleInstanceWitnessConfigSchem
 
 describe('AbstractModuleInstanceWitness', () => {
   test('Witnessing', async () => {
-    const module = await MemoryArchivist.create({ account: await HDWallet.random() })
+    const module = await MemoryArchivist.create({ account: Account.randomSync() })
     const witness = await AbstractModuleInstanceWitness.create({
-      account: await HDWallet.random(),
+      account: Account.randomSync(),
       config: { schema: AbstractModuleInstanceWitnessConfigSchema },
       module,
     })

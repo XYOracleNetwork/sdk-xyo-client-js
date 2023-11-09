@@ -66,8 +66,8 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.8",
-    "@xylabs/ts-scripts-yarn3": "^3.1.13",
-    "@xylabs/tsconfig-jest": "^3.1.13",
+    "@xylabs/ts-scripts-yarn3": "^3.1.21",
+    "@xylabs/tsconfig-jest": "^3.1.21",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/diviner": "workspace:~",

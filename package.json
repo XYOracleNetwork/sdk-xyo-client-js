@@ -25,10 +25,10 @@
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "@xylabs/eslint-config": "^3.1.13",
-    "@xylabs/ts-scripts-yarn3": "^3.1.13",
-    "@xylabs/tsconfig": "^3.1.13",
-    "@xylabs/tsconfig-dom-jest": "^3.1.13",
+    "@xylabs/eslint-config": "^3.1.21",
+    "@xylabs/ts-scripts-yarn3": "^3.1.21",
+    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/tsconfig-dom-jest": "^3.1.21",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.53.0",
@@ -54,7 +54,6 @@
     "bn.js": "^5",
     "quick-lru": "^5"
   },
-  "docs": "dist/docs.json",
   "exports": {
     ".": {
       "browser": {
@@ -81,8 +80,9 @@
     "./package.json": "./package.json",
     "./README.md": "./README.md"
   },
-  "main": "dist/node/index.cjs",
-  "module": "dist/node/index.js",
+  "main": "./dist/node/index.cjs",
+  "module": "./dist/node/index.js",
+  "types": "./dist/node/index.d.cts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "name": "@xyo-network/sdk-xyo-client-js",

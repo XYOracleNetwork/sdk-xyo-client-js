@@ -37,9 +37,9 @@
     "@types/node": "^20.9.0",
     "@types/tail": "^2.2.3",
     "@types/terminal-kit": "^2.5.4",
-    "@xylabs/ts-scripts-yarn3": "^3.1.13",
-    "@xylabs/tsconfig": "^3.1.13",
-    "@xylabs/tsconfig-jest": "^3.1.13",
+    "@xylabs/ts-scripts-yarn3": "^3.1.21",
+    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/tsconfig-jest": "^3.1.21",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

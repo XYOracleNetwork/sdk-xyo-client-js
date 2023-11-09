@@ -121,7 +121,7 @@
         "--runInBand",
         "--testTimeout=120000",
         "-c=./jest.config.no-mongo.ts",
-        "packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft/packages/witness/src/spec/Witness.spec.ts"
+        "packages/plugins/packages/payloadset/packages/image-thumbnail/src/Witness/spec/Witness.dynamic-svg.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

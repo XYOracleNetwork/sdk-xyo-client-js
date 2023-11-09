@@ -9,12 +9,14 @@ import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { Semaphore } from 'async-mutex'
+import { toByteArray } from 'base64-js'
 import FileType from 'file-type'
 import graphicsMagick from 'gm'
 import hasbin from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 import Url from 'url-parse'
+import { Builder, parseStringPromise } from 'xml2js'
 
 import { ImageThumbnailEncoding, ImageThumbnailWitnessConfigSchema } from './Config'
 import { getVideoFrameAsImageFluent } from './ffmpeg'
@@ -34,6 +36,33 @@ export interface ImageThumbnailWitnessError extends Error {
 
 export interface DnsError extends Error {
   code: string
+}
+
+export const resolveDynamicSvg = async (base64Bytes: string) => {
+  const decoder = new TextDecoder()
+  const bytes = toByteArray(base64Bytes)
+  const svg = decoder.decode(bytes)
+  const svgObj = await parseStringPromise(svg)
+  const svgNode = svgObj['svg']
+  const imageResults = (await Promise.all(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    svgNode['image'].map(async (img: any) => [
+      img.$,
+      await axios.get(img.$.href, {
+        responseType: 'arraybuffer',
+      }),
+    ]),
+  )) as [string, AxiosResponse][]
+  const image = imageResults.map(([href, response]) => {
+    if (response.data) {
+      const sourceBuffer = Buffer.from(response.data, 'binary')
+      return { $: { href: `data:${response.headers['content-type']?.toString()};base64,${sourceBuffer.toString('base64')}` } }
+    } else {
+      return { $: { href } }
+    }
+  })
+  const builder = new Builder()
+  return builder.buildObject({ ...svgObj, svg: { ...svgNode, image } })
 }
 
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
@@ -141,9 +170,17 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                   url,
                 }
               } else {
-                const contentType = url.split(',')[0].split(':')[1].split(';')[0]
+                let cookedDataBuffer = dataBuffer
+                const urlParts = url.split(';')
+                const [, contentType] = urlParts[0].split(':')
+                if (contentType.startsWith('image/svg')) {
+                  const [encoding, byteString] = urlParts[1].split(',')
+                  if (encoding === 'base64') {
+                    cookedDataBuffer = ImageThumbnailWitness.bufferFromDataUrl(await resolveDynamicSvg(byteString)) ?? dataBuffer
+                  }
+                }
                 result = await this.processImage(
-                  dataBuffer,
+                  cookedDataBuffer,
                   {
                     schema: ImageThumbnailSchema,
                     sourceUrl: url,

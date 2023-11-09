@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.3",
-    "@xylabs/ts-scripts-yarn3": "^3.1.13",
-    "@xylabs/tsconfig": "^3.1.13",
+    "@xylabs/ts-scripts-yarn3": "^3.1.21",
+    "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "jest": "^29.7.0",

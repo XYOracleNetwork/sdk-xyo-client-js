@@ -286,12 +286,12 @@
                   },
                   {
                     "key": {
+                      "key": 1,
                       "_timestamp": 1,
-                      "url": 1,
                       "success": 1,
                       "status": 1
                     },
-                    "name": "thumbnail_payloads.IX__timestamp_url_success_status"
+                    "name": "thumbnail_payloads.IX_key__timestamp_success_status"
                   }
                 ]
               }

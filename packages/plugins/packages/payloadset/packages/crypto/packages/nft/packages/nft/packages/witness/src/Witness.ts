@@ -1,4 +1,4 @@
-import { Provider } from '@ethersproject/providers'
+import { JsonRpcProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
@@ -18,7 +18,7 @@ import { getNftsOwnedByAddress } from './lib'
 export type CryptoWalletNftWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoWalletNftWitnessConfig>,
   {
-    provider: Provider
+    provider: JsonRpcProvider | WebSocketProvider
   }
 >
 
@@ -38,32 +38,38 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
   }
 
   get timeout() {
-    return this.config.timeout ?? 2000
+    return this.config.timeout ?? 10000
   }
 
   protected override async observeHandler(payloads?: NftWitnessQuery[]): Promise<NftInfo[]> {
     await this.started('throw')
     const queries = payloads?.filter(isNftWitnessQuery) ?? []
-    const observations = await Promise.all(
-      queries.map(async (query) => {
-        const address = assertEx(
-          EthAddress.parse(assertEx(query?.address || this.config.address, 'params.address is required')),
-          'Failed to parse params.address',
-        ).toString()
-        const network = await this.provider.getNetwork()
-        const chainId = assertEx(network.chainId, 'params.chainId is required')
-        const maxNfts = query?.maxNfts || defaultMaxNfts
-        try {
-          const nfts = await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
-          const observation = nfts.map<NftInfo>((nft) => {
-            return { ...nft, schema }
-          })
-          return observation
-        } catch (error) {
-          throw new Error(`Failed to get nfts for address ${address} on chainId ${chainId}`)
-        }
-      }),
-    )
-    return observations.flat()
+    try {
+      const observations = await Promise.all(
+        queries.map(async (query) => {
+          const addressValue = assertEx(query?.address ?? this.config.address, 'params.address is required')
+          const parsedAddressValue = EthAddress.parse(addressValue)
+          const address = assertEx(parsedAddressValue?.toString(), 'Failed to parse params.address')
+          const network = this.provider.network
+          const chainId = assertEx(network.chainId, 'params.chainId is required')
+          const maxNfts = query?.maxNfts || defaultMaxNfts
+          try {
+            const nfts = await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
+            const observation = nfts.map<NftInfo>((nft) => {
+              return { ...nft, schema }
+            })
+            return observation
+          } catch (ex) {
+            const error = ex as Error
+            throw Error(`Failed to get nfts for address ${address} on chainId ${chainId}: ${error.message}`)
+          }
+        }),
+      )
+      return observations.flat()
+    } catch (ex) {
+      const error = ex as Error
+      console.error(error)
+      return []
+    }
   }
 }

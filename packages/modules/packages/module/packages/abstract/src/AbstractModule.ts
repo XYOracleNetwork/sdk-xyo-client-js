@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromiseEx } from '@xylabs/promise'
-import { HDWallet } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -276,7 +276,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
-      const queryAccount = this.ephemeralQueryAccountEnabled ? await HDWallet.random() : undefined
+      const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
       try {
         await this.started('throw')
         if (!this.allowAnonymous) {

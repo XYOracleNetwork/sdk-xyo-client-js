@@ -75,7 +75,7 @@ export class CryptoNftCollectionWitness<TParams extends CryptoNftCollectionWitne
           await erc721Enumerable.name(),
           await erc721Enumerable.symbol(),
           (await erc721Enumerable.totalSupply()).toNumber(),
-          await tokenTypes(erc721Enumerable),
+          await tokenTypes(provider, address),
           await this.writeArchivist(),
         ])
         const types = resolvedValue(typesSettled, true)

@@ -21,11 +21,11 @@ const validateObservation = async (observation: Payload[]) => {
 }
 
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
-  const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
-  //const address = '0xD3EaBb661771911f87c50cf105BDA74468C75b01'
+  //const address = '0xacdaEEb57ff6886fC8e203B9Dd4C2b241DF89b7a'
+  const address = '0xD3EaBb661771911f87c50cf105BDA74468C75b01'
   const chainId = 1
   describe('observe', () => {
-    describe('with no address or chainId in query', () => {
+    describe('with no address or chainId in config', () => {
       it('uses values from config', async () => {
         const provider = getProviderFromEnv(chainId)
         const witness = await CryptoWalletNftWitness.create({ config: { address, schema: NftWitnessConfigSchema }, provider })

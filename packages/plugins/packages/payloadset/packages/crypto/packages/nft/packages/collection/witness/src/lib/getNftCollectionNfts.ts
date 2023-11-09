@@ -53,7 +53,7 @@ export const getNftCollectionNfts = async (
     const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
     const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
     const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-    const finalTypes = types ?? (await tokenTypes(enumerable))
+    const finalTypes = types ?? (await tokenTypes(provider, contractAddress))
     const result: NftInfo[] = []
 
     for (let i = 0; i < maxNfts; i++) {

@@ -1,4 +1,4 @@
-import { Provider } from '@ethersproject/providers'
+import { JsonRpcProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
@@ -38,7 +38,7 @@ export const getNftMetadata = async (
   /**
    * The chain ID (1 = Ethereum Mainnet, 4 = Rinkeby, etc.) of the chain to search for NFTs on
    */
-  provider: Provider,
+  provider: JsonRpcProvider | WebSocketProvider,
   /**
    * The maximum number of NFTs to return. Configurable to prevent
    * large wallets from exhausting Infura API credits. Ideally a
@@ -51,7 +51,7 @@ export const getNftMetadata = async (
   const storage721 = ERC721URIStorage__factory.connect(contractAddress, provider)
   const storage1155 = ERC1155URIStorage__factory.connect(contractAddress, provider)
 
-  const is1155 = await isErc1155(storage1155)
+  const is1155 = await isErc1155(provider, contractAddress)
   let uri1155: string | undefined
   if (is1155) {
     try {
@@ -62,7 +62,7 @@ export const getNftMetadata = async (
     }
   }
 
-  const is721 = await isErc721(enumerable721)
+  const is721 = await isErc721(provider, contractAddress)
   let metadataUri: string | undefined
   if (is721) {
     try {

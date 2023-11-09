@@ -44,7 +44,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
           config: { address, chainId, schema: NftCollectionWitnessConfigSchema },
           provider,
         })
-        const query: NftCollectionWitnessQuery = { schema: NftCollectionWitnessQuerySchema }
+        const query: NftCollectionWitnessQuery = { maxNfts: 10, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
       })
@@ -53,7 +53,7 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
       it('uses values from query', async () => {
         const provider = getProviderFromEnv(chainId)
         const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema }, provider })
-        const query: NftCollectionWitnessQuery = { address, chainId, schema: NftCollectionWitnessQuerySchema }
+        const query: NftCollectionWitnessQuery = { address, chainId, maxNfts: 10, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
       })

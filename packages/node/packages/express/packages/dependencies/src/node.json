@@ -714,7 +714,7 @@
               "language": "javascript",
               "name": "ImageThumbnailDiviner",
               "pollFrequency": 1000,
-              "schema": "network.xyo.image.thumbnail.diviner.config",
+              "schema": "network.xyo.diviner.indexing.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",
                 "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",

@@ -1,19 +1,10 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { IndexingDivinerSchema } from './Schema'
+import { SearchableStorage } from './SearchableStorage'
 
 export const IndexingDivinerConfigSchema = `${IndexingDivinerSchema}.config` as const
 export type IndexingDivinerConfigSchema = typeof IndexingDivinerConfigSchema
-
-/**
- * Describes an Archivist/Diviner combination
- * that enables searching signed payloads
- */
-export interface SearchableStorage {
-  archivist: string
-  boundWitnessDiviner: string
-  payloadDiviner: string
-}
 
 export type IndexingDivinerConfig = DivinerConfig<{
   /**

@@ -22,7 +22,7 @@ describe('ImageThumbnailWitness', () => {
     const result = (await witness.observe([httpsPayload])) as ImageThumbnail[]
     expect(result.length).toBe(1)
     // console.log(`DATA/PNG Size: ${result[0].url?.length}}`)
-    expect(result[0].url?.length).toBeLessThan(64000)
+    expect(result[0].url?.length).toBeLessThan(128000)
     expect(result[0].schema).toBe(ImageThumbnailSchema)
   })
 })

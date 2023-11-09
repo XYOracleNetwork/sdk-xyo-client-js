@@ -61,8 +61,9 @@ export const resolveDynamicSvg = async (base64Bytes: string) => {
       return { $: { href } }
     }
   })
+  const updatedSVG = { ...svgObj, svg: { ...svgNode, image } }
   const builder = new Builder()
-  return builder.buildObject({ ...svgObj, svg: { ...svgNode, image } })
+  return builder.buildObject(updatedSVG)
 }
 
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
@@ -83,7 +84,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
   }
 
   get maxAsyncProcesses() {
-    return this.config.maxAsyncProcesses ?? 2
+    return this.config.maxAsyncProcesses ?? 4
   }
 
   get quality() {
@@ -176,7 +177,15 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                 if (contentType.startsWith('image/svg')) {
                   const [encoding, byteString] = urlParts[1].split(',')
                   if (encoding === 'base64') {
-                    cookedDataBuffer = ImageThumbnailWitness.bufferFromDataUrl(await resolveDynamicSvg(byteString)) ?? dataBuffer
+                    const newSvg = await resolveDynamicSvg(byteString)
+                    const newSvgDataUrl = `data:${contentType};base64,${Buffer.from(newSvg).toString('base64')}`
+                    cookedDataBuffer = ImageThumbnailWitness.bufferFromDataUrl(newSvgDataUrl) ?? dataBuffer
+                    /*return {
+                      schema: ImageThumbnailSchema,
+                      sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
+                      sourceUrl: url,
+                      url: newSvgDataUrl,
+                    }*/
                   }
                 }
                 result = await this.processImage(
@@ -235,7 +244,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     try {
       const urlObj = new Url(url)
       dnsResult = await dnsPromises.resolve(urlObj.host)
-      // console.log(`dnsResult: ${JSON.stringify(dnsResult, null, 2)}`)
     } catch (ex) {
       const error = ex as DnsError
       const result: ImageThumbnail = {

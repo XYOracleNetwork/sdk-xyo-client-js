@@ -59,7 +59,6 @@ export const getNftCollectionNfts = async (
   const result: NftInfo[] = []
 
   for (let i = 0; i < maxNfts; i++) {
-    console.log(`Getting Token [${i}]`)
     const tokenId = (await enumerable.tokenByIndex(i)).toHexString()
     const supply = finalTypes.includes(toTokenType('ERC1155')) ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
     const metadataUri = await storage.tokenURI(tokenId)

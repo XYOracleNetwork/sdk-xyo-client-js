@@ -12,6 +12,6 @@ export const getProviderFromEnv = (chainId: string | number = 'homestead') => {
   const quickNodeUri = process.env.QUICKNODE_WSS_URI
   const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, chainId) : undefined
 
-  const provider = infuraProvider ?? infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
+  const provider = infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
   return provider
 }

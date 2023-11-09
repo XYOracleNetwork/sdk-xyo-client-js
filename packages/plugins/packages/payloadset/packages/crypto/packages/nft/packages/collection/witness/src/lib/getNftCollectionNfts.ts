@@ -3,8 +3,8 @@ import { AxiosJson } from '@xyo-network/axios'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 
-import { nonEvaluableContractAddresses } from './nonEvaluableContractAddresses'
 import { tokenTypes } from './tokenTypes'
+import { tryCall } from './tryCall'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
 
@@ -48,41 +48,51 @@ export const getNftCollectionNfts = async (
    */
   maxNfts = 100,
 ): Promise<NftInfo[]> => {
-  if (nonEvaluableContractAddresses.includes(contractAddress.toUpperCase())) {
-    throw new Error(`Unable to evaluate collection with contractAddress: ${contractAddress}`)
-  }
-  const axios = new AxiosJson({ timeout: 2000 })
-  const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
-  const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
-  const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-  const finalTypes = types ?? (await tokenTypes(enumerable))
-  const result: NftInfo[] = []
+  try {
+    const axios = new AxiosJson({ timeout: 2000 })
+    const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
+    const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
+    const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
+    const finalTypes = types ?? (await tokenTypes(enumerable))
+    const result: NftInfo[] = []
 
-  for (let i = 0; i < maxNfts; i++) {
-    const tokenId = (await enumerable.tokenByIndex(i)).toHexString()
-    const supply = finalTypes.includes(toTokenType('ERC1155')) ? (await supply1155.totalSupply(tokenId)).toHexString() : '0x01'
-    const metadataUri = await storage.tokenURI(tokenId)
-    const checkedMetaDataUri = checkIpfsUrl(metadataUri, ipfsGateway)
-    let metadata: NftMetadata | undefined = undefined
-    try {
-      metadata = (await axios.get(checkedMetaDataUri)).data
-    } catch (ex) {
-      const error = ex as Error
-      console.error(error.message)
-    }
+    for (let i = 0; i < maxNfts; i++) {
+      const tokenId = await tryCall(async () => (await enumerable.tokenByIndex(i)).toHexString())
+      if (tokenId !== undefined) {
+        const supply = finalTypes.includes(toTokenType('ERC1155'))
+          ? (await tryCall(async () => (await supply1155.totalSupply(tokenId)).toHexString())) ?? '0x01'
+          : '0x01'
+        const metadataUri = await tryCall(async () => await storage.tokenURI(tokenId))
+        const checkedMetaDataUri = metadataUri ? checkIpfsUrl(metadataUri, ipfsGateway) : undefined
+        let metadata: NftMetadata | undefined = undefined
+        if (checkedMetaDataUri !== undefined) {
+          try {
+            metadata = (await axios.get(checkedMetaDataUri)).data
+          } catch (ex) {
+            const error = ex as Error
+            console.error(`Get Metadata failed: ${error.message}`)
+          }
+        }
 
-    const info: NftInfo = {
-      address: contractAddress,
-      chainId: provider.network.chainId,
-      metadata,
-      metadataUri,
-      schema: NftSchema,
-      supply,
-      tokenId,
-      type: finalTypes.at(0),
-      types,
+        const info: NftInfo = {
+          address: contractAddress,
+          chainId: provider.network.chainId,
+          metadata,
+          metadataUri,
+          schema: NftSchema,
+          supply,
+          tokenId,
+          type: finalTypes.at(0),
+          types: finalTypes,
+        }
+        result.push(info)
+      }
     }
-    result.push(info)
+    return result
+  } catch (ex) {
+    const error = ex as Error
+    console.error(`getNftCollectionNfts failed: [${error.name}] ${error.message}`)
+    console.log(error.stack)
+    return []
   }
-  return result
 }

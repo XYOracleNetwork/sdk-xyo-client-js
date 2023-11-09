@@ -12,15 +12,21 @@ export const isErc721 = async (contract: Contract) => {
 }
 
 export const hasFunctions = async (contract: Contract, contractInterface: Interface, functionNames: string[]) => {
-  const bytecode = await contract.provider.getCode(contract.address)
-  for (let i = 0; i < functionNames.length; i++) {
-    const nameSig = contractInterface.getSighash(functionNames[i]).substring(2)
-    if (!bytecode.includes(nameSig)) {
-      return false
+  try {
+    const bytecode = await contract.provider.getCode(contract.address)
+    for (let i = 0; i < functionNames.length; i++) {
+      const nameSig = contractInterface.getSighash(functionNames[i]).substring(2)
+      if (!bytecode.includes(nameSig)) {
+        return false
+      }
+      return true
     }
-    return true
+    return false
+  } catch (ex) {
+    const error = ex as Error
+    console.error(`hasFunctions failed: [${error.name}] ${error.message}`)
+    return false
   }
-  return false
 }
 
 export const tokenTypes = async (contract: Contract) => {

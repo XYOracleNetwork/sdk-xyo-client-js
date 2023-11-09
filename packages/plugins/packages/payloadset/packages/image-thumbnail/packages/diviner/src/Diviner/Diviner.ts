@@ -24,7 +24,7 @@ import { ImageThumbnailDivinerLabels } from './ImageThumbnailDivinerLabels'
 import { ImageThumbnailDivinerState } from './ImageThumbnailDivinerState'
 import { IndexingDivinerStage } from './IndexingDivinerStage'
 
-type ConfigStoreKey = 'indexStore' | 'stateStore' | 'thumbnailStore'
+type ConfigStoreKey = 'indexStore' | 'stateStore'
 
 type ConfigStore = Extract<keyof ImageThumbnailDivinerConfig, ConfigStoreKey>
 

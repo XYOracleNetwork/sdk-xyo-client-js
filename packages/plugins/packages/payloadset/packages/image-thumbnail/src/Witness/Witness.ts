@@ -2,24 +2,22 @@
 import { promises as dnsPromises } from 'node:dns'
 
 import { compact } from '@xylabs/lodash'
-import { URL } from '@xylabs/url'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { Semaphore } from 'async-mutex'
-import { toByteArray } from 'base64-js'
 import FileType from 'file-type'
 import graphicsMagick from 'gm'
 import hasbin from 'hasbin'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 import Url from 'url-parse'
-import { Builder, parseStringPromise } from 'xml2js'
 
 import { ImageThumbnailEncoding, ImageThumbnailWitnessConfigSchema } from './Config'
 import { getVideoFrameAsImageFluent } from './ffmpeg'
+import { checkIpfsUrl, createDataUrl, resolveDynamicSvg } from './lib'
 import { ImageThumbnailWitnessParams } from './Params'
 
 //TODO: Break this into two Witnesses?
@@ -38,34 +36,6 @@ export interface DnsError extends Error {
   code: string
 }
 
-export const resolveDynamicSvg = async (base64Bytes: string) => {
-  const decoder = new TextDecoder()
-  const bytes = toByteArray(base64Bytes)
-  const svg = decoder.decode(bytes)
-  const svgObj = await parseStringPromise(svg)
-  const svgNode = svgObj['svg']
-  const imageResults = (await Promise.all(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    svgNode['image'].map(async (img: any) => [
-      img.$,
-      await axios.get(img.$.href, {
-        responseType: 'arraybuffer',
-      }),
-    ]),
-  )) as [string, AxiosResponse][]
-  const image = imageResults.map(([href, response]) => {
-    if (response.data) {
-      const sourceBuffer = Buffer.from(response.data, 'binary')
-      return { $: { href: `data:${response.headers['content-type']?.toString()};base64,${sourceBuffer.toString('base64')}` } }
-    } else {
-      return { $: { href } }
-    }
-  })
-  const updatedSVG = { ...svgObj, svg: { ...svgNode, image } }
-  const builder = new Builder()
-  return builder.buildObject(updatedSVG)
-}
-
 export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams = ImageThumbnailWitnessParams> extends AbstractWitness<TParams> {
   static override configSchemas = [ImageThumbnailWitnessConfigSchema]
 
@@ -79,7 +49,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     return this.config.height ?? 128
   }
 
-  get ipfGateway() {
+  get ipfsGateway() {
     return this.config.ipfsGateway ?? '5d7b6582.beta.decentralnetworkservices.com'
   }
 
@@ -124,29 +94,6 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
     }
   }
 
-  /**
-   * Returns the equivalent IPFS gateway URL for the supplied URL.
-   * @param urlToCheck The URL to check
-   * @returns If the supplied URL is an IPFS URL, it converts the URL to the
-   * equivalent IPFS gateway URL. Otherwise, returns the original URL.
-   */
-  checkIpfsUrl(urlToCheck: string) {
-    const url = new URL(urlToCheck)
-    let protocol = url.protocol
-    let host = url.host
-    let path = url.pathname
-    const query = url.search
-    if (protocol === 'ipfs:') {
-      protocol = 'https:'
-      host = this.ipfGateway
-      path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-      const root = `${protocol}//${host}/${path}`
-      return query?.length > 0 ? `${root}?${query}` : root
-    } else {
-      return urlToCheck
-    }
-  }
-
   protected override async observeHandler(payloads: UrlPayload[] = []): Promise<ImageThumbnail[]> {
     // eslint-disable-next-line import/no-named-as-default-member
     if (!hasbin.sync('magick')) {
@@ -178,17 +125,11 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
                   const [encoding, byteString] = urlParts[1].split(',')
                   if (encoding === 'base64') {
                     const newSvg = await resolveDynamicSvg(byteString)
-                    const newSvgDataUrl = `data:${contentType};base64,${Buffer.from(newSvg).toString('base64')}`
+                    const newSvgDataUrl = createDataUrl(Buffer.from(newSvg), contentType)
                     cookedDataBuffer = ImageThumbnailWitness.bufferFromDataUrl(newSvgDataUrl) ?? dataBuffer
-                    /*return {
-                      schema: ImageThumbnailSchema,
-                      sourceHash: await ImageThumbnailWitness.binaryToSha256(dataBuffer),
-                      sourceUrl: url,
-                      url: newSvgDataUrl,
-                    }*/
                   }
                 }
-                result = await this.processImage(
+                result = await this.processMedia(
                   cookedDataBuffer,
                   {
                     schema: ImageThumbnailSchema,
@@ -199,7 +140,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
               }
             } else {
               //if it is ipfs, go through cloud flair
-              const mutatedUrl = this.checkIpfsUrl(url)
+              const mutatedUrl = checkIpfsUrl(url, this.ipfsGateway)
               result = await this.fromHttp(mutatedUrl, url)
             }
             return result
@@ -224,7 +165,7 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
           }
         })
     })
-    return `data:image/png;base64,${thumb.toString('base64')}`
+    return createDataUrl(thumb, 'image/png')
   }
 
   /**
@@ -296,12 +237,12 @@ export class ImageThumbnailWitness<TParams extends ImageThumbnailWitnessParams =
       const contentType: string | undefined = response.headers['content-type']?.toString()
       const sourceBuffer = Buffer.from(response.data, 'binary')
 
-      return this.processImage(sourceBuffer, result, contentType)
+      return this.processMedia(sourceBuffer, result, contentType)
     }
     return result
   }
 
-  private async processImage(sourceBuffer: Buffer, imageThumbnail: ImageThumbnail, contentType?: string): Promise<ImageThumbnail> {
+  private async processMedia(sourceBuffer: Buffer, imageThumbnail: ImageThumbnail, contentType?: string): Promise<ImageThumbnail> {
     const [mediaType, fileType] = contentType?.split('/') ?? ['', '']
     imageThumbnail.mime = imageThumbnail.mime ?? {}
     imageThumbnail.mime.returned = mediaType

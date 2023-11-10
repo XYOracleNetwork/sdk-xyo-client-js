@@ -18,40 +18,12 @@ import { BlockchainContractCallDiviner, BlockchainContractCallResults, Blockchai
 import { BlockchainContractCall, BlockchainContractCallResult, BlockchainContractCallResultSchema, BlockchainContractCallSchema } from '../Payload'
 import { BlockchainContractCallWitness } from '../Witness'
 import erc721SentinelManifest from './Erc721Sentinel.json'
+import { createProfiler, profile, profileReport } from './profiler'
 
-const profileData: Record<string, number[]> = {}
-
-const profile = (name: string) => {
-  const timeData = profileData[name] ?? []
-  timeData.push(Date.now())
-  profileData[name] = timeData
-}
-
-const profileReport = () => {
-  let lowest = Date.now()
-  let highest = 0
-  const results = Object.entries(profileData).reduce<Record<string, number>>((prev, [name, readings]) => {
-    const start = readings.at(0)
-    if (start) {
-      if (start < lowest) {
-        lowest = start
-      }
-      const end = readings.at(-1) ?? Date.now()
-      if (end > highest) {
-        highest = end
-      }
-      prev[name] = end - start
-    }
-    return prev
-  }, {})
-  if (highest) {
-    results['-all-'] = highest - lowest
-  }
-  return results
-}
+const profiler = createProfiler()
 
 let tokenCount = 0
-const maxProviders = 1
+const maxProviders = 2
 
 describe('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
@@ -69,7 +41,7 @@ describe('Erc721Sentinel', () => {
 
   describeIf(providers.length)('report', () => {
     it('specifying address', async () => {
-      profile('setup')
+      profile(profiler, 'setup')
       const wallet = await HDWallet.random()
       const locator = new ModuleFactoryLocator()
       locator.register(BlockchainContractCallDiviner)
@@ -98,16 +70,16 @@ describe('Erc721Sentinel', () => {
         { 'network.xyo.blockchain.contract.interface': 'Erc1155' },
       )
 
-      profile('setup')
-      profile('manifest')
+      profile(profiler, 'setup')
+      profile(profiler, 'manifest')
       const manifest = new ManifestWrapper(erc721SentinelManifest as PackageManifestPayload, wallet, locator)
-      profile('manifest-load')
+      profile(profiler, 'manifest-load')
       const node = await manifest.loadNodeFromIndex(0)
-      profile('manifest-load')
-      profile('manifest-resolve')
+      profile(profiler, 'manifest-load')
+      profile(profiler, 'manifest-resolve')
       const mods = await node.resolve()
-      profile('manifest-resolve')
-      profile('manifest')
+      profile(profiler, 'manifest-resolve')
+      profile(profiler, 'manifest')
       expect(mods.length).toBeGreaterThan(5)
 
       const collectionSentinel = asSentinelInstance(await node.resolve('NftInfoSentinel'))
@@ -126,10 +98,10 @@ describe('Erc721Sentinel', () => {
       expect(diviner).toBeDefined()
 
       const collectionCallPayload: BlockchainContractCall = { address, schema: BlockchainContractCallSchema }
-      profile('collectionReport')
+      profile(profiler, 'collectionReport')
       const report = await collectionSentinel?.report([collectionCallPayload])
-      profile('collectionReport')
-      profile('tokenCallSetup')
+      profile(profiler, 'collectionReport')
+      profile(profiler, 'tokenCallSetup')
       const info = report?.find(isPayloadOfSchemaType(BlockchainContractCallResultsSchema)) as BlockchainContractCallResults | undefined
 
       const totalSupply = new BigNumber((info?.results?.totalSupply as string | undefined)?.replace('0x', '') ?? '0', 16).toNumber()
@@ -162,23 +134,23 @@ describe('Erc721Sentinel', () => {
           chunks.push(chunkList)
         }
       }
-      profile('tokenCallSetup')
+      profile(profiler, 'tokenCallSetup')
       const maxConcurrent = 8
       if (tokenSentinel) {
-        profile('tokenReport')
+        profile(profiler, 'tokenReport')
         const semaphore = new Semaphore(maxConcurrent)
         const tokenReportArrays = await Promise.all(
           chunks.map(async (chunk, index) => {
-            profile(`tokenReport-${index}`)
+            profile(profiler, `tokenReport-${index}`)
             const result = await semaphore.runExclusive(async () => {
               const result = await tokenSentinel.report(chunk)
               return result
             })
-            profile(`tokenReport-${index}`)
+            profile(profiler, `tokenReport-${index}`)
             return result
           }),
         )
-        profile('tokenReport')
+        profile(profiler, 'tokenReport')
         const tokenReport = tokenReportArrays.flat()
         tokenCount = tokenReport.length
         const tokenInfoPayloads = tokenReport.filter(isPayloadOfSchemaType(BlockchainContractCallResultSchema)) as BlockchainContractCallResult[]
@@ -186,7 +158,7 @@ describe('Erc721Sentinel', () => {
       }
     })
     afterAll(() => {
-      const profileData = profileReport()
+      const profileData = profileReport(profiler)
       if (profileData['tokenReport']) console.log(`Timer: ${profileData['tokenReport'] / tokenCount}ms`)
       console.log(`Profile: ${JSON.stringify(profileData, null, 2)}`)
     })

@@ -32,6 +32,7 @@
   "license": "LGPL-3.0-only",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.445.0",
+    "@ethersproject/providers": "^5.7.2",
     "@xylabs/assert": "^2.13.3",
     "@xylabs/exists": "^2.13.3",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",

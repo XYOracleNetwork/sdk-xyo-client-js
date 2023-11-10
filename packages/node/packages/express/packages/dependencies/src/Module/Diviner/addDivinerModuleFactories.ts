@@ -9,7 +9,13 @@ import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload'
 import { MemoryPayloadStatsDiviner } from '@xyo-network/diviner-payload-stats'
 import { MemorySchemaListDiviner } from '@xyo-network/diviner-schema-list'
 import { MemorySchemaStatsDiviner } from '@xyo-network/diviner-schema-stats'
-import { ImageThumbnailDiviner } from '@xyo-network/image-thumbnail-plugin'
+import {
+  ImageThumbnailDiviner,
+  ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner,
+  ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner,
+  ImageThumbnailQueryToImageThumbnailIndexQueryDiviner,
+  ImageThumbnailStateToIndexCandidateDiviner,
+} from '@xyo-network/image-thumbnail-plugin'
 import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES, WALLET_PATHS } from '@xyo-network/node-core-types'
 import { Container } from 'inversify'
@@ -34,6 +40,10 @@ const getMemoryForecastingDiviner = () => {
 export const addDivinerModuleFactories = (container: Container) => {
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   locator.register(AddressHistoryDiviner)
+  locator.register(ImageThumbnailStateToIndexCandidateDiviner)
+  locator.register(ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner)
+  locator.register(ImageThumbnailQueryToImageThumbnailIndexQueryDiviner)
+  locator.register(ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner)
   locator.register(ImageThumbnailDiviner)
   locator.register(MemoryAddressSpaceDiviner)
   locator.register(MemoryBoundWitnessDiviner)

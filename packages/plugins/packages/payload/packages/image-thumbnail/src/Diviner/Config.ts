@@ -16,14 +16,10 @@ export interface SearchableStorage {
 }
 
 export type ImageThumbnailDivinerConfig = DivinerConfig<{
-  /** @deprecated Use appropriate Storage */
-  archivist?: string
   /**
    * Where the diviner should store it's index
    */
   indexStore?: SearchableStorage
-  /** @deprecated Use appropriate Storage */
-  payloadDiviner?: string
   payloadDivinerLimit?: number
   pollFrequency?: number
   schema: ImageThumbnailDivinerConfigSchema
@@ -31,8 +27,4 @@ export type ImageThumbnailDivinerConfig = DivinerConfig<{
    * Where the diviner should persist its internal state
    */
   stateStore?: SearchableStorage
-  /**
-   * Where the diviner should look for stored thumbnails
-   */
-  thumbnailStore?: SearchableStorage
 }>

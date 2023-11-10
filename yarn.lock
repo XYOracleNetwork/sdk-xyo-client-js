@@ -7289,6 +7289,7 @@ __metadata:
     "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-indexing": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
@@ -7300,6 +7301,18 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing, @xyo-network/diviner-indexing@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": ^3.1.21
+    "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

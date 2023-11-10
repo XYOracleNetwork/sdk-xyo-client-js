@@ -47,8 +47,7 @@
                     "name": "address_state_payloads.IX__hash"
                   }
                 ]
-              },
-              "storeQueries": true
+              }
             }
           },
           {
@@ -287,12 +286,12 @@
                   },
                   {
                     "key": {
+                      "key": 1,
                       "_timestamp": 1,
-                      "url": 1,
                       "success": 1,
                       "status": 1
                     },
-                    "name": "thumbnail_payloads.IX__timestamp_url_success_status"
+                    "name": "thumbnail_payloads.IX_key__timestamp_success_status"
                   }
                 ]
               }
@@ -379,6 +378,55 @@
                   }
                 ]
               }
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailStateToIndexCandidateDiviner",
+              "schema": "network.xyo.diviner.config",
+              "payloadStore": {
+                "archivist": "ImageThumbnailArchivist",
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
+              }
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+              "schema": "network.xyo.diviner.config"
             }
           }
         ],
@@ -658,6 +706,12 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/2'/14'",
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
@@ -666,16 +720,11 @@
               "language": "javascript",
               "name": "ImageThumbnailDiviner",
               "pollFrequency": 1000,
-              "schema": "network.xyo.image.thumbnail.diviner.config",
+              "schema": "network.xyo.diviner.indexing.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",
                 "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
                 "payloadDiviner": "AddressStatePayloadDiviner"
-              },
-              "thumbnailStore": {
-                "archivist": "ImageThumbnailArchivist",
-                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
-                "payloadDiviner": "ImageThumbnailPayloadDiviner"
               }
             }
           },

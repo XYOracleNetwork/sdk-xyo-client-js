@@ -1,0 +1,159 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "DivinerTest",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "language": "javascript",
+              "name": "AddressStateArchivist",
+              "schema": "network.xyo.archivist.config",
+              "storeQueries": false
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStateBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStatePayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "ImageThumbnailArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailPayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexPayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailStateToIndexCandidateDiviner",
+              "schema": "network.xyo.diviner.config",
+              "payloadStore": {
+                "archivist": "ImageThumbnailArchivist",
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
+              }
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
+              "indexStore": {
+                "archivist": "ImageThumbnailDivinerIndexArchivist",
+                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDiviner",
+              "pollFrequency": 1000,
+              "schema": "network.xyo.diviner.indexing.config",
+              "stateStore": {
+                "archivist": "AddressStateArchivist",
+                "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
+                "payloadDiviner": "AddressStatePayloadDiviner"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

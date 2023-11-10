@@ -2,17 +2,41 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ImageThumbnailSchema } from '../Schema'
 
-export const ImageThumbnailResultIndexSchema = `${ImageThumbnailSchema}.index` as const
-export type ImageThumbnailResultIndexSchema = typeof ImageThumbnailResultIndexSchema
+export const ImageThumbnailResultSchema = `${ImageThumbnailSchema}.result` as const
+export type ImageThumbnailResultSchema = typeof ImageThumbnailResultSchema
 
-export interface ImageThumbnailResultInfo {
+/**
+ * The result of an image thumbnail witness
+ */
+export interface ImageThumbnailResultFields {
+  /**
+   * The hashes of the timestamp & image thumbnail payloads used to create this result
+   */
   sources: string[]
+  /**
+   * The HTTP status code of the thumbnail generation request
+   */
   status?: number
+  /**
+   * True for successful thumbnail witnessing, false for failure
+   */
   success: boolean
+  /**
+   * The timestamp of the thumbnail generation request
+   */
   timestamp: number
+  /**
+   * The url of the thumbnail
+   */
   url: string
 }
 
-export type ImageThumbnailResult = Payload<ImageThumbnailResultInfo, ImageThumbnailResultIndexSchema>
+/**
+ * A payload containing the result of an image thumbnail witness
+ */
+export type ImageThumbnailResult = Payload<ImageThumbnailResultFields, ImageThumbnailResultSchema>
 
-export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultIndexSchema)
+/**
+ * A type guard for ImageThumbnailResult
+ */
+export const isImageThumbnailResult = isPayloadOfSchemaType<ImageThumbnailResult>(ImageThumbnailResultSchema)

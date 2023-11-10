@@ -1,30 +1,37 @@
+import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
-import { Account } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import {
   ImageThumbnail,
   ImageThumbnailDivinerQuery,
   ImageThumbnailDivinerQuerySchema,
   isImageThumbnailResult,
-  SearchableStorage,
+  isImageThumbnailResultIndex,
 } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
+import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { ImageThumbnailDiviner } from '../Diviner'
+import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from '../ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
+import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
+import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from '../ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
+import { ImageThumbnailStateToIndexCandidateDiviner } from '../ImageThumbnailStateToIndexCandidateDiviner'
+import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
  * @group slow
  */
 describe('ImageThumbnailDiviner', () => {
-  const pollFrequency = 10
-  const indexArchivistName = 'indexArchivist'
-  const stateArchivistName = 'stateArchivist'
-  const thumbnailArchivistName = 'thumbnailArchivist'
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
@@ -60,80 +67,31 @@ describe('ImageThumbnailDiviner', () => {
     schema: 'network.xyo.image.thumbnail',
     sourceUrl,
   }
+  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
   let sut: ImageThumbnailDiviner
   let node: MemoryNode
 
-  let indexArchivist: MemoryArchivist
-  let indexBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let indexPayloadDiviner: MemoryPayloadDiviner
-
-  let stateArchivist: MemoryArchivist
-  let stateBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let statePayloadDiviner: MemoryPayloadDiviner
-
-  let thumbnailArchivist: MemoryArchivist
-  let thumbnailBoundWitnessDiviner: MemoryBoundWitnessDiviner
-  let thumbnailPayloadDiviner: MemoryPayloadDiviner
-
   beforeAll(async () => {
-    ;[
-      thumbnailArchivist,
-      thumbnailBoundWitnessDiviner,
-      thumbnailPayloadDiviner,
-      indexArchivist,
-      indexBoundWitnessDiviner,
-      indexPayloadDiviner,
-      stateArchivist,
-      stateBoundWitnessDiviner,
-      statePayloadDiviner,
-      node,
-    ] = await Promise.all([
-      // Create thumbnail store
-      await MemoryArchivist.create({
-        account: Account.randomSync(),
-        config: { name: thumbnailArchivistName, schema: MemoryArchivist.configSchema },
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: thumbnailArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      }),
-      await MemoryPayloadDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: thumbnailArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      }),
-      // Create index store
-      await MemoryArchivist.create({
-        account: Account.randomSync(),
-        config: { name: indexArchivistName, schema: MemoryArchivist.configSchema },
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: indexArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      }),
-      await MemoryPayloadDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: indexArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      }),
-      // Create state store
-      await MemoryArchivist.create({
-        account: Account.randomSync(),
-        config: { name: stateArchivistName, schema: MemoryArchivist.configSchema },
-      }),
-      await MemoryBoundWitnessDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: stateArchivistName, schema: MemoryBoundWitnessDiviner.configSchema },
-      }),
-      await MemoryPayloadDiviner.create({
-        account: Account.randomSync(),
-        config: { archivist: stateArchivistName, schema: MemoryPayloadDiviner.configSchema },
-      }),
-      // Create node
-      await MemoryNode.create({
-        account: Account.randomSync(),
-        config: { schema: MemoryNode.configSchema },
-      }),
-    ])
+    const wallet = await HDWallet.random()
+    const locator = new ModuleFactoryLocator()
+    locator.register(MemoryArchivist)
+    locator.register(MemoryBoundWitnessDiviner)
+    locator.register(MemoryPayloadDiviner)
+    locator.register(ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner)
+    locator.register(ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner)
+    locator.register(ImageThumbnailQueryToImageThumbnailIndexQueryDiviner)
+    locator.register(ImageThumbnailStateToIndexCandidateDiviner)
+    locator.register(ImageThumbnailDiviner)
+    const manifest = imageThumbnailDivinerManifest as PackageManifest
+    const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
+    node = await manifestWrapper.loadNodeFromIndex(0)
+    await node.start()
+
+    const privateModules = manifest.nodes[0].modules?.private ?? []
+    const publicModules = manifest.nodes[0].modules?.public ?? []
+    const mods = await node.resolve()
+    expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
@@ -151,6 +109,7 @@ describe('ImageThumbnailDiviner', () => {
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [codeFailBoundWitness, codeFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp]).build()
 
+    const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([
       httpSuccessBoundWitness,
       ...httpSuccessPayloads,
@@ -162,50 +121,59 @@ describe('ImageThumbnailDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    const thumbnailStore: SearchableStorage = {
-      archivist: thumbnailArchivist.address,
-      boundWitnessDiviner: thumbnailBoundWitnessDiviner.address,
-      payloadDiviner: thumbnailPayloadDiviner.address,
-    }
-    const indexStore: SearchableStorage = {
-      archivist: indexArchivist.address,
-      boundWitnessDiviner: indexBoundWitnessDiviner.address,
-      payloadDiviner: indexPayloadDiviner.address,
-    }
-    const stateStore: SearchableStorage = {
-      archivist: stateArchivist.address,
-      boundWitnessDiviner: stateBoundWitnessDiviner.address,
-      payloadDiviner: statePayloadDiviner.address,
-    }
-    sut = await ImageThumbnailDiviner.create({
-      account: Account.randomSync(),
-      config: { indexStore, pollFrequency, schema: ImageThumbnailDiviner.configSchema, stateStore, thumbnailStore },
-    })
-    const modules = [
-      stateArchivist,
-      stateBoundWitnessDiviner,
-      statePayloadDiviner,
-      indexArchivist,
-      indexBoundWitnessDiviner,
-      indexPayloadDiviner,
-      thumbnailArchivist,
-      thumbnailBoundWitnessDiviner,
-      thumbnailPayloadDiviner,
-      sut,
-    ]
-
-    await node.start()
-    await Promise.all(
-      modules.map(async (mod) => {
-        await node.register(mod)
-        await node.attach(mod.address, true)
-      }),
-    )
+    sut = assertEx(asDivinerInstance<ImageThumbnailDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
-    await delay(pollFrequency * 10)
-    //console.log(`indexArchivist: ${JSON.stringify(await PayloadHasher.toMap(await indexArchivist.all()), null, 2)}`)
-  }, 20000)
+    await delay(5000)
+  }, 40000)
+  describe('diviner state', () => {
+    let stateArchivist: MemoryArchivist
+    beforeAll(async () => {
+      const mod = await node.resolve('AddressStateArchivist')
+      stateArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
+    })
+    it('has expected bound witnesses', async () => {
+      const payloads = await stateArchivist.all()
+      const stateBoundWitnesses = payloads.filter(isBoundWitness)
+      expect(stateBoundWitnesses).toBeArrayOfSize(2)
+      stateBoundWitnesses.forEach((stateBoundWitness) => {
+        expect(stateBoundWitness).toBeObject()
+        expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
+        expect(stateBoundWitness.addresses).toContain(sut.address)
+      })
+    })
+    it('has expected state', async () => {
+      const payloads = await stateArchivist.all()
+      const statePayloads = payloads.filter(isModuleState)
+      expect(statePayloads).toBeArrayOfSize(2)
+      expect(statePayloads.at(-1)).toBeObject()
+      const statePayload = assertEx(statePayloads.at(-1))
+      expect(statePayload.state).toBeObject()
+      expect(statePayload.state?.offset).toBe(witnessedThumbnails.length)
+    })
+  })
+  describe('diviner index', () => {
+    let indexArchivist: MemoryArchivist
+    beforeAll(async () => {
+      const mod = await node.resolve('ImageThumbnailDivinerIndexArchivist')
+      indexArchivist = assertEx(asArchivistInstance<MemoryArchivist>(mod))
+    })
+    // NOTE: We're not signing indexes for performance reasons
+    it.skip('has expected bound witnesses', async () => {
+      const payloads = await indexArchivist.all()
+      const indexBoundWitnesses = payloads.filter(isBoundWitness)
+      expect(indexBoundWitnesses).toBeArrayOfSize(1)
+      const indexBoundWitness = indexBoundWitnesses[0]
+      expect(indexBoundWitness).toBeObject()
+      expect(indexBoundWitness.addresses).toBeArrayOfSize(1)
+      expect(indexBoundWitness.addresses).toContain(sut.address)
+    })
+    it('has expected index', async () => {
+      const payloads = await indexArchivist.all()
+      const indexPayloads = payloads.filter(isImageThumbnailResultIndex)
+      expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
+    })
+  })
   describe('with no thumbnail for the provided URL', () => {
     const url = 'https://does.not.exist.io'
     const schema = ImageThumbnailDivinerQuerySchema

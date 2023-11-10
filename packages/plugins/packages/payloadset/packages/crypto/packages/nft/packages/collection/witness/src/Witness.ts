@@ -13,9 +13,10 @@ import {
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { ERC721Enumerable__factory } from '@xyo-network/open-zeppelin-typechain'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { WitnessParams } from '@xyo-network/witness-model'
 
-import { getNftCollectionMetrics, getNftCollectionNfts, getProviderFromEnv, tokenTypes } from './lib'
+import { getNftCollectionMetrics, getNftCollectionNfts, tokenTypes } from './lib'
 
 export type CryptoNftCollectionWitnessParams = WitnessParams<
   AnyConfigSchema<NftCollectionWitnessConfig>,

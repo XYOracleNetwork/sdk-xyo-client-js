@@ -8075,6 +8075,7 @@ __metadata:
     "@xyo-network/prometheus-node-plugin": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"
+    "@xyo-network/witness-blockchain-abstract": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
     body-parser: ^1.20.2

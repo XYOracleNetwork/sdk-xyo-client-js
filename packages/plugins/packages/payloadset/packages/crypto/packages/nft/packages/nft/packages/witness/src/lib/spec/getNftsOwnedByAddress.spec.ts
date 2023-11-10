@@ -1,7 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { getNftsOwnedByAddress } from '../getNftsOwnedByAddress'
-import { getProviderFromEnv } from '../getProvider'
 
 type TestData = [chainName: string, address: string, chainId: number]
 

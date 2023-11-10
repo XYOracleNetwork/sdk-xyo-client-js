@@ -1,4 +1,4 @@
-import { JsonRpcProvider, WebSocketProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
@@ -18,7 +18,7 @@ import { getNftsOwnedByAddress, getNftsOwnedByAddressWithMetadata } from './lib'
 export type CryptoWalletNftWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoWalletNftWitnessConfig>,
   {
-    provider: JsonRpcProvider | WebSocketProvider
+    provider: BaseProvider
   }
 >
 

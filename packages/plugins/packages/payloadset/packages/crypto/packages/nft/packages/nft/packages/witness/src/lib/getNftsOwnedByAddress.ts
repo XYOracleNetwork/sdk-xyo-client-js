@@ -1,9 +1,8 @@
-import { JsonRpcProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { NftInfoFields, TokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
 import { LRUCache } from 'lru-cache'
 
-import { getAssetsFromWallet } from './getAssetsFromWallet'
 import { getNftsFromWalletFromOpenSea } from './getAssetsFromWalletFromOpenSea'
 import { getInfuraProvider } from './getInfuraProvider'
 import { getNftMetadata } from './getNftMetadata'
@@ -35,7 +34,7 @@ export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
 
 const tokenTypeCache = new LRUCache<string, TokenType[]>({ max: 100 })
 
-export const getTokenTypes = async (provider: Provider, address: string) => {
+export const getTokenTypes = async (provider: BaseProvider, address: string) => {
   const key = `${address}|${(await provider.getNetwork()).chainId}`
   const currentValue = tokenTypeCache.get(key)
   if (currentValue) {
@@ -74,7 +73,7 @@ export const getNftsOwnedByAddressWithMetadata = async (
   /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
   /** @param provider The provider to use for accessing the block chain */
-  provider: JsonRpcProvider | WebSocketProvider,
+  provider: BaseProvider,
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 200,
   /** @param httpTimeout The connection timeout for http call to get metadata */
@@ -106,7 +105,7 @@ export const getNftsOwnedByAddress = async (
   /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
   /** @param provider The provider to use for accessing the block chain */
-  provider: JsonRpcProvider | WebSocketProvider,
+  provider: BaseProvider,
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 100,
   /** @param httpTimeout The connection timeout for http call to get metadata */

@@ -1,7 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { getNftCollectionNfts } from '../getNftCollectionNfts'
-import { getProviderFromEnv } from '../getProviderFromEnv'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionNfts', () => {
   const cases: [address: string, chainId: number][] = [

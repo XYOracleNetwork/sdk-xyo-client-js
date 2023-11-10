@@ -23,6 +23,7 @@
     "@xyo-network/open-zeppelin-typechain": "^2.2.11",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
+    "@xyo-network/witness-blockchain-abstract": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {

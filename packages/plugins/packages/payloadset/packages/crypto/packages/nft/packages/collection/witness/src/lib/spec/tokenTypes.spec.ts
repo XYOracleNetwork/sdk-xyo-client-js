@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describeIf } from '@xylabs/jest-helpers'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
-import { getProviderFromEnv } from '../getProviderFromEnv'
 import { isErc721, isErc1155 } from '../tokenTypes'
 
 describeIf(process.env.INFURA_PROJECT_ID)('getNftCollectionMetadata', () => {

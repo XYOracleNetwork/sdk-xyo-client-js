@@ -13,11 +13,11 @@
               "functionName": "name",
               "params": [],
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721"
+                "network.xyo.blockchain.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721NameWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
@@ -25,33 +25,33 @@
               "functionName": "symbol",
               "params": [],
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721"
+                "network.xyo.blockchain.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721SymbolWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
             "config": {
               "functionName": "tokenURI",
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721"
+                "network.xyo.blockchain.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721TokenURIWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
             "config": {
               "functionName": "ownerOf",
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721"
+                "network.xyo.blockchain.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721OwnerOfWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
@@ -59,22 +59,22 @@
               "functionName": "totalSupply",
               "params": [],
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
+                "network.xyo.blockchain.contract.interface": "Erc721Enumerable"
               },
               "language": "javascript",
               "name": "Erc721TotalSupplyWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
             "config": {
               "functionName": "tokenByIndex",
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
+                "network.xyo.blockchain.contract.interface": "Erc721Enumerable"
               },
               "language": "javascript",
               "name": "Erc721TokenByIndexWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
@@ -82,25 +82,18 @@
               "functionName": "uri",
               "params": [],
               "labels": {
-                "network.xyo.crypto.contract.interface": "Erc1155"
+                "network.xyo.blockchain.contract.interface": "Erc1155"
               },
               "language": "javascript",
               "name": "Erc1155UriWitness",
-              "schema": "network.xyo.crypto.contract.function.read.config"
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
             }
           },
           {
             "config": {
               "language": "javascript",
-              "name": "Erc721ContractInfoDiviner",
-              "schema": "network.xyo.crypto.contract.diviner.config"
-            }
-          },
-          {
-            "config": {
-              "language": "javascript",
-              "name": "Erc1155ContractInfoDiviner",
-              "schema": "network.xyo.crypto.contract.diviner.config"
+              "name": "ContractInfoDiviner",
+              "schema": "network.xyo.blockchain.contract.call.diviner.config"
             }
           },
           {
@@ -123,22 +116,12 @@
                   "module": "Erc721TotalSupplyWitness"
                 },
                 {
-                  "input": true,
-                  "module": "Erc1155UriWitness"
-                },
-                {
                   "input": [
                     "Erc721NameWitness",
                     "Erc721SymbolWitness",
                     "Erc721TotalSupplyWitness"
                   ],
-                  "module": "Erc721ContractInfoDiviner"
-                },
-                {
-                  "input": [
-                    "Erc1155UriWitness"
-                  ],
-                  "module": "Erc1155ContractInfoDiviner"
+                  "module": "ContractInfoDiviner"
                 }
               ]
             }
@@ -146,13 +129,27 @@
           {
             "config": {
               "language": "javascript",
-              "name": "NftTokenInfoSentinel",
+              "name": "Nft721TokenInfoSentinel",
               "schema": "network.xyo.sentinel.config",
               "synchronous": "true",
               "tasks": [
                 {
                   "input": true,
                   "module": "Erc721TokenByIndexWitness"
+                }
+              ]
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "Nft1155TokenInfoSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "Erc1155UriWitness"
                 }
               ]
             }

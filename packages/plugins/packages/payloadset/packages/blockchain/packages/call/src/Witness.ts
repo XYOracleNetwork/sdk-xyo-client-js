@@ -4,39 +4,43 @@ import { assertEx } from '@xylabs/assert'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { AbstractBlockchainWitness, BlockchainWitnessConfig, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
 
-import { BlockchainCall, BlockchainCallResult, BlockchainCallResultSchema, BlockchainCallSchema, BlockchainCallSuccess } from './Payload'
+import {
+  BlockchainContractCall,
+  BlockchainContractCallResult,
+  BlockchainContractCallResultSchema,
+  BlockchainContractCallSchema,
+  BlockchainContractCallSuccess,
+} from './Payload'
 
-export const BlockchainCallWitnessConfigSchema = 'network.xyo.blockchain.call.witness.config'
-export type BlockchainCallWitnessConfigSchema = typeof BlockchainCallWitnessConfigSchema
+export const BlockchainContractCallWitnessConfigSchema = 'network.xyo.blockchain.contract.call.witness.config'
+export type BlockchainContractCallWitnessConfigSchema = typeof BlockchainContractCallWitnessConfigSchema
 
-export type BlockchainCallWitnessConfig = BlockchainWitnessConfig<
+export type BlockchainContractCallWitnessConfig = BlockchainWitnessConfig<
   {
     address?: string
     args?: unknown[]
     contract?: ContractInterface
     functionName?: string
   },
-  BlockchainCallWitnessConfigSchema
+  BlockchainContractCallWitnessConfigSchema
 >
 
-export type BlockchainCallWitnessParams = BlockchainWitnessParams<BlockchainCallWitnessConfig>
+export type BlockchainContractCallWitnessParams = BlockchainWitnessParams<BlockchainContractCallWitnessConfig>
 
-export class BlockchainCallWitness<TParams extends BlockchainCallWitnessParams = BlockchainCallWitnessParams> extends AbstractBlockchainWitness<
-  TParams,
-  BlockchainCall,
-  BlockchainCallResult
-> {
-  static override configSchemas = [BlockchainCallWitnessConfigSchema]
+export class BlockchainContractCallWitness<
+  TParams extends BlockchainContractCallWitnessParams = BlockchainContractCallWitnessParams,
+> extends AbstractBlockchainWitness<TParams, BlockchainContractCall, BlockchainContractCallResult> {
+  static override configSchemas = [BlockchainContractCallWitnessConfigSchema]
 
   get contract() {
     return assertEx(this.config.contract, 'Missing contract')
   }
 
-  protected override async observeHandler(inPayloads: BlockchainCall[] = []): Promise<BlockchainCallResult[]> {
+  protected override async observeHandler(inPayloads: BlockchainContractCall[] = []): Promise<BlockchainContractCallResult[]> {
     await this.started('throw')
     try {
       const observations = await Promise.all(
-        inPayloads.filter(isPayloadOfSchemaType(BlockchainCallSchema)).map(async ({ functionName, args, address }) => {
+        inPayloads.filter(isPayloadOfSchemaType(BlockchainContractCallSchema)).map(async ({ functionName, args, address }) => {
           const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]
@@ -51,13 +55,13 @@ export class BlockchainCallWitness<TParams extends BlockchainCallWitnessParams =
             const error = ex as Error & { code: string }
             this.logger.error(`Error [${this.config.name}]: ${error.code}`)
           }
-          const observation: BlockchainCallSuccess = {
+          const observation: BlockchainContractCallSuccess = {
             address: validatedAddress,
             args: mergedArgs,
             chainId: provider.network.chainId,
             functionName: validatedFunctionName,
             result: transformedResult,
-            schema: BlockchainCallResultSchema,
+            schema: BlockchainContractCallResultSchema,
           }
           return observation
         }),

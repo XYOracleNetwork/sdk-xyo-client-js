@@ -3,7 +3,7 @@
   "nodes": [
     {
       "config": {
-        "accountPath": "0'",
+        "accountPath": "1'",
         "name": "SimpleMemoryDapp",
         "schema": "network.xyo.node.config"
       },
@@ -12,7 +12,7 @@
           {
             "config": {
               "language": "javascript",
-              "name": "ScratchArchivist",
+              "name": "ScratchArchivistChild",
               "schema": "network.xyo.archivist.config"
             }
           }
@@ -21,14 +21,14 @@
           {
             "config": {
               "language": "javascript",
-              "name": "SimpleArchivist",
+              "name": "SimpleArchivistChild",
               "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
               "language": "javascript",
-              "name": "SimpleSentinel",
+              "name": "SimpleSentinelChild",
               "schema": "network.xyo.sentinel.config",
               "synchronous": true
             }
@@ -36,7 +36,7 @@
           {
             "config": {
               "language": "javascript",
-              "name": "SimpleHttpBridge",
+              "name": "SimpleHttpBridgeChild",
               "nodeUrl": "https://beta.api.archivist.xyo.network",
               "schema": "network.xyo.bridge.http.config"
             }

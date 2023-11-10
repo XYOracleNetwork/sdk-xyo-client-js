@@ -3,14 +3,14 @@ import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 
 import { ManifestWrapper } from '../ManifestWrapper'
-import simpleNodeInlineManifest from './simple-node-inline-manifest.json'
+import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json'
 
 describe('Manifest', () => {
-  describe('Create Node from Manifest', () => {
+  describe('Create Node from Manifest [Lazy]', () => {
     test('Simple Node [Inline]', async () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
       const wallet = await HDWallet.fromMnemonic(mnemonic)
-      const manifest = new ManifestWrapper(simpleNodeInlineManifest as PackageManifestPayload, wallet)
+      const manifest = new ManifestWrapper(simpleNodeInlineLazyManifest as PackageManifestPayload, wallet)
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
       const discover = await node.discover()

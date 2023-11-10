@@ -21,6 +21,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     payload: PackageManifestPayload,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
+    protected readonly children: PackageManifestPayload[] = [],
   ) {
     super(payload)
   }
@@ -89,6 +90,14 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
         await this.loadModule(node, moduleManifest, true, registry)
       }) ?? []
     await Promise.all([...privateModules, ...publicModules])
+
+    await Promise.all(
+      this.children.map(async (child) => {
+        const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
+        await wrapper.loadNodes(node)
+      }),
+    )
+
     return node
   }
 

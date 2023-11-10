@@ -4,6 +4,7 @@ import {
   ImageThumbnailDivinerQuerySchema,
   ImageThumbnailResultIndex,
   ImageThumbnailResultIndexSchema,
+  ImageThumbnailResultSchema,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
@@ -75,6 +76,7 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
           expect(result.success).toBe(index.success)
           expect(result.timestamp).toBe(index.timestamp)
           expect(result.status).toBe(index.status)
+          expect(result.schema).toBe(ImageThumbnailResultSchema)
         })
       })
     })
@@ -96,6 +98,7 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
             expect(result.success).toBe(index.success)
             expect(result.timestamp).toBe(index.timestamp)
             expect(result.status).toBe(index.status)
+            expect(result.schema).toBe(ImageThumbnailResultSchema)
             resultsIterator = ++resultsIterator
           }
         }

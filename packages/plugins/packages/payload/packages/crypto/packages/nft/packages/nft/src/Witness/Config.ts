@@ -4,6 +4,7 @@ import { NftWitnessConfigSchema } from './Schema'
 
 export type CryptoWalletNftWitnessConfig = WitnessConfig<{
   address?: string
+  loadMetadata?: boolean
   schema: NftWitnessConfigSchema
   timeout?: number
 }>

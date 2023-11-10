@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
+import { JsonRpcProvider, WebSocketProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
@@ -13,7 +13,7 @@ import {
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { WitnessParams } from '@xyo-network/witness-model'
 
-import { getNftsOwnedByAddress } from './lib'
+import { getNftsOwnedByAddress, getNftsOwnedByAddressWithMetadata } from './lib'
 
 export type CryptoWalletNftWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoWalletNftWitnessConfig>,
@@ -32,6 +32,10 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
   NftInfo
 > {
   static override configSchemas = [NftWitnessConfigSchema]
+
+  get loadMetadata() {
+    return this.config.loadMetadata ?? false
+  }
 
   get provider() {
     return this.params.provider
@@ -54,7 +58,9 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
           const chainId = assertEx(network.chainId, 'params.chainId is required')
           const maxNfts = query?.maxNfts || defaultMaxNfts
           try {
-            const nfts = await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
+            const nfts = this.loadMetadata
+              ? await getNftsOwnedByAddressWithMetadata(address, this.provider, maxNfts, this.timeout)
+              : await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
             const observation = nfts.map<NftInfo>((nft) => {
               return { ...nft, schema }
             })

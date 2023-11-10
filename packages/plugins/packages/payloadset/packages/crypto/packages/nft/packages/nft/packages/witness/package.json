@@ -24,7 +24,8 @@
     "@xyo-network/open-zeppelin-typechain": "^2.2.11",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~",
+    "lru-cache": "^10.0.1"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.3",

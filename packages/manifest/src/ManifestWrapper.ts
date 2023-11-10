@@ -21,7 +21,8 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     payload: PackageManifestPayload,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
-    protected readonly children: PackageManifestPayload[] = [],
+    protected readonly publicChildren: PackageManifestPayload[] = [],
+    protected readonly privateChildren: PackageManifestPayload[] = [],
   ) {
     super(payload)
   }
@@ -92,9 +93,22 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     await Promise.all([...privateModules, ...publicModules])
 
     await Promise.all(
-      this.children.map(async (child) => {
+      this.privateChildren.map(async (child) => {
         const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
-        await wrapper.loadNodes(node)
+        const subNodes = await wrapper.loadNodes(node)
+        subNodes.forEach((subNode) => {
+          node.attach(subNode.address, false)
+        })
+      }),
+    )
+
+    await Promise.all(
+      this.publicChildren.map(async (child) => {
+        const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
+        const subNodes = await wrapper.loadNodes(node)
+        subNodes.forEach((subNode) => {
+          node.attach(subNode.address, true)
+        })
       }),
     )
 
@@ -106,7 +120,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode[]> {
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     const result = await Promise.all(
-      this.payload().nodes?.map(async (nodeManifest, index) => {
+      this.jsonPayload().nodes?.map(async (nodeManifest, index) => {
         const subNode = await this.loadNodeFromManifest(nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, registry)
         await node?.register(subNode)
         return subNode

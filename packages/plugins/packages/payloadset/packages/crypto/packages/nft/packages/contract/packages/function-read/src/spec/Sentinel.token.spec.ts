@@ -179,13 +179,9 @@ describe('Erc721Sentinel', () => {
         profile('tokenReport')
         const semaphore = new Semaphore(maxConcurrent)
         const tokenReportArrays = await Promise.all(
-          chunks.map(async (chunk, index) => {
+          chunks.map(async (chunk) => {
             return await semaphore.runExclusive(async () => {
-              console.log(`runExclusive-start: ${chunk.length} [${index + 1}/${chunks.length}]`)
-              const start = Date.now()
               const result = await tokenSentinel.report(chunk)
-              const end = Date.now()
-              console.log(`runExclusive-end: ${result.length} [${index + 1}/${chunks.length}] ${end - start}ms (${(end - start) / chunk.length}ms)`)
               return result
             })
           }),

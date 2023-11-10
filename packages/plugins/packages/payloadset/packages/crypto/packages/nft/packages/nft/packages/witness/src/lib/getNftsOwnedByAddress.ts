@@ -4,6 +4,7 @@ import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-
 import { LRUCache } from 'lru-cache'
 
 import { getAssetsFromWallet } from './getAssetsFromWallet'
+import { getNftsFromWalletFromOpenSea } from './getAssetsFromWalletFromOpenSea'
 import { getInfuraProvider } from './getInfuraProvider'
 import { getNftMetadata } from './getNftMetadata'
 import { tokenTypes } from './tokenTypes'
@@ -75,7 +76,7 @@ export const getNftsOwnedByAddressWithMetadata = async (
   /** @param provider The provider to use for accessing the block chain */
   provider: JsonRpcProvider | WebSocketProvider,
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
-  maxNfts = 1000,
+  maxNfts = 200,
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 5000,
 ): Promise<NftInfoFields[]> => {
@@ -111,24 +112,25 @@ export const getNftsOwnedByAddress = async (
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 5000,
 ): Promise<NftInfoFields[]> => {
-  const assets = await getAssetsFromWallet(publicAddress, maxNfts, timeout)
+  //const assets = await getAssetsFromWallet(publicAddress, maxNfts, timeout)
+  const nfts = await getNftsFromWalletFromOpenSea(provider.network.chainId, publicAddress, maxNfts, timeout)
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    assets.map(async (nft) => {
+    nfts.map(async (nft) => {
       try {
-        const { collectionAddress, collectionTokenId } = nft
+        const { contract, identifier } = nft
         let supply = '0x01'
-        const types = await getTokenTypes(provider, collectionAddress)
+        const types = await getTokenTypes(provider, contract)
         if (types.includes('ERC1155')) {
-          const supply1155 = ERC1155Supply__factory.connect(collectionAddress, provider)
-          supply = (await tryCall(async () => (await supply1155.totalSupply(collectionTokenId)).toHexString())) ?? '0x01'
+          const supply1155 = ERC1155Supply__factory.connect(contract, provider)
+          supply = (await tryCall(async () => (await supply1155.totalSupply(contract)).toHexString())) ?? '0x01'
         }
         const fields: NftInfoFields = {
-          address: collectionAddress,
+          address: contract,
           chainId: provider.network.chainId,
           supply,
-          tokenId: collectionTokenId,
+          tokenId: identifier,
           type: types.at(0),
           types,
         }

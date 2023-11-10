@@ -34,7 +34,7 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
   static override configSchemas = [NftWitnessConfigSchema]
 
   get loadMetadata() {
-    return this.config.loadMetadata ?? false
+    return this.config.loadMetadata ?? true
   }
 
   get provider() {

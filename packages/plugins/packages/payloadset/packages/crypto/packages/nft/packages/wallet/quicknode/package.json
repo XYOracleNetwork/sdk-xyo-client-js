@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.13.3",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/axios": "workspace:~",
-    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",

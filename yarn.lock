@@ -5662,7 +5662,6 @@ __metadata:
     "@types/sha.js": ^2.4.4
     "@xylabs/array": ^2.13.3
     "@xylabs/assert": ^2.13.3
-    "@xylabs/crypto": ^2.13.3
     "@xylabs/libauth": ^2.12.34
     "@xylabs/static-implements": ^2.13.3
     "@xylabs/ts-scripts-yarn3": ^3.1.21
@@ -5703,7 +5702,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api-graphql-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/wallet/quicknode, @xyo-network/api-graphql-plugin@workspace:~":
+"@xyo-network/api-graphql-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/wallet/quicknode":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api-graphql-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/wallet/quicknode"
   dependencies:
@@ -5714,7 +5713,6 @@ __metadata:
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"
-    "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payloadset-plugin": "workspace:~"
@@ -6701,7 +6699,6 @@ __metadata:
   resolution: "@xyo-network/crypto-nft-collection-witness-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/collection/witness"
   dependencies:
     "@ethersproject/abi": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.13.3
     "@xylabs/eth-address": ^2.13.3
@@ -6823,7 +6820,6 @@ __metadata:
   resolution: "@xyo-network/crypto-nft-witness-wallet-plugin@workspace:packages/plugins/packages/payloadset/packages/crypto/packages/nft/packages/nft/packages/witness"
   dependencies:
     "@ethersproject/abi": ^5.7.0
-    "@ethersproject/contracts": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.13.3
     "@xylabs/eth-address": ^2.13.3
@@ -6831,8 +6827,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
     "@xyo-network/abstract-witness": "workspace:~"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/api-graphql-plugin": "workspace:~"
     "@xyo-network/axios": ^2.78.5
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:^"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
@@ -7295,11 +7289,13 @@ __metadata:
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/image-thumbnail-payload-plugin": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/url-payload-plugin": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
@@ -8504,7 +8500,6 @@ __metadata:
     "@xylabs/lodash": ^2.13.3
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
-    "@xylabs/url": ^2.13.3
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/axios": "workspace:~"

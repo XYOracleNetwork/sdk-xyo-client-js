@@ -26,6 +26,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/url-payload-plugin": "workspace:~",
     "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
+    "@xyo-network/manifest": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.2.2"

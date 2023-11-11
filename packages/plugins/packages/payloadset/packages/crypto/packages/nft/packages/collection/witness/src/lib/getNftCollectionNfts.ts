@@ -2,34 +2,12 @@ import { BaseProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
+import { checkIpfsUrl, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, readAddressFromSlot } from '@xyo-network/witness-blockchain-abstract'
 
 import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
-
-/**
- * Returns the equivalent IPFS gateway URL for the supplied URL.
- * @param urlToCheck The URL to check
- * @returns If the supplied URL is an IPFS URL, it converts the URL to the
- * equivalent IPFS gateway URL. Otherwise, returns the original URL.
- */
-export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
-  const url = new URL(urlToCheck)
-  let protocol = url.protocol
-  let host = url.host
-  let path = url.pathname
-  const query = url.search
-  if (protocol === 'ipfs:') {
-    protocol = 'https:'
-    host = ipfsGateway
-    path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-    const root = `${protocol}//${host}/${path}`
-    return query?.length > 0 ? `${root}?${query}` : root
-  } else {
-    return urlToCheck
-  }
-}
 
 export const getNftCollectionNfts = async (
   /**
@@ -49,11 +27,14 @@ export const getNftCollectionNfts = async (
   maxNfts = 100,
 ): Promise<NftInfo[]> => {
   try {
+    //Check if ERC-1967 Upgradeable
+    const implementation = await readAddressFromSlot(provider, contractAddress, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, true)
+
     const axios = new AxiosJson({ timeout: 2000 })
-    const enumerable = ERC721Enumerable__factory.connect(contractAddress, provider)
-    const storage = ERC721URIStorage__factory.connect(contractAddress, provider)
-    const supply1155 = ERC1155Supply__factory.connect(contractAddress, provider)
-    const finalTypes = types ?? (await tokenTypes(provider, contractAddress))
+    const enumerable = ERC721Enumerable__factory.connect(implementation, provider)
+    const storage = ERC721URIStorage__factory.connect(implementation, provider)
+    const supply1155 = ERC1155Supply__factory.connect(implementation, provider)
+    const finalTypes = types ?? (await tokenTypes(provider, implementation))
     const result: NftInfo[] = []
 
     for (let i = 0; i < maxNfts; i++) {
@@ -84,6 +65,9 @@ export const getNftCollectionNfts = async (
           tokenId,
           type: finalTypes.at(0),
           types: finalTypes,
+        }
+        if (implementation !== contractAddress) {
+          info.implementation = implementation
         }
         result.push(info)
       }

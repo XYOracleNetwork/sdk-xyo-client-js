@@ -1,36 +1,17 @@
 import { BaseProvider } from '@ethersproject/providers'
 import { NftInfoFields, TokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
+import {
+  ERC1967_PROXY_BEACON_STORAGE_SLOT,
+  ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT,
+  readAddressFromSlot,
+} from '@xyo-network/witness-blockchain-abstract'
 import { LRUCache } from 'lru-cache'
 
 import { getNftsFromWalletFromOpenSea } from './getAssetsFromWalletFromOpenSea'
-import { getInfuraProvider } from './getInfuraProvider'
 import { getNftMetadata } from './getNftMetadata'
 import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
-
-/**
- * Returns the equivalent IPFS gateway URL for the supplied URL.
- * @param urlToCheck The URL to check
- * @returns If the supplied URL is an IPFS URL, it converts the URL to the
- * equivalent IPFS gateway URL. Otherwise, returns the original URL.
- */
-export const checkIpfsUrl = (urlToCheck: string, ipfsGateway: string) => {
-  const url = new URL(urlToCheck)
-  let protocol = url.protocol
-  let host = url.host
-  let path = url.pathname
-  const query = url.search
-  if (protocol === 'ipfs:') {
-    protocol = 'https:'
-    host = ipfsGateway
-    path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
-    const root = `${protocol}//${host}/${path}`
-    return query?.length > 0 ? `${root}?${query}` : root
-  } else {
-    return urlToCheck
-  }
-}
 
 const tokenTypeCache = new LRUCache<string, TokenType[]>({ max: 100 })
 
@@ -46,26 +27,34 @@ export const getTokenTypes = async (provider: BaseProvider, address: string) => 
   }
 }
 
-export const getErc721MetadataUri = async (address: string, tokenId: string): Promise<[string | undefined, Error | undefined]> => {
+export const getErc721MetadataUri = async (
+  address: string,
+  tokenId: string,
+  provider: BaseProvider,
+): Promise<[string | undefined, Error | undefined]> => {
   try {
-    const contract = ERC721__factory.connect(address, getInfuraProvider())
+    const contract = ERC721__factory.connect(address, provider)
     return [await contract.tokenURI(tokenId), undefined]
   } catch (ex) {
     return [undefined, ex as Error]
   }
 }
 
-export const getErc1155MetadataUri = async (address: string, tokenId: string): Promise<[string | undefined, Error | undefined]> => {
+export const getErc1155MetadataUri = async (
+  address: string,
+  tokenId: string,
+  provider: BaseProvider,
+): Promise<[string | undefined, Error | undefined]> => {
   try {
-    const contract = ERC1155__factory.connect(address, getInfuraProvider())
+    const contract = ERC1155__factory.connect(address, provider)
     return [await contract.uri(tokenId), undefined]
   } catch (ex) {
     return [undefined, ex as Error]
   }
 }
 
-export const getNftMetadataUri = async (address: string, tokenId: string) => {
-  const results = await Promise.all([getErc721MetadataUri(address, tokenId), getErc1155MetadataUri(address, tokenId)])
+export const getNftMetadataUri = async (address: string, tokenId: string, provider: BaseProvider) => {
+  const results = await Promise.all([getErc721MetadataUri(address, tokenId, provider), getErc1155MetadataUri(address, tokenId, provider)])
   return results[0][0] ?? results[1][0]
 }
 
@@ -85,7 +74,7 @@ export const getNftsOwnedByAddressWithMetadata = async (
     nfts.map(async (nft) => {
       try {
         if (!nft.metadataUri || !nft.metadata) {
-          const [metadataUri, metadata] = await getNftMetadata(nft.address, provider, nft.tokenId)
+          const [metadataUri, metadata] = await getNftMetadata(nft.implementation ?? nft.address, provider, nft.tokenId)
           nft.metadata = metadata
           nft.metadataUri = metadataUri
         }
@@ -119,11 +108,14 @@ export const getNftsOwnedByAddress = async (
     nfts.map(async (nft) => {
       try {
         const { contract, identifier } = nft
+        //Check if ERC-1967 Upgradeable
+        const implementation = await readAddressFromSlot(provider, contract, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, true)
+
         let supply = '0x01'
-        const types = await getTokenTypes(provider, contract)
+        const types = await getTokenTypes(provider, implementation)
         if (types.includes('ERC1155')) {
-          const supply1155 = ERC1155Supply__factory.connect(contract, provider)
-          supply = (await tryCall(async () => (await supply1155.totalSupply(contract)).toHexString())) ?? '0x01'
+          const supply1155 = ERC1155Supply__factory.connect(implementation, provider)
+          supply = (await tryCall(async () => (await supply1155.totalSupply(implementation)).toHexString())) ?? '0x01'
         }
         const fields: NftInfoFields = {
           address: contract,
@@ -132,6 +124,9 @@ export const getNftsOwnedByAddress = async (
           tokenId: identifier,
           type: types.at(0),
           types,
+        }
+        if (implementation !== contract) {
+          fields.implementation = implementation
         }
         return fields
       } catch (ex) {

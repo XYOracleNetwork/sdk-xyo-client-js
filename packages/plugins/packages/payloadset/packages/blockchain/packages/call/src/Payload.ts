@@ -21,6 +21,7 @@ export type BlockchainContractCallResultBase = Payload<
     args: unknown[]
     chainId: number
     functionName: string
+    implementation?: string
   },
   BlockchainContractCallResultSchema
 >

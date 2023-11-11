@@ -121,7 +121,7 @@
         "--runInBand",
         "--testTimeout=120000",
         "-c=./jest.config.no-mongo.ts",
-        "packages/plugins/packages/payloadset/packages/blockchain/packages/call/src/spec/Sentinel.token.spec.ts"
+        "packages/plugins/packages/payloadset/packages/blockchain/packages/call/src/spec/Sentinel.collection.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

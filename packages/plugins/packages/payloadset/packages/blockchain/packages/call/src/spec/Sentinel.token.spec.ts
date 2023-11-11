@@ -27,7 +27,9 @@ const maxProviders = 2
 
 describe('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
-  const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
+  //const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
+  //const address = '0x495f947276749Ce646f68AC8c248420045cb7b5e' //OpenSea Storefront
+  const address = '0x6802df79bcbbf019fe5cb366ff25720d1365cfd3' //Upgradeable
 
   const getProviders = () => {
     const providers: BaseProvider[] = []

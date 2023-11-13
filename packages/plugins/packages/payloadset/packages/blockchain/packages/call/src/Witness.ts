@@ -55,7 +55,7 @@ export class BlockchainContractCallWitness<
           const provider = this.provider
 
           //Check if ERC-1967 Upgradeable
-          const implementation = await readAddressFromSlot(provider, validatedAddress, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, true)
+          const implementation = await readAddressFromSlot(provider, validatedAddress, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT)
 
           const contract = new Contract(implementation, this.contract, provider)
           let transformedResult: unknown

@@ -2,7 +2,12 @@ import { BaseProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xyo-network/axios'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
-import { checkIpfsUrl, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, readAddressFromSlot } from '@xyo-network/witness-blockchain-abstract'
+import {
+  checkIpfsUrl,
+  ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT,
+  getErc1967Status,
+  readAddressFromSlot,
+} from '@xyo-network/witness-blockchain-abstract'
 
 import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
@@ -28,7 +33,7 @@ export const getNftCollectionNfts = async (
 ): Promise<NftInfo[]> => {
   try {
     //Check if ERC-1967 Upgradeable
-    const implementation = await readAddressFromSlot(provider, contractAddress, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, true)
+    const { implementation } = await getErc1967Status(provider, contractAddress)
 
     const axios = new AxiosJson({ timeout: 2000 })
     const enumerable = ERC721Enumerable__factory.connect(implementation, provider)

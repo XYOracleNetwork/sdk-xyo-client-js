@@ -1,7 +1,6 @@
 import { BaseProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
-import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   CryptoWalletNftWitnessConfig,
   isNftWitnessQuery,
@@ -11,6 +10,7 @@ import {
   NftWitnessQuery,
 } from '@xyo-network/crypto-nft-payload-plugin'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AbstractBlockchainWitness } from '@xyo-network/witness-blockchain-abstract'
 import { WitnessParams } from '@xyo-network/witness-model'
 
 import { getNftsOwnedByAddress, getNftsOwnedByAddressWithMetadata } from './lib'
@@ -18,15 +18,15 @@ import { getNftsOwnedByAddress, getNftsOwnedByAddressWithMetadata } from './lib'
 export type CryptoWalletNftWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoWalletNftWitnessConfig>,
   {
-    provider: BaseProvider
+    providers: BaseProvider[]
   }
 >
 
 const schema = NftSchema
 
-const defaultMaxNfts = 100
+const defaultMaxNfts = 200
 
-export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractWitness<
+export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams = CryptoWalletNftWitnessParams> extends AbstractBlockchainWitness<
   TParams,
   NftWitnessQuery,
   NftInfo
@@ -35,10 +35,6 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
 
   get loadMetadata() {
     return this.config.loadMetadata ?? true
-  }
-
-  get provider() {
-    return this.params.provider
   }
 
   get timeout() {
@@ -59,8 +55,8 @@ export class CryptoWalletNftWitness<TParams extends CryptoWalletNftWitnessParams
           const maxNfts = query?.maxNfts || defaultMaxNfts
           try {
             const nfts = this.loadMetadata
-              ? await getNftsOwnedByAddressWithMetadata(address, this.provider, maxNfts, this.timeout)
-              : await getNftsOwnedByAddress(address, this.provider, maxNfts, this.timeout)
+              ? await getNftsOwnedByAddressWithMetadata(address, this.params.providers, maxNfts, this.timeout)
+              : await getNftsOwnedByAddress(address, this.params.providers, maxNfts, this.timeout)
             const observation = nfts.map<NftInfo>((nft) => {
               return { ...nft, schema }
             })

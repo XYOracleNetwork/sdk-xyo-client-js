@@ -1,15 +1,12 @@
 import { BaseProvider } from '@ethersproject/providers'
 import { NftInfoFields, TokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
-import {
-  ERC1967_PROXY_BEACON_STORAGE_SLOT,
-  ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT,
-  readAddressFromSlot,
-} from '@xyo-network/witness-blockchain-abstract'
+import { getErc1967Status } from '@xyo-network/witness-blockchain-abstract'
 import { LRUCache } from 'lru-cache'
 
 import { getNftsFromWalletFromOpenSea } from './getAssetsFromWalletFromOpenSea'
 import { getNftMetadata } from './getNftMetadata'
+import { getProvider } from './getProvider'
 import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
 
@@ -62,21 +59,27 @@ export const getNftsOwnedByAddressWithMetadata = async (
   /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
   /** @param provider The provider to use for accessing the block chain */
-  provider: BaseProvider,
+  providers: BaseProvider[],
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 200,
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 5000,
 ): Promise<NftInfoFields[]> => {
-  const nfts = await getNftsOwnedByAddress(publicAddress, provider, maxNfts, timeout)
+  const nfts = await getNftsOwnedByAddress(publicAddress, providers, maxNfts, timeout)
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     nfts.map(async (nft) => {
       try {
         if (!nft.metadataUri || !nft.metadata) {
-          const [metadataUri, metadata] = await getNftMetadata(nft.implementation ?? nft.address, provider, nft.tokenId)
-          nft.metadata = metadata
-          nft.metadataUri = metadataUri
+          const [metadataUri, metadata] = await getNftMetadata(
+            nft.implementation ?? nft.address,
+            getProvider(providers),
+            nft.tokenId,
+            true,
+            nft.metadataUri,
+          )
+          nft.metadata = nft.metadata ?? metadata
+          nft.metadataUri = nft.metadataUri ?? metadataUri
         }
         return nft
       } catch (ex) {
@@ -94,14 +97,14 @@ export const getNftsOwnedByAddress = async (
   /** @param publicAddress The address of the wallet to search for NFTs */
   publicAddress: string,
   /** @param provider The provider to use for accessing the block chain */
-  provider: BaseProvider,
+  providers: BaseProvider[],
   /** @param maxNfts The maximum number of NFTs to return. Configurable to prevent large wallets from exhausting Infura API credits. */
   maxNfts = 100,
   /** @param httpTimeout The connection timeout for http call to get metadata */
   timeout = 5000,
 ): Promise<NftInfoFields[]> => {
   //const assets = await getAssetsFromWallet(publicAddress, maxNfts, timeout)
-  const nfts = await getNftsFromWalletFromOpenSea(provider.network.chainId, publicAddress, maxNfts, timeout)
+  const nfts = await getNftsFromWalletFromOpenSea(providers, publicAddress, 20, timeout)
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,17 +112,20 @@ export const getNftsOwnedByAddress = async (
       try {
         const { contract, identifier } = nft
         //Check if ERC-1967 Upgradeable
-        const implementation = await readAddressFromSlot(provider, contract, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT, true)
+        const erc1976Status = await getErc1967Status(getProvider(providers), contract)
+        //console.log(`1976: ${JSON.stringify(erc1976Status, null, 2)}`)
+        const { implementation } = erc1976Status
 
         let supply = '0x01'
-        const types = await getTokenTypes(provider, implementation)
+        const types = await getTokenTypes(getProvider(providers), implementation)
         if (types.includes('ERC1155')) {
-          const supply1155 = ERC1155Supply__factory.connect(implementation, provider)
-          supply = (await tryCall(async () => (await supply1155.totalSupply(implementation)).toHexString())) ?? '0x01'
+          const supply1155 = ERC1155Supply__factory.connect(implementation, getProvider(providers))
+          supply = (await tryCall(async () => (await supply1155.totalSupply(erc1976Status.address)).toHexString())) ?? '0x01'
         }
         const fields: NftInfoFields = {
           address: contract,
-          chainId: provider.network.chainId,
+          chainId: getProvider(providers).network.chainId,
+          metadataUri: nft.metadata_url ?? undefined,
           supply,
           tokenId: identifier,
           type: types.at(0),

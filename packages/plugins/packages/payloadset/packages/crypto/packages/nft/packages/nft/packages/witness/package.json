@@ -23,7 +23,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "lru-cache": "^10.0.1"
+    "lru-cache": "^10.0.2"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.3",

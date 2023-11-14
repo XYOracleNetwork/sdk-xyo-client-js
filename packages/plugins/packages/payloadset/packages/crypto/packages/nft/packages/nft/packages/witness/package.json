@@ -15,7 +15,7 @@
     "@xylabs/assert": "^2.13.3",
     "@xylabs/eth-address": "^2.13.3",
     "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/axios": "^2.79.3",
+    "@xyo-network/axios": "^2.79.4",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:^",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -77,5 +77,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.79.3"
+  "version": "2.79.4"
 }

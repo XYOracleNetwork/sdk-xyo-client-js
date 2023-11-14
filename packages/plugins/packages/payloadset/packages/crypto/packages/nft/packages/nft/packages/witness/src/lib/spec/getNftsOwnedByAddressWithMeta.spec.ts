@@ -26,6 +26,5 @@ describeIf(process.env.INFURA_PROJECT_ID)('getNftsOwnedByAddressWithMeta', () =>
       expect(nft.types).toBeArray()
     }
     console.log(`getNftsOwnedByAddressWithMeta [${nfts.length}] Time: ${Date.now() - start}ms`)
-    console.log(`getNftsOwnedByAddressWithMeta ${JSON.stringify(nfts, null, 2)}`)
   })
 })

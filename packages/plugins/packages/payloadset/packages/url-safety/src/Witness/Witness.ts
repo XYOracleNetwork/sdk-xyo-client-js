@@ -52,10 +52,8 @@ const checkUrlSafety = async (
       threatTypes: ['SOCIAL_ENGINEERING', 'POTENTIALLY_HARMFUL_APPLICATION', 'UNWANTED_SOFTWARE', 'THREAT_TYPE_UNSPECIFIED'],
     },
   }
-  console.log(`checkUrlSafetyIn: ${JSON.stringify(postData, null, 2)}`)
   const result = (await axios.post<GoogleSafeBrowsingResult>(`${endPoint}?key=${key}`, postData, { headers: { referer: 'http://localhost:3000' } }))
     .data
-  console.log(`checkUrlSafetyOut: ${JSON.stringify(result, null, 2)}`)
   return result.matches?.map<GoogleSafeBrowsingMatchPayload>((match) => ({ ...match, schema: GoogleSafeBrowsingMatchSchema })) ?? []
 }
 

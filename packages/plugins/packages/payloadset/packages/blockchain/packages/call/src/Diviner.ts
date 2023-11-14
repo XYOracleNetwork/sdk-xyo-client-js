@@ -23,6 +23,7 @@ export type BlockchainContractCallResults = Payload<
   {
     address: string
     chainId: string
+    params?: []
     results?: Record<string, unknown>
   },
   BlockchainContractCallResultsSchema

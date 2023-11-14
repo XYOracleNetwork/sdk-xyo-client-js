@@ -6400,6 +6400,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/blockchain-contract-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/contract":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/blockchain-contract-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/contract"
+  dependencies:
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@ethersproject/providers": ^5.7.2
+    "@xylabs/assert": ^2.13.3
+    "@xylabs/bignumber": ^2.13.3
+    "@xylabs/jest-helpers": ^2.13.3
+    "@xylabs/promise": ^2.13.3
+    "@xylabs/ts-scripts-yarn3": ^3.1.21
+    "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/open-zeppelin-typechain": ^2.2.11
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/witness-blockchain-abstract": "workspace:^"
+    "@xyo-network/witness-model": "workspace:^"
+    async-mutex: ^0.4.0
+    ethers: ^5.7.2
+    jest: ^29.7.0
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain, @xyo-network/blockchain-payload-plugins@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-payload-plugins@workspace:packages/plugins/packages/payload/packages/blockchain"

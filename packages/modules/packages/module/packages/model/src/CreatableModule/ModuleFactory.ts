@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
-import { Logger } from '@xyo-network/logger'
+import { Logger } from '@xylabs/logger'
 
 import { ModuleInstance } from '../instance'
 import { Labels, WithOptionalLabels } from '../Labels'

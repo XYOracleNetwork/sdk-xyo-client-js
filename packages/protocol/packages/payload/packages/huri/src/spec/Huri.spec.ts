@@ -1,5 +1,5 @@
+import { axios } from '@xylabs/axios'
 import { delay } from '@xylabs/delay'
-import { axios } from '@xyo-network/axios'
 import { Payload } from '@xyo-network/payload-model'
 
 import { Huri } from '../Huri'

@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { handleError } from '@xylabs/error'
 import { QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { handleError } from '@xyo-network/error'
 import { PayloadSetPayload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 

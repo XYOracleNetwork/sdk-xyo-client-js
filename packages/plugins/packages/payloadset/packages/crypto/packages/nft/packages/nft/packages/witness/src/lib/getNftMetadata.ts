@@ -1,11 +1,10 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 import { BaseProvider } from '@ethersproject/providers'
-import { AxiosJson } from '@xyo-network/axios'
+import { AxiosJson } from '@xylabs/axios'
 import { NftMetadata } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721URIStorage__factory, ERC1155URIStorage__factory } from '@xyo-network/open-zeppelin-typechain'
 import { checkIpfsUrl } from '@xyo-network/witness-blockchain-abstract'
-import { Contract } from 'ethers'
 import parseDataUrl from 'parse-data-url'
 
 import { isErc721, isErc1155 } from './tokenTypes'

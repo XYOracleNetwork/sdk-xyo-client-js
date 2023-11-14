@@ -1,7 +1,6 @@
 import { describeIf } from '@xylabs/jest-helpers'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { BlockchainAddressSchema, getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
-import { BlockchainAddressSchema } from '../Payload'
 import { BlockchainContractWitness, BlockchainContractWitnessConfigSchema } from '../Witness'
 
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {

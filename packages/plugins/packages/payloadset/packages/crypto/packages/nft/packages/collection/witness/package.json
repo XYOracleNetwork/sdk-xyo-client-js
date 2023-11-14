@@ -12,10 +12,11 @@
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@xylabs/assert": "^2.13.3",
-    "@xylabs/eth-address": "^2.13.3",
+    "@xylabs/assert": "^2.13.7",
+    "@xylabs/axios": "^2.13.7",
+    "@xylabs/eth-address": "^2.13.7",
+    "@xylabs/exists": "^2.13.7",
     "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/axios": "workspace:~",
     "@xyo-network/blockchain-erc1967-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
@@ -28,7 +29,7 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.13.3",
+    "@xylabs/jest-helpers": "^2.13.7",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/account": "workspace:~",

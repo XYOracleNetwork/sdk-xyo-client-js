@@ -2,9 +2,11 @@ import { Logger } from '@xyo-network/shared'
 import { Axios, AxiosHeaders, AxiosResponse, RawAxiosRequestConfig } from 'axios'
 import { gzip } from 'pako'
 
+/** @deprecated use from @xylabs/axios instead */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RawAxiosJsonRequestConfig<D = any> = RawAxiosRequestConfig<D> & { compressLength?: number }
 
+/** @deprecated use from @xylabs/axios instead */
 export class AxiosJson extends Axios {
   static defaultLogger?: Logger
 

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { axios } from '@xylabs/axios'
 import { AddressValue } from '@xyo-network/account'
-import { axios } from '@xyo-network/axios'
 import { DataLike } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 

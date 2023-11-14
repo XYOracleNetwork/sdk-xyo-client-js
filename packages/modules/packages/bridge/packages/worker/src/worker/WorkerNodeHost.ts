@@ -1,5 +1,5 @@
+import { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
-import { Logger } from '@xyo-network/logger'
 import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { NodeInstance } from '@xyo-network/node-model'
 import { generateMnemonic, wordlists } from 'bip39'

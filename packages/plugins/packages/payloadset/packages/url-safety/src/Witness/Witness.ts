@@ -1,5 +1,5 @@
+import { AxiosJson } from '@xylabs/axios'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { AxiosJson } from '@xyo-network/axios'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'
 import { UrlSafetyPayload, UrlSafetySchema, UrlSafetyThreatType } from '@xyo-network/url-safety-payload-plugin'

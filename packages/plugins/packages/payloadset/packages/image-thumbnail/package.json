@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/lodash": "^2.13.3",
+    "@xylabs/axios": "^2.13.7",
+    "@xylabs/lodash": "^2.13.7",
     "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/axios": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-image-thumbnail": "workspace:~",
     "@xyo-network/image-thumbnail-payload-plugin": "workspace:~",
@@ -27,7 +27,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.25.0",
     "hasbin": "^1.2.3",
-    "hash-wasm": "^4.10.0",
+    "hash-wasm": "^4.11.0",
     "sha.js": "^2.4.11",
     "url-parse": "^1.5.10",
     "xml2js": "^0.6.2"

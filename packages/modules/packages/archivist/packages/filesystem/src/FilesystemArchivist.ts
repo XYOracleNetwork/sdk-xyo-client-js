@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
+import { handleError } from '@xylabs/error'
 import { PromisableArray } from '@xylabs/promise'
 import { HDWallet } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -12,7 +13,6 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { handleError } from '@xyo-network/error'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'

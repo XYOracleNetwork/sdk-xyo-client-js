@@ -1,3 +1,4 @@
+import { AxiosJson } from '@xylabs/axios'
 import {
   ApiConfig,
   ApiEnvelope,
@@ -9,7 +10,6 @@ import {
   ApiResponseTupleOrBody,
   ApiResponseType,
 } from '@xyo-network/api-models'
-import { AxiosJson } from '@xyo-network/axios'
 
 export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
   readonly config: C

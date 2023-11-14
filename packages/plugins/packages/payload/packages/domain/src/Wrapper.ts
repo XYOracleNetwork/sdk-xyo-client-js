@@ -1,6 +1,6 @@
+import { axios, AxiosError } from '@xylabs/axios'
 import { reverse } from '@xylabs/lodash'
 import { ApiEnvelope } from '@xyo-network/api-models'
-import { axios, AxiosError } from '@xyo-network/axios'
 import { isBrowser, PayloadHasher } from '@xyo-network/core'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
 import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'

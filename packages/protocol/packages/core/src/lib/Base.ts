@@ -1,4 +1,4 @@
-import { Logger } from '@xyo-network/logger'
+import { Logger } from '@xylabs/logger'
 import { AnyObject } from '@xyo-network/object'
 
 export type BaseParamsFields = {

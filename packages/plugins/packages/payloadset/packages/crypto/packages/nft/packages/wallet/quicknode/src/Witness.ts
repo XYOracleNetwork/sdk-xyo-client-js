@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { AxiosJson } from '@xylabs/axios'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { AxiosJson } from '@xyo-network/axios'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { WitnessConfig, WitnessParams } from '@xyo-network/witness-model'

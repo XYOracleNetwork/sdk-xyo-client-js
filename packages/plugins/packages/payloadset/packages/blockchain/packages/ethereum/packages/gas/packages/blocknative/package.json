@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/axios": "^2.13.7",
     "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/axios": "workspace:~",
     "@xyo-network/blocknative-ethereum-gas-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

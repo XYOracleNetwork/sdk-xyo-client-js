@@ -41,9 +41,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.449.0",
-    "@xylabs/assert": "^2.13.3",
-    "@xylabs/exists": "^2.13.3",
+    "@aws-sdk/client-secrets-manager": "^3.451.0",
+    "@xylabs/assert": "^2.13.7",
+    "@xylabs/exists": "^2.13.7",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

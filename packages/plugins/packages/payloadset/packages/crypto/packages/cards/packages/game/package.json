@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/promise": "^2.13.3",
+    "@xylabs/promise": "^2.13.7",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/crypto-cards-game-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

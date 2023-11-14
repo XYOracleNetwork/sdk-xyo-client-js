@@ -1,5 +1,6 @@
 import { handleError } from './handleError'
 
+/** @deprecated use functionName from @xylabs/function-name instead */
 export const getFunctionName = (depth = 2) => {
   try {
     throw Error()

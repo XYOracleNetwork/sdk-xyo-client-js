@@ -1,5 +1,6 @@
 import { getFunctionName, Logger } from './Logger'
 
+/** @deprecated use from @xylabs/logger instead */
 export class IdLogger implements Logger {
   private _id?: () => string
   private _logger: Logger

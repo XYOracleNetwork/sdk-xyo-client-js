@@ -1,3 +1,4 @@
+/** @deprecated use from @xylabs/logger instead */
 export type LogFunction = (message?: unknown) => void
 import { handleError } from '@xyo-network/error'
 
@@ -5,6 +6,8 @@ import { handleError } from '@xyo-network/error'
  * Interface to handle overlap between Winston &
  * `console` with as much congruency as possible.
  */
+
+/** @deprecated use from @xylabs/logger instead */
 export interface Logger {
   debug: LogFunction
   error: LogFunction
@@ -14,6 +17,7 @@ export interface Logger {
   warn: LogFunction
 }
 
+/** @deprecated use from @xylabs/logger instead */
 export const getFunctionName = (depth = 2) => {
   try {
     throw Error()

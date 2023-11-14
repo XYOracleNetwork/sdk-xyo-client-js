@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
+import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromiseEx } from '@xylabs/promise'
@@ -11,7 +12,6 @@ import { BoundWitnessBuilder, QueryBoundWitnessBuilder, QueryBoundWitnessWrapper
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { PayloadHasher } from '@xyo-network/core'
-import { handleError, handleErrorAsync } from '@xyo-network/error'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,

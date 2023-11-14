@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xyo-network/axios'
+import { AxiosJson } from '@xylabs/axios'
 
 interface QuickNodeAsset {
   chain: string

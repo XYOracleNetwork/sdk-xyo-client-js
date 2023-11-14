@@ -1,3 +1,4 @@
+import { handleError } from '@xylabs/error'
 import { compact } from '@xylabs/lodash'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -6,7 +7,6 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
 import { DivinerWrapper } from '@xyo-network/diviner'
 import { isDivinerModule } from '@xyo-network/diviner-model'
-import { handleError } from '@xyo-network/error'
 import {
   AddressModuleFilter,
   Module,

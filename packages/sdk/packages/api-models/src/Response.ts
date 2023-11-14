@@ -1,4 +1,4 @@
-import { AxiosResponse } from '@xyo-network/axios'
+import { AxiosResponse } from '@xylabs/axios'
 
 import { ApiEnvelope } from './Envelope'
 

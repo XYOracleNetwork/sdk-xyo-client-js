@@ -1,5 +1,5 @@
+import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
-import { Logger } from '@xyo-network/logger'
 
 import { ModuleInstance } from '../instance'
 

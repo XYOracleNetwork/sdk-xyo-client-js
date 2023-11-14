@@ -1,4 +1,4 @@
-import { axios } from '@xyo-network/axios'
+import { axios } from '@xylabs/axios'
 import { AssetSymbol, CryptoAsset, CryptoAssetPrices } from '@xyo-network/coingecko-crypto-market-payload-plugin'
 
 import { coingeckoCoinToAssetMap } from './coinGeckoCoinToAssetMap'

@@ -1,4 +1,4 @@
-import { Logger } from '@xyo-network/logger'
+import { Logger } from '@xylabs/logger'
 
 import { isType, ObjectTypeShape } from './isType'
 

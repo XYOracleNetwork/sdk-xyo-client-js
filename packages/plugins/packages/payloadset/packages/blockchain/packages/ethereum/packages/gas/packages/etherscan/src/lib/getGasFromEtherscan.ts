@@ -1,4 +1,4 @@
-import { axios } from '@xyo-network/axios'
+import { axios } from '@xylabs/axios'
 import { EthereumGasEtherscanResponse } from '@xyo-network/etherscan-ethereum-gas-payload-plugin'
 
 export const getGasFromEtherscan = async (apiKey: string): Promise<EthereumGasEtherscanResponse> => {

@@ -1,9 +1,9 @@
 /* eslint-disable max-statements */
 import { promises as dnsPromises } from 'node:dns'
 
+import { axios, AxiosError, AxiosResponse } from '@xylabs/axios'
 import { compact } from '@xylabs/lodash'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { axios, AxiosError, AxiosResponse } from '@xyo-network/axios'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { UrlPayload, UrlSchema } from '@xyo-network/url-payload-plugin'

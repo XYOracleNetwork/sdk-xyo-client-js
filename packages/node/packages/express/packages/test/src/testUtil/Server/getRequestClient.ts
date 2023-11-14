@@ -1,4 +1,4 @@
-import { AxiosJson } from '@xyo-network/axios'
+import { AxiosJson } from '@xylabs/axios'
 
 let axios: AxiosJson
 

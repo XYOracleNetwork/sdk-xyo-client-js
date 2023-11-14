@@ -16,6 +16,7 @@
     "@xylabs/eth-address": "^2.13.3",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/axios": "workspace:~",
+    "@xyo-network/blockchain-erc1967-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",

@@ -1,9 +1,10 @@
 import { BaseProvider } from '@ethersproject/providers'
 import { exists } from '@xylabs/exists'
 import { AxiosJson } from '@xyo-network/axios'
+import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
-import { checkIpfsUrl, getErc1967Status } from '@xyo-network/witness-blockchain-abstract'
+import { checkIpfsUrl } from '@xyo-network/witness-blockchain-abstract'
 
 import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'

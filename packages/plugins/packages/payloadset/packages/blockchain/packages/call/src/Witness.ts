@@ -1,13 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { assertEx } from '@xylabs/assert'
+import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
-import {
-  AbstractBlockchainWitness,
-  BlockchainWitnessConfig,
-  BlockchainWitnessParams,
-  getErc1967Status,
-} from '@xyo-network/witness-blockchain-abstract'
+import { AbstractBlockchainWitness, BlockchainWitnessConfig, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
 
 import {
   BlockchainContractCall,
@@ -24,6 +20,7 @@ export type BlockchainContractCallWitnessConfig = BlockchainWitnessConfig<
   {
     address?: string
     args?: unknown[]
+    block?: number
     contract?: ContractInterface
     functionName?: string
   },
@@ -45,7 +42,7 @@ export class BlockchainContractCallWitness<
     await this.started('throw')
     try {
       const observations = await Promise.all(
-        inPayloads.filter(isPayloadOfSchemaType(BlockchainContractCallSchema)).map(async ({ functionName, args, address }) => {
+        inPayloads.filter(isPayloadOfSchemaType(BlockchainContractCallSchema)).map(async ({ functionName, args, address, block: payloadBlock }) => {
           const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]
@@ -54,8 +51,10 @@ export class BlockchainContractCallWitness<
 
           const provider = this.provider
 
+          const block = this.config.block ?? payloadBlock ?? (await provider.getBlockNumber())
+
           //Check if ERC-1967 Upgradeable
-          const { implementation } = await getErc1967Status(provider, validatedAddress)
+          const { implementation } = await getErc1967Status(provider, validatedAddress, block)
 
           const contract = new Contract(implementation, this.contract, provider)
           let transformedResult: unknown
@@ -69,6 +68,7 @@ export class BlockchainContractCallWitness<
           const observation: BlockchainContractCallSuccess = {
             address: validatedAddress,
             args: mergedArgs,
+            block,
             chainId: provider.network.chainId,
             functionName: validatedFunctionName,
             result: transformedResult,

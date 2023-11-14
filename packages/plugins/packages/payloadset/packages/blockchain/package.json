@@ -10,6 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xyo-network/blockchain-call-witness": "workspace:~",
+    "@xyo-network/blockchain-contract-witness": "workspace:~",
+    "@xyo-network/blockchain-erc1967-witness": "workspace:~",
     "@xyo-network/ethereum-blockchain-plugins": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~"
   },

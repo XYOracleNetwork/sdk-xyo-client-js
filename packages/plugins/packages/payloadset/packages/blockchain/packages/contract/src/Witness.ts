@@ -1,8 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
-import { AbstractBlockchainWitness, BlockchainWitnessConfig, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
+import {
+  AbstractBlockchainWitness,
+  BlockchainAddress,
+  BlockchainAddressSchema,
+  BlockchainWitnessConfig,
+  BlockchainWitnessParams,
+} from '@xyo-network/witness-blockchain-abstract'
 
-import { BlockchainAddress, BlockchainAddressSchema, BlockchainContract, BlockchainContractSchema } from './Payload'
+import { BlockchainContract, BlockchainContractSchema } from './Payload'
 
 export const BlockchainContractWitnessConfigSchema = 'network.xyo.blockchain.contract.witness.config'
 export type BlockchainContractWitnessConfigSchema = typeof BlockchainContractWitnessConfigSchema

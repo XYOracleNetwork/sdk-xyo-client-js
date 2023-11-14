@@ -7,6 +7,7 @@ export type BlockchainContractCall = Payload<
   {
     address?: string
     args?: unknown[]
+    block?: number
     functionName?: string
   },
   BlockchainContractCallSchema
@@ -19,6 +20,7 @@ export type BlockchainContractCallResultBase = Payload<
   {
     address: string
     args: unknown[]
+    block?: number
     chainId: number
     functionName: string
     implementation?: string

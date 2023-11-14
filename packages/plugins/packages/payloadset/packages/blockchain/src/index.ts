@@ -1,3 +1,6 @@
+export * from '@xyo-network/blockchain-call-witness'
+export * from '@xyo-network/blockchain-contract-witness'
+export * from '@xyo-network/blockchain-erc1967-witness'
 export * from '@xyo-network/ethereum-blockchain-plugins'
 
 import { EthereumPlugins } from '@xyo-network/ethereum-blockchain-plugins'

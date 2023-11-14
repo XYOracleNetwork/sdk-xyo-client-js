@@ -1,7 +1,7 @@
 import { BaseProvider } from '@ethersproject/providers'
+import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { NftInfoFields, TokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
-import { getErc1967Status } from '@xyo-network/witness-blockchain-abstract'
 import { LRUCache } from 'lru-cache'
 
 import { getNftsFromWalletFromOpenSea } from './getAssetsFromWalletFromOpenSea'
@@ -112,15 +112,15 @@ export const getNftsOwnedByAddress = async (
       try {
         const { contract, identifier } = nft
         //Check if ERC-1967 Upgradeable
-        const erc1976Status = await getErc1967Status(getProvider(providers), contract)
-        //console.log(`1976: ${JSON.stringify(erc1976Status, null, 2)}`)
-        const { implementation } = erc1976Status
+        const erc1967Status = await getErc1967Status(getProvider(providers), contract)
+        //console.log(`1976: ${JSON.stringify(erc1967Status, null, 2)}`)
+        const { implementation } = erc1967Status
 
         let supply = '0x01'
         const types = await getTokenTypes(getProvider(providers), implementation)
         if (types.includes('ERC1155')) {
           const supply1155 = ERC1155Supply__factory.connect(implementation, getProvider(providers))
-          supply = (await tryCall(async () => (await supply1155.totalSupply(erc1976Status.address)).toHexString())) ?? '0x01'
+          supply = (await tryCall(async () => (await supply1155.totalSupply(erc1967Status.address)).toHexString())) ?? '0x01'
         }
         const fields: NftInfoFields = {
           address: contract,

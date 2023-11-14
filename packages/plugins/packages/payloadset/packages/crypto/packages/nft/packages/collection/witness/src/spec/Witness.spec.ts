@@ -11,9 +11,9 @@ import {
   NftCollectionWitnessQuerySchema,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { writeFile } from 'fs/promises'
 
-import { getProviderFromEnv } from '../lib'
 import { CryptoNftCollectionWitness } from '../Witness'
 
 const validateObservation = (observation: Payload[]) => {

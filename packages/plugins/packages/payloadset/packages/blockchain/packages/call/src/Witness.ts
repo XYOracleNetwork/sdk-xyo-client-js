@@ -1,14 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
-import { BaseProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import {
   AbstractBlockchainWitness,
   BlockchainWitnessConfig,
   BlockchainWitnessParams,
-  ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT,
-  readAddressFromSlot,
+  getErc1967Status,
 } from '@xyo-network/witness-blockchain-abstract'
 
 import {
@@ -52,10 +50,12 @@ export class BlockchainContractCallWitness<
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]
 
+          console.log(`mergedArgs[${validatedFunctionName}]: ${JSON.stringify(mergedArgs, null, 2)}`)
+
           const provider = this.provider
 
           //Check if ERC-1967 Upgradeable
-          const implementation = await readAddressFromSlot(provider, validatedAddress, ERC1967_PROXY_IMPLEMENTATION_STORAGE_SLOT)
+          const { implementation } = await getErc1967Status(provider, validatedAddress)
 
           const contract = new Contract(implementation, this.contract, provider)
           let transformedResult: unknown
@@ -64,7 +64,7 @@ export class BlockchainContractCallWitness<
             transformedResult = BigNumber.isBigNumber(result) ? result.toHexString() : result
           } catch (ex) {
             const error = ex as Error & { code: string }
-            this.logger.error(`Error [${this.config.name}]: ${error.code}`)
+            this.logger.error(`Error [${this.config.name}]: ${error.code} : ${error.message}`)
           }
           const observation: BlockchainContractCallSuccess = {
             address: validatedAddress,
@@ -77,6 +77,7 @@ export class BlockchainContractCallWitness<
           if (implementation !== validatedAddress) {
             observation.implementation = implementation
           }
+          console.log(`observation: ${JSON.stringify(observation, null, 2)}`)
           return observation
         }),
       )

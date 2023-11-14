@@ -25,9 +25,9 @@ const maxProviders = 2
 
 describe('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
-  //const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
+  const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
   //const address = '0x495f947276749Ce646f68AC8c248420045cb7b5e' //OpenSea Storefront
-  const address = '0x6802df79bcbbf019fe5cb366ff25720d1365cfd3' //Upgradeable
+  //const address = '0x6802df79bcbbf019fe5cb366ff25720d1365cfd3' //Upgradeable
 
   const getProviders = () => {
     const providers: BaseProvider[] = []
@@ -85,9 +85,6 @@ describe('Erc721Sentinel', () => {
       const collectionSentinel = asSentinelInstance(await node.resolve('NftInfoSentinel'))
       expect(collectionSentinel).toBeDefined()
 
-      const tokenSentinel = asSentinelInstance(await node.resolve('Nft721TokenInfoSentinel'))
-      expect(tokenSentinel).toBeDefined()
-
       const nameWitness = asWitnessInstance(await node.resolve('Erc721NameWitness'))
       expect(nameWitness).toBeDefined()
 
@@ -103,8 +100,9 @@ describe('Erc721Sentinel', () => {
       profile(profiler, 'collectionReport')
       profile(profiler, 'tokenCallSetup')
       const info = report?.find(isPayloadOfSchemaType(BlockchainContractCallResultsSchema)) as BlockchainContractCallResults | undefined
+      console.log(`info: ${JSON.stringify(info, null, 2)}`)
 
-      expect(info?.results?.name).toBeString()
+      expect(info?.results?.name.result).toBeString()
     })
     afterAll(() => {
       const profileData = profileReport(profiler)

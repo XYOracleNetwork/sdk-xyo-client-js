@@ -3,7 +3,7 @@
   "nodes": [
     {
       "config": {
-        "name": "NftInfo",
+        "name": "Erc721Info",
         "schema": "network.xyo.node.config"
       },
       "modules": {
@@ -122,34 +122,6 @@
                     "Erc721TotalSupplyWitness"
                   ],
                   "module": "ContractInfoDiviner"
-                }
-              ]
-            }
-          },
-          {
-            "config": {
-              "language": "javascript",
-              "name": "Nft721TokenInfoSentinel",
-              "schema": "network.xyo.sentinel.config",
-              "synchronous": "true",
-              "tasks": [
-                {
-                  "input": true,
-                  "module": "Erc721TokenByIndexWitness"
-                }
-              ]
-            }
-          },
-          {
-            "config": {
-              "language": "javascript",
-              "name": "Nft1155TokenInfoSentinel",
-              "schema": "network.xyo.sentinel.config",
-              "synchronous": "true",
-              "tasks": [
-                {
-                  "input": true,
-                  "module": "Erc1155UriWitness"
                 }
               ]
             }

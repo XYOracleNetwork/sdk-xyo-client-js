@@ -23,8 +23,13 @@ export type BlockchainContractCallResults = Payload<
   {
     address: string
     chainId: string
-    params?: []
-    results?: Record<string, unknown>
+    results?: Record<
+      string,
+      {
+        args?: unknown[]
+        result: unknown
+      }
+    >
   },
   BlockchainContractCallResultsSchema
 >
@@ -84,8 +89,19 @@ export class BlockchainContractCallDiviner<
   }
 
   protected reduceResults(callResults: BlockchainContractCallResult[]): Promisable<BlockchainContractCallResults['results']> {
-    return callResults.reduce<Record<string, unknown>>((prev, callResult) => {
-      prev[callResult.functionName] = asBlockchainContractCallSuccess(callResult)?.result
+    return callResults.reduce<
+      Record<
+        string,
+        {
+          args?: unknown[]
+          result: unknown
+        }
+      >
+    >((prev, callResult) => {
+      const typedCallResult = asBlockchainContractCallSuccess(callResult)
+      if (typedCallResult) {
+        prev[callResult.functionName] = { args: typedCallResult.args, result: typedCallResult?.result }
+      }
       return prev
     }, {})
   }

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "Erc721TokenInfo",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "functionName": "tokenURI",
+              "labels": {
+                "network.xyo.blockchain.contract.interface": "ERC721URIStorage"
+              },
+              "language": "javascript",
+              "name": "Erc721TokenURIWitness",
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "ownerOf",
+              "labels": {
+                "network.xyo.blockchain.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721OwnerOfWitness",
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "uri",
+              "labels": {
+                "network.xyo.blockchain.contract.interface": "Erc1155"
+              },
+              "language": "javascript",
+              "name": "Erc1155UriWitness",
+              "schema": "network.xyo.blockchain.contract.call.witness.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "TokenInfoDiviner",
+              "schema": "network.xyo.blockchain.contract.call.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "NftTokenInfoSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "Erc721TokenURIWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc721OwnerOfWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc1155UriWitness"
+                },
+                {
+                  "input": [
+                    "Erc721TokenURIWitness",
+                    "Erc721OwnerOfWitness",
+                    "Erc1155UriWitness"
+                  ],
+                  "module": "TokenInfoDiviner"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

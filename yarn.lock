@@ -5042,6 +5042,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/parse-data-url@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/parse-data-url@npm:3.0.2"
+  dependencies:
+    "@types/node": "*"
+  checksum: c44ef15dbf80dd5477d4b48c7fd9da41cf208f9482e3d28e7c8a1d404ea2723a1aa36e0ae36a9f66fce96bcca32ed89aac8eb43359ac92f97cae47bb6ed0fffd
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -7203,6 +7212,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.7.0
     "@ethersproject/providers": ^5.7.2
+    "@types/parse-data-url": ^3.0.2
     "@xylabs/assert": ^2.13.3
     "@xylabs/eth-address": ^2.13.3
     "@xylabs/jest-helpers": ^2.13.3
@@ -7222,6 +7232,7 @@ __metadata:
     ethers: ^5.7.2
     jest: ^29.7.0
     lru-cache: ^10.0.2
+    parse-data-url: ^6.0.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -19429,6 +19440,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-data-url@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "parse-data-url@npm:6.0.0"
+  dependencies:
+    valid-data-url: ^5.0.0
+  checksum: 2d84f96453b450b5b825c64ae0c22862bf09c118525254bd713018e7557f0df0f2063ad001d3f182cb4f630e23df3474217e450bb395ee3ca0b0973a0c9754aa
+  languageName: node
+  linkType: hard
+
 "parse-entities@npm:^1.0.2, parse-entities@npm:^1.1.0":
   version: 1.2.2
   resolution: "parse-entities@npm:1.2.2"
@@ -24497,6 +24517,13 @@ __metadata:
     "@types/istanbul-lib-coverage": ^2.0.1
     convert-source-map: ^2.0.0
   checksum: 5d592ab3d186b386065dace8e01c543a922a904b3cfac39667de172455a6b3d0e8e1401574fecb8a12092ad0809b5a8fd15f1cc14d0666139a1bb77cd6ac2cf8
+  languageName: node
+  linkType: hard
+
+"valid-data-url@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "valid-data-url@npm:5.0.0"
+  checksum: 546bd6140eb1d524230f75187af69804c726c5470afff497fcebc7ebd2d9496f92edb8dd449316a012b0f17ca33aca93425ba984c0784fe4edc5a370bd2a66bf
   languageName: node
   linkType: hard
 

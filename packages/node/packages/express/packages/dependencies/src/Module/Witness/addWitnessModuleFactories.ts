@@ -12,7 +12,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   locator.register(CryptoNftCollectionWitness.factory({ provider: getProviderFromEnv() }))
   locator.register(
-    CryptoWalletNftWitness.factory({ providers: [getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv()] }),
+    CryptoWalletNftWitness.factory({ providers: [getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv(), getProviderFromEnv()] }),
   )
   locator.register(ImageThumbnailWitness)
   locator.register(PrometheusNodeWitness)

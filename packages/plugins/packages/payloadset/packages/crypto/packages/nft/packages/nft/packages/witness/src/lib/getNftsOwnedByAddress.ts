@@ -104,7 +104,7 @@ export const getNftsOwnedByAddress = async (
   timeout = 5000,
 ): Promise<NftInfoFields[]> => {
   //const assets = await getAssetsFromWallet(publicAddress, maxNfts, timeout)
-  const nfts = await getNftsFromWalletFromOpenSea(providers, publicAddress, 20, timeout)
+  const nfts = await getNftsFromWalletFromOpenSea(providers, publicAddress, maxNfts, timeout)
 
   const nftResult = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

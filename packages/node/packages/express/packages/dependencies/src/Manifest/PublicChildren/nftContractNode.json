@@ -420,6 +420,101 @@
               "name": "NftContractIndexQueryResponseToNftContractQueryResponseDiviner",
               "schema": "network.xyo.diviner.config"
             }
+          },
+          {
+            "config": {
+              "functionName": "name",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721NameWitness",
+              "params": [],
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "symbol",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721SymbolWitness",
+              "params": [],
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "tokenURI",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721TokenURIWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "ownerOf",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721"
+              },
+              "language": "javascript",
+              "name": "Erc721OwnerOfWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "totalSupply",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
+              },
+              "language": "javascript",
+              "name": "Erc721TotalSupplyWitness",
+              "params": [],
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "tokenByIndex",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc721Enumerable"
+              },
+              "language": "javascript",
+              "name": "Erc721TokenByIndexWitness",
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "functionName": "uri",
+              "labels": {
+                "network.xyo.crypto.contract.interface": "Erc1155"
+              },
+              "language": "javascript",
+              "name": "Erc1155UriWitness",
+              "params": [],
+              "schema": "network.xyo.crypto.contract.function.read.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "Erc721ContractInfoDiviner",
+              "schema": "network.xyo.crypto.contract.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "Erc1155ContractInfoDiviner",
+              "schema": "network.xyo.crypto.contract.diviner.config"
+            }
           }
         ],
         "public": [
@@ -468,22 +563,52 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/3'/1'",
-              "archiving": {
-                "archivists": ["NftContractArchivist"]
-              },
-              "archivist": "NftContractArchivist",
               "language": "javascript",
-              "name": "NftContractSentinel",
+              "name": "NftInfoSentinel",
               "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
               "tasks": [
                 {
-                  "module": "NftContractWitness",
-                  "input": true
+                  "input": true,
+                  "module": "Erc721NameWitness"
                 },
                 {
-                  "module": "TimestampWitness",
-                  "input": false
+                  "input": true,
+                  "module": "Erc721SymbolWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc721TotalSupplyWitness"
+                },
+                {
+                  "input": true,
+                  "module": "Erc1155UriWitness"
+                },
+                {
+                  "input": [
+                    "Erc721NameWitness",
+                    "Erc721SymbolWitness",
+                    "Erc721TotalSupplyWitness"
+                  ],
+                  "module": "Erc721ContractInfoDiviner"
+                },
+                {
+                  "input": ["Erc1155UriWitness"],
+                  "module": "Erc1155ContractInfoDiviner"
+                }
+              ]
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "NftTokenInfoSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "Erc721TokenByIndexWitness"
                 }
               ]
             }

@@ -63,13 +63,23 @@ export const MongoDBModuleMixin = <
         const collectionName = collection.collectionName.toLowerCase()
         const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
         if (indexes.length === 0) return
-        await collection.createIndexes(indexes)
+        for (const ix of indexes) {
+          const { name } = ix
+          if (name && !(await collection.indexExists(name))) {
+            await collection.createIndexes([ix])
+          }
+        }
       })
       await this.payloads.useCollection(async (collection) => {
         const collectionName = collection.collectionName.toLowerCase()
         const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
         if (indexes.length === 0) return
-        await collection.createIndexes(indexes)
+        for (const ix of indexes) {
+          const { name } = ix
+          if (name && !(await collection.indexExists(name))) {
+            await collection.createIndexes([ix])
+          }
+        }
       })
     }
   }

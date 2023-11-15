@@ -10,7 +10,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^2.13.7",
+    "@xylabs/assert": "^2.13.8",
     "@xyo-network/http-bridge": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",

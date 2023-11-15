@@ -23,7 +23,7 @@ export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
 
 export interface ArchivingModuleConfig {
   readonly archiving?: {
-    readonly archivists?: Address[]
+    readonly archivists?: NameOrAddress[]
   }
 }
 

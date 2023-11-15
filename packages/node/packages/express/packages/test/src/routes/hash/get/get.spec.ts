@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessWithPartialMeta } from '@xyo-network/payload-mongodb'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { ReasonPhrases } from 'http-status-codes'
 

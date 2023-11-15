@@ -4,12 +4,12 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { PayloadMetaBase } from './PayloadMeta'
 
-/** @deprecated This type will be moved to mongodb specific package soon */
+/** @deprecated Use from @xyo-network/payload-mongodb [Only for Mongo] */
 export type PayloadMeta<T extends AnyObject = AnyObject> = T & PayloadMetaBase
-/** @deprecated This type will be moved to mongodb specific package soon */
+/** @deprecated Use from @xyo-network/payload-mongodb [Only for Mongo] */
 export type PartialPayloadMeta<T extends AnyObject = AnyObject> = T & Partial<PayloadMetaBase>
-/** @deprecated This type will be moved to mongodb specific package soon */
+/** @deprecated Use from @xyo-network/payload-mongodb [Only for Mongo] */
 export type PayloadWithMeta<T extends AnyObject = AnyObject> = Payload<T & PayloadMetaBase>
-/** @deprecated This type will be moved to mongodb specific package soon */
+/** @deprecated Use from @xyo-network/payload-mongodb [Only for Mongo] */
 export type PayloadWithPartialMeta<T extends AnyObject = AnyObject> = Payload<T & Partial<PayloadMetaBase>>
-/** @deprecated This type will be moved to mongodb specific package soon */
+/** @deprecated Use from @xyo-network/payload-mongodb [Only for Mongo] */

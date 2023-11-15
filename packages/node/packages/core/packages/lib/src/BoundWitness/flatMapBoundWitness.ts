@@ -1,6 +1,6 @@
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessWithPartialMeta } from '@xyo-network/payload-mongodb'
 
 /** @deprecated This type will be moved to mongodb specific package soon */
 export type BoundWitnessMapResult = [Array<BoundWitness>, Array<Payload>]

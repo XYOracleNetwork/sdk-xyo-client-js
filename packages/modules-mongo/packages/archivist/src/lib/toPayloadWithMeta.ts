@@ -1,4 +1,4 @@
-import { PayloadWithMeta } from '@xyo-network/node-core-model'
+import { PayloadWithMeta } from '@xyo-network/payload-mongodb'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export const toPayloadWithMeta = async (wrapper: PayloadWrapper): Promise<PayloadWithMeta> => {

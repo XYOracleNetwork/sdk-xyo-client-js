@@ -46,6 +46,7 @@
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-mongodb": "workspace:~",
     "@xyo-network/shared": "workspace:~",
     "ajv": "^8.12.0"
   },

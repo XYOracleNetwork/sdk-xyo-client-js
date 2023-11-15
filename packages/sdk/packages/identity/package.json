@@ -11,8 +11,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^2.13.7",
-    "@xylabs/logger": "^2.13.7"
+    "@xylabs/assert": "^2.13.8",
+    "@xylabs/logger": "^2.13.8"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.1.21",

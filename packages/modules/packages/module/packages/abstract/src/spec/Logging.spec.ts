@@ -1,4 +1,4 @@
-import { IdLogger } from '@xyo-network/shared'
+import { IdLogger } from '@xylabs/logger'
 
 describe('Logging', () => {
   test('getFunctionName:function', () => {

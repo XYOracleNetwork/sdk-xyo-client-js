@@ -42,11 +42,11 @@
   "license": "LGPL-3.0-only",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.451.0",
-    "@xylabs/assert": "^2.13.7",
+    "@xylabs/assert": "^2.13.8",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-mongodb": "workspace:~",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "express-mung": "^0.5.1",

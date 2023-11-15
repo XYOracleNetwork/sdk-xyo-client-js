@@ -1,9 +1,9 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { uuid } from '@xyo-network/core'
-import { BoundWitnessMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithPartialMeta } from '@xyo-network/payload-mongodb'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { prepareBoundWitnesses, PrepareBoundWitnessesResult } from '../prepareBoundWitnesses'

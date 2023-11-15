@@ -1,5 +1,6 @@
-import type { GetValidator, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
-import { Payload } from '@xyo-network/payload-model'
+import type { GetValidator } from '@xyo-network/node-core-model'
+import type { Payload } from '@xyo-network/payload-model'
+import type { PayloadWithPartialMeta } from '@xyo-network/payload-mongodb'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { SchemaCache } from '@xyo-network/schema-cache'
 import { SchemaPayload } from '@xyo-network/schema-payload-plugin'

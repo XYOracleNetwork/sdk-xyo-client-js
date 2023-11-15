@@ -1,5 +1,5 @@
-import { BoundWitnessWithMeta } from '../BoundWitness'
-import { PayloadWithMeta } from '../Payload'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/payload-mongodb'
+
 import { PayloadFilterPredicate } from './PayloadFilterPredicate'
 
 export type WithoutSchema<T> = Omit<Omit<T, 'schema'>, 'schemas'>

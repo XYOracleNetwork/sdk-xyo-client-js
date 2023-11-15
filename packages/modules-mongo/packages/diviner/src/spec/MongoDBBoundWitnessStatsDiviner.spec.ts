@@ -11,8 +11,9 @@ import {
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
-import { BoundWitnessWithMeta, JobQueue } from '@xyo-network/node-core-model'
+import { JobQueue } from '@xyo-network/node-core-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { BoundWitnessWithMeta } from '@xyo-network/payload-mongodb'
 import { BaseMongoSdk } from '@xyo-network/sdk-xyo-mongo-js'
 import { mock, MockProxy } from 'jest-mock-extended'
 

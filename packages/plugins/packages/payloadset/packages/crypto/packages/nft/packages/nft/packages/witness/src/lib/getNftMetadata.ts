@@ -9,7 +9,7 @@ import parseDataUrl from 'parse-data-url'
 
 import { isErc721, isErc1155 } from './tokenTypes'
 
-const baseUrlAbi = [
+/*const baseUrlAbi = [
   {
     inputs: [],
     name: 'baseUrl',
@@ -23,7 +23,7 @@ const baseUrlAbi = [
     stateMutability: 'view',
     type: 'function',
   },
-]
+]*/
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
 

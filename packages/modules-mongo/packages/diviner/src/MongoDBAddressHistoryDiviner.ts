@@ -9,8 +9,8 @@ import {
   isAddressHistoryQueryPayload,
 } from '@xyo-network/diviner-address-history'
 import { DefaultLimit, DefaultMaxTimeMS, MongoDBModuleMixin, removeId } from '@xyo-network/module-abstract-mongodb'
-import { BoundWitnessWithMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessWithMeta } from '@xyo-network/payload-mongodb'
 import { Filter } from 'mongodb'
 
 const MongoDBDivinerBase = MongoDBModuleMixin(AddressHistoryDiviner)

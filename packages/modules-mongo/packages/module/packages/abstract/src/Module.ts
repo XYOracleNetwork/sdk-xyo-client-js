@@ -3,7 +3,7 @@ import { merge } from '@xylabs/lodash'
 import { staticImplements } from '@xylabs/static-implements'
 import { Module } from '@xyo-network/module-model'
 import { MongoDBModule, MongoDBModuleParams, MongoDBModuleStatic, MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
-import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/payload-mongodb'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { COLLECTIONS } from './Collections'

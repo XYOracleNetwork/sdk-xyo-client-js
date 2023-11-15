@@ -41,9 +41,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@xylabs/assert": "^2.13.7",
-    "@xylabs/crypto": "^2.13.7",
-    "@xylabs/exists": "^2.13.7",
+    "@xylabs/assert": "^2.13.8",
+    "@xylabs/crypto": "^2.13.8",
+    "@xylabs/exists": "^2.13.8",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-mongodb": "workspace:~",
     "@xyo-network/diviner-mongodb": "workspace:~",
@@ -60,7 +60,7 @@
     "mongodb": "^6.2.0"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.13.7",
+    "@xylabs/jest-helpers": "^2.13.8",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "jest": "^29.7.0",

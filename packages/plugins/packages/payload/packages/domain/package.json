@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^2.13.7",
-    "@xylabs/lodash": "^2.13.7",
+    "@xylabs/axios": "^2.13.8",
+    "@xylabs/lodash": "^2.13.8",
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/dns": "workspace:~",

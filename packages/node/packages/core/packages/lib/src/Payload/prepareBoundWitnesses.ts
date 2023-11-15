@@ -1,6 +1,6 @@
-import type { BoundWitnessMeta, BoundWitnessWithMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
+import type { BoundWitnessMeta, BoundWitnessWithMeta, BoundWitnessWithPartialMeta, PayloadMeta, PayloadWithMeta } from '@xyo-network/payload-mongodb'
+import { BoundWitnessMapResult, flatMapBoundWitness } from '@xyo-network/payload-mongodb'
 
-import { BoundWitnessMapResult, flatMapBoundWitness } from '../BoundWitness'
 import { augmentWithMetadata } from './augmentWithMetadata'
 import { removePayloads } from './removePayloads'
 

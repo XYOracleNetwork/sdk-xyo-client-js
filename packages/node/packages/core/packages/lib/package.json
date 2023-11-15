@@ -44,6 +44,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-mongodb": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/schema-cache": "workspace:~",
     "@xyo-network/schema-payload-plugin": "workspace:~",

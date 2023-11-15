@@ -1,4 +1,4 @@
-import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/payload-mongodb'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
 
 import { MongoDBStorageClassLabels } from './Labels'

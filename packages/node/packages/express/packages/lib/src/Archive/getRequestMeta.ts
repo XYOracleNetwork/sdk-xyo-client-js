@@ -1,5 +1,5 @@
 import { getHttpHeader } from '@xylabs/sdk-api-express-ecs'
-import { BoundWitnessMeta, PayloadMeta } from '@xyo-network/node-core-model'
+import { BoundWitnessMeta, PayloadMeta } from '@xyo-network/payload-mongodb'
 import { Request } from 'express'
 
 export type RequestWithArchive = {

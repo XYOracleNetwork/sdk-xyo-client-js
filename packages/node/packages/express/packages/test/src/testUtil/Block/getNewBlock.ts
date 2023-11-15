@@ -1,6 +1,6 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitnessWithPartialMeta, PayloadWithPartialMeta } from '@xyo-network/node-core-model'
 import { Payload } from '@xyo-network/payload-model'
+import { BoundWitnessWithPartialMeta, PayloadWithPartialMeta } from '@xyo-network/payload-mongodb'
 
 import { unitTestSigningAccount } from '../Account'
 import { getNewPayloads } from '../Payload'

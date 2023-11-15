@@ -16,7 +16,7 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.13.7",
+    "@xylabs/jest-helpers": "^2.13.8",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "ethers": "^5.7.2",

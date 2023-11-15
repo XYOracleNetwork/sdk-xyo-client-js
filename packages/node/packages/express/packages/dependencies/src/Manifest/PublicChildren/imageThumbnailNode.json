@@ -1,0 +1,496 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "accountPath": "m/44'/60'/3'/0'/1'",
+        "name": "ImageThumbnailNode",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "private": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/1'",
+              "boundWitnessSdkConfig": {
+                "collection": "address_state_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "AddressStateArchivist",
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
+              "schema": "network.xyo.archivist.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "address_state_bound_witnesses.IX__hash"
+                  },
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "address_state_payloads.IX__hash"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/19'",
+              "archivist": "AddressStateArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "address_state_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "AddressStateBoundWitnessDiviner",
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
+              "schema": "network.xyo.diviner.boundwitness.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
+                    "name": "address_state_bound_witnesses.IX__timestamp_addresses"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "address_state_bound_witnesses.IX_addresses__timestamp"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1
+                    },
+                    "name": "address_state_bound_witnesses.IX_addresses"
+                  },
+                  {
+                    "key": {
+                      "payload_hashes": 1
+                    },
+                    "name": "address_state_bound_witnesses.IX_payload_hashes"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/20'",
+              "archivist": "AddressStateArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "address_state_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "AddressStatePayloadDiviner",
+              "payloadSdkConfig": {
+                "collection": "address_state_payloads"
+              },
+              "schema": "network.xyo.diviner.payload.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": 1
+                    },
+                    "name": "address_state_payloads.IX__timestamp"
+                  },
+                  {
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "address_state_payloads.IX_schema__timestamp"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/2'",
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailArchivist",
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
+              "schema": "network.xyo.archivist.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "bound_witnesses.IX__hash"
+                  },
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "payloads.IX__hash"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/15'",
+              "archivist": "ImageThumbnailArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailBoundWitnessDiviner",
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
+              "schema": "network.xyo.diviner.boundwitness.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
+                    "name": "bound_witnesses.IX__timestamp_addresses"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "bound_witnesses.IX_addresses__timestamp"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1
+                    },
+                    "name": "bound_witnesses.IX_addresses"
+                  },
+                  {
+                    "key": {
+                      "payload_hashes": 1
+                    },
+                    "name": "bound_witnesses.IX_payload_hashes"
+                  },
+                  {
+                    "key": {
+                      "payload_schemas": 1
+                    },
+                    "name": "bound_witnesses.IX_payload_schemas"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/16'",
+              "archivist": "ImageThumbnailArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailPayloadDiviner",
+              "payloadSdkConfig": {
+                "collection": "payloads"
+              },
+              "schema": "network.xyo.diviner.payload.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": 1
+                    },
+                    "name": "payloads.IX__timestamp"
+                  },
+                  {
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "payloads.IX_schema__timestamp"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/1'/3'",
+              "boundWitnessSdkConfig": {
+                "collection": "thumbnail_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexArchivist",
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
+              "schema": "network.xyo.archivist.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "thumbnail_bound_witnesses.IX__hash"
+                  },
+                  {
+                    "key": {
+                      "_hash": 1
+                    },
+                    "name": "thumbnail_payloads.IX__hash"
+                  },
+                  {
+                    "key": {
+                      "key": 1,
+                      "_timestamp": 1,
+                      "success": 1,
+                      "status": 1
+                    },
+                    "name": "thumbnail_payloads.IX_key__timestamp_success_status"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/17'",
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "thumbnail_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
+              "schema": "network.xyo.diviner.boundwitness.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": -1,
+                      "addresses": 1
+                    },
+                    "name": "thumbnail_bound_witnesses.IX__timestamp_addresses"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "thumbnail_bound_witnesses.IX_addresses__timestamp"
+                  },
+                  {
+                    "key": {
+                      "addresses": 1
+                    },
+                    "name": "thumbnail_bound_witnesses.IX_addresses"
+                  },
+                  {
+                    "key": {
+                      "payload_hashes": 1
+                    },
+                    "name": "thumbnail_bound_witnesses.IX_payload_hashes"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/18'",
+              "archivist": "ImageThumbnailDivinerIndexArchivist",
+              "boundWitnessSdkConfig": {
+                "collection": "thumbnail_bound_witnesses"
+              },
+              "labels": {
+                "network.xyo.storage.class": "mongodb"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDivinerIndexPayloadDiviner",
+              "payloadSdkConfig": {
+                "collection": "thumbnail_payloads"
+              },
+              "schema": "network.xyo.diviner.payload.config",
+              "storage": {
+                "indexes": [
+                  {
+                    "key": {
+                      "_timestamp": 1
+                    },
+                    "name": "thumbnail_payloads.IX__timestamp"
+                  },
+                  {
+                    "key": {
+                      "schema": 1,
+                      "_timestamp": -1
+                    },
+                    "name": "thumbnail_payloads.IX_schema__timestamp"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailStateToIndexCandidateDiviner",
+              "schema": "network.xyo.diviner.config",
+              "payloadStore": {
+                "archivist": "ImageThumbnailArchivist",
+                "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailPayloadDiviner"
+              }
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          },
+          {
+            "config": {
+              "labels": {
+                "network.xyo.image.thumbnail": "diviner",
+                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+              "schema": "network.xyo.diviner.config"
+            }
+          }
+        ],
+        "public": [
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/2'/14'",
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
+              "indexStore": {
+                "archivist": "ImageThumbnailDivinerIndexArchivist",
+                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
+              },
+              "language": "javascript",
+              "name": "ImageThumbnailDiviner",
+              "pollFrequency": 1000,
+              "schema": "network.xyo.diviner.indexing.config",
+              "stateStore": {
+                "archivist": "AddressStateArchivist",
+                "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
+                "payloadDiviner": "AddressStatePayloadDiviner"
+              }
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/4'",
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailWitness",
+              "schema": "network.xyo.image.thumbnail.witness.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/4'/5'",
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "TimestampWitness",
+              "schema": "network.xyo.witness.timestamp.config"
+            }
+          },
+          {
+            "config": {
+              "accountPath": "m/44'/60'/3'/3'/1'",
+              "archiving": {
+                "archivists": ["ImageThumbnailArchivist"]
+              },
+              "archivist": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "ImageThumbnailSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "tasks": [
+                {
+                  "module": "ImageThumbnailWitness",
+                  "input": true
+                },
+                {
+                  "module": "TimestampWitness",
+                  "input": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

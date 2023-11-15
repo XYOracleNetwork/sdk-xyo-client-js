@@ -23,13 +23,11 @@ import {
 export const ApiCallWitnessConfigSchema = 'network.xyo.api.call.witness.config'
 export type ApiCallWitnessConfigSchema = typeof ApiCallWitnessConfigSchema
 
-export type ApiCallWitnessConfig = WitnessConfig<
-  {
-    accept: 'application/json'
-    verb?: Verb
-  },
-  ApiCallWitnessConfigSchema
->
+export type ApiCallWitnessConfig = WitnessConfig<{
+  accept: 'application/json'
+  schema: ApiCallWitnessConfigSchema
+  verb?: Verb
+}>
 
 export type ApiCallWitnessParams = WitnessParams<ApiCallWitnessConfig, { ipfsGateway?: string }>
 

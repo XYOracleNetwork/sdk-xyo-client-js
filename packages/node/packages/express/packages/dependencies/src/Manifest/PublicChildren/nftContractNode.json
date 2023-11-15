@@ -245,7 +245,7 @@
             "config": {
               "accountPath": "m/44'/60'/3'/1'/3'",
               "boundWitnessSdkConfig": {
-                "collection": "thumbnail_bound_witnesses"
+                "collection": "nft_contract_bound_witnesses"
               },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -253,7 +253,7 @@
               "language": "javascript",
               "name": "NftContractDivinerIndexArchivist",
               "payloadSdkConfig": {
-                "collection": "thumbnail_payloads"
+                "collection": "nft_contract_payloads"
               },
               "schema": "network.xyo.archivist.config",
               "storage": {
@@ -262,13 +262,13 @@
                     "key": {
                       "_hash": 1
                     },
-                    "name": "thumbnail_bound_witnesses.IX__hash"
+                    "name": "nft_contract_bound_witnesses.IX__hash"
                   },
                   {
                     "key": {
                       "_hash": 1
                     },
-                    "name": "thumbnail_payloads.IX__hash"
+                    "name": "nft_contract_payloads.IX__hash"
                   },
                   {
                     "key": {
@@ -277,7 +277,7 @@
                       "status": 1,
                       "success": 1
                     },
-                    "name": "thumbnail_payloads.IX_key__timestamp_success_status"
+                    "name": "nft_contract_payloads.IX_key__timestamp_success_status"
                   }
                 ]
               }
@@ -288,7 +288,7 @@
               "accountPath": "m/44'/60'/3'/2'/17'",
               "archivist": "NftContractDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
-                "collection": "thumbnail_bound_witnesses"
+                "collection": "nft_contract_bound_witnesses"
               },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -296,7 +296,7 @@
               "language": "javascript",
               "name": "NftContractDivinerIndexBoundWitnessDiviner",
               "payloadSdkConfig": {
-                "collection": "thumbnail_payloads"
+                "collection": "nft_contract_payloads"
               },
               "schema": "network.xyo.diviner.boundwitness.config",
               "storage": {
@@ -306,26 +306,26 @@
                       "_timestamp": -1,
                       "addresses": 1
                     },
-                    "name": "thumbnail_bound_witnesses.IX__timestamp_addresses"
+                    "name": "nft_contract_bound_witnesses.IX__timestamp_addresses"
                   },
                   {
                     "key": {
                       "_timestamp": -1,
                       "addresses": 1
                     },
-                    "name": "thumbnail_bound_witnesses.IX_addresses__timestamp"
+                    "name": "nft_contract_bound_witnesses.IX_addresses__timestamp"
                   },
                   {
                     "key": {
                       "addresses": 1
                     },
-                    "name": "thumbnail_bound_witnesses.IX_addresses"
+                    "name": "nft_contract_bound_witnesses.IX_addresses"
                   },
                   {
                     "key": {
                       "payload_hashes": 1
                     },
-                    "name": "thumbnail_bound_witnesses.IX_payload_hashes"
+                    "name": "nft_contract_bound_witnesses.IX_payload_hashes"
                   }
                 ]
               }
@@ -336,7 +336,7 @@
               "accountPath": "m/44'/60'/3'/2'/18'",
               "archivist": "NftContractDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
-                "collection": "thumbnail_bound_witnesses"
+                "collection": "nft_contract_bound_witnesses"
               },
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -344,7 +344,7 @@
               "language": "javascript",
               "name": "NftContractDivinerIndexPayloadDiviner",
               "payloadSdkConfig": {
-                "collection": "thumbnail_payloads"
+                "collection": "nft_contract_payloads"
               },
               "schema": "network.xyo.diviner.payload.config",
               "storage": {
@@ -353,14 +353,14 @@
                     "key": {
                       "_timestamp": 1
                     },
-                    "name": "thumbnail_payloads.IX__timestamp"
+                    "name": "nft_contract_payloads.IX__timestamp"
                   },
                   {
                     "key": {
                       "_timestamp": -1,
                       "schema": 1
                     },
-                    "name": "thumbnail_payloads.IX_schema__timestamp"
+                    "name": "nft_contract_payloads.IX_schema__timestamp"
                   }
                 ]
               }

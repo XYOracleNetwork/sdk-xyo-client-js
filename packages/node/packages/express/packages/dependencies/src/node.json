@@ -770,17 +770,6 @@
           }
         ]
       }
-    },
-    {
-      "config": {
-        "accountPath": "m/44'/60'/3'/0'/1'",
-        "name": "ImageThumbnailNode",
-        "schema": "network.xyo.node.config"
-      },
-      "modules": {
-        "private": [],
-        "public": []
-      }
     }
   ],
   "schema": "network.xyo.manifest"

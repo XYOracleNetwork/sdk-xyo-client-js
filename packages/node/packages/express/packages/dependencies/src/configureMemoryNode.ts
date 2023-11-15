@@ -10,7 +10,7 @@ import { NodeInstance } from '@xyo-network/node-model'
 import { readFile } from 'fs/promises'
 import { Container } from 'inversify'
 
-import defaultNode from './node.json'
+import { defaultNode, publicChildren } from './Manifest'
 import { witnessNftCollections } from './witnessNftCollections'
 
 // TODO: How to inject account for node that is to be created from config?
@@ -44,11 +44,12 @@ export const configureMemoryNode = async (container: Container, memoryNode?: Nod
 }
 
 const loadNodeFromConfig = async (container: Container, config?: string) => {
-  const manifest = config ? (JSON.parse(await readFile(config, 'utf8')) as PackageManifestPayload) : (defaultNode as PackageManifestPayload)
+  const manifest: PackageManifestPayload = config ? (JSON.parse(await readFile(config, 'utf8')) as PackageManifestPayload) : defaultNode
+  const manifestPublicChildren: PackageManifestPayload[] = config ? [] : publicChildren
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
   const wallet = await HDWallet.fromMnemonic(mnemonic)
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
-  const wrapper = new ManifestWrapper(manifest, wallet, locator)
+  const wrapper = new ManifestWrapper(manifest, wallet, locator, manifestPublicChildren)
   const [parentNode, ...childNodes] = await wrapper.loadNodes()
   if (childNodes?.length) {
     await Promise.all(childNodes.map((childNode) => parentNode.register(childNode)))

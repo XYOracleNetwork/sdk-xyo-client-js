@@ -11,8 +11,14 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.8",
+    "@xylabs/axios": "^2.13.8",
+    "@xylabs/buffer": "^2.13.8",
+    "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/witness-blockchain-abstract": "workspace:^"
+    "@xyo-network/witness-model": "workspace:~",
+    "base64-js": "^1.5.1"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.8",

@@ -1,7 +1,7 @@
 import { describeIf } from '@xylabs/jest-helpers'
 import { ERC20__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { getProviderFromEnv, getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { BlockchainContractCall, BlockchainContractCallResultSchema, BlockchainContractCallSchema } from '../Payload'
 import { BlockchainContractCallWitness, BlockchainContractCallWitnessConfigSchema } from '../Witness'

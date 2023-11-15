@@ -1,3 +1,7 @@
-import imageThumbnailNode from './imageThumbnailNode.json'
+import { PackageManifestPayload } from '@xyo-network/manifest-model'
 
-export { imageThumbnailNode }
+import imageThumbnailNodeManifest from './imageThumbnailNode.json'
+import nftContractNodeManifest from './nftContractNode.json'
+
+export const imageThumbnailNode = imageThumbnailNodeManifest as PackageManifestPayload
+export const nftContractNode = nftContractNodeManifest as PackageManifestPayload

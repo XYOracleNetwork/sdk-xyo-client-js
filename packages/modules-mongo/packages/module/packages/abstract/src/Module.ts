@@ -5,6 +5,7 @@ import { Module } from '@xyo-network/module-model'
 import { MongoDBModule, MongoDBModuleParams, MongoDBModuleStatic, MongoDBStorageClassLabels } from '@xyo-network/module-model-mongodb'
 import { BoundWitnessWithMeta, PayloadWithMeta } from '@xyo-network/payload-mongodb'
 import { BaseMongoSdk, BaseMongoSdkConfig } from '@xyo-network/sdk-xyo-mongo-js'
+import { MongoServerError } from 'mongodb'
 
 import { COLLECTIONS } from './Collections'
 import { getBaseMongoSdkPrivateConfig } from './config'
@@ -59,29 +60,42 @@ export const MongoDBModuleMixin = <
      */
     async ensureIndexes(): Promise<void> {
       const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
-      await this.boundWitnesses.useCollection(async (collection) => {
-        const collectionName = collection.collectionName.toLowerCase()
-        const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
-        if (indexes.length === 0) return
-        for (const ix of indexes) {
-          const { name } = ix
-          if (name && !(await collection.indexExists(name))) {
-            await collection.createIndexes([ix])
-          }
-        }
-      })
-      await this.payloads.useCollection(async (collection) => {
-        const collectionName = collection.collectionName.toLowerCase()
-        const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
-        if (indexes.length === 0) return
-        for (const ix of indexes) {
-          const { name } = ix
-          if (name && !(await collection.indexExists(name))) {
-            await collection.createIndexes([ix])
-          }
-        }
-      })
+      await ensureIndexesExistOnCollection(this.boundWitnesses, configIndexes)
+      await ensureIndexesExistOnCollection(this.payloads, configIndexes)
     }
   }
   return MongoModuleBase
+}
+
+/**
+ * Ensures the specified indexes exist on the collection
+ * @param sdk The sdk to use for the collection
+ * @param configIndexes The indexes to ensure exist on the collection
+ */
+const ensureIndexesExistOnCollection = async (
+  sdk: BaseMongoSdk<PayloadWithMeta> | BaseMongoSdk<BoundWitnessWithMeta>,
+  configIndexes: IndexDescription[],
+) => {
+  await sdk.useCollection(async (collection) => {
+    const collectionName = collection.collectionName.toLowerCase()
+    const indexes = configIndexes.filter((ix) => ix?.name?.toLowerCase().startsWith(collectionName))
+    if (indexes.length === 0) return
+    for (const ix of indexes) {
+      try {
+        await collection.createIndexes([ix])
+      } catch (error) {
+        const mongoServerError = error as MongoServerError
+        const { codeName } = mongoServerError
+        if (codeName === 'IndexKeySpecsConflict' || codeName === 'IndexOptionsConflict') {
+          // Index already exists which is fine OR index exists with another name which is fine
+          // TODO: For the latter case (IndexOptionsConflict) we could get into this case
+          // if we change the TTL an existing index.  We currently don't support TTLs so
+          // we'll need to revisit this assumption if we do.
+          continue
+        }
+        console.error(`Error creating index ${ix.name} for collection ${collectionName}: ${error}`)
+        throw error
+      }
+    }
+  })
 }

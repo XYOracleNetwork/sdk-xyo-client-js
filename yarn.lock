@@ -8150,6 +8150,7 @@ __metadata:
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/crypto-contract-function-read-plugin": "workspace:~"
     "@xyo-network/crypto-nft-collection-diviner-score-plugin": "workspace:~"
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-collection-witness-plugin": "workspace:~"
@@ -8172,6 +8173,7 @@ __metadata:
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/open-zeppelin-typechain": ^2.2.11
     "@xyo-network/prometheus-node-plugin": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/url-payload-plugin": "workspace:~"

@@ -18,7 +18,6 @@
     "@xylabs/tsconfig": "^3.1.21",
     "typescript": "^5.2.2"
   },
-  "docs": "dist/docs.json",
   "exports": {
     ".": {
       "browser": {
@@ -33,19 +32,21 @@
       },
       "node": {
         "require": {
-          "types": "./dist/node/index.d.ts",
-          "default": "./dist/node/index.js"
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
+          "default": "./dist/node/index.js"
         }
       }
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.js",
-  "module": "dist/node/index.mjs",
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "types": "dist/node/index.d.mts",
+  "type": "module",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-or-later",
   "publishConfig": {
@@ -56,6 +57,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "types": "dist/node/index.d.ts",
   "version": "2.79.4"
 }

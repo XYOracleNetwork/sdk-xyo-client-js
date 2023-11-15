@@ -15,6 +15,7 @@ import { SentinelWrapper } from '../Wrapper'
 
 /**
  * @group sentinel
+ * @group module
  */
 
 describe('Sentinel', () => {

@@ -11,6 +11,11 @@ import { Payload } from '@xyo-network/payload'
 
 import { MemoryNode } from '../../src'
 
+/**
+ * @group node
+ * @group module
+ */
+
 describe('MemoryNode', () => {
   let testAccount1: AccountInstance
   let testAccount2: AccountInstance

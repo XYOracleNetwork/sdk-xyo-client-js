@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { Logger } from '@xyo-network/shared'
 import { Axios, AxiosHeaders, AxiosResponse, RawAxiosRequestConfig } from 'axios'
 import { gzip } from 'pako'

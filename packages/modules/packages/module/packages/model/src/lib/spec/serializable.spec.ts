@@ -1,5 +1,9 @@
 import { serializable, serializableField } from '../serializable'
 
+/**
+ * @group module
+ */
+
 describe('serializableField', () => {
   it('string', () => {
     expect(serializableField('HI')).toBeTrue()

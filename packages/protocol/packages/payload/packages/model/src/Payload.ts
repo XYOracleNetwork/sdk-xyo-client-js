@@ -25,14 +25,14 @@ export type Payload<T extends void | object | WithSchema = void, S extends Schem
     : /* Only T (w/Schema) provided */
       WithPayload<T>
   : T extends object
-  ? S extends Schema
-    ? /* T (w/o Schema) & S provided */
-      WithPayload<T & { schema: S } & PayloadFields>
-    : /* Only T (w/o Schema) provided */
-      WithPayload<T & { schema: Schema } & PayloadFields>
-  : /* Either just S or neither S or T provided */
-    {
-      schema: S extends Schema ? S : Schema
-    } & PayloadFields
+    ? S extends Schema
+      ? /* T (w/o Schema) & S provided */
+        WithPayload<T & { schema: S } & PayloadFields>
+      : /* Only T (w/o Schema) provided */
+        WithPayload<T & { schema: Schema } & PayloadFields>
+    : /* Either just S or neither S or T provided */
+      {
+        schema: S extends Schema ? S : Schema
+      } & PayloadFields
 
 export type OverridablePayload<T extends Payload> = Omit<T, 'schema'> & { schema: string }

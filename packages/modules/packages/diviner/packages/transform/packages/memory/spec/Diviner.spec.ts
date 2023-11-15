@@ -35,6 +35,11 @@ const cases: [transform: Transform, payload: Payload, expected: Value][] = [
   ],
 ]
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('MemoryTransformDiviner', () => {
   let sut: MemoryTransformDiviner
   let account: Account

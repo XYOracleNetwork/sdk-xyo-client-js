@@ -3,6 +3,11 @@ import { asModuleInstance } from '@xyo-network/module-model'
 
 import { asNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper } from '../src'
 
+/**
+ * @group node
+ * @group module
+ */
+
 describe('identity check (as)', () => {
   test('asModuleInstance', async () => {
     const node = await MemoryNode.create({ account: Account.randomSync(), config: { schema: NodeConfigSchema } })

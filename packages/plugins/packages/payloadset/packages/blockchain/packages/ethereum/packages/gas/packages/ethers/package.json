@@ -26,6 +26,7 @@
     "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/witness-blockchain-abstract": "workspace:~",
     "jest": "^29.7.0",
     "typescript": "^5.2.2"
   },

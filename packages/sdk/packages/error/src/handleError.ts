@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { isError } from './isError'
 
 /** @deprecated use from @xylabs instead */

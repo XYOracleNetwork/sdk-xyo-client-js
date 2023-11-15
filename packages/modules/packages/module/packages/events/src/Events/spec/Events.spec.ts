@@ -27,6 +27,10 @@ const callbackTest = async (fn: (complete: () => void) => Promisable<void>, time
   expect(await waitFor(() => completed, timeout)).toBeTrue()
 }
 
+/**
+ * @group module
+ */
+
 describe('Events', () => {
   const sut = new Events<TestEvents>()
   it('should instantiate', () => {

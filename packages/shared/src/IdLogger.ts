@@ -1,3 +1,5 @@
+/* eslint-disable import/no-deprecated */
+// eslint-disable-next-line import/no-deprecated
 import { getFunctionName, Logger } from './Logger'
 
 /** @deprecated use from @xylabs/logger instead */

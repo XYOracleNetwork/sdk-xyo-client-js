@@ -1,4 +1,3 @@
-import { InfuraProvider } from '@ethersproject/providers'
 import { Account } from '@xyo-network/account'
 import { EthereumGasBlocknativeWitness, EthereumGasBlocknativeWitnessConfigSchema } from '@xyo-network/blocknative-ethereum-gas-plugin'
 import { EtherchainEthereumGasWitnessV2, EthereumGasEtherchainV2WitnessConfigSchema } from '@xyo-network/etherchain-gas-ethereum-blockchain-plugins'
@@ -6,6 +5,7 @@ import { EthereumGasEthersWitness, EthereumGasEthersWitnessConfigSchema } from '
 import { EthereumGasEtherscanWitness, EthereumGasEtherscanWitnessConfigSchema } from '@xyo-network/etherscan-ethereum-gas-plugin'
 import { EthereumGasPayload, EthereumGasSchema } from '@xyo-network/gas-price-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { EthereumGasDiviner } from '../Diviner'
 import { sampleBlocknativeGas, sampleEtherchainGasV2, sampleEtherscanGas, sampleEthersGas, sampleEthgasstationGas } from '../test'
@@ -33,6 +33,7 @@ describe('Diviner', () => {
     expect(gasPayload.priorityFeePerGas).toBeObject()
   })
   test.skip('diviner calibration', async () => {
+    const provider = getProviderFromEnv()
     // NOTE: This test is for obtaining concurrent witnessed
     // results for diviner weighting/calibration
     const blocknativeGas = (
@@ -73,10 +74,7 @@ describe('Diviner', () => {
           config: {
             schema: EthereumGasEthersWitnessConfigSchema,
           },
-          provider: new InfuraProvider('homestead', {
-            projectId: process.env.INFURA_PROJECT_ID,
-            projectSecret: process.env.INFURA_PROJECT_SECRET,
-          }),
+          provider,
         })
       ).observe()
     )?.[0]

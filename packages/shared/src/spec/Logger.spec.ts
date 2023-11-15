@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { getFunctionName } from '../Logger'
 
 describe('Logger', () => {

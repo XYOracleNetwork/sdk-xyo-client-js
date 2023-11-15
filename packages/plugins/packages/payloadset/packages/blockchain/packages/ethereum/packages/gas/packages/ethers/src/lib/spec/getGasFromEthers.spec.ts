@@ -1,5 +1,5 @@
-import { InfuraProvider } from '@ethersproject/providers'
 import { testIf } from '@xylabs/jest-helpers'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { getGasFromEthers } from '../getGasFromEthers'
 
@@ -8,7 +8,7 @@ const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 describe('getGasFromEthers', () => {
   testIf(projectId && projectSecret)('returns prices', async () => {
-    const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
+    const provider = getProviderFromEnv()
     const result = await getGasFromEthers(provider)
     expect(result).toBeObject()
     expect(result.gasPrice).toBeNumber()

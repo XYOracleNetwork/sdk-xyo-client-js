@@ -28,6 +28,10 @@ const validateObservation = (observation: Payload[]) => {
   expect(collectionInfo.sources?.length).toBeGreaterThan(0)
 }
 
+/**
+ * @group slow
+ */
+
 describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
   let account: AccountInstance
   beforeAll(() => {

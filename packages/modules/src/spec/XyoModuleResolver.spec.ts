@@ -6,6 +6,10 @@ import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { WitnessInstance, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
 
+/**
+ * @group module
+ */
+
 describe('ModuleResolver', () => {
   let archivist: ArchivistInstance
   let witness: WitnessInstance

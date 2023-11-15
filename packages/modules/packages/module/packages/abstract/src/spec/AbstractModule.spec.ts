@@ -11,6 +11,10 @@ export class TestAbstractModule extends AbstractModuleInstance {
   }
 }
 
+/**
+ * @group module
+ */
+
 describe('AbstractModule', () => {
   let sut: TestAbstractModule
   beforeAll(async () => {

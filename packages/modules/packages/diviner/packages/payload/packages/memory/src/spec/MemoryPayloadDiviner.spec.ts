@@ -7,6 +7,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner'
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner

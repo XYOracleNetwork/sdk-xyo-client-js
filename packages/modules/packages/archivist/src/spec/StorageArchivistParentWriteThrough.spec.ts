@@ -12,6 +12,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 test('Archivist Parent Write Through', async () => {
   const node = await MemoryNode.create({ account: Account.randomSync() })
   const memory = await MemoryArchivist.create({ account: Account.randomSync() })

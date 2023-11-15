@@ -10,6 +10,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner'
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {

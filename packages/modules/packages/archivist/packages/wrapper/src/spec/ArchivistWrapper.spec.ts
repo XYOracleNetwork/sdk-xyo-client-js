@@ -3,6 +3,11 @@ import { MemoryArchivist } from '@xyo-network/memory-archivist'
 
 import { ArchivistWrapper } from '../ArchivistWrapper'
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 describe('ArchivistWrapper', () => {
   it('check is type check', async () => {
     const wallet = Account.randomSync()

@@ -9,6 +9,11 @@ import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import { AbstractWitness } from '../AbstractWitness'
 */
 
+/**
+ * @group witness
+ * @group module
+ */
+
 describe('Witness', () => {
   it('Stub', () => {
     expect(true).toBeTrue()

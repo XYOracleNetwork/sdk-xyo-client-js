@@ -1,6 +1,6 @@
 /** @deprecated use from @xylabs/logger instead */
 export type LogFunction = (message?: unknown) => void
-import { handleError } from '@xyo-network/error'
+import { handleError } from '@xylabs/error'
 
 /**
  * Interface to handle overlap between Winston &

@@ -2,6 +2,11 @@ import { Account } from '@xyo-network/account'
 
 import { FilesystemArchivist, FilesystemArchivistConfigSchema } from '../FilesystemArchivist'
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 test('FilesystemArchivist Load', async () => {
   const archivist = (await FilesystemArchivist.create({
     account: Account.randomSync(),

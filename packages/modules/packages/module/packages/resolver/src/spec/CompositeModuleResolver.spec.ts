@@ -7,6 +7,10 @@ const moduleAName = 'moduleA'
 const moduleBName = 'moduleB'
 const moduleCName = 'moduleC'
 
+/**
+ * @group module
+ */
+
 describe('CompositeModuleResolver', () => {
   describe('with multiple resolvers', () => {
     let moduleA: MockProxy<ModuleInstance>

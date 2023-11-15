@@ -31,21 +31,20 @@
               "schema": "network.xyo.diviner.payload.config"
             }
           },
-
           {
             "config": {
               "labels": {
-                "network.xyo.image.thumbnail": "diviner",
-                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner",
+                "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "ImageThumbnailStateToIndexCandidateDiviner",
-              "schema": "network.xyo.diviner.config",
               "payloadStore": {
                 "archivist": "ImageThumbnailArchivist",
                 "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
                 "payloadDiviner": "ImageThumbnailPayloadDiviner"
-              }
+              },
+              "schema": "network.xyo.diviner.config"
             }
           }
         ]

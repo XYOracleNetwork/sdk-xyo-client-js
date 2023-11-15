@@ -5,6 +5,11 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
+/**
+ * @group module
+ * @group bridge
+ */
+
 describe('HttpBridge', () => {
   const baseUrl = 'https://sfjhskjdsfhdsk.com'
 

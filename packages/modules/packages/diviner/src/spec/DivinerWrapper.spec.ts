@@ -3,6 +3,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { IdentityDiviner } from '../IdentityDiviner'
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('DivinerWrapper', () => {
   describe('divine', () => {
     it('returns divined result', async () => {

@@ -1,8 +1,7 @@
 /* eslint-disable max-statements */
 
-import { InfuraProvider, JsonRpcProvider, WebSocketProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { BigNumber } from '@xylabs/bignumber'
-import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
 import {
   CryptoContractFunctionCall,
@@ -15,6 +14,7 @@ import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { ERC721__factory, ERC721Enumerable__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 import { Semaphore } from 'async-mutex'
 
@@ -60,31 +60,15 @@ describe('Erc721Sentinel', () => {
   //const address = '0x562fC2927c77cB975680088566ADa1dC6cB8b5Ea' //Random ERC721
   const address = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D' //Bored Apes
 
-  const getProvider = () => {
-    const infuraWssUri = process.env.INFURA_WSS_URI
-    const infuraProvider = new InfuraProvider('homestead', {
-      projectId: process.env.INFURA_PROJECT_ID,
-      projectSecret: process.env.INFURA_PROJECT_SECRET,
-    })
-
-    const infuraWebsocketProvider = infuraWssUri ? new WebSocketProvider(infuraWssUri, 'homestead') : undefined
-
-    const quickNodeUri = process.env.QUICKNODE_WSS_URI
-    const quickNodeProvider = quickNodeUri ? new WebSocketProvider(quickNodeUri, 'homestead') : undefined
-
-    const provider = infuraProvider ?? infuraWebsocketProvider ?? quickNodeProvider ?? infuraProvider
-    return provider
-  }
-
   const getProviders = () => {
-    const providers: JsonRpcProvider[] = []
+    const providers: BaseProvider[] = []
     for (let i = 0; i < maxProviders; i++) {
-      providers.push(getProvider())
+      providers.push(getProviderFromEnv())
     }
     return providers
   }
 
-  describeIf(getProvider())('report', () => {
+  describe('report', () => {
     it('specifying address', async () => {
       profile('setup')
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'

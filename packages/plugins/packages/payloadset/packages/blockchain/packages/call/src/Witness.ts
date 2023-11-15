@@ -62,8 +62,8 @@ export class BlockchainContractCallWitness<
             const result = await contract.callStatic[validatedFunctionName](...mergedArgs)
             transformedResult = BigNumber.isBigNumber(result) ? result.toHexString() : result
           } catch (ex) {
-            const error = ex as Error & { code: string }
-            this.logger.error(`Error [${this.config.name}]: ${error.code} : ${error.message}`)
+            //const error = ex as Error & { code: string }
+            //this.logger.error(`Error [${this.config.name}]: ${error.code} : ${error.message}`)
           }
           const observation: BlockchainContractCallSuccess = {
             address: validatedAddress,

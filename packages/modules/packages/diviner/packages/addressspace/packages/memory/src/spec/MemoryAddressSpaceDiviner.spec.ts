@@ -8,6 +8,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner'
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {

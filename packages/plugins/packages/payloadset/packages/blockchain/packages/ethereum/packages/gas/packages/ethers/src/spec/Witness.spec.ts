@@ -1,7 +1,7 @@
-import { InfuraProvider } from '@ethersproject/providers'
 import { Account } from '@xyo-network/account'
 import { EthereumGasEthersPayload, EthereumGasEthersSchema } from '@xyo-network/ethers-ethereum-gas-payload-plugin'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
 
 import { EthereumGasEthersWitnessConfigSchema } from '../Schema'
 import { EthereumGasEthersWitness } from '../Witness'
@@ -18,7 +18,7 @@ import { testIf } from '@xylabs/jest-helpers'
 
 describe('EthereumGasEthersWitness', () => {
   testIf(projectId && projectSecret)('returns observation', async () => {
-    const provider = new InfuraProvider('homestead', { projectId: process.env.INFURA_PROJECT_ID, projectSecret })
+    const provider = getProviderFromEnv()
     const sut = await EthereumGasEthersWitness.create({
       account: Account.randomSync(),
       config: {

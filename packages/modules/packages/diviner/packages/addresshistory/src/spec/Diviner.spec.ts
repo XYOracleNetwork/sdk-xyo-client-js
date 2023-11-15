@@ -8,6 +8,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AddressHistoryDiviner } from '../Diviner'
 
+/**
+ * @group module
+ * @group diviner
+ */
+
 describe('AddressHistoryDiviner', () => {
   describe('divine', () => {
     const archivistAccount = Account.randomSync()

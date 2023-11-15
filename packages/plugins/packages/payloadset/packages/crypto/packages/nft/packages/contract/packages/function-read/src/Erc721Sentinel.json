@@ -11,24 +11,24 @@
           {
             "config": {
               "functionName": "name",
-              "params": [],
               "labels": {
                 "network.xyo.crypto.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721NameWitness",
+              "params": [],
               "schema": "network.xyo.crypto.contract.function.read.config"
             }
           },
           {
             "config": {
               "functionName": "symbol",
-              "params": [],
               "labels": {
                 "network.xyo.crypto.contract.interface": "Erc721"
               },
               "language": "javascript",
               "name": "Erc721SymbolWitness",
+              "params": [],
               "schema": "network.xyo.crypto.contract.function.read.config"
             }
           },
@@ -57,12 +57,12 @@
           {
             "config": {
               "functionName": "totalSupply",
-              "params": [],
               "labels": {
                 "network.xyo.crypto.contract.interface": "Erc721Enumerable"
               },
               "language": "javascript",
               "name": "Erc721TotalSupplyWitness",
+              "params": [],
               "schema": "network.xyo.crypto.contract.function.read.config"
             }
           },
@@ -80,12 +80,12 @@
           {
             "config": {
               "functionName": "uri",
-              "params": [],
               "labels": {
                 "network.xyo.crypto.contract.interface": "Erc1155"
               },
               "language": "javascript",
               "name": "Erc1155UriWitness",
+              "params": [],
               "schema": "network.xyo.crypto.contract.function.read.config"
             }
           },

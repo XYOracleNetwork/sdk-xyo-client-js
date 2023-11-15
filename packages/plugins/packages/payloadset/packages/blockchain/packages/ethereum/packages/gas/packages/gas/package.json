@@ -43,6 +43,7 @@
     "@xyo-network/etherchain-gas-ethereum-blockchain-plugins": "workspace:~",
     "@xyo-network/ethers-ethereum-gas-plugin": "workspace:~",
     "@xyo-network/etherscan-ethereum-gas-plugin": "workspace:~",
+    "@xyo-network/witness-blockchain-abstract": "workspace:~",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {

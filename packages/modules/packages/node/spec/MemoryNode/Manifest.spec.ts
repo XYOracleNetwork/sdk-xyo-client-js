@@ -4,6 +4,11 @@ import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { MemoryNode } from '../../src'
 
+/**
+ * @group node
+ * @group module
+ */
+
 describe('MemoryNode', () => {
   it('Creates MemoryNode from Manifest', async () => {
     const memoryNode = await MemoryNode.create({

@@ -14,6 +14,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 describe('Various StorageArchivist types', () => {
   const archivistTests: [string, Promise<ArchivistInstance>][] = [
     [

@@ -12,6 +12,7 @@ import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner
 
 /**
  * @group sentinel
+ * @group module
  */
 
 describe('SentinelRunner', () => {

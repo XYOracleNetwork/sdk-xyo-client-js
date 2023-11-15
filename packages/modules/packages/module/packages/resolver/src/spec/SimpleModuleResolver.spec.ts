@@ -6,6 +6,10 @@ import { SimpleModuleResolver } from '../SimpleModuleResolver'
 const moduleAName = 'moduleA'
 const moduleBName = 'moduleB'
 
+/**
+ * @group module
+ */
+
 describe('SimpleModuleResolver', () => {
   describe('with multiple resolvers', () => {
     let moduleA: MockProxy<ModuleInstance>

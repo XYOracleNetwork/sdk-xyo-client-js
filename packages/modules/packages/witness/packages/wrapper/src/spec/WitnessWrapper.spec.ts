@@ -12,6 +12,11 @@ class TestWitness extends AbstractWitness {
   }
 }
 
+/**
+ * @group witness
+ * @group module
+ */
+
 describe('WitnessWrapper', () => {
   test('Is it a WitnessInstance', async () => {
     const witness = await TestWitness.create({

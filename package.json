@@ -108,6 +108,7 @@
     "test-esm": "node $(yarn jest --no-cache --forceExit)",
     "test": "jest --no-cache --forceExit",
     "test:no-slow": "jest . --passWithNoTests --forceExit -- --group=-slow",
+    "test:module": "jest . --passWithNoTests --forceExit -- --group=module",
     "test:sentinel": "jest . --passWithNoTests --forceExit -- --group=sentinel",
     "test:thumbnail": "jest . --passWithNoTests --forceExit -- --group=thumbnail",
     "test:no-mongo": "jest ${0} --passWithNoTests --forceExit -c ./jest.config.no-mongo.ts -- --group=-mongo",

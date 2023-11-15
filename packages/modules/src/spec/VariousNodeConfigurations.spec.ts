@@ -8,6 +8,10 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { WitnessInstance } from '@xyo-network/witness-model'
 
+/**
+ * @group module
+ */
+
 describe('MultiNodeConfiguration', () => {
   let primaryArchivist: ArchivistInstance
   let primaryNode: MemoryNode

@@ -1,12 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { Buffer } from '@xylabs/buffer'
+import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { Data, PayloadHasher, sortFields } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
-import { Logger } from '@xyo-network/shared'
 import { Mutex } from 'async-mutex'
 
 export interface BoundWitnessBuilderConfig {

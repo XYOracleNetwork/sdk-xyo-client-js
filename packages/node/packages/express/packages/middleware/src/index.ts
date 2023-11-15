@@ -1,5 +1,5 @@
+import { Logger } from '@xylabs/logger'
 import { NodeInstance } from '@xyo-network/node-model'
-import { Logger } from '@xyo-network/shared'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

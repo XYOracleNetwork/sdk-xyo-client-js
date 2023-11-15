@@ -43,6 +43,7 @@
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.451.0",
     "@xylabs/assert": "^2.13.7",
+    "@xylabs/logger": "^2.13.7",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/express-node-dependencies": "workspace:~",
     "@xyo-network/express-node-middleware": "workspace:~",
@@ -51,7 +52,6 @@
     "@xyo-network/node-core-types": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/shared": "workspace:~",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",

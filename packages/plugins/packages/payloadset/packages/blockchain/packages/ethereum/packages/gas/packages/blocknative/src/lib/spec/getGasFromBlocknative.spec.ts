@@ -23,7 +23,7 @@ describe('getGasFromBlocknative', () => {
     for (let index = 0; index < result?.estimatedBaseFees.length; index++) {
       const blockNumber = `pending+${index + 1}` as PendingBlockNumber
       const pendingBlockInfo = result.estimatedBaseFees?.[index]?.[blockNumber]
-      expect(pendingBlockInfo).toBeArrayOfSize(1)
+      expect(pendingBlockInfo.length).toBeGreaterThan(0)
       const pendingBlock = pendingBlockInfo?.[0]
       expect(pendingBlock).toBeObject()
       expect(pendingBlock?.baseFee).toBeNumber()

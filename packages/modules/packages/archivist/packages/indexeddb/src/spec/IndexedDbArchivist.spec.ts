@@ -13,6 +13,11 @@ import { IndexedDbArchivist, IndexedDbArchivistConfigSchema } from '../IndexedDb
 
 window.indexedDB = indexedDB
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 describe('IndexedDbArchivist', () => {
   describe('With dbName', () => {
     it('supplied via config uses config value', async () => {

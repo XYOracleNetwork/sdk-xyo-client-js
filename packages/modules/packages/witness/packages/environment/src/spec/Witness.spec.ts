@@ -5,6 +5,11 @@ import { EnvironmentWitnessConfigSchema } from '../Config'
 import { EnvironmentSubset, EnvironmentSubsetSchema } from '../Payload'
 import { EnvironmentWitness } from '../Witness'
 
+/**
+ * @group witness
+ * @group module
+ */
+
 describe('EnvironmentWitness', () => {
   let sut: EnvironmentWitness
   beforeAll(async () => {

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { JsonRpcProvider } from '@ethersproject/providers'
+import { BaseProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
@@ -20,7 +20,7 @@ import { WitnessParams } from '@xyo-network/witness-model'
 export type CryptoContractFunctionReadWitnessParams = WitnessParams<
   AnyConfigSchema<CryptoContractFunctionReadWitnessConfig>,
   {
-    providers: JsonRpcProvider[]
+    providers: BaseProvider[]
   }
 >
 

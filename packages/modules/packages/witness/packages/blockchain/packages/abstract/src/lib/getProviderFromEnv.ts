@@ -51,13 +51,13 @@ export const getProviderFromEnv = (
     default:
     case 'infura': {
       switch (providerType) {
-        case 'rpc': {
-          provider = createInfuraRpc(chainId)
+        case 'wss': {
+          provider = createInfuraWss(chainId)
           break
         }
-        case 'wss':
-        default: {
-          provider = createInfuraWss(chainId)
+        default:
+        case 'rpc': {
+          provider = createInfuraRpc(chainId)
           break
         }
       }

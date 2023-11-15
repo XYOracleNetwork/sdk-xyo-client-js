@@ -11,6 +11,7 @@ import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
 /**
  * @group sentinel
+ * @group module
  */
 
 describe('Sentinel', () => {

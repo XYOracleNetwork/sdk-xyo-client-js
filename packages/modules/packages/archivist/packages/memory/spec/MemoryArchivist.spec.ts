@@ -3,6 +3,11 @@ import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-m
 
 import { MemoryArchivist } from '../src'
 
+/**
+ * @group module
+ * @group archivist
+ */
+
 describe('MemoryArchivist', () => {
   it('should listen to cleared events', async () => {
     const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })

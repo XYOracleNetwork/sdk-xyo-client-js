@@ -14,6 +14,11 @@ import { Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-net
 
 import { MemoryNode } from '../../src'
 
+/**
+ * @group node
+ * @group module
+ */
+
 describe('MemoryNode', () => {
   it('WithArchivistAndDiviner', async () => {
     const node = await MemoryNode.create({ account: Account.randomSync() })

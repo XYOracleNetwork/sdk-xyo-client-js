@@ -1,5 +1,5 @@
+import { Logger } from '@xylabs/logger'
 import { ExpressError } from '@xylabs/sdk-api-express-ecs'
-import { Logger } from '@xyo-network/shared'
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
 
 type PossibleError = ExpressError | Error

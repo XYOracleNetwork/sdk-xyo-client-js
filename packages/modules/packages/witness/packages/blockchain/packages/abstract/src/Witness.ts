@@ -1,4 +1,5 @@
 import { BaseProvider } from '@ethersproject/providers'
+import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
@@ -22,7 +23,7 @@ export type BlockchainWitnessParams<
   TConfig,
   WithAdditional<
     {
-      providers: BaseProvider[]
+      providers: () => Promisable<BaseProvider[]>
     },
     TAdditionalParams
   >
@@ -38,8 +39,24 @@ export abstract class AbstractBlockchainWitness<
     TOut
   >,
 > extends AbstractWitness<TParams, TIn, TOut, TEventData> {
-  get provider() {
-    const { providers } = this.params
+  private _providers: BaseProvider[] | undefined = undefined
+
+  async getProvider(cache?: boolean): Promise<BaseProvider | undefined>
+  async getProvider(cache: boolean, error: string | true): Promise<BaseProvider>
+  async getProvider(cache = false, error?: string | boolean): Promise<BaseProvider | undefined> {
+    const providers = await this.getProviders(cache)
+    if (providers.length === 0) {
+      if (error) {
+        throw Error(typeof error === 'string' ? error : 'No providers available')
+      }
+      return undefined
+    }
     return providers[Date.now() % providers.length] //pick a random provider
+  }
+
+  async getProviders(cache = false): Promise<BaseProvider[]> {
+    const cachedProviders = cache ? this._providers : undefined
+    this._providers = cachedProviders ?? (await this.params.providers())
+    return this._providers
   }
 }

@@ -4,25 +4,20 @@ import { ImageThumbnailWitness } from '@xyo-network/image-thumbnail-plugin'
 import { ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { TimestampWitness } from '@xyo-network/witness-timestamp'
 import { Container } from 'inversify'
 
 export const addWitnessModuleFactories = (container: Container) => {
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
-  locator.register(CryptoNftCollectionWitness.factory({ provider: getProviderFromEnv() }))
+  locator.register(
+    CryptoNftCollectionWitness.factory({
+      providers: () => getProvidersFromEnv(8),
+    }),
+  )
   locator.register(
     CryptoWalletNftWitness.factory({
-      providers: [
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-        getProviderFromEnv(),
-      ],
+      providers: () => getProvidersFromEnv(8),
     }),
   )
   locator.register(ImageThumbnailWitness)

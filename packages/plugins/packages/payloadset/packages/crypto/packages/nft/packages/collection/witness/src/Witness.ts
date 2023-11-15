@@ -1,7 +1,5 @@
-import { InfuraProvider, Provider, WebSocketProvider } from '@ethersproject/providers'
 import { assertEx } from '@xylabs/assert'
 import { EthAddress } from '@xylabs/eth-address'
-import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { PayloadHasher } from '@xyo-network/core'
 import {
   isNftCollectionWitnessQuery,
@@ -11,19 +9,12 @@ import {
   NftCollectionWitnessConfigSchema,
   NftCollectionWitnessQuery,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
-import { AnyConfigSchema } from '@xyo-network/module-model'
 import { ERC721Enumerable__factory } from '@xyo-network/open-zeppelin-typechain'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
-import { WitnessParams } from '@xyo-network/witness-model'
+import { AbstractBlockchainWitness, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
 
 import { getNftCollectionMetrics, getNftCollectionNfts, tokenTypes } from './lib'
 
-export type CryptoNftCollectionWitnessParams = WitnessParams<
-  AnyConfigSchema<NftCollectionWitnessConfig>,
-  {
-    provider: Provider
-  }
->
+export type CryptoNftCollectionWitnessParams = BlockchainWitnessParams<NftCollectionWitnessConfig>
 
 const defaultMaxNfts = 100
 
@@ -43,27 +34,19 @@ function resolvedValue<T>(settled: PromiseSettledResult<T>, assert?: boolean) {
   return settled.status === 'fulfilled' ? settled.value : undefined
 }
 
-export class CryptoNftCollectionWitness<TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams> extends AbstractWitness<
-  TParams,
-  NftCollectionWitnessQuery,
-  NftCollectionInfo
-> {
+export class CryptoNftCollectionWitness<
+  TParams extends CryptoNftCollectionWitnessParams = CryptoNftCollectionWitnessParams,
+> extends AbstractBlockchainWitness<TParams, NftCollectionWitnessQuery, NftCollectionInfo> {
   static override configSchemas = [NftCollectionWitnessConfigSchema]
-
-  protected providers: Record<number, WebSocketProvider | InfuraProvider> = {}
-
-  protected getProvider(chainId: number) {
-    this.providers[chainId] = this.providers[chainId] ?? getProviderFromEnv(chainId)
-    return this.providers[chainId]
-  }
 
   protected override async observeHandler(payloads?: NftCollectionWitnessQuery[]): Promise<NftCollectionInfo[]> {
     await this.started('throw')
+    await this.getProviders() //make sure cache clears
     const queries = payloads?.filter(isNftCollectionWitnessQuery) ?? []
     const observations = await Promise.all(
       queries.map<Promise<NftCollectionInfo>>(async (query) => {
         const chainId = assertEx(query?.chainId || this.config.chainId, 'params.chainId is required')
-        const provider = this.getProvider(chainId)
+        const provider = await this.getProvider(true, true)
         const address = assertEx(
           EthAddress.parse(assertEx(query?.address || this.config.address, 'params.address is required')),
           'Failed to parse params.address',

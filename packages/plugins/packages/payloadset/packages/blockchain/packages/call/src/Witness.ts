@@ -1,9 +1,11 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { assertEx } from '@xylabs/assert'
+import { BigNumber as XyBigNumber } from '@xylabs/bignumber'
+import { getErc1822Status } from '@xyo-network/blockchain-erc1822-witness'
 import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { AbstractBlockchainWitness, BlockchainWitnessConfig, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
+import { BigNumber } from 'ethers'
 
 import {
   BlockchainContractCall,
@@ -28,6 +30,14 @@ export type BlockchainContractCallWitnessConfig = BlockchainWitnessConfig<
 >
 
 export type BlockchainContractCallWitnessParams = BlockchainWitnessParams<BlockchainContractCallWitnessConfig>
+
+const hexBytesOnlyOnly = (value: string) => {
+  return value.startsWith('0x') ? value.substring(2) : value
+}
+
+const isHexZero = (value?: string) => {
+  return value === undefined ? true : new XyBigNumber(hexBytesOnlyOnly(value), 'hex').eqn(0)
+}
 
 export class BlockchainContractCallWitness<
   TParams extends BlockchainContractCallWitnessParams = BlockchainContractCallWitnessParams,
@@ -54,7 +64,12 @@ export class BlockchainContractCallWitness<
           const block = this.config.block ?? payloadBlock ?? (await provider.getBlockNumber())
 
           //Check if ERC-1967 Upgradeable
-          const { implementation } = await getErc1967Status(provider, validatedAddress, block)
+          const erc1967Status = await getErc1967Status(provider, validatedAddress, block)
+
+          //Check if ERC-1822 Upgradeable
+          const erc1822Status = await getErc1822Status(provider, validatedAddress, block)
+
+          const implementation = isHexZero(erc1967Status.slots.implementation) ? erc1822Status.implementation : erc1967Status.implementation
 
           const contract = new Contract(implementation, this.contract, provider)
           let transformedResult: unknown

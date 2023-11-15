@@ -1,6 +1,8 @@
 import { BaseProvider } from '@ethersproject/providers'
 import { AxiosJson } from '@xylabs/axios'
+import { BigNumber as XyBigNumber } from '@xylabs/bignumber'
 import { exists } from '@xylabs/exists'
+import { getErc1822Status } from '@xyo-network/blockchain-erc1822-witness'
 import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { NftInfo, NftMetadata, NftSchema, TokenType, toTokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
@@ -10,6 +12,14 @@ import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
 
 const ipfsGateway = '5d7b6582.beta.decentralnetworkservices.com'
+
+const hexBytesOnlyOnly = (value: string) => {
+  return value.startsWith('0x') ? value.substring(2) : value
+}
+
+const isHexZero = (value?: string) => {
+  return value === undefined ? true : new XyBigNumber(hexBytesOnlyOnly(value), 'hex').eqn(0)
+}
 
 function range(size: number, startAt: number = 0): ReadonlyArray<number> {
   return [...Array(size).keys()].map((i) => i + startAt)
@@ -33,8 +43,15 @@ export const getNftCollectionNfts = async (
   maxNfts = 100,
 ): Promise<NftInfo[]> => {
   try {
+    const block = await provider.getBlockNumber()
+
     //Check if ERC-1967 Upgradeable
-    const { implementation } = await getErc1967Status(provider, contractAddress)
+    const erc1967Status = await getErc1967Status(provider, contractAddress, block)
+
+    //Check if ERC-1822 Upgradeable
+    const erc1822Status = await getErc1822Status(provider, contractAddress, block)
+
+    const implementation = isHexZero(erc1967Status.slots.implementation) ? erc1822Status.implementation : erc1967Status.implementation
 
     const axios = new AxiosJson({ timeout: 2000 })
     const enumerable = ERC721Enumerable__factory.connect(implementation, provider)
@@ -47,12 +64,12 @@ export const getNftCollectionNfts = async (
     const result: NftInfo[] = (
       await Promise.all(
         maxNftsArray.map(async (_value, i) => {
-          const tokenId = (await tryCall(async () => (await enumerable.tokenByIndex(i)).toHexString())) ?? `${i}`
+          const tokenId = (await tryCall(async () => (await enumerable.tokenByIndex(i, { blockTag: block })).toHexString())) ?? `${i}`
           if (tokenId !== undefined) {
             const supply = finalTypes.includes(toTokenType('ERC1155'))
-              ? (await tryCall(async () => (await supply1155.totalSupply(tokenId)).toHexString())) ?? '0x01'
+              ? (await tryCall(async () => (await supply1155.totalSupply(tokenId, { blockTag: block })).toHexString())) ?? '0x01'
               : '0x01'
-            const metadataUri = await tryCall(async () => await storage.tokenURI(tokenId))
+            const metadataUri = await tryCall(async () => await storage.tokenURI(tokenId, { blockTag: block }))
             const checkedMetaDataUri = metadataUri ? checkIpfsUrl(metadataUri, ipfsGateway) : undefined
             let metadata: NftMetadata | undefined = undefined
             if (checkedMetaDataUri !== undefined) {

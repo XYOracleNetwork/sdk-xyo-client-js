@@ -26,7 +26,11 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
   describe('observe', () => {
     describe('with no address or chainId in config', () => {
       it('uses values from config', async () => {
-        const witness = await CryptoWalletNftWitness.create({ config: { address, schema: NftWitnessConfigSchema }, providers: getProvidersFromEnv })
+        const witness = await CryptoWalletNftWitness.create({
+          account: 'random',
+          config: { address, schema: NftWitnessConfigSchema },
+          providers: getProvidersFromEnv,
+        })
         const query: NftWitnessQuery = { schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)
@@ -34,7 +38,11 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoWalletNftWitness', () => {
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const witness = await CryptoWalletNftWitness.create({ config: { schema: NftWitnessConfigSchema }, providers: getProvidersFromEnv })
+        const witness = await CryptoWalletNftWitness.create({
+          account: 'random',
+          config: { schema: NftWitnessConfigSchema },
+          providers: getProvidersFromEnv,
+        })
         const query: NftWitnessQuery = { address, schema: NftWitnessQuerySchema }
         const observation = await witness.observe([query])
         await validateObservation(observation)

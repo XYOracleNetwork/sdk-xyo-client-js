@@ -69,8 +69,8 @@
                   },
                   {
                     "key": {
-                      "addresses": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "addresses": 1
                     },
                     "name": "address_state_bound_witnesses.IX_addresses__timestamp"
                   },
@@ -116,8 +116,8 @@
                   },
                   {
                     "key": {
-                      "schema": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "schema": 1
                     },
                     "name": "address_state_payloads.IX_schema__timestamp"
                   }
@@ -185,8 +185,8 @@
                   },
                   {
                     "key": {
-                      "addresses": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "addresses": 1
                     },
                     "name": "bound_witnesses.IX_addresses__timestamp"
                   },
@@ -238,8 +238,8 @@
                   },
                   {
                     "key": {
-                      "schema": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "schema": 1
                     },
                     "name": "payloads.IX_schema__timestamp"
                   }
@@ -278,10 +278,10 @@
                   },
                   {
                     "key": {
-                      "key": 1,
                       "_timestamp": 1,
-                      "success": 1,
-                      "status": 1
+                      "key": 1,
+                      "status": 1,
+                      "success": 1
                     },
                     "name": "thumbnail_payloads.IX_key__timestamp_success_status"
                   }
@@ -316,8 +316,8 @@
                   },
                   {
                     "key": {
-                      "addresses": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "addresses": 1
                     },
                     "name": "thumbnail_bound_witnesses.IX_addresses__timestamp"
                   },
@@ -363,8 +363,8 @@
                   },
                   {
                     "key": {
-                      "schema": 1,
-                      "_timestamp": -1
+                      "_timestamp": -1,
+                      "schema": 1
                     },
                     "name": "thumbnail_payloads.IX_schema__timestamp"
                   }
@@ -375,24 +375,24 @@
           {
             "config": {
               "labels": {
-                "network.xyo.image.thumbnail": "diviner",
-                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner",
+                "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "NftContractStateToIndexCandidateDiviner",
-              "schema": "network.xyo.diviner.config",
               "payloadStore": {
                 "archivist": "NftContractArchivist",
                 "boundWitnessDiviner": "NftContractBoundWitnessDiviner",
                 "payloadDiviner": "NftContractPayloadDiviner"
-              }
+              },
+              "schema": "network.xyo.diviner.config"
             }
           },
           {
             "config": {
               "labels": {
-                "network.xyo.image.thumbnail": "diviner",
-                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner"
+                "network.xyo.diviner.stage": "indexCandidateToIndexDiviner",
+                "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "NftContractIndexCandidateToNftContractIndexDiviner",
@@ -402,8 +402,8 @@
           {
             "config": {
               "labels": {
-                "network.xyo.image.thumbnail": "diviner",
-                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner"
+                "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner",
+                "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "NftContractQueryToNftContractIndexQueryDiviner",
@@ -413,8 +413,8 @@
           {
             "config": {
               "labels": {
-                "network.xyo.image.thumbnail": "diviner",
-                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner"
+                "network.xyo.diviner.stage": "indexQueryResponseToDivinerQueryResponseDiviner",
+                "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "NftContractIndexQueryResponseToNftContractQueryResponseDiviner",
@@ -521,16 +521,16 @@
           {
             "config": {
               "accountPath": "m/44'/60'/3'/2'/14'",
+              "indexStore": {
+                "archivist": "NftContractDivinerIndexArchivist",
+                "boundWitnessDiviner": "NftContractDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "NftContractDivinerIndexPayloadDiviner"
+              },
               "indexingDivinerStages": {
                 "divinerQueryToIndexQueryDiviner": "NftContractQueryToNftContractIndexQueryDiviner",
                 "indexCandidateToIndexDiviner": "NftContractIndexCandidateToNftContractIndexDiviner",
                 "indexQueryResponseToDivinerQueryResponseDiviner": "NftContractIndexQueryResponseToNftContractQueryResponseDiviner",
                 "stateToIndexCandidateDiviner": "NftContractStateToIndexCandidateDiviner"
-              },
-              "indexStore": {
-                "archivist": "NftContractDivinerIndexArchivist",
-                "boundWitnessDiviner": "NftContractDivinerIndexBoundWitnessDiviner",
-                "payloadDiviner": "NftContractDivinerIndexPayloadDiviner"
               },
               "language": "javascript",
               "name": "NftContractDiviner",

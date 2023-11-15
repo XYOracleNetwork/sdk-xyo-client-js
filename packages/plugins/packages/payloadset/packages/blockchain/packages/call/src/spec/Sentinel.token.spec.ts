@@ -1,6 +1,5 @@
 /* eslint-disable max-statements */
 
-import { BaseProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
 import { HDWallet } from '@xyo-network/account'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
@@ -9,7 +8,7 @@ import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { ERC721__factory, ERC721Enumerable__factory, ERC721URIStorage__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { asSentinelInstance } from '@xyo-network/sentinel-model'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
 import { BlockchainContractCallDiviner, BlockchainContractCallResults, BlockchainContractCallResultsSchema } from '../Diviner'
@@ -31,15 +30,7 @@ describe('Erc721Sentinel', () => {
 
   const tokenId = 1
 
-  const getProviders = () => {
-    const providers: BaseProvider[] = []
-    for (let i = 0; i < maxProviders; i++) {
-      providers.push(getProviderFromEnv(1))
-    }
-    return providers
-  }
-
-  const providers = getProviders()
+  const providers = getProvidersFromEnv(maxProviders)
 
   describeIf(providers.length)('report', () => {
     it('specifying address', async () => {
@@ -51,7 +42,7 @@ describe('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(BlockchainContractCallWitness, {
           config: { contract: ERC721__factory.abi },
-          providers: getProviders(),
+          providers: () => getProvidersFromEnv(maxProviders),
         }),
         { 'network.xyo.blockchain.contract.interface': 'Erc721' },
       )
@@ -59,7 +50,7 @@ describe('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(BlockchainContractCallWitness, {
           config: { contract: ERC721Enumerable__factory.abi },
-          providers: getProviders(),
+          providers: () => getProvidersFromEnv(maxProviders),
         }),
         { 'network.xyo.blockchain.contract.interface': 'Erc721Enumerable' },
       )
@@ -67,7 +58,7 @@ describe('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(BlockchainContractCallWitness, {
           config: { contract: ERC721URIStorage__factory.abi },
-          providers: getProviders(),
+          providers: () => getProvidersFromEnv(maxProviders),
         }),
         { 'network.xyo.blockchain.contract.interface': 'ERC721URIStorage' },
       )
@@ -75,7 +66,7 @@ describe('Erc721Sentinel', () => {
       locator.register(
         new ModuleFactory(BlockchainContractCallWitness, {
           config: { contract: ERC1155__factory.abi },
-          providers: getProviders(),
+          providers: () => getProvidersFromEnv(maxProviders),
         }),
         { 'network.xyo.blockchain.contract.interface': 'Erc1155' },
       )

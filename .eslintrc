@@ -4,13 +4,13 @@
     "@xylabs"
   ],
   "ignorePatterns": [
-    "**/dist",
-    "**/node_modules",
-    "**/docs",
+    "dist",
+    "node_modules",
+    "docs",
     "coverage",
     "docker",
     "nftData",
-    "**/testData.json",
+    "testData.json",
     "*.stories.*",
     "swagger.json",
     ".yarn"

@@ -40,6 +40,8 @@ export class BlockchainContractCallWitness<
 
   protected override async observeHandler(inPayloads: BlockchainContractCall[] = []): Promise<BlockchainContractCallResult[]> {
     await this.started('throw')
+    //calling it here to make sure we rests the cache
+    await this.getProviders()
     try {
       const observations = await Promise.all(
         inPayloads.filter(isPayloadOfSchemaType(BlockchainContractCallSchema)).map(async ({ functionName, args, address, block: payloadBlock }) => {
@@ -47,9 +49,7 @@ export class BlockchainContractCallWitness<
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]
 
-          console.log(`mergedArgs[${validatedFunctionName}]: ${JSON.stringify(mergedArgs, null, 2)}`)
-
-          const provider = this.provider
+          const provider = await this.getProvider(true, true)
 
           const block = this.config.block ?? payloadBlock ?? (await provider.getBlockNumber())
 

@@ -25,16 +25,18 @@ export class BlockchainErc1967Witness<
 
   protected override async observeHandler(inPayloads: BlockchainAddress[] = []): Promise<BlockchainErc1967Status[]> {
     await this.started('throw')
+    //calling it here to make sure we rests the cache
+    await this.getProviders()
     try {
       const observations = await Promise.all(
         inPayloads.filter(isPayloadOfSchemaType(BlockchainAddressSchema)).map(async ({ address }) => {
           const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
 
-          const provider = this.provider
+          const provider = await this.getProvider(true, true)
 
           const block = await provider.getBlockNumber()
 
-          const { beacon, implementation, slots } = await getErc1967Status(this.provider, validatedAddress, block)
+          const { beacon, implementation, slots } = await getErc1967Status(provider, validatedAddress, block)
 
           const observation: BlockchainErc1967Status = {
             address: validatedAddress,

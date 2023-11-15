@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "incremental": false,
     "typeRoots": []
   },
 

@@ -29,7 +29,7 @@ export class BlockchainContractWitness<
         inPayloads.filter(isPayloadOfSchemaType(BlockchainAddressSchema)).map(async ({ address }) => {
           const validatedAddress = assertEx(address ?? this.config.address, 'Missing address')
 
-          const provider = this.provider
+          const provider = await this.getProvider(true, true)
 
           const block = await provider.getBlockNumber()
           const code = await provider.getCode(validatedAddress, block)

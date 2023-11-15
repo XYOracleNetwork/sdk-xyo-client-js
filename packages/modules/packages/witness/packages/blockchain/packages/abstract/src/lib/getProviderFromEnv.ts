@@ -110,7 +110,7 @@ export const getSharedProviderFromEnv = (
   return providers[key]
 }
 
-export const getProvidersFromEnv = (count: number, chainId: number = 0x01, options: GetProvidersFromEnvOptions = {}): BaseProvider[] => {
+export const getProvidersFromEnv = (count: number = 1, chainId: number = 0x01, options: GetProvidersFromEnvOptions = {}): BaseProvider[] => {
   const result: BaseProvider[] = []
   for (let i = 0; i < count; i++) {
     result.push(getProviderFromEnv(chainId, options))

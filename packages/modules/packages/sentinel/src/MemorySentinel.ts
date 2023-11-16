@@ -5,7 +5,7 @@ import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import {
-  ResolvedSentinelTask,
+  ResolvedTask,
   SentinelConfig,
   SentinelConfigSchema,
   SentinelInstance,
@@ -37,7 +37,7 @@ export class MemorySentinel<
   }
 
   private async generateResults(
-    tasks: ResolvedSentinelTask[],
+    tasks: ResolvedTask[],
     previousResults: Record<Address, Payload[]>,
     inPayloads?: Payload[],
   ): Promise<Record<Address, Payload[]>> {

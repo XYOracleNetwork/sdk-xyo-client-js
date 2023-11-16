@@ -6113,7 +6113,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/blockchain-erc1822-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/erc1822":
+"@xyo-network/blockchain-erc1822-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/erc1822, @xyo-network/blockchain-erc1822-witness@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-erc1822-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/erc1822"
   dependencies:
@@ -6855,6 +6855,7 @@ __metadata:
     "@xylabs/tsconfig": ^3.1.21
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
+    "@xyo-network/blockchain-erc1822-witness": "workspace:~"
     "@xyo-network/blockchain-erc1967-witness": "workspace:~"
     "@xyo-network/core": "workspace:~"
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
@@ -6974,6 +6975,7 @@ __metadata:
     "@xylabs/jest-helpers": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/blockchain-erc1822-witness": "workspace:~"
     "@xyo-network/blockchain-erc1967-witness": "workspace:~"
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
@@ -9955,6 +9957,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft

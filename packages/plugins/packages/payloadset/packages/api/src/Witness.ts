@@ -5,9 +5,11 @@ import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Hash, PayloadHasher } from '@xyo-network/hash'
 import { JsonArray, JsonObject } from '@xyo-network/object'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
-import { WitnessConfig, WitnessParams } from '@xyo-network/witness-model'
+import { WitnessParams } from '@xyo-network/witness-model'
 import { fromByteArray } from 'base64-js'
+import template from 'es6-template-strings'
 
+import { ApiCallWitnessConfig, ApiCallWitnessConfigSchema, asApiUriCallWitnessConfig, asApiUriTemplateCallWitnessConfig } from './Config'
 import { checkIpfsUrl } from './lib'
 import {
   ApiCall,
@@ -17,29 +19,54 @@ import {
   ApiCallResult,
   ApiCallResultSchema,
   ApiCallSchema,
-  Verb,
+  asApiUriCall,
+  asApiUriTemplateCall,
 } from './Payload'
 
-export const ApiCallWitnessConfigSchema = 'network.xyo.api.call.witness.config'
-export type ApiCallWitnessConfigSchema = typeof ApiCallWitnessConfigSchema
-
-export type ApiCallWitnessConfig = WitnessConfig<{
-  accept: 'application/json'
-  schema: ApiCallWitnessConfigSchema
-  verb?: Verb
-}>
-
-export type ApiCallWitnessParams = WitnessParams<ApiCallWitnessConfig, { ipfsGateway?: string }>
+export type ApiCallWitnessParams = WitnessParams<
+  ApiCallWitnessConfig,
+  {
+    headers?: Record<string, string | undefined>
+    ipfsGateway?: string
+  }
+>
 
 export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnessParams> extends AbstractWitness<TParams, ApiCall, ApiCallResult> {
   static override configSchemas = [ApiCallWitnessConfigSchema]
 
   get accept() {
-    return this.config.accept
+    return this.config.accept ?? 'application/json'
   }
 
   get ipfsGateway() {
     return this.params.ipfsGateway
+  }
+
+  getUri(call?: ApiCall): string {
+    const { uri: callUri } = asApiUriCall(call) ?? {}
+    const { uriTemplate: callUriTemplate, params: callParams } = asApiUriTemplateCall(call) ?? {}
+    const { uri: configUri } = asApiUriCallWitnessConfig(this.config) ?? {}
+    const { uriTemplate: configUriTemplate, params: configParams } = asApiUriTemplateCallWitnessConfig(this.config) ?? {}
+
+    const params = { ...configParams, ...callParams }
+
+    if (callUri) {
+      return callUri
+    }
+
+    if (callUriTemplate) {
+      return template(callUriTemplate, params)
+    }
+
+    if (configUri) {
+      return configUri
+    }
+
+    if (configUriTemplate) {
+      return template(configUriTemplate, params)
+    }
+
+    throw Error('Unable to determine uri. No uri/uriTemplate specified in either the call or config.')
   }
 
   protected override async observeHandler(inPayloads: ApiCall[] = []): Promise<ApiCallResult[]> {
@@ -47,7 +74,10 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
     try {
       const observations = await Promise.all(
         inPayloads.filter(isPayloadOfSchemaType(ApiCallSchema)).map(async (call) => {
-          const { uri, verb } = call
+          const { verb: callVerb } = call
+          const { verb: configVerb } = this.config
+          const verb = callVerb ?? configVerb ?? 'get'
+          const uri = this.getUri(call)
 
           const validatedUri = assertEx(checkIpfsUrl(uri, this.ipfsGateway), 'Invalid URI')
 
@@ -65,7 +95,8 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
       return observations
     } catch (ex) {
       const error = ex as Error
-      console.log(`Error [${this.config.name}]: ${error.message}`)
+      console.error(`Error [${this.config.name}]: ${error.message}`)
+      console.log(error.stack)
       throw error
     }
   }
@@ -78,7 +109,7 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
     try {
       switch (this.accept) {
         case 'application/json': {
-          const axios = new AxiosJson()
+          const axios = new AxiosJson({ headers: this.params.headers })
           const response = await axios.get<JsonArray | JsonObject>(url)
           if (response.status >= 200 && response.status < 300) {
             const jsonResult = result as ApiCallJsonResult
@@ -93,7 +124,7 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
           break
         }
         default: {
-          const axios = new Axios({ responseType: 'arraybuffer' })
+          const axios = new Axios({ headers: this.params.headers, responseType: 'arraybuffer' })
           const response = await axios.get(url)
           if (response.status >= 200 && response.status < 300) {
             const jsonResult = result as ApiCallBase64Result

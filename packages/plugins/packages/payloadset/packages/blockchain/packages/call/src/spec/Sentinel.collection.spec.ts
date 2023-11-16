@@ -2,6 +2,7 @@
 
 import { BaseProvider } from '@ethersproject/providers'
 import { describeIf } from '@xylabs/jest-helpers'
+import { createProfiler, profile, profileReport } from '@xylabs/profile'
 import { HDWallet } from '@xyo-network/account'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
@@ -16,7 +17,6 @@ import { BlockchainContractCallDiviner, BlockchainContractCallResults, Blockchai
 import { BlockchainContractCall, BlockchainContractCallSchema } from '../Payload'
 import { BlockchainContractCallWitness } from '../Witness'
 import erc721SentinelManifest from './Erc721Sentinel.json'
-import { createProfiler, profile, profileReport } from './profiler'
 
 const profiler = createProfiler()
 

@@ -1,5 +1,6 @@
+import { ApiCallWitnessConfigSchema } from '../Config'
 import { ApiCallResultSchema, ApiCallSchema } from '../Payload'
-import { ApiCallWitness, ApiCallWitnessConfigSchema } from '../Witness'
+import { ApiCallWitness } from '../Witness'
 
 describe('CryptoWalletNftWitness', () => {
   const uri = 'https://cnn.com'

@@ -4791,12 +4791,12 @@ __metadata:
   linkType: hard
 
 "@types/superagent@npm:*":
-  version: 4.1.21
-  resolution: "@types/superagent@npm:4.1.21"
+  version: 4.1.22
+  resolution: "@types/superagent@npm:4.1.22"
   dependencies:
     "@types/cookiejar": "*"
     "@types/node": "*"
-  checksum: 9e38036ee2b64b86d60e19501e2dd40b7c2c174c6dc776cfa83f0f0d4f0dbf603a75c27c327c3cb95fced888925db92094bbd870b7765e8ff21258c59d8723a3
+  checksum: 8b2120389a7988204c70924b94275877bc0921af8a5a7f5bbe4d7c0bf2238687b340160eb34f9c5cf6c5d35f6b0f0b3bb10c08377088cafccfe4663f8cdde633
   languageName: node
   linkType: hard
 
@@ -4881,6 +4881,15 @@ __metadata:
   version: 7.0.3
   resolution: "@types/webidl-conversions@npm:7.0.3"
   checksum: 535ead9de4d3d6c8e4f4fa14e9db780d2a31e8020debc062f337e1420a41c3265e223e4f4b628f97a11ecf3b96390962cd88a9ffe34f44e159dec583ff49aa34
+  languageName: node
+  linkType: hard
+
+"@types/whatwg-url@npm:^11.0.2":
+  version: 11.0.3
+  resolution: "@types/whatwg-url@npm:11.0.3"
+  dependencies:
+    "@types/webidl-conversions": "*"
+  checksum: 400ae723edb3132e7e8fd49a526d108832c1b5a09245511d5175d56a5dc9ae567dd7bbd058bcc799364fed84fbff324736493557913fe9ef3fffb1ad4cff3044
   languageName: node
   linkType: hard
 
@@ -5412,6 +5421,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/profile@npm:^2.13.9":
+  version: 2.13.9
+  resolution: "@xylabs/profile@npm:2.13.9"
+  checksum: f562ebe55f37e261c256bfa6150fe670803589e792cf57ab8cca7eb2ae6cc5f355839a94947d6621ce7f488958bb873e41da20d75f3a03502a41480471db8f82
+  languageName: node
+  linkType: hard
+
 "@xylabs/promise@npm:^2.13.9":
   version: 2.13.9
   resolution: "@xylabs/promise@npm:2.13.9"
@@ -5749,11 +5765,16 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
     "@xyo-network/abstract-witness": "workspace:~"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/hash": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     base64-js: ^1.5.1
+    es6-template-strings: ^2.0.1
     ethers: ^5.7.2
     jest: ^29.7.0
     typescript: ^5.2.2
@@ -6077,6 +6098,7 @@ __metadata:
     "@xylabs/assert": ^2.13.9
     "@xylabs/bignumber": ^2.13.9
     "@xylabs/jest-helpers": ^2.13.9
+    "@xylabs/profile": ^2.13.9
     "@xylabs/promise": ^2.13.9
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
@@ -7493,10 +7515,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
   dependencies:
+    "@xylabs/assert": ^2.13.9
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-memory": "workspace:~"
-    "@xyo-network/diviner-indexing-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7596,7 +7628,7 @@ __metadata:
     fake-indexeddb: ^4.0.2
     jest: ^29.7.0
     jest-mock-extended: ^3.0.5
-    mongodb: ^6.2.0
+    mongodb: ^6.3.0
     reflect-metadata: ^0.1.13
     typescript: ^5.2.2
   peerDependencies:
@@ -8915,7 +8947,7 @@ __metadata:
     "@xyo-network/payload-mongodb": "workspace:~"
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
     fake-indexeddb: ^4.0.2
-    mongodb: ^6.2.0
+    mongodb: ^6.3.0
     typescript: ^5.2.2
   peerDependencies:
     "@xyo-network/sdk-xyo-mongo-js": "workspace:~"
@@ -9282,7 +9314,7 @@ __metadata:
     inversify: ^6.0.2
     jest: ^29.7.0
     jest-mock-extended: ^3.0.5
-    mongodb: ^6.2.0
+    mongodb: ^6.3.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -9906,7 +9938,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
     async-mutex: ^0.4.0
-    mongodb: ^6.2.0
+    mongodb: ^6.3.0
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -12361,6 +12393,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"d@npm:1, d@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "d@npm:1.0.1"
+  dependencies:
+    es5-ext: ^0.10.50
+    type: ^1.0.1
+  checksum: 49ca0639c7b822db670de93d4fbce44b4aa072cd848c76292c9978a8cd0fff1028763020ff4b0f147bd77bfe29b4c7f82e0f71ade76b2a06100543cdfd948d19
+  languageName: node
+  linkType: hard
+
 "data-urls@npm:^3.0.2":
   version: 3.0.2
   resolution: "data-urls@npm:3.0.2"
@@ -12837,9 +12879,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.535":
-  version: 1.4.583
-  resolution: "electron-to-chromium@npm:1.4.583"
-  checksum: 4fd0c79993613d3a8da18a15197e02750910e0d3005a706aa81ae5c83321694b35879d0e26e63fc6aa30746cfad53fd939641cf592f97ea9c010c89e93dd6ee0
+  version: 1.4.586
+  resolution: "electron-to-chromium@npm:1.4.586"
+  checksum: 5e8e8be440c65986862cc3119c5aa5322bf46744c06469694e47ea7fdd27f3d517d71509ab106b5d24961a789539a67c60d2132e1266e35df2c26399f490ddd2
   languageName: node
   linkType: hard
 
@@ -13042,6 +13084,48 @@ __metadata:
     is-date-object: ^1.0.1
     is-symbol: ^1.0.2
   checksum: 4ead6671a2c1402619bdd77f3503991232ca15e17e46222b0a41a5d81aebc8740a77822f5b3c965008e631153e9ef0580540007744521e72de8e33599fca2eed
+  languageName: node
+  linkType: hard
+
+"es5-ext@npm:^0.10.12, es5-ext@npm:^0.10.35, es5-ext@npm:^0.10.50":
+  version: 0.10.62
+  resolution: "es5-ext@npm:0.10.62"
+  dependencies:
+    es6-iterator: ^2.0.3
+    es6-symbol: ^3.1.3
+    next-tick: ^1.1.0
+  checksum: 25f42f6068cfc6e393cf670bc5bba249132c5f5ec2dd0ed6e200e6274aca2fed8e9aec8a31c76031744c78ca283c57f0b41c7e737804c6328c7b8d3fbcba7983
+  languageName: node
+  linkType: hard
+
+"es6-iterator@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "es6-iterator@npm:2.0.3"
+  dependencies:
+    d: 1
+    es5-ext: ^0.10.35
+    es6-symbol: ^3.1.1
+  checksum: 6e48b1c2d962c21dee604b3d9f0bc3889f11ed5a8b33689155a2065d20e3107e2a69cc63a71bd125aeee3a589182f8bbcb5c8a05b6a8f38fa4205671b6d09697
+  languageName: node
+  linkType: hard
+
+"es6-symbol@npm:^3.1.1, es6-symbol@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "es6-symbol@npm:3.1.3"
+  dependencies:
+    d: ^1.0.1
+    ext: ^1.1.2
+  checksum: cd49722c2a70f011eb02143ef1c8c70658d2660dead6641e160b94619f408b9cf66425515787ffe338affdf0285ad54f4eae30ea5bd510e33f8659ec53bcaa70
+  languageName: node
+  linkType: hard
+
+"es6-template-strings@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "es6-template-strings@npm:2.0.1"
+  dependencies:
+    es5-ext: ^0.10.12
+    esniff: ^1.1
+  checksum: 320ab4e8588edad5a0302554eb159dc2339903df2f62a787680b828c19c3019551020f1557d015ec5afeffa967cb7c3aca32483e8069f8f1ec57dd29173a64aa
   languageName: node
   linkType: hard
 
@@ -13526,6 +13610,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esniff@npm:^1.1":
+  version: 1.1.0
+  resolution: "esniff@npm:1.1.0"
+  dependencies:
+    d: 1
+    es5-ext: ^0.10.12
+  checksum: a386aa3a4e2339ca7aa5bf65732b0b28dd57fb11a8d5b7230eff791d396f2f3f7cc85c8ee5f5be0ed9f2ef5597fba8d30b3b0e317ba9dd834959d3d7f7ed6725
+  languageName: node
+  linkType: hard
+
 "espree@npm:^6.1.2":
   version: 6.2.1
   resolution: "espree@npm:6.2.1"
@@ -13808,6 +13902,15 @@ __metadata:
     utils-merge: 1.0.1
     vary: ~1.1.2
   checksum: 3c4b9b076879442f6b968fe53d85d9f1eeacbb4f4c41e5f16cc36d77ce39a2b0d81b3f250514982110d815b2f7173f5561367f9110fcc541f9371948e8c8b037
+  languageName: node
+  linkType: hard
+
+"ext@npm:^1.1.2":
+  version: 1.7.0
+  resolution: "ext@npm:1.7.0"
+  dependencies:
+    type: ^2.7.2
+  checksum: ef481f9ef45434d8c867cfd09d0393b60945b7c8a1798bedc4514cb35aac342ccb8d8ecb66a513e6a2b4ec1e294a338e3124c49b29736f8e7c735721af352c31
   languageName: node
   linkType: hard
 
@@ -15224,9 +15327,9 @@ __metadata:
   linkType: hard
 
 "ignore@npm:^5.2.0, ignore@npm:^5.2.4":
-  version: 5.2.4
-  resolution: "ignore@npm:5.2.4"
-  checksum: 3d4c309c6006e2621659311783eaea7ebcd41fe4ca1d78c91c473157ad6666a57a2df790fe0d07a12300d9aac2888204d7be8d59f9aaf665b1c7fcdb432517ef
+  version: 5.3.0
+  resolution: "ignore@npm:5.3.0"
+  checksum: 2736da6621f14ced652785cb05d86301a66d70248597537176612bd0c8630893564bd5f6421f8806b09e8472e75c591ef01672ab8059c07c6eb2c09cefe04bf9
   languageName: node
   linkType: hard
 
@@ -18156,6 +18259,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mongodb-connection-string-url@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "mongodb-connection-string-url@npm:3.0.0"
+  dependencies:
+    "@types/whatwg-url": ^11.0.2
+    whatwg-url: ^13.0.0
+  checksum: 9d4885377345b14e2ba2ee63cb3085364a01aeae3aca622bbd568e7761caa58fdc664528f19f125c762cff230c9349f99e98396dd2271a4260286cf241a8c477
+  languageName: node
+  linkType: hard
+
 "mongodb-memory-server-core@npm:8.16.0":
   version: 8.16.0
   resolution: "mongodb-memory-server-core@npm:8.16.0"
@@ -18207,13 +18320,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^6.2.0":
-  version: 6.2.0
-  resolution: "mongodb@npm:6.2.0"
+"mongodb@npm:^6.3.0":
+  version: 6.3.0
+  resolution: "mongodb@npm:6.3.0"
   dependencies:
     "@mongodb-js/saslprep": ^1.1.0
     bson: ^6.2.0
-    mongodb-connection-string-url: ^2.6.0
+    mongodb-connection-string-url: ^3.0.0
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.188.0
     "@mongodb-js/zstd": ^1.1.0
@@ -18237,7 +18350,7 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: dca058e497e4d70f84509b863db33a1126f182757bc389893b31086c49ff429257e62de06f7099aba8cef8790a497f50c98fdcead6e66c451c057ed1453b2049
+  checksum: ebc5d9dbd1299321b6873e86eb4ea635316f97450644811db24ce2b01432b1c641def864facf2eab6f0c0c5c360c318108ea5555142f55177ca4c33991c6d7c4
   languageName: node
   linkType: hard
 
@@ -18394,6 +18507,13 @@ __metadata:
   dependencies:
     debug: ^4.3.4
   checksum: 5488ead794bd506894ddd8f3ac6240615e625ce56241ed6ff41a5ff46bdf495a81881bef6d25a3aa16d25f742e86e5629c2d052cd2f60530db3a85b2b1bd146c
+  languageName: node
+  linkType: hard
+
+"next-tick@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "next-tick@npm:1.1.0"
+  checksum: 83b5cf36027a53ee6d8b7f9c0782f2ba87f4858d977342bfc3c20c21629290a2111f8374d13a81221179603ffc4364f38374b5655d17b6a8f8a8c77bdea4fe8b
   languageName: node
   linkType: hard
 
@@ -19803,7 +19923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"punycode@npm:^2.1.0, punycode@npm:^2.1.1":
+"punycode@npm:^2.1.0, punycode@npm:^2.1.1, punycode@npm:^2.3.0":
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: bb0a0ceedca4c3c57a9b981b90601579058903c62be23c5e8e843d2c2d4148a3ecf029d5133486fb0e1822b098ba8bba09e89d6b21742d02fa26bda6441a6fb2
@@ -22934,9 +23054,9 @@ __metadata:
   linkType: hard
 
 "swagger-ui-dist@npm:>=5.0.0":
-  version: 5.9.4
-  resolution: "swagger-ui-dist@npm:5.9.4"
-  checksum: 46b72bf24c77191e32005841eecaca48794fc2ef0335666dda8f429d284a3682f99c3c92af40d6967037990183c95dbf488ba28eab7d18f4ea78f9ff8353130c
+  version: 5.10.0
+  resolution: "swagger-ui-dist@npm:5.10.0"
+  checksum: f6bff492dd6fca1190da4f847098193d54054f775f89a09ab73a24e546389989b1dbdf071a0a45a7ad3ae7ba168b0866a2c22fffee4271e30ce3246296750f56
   languageName: node
   linkType: hard
 
@@ -23268,6 +23388,15 @@ __metadata:
   dependencies:
     punycode: ^2.1.1
   checksum: 44c3cc6767fb800490e6e9fd64fd49041aa4e49e1f6a012b34a75de739cc9ed3a6405296072c1df8b6389ae139c5e7c6496f659cfe13a04a4bff3a1422981270
+  languageName: node
+  linkType: hard
+
+"tr46@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "tr46@npm:4.1.1"
+  dependencies:
+    punycode: ^2.3.0
+  checksum: aeeb821ac2cd792e63ec84888b4fd6598ac6ed75d861579e21a5cf9d4ee78b2c6b94e7d45036f2ca2088bc85b9b46560ad23c4482979421063b24137349dbd96
   languageName: node
   linkType: hard
 
@@ -23656,6 +23785,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type@npm:^1.0.1":
+  version: 1.2.0
+  resolution: "type@npm:1.2.0"
+  checksum: dae8c64f82c648b985caf321e9dd6e8b7f4f2e2d4f846fc6fd2c8e9dc7769382d8a52369ddbaccd59aeeceb0df7f52fb339c465be5f2e543e81e810e413451ee
+  languageName: node
+  linkType: hard
+
+"type@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "type@npm:2.7.2"
+  checksum: 0f42379a8adb67fe529add238a3e3d16699d95b42d01adfe7b9a7c5da297f5c1ba93de39265ba30ffeb37dfd0afb3fb66ae09f58d6515da442219c086219f6f4
+  languageName: node
+  linkType: hard
+
 "typed-array-buffer@npm:^1.0.0":
   version: 1.0.0
   resolution: "typed-array-buffer@npm:1.0.0"
@@ -23812,9 +23955,9 @@ __metadata:
   linkType: hard
 
 "ufo@npm:^1.3.0":
-  version: 1.3.1
-  resolution: "ufo@npm:1.3.1"
-  checksum: 2db2f9d24e3f572ddb9b2f4415eda679fd366cbb9eec4c56996651323737f17528b4aab2bb45c5f2effff2304f9b0c46e0981aee3e48f38ac51106a8993dff31
+  version: 1.3.2
+  resolution: "ufo@npm:1.3.2"
+  checksum: f1180bb715ff4dd46152fd4dec41c731e84d7b9eaf1432548a0210b2f7e0cd29de125ac88e582c6a079d8ae5bc9ab04ef2bdbafe125086480b10c1006b81bfce
   languageName: node
   linkType: hard
 
@@ -24543,6 +24686,16 @@ __metadata:
     tr46: ^3.0.0
     webidl-conversions: ^7.0.0
   checksum: ed4826aaa57e66bb3488a4b25c9cd476c46ba96052747388b5801f137dd740b73fde91ad207d96baf9f17fbcc80fc1a477ad65181b5eb5fa718d27c69501d7af
+  languageName: node
+  linkType: hard
+
+"whatwg-url@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "whatwg-url@npm:13.0.0"
+  dependencies:
+    tr46: ^4.1.1
+    webidl-conversions: ^7.0.0
+  checksum: 7f69272a1bfd5f0d994988b9e234e35d21071a9bffe0d6fd4477d295552665c566b176ff8e0251a0a79c61c5a67a7a392e248aae5887d7e22bdff0125209e26b
   languageName: node
   linkType: hard
 

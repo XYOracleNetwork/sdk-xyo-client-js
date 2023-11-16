@@ -24,6 +24,7 @@
   "devDependencies": {
     "@ethersproject/providers": "^5.7.2",
     "@xylabs/jest-helpers": "^2.13.9",
+    "@xylabs/profile": "^2.13.9",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/account": "workspace:~",

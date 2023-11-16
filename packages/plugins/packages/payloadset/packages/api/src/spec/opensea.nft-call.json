@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "ApiCall",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "language": "javascript",
+              "name": "ApiCallWitness",
+              "queries": {
+                "limit": 1
+              },
+              "schema": "network.xyo.api.call.witness.config",
+              "uriTemplate": "https://api.opensea.io/api/v2/chain/ethereum/account/${address}/nfts"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "ApiCallSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "ApiCallWitness"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

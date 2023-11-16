@@ -243,7 +243,6 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/3'",
               "boundWitnessSdkConfig": {
                 "collection": "nft_contract_bound_witnesses"
               },
@@ -285,7 +284,6 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/17'",
               "archivist": "NftContractDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "nft_contract_bound_witnesses"
@@ -333,7 +331,6 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/18'",
               "archivist": "NftContractDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "nft_contract_bound_witnesses"
@@ -509,11 +506,27 @@
               "name": "Erc1155ContractInfoDiviner",
               "schema": "network.xyo.crypto.contract.diviner.config"
             }
+          },
+          {
+            "config": {
+              "_TODO": "Should we combine this with the public sentinel below?",
+              "language": "javascript",
+              "name": "Erc721EnumerableSentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "Erc721TokenByIndexWitness"
+                }
+              ]
+            }
           }
         ],
         "public": [
           {
             "config": {
+              "accountPath": "m/44'/60'/3'/3'/2'",
               "language": "javascript",
               "name": "NftContractInfoSentinel",
               "schema": "network.xyo.sentinel.config",
@@ -546,21 +559,6 @@
                 {
                   "input": ["Erc1155UriWitness"],
                   "module": "Erc1155ContractInfoDiviner"
-                }
-              ]
-            }
-          },
-          {
-            "config": {
-              "_TODO": "Should we combine this with the above sentinel?",
-              "language": "javascript",
-              "name": "Erc721EnumerableSentinel",
-              "schema": "network.xyo.sentinel.config",
-              "synchronous": "true",
-              "tasks": [
-                {
-                  "input": true,
-                  "module": "Erc721TokenByIndexWitness"
                 }
               ]
             }

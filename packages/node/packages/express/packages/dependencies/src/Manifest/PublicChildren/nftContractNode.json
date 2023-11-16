@@ -515,7 +515,7 @@
           {
             "config": {
               "language": "javascript",
-              "name": "NftInfoSentinel",
+              "name": "NftContractInfoSentinel",
               "schema": "network.xyo.sentinel.config",
               "synchronous": "true",
               "tasks": [
@@ -552,8 +552,9 @@
           },
           {
             "config": {
+              "_TODO": "Should we combine this with the above sentinel?",
               "language": "javascript",
-              "name": "Erc721TokenByIndexSentinel",
+              "name": "Erc721EnumerableSentinel",
               "schema": "network.xyo.sentinel.config",
               "synchronous": "true",
               "tasks": [

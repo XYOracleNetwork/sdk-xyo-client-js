@@ -56,5 +56,6 @@ export const WALLET_PATHS = {
   Sentinels: {
     Sentinel: `${ModulePath.Sentinel}/0'` as const,
     ImageThumbnailSentinel: `${ModulePath.Sentinel}/1'` as const,
+    NftContractInfoSentinel: `${ModulePath.Sentinel}/2'` as const,
   } as const,
 } as const

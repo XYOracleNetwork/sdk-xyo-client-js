@@ -10,6 +10,7 @@ const projectId = process.env.INFURA_PROJECT_ID || ''
 const projectSecret = process.env.INFURA_PROJECT_SECRET || ''
 
 import { testIf } from '@xylabs/jest-helpers'
+import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 /**
  * @group crypto
@@ -26,9 +27,10 @@ describe('EthereumGasEthersWitness', () => {
       },
       provider,
     })
-    const [actual] = await sut.observe()
-    expect((actual as EthereumGasEthersPayload).timestamp).toBeNumber()
-    expect(actual.schema).toBe(EthereumGasEthersSchema)
+    const observed = await sut.observe()
+    const actual = observed.find(isPayloadOfSchemaType(EthereumGasEthersSchema))
+    expect((actual as EthereumGasEthersPayload).gasPrice).toBeNumber()
+    expect(actual?.schema).toBe(EthereumGasEthersSchema)
     const answerWrapper = PayloadWrapper.wrap(actual)
     expect(await answerWrapper.getValid()).toBe(true)
   })

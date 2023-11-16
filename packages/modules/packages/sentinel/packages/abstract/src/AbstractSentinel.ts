@@ -7,7 +7,7 @@ import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-mode
 import { Payload } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
-  ResolvedSentinelTask,
+  ResolvedTask,
   SentinelInstance,
   SentinelJob,
   SentinelModuleEventData,
@@ -78,7 +78,7 @@ export abstract class AbstractSentinel<
 
   protected async generateJob() {
     const job: SentinelJob = { tasks: [] }
-    let tasks: ResolvedSentinelTask[] = await Promise.all(
+    let tasks: ResolvedTask[] = await Promise.all(
       this.config.tasks.map(async (task) => ({
         input: task.input ?? false,
         module: assertEx(await this.resolve(task.module), `Unable to resolve task module [${task.module}]`),

@@ -6,29 +6,20 @@ import { ModuleFactory, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { TYPES } from '@xyo-network/node-core-types'
 import { ERC721__factory, ERC721Enumerable__factory, ERC1155__factory } from '@xyo-network/open-zeppelin-typechain'
 import { PrometheusNodeWitness } from '@xyo-network/prometheus-node-plugin'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { TimestampWitness } from '@xyo-network/witness-timestamp'
 import { Container } from 'inversify'
 
-const getProviders = () => {
-  return [
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-    getProviderFromEnv(),
-  ]
-}
-
 export const addWitnessModuleFactories = (container: Container) => {
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
-  locator.register(CryptoNftCollectionWitness.factory({ provider: getProviderFromEnv() }))
+  locator.register(
+    CryptoNftCollectionWitness.factory({
+      providers: () => getProvidersFromEnv(8),
+    }),
+  )
   locator.register(
     CryptoWalletNftWitness.factory({
-      providers: getProviders(),
+      providers: () => getProvidersFromEnv(8),
     }),
   )
   locator.register(ImageThumbnailWitness)
@@ -37,7 +28,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC721__factory.abi },
-      providers: getProviders(),
+      providers: () => getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc721' },
   )
@@ -45,7 +36,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC721Enumerable__factory.abi },
-      providers: getProviders(),
+      providers: () => getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc721Enumerable' },
   )
@@ -53,7 +44,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC1155__factory.abi },
-      providers: getProviders(),
+      providers: () => getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc1155' },
   )

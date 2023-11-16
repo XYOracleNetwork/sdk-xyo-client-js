@@ -1,9 +1,11 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { Contract, ContractInterface } from '@ethersproject/contracts'
 import { assertEx } from '@xylabs/assert'
+import { BigNumber as XyBigNumber } from '@xylabs/bignumber'
+import { getErc1822Status } from '@xyo-network/blockchain-erc1822-witness'
 import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { AbstractBlockchainWitness, BlockchainWitnessConfig, BlockchainWitnessParams } from '@xyo-network/witness-blockchain-abstract'
+import { BigNumber } from 'ethers'
 
 import {
   BlockchainContractCall,
@@ -29,6 +31,14 @@ export type BlockchainContractCallWitnessConfig = BlockchainWitnessConfig<
 
 export type BlockchainContractCallWitnessParams = BlockchainWitnessParams<BlockchainContractCallWitnessConfig>
 
+const hexBytesOnlyOnly = (value: string) => {
+  return value.startsWith('0x') ? value.substring(2) : value
+}
+
+const isHexZero = (value?: string) => {
+  return value === undefined ? true : new XyBigNumber(hexBytesOnlyOnly(value), 'hex').eqn(0)
+}
+
 export class BlockchainContractCallWitness<
   TParams extends BlockchainContractCallWitnessParams = BlockchainContractCallWitnessParams,
 > extends AbstractBlockchainWitness<TParams, BlockchainContractCall, BlockchainContractCallResult> {
@@ -40,6 +50,8 @@ export class BlockchainContractCallWitness<
 
   protected override async observeHandler(inPayloads: BlockchainContractCall[] = []): Promise<BlockchainContractCallResult[]> {
     await this.started('throw')
+    //calling it here to make sure we rests the cache
+    await this.getProviders()
     try {
       const observations = await Promise.all(
         inPayloads.filter(isPayloadOfSchemaType(BlockchainContractCallSchema)).map(async ({ functionName, args, address, block: payloadBlock }) => {
@@ -47,14 +59,17 @@ export class BlockchainContractCallWitness<
           const validatedFunctionName = assertEx(functionName ?? this.config.functionName, 'Missing address')
           const mergedArgs = [...(args ?? this.config.args ?? [])]
 
-          console.log(`mergedArgs[${validatedFunctionName}]: ${JSON.stringify(mergedArgs, null, 2)}`)
-
-          const provider = this.provider
+          const provider = await this.getProvider(true, true)
 
           const block = this.config.block ?? payloadBlock ?? (await provider.getBlockNumber())
 
           //Check if ERC-1967 Upgradeable
-          const { implementation } = await getErc1967Status(provider, validatedAddress, block)
+          const erc1967Status = await getErc1967Status(provider, validatedAddress, block)
+
+          //Check if ERC-1822 Upgradeable
+          const erc1822Status = await getErc1822Status(provider, validatedAddress, block)
+
+          const implementation = isHexZero(erc1967Status.slots.implementation) ? erc1822Status.implementation : erc1967Status.implementation
 
           const contract = new Contract(implementation, this.contract, provider)
           let transformedResult: unknown

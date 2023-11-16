@@ -1,3 +1,4 @@
+import { Address } from '@xyo-network/address'
 import { Payload } from '@xyo-network/payload-model'
 
 import { Erc1967Status } from './lib'
@@ -7,7 +8,7 @@ export type BlockchainErc1967StatusSchema = typeof BlockchainErc1967StatusSchema
 
 export type BlockchainErc1967Status = Payload<
   {
-    address: string
+    address: Address
     beacon?: Erc1967Status['beacon']
     block: number
     chainId: number

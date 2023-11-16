@@ -1,6 +1,3 @@
-// Mock Date.now
-const now = new Date()
-jest.useFakeTimers().setSystemTime(now)
 import { describeIf } from '@xylabs/jest-helpers'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -11,7 +8,7 @@ import {
   NftCollectionWitnessQuerySchema,
 } from '@xyo-network/crypto-nft-collection-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { getProviderFromEnv } from '@xyo-network/witness-blockchain-abstract'
+import { getProvidersFromEnv } from '@xyo-network/witness-blockchain-abstract'
 import { writeFile } from 'fs/promises'
 
 import { CryptoNftCollectionWitness } from '../Witness'
@@ -42,11 +39,10 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     const chainId = 1
     describe('with no address or chainId in query', () => {
       it('uses values from config', async () => {
-        const provider = getProviderFromEnv(chainId)
         const witness = await CryptoNftCollectionWitness.create({
           account,
           config: { address, chainId, schema: NftCollectionWitnessConfigSchema },
-          provider,
+          providers: () => getProvidersFromEnv(1, chainId),
         })
         const query: NftCollectionWitnessQuery = { maxNfts: 10, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
@@ -55,8 +51,11 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     })
     describe('with address and chainId in query', () => {
       it('uses values from query', async () => {
-        const provider = getProviderFromEnv(chainId)
-        const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({
+          account,
+          config: { schema: NftCollectionWitnessConfigSchema },
+          providers: () => getProvidersFromEnv(1, chainId),
+        })
         const query: NftCollectionWitnessQuery = { address, chainId, maxNfts: 10, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)
@@ -74,8 +73,11 @@ describeIf(process.env.INFURA_PROJECT_ID)('CryptoNftCollectionWitness', () => {
     it.each(cases)(
       'witness the collection',
       async (address, chainId) => {
-        const provider = getProviderFromEnv(chainId)
-        const witness = await CryptoNftCollectionWitness.create({ account, config: { schema: NftCollectionWitnessConfigSchema }, provider })
+        const witness = await CryptoNftCollectionWitness.create({
+          account,
+          config: { schema: NftCollectionWitnessConfigSchema },
+          providers: () => getProvidersFromEnv(1, chainId),
+        })
         const query: NftCollectionWitnessQuery = { address, chainId, maxNfts: 20000, schema: NftCollectionWitnessQuerySchema }
         const observation = await witness.observe([query])
         validateObservation(observation)

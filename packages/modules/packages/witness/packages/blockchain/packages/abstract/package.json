@@ -10,7 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@ethersproject/web": "^5.7.1",
     "@xylabs/assert": "^2.13.8",
+    "@xylabs/promise": "^2.13.8",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
@@ -64,6 +66,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.79.4",
+  "version": "2.79.5",
   "type": "module"
 }

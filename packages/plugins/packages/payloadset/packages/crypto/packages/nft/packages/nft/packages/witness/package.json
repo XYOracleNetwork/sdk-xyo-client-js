@@ -16,13 +16,12 @@
     "@xylabs/axios": "^2.13.8",
     "@xylabs/eth-address": "^2.13.8",
     "@xyo-network/blockchain-erc1967-witness": "workspace:~",
+    "@xyo-network/blockchain-erc1822-witness": "workspace:~",
     "@xyo-network/crypto-nft-collection-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/open-zeppelin-typechain": "^2.2.11",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/witness-model": "workspace:~",
     "lru-cache": "^10.0.2",
     "parse-data-url": "^6.0.0"
   },
@@ -39,8 +38,6 @@
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "docs": "dist/docs.json",
-  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
       "browser": {
@@ -55,19 +52,21 @@
       },
       "node": {
         "require": {
-          "types": "./dist/node/index.d.ts",
-          "default": "./dist/node/index.js"
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
+          "default": "./dist/node/index.js"
         }
       }
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.js",
-  "module": "dist/node/index.mjs",
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "types": "dist/node/index.d.ts",
+  "type": "module",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {
@@ -78,5 +77,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.79.4"
+  "version": "2.79.5"
 }

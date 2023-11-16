@@ -1,4 +1,6 @@
 import { BaseProvider } from '@ethersproject/providers'
+import { BigNumber as XyBigNumber } from '@xylabs/bignumber'
+import { getErc1822Status } from '@xyo-network/blockchain-erc1822-witness'
 import { getErc1967Status } from '@xyo-network/blockchain-erc1967-witness'
 import { NftInfoFields, TokenType } from '@xyo-network/crypto-nft-payload-plugin'
 import { ERC721__factory, ERC1155__factory, ERC1155Supply__factory } from '@xyo-network/open-zeppelin-typechain'
@@ -11,6 +13,14 @@ import { tokenTypes } from './tokenTypes'
 import { tryCall } from './tryCall'
 
 const tokenTypeCache = new LRUCache<string, TokenType[]>({ max: 100 })
+
+const hexBytesOnlyOnly = (value: string) => {
+  return value.startsWith('0x') ? value.substring(2) : value
+}
+
+const isHexZero = (value?: string) => {
+  return value === undefined ? true : new XyBigNumber(hexBytesOnlyOnly(value), 'hex').eqn(0)
+}
 
 export const getTokenTypes = async (provider: BaseProvider, address: string) => {
   const key = `${address}|${(await provider.getNetwork()).chainId}`
@@ -111,13 +121,20 @@ export const getNftsOwnedByAddress = async (
     nfts.map(async (nft) => {
       try {
         const { contract, identifier } = nft
+        const provider = getProvider(providers)
+
+        const block = await provider.getBlockNumber()
+
         //Check if ERC-1967 Upgradeable
-        const erc1967Status = await getErc1967Status(getProvider(providers), contract)
-        //console.log(`1976: ${JSON.stringify(erc1967Status, null, 2)}`)
-        const { implementation } = erc1967Status
+        const erc1967Status = await getErc1967Status(provider, contract, block)
+
+        //Check if ERC-1822 Upgradeable
+        const erc1822Status = await getErc1822Status(provider, contract, block)
+
+        const implementation = isHexZero(erc1967Status.slots.implementation) ? erc1822Status.implementation : erc1967Status.implementation
 
         let supply = '0x01'
-        const types = await getTokenTypes(getProvider(providers), implementation)
+        const types = await getTokenTypes(provider, implementation)
         if (types.includes('ERC1155')) {
           const supply1155 = ERC1155Supply__factory.connect(implementation, getProvider(providers))
           supply = (await tryCall(async () => (await supply1155.totalSupply(erc1967Status.address)).toHexString())) ?? '0x01'

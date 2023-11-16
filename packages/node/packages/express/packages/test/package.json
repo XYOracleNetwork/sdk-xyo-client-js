@@ -31,9 +31,9 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@xylabs/assert": "^2.13.8",
-    "@xylabs/axios": "^2.13.8",
-    "@xylabs/forget": "^2.13.8",
+    "@xylabs/assert": "^2.13.9",
+    "@xylabs/axios": "^2.13.9",
+    "@xylabs/forget": "^2.13.9",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",

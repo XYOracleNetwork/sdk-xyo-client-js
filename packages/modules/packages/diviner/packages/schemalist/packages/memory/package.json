@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.13.8",
-    "@xylabs/assert": "^2.13.8",
+    "@xylabs/array": "^2.13.9",
+    "@xylabs/assert": "^2.13.9",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-schema-list-abstract": "workspace:~",
     "@xyo-network/diviner-schema-list-model": "workspace:~",

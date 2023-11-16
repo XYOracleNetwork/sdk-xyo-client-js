@@ -42,8 +42,8 @@
   "license": "LGPL-3.0-only",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.451.0",
-    "@xylabs/assert": "^2.13.8",
-    "@xylabs/exists": "^2.13.8",
+    "@xylabs/assert": "^2.13.9",
+    "@xylabs/exists": "^2.13.9",
     "@xylabs/sdk-api-express-ecs": "^1.4.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

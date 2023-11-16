@@ -12,8 +12,8 @@
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
-    "@xylabs/assert": "^2.13.8",
-    "@xylabs/promise": "^2.13.8",
+    "@xylabs/assert": "^2.13.9",
+    "@xylabs/promise": "^2.13.9",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/crypto-contract-function-read-payload-plugin": "workspace:~",
@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@xylabs/bignumber": "^2.13.8",
-    "@xylabs/jest-helpers": "^2.13.8",
+    "@xylabs/bignumber": "^2.13.9",
+    "@xylabs/jest-helpers": "^2.13.9",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/account": "workspace:~",

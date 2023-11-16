@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
-    "@xylabs/assert": "^2.13.8",
+    "@xylabs/assert": "^2.13.9",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/crypto-address-transaction-history-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -20,7 +20,7 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.13.8",
+    "@xylabs/jest-helpers": "^2.13.9",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "@xyo-network/payload-wrapper": "workspace:~",

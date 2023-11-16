@@ -101,15 +101,25 @@ export const getNftMetadata = async (
       }
     } else {
       let checkedMetaDataUri: string | undefined
-      if (tokenMetadataUri && tokenMetadataUri.length > 5) {
-        checkedMetaDataUri = tokenMetadataUri ? checkIpfsUrl(tokenMetadataUri, ipfsGateway) : tokenMetadataUri
-      }
+      /*if (tokenMetadataUri && tokenMetadataUri.length < 5) {
+        console.log(`tokenMetadataUri [<5][${contractAddress}]: ${tokenMetadataUri}`)
+        console.log(`tokenMetadataUri [uri721]: ${uri721}`)
+        console.log(`tokenMetadataUri [uri1155]: ${uri1155}`)
+        console.log(`tokenMetadataUri [defaultUri]: ${defaultUri}`)
+      }*/
+      const axios = new AxiosJson({ timeout: 5000 })
       try {
-        const axios = new AxiosJson({ timeout: 5000 })
+        if (tokenMetadataUri && tokenMetadataUri.length) {
+          checkedMetaDataUri = tokenMetadataUri ? checkIpfsUrl(tokenMetadataUri, ipfsGateway) : tokenMetadataUri
+        }
         metadata = checkedMetaDataUri ? (await axios.get(checkedMetaDataUri)).data : undefined
       } catch (ex) {
-        //const error = ex as Error
-        //console.error(`metadata: ${error.message}`)
+        try {
+          metadata = defaultUri ? (await axios.get(defaultUri)).data : undefined
+        } catch (ex) {
+          //const error = ex as Error
+          //console.error(`metadata: ${error.message}`)
+        }
       }
     }
   }

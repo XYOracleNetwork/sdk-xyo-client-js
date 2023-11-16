@@ -11,7 +11,6 @@ describe('CryptoWalletNftWitness', () => {
         config: { accept: 'application/json', schema: ApiCallWitnessConfigSchema },
       })
       const observation = await witness.observe([{ schema: ApiCallSchema, uri }])
-      console.log(`o: ${JSON.stringify(observation, null, 2)}`)
       expect(observation[0].schema).toBe(ApiCallResultSchema)
     })
   })

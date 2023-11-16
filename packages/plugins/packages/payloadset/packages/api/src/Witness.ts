@@ -42,28 +42,34 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
     return this.params.ipfsGateway
   }
 
-  getUri(call?: ApiCall): string {
+  get timeout() {
+    return this.config.timeout
+  }
+
+  getFullUri(call?: ApiCall): string {
     const { uri: callUri } = asApiUriCall(call) ?? {}
-    const { uriTemplate: callUriTemplate, params: callParams } = asApiUriTemplateCall(call) ?? {}
+    const { uriTemplate: callUriTemplate, params: callParams, queries: callQueries } = asApiUriTemplateCall(call) ?? {}
     const { uri: configUri } = asApiUriCallWitnessConfig(this.config) ?? {}
-    const { uriTemplate: configUriTemplate, params: configParams } = asApiUriTemplateCallWitnessConfig(this.config) ?? {}
+    const { uriTemplate: configUriTemplate, params: configParams, queries: configQueries } = asApiUriTemplateCallWitnessConfig(this.config) ?? {}
 
     const params = { ...configParams, ...callParams }
 
+    let url: URL | undefined = undefined
+
     if (callUri) {
-      return callUri
+      url = new URL(callUri)
+    } else if (callUriTemplate) {
+      url = new URL(template(callUriTemplate, params))
+    } else if (configUri) {
+      url = new URL(configUri)
+    } else if (configUriTemplate) {
+      url = new URL(template(configUriTemplate, params))
     }
 
-    if (callUriTemplate) {
-      return template(callUriTemplate, params)
-    }
-
-    if (configUri) {
-      return configUri
-    }
-
-    if (configUriTemplate) {
-      return template(configUriTemplate, params)
+    if (url) {
+      const queries = Object.entries({ ...configQueries, ...callQueries })
+      queries.map(([key, value]) => url?.searchParams.set(key, value))
+      return url.href
     }
 
     throw Error('Unable to determine uri. No uri/uriTemplate specified in either the call or config.')
@@ -77,7 +83,7 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
           const { verb: callVerb } = call
           const { verb: configVerb } = this.config
           const verb = callVerb ?? configVerb ?? 'get'
-          const uri = this.getUri(call)
+          const uri = this.getFullUri(call)
 
           const validatedUri = assertEx(checkIpfsUrl(uri, this.ipfsGateway), 'Invalid URI')
 
@@ -109,7 +115,7 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
     try {
       switch (this.accept) {
         case 'application/json': {
-          const axios = new AxiosJson({ headers: this.params.headers })
+          const axios = new AxiosJson({ headers: this.params.headers, timeout: this.timeout })
           const response = await axios.get<JsonArray | JsonObject>(url)
           if (response.status >= 200 && response.status < 300) {
             const jsonResult = result as ApiCallJsonResult
@@ -124,7 +130,7 @@ export class ApiCallWitness<TParams extends ApiCallWitnessParams = ApiCallWitnes
           break
         }
         default: {
-          const axios = new Axios({ headers: this.params.headers, responseType: 'arraybuffer' })
+          const axios = new Axios({ headers: this.params.headers, responseType: 'arraybuffer', timeout: this.timeout })
           const response = await axios.get(url)
           if (response.status >= 200 && response.status < 300) {
             const jsonResult = result as ApiCallBase64Result

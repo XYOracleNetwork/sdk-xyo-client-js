@@ -55,7 +55,7 @@ describe('OpenSeaApi', () => {
 
       expect(apiCallResult?.schema).toBeString()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((apiCallResult as ApiCallJsonResult<any>)?.data.nfts).toBeArray()
+      expect((apiCallResult as ApiCallJsonResult<any>)?.data.nfts).toBeArrayOfSize(1)
     })
   })
 })

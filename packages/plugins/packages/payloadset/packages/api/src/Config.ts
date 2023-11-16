@@ -11,6 +11,7 @@ export type ApiCallWitnessConfigBase = WitnessConfig<{
   accept?: 'application/json'
   queries?: ApiCall['queries']
   schema: ApiCallWitnessConfigSchema
+  timeout?: number
   verb?: ApiCall['verb']
 }>
 

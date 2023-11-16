@@ -18,6 +18,7 @@
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/crypto-contract-function-read-payload-plugin": "workspace:~",
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~",
+    "@xyo-network/diviner-indexing": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

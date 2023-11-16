@@ -11,17 +11,19 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.8",
-    "@xylabs/exists": "^2.13.8",
-    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/archivist-wrapper": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "jsonpath": "^1.1.1"
+    "@xyo-network/diviner-wrapper": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.3",
     "@xylabs/ts-scripts-yarn3": "^3.1.21",
     "@xylabs/tsconfig": "^3.1.21",
     "typescript": "^5.2.2"

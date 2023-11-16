@@ -6699,6 +6699,7 @@ __metadata:
     "@xyo-network/account": "workspace:~"
     "@xyo-network/crypto-contract-function-read-payload-plugin": "workspace:~"
     "@xyo-network/crypto-nft-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-indexing": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -7432,18 +7433,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/memory"
   dependencies:
-    "@types/jsonpath": ^0.2.3
     "@xylabs/assert": ^2.13.8
-    "@xylabs/exists": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
-    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    jsonpath: ^1.1.1
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -7452,19 +7455,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/model"
   dependencies:
-    "@xylabs/assert": ^2.13.8
-    "@xylabs/exists": ^2.13.8
-    "@xylabs/promise": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
-    "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -8201,6 +8195,7 @@ __metadata:
     "@xyo-network/diviner-schema-stats": "workspace:~"
     "@xyo-network/image-thumbnail-plugin": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-core-modules-mongo": "workspace:~"
     "@xyo-network/node-core-types": "workspace:~"

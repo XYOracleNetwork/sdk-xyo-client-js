@@ -514,49 +514,6 @@
         "public": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/14'",
-              "indexStore": {
-                "archivist": "NftContractDivinerIndexArchivist",
-                "boundWitnessDiviner": "NftContractDivinerIndexBoundWitnessDiviner",
-                "payloadDiviner": "NftContractDivinerIndexPayloadDiviner"
-              },
-              "indexingDivinerStages": {
-                "divinerQueryToIndexQueryDiviner": "NftContractQueryToNftContractIndexQueryDiviner",
-                "indexCandidateToIndexDiviner": "NftContractIndexCandidateToNftContractIndexDiviner",
-                "indexQueryResponseToDivinerQueryResponseDiviner": "NftContractIndexQueryResponseToNftContractQueryResponseDiviner",
-                "stateToIndexCandidateDiviner": "NftContractStateToIndexCandidateDiviner"
-              },
-              "language": "javascript",
-              "name": "NftContractDiviner",
-              "pollFrequency": 1000,
-              "schema": "network.xyo.diviner.indexing.config",
-              "stateStore": {
-                "archivist": "NftContractDivinerAddressStateArchivist",
-                "boundWitnessDiviner": "NftContractDivinerAddressStateBoundWitnessDiviner",
-                "payloadDiviner": "NftContractDivinerAddressStatePayloadDiviner"
-              }
-            }
-          },
-          {
-            "config": {
-              "accountPath": "m/44'/60'/3'/4'/4'",
-              "archivist": "NftContractArchivist",
-              "language": "javascript",
-              "name": "NftContractWitness",
-              "schema": "network.xyo.image.thumbnail.witness.config"
-            }
-          },
-          {
-            "config": {
-              "accountPath": "m/44'/60'/3'/4'/5'",
-              "archivist": "NftContractArchivist",
-              "language": "javascript",
-              "name": "TimestampWitness",
-              "schema": "network.xyo.witness.timestamp.config"
-            }
-          },
-          {
-            "config": {
               "language": "javascript",
               "name": "NftInfoSentinel",
               "schema": "network.xyo.sentinel.config",
@@ -596,7 +553,7 @@
           {
             "config": {
               "language": "javascript",
-              "name": "NftTokenInfoSentinel",
+              "name": "Erc721TokenByIndexSentinel",
               "schema": "network.xyo.sentinel.config",
               "synchronous": "true",
               "tasks": [

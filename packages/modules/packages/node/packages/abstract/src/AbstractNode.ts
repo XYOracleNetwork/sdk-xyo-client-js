@@ -65,11 +65,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await this.attachedModules()).map((module) => module.address)
   }
 
-  async attachedModules(): Promise<Module[]> {
-    // return (await (this.resolve(undefined, { direction: 'down', maxDepth: CompositeModuleResolver.defaultMaxDepth }) ?? [])).filter(
-    //   (module) => module.address !== this.address,
-    // )
-    return (await (this.resolve(undefined, { direction: 'down', maxDepth: 2 }) ?? [])).filter((module) => module.address !== this.address)
+  async attachedModules(maxDepth = 2): Promise<ModuleInstance[]> {
+    return (await (this.resolve(undefined, { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 
   override async manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
@@ -127,13 +124,13 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     throw new Error('Method not implemented.')
   }
 
-  protected override async discoverHandler(): Promise<Payload[]> {
-    const childMods = await this.attachedModules()
+  protected override async discoverHandler(maxDepth?: number): Promise<Payload[]> {
+    const childMods = await this.attachedModules(maxDepth)
     const childModAddresses = childMods.map((mod) =>
       new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
     )
 
-    return [...(await super.discoverHandler()), ...childModAddresses]
+    return [...(await super.discoverHandler(maxDepth)), ...childModAddresses]
   }
 
   protected override async manifestHandler(maxDepth?: number, ignoreAddresses: string[] = []): Promise<ModuleManifestPayload> {

@@ -67,7 +67,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     this.remoteAddresses =
       this.remoteAddresses ??
       (async () => {
-        const discover = await this.bridge.targetDiscover()
+        const discover = await this.bridge.targetDiscover(undefined, this.options?.maxDepth)
         return compact(
           discover?.map((payload) => {
             if (payload.schema === AddressSchema) {

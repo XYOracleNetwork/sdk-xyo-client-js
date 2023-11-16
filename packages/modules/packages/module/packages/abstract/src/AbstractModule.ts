@@ -489,7 +489,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return description
   }
 
-  protected discoverHandler(): Promisable<Payload[]> {
+  protected discoverHandler(_maxDepth?: number): Promisable<Payload[]> {
     const config = this.config
     const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config?.name }).build()
     const queries = this.queries.map((query) => {
@@ -577,7 +577,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         break
       }
       case ModuleDiscoverQuerySchema: {
-        resultPayloads.push(...(await this.discoverHandler()))
+        const { maxDepth } = queryPayload
+        resultPayloads.push(...(await this.discoverHandler(maxDepth)))
         break
       }
       case ModuleDescribeQuerySchema: {

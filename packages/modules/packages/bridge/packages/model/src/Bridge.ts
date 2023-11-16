@@ -28,7 +28,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
   extends ModuleInstance<TParams, TEventData> {
   getRootAddress(): Promisable<string>
   targetConfig(address: string): ModuleConfig
-  targetDiscover(address?: string): Promisable<Payload[]>
+  targetDiscover(address?: string, maxDepth?: number): Promisable<Payload[]>
   targetDownResolver(address?: string): ModuleResolver | undefined
   targetManifest(address?: string, maxDepth?: number): Promisable<ModuleManifestPayload>
   targetQueries(address: string): string[]

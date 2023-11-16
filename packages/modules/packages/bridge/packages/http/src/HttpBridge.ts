@@ -142,7 +142,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address?: string): Promise<Payload[]> {
+  async targetDiscover(address?: string, maxDepth = 2): Promise<Payload[]> {
     if (!this.connected) {
       throw Error('Not connected')
     }
@@ -153,7 +153,7 @@ export class HttpBridge<TParams extends HttpBridgeParams = HttpBridgeParams, TEv
     }
     await this.started('throw')
     const addressToDiscover = address ?? (await this.getRootAddress())
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
+    const queryPayload: ModuleDiscoverQuery = { maxDepth, schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
 

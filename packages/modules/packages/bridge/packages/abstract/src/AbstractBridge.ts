@@ -61,12 +61,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       case 'string': {
         return (
           (await super.resolve<T>(nameOrAddressOrFilter, options)) ??
-          (down ? await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter) : undefined)
+          (down ? await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter, { ...options, direction: 'down' }) : undefined)
         )
       }
       default: {
         return [
-          ...(down ? (await this.targetDownResolver()?.resolve(nameOrAddressOrFilter)) ?? [] : []),
+          ...(down ? (await this.targetDownResolver()?.resolve(nameOrAddressOrFilter, { ...options, direction: 'down' })) ?? [] : []),
           ...(await super.resolve<T>(nameOrAddressOrFilter, options)),
         ].filter(duplicateModules)
       }
@@ -141,7 +141,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   abstract targetConfig(address: string): ModuleConfig
 
-  abstract targetDiscover(address: string): Promisable<Payload[]>
+  abstract targetDiscover(address?: string, maxDepth?: number): Promisable<Payload[]>
 
   abstract targetManifest(address: string, maxDepth?: number): Promisable<ModuleManifestPayload>
 

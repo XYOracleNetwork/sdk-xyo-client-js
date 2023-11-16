@@ -14,6 +14,7 @@ export const WALLET_PATHS = {
   Nodes: {
     Node: `${ModulePath.Node}/0'` as const,
     ImageThumbnailNode: `${ModulePath.Node}/1'` as const,
+    NftContractNode: `${ModulePath.Node}/2'` as const,
   } as const,
   Archivists: {
     Archivist: `${ModulePath.Archivist}/0'` as const,

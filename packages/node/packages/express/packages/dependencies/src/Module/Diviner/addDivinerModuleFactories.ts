@@ -1,3 +1,4 @@
+import { CryptoContractDiviner } from '@xyo-network/crypto-contract-function-read-plugin'
 import { NftCollectionScoreDiviner } from '@xyo-network/crypto-nft-collection-diviner-score-plugin'
 import { NftScoreDiviner } from '@xyo-network/crypto-nft-diviner-score-plugin'
 import { AddressHistoryDiviner } from '@xyo-network/diviner-address-history'
@@ -55,4 +56,5 @@ export const addDivinerModuleFactories = (container: Container) => {
   locator.register(MemorySchemaStatsDiviner)
   locator.register(NftCollectionScoreDiviner)
   locator.register(NftScoreDiviner)
+  locator.register(CryptoContractDiviner)
 }

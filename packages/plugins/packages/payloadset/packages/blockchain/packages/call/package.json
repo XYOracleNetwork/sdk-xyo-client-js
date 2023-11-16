@@ -10,11 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
     "@xylabs/assert": "^2.13.8",
+    "@xylabs/bignumber": "^2.13.8",
     "@xylabs/promise": "^2.13.8",
     "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/blockchain-erc1822-witness": "workspace:~",
     "@xyo-network/blockchain-erc1967-witness": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

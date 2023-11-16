@@ -6072,16 +6072,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/blockchain-call-witness@workspace:packages/plugins/packages/payloadset/packages/blockchain/packages/call"
   dependencies:
-    "@ethersproject/bignumber": ^5.7.0
     "@ethersproject/contracts": ^5.7.0
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.13.8
+    "@xylabs/bignumber": ^2.13.8
     "@xylabs/jest-helpers": ^2.13.8
     "@xylabs/promise": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/blockchain-erc1822-witness": "workspace:~"
     "@xyo-network/blockchain-erc1967-witness": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
@@ -6123,7 +6124,7 @@ __metadata:
     "@xylabs/jest-helpers": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
-    "@xyo-network/open-zeppelin-typechain": ^2.2.11
+    "@xyo-network/address": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-blockchain-abstract": "workspace:^"
     ethers: ^5.7.2
@@ -6142,6 +6143,7 @@ __metadata:
     "@xylabs/jest-helpers": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/address": "workspace:~"
     "@xyo-network/open-zeppelin-typechain": ^2.2.11
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-blockchain-abstract": "workspace:^"
@@ -6848,6 +6850,7 @@ __metadata:
     "@ethersproject/providers": ^5.7.2
     "@xylabs/assert": ^2.13.8
     "@xylabs/axios": ^2.13.8
+    "@xylabs/bignumber": ^2.13.8
     "@xylabs/eth-address": ^2.13.8
     "@xylabs/exists": ^2.13.8
     "@xylabs/jest-helpers": ^2.13.8
@@ -6971,6 +6974,7 @@ __metadata:
     "@types/parse-data-url": ^3.0.2
     "@xylabs/assert": ^2.13.8
     "@xylabs/axios": ^2.13.8
+    "@xylabs/bignumber": ^2.13.8
     "@xylabs/eth-address": ^2.13.8
     "@xylabs/jest-helpers": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
@@ -8679,6 +8683,7 @@ __metadata:
     "@types/gm": ^1.25.4
     "@types/hasbin": ^1.2.2
     "@types/xml2js": ^0.4.14
+    "@xylabs/assert": ^2.13.8
     "@xylabs/axios": ^2.13.8
     "@xylabs/lodash": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
@@ -9951,8 +9956,10 @@ __metadata:
     "@xylabs/promise": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/core": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"

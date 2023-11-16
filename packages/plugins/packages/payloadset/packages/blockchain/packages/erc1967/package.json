@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.8",
+    "@xyo-network/address": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-blockchain-abstract": "workspace:^"
   },

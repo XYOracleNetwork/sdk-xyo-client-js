@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@xylabs/promise": "^2.13.8",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/object": "workspace:~",

@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.79.6",
+  "version": "2.79.8",
   "description": "XYO Express Node CLI",
   "sideeffects": false,
   "engines": {

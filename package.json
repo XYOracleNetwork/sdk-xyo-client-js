@@ -124,7 +124,7 @@
     "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
   },
   "sideEffects": false,
-  "version": "2.79.5",
+  "version": "2.79.6",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

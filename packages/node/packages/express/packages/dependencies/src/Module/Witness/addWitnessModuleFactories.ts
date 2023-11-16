@@ -28,7 +28,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC721__factory.abi },
-      providers: () => getProvidersFromEnv(8),
+      providers: getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc721' },
   )
@@ -36,7 +36,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC721Enumerable__factory.abi },
-      providers: () => getProvidersFromEnv(8),
+      providers: getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc721Enumerable' },
   )
@@ -44,7 +44,7 @@ export const addWitnessModuleFactories = (container: Container) => {
   locator.register(
     new ModuleFactory(CryptoContractFunctionReadWitness, {
       config: { contract: ERC1155__factory.abi },
-      providers: () => getProvidersFromEnv(8),
+      providers: getProvidersFromEnv(8),
     }),
     { 'network.xyo.crypto.contract.interface': 'Erc1155' },
   )

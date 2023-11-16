@@ -7428,13 +7428,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/memory, @xyo-network/diviner-indexing-memory@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/memory"
+  dependencies:
+    "@types/jsonpath": ^0.2.3
+    "@xylabs/assert": ^2.13.8
+    "@xylabs/exists": ^2.13.8
+    "@xylabs/ts-scripts-yarn3": ^3.1.21
+    "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-indexing-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    jsonpath: ^1.1.1
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/model, @xyo-network/diviner-indexing-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/model"
   dependencies:
+    "@xylabs/assert": ^2.13.8
+    "@xylabs/exists": ^2.13.8
     "@xylabs/promise": ^2.13.8
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -7448,6 +7475,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": ^3.1.21
     "@xylabs/tsconfig": ^3.1.21
+    "@xyo-network/diviner-indexing-memory": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     typescript: ^5.2.2
   languageName: unknown

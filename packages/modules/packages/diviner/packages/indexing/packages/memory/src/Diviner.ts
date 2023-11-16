@@ -4,16 +4,18 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import {
+  IndexingDivinerConfig,
+  IndexingDivinerConfigSchema,
+  IndexingDivinerParams,
+  IndexingDivinerStage,
+  IndexingDivinerState,
+} from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance, DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-
-import { IndexingDivinerConfig, IndexingDivinerConfigSchema } from './Config'
-import { IndexingDivinerParams } from './Params'
-import { IndexingDivinerStage } from './Stage'
-import { IndexingDivinerState } from './State'
 
 type ConfigStoreKey = 'indexStore' | 'stateStore'
 

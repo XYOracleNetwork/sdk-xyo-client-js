@@ -6,9 +6,16 @@ import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbna
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
+import { StringToJsonPathTransformExpressionsDictionary } from '../../lib'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner'
 
 describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
+  const schemaTransforms: StringToJsonPathTransformExpressionsDictionary = {
+    'network.xyo.image.thumbnail': [
+      { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
+      { destinationField: 'status', sourcePathExpression: '$.http.status' },
+    ],
+  }
   let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
   const timestampA = 1234567890
   const timestampPayloadA: TimeStamp = { schema: TimestampSchema, timestamp: timestampA }
@@ -35,11 +42,16 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     expect(result).toBeArrayOfSize(1)
     expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
     const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
-    expect(index.sources).toEqual(Object.keys(payloadDictionary))
+    expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
     expect(index.timestamp).toBe(timestamp.timestamp)
   }
   beforeAll(async () => {
-    diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create()
+    diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({
+      config: {
+        schema: TemporalIndexingDivinerIndexCandidateToIndexDiviner.configSchema,
+        schemaTransforms,
+      },
+    })
   })
   describe('divine', () => {
     const cases: [TimeStamp, ImageThumbnail][] = [

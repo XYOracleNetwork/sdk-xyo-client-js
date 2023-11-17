@@ -1,4 +1,4 @@
-import { ImageThumbnailDivinerSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { IndexingDivinerSchema } from '@xyo-network/diviner-indexing-model'
 
-export type ImageThumbnailStateToIndexCandidateDivinerSchema = `${ImageThumbnailDivinerSchema}.stage.stateToIndexCandidateDiviner`
-export const ImageThumbnailStateToIndexCandidateDivinerSchema: ImageThumbnailStateToIndexCandidateDivinerSchema = `${ImageThumbnailDivinerSchema}.stage.stateToIndexCandidateDiviner`
+export const TemporalIndexingDivinerSchema = `${IndexingDivinerSchema}.temporal` as const
+export type TemporalIndexingDivinerSchema = typeof TemporalIndexingDivinerSchema

@@ -1,6 +1,6 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { ImageThumbnailStateToIndexCandidateDivinerConfig } from './Config'
+import { TemporalIndexingDivinerConfig } from './Config'
 
-export type ImageThumbnailStateToIndexCandidateDivinerParams = DivinerParams<AnyConfigSchema<ImageThumbnailStateToIndexCandidateDivinerConfig>>
+export type TemporalIndexingDivinerParams = DivinerParams<AnyConfigSchema<TemporalIndexingDivinerConfig>>

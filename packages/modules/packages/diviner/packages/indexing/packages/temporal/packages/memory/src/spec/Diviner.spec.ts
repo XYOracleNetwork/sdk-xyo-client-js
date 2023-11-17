@@ -17,7 +17,7 @@ import {
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { isModuleState, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -73,16 +73,19 @@ describe('TemporalIndexingDiviner', () => {
   let node: MemoryNode
 
   beforeAll(async () => {
+    const labels: Labels = {
+      'network.xyo.image.thumbnail': 'diviner',
+    }
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner)
-    locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner)
-    locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner)
-    locator.register(TemporalStateToIndexCandidateDiviner)
-    locator.register(TemporalIndexingDiviner)
+    locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner, labels)
+    locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner, labels)
+    locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
+    locator.register(TemporalStateToIndexCandidateDiviner, labels)
+    locator.register(TemporalIndexingDiviner, labels)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

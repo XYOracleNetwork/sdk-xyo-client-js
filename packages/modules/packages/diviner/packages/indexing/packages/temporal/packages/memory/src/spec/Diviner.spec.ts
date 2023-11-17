@@ -22,10 +22,10 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { TemporalIndexingDiviner } from '../Diviner'
-import { TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
-import { TemporalIndexCandidateToIndexDiviner } from '../TemporalIndexCandidateToIndexDiviner'
-import { TemporalIndexQueryToIndexQueryDiviner } from '../TemporalIndexQueryToIndexQueryDiviner'
-import { TemporalStateToIndexCandidateDiviner } from '../TemporalStateToIndexCandidateDiviner'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
@@ -78,9 +78,9 @@ describe('TemporalIndexingDiviner', () => {
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    locator.register(TemporalIndexCandidateToImageThumbnailIndexDiviner)
-    locator.register(TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner)
-    locator.register(TemporalIndexQueryToIndexQueryDiviner)
+    locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner)
+    locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner)
+    locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner)
     locator.register(TemporalStateToIndexCandidateDiviner)
     locator.register(TemporalIndexingDiviner)
     const manifest = imageThumbnailDivinerManifest as PackageManifest

@@ -52,7 +52,7 @@ const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: Pay
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
-export class TemporalIndexCandidateToIndexDiviner extends AbstractDiviner {
+export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',

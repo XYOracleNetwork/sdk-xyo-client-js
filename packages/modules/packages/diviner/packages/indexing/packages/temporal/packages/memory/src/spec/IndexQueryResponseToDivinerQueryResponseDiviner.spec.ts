@@ -1,24 +1,26 @@
 import { PayloadHasher } from '@xyo-network/core'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
-  ImageThumbnailDivinerQuery,
-  ImageThumbnailDivinerQuerySchema,
   ImageThumbnailResultIndex,
   ImageThumbnailResultIndexSchema,
   ImageThumbnailResultSchema,
   isImageThumbnailResult,
 } from '@xyo-network/image-thumbnail-payload-plugin'
+import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 
-import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
 
-describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner', () => {
-  const queries: ImageThumbnailDivinerQuery[] = [
+type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
+
+describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
+  const queries: QueryType[] = [
     {
-      schema: ImageThumbnailDivinerQuerySchema,
+      schema: PayloadDivinerQuerySchema,
       url: 'https://xyo.network',
     },
     {
-      schema: ImageThumbnailDivinerQuerySchema,
+      schema: PayloadDivinerQuerySchema,
       url: 'https://explore.xyo.network',
     },
   ]
@@ -52,9 +54,9 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
       },
     ],
   ]
-  let diviner: ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner
+  let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   beforeAll(async () => {
-    diviner = await ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner.create()
+    diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
     await Promise.all(
       queries.map((query, i) => {
         indexes[i].forEach(async (index) => {
@@ -63,7 +65,7 @@ describe('ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner',
       }),
     )
   })
-  const cases: [ImageThumbnailDivinerQuery, ImageThumbnailResultIndex[]][] = queries.map((query, i) => [query, indexes[i]])
+  const cases: [QueryType, ImageThumbnailResultIndex[]][] = queries.map((query, i) => [query, indexes[i]])
   describe('divine', () => {
     describe('with single url in index result', () => {
       it.each(cases)('transforms single url index results', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {

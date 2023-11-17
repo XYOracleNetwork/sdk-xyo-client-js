@@ -17,7 +17,7 @@ import { UrlSchema } from '@xyo-network/url-payload-plugin'
 /**
  * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response
  */
-export class ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner extends AbstractDiviner {
+export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',

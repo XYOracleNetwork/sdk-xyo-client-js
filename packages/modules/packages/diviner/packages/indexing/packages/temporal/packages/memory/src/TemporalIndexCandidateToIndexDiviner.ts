@@ -20,12 +20,12 @@ import { value } from 'jsonpath'
 export type JsonPathExpression = typeof value
 
 const schemaToJsonPathExpression: { [key: string]: string[] } = {
-  'network.xyo.image.thumbnail': ['$.url', '$.http.status'],
+  'network.xyo.image.thumbnail': ['$.sourceUrl', '$.http.status'],
 }
 
 export type PayloadTransformer = (x: Payload) => unknown
 
-const schemaToJsonPathMap: { [key: string]: JsonPathExpression[] } = Object.fromEntries(
+const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
       const transformer: PayloadTransformer = (x: Payload) => value(x, t)
@@ -66,6 +66,7 @@ export class TemporalIndexCandidateToIndexDiviner extends AbstractDiviner {
       const indexes = await Promise.all(
         tuples.map(async ([bw, imageThumbnailPayload, timestampPayload]) => {
           const { sourceUrl: url } = imageThumbnailPayload
+          // const url = schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload)
           const { timestamp } = timestampPayload
           const status = imageThumbnailPayload.http?.status
           const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success

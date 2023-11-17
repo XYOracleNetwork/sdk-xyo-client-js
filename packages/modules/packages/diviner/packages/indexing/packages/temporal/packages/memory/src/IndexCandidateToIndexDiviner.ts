@@ -74,7 +74,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
             .flat()
           const transformed = Object.assign({}, ...partials, { schema: ImageThumbnailResultIndexSchema })
           const { timestamp } = timestampPayload
-          const sources = (await PayloadHasher.hashPairs([bw, transformed, timestampPayload])).map(([, hash]) => hash)
+          const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
           return [{ ...transformed, sources, timestamp }]
         }),
       )

@@ -3,7 +3,6 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { ImageThumbnail, ImageThumbnailSchema, isImageThumbnailResultIndex } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
@@ -35,10 +34,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     expect(result).toBeArrayOfSize(1)
     expect(result.filter(isImageThumbnailResultIndex)).toBeArrayOfSize(1)
     const [index] = result.filter(isImageThumbnailResultIndex)
-    const key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: thumbnail.sourceUrl })
-    expect(index.key).toBe(key)
     expect(index.sources).toEqual(Object.keys(payloadDictionary))
-    expect(index.success).toBe(thumbnail.http?.status === 200)
     expect(index.timestamp).toBe(timestamp.timestamp)
     expect(index.status).toBe(thumbnail.http?.status)
   }

@@ -18,11 +18,11 @@
     "@xylabs/promise": "^2.13.9",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/address-payload-plugin": "^2.79.8",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "workspace:~",
+    "@xyo-network/config-payload-plugin": "^2.79.8",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
@@ -30,7 +30,7 @@
     "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "workspace:~",
+    "@xyo-network/query-payload-plugin": "^2.79.8",
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {

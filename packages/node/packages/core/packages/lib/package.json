@@ -47,7 +47,7 @@
     "@xyo-network/payload-mongodb": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/schema-cache": "workspace:~",
-    "@xyo-network/schema-payload-plugin": "workspace:~",
+    "@xyo-network/schema-payload-plugin": "^2.79.8",
     "ajv": "^8.12.0"
   },
   "devDependencies": {

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/promise": "^2.13.9",
-    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/address-payload-plugin": "^2.79.8",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",

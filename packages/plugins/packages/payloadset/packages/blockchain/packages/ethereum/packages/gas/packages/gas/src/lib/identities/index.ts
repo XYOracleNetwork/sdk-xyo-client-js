@@ -1,5 +1,0 @@
-export * from './isEthereumGasBlocknativePayload'
-export * from './isEthereumGasEtherchainV2Payload'
-export * from './isEthereumGasEtherscanPayload'
-export * from './isEthereumGasEthersPayload'
-export * from './isEthereumGasEthgasstationPayload'

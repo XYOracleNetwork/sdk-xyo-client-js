@@ -18,6 +18,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/diviner-temporal-indexing-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

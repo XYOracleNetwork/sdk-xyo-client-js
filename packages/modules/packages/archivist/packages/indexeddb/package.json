@@ -21,10 +21,10 @@
   "devDependencies": {
     "@xylabs/delay": "^2.13.9",
     "@xylabs/promise": "^2.13.9",
-    "@xylabs/ts-scripts-yarn3": "^3.1.21",
-    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/ts-scripts-yarn3": "^3.2.2",
+    "@xylabs/tsconfig": "^3.2.2",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.79.8",
+    "@xyo-network/id-payload-plugin": "^2.80.3",
     "@xyo-network/payload-wrapper": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.2.2"

@@ -63,8 +63,8 @@
     "mongodb": "^6.3.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.21",
-    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/ts-scripts-yarn3": "^3.2.2",
+    "@xylabs/tsconfig": "^3.2.2",
     "typescript": "^5.2.2"
   },
   "packageManager": "yarn@3.1.1"

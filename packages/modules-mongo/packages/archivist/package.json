@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^2.13.9",
-    "@xylabs/ts-scripts-yarn3": "^3.1.21",
-    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/ts-scripts-yarn3": "^3.2.2",
+    "@xylabs/tsconfig": "^3.2.2",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",

@@ -12,11 +12,11 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.79.8"
+    "@xyo-network/value-payload-plugin": "^2.80.3"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.1.21",
-    "@xylabs/tsconfig": "^3.1.21",
+    "@xylabs/ts-scripts-yarn3": "^3.2.2",
+    "@xylabs/tsconfig": "^3.2.2",
     "typescript": "^5.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

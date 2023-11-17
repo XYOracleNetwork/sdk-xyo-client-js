@@ -6,10 +6,10 @@ import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from '../ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
+import { TemporalIndexCandidateToImageThumbnailIndexDiviner } from '../TemporalIndexCandidateToIndexDiviner'
 
-describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
-  let diviner: ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner
+describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
+  let diviner: TemporalIndexCandidateToImageThumbnailIndexDiviner
   const timestampA = 1234567890
   const timestampPayloadA: TimeStamp = { schema: TimestampSchema, timestamp: timestampA }
   const imageThumbnailPayloadA: ImageThumbnail = {
@@ -43,7 +43,7 @@ describe('ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner', () => {
     expect(index.status).toBe(thumbnail.http?.status)
   }
   beforeAll(async () => {
-    diviner = await ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner.create()
+    diviner = await TemporalIndexCandidateToImageThumbnailIndexDiviner.create()
   })
   describe('divine', () => {
     const cases: [ImageThumbnail, TimeStamp][] = [

@@ -19,7 +19,7 @@ import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-ti
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
-export class ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner extends AbstractDiviner {
+export class TemporalIndexCandidateToImageThumbnailIndexDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',

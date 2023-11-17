@@ -24,13 +24,14 @@ import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import { TemporalIndexingDiviner } from '../Diviner'
 import { TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
 import { TemporalIndexCandidateToIndexDiviner } from '../TemporalIndexCandidateToIndexDiviner'
+import { TemporalIndexQueryToIndexQueryDiviner } from '../TemporalIndexQueryToIndexQueryDiviner'
 import { TemporalStateToIndexCandidateDiviner } from '../TemporalStateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
  * @group slow
  */
-describe('ImageThumbnailDiviner', () => {
+describe('TemporalIndexingDiviner', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
@@ -68,7 +69,7 @@ describe('ImageThumbnailDiviner', () => {
   }
   const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
-  let sut: ImageThumbnailDiviner
+  let sut: TemporalIndexingDiviner
   let node: MemoryNode
 
   beforeAll(async () => {
@@ -79,9 +80,9 @@ describe('ImageThumbnailDiviner', () => {
     locator.register(MemoryPayloadDiviner)
     locator.register(TemporalIndexCandidateToImageThumbnailIndexDiviner)
     locator.register(TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner)
-    locator.register(TemporalQueryToImageThumbnailIndexQueryDiviner)
+    locator.register(TemporalIndexQueryToIndexQueryDiviner)
     locator.register(TemporalStateToIndexCandidateDiviner)
-    locator.register(TemporalDiviner)
+    locator.register(TemporalIndexingDiviner)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
@@ -120,7 +121,7 @@ describe('ImageThumbnailDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<ImageThumbnailDiviner>(await node.resolve('ImageThumbnailDiviner')))
+    sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('TemporalIndexingDiviner')))
 
     // Allow enough time for diviner to divine
     await delay(5000)

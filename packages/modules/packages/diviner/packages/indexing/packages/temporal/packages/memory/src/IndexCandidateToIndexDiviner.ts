@@ -2,7 +2,7 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { ImageThumbnailResultIndexSchema, ImageThumbnailSchema, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnailResultIndexSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Labels } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -63,18 +63,17 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
     const indexablePayloads: Payload[] = payloads.filter(isIndexablePayload)
     if (bws.length && timestampPayloads.length && indexablePayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
-      const tuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((acc, curr) => {
-        const timestampIndex = curr.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-        const timestampHash = curr.payload_hashes?.[timestampIndex]
-        const timestampPayload = [payloadDictionary[timestampHash]].find(isTimestamp)
-        // TODO: Support multiple results here
-        const indexablePayloadIndexes = curr.payload_schemas?.reduce((acc, curr, index) => {
+      const tuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((acc, bw) => {
+        const timestampPosition = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+        const timestampHash = bw.payload_hashes?.[timestampPosition]
+        const timestamp = [payloadDictionary[timestampHash]].find(isTimestamp)
+        const indexablePayloadPositions = bw.payload_schemas?.reduce((acc, curr, index) => {
           if (isIndexableSchema(curr)) acc.push(index)
           return acc
         }, [] as number[])
-        const indexablePayloadHashes = indexablePayloadIndexes.map((index) => curr.payload_hashes?.[index])
+        const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
         const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash])
-        if (timestampPayload && indexablePayloads.length) acc.push([curr, timestampPayload, ...indexablePayloads])
+        if (timestamp && indexablePayloads.length) acc.push([bw, timestamp, ...indexablePayloads])
         return acc
       }, [] as IndexablePayloads[])
       const indexes = await Promise.all(

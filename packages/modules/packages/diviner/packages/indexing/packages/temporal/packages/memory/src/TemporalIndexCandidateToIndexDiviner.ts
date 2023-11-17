@@ -15,11 +15,30 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import { value } from 'jsonpath'
+
+export type JsonPathExpression = typeof value
+
+const schemaToJsonPathExpression: { [key: string]: string[] } = {
+  'network.xyo.image.thumbnail': ['$.url', '$.http.status'],
+}
+
+export type PayloadTransformer = (x: Payload) => unknown
+
+const schemaToJsonPathMap: { [key: string]: JsonPathExpression[] } = Object.fromEntries(
+  Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
+    const transformers = v.map((t) => {
+      const transformer: PayloadTransformer = (x: Payload) => value(x, t)
+      return transformer
+    })
+    return [key, transformers]
+  }),
+)
 
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
-export class TemporalIndexCandidateToImageThumbnailIndexDiviner extends AbstractDiviner {
+export class TemporalIndexCandidateToIndexDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',

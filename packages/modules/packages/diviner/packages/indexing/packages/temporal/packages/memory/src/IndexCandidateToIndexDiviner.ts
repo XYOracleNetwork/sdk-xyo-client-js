@@ -2,39 +2,25 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import {
-  ImageThumbnail,
-  ImageThumbnailResultIndex,
-  ImageThumbnailResultIndexFields,
-  ImageThumbnailResultIndexSchema,
-  ImageThumbnailSchema,
-  isImageThumbnail,
-} from '@xyo-network/image-thumbnail-payload-plugin'
+import { ImageThumbnail, ImageThumbnailResultIndexSchema, ImageThumbnailSchema, isImageThumbnail } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Labels } from '@xyo-network/module-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
-interface JsonPathTransformExpression {
-  sourcePathExpression: string
-  targetField: string
-}
+import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary } from './lib'
 
-const schemaToJsonPathExpression: { [key: string]: JsonPathTransformExpression[] } = {
+const schemaToJsonPathExpression: StringToJsonPathTransformExpressionsDictionary = {
   'network.xyo.image.thumbnail': [
-    { sourcePathExpression: '$.sourceUrl', targetField: 'url' },
-    { sourcePathExpression: '$.http.status', targetField: 'status' },
+    { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
+    { destinationField: 'status', sourcePathExpression: '$.http.status' },
   ],
 }
 
-export type PayloadTransformer = (x: Payload) => Partial<Payload>
-
-const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
+const schemaToPayloadTransformersDictionary: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
-      const { sourcePathExpression, targetField } = t
+      const { sourcePathExpression, destinationField: targetField } = t
       const transformer: PayloadTransformer = (x: Payload) => {
         // eslint-disable-next-line import/no-named-as-default-member
         const source = jsonpath.value(x, sourcePathExpression)
@@ -58,7 +44,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 
-  protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResultIndex[]> {
+  protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
     const imageThumbnailPayloads: ImageThumbnail[] = payloads.filter(isImageThumbnail)
     const timestampPayloads: TimeStamp[] = payloads.filter(isTimestamp)
@@ -79,21 +65,17 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
       )
       const indexes = await Promise.all(
         tuples.map(async ([bw, imageThumbnailPayload, timestampPayload]) => {
-          // const { sourceUrl: url } = imageThumbnailPayload
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const url = (schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload) as any)?.url
+          const partials = Object.keys(schemaToPayloadTransformersDictionary)
+            .map((key) => {
+              return schemaToPayloadTransformersDictionary[key].map((transformer) => {
+                return transformer(imageThumbnailPayload)
+              })
+            })
+            .flat()
+          const transformed = Object.assign({}, ...partials, { schema: ImageThumbnailResultIndexSchema })
           const { timestamp } = timestampPayload
-          const status = imageThumbnailPayload.http?.status
-          const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success
-          const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
-          const urlPayload = { schema: UrlSchema, url }
-          const key = await PayloadHasher.hashAsync(urlPayload)
-          const fields: ImageThumbnailResultIndexFields = { key, sources, success, timestamp }
-          if (status) fields.status = status
-          const result: ImageThumbnailResultIndex = new PayloadBuilder<ImageThumbnailResultIndex>({ schema: ImageThumbnailResultIndexSchema })
-            .fields(fields)
-            .build()
-          return [result]
+          const sources = (await PayloadHasher.hashPairs([bw, transformed, timestampPayload])).map(([, hash]) => hash)
+          return [{ ...transformed, sources, timestamp }]
         }),
       )
       return indexes.flat()

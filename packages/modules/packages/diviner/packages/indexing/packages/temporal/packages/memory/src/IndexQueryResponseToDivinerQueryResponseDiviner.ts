@@ -2,11 +2,11 @@ import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import {
   ImageThumbnailResult,
   ImageThumbnailResultFields,
   ImageThumbnailResultSchema,
-  isImageThumbnailDivinerQuery,
   isImageThumbnailResultIndex,
 } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Labels } from '@xyo-network/module-model'
@@ -25,7 +25,8 @@ export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivi
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<ImageThumbnailResult[]> {
     // Filter out the two operands
-    const imageThumbnailDivinerQueries = payloads.filter(isImageThumbnailDivinerQuery)
+    const imageThumbnailDivinerQueries = payloads.filter(isPayloadDivinerQueryPayload)
+
     const imageThumbnailResultIndexes = payloads.filter(isImageThumbnailResultIndex)
 
     // If we have operands

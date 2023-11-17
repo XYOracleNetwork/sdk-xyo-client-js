@@ -1,7 +1,8 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { ImageThumbnail, ImageThumbnailSchema, isImageThumbnailResultIndex } from '@xyo-network/image-thumbnail-payload-plugin'
+import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
+import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -32,11 +33,10 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
     const [boundWitness, timestamp, thumbnail] = input
     const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
     expect(result).toBeArrayOfSize(1)
-    expect(result.filter(isImageThumbnailResultIndex)).toBeArrayOfSize(1)
-    const [index] = result.filter(isImageThumbnailResultIndex)
+    expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
+    const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
     expect(index.sources).toEqual(Object.keys(payloadDictionary))
     expect(index.timestamp).toBe(timestamp.timestamp)
-    expect(index.status).toBe(thumbnail.http?.status)
   }
   beforeAll(async () => {
     diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create()

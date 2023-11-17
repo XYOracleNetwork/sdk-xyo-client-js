@@ -2,7 +2,7 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { ImageThumbnailResultIndexSchema } from '@xyo-network/image-thumbnail-payload-plugin'
+import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -85,7 +85,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
               })
             })
             .flat()
-          const transformed = Object.assign({}, ...partials, { schema: ImageThumbnailResultIndexSchema })
+          const transformed = Object.assign({}, ...partials, { schema: TemporalIndexingDivinerResultIndexSchema })
           const { timestamp } = timestampPayload
           const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, remainingPayloads])).map(([, hash]) => hash)
           return [{ ...transformed, sources, timestamp }]

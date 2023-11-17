@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner-temporal-indexing",
+  "name": "@xyo-network/diviner-temporal-indexing-memory",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",

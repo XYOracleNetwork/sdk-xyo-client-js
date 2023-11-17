@@ -33,12 +33,14 @@
           },
           {
             "config": {
+              "filter": {
+                "payload_schemas": ["network.xyo.image.thumbnail"]
+              },
               "labels": {
-                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner",
-                "network.xyo.image.thumbnail": "diviner"
+                "network.xyo.diviner.stage": "stateToIndexCandidateDiviner"
               },
               "language": "javascript",
-              "name": "ImageThumbnailStateToIndexCandidateDiviner",
+              "name": "TemporalStateToIndexCandidateDiviner",
               "payloadStore": {
                 "archivist": "ImageThumbnailArchivist",
                 "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",

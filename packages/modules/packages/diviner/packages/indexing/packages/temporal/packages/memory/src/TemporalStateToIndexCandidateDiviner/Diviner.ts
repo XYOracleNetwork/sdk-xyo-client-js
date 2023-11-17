@@ -64,7 +64,8 @@ export class TemporalStateToIndexCandidateDiviner<
    * The required payload_schemas within BoundWitnesses to identify index candidates
    */
   protected get payload_schemas(): string[] {
-    return [TimestampSchema]
+    const schemas = this.config.filter?.payload_schemas
+    return [TimestampSchema, ...(schemas ?? [])]
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<[ModuleState, ...IndexCandidate[]]> {

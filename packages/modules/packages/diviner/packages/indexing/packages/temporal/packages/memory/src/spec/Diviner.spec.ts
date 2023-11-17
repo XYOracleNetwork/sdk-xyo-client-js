@@ -124,7 +124,7 @@ describe('TemporalIndexingDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('TemporalIndexingDiviner')))
+    sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
     await delay(5000)

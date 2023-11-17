@@ -15,7 +15,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-import { value } from 'jsonpath'
+import jsonpath, { value } from 'jsonpath'
 
 export type JsonPathExpression = typeof value
 
@@ -28,7 +28,8 @@ export type PayloadTransformer = (x: Payload) => unknown
 const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
-      const transformer: PayloadTransformer = (x: Payload) => value(x, t)
+      // eslint-disable-next-line import/no-named-as-default-member
+      const transformer: PayloadTransformer = (x: Payload) => jsonpath.value(x, t)
       return transformer
     })
     return [key, transformers]
@@ -65,8 +66,8 @@ export class TemporalIndexCandidateToIndexDiviner extends AbstractDiviner {
       )
       const indexes = await Promise.all(
         tuples.map(async ([bw, imageThumbnailPayload, timestampPayload]) => {
-          const { sourceUrl: url } = imageThumbnailPayload
-          // const url = schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload)
+          // const { sourceUrl: url } = imageThumbnailPayload
+          const url = schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload)
           const { timestamp } = timestampPayload
           const status = imageThumbnailPayload.http?.status
           const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success

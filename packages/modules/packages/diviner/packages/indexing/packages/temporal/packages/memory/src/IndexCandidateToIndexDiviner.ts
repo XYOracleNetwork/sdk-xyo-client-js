@@ -17,6 +17,8 @@ const schemaToJsonPathExpression: StringToJsonPathTransformExpressionsDictionary
   ],
 }
 
+type IndexedPayloads = [BoundWitness, TimeStamp, ...Payload[]]
+
 const schemaToPayloadTransformersDictionary: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
@@ -50,31 +52,28 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner extends Abstrac
     const timestampPayloads: TimeStamp[] = payloads.filter(isTimestamp)
     if (bws.length && imageThumbnailPayloads.length && timestampPayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
-      const tuples: [BoundWitness, ImageThumbnail, TimeStamp][] = bws.reduce<[BoundWitness, ImageThumbnail, TimeStamp][]>(
-        (acc, curr) => {
-          const imageThumbnailIndex = curr.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
-          const timestampIndex = curr.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
-          const imageThumbnailHash = curr.payload_hashes?.[imageThumbnailIndex]
-          const timestampHash = curr.payload_hashes?.[timestampIndex]
-          const imageThumbnailPayload = [payloadDictionary[imageThumbnailHash]].find(isImageThumbnail)
-          const timestampPayload = [payloadDictionary[timestampHash]].find(isTimestamp)
-          if (imageThumbnailPayload && timestampPayload) acc.push([curr, imageThumbnailPayload, timestampPayload])
-          return acc
-        },
-        [] as [BoundWitness, ImageThumbnail, TimeStamp][],
-      )
+      const tuples: IndexedPayloads[] = bws.reduce<IndexedPayloads[]>((acc, curr) => {
+        const imageThumbnailIndex = curr.payload_schemas?.findIndex((schema) => schema === ImageThumbnailSchema)
+        const timestampIndex = curr.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+        const imageThumbnailHash = curr.payload_hashes?.[imageThumbnailIndex]
+        const timestampHash = curr.payload_hashes?.[timestampIndex]
+        const imageThumbnailPayload = [payloadDictionary[imageThumbnailHash]].find(isImageThumbnail)
+        const timestampPayload = [payloadDictionary[timestampHash]].find(isTimestamp)
+        if (imageThumbnailPayload && timestampPayload) acc.push([curr, timestampPayload, imageThumbnailPayload])
+        return acc
+      }, [] as IndexedPayloads[])
       const indexes = await Promise.all(
-        tuples.map(async ([bw, imageThumbnailPayload, timestampPayload]) => {
+        tuples.map(async ([bw, timestampPayload, remainingPayloads]) => {
           const partials = Object.keys(schemaToPayloadTransformersDictionary)
             .map((key) => {
               return schemaToPayloadTransformersDictionary[key].map((transformer) => {
-                return transformer(imageThumbnailPayload)
+                return transformer(remainingPayloads)
               })
             })
             .flat()
           const transformed = Object.assign({}, ...partials, { schema: ImageThumbnailResultIndexSchema })
           const { timestamp } = timestampPayload
-          const sources = (await PayloadHasher.hashPairs([bw, imageThumbnailPayload, timestampPayload])).map(([, hash]) => hash)
+          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, remainingPayloads])).map(([, hash]) => hash)
           return [{ ...transformed, sources, timestamp }]
         }),
       )

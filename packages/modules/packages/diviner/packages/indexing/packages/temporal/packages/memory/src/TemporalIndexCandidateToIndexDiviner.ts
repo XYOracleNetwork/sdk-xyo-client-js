@@ -19,17 +19,32 @@ import jsonpath, { value } from 'jsonpath'
 
 export type JsonPathExpression = typeof value
 
-const schemaToJsonPathExpression: { [key: string]: string[] } = {
-  'network.xyo.image.thumbnail': ['$.sourceUrl', '$.http.status'],
+interface JsonPathTransformExpression {
+  sourcePathExpression: string
+  targetField: string
 }
 
-export type PayloadTransformer = (x: Payload) => unknown
+const schemaToJsonPathExpression: { [key: string]: JsonPathTransformExpression[] } = {
+  'network.xyo.image.thumbnail': [
+    { sourcePathExpression: '$.sourceUrl', targetField: 'url' },
+    { sourcePathExpression: '$.http.status', targetField: 'status' },
+  ],
+}
+
+export type PayloadTransformer = (x: Payload) => Partial<Payload>
 
 const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: PayloadTransformer[] } = Object.fromEntries(
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
+      const { sourcePathExpression, targetField } = t
       // eslint-disable-next-line import/no-named-as-default-member
-      const transformer: PayloadTransformer = (x: Payload) => jsonpath.value(x, t)
+      const transformer: PayloadTransformer = (x: Payload) => {
+        const source = jsonpath.value(x, sourcePathExpression)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const transformed = {} as { [key: string]: any }
+        transformed[targetField] = source
+        return transformed
+      }
       return transformer
     })
     return [key, transformers]
@@ -67,7 +82,8 @@ export class TemporalIndexCandidateToIndexDiviner extends AbstractDiviner {
       const indexes = await Promise.all(
         tuples.map(async ([bw, imageThumbnailPayload, timestampPayload]) => {
           // const { sourceUrl: url } = imageThumbnailPayload
-          const url = schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const url = (schemaToJsonPathMap[imageThumbnailPayload.schema]?.[0](imageThumbnailPayload) as any)?.url
           const { timestamp } = timestampPayload
           const status = imageThumbnailPayload.http?.status
           const success = !!imageThumbnailPayload.url // Call anything with a thumbnail url a success

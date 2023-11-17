@@ -21,11 +21,10 @@ import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { ImageThumbnailDiviner } from '../Diviner'
-import { ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner } from '../ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner'
-import { ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
-import { ImageThumbnailQueryToImageThumbnailIndexQueryDiviner } from '../ImageThumbnailQueryToImageThumbnailIndexQueryDiviner'
-import { ImageThumbnailStateToIndexCandidateDiviner } from '../ImageThumbnailStateToIndexCandidateDiviner'
+import { TemporalIndexingDiviner } from '../Diviner'
+import { TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner } from '../ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner'
+import { TemporalIndexCandidateToIndexDiviner } from '../TemporalIndexCandidateToIndexDiviner'
+import { TemporalStateToIndexCandidateDiviner } from '../TemporalStateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 /**
@@ -78,11 +77,11 @@ describe('ImageThumbnailDiviner', () => {
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    locator.register(ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner)
-    locator.register(ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner)
-    locator.register(ImageThumbnailQueryToImageThumbnailIndexQueryDiviner)
-    locator.register(ImageThumbnailStateToIndexCandidateDiviner)
-    locator.register(ImageThumbnailDiviner)
+    locator.register(TemporalIndexCandidateToImageThumbnailIndexDiviner)
+    locator.register(TemporalIndexQueryResponseToImageThumbnailQueryResponseDiviner)
+    locator.register(TemporalQueryToImageThumbnailIndexQueryDiviner)
+    locator.register(TemporalStateToIndexCandidateDiviner)
+    locator.register(TemporalDiviner)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

@@ -8,7 +8,7 @@ import { Payload } from '@xyo-network/payload-model'
 /**
  * A diviner that converts diviner query to index query
  */
-export class ImageThumbnailQueryToImageThumbnailIndexQueryDiviner extends AbstractDiviner {
+export class TemporalIndexQueryToIndexQueryDiviner extends AbstractDiviner {
   static override configSchemas = [DivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',

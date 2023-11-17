@@ -15,9 +15,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { UrlSchema } from '@xyo-network/url-payload-plugin'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-import jsonpath, { value } from 'jsonpath'
-
-export type JsonPathExpression = typeof value
+import jsonpath from 'jsonpath'
 
 interface JsonPathTransformExpression {
   sourcePathExpression: string
@@ -37,8 +35,8 @@ const schemaToJsonPathMap: { [key: keyof typeof schemaToJsonPathExpression]: Pay
   Object.entries(schemaToJsonPathExpression).map(([key, v]) => {
     const transformers = v.map((t) => {
       const { sourcePathExpression, targetField } = t
-      // eslint-disable-next-line import/no-named-as-default-member
       const transformer: PayloadTransformer = (x: Payload) => {
+        // eslint-disable-next-line import/no-named-as-default-member
         const source = jsonpath.value(x, sourcePathExpression)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const transformed = {} as { [key: string]: any }

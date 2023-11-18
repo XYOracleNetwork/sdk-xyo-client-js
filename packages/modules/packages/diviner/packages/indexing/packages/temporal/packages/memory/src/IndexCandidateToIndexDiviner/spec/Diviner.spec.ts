@@ -21,6 +21,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index.timestamp).toBe(timestamp.timestamp)
         expect((index as { url?: string })?.url).toBe(thumbnail.sourceUrl)
+        expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
         diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({
@@ -56,9 +57,19 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         schema: ImageThumbnailSchema,
         sourceUrl: 'https://xyo.network',
       }
+      const timestampC = 1234567892
+      const timestampPayloadC: TimeStamp = { schema: TimestampSchema, timestamp: timestampC }
+      const imageThumbnailPayloadC: ImageThumbnail = {
+        http: {
+          ipAddress: '192.169.1.1',
+        },
+        schema: ImageThumbnailSchema,
+        sourceUrl: 'https://www.google.com',
+      }
       const cases: [TimeStamp, ImageThumbnail][] = [
         [timestampPayloadA, imageThumbnailPayloadA],
         [timestampPayloadB, imageThumbnailPayloadB],
+        [timestampPayloadC, imageThumbnailPayloadC],
       ]
       describe('with single result', () => {
         it.each(cases)('transforms single result', async (timestamp, thumbnail) => {
@@ -82,7 +93,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
             }),
           )
           const results = await diviner.divine(data.flat())
-          expect(results).toBeArrayOfSize(2)
+          expect(results).toBeArrayOfSize(cases.length)
           data.forEach(async (input, i) => {
             const result = results[i]
             await validateResult(input, [result])

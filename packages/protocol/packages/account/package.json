@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@ethersproject/hdnode": "^5.7.0",
     "@xylabs/array": "^2.13.9",
     "@xylabs/assert": "^2.13.9",
     "@xylabs/libauth": "^2.13.9",
@@ -23,6 +22,7 @@
     "async-mutex": "^0.4.0",
     "bip39": "^3.1.0",
     "elliptic": "^6.5.4",
+    "ethers": "^6.8.1",
     "randombytes": "^2.1.0",
     "sha.js": "^2.4.11"
   },

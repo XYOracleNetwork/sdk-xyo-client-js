@@ -1,19 +1,19 @@
-import { Listener, Web3Provider } from '@ethersproject/providers'
 import { MetaMaskInpageProvider } from '@metamask/providers'
+import { BrowserProvider, Listener } from 'ethers'
 
 export class MetaMaskConnector {
   private account = ''
   private ethereum = window.ethereum as MetaMaskInpageProvider
 
   private listeners: Listener[] = []
-  private provider: Web3Provider | undefined
+  private provider: BrowserProvider | undefined
   private providerListeners: [event: string, listener: Listener][] = []
 
-  constructor(provider?: Web3Provider) {
+  constructor(provider?: BrowserProvider) {
     if (provider) {
       this.provider = provider
     } else if (this.ethereum) {
-      this.provider = new Web3Provider(window.ethereum)
+      this.provider = new BrowserProvider(window.ethereum)
     }
   }
 
@@ -103,7 +103,7 @@ export class MetaMaskConnector {
       return
     }
 
-    const signer = this.provider.getSigner()
+    const signer = await this.provider.getSigner()
     await signer.getAddress()
     const signature = await signer.signMessage(message)
     return signature

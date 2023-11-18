@@ -1,78 +1,52 @@
-import { BaseProvider, InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, WebSocketProvider } from '@ethersproject/providers'
-import { ConnectionInfo } from '@ethersproject/web'
 import { assertEx } from '@xylabs/assert'
+import { InfuraProvider, InfuraWebSocketProvider, JsonRpcProvider, Provider, WebSocketProvider } from 'ethers'
 
 export type ProviderSource = 'infura' | 'quicknode'
 export type ProviderType = 'rpc' | 'wss'
 
 export interface GetProvidersFromEnvOptions {
-  overrides?: Partial<ConnectionInfo>
   providerSource?: ProviderSource
   providerType?: ProviderType
 }
 
-const enableConfigOverride = false
-
-const configureConnection = (connection?: ConnectionInfo, { timeout = 1000 }: Partial<ConnectionInfo> = {}) => {
-  if (connection && enableConfigOverride) {
-    connection.timeout = timeout
-    connection.throttleCallback = async (attempt, url) => {
-      console.log(`throttleCallback[${attempt}]: ${url}`)
-      return await Promise.resolve(true)
-    }
-  }
-}
-
-const createInfuraRpc = (chainId: number, overrides?: Partial<ConnectionInfo>) => {
+const createInfuraRpc = (chainId: number) => {
   const provider =
-    process.env.INFURA_PROJECT_ID && process.env.INFURA_PROJECT_SECRET
-      ? new InfuraProvider(chainId, {
-          projectId: process.env.INFURA_PROJECT_ID,
-          projectSecret: process.env.INFURA_PROJECT_SECRET,
-        })
-      : undefined
-  configureConnection(provider?.connection, overrides)
+    process.env.INFURA_PROJECT_ID && process.env.INFURA_PROJECT_SECRET ? new InfuraProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
   return provider
 }
 
-const createInfuraWss = (chainId: number, overrides?: Partial<ConnectionInfo>) => {
-  const provider = process.env.INFURA_PROJECT_ID
-    ? new InfuraWebSocketProvider(chainId, {
-        projectId: process.env.INFURA_PROJECT_ID,
-      })
-    : undefined
-  configureConnection(provider?.connection, overrides)
+const createInfuraWss = (chainId: number) => {
+  const provider = process.env.INFURA_PROJECT_ID ? new InfuraWebSocketProvider(chainId, process.env.INFURA_PROJECT_ID) : undefined
   return provider
 }
 
-const createQuicknodeWss = (chainId: number, overrides?: Partial<ConnectionInfo>) => {
+const createQuicknodeWss = (chainId: number) => {
   const quickNodeWSSUri = process.env.QUICKNODE_WSS_URI
   const provider = quickNodeWSSUri ? new WebSocketProvider(quickNodeWSSUri, chainId) : undefined
-  configureConnection(provider?.connection, overrides)
+
   return provider
 }
 
-const createQuicknodeRpc = (chainId: number, overrides?: Partial<ConnectionInfo>) => {
+const createQuicknodeRpc = (chainId: number) => {
   const quickNodeHttpsUri = process.env.QUICKNODE_HTTPS_URI
   const provider = quickNodeHttpsUri ? new JsonRpcProvider(quickNodeHttpsUri, chainId) : undefined
-  configureConnection(provider?.connection, overrides)
   return provider
 }
 
 export const getProviderFromEnv = (
   chainId: number = 0x01,
-  { providerSource = 'infura', providerType = 'rpc', overrides }: GetProvidersFromEnvOptions = {},
-): BaseProvider => {
-  let provider: BaseProvider | undefined = undefined
+  { providerSource = 'infura', providerType = 'rpc' }: GetProvidersFromEnvOptions = {},
+): Provider => {
+  let provider: Provider | undefined = undefined
   switch (providerSource) {
     case 'quicknode': {
       switch (providerType) {
         case 'rpc': {
-          provider = createQuicknodeRpc(chainId, overrides)
+          provider = createQuicknodeRpc(chainId)
           break
         }
         case 'wss': {
-          provider = createQuicknodeWss(chainId, overrides)
+          provider = createQuicknodeWss(chainId)
           break
         }
       }
@@ -82,11 +56,11 @@ export const getProviderFromEnv = (
     case 'infura': {
       switch (providerType) {
         case 'wss': {
-          provider = createInfuraWss(chainId, overrides)
+          provider = createInfuraWss(chainId)
           break
         }
         case 'rpc': {
-          provider = createInfuraRpc(chainId, overrides)
+          provider = createInfuraRpc(chainId)
           break
         }
       }
@@ -99,19 +73,19 @@ export const getProviderFromEnv = (
   return assertEx(provider, `Unable to create provider [${chainId}]: ${providerSource}|${providerType}`)
 }
 
-const providers: Record<string, BaseProvider> = {}
+const providers: Record<string, Provider> = {}
 
 export const getSharedProviderFromEnv = (
   chainId: number = 0x01,
   options?: { providerSource?: ProviderSource; providerType?: ProviderType },
-): BaseProvider => {
+): Provider => {
   const key = `${chainId}:${options ? JSON.stringify(options) : 'default'}`
   providers[key] = providers[key] ?? getProviderFromEnv(chainId, options)
   return providers[key]
 }
 
-export const getProvidersFromEnv = (count: number = 1, chainId: number = 0x01, options: GetProvidersFromEnvOptions = {}): BaseProvider[] => {
-  const result: BaseProvider[] = []
+export const getProvidersFromEnv = (count: number = 1, chainId: number = 0x01, options: GetProvidersFromEnvOptions = {}): Provider[] => {
+  const result: Provider[] = []
   for (let i = 0; i < count; i++) {
     result.push(getProviderFromEnv(chainId, options))
   }

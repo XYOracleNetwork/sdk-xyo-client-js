@@ -1,4 +1,1 @@
-export interface PocketProviderConfig {
-  applicationId: string
-  applicationSecretKey: string
-}
+export type PocketProviderConfig = [/*applicationId*/ string, /*applicationSecretKey*/ string]

@@ -30,7 +30,7 @@
     "@xylabs/tsconfig-dom-jest": "^3.2.2",
     "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.29.0",

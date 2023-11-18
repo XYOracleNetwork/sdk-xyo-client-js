@@ -30,33 +30,52 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 
+  private _indexableSchemas: string[] | undefined
+  private _schemaToPayloadTransformersDictionary: StringToPayloadTransformersDictionary | undefined
+
   /**
    * List of indexable schemas for this diviner
    */
   protected get indexableSchemas() {
-    return [...Object.keys(this.schemaTransforms)]
+    // Return the computed result if we've calculated it before as the config
+    // shouldn't change after initialization
+    if (this._indexableSchemas) return this._indexableSchemas
+    this._indexableSchemas = [...Object.keys(this.schemaTransforms)]
+    return this._indexableSchemas
   }
 
+  /**
+   * Dictionary of schemas to payload transformers for creating indexes
+   * from the payloads within a Bound Witness
+   */
   protected get schemaToPayloadTransformersDictionary(): StringToPayloadTransformersDictionary {
-    return Object.fromEntries(
-      Object.entries(this.schemaTransforms).map(([key, v]) => {
-        const transformers = v.map((t) => {
-          const { sourcePathExpression, destinationField: targetField } = t
+    // Return the computed result if we've calculated it before as the config
+    // shouldn't change after initialization
+    if (this._schemaToPayloadTransformersDictionary) return this._schemaToPayloadTransformersDictionary
+    this._schemaToPayloadTransformersDictionary = Object.fromEntries(
+      Object.entries(this.schemaTransforms).map(([schema, jsonPathTransformerExpressions]) => {
+        const transformers = jsonPathTransformerExpressions.map((transformExpression) => {
+          const { sourcePathExpression, destinationField } = transformExpression
           const transformer: PayloadTransformer = (x: Payload) => {
             // eslint-disable-next-line import/no-named-as-default-member
             const source = jsonpath.value(x, sourcePathExpression)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const transformed = {} as { [key: string]: any }
-            transformed[targetField] = source
+            transformed[destinationField] = source
             return transformed
           }
           return transformer
         })
-        return [key, transformers]
+        return [schema, transformers]
       }),
     )
+    return this._schemaToPayloadTransformersDictionary
   }
 
+  /**
+   * The dictionary of schemas to JSON Path transform expressions for creating indexes
+   * from the payloads within a Bound Witness
+   */
   protected get schemaTransforms(): StringToJsonPathTransformExpressionsDictionary {
     return assertEx(this.config?.schemaTransforms, () => `${moduleName}: Missing config.schemaTransforms section`)
   }

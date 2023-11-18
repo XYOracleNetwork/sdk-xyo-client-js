@@ -10,7 +10,7 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
-import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformerDictionary } from '../lib'
+import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformersDictionary } from '../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema } from './Config'
 import { TemporalIndexCandidateToIndexDivinerParams } from './Params'
 
@@ -30,11 +30,14 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 
+  /**
+   * List of indexable schemas for this diviner
+   */
   protected get indexableSchemas() {
     return [...Object.keys(this.schemaTransforms)]
   }
 
-  protected get schemaToPayloadTransformersDictionary(): StringToPayloadTransformerDictionary {
+  protected get schemaToPayloadTransformersDictionary(): StringToPayloadTransformersDictionary {
     return Object.fromEntries(
       Object.entries(this.schemaTransforms).map(([key, v]) => {
         const transformers = v.map((t) => {
@@ -64,9 +67,9 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     const indexablePayloads: Payload[] = payloads.filter(this.isIndexablePayload)
     if (bws.length && timestampPayloads.length && indexablePayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
-      const tuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((acc, bw) => {
+      const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
-        if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return acc
+        if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return indexableTuples
         // Find the timestamp
         const timestampPosition = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
         const timestampHash = bw.payload_hashes?.[timestampPosition]
@@ -75,17 +78,16 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
         const indexablePayloadPositions = this.indexableSchemas.map((schema) => bw.payload_schemas.indexOf(schema))
         const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
         const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash])
-        if (timestamp && indexablePayloads.length) acc.push([bw, timestamp, ...indexablePayloads])
-        return acc
+        // If we found a timestamp and the right amount of indexable payloads (of the
+        // correct schema as checked above) in this BW, then index it
+        if (timestamp && indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, timestamp, ...indexablePayloads])
+        return indexableTuples
       }, [])
+      // Create the indexes from the tuples
       const indexes = await Promise.all(
-        tuples.map(async ([bw, timestampPayload, remainingPayloads]) => {
+        validIndexableTuples.map(async ([bw, timestampPayload, remainingPayloads]) => {
           const partials = Object.keys(this.schemaToPayloadTransformersDictionary)
-            .map((key) => {
-              return this.schemaToPayloadTransformersDictionary[key].map((transformer) => {
-                return transformer(remainingPayloads)
-              })
-            })
+            .map((key) => this.schemaToPayloadTransformersDictionary[key].map((transformer) => transformer(remainingPayloads)))
             .flat()
           const transformed = Object.assign({}, ...partials, { schema: TemporalIndexingDivinerResultIndexSchema })
           const { timestamp } = timestampPayload
@@ -98,19 +100,24 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     return Promise.resolve([])
   }
 
+  /**
+   * Identifies if a payload is one that is indexed by this diviner
+   * @param x The candidate payload
+   * @returns True if the payload is one indexed by this diviner, false otherwise
+   */
   protected isIndexablePayload = (x?: Payload | null) => {
-    return Object.keys(this.schemaTransforms)
+    return this.indexableSchemas
       .map((schema) => isPayloadOfSchemaType(schema))
       .map((validator) => validator(x))
       .some((x) => x)
   }
 
   /**
-   *
+   * Identifies if a schema is one that is indexed by this diviner
    * @param schema The candidate schema
-   * @returns True if this schema is one indexed by this diviner
+   * @returns True if this schema is one indexed by this diviner, false otherwise
    */
   protected isIndexableSchema = (schema?: string | null) => {
-    return Object.keys(this.schemaTransforms).some((s) => s === schema)
+    return this.indexableSchemas.some((s) => s === schema)
   }
 }

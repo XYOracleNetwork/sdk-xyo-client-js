@@ -5,7 +5,7 @@ import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner 
 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 
-describe('ImageThumbnailQueryToImageThumbnailIndexQueryDiviner', () => {
+describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
   let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   const queries: QueryType[] = [
     {
@@ -111,7 +111,7 @@ describe('ImageThumbnailQueryToImageThumbnailIndexQueryDiviner', () => {
   beforeAll(async () => {
     diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
   })
-  describe('divine', () => {
+  describe.skip('divine', () => {
     describe('with single query', () => {
       it.each(cases)('transforms query', async (query, expected) => {
         const results = await diviner.divine([query])

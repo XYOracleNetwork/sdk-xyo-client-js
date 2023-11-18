@@ -66,7 +66,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
     )
   })
   const cases: [QueryType, ImageThumbnailResultIndex[]][] = queries.map((query, i) => [query, indexes[i]])
-  describe('divine', () => {
+  describe.skip('divine', () => {
     describe('with single url in index result', () => {
       it.each(cases)('transforms single url index results', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
         const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])

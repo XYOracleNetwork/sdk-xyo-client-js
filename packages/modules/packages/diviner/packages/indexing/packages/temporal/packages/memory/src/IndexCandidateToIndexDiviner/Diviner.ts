@@ -1,12 +1,13 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
@@ -96,7 +97,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
         // Find the remaining indexable payloads
         const indexablePayloadPositions = this.indexableSchemas.map((schema) => bw.payload_schemas.indexOf(schema))
         const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
-        const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash])
+        const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash]).filter(exists)
         // If we found a timestamp and the right amount of indexable payloads (of the
         // correct schema as checked above) in this BW, then index it
         if (timestamp && indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, timestamp, ...indexablePayloads])

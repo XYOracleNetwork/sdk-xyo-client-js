@@ -109,6 +109,11 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           expect(results).toBeArrayOfSize(1)
           await validateSingleResult([bw, ...cases[0]], results)
         })
+        it('handles missing inputs', async () => {
+          const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
+          const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
+          expect(results).toBeArrayOfSize(0)
+        })
       })
     })
     describe('with multiple schema transforms', () => {
@@ -190,6 +195,11 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           const results = await diviner.divine([bw, ...cases.flat()])
           expect(results).toBeArrayOfSize(1)
           await validateMultiResult([bw, ...cases[0]], results)
+        })
+        it('handles missing inputs', async () => {
+          const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
+          const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
+          expect(results).toBeArrayOfSize(0)
         })
       })
     })

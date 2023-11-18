@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.80.0",
+  "version": "2.81.0-rc.1",
   "description": "XYO Automation Witness",
   "sideeffects": false,
   "engines": {
@@ -110,5 +110,6 @@
     "node": "16.15.1",
     "yarn": "1.22.19"
   },
-  "type": "module"
+  "type": "module",
+  "stableVersion": "2.80.0"
 }

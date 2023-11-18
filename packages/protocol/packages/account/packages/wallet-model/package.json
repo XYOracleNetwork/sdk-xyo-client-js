@@ -12,8 +12,7 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
     "@ethersproject/hdnode": "^5.7.0",
-    "@xyo-network/account-model": "workspace:~",
-    "ethers": "^6.8.1"
+    "@xyo-network/account-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.2",
@@ -59,5 +58,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.80.0"
+  "version": "2.81.0-rc.1",
+  "stableVersion": "2.80.0"
 }

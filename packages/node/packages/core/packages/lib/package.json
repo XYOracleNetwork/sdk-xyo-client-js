@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.80.0",
+  "version": "2.81.0-rc.1",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -57,5 +57,6 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "typescript": "^5.2.2"
-  }
+  },
+  "stableVersion": "2.80.0"
 }

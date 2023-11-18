@@ -83,7 +83,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
     const timestampPayloads: TimeStamp[] = payloads.filter(isTimestamp)
-    const indexablePayloads: Payload[] = payloads.filter(this.isIndexablePayload)
+    const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
     if (bws.length && timestampPayloads.length && indexablePayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
@@ -104,13 +104,17 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       }, [])
       // Create the indexes from the tuples
       const indexes = await Promise.all(
-        validIndexableTuples.map(async ([bw, timestampPayload, remainingPayloads]) => {
-          const partials = Object.keys(this.schemaToPayloadTransformersDictionary)
-            .map((key) => this.schemaToPayloadTransformersDictionary[key].map((transformer) => transformer(remainingPayloads)))
+        validIndexableTuples.map(async ([bw, timestampPayload, ...remainingPayloads]) => {
+          const partials = remainingPayloads
+            .map((payload) => {
+              const transforms = this.schemaToPayloadTransformersDictionary[payload.schema]
+              const transformed: Partial<Payload>[] = transforms.map((transform) => transform(payload))
+              return transformed
+            })
             .flat()
           const transformed = Object.assign({}, ...partials, { schema: TemporalIndexingDivinerResultIndexSchema })
           const { timestamp } = timestampPayload
-          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, remainingPayloads])).map(([, hash]) => hash)
+          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, ...remainingPayloads])).map(([, hash]) => hash)
           return [{ ...transformed, sources, timestamp }]
         }),
       )
@@ -124,11 +128,8 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * @param x The candidate payload
    * @returns True if the payload is one indexed by this diviner, false otherwise
    */
-  protected isIndexablePayload = (x?: Payload | null) => {
-    return this.indexableSchemas
-      .map((schema) => isPayloadOfSchemaType(schema))
-      .map((validator) => validator(x))
-      .some((x) => x)
+  protected isIndexablePayload = (x: Payload) => {
+    return this.indexableSchemas.includes(x?.schema)
   }
 
   /**

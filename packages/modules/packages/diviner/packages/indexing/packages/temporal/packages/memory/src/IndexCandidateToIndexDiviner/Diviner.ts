@@ -1,3 +1,4 @@
+import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -9,16 +10,9 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
-import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary } from '../lib'
+import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformerDictionary } from '../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema } from './Config'
 import { TemporalIndexCandidateToIndexDivinerParams } from './Params'
-
-// const schemaTransforms: StringToJsonPathTransformExpressionsDictionary = {
-//   'network.xyo.image.thumbnail': [
-//     { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
-//     { destinationField: 'status', sourcePathExpression: '$.http.status' },
-//   ],
-// }
 
 export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 
@@ -29,14 +23,18 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexCandidateToIndexDivinerParams = TemporalIndexCandidateToIndexDivinerParams,
-> extends AbstractDiviner<TParams> {
+> extends AbstractDiviner<TParams, Payload, Payload> {
   static override configSchema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 
-  protected get schemaToPayloadTransformersDictionary(): { [key: string]: PayloadTransformer[] } {
+  protected get indexableSchemas() {
+    return [...Object.keys(this.schemaTransforms)]
+  }
+
+  protected get schemaToPayloadTransformersDictionary(): StringToPayloadTransformerDictionary {
     return Object.fromEntries(
       Object.entries(this.schemaTransforms).map(([key, v]) => {
         const transformers = v.map((t) => {
@@ -67,13 +65,14 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     if (bws.length && timestampPayloads.length && indexablePayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
       const tuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((acc, bw) => {
+        // If this Bound Witness doesn't contain all the required schemas don't index it
+        if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return acc
+        // Find the timestamp
         const timestampPosition = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
         const timestampHash = bw.payload_hashes?.[timestampPosition]
         const timestamp = [payloadDictionary[timestampHash]].find(isTimestamp)
-        const indexablePayloadPositions = bw.payload_schemas?.reduce<number[]>((acc, curr, index) => {
-          if (this.isIndexableSchema(curr)) acc.push(index)
-          return acc
-        }, [])
+        // Find the remaining indexable payloads
+        const indexablePayloadPositions = this.indexableSchemas.map((schema) => bw.payload_schemas.indexOf(schema))
         const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
         const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash])
         if (timestamp && indexablePayloads.length) acc.push([bw, timestamp, ...indexablePayloads])
@@ -106,6 +105,11 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       .some((x) => x)
   }
 
+  /**
+   *
+   * @param schema The candidate schema
+   * @returns True if this schema is one indexed by this diviner
+   */
   protected isIndexableSchema = (schema?: string | null) => {
     return Object.keys(this.schemaTransforms).some((s) => s === schema)
   }

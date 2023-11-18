@@ -1,14 +1,14 @@
 import { IndexingDiviner } from '@xyo-network/diviner-indexing-memory'
-import { IndexingDivinerConfig, IndexingDivinerConfigSchema, IndexingDivinerStage } from '@xyo-network/diviner-indexing-model'
+import { IndexingDivinerConfigSchema, IndexingDivinerStage } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 
-type ConfigStoreKey = 'indexStore' | 'stateStore'
+// type ConfigStoreKey = 'indexStore' | 'stateStore'
 
-type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
+// type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
-const moduleName = 'TemporalIndexingDiviner'
+// const moduleName = 'TemporalIndexingDiviner'
 
 export class TemporalIndexingDiviner<
   TParams extends TemporalIndexingDivinerParams = TemporalIndexingDivinerParams,

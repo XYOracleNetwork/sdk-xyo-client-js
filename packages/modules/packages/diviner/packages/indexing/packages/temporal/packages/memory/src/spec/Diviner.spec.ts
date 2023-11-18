@@ -4,7 +4,6 @@ import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
@@ -181,7 +180,7 @@ describe.skip('TemporalIndexingDiviner', () => {
       expect(indexBoundWitness.addresses).toContain(sut.address)
     })
     it('has expected index', async () => {
-      const payloads = await indexArchivist.all()
+      // const payloads = await indexArchivist.all()
       // const indexPayloads = payloads.filter(isPayloadDivinerQueryPayloadIndex)
       // expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })
@@ -204,7 +203,7 @@ describe.skip('TemporalIndexingDiviner', () => {
         const results = await sut.divine([query])
         const result = results.find(isPayloadDivinerQueryPayload)
         expect(result).toBeDefined()
-        const expected = await PayloadHasher.hashAsync(thumbnailHttpSuccess)
+        // const expected = await PayloadHasher.hashAsync(thumbnailHttpSuccess)
         // expect(result?.sources).toContain(expected)
       })
     })
@@ -217,7 +216,7 @@ describe.skip('TemporalIndexingDiviner', () => {
           const results = await sut.divine([query])
           const result = results.find(isPayloadDivinerQueryPayload)
           expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
+          // const expected = await PayloadHasher.hashAsync(payload)
           // expect(result?.sources).toContain(expected)
         })
       })
@@ -229,7 +228,7 @@ describe.skip('TemporalIndexingDiviner', () => {
           const results = await sut.divine([query])
           const result = results.find(isPayloadDivinerQueryPayload)
           expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
+          // const expected = await PayloadHasher.hashAsync(payload)
           // expect(result?.sources).toContain(expected)
         })
       })
@@ -241,7 +240,7 @@ describe.skip('TemporalIndexingDiviner', () => {
           const results = await sut.divine([query])
           const result = results.find(isPayloadDivinerQueryPayload)
           expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
+          // const expected = await PayloadHasher.hashAsync(payload)
           // expect(result?.sources).toContain(expected)
         })
       })

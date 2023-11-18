@@ -2,12 +2,21 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
-import { ImageThumbnail, ImageThumbnailSchema } from '@xyo-network/image-thumbnail-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { StringToJsonPathTransformExpressionsDictionary } from '../../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner'
+
+type ImageThumbnail = Payload<{
+  http?: {
+    ipAddress?: string
+    status?: number
+  }
+  // schema: 'network.xyo.image.thumbnail'
+  sourceUrl: string
+  url?: string
+}>
 
 describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
   describe('divine', () => {
@@ -17,7 +26,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       http: {
         status: 200,
       },
-      schema: ImageThumbnailSchema,
+      schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://xyo.network',
       url: 'data',
     }
@@ -27,7 +36,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       http: {
         status: 500,
       },
-      schema: ImageThumbnailSchema,
+      schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://xyo.network',
     }
     const timestampC = 1234567892
@@ -36,7 +45,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       http: {
         ipAddress: '192.169.1.1',
       },
-      schema: ImageThumbnailSchema,
+      schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://www.google.com',
     }
     describe('with single schema transform', () => {

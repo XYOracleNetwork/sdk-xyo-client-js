@@ -1,13 +1,5 @@
-import { PayloadHasher } from '@xyo-network/core'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import {
-  ImageThumbnailResultIndex,
-  ImageThumbnailResultIndexSchema,
-  ImageThumbnailResultSchema,
-  isImageThumbnailResult,
-} from '@xyo-network/image-thumbnail-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
-import { UrlSchema } from '@xyo-network/url-payload-plugin'
 
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
 
@@ -24,11 +16,10 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       url: 'https://explore.xyo.network',
     },
   ]
-  const indexes: ImageThumbnailResultIndex[][] = [
+  const indexes = [
     [
       {
-        key: 'setInBeforeAll',
-        schema: ImageThumbnailResultIndexSchema,
+        schema: 'TODO',
         sources: [],
         status: 200,
         success: true,
@@ -37,16 +28,14 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
     ],
     [
       {
-        key: 'setInBeforeAll',
-        schema: ImageThumbnailResultIndexSchema,
+        schema: 'TODO',
         sources: [],
         status: 200,
         success: true,
         timestamp: 1234567891,
       },
       {
-        key: 'setInBeforeAll',
-        schema: ImageThumbnailResultIndexSchema,
+        schema: 'TODO',
         sources: [],
         status: 500,
         success: false,
@@ -57,28 +46,23 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   beforeAll(async () => {
     diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
-    await Promise.all(
-      queries.map((query, i) => {
-        indexes[i].forEach(async (index) => {
-          index.key = await PayloadHasher.hashAsync({ schema: UrlSchema, url: query.url })
-        })
-      }),
-    )
   })
-  const cases: [QueryType, ImageThumbnailResultIndex[]][] = queries.map((query, i) => [query, indexes[i]])
+  const cases: [QueryType, Payload[]][] = queries.map((query, i) => [query, indexes[i]])
   describe.skip('divine', () => {
     describe('with single url in index result', () => {
       it.each(cases)('transforms single url index results', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
         const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])
         expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
-        expect(results.filter(isImageThumbnailResult)).toBeArrayOfSize(imageThumbnailResultIndex.length)
-        results.filter(isImageThumbnailResult).forEach((result, i) => {
-          const index = imageThumbnailResultIndex[i]
+        expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        results.forEach((result: any, i) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const index = imageThumbnailResultIndex[i] as any
           expect(result.url).toBe(imageThumbnailDivinerQuery.url)
           expect(result.success).toBe(index.success)
           expect(result.timestamp).toBe(index.timestamp)
           expect(result.status).toBe(index.status)
-          expect(result.schema).toBe(ImageThumbnailResultSchema)
+          expect(result.schema).toBe('TODO')
         })
       })
     })
@@ -87,20 +71,20 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         const indexesLength = indexes.flat().length
         const results = await diviner.divine([...queries, ...indexes.flat()])
         expect(results).toBeArrayOfSize(indexesLength)
-        const resultsIndexes = results.filter(isImageThumbnailResult)
-        expect(resultsIndexes).toBeArrayOfSize(indexesLength)
+        expect(results).toBeArrayOfSize(indexesLength)
         let resultsIterator = 0
         for (let i = 0; i < queries.length; i++) {
           const { url } = queries[i]
           const indexSet = indexes[i]
           for (let j = 0; j < indexSet.length; j++) {
             const index = indexSet[j]
-            const result = resultsIndexes[resultsIterator]
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const result = results[resultsIterator] as any
             expect(result.url).toBe(url)
             expect(result.success).toBe(index.success)
             expect(result.timestamp).toBe(index.timestamp)
             expect(result.status).toBe(index.status)
-            expect(result.schema).toBe(ImageThumbnailResultSchema)
+            expect(result.schema).toBe('TODO')
             resultsIterator = ++resultsIterator
           }
         }

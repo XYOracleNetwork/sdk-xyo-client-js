@@ -32,7 +32,7 @@
     "@xylabs/tsconfig": "^3.2.2",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.80.5",
+    "@xyo-network/id-payload-plugin": "^2.81.0-rc.1",
     "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.2.2"
   },

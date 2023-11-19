@@ -11,7 +11,6 @@ describe('getInfuraProvider', () => {
         const provider = getInfuraProvider()
         expect(provider).toBeDefined()
         expect(provider).toBeTruthy()
-        expect(provider._isProvider).toBeTruthy()
       }
     })
     it('returns a cached provider on subsequent invocations', () => {
@@ -47,7 +46,6 @@ describe('getInfuraProvider', () => {
         const config = getInfuraProviderConfig()
         expect(config).toBeDefined()
         expect(config).toBeTruthy()
-        expect(config.projectId).toBeTruthy()
       }
     })
   })

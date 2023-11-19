@@ -1,4 +1,3 @@
-import { Provider } from '@ethersproject/providers'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import {
   CoingeckoCryptoMarketWitness,
@@ -9,6 +8,7 @@ import {
 import { UniswapCryptoMarketWitnessConfigSchema } from '@xyo-network/uniswap-crypto-market-payload-plugin'
 import { UniswapCryptoMarketWitness, UniswapPoolContracts } from '@xyo-network/uniswap-crypto-market-plugin'
 import { WitnessInstance } from '@xyo-network/witness-model'
+import { Provider } from 'ethers'
 
 import { getAccount, WalletPaths } from '../Account'
 import { getProvider } from '../Providers'

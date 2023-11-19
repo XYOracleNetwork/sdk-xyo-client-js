@@ -1,9 +1,9 @@
-import { BaseProvider } from '@ethersproject/providers'
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
+import { Provider } from 'ethers'
 
 export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness'
 export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
@@ -13,7 +13,7 @@ export type BlockchainWitnessConfig<TAdditional extends Omit<Payload, 'schema'> 
 >
 
 export type AdditionalBlockchainWitnessParams = {
-  providers: BaseProvider[]
+  providers: Provider[]
 }
 
 export type BlockchainWitnessParams<
@@ -23,7 +23,7 @@ export type BlockchainWitnessParams<
   TConfig,
   WithAdditional<
     {
-      providers: () => Promisable<BaseProvider[]>
+      providers: () => Promisable<Provider[]>
     },
     TAdditionalParams
   >
@@ -39,11 +39,11 @@ export abstract class AbstractBlockchainWitness<
     TOut
   >,
 > extends AbstractWitness<TParams, TIn, TOut, TEventData> {
-  private _providers: BaseProvider[] | undefined = undefined
+  private _providers: Provider[] | undefined = undefined
 
-  async getProvider(cache?: boolean): Promise<BaseProvider | undefined>
-  async getProvider(cache: boolean, error: string | true): Promise<BaseProvider>
-  async getProvider(cache = false, error?: string | boolean): Promise<BaseProvider | undefined> {
+  async getProvider(cache?: boolean): Promise<Provider | undefined>
+  async getProvider(cache: boolean, error: string | true): Promise<Provider>
+  async getProvider(cache = false, error?: string | boolean): Promise<Provider | undefined> {
     const providers = await this.getProviders(cache)
     if (providers.length === 0) {
       if (error) {
@@ -54,7 +54,7 @@ export abstract class AbstractBlockchainWitness<
     return providers[Date.now() % providers.length] //pick a random provider
   }
 
-  async getProviders(cache = false): Promise<BaseProvider[]> {
+  async getProviders(cache = false): Promise<Provider[]> {
     const cachedProviders = cache ? this._providers : undefined
     this._providers = cachedProviders ?? (await this.params.providers())
     return this._providers

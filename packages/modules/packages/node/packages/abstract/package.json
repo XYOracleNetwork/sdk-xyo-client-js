@@ -12,7 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.9",
     "@xylabs/promise": "^2.13.9",
-    "@xyo-network/address-payload-plugin": "^2.80.3",
+    "@xyo-network/address-payload-plugin": "^2.81.0",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
@@ -68,5 +68,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.80.0"
+  "version": "2.81.1"
 }

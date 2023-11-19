@@ -21,7 +21,7 @@
     "@xylabs/tsconfig": "^3.2.2",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.80.3",
+    "@xyo-network/address-payload-plugin": "^2.81.0",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
@@ -71,5 +71,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.80.0"
+  "version": "2.81.1"
 }

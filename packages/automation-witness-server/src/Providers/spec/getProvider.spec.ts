@@ -16,13 +16,11 @@ describe('getProvider', () => {
       const provider = getProvider()
       expect(provider).toBeDefined()
       expect(provider).toBeTruthy()
-      expect(provider._isProvider).toBeTruthy()
     })
     it('returns Infra Provider if config available', () => {
       const provider = getProvider()
       expect(provider).toBeDefined()
       expect(provider).toBeTruthy()
-      expect(provider._isProvider).toBeTruthy()
     })
     it('returns empty for Infra Provider if config not available', () => {
       delete process.env.INFURA_PROJECT_ID
@@ -30,7 +28,6 @@ describe('getProvider', () => {
       const provider = getProvider()
       expect(provider).toBeDefined()
       expect(provider).toBeTruthy()
-      expect(provider._isProvider).toBeTruthy()
     })
   })
   describe('with Infura Provider', () => {
@@ -38,7 +35,6 @@ describe('getProvider', () => {
       const provider = getProvider()
       expect(provider).toBeDefined()
       expect(provider).toBeTruthy()
-      expect(provider._isProvider).toBeTruthy()
     })
   })
 })

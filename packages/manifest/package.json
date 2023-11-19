@@ -25,7 +25,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.2",
     "@xylabs/tsconfig": "^3.2.2",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.80.3",
+    "@xyo-network/address-payload-plugin": "^2.81.0",
     "typescript": "^5.2.2"
   },
   "docs": "dist/docs.json",
@@ -71,5 +71,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.80.0"
+  "version": "2.81.1"
 }

@@ -1,4 +1,4 @@
-import { getDefaultProvider, Provider } from '@ethersproject/providers'
+import { getDefaultProvider, Provider } from 'ethers'
 
 import { ProviderOptions } from '../Model'
 import { canUseAlchemyProvider, getAlchemyProviderConfig } from './getAlchemyProvider'

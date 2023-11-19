@@ -23,7 +23,7 @@
     "@xyo-network/network": "workspace:~",
     "@xyo-network/node-app": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.81.0-rc.1",
+    "@xyo-network/query-payload-plugin": "^2.81.0",
     "bip39": "^3.1.0",
     "dotenv": "^16.3.1",
     "tail": "^2.2.6",
@@ -76,6 +76,6 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/node/index.d.ts",
-  "version": "2.81.0",
+  "version": "2.81.1",
   "type": "module"
 }

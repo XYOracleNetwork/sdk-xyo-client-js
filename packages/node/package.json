@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.81.0-rc.1",
+  "version": "2.81.0",
   "description": "XYO Express Node CLI",
   "sideeffects": false,
   "engines": {
@@ -60,6 +60,5 @@
   "volta": {
     "node": "16.15.1",
     "yarn": "1.22.19"
-  },
-  "stableVersion": "2.80.0"
+  }
 }

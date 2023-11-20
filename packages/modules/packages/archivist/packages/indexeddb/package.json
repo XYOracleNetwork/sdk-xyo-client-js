@@ -21,13 +21,13 @@
   "devDependencies": {
     "@xylabs/delay": "^2.13.9",
     "@xylabs/promise": "^2.13.9",
-    "@xylabs/ts-scripts-yarn3": "^3.2.2",
-    "@xylabs/tsconfig": "^3.2.2",
+    "@xylabs/ts-scripts-yarn3": "^3.2.8",
+    "@xylabs/tsconfig": "^3.2.8",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/id-payload-plugin": "^2.81.0",
     "@xyo-network/payload-wrapper": "workspace:~",
     "fake-indexeddb": "^4.0.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",

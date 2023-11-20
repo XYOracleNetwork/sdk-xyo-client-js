@@ -63,7 +63,7 @@
     "@xyo-network/node-core-modules-mongo": "workspace:~",
     "@xyo-network/node-core-types": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/open-zeppelin-typechain": "^3.0.0",
+    "@xyo-network/open-zeppelin-typechain": "^3.0.5",
     "@xyo-network/prometheus-node-plugin": "^2.81.0",
     "@xyo-network/sentinel": "workspace:~",
     "@xyo-network/url-payload-plugin": "^2.81.0",
@@ -83,8 +83,8 @@
     "winston-transport": "^4.6.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.2",
-    "@xylabs/tsconfig": "^3.2.2",
-    "typescript": "^5.2.2"
+    "@xylabs/ts-scripts-yarn3": "^3.2.8",
+    "@xylabs/tsconfig": "^3.2.8",
+    "typescript": "^5.3.2"
   }
 }

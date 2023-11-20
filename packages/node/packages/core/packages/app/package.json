@@ -62,9 +62,9 @@
     "winston-transport": "^4.6.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.2",
-    "@xylabs/tsconfig": "^3.2.2",
-    "typescript": "^5.2.2"
+    "@xylabs/ts-scripts-yarn3": "^3.2.8",
+    "@xylabs/tsconfig": "^3.2.8",
+    "typescript": "^5.3.2"
   },
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",

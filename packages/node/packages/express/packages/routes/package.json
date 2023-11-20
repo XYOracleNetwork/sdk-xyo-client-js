@@ -76,13 +76,13 @@
   },
   "devDependencies": {
     "@types/express": "4.17.21",
-    "@xylabs/ts-scripts-yarn3": "^3.2.2",
-    "@xylabs/tsconfig": "^3.2.2",
+    "@xylabs/ts-scripts-yarn3": "^3.2.8",
+    "@xylabs/tsconfig": "^3.2.8",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }

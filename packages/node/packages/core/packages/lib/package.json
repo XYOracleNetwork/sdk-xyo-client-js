@@ -51,11 +51,11 @@
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.2",
-    "@xylabs/tsconfig": "^3.2.2",
+    "@xylabs/ts-scripts-yarn3": "^3.2.8",
+    "@xylabs/tsconfig": "^3.2.8",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }

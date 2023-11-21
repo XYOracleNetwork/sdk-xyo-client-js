@@ -13,7 +13,7 @@
     "@xyo-network/diviner-transform-abstract": "workspace:~",
     "@xyo-network/diviner-transform-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.81.5",
+    "@xyo-network/value-payload-plugin": "^2.81.6",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {

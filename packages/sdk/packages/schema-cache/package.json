@@ -12,10 +12,10 @@
     "@xylabs/axios": "^2.13.9",
     "@xylabs/delay": "^2.13.9",
     "@xylabs/error": "^2.13.9",
-    "@xyo-network/domain-payload-plugin": "^2.81.5",
+    "@xyo-network/domain-payload-plugin": "^2.81.6",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/schema-payload-plugin": "^2.81.5",
+    "@xyo-network/schema-payload-plugin": "^2.81.6",
     "ajv": "^8.12.0",
     "lru-cache": "^10.0.3"
   },

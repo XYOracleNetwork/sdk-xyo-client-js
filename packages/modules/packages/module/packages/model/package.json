@@ -15,7 +15,7 @@
     "@xylabs/logger": "^2.13.9",
     "@xylabs/promise": "^2.13.9",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.81.5",
+    "@xyo-network/address-payload-plugin": "^2.81.6",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",

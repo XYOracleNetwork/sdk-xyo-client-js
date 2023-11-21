@@ -24,7 +24,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.8",
     "@xylabs/tsconfig": "^3.2.8",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.81.5",
+    "@xyo-network/id-payload-plugin": "^2.81.6",
     "@xyo-network/payload-wrapper": "workspace:~",
     "fake-indexeddb": "^4.0.2",
     "typescript": "^5.3.2"

@@ -34,9 +34,9 @@
     "xyo": "dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "^20.9.2",
+    "@types/node": "^20.9.3",
     "@types/tail": "^2.2.3",
-    "@types/terminal-kit": "^2.5.4",
+    "@types/terminal-kit": "^2.5.5",
     "@xylabs/ts-scripts-yarn3": "^3.2.8",
     "@xylabs/tsconfig": "^3.2.8",
     "@xylabs/tsconfig-jest": "^3.2.8",
@@ -76,6 +76,6 @@
     "xyo-ts": "ts-node src/index.ts"
   },
   "types": "dist/node/index.d.ts",
-  "version": "2.81.3",
+  "version": "2.81.4",
   "type": "module"
 }

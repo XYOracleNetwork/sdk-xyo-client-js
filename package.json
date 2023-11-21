@@ -20,7 +20,7 @@
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
-    "@types/jest": "^29.5.8",
+    "@types/jest": "^29.5.9",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
@@ -124,7 +124,7 @@
     "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
   },
   "sideEffects": false,
-  "version": "2.81.3",
+  "version": "2.81.4",
   "packageManager": "yarn@3.6.3",
   "volta": {
     "node": "18.17.1",

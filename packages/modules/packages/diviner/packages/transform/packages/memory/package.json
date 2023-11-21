@@ -17,7 +17,7 @@
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.3",
+    "@types/jsonpath": "^0.2.4",
     "@xylabs/ts-scripts-yarn3": "^3.2.8",
     "@xylabs/tsconfig": "^3.2.8",
     "@xyo-network/account": "workspace:~",
@@ -63,5 +63,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.3"
+  "version": "2.81.4"
 }

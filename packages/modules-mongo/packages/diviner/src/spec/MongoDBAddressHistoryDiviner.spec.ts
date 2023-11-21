@@ -17,7 +17,7 @@ import { MongoDBAddressHistoryDiviner } from '../MongoDBAddressHistoryDiviner'
  */
 
 describeIf(hasMongoDBConfig())('MongoDBAddressHistoryDiviner', () => {
-  const phrase = 'temp'
+  const phrase = 'forum travel tattoo shock team artist stone fine will fan answer tribe'
   let account: AccountInstance
   let address: string
   const logger = mock<Console>()

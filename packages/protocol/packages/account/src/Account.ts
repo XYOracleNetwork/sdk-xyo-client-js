@@ -1,4 +1,3 @@
-import { HDNode } from '@ethersproject/hdnode'
 import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import {
@@ -12,8 +11,8 @@ import {
 import { Data, DataLike, toUint8Array } from '@xyo-network/core'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
+import { HDNodeWallet, Mnemonic } from 'ethers'
 import randomBytes from 'randombytes'
-import shajs from 'sha.js'
 
 import { KeyPair } from './Key'
 
@@ -21,14 +20,16 @@ export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 
 const nameOf = <T>(name: keyof T) => name
 
-const getPrivateKeyFromMnemonic = (mnemonic: string, path?: string) => {
-  const node = HDNode.fromMnemonic(mnemonic)
+function getPrivateKeyFromMnemonic(mnemonic: Mnemonic, path?: string): string {
+  const node = HDNodeWallet.fromMnemonic(mnemonic)
   const wallet = path ? node.derivePath?.(path) : node
   return wallet.privateKey.padStart(64, '0')
 }
 
-const getPrivateKeyFromPhrase = (phrase: string) => {
-  return shajs('sha256').update(phrase).digest('hex').padStart(64, '0')
+function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
+  const node = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
+  const wallet = path ? node.derivePath?.(path) : node
+  return wallet.privateKey.padStart(64, '0')
 }
 
 @staticImplements<AccountStatic>()
@@ -36,22 +37,22 @@ export class Account extends KeyPair implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
   protected static _addressMap: Record<string, WeakRef<Account>> = {}
   protected static _protectedConstructorKey = Symbol()
-  protected _node: HDNode | undefined = undefined
+  protected _node: HDNodeWallet | undefined = undefined
   protected _previousHash?: Data
   private readonly _signingMutex = new Mutex()
 
   constructor(key: unknown, params?: AccountConfig) {
     assertEx(key === Account._protectedConstructorKey, 'Do not call this protected constructor')
     let privateKeyToUse: DataLike | undefined = undefined
-    let node: HDNode | undefined = undefined
+    let node: HDNodeWallet | undefined = undefined
     if (params) {
       if (nameOf<PhraseInitializationConfig>('phrase') in params) {
         privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(params.phrase))
       } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in params) {
         privateKeyToUse = toUint8Array(params.privateKey)
       } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in params) {
-        privateKeyToUse = getPrivateKeyFromMnemonic(params.mnemonic, params?.path)
-        node = params?.path ? HDNode.fromMnemonic(params.mnemonic).derivePath?.(params.path) : HDNode.fromMnemonic(params.mnemonic)
+        privateKeyToUse = getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(params.mnemonic), params?.path)
+        node = params?.path ? HDNodeWallet.fromPhrase(params.mnemonic).derivePath?.(params.path) : HDNodeWallet.fromPhrase(params.mnemonic)
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.length === 32, `Private key must be 32 bytes [${privateKeyToUse?.length}]`)
@@ -79,12 +80,12 @@ export class Account extends KeyPair implements AccountInstance {
     return (await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress() as AccountInstance
   }
 
-  static async fromMnemonic(mnemonic: string, path?: string): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(getPrivateKeyFromMnemonic(mnemonic, path))
+  static async fromMnemonic(mnemonic: Mnemonic): Promise<AccountInstance> {
+    return await Account.fromPrivateKey(typeof mnemonic === 'string' ? getPrivateKeyFromMnemonic(mnemonic) : getPrivateKeyFromMnemonic(mnemonic))
   }
 
   static async fromPhrase(phrase: string): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(getPrivateKeyFromPhrase(phrase))
+    return await Account.fromPrivateKey(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(phrase)))
   }
 
   static async fromPrivateKey(key: Uint8Array | string): Promise<AccountInstance> {

@@ -31,7 +31,7 @@ describeIf(hasMongoDBConfig())('DeterministicArchivist', () => {
   let insertResult3: Payload[]
   const insertResults: Payload[][] = []
   beforeAll(async () => {
-    archiveAccount = await Account.create({ phrase: 'temp' })
+    archiveAccount = await Account.create({ phrase: 'surface assault spice bulk sun hire hold rebuild cook arm winter vote' })
 
     // 0x10ca1959336ea208bcdf00dd6d6637aec91a4c0e
     userAccount = await Account.create({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })

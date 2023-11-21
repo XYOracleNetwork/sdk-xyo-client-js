@@ -24,7 +24,7 @@ import { MongoDBSchemaListDiviner } from '../MongoDBSchemaListDiviner'
 describeIf(hasMongoDBConfig())('MongoDBSchemaListDiviner', () => {
   let account: AccountInstance
   let address: string
-  const phrase = 'temp'
+  const phrase = 'guide drop pole matter mandate sand social chest toe scene primary alien'
   const logger = mock<Console>()
   const boundWitnessSdk: BaseMongoSdk<BoundWitnessWithMeta> = new BaseMongoSdk<BoundWitnessWithMeta>({
     collection: COLLECTIONS.BoundWitnesses,

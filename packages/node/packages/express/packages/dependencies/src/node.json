@@ -3,7 +3,7 @@
   "nodes": [
     {
       "config": {
-        "accountPath": "m/44'/60'/3'/0'/0'",
+        "accountPath": "3'/0'/0'",
         "name": "XYOPublic",
         "schema": "network.xyo.node.config"
       },
@@ -11,7 +11,7 @@
         "private": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/1'",
+              "accountPath": "3'/4'/1'",
               "language": "javascript",
               "name": "PrometheusWitness",
               "schema": "network.xyo.prometheus.node.witness.config"
@@ -19,7 +19,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/1'",
+              "accountPath": "3'/1'/1'",
               "boundWitnessSdkConfig": {
                 "collection": "address_state_bound_witnesses"
               },
@@ -52,7 +52,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/19'",
+              "accountPath": "3'/2'/19'",
               "archivist": "AddressStateArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "address_state_bound_witnesses"
@@ -100,7 +100,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/20'",
+              "accountPath": "3'/2'/20'",
               "archivist": "AddressStateArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "address_state_bound_witnesses"
@@ -135,7 +135,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/2'",
+              "accountPath": "3'/1'/2'",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
               },
@@ -168,7 +168,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/15'",
+              "accountPath": "3'/2'/15'",
               "archivist": "ImageThumbnailArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
@@ -222,7 +222,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/16'",
+              "accountPath": "3'/2'/16'",
               "archivist": "ImageThumbnailArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
@@ -257,7 +257,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/3'",
+              "accountPath": "3'/1'/3'",
               "boundWitnessSdkConfig": {
                 "collection": "thumbnail_bound_witnesses"
               },
@@ -299,7 +299,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/17'",
+              "accountPath": "3'/2'/17'",
               "archivist": "ImageThumbnailDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "thumbnail_bound_witnesses"
@@ -347,7 +347,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/18'",
+              "accountPath": "3'/2'/18'",
               "archivist": "ImageThumbnailDivinerIndexArchivist",
               "boundWitnessSdkConfig": {
                 "collection": "thumbnail_bound_witnesses"
@@ -433,7 +433,7 @@
         "public": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/0'",
+              "accountPath": "3'/1'/0'",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
               },
@@ -466,7 +466,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/1'",
+              "accountPath": "3'/2'/1'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -478,7 +478,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/2'",
+              "accountPath": "3'/2'/2'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -490,7 +490,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/11'",
+              "accountPath": "3'/2'/11'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -502,7 +502,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/3'",
+              "accountPath": "3'/2'/3'",
               "archivist": "Archivist",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
@@ -547,7 +547,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/6'",
+              "accountPath": "3'/2'/6'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -573,7 +573,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/13'",
+              "accountPath": "3'/2'/13'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "NftCollectionScoreDiviner",
@@ -582,7 +582,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/12'",
+              "accountPath": "3'/2'/12'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "NftScoreDiviner",
@@ -591,7 +591,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/4'",
+              "accountPath": "3'/2'/4'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -623,7 +623,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/7'",
+              "accountPath": "3'/2'/7'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -649,7 +649,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/5'",
+              "accountPath": "3'/2'/5'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -661,7 +661,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/8'",
+              "accountPath": "3'/2'/8'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -687,7 +687,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/3'",
+              "accountPath": "3'/4'/3'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "CryptoNftCollectionWitness",
@@ -696,7 +696,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/2'",
+              "accountPath": "3'/4'/2'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "CryptoWalletNftWitness",
@@ -705,7 +705,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/14'",
+              "accountPath": "3'/2'/14'",
               "indexingDivinerStages": {
                 "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
                 "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
@@ -730,7 +730,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/4'",
+              "accountPath": "3'/4'/4'",
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "ImageThumbnailWitness",
@@ -739,7 +739,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/5'",
+              "accountPath": "3'/4'/5'",
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",
               "name": "TimestampWitness",
@@ -748,9 +748,11 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/3'/1'",
+              "accountPath": "3'/3'/1'",
               "archiving": {
-                "archivists": ["ImageThumbnailArchivist"]
+                "archivists": [
+                  "ImageThumbnailArchivist"
+                ]
               },
               "archivist": "ImageThumbnailArchivist",
               "language": "javascript",

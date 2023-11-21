@@ -11,6 +11,6 @@ export const getAccount = async (): Promise<AccountInstance> => {
     mnemonic = generateMnemonic()
     await saveMnemonic(mnemonic)
   }
-  const account = Account.fromMnemonic(mnemonic)
+  const account = Account.fromPhrase(mnemonic)
   return account
 }

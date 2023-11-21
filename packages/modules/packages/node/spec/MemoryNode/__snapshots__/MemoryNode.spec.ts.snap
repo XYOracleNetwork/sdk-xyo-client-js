@@ -2,7 +2,7 @@
 
 exports[`MemoryNode description node with child modules serializes to JSON consistently 1`] = `
 "{
-  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",
@@ -16,15 +16,15 @@ exports[`MemoryNode description node with child modules serializes to JSON consi
   ],
   "schema": "network.xyo.module.description",
   "children": [
-    "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
-    "ca2e94ac3ae1084072b3a4407881bf940dc2019c"
+    "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
+    "ee84477649f67bcda3c604ad361313bdd9976c0f"
   ]
 }"
 `;
 
 exports[`MemoryNode description node with nested nodes and modules serializes to JSON consistently 1`] = `
 "{
-  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",
@@ -43,7 +43,7 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
 
 exports[`MemoryNode description node without child modules serializes to JSON consistently 1`] = `
 "{
-  "address": "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+  "address": "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
   "queries": [
     "network.xyo.query.node.attach",
     "network.xyo.query.node.detach",

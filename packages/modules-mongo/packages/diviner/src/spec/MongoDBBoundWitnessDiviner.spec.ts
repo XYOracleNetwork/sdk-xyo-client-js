@@ -21,7 +21,7 @@ import { MongoDBBoundWitnessDiviner } from '../MongoDBBoundWitnessDiviner'
  */
 
 describeIf(hasMongoDBConfig())('MongoDBBoundWitnessDiviner', () => {
-  const phrase = 'temp'
+  const phrase = 'reflect dash pear scatter kiwi sock ability muffin clever effort enroll school'
   let account: AccountInstance
   const logger = mock<Console>()
   const boundWitnessSdkConfig = {

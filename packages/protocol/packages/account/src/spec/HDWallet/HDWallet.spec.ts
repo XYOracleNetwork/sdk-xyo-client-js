@@ -5,14 +5,14 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
     const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
     describe('constructor', () => {
       it('can be created from mnemonic', async () => {
-        const sut = await HDWallet.fromMnemonic(mnemonic)
+        const sut = await HDWallet.fromPhrase(mnemonic)
         expect(sut).toBeDefined()
       })
     })
     describe('derivePath', () => {
       const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
       it.each(paths)('works repeatably & interoperably', async (path: string) => {
-        const sutA = await HDWallet.fromMnemonic(mnemonic)
+        const sutA = await HDWallet.fromPhrase(mnemonic)
         const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
         const accountA = await sutA.derivePath?.(path)
         const accountB = await sutB.derivePath?.(path)
@@ -23,8 +23,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       it('works when paths provided incrementally', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
-        const sutA = await HDWallet.fromMnemonic(mnemonic)
-        const sutB = await HDWallet.fromMnemonic(mnemonic)
+        const sutA = await HDWallet.fromPhrase(mnemonic)
+        const sutB = await HDWallet.fromPhrase(mnemonic)
         expect(sutA).toBe(sutB)
         const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
         const accountB = await sutB.derivePath?.([parent, child].join('/'))
@@ -36,8 +36,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       it('works when paths provided absolutely', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
-        const sutA = await HDWallet.fromMnemonic(mnemonic)
-        const sutB = await HDWallet.fromMnemonic(mnemonic)
+        const sutA = await HDWallet.fromPhrase(mnemonic)
+        const sutB = await HDWallet.fromPhrase(mnemonic)
         expect(sutA).toBe(sutB)
         const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
         const accountB = await sutB.derivePath?.(['m', parent, child].join('/'))
@@ -49,8 +49,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       it('returns cached instances on subsequent requests', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
-        const sutA = await HDWallet.fromMnemonic(mnemonic)
-        const sutB = await HDWallet.fromMnemonic(mnemonic)
+        const sutA = await HDWallet.fromPhrase(mnemonic)
+        const sutB = await HDWallet.fromPhrase(mnemonic)
         // sutA and sutB should be the same instance
         expect(sutA).toBe(sutB)
         const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)

@@ -25,10 +25,10 @@ describe('MemoryNode', () => {
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(async () => {
-    testAccount1 = await Account.create({ phrase: 'testPhrase1' })
-    testAccount2 = await Account.create({ phrase: 'testPhrase2' })
-    testAccount3 = await Account.create({ phrase: 'testPhrase3' })
-    testAccount4 = await Account.create({ phrase: 'testPhrase4' })
+    testAccount1 = await Account.fromPhrase('cushion student broken thing poet mistake item dutch traffic gloom awful still')
+    testAccount2 = await Account.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
+    testAccount3 = await Account.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
+    testAccount4 = await Account.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
     //jest.spyOn(console, 'log').mockImplementation(() => {
     // Stop expected logs from being generated during tests
     //})

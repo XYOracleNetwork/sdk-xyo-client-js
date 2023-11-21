@@ -14,7 +14,7 @@ export const getBridge = async (args: BaseArguments): Promise<HttpBridge> => {
   try {
     if (!wallet) {
       const mnemonic = process.env.MNEMONIC
-      wallet = mnemonic ? await HDWallet.fromMnemonic(mnemonic) : await HDWallet.random()
+      wallet = mnemonic ? await HDWallet.fromPhrase(mnemonic) : await HDWallet.random()
     }
     const config = await getBridgeConfig(args)
     const bridge = await HttpBridge.create({ config: { ...config, accountDerivationPath }, wallet })

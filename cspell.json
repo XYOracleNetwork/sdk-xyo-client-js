@@ -26,7 +26,6 @@
     "deregisters",
     "dotenv",
     "emittery",
-    "ethersproject",
     "ethgasstation",
     "Evaluable",
     "geomines",

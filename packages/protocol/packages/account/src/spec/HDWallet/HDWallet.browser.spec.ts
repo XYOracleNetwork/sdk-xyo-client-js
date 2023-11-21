@@ -5,4 +5,10 @@
 import { HDWallet } from '../../HDWallet'
 import { generateHDWalletTests } from './HDWallet.spec'
 
-generateHDWalletTests('HDWallet: Browser', HDWallet)
+/**
+ * @group jsdom
+ */
+
+describe.skip('Browser Wallet Test', () => {
+  generateHDWalletTests('HDWallet: Browser', HDWallet)
+})

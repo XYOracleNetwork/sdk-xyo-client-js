@@ -10,7 +10,7 @@ describe('Manifest', () => {
   describe('Create Node from Manifest', () => {
     test('Simple Node [Multi]', async () => {
       const mnemonic = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'
-      const wallet = await HDWallet.fromMnemonic(mnemonic)
+      const wallet = await HDWallet.fromPhrase(mnemonic)
       const manifest = new ManifestWrapper(simpleNodeParentManifest as PackageManifestPayload, wallet, undefined, [
         simpleNodeChildManifest as PackageManifestPayload,
       ])

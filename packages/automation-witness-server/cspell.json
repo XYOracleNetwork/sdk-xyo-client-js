@@ -12,7 +12,6 @@
     "buildx",
     "cryptomarket",
     "Etherchain",
-    "ethersproject",
     "Ethgasstation",
     "hdnode",
     "healthz",

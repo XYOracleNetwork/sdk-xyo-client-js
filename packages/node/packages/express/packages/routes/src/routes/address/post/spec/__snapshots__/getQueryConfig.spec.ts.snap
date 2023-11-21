@@ -7,8 +7,8 @@ exports[`getQueryConfig with archivist when request can access archive generates
     "allowed": {
       "network.xyo.query.module.discover": [
         [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
-          "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+          "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+          "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
         ],
       ],
     },
@@ -23,14 +23,14 @@ exports[`getQueryConfig with archivist when request can access archive generates
     "allowed": {
       "network.xyo.query.module.discover": [
         [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
-          "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+          "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+          "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
         ],
         [
-          "ca2e94ac3ae1084072b3a4407881bf940dc2019c",
+          "ee84477649f67bcda3c604ad361313bdd9976c0f",
         ],
         [
-          "f59810a9da8a99e464355a411afe06f8c2d1c4b8",
+          "4c3e913823664e68ce252e256b8c442172dbec4a",
         ],
       ],
     },
@@ -45,12 +45,12 @@ exports[`getQueryConfig with archivist when request can access archive generates
     "allowed": {
       "network.xyo.query.module.discover": [
         [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
-          "b3bbeb946d88cd5fe70146a6bb276c7b384f6582",
+          "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
+          "e8cae43b8ef15e6e2166b7560b2df802ac28fe53",
         ],
         [
-          "ca2e94ac3ae1084072b3a4407881bf940dc2019c",
-          "f59810a9da8a99e464355a411afe06f8c2d1c4b8",
+          "ee84477649f67bcda3c604ad361313bdd9976c0f",
+          "4c3e913823664e68ce252e256b8c442172dbec4a",
         ],
       ],
     },
@@ -65,7 +65,7 @@ exports[`getQueryConfig with archivist when request can access archive generates
     "allowed": {
       "network.xyo.query.module.discover": [
         [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+          "a1df01bbdaa05f2294cdd6fbd92aace3086fe408",
         ],
       ],
     },
@@ -89,7 +89,7 @@ exports[`getQueryConfig with module generates query config for current query 1`]
     "allowed": {
       "network.xyo.query.module.discover": [
         [
-          "3a15a6c96665931b76c1d2a587ea1132dbfdc266",
+          "2f96524605167dcfe6e31007d05ebfa85bb2dc32",
         ],
       ],
     },

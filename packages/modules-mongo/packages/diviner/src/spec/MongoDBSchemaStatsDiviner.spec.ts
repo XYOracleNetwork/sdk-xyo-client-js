@@ -21,7 +21,7 @@ import { MongoDBSchemaStatsDiviner } from '../MongoDBSchemaStatsDiviner'
  */
 
 describeIf(hasMongoDBConfig())('MongoDBSchemaStatsDiviner', () => {
-  const phrase = 'temp'
+  const phrase = 'forum travel tattoo shock team artist stone fine will fan answer tribe'
   let address: string
   const logger = mock<Console>()
 

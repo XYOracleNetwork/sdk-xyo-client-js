@@ -41,7 +41,7 @@ describe('BoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', async (payload) => {
-        const address = await Account.fromPhrase('test1')
+        const address = await Account.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
         let builder = new BoundWitnessBuilder({ timestamp: false })
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -62,7 +62,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads true', () => {
       it('contains the _payloads field', async () => {
-        const address = await Account.fromPhrase('test2')
+        const address = await Account.fromPhrase('sibling split sadness nose fever umbrella favorite ritual movie zone buyer movie')
         const builder = new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
@@ -70,7 +70,7 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with inlinePayloads false', () => {
       it('omits the _payloads field', async () => {
-        const address = await Account.fromPhrase('test3')
+        const address = await Account.fromPhrase('canyon defense similar chalk good box quote miss decorate load amused gown')
         const builder = new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()

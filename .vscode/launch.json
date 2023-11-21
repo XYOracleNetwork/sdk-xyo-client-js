@@ -121,7 +121,7 @@
         "--runInBand",
         "--testTimeout=120000",
         "-c=./jest.config.no-mongo.ts",
-        "packages/plugins/packages/payloadset/packages/api/src/spec/opensea.nft-call.spec.ts"
+        "packages/modules/packages/node/spec/MemoryNode/MemoryNode.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -52,7 +52,7 @@ const loadNodeFromConfig = async (container: Container, config?: string) => {
   // modules from the main node to a child node
   const manifestPublicChildren: PackageManifestPayload[] = config ? [] : [nftContractNode]
   const mnemonic = container.get<string>(TYPES.AccountMnemonic)
-  const wallet = await HDWallet.fromMnemonic(mnemonic)
+  const wallet = await HDWallet.fromPhrase(mnemonic)
   const locator = container.get<ModuleFactoryLocator>(TYPES.ModuleFactoryLocator)
   const wrapper = new ManifestWrapper(manifest, wallet, locator, manifestPublicChildren)
   const [parentNode, ...childNodes] = await wrapper.loadNodes()

@@ -18,7 +18,7 @@ import { MongoDBPayloadStatsDiviner } from '../MongoDBPayloadStatsDiviner'
  */
 
 describeIf(hasMongoDBConfig())('MongoDBPayloadStatsDiviner', () => {
-  const phrase = 'temp'
+  const phrase = 'guide drop pole matter mandate sand social chest toe scene primary alien'
   let address: string
   const logger = mock<Console>()
 

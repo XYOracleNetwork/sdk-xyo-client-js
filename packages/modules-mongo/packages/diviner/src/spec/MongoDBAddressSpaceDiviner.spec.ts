@@ -18,7 +18,7 @@ import { MongoDBAddressSpaceDiviner } from '../MongoDBAddressSpaceDiviner'
  */
 
 describeIf(hasMongoDBConfig())('MongoDBAddressSpaceDiviner', () => {
-  const phrase = 'temp'
+  const phrase = 'reflect dash pear scatter kiwi sock ability muffin clever effort enroll school'
   let account: AccountInstance
   const logger = mock<Console>()
   const boundWitnessSdk = new BaseMongoSdk<BoundWitnessWithMeta>({

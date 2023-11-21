@@ -1,10 +1,5 @@
-import type { HDNode } from '@ethersproject/hdnode'
 import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
-export interface Mnemonic {
-  readonly locale: string
-  readonly path: string
-  readonly phrase: string
-}
+import type { HDNodeWallet, Mnemonic } from 'ethers'
 
 export interface WalletInstance extends AccountInstance {
   readonly address: string
@@ -14,18 +9,19 @@ export interface WalletInstance extends AccountInstance {
   readonly extendedKey: string
   readonly fingerprint: string
   readonly index: number
-  readonly mnemonic?: Mnemonic | undefined
+  readonly mnemonic?: Mnemonic | null
   readonly neuter: () => WalletInstance
   readonly parentFingerprint: string
-  readonly path: string
+  readonly path: string | null
   readonly privateKey: string
   readonly publicKey: string
 }
 
 export interface WalletStatic<T extends WalletInstance = WalletInstance> extends Omit<AccountStatic<T>, 'new'> {
-  new (key: unknown, node: HDNode): T
+  new (key: unknown, node: HDNodeWallet): T
   fromExtendedKey(key: string): Promise<T>
-  fromMnemonic(mnemonic: string): Promise<T>
+  fromMnemonic(mnemonic: Mnemonic): Promise<T>
+  fromPhrase(mnemonic: string, path?: string): Promise<T>
   fromSeed(seed: string | Uint8Array): Promise<T>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   random(): any

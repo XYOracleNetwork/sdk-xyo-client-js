@@ -3,7 +3,7 @@
   "nodes": [
     {
       "config": {
-        "accountPath": "m/44'/60'/3'/0'/2'",
+        "accountPath": "3'/0'/2'",
         "name": "NftContractNode",
         "schema": "network.xyo.node.config"
       },
@@ -526,7 +526,7 @@
         "public": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/3'/2'",
+              "accountPath": "3'/3'/2'",
               "language": "javascript",
               "name": "NftContractInfoSentinel",
               "schema": "network.xyo.sentinel.config",
@@ -557,7 +557,9 @@
                   "module": "Erc721ContractInfoDiviner"
                 },
                 {
-                  "input": ["Erc1155UriWitness"],
+                  "input": [
+                    "Erc1155UriWitness"
+                  ],
                   "module": "Erc1155ContractInfoDiviner"
                 }
               ]

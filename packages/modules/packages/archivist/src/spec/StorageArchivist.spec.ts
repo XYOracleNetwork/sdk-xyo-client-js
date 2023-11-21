@@ -16,6 +16,7 @@ import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchiv
 
 /**
  * @group module
+ * @group jsdom
  * @group archivist
  */
 
@@ -97,7 +98,7 @@ test('Archivist Private Key Save', async () => {
 })
 
 test('Archivist passed account', async () => {
-  const account = await Account.create({ phrase: 'temp' })
+  const account = await Account.randomSync()
 
   const storage = (await StorageArchivist.create({
     account,

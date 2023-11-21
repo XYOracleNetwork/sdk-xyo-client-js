@@ -3,7 +3,7 @@
   "nodes": [
     {
       "config": {
-        "accountPath": "m/44'/60'/3'/0'/0'",
+        "accountPath": "/3'/0'/0'",
         "name": "XYOPublic",
         "schema": "network.xyo.node.config"
       },
@@ -11,7 +11,7 @@
         "private": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/1'",
+              "accountPath": "/3'/4'/1'",
               "language": "javascript",
               "name": "PrometheusWitness",
               "schema": "network.xyo.prometheus.node.witness.config"
@@ -21,7 +21,7 @@
         "public": [
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/1'/0'",
+              "accountPath": "/3'/1'/0'",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
               },
@@ -54,7 +54,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/1'",
+              "accountPath": "/3'/2'/1'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -66,7 +66,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/2'",
+              "accountPath": "/3'/2'/2'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -78,7 +78,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/11'",
+              "accountPath": "/3'/2'/11'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -90,7 +90,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/3'",
+              "accountPath": "/3'/2'/3'",
               "archivist": "Archivist",
               "boundWitnessSdkConfig": {
                 "collection": "bound_witnesses"
@@ -135,7 +135,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/6'",
+              "accountPath": "/3'/2'/6'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -161,7 +161,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/13'",
+              "accountPath": "/3'/2'/13'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "NftCollectionScoreDiviner",
@@ -170,7 +170,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/12'",
+              "accountPath": "/3'/2'/12'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "NftScoreDiviner",
@@ -179,7 +179,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/4'",
+              "accountPath": "/3'/2'/4'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -211,7 +211,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/7'",
+              "accountPath": "/3'/2'/7'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -237,7 +237,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/5'",
+              "accountPath": "/3'/2'/5'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -249,7 +249,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/2'/8'",
+              "accountPath": "/3'/2'/8'",
               "archivist": "Archivist",
               "labels": {
                 "network.xyo.storage.class": "mongodb"
@@ -275,7 +275,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/3'",
+              "accountPath": "/3'/4'/3'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "CryptoNftCollectionWitness",
@@ -284,7 +284,7 @@
           },
           {
             "config": {
-              "accountPath": "m/44'/60'/3'/4'/2'",
+              "accountPath": "/3'/4'/2'",
               "archivist": "Archivist",
               "language": "javascript",
               "name": "CryptoWalletNftWitness",

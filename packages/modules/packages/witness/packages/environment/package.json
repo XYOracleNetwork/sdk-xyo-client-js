@@ -14,7 +14,7 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.81.4",
+    "@xyo-network/value-payload-plugin": "^2.81.5",
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
@@ -63,5 +63,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.5"
+  "version": "2.81.6"
 }

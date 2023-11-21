@@ -1,6 +1,7 @@
-import { JobQueue } from '@xyo-network/node-core-model'
 import { Job } from '@xyo-network/shared'
 import { DefineOptions } from 'agenda'
+
+import { JobQueue } from '../../../../packages/packages-clients/node/packages/core/packages/model/src'
 
 // TODO: Depends on job schedule, calculate dynamically
 // to something like 25% of schedule to allow for retries

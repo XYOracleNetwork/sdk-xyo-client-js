@@ -1,6 +1,6 @@
-import { JobQueue } from '@xyo-network/node-core-model'
 import { Agenda } from 'agenda'
 
+import { JobQueue } from '../../../../packages/packages-clients/node/packages/core/packages/model/src'
 import { getName } from './getName'
 
 /**

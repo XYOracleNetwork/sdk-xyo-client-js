@@ -13,7 +13,7 @@
     "@xyo-network/diviner-transform-abstract": "workspace:~",
     "@xyo-network/diviner-transform-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.81.1",
+    "@xyo-network/value-payload-plugin": "^2.81.2",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {
@@ -63,5 +63,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.4"
+  "version": "2.81.5"
 }

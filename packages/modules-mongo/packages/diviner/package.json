@@ -21,7 +21,7 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.81.1",
+    "@xyo-network/address-payload-plugin": "^2.81.2",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -43,7 +43,7 @@
     "@xyo-network/diviner-schema-list-model": "workspace:~",
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~",
     "@xyo-network/diviner-schema-stats-model": "workspace:~",
-    "@xyo-network/location-payload-plugin": "^2.81.1",
+    "@xyo-network/location-payload-plugin": "^2.81.2",
     "@xyo-network/module-abstract-mongodb": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
@@ -118,5 +118,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.4"
+  "version": "2.81.5"
 }

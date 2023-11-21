@@ -1,6 +1,6 @@
+import { JobQueue } from '@xyo-network/node-core-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { JobQueue } from '../../../../../packages/packages-clients/node/packages/core/packages/model/src'
 import { startJobQueue } from '../startJobQueue'
 
 describe('startJobQueue', () => {

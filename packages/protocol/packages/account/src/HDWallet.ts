@@ -6,7 +6,7 @@ import { generateMnemonic, wordlists } from 'bip39'
 import { HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
-import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
+//import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {

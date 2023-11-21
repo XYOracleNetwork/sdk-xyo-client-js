@@ -25,7 +25,7 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-address-history": "workspace:~",
-    "@xyo-network/id-plugin": "^2.81.2",
+    "@xyo-network/id-plugin": "^2.81.4",
     "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",

@@ -1,7 +1,7 @@
 import { Data, DataLike } from '@xyo-network/core'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import { Mnemonic } from 'ethers'
+import type { Mnemonic } from 'ethers'
 
 export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
 

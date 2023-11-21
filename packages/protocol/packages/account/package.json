@@ -22,14 +22,13 @@
     "async-mutex": "^0.4.0",
     "bip39": "^3.1.0",
     "elliptic": "^6.5.4",
-    "randombytes": "^2.1.0",
-    "sha.js": "^2.4.11"
+    "ethers": "^6.8.1",
+    "randombytes": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
     "@types/randombytes": "^2.0.3",
-    "@types/sha.js": "^2.4.4",
     "@xylabs/ts-scripts-yarn3": "^3.2.8",
     "@xylabs/tsconfig": "^3.2.8",
     "typescript": "^5.3.2"

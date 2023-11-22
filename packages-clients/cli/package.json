@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.9",
-    "@xylabs/delay": "^2.13.9",
-    "@xylabs/lodash": "^2.13.9",
+    "@xylabs/assert": "^2.13.10",
+    "@xylabs/delay": "^2.13.10",
+    "@xylabs/lodash": "^2.13.10",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -23,7 +23,7 @@
     "@xyo-network/network": "workspace:~",
     "@xyo-network/node-app": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.81.6",
+    "@xyo-network/query-payload-plugin": "^2.81.7",
     "bip39": "^3.1.0",
     "dotenv": "^16.3.1",
     "tail": "^2.2.6",
@@ -34,12 +34,12 @@
     "xyo": "dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "^20.9.3",
+    "@types/node": "^20.9.4",
     "@types/tail": "^2.2.3",
-    "@types/terminal-kit": "^2.5.5",
-    "@xylabs/ts-scripts-yarn3": "^3.2.8",
-    "@xylabs/tsconfig": "^3.2.8",
-    "@xylabs/tsconfig-jest": "^3.2.8",
+    "@types/terminal-kit": "^2.5.6",
+    "@xylabs/ts-scripts-yarn3": "^3.2.10",
+    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/tsconfig-jest": "^3.2.10",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
   },

@@ -47,12 +47,12 @@
     "@xyo-network/payload-mongodb": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/schema-cache": "workspace:~",
-    "@xyo-network/schema-payload-plugin": "^2.81.6",
+    "@xyo-network/schema-payload-plugin": "^2.81.7",
     "ajv": "^8.12.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.8",
-    "@xylabs/tsconfig": "^3.2.8",
+    "@xylabs/ts-scripts-yarn3": "^3.2.10",
+    "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

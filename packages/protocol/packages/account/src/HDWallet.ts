@@ -79,18 +79,17 @@ export class HDWallet extends Account implements WalletInstance {
     return await HDWallet.create(node as HDNodeWallet)
   }
 
-  static override async fromMnemonic(mnemonic: Mnemonic, path?: string): Promise<HDWallet> {
-    const node = HDNodeWallet.fromMnemonic(mnemonic, path)
-    return await HDWallet.create(node)
-    /*
+  static override async fromMnemonic(mnemonic: Mnemonic, path = "m/44'/60'"): Promise<HDWallet> {
     let existing = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
     if (existing) {
       if (path) {
         const derivedNode = existing._pathMap[path]?.deref()
         if (derivedNode) {
+          console.log(`fromMnemonic1: [${path}][${derivedNode.path}]`)
           return derivedNode
         }
       } else {
+        console.log(`fromMnemonic2: [${path}][${existing.path}]`)
         return existing
       }
     } else {
@@ -103,14 +102,15 @@ export class HDWallet extends Account implements WalletInstance {
         const derivedNode = await existing.derivePath(path)
         const ref = new WeakRef(derivedNode)
         existing._pathMap[path] = ref
+        console.log(`fromMnemonic3: [${path}][${derivedNode.path}]`)
         return derivedNode
       }
     }
+    console.log(`fromMnemonic4: [${path}][${existing.path}]`)
     return existing
-    */
   }
 
-  static override async fromPhrase(phrase: string, path?: string) {
+  static override async fromPhrase(phrase: string, path = "m/44'/60'") {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 

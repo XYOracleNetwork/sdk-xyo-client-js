@@ -83,34 +83,33 @@ export class HDWallet extends Account implements WalletInstance {
     let existing = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
     if (existing) {
       if (path) {
-        const derivedNode = existing._pathMap[path]?.deref()
-        if (derivedNode) {
-          console.log(`fromMnemonic1: [${path}][${derivedNode.path}]`)
-          return derivedNode
+        const existingDerivedNode = existing._pathMap[path]?.deref()
+        if (existingDerivedNode) {
+          console.log(`fromMnemonic1: [${path}][${existingDerivedNode.path}]`)
+          return existingDerivedNode
         }
       } else {
         console.log(`fromMnemonic2: [${path}][${existing.path}]`)
         return existing
       }
-    } else {
-      const node = HDNodeWallet.fromMnemonic(mnemonic)
-      existing = await HDWallet.create(node)
-      const ref = new WeakRef(existing)
-      HDWallet._mnemonicMap[mnemonic.phrase] = ref
-      existing._pathMap['m'] = ref
-      if (path) {
-        const derivedNode = await existing.derivePath(path)
-        const ref = new WeakRef(derivedNode)
-        existing._pathMap[path] = ref
-        console.log(`fromMnemonic3: [${path}][${derivedNode.path}]`)
-        return derivedNode
-      }
+    }
+
+    const node = HDNodeWallet.fromMnemonic(mnemonic)
+    existing = await HDWallet.create(node)
+    const ref = new WeakRef(existing)
+    HDWallet._mnemonicMap[mnemonic.phrase] = ref
+    if (path) {
+      const derivedNode = await existing.derivePath(path)
+      const ref = new WeakRef(derivedNode)
+      existing._pathMap[path] = ref
+      console.log(`fromMnemonic3: [${path}][${derivedNode.path}]`)
+      return derivedNode
     }
     console.log(`fromMnemonic4: [${path}][${existing.path}]`)
     return existing
   }
 
-  static override async fromPhrase(phrase: string, path = "m/44'/60'") {
+  static override async fromPhrase(phrase: string, path?: string) {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 

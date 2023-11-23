@@ -1,4 +1,4 @@
-import { Address } from '@xyo-network/core'
+import { Address } from '@xylabs/hex'
 import { ModuleConfig } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 

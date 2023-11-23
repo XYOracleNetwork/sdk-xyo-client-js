@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { axios } from '@xylabs/axios'
+import { Hash } from '@xylabs/hex'
 import { AddressValue } from '@xyo-network/account'
-import { DataLike } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 
 export type ObjectCategory = 'block' | 'payload'
@@ -38,8 +38,9 @@ export class Huri<T extends Payload = Payload> {
 
   private isHuri = true
 
-  constructor(huri: DataLike | Huri, { archivistUri, token }: HuriOptions = {}) {
-    const huriString = Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : new AddressValue(huri as DataLike).hex
+  constructor(huri: Hash | Huri | string, { archivistUri, token }: HuriOptions = {}) {
+    const huriString =
+      Huri.isHuri(huri)?.href ?? typeof huri === 'string' ? (huri as string) : huri instanceof ArrayBuffer ? new AddressValue(huri).hex : huri.href
     this.originalHref = huriString
 
     const protocol = Huri.parseProtocol(huriString)

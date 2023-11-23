@@ -22,7 +22,7 @@ export interface WalletStatic<T extends WalletInstance = WalletInstance> extends
   fromExtendedKey(key: string): Promise<T>
   fromMnemonic(mnemonic: Mnemonic): Promise<T>
   fromPhrase(mnemonic: string, path?: string): Promise<T>
-  fromSeed(seed: string | Uint8Array): Promise<T>
+  fromSeed(seed: string | ArrayBuffer): Promise<T>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   random(): any
 }

@@ -121,7 +121,7 @@
         "--runInBand",
         "--testTimeout=120000",
         "-c=./jest.config.no-mongo.ts",
-        "packages-clients/node/packages/express/packages/test/src/routes/hash/get/get.spec.ts"
+        "packages/protocol/packages/account/src/spec/PrivateKey.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

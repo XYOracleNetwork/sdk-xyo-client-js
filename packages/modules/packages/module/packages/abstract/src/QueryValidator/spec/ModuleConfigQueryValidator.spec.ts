@@ -1,6 +1,6 @@
+import { Address } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { Address } from '@xyo-network/core'
 import { CosigningAddressSet, ModuleConfig, ModuleConfigSchema, ModuleDiscoverQuerySchema, SchemaString } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 

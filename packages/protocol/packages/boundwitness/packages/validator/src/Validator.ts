@@ -1,7 +1,8 @@
 import { uniq } from '@xylabs/lodash'
 import { AddressValue } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
+import { toUint8Array } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'
 
@@ -14,11 +15,11 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     return BoundWitnessSchema
   }
 
-  static validateSignature(hash: string, address: string, signature?: string): Error[] {
+  static validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Error[] {
     if (!signature) {
       return [Error(`Missing signature [${address}]`)]
     }
-    if (!new AddressValue(address).verify(hash, signature)) {
+    if (!new AddressValue(toUint8Array(address)).verify(hash, signature)) {
       return [Error(`Invalid signature [${address}] [${signature}]`)]
     }
     return []
@@ -76,7 +77,11 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
         await Promise.all(
           this.obj.addresses.map<Promise<Error[]>>(
             async (address, index) =>
-              BoundWitnessValidator.validateSignature(await PayloadHasher.hashAsync(this.payload), address, this.obj._signatures?.[index]),
+              BoundWitnessValidator.validateSignature(
+                toUint8Array(await PayloadHasher.hashAsync(this.payload)),
+                toUint8Array(address),
+                toUint8Array(this.obj._signatures?.[index]),
+              ),
             [],
           ),
         )

@@ -1,7 +1,8 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
+import { asAddress } from '@xylabs/hex'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
-import { normalizeAddress } from '@xyo-network/core'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
   BoundWitnessDivinerConfigSchema,
@@ -20,7 +21,7 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
-    const allAddresses = addresses?.map(normalizeAddress)
+    const allAddresses = addresses?.map((address) => asAddress(address)).filter(exists)
     if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))
     if (payload_hashes?.length) bws = bws.filter((bw) => containsAll(bw.payload_hashes, payload_hashes))
     if (payload_schemas?.length) bws = bws.filter((bw) => containsAll(bw.payload_schemas, payload_schemas))

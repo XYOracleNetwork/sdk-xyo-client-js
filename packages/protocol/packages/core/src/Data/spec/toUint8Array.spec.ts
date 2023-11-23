@@ -1,6 +1,4 @@
-/* eslint-disable import/no-deprecated */
 import { base58 } from '@scure/base'
-import { Buffer } from '@xylabs/buffer'
 
 import { toUint8Array } from '../toUint8Array'
 
@@ -20,7 +18,7 @@ describe('toUint8Array', () => {
   })
   test('Base58 Round Trip', () => {
     const testBase58 = '1a2FZb3caz'
-    const testBase58Prime = base58.encode(Buffer.from(toUint8Array(testBase58, undefined, 58)))
+    const testBase58Prime = base58.encode(toUint8Array(testBase58, undefined, 58))
     expect(testBase58).toBe(testBase58Prime)
   })
 })

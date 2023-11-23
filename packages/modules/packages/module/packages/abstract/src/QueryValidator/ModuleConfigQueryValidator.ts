@@ -1,5 +1,5 @@
+import { Address } from '@xylabs/hex'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { Address } from '@xyo-network/core'
 import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
 
 import { Queryable, QueryValidator } from './QueryValidator'

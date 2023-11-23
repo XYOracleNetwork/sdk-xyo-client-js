@@ -12,7 +12,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
   const testVectorPublicKey =
     'ed6f3b86542f45aab88ec48ab1366b462bd993fec83e234054afd8f2311fba774800fdb40c04918463b463a6044b83413a604550bfba8f8911beb65475d6528e'
   const testVectorAddress = '5e7a847447e7fec41011ae7d32d768f86605ba03'
-  const testVectorHash = '4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a'
+  const testVectorHash = toUint8Array('4b688df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a')
   const testVectorSignature =
     'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6b38aa35ef56f97f86537269e8be95832aaa37d3b64d86b67f0cda467ac7cb5b3e'
 
@@ -56,7 +56,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       expect(wallet.public).toBeDefined()
       expect(wallet.address).toBeDefined()
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, previousHash)
+      const signature = await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash))
       const valid = await wallet.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
@@ -64,7 +64,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     test('Sign-fromPhrase', async () => {
       const wallet = await Account.fromPhrase('fall fossil forward polar flash spot element ask outdoor rebuild ribbon bulk')
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, previousHash)
+      const signature = await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash))
       const valid = await wallet.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
@@ -72,11 +72,11 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     test('Sign-testVectors', async () => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       const previousHash = wallet.previousHash
-      const signature = Buffer.from(await wallet.sign(toUint8Array(testVectorHash), previousHash)).toString('hex')
-      const expectedSignature = testVectorSignature
+      const signature = await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash))
+      const expectedSignature = toUint8Array(testVectorSignature)
 
       expect(signature).toEqual(expectedSignature)
-      expect(signature.length).toEqual(128)
+      expect(signature.byteLength).toEqual(64)
       const valid = await wallet.verify(testVectorHash, signature)
       expect(valid).toBeTrue()
     })
@@ -91,10 +91,10 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
     test('Sign-random-string', async () => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       const previousHash = wallet.previousHash
-      const signature = await wallet.sign(testVectorHash, previousHash)
+      const signature = toUint8Array(await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash)))
       const signaturePrime = toUint8Array(signature)
-      expect(signature.length).toBe(signaturePrime.length)
-      for (let i = 0; i < signature.length; i++) {
+      expect(signature.byteLength).toBe(signaturePrime.length)
+      for (let i = 0; i < signature.byteLength; i++) {
         expect(signature[i]).toBe(signaturePrime[i])
       }
       const valid = await wallet.verify(testVectorHash, signature)
@@ -127,17 +127,17 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       })
       it('returns last signed hash', async () => {
         const previousHash = account.previousHash
-        await account.sign(hash, previousHash)
+        await account.sign(toUint8Array(hash), toUint8Array(previousHash))
         expect(account.previousHash).toEqual(account.previousHash)
       })
       it('allows setting value via constructor', async () => {
         const accountA = await Account.create()
         const oldPreviousHash = accountA.previousHash
-        await accountA.sign(hash, oldPreviousHash)
+        await accountA.sign(toUint8Array(hash), toUint8Array(oldPreviousHash))
         const privateKey = accountA.private.hex
         const previousHash = accountA.previousHash
         expect(previousHash).toBeDefined()
-        const accountB = await Account.create({ privateKey, previousHash })
+        const accountB = await Account.create({ privateKey: toUint8Array(privateKey), previousHash: toUint8Array(previousHash) })
         expect(accountB.previousHash).toEqual(accountA.previousHash)
         expect(accountB.previousHash).toEqual(accountA.previousHash)
       })

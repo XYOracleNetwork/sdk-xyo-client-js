@@ -1,5 +1,3 @@
-import { DataLike } from '@xyo-network/core'
-
 import { PrivateKeyInstance } from './PrivateKey'
 import { PublicKeyInstance } from './PublicKey'
 
@@ -9,6 +7,6 @@ export interface KeyPairInstance {
 }
 
 export interface KeyPairStatic {
-  new (privateKeyData?: DataLike): KeyPairInstance
+  new (privateKeyData?: ArrayBuffer): KeyPairInstance
   isXyoKeyPair(value: unknown): boolean
 }

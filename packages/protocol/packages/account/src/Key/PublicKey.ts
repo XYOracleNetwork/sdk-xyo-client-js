@@ -1,5 +1,5 @@
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike } from '@xyo-network/core'
+import { DataLike, toUint8Array } from '@xyo-network/core'
 import { PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
 
 import { AddressValue } from './AddressValue'
@@ -14,7 +14,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
   }
 
   get address() {
-    if (!this._address) this._address = new AddressValue(this.keccak256.slice(12).toString('hex').padStart(40, '0'))
+    if (!this._address) this._address = new AddressValue(toUint8Array(this.keccak256.slice(12).toString('hex').padStart(40, '0')))
     return this._address
   }
 
@@ -22,7 +22,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return (value as PublicKey)._isPublicKey
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string): boolean | Promise<boolean> {
+  verify(msg: ArrayBuffer, signature: ArrayBuffer): boolean | Promise<boolean> {
     return this.address.verify(msg, signature)
   }
 }

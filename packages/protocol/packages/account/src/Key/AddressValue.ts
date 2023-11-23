@@ -1,6 +1,6 @@
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { Data, DataLike, toUint8Array, WasmSupport } from '@xyo-network/core'
+import { Data, toUint8Array, WasmSupport } from '@xyo-network/core'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
 
 import { EllipticKey } from './EllipticKey'
@@ -14,16 +14,16 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   protected static _secp256k1: Promise<Secp256k1 | null>
 
   private _isAddress = true
-  constructor(address: DataLike) {
+  constructor(address: ArrayBuffer) {
     super(20, AddressValue.addressFromAddressOrPublicKey(address))
   }
 
-  static addressFromAddressOrPublicKey(bytes: DataLike) {
+  static addressFromAddressOrPublicKey(bytes: ArrayBuffer) {
     const bytesArray = toUint8Array(bytes)
     return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
   }
 
-  static addressFromPublicKey(key: DataLike) {
+  static addressFromPublicKey(key: ArrayBuffer) {
     return new Data(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
   }
 
@@ -33,7 +33,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
 
   //there has to be a better way to do this other than trying all four numbers
   //maybe we can get the number from the address more easily
-  static verify(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
+  static verify(msg: ArrayBuffer, signature: ArrayBuffer, address: ArrayBuffer) {
     let valid = false
     const sigArray = toUint8Array(signature)
     const r = sigArray.slice(0, 32)
@@ -42,21 +42,25 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     const expectedAddress = new AddressValue(address).hex
     for (const recoveryId of recoveryIds) {
       try {
-        const publicKey = AddressValue.ecContext
+        const publicHex = AddressValue.ecContext
           .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, recoveryId))
           .getPublic('hex')
-          .slice(2)
+          .substring(2)
+        const publicKey = toUint8Array(publicHex)
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || recoveredAddress === expectedAddress
         if (valid) break
       } catch (ex) {
+        const error = ex as Error
+        console.log(error.message)
+        console.log(error.stack)
         continue
       }
     }
     return valid
   }
 
-  static async verifyAsync(msg: Uint8Array | string, signature: Uint8Array | string, address: DataLike) {
+  static async verifyAsync(msg: ArrayBuffer, signature: Uint8Array, address: ArrayBuffer) {
     const verifier = await AddressValue.secp256k1()
     if (verifier && AddressValue.wasmSupport.canUseWasm) {
       let publicKey: Uint8Array | null = null
@@ -65,6 +69,9 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
           publicKey = verifier.recoverPublicKeyCompressed(toUint8Array(signature), recoveryId, toUint8Array(msg))
           if (verifier.validatePublicKey(publicKey)) break
         } catch (ex) {
+          const error = ex as Error
+          console.log(error.message)
+          console.log(error.stack)
           continue
         }
       }
@@ -84,7 +91,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     return this._secp256k1
   }
 
-  verify(msg: Uint8Array | string, signature: Uint8Array | string) {
+  verify(msg: ArrayBuffer, signature: ArrayBuffer) {
     return AddressValue.verify(msg, signature, this.bytes)
   }
 }

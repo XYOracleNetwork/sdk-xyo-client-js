@@ -1,17 +1,15 @@
 /* eslint-disable import/no-deprecated */
 import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
-import { BigNumber } from '@xylabs/bignumber'
-import { Buffer, bufferPolyfill } from '@xylabs/buffer'
+import { toHex } from '@xylabs/hex'
 import keccak256 from 'keccak256'
 
 import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
 import { toUint8ArrayOptional } from './toUint8Array'
 
-/** @deprecated use ArrayBuffer and @xylabs/hex instead */
 export class Data extends AbstractData {
-  private _bytes?: Uint8Array
+  private _bytes?: ArrayBuffer
   private _length: number
 
   constructor(length: number, bytes?: DataLike)
@@ -24,17 +22,7 @@ export class Data extends AbstractData {
 
   get base58() {
     this.checkLength()
-    return base58.encode(this.bytes)
-  }
-
-  get bn() {
-    this.checkLength()
-    return new BigNumber(this.bytes)
-  }
-
-  get buffer() {
-    this.checkLength()
-    return Buffer.from(this.bytes)
+    return base58.encode(new Uint8Array(this.bytes))
   }
 
   get bytes() {
@@ -43,13 +31,12 @@ export class Data extends AbstractData {
 
   get hex() {
     this.checkLength()
-    return base16.encode(this.bytes).toLowerCase()
+    return base16.encode(new Uint8Array(this.bytes)).toLowerCase()
   }
 
   get keccak256() {
-    bufferPolyfill()
     this.checkLength()
-    return Buffer.from(keccak256(`0x${this.buffer.toString('hex')}`))
+    return Buffer.from(keccak256(`0x${toHex(this.bytes)}`))
   }
 
   static from(data: DataLike | undefined) {
@@ -62,11 +49,11 @@ export class Data extends AbstractData {
     } else if (data instanceof AbstractData) {
       return data.length
     } else {
-      return typeof data.byteLength === 'function' ? data.byteLength() : data.byteLength
+      return typeof data.byteLength === 'function' ? data.byteLength : data.byteLength
     }
   }
 
   private checkLength() {
-    assertEx(this.bytes.length === this._length, `Length Mismatch: ${this.bytes.length} !== ${this._length}`)
+    assertEx(this.bytes.byteLength === this._length, `Length Mismatch: ${this.bytes.byteLength} !== ${this._length}`)
   }
 }

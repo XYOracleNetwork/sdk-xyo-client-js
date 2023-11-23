@@ -8,6 +8,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { toUint8Array } from '@xyo-network/core'
 import { COLLECTIONS, hasMongoDBConfig } from '@xyo-network/module-abstract-mongodb'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
@@ -34,13 +35,13 @@ describeIf(hasMongoDBConfig())('DeterministicArchivist', () => {
     archiveAccount = await Account.create({ phrase: 'surface assault spice bulk sun hire hold rebuild cook arm winter vote' })
 
     // 0x10ca1959336ea208bcdf00dd6d6637aec91a4c0e
-    userAccount = await Account.create({ privateKey: '69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab' })
+    userAccount = await Account.create({ privateKey: toUint8Array('69f0b123c094c34191f22c25426036d6e46d5e1fab0a04a164b3c1c2621152ab') })
 
     // 0xdaddab0e0468c920bd5aff4b14fd94c20a598055
-    moduleAccount = await Account.create({ privateKey: '9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a' })
+    moduleAccount = await Account.create({ privateKey: toUint8Array('9c9637dc07ce9956190c028677f5195a8fb425e9927bf2e48fe39a1c55cf050a') })
 
     // 0xbabe1d55e51844ea1cdc6b4dcbb649bb08e3cc3c
-    randomAccount = await Account.create({ privateKey: '3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc' })
+    randomAccount = await Account.create({ privateKey: toUint8Array('3c17e038c8daeed7dfab9b9653321523d5f1a68eadfc5e4bd501075a5e43bbcc') })
 
     jest.spyOn(Account, 'randomSync').mockImplementation(() => randomAccount as Account)
 

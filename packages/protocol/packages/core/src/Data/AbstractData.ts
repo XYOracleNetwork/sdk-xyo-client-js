@@ -1,17 +1,9 @@
-import { BigNumber } from '@xylabs/bignumber'
-import { Buffer } from '@xylabs/buffer'
-
-/** @deprecated use ArrayBuffer and @xylabs/hex instead */
 export abstract class AbstractData {
   get length() {
-    return this.bytes.length
+    return this.bytes.byteLength
   }
 
-  abstract get bn(): BigNumber
-
-  abstract get buffer(): Buffer
-
-  abstract get bytes(): Uint8Array
+  abstract get bytes(): ArrayBuffer
 
   abstract get hex(): string
 

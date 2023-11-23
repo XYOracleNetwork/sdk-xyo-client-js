@@ -1,4 +1,5 @@
-import { Address, AnyObject, WithAdditional } from '@xyo-network/core'
+import { Address } from '@xylabs/hex'
+import { AnyObject, WithAdditional } from '@xyo-network/core'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { Labels } from './Labels'

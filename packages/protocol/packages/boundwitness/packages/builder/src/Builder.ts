@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
-import { Buffer } from '@xylabs/buffer'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Data, PayloadHasher, sortFields } from '@xyo-network/core'
+import { PayloadHasher, sortFields, toUint8Array } from '@xyo-network/core'
 import { PayloadWrapper } from '@xyo-network/payload'
 import { ModuleError, Payload } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -164,10 +163,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected async signatures(_hash: string, previousHashes: (string | Data | undefined)[]) {
+  protected async signatures(_hash: string, previousHashes: (string | ArrayBuffer | undefined)[]) {
     const hash = Buffer.from(_hash, 'hex')
+    const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
     return await Promise.all(
-      this._accounts.map(async (account, index) => Buffer.from(await account.sign(hash, previousHashes[index])).toString('hex')),
+      this._accounts.map(async (account, index) => Buffer.from(await account.sign(hash, previousHashesBytes[index])).toString('hex')),
     )
   }
 

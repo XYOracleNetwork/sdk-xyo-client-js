@@ -1,5 +1,5 @@
+import { Address } from '@xylabs/hex'
 import { fulfilled } from '@xylabs/promise'
-import { Address } from '@xyo-network/core'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'

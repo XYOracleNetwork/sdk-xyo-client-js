@@ -20,8 +20,8 @@ describe('PrivateKey', () => {
   ]
   const hash = hashes[0]
   const data = toUint8Array(hash)
-  const jsPrivateKey = new PrivateKey(privateKey)
-  const wasmPrivateKey = new WASMPrivateKey(privateKey)
+  const jsPrivateKey = new PrivateKey(toUint8Array(privateKey))
+  const wasmPrivateKey = new WASMPrivateKey(toUint8Array(privateKey))
   describe('sign', () => {
     it.each(hashes)('Signatures are consistent', async (hash) => {
       const data = toUint8Array(hash)
@@ -50,7 +50,8 @@ describe('PrivateKey', () => {
       const data = toUint8Array(hash)
       const jsSignature = await jsPrivateKey.sign(data)
       const wasmSignature = await wasmPrivateKey.sign(data)
-      expect(jsPrivateKey.verify(data, jsSignature)).toBeTrue()
+      const jsVerifyJs = jsPrivateKey.verify(data, jsSignature)
+      expect(jsVerifyJs).toBeTrue()
       expect(jsPrivateKey.verify(data, wasmSignature)).toBeTrue()
       expect(wasmPrivateKey.verify(data, jsSignature)).resolves.toBeTrue()
       expect(wasmPrivateKey.verify(data, wasmSignature)).resolves.toBeTrue()

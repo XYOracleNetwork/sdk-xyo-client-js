@@ -1,12 +1,10 @@
-import { base16 } from '@scure/base'
-import { Buffer } from '@xylabs/buffer'
+import { asHash, Hash } from '@xylabs/hex'
 import { subtle } from '@xylabs/platform'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
-import { Hash } from './model'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
@@ -39,7 +37,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
         const stringToHash = this.stringifyHashFields(obj)
         const b = enc.encode(stringToHash)
         const hashArray = await subtle.digest('SHA-256', b)
-        return base16.encode(Buffer.from(hashArray)).toLowerCase()
+        return asHash(hashArray, 256, true)
       } catch (ex) {
         console.log('Setting allowSubtle to false')
         PayloadHasher.allowSubtle = false
@@ -50,7 +48,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     if (this.wasmSupport.canUseWasm) {
       const stringToHash = this.stringifyHashFields(obj)
       try {
-        return await sha256(stringToHash)
+        return asHash(await sha256(stringToHash), 256, true)
       } catch (ex) {
         this.wasmSupport.allowWasm = false
       }
@@ -67,7 +65,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static hashSync<T extends AnyObject>(obj: T): Hash {
-    return shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex')
+    return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), 256, true)
   }
 
   static async hashes<T extends AnyObject>(objs: T[]): Promise<Hash[]> {

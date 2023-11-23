@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { BigNumber } from '@xylabs/bignumber'
-import { Buffer } from '@xylabs/buffer'
+import { asHex } from '@xylabs/hex'
 import {
   boundingBoxToCenter,
   GeoJson,
@@ -15,53 +14,44 @@ import {
 import { LngLat, LngLatLike } from 'mapbox-gl'
 
 import { RelativeDirectionConstantLookup } from './RelativeDirectionConstantLookup'
-import { bitShiftLeft, bitShiftRight, padHex } from './utils'
-
-export * from './utils'
 
 const MAX_ZOOM = 124
 
 export const isQuadkey = (obj: { type: string }) => obj?.type === Quadkey.type
 
+const FULL_MASK = 2n ** 256n - 1n
+const ZOOM_MASK = 0xffn << 248n
+const ID_MASK = ZOOM_MASK ^ FULL_MASK
+
+const assertMaxBitUint = (value: bigint, bits = 256n) => {
+  assertEx(value < 2n ** bits && value >= 0, 'Not a 256 Bit Uint!')
+}
+
 export class Quadkey {
-  static Zero = Quadkey.from(0, Buffer.alloc(31, 0))
+  static Zero = Quadkey.from(0, 0n)
   static root = new Quadkey()
   static type = 'Quadkey'
 
   type = Quadkey.type
 
   private _geoJson?: GeoJson
-  private key = Buffer.alloc(32)
 
-  constructor(key = Buffer.alloc(32)) {
-    key.copy(this.key, this.key.length - key.length)
+  constructor(private key = 0n) {
+    assertMaxBitUint(key)
     this.guessZoom()
   }
 
-  get base10String() {
-    return this.bigNumber.toString(10)
+  get base16String() {
+    return this.id.toString(16).padStart(62, '0')
   }
 
   get base4Hash() {
-    const bn = new BigNumber(this.id.toString('hex'), 16)
-    const zoom = this.zoom
-    if (zoom === 0) {
-      return ''
-    }
-    let quadkeySimple = bn.toString(4)
-    while (quadkeySimple.length < zoom) {
-      quadkeySimple = `0${quadkeySimple}`
-    }
-    return quadkeySimple
+    return this.id.toString(4).padStart(this.zoom, '0')
   }
 
   get base4HashLabel() {
     const hash = this.base4Hash
     return hash.length === 0 ? 'fhr' : hash
-  }
-
-  get bigNumber() {
-    return new BigNumber(`${this.key.toString('hex')}`, 'hex')
   }
 
   get boundingBox(): MercatorBoundingBox {
@@ -80,11 +70,9 @@ export class Quadkey {
   get children() {
     assertEx(this.zoom < MAX_ZOOM - 1, 'Can not get children of bottom tiles')
     const result: Quadkey[] = []
-    const shiftedId = bitShiftLeft(bitShiftLeft(this.id))
-    for (let i = 0; i < 4; i++) {
-      const currentLastByte = shiftedId.readUInt8(shiftedId.length - 1)
-      shiftedId.writeUInt8((currentLastByte & 0xfc) | i, shiftedId.length - 1)
-      result.push(new Quadkey().setId(shiftedId).setZoom(this.zoom + 1))
+    const shiftedId = this.id << 2n
+    for (let i = 0n; i < 4n; i++) {
+      result.push(new Quadkey().setId(shiftedId | i).setZoom(this.zoom + 1))
     }
     return result
   }
@@ -99,23 +87,19 @@ export class Quadkey {
     }
   }
 
-  get hex() {
-    return `0x${this.key.toString('hex')}`
-  }
-
   get id() {
-    return this.buffer.slice(1)
+    return this.key & ID_MASK
   }
 
   get parent(): Quadkey | undefined {
     if (this.zoom > 0) {
-      return new Quadkey().setId(bitShiftRight(bitShiftRight(this.id))).setZoom(this.zoom - 1)
+      return new Quadkey().setId(this.id >> 2n).setZoom(this.zoom - 1)
     }
   }
 
   get siblings() {
     const siblings = assertEx(this.parent?.children, `siblings: parentChildren ${this.base4Hash}`)
-    const filteredSiblings = siblings.filter((quadkey) => this.compareTo(quadkey) !== 0)
+    const filteredSiblings = siblings.filter((quadkey) => quadkey.key !== this.key)
     assertEx(filteredSiblings.length === 3, `siblings: expected 3 [${filteredSiblings.length}]`)
     return filteredSiblings
   }
@@ -125,44 +109,38 @@ export class Quadkey {
   }
 
   get valid() {
-    const zoom = this.zoom
-    const shift = (MAX_ZOOM - zoom) * 2
-    const id = this.id
-    let testId = id
-    for (let i = 0; i < shift; i++) {
-      testId = bitShiftLeft(testId)
-    }
-    for (let i = 0; i < shift; i++) {
-      testId = bitShiftRight(testId)
-    }
-    return testId.compare(id) === 0
+    //check for additional data outside zoom scope
+    return this.id.toString(4) === this.base4Hash.padStart(64, '0')
   }
 
   get zoom() {
-    return this.buffer.readUInt8(0)
+    //zoom is stored in top byte
+    return Number((this.key & ZOOM_MASK) >> 248n)
   }
 
-  static from(zoom: number, id: Buffer) {
+  static from(zoom: number, id: bigint) {
     return new Quadkey().setId(id).setZoom(zoom)
   }
 
-  static fromBase10String(value: string) {
-    return new Quadkey(Buffer.from(padHex(new BigNumber(value, 10).toString(16)), 'hex'))
+  static fromArrayBuffer(zoom: number, id: ArrayBuffer) {
+    return new Quadkey().setId(BigInt(`0x${asHex(id, 256, true)}`)).setZoom(zoom)
   }
 
   static fromBase16String(value: string) {
-    const valueToUse = value.startsWith('0x') ? value.slice(2) : value
-    return new Quadkey(Buffer.from(padHex(valueToUse), 'hex'))
+    return new Quadkey(BigInt(`0x${asHex(value, 256, true)}`))
   }
 
   static fromBase4String(value?: string) {
-    if (value === 'fhr' || value === '') {
+    if (value === 'fhr' || value === '' || value === undefined) {
       return Quadkey.root
     }
-    if (value && value.length && value.length > 0) {
-      const quadkey = new Quadkey(Buffer.from(padHex(new BigNumber(value, 4).toString(16)), 'hex')).setZoom(value.length)
-      return quadkey.valid ? quadkey : undefined
+    let id = 0n
+    for (let i = 0; i < value.length; i++) {
+      const nibble = parseInt(value[i])
+      assertEx(nibble < 4 && nibble >= 0, `Invalid Base4 String: ${value}`)
+      id = (id << 2n) | BigInt(nibble)
     }
+    return new Quadkey().setId(id).setZoom(value.length)
   }
 
   static fromBoundingBox(boundingBox: MercatorBoundingBox, zoom: number) {
@@ -175,20 +153,14 @@ export class Quadkey {
     return result
   }
 
-  static fromBuffer(value: Buffer) {
-    return Quadkey.fromBase16String(value.toString('hex'))
-  }
-
   static fromLngLat(point: LngLatLike, zoom: number) {
     const tile = tileFromPoint(LngLat.convert(point), zoom)
     const quadkeyString = tileToQuadkey(tile)
     return Quadkey.fromBase4String(quadkeyString)
   }
 
-  static fromString(zoom: number, id: string, base = 10) {
+  static fromString(zoom: number, id: string, base = 16) {
     switch (base) {
-      case 10:
-        return Quadkey.fromBase10String(id)?.setZoom(zoom)
       case 16:
         return Quadkey.fromBase16String(id).setZoom(zoom)
       default:
@@ -215,15 +187,11 @@ export class Quadkey {
   }
 
   clone() {
-    return Quadkey.fromBase10String(this.base10String)
-  }
-
-  compareTo(quadkey: Quadkey) {
-    return this.bigNumber.cmp(quadkey.bigNumber)
+    return new Quadkey(this.key)
   }
 
   equals(obj: Quadkey): boolean {
-    return obj.base4HashLabel == this.base4HashLabel
+    return obj.key == this.key
   }
 
   geoJson() {
@@ -304,87 +272,35 @@ export class Quadkey {
     return Quadkey.fromBase4String(quadkey)
   }
 
-  setId(id: Buffer) {
+  setId(id: bigint) {
+    assertMaxBitUint(id, 248n)
     this.setKey(this.zoom, id)
     return this
   }
 
-  setKey(zoom: number, id: Buffer) {
-    id.copy(this.key, this.key.length - id.length)
-    this.key.writeUInt8(zoom, 0)
+  setKey(zoom: number, key: bigint) {
+    assertMaxBitUint(key)
+    this.key = key
+    this.setZoom(zoom)
     return this
   }
 
   setZoom(zoom: number) {
     assertEx(zoom < MAX_ZOOM, `Invalid zoom [${zoom}] max=${MAX_ZOOM}`)
-    this.setKey(zoom, this.id)
+    this.key = (this.key & ID_MASK) | (BigInt(zoom) << 248n)
     return this
-  }
-
-  /** @deprecated use .base10String*/
-  toBase10String() {
-    return this.base10String
-  }
-
-  /** @deprecated use .base4Hash */
-  toBase4Hash() {
-    return this.base4Hash
-  }
-
-  /** @deprecated use .base4HashLabel */
-  toBase4HashLabel() {
-    const hash = this.base4HashLabel
-    return hash.length === 0 ? 'fhr' : hash
-  }
-
-  /** @deprecated use .bigNumber */
-  toBigNumber() {
-    return this.bigNumber
-  }
-
-  /** @deprecated use .boundingBox */
-  toBoundingBox(): MercatorBoundingBox {
-    return this.boundingBox
-  }
-
-  /** @deprecated use .buffer */
-  toBuffer() {
-    return this.buffer
-  }
-
-  /** @deprecated use .center */
-  toCenter() {
-    return this.center
-  }
-
-  /** @deprecated use .hex instead */
-  toHex() {
-    return this.hex
   }
 
   toJSON(): string {
     return this.base4HashLabel
   }
 
-  toShortString() {
-    const buffer = this.buffer
-    const part1 = buffer.slice(0, 2)
-    const part2 = buffer.slice(buffer.length - 2, buffer.length)
-    return `${part1.toString('hex')}...${part2.toString('hex')}`
-  }
-
   toString() {
-    return `0x${padHex(this.bigNumber.toString(16))}`
-  }
-
-  /** @deprecated use .tile instead */
-  toTile(): MercatorTile {
-    return this.tile
+    return this.base4Hash
   }
 
   protected guessZoom() {
-    const bn = new BigNumber(this.id.toString('hex'), 16)
-    const quadkeySimple = bn.toString(4)
+    const quadkeySimple = this.id.toString(4)
     this.setZoom(quadkeySimple.length)
   }
 }

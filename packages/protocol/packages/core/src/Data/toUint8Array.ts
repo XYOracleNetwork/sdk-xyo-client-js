@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
 import { BigNumber } from '@xylabs/bignumber'
@@ -7,6 +8,7 @@ import { ifTypeOf } from '@xyo-network/typeof'
 import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
 
+/** @deprecated use ArrayBuffer instead */
 const stringToUint8Array = (value: string, base = 16) => {
   switch (base) {
     case 16:
@@ -18,23 +20,28 @@ const stringToUint8Array = (value: string, base = 16) => {
   }
 }
 
+/** @deprecated use ArrayBuffer instead */
 const bigNumberToUint8Array = (value: BigNumber) => {
   //we do new BigNumber in case we got something BigNumberish by accident
   return bufferToUint8Array(Buffer.from(new BigNumber(value).toBuffer()))
 }
 
+/** @deprecated use ArrayBuffer instead */
 const bufferToUint8Array = (value: Buffer) => {
   return Uint8Array.from(value)
 }
 
+/** @deprecated use ArrayBuffer instead */
 const xyoDataToUint8Array = (value: AbstractData) => {
   return value.bytes
 }
 
+/** @deprecated use ArrayBuffer instead */
 export const toUint8ArrayOptional = (value?: DataLike, padLength?: number, base?: number): Uint8Array | undefined => {
   return value ? toUint8Array(value, padLength, base) : undefined
 }
 
+/** @deprecated use ArrayBuffer instead */
 export const toUint8Array = (value: DataLike, padLength?: number, base?: number): Uint8Array => {
   let result: Uint8Array | undefined =
     ifTypeOf<string, Uint8Array>('string', value as string, (value) => stringToUint8Array(value, base)) ??

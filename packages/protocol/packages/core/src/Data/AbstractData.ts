@@ -1,6 +1,7 @@
 import { BigNumber } from '@xylabs/bignumber'
 import { Buffer } from '@xylabs/buffer'
 
+/** @deprecated use ArrayBuffer and @xylabs/hex instead */
 export abstract class AbstractData {
   get length() {
     return this.bytes.length

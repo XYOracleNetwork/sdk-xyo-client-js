@@ -4959,6 +4959,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/hex@npm:^2.13.10":
+  version: 2.13.10
+  resolution: "@xylabs/hex@npm:2.13.10"
+  checksum: ccc4529417f6140ab6378c6bbf646e0c4aed3e6ad90f2876bf200ab290955ea3514e8d3d4384b63b2a79ddaa85de46941bc5ac462b042de2abc2974de0f993e6
+  languageName: node
+  linkType: hard
+
 "@xylabs/jest-helpers@npm:^2.13.10":
   version: 2.13.10
   resolution: "@xylabs/jest-helpers@npm:2.13.10"
@@ -7535,6 +7542,7 @@ __metadata:
     "@types/lodash": "npm:^4.14.202"
     "@types/sha.js": "npm:^2.4.4"
     "@xylabs/buffer": "npm:^2.13.10"
+    "@xylabs/hex": "npm:^2.13.10"
     "@xylabs/lodash": "npm:^2.13.10"
     "@xylabs/platform": "npm:^2.13.10"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { base58 } from '@scure/base'
 import { Buffer } from '@xylabs/buffer'
 

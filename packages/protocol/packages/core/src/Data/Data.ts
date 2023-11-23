@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
 import { BigNumber } from '@xylabs/bignumber'
@@ -8,6 +9,7 @@ import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
 import { toUint8ArrayOptional } from './toUint8Array'
 
+/** @deprecated use ArrayBuffer and @xylabs/hex instead */
 export class Data extends AbstractData {
   private _bytes?: Uint8Array
   private _length: number

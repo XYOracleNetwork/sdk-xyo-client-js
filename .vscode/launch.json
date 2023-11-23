@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/plugins/packages/payloadset/packages/api/src/spec/opensea.nfts.spec.ts"
+        "packages-clients/node/packages/express/packages/test/src/routes/hash/get/get.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -121,7 +121,7 @@
         "--runInBand",
         "--testTimeout=120000",
         "-c=./jest.config.no-mongo.ts",
-        "packages/modules/packages/node/spec/MemoryNode/MemoryNode.spec.ts"
+        "packages-clients/node/packages/express/packages/test/src/routes/hash/get/get.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

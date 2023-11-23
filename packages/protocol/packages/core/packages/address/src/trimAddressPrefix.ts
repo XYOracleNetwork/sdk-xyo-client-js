@@ -1,3 +1,4 @@
+/** @deprecated use @xylabs/hex instead */
 export const addressPrefix = '0x'
 
 // NOTE: To prevent calling `.length` on every invocation, we cache the length
@@ -5,6 +6,7 @@ export const addressPrefix = '0x'
 // magic number.
 const addressPrefixLength = addressPrefix.length
 
+/** @deprecated use @xylabs/hex asHex instead */
 export const trimAddressPrefix = (address: string) => {
   return address.toLowerCase().startsWith(addressPrefix) ? address.substring(addressPrefixLength) : address
 }

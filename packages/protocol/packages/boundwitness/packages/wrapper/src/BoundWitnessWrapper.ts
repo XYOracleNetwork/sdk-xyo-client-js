@@ -66,7 +66,7 @@ export class BoundWitnessWrapper<
       await Promise.all(
         payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
           const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
+          return [unwrapped, await PayloadHasher.hashAsync(unwrapped, 'hex')]
         }),
       )
     ).reduce(
@@ -83,7 +83,7 @@ export class BoundWitnessWrapper<
       await Promise.all(
         payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
           const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
+          return [unwrapped, await PayloadHasher.hashAsync(unwrapped, 'hex')]
         }),
       )
     ).reduce(
@@ -136,7 +136,7 @@ export class BoundWitnessWrapper<
     const result: Record<string, BoundWitnessWrapper<T>> = {}
     await Promise.all(
       boundWitnesses.map(async (payload) => {
-        result[await BoundWitnessWrapper.hashAsync(payload)] = BoundWitnessWrapper.parse(payload)
+        result[await BoundWitnessWrapper.hashAsync(payload, 'hex')] = BoundWitnessWrapper.parse(payload)
       }),
     )
     return result

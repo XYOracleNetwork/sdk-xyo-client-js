@@ -34,7 +34,7 @@ export class MemoryPayloadDiviner<TParams extends PayloadDivinerParams = Payload
         ? all.slice(parsedOffset, parsedLimit)
         : (async () => {
             const allPairs = await Promise.all(
-              all.map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+              all.map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload, 'hex'), payload]),
             )
             if (hash) {
               //remove all until found

@@ -8,6 +8,7 @@ import shajs from 'sha.js'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitUnderscoreFields } from './removeFields'
 import { sortFields } from './sortFields'
+import { toUint8Array } from './toUint8Array'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
@@ -30,14 +31,17 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
-  static async hashAsync<T extends AnyObject>(obj: T): Promise<Hash> {
+  static async hashAsync<T extends AnyObject>(obj: T, encoding?: undefined): Promise<Hash>
+  static async hashAsync<T extends AnyObject>(obj: T, encoding: 'buffer'): Promise<ArrayBuffer>
+  static async hashAsync<T extends AnyObject>(obj: T, encoding: 'hex'): Promise<Hash>
+  static async hashAsync<T extends AnyObject>(obj: T, encoding?: 'buffer' | 'hex'): Promise<Hash | ArrayBuffer> {
     if (PayloadHasher.allowSubtle) {
       try {
         const enc = new TextEncoder()
         const stringToHash = this.stringifyHashFields(obj)
         const b = enc.encode(stringToHash)
         const hashArray = await subtle.digest('SHA-256', b)
-        return asHash(hashArray, 256, true)
+        return encoding === 'buffer' ? hashArray : asHash(hashArray, 256, true)
       } catch (ex) {
         console.log('Setting allowSubtle to false')
         PayloadHasher.allowSubtle = false
@@ -48,7 +52,8 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     if (this.wasmSupport.canUseWasm) {
       const stringToHash = this.stringifyHashFields(obj)
       try {
-        return asHash(await sha256(stringToHash), 256, true)
+        const hash = asHash(await sha256(stringToHash), 256, true)
+        return encoding === 'buffer' ? toUint8Array(hash) : hash
       } catch (ex) {
         this.wasmSupport.allowWasm = false
       }
@@ -61,15 +66,25 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static async hashPairs<T extends AnyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
+    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj, 'hex')]))
   }
 
-  static hashSync<T extends AnyObject>(obj: T): Hash {
-    return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), 256, true)
+  /** @deprecated pass encoding [hex,buffer] */
+  static hashSync<T extends AnyObject>(obj: T, encoding?: undefined): Hash
+  static hashSync<T extends AnyObject>(obj: T, encoding: 'buffer'): ArrayBuffer
+  static hashSync<T extends AnyObject>(obj: T, encoding: 'hex'): Hash
+  static hashSync<T extends AnyObject>(obj: T, encoding?: 'buffer' | 'hex'): Hash | ArrayBuffer {
+    const buffer = shajs('sha256').update(this.stringifyHashFields(obj)).digest()
+    switch (encoding) {
+      case 'buffer':
+        return buffer.buffer
+      default:
+        return asHash(buffer.toString('hex'), 256, true)
+    }
   }
 
   static async hashes<T extends AnyObject>(objs: T[]): Promise<Hash[]> {
-    return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
+    return await Promise.all(objs.map((obj) => this.hashAsync(obj, 'hex')))
   }
 
   /** @function jsonPayload Returns a clone of the payload that is JSON safe */
@@ -88,16 +103,38 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
 
   static async toMap<T extends AnyObject>(objs: T[]): Promise<Record<Hash, T>> {
     const result: Record<string, T> = {}
-    await Promise.all(objs.map(async (obj) => (result[await PayloadHasher.hashAsync(obj)] = obj)))
+    await Promise.all(objs.map(async (obj) => (result[await PayloadHasher.hashAsync(obj, 'hex')] = obj)))
     return result
   }
 
-  async hashAsync(): Promise<Hash> {
-    return await PayloadHasher.hashAsync(this.obj)
+  /** @deprecated pass encoding [hex,buffer] */
+  async hashAsync(encoding?: undefined): Promise<Hash>
+  async hashAsync(encoding: 'buffer'): Promise<ArrayBuffer>
+  async hashAsync(encoding: 'hex'): Promise<Hash>
+  async hashAsync(encoding?: 'buffer' | 'hex'): Promise<Hash | ArrayBuffer> {
+    switch (encoding) {
+      case 'buffer':
+        return await PayloadHasher.hashAsync(this.obj, encoding)
+      case 'hex':
+        return await PayloadHasher.hashAsync(this.obj, encoding)
+      default:
+        return await PayloadHasher.hashAsync(this.obj, encoding)
+    }
   }
 
-  hashSync(): Hash {
-    return PayloadHasher.hashSync(this.obj)
+  /** @deprecated pass encoding [hex,buffer] */
+  hashSync(encoding?: undefined): Hash
+  hashSync(encoding: 'buffer'): ArrayBuffer
+  hashSync(encoding: 'hex'): Hash
+  hashSync(encoding?: 'hex' | 'buffer'): Hash | ArrayBuffer {
+    switch (encoding) {
+      case 'hex':
+        return PayloadHasher.hashSync(this.obj, encoding)
+      case 'buffer':
+        return PayloadHasher.hashSync(this.obj, encoding)
+      default:
+        return PayloadHasher.hashSync(this.obj, encoding)
+    }
   }
 
   /** @function jsonPayload Returns a clone of the payload that is JSON safe */

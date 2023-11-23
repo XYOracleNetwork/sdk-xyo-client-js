@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { Data, toUint8Array, WasmSupport } from '@xyo-network/core'
@@ -35,7 +36,9 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   //maybe we can get the number from the address more easily
   static verify(msg: ArrayBuffer, signature: ArrayBuffer, address: ArrayBuffer) {
     let valid = false
+    assertEx(signature, 'no sig')
     const sigArray = toUint8Array(signature)
+    assertEx(sigArray, 'no sigArray')
     const r = sigArray.slice(0, 32)
     const s = sigArray.slice(32, 64)
 

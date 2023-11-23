@@ -2,11 +2,11 @@
 import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
 import { toHex } from '@xylabs/hex'
+import { toUint8Array } from '@xyo-network/hash'
 import keccak256 from 'keccak256'
 
 import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
-import { toUint8ArrayOptional } from './toUint8Array'
 
 export class Data extends AbstractData {
   private _bytes?: ArrayBuffer
@@ -16,7 +16,7 @@ export class Data extends AbstractData {
   constructor(length: number, bytes: string, base?: number)
   constructor(length: number, bytes?: DataLike, base?: number) {
     super()
-    this._bytes = toUint8ArrayOptional(bytes, length, base)
+    this._bytes = toUint8Array(bytes, length, base)
     this._length = length
   }
 

@@ -2,8 +2,6 @@ import { base16, base58 } from '@scure/base'
 import { assertEx } from '@xylabs/assert'
 import { ifTypeOf } from '@xyo-network/typeof'
 
-import { DataLike } from './DataLike'
-
 const stringToUint8Array = (value: string, base = 16) => {
   switch (base) {
     case 16:
@@ -15,15 +13,10 @@ const stringToUint8Array = (value: string, base = 16) => {
   }
 }
 
-/** @deprecated use ArrayBuffer instead */
-export const toUint8ArrayOptional = (value?: DataLike, padLength?: number, base?: number): Uint8Array | undefined => {
-  return value ? toUint8Array(value, padLength, base) : undefined
-}
-
 export function toUint8Array(value: undefined, padLength?: number, base?: number): undefined
-export function toUint8Array(value: DataLike, padLength?: number, base?: number): Uint8Array
-export function toUint8Array(value: DataLike | undefined, padLength?: number, base?: number): Uint8Array | undefined
-export function toUint8Array(value?: DataLike, padLength?: number, base?: number): Uint8Array | undefined {
+export function toUint8Array(value: ArrayBuffer | string, padLength?: number, base?: number): Uint8Array
+export function toUint8Array(value: ArrayBuffer | string | undefined, padLength?: number, base?: number): Uint8Array | undefined
+export function toUint8Array(value?: ArrayBuffer | string, padLength?: number, base?: number): Uint8Array | undefined {
   if (value === undefined) return undefined
 
   let result: Uint8Array | undefined =

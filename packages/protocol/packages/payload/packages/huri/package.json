@@ -12,8 +12,8 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.10",
     "@xylabs/axios": "^2.13.10",
+    "@xylabs/hex": "^2.13.10",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
@@ -62,5 +62,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.81.7"
+  "version": "2.82.0-rc.1",
+  "stableVersion": "2.81.7"
 }

@@ -70,5 +70,6 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "2.81.7"
+  "version": "2.82.0-rc.1",
+  "stableVersion": "2.81.7"
 }

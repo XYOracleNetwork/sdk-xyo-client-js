@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { asHex } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -23,7 +24,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   private _accounts: AccountInstance[] = []
   private _errorHashes: string[] | undefined
   private _errors: ModuleError[] = []
-  private _payloadHashes: string[] | undefined
+  private _payloadHashes: ArrayBuffer[] | undefined
   private _payloadSchemas: string[] | undefined
   private _payloads: TPayload[] = []
   private _sourceQuery: string | undefined
@@ -49,20 +50,20 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     }
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const hashableFields = await this.hashableFields()
-      const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
+      const hash = await BoundWitnessWrapper.hashAsync(hashableFields, 'buffer')
 
       /* get all the previousHashes to verify atomic signing */
-      const previousHashes = this._accounts.map((account) => account.previousHash)
+      const previousHashes = this._accounts.map((account) => toUint8Array(account.previousHash))
 
       const ret: TBoundWitness = {
         ...hashableFields,
-        _signatures: await this.signatures(_hash, previousHashes),
+        _signatures: await this.signatures(hash, previousHashes),
       }
       if (meta ?? this.config?.meta) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bwWithMeta = ret as any
         bwWithMeta._client = 'js'
-        bwWithMeta._hash = _hash
+        bwWithMeta._hash = hash
         bwWithMeta._timestamp = this._timestamp
       }
       if (this.config.inlinePayloads) {
@@ -96,7 +97,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   async hashableFields(): Promise<TBoundWitness> {
     const addresses = this._accounts.map((account) => account.address)
     const previous_hashes = this._accounts.map((account) => account.previousHash ?? null)
-    const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes')
+    const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes').map((x) => asHex(x))
     const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
     const result: TBoundWitness = {
       addresses: assertEx(addresses, 'Missing addresses'),
@@ -123,7 +124,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return result
   }
 
-  hashes(hashes: string[], schema: string[]) {
+  hashes(hashes: ArrayBuffer[], schema: string[]) {
     assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
     this._payloadSchemas = schema
@@ -163,16 +164,13 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected async signatures(_hash: string, previousHashes: (string | ArrayBuffer | undefined)[]) {
-    const hash = Buffer.from(_hash, 'hex')
+  protected async signatures(hash: ArrayBuffer, previousHashes: (ArrayBuffer | undefined)[]) {
     const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
-    return await Promise.all(
-      this._accounts.map(async (account, index) => Buffer.from(await account.sign(hash, previousHashesBytes[index])).toString('hex')),
-    )
+    return await Promise.all(this._accounts.map(async (account, index) => await account.sign(hash, previousHashesBytes[index])))
   }
 
-  private async getPayloadHashes(): Promise<string[]> {
-    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => PayloadHasher.hashAsync(payload))))
+  private async getPayloadHashes(): Promise<ArrayBuffer[]> {
+    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => PayloadHasher.hashAsync(payload, 'buffer'))))
   }
 
   private inlinePayloads() {

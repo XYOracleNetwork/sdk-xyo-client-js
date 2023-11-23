@@ -33,7 +33,7 @@ export abstract class AbstractForecastingDiviner<
     const stopTimestamp = query.timestamp || Date.now()
     const startTimestamp = windowSettings.windowSize ? stopTimestamp - windowSettings.windowSize : 0
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    const sources = await Promise.all(data.map((x) => PayloadHasher.hashAsync(x)))
+    const sources = await Promise.all(data.map((x) => PayloadHasher.hashAsync(x, 'hex')))
     const values = await this.forecastingMethod(data, this.transformer)
     const response: ForecastPayload = { schema: ForecastPayloadSchema, sources, values }
     return [response]

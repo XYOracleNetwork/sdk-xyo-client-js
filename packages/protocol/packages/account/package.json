@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/array": "^2.13.10",
     "@xylabs/assert": "^2.13.10",
+    "@xylabs/hex": "^2.13.10",
     "@xylabs/libauth": "^2.13.10",
     "@xylabs/static-implements": "^2.13.10",
     "@xyo-network/account-model": "workspace:~",
@@ -72,5 +73,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.7"
+  "version": "2.82.0-rc.1",
+  "stableVersion": "2.81.7"
 }

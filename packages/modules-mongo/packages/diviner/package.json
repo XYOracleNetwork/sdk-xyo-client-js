@@ -15,12 +15,12 @@
     "@xylabs/crypto": "^2.13.10",
     "@xylabs/delay": "^2.13.10",
     "@xylabs/exists": "^2.13.10",
+    "@xylabs/hex": "^2.13.10",
     "@xylabs/lodash": "^2.13.10",
     "@xylabs/promise": "^2.13.10",
     "@xylabs/set": "^2.13.10",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address": "workspace:~",
     "@xyo-network/address-payload-plugin": "^2.81.7",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
@@ -118,5 +118,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.81.7"
+  "version": "2.82.0-rc.1",
+  "stableVersion": "2.81.7"
 }

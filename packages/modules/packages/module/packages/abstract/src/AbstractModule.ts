@@ -272,7 +272,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this._noOverride('query')
-    const sourceQuery = await PayloadHasher.hashAsync(query)
+    const sourceQuery = await PayloadHasher.hashAsync(query, 'hex')
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -289,7 +289,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         await handleErrorAsync(ex, async (error) => {
           errorPayloads.push(
             new ModuleErrorBuilder()
-              .sources([await PayloadHasher.hashAsync(query)])
+              .sources([await PayloadHasher.hashAsync(query, 'hex')])
               .name(this.config.name ?? '<Unknown>')
               .query(query.schema)
               .message(error.message)
@@ -408,7 +408,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
+  protected bindHashes(hashes: ArrayBuffer[], schema: SchemaString[], account?: AccountInstance) {
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
@@ -417,7 +417,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
+  protected async bindHashesInternal(hashes: ArrayBuffer[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)

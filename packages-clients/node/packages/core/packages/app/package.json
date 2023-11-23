@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.81.7",
+  "version": "2.82.0-rc.1",
   "description": "XYO Node App",
   "sideeffects": false,
   "engines": {
@@ -68,5 +68,6 @@
   },
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
-  "types": "dist/node/index.d.ts"
+  "types": "dist/node/index.d.ts",
+  "stableVersion": "2.81.7"
 }

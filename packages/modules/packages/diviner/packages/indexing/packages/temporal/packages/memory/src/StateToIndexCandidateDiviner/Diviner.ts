@@ -13,8 +13,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalIndexingStateToIndexCandidateDivinerConfigSchema } from './Config'
-import { TemporalIndexingStateToIndexCandidateDivinerParams as TemporalIndexingDivinerStateToIndexCandidateDiviner } from './Params'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema } from './Config'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerParams as TemporalIndexingDivinerStateToIndexCandidateDiviner } from './Params'
 
 /**
  * All Payload types involved in index candidates for indexing
@@ -51,8 +51,8 @@ const moduleName = 'TemporalIndexingStateToIndexCandidateDiviner'
 export class TemporalIndexingStateToIndexCandidateDiviner<
   TParams extends TemporalIndexingDivinerStateToIndexCandidateDiviner = TemporalIndexingDivinerStateToIndexCandidateDiviner,
 > extends AbstractDiviner<TParams> {
-  static override readonly configSchema = TemporalIndexingStateToIndexCandidateDivinerConfigSchema
-  static override configSchemas = [DivinerConfigSchema, TemporalIndexingStateToIndexCandidateDivinerConfigSchema]
+  static override readonly configSchema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
+  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',
   }

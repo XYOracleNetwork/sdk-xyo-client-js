@@ -5,6 +5,11 @@ import { DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEvent
 import { TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from './DivinerQueryToIndexQueryDiviner'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from './IndexCandidateToIndexDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from './IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from './StateToIndexCandidateDiviner'
+
 // type ConfigStoreKey = 'indexStore' | 'stateStore'
 
 // type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
@@ -53,7 +58,7 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._divinerQueryToIndexQueryDiviner = await this.resolve(name)
       } else {
-        throw new Error('TODO: Create diviner')
+        this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
       }
     }
     return assertEx(this._divinerQueryToIndexQueryDiviner, 'divinerQueryToIndexQueryDiviner')
@@ -64,7 +69,7 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._indexCandidateToIndexDiviner = await this.resolve(name)
       } else {
-        throw new Error('TODO: Create diviner')
+        this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create()
       }
     }
     return assertEx(this._indexCandidateToIndexDiviner, 'indexCandidateToIndexDiviner')
@@ -75,7 +80,7 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._indexQueryResponseToDivinerQueryResponseDiviner = await this.resolve(name)
       } else {
-        throw new Error('TODO: Create diviner')
+        this._indexQueryResponseToDivinerQueryResponseDiviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
       }
     }
     return assertEx(this._indexQueryResponseToDivinerQueryResponseDiviner, 'indexQueryResponseToDivinerQueryResponseDiviner')
@@ -86,7 +91,7 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._stateToIndexCandidateDiviner = await this.resolve(name)
       } else {
-        throw new Error('TODO: Create diviner')
+        this._stateToIndexCandidateDiviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create()
       }
     }
     return assertEx(this._stateToIndexCandidateDiviner, 'stateToIndexCandidateDiviner')

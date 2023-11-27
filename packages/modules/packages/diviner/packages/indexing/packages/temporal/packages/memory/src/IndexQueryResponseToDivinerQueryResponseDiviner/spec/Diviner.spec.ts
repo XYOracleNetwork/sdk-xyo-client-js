@@ -6,14 +6,15 @@ import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 
 describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
+  const url = 'https://xyo.network'
   const queries: QueryType[] = [
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
   ]
   const indexes = [
@@ -24,6 +25,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 200,
         success: true,
         timestamp: 1234567890,
+        url,
       },
     ],
     [
@@ -33,6 +35,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 200,
         success: true,
         timestamp: 1234567891,
+        url,
       },
       {
         schema: 'TODO',
@@ -40,6 +43,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 500,
         success: false,
         timestamp: 1234567892,
+        url,
       },
     ],
   ]

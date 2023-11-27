@@ -37,7 +37,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
         const stringToHash = this.stringifyHashFields(obj)
         const b = enc.encode(stringToHash)
         const hashArray = await subtle.digest('SHA-256', b)
-        return asHash(hashArray, 256, true)
+        return asHash(hashArray, true)
       } catch (ex) {
         console.log('Setting allowSubtle to false')
         PayloadHasher.allowSubtle = false
@@ -48,7 +48,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     if (this.wasmSupport.canUseWasm) {
       const stringToHash = this.stringifyHashFields(obj)
       try {
-        return asHash(await sha256(stringToHash), 256, true)
+        return asHash(await sha256(stringToHash), true)
       } catch (ex) {
         this.wasmSupport.allowWasm = false
       }
@@ -65,7 +65,7 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
   }
 
   static hashSync<T extends AnyObject>(obj: T): Hash {
-    return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), 256, true)
+    return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), true)
   }
 
   static async hashes<T extends AnyObject>(objs: T[]): Promise<Hash[]> {

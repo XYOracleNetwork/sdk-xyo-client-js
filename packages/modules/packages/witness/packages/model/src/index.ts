@@ -1,4 +1,6 @@
 export * from './Config'
+export * from './CustomInstance'
+export * from './CustomModule'
 export * from './EventData'
 export * from './EventsModels'
 export * from './Instance'

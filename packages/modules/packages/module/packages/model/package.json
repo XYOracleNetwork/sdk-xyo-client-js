@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.15",
-    "@xylabs/hex": "^2.13.15",
-    "@xylabs/lodash": "^2.13.15",
-    "@xylabs/logger": "^2.13.15",
-    "@xylabs/promise": "^2.13.15",
+    "@xylabs/assert": "^2.13.17",
+    "@xylabs/hex": "^2.13.17",
+    "@xylabs/lodash": "^2.13.17",
+    "@xylabs/logger": "^2.13.17",
+    "@xylabs/promise": "^2.13.17",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "^2.81.7",
     "@xyo-network/boundwitness-model": "workspace:~",

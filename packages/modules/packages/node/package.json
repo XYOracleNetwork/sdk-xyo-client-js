@@ -16,7 +16,7 @@
     "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^2.13.15",
+    "@xylabs/delay": "^2.13.17",
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",

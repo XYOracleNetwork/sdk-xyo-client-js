@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { toHex } from '@xylabs/hex'
+import { toHexLegacy } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -62,7 +62,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get address() {
-    return toHex(this.addressBytes)
+    return toHexLegacy(this.addressBytes)
   }
 
   get addressBytes() {
@@ -70,7 +70,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get previousHash() {
-    return this.previousHashBytes ? toHex(this.previousHashBytes) : undefined
+    return this.previousHashBytes ? toHexLegacy(this.previousHashBytes) : undefined
   }
 
   get previousHashBytes() {
@@ -124,7 +124,7 @@ export class Account extends KeyPair implements AccountInstance {
     await KeyPair.wasmInitialized
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
-      const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : toHex(previousHash)
+      const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : toHexLegacy(previousHash)
       assertEx(
         currentPreviousHash === passedCurrentHash,
         `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
@@ -134,7 +134,7 @@ export class Account extends KeyPair implements AccountInstance {
       const newPreviousHash = toUint8Array(hash, 32)
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
-        await Account.previousHashStore.setItem(this.address, toHex(newPreviousHash))
+        await Account.previousHashStore.setItem(this.address, toHexLegacy(newPreviousHash))
       }
       return signature
     })

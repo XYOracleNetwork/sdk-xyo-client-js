@@ -1,1 +1,5 @@
 export * from './Diviner'
+export * from './DivinerQueryToIndexQueryDiviner'
+export * from './IndexCandidateToIndexDiviner'
+export * from './IndexQueryResponseToDivinerQueryResponseDiviner'
+export * from './StateToIndexCandidateDiviner'

@@ -21,12 +21,13 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
     if (queries.length) {
       const results = await Promise.all(
         queries.map((query) => {
-          const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder } = query
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { limit: payloadLimit, offset: payloadOffset, order: payloadOrder, schema, ...params } = query
           const limit = payloadLimit ?? 1
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
           // TODO: Add support for additional filters
-          const fields: Partial<PayloadDivinerQueryPayload> = { limit, offset, order }
+          const fields: Partial<PayloadDivinerQueryPayload> = { limit, offset, order, ...params }
           return new PayloadBuilder({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
         }),
       )

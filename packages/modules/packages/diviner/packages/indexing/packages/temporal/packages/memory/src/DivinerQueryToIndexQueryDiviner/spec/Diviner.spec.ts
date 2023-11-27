@@ -5,12 +5,13 @@ import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Divin
 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 
-describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
+describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
+  const url = 'https://xyo.network'
   let diviner: TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner
   const queries: QueryType[] = [
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://xyo.network',
+      url,
     },
     {
       limit: 10,
@@ -19,37 +20,37 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       schema: PayloadDivinerQuerySchema,
       status: 200,
       success: true,
-      url: 'https://xyo.network',
+      url,
     },
     {
       limit: 10,
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       offset: 10,
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       order: 'asc',
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       status: 200,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       success: true,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       success: false,
-      url: 'https://explore.xyo.network',
+      url,
     },
   ]
   const expected: PayloadDivinerQueryPayload[] = [
@@ -58,6 +59,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 10,
@@ -66,24 +68,28 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       schema: 'network.xyo.diviner.payload.query',
       status: 200,
       success: true,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 10,
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 10,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 0,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
@@ -91,6 +97,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
       status: 200,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
@@ -98,6 +105,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
       success: true,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
@@ -105,13 +113,14 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
       success: false,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
   ]
   const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
   beforeAll(async () => {
     diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
   })
-  describe.skip('divine', () => {
+  describe('divine', () => {
     describe('with single query', () => {
       it.each(cases)('transforms query', async (query, expected) => {
         const results = await diviner.divine([query])

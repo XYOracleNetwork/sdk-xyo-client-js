@@ -1,7 +1,7 @@
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../Diviner'
 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 

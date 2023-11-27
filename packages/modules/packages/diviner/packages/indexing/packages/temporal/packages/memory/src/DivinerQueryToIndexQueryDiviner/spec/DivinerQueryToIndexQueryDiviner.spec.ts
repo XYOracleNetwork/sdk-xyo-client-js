@@ -1,12 +1,12 @@
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner'
 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 
 describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
-  let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
+  let diviner: TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner
   const queries: QueryType[] = [
     {
       schema: PayloadDivinerQuerySchema,
@@ -109,7 +109,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   ]
   const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
   beforeAll(async () => {
-    diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
+    diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
   })
   describe.skip('divine', () => {
     describe('with single query', () => {

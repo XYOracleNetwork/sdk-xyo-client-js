@@ -13,7 +13,7 @@ import jsonpath from 'jsonpath'
 
 import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformersDictionary } from '../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema } from './Config'
-import { TemporalIndexCandidateToIndexDivinerParams } from './Params'
+import { TemporalIndexingDivinerIndexCandidateToIndexDivinerParams } from './Params'
 
 export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 
@@ -23,7 +23,7 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
-  TParams extends TemporalIndexCandidateToIndexDivinerParams = TemporalIndexCandidateToIndexDivinerParams,
+  TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
 > extends AbstractDiviner<TParams, Payload, Payload> {
   static override configSchema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]

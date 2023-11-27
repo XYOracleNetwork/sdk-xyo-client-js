@@ -19,7 +19,7 @@ import { TemporalIndexingDiviner } from '../Diviner'
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner'
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
-import { TemporalIndexingStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 type ImageThumbnail = Payload<{
@@ -92,7 +92,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
-    locator.register(TemporalIndexingStateToIndexCandidateDiviner, labels)
+    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner, labels)
     locator.register(TemporalIndexingDiviner, labels)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)

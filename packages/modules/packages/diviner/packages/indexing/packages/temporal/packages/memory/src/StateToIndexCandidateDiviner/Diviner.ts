@@ -14,7 +14,7 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema } from './Config'
-import { TemporalIndexingDivinerStateToIndexCandidateDivinerParams as TemporalIndexingDivinerStateToIndexCandidateDiviner } from './Params'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from './Params'
 
 /**
  * All Payload types involved in index candidates for indexing
@@ -43,13 +43,13 @@ const order = 'asc'
 /**
  * The name of the module (for logging purposes)
  */
-const moduleName = 'TemporalIndexingStateToIndexCandidateDiviner'
+const moduleName = 'TemporalIndexingDivinerStateToIndexCandidateDiviner'
 
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
-export class TemporalIndexingStateToIndexCandidateDiviner<
-  TParams extends TemporalIndexingDivinerStateToIndexCandidateDiviner = TemporalIndexingDivinerStateToIndexCandidateDiviner,
+export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
+  TParams extends TemporalIndexingDivinerStateToIndexCandidateDivinerParams = TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
 > extends AbstractDiviner<TParams> {
   static override readonly configSchema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]

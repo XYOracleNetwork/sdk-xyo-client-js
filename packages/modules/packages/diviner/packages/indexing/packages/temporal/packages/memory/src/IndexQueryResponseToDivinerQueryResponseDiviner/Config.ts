@@ -1,10 +1,11 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { IndexQueryResponseToDivinerQueryResponseDivinerSchema } from './Schema'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema } from './Schema'
 
-export type IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema = `${IndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
-export const IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema: IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema = `${IndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
+export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema =
+  `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
+export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema = `${TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema}.config`
 
-export type IndexQueryResponseToDivinerQueryResponseDivinerConfig = DivinerConfig<{
-  schema: IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig = DivinerConfig<{
+  schema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
 }>

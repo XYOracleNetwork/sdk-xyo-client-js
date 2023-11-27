@@ -5,11 +5,14 @@ import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema } from './Config'
+
 /**
  * A diviner that converts diviner query to index query
  */
 export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends AbstractDiviner {
-  static override configSchemas = [DivinerConfigSchema]
+  static override readonly configSchema = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
+  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
   }

@@ -4,11 +4,14 @@ import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model
 import { Labels } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema } from './Config'
+
 /**
  * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response
  */
 export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner extends AbstractDiviner {
-  static override configSchemas = [DivinerConfigSchema]
+  static override readonly configSchema = IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+  static override configSchemas = [DivinerConfigSchema, IndexQueryResponseToDivinerQueryResponseDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',
   }

@@ -51,6 +51,7 @@ const moduleName = 'TemporalStateToIndexCandidateDiviner'
 export class TemporalStateToIndexCandidateDiviner<
   TParams extends TemporalIndexingDivinerStateToIndexCandidateDiviner = TemporalIndexingDivinerStateToIndexCandidateDiviner,
 > extends AbstractDiviner<TParams> {
+  static override readonly configSchema = TemporalStateToIndexCandidateDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalStateToIndexCandidateDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',

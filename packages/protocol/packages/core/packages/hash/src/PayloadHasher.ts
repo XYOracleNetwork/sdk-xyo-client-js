@@ -1,4 +1,4 @@
-import { asHash, Hash } from '@xylabs/hex'
+import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { subtle } from '@xylabs/platform'
 import { AnyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
@@ -37,9 +37,11 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
         const stringToHash = this.stringifyHashFields(obj)
         const b = enc.encode(stringToHash)
         const hashArray = await subtle.digest('SHA-256', b)
-        return asHash(hashArray, true)
+        return hexFromArrayBuffer(hashArray, { bitLength: 256 })
       } catch (ex) {
-        console.log('Setting allowSubtle to false')
+        const error = ex as Error
+        console.error(`Setting allowSubtle to false [${error.message}]`)
+        console.log(error.stack)
         PayloadHasher.allowSubtle = false
       }
     }

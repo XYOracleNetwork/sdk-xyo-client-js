@@ -1,3 +1,4 @@
+import { equalArrayBuffers } from '@xylabs/arraybuffer'
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { Data, toUint8Array, WasmSupport } from '@xyo-network/core'
@@ -23,8 +24,8 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
   }
 
-  static addressFromPublicKey(key: ArrayBuffer) {
-    return new Data(64, key).keccak256.slice(12).toString('hex').padStart(40, '0')
+  static addressFromPublicKey(key: ArrayBuffer): ArrayBuffer {
+    return new Data(64, key).keccak256.slice(12)
   }
 
   static isAddress(value: unknown) {
@@ -39,7 +40,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
     const r = sigArray.slice(0, 32)
     const s = sigArray.slice(32, 64)
 
-    const expectedAddress = new AddressValue(address).hex
+    const expectedAddress = new AddressValue(address).bytes
     for (const recoveryId of recoveryIds) {
       try {
         const publicHex = AddressValue.ecContext
@@ -48,7 +49,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
           .substring(2)
         const publicKey = toUint8Array(publicHex)
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
-        valid = valid || recoveredAddress === expectedAddress
+        valid = valid || equalArrayBuffers(recoveredAddress, expectedAddress)
         if (valid) break
       } catch (ex) {
         const error = ex as Error

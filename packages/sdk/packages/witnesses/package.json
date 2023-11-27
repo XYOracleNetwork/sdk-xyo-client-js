@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/delay": "^2.13.17",
-    "@xylabs/promise": "^2.13.17",
+    "@xylabs/delay": "^2.13.18",
+    "@xylabs/promise": "^2.13.18",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/core": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

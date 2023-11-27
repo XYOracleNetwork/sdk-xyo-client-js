@@ -14,7 +14,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
   }
 
   get address() {
-    if (!this._address) this._address = new AddressValue(toUint8Array(this.keccak256.slice(12).toString('hex').padStart(40, '0')))
+    if (!this._address) this._address = new AddressValue(toUint8Array(this.keccak256.slice(12)))
     return this._address
   }
 

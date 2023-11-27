@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.17",
-    "@xylabs/exists": "^2.13.17",
-    "@xylabs/lodash": "^2.13.17",
-    "@xylabs/static-implements": "^2.13.17",
+    "@xylabs/assert": "^2.13.18",
+    "@xylabs/exists": "^2.13.18",
+    "@xylabs/lodash": "^2.13.18",
+    "@xylabs/static-implements": "^2.13.18",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-model-mongodb": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

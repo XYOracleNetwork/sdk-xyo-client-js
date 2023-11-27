@@ -123,11 +123,11 @@ export class Quadkey {
   }
 
   static fromArrayBuffer(zoom: number, id: ArrayBuffer) {
-    return new Quadkey().setId(BigInt(`0x${asHex(id, 256, true)}`)).setZoom(zoom)
+    return new Quadkey().setId(BigInt(`0x${asHex(id, true)}`)).setZoom(zoom)
   }
 
   static fromBase16String(value: string) {
-    return new Quadkey(BigInt(`0x${asHex(value, 256, true)}`))
+    return new Quadkey(BigInt(`0x${asHex(value, true)}`))
   }
 
   static fromBase4String(value?: string) {

@@ -7,7 +7,7 @@ export abstract class AbstractData {
 
   abstract get hex(): string
 
-  abstract get keccak256(): Buffer
+  abstract get keccak256(): ArrayBuffer
 
   static is(value: unknown): value is AbstractData {
     return value instanceof AbstractData

@@ -2,12 +2,12 @@ import { BoundWitnessDivinerPredicate } from '@xyo-network/diviner-boundwitness-
 import { SearchableStorage } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { TemporalStateToIndexCandidateDivinerSchema } from './Schema'
+import { TemporalIndexingStateToIndexCandidateDivinerSchema } from './Schema'
 
-export type TemporalStateToIndexCandidateDivinerConfigSchema = `${TemporalStateToIndexCandidateDivinerSchema}.config`
-export const TemporalStateToIndexCandidateDivinerConfigSchema: TemporalStateToIndexCandidateDivinerConfigSchema = `${TemporalStateToIndexCandidateDivinerSchema}.config`
+export type TemporalIndexingStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingStateToIndexCandidateDivinerSchema}.config`
+export const TemporalIndexingStateToIndexCandidateDivinerConfigSchema: TemporalIndexingStateToIndexCandidateDivinerConfigSchema = `${TemporalIndexingStateToIndexCandidateDivinerSchema}.config`
 
-export type TemporalStateToIndexCandidateDivinerConfig = DivinerConfig<{
+export type TemporalIndexingStateToIndexCandidateDivinerConfig = DivinerConfig<{
   /**
    * The filter to use to identify index candidates
    */
@@ -17,5 +17,5 @@ export type TemporalStateToIndexCandidateDivinerConfig = DivinerConfig<{
    * Where the diviner should look for stored thumbnails
    */
   payloadStore?: SearchableStorage
-  schema: TemporalStateToIndexCandidateDivinerConfigSchema
+  schema: TemporalIndexingStateToIndexCandidateDivinerConfigSchema
 }>

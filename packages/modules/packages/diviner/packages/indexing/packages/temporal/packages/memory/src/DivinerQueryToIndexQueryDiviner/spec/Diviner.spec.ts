@@ -1,9 +1,8 @@
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner'
 
-type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
+type QueryType = PayloadDivinerQueryPayload<{ status?: number; success?: boolean; url: string }>
 
 describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
   const url = 'https://xyo.network'

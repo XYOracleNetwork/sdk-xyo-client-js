@@ -1,4 +1,6 @@
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
+import { hexFromArrayBuffer } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -163,12 +165,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected async signatures(_hash: string, previousHashes: (string | ArrayBuffer | undefined)[]) {
-    const hash = Buffer.from(_hash, 'hex')
+  protected async signatures(_hash: string, previousHashes: (string | ArrayBuffer | undefined)[]): Promise<string[]> {
+    const hash = toArrayBuffer(_hash)
     const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
-    return await Promise.all(
-      this._accounts.map(async (account, index) => Buffer.from(await account.sign(hash, previousHashesBytes[index])).toString('hex')),
-    )
+    return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))
   }
 
   private async getPayloadHashes(): Promise<string[]> {

@@ -58,10 +58,6 @@ export class Quadkey {
     return tileToBoundingBox(this.tile)
   }
 
-  get buffer() {
-    return this.key
-  }
-
   get center() {
     const result = boundingBoxToCenter(this.boundingBox)
     return new LngLat(result[0], result[1])

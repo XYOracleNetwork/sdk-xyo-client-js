@@ -1,7 +1,8 @@
 /* eslint-disable import/no-deprecated */
 import { base16, base58 } from '@scure/base'
+import { toArrayBuffer } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import keccak256 from 'keccak256'
+import { keccak256 } from 'ethers'
 
 import { AbstractData } from './AbstractData'
 import { DataLike } from './DataLike'
@@ -35,7 +36,7 @@ export class Data extends AbstractData {
 
   get keccak256() {
     this.checkLength()
-    return new Uint8Array(keccak256(new Buffer(this.bytes)))
+    return toArrayBuffer(keccak256(new Uint8Array(this.bytes)))
   }
 
   static from(data: DataLike | undefined) {

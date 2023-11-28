@@ -20,8 +20,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   }
 
   static addressFromAddressOrPublicKey(bytes: ArrayBuffer) {
-    const bytesArray = toUint8Array(bytes)
-    return bytesArray.length === 20 ? bytesArray : AddressValue.addressFromPublicKey(bytesArray)
+    return bytes.byteLength === 20 ? bytes : AddressValue.addressFromPublicKey(bytes)
   }
 
   static addressFromPublicKey(key: ArrayBuffer): ArrayBuffer {

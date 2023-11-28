@@ -17,10 +17,6 @@ import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from './IndexCand
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from './IndexQueryResponseToDivinerQueryResponseDiviner'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from './StateToIndexCandidateDiviner'
 
-// type ConfigStoreKey = 'indexStore' | 'stateStore'
-
-// type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
-
 const moduleName = 'TemporalIndexingDiviner'
 
 export class TemporalIndexingDiviner<

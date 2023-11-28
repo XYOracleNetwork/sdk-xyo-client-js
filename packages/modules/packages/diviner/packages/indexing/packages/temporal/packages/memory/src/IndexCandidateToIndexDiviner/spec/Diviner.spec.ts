@@ -1,11 +1,10 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
+import { isTemporalIndexingDivinerResultIndex, StringToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { StringToJsonPathTransformExpressionsDictionary } from '../../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../Diviner'
 
 type ImageThumbnail = Payload<{

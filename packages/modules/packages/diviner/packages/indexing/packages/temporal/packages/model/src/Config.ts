@@ -15,18 +15,13 @@ export type IndexingDivinerStageTransformConfig = {
 }
 
 // TODO: Extend indexing diviner config and just remove fields that are not needed?
-export type TemporalIndexingDivinerConfig = IndexingDivinerConfig &
-  DivinerConfig<{
-    /**
-     * Optional config section for name/address of individual diviner stages
-     */
-    indexingDivinerStages?: Partial<IndexingDivinerStageConfig>
-    /**
-     * Optional config section for JSON Transform description of individual diviner stages
-     */
-    indexingDivinerTransforms?: IndexingDivinerStageTransformConfig
-    /**
-     * The schema for this config
-     */
-    schema: TemporalIndexingDivinerConfigSchema
-  }>
+export type TemporalIndexingDivinerConfig = IndexingDivinerConfig & {
+  /**
+   * Optional config section for JSON Transform description of individual diviner stages
+   */
+  indexingDivinerTransforms?: IndexingDivinerStageTransformConfig
+  /**
+   * The schema for this config
+   */
+  schema: TemporalIndexingDivinerConfigSchema
+}

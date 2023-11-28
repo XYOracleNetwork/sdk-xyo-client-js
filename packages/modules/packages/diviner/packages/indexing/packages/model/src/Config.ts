@@ -15,7 +15,7 @@ export type IndexingDivinerConfig = DivinerConfig<{
   /**
    * Config section for name/address of individual diviner stages
    */
-  indexingDivinerStages: IndexingDivinerStageConfig
+  indexingDivinerStages?: IndexingDivinerStageConfig
   /**
    * The maximum number of payloads to index at a time
    */

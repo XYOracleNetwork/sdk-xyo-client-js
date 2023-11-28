@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { asHex } from '@xylabs/hex'
+import { asHex, hexFromHexString } from '@xylabs/hex'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,
@@ -65,7 +65,7 @@ const sanitizeAddress = (a: string | string[] | undefined): string => {
       .concat(a)
       .filter(exists)
       .map((x) => x.toLowerCase())
-      .map((z) => asHex(z))
+      .map((z) => hexFromHexString(z, { prefix: true }))
       .filter(exists)
       // TODO: We're only taking the last address with this
       .reduce((x) => x)

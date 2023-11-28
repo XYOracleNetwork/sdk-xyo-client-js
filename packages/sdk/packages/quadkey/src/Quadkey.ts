@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { asHex } from '@xylabs/hex'
+import { asHex, hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
 import {
   boundingBoxToCenter,
   GeoJson,
@@ -119,11 +119,11 @@ export class Quadkey {
   }
 
   static fromArrayBuffer(zoom: number, id: ArrayBuffer) {
-    return new Quadkey().setId(BigInt(`0x${asHex(id, true)}`)).setZoom(zoom)
+    return new Quadkey().setId(BigInt(hexFromArrayBuffer(id, { prefix: true }))).setZoom(zoom)
   }
 
   static fromBase16String(value: string) {
-    return new Quadkey(BigInt(`0x${asHex(value, true)}`))
+    return new Quadkey(BigInt(hexFromHexString(value, { prefix: true })))
   }
 
   static fromBase4String(value?: string) {

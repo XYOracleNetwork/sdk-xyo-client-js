@@ -1,6 +1,6 @@
 import { flatten } from '@xylabs/array'
 import { exists } from '@xylabs/exists'
-import { asHex } from '@xylabs/hex'
+import { asHex, hexFromHexString } from '@xylabs/hex'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
@@ -40,7 +40,7 @@ export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
     // solve the multi-sig problem via multiple API calls when multi-sig is desired instead of
     // potentially impacting performance for all single-address queries
     const allAddresses = flatten(address, addresses)
-      .map((x) => asHex(x))
+      .map((x) => hexFromHexString(x, { prefix: true }))
       .filter(exists)
     if (allAddresses.length) filter.addresses = allAddresses.length === 1 ? allAddresses[0] : { $all: allAddresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }

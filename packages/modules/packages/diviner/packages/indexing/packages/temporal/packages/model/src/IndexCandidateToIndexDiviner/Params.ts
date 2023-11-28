@@ -3,4 +3,6 @@ import { AnyConfigSchema } from '@xyo-network/module-model'
 
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig } from './Config'
 
-export type TemporalIndexCandidateToIndexDivinerParams = DivinerParams<AnyConfigSchema<TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig>>
+export type TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = DivinerParams<
+  AnyConfigSchema<TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig>
+>

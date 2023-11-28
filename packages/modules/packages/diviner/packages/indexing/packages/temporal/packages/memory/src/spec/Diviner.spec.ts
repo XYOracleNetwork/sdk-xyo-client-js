@@ -4,10 +4,12 @@ import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { PayloadHasher } from '@xyo-network/core'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { isModuleState, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
@@ -19,7 +21,7 @@ import { TemporalIndexingDiviner } from '../Diviner'
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../DivinerQueryToIndexQueryDiviner'
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
-import { TemporalStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
 import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
 
 type ImageThumbnail = Payload<{
@@ -39,7 +41,7 @@ type Query = PayloadDivinerQueryPayload & { status?: number; success?: boolean; 
 /**
  * @group slow
  */
-describe.skip('TemporalIndexingDiviner', () => {
+describe('TemporalIndexingDiviner', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
@@ -92,7 +94,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
-    locator.register(TemporalStateToIndexCandidateDiviner, labels)
+    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner, labels)
     locator.register(TemporalIndexingDiviner, labels)
     const manifest = imageThumbnailDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
@@ -180,9 +182,9 @@ describe.skip('TemporalIndexingDiviner', () => {
       expect(indexBoundWitness.addresses).toContain(sut.address)
     })
     it('has expected index', async () => {
-      // const payloads = await indexArchivist.all()
-      // const indexPayloads = payloads.filter(isPayloadDivinerQueryPayloadIndex)
-      // expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
+      const payloads = await indexArchivist.all()
+      const indexPayloads = payloads.filter(isTemporalIndexingDivinerResultIndex)
+      expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })
   })
   describe('with no thumbnail for the provided URL', () => {
@@ -198,13 +200,13 @@ describe.skip('TemporalIndexingDiviner', () => {
     const url = sourceUrl
     const schema = PayloadDivinerQuerySchema
     describe('with no filter criteria', () => {
-      it('returns the most recent success', async () => {
-        const query: Query = { schema, success: true, url }
+      it('returns the most recent result', async () => {
+        const query: Query = { schema, url }
         const results = await sut.divine([query])
-        const result = results.find(isPayloadDivinerQueryPayload)
+        const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
-        // const expected = await PayloadHasher.hashAsync(thumbnailHttpSuccess)
-        // expect(result?.sources).toContain(expected)
+        const expected = await PayloadHasher.hashAsync(thumbnailCodeFail)
+        expect(result?.sources).toContain(expected)
       })
     })
     describe('with filter criteria', () => {
@@ -214,34 +216,34 @@ describe.skip('TemporalIndexingDiviner', () => {
           const { status } = payload.http ?? {}
           const query: Query = { schema, status, url }
           const results = await sut.divine([query])
-          const result = results.find(isPayloadDivinerQueryPayload)
+          const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
-          // const expected = await PayloadHasher.hashAsync(payload)
-          // expect(result?.sources).toContain(expected)
+          const expected = await PayloadHasher.hashAsync(payload)
+          expect(result?.sources).toContain(expected)
         })
       })
-      describe('for success (most recent)', () => {
+      describe.skip('for success (most recent)', () => {
         const cases: ImageThumbnail[] = [thumbnailHttpSuccess]
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
           const success = !!(payload.url ?? false)
           const query: Query = { schema, success, url }
           const results = await sut.divine([query])
-          const result = results.find(isPayloadDivinerQueryPayload)
+          const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
-          // const expected = await PayloadHasher.hashAsync(payload)
-          // expect(result?.sources).toContain(expected)
+          const expected = await PayloadHasher.hashAsync(payload)
+          expect(result?.sources).toContain(expected)
         })
       })
-      describe('for failure (most recent)', () => {
+      describe.skip('for failure (most recent)', () => {
         const cases: ImageThumbnail[] = [thumbnailCodeFail]
         it.each(cases)('returns the most recent instance of that success state', async (payload) => {
           const success = !!(payload.url ?? false)
           const query: Query = { schema, success, url }
           const results = await sut.divine([query])
-          const result = results.find(isPayloadDivinerQueryPayload)
+          const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
-          // const expected = await PayloadHasher.hashAsync(payload)
-          // expect(result?.sources).toContain(expected)
+          const expected = await PayloadHasher.hashAsync(payload)
+          expect(result?.sources).toContain(expected)
         })
       })
     })

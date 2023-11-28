@@ -134,16 +134,38 @@
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
                 "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
               },
-              "indexingDivinerStages": {
-                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
-                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
-                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
-                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
-              },
               "language": "javascript",
               "name": "ImageThumbnailDiviner",
               "pollFrequency": 1000,
               "schema": "network.xyo.diviner.indexing.config",
+              "stageConfigs": {
+                "divinerQueryToIndexQueryDiviner": {},
+                "indexCandidateToIndexDiviner": {
+                  "schemaTransforms": {
+                    "network.xyo.image.thumbnail": [
+                      {
+                        "destinationField": "url",
+                        "sourcePathExpression": "$.sourceUrl"
+                      },
+                      {
+                        "destinationField": "status",
+                        "sourcePathExpression": "$.http.status"
+                      }
+                    ]
+                  }
+                },
+                "indexQueryResponseToDivinerQueryResponseDiviner": {},
+                "stateToIndexCandidateDiviner": {
+                  "filter": {
+                    "payload_schemas": ["network.xyo.image.thumbnail"]
+                  },
+                  "payloadStore": {
+                    "archivist": "ImageThumbnailArchivist",
+                    "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
+                    "payloadDiviner": "ImageThumbnailPayloadDiviner"
+                  }
+                }
+              },
               "stateStore": {
                 "archivist": "AddressStateArchivist",
                 "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",

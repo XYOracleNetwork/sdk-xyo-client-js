@@ -12,7 +12,7 @@ import { isModuleState, ModuleFactoryLocator, ModuleState, ModuleStateSchema } f
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
-import { TemporalStateToIndexCandidateDiviner } from '../Diviner'
+import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../Diviner'
 import TemporalStateToIndexCandidateDivinerManifest from './TemporalStateToIndexCandidateDiviner.json'
 
 /**
@@ -56,7 +56,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
   }
   const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
 
-  let sut: TemporalStateToIndexCandidateDiviner
+  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
   let node: MemoryNode
 
   beforeAll(async () => {
@@ -65,7 +65,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    locator.register(TemporalStateToIndexCandidateDiviner)
+    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
     const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
@@ -104,7 +104,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<TemporalStateToIndexCandidateDiviner>(await node.resolve('TemporalStateToIndexCandidateDiviner')))
+    sut = assertEx(asDivinerInstance<TemporalIndexingDivinerStateToIndexCandidateDiviner>(await node.resolve('TemporalStateToIndexCandidateDiviner')))
   })
 
   describe('divine', () => {

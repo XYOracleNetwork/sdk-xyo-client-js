@@ -1,16 +1,17 @@
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { Payload } from '@xyo-network/payload-model'
+import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
 
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner'
 
-type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
+type QueryType = PayloadDivinerQueryPayload<{ status?: number; success?: boolean; url: string }>
 
-describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
-  let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
+describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
+  const url = 'https://xyo.network'
+  let diviner: TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner
   const queries: QueryType[] = [
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://xyo.network',
+      url,
     },
     {
       limit: 10,
@@ -19,37 +20,37 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       schema: PayloadDivinerQuerySchema,
       status: 200,
       success: true,
-      url: 'https://xyo.network',
+      url,
     },
     {
       limit: 10,
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       offset: 10,
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       order: 'asc',
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       status: 200,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       success: true,
-      url: 'https://explore.xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
       success: false,
-      url: 'https://explore.xyo.network',
+      url,
     },
   ]
   const expected: PayloadDivinerQueryPayload[] = [
@@ -58,60 +59,76 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 10,
       offset: 10,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       status: 200,
       success: true,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 10,
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 10,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 0,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       status: 200,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       success: true,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
     {
       limit: 1,
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       success: false,
+      url,
     } as unknown as PayloadDivinerQueryPayload,
   ]
   const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
   beforeAll(async () => {
-    diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
+    diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
   })
-  describe.skip('divine', () => {
+  describe('divine', () => {
     describe('with single query', () => {
       it.each(cases)('transforms query', async (query, expected) => {
         const results = await diviner.divine([query])

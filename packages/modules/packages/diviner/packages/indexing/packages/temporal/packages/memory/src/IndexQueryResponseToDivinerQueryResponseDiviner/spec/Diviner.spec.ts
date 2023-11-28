@@ -1,19 +1,20 @@
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../Diviner'
 
 type QueryType = Payload<PayloadDivinerQueryPayload & Payload<{ status?: number; success?: boolean; url: string }>>
 
 describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner', () => {
+  const url = 'https://xyo.network'
   const queries: QueryType[] = [
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://xyo.network',
+      url,
     },
     {
       schema: PayloadDivinerQuerySchema,
-      url: 'https://explore.xyo.network',
+      url,
     },
   ]
   const indexes = [
@@ -24,6 +25,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 200,
         success: true,
         timestamp: 1234567890,
+        url,
       },
     ],
     [
@@ -33,6 +35,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 200,
         success: true,
         timestamp: 1234567891,
+        url,
       },
       {
         schema: 'TODO',
@@ -40,6 +43,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         status: 500,
         success: false,
         timestamp: 1234567892,
+        url,
       },
     ],
   ]
@@ -48,7 +52,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
     diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
   })
   const cases: [QueryType, Payload[]][] = queries.map((query, i) => [query, indexes[i]])
-  describe.skip('divine', () => {
+  describe('divine', () => {
     describe('with single url in index result', () => {
       it.each(cases)('transforms single url index results', async (imageThumbnailDivinerQuery, imageThumbnailResultIndex) => {
         const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])

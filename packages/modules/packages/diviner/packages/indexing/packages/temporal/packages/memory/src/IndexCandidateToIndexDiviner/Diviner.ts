@@ -5,15 +5,18 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
+import {
+  PayloadTransformer,
+  StringToJsonPathTransformExpressionsDictionary,
+  StringToPayloadTransformersDictionary,
+  TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
+  TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
+  TemporalIndexingDivinerResultIndexSchema,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
-
-import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformersDictionary } from '../lib'
-import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema } from './Config'
-import { TemporalIndexCandidateToIndexDivinerParams } from './Params'
 
 export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 
@@ -23,7 +26,7 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
-  TParams extends TemporalIndexCandidateToIndexDivinerParams = TemporalIndexCandidateToIndexDivinerParams,
+  TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
 > extends AbstractDiviner<TParams, Payload, Payload> {
   static override configSchema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]

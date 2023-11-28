@@ -7,14 +7,15 @@ import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import {
+  TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
+  TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, Labels, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-
-import { TemporalStateToIndexCandidateDivinerConfigSchema } from './Config'
-import { TemporalStateToIndexCandidateDivinerParams as TemporalIndexingDivinerStateToIndexCandidateDiviner } from './Params'
 
 /**
  * All Payload types involved in index candidates for indexing
@@ -43,15 +44,16 @@ const order = 'asc'
 /**
  * The name of the module (for logging purposes)
  */
-const moduleName = 'TemporalStateToIndexCandidateDiviner'
+const moduleName = 'TemporalIndexingDivinerStateToIndexCandidateDiviner'
 
 /**
  * Transforms candidates for image thumbnail indexing into their indexed representation
  */
-export class TemporalStateToIndexCandidateDiviner<
-  TParams extends TemporalIndexingDivinerStateToIndexCandidateDiviner = TemporalIndexingDivinerStateToIndexCandidateDiviner,
+export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
+  TParams extends TemporalIndexingDivinerStateToIndexCandidateDivinerParams = TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchemas = [DivinerConfigSchema, TemporalStateToIndexCandidateDivinerConfigSchema]
+  static override readonly configSchema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
+  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
   static labels: Labels = {
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',
   }
@@ -77,6 +79,7 @@ export class TemporalStateToIndexCandidateDiviner<
     const { offset } = lastState.state
     // Get next batch of results starting from the offset
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
+    if (!boundWitnessDiviner) return [lastState]
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({ limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas })
       .build()
@@ -84,6 +87,7 @@ export class TemporalStateToIndexCandidateDiviner<
     if (batch.length === 0) return [lastState]
     // Get source data
     const sourceArchivist = await this.getArchivistForStore()
+    if (!sourceArchivist) return [lastState]
     const indexCandidates: IndexCandidate[] = (
       await Promise.all(batch.filter(isBoundWitness).map((bw) => this.getPayloadsInBoundWitness(bw, sourceArchivist)))
     )
@@ -94,24 +98,32 @@ export class TemporalStateToIndexCandidateDiviner<
   }
   /**
    * Retrieves the archivist for the payloadStore
-   * @returns The archivist for the payloadStore
+   * @returns The archivist for the payloadStore or undefined if not resolvable
    */
-  protected async getArchivistForStore() {
+  protected async getArchivistForStore(): Promise<ArchivistWrapper | undefined> {
+    // It should be defined, so we'll error if it's not
     const name: string = assertEx(this.config?.payloadStore?.archivist, () => `${moduleName}: Config for payloadStore.archivist not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve payloadStore.archivist`)
+    // It might not be resolvable (yet), so we'll return undefined if it's not
+    const mod = await this.resolve(name)
+    if (!mod) return undefined
+    // Return the wrapped archivist
     return ArchivistWrapper.wrap(mod, this.account)
   }
 
   /**
    * Retrieves the BoundWitness Diviner for the payloadStore
-   * @returns The BoundWitness Diviner for the payloadStore
+   * @returns The BoundWitness Diviner for the payloadStore or undefined if not resolvable
    */
-  protected async getBoundWitnessDivinerForStore() {
+  protected async getBoundWitnessDivinerForStore(): Promise<DivinerWrapper | undefined> {
+    // It should be defined, so we'll error if it's not
     const name: string = assertEx(
       this.config?.payloadStore?.boundWitnessDiviner,
       () => `${moduleName}: Config for payloadStore.boundWitnessDiviner not specified`,
     )
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve payloadStore.boundWitnessDiviner`)
+    // It might not be resolvable (yet), so we'll return undefined if it's not
+    const mod = await this.resolve(name)
+    if (!mod) return undefined
+    // Return the wrapped diviner
     return DivinerWrapper.wrap(mod, this.account)
   }
 

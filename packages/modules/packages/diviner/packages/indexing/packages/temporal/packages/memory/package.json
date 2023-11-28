@@ -26,6 +26,7 @@
     "@xyo-network/diviner-temporal-indexing-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-timestamp": "workspace:~",

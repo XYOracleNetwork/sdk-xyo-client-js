@@ -6,7 +6,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
   TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
@@ -100,7 +100,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
    * Retrieves the archivist for the payloadStore
    * @returns The archivist for the payloadStore or undefined if not resolvable
    */
-  protected async getArchivistForStore() {
+  protected async getArchivistForStore(): Promise<ArchivistWrapper | undefined> {
     // It should be defined, so we'll error if it's not
     const name: string = assertEx(this.config?.payloadStore?.archivist, () => `${moduleName}: Config for payloadStore.archivist not specified`)
     // It might not be resolvable (yet), so we'll return undefined if it's not

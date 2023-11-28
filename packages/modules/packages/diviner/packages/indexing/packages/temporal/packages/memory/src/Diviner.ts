@@ -10,6 +10,7 @@ import {
   TemporalIndexingDivinerParams,
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
+import { asNodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from './DivinerQueryToIndexQueryDiviner'
@@ -66,6 +67,7 @@ export class TemporalIndexingDiviner<
         if (stageConfig) {
           const config = { schema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema, ...stageConfig }
           this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ config })
+          this.upResolver.add(this._divinerQueryToIndexQueryDiviner)
         }
       }
     }
@@ -84,6 +86,7 @@ export class TemporalIndexingDiviner<
         if (stageConfig) {
           const config = { schema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema, ...stageConfig }
           this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({ config })
+          this.upResolver.add(this._indexCandidateToIndexDiviner)
         }
       }
     }
@@ -104,6 +107,7 @@ export class TemporalIndexingDiviner<
           this._indexQueryResponseToDivinerQueryResponseDiviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create(
             { config },
           )
+          this.upResolver.add(this._indexQueryResponseToDivinerQueryResponseDiviner)
         }
       }
     }
@@ -120,8 +124,17 @@ export class TemporalIndexingDiviner<
       } else {
         const stageConfig = this.config.stageConfigs?.stateToIndexCandidateDiviner
         if (stageConfig) {
-          const config = { schema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema, ...stageConfig }
-          this._stateToIndexCandidateDiviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create({ config })
+          const mod = (await this.resolve({ maxDepth: 1, query: [['network.xyo.query.node.attach']] })).pop()
+          if (mod) {
+            const node = asNodeInstance(mod)
+            if (node) {
+              const config = { schema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema, ...stageConfig }
+              const diviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create({ config })
+              await node.register(diviner)
+              await node.attach(diviner.address, false)
+              this._stateToIndexCandidateDiviner = diviner
+            }
+          }
         }
       }
     }

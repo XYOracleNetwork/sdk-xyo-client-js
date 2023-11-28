@@ -147,7 +147,7 @@ describe('TemporalIndexingDiviner', () => {
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
-      expect(stateBoundWitnesses).toBeArrayOfSize(1)
+      expect(stateBoundWitnesses).toBeArrayOfSize(2)
       stateBoundWitnesses.forEach((stateBoundWitness) => {
         expect(stateBoundWitness).toBeObject()
         expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
@@ -157,7 +157,7 @@ describe('TemporalIndexingDiviner', () => {
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
       const statePayloads = payloads.filter(isModuleState)
-      expect(statePayloads).toBeArrayOfSize(1)
+      expect(statePayloads).toBeArrayOfSize(2)
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
       expect(statePayload.state).toBeObject()

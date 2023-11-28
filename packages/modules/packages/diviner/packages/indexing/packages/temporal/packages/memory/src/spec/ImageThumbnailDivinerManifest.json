@@ -140,7 +140,20 @@
               "schema": "network.xyo.diviner.indexing.config",
               "stageConfigs": {
                 "divinerQueryToIndexQueryDiviner": {},
-                "indexCandidateToIndexDiviner": {},
+                "indexCandidateToIndexDiviner": {
+                  "schemaTransforms": {
+                    "network.xyo.image.thumbnail": [
+                      {
+                        "destinationField": "url",
+                        "sourcePathExpression": "$.sourceUrl"
+                      },
+                      {
+                        "destinationField": "status",
+                        "sourcePathExpression": "$.http.status"
+                      }
+                    ]
+                  }
+                },
                 "indexQueryResponseToDivinerQueryResponseDiviner": {},
                 "stateToIndexCandidateDiviner": {
                   "filter": {

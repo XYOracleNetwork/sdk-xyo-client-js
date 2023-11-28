@@ -10,8 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/arraybuffer": "^2.13.18",
     "@xylabs/assert": "^2.13.18",
     "@xylabs/error": "^2.13.18",
+    "@xylabs/hex": "^2.13.18",
     "@xylabs/lodash": "^2.13.18",
     "@xylabs/logger": "^2.13.18",
     "@xyo-network/account-model": "workspace:~",
@@ -70,5 +72,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.81.10"
+  "version": "2.81.11"
 }

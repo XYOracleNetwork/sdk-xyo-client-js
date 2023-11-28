@@ -1,4 +1,5 @@
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner'
 
@@ -58,6 +59,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       url,
     } as unknown as PayloadDivinerQueryPayload,
     {
@@ -65,6 +67,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 10,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       status: 200,
       success: true,
       url,
@@ -74,6 +77,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       url,
     } as unknown as PayloadDivinerQueryPayload,
     {
@@ -81,6 +85,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 10,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       url,
     } as unknown as PayloadDivinerQueryPayload,
     {
@@ -88,6 +93,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'asc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       url,
     } as unknown as PayloadDivinerQueryPayload,
     {
@@ -95,6 +101,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       status: 200,
       url,
     } as unknown as PayloadDivinerQueryPayload,
@@ -103,6 +110,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       success: true,
       url,
     } as unknown as PayloadDivinerQueryPayload,
@@ -111,6 +119,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       offset: 0,
       order: 'desc',
       schema: 'network.xyo.diviner.payload.query',
+      schemas: [TemporalIndexingDivinerResultIndexSchema],
       success: false,
       url,
     } as unknown as PayloadDivinerQueryPayload,

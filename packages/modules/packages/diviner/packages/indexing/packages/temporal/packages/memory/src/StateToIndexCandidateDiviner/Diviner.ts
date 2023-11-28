@@ -6,7 +6,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
   TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
@@ -79,6 +79,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const { offset } = lastState.state
     // Get next batch of results starting from the offset
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
+    if (!boundWitnessDiviner) return [lastState]
     const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({ limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas })
       .build()
@@ -106,14 +107,18 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
 
   /**
    * Retrieves the BoundWitness Diviner for the payloadStore
-   * @returns The BoundWitness Diviner for the payloadStore
+   * @returns The BoundWitness Diviner for the payloadStore or undefined if not specified/resolvable
    */
-  protected async getBoundWitnessDivinerForStore() {
+  protected async getBoundWitnessDivinerForStore(): Promise<DivinerWrapper | undefined> {
+    // It should be defined, so we'll error if it's not
     const name: string = assertEx(
       this.config?.payloadStore?.boundWitnessDiviner,
       () => `${moduleName}: Config for payloadStore.boundWitnessDiviner not specified`,
     )
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve payloadStore.boundWitnessDiviner`)
+    // It might not be resolvable (yet), so we'll return undefined if it's not
+    const mod = await this.resolve(name)
+    if (!mod) return undefined
+    // Return the wrapped diviner
     return DivinerWrapper.wrap(mod, this.account)
   }
 

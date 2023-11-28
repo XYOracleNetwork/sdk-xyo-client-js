@@ -14,7 +14,7 @@ import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from './StateToIn
 
 // type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
-// const moduleName = 'TemporalIndexingDiviner'
+const moduleName = 'TemporalIndexingDiviner'
 
 export class TemporalIndexingDiviner<
   TParams extends TemporalIndexingDivinerParams = TemporalIndexingDivinerParams,
@@ -61,7 +61,10 @@ export class TemporalIndexingDiviner<
         this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
       }
     }
-    return assertEx(this._divinerQueryToIndexQueryDiviner, 'divinerQueryToIndexQueryDiviner')
+    return assertEx(
+      this._divinerQueryToIndexQueryDiviner,
+      () => `${moduleName}: Failed to resolve indexing diviner stage for divinerQueryToIndexQueryDiviner`,
+    )
   }
   private async getIndexCandidateToIndexDiviner(): Promise<DivinerInstance> {
     if (!this._indexCandidateToIndexDiviner) {
@@ -72,7 +75,10 @@ export class TemporalIndexingDiviner<
         this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create()
       }
     }
-    return assertEx(this._indexCandidateToIndexDiviner, 'indexCandidateToIndexDiviner')
+    return assertEx(
+      this._indexCandidateToIndexDiviner,
+      () => `${moduleName}: Failed to resolve indexing diviner stage for indexCandidateToIndexDiviner`,
+    )
   }
   private async getIndexQueryResponseToDivinerQueryResponseDiviner(): Promise<DivinerInstance> {
     if (!this._indexQueryResponseToDivinerQueryResponseDiviner) {
@@ -83,7 +89,10 @@ export class TemporalIndexingDiviner<
         this._indexQueryResponseToDivinerQueryResponseDiviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
       }
     }
-    return assertEx(this._indexQueryResponseToDivinerQueryResponseDiviner, 'indexQueryResponseToDivinerQueryResponseDiviner')
+    return assertEx(
+      this._indexQueryResponseToDivinerQueryResponseDiviner,
+      () => `${moduleName}: Failed to resolve indexing diviner stage for indexQueryResponseToDivinerQueryResponseDiviner`,
+    )
   }
   private async getStateToIndexCandidateDiviner(): Promise<DivinerInstance> {
     if (!this._stateToIndexCandidateDiviner) {
@@ -94,6 +103,9 @@ export class TemporalIndexingDiviner<
         this._stateToIndexCandidateDiviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create()
       }
     }
-    return assertEx(this._stateToIndexCandidateDiviner, 'stateToIndexCandidateDiviner')
+    return assertEx(
+      this._stateToIndexCandidateDiviner,
+      () => `${moduleName}: Failed to resolve indexing diviner stage for stateToIndexCandidateDiviner`,
+    )
   }
 }

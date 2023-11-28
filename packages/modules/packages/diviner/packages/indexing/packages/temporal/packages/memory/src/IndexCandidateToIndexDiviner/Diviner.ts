@@ -5,13 +5,17 @@ import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { TemporalIndexingDivinerResultIndexSchema } from '@xyo-network/diviner-temporal-indexing-model'
+import {
+  PayloadTransformer,
+  StringToJsonPathTransformExpressionsDictionary,
+  StringToPayloadTransformersDictionary,
+  TemporalIndexingDivinerResultIndexSchema,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
-import { PayloadTransformer, StringToJsonPathTransformExpressionsDictionary, StringToPayloadTransformersDictionary } from '../lib'
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema } from './Config'
 import { TemporalIndexingDivinerIndexCandidateToIndexDivinerParams } from './Params'
 

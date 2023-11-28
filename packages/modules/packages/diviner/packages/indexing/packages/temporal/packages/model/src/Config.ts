@@ -1,31 +1,32 @@
-import { SearchableStorage } from '@xyo-network/diviner-indexing-model'
+import { IndexingDivinerConfig, IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
+import { StringToJsonPathTransformExpressionsDictionary } from './jsonpath'
 import { TemporalIndexingDivinerSchema } from './Schema'
 
 export const TemporalIndexingDivinerConfigSchema = `${TemporalIndexingDivinerSchema}.config` as const
 export type TemporalIndexingDivinerConfigSchema = typeof TemporalIndexingDivinerConfigSchema
 
+/**
+ * Config section for declaring each indexing diviner stage
+ */
+export type IndexingDivinerStageTransformConfig = {
+  [key in IndexingDivinerStage]: StringToJsonPathTransformExpressionsDictionary
+}
+
 // TODO: Extend indexing diviner config and just remove fields that are not needed?
-export type TemporalIndexingDivinerConfig = DivinerConfig<{
-  /**
-   * Where the diviner should store it's index
-   */
-  indexStore?: SearchableStorage
-  /**
-   * The maximum number of payloads to index at a time
-   */
-  payloadDivinerLimit?: number
-  /**
-   * How often to poll for new payloads to index
-   */
-  pollFrequency?: number
-  /**
-   * The schema for the Diviner config
-   */
-  schema: TemporalIndexingDivinerConfigSchema
-  /**
-   * Where the diviner should persist its internal state
-   */
-  stateStore?: SearchableStorage
-}>
+export type TemporalIndexingDivinerConfig = IndexingDivinerConfig &
+  DivinerConfig<{
+    /**
+     * Optional config section for name/address of individual diviner stages
+     */
+    indexingDivinerStages?: Partial<IndexingDivinerStageConfig>
+    /**
+     * Optional config section for JSON Transform description of individual diviner stages
+     */
+    indexingDivinerTransforms?: IndexingDivinerStageTransformConfig
+    /**
+     * The schema for this config
+     */
+    schema: TemporalIndexingDivinerConfigSchema
+  }>

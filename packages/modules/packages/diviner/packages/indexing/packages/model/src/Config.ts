@@ -13,7 +13,7 @@ export type IndexingDivinerConfig = DivinerConfig<{
    */
   indexStore?: SearchableStorage
   /**
-   * Config section for individual indexing diviner stages
+   * Config section for name/address of individual diviner stages
    */
   indexingDivinerStages: IndexingDivinerStageConfig
   /**

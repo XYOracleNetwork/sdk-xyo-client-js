@@ -1,0 +1,5 @@
+import { TemporalIndexingDivinerSchema } from '../Schema'
+
+export type TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema =
+  `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`
+export const TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerSchema = `${TemporalIndexingDivinerSchema}.stage.indexQueryResponseToDivinerQueryResponseDiviner`

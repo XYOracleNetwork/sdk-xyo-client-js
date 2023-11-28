@@ -6,7 +6,10 @@ import { TemporalIndexingDivinerConfigSchema, TemporalIndexingDivinerParams } fr
 import { Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from './DivinerQueryToIndexQueryDiviner'
-import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from './IndexCandidateToIndexDiviner'
+import {
+  TemporalIndexingDivinerIndexCandidateToIndexDiviner,
+  TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
+} from './IndexCandidateToIndexDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from './IndexQueryResponseToDivinerQueryResponseDiviner'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from './StateToIndexCandidateDiviner'
 
@@ -73,7 +76,11 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._indexCandidateToIndexDiviner = await this.resolve(name)
       } else {
-        this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create()
+        const schemaTransforms = this.config.indexingDivinerTransforms?.indexCandidateToIndexDiviner
+        if (schemaTransforms) {
+          const config = { schema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema, schemaTransforms }
+          this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({ config })
+        }
       }
     }
     return assertEx(

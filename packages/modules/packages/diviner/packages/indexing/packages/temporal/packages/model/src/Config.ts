@@ -1,4 +1,4 @@
-import { IndexingDivinerConfig, IndexingDivinerStage, IndexingDivinerStageConfig, SearchableStorage } from '@xyo-network/diviner-indexing-model'
+import { IndexingDivinerStage, IndexingDivinerStageConfig, SearchableStorage } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { StringToJsonPathTransformExpressionsDictionary } from './jsonpath'
@@ -25,10 +25,6 @@ export type TemporalIndexingDivinerConfig = DivinerConfig<{
    */
   indexingDivinerStages?: IndexingDivinerStageConfig
   /**
-   * Optional config section for JSON Transform description of individual diviner stages
-   */
-  indexingDivinerTransforms?: IndexingDivinerStageTransformConfig
-  /**
    * The maximum number of payloads to index at a time
    */
   payloadDivinerLimit?: number
@@ -40,6 +36,15 @@ export type TemporalIndexingDivinerConfig = DivinerConfig<{
    * The schema for this config
    */
   schema: TemporalIndexingDivinerConfigSchema
+  /**
+   * Optional config section for individual diviner stages
+   */
+  stageConfigs?: {
+    divinerQueryToIndexQueryDiviner: string
+    indexCandidateToIndexDiviner: string
+    indexQueryResponseToDivinerQueryResponseDiviner: string
+    stateToIndexCandidateDiviner: string
+  }
   /**
    * Where the diviner should persist its internal state
    */

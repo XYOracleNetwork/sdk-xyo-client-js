@@ -87,6 +87,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     if (batch.length === 0) return [lastState]
     // Get source data
     const sourceArchivist = await this.getArchivistForStore()
+    if (!sourceArchivist) return [lastState]
     const indexCandidates: IndexCandidate[] = (
       await Promise.all(batch.filter(isBoundWitness).map((bw) => this.getPayloadsInBoundWitness(bw, sourceArchivist)))
     )
@@ -97,17 +98,21 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   }
   /**
    * Retrieves the archivist for the payloadStore
-   * @returns The archivist for the payloadStore
+   * @returns The archivist for the payloadStore or undefined if not resolvable
    */
   protected async getArchivistForStore() {
+    // It should be defined, so we'll error if it's not
     const name: string = assertEx(this.config?.payloadStore?.archivist, () => `${moduleName}: Config for payloadStore.archivist not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve payloadStore.archivist`)
+    // It might not be resolvable (yet), so we'll return undefined if it's not
+    const mod = await this.resolve(name)
+    if (!mod) return undefined
+    // Return the wrapped archivist
     return ArchivistWrapper.wrap(mod, this.account)
   }
 
   /**
    * Retrieves the BoundWitness Diviner for the payloadStore
-   * @returns The BoundWitness Diviner for the payloadStore or undefined if not specified/resolvable
+   * @returns The BoundWitness Diviner for the payloadStore or undefined if not resolvable
    */
   protected async getBoundWitnessDivinerForStore(): Promise<DivinerWrapper | undefined> {
     // It should be defined, so we'll error if it's not

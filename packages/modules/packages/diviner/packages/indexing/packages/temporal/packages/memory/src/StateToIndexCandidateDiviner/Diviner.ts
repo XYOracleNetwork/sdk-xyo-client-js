@@ -7,14 +7,15 @@ import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import {
+  TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
+  TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, Labels, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-
-import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema } from './Config'
-import { TemporalIndexingDivinerStateToIndexCandidateDivinerParams } from './Params'
 
 /**
  * All Payload types involved in index candidates for indexing

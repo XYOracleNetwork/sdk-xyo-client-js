@@ -1,4 +1,0 @@
-import { TemporalIndexingDivinerSchema } from '@xyo-network/diviner-temporal-indexing-model'
-
-export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema = `${TemporalIndexingDivinerSchema}.stage.divinerQueryToIndexQueryDiviner`
-export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema = `${TemporalIndexingDivinerSchema}.stage.divinerQueryToIndexQueryDiviner`

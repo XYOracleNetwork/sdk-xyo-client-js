@@ -1,10 +1,9 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-
-import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema } from './Config'
 
 /**
  * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response

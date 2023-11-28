@@ -1,6 +1,6 @@
 import { flatten } from '@xylabs/array'
 import { exists } from '@xylabs/exists'
-import { asHex, hexFromHexString } from '@xylabs/hex'
+import { hexFromHexString } from '@xylabs/hex'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {

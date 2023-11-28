@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { asHex, hexFromHexString } from '@xylabs/hex'
+import { hexFromHexString } from '@xylabs/hex'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import {
   AddressHistoryDiviner,

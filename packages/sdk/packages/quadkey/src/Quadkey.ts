@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { asHex, hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
+import { hexFromArrayBuffer, hexFromHexString } from '@xylabs/hex'
 import {
   boundingBoxToCenter,
   GeoJson,

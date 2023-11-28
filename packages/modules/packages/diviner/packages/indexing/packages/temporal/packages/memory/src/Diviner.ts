@@ -59,7 +59,6 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._divinerQueryToIndexQueryDiviner = await this.resolve(name)
       } else {
-        const foo = this.config
         this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
       }
     }

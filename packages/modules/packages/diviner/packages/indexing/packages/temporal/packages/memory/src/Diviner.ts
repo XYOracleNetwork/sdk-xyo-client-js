@@ -63,9 +63,9 @@ export class TemporalIndexingDiviner<
    * @param mod The module to add to the parent Node of this Diviner
    * @returns
    */
-  private async attachModuleToParentNode(mod: ModuleInstance | undefined) {
+  private async attachModuleToParentNode(mod: ModuleInstance) {
     if (!mod) return
-    const parent = (await this.resolve({ maxDepth: 1, query: [['network.xyo.query.node.attach']] })).pop()
+    const parent = (await this.resolve({ maxDepth: 1, query: [['network.xyo.query.node.attach']] })).shift()
     if (parent) {
       const node = asNodeInstance(mod)
       if (node) {

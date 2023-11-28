@@ -2,10 +2,18 @@ import { assertEx } from '@xylabs/assert'
 import { IndexingDiviner } from '@xyo-network/diviner-indexing-memory'
 import { IndexingDivinerConfigSchema, IndexingDivinerStage } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { TemporalIndexingDivinerConfigSchema, TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
+import {
+  TemporalIndexingDivinerConfigSchema,
+  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
+  TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
+  TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema,
+  TemporalIndexingDivinerParams,
+  TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
+} from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from './DivinerQueryToIndexQueryDiviner'
+import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from './IndexCandidateToIndexDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from './IndexQueryResponseToDivinerQueryResponseDiviner'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from './StateToIndexCandidateDiviner'
 
@@ -58,7 +66,11 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._divinerQueryToIndexQueryDiviner = await this.resolve(name)
       } else {
-        this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
+        const stageConfig = this.config.stageConfigs?.divinerQueryToIndexQueryDiviner
+        if (stageConfig) {
+          const config = { schema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema, ...stageConfig }
+          this._divinerQueryToIndexQueryDiviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ config })
+        }
       }
     }
     return assertEx(
@@ -72,11 +84,11 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._indexCandidateToIndexDiviner = await this.resolve(name)
       } else {
-        // const schemaTransforms = this.config.indexingDivinerTransforms?.indexCandidateToIndexDiviner
-        // if (schemaTransforms) {
-        //   const config = { schema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema, schemaTransforms }
-        //   this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({ config })
-        // }
+        const stageConfig = this.config.stageConfigs?.indexCandidateToIndexDiviner
+        if (stageConfig) {
+          const config = { schema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema, ...stageConfig }
+          this._indexCandidateToIndexDiviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({ config })
+        }
       }
     }
     return assertEx(
@@ -90,7 +102,13 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._indexQueryResponseToDivinerQueryResponseDiviner = await this.resolve(name)
       } else {
-        this._indexQueryResponseToDivinerQueryResponseDiviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
+        const stageConfig = this.config.stageConfigs?.indexQueryResponseToDivinerQueryResponseDiviner
+        if (stageConfig) {
+          const config = { schema: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema, ...stageConfig }
+          this._indexQueryResponseToDivinerQueryResponseDiviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create(
+            { config },
+          )
+        }
       }
     }
     return assertEx(
@@ -104,7 +122,11 @@ export class TemporalIndexingDiviner<
       if (name) {
         this._stateToIndexCandidateDiviner = await this.resolve(name)
       } else {
-        this._stateToIndexCandidateDiviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create()
+        const stageConfig = this.config.stageConfigs?.stateToIndexCandidateDiviner
+        if (stageConfig) {
+          const config = { schema: TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema, ...stageConfig }
+          this._stateToIndexCandidateDiviner = await TemporalIndexingDivinerStateToIndexCandidateDiviner.create({ config })
+        }
       }
     }
     return assertEx(

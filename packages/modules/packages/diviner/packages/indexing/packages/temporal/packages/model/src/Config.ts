@@ -1,8 +1,11 @@
 import { IndexingDivinerStage, IndexingDivinerStageConfig, SearchableStorage } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
+import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner'
+import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner'
 import { StringToJsonPathTransformExpressionsDictionary } from './jsonpath'
 import { TemporalIndexingDivinerSchema } from './Schema'
+import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner'
 
 export const TemporalIndexingDivinerConfigSchema = `${TemporalIndexingDivinerSchema}.config` as const
 export type TemporalIndexingDivinerConfigSchema = typeof TemporalIndexingDivinerConfigSchema
@@ -40,10 +43,10 @@ export type TemporalIndexingDivinerConfig = DivinerConfig<{
    * Optional config section for individual diviner stages
    */
   stageConfigs?: {
-    divinerQueryToIndexQueryDiviner: string
-    indexCandidateToIndexDiviner: string
-    indexQueryResponseToDivinerQueryResponseDiviner: string
-    stateToIndexCandidateDiviner: string
+    divinerQueryToIndexQueryDiviner?: Omit<TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig, 'schema'>
+    indexCandidateToIndexDiviner?: Omit<TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig, 'schema'>
+    indexQueryResponseToDivinerQueryResponseDiviner?: Omit<TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig, 'schema'>
+    stateToIndexCandidateDiviner?: Omit<TemporalIndexingDivinerStateToIndexCandidateDivinerConfig, 'schema'>
   }
   /**
    * Where the diviner should persist its internal state

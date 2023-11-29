@@ -18,6 +18,21 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
   static labels: Labels = {
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
   }
+
+  /**
+   * The schema of the index payloads
+   */
+  protected get indexSchema(): string {
+    return TemporalIndexingDivinerResultIndexSchema
+  }
+
+  /**
+   * The schema of the destination payloads
+   */
+  protected get querySchema(): string {
+    return PayloadDivinerQuerySchema
+  }
+
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const queries = payloads.filter(isPayloadDivinerQueryPayload)
     if (queries.length) {
@@ -29,10 +44,10 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
           const order = payloadOrder ?? 'desc'
           const offset = payloadOffset ?? 0
           // TODO: Make index schema configurable
-          const schemas = [TemporalIndexingDivinerResultIndexSchema]
+          const schemas = [this.indexSchema]
           // TODO: Add support for additional filters
           const fields: Partial<PayloadDivinerQueryPayload> = { limit, offset, order, schemas, ...params }
-          return new PayloadBuilder({ schema: PayloadDivinerQuerySchema }).fields(fields).build()
+          return new PayloadBuilder({ schema: this.querySchema }).fields(fields).build()
         }),
       )
       return results

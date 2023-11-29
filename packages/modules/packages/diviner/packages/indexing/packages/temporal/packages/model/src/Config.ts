@@ -18,6 +18,9 @@ export type IndexingDivinerStageTransformConfig = {
 }
 
 // TODO: Extend indexing diviner config
+/**
+ * Diviner Config for a Diviner which Indexes Payloads
+ */
 export type TemporalIndexingDivinerConfig = DivinerConfig<{
   /**
    * Where the diviner should store it's index

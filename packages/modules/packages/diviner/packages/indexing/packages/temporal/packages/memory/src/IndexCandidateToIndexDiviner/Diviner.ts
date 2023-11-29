@@ -6,7 +6,6 @@ import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
-  PayloadTransformer,
   SchemaToJsonPathTransformExpressionsDictionary,
   SchemaToPayloadTransformersDictionary,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
@@ -18,7 +17,6 @@ import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
-import jsonpath from 'jsonpath'
 
 import { jsonPathToTransformersDictionary } from '../jsonpath'
 
@@ -41,16 +39,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   private _indexableSchemas: string[] | undefined
-  private _schemaToPayloadTransformersDictionary: SchemaToPayloadTransformersDictionary | undefined
+  private _payloadTransformers: SchemaToPayloadTransformersDictionary | undefined
 
   /**
    * List of indexable schemas for this diviner
    */
-  protected get indexableSchemas() {
-    // Return the computed result if we've calculated it before as the config
-    // shouldn't change after initialization
-    if (this._indexableSchemas) return this._indexableSchemas
-    this._indexableSchemas = [...Object.keys(this.schemaTransforms)]
+  protected get indexableSchemas(): string[] {
+    if (!this._indexableSchemas) this._indexableSchemas = [...Object.keys(this.schemaTransforms)]
     return this._indexableSchemas
   }
 
@@ -58,11 +53,9 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * Dictionary of schemas to payload transformers for creating indexes
    * from the payloads within a Bound Witness
    */
-  protected get schemaToPayloadTransformersDictionary(): SchemaToPayloadTransformersDictionary {
-    if (!this._schemaToPayloadTransformersDictionary) {
-      this._schemaToPayloadTransformersDictionary = jsonPathToTransformersDictionary(this.schemaTransforms)
-    }
-    return this._schemaToPayloadTransformersDictionary
+  protected get payloadTransformers(): SchemaToPayloadTransformersDictionary {
+    if (!this._payloadTransformers) this._payloadTransformers = jsonPathToTransformersDictionary(this.schemaTransforms)
+    return this._payloadTransformers
   }
 
   /**
@@ -98,13 +91,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       // Create the indexes from the tuples
       const indexes = await Promise.all(
         validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, timestampPayload, ...sourcePayloads]) => {
-          // Use the payload transforms to convert the fields from the source payloads to the destination fields
+          // Use the payload transformers to convert the fields from the source payloads to the destination fields
           const indexFields = sourcePayloads
             .map<PayloadFields[]>((payload) => {
-              // Find the transforms for this payload
-              const transforms = this.schemaToPayloadTransformersDictionary[payload.schema]
-              // If transforms exist, apply them otherwise return an empty array
-              return transforms ? transforms.map((transform) => transform(payload)) : []
+              // Find the transformers for this payload
+              const transformers = this.payloadTransformers[payload.schema]
+              // If transformers exist, apply them to the payload otherwise return an empty array
+              return transformers ? transformers.map((transform) => transform(payload)) : []
             })
             .flat()
           // Extract the timestamp from the timestamp payload

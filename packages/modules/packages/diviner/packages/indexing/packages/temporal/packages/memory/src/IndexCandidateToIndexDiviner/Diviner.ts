@@ -7,8 +7,8 @@ import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   PayloadTransformer,
+  SchemaToJsonPathTransformExpressionsDictionary,
   SchemaToPayloadTransformersDictionary,
-  StringToJsonPathTransformExpressionsDictionary,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
   TemporalIndexingDivinerResultIndex,
@@ -69,7 +69,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * The dictionary of schemas to JSON Path transform expressions for creating indexes
    * from the payloads within a Bound Witness
    */
-  protected get schemaTransforms(): StringToJsonPathTransformExpressionsDictionary {
+  protected get schemaTransforms(): SchemaToJsonPathTransformExpressionsDictionary {
     return assertEx(this.config?.schemaTransforms, () => `${moduleName}: Missing config.schemaTransforms section`)
   }
 

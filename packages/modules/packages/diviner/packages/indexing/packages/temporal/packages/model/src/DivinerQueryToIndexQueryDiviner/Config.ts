@@ -1,6 +1,6 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { StringToJsonPathTransformExpressionsDictionary } from '../jsonpath'
+import { SchemaToJsonPathTransformExpressionsDictionary } from '../jsonpath'
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerSchema } from './Schema'
 
 export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema =
@@ -18,5 +18,5 @@ export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = Divin
   /**
    * The transforms to apply to the source payloads
    */
-  schemaTransforms?: StringToJsonPathTransformExpressionsDictionary
+  schemaTransforms?: SchemaToJsonPathTransformExpressionsDictionary
 }>

@@ -22,7 +22,7 @@ import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Divin
 import { TemporalIndexingDivinerIndexCandidateToIndexDiviner } from '../IndexCandidateToIndexDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner } from '../IndexQueryResponseToDivinerQueryResponseDiviner'
 import { TemporalIndexingDivinerStateToIndexCandidateDiviner } from '../StateToIndexCandidateDiviner'
-import imageThumbnailDivinerManifest from './ImageThumbnailDivinerManifest.json'
+import imageThumbnailDivinerManifest from './TemporalDiviner.json'
 
 type ImageThumbnail = Payload<{
   http?: {

@@ -7,7 +7,7 @@ export type TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema = `$
 export const TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema: TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema = `${TemporalIndexingDivinerIndexCandidateToIndexDivinerSchema}.config`
 
 /**
- * Diviner Config for a Diviner which transforms an Index Candidate to an Index
+ * Diviner Config for a Diviner which transforms Index Candidates to Indexes
  */
 export type TemporalIndexingDivinerIndexCandidateToIndexDivinerConfig = DivinerConfig<{
   /**

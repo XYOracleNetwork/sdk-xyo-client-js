@@ -5,7 +5,7 @@ import { TemporalIndexingDivinerResultIndexSchema } from './Schema'
 export type TemporalIndexingDivinerResultIndex = Payload<
   {
     sources: string[]
-    timestamp: string
+    timestamp: number
   },
   TemporalIndexingDivinerResultIndexSchema
 >

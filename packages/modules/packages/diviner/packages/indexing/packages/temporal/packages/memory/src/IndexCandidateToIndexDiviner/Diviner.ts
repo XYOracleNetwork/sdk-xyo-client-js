@@ -25,7 +25,9 @@ export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 
 /**
- * Diviner which transforms Index Candidates to an Indexes
+ * Diviner which transforms index candidates to indexes using JSON Path to map
+ * source properties in the supplied payloads to destination fields in the
+ * resultant index
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,

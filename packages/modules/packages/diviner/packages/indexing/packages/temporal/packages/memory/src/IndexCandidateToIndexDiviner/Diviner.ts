@@ -7,8 +7,8 @@ import { PayloadHasher } from '@xyo-network/core'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   PayloadTransformer,
+  SchemaToPayloadTransformersDictionary,
   StringToJsonPathTransformExpressionsDictionary,
-  StringToPayloadTransformersDictionary,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
   TemporalIndexingDivinerResultIndex,
@@ -19,6 +19,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
+
+import { jsonPathToTransformersDictionary } from '../jsonpath'
 
 export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 
@@ -39,7 +41,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   private _indexableSchemas: string[] | undefined
-  private _schemaToPayloadTransformersDictionary: StringToPayloadTransformersDictionary | undefined
+  private _schemaToPayloadTransformersDictionary: SchemaToPayloadTransformersDictionary | undefined
 
   /**
    * List of indexable schemas for this diviner
@@ -56,27 +58,10 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * Dictionary of schemas to payload transformers for creating indexes
    * from the payloads within a Bound Witness
    */
-  protected get schemaToPayloadTransformersDictionary(): StringToPayloadTransformersDictionary {
-    // Return the computed result if we've calculated it before as the config
-    // shouldn't change after initialization
-    if (this._schemaToPayloadTransformersDictionary) return this._schemaToPayloadTransformersDictionary
-    this._schemaToPayloadTransformersDictionary = Object.fromEntries(
-      Object.entries(this.schemaTransforms).map(([schema, jsonPathTransformerExpressions]) => {
-        const transformers = jsonPathTransformerExpressions.map((transformExpression) => {
-          const { sourcePathExpression, destinationField } = transformExpression
-          const transformer: PayloadTransformer = (x: Payload) => {
-            // eslint-disable-next-line import/no-named-as-default-member
-            const source = jsonpath.value(x, sourcePathExpression)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const transformed = {} as { [key: string]: any }
-            transformed[destinationField] = source
-            return transformed
-          }
-          return transformer
-        })
-        return [schema, transformers]
-      }),
-    )
+  protected get schemaToPayloadTransformersDictionary(): SchemaToPayloadTransformersDictionary {
+    if (!this._schemaToPayloadTransformersDictionary) {
+      this._schemaToPayloadTransformersDictionary = jsonPathToTransformersDictionary(this.schemaTransforms)
+    }
     return this._schemaToPayloadTransformersDictionary
   }
 

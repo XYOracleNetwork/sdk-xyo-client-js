@@ -1,7 +1,7 @@
 import {
   PayloadTransformer,
+  SchemaToPayloadTransformersDictionary,
   StringToJsonPathTransformExpressionsDictionary,
-  StringToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
@@ -15,7 +15,7 @@ import jsonpath from 'jsonpath'
  */
 export const jsonPathToTransformersDictionary = (
   schemaTransforms: StringToJsonPathTransformExpressionsDictionary,
-): StringToPayloadTransformersDictionary => {
+): SchemaToPayloadTransformersDictionary => {
   return Object.fromEntries(
     Object.entries(schemaTransforms).map(([schema, jsonPathTransformerExpressions]) => {
       const transformers = jsonPathTransformerExpressions.map((transformExpression) => {

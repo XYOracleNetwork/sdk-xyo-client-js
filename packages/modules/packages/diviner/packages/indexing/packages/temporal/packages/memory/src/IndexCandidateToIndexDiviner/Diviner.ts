@@ -11,10 +11,12 @@ import {
   StringToPayloadTransformersDictionary,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
+  TemporalIndexingDivinerResultIndex,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, PayloadFields } from '@xyo-network/payload-model'
 import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 import jsonpath from 'jsonpath'
 
@@ -23,7 +25,7 @@ export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 
 /**
- * Transforms candidates for image thumbnail indexing into their indexed representation
+ * Diviner which transforms Index Candidates to an Indexes
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
@@ -108,18 +110,24 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       }, [])
       // Create the indexes from the tuples
       const indexes = await Promise.all(
-        validIndexableTuples.map(async ([bw, timestampPayload, ...remainingPayloads]) => {
-          const partials = remainingPayloads
-            .map((payload) => {
+        validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, timestampPayload, ...sourcePayloads]) => {
+          // Use the payload transforms to convert the fields from the source payloads to the destination fields
+          const indexFields = sourcePayloads
+            .map<PayloadFields[]>((payload) => {
+              // Find the transforms for this payload
               const transforms = this.schemaToPayloadTransformersDictionary[payload.schema]
-              const transformed: Partial<Payload>[] = transforms.map((transform) => transform(payload))
-              return transformed
+              // If transforms exist, apply them otherwise return an empty array
+              return transforms ? transforms.map((transform) => transform(payload)) : []
             })
             .flat()
-          const transformed = Object.assign({}, ...partials, { schema: TemporalIndexingDivinerResultIndexSchema })
+          // Extract the timestamp from the timestamp payload
           const { timestamp } = timestampPayload
-          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, ...remainingPayloads])).map(([, hash]) => hash)
-          return [{ ...transformed, sources, timestamp }]
+          // Include all the sources for reference
+          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, ...sourcePayloads])).map(([, hash]) => hash)
+          // Build and return the index
+          return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
+            .fields(Object.assign({ sources, timestamp }, ...indexFields))
+            .build()
         }),
       )
       return indexes.flat()

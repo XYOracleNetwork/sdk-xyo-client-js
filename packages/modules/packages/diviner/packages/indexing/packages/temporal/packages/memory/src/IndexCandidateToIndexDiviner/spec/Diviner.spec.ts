@@ -75,6 +75,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
           { destinationField: 'status', sourcePathExpression: '$.http.status' },
         ],
+        'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 

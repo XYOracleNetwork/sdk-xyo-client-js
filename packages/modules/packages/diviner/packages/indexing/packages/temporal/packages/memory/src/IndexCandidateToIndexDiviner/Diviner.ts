@@ -103,7 +103,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
           // Extract the timestamp from the timestamp payload
           const { timestamp } = timestampPayload
           // Include all the sources for reference
-          const sources = (await PayloadHasher.hashPairs([bw, timestampPayload, ...sourcePayloads])).map(([, hash]) => hash)
+          const sources = Object.keys(await PayloadHasher.toMap([bw, timestampPayload, ...sourcePayloads]))
           // Build and return the index
           return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
             .fields(Object.assign({ sources, timestamp }, ...indexFields))

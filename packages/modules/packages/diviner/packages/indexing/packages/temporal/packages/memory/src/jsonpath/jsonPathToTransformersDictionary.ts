@@ -26,7 +26,8 @@ export const jsonPathToTransformersDictionary = (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const transformed = {} as { [key: string]: any }
           // Assign the source value to the destination field or the default value if the source is undefined
-          transformed[destinationField] = source === undefined ? defaultValue : source
+          const destinationValue = source === undefined ? defaultValue : source
+          if (destinationValue !== undefined) transformed[destinationField] = destinationValue
           return transformed
         }
         return transformer

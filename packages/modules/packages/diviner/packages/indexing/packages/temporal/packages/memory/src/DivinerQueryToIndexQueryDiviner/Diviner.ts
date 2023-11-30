@@ -1,13 +1,13 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
-import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
+import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 /**
  * A diviner that converts diviner query to index query
@@ -20,21 +20,28 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
   }
 
   /**
+   * The schema of the diviner query payloads
+   */
+  protected get divinerQuerySchema(): string {
+    return PayloadDivinerQuerySchema
+  }
+
+  /**
+   * The schema of the index query payloads
+   */
+  protected get indexQuerySchema(): string {
+    return PayloadDivinerQuerySchema
+  }
+
+  /**
    * The schema of the index payloads
    */
   protected get indexSchema(): string {
     return TemporalIndexingDivinerResultIndexSchema
   }
 
-  /**
-   * The schema of the destination payloads
-   */
-  protected get querySchema(): string {
-    return PayloadDivinerQuerySchema
-  }
-
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const queries = payloads.filter(isPayloadDivinerQueryPayload)
+    const queries = payloads.filter(isPayloadOfSchemaType<PayloadDivinerQueryPayload>(this.divinerQuerySchema))
     if (queries.length) {
       const results = await Promise.all(
         queries.map((query) => {
@@ -47,7 +54,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
           const schemas = [this.indexSchema]
           // TODO: Add support for additional filters
           const fields: Partial<PayloadDivinerQueryPayload> = { limit, offset, order, schemas, ...params }
-          return new PayloadBuilder({ schema: this.querySchema }).fields(fields).build()
+          return new PayloadBuilder({ schema: this.indexQuerySchema }).fields(fields).build()
         }),
       )
       return results

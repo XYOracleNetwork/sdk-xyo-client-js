@@ -14,15 +14,15 @@ export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = Divin
   /**
    * The schema of the diviner query payloads
    */
-  divinerQuerySchema: string
+  divinerQuerySchema?: string
   /**
    * The schema of the index query payloads
    */
-  indexQuerySchema: string
+  indexQuerySchema?: string
   /**
    * The schema of the index payloads
    */
-  indexSchema: string
+  indexSchema?: string
   /**
    * The config schema
    */

@@ -12,6 +12,18 @@ export const TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema:
  */
 export type TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = DivinerConfig<{
   /**
+   * The schema of the diviner query payloads
+   */
+  divinerQuerySchema: string
+  /**
+   * The schema of the index query payloads
+   */
+  indexQuerySchema: string
+  /**
+   * The schema of the index payloads
+   */
+  indexSchema: string
+  /**
    * The config schema
    */
   schema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema

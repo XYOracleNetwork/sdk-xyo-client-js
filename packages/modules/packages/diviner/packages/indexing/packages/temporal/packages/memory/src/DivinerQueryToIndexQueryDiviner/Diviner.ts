@@ -3,6 +3,7 @@ import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
+  TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
@@ -12,7 +13,9 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 /**
  * A diviner that converts diviner query to index query
  */
-export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends AbstractDiviner {
+export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
+  TParams extends TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams,
+> extends AbstractDiviner<TParams> {
   static override readonly configSchema = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema]
   static labels: Labels = {
@@ -23,21 +26,21 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner extends Abst
    * The schema of the diviner query payloads
    */
   protected get divinerQuerySchema(): string {
-    return PayloadDivinerQuerySchema
+    return this.config.divinerQuerySchema ?? PayloadDivinerQuerySchema
   }
 
   /**
    * The schema of the index query payloads
    */
   protected get indexQuerySchema(): string {
-    return PayloadDivinerQuerySchema
+    return this.config.indexQuerySchema ?? PayloadDivinerQuerySchema
   }
 
   /**
    * The schema of the index payloads
    */
   protected get indexSchema(): string {
-    return TemporalIndexingDivinerResultIndexSchema
+    return this.config.indexSchema ?? TemporalIndexingDivinerResultIndexSchema
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {

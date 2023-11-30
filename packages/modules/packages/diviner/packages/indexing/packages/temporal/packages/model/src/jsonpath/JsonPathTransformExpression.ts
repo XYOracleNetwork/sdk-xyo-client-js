@@ -8,7 +8,7 @@ export interface JsonPathTransformExpression {
   /**
    * The default value to use if the source field does not exist
    */
-  default?: JsonValue
+  defaultValue?: JsonValue
   /**
    * The target field to store the source field into on the destination object
    */

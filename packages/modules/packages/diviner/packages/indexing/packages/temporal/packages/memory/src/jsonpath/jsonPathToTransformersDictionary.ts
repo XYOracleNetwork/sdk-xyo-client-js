@@ -19,13 +19,14 @@ export const jsonPathToTransformersDictionary = (
   return Object.fromEntries(
     Object.entries(schemaTransforms).map(([schema, jsonPathTransformerExpressions]) => {
       const transformers = jsonPathTransformerExpressions.map((transformExpression) => {
-        const { sourcePathExpression, destinationField } = transformExpression
+        const { defaultValue, destinationField, sourcePathExpression } = transformExpression
         const transformer: PayloadTransformer = (x: Payload) => {
           // eslint-disable-next-line import/no-named-as-default-member
           const source = jsonpath.value(x, sourcePathExpression)
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const transformed = {} as { [key: string]: any }
-          transformed[destinationField] = source
+          // Assign the source value to the destination field or the default value if the source is undefined
+          transformed[destinationField] = source === undefined ? defaultValue : source
           return transformed
         }
         return transformer

@@ -7067,6 +7067,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"

@@ -1,7 +1,7 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { isTemporalIndexingDivinerResultIndex, StringToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-temporal-indexing-model'
+import { isTemporalIndexingDivinerResultIndex, SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-temporal-indexing-model'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -70,11 +70,12 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           },
         })
       })
-      const schemaTransforms: StringToJsonPathTransformExpressionsDictionary = {
+      const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.image.thumbnail': [
           { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
           { destinationField: 'status', sourcePathExpression: '$.http.status' },
         ],
+        'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 
@@ -147,9 +148,10 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           },
         })
       })
-      const schemaTransforms: StringToJsonPathTransformExpressionsDictionary = {
+      const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.image.thumbnail': [{ destinationField: 'status', sourcePathExpression: '$.http.status' }],
         'network.xyo.image.thumbnail.other': [{ destinationField: 'url', sourcePathExpression: '$.sourceUrl' }],
+        'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 

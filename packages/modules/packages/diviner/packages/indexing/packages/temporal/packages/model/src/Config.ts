@@ -3,7 +3,7 @@ import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner'
-import { StringToJsonPathTransformExpressionsDictionary } from './jsonpath'
+import { SchemaToJsonPathTransformExpressionsDictionary } from './jsonpath'
 import { TemporalIndexingDivinerSchema } from './Schema'
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner'
 
@@ -14,10 +14,13 @@ export type TemporalIndexingDivinerConfigSchema = typeof TemporalIndexingDiviner
  * Config section for declaring each indexing diviner stage
  */
 export type IndexingDivinerStageTransformConfig = {
-  [key in IndexingDivinerStage]: StringToJsonPathTransformExpressionsDictionary
+  [key in IndexingDivinerStage]: SchemaToJsonPathTransformExpressionsDictionary
 }
 
 // TODO: Extend indexing diviner config
+/**
+ * Diviner Config for a Diviner which Indexes Payloads
+ */
 export type TemporalIndexingDivinerConfig = DivinerConfig<{
   /**
    * Where the diviner should store it's index

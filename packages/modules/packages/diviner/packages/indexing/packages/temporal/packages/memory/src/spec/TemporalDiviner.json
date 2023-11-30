@@ -139,7 +139,42 @@
               "pollFrequency": 1000,
               "schema": "network.xyo.diviner.indexing.config",
               "stageConfigs": {
-                "divinerQueryToIndexQueryDiviner": {},
+                "divinerQueryToIndexQueryDiviner": {
+                  "divinerQuerySchema": "network.xyo.diviner.payload.query",
+                  "indexQuerySchema": "network.xyo.diviner.payload.query",
+                  "indexSchema": "network.xyo.diviner.indexing.temporal.result.index",
+                  "schemaTransforms": {
+                    "network.xyo.diviner.payload.query": [
+                      {
+                        "destinationField": "url",
+                        "sourcePathExpression": "$.url"
+                      },
+                      {
+                        "defaultValue": 1,
+                        "destinationField": "limit",
+                        "sourcePathExpression": "$.limit"
+                      },
+                      {
+                        "defaultValue": 0,
+                        "destinationField": "offset",
+                        "sourcePathExpression": "$.offset"
+                      },
+                      {
+                        "defaultValue": "desc",
+                        "destinationField": "order",
+                        "sourcePathExpression": "$.order"
+                      },
+                      {
+                        "destinationField": "status",
+                        "sourcePathExpression": "$.status"
+                      },
+                      {
+                        "destinationField": "success",
+                        "sourcePathExpression": "$.success"
+                      }
+                    ]
+                  }
+                },
                 "indexCandidateToIndexDiviner": {
                   "schemaTransforms": {
                     "network.xyo.image.thumbnail": [
@@ -150,6 +185,12 @@
                       {
                         "destinationField": "status",
                         "sourcePathExpression": "$.http.status"
+                      }
+                    ],
+                    "network.xyo.timestamp": [
+                      {
+                        "destinationField": "timestamp",
+                        "sourcePathExpression": "$.timestamp"
                       }
                     ]
                   }

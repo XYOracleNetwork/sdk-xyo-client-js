@@ -1,4 +1,4 @@
 export * from './JsonPathTransformExpression'
 export * from './PayloadTransformer'
-export * from './StringToJsonPathTransformExpressionDictionary'
-export * from './StringToPayloadTransformersDictionary'
+export * from './SchemaToJsonPathTransformExpressionDictionary'
+export * from './SchemaToPayloadTransformersDictionary'

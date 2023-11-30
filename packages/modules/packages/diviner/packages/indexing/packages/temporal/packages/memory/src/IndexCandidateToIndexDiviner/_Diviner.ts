@@ -16,10 +16,11 @@ import {
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
+import { isTimestamp, TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 import { jsonPathToTransformersDictionary } from '../jsonpath'
 
-export type IndexablePayloads = [BoundWitness, ...Payload[]]
+export type IndexablePayloads = [BoundWitness, TimeStamp, ...Payload[]]
 
 const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 
@@ -67,24 +68,29 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
+    const timestampPayloads: TimeStamp[] = payloads.filter(isTimestamp)
     const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
-    if (bws.length && indexablePayloads.length) {
+    if (bws.length && timestampPayloads.length && indexablePayloads.length) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
         if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return indexableTuples
+        // Find the timestamp
+        const timestampPosition = bw.payload_schemas?.findIndex((schema) => schema === TimestampSchema)
+        const timestampHash = bw.payload_hashes?.[timestampPosition]
+        const timestamp = [payloadDictionary[timestampHash]].find(isTimestamp)
         // Find the remaining indexable payloads
         const indexablePayloadPositions = this.indexableSchemas.map((schema) => bw.payload_schemas.indexOf(schema))
         const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
         const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash]).filter(exists)
         // If we found a timestamp and the right amount of indexable payloads (of the
         // correct schema as checked above) in this BW, then index it
-        if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, ...indexablePayloads])
+        if (timestamp && indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, timestamp, ...indexablePayloads])
         return indexableTuples
       }, [])
       // Create the indexes from the tuples
       const indexes = await Promise.all(
-        validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, ...sourcePayloads]) => {
+        validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, timestampPayload, ...sourcePayloads]) => {
           // Use the payload transformers to convert the fields from the source payloads to the destination fields
           const indexFields = sourcePayloads
             .map<PayloadFields[]>((payload) => {
@@ -94,11 +100,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
               return transformers ? transformers.map((transform) => transform(payload)) : []
             })
             .flat()
+          // Extract the timestamp from the timestamp payload
+          const { timestamp } = timestampPayload
           // Include all the sources for reference
-          const sources = Object.keys(await PayloadHasher.toMap([bw, ...sourcePayloads]))
+          const sources = Object.keys(await PayloadHasher.toMap([bw, timestampPayload, ...sourcePayloads]))
           // Build and return the index
           return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
-            .fields(Object.assign({ sources }, ...indexFields))
+            .fields(Object.assign({ sources, timestamp }, ...indexFields))
             .build()
         }),
       )

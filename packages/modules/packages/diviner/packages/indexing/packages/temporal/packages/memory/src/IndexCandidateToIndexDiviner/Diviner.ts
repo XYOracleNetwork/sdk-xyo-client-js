@@ -31,7 +31,7 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
  */
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
-> extends AbstractDiviner<TParams, Payload, Payload> {
+> extends AbstractDiviner<TParams> {
   static override configSchema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
   static labels: Labels = {

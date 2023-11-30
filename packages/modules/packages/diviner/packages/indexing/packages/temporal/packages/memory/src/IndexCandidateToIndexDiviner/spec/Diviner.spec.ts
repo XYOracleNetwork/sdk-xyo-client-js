@@ -151,6 +151,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.image.thumbnail': [{ destinationField: 'status', sourcePathExpression: '$.http.status' }],
         'network.xyo.image.thumbnail.other': [{ destinationField: 'url', sourcePathExpression: '$.sourceUrl' }],
+        'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: TemporalIndexingDivinerIndexCandidateToIndexDiviner
 

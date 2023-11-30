@@ -151,6 +151,12 @@
                         "destinationField": "status",
                         "sourcePathExpression": "$.http.status"
                       }
+                    ],
+                    "network.xyo.timestamp": [
+                      {
+                        "destinationField": "timestamp",
+                        "sourcePathExpression": "$.timestamp"
+                      }
                     ]
                   }
                 },

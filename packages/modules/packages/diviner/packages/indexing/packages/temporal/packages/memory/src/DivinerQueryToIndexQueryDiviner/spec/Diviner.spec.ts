@@ -1,5 +1,6 @@
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
+  SchemaToJsonPathTransformExpressionsDictionary,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,
@@ -25,39 +26,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           offset: 10,
           order: 'asc',
           schema: PayloadDivinerQuerySchema,
-          status: 200,
-          success: true,
-          url,
-        },
-        {
-          limit: 10,
-          schema: PayloadDivinerQuerySchema,
-          url,
-        },
-        {
-          offset: 10,
-          schema: PayloadDivinerQuerySchema,
-          url,
-        },
-        {
-          order: 'asc',
-          schema: PayloadDivinerQuerySchema,
-          url,
-        },
-        {
-          schema: PayloadDivinerQuerySchema,
-          status: 200,
-          url,
-        },
-        {
-          schema: PayloadDivinerQuerySchema,
-          success: true,
-          url,
-        },
-        {
-          schema: PayloadDivinerQuerySchema,
-          success: false,
-          url,
         },
       ]
       const expected: PayloadDivinerQueryPayload[] = [
@@ -67,7 +35,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           order: 'desc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
-          url,
         } as unknown as PayloadDivinerQueryPayload,
         {
           limit: 10,
@@ -75,60 +42,6 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           order: 'asc',
           schema: 'network.xyo.diviner.payload.query',
           schemas: [TemporalIndexingDivinerResultIndexSchema],
-          status: 200,
-          success: true,
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 10,
-          offset: 0,
-          order: 'desc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 1,
-          offset: 10,
-          order: 'desc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 1,
-          offset: 0,
-          order: 'asc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 1,
-          offset: 0,
-          order: 'desc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          status: 200,
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 1,
-          offset: 0,
-          order: 'desc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          success: true,
-          url,
-        } as unknown as PayloadDivinerQueryPayload,
-        {
-          limit: 1,
-          offset: 0,
-          order: 'desc',
-          schema: 'network.xyo.diviner.payload.query',
-          schemas: [TemporalIndexingDivinerResultIndexSchema],
-          success: false,
-          url,
         } as unknown as PayloadDivinerQueryPayload,
       ]
       beforeAll(async () => {
@@ -170,6 +83,36 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           success: true,
           url,
         },
+        {
+          limit: 10,
+          schema: divinerQuerySchema,
+          url,
+        },
+        {
+          offset: 10,
+          schema: divinerQuerySchema,
+          url,
+        },
+        {
+          order: 'asc',
+          schema: divinerQuerySchema,
+          url,
+        },
+        {
+          schema: divinerQuerySchema,
+          status: 200,
+          url,
+        },
+        {
+          schema: divinerQuerySchema,
+          success: true,
+          url,
+        },
+        {
+          schema: divinerQuerySchema,
+          success: false,
+          url,
+        },
       ]
       const expected = [
         {
@@ -189,16 +132,99 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
           status: 200,
           success: true,
           url,
-        } as unknown as PayloadDivinerQueryPayload,
+        },
+        {
+          limit: 10,
+          offset: 0,
+          order: 'desc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          url,
+        },
+        {
+          limit: 1,
+          offset: 10,
+          order: 'desc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          url,
+        },
+        {
+          limit: 1,
+          offset: 0,
+          order: 'asc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          url,
+        },
+        {
+          limit: 1,
+          offset: 0,
+          order: 'desc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          status: 200,
+          url,
+        },
+        {
+          limit: 1,
+          offset: 0,
+          order: 'desc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          success: true,
+          url,
+        },
+        {
+          limit: 1,
+          offset: 0,
+          order: 'desc',
+          schema: indexQuerySchema,
+          schemas: [indexSchema],
+          success: false,
+          url,
+        },
       ]
       const cases: [Payload, Payload][] = queries.map((query, i) => [query, expected[i]])
+      const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
+        [divinerQuerySchema]: [
+          {
+            destinationField: 'url',
+            sourcePathExpression: '$.url',
+          },
+          {
+            defaultValue: 1,
+            destinationField: 'limit',
+            sourcePathExpression: '$.limit',
+          },
+          {
+            defaultValue: 0,
+            destinationField: 'offset',
+            sourcePathExpression: '$.offset',
+          },
+          {
+            defaultValue: 'desc',
+            destinationField: 'order',
+            sourcePathExpression: '$.order',
+          },
+          {
+            destinationField: 'status',
+            sourcePathExpression: '$.status',
+          },
+          {
+            destinationField: 'success',
+            sourcePathExpression: '$.success',
+          },
+        ],
+      }
+      const config: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = {
+        divinerQuerySchema,
+        indexQuerySchema,
+        indexSchema,
+        schema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
+        schemaTransforms,
+      }
       beforeAll(async () => {
-        const config: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig = {
-          divinerQuerySchema,
-          indexQuerySchema,
-          indexSchema,
-          schema: TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
-        }
         diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ config })
       })
       describe('with single query', () => {

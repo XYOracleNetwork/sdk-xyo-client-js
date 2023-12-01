@@ -218,7 +218,7 @@ export class IndexingDiviner<
     this._pollId = setTimeout(async () => {
       try {
         await Promise.resolve()
-        //await this.backgroundDivine()
+        await this.backgroundDivine()
       } catch (e) {
         console.log(e)
       } finally {

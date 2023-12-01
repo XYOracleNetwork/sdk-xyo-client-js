@@ -10,18 +10,18 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.13.18",
-    "@xylabs/assert": "^2.13.18",
-    "@xylabs/crypto": "^2.13.18",
-    "@xylabs/delay": "^2.13.18",
-    "@xylabs/exists": "^2.13.18",
-    "@xylabs/hex": "^2.13.18",
-    "@xylabs/lodash": "^2.13.18",
-    "@xylabs/promise": "^2.13.18",
-    "@xylabs/set": "^2.13.18",
+    "@xylabs/array": "^2.13.20",
+    "@xylabs/assert": "^2.13.20",
+    "@xylabs/crypto": "^2.13.20",
+    "@xylabs/delay": "^2.13.20",
+    "@xylabs/exists": "^2.13.20",
+    "@xylabs/hex": "^2.13.20",
+    "@xylabs/lodash": "^2.13.20",
+    "@xylabs/promise": "^2.13.20",
+    "@xylabs/set": "^2.13.20",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.81.7",
+    "@xyo-network/address-payload-plugin": "^2.82.0",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -43,7 +43,7 @@
     "@xyo-network/diviner-schema-list-model": "workspace:~",
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~",
     "@xyo-network/diviner-schema-stats-model": "workspace:~",
-    "@xyo-network/location-payload-plugin": "^2.81.7",
+    "@xyo-network/location-payload-plugin": "^2.82.0",
     "@xyo-network/module-abstract-mongodb": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-core-model": "workspace:~",
@@ -65,7 +65,7 @@
     }
   },
   "devDependencies": {
-    "@xylabs/jest-helpers": "^2.13.18",
+    "@xylabs/jest-helpers": "^2.13.20",
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/abstract-diviner": "workspace:~",
@@ -95,19 +95,20 @@
       },
       "node": {
         "require": {
-          "types": "./dist/node/index.d.ts",
-          "default": "./dist/node/index.js"
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
         },
         "import": {
           "types": "./dist/node/index.d.mts",
-          "default": "./dist/node/index.mjs"
+          "default": "./dist/node/index.js"
         }
       }
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.js",
-  "module": "dist/node/index.mjs",
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "type": "module",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

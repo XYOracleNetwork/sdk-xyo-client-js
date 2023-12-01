@@ -99,7 +99,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages-clients/node/packages/express/packages/test/src/routes/hash/get/get.spec.ts"
+        "packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory/src/spec/Diviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

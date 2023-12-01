@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { toHexLegacy } from '@xylabs/hex'
+import { hexFromArrayBuffer, hexFromHexString, toHexLegacy } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -62,7 +62,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get address() {
-    return toHexLegacy(this.addressBytes)
+    return hexFromArrayBuffer(this.addressBytes, { prefix: false })
   }
 
   get addressBytes() {

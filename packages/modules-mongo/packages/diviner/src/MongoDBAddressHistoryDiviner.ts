@@ -65,7 +65,7 @@ const sanitizeAddress = (a: string | string[] | undefined): string => {
       .concat(a)
       .filter(exists)
       .map((x) => x.toLowerCase())
-      .map((z) => hexFromHexString(z, { prefix: true }))
+      .map((z) => hexFromHexString(z, { prefix: false }))
       .filter(exists)
       // TODO: We're only taking the last address with this
       .reduce((x) => x)

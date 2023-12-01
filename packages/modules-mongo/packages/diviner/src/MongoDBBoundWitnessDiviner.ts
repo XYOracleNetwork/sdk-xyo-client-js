@@ -40,7 +40,7 @@ export class MongoDBBoundWitnessDiviner extends MongoDBDivinerBase {
     // solve the multi-sig problem via multiple API calls when multi-sig is desired instead of
     // potentially impacting performance for all single-address queries
     const allAddresses = flatten(address, addresses)
-      .map((x) => hexFromHexString(x, { prefix: true }))
+      .map((x) => hexFromHexString(x, { prefix: false }))
       .filter(exists)
     if (allAddresses.length) filter.addresses = allAddresses.length === 1 ? allAddresses[0] : { $all: allAddresses }
     if (payload_hashes?.length) filter.payload_hashes = { $in: payload_hashes }

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { hexFromHexString } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountConfig } from '@xyo-network/account-model'
 import { toUint8Array } from '@xyo-network/core'
@@ -26,7 +27,11 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   override get address(): string {
-    return this.node.address.toLowerCase().replace('0x', '')
+    return hexFromHexString(this.node.address, { prefix: false })
+  }
+
+  override get addressBytes(): ArrayBuffer {
+    return toUint8Array(this.address, undefined, 16)
   }
 
   get chainCode(): string {

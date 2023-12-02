@@ -80,6 +80,9 @@
           },
           {
             "config": {
+              "filter": {
+                "payload_schemas": ["network.xyo.image.thumbnail"]
+              },
               "labels": {
                 "network.xyo.diviner.stage": "stateToIndexCandidateDiviner",
                 "network.xyo.image.thumbnail": "diviner"
@@ -102,18 +105,70 @@
               },
               "language": "javascript",
               "name": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
-              "schema": "network.xyo.diviner.config"
+              "schema": "network.xyo.diviner.config",
+              "schemaTransforms": {
+                "network.xyo.image.thumbnail": [
+                  {
+                    "destinationField": "url",
+                    "sourcePathExpression": "$.sourceUrl"
+                  },
+                  {
+                    "destinationField": "status",
+                    "sourcePathExpression": "$.http.status"
+                  }
+                ],
+                "network.xyo.timestamp": [
+                  {
+                    "destinationField": "timestamp",
+                    "sourcePathExpression": "$.timestamp"
+                  }
+                ]
+              }
             }
           },
           {
             "config": {
+              "divinerQuerySchema": "network.xyo.diviner.payload.query",
+              "indexQuerySchema": "network.xyo.diviner.payload.query",
+              "indexSchema": "network.xyo.diviner.indexing.temporal.result.index",
               "labels": {
                 "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner",
                 "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
-              "schema": "network.xyo.diviner.config"
+              "schema": "network.xyo.diviner.config",
+              "schemaTransforms": {
+                "network.xyo.diviner.payload.query": [
+                  {
+                    "destinationField": "url",
+                    "sourcePathExpression": "$.url"
+                  },
+                  {
+                    "defaultValue": 1,
+                    "destinationField": "limit",
+                    "sourcePathExpression": "$.limit"
+                  },
+                  {
+                    "defaultValue": 0,
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  },
+                  {
+                    "defaultValue": "desc",
+                    "destinationField": "order",
+                    "sourcePathExpression": "$.order"
+                  },
+                  {
+                    "destinationField": "status",
+                    "sourcePathExpression": "$.status"
+                  },
+                  {
+                    "destinationField": "success",
+                    "sourcePathExpression": "$.success"
+                  }
+                ]
+              }
             }
           },
           {
@@ -129,6 +184,12 @@
           },
           {
             "config": {
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
+                "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
+                "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
+                "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
+              },
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
@@ -138,75 +199,6 @@
               "name": "ImageThumbnailDiviner",
               "pollFrequency": 1000,
               "schema": "network.xyo.diviner.indexing.config",
-              "stageConfigs": {
-                "divinerQueryToIndexQueryDiviner": {
-                  "divinerQuerySchema": "network.xyo.diviner.payload.query",
-                  "indexQuerySchema": "network.xyo.diviner.payload.query",
-                  "indexSchema": "network.xyo.diviner.indexing.temporal.result.index",
-                  "schemaTransforms": {
-                    "network.xyo.diviner.payload.query": [
-                      {
-                        "destinationField": "url",
-                        "sourcePathExpression": "$.url"
-                      },
-                      {
-                        "defaultValue": 1,
-                        "destinationField": "limit",
-                        "sourcePathExpression": "$.limit"
-                      },
-                      {
-                        "defaultValue": 0,
-                        "destinationField": "offset",
-                        "sourcePathExpression": "$.offset"
-                      },
-                      {
-                        "defaultValue": "desc",
-                        "destinationField": "order",
-                        "sourcePathExpression": "$.order"
-                      },
-                      {
-                        "destinationField": "status",
-                        "sourcePathExpression": "$.status"
-                      },
-                      {
-                        "destinationField": "success",
-                        "sourcePathExpression": "$.success"
-                      }
-                    ]
-                  }
-                },
-                "indexCandidateToIndexDiviner": {
-                  "schemaTransforms": {
-                    "network.xyo.image.thumbnail": [
-                      {
-                        "destinationField": "url",
-                        "sourcePathExpression": "$.sourceUrl"
-                      },
-                      {
-                        "destinationField": "status",
-                        "sourcePathExpression": "$.http.status"
-                      }
-                    ],
-                    "network.xyo.timestamp": [
-                      {
-                        "destinationField": "timestamp",
-                        "sourcePathExpression": "$.timestamp"
-                      }
-                    ]
-                  }
-                },
-                "indexQueryResponseToDivinerQueryResponseDiviner": {},
-                "stateToIndexCandidateDiviner": {
-                  "filter": {
-                    "payload_schemas": ["network.xyo.image.thumbnail"]
-                  },
-                  "payloadStore": {
-                    "archivist": "ImageThumbnailArchivist",
-                    "boundWitnessDiviner": "ImageThumbnailBoundWitnessDiviner",
-                    "payloadDiviner": "ImageThumbnailPayloadDiviner"
-                  }
-                }
-              },
               "stateStore": {
                 "archivist": "AddressStateArchivist",
                 "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",

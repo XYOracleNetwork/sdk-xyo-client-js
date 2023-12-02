@@ -1,90 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "MemoryNode",
-      "program": "${workspaceFolder}/packages/node/packages/core/packages/app/src/app.ts",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
-      "env": {
-        "NODE_OPTIONS": "-r ts-node/register --loader ts-node/esm --max-old-space-size=8192"
-      },
-      "envFile": "${workspaceFolder}/.env",
-      "sourceMaps": true,
-      "resolveSourceMapLocations": [
-        "!**/node_modules/**"
-      ],
-      "pauseForSourceMap": true,
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "MemoryNode (Yarn)",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": [
-        "start"
-      ],
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
-      "envFile": "${workspaceFolder}/.env",
-      "sourceMaps": true,
-      "resolveSourceMapLocations": [
-        "!**/node_modules/**"
-      ],
-      "pauseForSourceMap": true,
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "CLI",
-      "program": "${workspaceFolder}/packages/cli/src/xyo.ts",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
-      "runtimeArgs": [
-        "--max-old-space-size=8192",
-        "--experimental-specifier-resolution=node",
-        "--loader=ts-node/esm"
-      ],
-      "args": [
-        "--network",
-        "local",
-        "node",
-        "discover",
-      ],
-      "envFile": "${workspaceFolder}/.env",
-      "sourceMaps": true,
-      "resolveSourceMapLocations": [
-        "!**/node_modules/**"
-      ],
-      "pauseForSourceMap": true,
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "AutomationWitness",
-      "program": "${workspaceFolder}/packages/automation-witness-server/src/launchServer.ts",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ],
-      "runtimeArgs": [
-        // "--inspect",
-        "--max-old-space-size=8192",
-        "--experimental-specifier-resolution=node",
-        "--loader=ts-node/esm"
-      ],
-      "envFile": "${workspaceFolder}/.env",
-      "sourceMaps": true,
-      "resolveSourceMapLocations": [
-        "!**/node_modules/**"
-      ],
-      "pauseForSourceMap": true,
-    },
     {
       "name": "Jest",
       "type": "node",
@@ -100,28 +16,6 @@
         "--runInBand",
         "--testTimeout=120000",
         "packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory/src/spec/Diviner.spec.ts"
-      ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
-      "name": "Jest-NoMongo",
-      "type": "node",
-      "request": "launch",
-      "osx": {
-        "program": "${workspaceRoot}/node_modules/.bin/jest"
-      },
-      "windows": {
-        "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"
-      },
-      "args": [
-        "--forceExit",
-        "--runInBand",
-        "--testTimeout=120000",
-        "-c=./jest.config.no-mongo.ts",
-        "packages/protocol/packages/account/src/spec/PrivateKey.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

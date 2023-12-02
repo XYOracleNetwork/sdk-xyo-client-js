@@ -107,13 +107,47 @@
           },
           {
             "config": {
+              "divinerQuerySchema": "network.xyo.diviner.payload.query",
+              "indexQuerySchema": "network.xyo.diviner.payload.query",
+              "indexSchema": "network.xyo.diviner.indexing.temporal.result.index",
               "labels": {
                 "network.xyo.diviner.stage": "divinerQueryToIndexQueryDiviner",
                 "network.xyo.image.thumbnail": "diviner"
               },
               "language": "javascript",
               "name": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
-              "schema": "network.xyo.diviner.config"
+              "schema": "network.xyo.diviner.config",
+              "schemaTransforms": {
+                "network.xyo.diviner.payload.query": [
+                  {
+                    "destinationField": "url",
+                    "sourcePathExpression": "$.url"
+                  },
+                  {
+                    "defaultValue": 1,
+                    "destinationField": "limit",
+                    "sourcePathExpression": "$.limit"
+                  },
+                  {
+                    "defaultValue": 0,
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  },
+                  {
+                    "defaultValue": "desc",
+                    "destinationField": "order",
+                    "sourcePathExpression": "$.order"
+                  },
+                  {
+                    "destinationField": "status",
+                    "sourcePathExpression": "$.status"
+                  },
+                  {
+                    "destinationField": "success",
+                    "sourcePathExpression": "$.success"
+                  }
+                ]
+              }
             }
           },
           {
@@ -129,6 +163,9 @@
           },
           {
             "config": {
+              "indexingDivinerStages": {
+                "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner"
+              },
               "indexStore": {
                 "archivist": "ImageThumbnailDivinerIndexArchivist",
                 "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
@@ -139,42 +176,6 @@
               "pollFrequency": 1000,
               "schema": "network.xyo.diviner.indexing.config",
               "stageConfigs": {
-                "divinerQueryToIndexQueryDiviner": {
-                  "divinerQuerySchema": "network.xyo.diviner.payload.query",
-                  "indexQuerySchema": "network.xyo.diviner.payload.query",
-                  "indexSchema": "network.xyo.diviner.indexing.temporal.result.index",
-                  "schemaTransforms": {
-                    "network.xyo.diviner.payload.query": [
-                      {
-                        "destinationField": "url",
-                        "sourcePathExpression": "$.url"
-                      },
-                      {
-                        "defaultValue": 1,
-                        "destinationField": "limit",
-                        "sourcePathExpression": "$.limit"
-                      },
-                      {
-                        "defaultValue": 0,
-                        "destinationField": "offset",
-                        "sourcePathExpression": "$.offset"
-                      },
-                      {
-                        "defaultValue": "desc",
-                        "destinationField": "order",
-                        "sourcePathExpression": "$.order"
-                      },
-                      {
-                        "destinationField": "status",
-                        "sourcePathExpression": "$.status"
-                      },
-                      {
-                        "destinationField": "success",
-                        "sourcePathExpression": "$.success"
-                      }
-                    ]
-                  }
-                },
                 "indexCandidateToIndexDiviner": {
                   "schemaTransforms": {
                     "network.xyo.image.thumbnail": [

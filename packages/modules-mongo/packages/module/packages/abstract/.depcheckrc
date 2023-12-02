@@ -1,5 +1,0 @@
-ignores:
-  [
-    "fake-indexeddb",
-    "typescript"
-  ]

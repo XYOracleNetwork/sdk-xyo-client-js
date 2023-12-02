@@ -1,6 +1,0 @@
-ignores:
-  [
-    "jest-mock-extended",
-    "jest",
-    "@xylabs/jest-helpers"
-  ]

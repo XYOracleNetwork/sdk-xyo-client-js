@@ -1,5 +1,0 @@
-ignores:
-  [
-    "jest-mock-extended",
-    "jest"
-  ]

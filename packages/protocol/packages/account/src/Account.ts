@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { hexFromArrayBuffer, hexFromHexString, toHexLegacy } from '@xylabs/hex'
+import { hexFromArrayBuffer, toHexLegacy } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,

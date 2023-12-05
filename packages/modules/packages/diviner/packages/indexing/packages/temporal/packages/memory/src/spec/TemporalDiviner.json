@@ -184,16 +184,16 @@
           },
           {
             "config": {
+              "indexStore": {
+                "archivist": "ImageThumbnailDivinerIndexArchivist",
+                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
+                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
+              },
               "indexingDivinerStages": {
                 "divinerQueryToIndexQueryDiviner": "ImageThumbnailQueryToImageThumbnailIndexQueryDiviner",
                 "indexCandidateToIndexDiviner": "ImageThumbnailIndexCandidateToImageThumbnailIndexDiviner",
                 "indexQueryResponseToDivinerQueryResponseDiviner": "ImageThumbnailIndexQueryResponseToImageThumbnailQueryResponseDiviner",
                 "stateToIndexCandidateDiviner": "ImageThumbnailStateToIndexCandidateDiviner"
-              },
-              "indexStore": {
-                "archivist": "ImageThumbnailDivinerIndexArchivist",
-                "boundWitnessDiviner": "ImageThumbnailDivinerIndexBoundWitnessDiviner",
-                "payloadDiviner": "ImageThumbnailDivinerIndexPayloadDiviner"
               },
               "language": "javascript",
               "name": "ImageThumbnailDiviner",

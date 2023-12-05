@@ -6,7 +6,6 @@ import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-netwo
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import { applyPatch, Operation } from 'json-joy/lib/json-patch'
-import { decode } from 'json-joy/lib/json-patch/codec/json'
 
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,

@@ -4,17 +4,33 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { JsonPatchDiviner } from '../src'
 
-const cases: [JsonPatchDivinerConfig, Payload, Payload][] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TestData = Payload<any>
+
+const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
+    'Filters by schema',
     {
-      operations: [
-        { op: 'test', path: '/schema', value: 'network.xyo.test' },
-        // { oldValue: false, op: 'replace', path: '/~1foo', value: 'baz' },
-      ],
+      operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],
       schema: JsonPatchDivinerConfigSchema,
     },
-    { schema: 'network.xyo.test' },
-    { schema: 'network.xyo.test' },
+    [
+      { schema: 'network.xyo.test', value: 'foo' },
+      { schema: 'network.xyo.debug', value: 'bar' },
+    ],
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+  ],
+  [
+    'Filters by value',
+    {
+      operations: [{ op: 'test', path: '/value', value: 'foo' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [
+      { schema: 'network.xyo.test', value: 'foo' },
+      { schema: 'network.xyo.test', value: 'bar' },
+    ],
+    [{ schema: 'network.xyo.test', value: 'foo' }],
   ],
 ]
 
@@ -30,11 +46,11 @@ describe('MemoryJsonPatchDiviner', () => {
   })
   describe('divine', () => {
     describe('with single input', () => {
-      it.each(cases)('should jsonpatch the input according to the jsonpatch', async (config, input, expected) => {
+      it.each(cases)('%s', async (_title, config, input, expected) => {
         const sut = await JsonPatchDiviner.create({ config, wallet })
-        const result = await sut.divine([input])
+        const result = await sut.divine(input)
         expect(result).toBeArrayOfSize(1)
-        expect(result[0]).toEqual(expected)
+        expect(result).toEqual(expected)
       })
     })
   })

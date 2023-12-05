@@ -4,7 +4,7 @@ import { JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer 
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadFields } from '@xyo-network/payload-model'
+import { Payload, PayloadFields, PayloadSchema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath'
 
@@ -18,6 +18,12 @@ export class JsonPathDiviner<
 
   protected _transforms: PayloadTransformer[] | undefined
 
+  /**
+   * The schema to use for the destination payloads
+   */
+  protected get destinationSchema(): string {
+    return this.config.destinationSchema ?? PayloadSchema
+  }
   /**
    * Dictionary of schemas to payload transformers for creating indexes
    * from the payloads within a Bound Witness
@@ -40,7 +46,7 @@ export class JsonPathDiviner<
         // Include all the sources for reference
         const sources = Object.keys(await PayloadHasher.toMap([payload]))
         // Build and return the index
-        return new PayloadBuilder<TOut>({ schema: 'todo' }).fields(Object.assign({ sources }, ...indexFields)).build()
+        return new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...indexFields)).build()
       }),
     )
     return results

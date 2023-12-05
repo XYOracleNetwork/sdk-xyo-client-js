@@ -18,8 +18,12 @@ export const JsonPathDivinerConfigSchema: JsonPathDivinerConfigSchema = `${JsonP
 export type JsonPathDivinerConfig = DivinerConfig<
   {
     /**
+     * The schema to use for the destination payloads
+     */
+    destinationSchema?: string
+    /**
      * The JSON Path transform expressions to apply to the payloads
      */
-    transforms: JsonPathTransformExpression[]
+    transforms?: JsonPathTransformExpression[]
   } & { schema: JsonPathDivinerConfigSchema }
 >

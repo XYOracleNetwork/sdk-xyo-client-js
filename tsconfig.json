@@ -2,7 +2,6 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": false,
     "typeRoots": []
   },
   "exclude": [".*", "dist", "node_modules", "storybook-static", "build", "docs"],
@@ -13,5 +12,10 @@
     },
     "files": true,
     "transpileOnly": true
-  }
+  },
+  "references": [
+    {
+      "path": "./packages/modules"
+    }
+  ]
 }

@@ -3,7 +3,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { SentinelInstance } from '@xyo-network/sentinel-model'
 
-import { SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
+import { isSentinelIntervalAutomation, SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void
@@ -25,10 +25,13 @@ export class SentinelRunner {
   }
 
   private get next() {
-    return Object.values(this._automations).reduce<SentinelIntervalAutomationPayload | undefined>((previous, current) => {
-      if (current.type === 'interval') {
-        return current.start < (previous?.start ?? Infinity) ? current : previous
+    return Object.values(this._automations).reduce<SentinelAutomationPayload | undefined>((previous, current) => {
+      if (isSentinelIntervalAutomation(current)) {
+        if (isSentinelIntervalAutomation(previous)) {
+          return current.start < (previous?.start ?? Infinity) ? current : previous
+        }
       }
+      return current
     }, undefined)
   }
 
@@ -61,7 +64,7 @@ export class SentinelRunner {
   async start() {
     assertEx(this.timeoutId === undefined, 'Already started')
     const automation = this.next
-    if (automation) {
+    if (isSentinelIntervalAutomation(automation)) {
       const delay = automation.start - Date.now()
       if (delay < 0) {
         //automation is due, just do it
@@ -95,7 +98,7 @@ export class SentinelRunner {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
     await this.remove(await wrapper.hashAsync(), false)
     wrapper.next()
-    await this.add(wrapper.payload(), false)
+    await this.add(wrapper.jsonPayload(), false)
     const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
     await this.start()

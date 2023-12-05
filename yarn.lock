@@ -4617,14 +4617,14 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
-    "@xyo-network/diviner-forecasting-model": "npm:~2.82.0"
-    "@xyo-network/payload-model": "npm:~2.82.0"
+    "@xyo-network/diviner-forecasting-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     arima: "npm:^0.2.5"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-forecasting-model@npm:~2.82.0, @xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model, @xyo-network/diviner-forecasting-model@workspace:~":
+"@xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model, @xyo-network/diviner-forecasting-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-model@workspace:packages/modules/packages/diviner/packages/forecasting/packages/model"
   dependencies:
@@ -5562,6 +5562,7 @@ __metadata:
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/witness": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    typedoc: "npm:^0.25.4"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
@@ -5740,7 +5741,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@npm:^2.82.0, @xyo-network/payload-model@npm:~2.82.0, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model, @xyo-network/payload-model@workspace:~":
+"@xyo-network/payload-model@npm:^2.82.0, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model, @xyo-network/payload-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
@@ -6023,6 +6024,7 @@ __metadata:
     supertest: "npm:^6.3.3"
     ts-jest: "npm:^29.1.1"
     ts-node: "npm:^10.9.1"
+    typedoc: "npm:^0.25.4"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
@@ -18041,7 +18043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.25.3":
+"typedoc@npm:^0.25.3, typedoc@npm:^0.25.4":
   version: 0.25.4
   resolution: "typedoc@npm:0.25.4"
   dependencies:

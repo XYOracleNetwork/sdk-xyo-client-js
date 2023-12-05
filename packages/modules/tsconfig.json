@@ -2,7 +2,6 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": false,
     "typeRoots": []
   },
   "exclude": ["dist", "docs", "packages", "node_modules"],

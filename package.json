@@ -45,6 +45,7 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.25.4",
     "typescript": "^5.3.2"
   },
   "resolutions": {
@@ -114,7 +115,7 @@
     "free-8080": "kill -9 $(lsof -t -i :8080)",
     "free-3033": "kill -9 $(lsof -t -i :3033)",
     "free-mongo": "kill -9 $(lsof -t -i :55391) && kill -9 $(lsof -t -i :55393)",
-    "build-typedoc-site": "xy gen-docs @xyo-network/sdk-xyo-client-js"
+    "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
   "version": "2.82.0",

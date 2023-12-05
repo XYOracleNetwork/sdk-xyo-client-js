@@ -1,9 +1,10 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPointStrategy": "packages",
+  "entryPointStrategy": "merge",
   "entryPoints": [
-    "packages/*"
+    "./**/packages/*/dist/docs.json"
   ],
+  "exclude": ["**/*.d.ts"],
   "includeVersion": true,
   "name": "XYO Platform Client SDK",
   "tsconfig": "./tsconfig.typedoc.json"

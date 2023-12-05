@@ -14,6 +14,7 @@
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/value-payload-plugin": "^2.82.0",
+    "json-joy": "^11.9.1",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {

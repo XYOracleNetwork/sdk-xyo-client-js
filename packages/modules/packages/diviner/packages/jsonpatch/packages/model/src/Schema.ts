@@ -1,2 +1,2 @@
-export type TransformDivinerSchema = 'network.xyo.diviner.jsonpatch'
-export const TransformDivinerSchema: TransformDivinerSchema = 'network.xyo.diviner.jsonpatch'
+export type JsonPatchDivinerSchema = 'network.xyo.diviner.jsonpatch'
+export const JsonPatchDivinerSchema: JsonPatchDivinerSchema = 'network.xyo.diviner.jsonpatch'

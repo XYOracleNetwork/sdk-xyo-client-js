@@ -1,11 +1,11 @@
 import { Account } from '@xyo-network/account'
-import { Transform, TransformDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
+import { JsonPatch, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import { Payload } from '@xyo-network/payload-model'
 import { isValuePayload, Value, ValueSchema } from '@xyo-network/value-payload-plugin'
 
-import { MemoryTransformDiviner } from '../src'
+import { MemoryJsonPatchDiviner } from '../src'
 
-const cases: [jsonpatch: Transform, payload: Payload, expected: Value][] = [
+const cases: [jsonpatch: JsonPatch, payload: Payload, expected: Value][] = [
   [
     {
       jsonpatch: {
@@ -40,16 +40,16 @@ const cases: [jsonpatch: Transform, payload: Payload, expected: Value][] = [
  * @group diviner
  */
 
-describe('MemoryTransformDiviner', () => {
-  let sut: MemoryTransformDiviner
+describe('MemoryJsonPatchDiviner', () => {
+  let sut: MemoryJsonPatchDiviner
   let account: Account
   beforeAll(() => {
     account = Account.randomSync()
   })
   describe('divine', () => {
     it.each(cases)('should jsonpatch the input according to the jsonpatch', async (jsonpatch, payload, expected) => {
-      const config = { jsonpatch: jsonpatch.jsonpatch, schema: TransformDivinerConfigSchema }
-      sut = await MemoryTransformDiviner.create({ account, config })
+      const config = { jsonpatch: jsonpatch.jsonpatch, schema: JsonPatchDivinerConfigSchema }
+      sut = await MemoryJsonPatchDiviner.create({ account, config })
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
       const actual = result.filter(isValuePayload)[0]

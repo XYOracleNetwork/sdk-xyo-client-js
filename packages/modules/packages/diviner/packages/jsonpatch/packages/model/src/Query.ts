@@ -1,10 +1,10 @@
 import { Payload, Query } from '@xyo-network/payload-model'
 
-import { TransformSettings } from './Config'
-import { TransformDivinerSchema } from './Schema'
+import { JsonPatchSettings } from './Config'
+import { JsonPatchDivinerSchema } from './Schema'
 
-export type TransformDivinerQuerySchema = `${TransformDivinerSchema}.query`
-export const TransformDivinerQuerySchema: TransformDivinerQuerySchema = `${TransformDivinerSchema}.query`
+export type JsonPatchDivinerQuerySchema = `${JsonPatchDivinerSchema}.query`
+export const JsonPatchDivinerQuerySchema: JsonPatchDivinerQuerySchema = `${JsonPatchDivinerSchema}.query`
 
-export type TransformDivinerQueryPayload = Query<{ schema: TransformDivinerQuerySchema } & Partial<TransformSettings>>
-export const isTransformDivinerQueryPayload = (x?: Payload | null): x is TransformDivinerQueryPayload => x?.schema === TransformDivinerQuerySchema
+export type JsonPatchDivinerQueryPayload = Query<{ schema: JsonPatchDivinerQuerySchema } & Partial<JsonPatchSettings>>
+export const isJsonPatchDivinerQueryPayload = (x?: Payload | null): x is JsonPatchDivinerQueryPayload => x?.schema === JsonPatchDivinerQuerySchema

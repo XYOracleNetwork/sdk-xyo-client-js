@@ -4740,6 +4740,48 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-jsonpath-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/memory, @xyo-network/diviner-jsonpath-memory@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-jsonpath-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/memory"
+  dependencies:
+    "@xylabs/assert": "npm:^2.13.20"
+    "@xylabs/exists": "npm:^2.13.20"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
+    "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/diviner-jsonpath-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    jsonpath: "npm:^1.1.1"
+    typescript: "npm:^5.3.2"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-jsonpath-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/model, @xyo-network/diviner-jsonpath-model@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-jsonpath-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
+    "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    typescript: "npm:^5.3.2"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-jsonpath@workspace:packages/modules/packages/diviner/packages/jsonpath"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
+    "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/diviner-jsonpath-memory": "workspace:~"
+    "@xyo-network/diviner-jsonpath-model": "workspace:~"
+    typescript: "npm:^5.3.2"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model, @xyo-network/diviner-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-model@workspace:packages/modules/packages/diviner/packages/model"

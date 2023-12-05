@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "json-joy": "^11.11.0"
+    "@xyo-network/module-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",

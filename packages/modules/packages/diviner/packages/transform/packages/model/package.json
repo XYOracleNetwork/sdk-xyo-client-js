@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.82.0"
+    "@xyo-network/value-payload-plugin": "^2.82.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",

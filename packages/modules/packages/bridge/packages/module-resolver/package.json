@@ -15,7 +15,7 @@
     "@xylabs/lodash": "^2.13.20",
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.82.0",
+    "@xyo-network/address-payload-plugin": "^2.82.2",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

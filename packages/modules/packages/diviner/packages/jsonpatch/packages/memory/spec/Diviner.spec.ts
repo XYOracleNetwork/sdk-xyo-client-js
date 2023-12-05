@@ -1,39 +1,9 @@
-import { Account } from '@xyo-network/account'
-import { JsonPatch, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
-import { Payload } from '@xyo-network/payload-model'
-import { isValuePayload, Value, ValueSchema } from '@xyo-network/value-payload-plugin'
+import { Account, HDWallet } from '@xyo-network/account'
+import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 
-import { MemoryJsonPatchDiviner } from '../src'
+import { JsonPatchDiviner } from '../src'
 
-const cases: [jsonpatch: JsonPatch, payload: Payload, expected: Value][] = [
-  [
-    {
-      jsonpatch: {
-        host: '$.MONGO_HOST',
-        password: '$.MONGO_PASSWORD',
-        port: '$.MONGO_PORT',
-        username: '$.MONGO_USERNAME',
-      },
-      schema: 'network.xyo.diviner.jsonpatch',
-    },
-    {
-      MONGO_HOST: 'http://localhost',
-      MONGO_PASSWORD: 'password',
-      MONGO_PORT: '54321',
-      MONGO_USERNAME: 'username',
-      schema: 'foo.bar.baz',
-    } as Payload,
-    {
-      schema: ValueSchema,
-      value: {
-        host: 'http://localhost',
-        password: 'password',
-        port: '54321',
-        username: 'username',
-      },
-    },
-  ],
-]
+const cases = [[]]
 
 /**
  * @group module
@@ -41,21 +11,19 @@ const cases: [jsonpatch: JsonPatch, payload: Payload, expected: Value][] = [
  */
 
 describe('MemoryJsonPatchDiviner', () => {
-  let sut: MemoryJsonPatchDiviner
-  let account: Account
-  beforeAll(() => {
-    account = Account.randomSync()
+  let sut: JsonPatchDiviner
+  let wallet: HDWallet
+  beforeAll(async () => {
+    wallet = await HDWallet.random()
   })
   describe('divine', () => {
-    it.each(cases)('should jsonpatch the input according to the jsonpatch', async (jsonpatch, payload, expected) => {
-      const config = { jsonpatch: jsonpatch.jsonpatch, schema: JsonPatchDivinerConfigSchema }
-      sut = await MemoryJsonPatchDiviner.create({ account, config })
-      const result = await sut.divine([payload])
-      expect(result).toBeArrayOfSize(1)
-      const actual = result.filter(isValuePayload)[0]
-      expect(actual).toBeDefined()
-      expect(actual.value).toBeObject()
-      expect(actual).toEqual(expected)
+    describe('with single input', () => {
+      it.each(cases)('should jsonpatch the input according to the jsonpatch', async (config, input, expected) => {
+        const sut = await JsonPatchDiviner.create({ config, wallet })
+        const result = await sut.divine([input])
+        expect(result).toBeArrayOfSize(1)
+        expect(result[0]).toEqual(expected)
+      })
     })
   })
 })

@@ -44,6 +44,7 @@
     "IPFS",
     "IXSCAN",
     "jsdom",
+    "jsonpatch",
     "keccak",
     "keypair",
     "libauth",

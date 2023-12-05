@@ -100,6 +100,21 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
     [{ schema: 'network.xyo.test', target: 'bar', value: 'foo' }],
   ],
+  [
+    'Filters multiple by schema',
+    {
+      operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [
+      { schema: 'network.xyo.test', value: 'foo' },
+      { schema: 'network.xyo.test', value: 'bar' },
+    ],
+    [
+      { schema: 'network.xyo.test', value: 'foo' },
+      { schema: 'network.xyo.test', value: 'bar' },
+    ],
+  ],
 ]
 
 /**
@@ -116,7 +131,7 @@ describe('JsonPatchDiviner', () => {
     it.each(cases)('%s', async (_title, config, input, expected) => {
       const sut = await JsonPatchDiviner.create({ config, wallet })
       const result = await sut.divine(input)
-      expect(result).toBeArrayOfSize(1)
+      expect(result).toBeArrayOfSize(expected.length)
       expect(result).toEqual(expected)
     })
   })

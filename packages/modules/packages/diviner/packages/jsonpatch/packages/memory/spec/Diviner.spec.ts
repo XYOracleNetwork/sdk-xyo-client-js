@@ -54,7 +54,7 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.test', target: 'foo' }],
   ],
   [
-    'Moves a value',
+    'Copies a value',
     {
       operations: [{ from: '/value', op: 'copy', path: '/target' }],
       schema: JsonPatchDivinerConfigSchema,
@@ -86,6 +86,20 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     ],
     [{ schema: 'network.xyo.test', value: 'foo' }],
   ],
+  [
+    'Handles multiple operations',
+    {
+      operations: [
+        { op: 'test', path: '/schema', value: 'network.xyo.test' },
+        { op: 'add', path: '/value', value: 'foo' },
+        { from: '/value', op: 'copy', path: '/target' },
+        { op: 'replace', path: '/target', value: 'bar' },
+      ],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test' }, { schema: 'network.xyo.debug' }],
+    [{ schema: 'network.xyo.test', target: 'bar', value: 'foo' }],
+  ],
 ]
 
 /**
@@ -99,13 +113,11 @@ describe('JsonPatchDiviner', () => {
     wallet = await HDWallet.random()
   })
   describe('divine', () => {
-    describe('with single input', () => {
-      it.each(cases)('%s', async (_title, config, input, expected) => {
-        const sut = await JsonPatchDiviner.create({ config, wallet })
-        const result = await sut.divine(input)
-        expect(result).toBeArrayOfSize(1)
-        expect(result).toEqual(expected)
-      })
+    it.each(cases)('%s', async (_title, config, input, expected) => {
+      const sut = await JsonPatchDiviner.create({ config, wallet })
+      const result = await sut.divine(input)
+      expect(result).toBeArrayOfSize(1)
+      expect(result).toEqual(expected)
     })
   })
 })

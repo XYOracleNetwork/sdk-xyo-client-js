@@ -36,6 +36,15 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.debug' }],
   ],
   [
+    'Replaces a value',
+    {
+      operations: [{ op: 'replace', path: '/value', value: 'bar' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test', value: 'bar' }],
+  ],
+  [
     'Filters by schema',
     {
       operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],

@@ -11,15 +11,14 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
+    "@xylabs/exists": "^2.13.20",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.82.0",
-    "json-joy": "^11.9.1",
-    "jsonpath": "^1.1.1"
+    "json-joy": "^11.9.1"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.4",
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",

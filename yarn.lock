@@ -4701,17 +4701,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-jsonpatch-memory@workspace:packages/modules/packages/diviner/packages/jsonpatch/packages/memory"
   dependencies:
-    "@types/jsonpath": "npm:^0.2.4"
     "@xylabs/assert": "npm:^2.13.20"
+    "@xylabs/exists": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/value-payload-plugin": "npm:^2.82.0"
     json-joy: "npm:^11.9.1"
-    jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
@@ -4723,8 +4722,8 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/value-payload-plugin": "npm:^2.82.0"
+    "@xyo-network/module-model": "workspace:~"
+    json-joy: "npm:^11.9.1"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
@@ -5030,7 +5029,6 @@ __metadata:
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
-    "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"

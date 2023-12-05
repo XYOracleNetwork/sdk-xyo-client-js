@@ -45,6 +45,24 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.test', value: 'bar' }],
   ],
   [
+    'Moves a value',
+    {
+      operations: [{ from: '/value', op: 'move', path: '/target' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test', target: 'foo' }],
+  ],
+  [
+    'Moves a value',
+    {
+      operations: [{ from: '/value', op: 'copy', path: '/target' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test', target: 'foo', value: 'foo' }],
+  ],
+  [
     'Filters by schema',
     {
       operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],
@@ -75,7 +93,7 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
  * @group diviner
  */
 
-describe('MemoryJsonPatchDiviner', () => {
+describe('JsonPatchDiviner', () => {
   let wallet: HDWallet
   beforeAll(async () => {
     wallet = await HDWallet.random()

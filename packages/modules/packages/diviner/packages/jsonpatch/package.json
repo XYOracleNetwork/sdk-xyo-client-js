@@ -10,7 +10,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/diviner-jsonpatch-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpatch-memory": "workspace:~",
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
   },

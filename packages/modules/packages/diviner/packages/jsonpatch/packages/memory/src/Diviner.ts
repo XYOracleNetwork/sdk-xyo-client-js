@@ -3,7 +3,7 @@ import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-netwo
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 
-export class MemoryJsonPatchDiviner<
+export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,

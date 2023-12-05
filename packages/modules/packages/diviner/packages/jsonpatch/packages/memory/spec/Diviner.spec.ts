@@ -9,6 +9,33 @@ type TestData = Payload<any>
 
 const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
   [
+    'Adds a value',
+    {
+      operations: [{ op: 'add', path: '/value', value: 'foo' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test' }],
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+  ],
+  [
+    'Removes a value',
+    {
+      operations: [{ op: 'remove', path: '/value' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test' }],
+  ],
+  [
+    'Replaces a schema',
+    {
+      operations: [{ op: 'replace', path: '/schema', value: 'network.xyo.debug' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test' }],
+    [{ schema: 'network.xyo.debug' }],
+  ],
+  [
     'Filters by schema',
     {
       operations: [{ op: 'test', path: '/schema', value: 'network.xyo.test' }],

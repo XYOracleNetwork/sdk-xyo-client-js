@@ -1,9 +1,22 @@
-import { Account, HDWallet } from '@xyo-network/account'
-import { JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
+import { HDWallet } from '@xyo-network/account'
+import { JsonPatchDivinerConfig, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { JsonPatchDiviner } from '../src'
 
-const cases = [[]]
+const cases: [JsonPatchDivinerConfig, Payload, Payload][] = [
+  [
+    {
+      operations: [
+        { op: 'test', path: '/schema', value: 'network.xyo.test' },
+        // { oldValue: false, op: 'replace', path: '/~1foo', value: 'baz' },
+      ],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    { schema: 'network.xyo.test' },
+    { schema: 'network.xyo.test' },
+  ],
+]
 
 /**
  * @group module
@@ -11,7 +24,6 @@ const cases = [[]]
  */
 
 describe('MemoryJsonPatchDiviner', () => {
-  let sut: JsonPatchDiviner
   let wallet: HDWallet
   beforeAll(async () => {
     wallet = await HDWallet.random()

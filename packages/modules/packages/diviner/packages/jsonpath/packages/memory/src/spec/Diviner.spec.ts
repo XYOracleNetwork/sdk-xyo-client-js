@@ -57,8 +57,8 @@ describe('JsonPathDiviner', () => {
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
   ]
-  it.each(cases)('%s', async (_title, inputs, transforms, output) => {
-    const destinationSchema = output?.[0]?.schema
+  it.each(cases)('%s', async (_title, inputs, transforms, outputs) => {
+    const destinationSchema = outputs?.[0]?.schema
     const config = {
       destinationSchema,
       schema: JsonPathDivinerConfigSchema,
@@ -67,8 +67,8 @@ describe('JsonPathDiviner', () => {
     const sut = await JsonPathDiviner.create({ config })
     // Arrange
     const expected = await Promise.all(
-      output.map(async (p) => {
-        const sources = Object.keys(await PayloadHasher.toMap(inputs))
+      outputs.map(async (output, index) => {
+        const sources = [await PayloadHasher.hashAsync(inputs[index])]
         return { sources, ...output }
       }),
     )

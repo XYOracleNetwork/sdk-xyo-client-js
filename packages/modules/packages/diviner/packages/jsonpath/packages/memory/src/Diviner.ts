@@ -42,11 +42,11 @@ export class JsonPathDiviner<
     const results = await Promise.all(
       payloads.map<Promise<TOut>>(async (payload) => {
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const indexFields: PayloadFields[] = this.transforms.map((transform) => transform(payload))
+        const fields: PayloadFields[] = this.transforms.map((transform) => transform(payload))
         // Include all the sources for reference
         const sources = Object.keys(await PayloadHasher.toMap([payload]))
         // Build and return the index
-        return new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...indexFields)).build()
+        return new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...fields)).build()
       }),
     )
     return results

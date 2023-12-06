@@ -1,11 +1,11 @@
 import { HDWallet } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/core'
-import { JsonPathDivinerConfigSchema, JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import { JsonPathAggregateDivinerConfigSchema, JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { Payload } from '@xyo-network/payload-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { JsonPathDiviner } from '../Diviner'
-describe('JsonPathDiviner', () => {
+import { JsonPathAggregateDiviner } from '../Diviner'
+describe('JsonPathAggregateDiviner', () => {
   type AnyPayload = Payload<{ [key: string]: unknown }>
   type TestData = [description: string, input: AnyPayload[], transformers: JsonPathTransformExpression[], expected: AnyPayload[]]
   const cases: TestData[] = [
@@ -69,10 +69,10 @@ describe('JsonPathDiviner', () => {
     const destinationSchema = outputs?.[0]?.schema
     const config = {
       destinationSchema,
-      schema: JsonPathDivinerConfigSchema,
+      schema: JsonPathAggregateDivinerConfigSchema,
       transforms,
     }
-    const sut = await JsonPathDiviner.create({ config, wallet })
+    const sut = await JsonPathAggregateDiviner.create({ config, wallet })
     // Arrange
     const expected = await Promise.all(
       outputs.map(async (output, index) => {

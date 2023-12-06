@@ -1,6 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import {
+  JsonPathAggregateDivinerConfigSchema,
+  JsonPathAggregateDivinerParams,
+  PayloadTransformer,
+} from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -8,13 +12,13 @@ import { Payload, PayloadFields, PayloadSchema } from '@xyo-network/payload-mode
 
 import { toPayloadTransformer } from './jsonpath'
 
-export class JsonPathDiviner<
-  TParams extends JsonPathDivinerParams = JsonPathDivinerParams,
+export class JsonPathAggregateDiviner<
+  TParams extends JsonPathAggregateDivinerParams = JsonPathAggregateDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [JsonPathDivinerConfigSchema]
+  static override configSchemas = [JsonPathAggregateDivinerConfigSchema]
 
   protected _transforms: PayloadTransformer[] | undefined
 

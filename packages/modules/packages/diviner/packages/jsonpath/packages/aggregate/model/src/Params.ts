@@ -1,9 +1,9 @@
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 
-import { JsonPathDivinerConfig } from './Config'
+import { JsonPathAggregateDivinerConfig } from './Config'
 
 /**
  * The params type the JSON Path diviner
  **/
-export type JsonPathDivinerParams = DivinerParams<AnyConfigSchema<JsonPathDivinerConfig>>
+export type JsonPathAggregateDivinerParams = DivinerParams<AnyConfigSchema<JsonPathAggregateDivinerConfig>>

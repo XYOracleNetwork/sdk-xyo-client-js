@@ -4755,6 +4755,7 @@ __metadata:
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/wallet-model": "workspace:~"
     jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.3.2"
   languageName: unknown

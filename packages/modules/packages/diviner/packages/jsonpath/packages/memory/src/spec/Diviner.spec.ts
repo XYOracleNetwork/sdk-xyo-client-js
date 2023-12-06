@@ -6,7 +6,7 @@ import { JsonPathDiviner } from '../Diviner'
 
 describe('JsonPathDiviner', () => {
   type AnyPayload = Payload<{ [key: string]: unknown }>
-  type TestData = [description: string, payloads: AnyPayload[], payloadTransformers: JsonPathTransformExpression[], output: AnyPayload[]]
+  type TestData = [description: string, input: AnyPayload[], transformers: JsonPathTransformExpression[], expected: AnyPayload[]]
   const cases: TestData[] = [
     [
       'transforms single payload',
@@ -24,7 +24,10 @@ describe('JsonPathDiviner', () => {
         { destinationField: 'c', sourcePathExpression: '$.a' },
         { destinationField: 'd', sourcePathExpression: '$.b' },
       ],
-      [{ c: 0, d: 1, schema: 'network.xyo.test.destination' }],
+      [
+        { c: 0, schema: 'network.xyo.test.destination' },
+        { d: 1, schema: 'network.xyo.test.destination' },
+      ],
     ],
     [
       'transforms with default value if source property is missing',
@@ -68,8 +71,7 @@ describe('JsonPathDiviner', () => {
     // Arrange
     const expected = await Promise.all(
       outputs.map(async (output, index) => {
-        const sources = [await PayloadHasher.hashAsync(inputs[index])]
-        return { sources, ...output }
+        return { sources: [await PayloadHasher.hashAsync(inputs[index])], ...output }
       }),
     )
 

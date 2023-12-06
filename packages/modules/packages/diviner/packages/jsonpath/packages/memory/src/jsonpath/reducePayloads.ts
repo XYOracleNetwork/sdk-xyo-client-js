@@ -1,5 +1,5 @@
 import { PayloadHasher } from '@xyo-network/core'
-import { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-temporal-indexing-model'
+import { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
 

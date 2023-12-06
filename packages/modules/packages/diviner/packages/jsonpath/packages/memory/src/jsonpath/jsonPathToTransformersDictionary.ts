@@ -1,4 +1,4 @@
-import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-temporal-indexing-model'
+import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 
 import { toPayloadTransformer } from './toPayloadTransformer'
 

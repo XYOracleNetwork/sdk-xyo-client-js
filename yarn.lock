@@ -4745,13 +4745,15 @@ __metadata:
   resolution: "@xyo-network/diviner-jsonpath-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^2.13.20"
-    "@xylabs/exists": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.3.2"
@@ -4764,8 +4766,10 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft

@@ -1,4 +1,4 @@
-import { JsonPathTransformExpression, PayloadTransformer } from '@xyo-network/diviner-temporal-indexing-model'
+import { JsonPathTransformExpression, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
 import { Payload } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 

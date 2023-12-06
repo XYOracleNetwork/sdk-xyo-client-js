@@ -15,10 +15,8 @@
     "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "jsonpath": "^1.1.1"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
@@ -26,6 +24,7 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-jsonpath-memory": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "^5.3.2"
   },

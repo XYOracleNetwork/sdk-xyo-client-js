@@ -97,9 +97,9 @@ describe('JsonPathAggregateDiviner', () => {
         })
         it.each(cases)('handles sparse inputs', async (thumbnail, timestamp) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
-          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
+          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(1)
+          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(1)
+          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
         })
       })
       describe('with multiple results', () => {
@@ -126,7 +126,7 @@ describe('JsonPathAggregateDiviner', () => {
         it('handles missing inputs', async () => {
           const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
           const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
-          expect(results).toBeArrayOfSize(0)
+          expect(results).toBeArrayOfSize(1)
         })
       })
     })
@@ -182,9 +182,9 @@ describe('JsonPathAggregateDiviner', () => {
         })
         it.each(cases)('handles sparse inputs', async (thumbnail, timestamp, payload) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
-          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
+          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(1)
+          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(1)
+          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
         })
       })
       describe('with multiple results', () => {
@@ -211,7 +211,7 @@ describe('JsonPathAggregateDiviner', () => {
         it('handles missing inputs', async () => {
           const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
           const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
-          expect(results).toBeArrayOfSize(0)
+          expect(results).toBeArrayOfSize(1)
         })
       })
     })

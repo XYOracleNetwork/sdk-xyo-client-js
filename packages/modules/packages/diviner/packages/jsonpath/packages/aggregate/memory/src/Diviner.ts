@@ -63,13 +63,15 @@ export class JsonPathAggregateDiviner<
     const transformablePayloads = payloads?.filter((p) => this.isTransformablePayload(p))
     if (transformablePayloads?.length) {
       // Create the payload partials from the payloads
-      const payloadFields = transformablePayloads.map<PayloadFields>((payload) => {
-        // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        // Find the transformers for this payload
-        const transformers = this.payloadTransformers[payload.schema]
-        // If transformers exist, apply them to the payload otherwise return an empty array
-        return transformers ? transformers.map((transform) => transform(payload)) : []
-      })
+      const payloadFields = transformablePayloads
+        .map<PayloadFields[]>((payload) => {
+          // Use the payload transformers to convert the fields from the source payloads to the destination fields
+          // Find the transformers for this payload
+          const transformers = this.payloadTransformers[payload.schema]
+          // If transformers exist, apply them to the payload otherwise return an empty array
+          return transformers ? transformers.map((transform) => transform(payload)) : []
+        })
+        .flat()
       // Include all the sources for reference
       const sources = Object.keys(await PayloadHasher.toMap(transformablePayloads))
       // Build and return the aggregate

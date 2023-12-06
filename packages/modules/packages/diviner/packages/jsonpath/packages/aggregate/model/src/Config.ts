@@ -1,6 +1,6 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
 
-import { JsonPathTransformExpression } from './jsonpath'
+import { SchemaToJsonPathTransformExpressionsDictionary } from './jsonpath'
 import { JsonPathAggregateDivinerSchema } from './Schema'
 
 /**
@@ -24,6 +24,6 @@ export type JsonPathAggregateDivinerConfig = DivinerConfig<
     /**
      * The JSON Path transform expressions to apply to the payloads
      */
-    transforms?: JsonPathTransformExpression[]
+    schemaTransforms?: SchemaToJsonPathTransformExpressionsDictionary
   } & { schema: JsonPathAggregateDivinerConfigSchema }
 >

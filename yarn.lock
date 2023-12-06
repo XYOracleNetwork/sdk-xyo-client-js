@@ -4785,6 +4785,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.10"
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/core": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"

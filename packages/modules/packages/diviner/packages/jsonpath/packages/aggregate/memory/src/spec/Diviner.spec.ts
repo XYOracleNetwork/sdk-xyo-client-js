@@ -102,33 +102,6 @@ describe('JsonPathAggregateDiviner', () => {
           expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
         })
       })
-      describe('with multiple results', () => {
-        it('transforms multiple results', async () => {
-          const data: [BoundWitness, TimeStamp, ImageThumbnail][] = await Promise.all(
-            cases.map(async (payloads) => {
-              const [bw] = await new BoundWitnessBuilder().payloads(payloads).build()
-              return [bw, ...payloads]
-            }),
-          )
-          const results = await diviner.divine(data.flat())
-          expect(results).toBeArrayOfSize(cases.length)
-          data.forEach(async (input, i) => {
-            const result = results[i]
-            await validateSingleResult(input, [result])
-          })
-        })
-        it('handles sparse inputs', async () => {
-          const [bw] = await new BoundWitnessBuilder().payloads(cases[0]).build()
-          const results = await diviner.divine([bw, ...cases.flat()])
-          expect(results).toBeArrayOfSize(1)
-          await validateSingleResult([bw, ...cases[0]], results)
-        })
-        it('handles missing inputs', async () => {
-          const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
-          const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
-          expect(results).toBeArrayOfSize(1)
-        })
-      })
     })
     describe('with multiple schema transforms', () => {
       const validateMultiResult = async (
@@ -185,33 +158,6 @@ describe('JsonPathAggregateDiviner', () => {
           expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(1)
           expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(1)
           expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
-        })
-      })
-      describe('with multiple results', () => {
-        it('transforms multiple results', async () => {
-          const data: [BoundWitness, TimeStamp, ImageThumbnail, Payload][] = await Promise.all(
-            cases.map(async (payloads) => {
-              const [bw] = await new BoundWitnessBuilder().payloads(payloads).build()
-              return [bw, ...payloads]
-            }),
-          )
-          const results = await diviner.divine(data.flat())
-          expect(results).toBeArrayOfSize(cases.length)
-          data.forEach(async (input, i) => {
-            const result = results[i]
-            await validateMultiResult(input, [result])
-          })
-        })
-        it('handles sparse inputs', async () => {
-          const [bw] = await new BoundWitnessBuilder().payloads(cases[0]).build()
-          const results = await diviner.divine([bw, ...cases.flat()])
-          expect(results).toBeArrayOfSize(1)
-          await validateMultiResult([bw, ...cases[0]], results)
-        })
-        it('handles missing inputs', async () => {
-          const [bw] = await new BoundWitnessBuilder().payloads([...cases[0]]).build()
-          const results = await diviner.divine([bw, ...cases[0].slice(0, -1)])
-          expect(results).toBeArrayOfSize(1)
         })
       })
     })

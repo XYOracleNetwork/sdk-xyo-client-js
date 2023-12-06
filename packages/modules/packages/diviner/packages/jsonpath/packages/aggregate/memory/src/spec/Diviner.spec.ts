@@ -1,9 +1,10 @@
+import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/core'
-import { isTemporalIndexingDivinerResultIndex, SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-temporal-indexing-model'
-import { Payload } from '@xyo-network/payload-model'
-import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { JsonPathAggregateDiviner } from '../Diviner'
 
@@ -16,11 +17,14 @@ type ImageThumbnail = Payload<{
   sourceUrl: string
   url?: string
 }>
+type TimeStamp = Payload<{ timestamp: number }>
+type ResultType = Payload<{ sources: string[]; status?: number; timestamp: number; url?: string }>
 
 describe('JsonPathAggregateDiviner', () => {
   describe('divine', () => {
+    const destinationSchema = 'network.xyo.test'
     const timestampA = 1234567890
-    const timestampPayloadA: TimeStamp = { schema: TimestampSchema, timestamp: timestampA }
+    const timestampPayloadA = { schema: 'network.xyo.timestamp', timestamp: timestampA }
     const imageThumbnailPayloadA: ImageThumbnail = {
       http: {
         status: 200,
@@ -30,7 +34,7 @@ describe('JsonPathAggregateDiviner', () => {
       url: 'data',
     }
     const timestampB = 1234567891
-    const timestampPayloadB: TimeStamp = { schema: TimestampSchema, timestamp: timestampB }
+    const timestampPayloadB = { schema: 'network.xyo.timestamp', timestamp: timestampB }
     const imageThumbnailPayloadB: ImageThumbnail = {
       http: {
         status: 500,
@@ -39,7 +43,7 @@ describe('JsonPathAggregateDiviner', () => {
       sourceUrl: 'https://xyo.network',
     }
     const timestampC = 1234567892
-    const timestampPayloadC: TimeStamp = { schema: TimestampSchema, timestamp: timestampC }
+    const timestampPayloadC = { schema: 'network.xyo.timestamp', timestamp: timestampC }
     const imageThumbnailPayloadC: ImageThumbnail = {
       http: {
         ipAddress: '192.169.1.1',
@@ -47,6 +51,10 @@ describe('JsonPathAggregateDiviner', () => {
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://www.google.com',
     }
+    let wallet: WalletInstance
+    beforeAll(async () => {
+      wallet = await HDWallet.random()
+    })
     describe('with single schema transform', () => {
       const validateSingleResult = async (
         input: [boundWitness: BoundWitness, timestamp: TimeStamp, thumbnail: ImageThumbnail],
@@ -55,20 +63,16 @@ describe('JsonPathAggregateDiviner', () => {
         const [boundWitness, timestamp, thumbnail] = input
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
         expect(result).toBeArrayOfSize(1)
-        expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
-        const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
+        expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
+        const [index] = result.filter(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index.timestamp).toBe(timestamp.timestamp)
-        expect((index as { url?: string })?.url).toBe(thumbnail.sourceUrl)
-        expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
+        expect(index?.url).toBe(thumbnail.sourceUrl)
+        expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        diviner = await JsonPathAggregateDiviner.create({
-          config: {
-            schema: JsonPathAggregateDiviner.configSchema,
-            schemaTransforms,
-          },
-        })
+        const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
+        diviner = await JsonPathAggregateDiviner.create({ config, wallet })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.boundwitness': [],
@@ -134,20 +138,16 @@ describe('JsonPathAggregateDiviner', () => {
         const [boundWitness, timestamp, thumbnail, payload] = input
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
-        expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
-        const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
+        expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
+        const [index] = result.filter(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index.timestamp).toBe(timestamp.timestamp)
-        expect((index as { url?: string })?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
-        expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
+        expect(index?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
+        expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        diviner = await JsonPathAggregateDiviner.create({
-          config: {
-            schema: JsonPathAggregateDiviner.configSchema,
-            schemaTransforms,
-          },
-        })
+        const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
+        diviner = await JsonPathAggregateDiviner.create({ config, wallet })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.boundwitness': [],

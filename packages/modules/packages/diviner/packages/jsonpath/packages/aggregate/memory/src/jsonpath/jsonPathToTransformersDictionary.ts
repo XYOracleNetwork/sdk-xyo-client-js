@@ -1,6 +1,5 @@
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
-
-import { toPayloadTransformer } from './toPayloadTransformer'
+import { toPayloadTransformer } from '@xyo-network/diviner-jsonpath-memory'
 
 /**
  * Materializes the JSON-path expressions into memoized functions by converting a

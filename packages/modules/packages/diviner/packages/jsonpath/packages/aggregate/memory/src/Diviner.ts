@@ -8,11 +8,9 @@ import {
   SchemaToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { PayloadHasher } from '@xyo-network/hash'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadFields, PayloadSchema } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 
-import { jsonPathToTransformersDictionary } from './jsonpath'
+import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath'
 
 const moduleName = 'JsonPathAggregateDiviner'
 
@@ -60,24 +58,9 @@ export class JsonPathAggregateDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const transformablePayloads = payloads?.filter((p) => this.isTransformablePayload(p))
-    if (transformablePayloads?.length) {
-      // Create the payload partials from the payloads
-      const payloadFields = transformablePayloads
-        .map<PayloadFields[]>((payload) => {
-          // Use the payload transformers to convert the fields from the source payloads to the destination fields
-          // Find the transformers for this payload
-          const transformers = this.payloadTransformers[payload.schema]
-          // If transformers exist, apply them to the payload otherwise return an empty array
-          return transformers ? transformers.map((transform) => transform(payload)) : []
-        })
-        .flat()
-      // Include all the sources for reference
-      const sources = Object.keys(await PayloadHasher.toMap(transformablePayloads))
-      // Build and return the aggregate
-      return [new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...payloadFields)).build()]
-    }
-    return []
+    if (!payloads) return []
+    const reducedPayloads = await reducePayloads<TOut>(payloads, this.payloadTransformers, this.destinationSchema)
+    return [reducedPayloads]
   }
 
   /**

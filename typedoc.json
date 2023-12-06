@@ -1,8 +1,9 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPointStrategy": "merge",
+  "entryPointStrategy": "packages",
   "entryPoints": [
-    "./**/packages/*/dist/docs.json"
+    "./**/packages/*",
+    "."
   ],
   "exclude": ["**/*.d.ts"],
   "includeVersion": true,

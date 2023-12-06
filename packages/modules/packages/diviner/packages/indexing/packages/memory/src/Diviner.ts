@@ -17,9 +17,9 @@ import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/modu
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
-type ConfigStoreKey = 'indexStore' | 'stateStore'
+export type ConfigStoreKey = 'indexStore' | 'stateStore'
 
-type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
+export type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
 const moduleName = 'IndexingDiviner'
 

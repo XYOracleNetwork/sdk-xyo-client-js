@@ -37,8 +37,7 @@ export class JsonPathAggregateDiviner<
   }
 
   /**
-   * Dictionary of schemas to payload transformers for creating indexes
-   * from the payloads within a Bound Witness
+   * Dictionary of schemas to payload transformers
    */
   protected get payloadTransformers(): SchemaToPayloadTransformersDictionary {
     if (!this._payloadTransformers) this._payloadTransformers = jsonPathToTransformersDictionary(this.schemaTransforms)
@@ -46,15 +45,14 @@ export class JsonPathAggregateDiviner<
   }
 
   /**
-   * The dictionary of schemas to JSON Path transform expressions for creating indexes
-   * from the payloads within a Bound Witness
+   * The dictionary of schemas to JSON Path transform expressions
    */
   protected get schemaTransforms(): SchemaToJsonPathTransformExpressionsDictionary {
     return assertEx(this.config?.schemaTransforms, () => `${moduleName}: Missing config.schemaTransforms section`)
   }
 
   /**
-   * List of indexable schemas for this diviner
+   * List of transformable schemas for this diviner
    */
   protected get transformableSchemas(): string[] {
     if (!this._transformableSchemas) this._transformableSchemas = [...Object.keys(this.schemaTransforms)]
@@ -62,10 +60,10 @@ export class JsonPathAggregateDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const indexablePayloads = payloads?.filter((p) => this.isTransformablePayload(p))
-    if (indexablePayloads?.length) {
-      // Create the indexes from the tuples
-      const payloadFields = indexablePayloads.map<PayloadFields>((payload) => {
+    const transformablePayloads = payloads?.filter((p) => this.isTransformablePayload(p))
+    if (transformablePayloads?.length) {
+      // Create the payload partials from the payloads
+      const payloadFields = transformablePayloads.map<PayloadFields>((payload) => {
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
         // Find the transformers for this payload
         const transformers = this.payloadTransformers[payload.schema]
@@ -73,27 +71,26 @@ export class JsonPathAggregateDiviner<
         return transformers ? transformers.map((transform) => transform(payload)) : []
       })
       // Include all the sources for reference
-      const sources = Object.keys(await PayloadHasher.toMap(indexablePayloads))
-      // Build and return the index
-      const aggregate = new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...payloadFields)).build()
-      return [aggregate]
+      const sources = Object.keys(await PayloadHasher.toMap(transformablePayloads))
+      // Build and return the aggregate
+      return [new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...payloadFields)).build()]
     }
     return []
   }
 
   /**
-   * Identifies if a payload is one that is indexed by this diviner
+   * Identifies if a payload is one that is transformed by this diviner
    * @param x The candidate payload
-   * @returns True if the payload is one indexed by this diviner, false otherwise
+   * @returns True if the payload is one transformed by this diviner, false otherwise
    */
   protected isTransformablePayload = (x: Payload) => {
     return this.transformableSchemas.includes(x?.schema)
   }
 
   /**
-   * Identifies if a schema is one that is indexed by this diviner
+   * Identifies if a schema is one that is transformed by this diviner
    * @param schema The candidate schema
-   * @returns True if this schema is one indexed by this diviner, false otherwise
+   * @returns True if this schema is one transformed by this diviner, false otherwise
    */
   protected isTransformableSchema = (schema?: string | null) => {
     return this.transformableSchemas.some((s) => s === schema)

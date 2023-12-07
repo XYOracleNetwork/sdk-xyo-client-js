@@ -3,12 +3,14 @@ import { AsObjectFactory, isObject } from '@xyo-network/object'
 
 import { Payload } from './Payload'
 
-export const isAnyPayload = (obj: any): obj is Payload => {
-  if (isObject(obj)) {
-    return typeof obj.schema === 'string'
+export const isAnyPayload = (value: unknown): value is Payload => {
+  if (isObject(value)) {
+    return typeof value.schema === 'string'
   }
   return false
 }
+
+export const asAnyPayload = AsObjectFactory.create(isAnyPayload)
 
 export const isPayload =
   <T extends Payload>(schema: string[]) =>

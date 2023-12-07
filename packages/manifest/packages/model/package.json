@@ -15,7 +15,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "typescript-json-schema": "^0.62.0"
   },
   "docs": "dist/docs.json",
@@ -64,5 +64,5 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.83.2"
+  "version": "2.83.3"
 }

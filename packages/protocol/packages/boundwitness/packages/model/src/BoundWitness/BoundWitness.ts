@@ -1,6 +1,7 @@
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessSchema } from './BoundWitnessSchema'
+import { EmptyObject } from '@xyo-network/object'
 
 export type BoundWitnessFields = {
   /** @field Array of signatures by the accounts that are listed in addresses */
@@ -17,7 +18,7 @@ export type BoundWitnessFields = {
   timestamp?: number
 }
 
-export type BoundWitness<T extends Payload | void = void> = Payload<
-  T extends Payload ? BoundWitnessFields & T : BoundWitnessFields,
-  T extends Payload ? T['schema'] : BoundWitnessSchema
+export type BoundWitness<T extends Payload | EmptyObject | void = void> = Payload<
+  T extends void ? BoundWitnessFields : BoundWitnessFields & T,
+  T extends void ? BoundWitnessSchema : T extends Payload ? T['schema'] : BoundWitnessSchema
 >

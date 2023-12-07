@@ -16,13 +16,13 @@
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "json-joy": "^11.11.0"
+    "json-joy": "^11.12.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",
@@ -64,5 +64,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.2"
+  "version": "2.83.3"
 }

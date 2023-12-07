@@ -19,11 +19,11 @@
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.82.2",
+    "@xyo-network/address-payload-plugin": "^2.83.0",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "^2.82.2",
+    "@xyo-network/config-payload-plugin": "^2.83.0",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
@@ -32,13 +32,13 @@
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.82.2",
+    "@xyo-network/query-payload-plugin": "^2.83.0",
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",
@@ -80,5 +80,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.2"
+  "version": "2.83.3"
 }

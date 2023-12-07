@@ -17,13 +17,13 @@
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "^2.82.2",
+    "@xyo-network/config-payload-plugin": "^2.83.0",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.82.2",
+    "@xyo-network/query-payload-plugin": "^2.83.0",
     "lru-cache": "^10.1.0",
     "url-parse": "^1.5.10"
   },
@@ -35,7 +35,7 @@
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "docs": "dist/docs.json",
@@ -77,5 +77,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.2"
+  "version": "2.83.3"
 }

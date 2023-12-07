@@ -17,8 +17,8 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
-    "fake-indexeddb": "^4.0.2",
-    "typescript": "^5.3.2",
+    "fake-indexeddb": "^5.0.1",
+    "typescript": "^5.3.3",
     "uuid": "^9.0.1"
   },
   "docs": "dist/docs.json",
@@ -60,5 +60,5 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.83.2"
+  "version": "2.83.3"
 }

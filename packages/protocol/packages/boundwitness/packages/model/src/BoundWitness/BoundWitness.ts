@@ -1,7 +1,7 @@
+import { EmptyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessSchema } from './BoundWitnessSchema'
-import { EmptyObject } from '@xyo-network/object'
 
 export type BoundWitnessFields = {
   /** @field Array of signatures by the accounts that are listed in addresses */

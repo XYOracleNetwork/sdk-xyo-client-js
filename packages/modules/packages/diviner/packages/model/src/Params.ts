@@ -1,9 +1,9 @@
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
-import { AnyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xyo-network/object'
 
 import { DivinerConfig } from './Config'
 
 export type DivinerParams<
   TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
-  TAdditional extends AnyObject | undefined = undefined,
+  TAdditional extends EmptyObject | void = void,
 > = ModuleParams<TConfig, TAdditional>

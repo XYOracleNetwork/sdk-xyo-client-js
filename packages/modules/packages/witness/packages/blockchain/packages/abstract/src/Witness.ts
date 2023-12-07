@@ -1,7 +1,7 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { AnyObject, EmptyObject, WithAdditional } from '@xyo-network/object'
+import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
@@ -20,7 +20,7 @@ export type AdditionalBlockchainWitnessParams = {
 
 export type BlockchainWitnessParams<
   TConfig extends AnyConfigSchema<BlockchainWitnessConfig> = BlockchainWitnessConfig,
-  TAdditionalParams extends AnyObject | void = void,
+  TAdditionalParams extends EmptyObject | void = void,
 > = WitnessParams<
   TConfig,
   WithAdditional<

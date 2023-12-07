@@ -1,4 +1,4 @@
-import { AnyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xyo-network/object'
 
 /** Object with a timestamp */
 export interface Timestamp {
@@ -6,4 +6,4 @@ export interface Timestamp {
 }
 
 /** Add a timestamp field to any object */
-export type WithTimestamp<T extends AnyObject = AnyObject> = T & Timestamp
+export type WithTimestamp<T extends EmptyObject = EmptyObject> = T & Timestamp

@@ -3207,6 +3207,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:9.0.7":
+  version: 9.0.7
+  resolution: "@types/uuid@npm:9.0.7"
+  checksum: c7321194aeba9ea173efd1e721403bdf4e7ae6945f8f8cdbc87c791f4b505ccf3dbc4a8883d90b394ef13b7c2dc778045792b05dbb23b3c746f8ea347804d448
+  languageName: node
+  linkType: hard
+
 "@types/yargs-parser@npm:*":
   version: 21.0.3
   resolution: "@types/yargs-parser@npm:21.0.3"
@@ -3431,7 +3438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/arraybuffer@npm:^2.13.20, @xylabs/arraybuffer@npm:~2.13.18":
+"@xylabs/arraybuffer@npm:^2.13.20, @xylabs/arraybuffer@npm:~2.13.20":
   version: 2.13.20
   resolution: "@xylabs/arraybuffer@npm:2.13.20"
   dependencies:
@@ -3520,12 +3527,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/hex@npm:2.13.18":
-  version: 2.13.18
-  resolution: "@xylabs/hex@npm:2.13.18"
+"@xylabs/hex@npm:^2.13.20":
+  version: 2.13.20
+  resolution: "@xylabs/hex@npm:2.13.20"
   dependencies:
-    "@xylabs/arraybuffer": "npm:~2.13.18"
-  checksum: e3498739c09e1a8c8c2fb5eb901da3bd326387c9fbbcec8ccda5c2e7f72e847cf38175b3cf73e27009b50930c1bb9652c0639608f3266cdb56cf0f6a7c4669fa
+    "@xylabs/arraybuffer": "npm:~2.13.20"
+  checksum: 90bcd82ffe87c482752295bdee6d917bf79c63c5e5ffd7a041d3c08f4baef783115aacf0dfc7ef5039fe8277a8b3cfa81b40793d8363e614412dae7f7bd405d8
   languageName: node
   linkType: hard
 
@@ -5921,6 +5928,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
+    "@types/uuid": "npm:9.0.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
     "@xyo-network/previous-hash-store-model": "workspace:~"
@@ -7069,6 +7077,13 @@ __metadata:
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 9706c088a283058a8a99e0bf91b0a2f75497f185980d9ffa8b304de1d9e58ebda7c72c07ebf01dadedaac5b2907b2c6f566f660d62bd336c3468e960403b9d65
+  languageName: node
+  linkType: hard
+
+"base64-arraybuffer-es6@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "base64-arraybuffer-es6@npm:0.7.0"
+  checksum: 48c58e008849ce9e4691beb145021e5bde00032612ef71bed11d7c78ed414ad74c59b55c41c1d1f6f267b58cbdf53ab38576f9e461ba29b379cda7b05a2b8081
   languageName: node
   linkType: hard
 
@@ -8401,6 +8416,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"domexception@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "domexception@npm:1.0.1"
+  dependencies:
+    webidl-conversions: "npm:^4.0.2"
+  checksum: 1cf5a22ffe5aeab51a2235b882c688719ed22112bf83758410bd64f5dfd1f24e53132f355b930be18e57bcd05857ba74967cf8977d6be5b9d7945b15acdee9bc
+  languageName: node
+  linkType: hard
+
 "domexception@npm:^4.0.0":
   version: 4.0.0
   resolution: "domexception@npm:4.0.0"
@@ -9368,10 +9392,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fake-indexeddb@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "fake-indexeddb@npm:5.0.1"
-  checksum: 1d4a19ed04e1ddfcbf3d52ebd985af3dbe090812df720862c1043e1cf0f90019d2919d6b59be39e03ea3a9a4c5cc0762c37b55b3d57dda6b5a6036f4f4d73400
+"fake-indexeddb@npm:^4":
+  version: 4.0.2
+  resolution: "fake-indexeddb@npm:4.0.2"
+  dependencies:
+    realistic-structured-clone: "npm:^3.0.0"
+  checksum: b28e02023b78275014f4cd8bf8bd4e09fc797ad51e9cc9f4c545100cad316e3d79977977373fe83a2ee290085f04b403b1c0ab3b9f3abae5817aedf25ad30116
   languageName: node
   linkType: hard
 
@@ -12242,7 +12268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.21, lodash@npm:^4.7.0":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
@@ -14788,6 +14814,17 @@ __metadata:
   dependencies:
     picomatch: "npm:^2.2.1"
   checksum: 196b30ef6ccf9b6e18c4e1724b7334f72a093d011a99f3b5920470f0b3406a51770867b3e1ae9711f227ef7a7065982f6ee2ce316746b2cb42c88efe44297fe7
+  languageName: node
+  linkType: hard
+
+"realistic-structured-clone@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "realistic-structured-clone@npm:3.0.0"
+  dependencies:
+    domexception: "npm:^1.0.1"
+    typeson: "npm:^6.1.0"
+    typeson-registry: "npm:^1.0.0-alpha.20"
+  checksum: 0109b6a94f36e38dbd4ee3f52049b9f4ab705b1b60c17b63075ecd7b00fd103360978a45be9871f2f0d9ff8a6a900a726512ac1ae5013922789c5e21d26cc696
   languageName: node
   linkType: hard
 
@@ -17666,6 +17703,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tr46@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tr46@npm:2.1.0"
+  dependencies:
+    punycode: "npm:^2.1.1"
+  checksum: 302b13f458da713b2a6ff779a0c1d27361d369fdca6c19330536d31db61789b06b246968fc879fdac818a92d02643dca1a0f4da5618df86aea4a79fb3243d3f3
+  languageName: node
+  linkType: hard
+
 "tr46@npm:^3.0.0":
   version: 3.0.0
   resolution: "tr46@npm:3.0.0"
@@ -18150,6 +18196,24 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: f79cc2ba802c94c2b78dbb00d767a10adb67368ae764709737dc277273ec148aa4558033a03ce901406b35fddf4eac46dabc94a1e1d12d2587e2b9cfe5707b4a
+  languageName: node
+  linkType: hard
+
+"typeson-registry@npm:^1.0.0-alpha.20":
+  version: 1.0.0-alpha.39
+  resolution: "typeson-registry@npm:1.0.0-alpha.39"
+  dependencies:
+    base64-arraybuffer-es6: "npm:^0.7.0"
+    typeson: "npm:^6.0.0"
+    whatwg-url: "npm:^8.4.0"
+  checksum: 9d8e2ee976d1e1cbccaeee2f38b623b92e14e758d0e3aff27c804585c6a20a182c1573fff56db978e83ed0e4199f45a3e4e9cbba30d4330d84e1b3dd1c09873f
+  languageName: node
+  linkType: hard
+
+"typeson@npm:^6.0.0, typeson@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "typeson@npm:6.1.0"
+  checksum: 8eb4ac9351b8d9029b6fdf0ec1e3eaafbe0d8026eed4387181099023a3620c4d6c10d9bec197c6ec2286ce02d516af527694175621bb08f6ffa13891b3ea8c6e
   languageName: node
   linkType: hard
 
@@ -18790,6 +18854,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"webidl-conversions@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "webidl-conversions@npm:6.1.0"
+  checksum: 4454b73060a6d83f7ec1f1db24c480b7ecda33880306dd32a3d62d85b36df4789a383489f1248387e5451737dca17054b8cbf2e792ba89e49d76247f0f4f6380
+  languageName: node
+  linkType: hard
+
 "webidl-conversions@npm:^7.0.0":
   version: 7.0.0
   resolution: "webidl-conversions@npm:7.0.0"
@@ -18831,6 +18902,17 @@ __metadata:
     tr46: "npm:^1.0.1"
     webidl-conversions: "npm:^4.0.2"
   checksum: 769fd35838b4e50536ae08d836472e86adbedda1d5493ea34353c55468147e7868b91d2535b59e01a9e7331ab7e4cdfdf5490c279c045da23c327cf33e32f755
+  languageName: node
+  linkType: hard
+
+"whatwg-url@npm:^8.4.0":
+  version: 8.7.0
+  resolution: "whatwg-url@npm:8.7.0"
+  dependencies:
+    lodash: "npm:^4.7.0"
+    tr46: "npm:^2.1.0"
+    webidl-conversions: "npm:^6.1.0"
+  checksum: 512a8b2703dffbf13a9a247bf2fb27c3048a3ceb5ece09f88b737c8260afaba4b2f6775c2f1cfc29c2ba4859f2454a9de73fac08e239b00ae2b42cd6b8bb0d35
   languageName: node
   linkType: hard
 

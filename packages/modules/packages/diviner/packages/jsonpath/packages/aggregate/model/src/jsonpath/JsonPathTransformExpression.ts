@@ -1,4 +1,4 @@
-import { JsonValue } from '@xyo-network/core'
+import { JsonValue } from '@xyo-network/object'
 
 /**
  * Describes the JSON-path transformation to retrieve a field on a source object

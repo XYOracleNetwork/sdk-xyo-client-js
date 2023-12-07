@@ -1,8 +1,8 @@
 import { HDWallet } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 

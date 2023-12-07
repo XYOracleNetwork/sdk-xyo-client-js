@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
-import { PayloadHasher } from '@xyo-network/core'
 import { JsonPathDivinerConfigSchema, JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 

@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.13.20",
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/abstract-witness": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
@@ -65,6 +66,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.0",
+  "version": "2.83.1",
   "type": "module"
 }

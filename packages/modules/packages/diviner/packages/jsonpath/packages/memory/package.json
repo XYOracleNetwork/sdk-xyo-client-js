@@ -23,7 +23,6 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "^5.3.2"
   },
@@ -67,5 +66,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.0"
+  "version": "2.83.1"
 }

@@ -32,7 +32,7 @@ export type BlockchainWitnessParams<
 >
 
 export abstract class AbstractBlockchainWitness<
-  TParams extends BlockchainWitnessParams = BlockchainWitnessParams,
+  TParams extends BlockchainWitnessParams<AnyConfigSchema<BlockchainWitnessConfig>> = BlockchainWitnessParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<

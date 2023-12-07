@@ -1,5 +1,5 @@
-import { WithAdditional } from '@xyo-network/core'
 import { ModuleConfig } from '@xyo-network/module-model'
+import { EmptyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export type BridgeConfigSchema = 'network.xyo.bridge.config'
@@ -10,13 +10,12 @@ export interface CacheConfig {
   ttl?: number
 }
 
-export type BridgeConfig<TConfig extends Payload | undefined = undefined> = ModuleConfig<
-  WithAdditional<
-    {
-      discoverCache?: CacheConfig | true
-      maxDepth?: number
-      schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
-    },
-    TConfig
-  >
+export type BridgeConfig<TConfig extends Payload | EmptyObject | undefined = undefined, TSchema extends string | void = void> = ModuleConfig<
+  {
+    discoverCache?: CacheConfig | true
+    maxDepth?: number
+    schema: TSchema extends string ? TSchema : BridgeConfigSchema
+  },
+  TConfig,
+  TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema
 >

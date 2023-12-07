@@ -1,4 +1,4 @@
-import { AnyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig } from '@xyo-network/witness-model'
 

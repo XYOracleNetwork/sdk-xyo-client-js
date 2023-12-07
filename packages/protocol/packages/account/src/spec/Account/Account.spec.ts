@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable sort-keys */
 
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
-import { toUint8Array } from '@xyo-network/core'
 
 export const generateAccountTests = (title: string, Account: AccountStatic) => {
   //test vectors: https://tools.ietf.org/html/rfc8032

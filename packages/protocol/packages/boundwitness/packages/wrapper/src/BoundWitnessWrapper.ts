@@ -4,7 +4,7 @@ import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
-import { DataLike, PayloadHasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
@@ -52,7 +52,7 @@ export class BoundWitnessWrapper<
     return value instanceof BoundWitnessWrapper ? (value as BoundWitnessWrapper<T>) : null
   }
 
-  static async load(address: DataLike) {
+  static async load(address: string) {
     const wrapper = await PayloadWrapper.load(address)
     const payload = wrapper?.payload()
     assertEx(payload && isBoundWitness(payload), 'Attempt to load non-boundwitness')

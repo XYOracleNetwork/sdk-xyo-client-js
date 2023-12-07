@@ -1,5 +1,5 @@
-import { AnyObject } from '@xyo-network/core'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
+import { AnyObject } from '@xyo-network/object'
 
 import { NodeConfig } from './Config'
 

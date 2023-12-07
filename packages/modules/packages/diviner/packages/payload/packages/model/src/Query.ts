@@ -1,4 +1,4 @@
-import { AnyObject } from '@xyo-network/core'
+import { AnyObject } from '@xyo-network/object'
 import { Payload, Query } from '@xyo-network/payload-model'
 
 import { PayloadDivinerPredicate } from './Predicate'

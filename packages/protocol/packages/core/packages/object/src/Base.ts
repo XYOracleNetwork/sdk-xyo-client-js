@@ -1,11 +1,12 @@
 import { Logger } from '@xylabs/logger'
-import { AnyObject } from '@xyo-network/object'
+
+import { EmptyObject } from './EmptyObject'
 
 export type BaseParamsFields = {
   logger?: Logger
 }
 
-export type BaseParams<TAdditionalParams extends AnyObject | void = void> = TAdditionalParams extends AnyObject
+export type BaseParams<TAdditionalParams extends EmptyObject | void = void> = TAdditionalParams extends EmptyObject
   ? BaseParamsFields & TAdditionalParams
   : BaseParamsFields
 

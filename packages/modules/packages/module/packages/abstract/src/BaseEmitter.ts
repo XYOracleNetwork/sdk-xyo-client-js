@@ -1,5 +1,5 @@
-import { Base, BaseParams } from '@xyo-network/core'
 import { EventAnyListener, EventData, EventFunctions, EventListener, Events } from '@xyo-network/module-events'
+import { Base, BaseParams } from '@xyo-network/object'
 
 export class BaseEmitter<TParams extends BaseParams = BaseParams, TEventData extends EventData = EventData>
   extends Base<TParams>

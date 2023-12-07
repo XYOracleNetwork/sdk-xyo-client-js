@@ -1,6 +1,5 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { PayloadHasher } from '@xyo-network/core'
 import {
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,
@@ -13,6 +12,7 @@ import {
   PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 

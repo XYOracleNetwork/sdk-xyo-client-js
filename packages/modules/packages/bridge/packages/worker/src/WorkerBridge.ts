@@ -9,6 +9,7 @@ import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { ModuleManifestPayload, NodeManifestPayloadSchema, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
+  creatableModule,
   ModuleConfig,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
@@ -51,6 +52,7 @@ export interface QueryResultMessage {
   result: ModuleQueryResult
 }
 
+@creatableModule()
 export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractBridge<TParams, TEventData>
   implements BridgeModule<TParams, TEventData>

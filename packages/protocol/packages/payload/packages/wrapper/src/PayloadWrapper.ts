@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { DataLike } from '@xyo-network/core'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
@@ -16,7 +15,7 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     return value instanceof PayloadWrapper ? (value as PayloadWrapper<T>) : null
   }
 
-  static async load(address: DataLike) {
+  static async load(address: string) {
     if (this.loaderFactory === null) {
       console.warn('No loader factory set')
       return null

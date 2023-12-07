@@ -1,7 +1,7 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { uniq } from '@xylabs/lodash'
 import { AddressValue } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { toUint8Array } from '@xyo-network/core'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 import { validateType } from '@xyo-network/typeof'

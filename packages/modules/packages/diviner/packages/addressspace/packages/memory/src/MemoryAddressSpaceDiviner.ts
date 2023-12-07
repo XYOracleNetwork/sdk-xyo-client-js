@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
@@ -11,13 +10,10 @@ import { Payload } from '@xyo-network/payload-model'
 /**
  * This Diviner returns the list of all addresses encountered for the reachable archivists
  */
-export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams>
-  extends AbstractDiviner<TParams>
-  implements AddressSpaceDiviner
-{
+export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams> extends AddressSpaceDiviner<TParams> {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: Payload[]): Promise<AddressPayload[]> {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
@@ -29,6 +25,6 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
         .flat()
         .map((address) => address.toLowerCase()),
     )
-    return [...addresses].map((address) => new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build())
+    return [...addresses].map((address) => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build())
   }
 }

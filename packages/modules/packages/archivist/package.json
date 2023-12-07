@@ -16,7 +16,7 @@
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/core": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

@@ -1,5 +1,5 @@
 import { Address } from '@xylabs/hex'
-import { AnyObject, WithAdditional } from '@xyo-network/core'
+import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { Labels } from './Labels'
@@ -30,7 +30,7 @@ export interface ArchivingModuleConfig {
 
 export type ModuleConfig<
   TConfig extends Payload | void = void,
-  TAdditionalParams extends AnyObject | void = void,
+  TAdditionalParams extends EmptyObject | void = void,
   TSchema extends Schema | void = void,
 > = Payload<
   WithAdditional<
@@ -85,12 +85,10 @@ export type ModuleConfig<
 
 export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =
   ModuleConfig<
-    WithAdditional<
-      Omit<TConfig, 'schema'>,
-      {
-        schema: string
-      }
-    >
+    {
+      schema: string
+    },
+    Omit<TConfig, 'schema'>
   >
 
 export type OptionalConfigSchema<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> = Omit<TConfig, 'schema'> & {

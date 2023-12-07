@@ -1,5 +1,5 @@
 import { ApiConfig } from '@xyo-network/api-models'
-import { uuid } from '@xyo-network/core'
+import { v4 as uuid } from 'uuid'
 
 import { ArchivistApi } from '../Api'
 

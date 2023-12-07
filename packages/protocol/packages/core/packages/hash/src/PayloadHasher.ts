@@ -1,6 +1,6 @@
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { subtle } from '@xylabs/platform'
-import { AnyObject, ObjectWrapper } from '@xyo-network/object'
+import { EmptyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
@@ -11,26 +11,26 @@ import { sortFields } from './sortFields'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
-export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrapper<T> {
+export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
   static allowSubtle = true
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
-  static async filterExclude<T extends AnyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterExclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async filterInclude<T extends AnyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterInclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async find<T extends AnyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
+  static async find<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
     return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
-  static async hashAsync<T extends AnyObject>(obj: T): Promise<Hash> {
+  static async hashAsync<T extends EmptyObject>(obj: T): Promise<Hash> {
     if (PayloadHasher.allowSubtle) {
       try {
         const enc = new TextEncoder()
@@ -58,24 +58,24 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     return this.hashSync(obj)
   }
 
-  static hashFields<T extends AnyObject>(obj: T): T {
+  static hashFields<T extends EmptyObject>(obj: T): T {
     return sortFields(removeEmptyFields(deepOmitUnderscoreFields(obj)))
   }
 
-  static async hashPairs<T extends AnyObject>(objs: T[]): Promise<[T, Hash][]> {
+  static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
     return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
   }
 
-  static hashSync<T extends AnyObject>(obj: T): Hash {
+  static hashSync<T extends EmptyObject>(obj: T): Hash {
     return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), true)
   }
 
-  static async hashes<T extends AnyObject>(objs: T[]): Promise<Hash[]> {
+  static async hashes<T extends EmptyObject>(objs: T[]): Promise<Hash[]> {
     return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
   }
 
   /** @function jsonPayload Returns a clone of the payload that is JSON safe */
-  static jsonPayload<T extends AnyObject>(
+  static jsonPayload<T extends EmptyObject>(
     /** @param payload The payload to process */
     payload: T,
     /** @param meta Keeps underscore (meta) fields if set to true */
@@ -84,11 +84,11 @@ export class PayloadHasher<T extends AnyObject = AnyObject> extends ObjectWrappe
     return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
   }
 
-  static stringifyHashFields<T extends AnyObject>(obj: T) {
+  static stringifyHashFields<T extends EmptyObject>(obj: T) {
     return JSON.stringify(this.hashFields(obj))
   }
 
-  static async toMap<T extends AnyObject>(objs: T[]): Promise<Record<Hash, T>> {
+  static async toMap<T extends EmptyObject>(objs: T[]): Promise<Record<Hash, T>> {
     const result: Record<string, T> = {}
     await Promise.all(objs.map(async (obj) => (result[await PayloadHasher.hashAsync(obj)] = obj)))
     return result

@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
-    "@xyo-network/core": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

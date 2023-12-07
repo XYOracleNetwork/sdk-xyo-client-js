@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xylabs/promise": "^2.13.20",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

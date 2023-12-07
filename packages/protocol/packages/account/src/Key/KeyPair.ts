@@ -1,7 +1,7 @@
 import { distinct } from '@xylabs/array'
 import { staticImplements } from '@xylabs/static-implements'
-import { WasmSupport } from '@xyo-network/core'
 import { KeyPairInstance, KeyPairStatic, PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
+import { WasmSupport } from '@xyo-network/wasm'
 
 import { PrivateKey } from './PrivateKey'
 import { WASMPrivateKey } from './WASMPrivateKey'

@@ -1,4 +1,4 @@
-import { Data } from '@xyo-network/core'
+import { Data } from '@xyo-network/data'
 import EC from 'elliptic'
 
 export class EllipticKey extends Data {

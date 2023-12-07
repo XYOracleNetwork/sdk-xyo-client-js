@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { PayloadHasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { knownArchivists } from './knownArchivists'

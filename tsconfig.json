@@ -12,10 +12,5 @@
     },
     "files": true,
     "transpileOnly": true
-  },
-  "references": [
-    {
-      "path": "./packages/modules"
-    }
-  ]
+  }
 }

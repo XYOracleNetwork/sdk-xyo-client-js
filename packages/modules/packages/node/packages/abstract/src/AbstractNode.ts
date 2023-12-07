@@ -168,7 +168,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeAttachQuerySchema: {
         const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
         if (address) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -176,7 +176,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeDetachQuerySchema: {
         const address = await this.detach(queryPayload.nameOrAddress)
         if (address) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -184,7 +184,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeAttachedQuerySchema: {
         const addresses = await this.attached()
         for (const address of addresses) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
@@ -192,7 +192,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       case NodeRegisteredQuerySchema: {
         const addresses = await this.registered()
         for (const address of addresses) {
-          const payload = new PayloadBuilder({ schema: AddressSchema }).fields({ address }).build()
+          const payload = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break

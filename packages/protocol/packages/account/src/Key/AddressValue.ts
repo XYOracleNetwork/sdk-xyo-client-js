@@ -1,8 +1,9 @@
-import { equalArrayBuffers } from '@xylabs/arraybuffer'
+import { equalArrayBuffers, toUint8Array } from '@xylabs/arraybuffer'
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { Data, toUint8Array, WasmSupport } from '@xyo-network/core'
+import { Data } from '@xyo-network/data'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
+import { WasmSupport } from '@xyo-network/wasm'
 
 import { EllipticKey } from './EllipticKey'
 

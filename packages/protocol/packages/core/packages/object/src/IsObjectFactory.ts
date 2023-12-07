@@ -1,17 +1,12 @@
-import { Logger } from '@xylabs/logger'
-
+import { AnyObject } from './AnyObject'
+import { TypeCheck, TypeCheckConfig } from './AsTypeFactory'
+import { EmptyObject } from './EmptyObject'
 import { isType, ObjectTypeShape } from './isType'
 
-export interface ObjectTypeConfig {
-  log?: boolean | Logger
-}
+export interface ObjectTypeConfig extends TypeCheckConfig {}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-export type ObjectTypeCheck<T extends {} = {}> = (obj: any, config?: ObjectTypeConfig) => obj is T
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-export class IsObjectFactory<T extends {}> {
-  create(shape?: ObjectTypeShape, additionalChecks?: ObjectTypeCheck[]): ObjectTypeCheck<T> {
+export class IsObjectFactory<T extends EmptyObject> {
+  create(shape?: ObjectTypeShape, additionalChecks?: TypeCheck<AnyObject | EmptyObject>[]): TypeCheck<T> {
     return (obj, { log } = {}): obj is T => {
       if (!obj || typeof obj !== 'object') {
         return false
@@ -19,7 +14,8 @@ export class IsObjectFactory<T extends {}> {
       return (
         //do primary check
         Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
-          const result = isType(obj[key], type)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const result = isType((obj as any)[key], type)
           if (!result && log) {
             const logger = typeof log === 'object' ? log : console
             logger.warn(`isType Failed: ${key}: ${type}`)

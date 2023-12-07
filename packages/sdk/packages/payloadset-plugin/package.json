@@ -13,9 +13,10 @@
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/diviner": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },

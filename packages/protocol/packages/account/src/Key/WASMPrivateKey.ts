@@ -1,7 +1,8 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
-import { toUint8Array, WasmFeature } from '@xyo-network/core'
 import { PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
+import { WasmFeature } from '@xyo-network/wasm'
 
 import { PrivateKey } from './PrivateKey'
 import { WASMPublicKey } from './WASMPublicKey'

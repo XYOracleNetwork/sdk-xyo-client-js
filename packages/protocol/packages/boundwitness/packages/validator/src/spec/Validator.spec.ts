@@ -1,8 +1,13 @@
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { dumpErrors } from '@xyo-network/core'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 
 import { BoundWitnessValidator } from '../Validator'
+
+const dumpErrors = (errors: Error[]) => {
+  errors.forEach((error) => {
+    console.log(error, null, 2)
+  })
+}
 
 const testBoundWitness: BoundWitness = {
   _signatures: ['95100e5fd2012b958e96895870cfac5353c3a33a19314cfd1304ef7d01d052ec2a3ef80d6449cf88d463027fe0d868ed8cfb8b7323d37e93a08570233eea0b17'],

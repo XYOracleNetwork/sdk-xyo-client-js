@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
-import { Base, BaseParams } from '@xyo-network/core'
 import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import { Base, BaseParams } from '@xyo-network/object'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 

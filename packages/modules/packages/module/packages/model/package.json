@@ -18,7 +18,6 @@
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "^2.82.2",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/object": "workspace:~",

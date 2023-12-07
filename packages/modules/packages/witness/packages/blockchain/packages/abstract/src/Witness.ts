@@ -1,6 +1,6 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { AnyObject, WithAdditional } from '@xyo-network/object'
+import { AnyObject, EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
@@ -8,8 +8,9 @@ import { Provider } from 'ethers'
 export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness'
 export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
 
-export type BlockchainWitnessConfig<TAdditional extends Omit<Payload, 'schema'> | void = void, TSchema extends string | void = void> = WitnessConfig<
-  TAdditional & { schema: TSchema extends void ? (TAdditional extends void ? string : BlockchainWitnessConfigSchema) : TSchema }
+export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
+  TAdditional,
+  TSchema extends void ? (TAdditional extends Payload ? TAdditional['schema'] : BlockchainWitnessConfigSchema) : TSchema
 >
 
 export type AdditionalBlockchainWitnessParams = {

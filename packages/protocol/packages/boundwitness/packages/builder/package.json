@@ -20,7 +20,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
-    "@xyo-network/core": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
@@ -31,6 +31,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "typescript": "^5.3.2"
   },
   "docs": "dist/docs.json",

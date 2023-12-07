@@ -1,3 +1,5 @@
-import { AnyObject } from './AnyObject'
+import { EmptyObject } from './EmptyObject'
 
-export type WithAdditional<T extends AnyObject, TAdditional extends AnyObject | void = void> = TAdditional extends AnyObject ? T & TAdditional : T
+export type WithAdditional<T extends EmptyObject, TAdditional extends EmptyObject | void = void> = TAdditional extends EmptyObject
+  ? T & TAdditional
+  : T

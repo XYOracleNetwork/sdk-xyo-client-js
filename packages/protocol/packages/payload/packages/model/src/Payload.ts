@@ -1,24 +1,15 @@
-import { EmptyPayload } from './EmptyPayload'
+import { EmptyObject, JsonObject } from '@xyo-network/object'
 
-export type Schema = string
+import { Schema, WithSchema } from './Schema'
 
-export type WithTimestamp<T extends EmptyPayload = EmptyPayload> = T & { timestamp: number }
-
-export type PayloadSchema = 'network.xyo.payload'
-export const PayloadSchema: PayloadSchema = 'network.xyo.payload'
-
-export type SchemaFields = {
-  schema: Schema
+/** Additional fields for a payload */
+export interface PayloadFields extends EmptyObject {
+  $meta?: JsonObject
 }
 
-export type WithSchema<T extends EmptyPayload | void = void> = T extends EmptyPayload ? SchemaFields & T : SchemaFields
+export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type PayloadFields = {}
-
-export type WithPayload<T extends EmptyPayload | void = void> = WithSchema<T extends EmptyPayload ? PayloadFields & T : PayloadFields>
-
-export type Payload<T extends void | object | WithSchema = void, S extends Schema | void = void> = T extends WithSchema
+export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = T extends WithSchema
   ? S extends Schema
     ? /* T (w/Schema) & S provided */
       WithPayload<Omit<T, 'schema'> & { schema: S } & PayloadFields>

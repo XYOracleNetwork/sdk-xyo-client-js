@@ -1,6 +1,5 @@
-export * from './Data'
-export * from './lib'
 export * from '@xyo-network/address'
+export * from '@xyo-network/data'
 export * from '@xyo-network/hash'
 export * from '@xyo-network/object'
 export * from '@xyo-network/wasm'

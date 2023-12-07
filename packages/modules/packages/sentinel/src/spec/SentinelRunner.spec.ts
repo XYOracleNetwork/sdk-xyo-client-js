@@ -6,7 +6,7 @@ import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 
-import { SentinelAutomationSchema, SentinelIntervalAutomationPayload } from '../Automation'
+import { SentinelIntervalAutomationPayload, SentinelIntervalAutomationSchema } from '../Automation'
 import { MemorySentinel } from '../MemorySentinel'
 import { OnSentinelRunnerTriggerResult, SentinelRunner } from '../SentinelRunner'
 
@@ -50,7 +50,7 @@ describe('SentinelRunner', () => {
       frequency: 1,
       frequencyUnits: 'second',
       remaining: 1,
-      schema: SentinelAutomationSchema,
+      schema: SentinelIntervalAutomationSchema,
       start: Date.now() - 1,
       tasks: config.tasks,
       type: 'interval',

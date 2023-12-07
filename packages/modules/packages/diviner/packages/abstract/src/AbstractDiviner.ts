@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
 import {
   CustomDivinerModule,
   DivinerConfigSchema,
@@ -13,6 +12,7 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'

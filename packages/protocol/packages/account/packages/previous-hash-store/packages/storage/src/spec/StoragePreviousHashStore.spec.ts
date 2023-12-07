@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { uuid } from '@xyo-network/core'
+import { v4 as uuid } from 'uuid'
 
 import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore'
 

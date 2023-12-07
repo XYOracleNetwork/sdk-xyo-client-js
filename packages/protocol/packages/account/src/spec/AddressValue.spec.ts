@@ -1,4 +1,4 @@
-import { toUint8Array } from '@xyo-network/core'
+import { toUint8Array } from '@xylabs/arraybuffer'
 
 import { AddressValue } from '../Key'
 

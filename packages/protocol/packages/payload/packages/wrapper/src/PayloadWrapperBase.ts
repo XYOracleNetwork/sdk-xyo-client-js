@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
-import { DataLike, PayloadHasher } from '@xyo-network/core'
+import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 
-export type PayloadLoader = (address: DataLike) => Promise<Payload | null>
+export type PayloadLoader = (address: string) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export class PayloadWrapperBase<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> {

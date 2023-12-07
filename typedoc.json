@@ -7,6 +7,6 @@
   ],
   "exclude": ["**/*.d.ts"],
   "includeVersion": true,
-  "name": "XYO Platform Client SDK",
+  "name": "XYO Platform SDK",
   "tsconfig": "./tsconfig.typedoc.json"
 }

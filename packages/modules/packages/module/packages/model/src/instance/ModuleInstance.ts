@@ -1,7 +1,6 @@
 import { Promisable } from '@xylabs/promise'
-import { IsObjectFactory, ObjectTypeCheck } from '@xyo-network/object'
+import { IsObjectFactory, TypeCheck } from '@xyo-network/object'
 
-import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
@@ -21,10 +20,10 @@ export interface ModuleResolver extends ResolveFunctions {
   removeResolver: (resolver: ModuleResolver) => this
 }
 
-export type ModuleInstance<
-  TParams extends ModuleParams<AnyConfigSchema<ModuleConfig>> = ModuleParams<AnyConfigSchema<ModuleConfig>>,
-  TEventData extends ModuleEventData = ModuleEventData,
-> = Module<TParams, TEventData> &
+export type ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData> = Module<
+  TParams,
+  TEventData
+> &
   ResolveFunctions &
   ModuleQueryFunctions & {
     /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
@@ -35,7 +34,7 @@ export type ModuleInstance<
     readonly upResolver: Omit<ModuleResolver, 'resolve'>
   }
 
-export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = ObjectTypeCheck<T>
+export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>
 
 export class IsInstanceFactory<T extends ModuleInstance = ModuleInstance> extends IsObjectFactory<T> {}
 

@@ -1,8 +1,8 @@
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { Validator } from '@xyo-network/core'
 import { DivinerModule } from '@xyo-network/diviner'
+import { Validator } from '@xyo-network/object'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { WitnessModule } from '@xyo-network/witness-model'
 
@@ -21,7 +21,7 @@ export type PayloadSetWitnessField<TWitness extends WitnessModule = WitnessModul
 
 export type PayloadSetPluginShared = {
   set: PayloadSetPayload
-  validate?: (boundwitness: QueryBoundWitness) => Validator
+  validate?: (boundwitness: QueryBoundWitness) => Validator<QueryBoundWitness>
   wrap?: (boundwitness: QueryBoundWitness) => QueryBoundWitnessWrapper
 }
 

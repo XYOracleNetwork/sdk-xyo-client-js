@@ -22,7 +22,7 @@ export interface Bridge {
   disconnect: () => Promisable<boolean>
 }
 
-export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig>
+export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig> & ModuleParams
 
 export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData> {

@@ -12,8 +12,8 @@
   "dependencies": {
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/abstract-witness": "workspace:~",
-    "@xyo-network/core": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-model": "workspace:~"
   },

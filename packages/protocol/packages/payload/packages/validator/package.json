@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/promise": "^2.13.20",
-    "@xyo-network/core": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/schema-name-validator": "workspace:~"
   },

@@ -1,6 +1,5 @@
 import { base58 } from '@scure/base'
-
-import { toUint8Array } from '../toUint8Array'
+import { toUint8Array } from '@xylabs/arraybuffer'
 
 describe('toUint8Array', () => {
   test('Uint8Array Round Trip', () => {

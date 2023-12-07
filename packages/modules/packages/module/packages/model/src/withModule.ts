@@ -1,10 +1,10 @@
-import { ObjectTypeCheck } from '@xyo-network/object'
+import { TypeCheck } from '@xyo-network/object'
 
 import { isModuleInstance } from './instance'
 import { isModule } from './module'
 
 export const WithFactory = {
-  create: <T extends object>(typeCheck: ObjectTypeCheck<T>) => {
+  create: <T extends object>(typeCheck: TypeCheck<T>) => {
     return <R>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       module: any,

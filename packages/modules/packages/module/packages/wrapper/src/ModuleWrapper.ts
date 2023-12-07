@@ -7,7 +7,6 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { Base } from '@xyo-network/core'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
@@ -34,6 +33,7 @@ import {
   ModuleResolver,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
+import { Base } from '@xyo-network/object'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'

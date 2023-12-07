@@ -1,5 +1,5 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { staticImplements } from '@xylabs/static-implements'
-import { DataLike, toUint8Array } from '@xyo-network/core'
 import { PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
 
 import { AddressValue } from './AddressValue'
@@ -9,7 +9,7 @@ import { EllipticKey } from './EllipticKey'
 export class PublicKey extends EllipticKey implements PublicKeyInstance {
   private _address?: AddressValue
   private _isPublicKey = true
-  constructor(bytes: DataLike) {
+  constructor(bytes: string | ArrayBuffer) {
     super(64, bytes)
   }
 

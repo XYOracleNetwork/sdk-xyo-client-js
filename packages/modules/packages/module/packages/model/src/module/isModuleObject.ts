@@ -1,8 +1,8 @@
-import { IsObjectFactory, ObjectTypeCheck, ObjectTypeShape } from '@xyo-network/object'
+import { IsObjectFactory, ObjectTypeShape } from '@xyo-network/object'
 
 import { Module } from './Module'
 
-export const requiredModuleFunctions: ObjectTypeShape = {
+export const requiredModuleShape: ObjectTypeShape = {
   address: 'string',
   config: 'object',
   params: 'object',
@@ -13,4 +13,4 @@ export const requiredModuleFunctions: ObjectTypeShape = {
 
 const factory = new IsObjectFactory<Module>()
 
-export const isModuleObject: ObjectTypeCheck<Module> = factory.create(requiredModuleFunctions)
+export const isModuleObject = factory.create(requiredModuleShape)

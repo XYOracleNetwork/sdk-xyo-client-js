@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { uuid } from '@xyo-network/core'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -17,6 +16,7 @@ import {
   IDBVersionChangeEvent,
   indexedDB,
 } from 'fake-indexeddb'
+import { v4 as uuid } from 'uuid'
 
 import { IndexedDbPreviousHashStore } from '../IndexedDbPreviousHashStore'
 

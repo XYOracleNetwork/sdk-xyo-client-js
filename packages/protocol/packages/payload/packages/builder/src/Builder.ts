@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { deepOmitUnderscoreFields, PayloadHasher, removeEmptyFields } from '@xyo-network/core'
+import { deepOmitUnderscoreFields, PayloadHasher, removeEmptyFields } from '@xyo-network/hash'
+import { AnyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions {
   schema: string
 }
 
-export class PayloadBuilder<T extends Payload = Payload<Record<string, unknown>>> {
+export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
   private _client = 'js'
   private _fields: Partial<T> = {}
   private _schema: string

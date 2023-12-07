@@ -1,7 +1,7 @@
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/core'
 import { isTemporalIndexingDivinerResultIndex, SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-temporal-indexing-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 

@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/jsonpatch/packages/memory/spec/Diviner.spec.ts"
+        "packages/sdk/packages/schema-cache/src/spec/SchemaCache.Proxy.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

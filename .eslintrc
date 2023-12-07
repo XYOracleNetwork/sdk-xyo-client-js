@@ -22,6 +22,7 @@
       {
         "paths": [
           "@xyo-network/bridge",
+          "@xyo-network/core",
           "@xyo-network/module",
           "@xyo-network/modules",
           "@xyo-network/node",

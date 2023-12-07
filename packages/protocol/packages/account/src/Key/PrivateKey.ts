@@ -1,5 +1,5 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { staticImplements } from '@xylabs/static-implements'
-import { toUint8Array } from '@xyo-network/core'
 import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 import EC from 'elliptic'
 

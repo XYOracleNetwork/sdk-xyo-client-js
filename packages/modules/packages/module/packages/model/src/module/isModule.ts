@@ -1,4 +1,4 @@
-import { ObjectTypeCheck } from '@xyo-network/object'
+import { TypeCheck } from '@xyo-network/object'
 
 import { ModuleDiscoverQuerySchema } from '../Queries'
 import { IsModuleFactory } from './IsModuleFactory'
@@ -17,4 +17,4 @@ export const requiredModuleQueries: string[] = [
 //we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsModuleFactory<Module>()
 
-export const isModule: ObjectTypeCheck<Module> = factory.create(requiredModuleQueries, [isModuleObject])
+export const isModule: TypeCheck<Module> = factory.create(requiredModuleQueries, [isModuleObject])

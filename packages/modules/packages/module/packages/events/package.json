@@ -14,7 +14,7 @@
     "@xylabs/error": "^2.13.20",
     "@xylabs/forget": "^2.13.20",
     "@xylabs/promise": "^2.13.20",
-    "@xyo-network/core": "workspace:~"
+    "@xyo-network/object": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/delay": "^2.13.20",

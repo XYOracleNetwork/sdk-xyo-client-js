@@ -37,10 +37,6 @@ jobs:
         run: yarn xy compile
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
-      - name: typedoc package build
-        run: yarn xy gen-docs
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
       - name: typedoc build
         run: yarn build-typedoc-site
         env:

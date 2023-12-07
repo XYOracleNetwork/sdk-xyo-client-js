@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
-    "@xyo-network/core": "workspace:~",
+    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-validator": "workspace:~",

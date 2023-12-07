@@ -1,3 +1,4 @@
+import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { hexFromArrayBuffer, toHexLegacy } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
@@ -9,7 +10,6 @@ import {
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
-import { toUint8Array } from '@xyo-network/core'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic } from 'ethers'

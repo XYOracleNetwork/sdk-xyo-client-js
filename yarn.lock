@@ -4748,9 +4748,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/memory":
+"@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/memory, @xyo-network/diviner-jsonpath-aggregate-memory@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/memory"
+  resolution: "@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
@@ -4770,9 +4770,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-jsonpath-aggregate-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/model, @xyo-network/diviner-jsonpath-aggregate-model@workspace:~":
+"@xyo-network/diviner-jsonpath-aggregate-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/model, @xyo-network/diviner-jsonpath-aggregate-model@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-jsonpath-aggregate-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/model"
+  resolution: "@xyo-network/diviner-jsonpath-aggregate-model@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/model"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
     "@xylabs/tsconfig": "npm:^3.2.10"
@@ -4780,6 +4780,18 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-jsonpath-aggregate@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-jsonpath-aggregate@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
+    "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/diviner-jsonpath-aggregate-memory": "workspace:~"
+    "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

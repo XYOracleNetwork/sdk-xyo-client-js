@@ -13,7 +13,6 @@
     "@xylabs/assert": "^2.13.20",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
-    "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
@@ -69,5 +68,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.83.6"
+  "version": "2.84.0"
 }

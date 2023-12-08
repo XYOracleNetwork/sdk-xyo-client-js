@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'

@@ -64,6 +64,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       }
       beforeAll(async () => {
         diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({
+          account: 'random',
           config: {
             schema: TemporalIndexingDivinerIndexCandidateToIndexDiviner.configSchema,
             schemaTransforms,
@@ -142,6 +143,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       }
       beforeAll(async () => {
         diviner = await TemporalIndexingDivinerIndexCandidateToIndexDiviner.create({
+          account: 'random',
           config: {
             schema: TemporalIndexingDivinerIndexCandidateToIndexDiviner.configSchema,
             schemaTransforms,

@@ -13,6 +13,7 @@
     "@xylabs/assert": "^2.13.20",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
+    "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

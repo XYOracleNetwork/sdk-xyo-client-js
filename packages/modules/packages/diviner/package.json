@@ -15,6 +15,8 @@
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner-jsonpatch": "workspace:~",
+    "@xyo-network/diviner-jsonpath": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/huri": "workspace:~",

@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@scure/bip39": "^1.2.1",
     "@xylabs/array": "^2.13.20",
     "@xylabs/arraybuffer": "^2.13.20",
     "@xylabs/assert": "^2.13.20",
@@ -23,15 +24,12 @@
     "@xyo-network/wallet-model": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "^0.4.0",
-    "bip39": "^3.1.0",
     "elliptic": "^6.5.4",
-    "ethers": "^6.9.0",
-    "randombytes": "^2.1.0"
+    "ethers": "^6.9.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
-    "@types/randombytes": "^2.0.3",
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "typescript": "^5.3.3"

@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
@@ -20,10 +19,10 @@ describe('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: Account.randomSync() })
+    const memNode = await MemoryNode.create({ account: 'random' })
 
     const bridge: BridgeInstance = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

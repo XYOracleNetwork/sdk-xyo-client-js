@@ -10,9 +10,7 @@ export class Data extends AbstractData {
   private _bytes?: ArrayBuffer
   private _length: number
 
-  constructor(length: number, bytes?: string | ArrayBuffer)
-  constructor(length: number, bytes: string, base?: number)
-  constructor(length: number, bytes?: string | ArrayBuffer, base?: number) {
+  constructor(length: number, bytes: ArrayBuffer, base?: number) {
     super()
     this._bytes = toUint8Array(bytes, length, base)
     this._length = length
@@ -37,18 +35,8 @@ export class Data extends AbstractData {
     return toArrayBuffer(keccak256(new Uint8Array(this.bytes)))
   }
 
-  static from(data: string | ArrayBuffer | undefined) {
-    return data ? new Data(Data.lengthOf(data), data) : undefined
-  }
-
-  static lengthOf(data: string | ArrayBuffer): number {
-    if (typeof data === 'string') {
-      return data.length / 2
-    } else if (data instanceof AbstractData) {
-      return data.length
-    } else {
-      return typeof data.byteLength === 'function' ? data.byteLength : data.byteLength
-    }
+  static from(data: ArrayBuffer | undefined) {
+    return data ? new Data(data.byteLength, data) : undefined
   }
 
   private checkLength() {

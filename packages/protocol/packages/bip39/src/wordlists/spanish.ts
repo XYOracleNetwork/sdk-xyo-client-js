@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+/** @deprecated use @scure/bip39 instead */
 export const wordlist: string[] = `ábaco
 abdomen
 abeja

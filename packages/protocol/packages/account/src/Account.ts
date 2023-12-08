@@ -12,8 +12,7 @@ import {
 } from '@xyo-network/account-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
-import { HDNodeWallet, Mnemonic } from 'ethers'
-import randomBytes from 'randombytes'
+import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
 import { KeyPair } from './Key'
 

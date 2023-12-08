@@ -40,6 +40,7 @@ function assertEntropy(entropy: Uint8Array) {
  * generateMnemonic(wordlist, 128)
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
+/** @deprecated use @scure/bip39 instead */
 export function generateMnemonic(wordlist: string[], strength = 128): string {
   assert.number(strength)
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy')
@@ -76,6 +77,8 @@ function getCoder(wordlist: string[]) {
  *   0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f
  * ])
  */
+
+/** @deprecated use @scure/bip39 instead */
 export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array {
   const { words } = normalize(mnemonic)
   const entropy = getCoder(wordlist).decode(words)
@@ -96,6 +99,8 @@ export function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Ar
  * entropyToMnemonic(ent, wordlist);
  * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
  */
+
+/** @deprecated use @scure/bip39 instead */
 export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string {
   assertEntropy(entropy)
   const words = getCoder(wordlist).encode(entropy)
@@ -105,6 +110,8 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
 /**
  * Validates mnemonic for being 12-24 words contained in `wordlist`.
  */
+
+/** @deprecated use @scure/bip39 instead */
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
     mnemonicToEntropy(mnemonic, wordlist)
@@ -126,6 +133,8 @@ const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`)
  * await mnemonicToSeed(mnem, 'password');
  * // new Uint8Array([...64 bytes])
  */
+
+/** @deprecated use @scure/bip39 instead */
 export function mnemonicToSeed(mnemonic: string, passphrase = '') {
   return pbkdf2Async(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 })
 }
@@ -140,6 +149,8 @@ export function mnemonicToSeed(mnemonic: string, passphrase = '') {
  * mnemonicToSeedSync(mnem, 'password');
  * // new Uint8Array([...64 bytes])
  */
+
+/** @deprecated use @scure/bip39 instead */
 export function mnemonicToSeedSync(mnemonic: string, passphrase = '') {
   return pbkdf2(sha512, normalize(mnemonic).nfkd, salt(passphrase), { c: 2048, dkLen: 64 })
 }

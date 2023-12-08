@@ -49,7 +49,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   ]
   let diviner: TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
   beforeAll(async () => {
-    diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create()
+    diviner = await TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner.create({ account: 'random' })
   })
   const cases: [QueryType, Payload[]][] = queries.map((query, i) => [query, indexes[i]])
   describe('divine', () => {

@@ -98,7 +98,7 @@ test('Archivist Private Key Save', async () => {
 })
 
 test('Archivist passed account', async () => {
-  const account = await Account.randomSync()
+  const account = Account.randomSync()
 
   const storage = (await StorageArchivist.create({
     account,

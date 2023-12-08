@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@scure/bip39": "^1.2.1",
     "@xylabs/assert": "^2.13.20",
     "@xylabs/delay": "^2.13.20",
     "@xylabs/lodash": "^2.13.20",
@@ -30,7 +31,6 @@
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/query-payload-plugin": "^2.83.0",
     "@xyo-network/sentinel": "workspace:~",
-    "bip39": "^3.1.0",
     "lru-cache": "^10.1.0"
   },
   "devDependencies": {

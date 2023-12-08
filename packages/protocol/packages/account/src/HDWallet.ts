@@ -1,10 +1,12 @@
+import { generateMnemonic } from '@scure/bip39'
+// eslint-disable-next-line import/no-internal-modules
+import { wordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { hexFromHexString } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountConfig } from '@xyo-network/account-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
-import { generateMnemonic, wordlists } from 'bip39'
 import { HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
@@ -134,7 +136,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   static random() {
-    return this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(256, undefined, wordlists.english)))
+    return this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
   }
 
   protected static getWallet(phrase?: string, path: string = ''): HDWallet | undefined {

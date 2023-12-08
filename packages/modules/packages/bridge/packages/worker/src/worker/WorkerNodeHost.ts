@@ -1,8 +1,10 @@
+import { generateMnemonic } from '@scure/bip39'
+// eslint-disable-next-line import/no-internal-modules
+import { wordlist } from '@scure/bip39/wordlists/english'
 import { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
 import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { NodeInstance } from '@xyo-network/node-model'
-import { generateMnemonic, wordlists } from 'bip39'
 
 import { Message, QueryMessage, QueryResultMessage } from '../WorkerBridge'
 
@@ -25,7 +27,7 @@ export class WorkerNodeHost {
   ) {}
 
   static async create(config: PackageManifestPayload) {
-    const mnemonic = generateMnemonic(256, undefined, wordlists.english)
+    const mnemonic = generateMnemonic(wordlist, 256)
     const manifest = new ManifestWrapper(config, await HDWallet.fromPhrase(mnemonic))
     const [node] = await manifest.loadNodes()
     const worker = new this(node)

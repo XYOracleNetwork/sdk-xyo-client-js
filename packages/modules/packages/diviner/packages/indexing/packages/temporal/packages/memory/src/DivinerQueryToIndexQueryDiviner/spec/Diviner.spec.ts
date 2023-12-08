@@ -45,7 +45,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         } as unknown as PayloadDivinerQueryPayload,
       ]
       beforeAll(async () => {
-        diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create()
+        diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ account: 'random' })
       })
       const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
       describe('with single query', () => {
@@ -225,7 +225,7 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
         schemaTransforms,
       }
       beforeAll(async () => {
-        diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ config })
+        diviner = await TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner.create({ account: 'random', config })
       })
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {

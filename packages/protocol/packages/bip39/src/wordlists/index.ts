@@ -8,6 +8,7 @@ import { wordlist as simplifiedChinese } from './simplified-chinese'
 import { wordlist as spanish } from './spanish'
 import { wordlist as traditionalChinese } from './traditional-chinese'
 
+/** @deprecated use @scure/bip39 instead */
 export const wordlists = {
   czech,
   english,

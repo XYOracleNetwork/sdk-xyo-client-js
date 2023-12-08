@@ -116,6 +116,42 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     ],
   ],
   [
+    'Filters if property defined',
+    {
+      operations: [{ op: 'defined', path: '/value' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+  ],
+  [
+    'Filters if property undefined',
+    {
+      operations: [{ op: 'undefined', path: '/value' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: undefined }],
+    [{ schema: 'network.xyo.test', value: undefined }],
+  ],
+  [
+    'Filters if property non-existent',
+    {
+      operations: [{ op: 'undefined', path: '/value' }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test' }],
+    [{ schema: 'network.xyo.test' }],
+  ],
+  [
+    'Filters if property null',
+    {
+      operations: [{ op: 'test', path: '/value', value: null }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: null }],
+    [{ schema: 'network.xyo.test', value: null }],
+  ],
+  [
     'Filters if property not null',
     {
       operations: [{ not: true, op: 'test', path: '/value', value: null }],

@@ -115,6 +115,15 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
       { schema: 'network.xyo.test', value: 'bar' },
     ],
   ],
+  [
+    'Filters if property not null',
+    {
+      operations: [{ not: true, op: 'test', path: '/value', value: null }],
+      schema: JsonPatchDivinerConfigSchema,
+    },
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+    [{ schema: 'network.xyo.test', value: 'foo' }],
+  ],
 ]
 
 /**

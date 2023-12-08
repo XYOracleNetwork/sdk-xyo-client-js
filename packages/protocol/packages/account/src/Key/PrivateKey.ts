@@ -34,7 +34,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   }
 
   get public(): PublicKeyInstance {
-    if (!this._public) this._public = new PublicKey(this._keyPair.getPublic('hex').slice(2))
+    this._public = this._public ?? new PublicKey(toUint8Array(this._keyPair.getPublic('hex').slice(2)))
     return this._public
   }
 

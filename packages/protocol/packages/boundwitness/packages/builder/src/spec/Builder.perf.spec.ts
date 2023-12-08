@@ -8,14 +8,20 @@ import { BoundWitnessBuilder } from '../Builder'
 
 const schema = 'network.xyo.test'
 
-const payloads = Array(5000)
-  .fill(Math.random())
-  .map((value) => new PayloadBuilder({ schema }).fields({ value }).build())
+const payloads = (async () =>
+  await Promise.all(
+    Array(5000)
+      .fill(Math.random())
+      .map((value) => new PayloadBuilder({ schema }).fields({ value }).build()),
+  ))()
 
 describe('BoundWitnessBuilder-Perf', () => {
-  it('build', () => {
+  it('build', async () => {
     const startTime = Date.now()
-    const bw = new BoundWitnessBuilder().payloads(payloads).witness(Account.randomSync()).build()
+    const bw = new BoundWitnessBuilder()
+      .payloads(await payloads)
+      .witness(Account.randomSync())
+      .build()
     const duration = Date.now() - startTime
     expect(bw).toBeDefined()
     expect(duration).toBeLessThan(500)

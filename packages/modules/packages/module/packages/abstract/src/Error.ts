@@ -10,14 +10,14 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
     super({ schema: ModuleErrorSchema })
   }
 
-  override build(): ModuleError {
-    return {
+  override build(): Promise<ModuleError> {
+    return Promise.resolve({
       message: this._message,
       name: this._name,
       query: this._query,
       schema: ModuleErrorSchema,
       sources: this._sources,
-    }
+    })
   }
 
   message(message: string) {

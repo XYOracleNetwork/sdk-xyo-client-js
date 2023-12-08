@@ -27,7 +27,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
   // Include all the sources for reference
   const sources = (await PayloadHasher.hashPairs([...payloads])).map(([, hash]) => hash)
   // Build and return the index
-  return new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign({ sources }, ...indexFields)).build()
+  return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign({ sources }, ...indexFields)).build()
 }
 
 /**

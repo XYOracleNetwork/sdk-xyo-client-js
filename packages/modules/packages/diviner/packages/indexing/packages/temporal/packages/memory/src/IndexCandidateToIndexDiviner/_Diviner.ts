@@ -105,7 +105,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
           // Include all the sources for reference
           const sources = Object.keys(await PayloadHasher.toMap([bw, timestampPayload, ...sourcePayloads]))
           // Build and return the index
-          return new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
+          return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
             .fields(Object.assign({ sources, timestamp }, ...indexFields))
             .build()
         }),

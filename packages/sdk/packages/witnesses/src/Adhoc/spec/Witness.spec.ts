@@ -6,11 +6,11 @@ import { AdhocWitness, AdhocWitnessConfig, AdhocWitnessConfigSchema } from '../W
 
 describe('AdhocWitness', () => {
   describe('observe', () => {
-    const payload = new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
-    const config: AdhocWitnessConfig = { name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema }
     describe('with payload supplied to observe', () => {
-      const observed = new PayloadBuilder({ schema: 'network.xyo.test' }).build()
       it('uses payload schema', async () => {
+        const payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const config: AdhocWitnessConfig = { name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema }
+        const observed = await new PayloadBuilder({ schema: 'network.xyo.test' }).build()
         const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
         const observation = await witness.observe([observed])
         expect(observation).toBeArrayOfSize(2)
@@ -18,6 +18,8 @@ describe('AdhocWitness', () => {
         expect(observation?.[1]?.schema).toBe(observed.schema)
       })
       it('manifest [direct]', async () => {
+        const payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const config: AdhocWitnessConfig = { name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema }
         const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
         const manifest = await witness.manifest()
         expect(manifest).toBeDefined()
@@ -25,6 +27,8 @@ describe('AdhocWitness', () => {
         expect(manifest.config.name).toBe('AdhocWitness')
       })
       it('manifest [indirect]', async () => {
+        const payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const config: AdhocWitnessConfig = { name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema }
         const witness = await AdhocWitness.create({ account: Account.randomSync(), config })
         const wrapper = ModuleWrapper.wrap(witness, Account.randomSync())
         const manifest = await wrapper.manifest()

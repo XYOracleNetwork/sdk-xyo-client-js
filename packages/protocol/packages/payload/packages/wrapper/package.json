@@ -14,7 +14,8 @@
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-validator": "workspace:~"
+    "@xyo-network/payload-validator": "workspace:~",
+    "ajv": "^8.12.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.10",

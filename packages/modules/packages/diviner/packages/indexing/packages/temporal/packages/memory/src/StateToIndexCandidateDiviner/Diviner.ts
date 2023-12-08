@@ -80,7 +80,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Get next batch of results starting from the offset
     const boundWitnessDiviner = await this.getBoundWitnessDivinerForStore()
     if (!boundWitnessDiviner) return [lastState]
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+    const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({ limit: this.payloadDivinerLimit, offset, order, payload_schemas: this.payload_schemas })
       .build()
     const batch = await boundWitnessDiviner.divine([query])

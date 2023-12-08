@@ -10,7 +10,7 @@ export class Data extends AbstractData {
   private _bytes?: ArrayBuffer
   private _length: number
 
-  constructor(length: number, bytes: ArrayBuffer, base?: number) {
+  constructor(length: number, bytes?: ArrayBuffer, base?: number) {
     super()
     this._bytes = toUint8Array(bytes, length, base)
     this._length = length

@@ -5,7 +5,7 @@ import { PayloadBuilder } from '../src'
 const schema = 'network.xyo.temp'
 
 describe('BoundWitnessBuilder', () => {
-  test('build', () => {
+  test('build', async () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
@@ -21,7 +21,7 @@ describe('BoundWitnessBuilder', () => {
     })
     expect(builder).toBeDefined()
 
-    const actual = builder.build()
+    const actual = await builder.build()
 
     expect(actual).toBeDefined()
     expect(actual._timestamp).toBeUndefined()

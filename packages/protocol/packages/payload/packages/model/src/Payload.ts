@@ -2,10 +2,14 @@ import { EmptyObject, JsonObject } from '@xyo-network/object'
 
 import { Schema, WithSchema } from './Schema'
 
-/** Additional fields for a payload */
-export interface PayloadFields extends EmptyObject {
-  $meta?: JsonObject
+/** Meta fields for a payload - Either both $hash and $meta should exist or neither */
+export interface PayloadMetaFields extends EmptyObject {
+  $hash: string
+  $meta: JsonObject
 }
+
+/** Additional fields for a payload */
+export type PayloadFields = EmptyObject | PayloadMetaFields
 
 export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 

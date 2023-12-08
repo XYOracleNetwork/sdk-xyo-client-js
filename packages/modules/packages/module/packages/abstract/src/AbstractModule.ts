@@ -288,7 +288,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {
           errorPayloads.push(
-            new ModuleErrorBuilder()
+            await new ModuleErrorBuilder()
               .sources([await PayloadHasher.hashAsync(query)])
               .name(this.config.name ?? '<Unknown>')
               .query(query.schema)
@@ -489,12 +489,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return description
   }
 
-  protected discoverHandler(_maxDepth?: number): Promisable<Payload[]> {
+  protected async discoverHandler(_maxDepth?: number): Promise<Payload[]> {
     const config = this.config
-    const address = new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address, name: this.config?.name }).build()
-    const queries = this.queries.map((query) => {
-      return new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
-    })
+    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
+      .fields({ address: this.address, name: this.config?.name })
+      .build()
+    const queries = await Promise.all(
+      this.queries.map(async (query) => {
+        return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
+      }),
+    )
     const configSchema: ConfigPayload = {
       config: config.schema,
       schema: ConfigSchema,

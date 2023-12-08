@@ -160,7 +160,7 @@ export class IndexingDiviner<
     if (this._lastState) return this._lastState
     let hash: string = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
-    const query = new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+    const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
         address: this.account.address,
         limit: 1,

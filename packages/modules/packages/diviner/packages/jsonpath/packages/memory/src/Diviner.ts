@@ -46,7 +46,7 @@ export class JsonPathDiviner<
         // Include all the sources for reference
         const sources = Object.keys(await PayloadHasher.toMap([payload]))
         // Build and return the index
-        return new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...fields)).build()
+        return await new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...fields)).build()
       }),
     )
     return results

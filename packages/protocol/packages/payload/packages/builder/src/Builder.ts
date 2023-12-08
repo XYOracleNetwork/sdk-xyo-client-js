@@ -8,6 +8,7 @@ export interface PayloadBuilderOptions {
 }
 
 export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
+  private _$meta?: AnyObject
   private _client = 'js'
   private _fields: Partial<T> = {}
   private _schema: string
@@ -17,9 +18,9 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
     this._schema = schema
   }
 
-  get meta() {
+  get externalMeta() {
     const _hash = PayloadHasher.hashAsync(this.hashableFields)
-    return { _client: this._client, _hash, _timestamp: this._timestamp, schema: this._schema }
+    return { _client: this._client, _hash, _timestamp: this._timestamp }
   }
 
   get schema() {
@@ -27,10 +28,19 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
     return this._schema
   }
 
-  build(withMeta = false) {
-    const hashableFields = this.hashableFields()
-    if (withMeta) {
-      return { ...hashableFields, ...this.meta }
+  $meta(fields?: AnyObject) {
+    this._$meta = fields
+    return this
+  }
+
+  async build(withExternalMeta = false) {
+    let hashableFields = this.hashableFields()
+    if (this._$meta) {
+      const $hash = await PayloadHasher.hashAsync(hashableFields)
+      hashableFields = { ...hashableFields, $hash, $meta: this._$meta }
+    }
+    if (withExternalMeta) {
+      return { ...hashableFields, ...this.externalMeta }
     } else {
       return hashableFields
     }

@@ -9,7 +9,7 @@ import { EllipticKey } from './EllipticKey'
 export class PublicKey extends EllipticKey implements PublicKeyInstance {
   private _address?: AddressValue
   private _isPublicKey = true
-  constructor(bytes: string | ArrayBuffer) {
+  constructor(bytes: ArrayBuffer) {
     super(64, bytes)
   }
 

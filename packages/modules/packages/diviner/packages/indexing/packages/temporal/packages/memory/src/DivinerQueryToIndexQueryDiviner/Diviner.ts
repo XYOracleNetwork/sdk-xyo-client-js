@@ -110,7 +110,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
           // TODO: Make sources not need to be deleted
           delete fields.sources
           // TODO: Add support for additional filters
-          return new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
+          return await new PayloadBuilder<Payload>({ schema: this.indexQuerySchema }).fields(fields).build()
         }),
       )
       return results

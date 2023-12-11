@@ -34,7 +34,7 @@
           {
             "config": {
               "language": "javascript",
-              "name": "ImageThumbnailDiviner",
+              "name": "Diviner",
               "schema": "network.xyo.diviner.stateful.config",
               "stateStore": {
                 "archivist": "AddressStateArchivist",

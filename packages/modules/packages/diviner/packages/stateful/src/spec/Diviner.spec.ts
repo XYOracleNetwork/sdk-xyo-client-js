@@ -1,12 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
-import { isModuleState, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { ModuleFactoryLocator, ModuleState } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -14,6 +13,12 @@ import { StatefulDiviner } from '../Diviner'
 import TestManifest from './TestManifest.json'
 
 class TestStatefulDiviner extends StatefulDiviner {
+  callCommitState(state: ModuleState) {
+    return this.commitState(state)
+  }
+  callRetrieveState() {
+    return this.retrieveState()
+  }
   protected override divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     return Promise.resolve(payloads ?? [])
   }
@@ -48,37 +53,23 @@ describe('TestStatefulDiviner', () => {
 
   describe('divine', () => {
     describe('with no previous state', () => {
-      it('return state and no results', async () => {
-        const results = await sut.divine()
-        expect(results.length).toBe(1)
-        const state = results.find(isModuleState<IndexingDivinerState>)
-        expect(state).toBeDefined()
-        expect(state?.state.offset).toBe(0)
+      it('return undefined', async () => {
+        const results = await sut.callRetrieveState()
+        expect(results).toBeUndefined()
       })
     })
-    describe.skip('with previous state', () => {
-      // // Test across all offsets
-      // const states: ModuleState<IndexingDivinerState>[] = witnessedThumbnails.map((_, offset) => {
-      //   return { schema: ModuleStateSchema, state: { offset } }
-      // })
-      // it.each(states)('return next state and batch results', async (lastState) => {
-      //   const results = await sut.divine([lastState])
-      //   // Validate expected results length
-      //   const expectedIndividualResults = witnessedThumbnails.length - lastState.state.offset
-      //   // expectedIndividualResults * 3 [BW, ImageThumbnail, TimeStamp] + 1 [ModuleState]
-      //   const expectedResults = expectedIndividualResults * 3 + 1
-      //   expect(results.length).toBe(expectedResults)
-      //   // Validate expected state
-      //   const nextState = results.find(isModuleState<IndexingDivinerState>)
-      //   expect(nextState).toBeDefined()
-      //   expect(nextState?.state.offset).toBe(witnessedThumbnails.length)
-      // Validate expected individual results
-      // const bws = results.filter(isBoundWitness)
-      // expect(bws).toBeArrayOfSize(expectedIndividualResults)
-      // const images = results.filter(isImageThumbnail)
-      // expect(images).toBeArrayOfSize(expectedIndividualResults)
-      // const timestamps = results.filter(isTimestamp)
-      // expect(timestamps).toBeArrayOfSize(expectedIndividualResults)
+    describe('with previous state', () => {
+      const cases: ModuleState[] = [
+        { schema: 'network.xyo.module.state', state: { offset: 0 } },
+        { schema: 'network.xyo.module.state', state: { offset: 1 } },
+        { schema: 'network.xyo.module.state', state: { offset: 1000 } },
+      ]
+
+      it.each(cases)('return state', async (state) => {
+        await sut.callCommitState(state)
+        const results = await sut.callRetrieveState()
+        expect(results).toBe(state)
+      })
     })
   })
 })

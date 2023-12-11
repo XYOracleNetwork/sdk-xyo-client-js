@@ -24,7 +24,7 @@ export abstract class StatefulDiviner<
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: string[] = [DivinerConfigSchema, StatefulDivinerConfigSchema]
 
-  private _lastState?: ModuleState<TState>
+  protected _lastState?: ModuleState<TState>
 
   /**
    * Commit the internal state of the Diviner process. This is similar

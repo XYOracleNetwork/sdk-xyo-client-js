@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
+import { asArchivistInstance } from '@xyo-network/archivist'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema, Labels, ModuleConfig, ModuleInstance, ModuleParams, StateDictionary } from '@xyo-network/module-model'
 
 export interface StatefulStorageClassLabels extends Labels {
@@ -15,7 +16,7 @@ export interface StatefulModuleStatic<T extends StatefulStorageClassLabels = Sta
 }
 
 export interface StatefulModule<T extends StateDictionary = StateDictionary> {
-  getPayloadDivinerForStateStore(): Promise<DivinerInstance>
+  // getPayloadDivinerForStateStore(): Promise<DivinerInstance>
 }
 
 export type StatefulModuleConfig = ModuleConfig<{
@@ -41,6 +42,34 @@ export const StatefulModuleMixin = <
   ModuleBase: TModule,
 ) => {
   abstract class StatefulModuleBase extends ModuleBase implements StatefulModule {
+    /**
+     * Retrieves the archivist for the specified store
+     * @param store The store to retrieve the archivist for
+     * @returns The archivist for the specified store
+     */
+    async getArchivistForStore() {
+      const name = assertEx(this.config?.stateStore?.archivist, () => `${moduleName}: Config for stateStore.archivist not specified`)
+      const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.archivist`)
+      // return ArchivistWrapper.wrap(mod, this.account)
+      const instance = asArchivistInstance(mod)
+      return assertEx(instance, () => `${moduleName}: Failed to wrap archivist instance`)
+    }
+
+    /**
+     * Retrieves the BoundWitness Diviner for the specified store
+     * @param store The store to retrieve the BoundWitness Diviner for
+     * @returns The BoundWitness Diviner for the specified store
+     */
+    async getBoundWitnessDivinerForStore() {
+      const name = assertEx(
+        this.config?.stateStore?.boundWitnessDiviner,
+        () => `${moduleName}: Config for stateStore.boundWitnessDiviner not specified`,
+      )
+      const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.boundWitnessDiviner`)
+      // return DivinerWrapper.wrap(mod, this.account)
+      const instance = asDivinerInstance(mod)
+      return assertEx(instance, () => `${moduleName}: Failed to wrap diviner instance`)
+    }
     /**
      * Retrieves the Payload Diviner for the specified store
      * @param store The store to retrieve the Payload Diviner for

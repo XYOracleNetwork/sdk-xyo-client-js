@@ -1,7 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
@@ -10,52 +8,22 @@ import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { isModuleState, ModuleFactoryLocator, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
+import { Payload } from '@xyo-network/payload-model'
 
 import { StatefulDiviner } from '../Diviner'
+import TestManifest from './TestManifest.json'
+
+class TestStatefulDiviner extends StatefulDiviner {
+  protected override divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+    return Promise.resolve(payloads ?? [])
+  }
+}
 
 /**
  * @group slow
  */
-describe('TemporalStateToIndexCandidateDiviner', () => {
-  const sourceUrl = 'https://placekitten.com/200/300'
-  const thumbnailHttpSuccess = {
-    http: {
-      status: 200,
-    },
-    schema: 'network.xyo.image.thumbnail',
-    sourceHash: '7f39363514d9d9b958a5a993edeba35cb44f912c7072ed9ddd628728ac0fd681',
-    sourceUrl,
-    url: 'data:image/png;base64,===',
-  }
-
-  const thumbnailHttpFail = {
-    http: {
-      ipAddress: '104.17.96.13',
-      status: 429,
-    },
-    schema: 'network.xyo.image.thumbnail',
-    sourceUrl,
-  }
-
-  const thumbnailCodeFail = {
-    http: {
-      code: 'FAILED',
-    },
-    schema: 'network.xyo.image.thumbnail',
-    sourceUrl,
-  }
-
-  const thumbnailWitnessFail = {
-    http: {
-      ipAddress: '104.17.96.13',
-    },
-    schema: 'network.xyo.image.thumbnail',
-    sourceUrl,
-  }
-  const witnessedThumbnails = [thumbnailHttpSuccess, thumbnailHttpFail, thumbnailCodeFail, thumbnailWitnessFail]
-
-  let sut: TemporalIndexingDivinerStateToIndexCandidateDiviner
+describe('TestStatefulDiviner', () => {
+  let sut: TestStatefulDiviner
   let node: MemoryNode
 
   beforeAll(async () => {
@@ -64,8 +32,8 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
-    locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
-    const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifest
+    locator.register(TestStatefulDiviner)
+    const manifest = TestManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
@@ -75,35 +43,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     const mods = await node.resolve()
     expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
-    // Insert previously witnessed payloads into thumbnail archivist
-    const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpSuccessBoundWitness, httpSuccessPayloads] = await new BoundWitnessBuilder()
-      .payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
-      .build()
-    const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpFailBoundWitness, httpFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp]).build()
-
-    const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
-      .payloads([thumbnailWitnessFail, witnessFailTimestamp])
-      .build()
-
-    const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [codeFailBoundWitness, codeFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp]).build()
-
-    const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
-    await thumbnailArchivist.insert([
-      httpSuccessBoundWitness,
-      ...httpSuccessPayloads,
-      httpFailBoundWitness,
-      ...httpFailPayloads,
-      witnessFailBoundWitness,
-      ...witnessFailPayloads,
-      codeFailBoundWitness,
-      ...codeFailPayloads,
-    ])
-
-    sut = assertEx(asDivinerInstance<TemporalIndexingDivinerStateToIndexCandidateDiviner>(await node.resolve('TemporalStateToIndexCandidateDiviner')))
+    sut = assertEx(asDivinerInstance<TestStatefulDiviner>(await node.resolve('TestStatefulDiviner')))
   })
 
   describe('divine', () => {

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "DivinerTest",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "language": "javascript",
+              "name": "AddressStateArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStateBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "language": "javascript",
+              "name": "AddressStatePayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "language": "javascript",
+              "name": "ImageThumbnailDiviner",
+              "schema": "network.xyo.diviner.stateful.config",
+              "stateStore": {
+                "archivist": "AddressStateArchivist",
+                "boundWitnessDiviner": "AddressStateBoundWitnessDiviner",
+                "payloadDiviner": "AddressStatePayloadDiviner"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

@@ -4,25 +4,14 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { DivinerConfig, DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { AnyConfigSchema, isModuleState, ModuleParams, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
+import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
-const StatefulDivinerConfigSchema = 'network.xyo.diviner.stateful.config' as const
-export type StatefulDivinerConfigSchema = typeof StatefulDivinerConfigSchema
-
-export type StatefulModuleConfig = DivinerConfig<{
-  schema: DivinerConfigSchema
-  stateStore: {
-    archivist: string
-    boundWitnessDiviner: string
-    payloadDiviner: string
-  }
-}>
-
-export type StatefulDivinerParams = ModuleParams<AnyConfigSchema<StatefulModuleConfig>>
+import { StatefulDivinerConfigSchema } from './Config'
+import { StatefulDivinerParams } from './Params'
 
 type ConfigStore = 'stateStore'
 

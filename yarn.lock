@@ -5092,6 +5092,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-stateful@workspace:packages/modules/packages/diviner/packages/stateful":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-stateful@workspace:packages/modules/packages/diviner/packages/stateful"
+  dependencies:
+    "@xylabs/assert": "npm:^2.13.20"
+    "@xylabs/promise": "npm:^2.13.20"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.10"
+    "@xylabs/tsconfig": "npm:^3.2.10"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/module-abstract": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-temporal-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory, @xyo-network/diviner-temporal-indexing-memory@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing-memory@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/memory"

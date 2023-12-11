@@ -13,8 +13,6 @@ import { Payload } from '@xyo-network/payload-model'
 import { StatefulDivinerConfigSchema } from './Config'
 import { StatefulDivinerParams } from './Params'
 
-type ConfigStore = 'stateStore'
-
 const moduleName = 'StatefulDiviner'
 
 export abstract class StatefulDiviner<
@@ -39,7 +37,7 @@ export abstract class StatefulDiviner<
     // Don't commit state if no state has changed
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
-    const archivist = await this.getArchivistForStore('stateStore')
+    const archivist = await this.getArchivistForStateStore()
     const [bw] = await new BoundWitnessBuilder().payload(nextState).witness(this.account).build()
     await archivist.insert([bw, nextState])
   }
@@ -49,9 +47,9 @@ export abstract class StatefulDiviner<
    * @param store The store to retrieve the archivist for
    * @returns The archivist for the specified store
    */
-  protected async getArchivistForStore(store: ConfigStore) {
-    const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
+  protected async getArchivistForStateStore() {
+    const name = assertEx(this.config?.stateStore.archivist, () => `${moduleName}: Config for stateStore.archivist not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.archivist`)
     return ArchivistWrapper.wrap(mod, this.account)
   }
 
@@ -60,9 +58,9 @@ export abstract class StatefulDiviner<
    * @param store The store to retrieve the BoundWitness Diviner for
    * @returns The BoundWitness Diviner for the specified store
    */
-  protected async getBoundWitnessDivinerForStore(store: ConfigStore) {
-    const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
+  protected async getBoundWitnessDivinerForStateStore() {
+    const name = assertEx(this.config?.stateStore.boundWitnessDiviner, () => `${moduleName}: Config for stateStore.boundWitnessDiviner not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.boundWitnessDiviner`)
     return DivinerWrapper.wrap(mod, this.account)
   }
 
@@ -71,9 +69,9 @@ export abstract class StatefulDiviner<
    * @param store The store to retrieve the Payload Diviner for
    * @returns The Payload Diviner for the specified store
    */
-  protected async getPayloadDivinerForStore(store: ConfigStore) {
-    const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
+  protected async getPayloadDivinerForStateStore() {
+    const name = assertEx(this.config?.stateStore?.payloadDiviner, () => `${moduleName}: Config for stateStore.payloadDiviner not specified`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve stateStore.payloadDiviner`)
     return DivinerWrapper.wrap(mod, this.account)
   }
 
@@ -84,7 +82,7 @@ export abstract class StatefulDiviner<
   protected async retrieveState(): Promise<ModuleState<TState> | undefined> {
     if (this._lastState) return this._lastState
     let hash: string = ''
-    const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
+    const diviner = await this.getBoundWitnessDivinerForStateStore()
     const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
         address: this.account.address,
@@ -112,7 +110,7 @@ export abstract class StatefulDiviner<
     // If we able to located the last state
     if (hash) {
       // Get last state
-      const archivist = await this.getArchivistForStore('stateStore')
+      const archivist = await this.getArchivistForStateStore()
       const payload = (await archivist.get([hash])).find(isModuleState<TState>)
       if (payload) {
         return payload

@@ -4751,6 +4751,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~"
     "@xyo-network/diviner-jsonpath-memory": "workspace:~"
+    "@xyo-network/diviner-jsonpath-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"

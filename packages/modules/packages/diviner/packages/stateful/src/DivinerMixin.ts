@@ -7,8 +7,6 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import {
   AnyConfigSchema,
   isModuleState,
-  Labels,
-  ModuleConfig,
   ModuleInstance,
   ModuleParams,
   ModuleState,
@@ -16,38 +14,21 @@ import {
   StateDictionary,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-export interface StatefulStorageClassLabels extends Labels {
-  'network.xyo.storage.class': 'Stateful'
-}
 
-export const StatefulStorageClassLabels: StatefulStorageClassLabels = {
-  'network.xyo.storage.class': 'Stateful',
-}
+import { StatefulDivinerConfig } from './Config'
 
-export interface StatefulModuleStatic<T extends StatefulStorageClassLabels = StatefulStorageClassLabels> {
-  labels: T
-}
-
-export interface StatefulModule<T extends StateDictionary = StateDictionary> {
-  // getPayloadDivinerForStateStore(): Promise<DivinerInstance>
-}
-
-export type StatefulModuleConfig = ModuleConfig<{
-  schema: string
-  stateStore: {
-    archivist: string
-    boundWitnessDiviner: string
-    payloadDiviner: string
-  }
-}>
-
-export type StatefulModuleParams = ModuleParams<AnyConfigSchema<StatefulModuleConfig>>
+export type StatefulModuleParams = ModuleParams<AnyConfigSchema<StatefulDivinerConfig>>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyModule<TParams extends StatefulModuleParams = StatefulModuleParams> = new (...args: any[]) => StatefulModule & ModuleInstance<TParams>
+export type AnyModule<TParams extends StatefulModuleParams = StatefulModuleParams> = new (...args: any[]) => ModuleInstance<TParams>
 
 const moduleName = 'StatefulModuleMixin'
 
+/**
+ * @ignore Inherit from StatefulDiviner instead
+ * @param ModuleBase
+ * @returns
+ */
 export const StatefulModuleMixin = <
   TParams extends StatefulModuleParams = StatefulModuleParams,
   TModule extends AnyModule<TParams> = AnyModule<TParams>,
@@ -55,7 +36,7 @@ export const StatefulModuleMixin = <
 >(
   ModuleBase: TModule,
 ) => {
-  abstract class StatefulModuleBase extends ModuleBase implements StatefulModule {
+  abstract class StatefulModuleBase extends ModuleBase {
     _lastState?: ModuleState<TState>
 
     /**

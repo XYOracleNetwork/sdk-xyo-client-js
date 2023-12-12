@@ -28,7 +28,6 @@
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
-    "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",

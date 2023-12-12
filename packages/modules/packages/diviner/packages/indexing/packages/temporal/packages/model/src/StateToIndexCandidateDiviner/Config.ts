@@ -1,6 +1,5 @@
 import { BoundWitnessDivinerPredicate } from '@xyo-network/diviner-boundwitness-model'
-import { SearchableStorage } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerSchema } from './Schema'
 

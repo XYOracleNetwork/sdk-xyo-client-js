@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner-jsonpath-aggregate-memory",
+  "name": "@xyo-network/diviner-stateful",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -12,9 +12,14 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
     "@xyo-network/abstract-diviner": "workspace:~",
-    "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
+    "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/archivist-wrapper": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/diviner-wrapper": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
@@ -22,11 +27,11 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.10",
     "@xylabs/tsconfig": "^3.2.10",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-jsonpath-memory": "workspace:~",
-    "@xyo-network/diviner-jsonpath-model": "workspace:~",
-    "@xyo-network/wallet-model": "workspace:~",
+    "@xyo-network/diviner-boundwitness-memory": "workspace:~",
+    "@xyo-network/diviner-payload-memory": "workspace:~",
+    "@xyo-network/manifest": "workspace:~",
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

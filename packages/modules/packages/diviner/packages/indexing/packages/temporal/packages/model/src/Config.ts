@@ -1,5 +1,5 @@
-import { IndexingDivinerStage, IndexingDivinerStageConfig, SearchableStorage } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import { IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
+import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner'

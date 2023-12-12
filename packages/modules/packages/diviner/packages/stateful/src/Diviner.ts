@@ -15,6 +15,9 @@ import { StatefulDivinerParams } from './Params'
 
 const moduleName = 'StatefulDiviner'
 
+/**
+ * A Diviner that maintains state
+ */
 export abstract class StatefulDiviner<
   TParams extends StatefulDivinerParams = StatefulDivinerParams,
   TIn extends Payload = Payload,
@@ -24,6 +27,9 @@ export abstract class StatefulDiviner<
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly configSchemas: string[] = [DivinerConfigSchema, StatefulDivinerConfigSchema]
 
+  /**
+   * The last state
+   */
   protected _lastState?: ModuleState<TState>
 
   /**

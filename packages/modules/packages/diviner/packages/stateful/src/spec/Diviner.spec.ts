@@ -53,7 +53,7 @@ describe('TestStatefulDiviner', () => {
 
   describe('divine', () => {
     describe('with no previous state', () => {
-      it('return undefined', async () => {
+      it('returns undefined', async () => {
         const results = await sut.callRetrieveState()
         expect(results).toBeUndefined()
       })
@@ -65,7 +65,7 @@ describe('TestStatefulDiviner', () => {
         { schema: 'network.xyo.module.state', state: { offset: 1000 } },
       ]
 
-      it.each(cases)('return state', async (state) => {
+      it.each(cases)('returns state', async (state) => {
         await sut.callCommitState(state)
         const results = await sut.callRetrieveState()
         expect(results).toBe(state)

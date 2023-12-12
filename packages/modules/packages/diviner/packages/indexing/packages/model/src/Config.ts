@@ -1,7 +1,6 @@
-import { DivinerConfig } from '@xyo-network/diviner-model'
+import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
 import { IndexingDivinerSchema } from './Schema'
-import { SearchableStorage } from './SearchableStorage'
 import { IndexingDivinerStageConfig } from './Stage'
 
 export const IndexingDivinerConfigSchema = `${IndexingDivinerSchema}.config` as const

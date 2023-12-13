@@ -5006,6 +5006,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-range-model@workspace:packages/modules/packages/diviner/packages/range/packages/model, @xyo-network/diviner-range-model@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-range-model@workspace:packages/modules/packages/diviner/packages/range/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
+    "@xylabs/tsconfig": "npm:^3.2.19"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/value-payload-plugin": "npm:^2.84.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range, @xyo-network/diviner-range@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-range@workspace:packages/modules/packages/diviner/packages/range"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
+    "@xylabs/tsconfig": "npm:^3.2.19"
+    "@xyo-network/diviner-range-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract, @xyo-network/diviner-schema-list-abstract@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-schema-list-abstract@workspace:packages/modules/packages/diviner/packages/schemalist/packages/abstract"
@@ -5296,6 +5320,7 @@ __metadata:
     "@xyo-network/diviner-jsonpatch": "workspace:~"
     "@xyo-network/diviner-jsonpath": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-range": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/module-model": "workspace:~"

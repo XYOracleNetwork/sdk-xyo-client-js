@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner",
+  "name": "@xyo-network/diviner-range-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,25 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.20",
-    "@xylabs/lodash": "^2.13.20",
-    "@xylabs/promise": "^2.13.20",
-    "@xyo-network/abstract-diviner": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/diviner-jsonpatch": "workspace:~",
-    "@xyo-network/diviner-jsonpath": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/diviner-range": "workspace:~",
-    "@xyo-network/diviner-wrapper": "workspace:~",
-    "@xyo-network/huri": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/value-payload-plugin": "^2.84.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.19",
     "@xylabs/tsconfig": "^3.2.19",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

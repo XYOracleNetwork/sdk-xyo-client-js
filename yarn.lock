@@ -5025,6 +5025,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
+    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-range-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown

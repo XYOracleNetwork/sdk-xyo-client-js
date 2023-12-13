@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@scure/base": "^1.1.4",
+    "@scure/base": "^1.1.5",
     "@xylabs/arraybuffer": "^2.13.20",
     "@xylabs/assert": "^2.13.20",
     "ethers": "^6.9.0"

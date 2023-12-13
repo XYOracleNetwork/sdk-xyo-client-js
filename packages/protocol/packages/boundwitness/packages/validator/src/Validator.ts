@@ -1,10 +1,10 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { uniq } from '@xylabs/lodash'
+import { validateType } from '@xylabs/typeof'
 import { AddressValue } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadValidator } from '@xyo-network/payload-validator'
-import { validateType } from '@xyo-network/typeof'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
   return a.length != b.length ? [Error(`${message} []`)] : []

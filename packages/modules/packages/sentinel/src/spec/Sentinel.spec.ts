@@ -3,9 +3,7 @@ import { Account } from '@xyo-network/account'
 import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
-import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeSystemInfoWitness, NodeSystemInfoWitnessConfigSchema } from '@xyo-network/node-system-info-plugin'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
@@ -25,18 +23,7 @@ describe('Sentinel', () => {
     await node.register(archivist)
     await node.attach(archivist.address)
 
-    const witnesses: AbstractWitness[] = [
-      await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
-      await NodeSystemInfoWitness.create({
-        account: Account.randomSync(),
-        config: {
-          nodeValues: {
-            osInfo: '*',
-          },
-          schema: NodeSystemInfoWitnessConfigSchema,
-        },
-      }),
-    ]
+    const witnesses: AbstractWitness[] = [await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } })]
 
     await Promise.all(
       witnesses.map(async (witness) => {

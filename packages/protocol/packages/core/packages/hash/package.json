@@ -13,8 +13,8 @@
     "@xylabs/hex": "^2.13.20",
     "@xylabs/lodash": "^2.13.20",
     "@xylabs/platform": "^2.13.20",
+    "@xylabs/typeof": "^2.13.20",
     "@xyo-network/object": "workspace:~",
-    "@xyo-network/typeof": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "hash-wasm": "^4.11.0",
     "sha.js": "^2.4.11"
@@ -23,8 +23,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/sha.js": "^2.4.4",
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "typescript": "^5.3.3"
   },
   "exports": {

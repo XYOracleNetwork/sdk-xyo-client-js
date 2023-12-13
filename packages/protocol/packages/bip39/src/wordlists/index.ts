@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { wordlist as czech } from './czech'
 import { wordlist as english } from './english'
 import { wordlist as french } from './french'

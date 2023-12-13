@@ -1,8 +1,8 @@
-{
+const finalConfig = {
+  "extends": ["@xylabs"],
+  parser: '@typescript-eslint/parser',
+  parserOptions: { ecmaVersion: 'latest', project: null, tsconfigRootDir: __dirname, extraFileExtensions: ['json'] },
   "root": true,
-  "extends": [
-    "@xylabs"
-  ],
   "ignorePatterns": [
     "dist",
     "node_modules",
@@ -13,7 +13,8 @@
     "testData.json",
     "*.stories.*",
     "swagger.json",
-    ".yarn"
+    ".yarn",
+    ".*"
   ],
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
@@ -57,3 +58,5 @@
     ]
   }
 }
+
+module.exports = finalConfig

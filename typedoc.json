@@ -8,5 +8,7 @@
   "exclude": ["**/*.d.ts"],
   "includeVersion": true,
   "name": "XYO Platform SDK",
+  "plugin": ["typedoc-material-theme"],
+  "themeColor": "#cb9820",
   "tsconfig": "./tsconfig.typedoc.json"
 }

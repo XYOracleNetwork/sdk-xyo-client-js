@@ -14,8 +14,8 @@
     "@xyo-network/account-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "ethers": "^6.9.0",
     "typescript": "^5.3.3"
   },

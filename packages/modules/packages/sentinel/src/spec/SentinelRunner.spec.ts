@@ -2,9 +2,9 @@ import { delay } from '@xylabs/delay'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
-import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 import { SentinelIntervalAutomationPayload, SentinelIntervalAutomationSchema } from '../Automation'
 import { MemorySentinel } from '../MemorySentinel'
@@ -22,7 +22,7 @@ describe('SentinelRunner', () => {
   beforeEach(async () => {
     const node = (await MemoryNode.create({ account: Account.randomSync() })) as MemoryNode
     const witnessModules: AbstractWitness[] = [
-      await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } }),
+      await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } }),
     ]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {

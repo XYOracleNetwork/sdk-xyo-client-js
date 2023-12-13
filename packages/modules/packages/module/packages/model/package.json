@@ -16,7 +16,7 @@
     "@xylabs/logger": "^2.13.20",
     "@xylabs/promise": "^2.13.20",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.83.0",
+    "@xyo-network/address-payload-plugin": "^2.84.0",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
@@ -25,8 +25,8 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

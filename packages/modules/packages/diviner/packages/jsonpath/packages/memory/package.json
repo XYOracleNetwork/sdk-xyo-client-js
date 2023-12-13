@@ -20,8 +20,8 @@
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
     "typescript": "^5.3.3"

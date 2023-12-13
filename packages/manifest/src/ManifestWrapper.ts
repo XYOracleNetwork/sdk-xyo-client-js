@@ -16,6 +16,7 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './standardCreatableModules'
 
+/** Provides functionality that can be performed on a PackageManifest */
 export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   constructor(
     payload: PackageManifestPayload,
@@ -115,8 +116,21 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     return node
   }
 
-  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode[]>
-  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode[]>
+  /**
+   * Load the nodes that are defined in the wrapped manifest and optionally attach them to a node
+   */
+  async loadNodes(
+    /** Node to optionally attach the loaded nodes to */
+    node?: MemoryNode,
+    /** Additional creatable modules */
+    additionalCreatableModules?: CreatableModuleRegistry,
+  ): Promise<MemoryNode[]>
+  async loadNodes(
+    /** Node to optionally attach the loaded nodes to */
+    node?: MemoryNode,
+    /** Additional creatable modules */
+    additionalCreatableModules?: CreatableModuleDictionary,
+  ): Promise<MemoryNode[]>
   async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode[]> {
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     const result = await Promise.all(
@@ -130,12 +144,13 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   }
 
   nodeManifest(index: number) {
-    return this.payload().nodes?.[index]
+    return this.jsonPayload().nodes?.[index]
   }
 
-  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleRegistry): Promise<ModuleInstance>
-  async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary): Promise<ModuleInstance>
-  async registerModule(
+  /** Register a module on a node based on a manifest */
+  private async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleRegistry): Promise<ModuleInstance>
+  private async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary): Promise<ModuleInstance>
+  private async registerModule(
     node: MemoryNode,
     manifest: ModuleManifest,
     creatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,

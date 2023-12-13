@@ -3,10 +3,10 @@ import { Account } from '@xyo-network/account'
 import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
 import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
-import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { WitnessInstance } from '@xyo-network/witness-model'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 /**
  * @group module
@@ -45,9 +45,9 @@ describe('MultiNodeConfiguration', () => {
       account: Account.randomSync(),
       config: { name: 'archivist', schema: MemoryArchivist.configSchema },
     })
-    rightWitness = await IdWitness.create({
+    rightWitness = await AdhocWitness.create({
       account: Account.randomSync(),
-      config: { name: 'rightWitness', salt: 'test', schema: IdWitnessConfigSchema },
+      config: { name: 'rightWitness', schema: AdhocWitnessConfigSchema },
     })
     await rightNode.register(rightInternalArchivist)
     await rightNode.attach(rightInternalArchivist.address)

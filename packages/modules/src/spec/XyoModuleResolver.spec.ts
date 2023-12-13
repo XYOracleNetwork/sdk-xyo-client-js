@@ -2,9 +2,9 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
-import { IdWitness, IdWitnessConfigSchema } from '@xyo-network/id-plugin'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { WitnessInstance, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 /**
  * @group module
@@ -19,7 +19,7 @@ describe('ModuleResolver', () => {
       account: Account.randomSync(),
       config: { name: 'memory-archivist', schema: MemoryArchivist.configSchema },
     })
-    witness = await IdWitness.create({ account: Account.randomSync(), config: { salt: 'test', schema: IdWitnessConfigSchema } })
+    witness = await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } })
     resolver = new CompositeModuleResolver()
     resolver.add(archivist)
     resolver.add(witness)

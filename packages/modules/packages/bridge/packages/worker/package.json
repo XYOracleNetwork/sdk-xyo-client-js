@@ -21,7 +21,7 @@
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "^2.83.0",
+    "@xyo-network/config-payload-plugin": "^2.84.0",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -29,13 +29,13 @@
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.83.0",
+    "@xyo-network/query-payload-plugin": "^2.84.0",
     "@xyo-network/sentinel": "workspace:~",
     "lru-cache": "^10.1.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

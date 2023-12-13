@@ -4,7 +4,9 @@ import { Schema, WithSchema } from './Schema'
 
 /** Meta fields for a payload - Either both $hash and $meta should exist or neither */
 export interface PayloadMetaFields extends EmptyObject {
+  /** Hash of the body of the payload excluding the items in the $meta object */
   $hash: string
+  /** Meta data that should be included in the main hash of the payload */
   $meta: JsonObject
 }
 
@@ -13,6 +15,7 @@ export type PayloadFields = EmptyObject | PayloadMetaFields
 
 export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 
+/** Base Type for Payloads */
 export type Payload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = T extends WithSchema
   ? S extends Schema
     ? /* T (w/Schema) & S provided */

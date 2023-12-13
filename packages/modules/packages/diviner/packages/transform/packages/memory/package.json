@@ -13,13 +13,13 @@
     "@xyo-network/diviner-transform-abstract": "workspace:~",
     "@xyo-network/diviner-transform-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/value-payload-plugin": "^2.83.0",
+    "@xyo-network/value-payload-plugin": "^2.84.0",
     "jsonpath": "^1.1.1"
   },
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
-    "@xylabs/ts-scripts-yarn3": "^3.2.10",
-    "@xylabs/tsconfig": "^3.2.10",
+    "@xylabs/ts-scripts-yarn3": "^3.2.19",
+    "@xylabs/tsconfig": "^3.2.19",
     "@xyo-network/account": "workspace:~",
     "typescript": "^5.3.3"
   },

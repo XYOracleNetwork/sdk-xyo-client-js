@@ -17,6 +17,7 @@ export const asSchema = AsTypeFactory.create<Schema>(isSchema)
 
 /** Schema fields for a Payload */
 export interface SchemaFields extends EmptyObject {
+  /**  Schema of the object */
   schema: Schema
 }
 

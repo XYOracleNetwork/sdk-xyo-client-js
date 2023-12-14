@@ -1,0 +1,26 @@
+releases:
+  "@xyo-network/manifest": patch
+  "@xyo-network/manifest-model": patch
+  "@xyo-network/modules": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+
+undecided:
+  - "@xyo-network/archivist"
+  - "@xyo-network/archivist-indexeddb"
+  - "@xyo-network/http-bridge"
+  - "@xyo-network/bridge-module-resolver"
+  - "@xyo-network/worker-bridge"
+  - "@xyo-network/diviner-address-space-memory"
+  - "@xyo-network/diviner-jsonpath-aggregate-model"
+  - "@xyo-network/diviner-transform-memory"
+  - "@xyo-network/diviner-transform-model"
+  - "@xyo-network/module-abstract"
+  - "@xyo-network/module-model"
+  - "@xyo-network/node"
+  - "@xyo-network/node-abstract"
+  - "@xyo-network/node-wrapper"
+  - "@xyo-network/sentinel"
+  - "@xyo-network/witness-environment"
+  - "@xyo-network/account"
+  - "@xyo-network/api"
+  - "@xyo-network/schema-cache"

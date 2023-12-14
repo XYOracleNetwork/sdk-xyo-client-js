@@ -32,7 +32,7 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.84.0",
+    "@xyo-network/id-payload-plugin": "^2.84.1",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/witnesses": "workspace:~",
     "typescript": "^5.3.3"

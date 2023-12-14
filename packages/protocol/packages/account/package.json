@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@scure/bip39": "^1.2.1",
+    "@scure/bip39": "^1.2.2",
     "@xylabs/array": "^2.13.20",
     "@xylabs/arraybuffer": "^2.13.20",
     "@xylabs/assert": "^2.13.20",

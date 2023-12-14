@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
-    "@xyo-network/address-payload-plugin": "^2.84.0",
+    "@xyo-network/address-payload-plugin": "^2.84.1",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-address-space-abstract": "workspace:~",

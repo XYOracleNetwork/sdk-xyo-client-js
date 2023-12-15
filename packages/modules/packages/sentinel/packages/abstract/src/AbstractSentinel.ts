@@ -39,6 +39,10 @@ export abstract class AbstractSentinel<
     return this.config.synchronous ?? false
   }
 
+  get throwErrors(): boolean {
+    return this.config.throwErrors ?? true
+  }
+
   protected override get _queryAccountPaths(): Record<SentinelQueryBase['schema'], string> {
     return {
       'network.xyo.query.sentinel.report': '1/1',
@@ -86,10 +90,13 @@ export abstract class AbstractSentinel<
     )
     while (tasks.length) {
       const previousTasks = job.tasks.length ? job.tasks[job.tasks.length - 1] : []
-      const newList =
+      const newListCandidates =
         //add all tasks that either require no previous input or have the previous input module already added
         tasks.filter((task) => {
           const input = task.input
+          if (input === undefined) {
+            return true
+          }
           if (typeof input === 'boolean') {
             return true
           }
@@ -102,6 +109,21 @@ export abstract class AbstractSentinel<
             )
           }
         })
+      //remove any tasks that have inputs that are in the current list or the remaining tasks
+      const newList = newListCandidates.filter((taskCandidate) => {
+        const input = taskCandidate.input
+        if (Array.isArray(input)) {
+          if (
+            tasks.find(
+              (remainingTask) =>
+                input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
+            )
+          ) {
+            return false
+          }
+        }
+        return true
+      })
       assertEx(newList.length > 0, `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)
       //remove the tasks we just added

@@ -11,6 +11,7 @@ export type SentinelConfig<TConfig extends Payload | void = void> = ModuleConfig
   {
     synchronous?: boolean
     tasks: Task[]
+    throwErrors?: boolean
   },
   TConfig extends Payload ? TConfig['schema'] : SentinelConfigSchema
 >

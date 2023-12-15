@@ -1,5 +1,5 @@
 import { Address } from '@xylabs/hex'
-import { fulfilled } from '@xylabs/promise'
+import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -63,10 +63,12 @@ export class MemorySentinel<
       finalResult[address] = finalResult[address] ?? []
       finalResult[address].push(...payloads)
     })
-    /*const errors = results.filter(rejected).map((result) => result.reason)
-    if (errors.length > 0) {
-      throw Error('At least one module failed')
-    }*/
+    if (this.throwErrors) {
+      const errors = results.filter(rejected).map((result) => result.reason)
+      if (errors.length > 0) {
+        throw Error('At least one module failed')
+      }
+    }
     return finalResult
   }
 

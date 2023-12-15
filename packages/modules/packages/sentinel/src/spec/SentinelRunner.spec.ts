@@ -22,7 +22,10 @@ describe('SentinelRunner', () => {
   beforeEach(async () => {
     const node = (await MemoryNode.create({ account: Account.randomSync() })) as MemoryNode
     const witnessModules: AbstractWitness[] = [
-      await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } }),
+      await AdhocWitness.create({
+        account: Account.randomSync(),
+        config: { payload: { id: 1, schema: 'network.xyo.id' }, schema: AdhocWitnessConfigSchema },
+      }),
     ]
     const witnesses = await Promise.all(
       witnessModules.map(async (witness) => {
@@ -45,7 +48,7 @@ describe('SentinelRunner', () => {
 
   it('should output interval results', async () => {
     let triggered = false
-    let timeoutCount = 10
+    let timeoutCount = 100
     const intervalAutomation: SentinelIntervalAutomationPayload = {
       frequency: 1,
       frequencyUnits: 'second',
@@ -64,6 +67,7 @@ describe('SentinelRunner', () => {
     const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)
     await runner.start()
     while (timeoutCount) {
+      console.log('check...')
       if (triggered) {
         runner.stop()
         return

@@ -2454,93 +2454,93 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-android-arm-eabi@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-android-arm-eabi@npm:4.8.0"
+"@rollup/rollup-android-arm-eabi@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-android-arm-eabi@npm:4.9.0"
   conditions: os=android & cpu=arm
   languageName: node
   linkType: hard
 
-"@rollup/rollup-android-arm64@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-android-arm64@npm:4.8.0"
+"@rollup/rollup-android-arm64@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-android-arm64@npm:4.9.0"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-arm64@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-darwin-arm64@npm:4.8.0"
+"@rollup/rollup-darwin-arm64@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-darwin-arm64@npm:4.9.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-x64@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-darwin-x64@npm:4.8.0"
+"@rollup/rollup-darwin-x64@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-darwin-x64@npm:4.9.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm-gnueabihf@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-arm-gnueabihf@npm:4.8.0"
+"@rollup/rollup-linux-arm-gnueabihf@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-arm-gnueabihf@npm:4.9.0"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm64-gnu@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-arm64-gnu@npm:4.8.0"
+"@rollup/rollup-linux-arm64-gnu@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-arm64-gnu@npm:4.9.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm64-musl@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-arm64-musl@npm:4.8.0"
+"@rollup/rollup-linux-arm64-musl@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-arm64-musl@npm:4.9.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-riscv64-gnu@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-riscv64-gnu@npm:4.8.0"
+"@rollup/rollup-linux-riscv64-gnu@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-riscv64-gnu@npm:4.9.0"
   conditions: os=linux & cpu=riscv64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-gnu@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.8.0"
+"@rollup/rollup-linux-x64-gnu@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.9.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-musl@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-linux-x64-musl@npm:4.8.0"
+"@rollup/rollup-linux-x64-musl@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-linux-x64-musl@npm:4.9.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-arm64-msvc@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-win32-arm64-msvc@npm:4.8.0"
+"@rollup/rollup-win32-arm64-msvc@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-win32-arm64-msvc@npm:4.9.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-ia32-msvc@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-win32-ia32-msvc@npm:4.8.0"
+"@rollup/rollup-win32-ia32-msvc@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-win32-ia32-msvc@npm:4.9.0"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@rollup/rollup-win32-x64-msvc@npm:4.8.0":
-  version: 4.8.0
-  resolution: "@rollup/rollup-win32-x64-msvc@npm:4.8.0"
+"@rollup/rollup-win32-x64-msvc@npm:4.9.0":
+  version: 4.9.0
+  resolution: "@rollup/rollup-win32-x64-msvc@npm:4.9.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3886,13 +3886,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/address-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/address-payload-plugin@npm:2.84.1"
+"@xyo-network/address-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/address-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: f71e9a7938bc66b00384ff4e60a1946fa6d155baf558a2fea38c4ce282aec1a3789fc0cbdf2bbd23477f9936d3cc7bf4e05845834a2de4cd6803c2df33c9fc54
+  checksum: 603d48c8e9c7492b4b0814a45b535ec768ea94d1e1641208cb2027982f1063d205184a9b8253ff62c02264301a073c755948d606cceaed105848a4ebbe8cd47e
   languageName: node
   linkType: hard
 
@@ -3925,14 +3925,14 @@ __metadata:
     "@xylabs/jest-helpers": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/query-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/query-payload-plugin": "npm:^2.84.2"
     jest: "npm:^29.7.0"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
@@ -3973,7 +3973,7 @@ __metadata:
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/id-payload-plugin": "npm:^2.84.2"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -4032,7 +4032,7 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/id-payload-plugin": "npm:^2.84.2"
     "@xyo-network/memory-archivist": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -4188,7 +4188,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -4243,14 +4243,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/config-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/config-payload-plugin@npm:2.84.1"
+"@xyo-network/config-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/config-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/object": "npm:^2.84.3"
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: 1aacb57e493e9bbcc4c16da5a3579177f0b58c0ea310c369678b897f2d9f257fd45d20ebd83d96888f33f4ea89bb0afc832934d00f5a5afa16e6d4bc78f6c727
+  checksum: b692c4c8fcd79c27611b96bc9d4822f40b62cae94b8849030bfe4858e154ade25521b57262dc0e3db7e0cbd8b800e787484fc076b908d7132973ecc3e0fc77ac
   languageName: node
   linkType: hard
 
@@ -4403,7 +4403,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
@@ -4740,7 +4740,7 @@ __metadata:
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    json-joy: "npm:^11.21.1"
+    json-joy: "npm:^11.22.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -4753,7 +4753,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    json-joy: "npm:^11.21.1"
+    json-joy: "npm:^11.22.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5272,7 +5272,7 @@ __metadata:
     "@xyo-network/diviner-transform-abstract": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/value-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/value-payload-plugin": "npm:^2.84.2"
     jsonpath: "npm:^1.1.1"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5286,7 +5286,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/value-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/value-payload-plugin": "npm:^2.84.2"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5353,9 +5353,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/domain-payload-plugin@npm:2.84.1"
+"@xyo-network/domain-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/domain-payload-plugin@npm:2.84.2"
   dependencies:
     "@xylabs/axios": "npm:^2.13.20"
     "@xylabs/lodash": "npm:^2.13.20"
@@ -5368,7 +5368,7 @@ __metadata:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
     "@xyo-network/payload-wrapper": "npm:^2.84.3"
-  checksum: 0b37690804883dc402c67df204e418b72c53640be30eba648bdc231049c23823ba68e144737e0aa4ea1d6df7866bc95bc6ed71ac00dc1c42a70868549c7be3c5
+  checksum: 9eac8a6881b0cf4d04d9bcd096373fb6572bffd0714a20b21cbc681c13656f378f7c283bba1d291c12ac4adebb1328347224138127b4f2595294bab2ec8d5bbb
   languageName: node
   linkType: hard
 
@@ -5450,7 +5450,7 @@ __metadata:
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/config-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/config-payload-plugin": "npm:^2.84.2"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
@@ -5458,7 +5458,7 @@ __metadata:
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
-    "@xyo-network/query-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/query-payload-plugin": "npm:^2.84.2"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
     url-parse: "npm:^1.5.10"
@@ -5481,13 +5481,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/id-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/id-payload-plugin@npm:2.84.1"
+"@xyo-network/id-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/id-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: 3e66b876da3322e538226ad17b818ed586aa8db37a54afcd063c14a450ed7ad28a8df7e14592d81a790781785272e8d470833365ed32efe904fb878d3b684d60
+  checksum: ecf81fd0e08deea85decb5a753d16bcd32d758636e9f5b180f4c75acf43387655b2c8f045de786b42a7d6d3fe59888de1ddc8f86015984092223c38bf95584f1
   languageName: node
   linkType: hard
 
@@ -5532,7 +5532,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/memory-archivist": "workspace:~"
@@ -5595,11 +5595,11 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/config-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/config-payload-plugin": "npm:^2.84.2"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
@@ -5608,7 +5608,7 @@ __metadata:
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/query-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/query-payload-plugin": "npm:^2.84.2"
     "@xyo-network/wallet-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5643,7 +5643,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
@@ -5757,7 +5757,7 @@ __metadata:
     "@xylabs/promise": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
@@ -5811,7 +5811,7 @@ __metadata:
     "@xylabs/promise": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig": "npm:^3.2.19"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
@@ -5830,7 +5830,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.19"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/address-payload-plugin": "npm:^2.84.2"
     "@xyo-network/archivist": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner": "workspace:~"
@@ -6074,13 +6074,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/query-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/query-payload-plugin@npm:2.84.1"
+"@xyo-network/query-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/query-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: c86cd8e13708ae1456c55d2166017e5ad700a9a78e1b85927cf3d0504d932a385542949433dfc478923513a77c086f5d39d3bd0cbcbc61f0fdb17d9af73542b2
+  checksum: e62a6c712c5eeaa96f76d1e55b0f7b5efb4cf296454411a210067e73cf6499e67215ea9073dda390787ed51967550b18925c4ef1bf6393fe6a38b69c3d51ce9b
   languageName: node
   linkType: hard
 
@@ -6094,12 +6094,12 @@ __metadata:
     "@xylabs/error": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
     "@xylabs/tsconfig-dom": "npm:^3.2.19"
-    "@xyo-network/domain-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/domain-payload-plugin": "npm:^2.84.2"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/schema-payload-plugin": "npm:^2.84.2"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
@@ -6117,13 +6117,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/schema-payload-plugin@npm:2.84.1"
+"@xyo-network/schema-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/schema-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: 89fc61e827d0fb1500aa5e066909cfcf506c10561ba9081add5ac5500e6c9f07056c5b4f2fc9f7baeee9f0fb7ca6d969f754abcca5bd13b88f077762458d6ddf
+  checksum: b2f33e911d9e95ad36eee3f88dcb30f38e797d529217112f65dbeb1bb9024c5fbfd3d92fe2b9016efc3913593699956887b86e4cef55670470a875f966051d7e
   languageName: node
   linkType: hard
 
@@ -6252,7 +6252,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/id-payload-plugin": "npm:^2.84.2"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
@@ -6287,13 +6287,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/value-payload-plugin@npm:^2.84.1":
-  version: 2.84.1
-  resolution: "@xyo-network/value-payload-plugin@npm:2.84.1"
+"@xyo-network/value-payload-plugin@npm:^2.84.2":
+  version: 2.84.2
+  resolution: "@xyo-network/value-payload-plugin@npm:2.84.2"
   dependencies:
     "@xyo-network/payload-model": "npm:^2.84.3"
     "@xyo-network/payload-plugin": "npm:^2.84.3"
-  checksum: 6295f319d41b7c89305c7b2839a61576fafd9dc54e833b22cbdd44212a4beba1cbc737dca07c0db492a71cbc08baeec4e8879877dfd8ba8dac513162510b3dbb
+  checksum: 38777ab27b1801e07c94f8582f72292e28127bdffaa78f1988816109fe805ff2aab7244b6ebf4410b748668d68fbb2d34d4ec34b51486cc2c92a488c57954f7e
   languageName: node
   linkType: hard
 
@@ -6362,7 +6362,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/value-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/value-payload-plugin": "npm:^2.84.2"
     "@xyo-network/witness-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -6464,7 +6464,7 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/config-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/config-payload-plugin": "npm:^2.84.2"
     "@xyo-network/manifest": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -6472,7 +6472,7 @@ __metadata:
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
-    "@xyo-network/query-payload-plugin": "npm:^2.84.1"
+    "@xyo-network/query-payload-plugin": "npm:^2.84.2"
     "@xyo-network/sentinel": "workspace:~"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
@@ -7513,9 +7513,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001565":
-  version: 1.0.30001568
-  resolution: "caniuse-lite@npm:1.0.30001568"
-  checksum: 27aa9697e8fccf61702962a3cc48ec2355940e94872e4f0dab108d8a88adb0250e5b96572bef08b90a67a8183d1c704448b2fc69d600d7b6405b3f74dc5dbcb6
+  version: 1.0.30001570
+  resolution: "caniuse-lite@npm:1.0.30001570"
+  checksum: a9b939e003dd70580cc18bce54627af84f298af7c774415c8d6c99871e7cee13bd8278b67955a979cd338369c73e8821a10b37e607d1fff2fbc8ff92fc489653
   languageName: node
   linkType: hard
 
@@ -8506,9 +8506,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.601":
-  version: 1.4.611
-  resolution: "electron-to-chromium@npm:1.4.611"
-  checksum: fb19491f64fe6ae9fe232129de66f6be2d9d4d0c052a3285ece1d95c8a4fa63b953d2fb659982d93824c3fc5dc34b15be46cd276ec82bd6c9cd16ceab41c161d
+  version: 1.4.614
+  resolution: "electron-to-chromium@npm:1.4.614"
+  checksum: 863831b7210f1b1e50a97d210993096b0e8f3b1e9d25bb08b665224f59da75fab0892070cb611f3cecd5782f415254c2b0e5c1c8f3ffb2143a452eeb87613ef2
   languageName: node
   linkType: hard
 
@@ -11985,9 +11985,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-joy@npm:^11.21.1":
-  version: 11.21.1
-  resolution: "json-joy@npm:11.21.1"
+"json-joy@npm:^11.22.0":
+  version: 11.22.0
+  resolution: "json-joy@npm:11.22.0"
   dependencies:
     arg: "npm:^5.0.2"
     hyperdyperid: "npm:^1.2.0"
@@ -12005,7 +12005,7 @@ __metadata:
     json-pointer: bin/json-pointer.js
     json-pointer-test: bin/json-pointer-test.js
     json-unpack: bin/json-unpack.js
-  checksum: f5f54079ff809a417ee7fadf3f8c45a52f50b26090dc3c8d28ed2bc5db1c1998a262c0d562bbc344d03702d58c046b77b9c7c1e0862c335010943c6c91dd2fd9
+  checksum: 3132b9b55b21965180558b0e59ec02decbf54fd9b9203f30159e5f07eb97781ab3c41f7c6f12f2959f45314b83a09623d571bbd1b06cc5d08c1149e1dc0d9154
   languageName: node
   linkType: hard
 
@@ -13611,8 +13611,8 @@ __metadata:
   linkType: hard
 
 "npm-check-updates@npm:^16.14.11":
-  version: 16.14.11
-  resolution: "npm-check-updates@npm:16.14.11"
+  version: 16.14.12
+  resolution: "npm-check-updates@npm:16.14.12"
   dependencies:
     chalk: "npm:^5.3.0"
     cli-table3: "npm:^0.6.3"
@@ -13649,7 +13649,7 @@ __metadata:
   bin:
     ncu: build/src/bin/cli.js
     npm-check-updates: build/src/bin/cli.js
-  checksum: 0d7641fa59a3c848703d42ae3032b4e1e917218f96ed6790d486dfed812a978ccc9719b897dfccfd8d67402c17b5b6da7ba111c1ca2795d9d2cd74bee9b0561a
+  checksum: ac2f6d8e431d256c69524bc0428c0a0e4fba4268c84721de4079d19a8aa97a85e552e7fa57775da230a2008ca25c9e8bb15933632ed5fa7a869d817481199e45
   languageName: node
   linkType: hard
 
@@ -14870,7 +14870,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:*, reflect-metadata@npm:^0.1.14":
+"reflect-metadata@npm:*":
+  version: 0.2.1
+  resolution: "reflect-metadata@npm:0.2.1"
+  checksum: 394b293bd4a538b644ed0e8730c5aeb1e08e78972c915b3d2cf3b302241952cfee8f8bd8a0fdf7d8c7fa78d31d0585489061624692e2577d767abd120cad968c
+  languageName: node
+  linkType: hard
+
+"reflect-metadata@npm:^0.1.14":
   version: 0.1.14
   resolution: "reflect-metadata@npm:0.1.14"
   checksum: fcab9c17ec3b9fea0e2f748c2129aceb57c24af6d8d13842b8a77c8c79dde727d7456ce293e76e8d7b267d1dbf93eea4c5b3c9101299a789a075824f2e40f1ee
@@ -16556,22 +16563,22 @@ __metadata:
   linkType: hard
 
 "rollup@npm:^4.0.2, rollup@npm:^4.8.0":
-  version: 4.8.0
-  resolution: "rollup@npm:4.8.0"
+  version: 4.9.0
+  resolution: "rollup@npm:4.9.0"
   dependencies:
-    "@rollup/rollup-android-arm-eabi": "npm:4.8.0"
-    "@rollup/rollup-android-arm64": "npm:4.8.0"
-    "@rollup/rollup-darwin-arm64": "npm:4.8.0"
-    "@rollup/rollup-darwin-x64": "npm:4.8.0"
-    "@rollup/rollup-linux-arm-gnueabihf": "npm:4.8.0"
-    "@rollup/rollup-linux-arm64-gnu": "npm:4.8.0"
-    "@rollup/rollup-linux-arm64-musl": "npm:4.8.0"
-    "@rollup/rollup-linux-riscv64-gnu": "npm:4.8.0"
-    "@rollup/rollup-linux-x64-gnu": "npm:4.8.0"
-    "@rollup/rollup-linux-x64-musl": "npm:4.8.0"
-    "@rollup/rollup-win32-arm64-msvc": "npm:4.8.0"
-    "@rollup/rollup-win32-ia32-msvc": "npm:4.8.0"
-    "@rollup/rollup-win32-x64-msvc": "npm:4.8.0"
+    "@rollup/rollup-android-arm-eabi": "npm:4.9.0"
+    "@rollup/rollup-android-arm64": "npm:4.9.0"
+    "@rollup/rollup-darwin-arm64": "npm:4.9.0"
+    "@rollup/rollup-darwin-x64": "npm:4.9.0"
+    "@rollup/rollup-linux-arm-gnueabihf": "npm:4.9.0"
+    "@rollup/rollup-linux-arm64-gnu": "npm:4.9.0"
+    "@rollup/rollup-linux-arm64-musl": "npm:4.9.0"
+    "@rollup/rollup-linux-riscv64-gnu": "npm:4.9.0"
+    "@rollup/rollup-linux-x64-gnu": "npm:4.9.0"
+    "@rollup/rollup-linux-x64-musl": "npm:4.9.0"
+    "@rollup/rollup-win32-arm64-msvc": "npm:4.9.0"
+    "@rollup/rollup-win32-ia32-msvc": "npm:4.9.0"
+    "@rollup/rollup-win32-x64-msvc": "npm:4.9.0"
     fsevents: "npm:~2.3.2"
   dependenciesMeta:
     "@rollup/rollup-android-arm-eabi":
@@ -16604,7 +16611,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 650b025bf928a895a6e3e2894d7b0a34635cf8c8dfe0d000ff80a0a692f5178aca610681aa5032473396c7b9d04fa974a855b2a1033be15339816df0986589d9
+  checksum: f7d5681eefb6a70673dd139dacfa8b072ebd8b5ff7353fbab328a8dc784240eb079f8320a239a61eb8962f56dcf3069832f98d20dc2eaa72b72a56b8e1510c33
   languageName: node
   linkType: hard
 

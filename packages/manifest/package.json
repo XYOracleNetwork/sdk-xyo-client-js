@@ -25,7 +25,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.19",
     "@xylabs/tsconfig": "^3.2.19",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.84.1",
+    "@xyo-network/address-payload-plugin": "^2.84.2",
     "typescript": "^5.3.3"
   },
   "docs": "dist/docs.json",

@@ -21,7 +21,7 @@
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "^2.84.1",
+    "@xyo-network/config-payload-plugin": "^2.84.2",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -29,7 +29,7 @@
     "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "@xyo-network/query-payload-plugin": "^2.84.1",
+    "@xyo-network/query-payload-plugin": "^2.84.2",
     "@xyo-network/sentinel": "workspace:~",
     "lru-cache": "^10.1.0"
   },

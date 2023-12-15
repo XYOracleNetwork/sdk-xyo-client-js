@@ -1,11 +1,11 @@
-/* eslint-disable import/no-internal-modules */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
-import { applyPatch, Operation } from 'json-joy/lib/json-patch'
+// eslint-disable-next-line import/no-internal-modules
+import { applyPatch, Operation } from 'json-joy/es6/json-patch'
 
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,

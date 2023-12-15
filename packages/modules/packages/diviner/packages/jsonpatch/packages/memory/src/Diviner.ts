@@ -5,7 +5,7 @@ import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-netwo
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 // eslint-disable-next-line import/no-internal-modules
-import { applyPatch, Operation } from 'json-joy/es6/json-patch'
+import { applyPatch, Operation } from 'json-joy/lib/json-patch/index.js'
 
 export class JsonPatchDiviner<
   TParams extends JsonPatchDivinerParams = JsonPatchDivinerParams,
@@ -20,7 +20,6 @@ export class JsonPatchDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    // const patch = encode([new OpTest(['/foo'], 'bar', false), new OpReplace(['/foo'], 'baz', false)])
     const results = payloads
       ?.map((payload) => {
         try {

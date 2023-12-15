@@ -7,12 +7,9 @@ import { PrivateKey } from './PrivateKey'
 import { WASMPrivateKey } from './WASMPrivateKey'
 import { WASMPublicKey } from './WASMPublicKey'
 
-const wasmSupportStatic = new WasmSupport([...WASMPrivateKey.wasmFeatures, ...WASMPublicKey.wasmFeatures].filter(distinct))
-
 @staticImplements<KeyPairStatic>()
 export class KeyPair implements KeyPairInstance {
-  static readonly wasmInitialized = wasmSupportStatic.initialize()
-  static readonly wasmSupport = wasmSupportStatic
+  private static _wasmSupport = new WasmSupport([...WASMPrivateKey.wasmFeatures, ...WASMPublicKey.wasmFeatures].filter(distinct))
 
   private _isXyoKeyPair = true
   private _private?: PrivateKeyInstance
@@ -22,7 +19,7 @@ export class KeyPair implements KeyPairInstance {
   }
 
   private static get PrivateKeyKind() {
-    return KeyPair.wasmSupport.canUseWasm ? WASMPrivateKey : PrivateKey
+    return this._wasmSupport.canUseWasm ? WASMPrivateKey : PrivateKey
   }
 
   get private(): PrivateKeyInstance {
@@ -36,5 +33,12 @@ export class KeyPair implements KeyPairInstance {
 
   static isXyoKeyPair(value: unknown) {
     return (value as KeyPair)._isXyoKeyPair
+  }
+
+  static async wasmInitialized() {
+    if (!this._wasmSupport.isInitialized) {
+      await this._wasmSupport.initialize()
+    }
+    return this._wasmSupport.isInitialized
   }
 }

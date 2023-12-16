@@ -89,9 +89,13 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static async toMap<T extends EmptyObject>(objs: T[]): Promise<Record<Hash, T>> {
-    const result: Record<string, T> = {}
-    await Promise.all(objs.map(async (obj) => (result[await PayloadHasher.hashAsync(obj)] = obj)))
-    return result
+    return Object.fromEntries(
+      await Promise.all(
+        objs.map(async (obj) => {
+          return [await PayloadHasher.hashAsync(obj), obj]
+        }),
+      ),
+    )
   }
 
   async hashAsync(): Promise<Hash> {

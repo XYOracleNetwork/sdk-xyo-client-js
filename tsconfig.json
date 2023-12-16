@@ -6,9 +6,6 @@
   },
   "exclude": ["./node_modules", "./**/node_modules", "./dist", "./**/dist", "./**/docs", ".*"],
   "extends": "@xylabs/tsconfig",
-  "include": [
-    "./src", "./**/src"
-  ],
   "ts-node": {
     "compilerOptions": {
       "module": "ESNext"

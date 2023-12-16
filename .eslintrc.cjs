@@ -1,7 +1,10 @@
 const finalConfig = {
-  "extends": ["@xylabs"],
+  env: {
+    es2024: true
+  },
+  'extends': ['@xylabs'],
   parser: '@typescript-eslint/parser',
-  parserOptions: { ecmaVersion: 'latest', project: null, tsconfigRootDir: __dirname, extraFileExtensions: ['json'] },
+  parserOptions: { ecmaVersion: 'latest', project: null, sourceType: 'module', tsconfigRootDir: null },
   "root": true,
   "ignorePatterns": [
     "dist",

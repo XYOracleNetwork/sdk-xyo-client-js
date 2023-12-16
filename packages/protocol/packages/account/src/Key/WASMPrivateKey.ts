@@ -1,5 +1,4 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
-import { assertEx } from '@xylabs/assert'
 import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'

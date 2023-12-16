@@ -26,8 +26,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/delay": "^2.13.20",
-    "@xylabs/ts-scripts-yarn3": "^3.2.19",
-    "@xylabs/tsconfig": "^3.2.19",
+    "@xylabs/ts-scripts-yarn3": "^3.2.22",
+    "@xylabs/tsconfig": "^3.2.22",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

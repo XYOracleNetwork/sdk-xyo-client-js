@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { Account } from '@xyo-network/account'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

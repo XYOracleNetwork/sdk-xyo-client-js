@@ -25,8 +25,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.19",
-    "@xylabs/tsconfig": "^3.2.19",
+    "@xylabs/ts-scripts-yarn3": "^3.2.22",
+    "@xylabs/tsconfig": "^3.2.22",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "typescript": "^5.3.3"

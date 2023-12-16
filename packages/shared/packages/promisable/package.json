@@ -39,8 +39,8 @@
   "types": "dist/node/index.d.mts",
   "type": "module",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.19",
-    "@xylabs/tsconfig": "^3.2.19",
+    "@xylabs/ts-scripts-yarn3": "^3.2.22",
+    "@xylabs/tsconfig": "^3.2.22",
     "typescript": "^5.3.3"
   },
   "homepage": "https://xyo.network",

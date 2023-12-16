@@ -4906,7 +4906,7 @@ __metadata:
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/node-wrapper": "workspace:~"
     "@xyo-network/payload": "workspace:~"
-    "@xyo-network/witnesses": "workspace:~"
+    "@xyo-network/witness-adhoc": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

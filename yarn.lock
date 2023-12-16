@@ -4794,6 +4794,7 @@ __metadata:
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/sentinel": "workspace:~"
     "@xyo-network/witness": "workspace:~"
+    "@xyo-network/witness-adhoc": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5319,8 +5320,8 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/sentinel-abstract": "workspace:~"
     "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/witness-adhoc": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
-    "@xyo-network/witnesses": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5379,7 +5380,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witness-adhoc@workspace:packages/modules/packages/witness/packages/adhoc":
+"@xyo-network/witness-adhoc@workspace:packages/modules/packages/witness/packages/adhoc, @xyo-network/witness-adhoc@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-adhoc@workspace:packages/modules/packages/witness/packages/adhoc"
   dependencies:

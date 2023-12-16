@@ -2890,7 +2890,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract, @xyo-network/abstract-witness@workspace:~":
+"@xyo-network/abstract-witness@workspace:^, @xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract, @xyo-network/abstract-witness@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract"
   dependencies:
@@ -2923,7 +2923,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/account@workspace:packages/protocol/packages/account, @xyo-network/account@workspace:~":
+"@xyo-network/account@workspace:^, @xyo-network/account@workspace:packages/protocol/packages/account, @xyo-network/account@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
   dependencies:
@@ -4695,7 +4695,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/module-model@workspace:packages/modules/packages/module/packages/model, @xyo-network/module-model@workspace:~":
+"@xyo-network/module-model@workspace:^, @xyo-network/module-model@workspace:packages/modules/packages/module/packages/model, @xyo-network/module-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-model@workspace:packages/modules/packages/module/packages/model"
   dependencies:
@@ -4735,7 +4735,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper, @xyo-network/module-wrapper@workspace:~":
+"@xyo-network/module-wrapper@workspace:^, @xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper, @xyo-network/module-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
   dependencies:
@@ -4935,7 +4935,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder, @xyo-network/payload-builder@workspace:~":
+"@xyo-network/payload-builder@workspace:^, @xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder, @xyo-network/payload-builder@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-builder@workspace:packages/protocol/packages/payload/packages/builder"
   dependencies:
@@ -4949,7 +4949,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-model@npm:^2.84.3, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model, @xyo-network/payload-model@workspace:~":
+"@xyo-network/payload-model@npm:^2.84.3, @xyo-network/payload-model@workspace:^, @xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model, @xyo-network/payload-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-model@workspace:packages/protocol/packages/payload/packages/model"
   dependencies:
@@ -5383,9 +5383,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-adhoc@workspace:packages/modules/packages/witness/packages/adhoc"
   dependencies:
+    "@xylabs/promise": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.24"
     "@xylabs/tsconfig": "npm:^3.2.24"
-    "@xyo-network/witness-blockchain-abstract": "workspace:~"
+    "@xyo-network/abstract-witness": "workspace:^"
+    "@xyo-network/account": "workspace:^"
+    "@xyo-network/module-model": "workspace:^"
+    "@xyo-network/module-wrapper": "workspace:^"
+    "@xyo-network/payload-builder": "workspace:^"
+    "@xyo-network/payload-model": "workspace:^"
+    "@xyo-network/witness-model": "workspace:^"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5438,7 +5445,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model, @xyo-network/witness-model@workspace:~":
+"@xyo-network/witness-model@workspace:^, @xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model, @xyo-network/witness-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-model@workspace:packages/modules/packages/witness/packages/model"
   dependencies:

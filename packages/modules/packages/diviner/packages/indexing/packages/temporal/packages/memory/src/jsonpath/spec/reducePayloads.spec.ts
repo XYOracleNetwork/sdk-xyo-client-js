@@ -79,7 +79,7 @@ describe('transformPayloads', () => {
     // Arrange
     const transforms = jsonPathToTransformersDictionary(schemaTransforms)
     const destinationSchema = output.schema
-    const sources = Object.keys(await PayloadHasher.toMap(inputs))
+    const sources = await PayloadHasher.hashes(inputs)
     const expected = { sources, ...output }
 
     // Act

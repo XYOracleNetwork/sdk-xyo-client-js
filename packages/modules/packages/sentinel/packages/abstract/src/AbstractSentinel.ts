@@ -88,8 +88,8 @@ export abstract class AbstractSentinel<
         module: assertEx(await this.resolve(task.module), `Unable to resolve task module [${task.module}]`),
       })),
     )
-    while (tasks.length) {
-      const previousTasks = job.tasks.length ? job.tasks[job.tasks.length - 1] : []
+    while (tasks.length > 0) {
+      const previousTasks = job.tasks.at(-1) ?? []
       const newListCandidates =
         //add all tasks that either require no previous input or have the previous input module already added
         tasks.filter((task) => {
@@ -112,15 +112,14 @@ export abstract class AbstractSentinel<
       //remove any tasks that have inputs that are in the current list or the remaining tasks
       const newList = newListCandidates.filter((taskCandidate) => {
         const input = taskCandidate.input
-        if (Array.isArray(input)) {
-          if (
-            tasks.find(
-              (remainingTask) =>
-                input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
-            )
-          ) {
-            return false
-          }
+        if (
+          Array.isArray(input) &&
+          tasks.some(
+            (remainingTask) =>
+              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
+          )
+        ) {
+          return false
         }
         return true
       })

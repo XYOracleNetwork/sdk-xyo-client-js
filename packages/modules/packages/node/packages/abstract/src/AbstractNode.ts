@@ -199,8 +199,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         }
         break
       }
-      default:
+      default: {
         return await super.queryHandler(query, payloads)
+      }
     }
     return resultPayloads
   }

@@ -78,7 +78,7 @@ export class HDWallet extends Account implements WalletInstance {
 
   static override async create(_opts?: AccountConfig): Promise<WalletInstance> {
     await Promise.resolve()
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   static async createFromNode(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {

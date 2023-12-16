@@ -3,11 +3,12 @@ import { getFunctionName } from '../Logger'
 
 describe('Logger', () => {
   test('getFunctionName:function', () => {
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const test = () => {
       return getFunctionName()
     }
-    const funcName = test()
-    expect(funcName).toBe('test')
+    const functionName = test()
+    expect(functionName).toBe('test')
   })
   test('getFunctionName:constructor', () => {
     class Foo {

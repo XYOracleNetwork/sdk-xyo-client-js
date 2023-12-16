@@ -49,7 +49,7 @@ export abstract class AbstractBlockchainWitness<
     const providers = await this.getProviders(cache)
     if (providers.length === 0) {
       if (error) {
-        throw Error(typeof error === 'string' ? error : 'No providers available')
+        throw new Error(typeof error === 'string' ? error : 'No providers available')
       }
       return undefined
     }

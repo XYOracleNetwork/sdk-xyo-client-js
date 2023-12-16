@@ -1,5 +1,5 @@
 /** @deprecated use @xylabs/hex instead */
-const hexRegex = /[0-9a-f]+/i
+const hexRegex = /[\da-f]+/i
 
 /** @deprecated use @xylabs/hex instead */
 export type Hex = string

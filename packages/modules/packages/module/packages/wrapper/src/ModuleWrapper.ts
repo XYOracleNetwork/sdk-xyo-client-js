@@ -125,7 +125,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     if (instance) {
       return instance.downResolver as ModuleResolver
     }
-    throw Error('Unsupported')
+    throw new Error('Unsupported')
   }
 
   get module() {
@@ -142,7 +142,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     if (instance) {
       return instance.upResolver as ModuleResolver
     }
-    throw Error('Unsupported')
+    throw new Error('Unsupported')
   }
 
   static canWrap(module?: Module) {
@@ -165,7 +165,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     const moduleQueries = module.queries
     return compact(
       this.requiredQueries.map((query) => {
-        return moduleQueries.find((item) => item === query) ? null : query
+        return moduleQueries.includes(query) ? null : query
       }),
     )
   }
@@ -255,7 +255,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
-    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth !== undefined ? { maxDepth } : {}) }
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
   }
 
@@ -306,11 +306,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance[]>
   resolve(nameOrAddress: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance | undefined>
   resolve(nameOrAddressOrFilter?: string | ModuleFilter, _options?: unknown): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
-    if (typeof nameOrAddressOrFilter === 'string') {
-      return undefined
-    } else {
-      return []
-    }
+    return typeof nameOrAddressOrFilter === 'string' ? undefined : []
   }
 
   protected bindQuery<T extends Query>(

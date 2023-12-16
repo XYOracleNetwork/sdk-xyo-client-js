@@ -54,19 +54,19 @@ export class MemorySentinel<
         if (diviner) {
           return [diviner.address, await diviner.divine(inPayloadsFound)]
         }
-        throw Error('Unsupported module type')
+        throw new Error('Unsupported module type')
       }),
     )
     const finalResult: Record<Address, Payload[]> = {}
-    results.filter(fulfilled).forEach((result) => {
+    for (const result of results.filter(fulfilled)) {
       const [address, payloads] = result.value
       finalResult[address] = finalResult[address] ?? []
       finalResult[address].push(...payloads)
-    })
+    }
     if (this.throwErrors) {
       const errors = results.filter(rejected).map((result) => result.reason)
       if (errors.length > 0) {
-        throw Error('At least one module failed')
+        throw new Error('At least one module failed')
       }
     }
     return finalResult
@@ -82,6 +82,6 @@ export class MemorySentinel<
   }
 
   private processPreviousResults(payloads: Record<string, Payload[]>, inputs: string[]) {
-    return inputs.map((input) => payloads[input] ?? []).flat()
+    return inputs.flatMap((input) => payloads[input] ?? [])
   }
 }

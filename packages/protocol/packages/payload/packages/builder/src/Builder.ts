@@ -39,11 +39,7 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
       const $hash = await PayloadHasher.hashAsync(hashableFields)
       hashableFields = { ...hashableFields, $hash, $meta: this._$meta }
     }
-    if (withExternalMeta) {
-      return { ...hashableFields, ...this.externalMeta }
-    } else {
-      return hashableFields
-    }
+    return withExternalMeta ? { ...hashableFields, ...this.externalMeta } : hashableFields
   }
 
   fields(fields?: Partial<T>) {

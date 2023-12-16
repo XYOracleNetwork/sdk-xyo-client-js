@@ -87,11 +87,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   errors(errors?: (ModuleError | null)[]) {
-    errors?.forEach((error) => {
+    for (const error of errors ?? []) {
       if (error !== null) {
         this.error(error)
       }
-    })
+    }
     return this
   }
 
@@ -112,9 +112,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
 
     assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
 
-    assertEx(!result.payload_hashes.reduce((inValid, hash) => inValid || !hash, false), 'nulls found in hashes')
+    assertEx(!result.payload_hashes.some((hash) => !hash), () => 'nulls found in hashes')
 
-    assertEx(!result.payload_schemas.reduce((inValid, schema) => inValid || !schema, false), 'nulls found in schemas')
+    assertEx(!result.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
 
     if (this.config.timestamp ?? true) {
       result.timestamp = this._timestamp
@@ -144,11 +144,12 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   payloads(payloads?: (TPayload | null)[]) {
-    payloads?.forEach((payload) => {
-      if (payload !== null) {
-        this.payload(payload)
+    if (payloads)
+      for (const payload of payloads) {
+        if (payload !== null) {
+          this.payload(payload)
+        }
       }
-    })
     return this
   }
 

@@ -2,7 +2,7 @@ import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import type { Mnemonic } from 'ethers'
 
-export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
+export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
 
 export interface PhraseInitializationConfig {
   phrase: string

@@ -25,7 +25,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
         return wrapper
       }
     }
-    throw Error(`Unable to parse [${typeof obj}]`)
+    throw new Error(`Unable to parse [${typeof obj}]`)
   }
 
   async getQuery(): Promise<T> {

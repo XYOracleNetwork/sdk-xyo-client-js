@@ -90,7 +90,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
         const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
         //notify parents of child modules
         //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-        parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
+        for (const node of parentNodes) for (const child of children) node.emit('moduleAttached', { module: child })
         // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
         return true
       } else {
@@ -130,7 +130,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     if (this._rootAddress) {
       return this._rootAddress
     }
-    throw Error('rootAddress not set')
+    throw new Error('rootAddress not set')
   }
 
   moduleUrl(address: string) {
@@ -143,7 +143,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
 
   async targetDiscover(address?: string, maxDepth = 2): Promise<Payload[]> {
     if (!this.connected) {
-      throw Error('Not connected')
+      throw new Error('Not connected')
     }
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root ')
@@ -193,14 +193,14 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
 
   targetQueries(address: string): string[] {
     if (!this.connected) {
-      throw Error('Not connected')
+      throw new Error('Not connected')
     }
     return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     if (!this.connected) {
-      throw Error('Not connected')
+      throw new Error('Not connected')
     }
     await this.started('throw')
     try {

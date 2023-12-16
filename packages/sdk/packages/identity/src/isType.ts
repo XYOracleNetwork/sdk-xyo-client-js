@@ -9,13 +9,17 @@ export type ObjectTypeShape = Record<string | number | symbol, FieldType>
 /** @deprecated use from @xyo-network/object instead */
 export const isType = (value: unknown, expectedType: FieldType) => {
   switch (expectedType) {
-    case 'array':
+    case 'array': {
       return Array.isArray(value)
-    case 'null':
+    }
+    case 'null': {
       return value === null
-    case 'undefined':
+    }
+    case 'undefined': {
       return value === undefined
-    default:
+    }
+    default: {
       return typeof value === expectedType
+    }
   }
 }

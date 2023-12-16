@@ -3,12 +3,12 @@ import { delay } from '@xylabs/delay'
 export class Debounce<TKey = string> {
   private map = new Map<TKey, number>()
 
-  async one<T>(key: TKey, closure: () => Promise<T>, timeout = 10000) {
+  async one<T>(key: TKey, closure: () => Promise<T>, timeout = 10_000) {
     const startTime = Date.now()
     while (this.map.get(key)) {
       await delay(100)
       if (Date.now() - startTime > timeout) {
-        throw Error(`Debounce timed out [${key}]`)
+        throw new Error(`Debounce timed out [${key}]`)
       }
     }
     try {

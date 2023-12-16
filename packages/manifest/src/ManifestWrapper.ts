@@ -42,8 +42,8 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<void> {
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
-      const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length !== 0 : false
-      return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length !== 0
+      const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length > 0 : false
+      return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length > 0
     }
 
     const creatableModules = assignCreatableModuleRegistry(
@@ -51,14 +51,12 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       toCreatableModuleRegistry(standardCreatableModules),
       toCreatableModuleRegistry(additionalCreatableModules ?? {}),
     )
-    if (!(await collision(node, manifest.config.name, external))) {
-      if (manifest.config.language && manifest.config.language === 'javascript') {
-        assertEx(
-          (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
-            (await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external)),
-          `No module with config schema [${manifest.config.name}] registered`,
-        )
-      }
+    if (!(await collision(node, manifest.config.name, external)) && manifest.config.language && manifest.config.language === 'javascript') {
+      assertEx(
+        (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
+          (await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external)),
+        `No module with config schema [${manifest.config.name}] registered`,
+      )
     }
   }
 
@@ -97,9 +95,9 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       this.privateChildren.map(async (child) => {
         const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
         const subNodes = await wrapper.loadNodes(node)
-        subNodes.forEach((subNode) => {
+        for (const subNode of subNodes) {
           node.attach(subNode.address, false)
-        })
+        }
       }),
     )
 
@@ -107,9 +105,9 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       this.publicChildren.map(async (child) => {
         const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
         const subNodes = await wrapper.loadNodes(node)
-        subNodes.forEach((subNode) => {
+        for (const subNode of subNodes) {
           node.attach(subNode.address, true)
-        })
+        }
       }),
     )
 

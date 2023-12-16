@@ -10,7 +10,7 @@ describe('serializableField', () => {
   })
 
   it('number', () => {
-    expect(serializableField(23454)).toBeTrue()
+    expect(serializableField(23_454)).toBeTrue()
   })
 
   it('null', () => {
@@ -18,6 +18,7 @@ describe('serializableField', () => {
   })
 
   it('undefined', () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(serializableField(undefined)).toBeTrue()
   })
 

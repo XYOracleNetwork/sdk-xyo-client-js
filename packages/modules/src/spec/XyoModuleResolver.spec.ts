@@ -1,10 +1,9 @@
-/* eslint-disable import/no-internal-modules */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import { WitnessInstance, WitnessObserveQuerySchema } from '@xyo-network/witness-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 /**
  * @group module

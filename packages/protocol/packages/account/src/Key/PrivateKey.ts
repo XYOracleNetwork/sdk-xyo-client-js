@@ -22,7 +22,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
         this._keyPair = PrivateKey.ecContext.genKeyPair()
       } catch {
         //this catch is for the few browsers that do not have crypto random
-        this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999999999999).toString())
+        this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999_999_999_999).toString())
         console.warn('Account created without browser crypto')
       }
     }

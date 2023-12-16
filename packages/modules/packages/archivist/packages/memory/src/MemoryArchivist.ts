@@ -49,7 +49,7 @@ export class MemoryArchivist<
   }
 
   get max() {
-    return this.config?.max ?? 10000
+    return this.config?.max ?? 10_000
   }
 
   override get queries() {

@@ -25,9 +25,9 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
       payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
-    const huriList = huriPayloads
-      .map((huriPayload, index) => huriPayload.huri.map((huri) => new Huri(huri, { token: huriPayload.tokens?.[index] })))
-      .flat()
+    const huriList = huriPayloads.flatMap((huriPayload, index) =>
+      huriPayload.huri.map((huri) => new Huri(huri, { token: huriPayload.tokens?.[index] })),
+    )
 
     const settled = await Promise.allSettled(huriList.map((huri) => huri.fetch()))
     return compact(settled.filter(fulfilled).map((settle) => settle.value))

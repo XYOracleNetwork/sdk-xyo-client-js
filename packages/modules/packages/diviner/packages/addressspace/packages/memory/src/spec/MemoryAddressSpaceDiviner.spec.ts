@@ -47,9 +47,9 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.attach(diviner.address)
       const results = await diviner.divine()
       expect(results.length).toBe(2)
-      results.forEach((payload) => {
+      for (const payload of results) {
         expect(payload.schema).toBe(AddressSchema)
-      })
+      }
       const addresses = results
         .map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload))
         .map((payload) => payload.payload().address)

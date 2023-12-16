@@ -33,9 +33,9 @@ export class MetaMaskConnector {
 
     const accounts = await this.provider.send('eth_requestAccounts', [])
     // We could have multiple accounts. Check for one.
-    if (accounts.length !== 0) {
+    if (accounts.length > 0) {
       this.account = accounts[0]
-      console.log('Connected: ', this.account)
+      console.log('Connected:', this.account)
     } else {
       console.log('No authorized account found.')
     }
@@ -47,7 +47,7 @@ export class MetaMaskConnector {
 
   isWalletIsConnected = () => {
     if (this.currentAccount) {
-      console.log('Found an authorized account: ', this.ethereum?.selectedAddress)
+      console.log('Found an authorized account:', this.ethereum?.selectedAddress)
       return true
     }
     return false
@@ -85,7 +85,7 @@ export class MetaMaskConnector {
   }
 
   providerRemoveListeners() {
-    this.providerListeners.forEach(([event, listener]) => this.ethereum?.removeListener(event, listener))
+    for (const [event, listener] of this.providerListeners) this.ethereum?.removeListener(event, listener)
   }
 
   async requestAccounts(): Promise<string[] | null> {

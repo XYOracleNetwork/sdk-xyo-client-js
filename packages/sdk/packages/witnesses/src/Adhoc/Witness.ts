@@ -21,7 +21,7 @@ export type AdhocWitnessConfig = WitnessConfig<{
 export type AdhocWitnessParams = WitnessParams<AnyConfigSchema<AdhocWitnessConfig>>
 
 /** @deprecated use from @xyo-network/witness-adhoc instead */
-export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParams> extends AbstractWitness<TParams> implements WitnessModule {
+export class AdhocWitness<TParameters extends AdhocWitnessParams = AdhocWitnessParams> extends AbstractWitness<TParameters> implements WitnessModule {
   static override readonly configSchemas: string[] = [AdhocWitnessConfigSchema, WitnessConfigSchema]
 
   get payload() {
@@ -30,7 +30,7 @@ export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParam
 
   protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
     const configPayloads = this.payload ? [this.payload] : []
-    const inPayloads = payloads ? payloads : []
+    const inPayloads = payloads ?? []
     return [...configPayloads, ...inPayloads]
   }
 }

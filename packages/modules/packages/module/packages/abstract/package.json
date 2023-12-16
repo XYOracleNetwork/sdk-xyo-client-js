@@ -36,8 +36,8 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.22",
-    "@xylabs/tsconfig": "^3.2.22",
+    "@xylabs/ts-scripts-yarn3": "^3.2.24",
+    "@xylabs/tsconfig": "^3.2.24",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

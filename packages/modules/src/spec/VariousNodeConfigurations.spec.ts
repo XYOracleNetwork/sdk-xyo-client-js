@@ -5,8 +5,8 @@ import { DivinerInstance } from '@xyo-network/diviner'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import { WitnessInstance } from '@xyo-network/witness-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
 
 /**
  * @group module

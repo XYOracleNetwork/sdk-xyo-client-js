@@ -11,7 +11,7 @@ import { utils as baseUtils } from '@scure/base'
 export * from './wordlists'
 
 // Japanese wordlist
-const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304f\u3057\u3093'
+const isJapanese = (wordlist: string[]) => wordlist[0] === '\u3042\u3044\u3053\u304F\u3057\u3093'
 
 // Normalization replaces equivalent sequences of characters
 // so that any two texts that are equivalent will be reduced
@@ -58,9 +58,9 @@ const calcChecksum = (entropy: Uint8Array) => {
 function getCoder(wordlist: string[]) {
   if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
     throw new Error('Worlist: expected array of 2048 strings')
-  wordlist.forEach((i) => {
+  for (const i of wordlist) {
     if (typeof i !== 'string') throw new Error(`Wordlist: non-string element: ${i}`)
-  })
+  }
   return baseUtils.chain(baseUtils.checksum(1, calcChecksum), baseUtils.radix2(11, true), baseUtils.alphabet(wordlist))
 }
 
@@ -115,7 +115,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
     mnemonicToEntropy(mnemonic, wordlist)
-  } catch (e) {
+  } catch {
     return false
   }
   return true

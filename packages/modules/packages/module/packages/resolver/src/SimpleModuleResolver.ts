@@ -24,7 +24,7 @@ export class SimpleModuleResolver implements ModuleRepository {
   add(module: ModuleInstance[]): this
   add(module: ModuleInstance | ModuleInstance[]): this {
     if (Array.isArray(module)) {
-      module.forEach((module) => this.addSingleModule(module))
+      for (const mod of module) this.addSingleModule(mod)
     } else {
       this.addSingleModule(module)
     }
@@ -37,7 +37,7 @@ export class SimpleModuleResolver implements ModuleRepository {
 
   remove(address: string | string[]): this {
     if (Array.isArray(address)) {
-      address.forEach((address) => this.removeSingleModule(address))
+      for (const addr of address) this.removeSingleModule(addr)
     } else {
       this.removeSingleModule(address)
     }
@@ -87,13 +87,11 @@ export class SimpleModuleResolver implements ModuleRepository {
   }
 
   private removeSingleModule(address: string) {
-    if (address) {
-      if (this.modules[address]) {
-        delete this.modules[address]
-        const name = this.addressToName[address]
-        if (name) {
-          delete this.addressToName[address]
-        }
+    if (address && this.modules[address]) {
+      delete this.modules[address]
+      const name = this.addressToName[address]
+      if (name) {
+        delete this.addressToName[address]
       }
     }
   }
@@ -114,7 +112,7 @@ export class SimpleModuleResolver implements ModuleRepository {
 
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name?: string[]): T[] {
     if (name) {
-      return compact(name.map((name) => modules.filter((module) => module.config?.name === name)).flat()) as T[]
+      return compact(name.flatMap((name) => modules.filter((module) => module.config?.name === name))) as T[]
     }
     return modules as T[]
   }
@@ -127,6 +125,7 @@ export class SimpleModuleResolver implements ModuleRepository {
               (module) =>
                 query?.reduce((supported, queryList) => {
                   return (
+                    // eslint-disable-next-line unicorn/no-array-reduce
                     queryList.reduce((supported, query) => {
                       const queryable = module.queries.includes(query)
                       return supported && queryable

@@ -21,7 +21,7 @@ export class RangeDiviner<TParams extends RangeDivinerParams = RangeDivinerParam
 
   protected override divineHandler(ranges?: RangeDivinerQuery[]): NumberPayload[] {
     const result: NumberPayload[] = []
-    ranges?.filter(isRangeDivinerQuery).forEach((range) => {
+    for (const range of ranges?.filter(isRangeDivinerQuery) ?? []) {
       for (let i = 0; i < range.count; i++) {
         const payload: NumberPayload = {
           schema: NumberSchema,
@@ -29,7 +29,7 @@ export class RangeDiviner<TParams extends RangeDivinerParams = RangeDivinerParam
         }
         result.push(payload)
       }
-    })
+    }
     return result
   }
 }

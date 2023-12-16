@@ -34,8 +34,8 @@
   "devDependencies": {
     "@types/jsonpath": "^0.2.4",
     "@xylabs/delay": "^2.13.20",
-    "@xylabs/ts-scripts-yarn3": "^3.2.22",
-    "@xylabs/tsconfig": "^3.2.22",
+    "@xylabs/ts-scripts-yarn3": "^3.2.24",
+    "@xylabs/tsconfig": "^3.2.24",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",

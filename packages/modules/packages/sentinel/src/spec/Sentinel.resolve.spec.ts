@@ -5,7 +5,7 @@ import { MemoryArchivist } from '@xyo-network/archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 
@@ -19,7 +19,7 @@ describe('Sentinel', () => {
     const paramsA = {
       account: Account.randomSync(),
       config: {
-        payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
         schema: AdhocWitnessConfigSchema,
         targetSchema: PayloadSchema,
       },
@@ -27,7 +27,7 @@ describe('Sentinel', () => {
     const paramsB = {
       account: Account.randomSync(),
       config: {
-        payload: { nonce: Math.floor(Math.random() * 9999999), schema: 'network.xyo.test' },
+        payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
         schema: AdhocWitnessConfigSchema,
         targetSchema: PayloadSchema,
       },
@@ -64,7 +64,7 @@ describe('Sentinel', () => {
     await node.register(sentinel)
     await node.attach(sentinel.address)
     const result = await sentinel.report()
-    result.forEach((payload) => console.log(`Result: ${payload.schema}`))
+    for (const payload of result) console.log(`Result: ${payload.schema}`)
     expect(result?.length).toBe(3)
   })
 })

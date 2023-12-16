@@ -32,18 +32,16 @@ export class AxiosJson extends Axios {
       headers: this.buildHeaders(headers),
       transformRequest: (data, headers) => {
         const json = JSON.stringify(data)
-        if (headers && data) {
-          if (json.length > (compressLength ?? 1024)) {
-            headers['Content-Encoding'] = 'gzip'
-            return gzip(JSON.stringify(data)).buffer
-          }
+        if (headers && data && json.length > (compressLength ?? 1024)) {
+          headers['Content-Encoding'] = 'gzip'
+          return gzip(JSON.stringify(data)).buffer
         }
         return JSON.stringify(data)
       },
       transformResponse: (data) => {
         try {
           return JSON.parse(data)
-        } catch (ex) {
+        } catch {
           return null
         }
       },
@@ -53,7 +51,7 @@ export class AxiosJson extends Axios {
 
   private static buildHeaders(headers: RawAxiosJsonRequestConfig['headers']) {
     const axiosHeaders = new AxiosHeaders()
-    Object.entries(headers ?? {}).forEach(([key, value]) => axiosHeaders.set(key, value))
+    for (const [key, value] of Object.entries(headers ?? {})) axiosHeaders.set(key, value)
     axiosHeaders.set('Accept', 'application/json, text/plain, *.*')
     axiosHeaders.set('Content-Type', 'application/json')
     return axiosHeaders

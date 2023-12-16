@@ -3,6 +3,6 @@ export const formatWalletPath = (path: string) => {
     .trimStart()
     .trimEnd()
     .split('/')
-    .filter((p) => p)
+    .filter((p) => !!p)
     .join('/')
 }

@@ -40,7 +40,7 @@ export class MemoryForecastingDiviner<
   /**
    * The max number of records to search during the batch query
    */
-  protected readonly batchLimit = 1_000
+  protected readonly batchLimit = 1000
 
   // TODO: Inject via config
   protected readonly maxTrainingLength = 10_000
@@ -81,6 +81,7 @@ export class MemoryForecastingDiviner<
       timestamp = boundWitnesses
         .map((bw) => bw.timestamp)
         .filter(exists)
+        // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((a, b) => Math.min(a, b), Number.MAX_SAFE_INTEGER)
       if (timestamp === Number.MAX_SAFE_INTEGER) break
 
@@ -88,10 +89,10 @@ export class MemoryForecastingDiviner<
       more = boundWitnesses.length === limit
 
       // Get the corresponding payload hashes from the BWs
-      const hashes = boundWitnesses.map((bw) => bw.payload_hashes[bw.payload_schemas.findIndex((s) => s === witnessSchema)]).filter(exists)
+      const hashes = boundWitnesses.map((bw) => bw.payload_hashes[bw.payload_schemas.indexOf(witnessSchema)]).filter(exists)
 
       // Get the payloads corresponding to the BW hashes from the archivist
-      if (hashes.length !== 0) {
+      if (hashes.length > 0) {
         const batchPayloads = (await archivist.get(hashes)).filter(exists)
         payloads.push(...batchPayloads)
       }

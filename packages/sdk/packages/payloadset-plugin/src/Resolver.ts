@@ -24,8 +24,7 @@ export class PayloadSetPluginResolver {
     /** @param plugins The initial set of plugins */
     plugins?: PayloadSetPlugin[],
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    plugins?.forEach((plugin) => this.register(plugin as any))
+    for (const plugin of plugins ?? []) this.register(plugin)
   }
 
   async diviner(set: PayloadSetPayload): Promise<DivinerModule | undefined>
@@ -66,7 +65,8 @@ export class PayloadSetPluginResolver {
   }
 
   async validate(boundwitness: QueryBoundWitness): Promise<Validator<QueryBoundWitness> | undefined> {
-    return (await this.resolve(boundwitness.resultSet))?.validate?.(boundwitness)
+    const resultSet = await this.resolve(boundwitness.resultSet)
+    return resultSet?.validate?.(boundwitness)
   }
 
   async witness(set: PayloadSetPayload): Promise<WitnessModule | undefined>
@@ -81,6 +81,7 @@ export class PayloadSetPluginResolver {
   }
 
   async wrap(boundwitness: QueryBoundWitness): Promise<QueryBoundWitnessWrapper | undefined> {
-    return (await this.resolve(boundwitness.resultSet))?.wrap?.(boundwitness)
+    const resultSet = await this.resolve(boundwitness.resultSet)
+    return resultSet?.wrap?.(boundwitness)
   }
 }

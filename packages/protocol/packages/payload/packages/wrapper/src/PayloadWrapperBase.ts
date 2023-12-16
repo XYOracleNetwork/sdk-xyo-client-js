@@ -22,18 +22,16 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload?: TPayload | TWrapper | (TPayload | TWrapper)[],
   ): TPayload | (TPayload | undefined)[] | undefined {
-    if (Array.isArray(payload)) {
-      return payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
-    } else {
-      return this.unwrapSinglePayload<TPayload, TWrapper>(payload)
-    }
+    return Array.isArray(payload)
+      ? payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
+      : this.unwrapSinglePayload<TPayload, TWrapper>(payload)
   }
 
   static unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload?: TPayload | TWrapper,
   ) {
     if (payload === undefined) {
-      return undefined
+      return
     }
     if (payload instanceof PayloadWrapperBase) {
       return payload.payload() as TPayload

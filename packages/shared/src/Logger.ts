@@ -20,12 +20,12 @@ export interface Logger {
 /** @deprecated use from @xylabs/logger instead */
 export const getFunctionName = (depth = 2) => {
   try {
-    throw Error()
-  } catch (ex) {
-    return handleError(ex, (error) => {
-      let newIndex: number | undefined = undefined
+    throw new Error('Just for Stack Trace')
+  } catch (error) {
+    return handleError(error, (error) => {
+      let newIndex: number | undefined
       const stackParts = error.stack?.split('\n')[depth].split(' ')
-      const funcName =
+      const functionName =
         stackParts?.find((item, index) => {
           if (item.length > 0 && item !== 'at') {
             //check if constructor
@@ -35,7 +35,7 @@ export const getFunctionName = (depth = 2) => {
             return item
           }
         }) ?? '<unknown>'
-      return newIndex ? `${funcName} ${stackParts?.[newIndex + 1]}` : funcName
+      return newIndex ? `${functionName} ${stackParts?.[newIndex + 1]}` : functionName
     })
   }
 }

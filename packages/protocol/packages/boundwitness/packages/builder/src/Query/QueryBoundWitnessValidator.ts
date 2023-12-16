@@ -32,14 +32,14 @@ export class QueryBoundWitnessValidator<T extends Query = Query> extends BoundWi
       const resultSet = PayloadWrapper.wrap<PayloadSetPayload>((await wrapper.payloadMap())[resultSetHash] as PayloadSetPayload)
       const required = resultSet?.payload().required
       if (required) {
-        Object.entries(required).forEach(([key, value]) => {
+        for (const [key, value] of Object.entries(required)) {
           const found = wrapper.payloadSchemas.reduce((count, schema) => {
             return count + (schema === key ? 1 : 0)
           }, 0)
           if (found !== value) {
             errors.push(Error(`validateResultSet: Missing Schema [${key}:${found}:${value}]`))
           }
-        })
+        }
       }
     } catch (ex) {
       handleError(ex, (error) => {

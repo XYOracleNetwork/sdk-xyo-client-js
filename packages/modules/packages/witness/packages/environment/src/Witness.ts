@@ -1,4 +1,5 @@
 import { AbstractWitness } from '@xyo-network/abstract-witness'
+import { JsonValue } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { Value, ValueSchema } from '@xyo-network/value-payload-plugin'
 import { WitnessConfigSchema } from '@xyo-network/witness-model'
@@ -19,6 +20,6 @@ export class EnvironmentWitness<P extends EnvironmentWitnessParams = Environment
 
 const getEnv = (payload?: EnvironmentSubset): Value => {
   const subset = payload?.values
-  const env = subset ? subset.reduce((acc, key) => ({ ...acc, [key]: process.env[key] }), {}) : process.env
+  const env = (subset ? Object.fromEntries(subset.map((key) => [key, process.env[key]])) : process.env) as JsonValue
   return { schema, value: env }
 }

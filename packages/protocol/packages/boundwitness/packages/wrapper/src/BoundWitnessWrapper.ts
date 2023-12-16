@@ -62,37 +62,33 @@ export class BoundWitnessWrapper<
   }
 
   static async mapPayloads<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<string, TPayload>> {
-    return (
-      await Promise.all(
-        payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
-          const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
-        }),
-      )
-    ).reduce(
-      (map, [payload, payloadHash]) => {
-        map[payloadHash] = payload
-        return map
-      },
-      {} as Record<string, TPayload>,
+    const result: Record<string, TPayload> = {}
+    const payloadPairs = await Promise.all(
+      payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
+        const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
+        return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
+      }),
     )
+
+    for (const [payload, payloadHash] of payloadPairs) {
+      result[payloadHash] = payload
+    }
+    return result
   }
 
   static async mapWrappedPayloads<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<string, PayloadWrapper<TPayload>>> {
-    return (
-      await Promise.all(
-        payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
-          const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-          return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
-        }),
-      )
-    ).reduce(
-      (map, [payload, payloadHash]) => {
-        map[payloadHash] = PayloadWrapper.wrap(payload)
-        return map
-      },
-      {} as Record<string, PayloadWrapper<TPayload>>,
+    const result: Record<string, PayloadWrapper<TPayload>> = {}
+    const payloadPairs = await Promise.all(
+      payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
+        const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
+        return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
+      }),
     )
+
+    for (const [payload, payloadHash] of payloadPairs) {
+      result[payloadHash] = PayloadWrapper.wrap(payload)
+    }
+    return result
   }
 
   static parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> {
@@ -108,14 +104,14 @@ export class BoundWitnessWrapper<
         return newWrapper
       }
     }
-    throw Error(`Unable to parse [${typeof obj}]`)
+    throw new Error(`Unable to parse [${typeof obj}]`)
   }
 
   static tryParse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): BoundWitnessWrapper<T, P> | undefined {
     if (obj === undefined) return undefined
     try {
       return this.parse(obj, payloads)
-    } catch (_ex) {
+    } catch {
       return undefined
     }
   }
@@ -150,7 +146,7 @@ export class BoundWitnessWrapper<
   async dig(depth?: number): Promise<BoundWitnessWrapper<TBoundWitness>> {
     if (depth === 0) return this
 
-    const innerBoundwitnessIndex: number = this.payloadSchemas.findIndex((item) => item === BoundWitnessSchema)
+    const innerBoundwitnessIndex: number = this.payloadSchemas.indexOf(BoundWitnessSchema)
     if (innerBoundwitnessIndex > -1) {
       const innerBoundwitnessHash: string = this.payloadHashes[innerBoundwitnessIndex]
       const innerBoundwitnessPayload = (await BoundWitnessWrapper.mapWrappedPayloads(await this.getPayloads()))[innerBoundwitnessHash]
@@ -194,12 +190,13 @@ export class BoundWitnessWrapper<
   }
 
   hashesBySchema(schema: string) {
-    return this.payloadSchemas.reduce<string[]>((prev, payloadSchema, index) => {
+    const result: string[] = []
+    for (const [index, payloadSchema] of this.payloadSchemas.entries()) {
       if (payloadSchema === schema) {
-        prev.push(this.payloadHashes[index])
+        result.push(this.payloadHashes[index])
       }
-      return prev
-    }, [])
+    }
+    return result
   }
 
   async payloadMap(): Promise<Record<string, TPayload>> {
@@ -217,7 +214,7 @@ export class BoundWitnessWrapper<
   }
 
   prev(address: string) {
-    return this.previousHashes[this.addresses.findIndex((addr) => address === addr)]
+    return this.previousHashes[this.addresses.indexOf(address)]
   }
 
   toResult() {

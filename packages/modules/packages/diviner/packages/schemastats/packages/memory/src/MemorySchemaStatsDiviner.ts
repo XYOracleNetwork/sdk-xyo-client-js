@@ -19,6 +19,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
+    // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = filtered.reduce(
       (acc, payload) => {
         acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1
@@ -32,6 +33,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   protected async divineAllAddresses(): Promise<Record<string, number>> {
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
+    // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = all.reduce(
       (acc, payload) => {
         acc[payload.schema] = acc[payload.schema] ? acc[payload.schema] + 1 : 1

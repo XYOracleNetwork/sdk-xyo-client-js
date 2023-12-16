@@ -34,7 +34,7 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   static override moduleIdentityCheck = isBridgeModule
 
   get connected(): boolean {
-    throw Error('Not supported')
+    throw new Error('Not supported')
   }
 
   get targetDownResolver() {

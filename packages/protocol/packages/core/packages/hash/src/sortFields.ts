@@ -8,8 +8,8 @@ const subSort = (value: unknown) => {
 export const sortFields = <T extends EmptyObject>(obj: T) => {
   const result: AnyObject = {}
   const keys = Object.keys(obj) as (keyof T)[]
-  keys.sort().forEach((key: keyof T) => {
+  for (const key of keys.sort()) {
     result[key] = subSort(obj[key])
-  })
+  }
   return result as T
 }

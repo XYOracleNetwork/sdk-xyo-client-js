@@ -19,7 +19,7 @@ type ImageThumbnail = Payload<{
 
 describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
   describe('divine', () => {
-    const timestampA = 1234567890
+    const timestampA = 1_234_567_890
     const timestampPayloadA: TimeStamp = { schema: TimestampSchema, timestamp: timestampA }
     const imageThumbnailPayloadA: ImageThumbnail = {
       http: {
@@ -29,7 +29,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       sourceUrl: 'https://xyo.network',
       url: 'data',
     }
-    const timestampB = 1234567891
+    const timestampB = 1_234_567_891
     const timestampPayloadB: TimeStamp = { schema: TimestampSchema, timestamp: timestampB }
     const imageThumbnailPayloadB: ImageThumbnail = {
       http: {
@@ -38,7 +38,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://xyo.network',
     }
-    const timestampC = 1234567892
+    const timestampC = 1_234_567_892
     const timestampPayloadC: TimeStamp = { schema: TimestampSchema, timestamp: timestampC }
     const imageThumbnailPayloadC: ImageThumbnail = {
       http: {
@@ -56,9 +56,9 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
-        const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
-        expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
-        expect(index.timestamp).toBe(timestamp.timestamp)
+        const index = result.find(isTemporalIndexingDivinerResultIndex)
+        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        expect(index?.timestamp).toBe(timestamp.timestamp)
         expect((index as { url?: string })?.url).toBe(thumbnail.sourceUrl)
         expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
       }
@@ -108,6 +108,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           )
           const results = await diviner.divine(data.flat())
           expect(results).toBeArrayOfSize(cases.length)
+          // eslint-disable-next-line unicorn/no-array-for-each
           data.forEach(async (input, i) => {
             const result = results[i]
             await validateSingleResult(input, [result])
@@ -135,9 +136,9 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
-        const [index] = result.filter(isTemporalIndexingDivinerResultIndex)
-        expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
-        expect(index.timestamp).toBe(timestamp.timestamp)
+        const index = result.find(isTemporalIndexingDivinerResultIndex)
+        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        expect(index?.timestamp).toBe(timestamp.timestamp)
         expect((index as { url?: string })?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect((index as { status?: number })?.status).toBe(thumbnail.http?.status)
       }
@@ -197,6 +198,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           )
           const results = await diviner.divine(data.flat())
           expect(results).toBeArrayOfSize(cases.length)
+          // eslint-disable-next-line unicorn/no-array-for-each
           data.forEach(async (input, i) => {
             const result = results[i]
             await validateMultiResult(input, [result])

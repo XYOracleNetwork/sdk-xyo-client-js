@@ -16,7 +16,7 @@ import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
 import { KeyPair } from './Key'
 
-export const ethMessagePrefix = '\x19Ethereum Signed Message:\n'
+export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
 
 const nameOf = <T>(name: keyof T) => name
 
@@ -43,8 +43,8 @@ export class Account extends KeyPair implements AccountInstance {
 
   constructor(key: unknown, params?: AccountConfig) {
     assertEx(key === Account._protectedConstructorKey, 'Do not call this protected constructor')
-    let privateKeyToUse: ArrayBuffer | undefined = undefined
-    let node: HDNodeWallet | undefined = undefined
+    let privateKeyToUse: ArrayBuffer | undefined
+    let node: HDNodeWallet | undefined
     if (params) {
       if (nameOf<PhraseInitializationConfig>('phrase') in params) {
         privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(params.phrase))

@@ -33,9 +33,9 @@ describe('Huri', () => {
         try {
           const huri = new Huri(item)
           expect(huri.hash).toBe(hash)
-        } catch (ex) {
+        } catch (error) {
           console.error(`Valid Huri failed: [${item}]`)
-          console.error(ex)
+          console.error(error)
         }
       })
     })
@@ -47,9 +47,9 @@ describe('Huri', () => {
           const huri = new Huri(item)
           expect(huri.hash).toBe(hash)
           expect(huri.archive).toBe('temp')
-        } catch (ex) {
+        } catch (error) {
           console.error(`Valid Huri w/archive failed: [${item}]`)
-          console.error(ex)
+          console.error(error)
         }
       })
     })
@@ -78,7 +78,7 @@ describe('Huri', () => {
         return config
       })
       // ignore result since token is fake
-      huri.fetch().catch(() => undefined)
+      huri.fetch().catch(() => {})
     })
     it('Invalid Huri', async () => {
       const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')

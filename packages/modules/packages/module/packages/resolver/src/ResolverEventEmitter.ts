@@ -14,7 +14,7 @@ type ListenerFunction = (args: ModuleResolvedEventArgs) => void
 const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
   const listeners: ListenerFunction[] = []
   const emit = (event: 'moduleResolved', args: ModuleResolvedEventArgs): boolean => {
-    if (listeners.length < 1) return false
+    if (listeners.length === 0) return false
     listeners.map((listener) => listener(args))
     return true
   }

@@ -111,8 +111,8 @@ export class ApiBase<C extends ApiConfig = ApiConfig> implements ApiReportable {
       response.status < 300 ? this.onSuccess(response) : this.onFailure(response)
 
       return response
-    } catch (ex) {
-      this.handleMonitorResponseError(ex as ApiError, trapAxiosException)
+    } catch (error) {
+      this.handleMonitorResponseError(error as ApiError, trapAxiosException)
     }
   }
 

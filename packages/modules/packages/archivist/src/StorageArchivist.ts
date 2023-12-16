@@ -51,7 +51,7 @@ export class StorageArchivist<
   }
 
   get maxEntrySize() {
-    return this.config?.maxEntrySize ?? 16000
+    return this.config?.maxEntrySize ?? 16_000
   }
 
   get namespace() {

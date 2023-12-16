@@ -88,7 +88,6 @@ export class Huri<T extends Payload = Payload> {
     if (typeof value === 'object') {
       return (value as Huri).isHuri ? (value as Huri) : undefined
     }
-    return undefined
   }
 
   private static parsePath(huri: string) {

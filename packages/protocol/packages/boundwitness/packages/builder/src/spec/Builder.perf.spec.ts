@@ -8,7 +8,7 @@ import { BoundWitnessBuilder } from '../Builder'
 
 const schema = 'network.xyo.test'
 
-const payloads = (async () =>
+const payloadsPromise = (async () =>
   await Promise.all(
     Array(5000)
       .fill(Math.random())
@@ -19,7 +19,7 @@ describe('BoundWitnessBuilder-Perf', () => {
   it('build', async () => {
     const startTime = Date.now()
     const bw = new BoundWitnessBuilder()
-      .payloads(await payloads)
+      .payloads(await payloadsPromise)
       .witness(Account.randomSync())
       .build()
     const duration = Date.now() - startTime

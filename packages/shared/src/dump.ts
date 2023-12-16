@@ -1,7 +1,7 @@
-export const dump = (obj: unknown) => {
+export const dump = (object: unknown) => {
   const cache: unknown[] = []
   return JSON.stringify(
-    obj,
+    object,
     (key, value) => {
       if (typeof value === 'object' && value !== null) {
         // Duplicate reference found, discard key

@@ -6,9 +6,9 @@ const kerplunk = async (): Promise<NetworkPayload> => {
   return {
     name: 'Kerplunk',
     nodes: [
-      (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
-      (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as NetworkNodePayload[],
+      (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.jsonPayload(),
+      (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.jsonPayload(),
+    ].filter(Boolean) as NetworkNodePayload[],
     schema: NetworkSchema,
     slug: 'kerplunk',
   }
@@ -20,7 +20,7 @@ const main = async (): Promise<NetworkPayload> => {
     nodes: [
       (await NetworkNodePayloadWrapper.known('main-archivist-xyo-network'))?.payload(),
       (await NetworkNodePayloadWrapper.known('location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as NetworkNodePayload[],
+    ].filter(Boolean) as NetworkNodePayload[],
     schema: NetworkSchema,
     slug: 'main',
   }
@@ -32,7 +32,7 @@ const local = async (): Promise<NetworkPayload> => {
     nodes: [
       (await NetworkNodePayloadWrapper.known('kerplunk-archivist-xyo-network'))?.payload(),
       (await NetworkNodePayloadWrapper.known('beta-location-diviner-xyo-network'))?.payload(),
-    ].filter((item) => item) as NetworkNodePayload[],
+    ].filter(Boolean) as NetworkNodePayload[],
     schema: NetworkSchema,
     slug: 'local',
   }

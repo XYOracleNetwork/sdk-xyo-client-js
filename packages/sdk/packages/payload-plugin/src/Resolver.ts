@@ -19,16 +19,16 @@ export class PayloadPluginResolver {
       schema: PayloadSchema,
     }),
   ) {
-    plugins?.forEach((plugin) => this.register(plugin))
+    for (const plugin of plugins ?? []) this.register(plugin)
     this.defaultPlugin = defaultPlugin
   }
 
   /** @description Create list of plugins, optionally filtered by ability to witness/divine */
   plugins() {
     const result: PayloadPlugin[] = []
-    Object.values(this._plugins).forEach((value) => {
+    for (const value of Object.values(this._plugins)) {
       result.push(value)
-    })
+    }
     return result
   }
 
@@ -47,9 +47,9 @@ export class PayloadPluginResolver {
   /** @description Create list of schema, optionally filtered by ability to witness/divine */
   schemas() {
     const result: string[] = []
-    Object.values(this._plugins).forEach((value) => {
+    for (const value of Object.values(this._plugins)) {
       result.push(value.schema)
-    })
+    }
     return result
   }
 

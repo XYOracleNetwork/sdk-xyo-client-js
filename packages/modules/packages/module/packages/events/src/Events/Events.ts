@@ -62,18 +62,13 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
         mutatedParams.debug.logger ??
         ((type: string, debugName: string, eventName?: EventName, eventData?: EventArgs) => {
           let eventDataString: string
-          let eventNameString: string | undefined
           try {
             eventDataString = JSON.stringify(eventData)
           } catch {
             eventDataString = `Object with the following keys failed to stringify: ${Object.keys(eventData ?? {}).join(',')}`
           }
 
-          if (typeof eventName === 'symbol' || typeof eventName === 'number') {
-            eventNameString = eventName.toString()
-          } else {
-            eventNameString = eventName
-          }
+          const eventNameString = typeof eventName === 'symbol' || typeof eventName === 'number' ? eventName.toString() : eventName
 
           const currentTime = new Date()
           const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
@@ -109,7 +104,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     const eventNamesArray = Array.isArray(eventNames) ? eventNames : [eventNames]
 
     for (const eventName of eventNamesArray) {
-      this.logIfDebugEnabled('clear', eventName, undefined)
+      this.logIfDebugEnabled('clear', eventName)
 
       if (typeof eventName === 'string' || typeof eventName === 'symbol' || typeof eventName === 'number') {
         const set = this.getListeners(eventName)
@@ -150,10 +145,13 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
     const filterMatch = (args: TEventData[TEventName], filter: TEventData[TEventName]) => {
       if (filter) {
         switch (typeof filter) {
-          case 'object':
+          case 'object': {
+            // eslint-disable-next-line unicorn/no-array-reduce
             return Object.entries(args).reduce((prev, [key, value]) => ((filter as Record<PropertyKey, unknown>)[key] === value ? true : prev), false)
-          default:
+          }
+          default: {
             return args === filter
+          }
         }
       }
       return true
@@ -223,7 +221,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
         }
       }
 
-      this.logIfDebugEnabled('unsubscribe', eventName, undefined)
+      this.logIfDebugEnabled('unsubscribe', eventName)
 
       if (!isMetaEvent(eventName)) {
         forget(this.emitMetaEvent('listenerRemoved', { eventName, listener: listener as EventListener }))
@@ -232,7 +230,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
   }
 
   offAny(listener: EventAnyListener) {
-    this.logIfDebugEnabled('unsubscribeAny', undefined, undefined)
+    this.logIfDebugEnabled('unsubscribeAny')
 
     const typedMap = Events.anyMap.get(this) as Set<EventAnyListener<TEventData[keyof TEventData]>>
     typedMap?.delete(listener)
@@ -255,7 +253,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
 
       set.add({ filter, listener: listener as EventListener })
 
-      this.logIfDebugEnabled('subscribe', eventName, undefined)
+      this.logIfDebugEnabled('subscribe', eventName)
 
       if (!isMetaEvent(eventName)) {
         forget(this.emitMetaEvent('listenerAdded', { eventName, listener: listener as EventListener }))
@@ -266,7 +264,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
   }
 
   onAny(listener: EventAnyListener) {
-    this.logIfDebugEnabled('subscribeAny', undefined, undefined)
+    this.logIfDebugEnabled('subscribeAny')
 
     Events.anyMap.get(this)?.add(listener as EventAnyListener)
     forget(this.emitMetaEvent('listenerAdded', { listener: listener as EventAnyListener }))

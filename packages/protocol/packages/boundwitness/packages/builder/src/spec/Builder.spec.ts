@@ -18,10 +18,10 @@ const payload1: Payload<StringKeyObject & { schema: string }> = {
   },
   schema,
   string_field: 'there',
-  timestamp: 1618603439107,
+  timestamp: 1_618_603_439_107,
 }
 const payload2: Payload<StringKeyObject & { schema: string }> = {
-  timestamp: 1618603439107,
+  timestamp: 1_618_603_439_107,
   string_field: 'there',
   schema,
   object_field: {

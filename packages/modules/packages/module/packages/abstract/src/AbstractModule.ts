@@ -167,7 +167,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ) {
     this._noOverride('create')
     if (!this.configSchemas || this.configSchemas.length === 0) {
-      throw Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
+      throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
     const { account, config, wallet } = params ?? {}
@@ -183,10 +183,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const schema: string = params?.config?.schema ?? this.configSchema
     const allowedSchemas: string[] = this.configSchemas
 
-    assertEx(
-      allowedSchemas.filter((allowedSchema) => allowedSchema === schema).length > 0,
-      `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`,
-    )
+    assertEx(allowedSchemas.includes(schema), `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
     const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
@@ -279,10 +276,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
       try {
         await this.started('throw')
-        if (!this.allowAnonymous) {
-          if (query.addresses.length === 0) {
-            throw Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
-          }
+        if (!this.allowAnonymous && query.addresses.length === 0) {
+          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
         }
         resultPayloads.push(...(await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)))
       } catch (ex) {
@@ -374,17 +369,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           }
         }
         switch (notStartedAction) {
-          case 'throw':
-            throw Error(`Module not Started [${this.address}]`)
-          case 'warn':
+          case 'throw': {
+            throw new Error(`Module not Started [${this.address}]`)
+          }
+          case 'warn': {
             this.logger?.warn('Module not started')
             break
-          case 'error':
+          }
+          case 'error': {
             this.logger?.error('Module not started')
             break
-          case 'none':
+          }
+          case 'none': {
             break
-          case 'log':
+          }
           default: {
             this.logger?.log('Module not started')
             break
@@ -482,7 +480,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     description.children = compact(
       discover?.map((payload) => {
         const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-        return address != this.address ? address : undefined
+        return address == this.address ? undefined : address
       }) ?? [],
     )
 
@@ -506,6 +504,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
+  // eslint-disable-next-line import/no-deprecated
   protected async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
     if (!this.config.archivist) return undefined
     const filter =
@@ -597,8 +596,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         this.subscribeHandler()
         break
       }
-      default:
-        throw Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
+      default: {
+        throw new Error(`Unsupported Query [${(queryPayload as Payload).schema}]`)
+      }
     }
     return resultPayloads
   }
@@ -640,14 +640,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected validateConfig(config?: unknown, parents: string[] = []): boolean {
+    // eslint-disable-next-line unicorn/no-array-reduce
     return Object.entries(config ?? this.config ?? {}).reduce((valid, [key, value]) => {
       switch (typeof value) {
-        case 'function':
+        case 'function': {
           this.logger?.warn(`Fields of type function not allowed in config [${parents?.join('.')}.${key}]`)
           return false
+        }
         case 'object': {
           if (Array.isArray(value)) {
             return (
+              // eslint-disable-next-line unicorn/no-array-reduce
               value.reduce((valid, value) => {
                 return this.validateConfig(value, [...parents, key]) && valid
               }, true) && valid
@@ -660,8 +663,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           }
           return value ? this.validateConfig(value, [...parents, key]) && valid : true
         }
-        default:
+        default: {
           return valid
+        }
       }
     }, true)
   }

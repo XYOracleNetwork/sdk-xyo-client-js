@@ -54,7 +54,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
    * List of indexable schemas for this diviner
    */
   protected get indexableSchemas(): string[] {
-    if (!this._indexableSchemas) this._indexableSchemas = [...Object.keys(this.schemaTransforms)]
+    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms)
     return this._indexableSchemas
   }
 
@@ -97,7 +97,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const queries = payloads.filter(isPayloadOfSchemaType<PayloadDivinerQueryPayload>(this.divinerQuerySchema))
-    if (queries.length) {
+    if (queries.length > 0) {
       const results = await Promise.all(
         queries.map(async (query) => {
           const fields = await reducePayloads<PayloadDivinerQueryPayload & { sources?: string[] }>(
@@ -115,6 +115,6 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
       )
       return results
     }
-    return Promise.resolve([])
+    return []
   }
 }

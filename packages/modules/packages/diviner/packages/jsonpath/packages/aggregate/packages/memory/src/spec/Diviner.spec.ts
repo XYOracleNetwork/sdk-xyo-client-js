@@ -23,7 +23,7 @@ type ResultType = Payload<{ sources: string[]; status?: number; timestamp: numbe
 describe('JsonPathAggregateDiviner', () => {
   describe('divine', () => {
     const destinationSchema = 'network.xyo.test'
-    const timestampA = 1234567890
+    const timestampA = 1_234_567_890
     const timestampPayloadA = { schema: 'network.xyo.timestamp', timestamp: timestampA }
     const imageThumbnailPayloadA: ImageThumbnail = {
       http: {
@@ -33,7 +33,7 @@ describe('JsonPathAggregateDiviner', () => {
       sourceUrl: 'https://xyo.network',
       url: 'data',
     }
-    const timestampB = 1234567891
+    const timestampB = 1_234_567_891
     const timestampPayloadB = { schema: 'network.xyo.timestamp', timestamp: timestampB }
     const imageThumbnailPayloadB: ImageThumbnail = {
       http: {
@@ -42,7 +42,7 @@ describe('JsonPathAggregateDiviner', () => {
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://xyo.network',
     }
-    const timestampC = 1234567892
+    const timestampC = 1_234_567_892
     const timestampPayloadC = { schema: 'network.xyo.timestamp', timestamp: timestampC }
     const imageThumbnailPayloadC: ImageThumbnail = {
       http: {
@@ -64,9 +64,9 @@ describe('JsonPathAggregateDiviner', () => {
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
-        const [index] = result.filter(isPayloadOfSchemaType<ResultType>(destinationSchema))
-        expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
-        expect(index.timestamp).toBe(timestamp.timestamp)
+        const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
+        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        expect(index?.timestamp).toBe(timestamp.timestamp)
         expect(index?.url).toBe(thumbnail.sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)
       }
@@ -112,9 +112,9 @@ describe('JsonPathAggregateDiviner', () => {
         const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
-        const [index] = result.filter(isPayloadOfSchemaType<ResultType>(destinationSchema))
-        expect(index.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
-        expect(index.timestamp).toBe(timestamp.timestamp)
+        const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
+        expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
+        expect(index?.timestamp).toBe(timestamp.timestamp)
         expect(index?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)
       }

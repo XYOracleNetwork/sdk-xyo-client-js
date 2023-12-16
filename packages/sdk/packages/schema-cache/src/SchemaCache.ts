@@ -86,11 +86,9 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
   }
 
   private cacheSchemas(aliasEntries?: FetchedPayload[] | null) {
-    aliasEntries
-      ?.filter((entry) => entry.payload.schema === SchemaSchema)
-      .forEach((entry) => {
-        this.cacheSchemaIfValid(entry as SchemaCacheEntry)
-      })
+    for (const entry of aliasEntries?.filter((entry) => entry.payload.schema === SchemaSchema) ?? []) {
+      this.cacheSchemaIfValid(entry as SchemaCacheEntry)
+    }
   }
 
   private async fetchSchema(schema: string) {
@@ -103,13 +101,13 @@ export class SchemaCache<T extends SchemaNameToValidatorMap = SchemaNameToValida
       if (this._cache.get(schema) === undefined) {
         this._cache.set(schema, SchemaCache.NULL)
       }
-    } catch (ex) {
+    } catch (error) {
       //if failed, set it to NULL, TODO: Make an entry for an error to try again in the future?
       this._cache.set(schema, SchemaCache.NULL)
-      if (isAxiosError(ex)) {
-        console.log(`Axios Url: ${ex.response?.config.url}`)
+      if (isAxiosError(error)) {
+        console.log(`Axios Url: ${error.response?.config.url}`)
       }
-      handleError(ex, (error) => {
+      handleError(error, (error) => {
         console.error(`fetchSchema threw: ${error.message}`)
       })
     }

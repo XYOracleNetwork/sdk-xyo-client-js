@@ -121,19 +121,19 @@ export abstract class AbstractArchivist<
   }
 
   protected allHandler(): PromisableArray<Payload> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected clearHandler(): Promisable<void> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected commitHandler(): Promisable<BoundWitness[]> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected deleteHandler(_hashes: string[]): PromisableArray<string> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected async deleteWithConfig(hashes: string[], config?: ActionConfig): Promise<string[]> {
@@ -162,10 +162,10 @@ export abstract class AbstractArchivist<
       return askedFor
     })
 
-    const foundHashes = foundPairs.map(([hash]) => hash)
+    const foundHashes = new Set(foundPairs.map(([hash]) => hash))
     const foundPayloads = foundPairs.map(([, payload]) => payload)
 
-    const notfound = hashes.filter((hash) => !foundHashes.includes(hash))
+    const notfound = hashes.filter((hash) => !foundHashes.has(hash))
     return [foundPayloads, notfound]
   }
 
@@ -186,7 +186,7 @@ export abstract class AbstractArchivist<
   }
 
   protected getHandler(_hashes: string[]): Promisable<Payload[]> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
@@ -194,13 +194,14 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const map = await PayloadWrapper.toMap(await this.getHandler(hashes))
 
+    // eslint-disable-next-line unicorn/no-array-reduce
     const { foundPayloads, notfoundHashes } = hashes.reduce<{ foundPayloads: Payload[]; notfoundHashes: string[] }>(
       (prev, hash) => {
         const found = map[hash]
         if (found) {
           //TODO: Find a better way to scrub meta data without scrubbing _signatures
           if (found.schema === BoundWitnessSchema) {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), ...{ _signatures: (found as BoundWitness)._signatures } } as BoundWitness)
+            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), _signatures: (found as BoundWitness)._signatures } as BoundWitness)
           } else {
             prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) } as Payload)
           }
@@ -225,7 +226,7 @@ export abstract class AbstractArchivist<
   }
 
   protected insertHandler(_payloads: Payload[]): Promise<Payload[]> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   protected async insertWithConfig(payloads: Payload[], config?: InsertConfig): Promise<Payload[]> {
@@ -267,15 +268,18 @@ export abstract class AbstractArchivist<
     }
 
     switch (queryPayload.schema) {
-      case ArchivistAllQuerySchema:
+      case ArchivistAllQuerySchema: {
         resultPayloads.push(...(await this.allHandler()))
         break
-      case ArchivistClearQuerySchema:
+      }
+      case ArchivistClearQuerySchema: {
         await this.clearHandler()
         break
-      case ArchivistCommitQuerySchema:
+      }
+      case ArchivistCommitQuerySchema: {
         resultPayloads.push(...(await this.commitHandler()))
         break
+      }
       case ArchivistDeleteQuerySchema: {
         const resultPayload: ArchivistDeleteQuery = {
           hashes: [...(await this.deleteWithConfig(queryPayload.hashes))],
@@ -284,7 +288,7 @@ export abstract class AbstractArchivist<
         resultPayloads.push(resultPayload)
         break
       }
-      case ArchivistGetQuerySchema:
+      case ArchivistGetQuerySchema: {
         if (queryPayload.hashes?.length) {
           resultPayloads.push(...(await this.getWithConfig(queryPayload.hashes)))
         } else {
@@ -292,6 +296,7 @@ export abstract class AbstractArchivist<
           if (head) resultPayloads.push(head)
         }
         break
+      }
       case ArchivistInsertQuerySchema: {
         const payloads = await wrappedQuery.getPayloads()
         assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
@@ -301,11 +306,12 @@ export abstract class AbstractArchivist<
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
         // can grab the actual last one
-        this._lastInsertedPayload = resolvedPayloads[resolvedPayloads.length - 1]
+        this._lastInsertedPayload = resolvedPayloads.at(-1)
         break
       }
-      default:
+      default: {
         return await super.queryHandler(query, payloads)
+      }
     }
     return resultPayloads
   }
@@ -337,6 +343,7 @@ export abstract class AbstractArchivist<
       )}]`,
     )
 
+    // eslint-disable-next-line unicorn/no-array-reduce
     return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
       prev[module.address] = asArchivistInstance(module, () => {
         isArchivistInstance(module, { log: console })

@@ -7,7 +7,7 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
-  return a.length != b.length ? [Error(`${message} []`)] : []
+  return a.length == b.length ? [] : [Error(`${message} []`)]
 }
 
 export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = BoundWitness> extends PayloadValidator<T> {
@@ -61,11 +61,11 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
       const schemaValidators = Schemas.map((schema: string) => {
         return PayloadValidator.schemaNameValidatorFactory?.(schema)
       })
-      schemaValidators.forEach((validator) => {
+      for (const validator of schemaValidators) {
         if (validator) {
           errors.push(...validator.all())
         }
-      })
+      }
     }
     return errors
   }
@@ -75,14 +75,12 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
       ...validateArraysSameLength(this.obj._signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
       ...(
         await Promise.all(
-          this.obj.addresses.map<Promise<Error[]>>(
-            async (address, index) =>
-              BoundWitnessValidator.validateSignature(
-                toUint8Array(await PayloadHasher.hashAsync(this.payload)),
-                toUint8Array(address),
-                toUint8Array(this.obj._signatures?.[index]),
-              ),
-            [],
+          this.obj.addresses.map<Promise<Error[]>>(async (address, index) =>
+            BoundWitnessValidator.validateSignature(
+              toUint8Array(await PayloadHasher.hashAsync(this.payload)),
+              toUint8Array(address),
+              toUint8Array(this.obj._signatures?.[index]),
+            ),
           ),
         )
       ).flat(),

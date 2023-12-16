@@ -113,17 +113,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const args = { module, name: module.config.name }
     await this.emit('moduleAttached', args)
 
-    if (isNodeModule(module)) {
-      if (external) {
-        const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
-          await this.emit('moduleAttached', args)
+    if (isNodeModule(module) && external) {
+      const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
+        await this.emit('moduleAttached', args)
 
-        const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
-          await this.emit('moduleDetached', args)
+      const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
+        await this.emit('moduleDetached', args)
 
-        module.on('moduleAttached', attachedListener)
-        module.on('moduleDetached', detachedListener)
-      }
+      module.on('moduleAttached', attachedListener)
+      module.on('moduleDetached', detachedListener)
     }
 
     const notifyOfExistingModules = async (childModules: Module[]) => {
@@ -204,7 +202,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private moduleAddressFromName(name: string) {
     const address = Object.values(this.registeredModuleMap).find((value) => {
       return value.config.name === name
-    }, undefined)?.address
+    })?.address
     return address
   }
 }

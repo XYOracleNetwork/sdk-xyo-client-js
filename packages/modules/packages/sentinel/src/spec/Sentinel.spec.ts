@@ -6,7 +6,7 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 import { SentinelWrapper } from '../Wrapper'

@@ -55,7 +55,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   }
 
   register(_module: ModuleInstance) {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 
   async registered(): Promise<string[]> {
@@ -65,6 +65,6 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   }
 
   registeredModules(): Promisable<ModuleInstance[]> {
-    throw Error('Not implemented')
+    throw new Error('Not implemented')
   }
 }

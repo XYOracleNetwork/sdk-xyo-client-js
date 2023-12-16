@@ -25,8 +25,8 @@ export class JsonPatchDiviner<
         try {
           const result = applyPatch(payload, this.operations, { mutate: false })
           return result.res?.[0]?.doc as TOut
-        } catch (e) {
-          return undefined
+        } catch {
+          return
         }
       })
       .filter(exists)

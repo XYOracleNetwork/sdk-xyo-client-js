@@ -32,24 +32,21 @@ export class MemoryPayloadDiviner<
         const additionalFilterCriteria = Object.entries(props)
         for (const [prop, filter] of additionalFilterCriteria) {
           const property = prop as keyof TOut
-          if (Array.isArray(filter)) {
-            all = all.filter((payload) =>
-              filter.every((value) => {
-                const prop = payload?.[property]
-                //TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
-                return Array.isArray(prop) && prop.includes?.(value)
-              }),
-            )
-          } else {
-            all = all.filter((payload) => payload?.[property] === filter)
-          }
+          all = Array.isArray(filter)
+            ? all.filter((payload) =>
+                filter.every((value) => {
+                  const prop = payload?.[property]
+                  //TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
+                  return Array.isArray(prop) && prop.includes?.(value)
+                }),
+              )
+            : all.filter((payload) => payload?.[property] === filter)
         }
       }
-      const parsedLimit = limit || all.length
+      const parsedLimit = limit ?? all.length
       const parsedOffset = offset || 0
-      return offset !== undefined
-        ? all.slice(parsedOffset, parsedLimit)
-        : (async () => {
+      return offset === undefined
+        ? (async () => {
             const allPairs = await Promise.all(all.map<Promise<[string, TOut]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]))
             if (hash) {
               //remove all until found
@@ -63,8 +60,9 @@ export class MemoryPayloadDiviner<
             }
             return allPairs.map(([, payload]) => payload)
           })()
+        : all.slice(parsedOffset, parsedLimit)
     } else {
-      throw Error('Archivist does not support "all"')
+      throw new Error('Archivist does not support "all"')
     }
   }
 }

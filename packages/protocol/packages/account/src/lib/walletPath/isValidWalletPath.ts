@@ -1,4 +1,4 @@
-const pathSegmentRegex = /^[0-9]+[']?$/
+const pathSegmentRegex = /^\d+'?$/
 
 export const isValidAbsoluteWalletPath = (path?: string): boolean => {
   if (!path) return false

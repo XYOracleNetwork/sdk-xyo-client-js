@@ -1,20 +1,21 @@
 /** @deprecated use from @xylabs/promise instead */
-export type PromiseExSubFunc<T, TResult = T> = (value: T) => TResult
+export type PromiseExSubFunction<T, TResult = T> = (value: T) => TResult
 /** @deprecated use from @xylabs/promise instead */
-export type PromiseExFunc<T> = (resolve?: PromiseExSubFunc<T, void>, reject?: PromiseExSubFunc<T, void>) => void
+export type PromiseExFunction<T> = (resolve?: PromiseExSubFunction<T, void>, reject?: PromiseExSubFunction<T, void>) => void
 /** @deprecated use from @xylabs/promise instead */
-export type PromiseExValueFunc<V> = (value?: V) => boolean
+export type PromiseExValueFunction<V> = (value?: V) => boolean
 
 /** @deprecated use from @xylabs/promise instead */
 export class PromiseEx<T, V = void> extends Promise<T> {
   cancelled?: boolean
   private _value?: V
 
-  constructor(func: PromiseExFunc<T>, value?: V) {
-    super(func)
+  constructor(function_: PromiseExFunction<T>, value?: V) {
+    super(function_)
     this._value = value
   }
 
+  // eslint-disable-next-line unicorn/no-thenable
   override then<TResult1 = T, TResult2 = never>(
     onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined,
     onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null | undefined,

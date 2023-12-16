@@ -121,6 +121,7 @@ export const StatefulModuleMixin = <
           hash = boundWitness.addresses
             .map((address, index) => ({ address, index }))
             // .filter(({ address }) => address === this.account.address)
+            // eslint-disable-next-line unicorn/no-array-reduce
             .reduce(
               (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
               '',

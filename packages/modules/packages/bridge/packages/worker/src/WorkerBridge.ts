@@ -79,7 +79,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   static async createWorkerNode(manifest: PackageManifestPayload = defaultPackageManifest as PackageManifestPayload) {
-    const worker = new Worker(new URL('./worker/Worker.ts', import.meta?.url ?? __filename))
+    const worker = new Worker(new URL('worker/Worker.ts', import.meta?.url ?? __filename))
     worker.postMessage({ manifest, type: 'createNode' })
 
     await new Promise((resolve, reject) => {
@@ -208,7 +208,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
       mainPromise,
       (async () => {
         await delay(1000)
-        return undefined
+        return null
       })(),
     ])
     return assertEx(result, `targetQuery timed out [${address}]`)
@@ -244,7 +244,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
     //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    parentNodes.forEach((node) => children.forEach((child) => node.emit('moduleAttached', { module: child })))
+    for (const node of parentNodes) for (const child of children) node.emit('moduleAttached', { module: child })
     return true
   }
 }

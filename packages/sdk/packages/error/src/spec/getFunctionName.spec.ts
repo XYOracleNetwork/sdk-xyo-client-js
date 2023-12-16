@@ -3,6 +3,7 @@ import { getFunctionName } from '../getFunctionName'
 
 describe('Logger', () => {
   test('getFunctionName:function', () => {
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const test = () => {
       return getFunctionName()
     }

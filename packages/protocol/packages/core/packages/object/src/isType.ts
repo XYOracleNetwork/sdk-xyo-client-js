@@ -7,12 +7,15 @@ export type ObjectTypeShape = Record<string | number | symbol, FieldType>
 export const isType = (value: unknown, expectedType: FieldType) => {
   const typeofValue = typeof value
   switch (expectedType) {
-    case 'array':
+    case 'array': {
       return Array.isArray(value)
-    case 'null':
+    }
+    case 'null': {
       return value === null
-    case 'undefined':
+    }
+    case 'undefined': {
       return value === undefined
+    }
     case 'object': {
       //nulls resolve to objects, so exclude them
       if (value === null) {
@@ -21,7 +24,8 @@ export const isType = (value: unknown, expectedType: FieldType) => {
       //arrays resolve to objects, so exclude them
       return typeofValue === 'object' && !Array.isArray(value)
     }
-    default:
+    default: {
       return typeofValue === expectedType
+    }
   }
 }

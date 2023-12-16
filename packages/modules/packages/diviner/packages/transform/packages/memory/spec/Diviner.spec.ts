@@ -52,9 +52,9 @@ describe('MemoryTransformDiviner', () => {
       sut = await MemoryTransformDiviner.create({ account, config })
       const result = await sut.divine([payload])
       expect(result).toBeArrayOfSize(1)
-      const actual = result.filter(isValuePayload)[0]
+      const actual = result.find(isValuePayload)
       expect(actual).toBeDefined()
-      expect(actual.value).toBeObject()
+      expect(actual?.value).toBeObject()
       expect(actual).toEqual(expected)
     })
   })

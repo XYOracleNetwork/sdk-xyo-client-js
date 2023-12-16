@@ -17,7 +17,7 @@ export class SentinelRunner {
   constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel
     this.onTriggerResult = onTriggerResult
-    automations?.forEach((automation) => this.add(automation))
+    if (automations) for (const automation of automations) this.add(automation)
   }
 
   get automations() {
@@ -25,13 +25,13 @@ export class SentinelRunner {
   }
 
   private get next() {
+    // eslint-disable-next-line unicorn/no-array-reduce
     return Object.values(this._automations).reduce<SentinelAutomationPayload | undefined>((previous, current) => {
-      if (isSentinelIntervalAutomation(current)) {
-        if (isSentinelIntervalAutomation(previous)) {
-          return current.start < (previous?.start ?? Infinity) ? current : previous
-        }
+      if (isSentinelIntervalAutomation(current) && isSentinelIntervalAutomation(previous)) {
+        return current.start < (previous?.start ?? Number.POSITIVE_INFINITY) ? current : previous
       }
       return current
+      // eslint-disable-next-line unicorn/no-useless-undefined
     }, undefined)
   }
 

@@ -21,7 +21,7 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
   static override requiredQueries = [SentinelReportQuerySchema, ...super.requiredQueries]
 
   archivists(): Promise<ArchivistInstance[]> {
-    throw Error('Not supported')
+    throw new Error('Not supported')
   }
 
   async report(payloads?: Payload[]): Promise<Payload[]> {
@@ -31,6 +31,6 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
   }
 
   witnesses(): Promise<WitnessInstance[]> {
-    throw Error('Not supported')
+    throw new Error('Not supported')
   }
 }

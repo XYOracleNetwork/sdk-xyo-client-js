@@ -24,7 +24,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
   add(module: ModuleInstance[]): this
   add(module: ModuleInstance | ModuleInstance[]): this {
     if (Array.isArray(module)) {
-      module.forEach((module) => this.addSingleModule(module))
+      for (const mod of module) this.addSingleModule(mod)
     } else {
       this.addSingleModule(module)
     }
@@ -38,7 +38,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
 
   remove(addressOrName: string | string[]): this {
     if (Array.isArray(addressOrName)) {
-      addressOrName.forEach((address) => this.removeSingleModule(address))
+      for (const address of addressOrName) this.removeSingleModule(address)
     } else {
       this.removeSingleModule(addressOrName)
     }

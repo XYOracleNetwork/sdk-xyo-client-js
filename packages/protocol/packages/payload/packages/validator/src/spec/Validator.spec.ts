@@ -4,9 +4,9 @@ import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 import { PayloadValidator } from '../Validator'
 
 const dumpErrors = (errors: Error[]) => {
-  errors.forEach((error) => {
+  for (const error of errors) {
     console.log(error, null, 2)
-  })
+  }
 }
 
 PayloadValidator.setSchemaNameValidatorFactory((schema) => new SchemaNameValidator(schema))

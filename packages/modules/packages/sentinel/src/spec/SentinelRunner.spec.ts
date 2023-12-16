@@ -4,7 +4,7 @@ import { Account } from '@xyo-network/account'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { SentinelIntervalAutomationPayload, SentinelIntervalAutomationSchema } from '../Automation'
 import { MemorySentinel } from '../MemorySentinel'

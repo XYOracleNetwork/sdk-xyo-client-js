@@ -51,7 +51,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
       const stringToHash = this.stringifyHashFields(obj)
       try {
         return asHash(await sha256(stringToHash), true)
-      } catch (ex) {
+      } catch {
         this.wasmSupport.allowWasm = false
       }
     }

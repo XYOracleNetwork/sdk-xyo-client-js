@@ -1,6 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { NodeManifestPayload } from '@xyo-network/manifest-model'
-import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witnesses'
+import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 
 import { MemoryNode } from '../../src'
 

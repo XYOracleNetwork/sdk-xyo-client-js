@@ -11,22 +11,26 @@ export class SentinelIntervalAutomationWrapper<
 
   protected get frequencyMillis() {
     const frequency = this.jsonPayload().frequency
-    if (frequency === undefined) return Infinity
+    if (frequency === undefined) return Number.POSITIVE_INFINITY
     switch (this.jsonPayload().frequencyUnits ?? 'hour') {
-      case 'second':
+      case 'second': {
         return frequency * 1000
-      case 'minute':
+      }
+      case 'minute': {
         return frequency * 60 * 1000
-      case 'hour':
+      }
+      case 'hour': {
         return frequency * 60 * 60 * 1000
-      case 'day':
+      }
+      case 'day': {
         return frequency * 24 * 60 * 60 * 1000
+      }
     }
   }
 
   protected get remaining() {
     //if remaining is not defined, we assume Infinity
-    return this.payload().remaining ?? Infinity
+    return this.payload().remaining ?? Number.POSITIVE_INFINITY
   }
 
   next() {
@@ -37,8 +41,8 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected checkEnd() {
-    if (this.jsonPayload().start > (this.jsonPayload().end ?? Infinity)) {
-      this.jsonPayload().start = Infinity
+    if (this.jsonPayload().start > (this.jsonPayload().end ?? Number.POSITIVE_INFINITY)) {
+      this.jsonPayload().start = Number.POSITIVE_INFINITY
     }
   }
 
@@ -47,7 +51,7 @@ export class SentinelIntervalAutomationWrapper<
     this.jsonPayload().remaining = remaining
 
     if (remaining <= 0) {
-      this.jsonPayload().start = Infinity
+      this.jsonPayload().start = Number.POSITIVE_INFINITY
     }
   }
 }

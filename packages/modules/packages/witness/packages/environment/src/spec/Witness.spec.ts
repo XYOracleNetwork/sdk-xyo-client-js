@@ -22,10 +22,10 @@ describe('EnvironmentWitness', () => {
       it('should return the environment', async () => {
         const result = await sut.observe()
         expect(result).toBeArrayOfSize(1)
-        const env = result.filter(isValuePayload)[0]
+        const env = result.find(isValuePayload)
         expect(env).toBeDefined()
-        expect(env.value).toBeDefined()
-        expect(env.value).toEqual(process.env)
+        expect(env?.value).toBeDefined()
+        expect(env?.value).toEqual(process.env)
       })
     })
     describe('with subset payload', () => {
@@ -34,10 +34,10 @@ describe('EnvironmentWitness', () => {
         const template: EnvironmentSubset = { schema: EnvironmentSubsetSchema, values: ['PATH'] }
         const result = await sut.observe([template])
         expect(result).toBeArrayOfSize(1)
-        const env = result.filter(isValuePayload)[0]
+        const env = result.find(isValuePayload)
         expect(env).toBeDefined()
-        expect(env.value).toContainAllKeys(template.values)
-        expect((env.value as EnvironmentWithPath)?.PATH).toEqual(process.env.PATH)
+        expect(env?.value).toContainAllKeys(template.values)
+        expect((env?.value as EnvironmentWithPath)?.PATH).toEqual(process.env.PATH)
       })
     })
   })

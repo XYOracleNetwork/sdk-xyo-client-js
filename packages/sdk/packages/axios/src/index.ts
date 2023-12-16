@@ -1,11 +1,11 @@
+/** @deprecated use from @xylabs/axios instead */
 export * from './AxiosJson'
-import axios from 'axios'
 
 /** @deprecated use from @xylabs/axios instead */
 export { gzip } from 'pako'
 
 /** @deprecated use from @xylabs/axios instead */
-export { axios }
+export * from 'axios'
 
 /** @deprecated use from @xylabs/axios instead */
-export * from 'axios'
+export { default as axios } from 'axios'

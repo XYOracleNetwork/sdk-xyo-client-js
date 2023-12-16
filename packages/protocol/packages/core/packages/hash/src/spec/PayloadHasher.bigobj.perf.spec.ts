@@ -80,7 +80,7 @@ describe('Hasher - BigObject', () => {
     testString: 'hello there.  this is a pretty long string.  what do you think?',
     testUndefined: undefined,
   }
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 10_000; i++) {
     bigObject.testObjArray.push(testObject)
   }
   beforeAll(async () => {

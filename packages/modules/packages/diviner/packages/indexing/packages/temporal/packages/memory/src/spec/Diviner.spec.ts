@@ -138,7 +138,7 @@ describe('TemporalIndexingDiviner', () => {
 
     // Allow enough time for diviner to divine
     await delay(5000)
-  }, 40000)
+  }, 40_000)
   describe('diviner state', () => {
     let stateArchivist: MemoryArchivist
     beforeAll(async () => {
@@ -149,11 +149,11 @@ describe('TemporalIndexingDiviner', () => {
       const payloads = await stateArchivist.all()
       const stateBoundWitnesses = payloads.filter(isBoundWitness)
       expect(stateBoundWitnesses).toBeArrayOfSize(2)
-      stateBoundWitnesses.forEach((stateBoundWitness) => {
+      for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
         expect(stateBoundWitness.addresses).toBeArrayOfSize(1)
         expect(stateBoundWitness.addresses).toContain(sut.address)
-      })
+      }
     })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()

@@ -114,7 +114,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
       await this.resolveRemoteModules()
       if (typeof nameOrAddressOrFilter === 'string') {
         if (mutatedOptions.maxDepth < 0) {
-          return undefined
+          return
         }
         const result: T | undefined = (await this.resolveByAddress<T>(nameOrAddressOrFilter)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
         return result
@@ -139,7 +139,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     const remoteAddresses = await this.getRemoteAddresses()
 
     //check if it is even there
-    if (!remoteAddresses.find((address) => address === targetAddress)) {
+    if (!remoteAddresses.includes(targetAddress)) {
       //this.logger?.log(`Not in RA: ${targetAddress}`)
       return undefined
     }

@@ -12,10 +12,12 @@ export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQ
   async delete(responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
   async delete(responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
-      case 'tuple':
+      case 'tuple': {
         return await this.deleteEndpoint(undefined, 'tuple')
-      default:
-        return await this.deleteEndpoint(undefined)
+      }
+      default: {
+        return await this.deleteEndpoint()
+      }
     }
   }
 
@@ -24,10 +26,12 @@ export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQ
   async find(query?: Q, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
   async find(query = {}, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
-      case 'tuple':
+      case 'tuple': {
         return await this.getEndpoint(objToQuery(query), 'tuple')
-      default:
+      }
+      default: {
         return await this.getEndpoint(objToQuery(query))
+      }
     }
   }
 
@@ -36,10 +40,12 @@ export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQ
   async get(responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
   async get(responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
-      case 'tuple':
+      case 'tuple': {
         return await this.getEndpoint(undefined, 'tuple')
-      default:
-        return await this.getEndpoint(undefined)
+      }
+      default: {
+        return await this.getEndpoint()
+      }
     }
   }
 
@@ -48,10 +54,12 @@ export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQ
   async post(data?: D, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
   async post(data?: D, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
-      case 'tuple':
+      case 'tuple': {
         return await this.postEndpoint(undefined, data, 'tuple')
-      default:
+      }
+      default: {
         return await this.postEndpoint(undefined, data)
+      }
     }
   }
 
@@ -60,10 +68,12 @@ export class ApiSimple<T = Payload, D = T, Q extends ApiSimpleQuery = ApiSimpleQ
   async put(data?: D, responseType?: 'tuple'): Promise<ApiResponseTuple<T>>
   async put(data?: D, responseType?: ApiResponseType): Promise<ApiResponseTupleOrBody<T>> {
     switch (responseType) {
-      case 'tuple':
+      case 'tuple': {
         return await this.putEndpoint(undefined, data, 'tuple')
-      default:
+      }
+      default: {
         return await this.putEndpoint(undefined, data)
+      }
     }
   }
 }

@@ -40,20 +40,22 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   }
 
   private buildAddressChains(address: string, bwRecords: Record<string, BoundWitnessWrapper>): Record<string, BoundWitnessWrapper[]> {
+    // eslint-disable-next-line unicorn/no-array-reduce
     const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
       prev[key] = [value]
       return prev
     }, {})
+    // eslint-disable-next-line unicorn/no-array-reduce
     return Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
       //check if key is still there (may have been deleted as prevHash)
       if (prev[key]) {
         const previousHash = value.prev(address)
-        if (previousHash) {
-          //if we have the previousHash, move this bw to its chain
-          if (prev[previousHash]) {
-            prev[key].push(...prev[previousHash])
-            delete prev[previousHash]
-          }
+        if (
+          previousHash && //if we have the previousHash, move this bw to its chain
+          prev[previousHash]
+        ) {
+          prev[key].push(...prev[previousHash])
+          delete prev[previousHash]
         }
       }
       return prev

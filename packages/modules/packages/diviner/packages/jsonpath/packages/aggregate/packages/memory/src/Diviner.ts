@@ -53,7 +53,7 @@ export class JsonPathAggregateDiviner<
    * List of transformable schemas for this diviner
    */
   protected get transformableSchemas(): string[] {
-    if (!this._transformableSchemas) this._transformableSchemas = [...Object.keys(this.schemaTransforms)]
+    if (!this._transformableSchemas) this._transformableSchemas = Object.keys(this.schemaTransforms)
     return this._transformableSchemas
   }
 
@@ -78,6 +78,6 @@ export class JsonPathAggregateDiviner<
    * @returns True if this schema is one transformed by this diviner, false otherwise
    */
   protected isTransformableSchema = (schema?: string | null) => {
-    return this.transformableSchemas.some((s) => s === schema)
+    return typeof schema === 'string' ? this.transformableSchemas.includes(schema) : false
   }
 }

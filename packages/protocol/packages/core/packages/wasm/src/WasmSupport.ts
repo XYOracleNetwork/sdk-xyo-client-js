@@ -130,7 +130,7 @@ export class WasmSupport {
   static async create(desiredFeatures: WasmFeature[]): Promise<WasmSupport> {
     const instance = new WasmSupport(desiredFeatures)
     await instance.initialize()
-    return Promise.resolve(instance)
+    return instance
   }
 
   /**
@@ -140,7 +140,7 @@ export class WasmSupport {
    */
   async featureCheck(features: WasmFeature[]): Promise<boolean> {
     const results = await Promise.all(features.map((feature) => WasmFeatureDetectors[feature]).map(async (detector) => await detector()))
-    return results.every((result) => result)
+    return results.every(Boolean)
   }
 
   /**
@@ -157,12 +157,8 @@ export class WasmSupport {
     for (let feature = 0; feature < this.desiredFeatures.length; feature++) {
       const desiredFeature = this.desiredFeatures[feature]
       const detector = WasmFeatureDetectors[desiredFeature]
-      if (!(await detector())) {
-        this._featureSupport[desiredFeature] = false
-      } else {
-        this._featureSupport[desiredFeature] = true
-      }
+      this._featureSupport[desiredFeature] = (await detector()) ? true : false
     }
-    this._isWasmFeatureSetSupported = Object.values(this._featureSupport).every((v) => v)
+    this._isWasmFeatureSetSupported = Object.values(this._featureSupport).every(Boolean)
   }
 }

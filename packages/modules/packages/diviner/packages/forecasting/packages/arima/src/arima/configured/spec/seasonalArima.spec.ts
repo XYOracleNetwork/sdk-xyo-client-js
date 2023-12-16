@@ -4,7 +4,7 @@ import { seasonalArimaForecastingMethod } from '../seasonalArima'
 
 const twoPi = 2 * Math.PI
 
-const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || NaN
+const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || Number.NaN
 
 describe('seasonalArimaForecasting', () => {
   it('should forecast', async () => {

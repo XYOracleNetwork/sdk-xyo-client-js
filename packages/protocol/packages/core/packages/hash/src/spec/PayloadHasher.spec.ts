@@ -35,13 +35,13 @@ describe('Hasher', () => {
   test('wasm vs js (performance-serial)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
-    for (let x = 0; x < 10000; x++) {
+    for (let x = 0; x < 10_000; x++) {
       await PayloadHasher.hashAsync({ ...testObject, nonce: x })
     }
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
-    for (let x = 0; x < 10000; x++) {
+    for (let x = 0; x < 10_000; x++) {
       await PayloadHasher.hashAsync({ ...testObject, nonce: x })
     }
     const wasmHashDuration = Date.now() - wasmHashStart
@@ -57,7 +57,7 @@ describe('Hasher', () => {
   test('wasm vs js (performance-parallel)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
     const jsTestObjects: PayloadHasher[] = []
-    for (let x = 0; x < 10000; x++) {
+    for (let x = 0; x < 10_000; x++) {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
@@ -65,7 +65,7 @@ describe('Hasher', () => {
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmTestObjects: PayloadHasher[] = []
-    for (let x = 0; x < 10000; x++) {
+    for (let x = 0; x < 10_000; x++) {
       wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()

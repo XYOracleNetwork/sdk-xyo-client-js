@@ -64,11 +64,13 @@ export abstract class AbstractDiviner<
     assertEx(this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
-      case DivinerDivineQuerySchema:
+      case DivinerDivineQuerySchema: {
         resultPayloads.push(...(await this.divine(cleanPayloads as TIn[])))
         break
-      default:
+      }
+      default: {
         return super.queryHandler(query, payloads)
+      }
     }
     return resultPayloads
   }

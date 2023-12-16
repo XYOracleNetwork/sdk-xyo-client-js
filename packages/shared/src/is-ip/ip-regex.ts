@@ -23,8 +23,8 @@ const v6 = `
 (?::(?:(?::${v6segment}){0,5}:${v4}|(?::${v6segment}){1,7}|:))             // ::2:3:4:5:6:7:8  ::2:3:4:5:6:7:8  ::8             ::1.2.3.4
 )(?:%[0-9a-zA-Z]{1,})?                                             // %eth0            %1
 `
-  .replace(/\s*\/\/.*$/gm, '')
-  .replace(/\n/g, '')
+  .replaceAll(/\s*\/\/.*$/gm, '')
+  .replaceAll('\n', '')
   .trim()
 
 // Pre-compile only the exact regexes because adding a global flag make regexes stateful

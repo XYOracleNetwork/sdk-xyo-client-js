@@ -38,7 +38,7 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     if (obj === undefined || obj === null) return obj
     try {
       return this.parse<T>(obj)
-    } catch (ex) {
+    } catch {
       return undefined
     }
   }
@@ -53,8 +53,9 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
           'Unable to parse payload object',
         )
       }
-      default:
-        throw Error(`Can only parse objects [${typeof payload}]`)
+      default: {
+        throw new Error(`Can only parse objects [${typeof payload}]`)
+      }
     }
   }
 

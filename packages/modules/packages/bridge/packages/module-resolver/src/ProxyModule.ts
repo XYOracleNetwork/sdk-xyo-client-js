@@ -65,7 +65,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   addressPreviousHash(): Promise<AddressPreviousHashPayload> {
-    throw Error('Not Implemented')
+    throw new Error('Not Implemented')
   }
 
   async busy<R>(closure: () => Promise<R>) {
@@ -102,7 +102,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
       description.children = compact(
         discover?.map((payload) => {
           const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-          return address != this.address ? address : undefined
+          return address == this.address ? undefined : address
         }) ?? [],
       )
 
@@ -122,11 +122,11 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
-    throw Error('Not Implemented')
+    throw new Error('Not Implemented')
   }
 
   previousHash(): Promise<string | undefined> {
-    throw Error('Not Implemented')
+    throw new Error('Not Implemented')
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
@@ -149,11 +149,9 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     return await this.busy(async () => {
-      if (typeof nameOrAddressOrFilter === 'string') {
-        return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-      } else {
-        return await this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-      }
+      return await (typeof nameOrAddressOrFilter === 'string'
+        ? this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
+        : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
     })
   }
 }

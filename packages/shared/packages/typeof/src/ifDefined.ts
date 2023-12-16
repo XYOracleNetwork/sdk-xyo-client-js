@@ -1,12 +1,14 @@
 import { typeOf } from './typeOf'
 
-export const ifDefined = <T>(value: T, func: (value: T) => void) => {
+export const ifDefined = <T>(value: T, function_: (value: T) => void) => {
   switch (typeOf(value)) {
     case 'undefined':
-    case 'null':
+    case 'null': {
       break
-    default:
-      func(value)
+    }
+    default: {
+      function_(value)
       return value
+    }
   }
 }

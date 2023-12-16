@@ -132,7 +132,7 @@ export class Quadkey {
     }
     let id = 0n
     for (let i = 0; i < value.length; i++) {
-      const nibble = parseInt(value[i])
+      const nibble = Number.parseInt(value[i])
       assertEx(nibble < 4 && nibble >= 0, `Invalid Base4 String: ${value}`)
       id = (id << 2n) | BigInt(nibble)
     }
@@ -157,10 +157,12 @@ export class Quadkey {
 
   static fromString(zoom: number, id: string, base = 16) {
     switch (base) {
-      case 16:
+      case 16: {
         return Quadkey.fromBase16String(id).setZoom(zoom)
-      default:
-        throw Error(`Invalid base [${base}]`)
+      }
+      default: {
+        throw new Error(`Invalid base [${base}]`)
+      }
     }
   }
 
@@ -177,7 +179,7 @@ export class Quadkey {
     // recursively get children
     let deepResult: Quadkey[] = []
     for (const quadkey of this.children) {
-      deepResult = deepResult.concat(quadkey.childrenByZoom(zoom))
+      deepResult = [...deepResult, ...quadkey.childrenByZoom(zoom)]
     }
     return deepResult
   }
@@ -204,16 +206,19 @@ export class Quadkey {
     while (index < hash.length) {
       blockSize >>= 1
       switch (hash[index]) {
-        case '1':
+        case '1': {
           left += blockSize
           break
-        case '2':
+        }
+        case '2': {
           top += blockSize
           break
-        case '3':
+        }
+        case '3': {
           left += blockSize
           top += blockSize
           break
+        }
       }
       index++
     }
@@ -251,15 +256,15 @@ export class Quadkey {
     }
     let index = quadkey.length - 1
     while (index >= 0) {
-      let number = parseInt(quadkey.charAt(index))
+      let number = Number.parseInt(quadkey.charAt(index))
       number += directionConstant
       if (number > 3) {
         number -= 4
-        quadkey = quadkey.substring(0, index) + number.toString() + quadkey.substring(index + 1)
+        quadkey = quadkey.slice(0, Math.max(0, index)) + number.toString() + quadkey.slice(Math.max(0, index + 1))
         index--
       } else if (number < 0) {
         number += 4
-        quadkey = quadkey.substring(0, index) + number.toString() + quadkey.substring(index + 1)
+        quadkey = quadkey.slice(0, Math.max(0, index)) + number.toString() + quadkey.slice(Math.max(0, index + 1))
         index--
       } else {
         index = -1

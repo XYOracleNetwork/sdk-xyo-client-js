@@ -24,7 +24,6 @@ export class AdhocWitness<TParams extends AdhocWitnessParams = AdhocWitnessParam
 
   protected override observeHandler(payloads?: Payload[]): Promisable<Payload[]> {
     const configPayloads = this.payload ? [this.payload] : []
-    const inPayloads = payloads ? payloads : []
-    return [...configPayloads, ...inPayloads]
+    return [...configPayloads, ...(payloads ?? [])]
   }
 }

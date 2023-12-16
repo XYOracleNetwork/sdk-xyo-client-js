@@ -4,10 +4,10 @@ import { handleError } from './handleError'
 /** @deprecated use functionName from @xylabs/function-name instead */
 export const getFunctionName = (depth = 2) => {
   try {
-    throw Error()
-  } catch (ex) {
-    return handleError(ex, (error) => {
-      let newIndex: number | undefined = undefined
+    throw new Error('Getting function name')
+  } catch (error) {
+    return handleError(error, (error) => {
+      let newIndex: number | undefined
       const stackParts = error.stack?.split('\n')[depth].split(' ')
       const funcName =
         stackParts?.find((item, index) => {

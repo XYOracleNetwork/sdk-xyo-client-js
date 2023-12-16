@@ -22,14 +22,14 @@ export class IsObjectFactory<T extends {}> {
       }
       return (
         //do primary check
-        Object.entries(shape ?? {}).reduce((prev, [key, type]) => {
+        Object.entries(shape ?? {}).filter(([key, type]) => {
           const result = isType(obj[key], type)
           if (!result && log) {
             const logger = typeof log === 'object' ? log : console
             logger.warn(`isType Failed: ${key}: ${type}`)
           }
-          return prev && result
-        }, true) &&
+          return !result
+        }).length === 0 &&
         //perform additional checks
         (additionalChecks?.reduce((prev, check) => prev && check(obj, { log }), true) ?? true)
       )

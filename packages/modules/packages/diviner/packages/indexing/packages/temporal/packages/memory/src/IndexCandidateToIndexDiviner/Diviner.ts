@@ -44,7 +44,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * List of indexable schemas for this diviner
    */
   protected get indexableSchemas(): string[] {
-    if (!this._indexableSchemas) this._indexableSchemas = [...Object.keys(this.schemaTransforms)]
+    if (!this._indexableSchemas) this._indexableSchemas = Object.keys(this.schemaTransforms)
     return this._indexableSchemas
   }
 
@@ -68,8 +68,9 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
     const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
-    if (bws.length && indexablePayloads.length) {
+    if (bws.length > 0 && indexablePayloads.length > 0) {
       const payloadDictionary = await PayloadHasher.toMap(payloads)
+      // eslint-disable-next-line unicorn/no-array-reduce
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
         if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return indexableTuples
@@ -86,14 +87,12 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       const indexes = await Promise.all(
         validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, ...sourcePayloads]) => {
           // Use the payload transformers to convert the fields from the source payloads to the destination fields
-          const indexFields = sourcePayloads
-            .map<PayloadFields[]>((payload) => {
-              // Find the transformers for this payload
-              const transformers = this.payloadTransformers[payload.schema]
-              // If transformers exist, apply them to the payload otherwise return an empty array
-              return transformers ? transformers.map((transform) => transform(payload)) : []
-            })
-            .flat()
+          const indexFields = sourcePayloads.flatMap<PayloadFields[]>((payload) => {
+            // Find the transformers for this payload
+            const transformers = this.payloadTransformers[payload.schema]
+            // If transformers exist, apply them to the payload otherwise return an empty array
+            return transformers ? transformers.map((transform) => transform(payload)) : []
+          })
           // Include all the sources for reference
           const sources = Object.keys(await PayloadHasher.toMap([bw, ...sourcePayloads]))
           // Build and return the index
@@ -104,7 +103,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       )
       return indexes.flat()
     }
-    return Promise.resolve([])
+    return []
   }
 
   /**
@@ -122,6 +121,6 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * @returns True if this schema is one indexed by this diviner, false otherwise
    */
   protected isIndexableSchema = (schema?: string | null) => {
-    return this.indexableSchemas.some((s) => s === schema)
+    return typeof schema === 'string' ? this.indexableSchemas.includes(schema) : false
   }
 }

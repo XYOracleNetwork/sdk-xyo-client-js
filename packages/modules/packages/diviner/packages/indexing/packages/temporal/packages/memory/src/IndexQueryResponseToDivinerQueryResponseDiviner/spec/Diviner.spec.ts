@@ -24,7 +24,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         sources: [],
         status: 200,
         success: true,
-        timestamp: 1234567890,
+        timestamp: 1_234_567_890,
         url,
       },
     ],
@@ -34,7 +34,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         sources: [],
         status: 200,
         success: true,
-        timestamp: 1234567891,
+        timestamp: 1_234_567_891,
         url,
       },
       {
@@ -42,7 +42,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         sources: [],
         status: 500,
         success: false,
-        timestamp: 1234567892,
+        timestamp: 1_234_567_892,
         url,
       },
     ],
@@ -58,7 +58,7 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         const results = await diviner.divine([imageThumbnailDivinerQuery, ...imageThumbnailResultIndex])
         expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
         expect(results).toBeArrayOfSize(imageThumbnailResultIndex.length)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/no-array-for-each
         results.forEach((result: any, i) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const index = imageThumbnailResultIndex[i] as any
@@ -77,11 +77,9 @@ describe('TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner
         expect(results).toBeArrayOfSize(indexesLength)
         expect(results).toBeArrayOfSize(indexesLength)
         let resultsIterator = 0
-        for (let i = 0; i < queries.length; i++) {
-          const { url } = queries[i]
+        for (const [i, { url }] of queries.entries()) {
           const indexSet = indexes[i]
-          for (let j = 0; j < indexSet.length; j++) {
-            const index = indexSet[j]
+          for (const index of indexSet) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const result = results[resultsIterator] as any
             expect(result.url).toBe(url)

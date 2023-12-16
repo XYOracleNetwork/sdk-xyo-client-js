@@ -34,7 +34,7 @@ export const checkIpfsUrl = (urlToCheck: string, ipfsGateway?: string): string =
     } else {
       return urlToCheck
     }
-  } catch (ex) {
+  } catch {
     //const error = ex as Error
     //console.error(`${error.name}:${error.message} [${urlToCheck}]`)
     //console.log(error.stack)

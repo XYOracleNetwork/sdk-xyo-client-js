@@ -46,7 +46,7 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
         const publicHex = AddressValue.ecContext
           .keyFromPublic(AddressValue.ecContext.recoverPubKey(toUint8Array(msg), { r, s }, recoveryId))
           .getPublic('hex')
-          .substring(2)
+          .slice(2)
         const publicKey = toUint8Array(publicHex)
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || equalArrayBuffers(recoveredAddress, expectedAddress)

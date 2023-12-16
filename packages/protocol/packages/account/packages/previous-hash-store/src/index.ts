@@ -1,2 +1,1 @@
-import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-export type { PreviousHashStore }
+export { type PreviousHashStore } from '@xyo-network/previous-hash-store-model'

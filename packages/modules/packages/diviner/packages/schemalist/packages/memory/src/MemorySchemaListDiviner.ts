@@ -20,10 +20,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
     const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
-    return filtered
-      .map((bw) => bw.payload_schemas)
-      .flat()
-      .filter(distinct)
+    return filtered.flatMap((bw) => bw.payload_schemas).filter(distinct)
   }
 
   protected async divineAllAddresses(): Promise<string[]> {

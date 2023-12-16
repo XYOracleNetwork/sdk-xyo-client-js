@@ -20,7 +20,7 @@ export abstract class AbstractTransformDiviner<TParams extends TransformDivinerP
     if (this.config.transform) {
       transforms.push({ schema: TransformDivinerSchema, transform: this.config.transform })
     }
-    return transforms.map((transform) => payloads?.map(this.transformer(transform)) || []).flat()
+    return transforms.flatMap((transform) => payloads?.map(this.transformer(transform)) || [])
   }
 
   protected abstract transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(

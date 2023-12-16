@@ -2,7 +2,7 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { arimaForecastingMethod } from '../arima'
 
-const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || NaN
+const transformer = (payload: Payload) => (payload as Payload<{ data: number }>)?.data || Number.NaN
 
 describe('arimaForecasting', () => {
   it('should forecast', async () => {

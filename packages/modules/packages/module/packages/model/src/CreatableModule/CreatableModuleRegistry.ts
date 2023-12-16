@@ -7,6 +7,7 @@ export interface CreatableModuleRegistry {
 }
 
 export const toCreatableModuleRegistry = (dict: CreatableModuleDictionary | CreatableModuleRegistry): CreatableModuleRegistry => {
+  // eslint-disable-next-line unicorn/no-array-reduce
   return Object.entries(dict).reduce((registry, [schema, factory]) => {
     registry[schema] = Array.isArray(factory) ? factory : [factory]
     return registry

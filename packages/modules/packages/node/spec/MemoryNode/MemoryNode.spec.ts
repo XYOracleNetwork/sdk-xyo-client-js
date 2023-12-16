@@ -362,13 +362,13 @@ describe('MemoryNode', () => {
         expect(attachEvents.includes(nestedNode)).toBeTrue()
         expect(attachEvents.includes(node)).toBeFalse()
         expect(nestedModules.length).toBe(1)
-        nestedModules.forEach((nestedModule) => {
+        for (const nestedModule of nestedModules) {
           expect(attachEvents.includes(nestedModule)).toBeTrue()
-        })
+        }
         expect(rootModules.length).toBe(2)
-        rootModules.forEach((rootModule) => {
+        for (const rootModule of rootModules) {
           expect(attachEvents.includes(rootModule)).toBeTrue()
-        })
+        }
         const eventAddresses = attachEvents.map((module) => module.address)
         expect(eventAddresses.length).toBe(3)
       })

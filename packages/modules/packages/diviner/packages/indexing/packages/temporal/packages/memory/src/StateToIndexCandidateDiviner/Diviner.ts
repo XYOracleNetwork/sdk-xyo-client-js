@@ -59,7 +59,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   }
 
   get payloadDivinerLimit() {
-    return this.config.payloadDivinerLimit ?? 1_000
+    return this.config.payloadDivinerLimit ?? 1000
   }
 
   /**
@@ -133,7 +133,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const results = await archivist.get(hashes)
     const indexCandidateIdentityFunctions = this.payload_schemas.map(isPayloadOfSchemaType)
     const filteredResults = indexCandidateIdentityFunctions.map((is) => results.find(is))
-    if (filteredResults.some((f) => f === undefined)) return undefined
+    if (filteredResults.includes(undefined)) return undefined
     const indexCandidates: IndexCandidate[] = filteredResults.filter(exists) as IndexCandidate[]
     return [bw, ...indexCandidates]
   }

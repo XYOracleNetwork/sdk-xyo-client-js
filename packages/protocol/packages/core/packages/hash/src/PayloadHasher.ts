@@ -30,6 +30,11 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
+  /**
+   * Asynchronously hashes a payload
+   * @param obj A payload
+   * @returns The payload hash
+   */
   static async hashAsync<T extends EmptyObject>(obj: T): Promise<Hash> {
     if (PayloadHasher.allowSubtle) {
       try {
@@ -62,25 +67,40 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return sortFields(removeEmptyFields(deepOmitUnderscoreFields(obj)))
   }
 
+  /**
+   * Creates an array of payload/hash tuples based on the payloads passed in
+   * @param objs Any array of payloads
+   * @returns An array of payload/hash tuples
+   */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
     return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
   }
 
+  /**
+   * Synchronously hashes a payload
+   * @param obj A payload
+   * @returns The payload hash
+   */
   static hashSync<T extends EmptyObject>(obj: T): Hash {
     return asHash(shajs('sha256').update(this.stringifyHashFields(obj)).digest().toString('hex'), true)
   }
 
+  /**
+   * Creates an array of payload hashes based on the payloads passed in
+   * @param objs Any array of payloads
+   * @returns An array of payload hashes
+   */
   static async hashes<T extends EmptyObject>(objs: T[]): Promise<Hash[]> {
     return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
   }
 
-  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
-  static jsonPayload<T extends EmptyObject>(
-    /** @param payload The payload to process */
-    payload: T,
-    /** @param meta Keeps underscore (meta) fields if set to true */
-    meta = false,
-  ): T {
+  /**
+   * Returns a clone of the payload that is JSON safe
+   * @param obj A payload
+   * @param meta Keeps underscore (meta) fields if set to true
+   * @returns Returns a clone of the payload that is JSON safe
+   */
+  static jsonPayload<T extends EmptyObject>(payload: T, meta = false): T {
     return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
   }
 
@@ -88,6 +108,11 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return JSON.stringify(this.hashFields(obj))
   }
 
+  /**
+   * Creates an object map of payload hashes to payloads based on the payloads passed in
+   * @param objs Any array of payloads
+   * @returns A map of hashes to payloads
+   */
   static async toMap<T extends EmptyObject>(objs: T[]): Promise<Record<Hash, T>> {
     return Object.fromEntries(
       await Promise.all(
@@ -106,11 +131,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return PayloadHasher.hashSync(this.obj)
   }
 
-  /** @function jsonPayload Returns a clone of the payload that is JSON safe */
-  jsonPayload(
-    /** @param meta Keeps underscore (meta) fields if set to true */
-    meta = false,
-  ): T {
+  /**
+   * Returns a clone of the payload that is JSON safe
+   * @param meta Keeps underscore (meta) fields if set to true
+   * @returns Returns a clone of the payload that is JSON safe
+   */
+  jsonPayload(meta = false): T {
     return PayloadHasher.jsonPayload(this.obj, meta)
   }
 }

@@ -4,40 +4,46 @@
     {
       "config": {
         "name": "DivinerTest",
-        "schema": "network.xyo.node.config"
+        "schema": "network.xyo.node.config",
+        "language": "javascript"
       },
       "modules": {
         "public": [
           {
             "config": {
-              "name": "ImageThumbnailArchivist",
+              "language": "javascript",
+              "name": "Archivist",
               "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
-              "archivist": "ImageThumbnailArchivist",
-              "name": "ImageThumbnailBoundWitnessDiviner",
+              "language": "javascript",
+              "archivist": "Archivist",
+              "name": "BoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
             }
           },
           {
             "config": {
-              "archivist": "ImageThumbnailArchivist",
-              "name": "ImageThumbnailPayloadDiviner",
+              "language": "javascript",
+              "archivist": "Archivist",
+              "name": "PayloadDiviner",
               "schema": "network.xyo.diviner.payload.config"
             }
           },
           {
             "config": {
+              "language": "javascript",
               "archivist": "AdHocWitness",
-              "name": "ImageThumbnailPayloadDiviner",
+              "name": "PayloadDiviner",
               "schema": "network.xyo.witness.adhoc.config",
               "payload": { "id": 1, "schema": "network.xyo.id" }
             }
           },
           {
             "config": {
+              "language": "javascript",
               "name": "TemporalStateToIndexCandidateDiviner",
               "schema": "network.xyo.sentinel.config"
             }

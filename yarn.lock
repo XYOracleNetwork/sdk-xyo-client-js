@@ -4624,21 +4624,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/manifest@workspace:packages/manifest"
   dependencies:
-    "@xylabs/assert": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.24"
     "@xylabs/tsconfig": "npm:^3.2.24"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/address-payload-plugin": "npm:^2.84.2"
-    "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/manifest-wrapper": "workspace:~"
-    "@xyo-network/memory-archivist": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node-memory": "workspace:~"
-    "@xyo-network/node-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
-    "@xyo-network/sentinel": "workspace:~"
-    "@xyo-network/wallet-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

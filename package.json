@@ -116,7 +116,7 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.84.6",
+  "version": "2.84.7",
   "packageManager": "yarn@4.0.2",
   "volta": {
     "node": "18.19.0",

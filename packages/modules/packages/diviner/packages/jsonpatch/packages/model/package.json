@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "json-joy": "^11.22.0"
+    "json-joy": "^11.24.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.24",

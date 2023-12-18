@@ -10,15 +10,23 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
+    "@xylabs/assert": "^2.13.20",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/http-bridge": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/manifest-wrapper": "workspace:~"
+    "@xyo-network/memory-archivist": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.24",
     "@xylabs/tsconfig": "^3.2.24",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.84.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-json-schema": "^0.62.0"
   },
   "types": "dist/node/index.d.ts",
   "exports": {
@@ -44,8 +52,8 @@
         }
       }
     },
-    "./schema": {
-      "default": "./src/schema.json"
+    "./schema/package": {
+      "default": "./dist/PackageManifest.schema.json"
     },
     "./package.json": "./package.json"
   },
@@ -53,13 +61,16 @@
   "module": "dist/node/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/manifest",
+  "name": "@xyo-network/manifest-wrapper",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "scripts": {
+    "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
   "version": "2.84.7",

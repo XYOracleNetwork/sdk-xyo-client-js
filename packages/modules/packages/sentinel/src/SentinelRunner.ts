@@ -1,9 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { SentinelInstance } from '@xyo-network/sentinel-model'
+import {
+  isSentinelIntervalAutomation,
+  SentinelAutomationPayload,
+  SentinelInstance,
+  SentinelIntervalAutomationPayload,
+} from '@xyo-network/sentinel-model'
 
-import { isSentinelIntervalAutomation, SentinelAutomationPayload, SentinelIntervalAutomationPayload } from './Automation'
 import { SentinelIntervalAutomationWrapper } from './SentinelIntervalAutomationWrapper'
 
 export type OnSentinelRunnerTriggerResult = (result: Payload[]) => void

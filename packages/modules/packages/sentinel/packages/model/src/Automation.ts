@@ -1,5 +1,6 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { Task } from '@xyo-network/sentinel-model'
+
+import { Task } from './Task'
 
 export type SentinelAutomationSchema = 'network.xyo.automation'
 export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.automation'
@@ -12,7 +13,6 @@ export const SentinelEventAutomationSchema: SentinelEventAutomationSchema = 'net
 
 export type SentinelBaseAutomationPayload<T extends Payload> = Payload<
   {
-    tasks?: Task[]
     type?: 'interval' | 'event'
   } & T
 >

@@ -14,6 +14,8 @@ import {
 } from '@xyo-network/sentinel-model'
 import { asWitnessInstance } from '@xyo-network/witness-model'
 
+import { SentinelRunner } from './SentinelRunner'
+
 export type MemorySentinelParams<TConfig extends AnyConfigSchema<SentinelConfig> = AnyConfigSchema<SentinelConfig>> = SentinelParams<TConfig>
 
 export class MemorySentinel<
@@ -21,6 +23,8 @@ export class MemorySentinel<
   TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
 > extends AbstractSentinel<TParams, TEventData> {
   static override configSchemas = [SentinelConfigSchema]
+
+  private runner?: SentinelRunner
 
   async reportHandler(inPayloads: Payload[] = []): Promise<Payload[]> {
     await this.started('throw')
@@ -34,6 +38,25 @@ export class MemorySentinel<
       index++
     }
     return Object.values(previousResults).flat()
+  }
+
+  override async start(timeout?: number | undefined): Promise<boolean> {
+    if (await super.start(timeout)) {
+      if ((this.config.automations?.length ?? 0) > 0) {
+        this.runner = new SentinelRunner(this, this.config.automations)
+        await this.runner.start()
+      }
+      return true
+    }
+    return false
+  }
+
+  override async stop(timeout?: number | undefined): Promise<boolean> {
+    if (this.runner) {
+      this.runner.stop()
+      this.runner = undefined
+    }
+    return await super.stop(timeout)
   }
 
   private async generateResults(

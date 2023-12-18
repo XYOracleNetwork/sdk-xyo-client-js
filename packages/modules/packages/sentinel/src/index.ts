@@ -1,4 +1,3 @@
-export * from './Automation'
 export * from './MemorySentinel'
 export * from './SentinelIntervalAutomationWrapper'
 export * from './SentinelRunner'

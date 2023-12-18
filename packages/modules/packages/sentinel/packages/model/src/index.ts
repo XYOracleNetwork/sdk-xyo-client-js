@@ -1,3 +1,4 @@
+export * from './Automation'
 export * from './Config'
 export * from './EventData'
 export * from './EventsModels'

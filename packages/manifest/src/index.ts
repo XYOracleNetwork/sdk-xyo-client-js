@@ -1,3 +1,2 @@
-export * from './ManifestWrapper'
-export * from './standardCreatableModules'
 export * from '@xyo-network/manifest-model'
+export * from '@xyo-network/manifest-wrapper'

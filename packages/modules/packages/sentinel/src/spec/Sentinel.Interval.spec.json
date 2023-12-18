@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "DivinerTest",
+        "schema": "network.xyo.node.config"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "name": "ImageThumbnailArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailArchivist",
+              "name": "ImageThumbnailBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "ImageThumbnailArchivist",
+              "name": "ImageThumbnailPayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AdHocWitness",
+              "name": "ImageThumbnailPayloadDiviner",
+              "schema": "network.xyo.witness.adhoc.config",
+              "payload": { "id": 1, "schema": "network.xyo.id" }
+            }
+          },
+          {
+            "config": {
+              "name": "TemporalStateToIndexCandidateDiviner",
+              "schema": "network.xyo.sentinel.config"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

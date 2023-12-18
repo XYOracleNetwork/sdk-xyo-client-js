@@ -11,14 +11,12 @@
         "public": [
           {
             "config": {
-              "language": "javascript",
               "name": "Archivist",
               "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
-              "language": "javascript",
               "archivist": "Archivist",
               "name": "BoundWitnessDiviner",
               "schema": "network.xyo.diviner.boundwitness.config"
@@ -26,7 +24,6 @@
           },
           {
             "config": {
-              "language": "javascript",
               "archivist": "Archivist",
               "name": "PayloadDiviner",
               "schema": "network.xyo.diviner.payload.config"
@@ -34,7 +31,6 @@
           },
           {
             "config": {
-              "language": "javascript",
               "archivist": "AdHocWitness",
               "name": "PayloadDiviner",
               "schema": "network.xyo.witness.adhoc.config",
@@ -43,7 +39,6 @@
           },
           {
             "config": {
-              "language": "javascript",
               "name": "TemporalStateToIndexCandidateDiviner",
               "schema": "network.xyo.sentinel.config"
             }

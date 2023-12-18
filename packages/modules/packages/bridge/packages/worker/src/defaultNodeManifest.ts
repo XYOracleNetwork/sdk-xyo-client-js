@@ -14,7 +14,6 @@ export const defaultPackageManifest: PackageManifestPayload = {
         private: [
           {
             config: {
-              language: 'javascript',
               name: 'ScratchArchivist',
               schema: ArchivistConfigSchema,
             },
@@ -23,14 +22,12 @@ export const defaultPackageManifest: PackageManifestPayload = {
         public: [
           {
             config: {
-              language: 'javascript',
               name: 'SimpleArchivist',
               schema: ArchivistConfigSchema,
             },
           },
           {
             config: {
-              language: 'javascript',
               name: 'SimpleSentinel',
               schema: SentinelConfigSchema,
             },

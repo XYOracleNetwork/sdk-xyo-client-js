@@ -10,10 +10,10 @@ import { WASMPublicKey } from './WASMPublicKey'
 @staticImplements<PrivateKeyStatic>()
 export class WASMPrivateKey extends PrivateKey {
   static readonly wasmFeatures: WasmFeature[] = ['bigInt', 'mutableGlobals', 'referenceTypes', 'saturatedFloatToInt', 'signExtensions', 'simd']
+  private static _secp256k1Instance?: Secp256k1
   private static _wasmSupport = new WasmSupport(WASMPrivateKey.wasmFeatures)
 
   private _publicKeyBytes: ArrayBuffer
-  private _secp256k1Instance: Promise<Secp256k1>
 
   constructor(value?: ArrayBuffer) {
     super(value)
@@ -21,12 +21,17 @@ export class WASMPrivateKey extends PrivateKey {
     this._privateKeyBytes = toUint8Array(privateHex)
     const publicHex = this._keyPair.getPublic('hex')
     this._publicKeyBytes = toUint8Array(publicHex)
-    this._secp256k1Instance = instantiateSecp256k1()
   }
 
   override get public(): PublicKeyInstance {
     if (!this._public) this._public = new WASMPublicKey(toUint8Array(this._keyPair.getPublic('hex').slice(2)))
     return this._public
+  }
+
+  static async getSecp256k1() {
+    await WASMPrivateKey.wasmInitialized()
+    this._secp256k1Instance = this._secp256k1Instance ?? (await instantiateSecp256k1())
+    return this._secp256k1Instance
   }
 
   static async wasmInitialized() {
@@ -39,16 +44,15 @@ export class WASMPrivateKey extends PrivateKey {
   override async sign(hash: ArrayBuffer) {
     // const { malleateSignatureCompact, signMessageHashCompact } = await this._secp256k1Instance
     // return malleateSignatureCompact(signMessageHashCompact(this.bytes, toUint8Array(hash)))
-    await WASMPrivateKey.wasmInitialized()
 
-    const { signMessageHashCompact } = await this._secp256k1Instance
+    const { signMessageHashCompact } = await WASMPrivateKey.getSecp256k1()
     return signMessageHashCompact(this.bytes, toUint8Array(hash))
   }
 
   override async verify(msg: ArrayBuffer, signature: ArrayBuffer) {
     await WASMPrivateKey.wasmInitialized()
 
-    const { verifySignatureCompact } = await this._secp256k1Instance
+    const { verifySignatureCompact } = await WASMPrivateKey.getSecp256k1()
     return verifySignatureCompact(toUint8Array(signature), toUint8Array(this._publicKeyBytes), toUint8Array(msg))
   }
 }

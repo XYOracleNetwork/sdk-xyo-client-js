@@ -9,13 +9,13 @@ import { PublicKey } from './PublicKey'
 @staticImplements<PublicKeyStatic>()
 export class WASMPublicKey extends PublicKey {
   static readonly wasmFeatures: WasmFeature[] = ['bigInt', 'mutableGlobals', 'referenceTypes', 'saturatedFloatToInt', 'signExtensions', 'simd']
+  private static _secp256k1Instance?: Secp256k1
   private static _wasmSupport = new WasmSupport(WASMPublicKey.wasmFeatures)
 
-  private _secp256k1Instance: Promise<Secp256k1>
-
-  constructor(bytes: ArrayBuffer) {
-    super(bytes)
-    this._secp256k1Instance = instantiateSecp256k1()
+  static async getSecp256k1() {
+    await WASMPublicKey.wasmInitialized()
+    this._secp256k1Instance = this._secp256k1Instance ?? (await instantiateSecp256k1())
+    return this._secp256k1Instance
   }
 
   static async wasmInitialized() {
@@ -26,8 +26,7 @@ export class WASMPublicKey extends PublicKey {
   }
 
   override async verify(msg: ArrayBuffer, signature: ArrayBuffer) {
-    await WASMPublicKey.wasmInitialized()
-    const { verifySignatureCompact } = await this._secp256k1Instance
+    const { verifySignatureCompact } = await WASMPublicKey.getSecp256k1()
     return verifySignatureCompact(toUint8Array(signature), new Uint8Array(this.bytes), toUint8Array(msg))
   }
 }

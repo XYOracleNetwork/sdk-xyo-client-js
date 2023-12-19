@@ -11,7 +11,8 @@ export class SentinelIntervalAutomationWrapper<
   protected get frequencyMillis() {
     const frequency = this.jsonPayload().frequency
     if (frequency === undefined) return Number.POSITIVE_INFINITY
-    switch (this.jsonPayload().frequencyUnits ?? 'hour') {
+    const frequencyUnits = this.jsonPayload().frequencyUnits
+    switch (frequencyUnits ?? 'hour') {
       case 'second': {
         return frequency * 1000
       }
@@ -24,16 +25,22 @@ export class SentinelIntervalAutomationWrapper<
       case 'day': {
         return frequency * 24 * 60 * 60 * 1000
       }
+      default: {
+        return Number.POSITIVE_INFINITY
+      }
     }
   }
 
   protected get remaining() {
-    //if remaining is not defined, we assume Infinity
-    return this.payload().remaining ?? Number.POSITIVE_INFINITY
+    return this.jsonPayload().remaining ?? Number.POSITIVE_INFINITY
   }
 
   next() {
-    this.jsonPayload().start = this.jsonPayload().start + this.frequencyMillis
+    const now = Date.now()
+    const previousStart = this.jsonPayload()?.start ?? now
+    const start = Math.max(previousStart, now)
+    const nextStart = start + this.frequencyMillis
+    this.setStart(nextStart)
     this.consumeRemaining()
     this.checkEnd()
     return this
@@ -41,16 +48,29 @@ export class SentinelIntervalAutomationWrapper<
 
   protected checkEnd() {
     if (this.jsonPayload().start > (this.jsonPayload().end ?? Number.POSITIVE_INFINITY)) {
-      this.jsonPayload().start = Number.POSITIVE_INFINITY
+      this.setStart(Number.POSITIVE_INFINITY)
     }
   }
 
   protected consumeRemaining(count = 1) {
-    const remaining = this.remaining - count
-    this.jsonPayload().remaining = remaining
+    const remaining = Math.max(this.remaining - count, 0)
+    this.setRemaining(remaining)
+    if (remaining <= 0) this.setStart(Number.POSITIVE_INFINITY)
+  }
 
-    if (remaining <= 0) {
-      this.jsonPayload().start = Number.POSITIVE_INFINITY
-    }
+  /**
+   * Sets the remaining of the wrapped automation
+   * @param remaining The remaining time in milliseconds
+   */
+  protected setRemaining(remaining: number) {
+    this.obj.remaining = remaining
+  }
+
+  /**
+   * Sets the start of the wrapped automation
+   * @param start The start time in milliseconds
+   */
+  protected setStart(start: number) {
+    this.obj.start = start
   }
 }

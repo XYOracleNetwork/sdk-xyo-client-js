@@ -112,7 +112,6 @@ describe('Sentinel', () => {
         const sentinel = await MemorySentinel.create(params)
         sentinel.on('reportEnd', (args) => {
           const { outPayloads } = args as ReportEndEventArgs
-          console.log('reportEnd')
           expect(outPayloads?.length).toBeGreaterThan(0)
         })
         await node.register(sentinel)

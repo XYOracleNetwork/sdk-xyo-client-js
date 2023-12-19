@@ -1,7 +1,5 @@
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-import { Task } from './Task'
-
 export type SentinelAutomationSchema = 'network.xyo.automation'
 export const SentinelAutomationSchema: SentinelAutomationSchema = 'network.xyo.automation'
 

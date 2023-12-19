@@ -51,7 +51,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       toCreatableModuleRegistry(standardCreatableModules),
       toCreatableModuleRegistry(additionalCreatableModules ?? {}),
     )
-    if (!(await collision(node, manifest.config.name, external)) && manifest.config.language && manifest.config.language === 'javascript') {
+    if (!(await collision(node, manifest.config.name, external))) {
       assertEx(
         (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
           (await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external)),

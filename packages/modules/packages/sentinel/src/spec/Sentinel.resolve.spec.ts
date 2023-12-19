@@ -58,13 +58,11 @@ describe('Sentinel', () => {
     const sentinel = await MemorySentinel.create(params)
     sentinel.on('reportEnd', (args) => {
       const { outPayloads } = args as ReportEndEventArgs
-      console.log('reportEnd')
       expect(outPayloads?.length).toBe(2)
     })
     await node.register(sentinel)
     await node.attach(sentinel.address)
     const result = await sentinel.report()
-    for (const payload of result) console.log(`Result: ${payload.schema}`)
     expect(result?.length).toBe(3)
   })
 })

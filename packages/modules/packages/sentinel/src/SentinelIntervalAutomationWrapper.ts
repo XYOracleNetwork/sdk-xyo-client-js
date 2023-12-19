@@ -32,8 +32,7 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected get remaining() {
-    //if remaining is not defined, we assume Infinity
-    return this.payload().remaining ?? Number.POSITIVE_INFINITY
+    return this.jsonPayload().remaining ?? Number.POSITIVE_INFINITY
   }
 
   next() {

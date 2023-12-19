@@ -56,6 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.84.7",
+  "version": "2.84.8",
   "type": "module"
 }

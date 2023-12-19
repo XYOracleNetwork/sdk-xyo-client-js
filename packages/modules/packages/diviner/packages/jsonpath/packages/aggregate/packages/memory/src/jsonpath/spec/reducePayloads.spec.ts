@@ -80,8 +80,8 @@ describe('transformPayloads', () => {
     const destinationSchema = output.schema
     const sources = await PayloadHasher.hashes(inputs)
     // With sources
-    expect(await reducePayloads(inputs, transforms, destinationSchema, true)).toEqual({ sources, ...output })
+    expect(await reducePayloads(inputs, transforms, destinationSchema, false)).toEqual({ sources, ...output })
     // Without sources
-    expect(await reducePayloads(inputs, transforms, destinationSchema, false)).toEqual({ ...output })
+    expect(await reducePayloads(inputs, transforms, destinationSchema, true)).toEqual({ ...output })
   })
 })

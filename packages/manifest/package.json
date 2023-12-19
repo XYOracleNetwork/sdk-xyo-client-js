@@ -16,8 +16,6 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.24",
     "@xylabs/tsconfig": "^3.2.24",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.84.2",
     "typescript": "^5.3.3"
   },
   "types": "dist/node/index.d.ts",

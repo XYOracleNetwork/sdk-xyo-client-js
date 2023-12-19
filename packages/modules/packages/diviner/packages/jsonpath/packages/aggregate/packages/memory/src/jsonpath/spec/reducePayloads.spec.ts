@@ -76,16 +76,12 @@ describe('transformPayloads', () => {
     ],
   ]
   it.each(cases)('%s', async (_title, inputs, schemaTransforms, output) => {
-    // Arrange
     const transforms = jsonPathToTransformersDictionary(schemaTransforms)
     const destinationSchema = output.schema
     const sources = await PayloadHasher.hashes(inputs)
-    const expected = { sources, ...output }
-
-    // Act
-    const actual = await reducePayloads(inputs, transforms, destinationSchema)
-
-    // Assert
-    expect(actual).toEqual(expected)
+    // With sources
+    expect(await reducePayloads(inputs, transforms, destinationSchema, false)).toEqual({ sources, ...output })
+    // Without sources
+    expect(await reducePayloads(inputs, transforms, destinationSchema, true)).toEqual({ ...output })
   })
 })

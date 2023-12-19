@@ -1,0 +1,150 @@
+{
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "nodes": [
+    {
+      "config": {
+        "name": "DivinerTest",
+        "schema": "network.xyo.node.config",
+        "language": "javascript"
+      },
+      "modules": {
+        "public": [
+          {
+            "config": {
+              "name": "AddressStateArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "name": "AddressStateBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "name": "AddressStatePayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "name": "Archivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "Archivist",
+              "name": "BoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "Archivist",
+              "name": "PayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
+              "name": "JsonPatch",
+              "schema": "network.xyo.diviner.jsonpatch.config"
+            }
+          },
+
+          {
+            "config": {
+              "name": "PayloadDivinerQueryTemplateWitness",
+              "schema": "network.xyo.witness.adhoc.config",
+              "payload": {
+                "limit": 1,
+                "order": "asc",
+                "schema": "network.xyo.diviner.payload.query",
+                "schemas": ["network.xyo.test"]
+              }
+            }
+          },
+          {
+            "config": {
+              "destinationSchema": "network.xyo.diviner.payload.query",
+              "excludeSources": true,
+              "name": "PayloadDivinerQueryBuilder",
+              "schema": "network.xyo.diviner.jsonpath.aggregate.config",
+              "schemaTransforms": {
+                "network.xyo.module.state": [
+                  {
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  }
+                ],
+                "network.xyo.diviner.payload.query": [
+                  {
+                    "destinationField": "limit",
+                    "sourcePathExpression": "$.limit"
+                  },
+                  {
+                    "defaultValue": 0,
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  },
+                  {
+                    "destinationField": "order",
+                    "sourcePathExpression": "$.order"
+                  },
+                  {
+                    "destinationField": "schemas",
+                    "sourcePathExpression": "$.schemas"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "config": {
+              "archiving": {
+                "archivists": ["Results"]
+              },
+              "automations": [
+                {
+                  "frequency": 1,
+                  "frequencyUnits": "second",
+                  "schema": "network.xyo.automation.interval",
+                  "start": 0,
+                  "type": "interval"
+                }
+              ],
+              "name": "Sentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "PayloadDivinerQueryTemplateWitness"
+                },
+                {
+                  "input": ["PayloadDivinerQueryTemplateWitness"],
+                  "module": "PayloadDivinerQueryBuilder"
+                },
+                {
+                  "input": ["PayloadDivinerQueryBuilder"],
+                  "module": "PayloadDiviner"
+                }
+              ]
+            }
+          },
+          {
+            "config": {
+              "name": "Results",
+              "schema": "network.xyo.archivist.config"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "network.xyo.manifest"
+}

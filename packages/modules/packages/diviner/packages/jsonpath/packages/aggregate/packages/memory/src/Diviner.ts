@@ -59,7 +59,12 @@ export class JsonPathAggregateDiviner<
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     if (!payloads) return []
-    const reducedPayloads = await reducePayloads<TOut>(payloads, this.payloadTransformers, this.destinationSchema)
+    const reducedPayloads = await reducePayloads<TOut>(
+      payloads,
+      this.payloadTransformers,
+      this.destinationSchema,
+      this.config.excludeSources ?? false,
+    )
     return [reducedPayloads]
   }
 

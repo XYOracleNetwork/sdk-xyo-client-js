@@ -3,6 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   SchemaToJsonPathTransformExpressionsDictionary,
@@ -16,8 +17,6 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
-
-import { jsonPathToTransformersDictionary } from '../jsonpath'
 
 export type IndexablePayloads = [BoundWitness, ...Payload[]]
 

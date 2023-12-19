@@ -22,6 +22,10 @@ export type JsonPathAggregateDivinerConfig = DivinerConfig<
      */
     destinationSchema?: string
     /**
+     * Include the source hashes in the destination payload. Defaults to true.
+     */
+    includeSources?: boolean
+    /**
      * The JSON Path transform expressions to apply to the payloads
      */
     schemaTransforms?: SchemaToJsonPathTransformExpressionsDictionary

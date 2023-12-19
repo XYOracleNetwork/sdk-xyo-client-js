@@ -28,17 +28,16 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/witness-timestamp": "workspace:~",
-    "jsonpath": "^1.1.1"
+    "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {
-    "@types/jsonpath": "^0.2.4",
     "@xylabs/delay": "^2.13.20",
     "@xylabs/ts-scripts-yarn3": "^3.2.24",
     "@xylabs/tsconfig": "^3.2.24",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
+    "@xyo-network/diviner-jsonpath-aggregate-memory": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",

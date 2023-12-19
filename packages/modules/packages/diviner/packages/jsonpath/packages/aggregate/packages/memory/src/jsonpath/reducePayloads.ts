@@ -14,6 +14,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
   payloads: Payload[],
   payloadTransformers: SchemaToPayloadTransformersDictionary,
   destinationSchema: string,
+  includeSources = true,
 ): Promise<T> => {
   // Use the payload transformers to convert the fields from the source payloads to the destination fields
   const indexFields = payloads.flatMap<PayloadFields[]>((payload) => {
@@ -23,9 +24,9 @@ export const reducePayloads = async <T extends Payload = Payload>(
     return transformers ? transformers.map((transform) => transform(payload)) : []
   })
   // Include all the sources for reference
-  const sources = (await PayloadHasher.hashPairs([...payloads])).map(([, hash]) => hash)
+  const baseObject = includeSources ? { sources: (await PayloadHasher.hashPairs([...payloads])).map(([, hash]) => hash) } : {}
   // Build and return the index
-  return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign({ sources }, ...indexFields)).build()
+  return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign(baseObject, ...indexFields)).build()
 }
 
 /**

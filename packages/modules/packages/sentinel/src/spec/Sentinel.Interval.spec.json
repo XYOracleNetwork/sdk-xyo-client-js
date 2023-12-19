@@ -44,6 +44,10 @@
               },
               "automations": [
                 {
+                  "end": 0,
+                  "frequency": 1,
+                  "frequencyUnits": "seconds",
+                  "remaining": 0,
                   "schema": "network.xyo.automation.interval",
                   "start": 0,
                   "type": "interval"

@@ -41,7 +41,7 @@ describe('Sentinel.Interval', () => {
   })
 
   it('should output interval results', async () => {
-    await delay(1000)
+    await delay(2000)
     const archivist = asArchivistInstance(await node.resolve('Archivist'))
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []

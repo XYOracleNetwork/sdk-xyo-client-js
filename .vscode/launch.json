@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/sdk/packages/schema-cache/src/spec/SchemaCache.Proxy.spec.ts"
+        "packages/modules/packages/sentinel/src/spec/Sentinel.Interval.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

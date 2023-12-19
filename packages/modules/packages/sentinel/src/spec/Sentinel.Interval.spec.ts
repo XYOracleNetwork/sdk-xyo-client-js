@@ -42,8 +42,19 @@ describe('Sentinel.Interval', () => {
     const mods = await node.resolve()
     expect(mods.length).toBe(publicModules.length + 1)
 
-    const sentinel = asSentinelInstance(await node.resolve('Sentinel'))
-    expect(sentinel).toBeDefined()
+    // Add some test data
+    const testPayloads = [
+      {
+        schema: 'network.xyo.test',
+        value: 1,
+      },
+      {
+        schema: 'network.xyo.test',
+        value: 2,
+      },
+    ]
+    const archivist = asArchivistInstance(await node.resolve('Archivist'))
+    await archivist?.insert(testPayloads)
   })
 
   it('should output interval results', async () => {
@@ -52,7 +63,7 @@ describe('Sentinel.Interval', () => {
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
-    expect(payloads.some((p) => p.schema === 'network.xyo.id')).toBeTrue()
+    expect(payloads.some((p) => p.schema === 'network.xyo.test')).toBeTrue()
   })
   it.skip('stateful', async () => {
     const testPayloads = [

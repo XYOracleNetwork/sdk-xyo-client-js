@@ -1,4 +1,5 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
@@ -11,8 +12,6 @@ import {
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-
-import { jsonPathToTransformersDictionary, reducePayloads } from '../jsonpath'
 
 /**
  * A diviner that converts diviner query to index query

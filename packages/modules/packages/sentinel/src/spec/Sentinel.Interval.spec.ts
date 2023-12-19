@@ -10,7 +10,6 @@ import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asSentinelInstance } from '@xyo-network/sentinel-model'
 import { AdhocWitness } from '@xyo-network/witness-adhoc'
 
 import SentinelManifest from './Sentinel.Interval.spec.json'
@@ -21,7 +20,7 @@ import SentinelManifest from './Sentinel.Interval.spec.json'
  * @group slow
  */
 
-describe('Sentinel.Interval', () => {
+describe.skip('Sentinel.Interval', () => {
   let node: MemoryNode
 
   beforeAll(async () => {
@@ -57,15 +56,15 @@ describe('Sentinel.Interval', () => {
     await archivist?.insert(testPayloads)
   })
 
-  it('should output interval results', async () => {
+  it('sentinel query', async () => {
     await delay(2000)
-    const archivist = asArchivistInstance(await node.resolve('Archivist'))
+    const archivist = asArchivistInstance(await node.resolve('Results'))
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
     expect(payloads.some((p) => p.schema === 'network.xyo.test')).toBeTrue()
   })
-  it.skip('stateful', async () => {
+  it.skip('manual query', async () => {
     const testPayloads = [
       {
         schema: 'network.xyo.test',

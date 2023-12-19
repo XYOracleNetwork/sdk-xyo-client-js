@@ -86,6 +86,11 @@
                     "sourcePathExpression": "$.limit"
                   },
                   {
+                    "defaultValue": 0,
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  },
+                  {
                     "destinationField": "order",
                     "sourcePathExpression": "$.order"
                   },
@@ -100,7 +105,7 @@
           {
             "config": {
               "archiving": {
-                "archivists": ["Archivist"]
+                "archivists": ["Results"]
               },
               "automations": [
                 {
@@ -128,6 +133,12 @@
                   "module": "PayloadDiviner"
                 }
               ]
+            }
+          },
+          {
+            "config": {
+              "name": "Results",
+              "schema": "network.xyo.archivist.config"
             }
           }
         ]

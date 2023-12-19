@@ -66,17 +66,19 @@ export class SentinelRunner {
   }
 
   async start() {
+    // NOTE: Keep async to match module start signature
+    await Promise.resolve()
     assertEx(this.timeoutId === undefined, 'Already started')
     const automation = this.next
     if (isSentinelIntervalAutomation(automation)) {
-      const delay = automation.start - Date.now()
-      if (delay < 0) {
-        //automation is due, just do it
-        await this.trigger(automation)
-      } else {
+      const now = Date.now()
+      const start = Math.max(automation.start ?? now, now)
+      const delay = start - now
+      if (delay < Number.POSITIVE_INFINITY) {
         this.timeoutId = setTimeout(
           async () => {
-            this.timeoutId = undefined
+            await this.trigger(automation)
+            this.stop()
             await this.start()
           },
           delay > 0 ? delay : 0,
@@ -105,6 +107,6 @@ export class SentinelRunner {
     await this.add(wrapper.jsonPayload(), false)
     const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
-    await this.start()
+    // await this.start()
   }
 }

@@ -20,7 +20,7 @@ import SentinelManifest from './Sentinel.Interval.spec.json'
  * @group slow
  */
 
-describe.skip('Sentinel.Interval', () => {
+describe('Sentinel.Interval', () => {
   let node: MemoryNode
 
   beforeAll(async () => {

@@ -71,6 +71,7 @@
           {
             "config": {
               "destinationSchema": "network.xyo.diviner.payload.query",
+              "excludeSources": true,
               "name": "PayloadDivinerQueryBuilder",
               "schema": "network.xyo.diviner.jsonpath.aggregate.config",
               "schemaTransforms": {

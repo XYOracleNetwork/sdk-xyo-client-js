@@ -46,5 +46,6 @@ describe('Sentinel.Interval', () => {
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
+    expect(payloads.some((p) => p.schema === 'network.xyo.id')).toBeTrue()
   })
 })

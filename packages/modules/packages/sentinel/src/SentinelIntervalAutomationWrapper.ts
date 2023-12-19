@@ -53,7 +53,7 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected consumeRemaining(count = 1) {
-    const remaining = this.remaining - count
+    const remaining = Math.max(this.remaining - count, 0)
     this.setRemaining(remaining)
     if (remaining <= 0) this.setStart(Number.POSITIVE_INFINITY)
   }

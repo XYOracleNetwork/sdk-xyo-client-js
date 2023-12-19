@@ -73,16 +73,18 @@ export class SentinelRunner {
     if (isSentinelIntervalAutomation(automation)) {
       const now = Date.now()
       const start = Math.max(automation.start ?? now, now)
-      const delay = start - now
+      const delay = Math.max(start - now, 0)
       if (delay < Number.POSITIVE_INFINITY) {
-        this.timeoutId = setTimeout(
-          async () => {
+        this.timeoutId = setTimeout(async () => {
+          try {
+            // Run the automation
             await this.trigger(automation)
             this.stop()
+          } finally {
+            // No matter what start the next automation
             await this.start()
-          },
-          delay > 0 ? delay : 0,
-        )
+          }
+        }, delay)
       }
     }
   }

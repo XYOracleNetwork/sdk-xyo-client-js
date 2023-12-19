@@ -58,7 +58,7 @@
 
           {
             "config": {
-              "name": "PayloadDivinerQueryWitness",
+              "name": "PayloadDivinerQueryTemplateWitness",
               "schema": "network.xyo.witness.adhoc.config",
               "payload": {
                 "limit": 1,
@@ -71,7 +71,7 @@
           {
             "config": {
               "destinationSchema": "network.xyo.diviner.payload.query",
-              "name": "PayloadDivinerQueryAggregate",
+              "name": "PayloadDivinerQueryBuilder",
               "schema": "network.xyo.diviner.jsonpath.aggregate.config",
               "schemaTransforms": {
                 "network.xyo.module.state": [
@@ -117,11 +117,15 @@
               "tasks": [
                 {
                   "input": true,
-                  "module": "PayloadDivinerQueryWitness"
+                  "module": "PayloadDivinerQueryTemplateWitness"
                 },
                 {
-                  "input": ["PayloadDivinerQueryWitness"],
-                  "module": "PayloadDivinerQueryAggregate"
+                  "input": ["PayloadDivinerQueryTemplateWitness"],
+                  "module": "PayloadDivinerQueryBuilder"
+                },
+                {
+                  "input": ["PayloadDivinerQueryBuilder"],
+                  "module": "PayloadDiviner"
                 }
               ]
             }

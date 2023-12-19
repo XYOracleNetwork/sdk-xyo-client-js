@@ -70,7 +70,6 @@ describe('SentinelRunner', () => {
     const runner = new SentinelRunner(sentinel, [intervalAutomation], onTriggerResult)
     await runner.start()
     while (timeoutCount) {
-      console.log('check...')
       if (triggered) {
         runner.stop()
         return

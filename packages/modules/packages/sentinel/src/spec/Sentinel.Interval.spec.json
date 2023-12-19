@@ -31,16 +31,33 @@
           },
           {
             "config": {
-              "archivist": "AdHocWitness",
-              "name": "PayloadDiviner",
+              "archivist": "Archivist",
+              "name": "AdHocWitness",
               "schema": "network.xyo.witness.adhoc.config",
               "payload": { "id": 1, "schema": "network.xyo.id" }
             }
           },
           {
             "config": {
-              "name": "TemporalStateToIndexCandidateDiviner",
-              "schema": "network.xyo.sentinel.config"
+              "archiving": {
+                "archivists": ["Archivist"]
+              },
+              "automations": [
+                {
+                  "schema": "network.xyo.automation.interval",
+                  "start": 0,
+                  "type": "interval"
+                }
+              ],
+              "name": "Sentinel",
+              "schema": "network.xyo.sentinel.config",
+              "synchronous": "true",
+              "tasks": [
+                {
+                  "input": true,
+                  "module": "AdHocWitness"
+                }
+              ]
             }
           }
         ]

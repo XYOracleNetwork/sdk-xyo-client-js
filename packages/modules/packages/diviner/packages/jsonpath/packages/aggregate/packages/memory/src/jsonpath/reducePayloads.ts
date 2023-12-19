@@ -8,6 +8,7 @@ import { Payload, PayloadFields } from '@xyo-network/payload-model'
  * @param payloads The payloads to reduce
  * @param payloadTransformers The transformers to use to convert the payloads to the destination payload
  * @param destinationSchema The schema of the destination payload
+ * @param includeSources Include the source hashes in the destination payload
  * @returns The reduced payload
  */
 export const reducePayloads = async <T extends Payload = Payload>(
@@ -40,10 +41,11 @@ export const reducePayloadsArray = async <T extends Payload = Payload>(
   payloadsArray: Payload[][],
   payloadTransformers: SchemaToPayloadTransformersDictionary,
   destinationSchema: string,
+  includeSources = true,
 ): Promise<T[]> => {
   return await Promise.all(
     payloadsArray.map(async (payloads) => {
-      return await reducePayloads<T>(payloads, payloadTransformers, destinationSchema)
+      return await reducePayloads<T>(payloads, payloadTransformers, destinationSchema, includeSources)
     }),
   )
 }

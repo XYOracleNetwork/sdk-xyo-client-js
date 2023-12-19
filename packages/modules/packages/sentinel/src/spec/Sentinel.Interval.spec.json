@@ -11,6 +11,26 @@
         "public": [
           {
             "config": {
+              "name": "AddressStateArchivist",
+              "schema": "network.xyo.archivist.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "name": "AddressStateBoundWitnessDiviner",
+              "schema": "network.xyo.diviner.boundwitness.config"
+            }
+          },
+          {
+            "config": {
+              "archivist": "AddressStateArchivist",
+              "name": "AddressStatePayloadDiviner",
+              "schema": "network.xyo.diviner.payload.config"
+            }
+          },
+          {
+            "config": {
               "name": "Archivist",
               "schema": "network.xyo.archivist.config"
             }
@@ -31,10 +51,50 @@
           },
           {
             "config": {
-              "archivist": "Archivist",
-              "name": "AdHocWitness",
+              "name": "JsonPatch",
+              "schema": "network.xyo.diviner.jsonpatch.config"
+            }
+          },
+
+          {
+            "config": {
+              "name": "PayloadDivinerQueryWitness",
               "schema": "network.xyo.witness.adhoc.config",
-              "payload": { "id": 1, "schema": "network.xyo.id" }
+              "payload": {
+                "limit": 1,
+                "order": "asc",
+                "schema": "network.xyo.diviner.payload.query",
+                "schemas": ["network.xyo.test"]
+              }
+            }
+          },
+          {
+            "config": {
+              "destinationSchema": "network.xyo.diviner.payload.query",
+              "name": "PayloadDivinerQueryAggregate",
+              "schema": "network.xyo.diviner.jsonpath.aggregate.config",
+              "schemaTransforms": {
+                "network.xyo.module.state": [
+                  {
+                    "destinationField": "offset",
+                    "sourcePathExpression": "$.offset"
+                  }
+                ],
+                "network.xyo.diviner.payload.query": [
+                  {
+                    "destinationField": "limit",
+                    "sourcePathExpression": "$.limit"
+                  },
+                  {
+                    "destinationField": "order",
+                    "sourcePathExpression": "$.order"
+                  },
+                  {
+                    "destinationField": "schemas",
+                    "sourcePathExpression": "$.schemas"
+                  }
+                ]
+              }
             }
           },
           {
@@ -57,7 +117,11 @@
               "tasks": [
                 {
                   "input": true,
-                  "module": "AdHocWitness"
+                  "module": "PayloadDivinerQueryWitness"
+                },
+                {
+                  "input": ["PayloadDivinerQueryWitness"],
+                  "module": "PayloadDivinerQueryAggregate"
                 }
               ]
             }

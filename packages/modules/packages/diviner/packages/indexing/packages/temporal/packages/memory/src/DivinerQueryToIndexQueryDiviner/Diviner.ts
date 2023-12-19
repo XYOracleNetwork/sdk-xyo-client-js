@@ -12,7 +12,7 @@ import {
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-
+// TODO: Inherit from JsonPathAggregateDiviner
 /**
  * A diviner that converts diviner query to index query
  */

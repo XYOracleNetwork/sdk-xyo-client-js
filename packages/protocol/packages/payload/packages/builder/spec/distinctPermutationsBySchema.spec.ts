@@ -3,7 +3,9 @@ import { Payload } from '@xyo-network/payload-model'
 
 // Assuming you have an asynchronous serialization function like this
 async function asyncSerializePayloads(array: Payload[]): Promise<string> {
-  return (await Promise.all(array.map((p) => PayloadHasher.hashAsync(p)))).join('|')
+  // return (await Promise.all(array.map((p) => PayloadHasher.hashAsync(p)))).join('|')
+  await Promise.resolve()
+  return array.map((p) => JSON.stringify(PayloadHasher.jsonPayload(p))).join('|')
 }
 
 const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string[]): Promise<Payload[][]> => {
@@ -67,6 +69,21 @@ describe('distinctPermutationsBySchema', () => {
     it('filters duplicates', async () => {
       const result = await distinctPermutationsBySchema([...payloads.flat(), ...payloads[0]], schemas)
       expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
+    })
+  })
+  describe('with one dimension large', () => {
+    const payloadCount = 1_000_000
+    const schemaA = 'network.xyo.temp.a'
+    const payloadsA = [...Array(payloadCount).keys()].map((i) => {
+      return { i, schema: schemaA }
+    })
+    const schemaB = 'network.xyo.temp.b'
+    const payloadsB = [{ i: 0, schema: schemaB }]
+    const payloads = [...payloadsA, ...payloadsB]
+    const schemas = [schemaA, schemaB]
+    it('finds the distinct permutations of all payloads', async () => {
+      const result = await distinctPermutationsBySchema(payloads.flat(), schemas)
+      expect(result).toBeArrayOfSize(Math.pow(payloadsA.length, payloadsB.length))
     })
   })
 })

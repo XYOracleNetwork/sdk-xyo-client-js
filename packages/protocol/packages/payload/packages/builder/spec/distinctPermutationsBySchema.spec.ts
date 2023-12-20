@@ -49,62 +49,62 @@ const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string
 
 describe('distinctPermutationsBySchema', () => {
   describe('with single', () => {
+    const schemaA = 'network.xyo.temp.a'
+    const payloadsA = [0, 1].map((i) => {
+      return { i, schema: schemaA }
+    })
+    const payloadsB = [2, 3].map((i) => {
+      return { i, schema: schemaA }
+    })
+    const schemas = [schemaA]
     it('finds the distinct permutations of all payloads', async () => {
-      const schemaA = 'network.xyo.temp.a'
-      const payloadsA = [0, 1].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const payloadsB = [2, 3].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const schemas = [schemaA]
       const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB], schemas)
       expect(result).toBeArrayOfSize(4)
     })
     it('filters duplicates', async () => {
-      const schemaA = 'network.xyo.temp.a'
-      const payloadsA = [0, 1].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const payloadsB = [0, 1].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const schemas = [schemaA]
-      const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB], schemas)
+      const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsA], schemas)
       expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
     })
   })
   describe('with two schemas', () => {
+    const schemaA = 'network.xyo.temp.a'
+    const payloadsA = [0, 1].map((i) => {
+      return { i, schema: schemaA }
+    })
+    const schemaB = 'network.xyo.temp.b'
+    const payloadsB = [0, 1].map((i) => {
+      return { i, schema: schemaB }
+    })
+    const schemas = [schemaA, schemaB]
     it('finds the distinct permutations of all payloads', async () => {
-      const schemaA = 'network.xyo.temp.a'
-      const payloadsA = [0, 1].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const schemaB = 'network.xyo.temp.b'
-      const payloadsB = [0, 1].map((i) => {
-        return { i, schema: schemaB }
-      })
-      const schemas = [schemaA, schemaB]
       const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB], schemas)
+      expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
+    })
+    it('filters duplicates', async () => {
+      const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB, ...payloadsA], schemas)
       expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
     })
   })
   describe('with multiple schemas', () => {
+    const schemaA = 'network.xyo.temp.a'
+    const payloadsA = [0, 1].map((i) => {
+      return { i, schema: schemaA }
+    })
+    const schemaB = 'network.xyo.temp.b'
+    const payloadsB = [0, 1].map((i) => {
+      return { i, schema: schemaB }
+    })
+    const schemaC = 'network.xyo.temp.c'
+    const payloadsC = [0, 1].map((i) => {
+      return { i, schema: schemaC }
+    })
+    const schemas = [schemaA, schemaB, schemaC]
     it('finds the distinct permutations of all payloads', async () => {
-      const schemaA = 'network.xyo.temp.a'
-      const payloadsA = [0, 1].map((i) => {
-        return { i, schema: schemaA }
-      })
-      const schemaB = 'network.xyo.temp.b'
-      const payloadsB = [0, 1].map((i) => {
-        return { i, schema: schemaB }
-      })
-      const schemaC = 'network.xyo.temp.c'
-      const payloadsC = [0, 1].map((i) => {
-        return { i, schema: schemaC }
-      })
-      const schemas = [schemaA, schemaB, schemaC]
       const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB, ...payloadsC], schemas)
+      expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
+    })
+    it('filters duplicates', async () => {
+      const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB, ...payloadsC, ...payloadsA], schemas)
       expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
     })
   })

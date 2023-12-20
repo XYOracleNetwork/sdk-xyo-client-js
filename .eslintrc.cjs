@@ -32,6 +32,7 @@ const finalConfig = {
     "unicorn/prefer-top-level-await": ["off"],
     "unicorn/consistent-function-scoping": ["off"],
     "unicorn/prefer-module": ["off"],
+    "import/no-default-export": ["off"],
     "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
     "no-restricted-imports": [
       "warn",

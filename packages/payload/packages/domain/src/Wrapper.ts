@@ -35,7 +35,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
           return new DomainPayloadWrapper(payload)
         }
       }
-    } catch (ex) {
+    } catch {
       console.log(`DomainConfig dns reading error entry not found [${domain}]`)
     }
   }
@@ -48,7 +48,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
     try {
       const config = (await axios.get<DomainPayload>(`https://${domain}/xyo-config.json`)).data
       return new DomainPayloadWrapper(config)
-    } catch (ex) {
+    } catch {
       console.log(`DomainConfig root file not found [${domain}]`)
     }
   }
@@ -80,7 +80,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
         }),
       )
       //cast to FetchedPayload[] after we filter out any null/undefined entries
-      this.aliases = fetchedAliases.filter((alias) => alias) as FetchedAlias[]
+      this.aliases = fetchedAliases.filter(Boolean) as FetchedAlias[]
     }
   }
 
@@ -95,6 +95,7 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   private async getNetwork(hash?: string): Promise<NetworkPayload | undefined> {
-    return hash ? await PayloadHasher.find(this.payload().networks, hash) : this.payload().networks?.[0]
+    // eslint-disable-next-line unicorn/no-array-method-this-argument
+    return hash ? await PayloadHasher.find(this.jsonPayload().networks, hash) : this.jsonPayload().networks?.[0]
   }
 }

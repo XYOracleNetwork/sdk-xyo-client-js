@@ -1,10 +1,4 @@
-import { ValuePayloadPlugin } from './Plugin'
-
 export * from './Payload'
+export { ValuePayloadPlugin as default, ValuePayloadPlugin } from './Plugin'
 export * from './Schema'
 export * from './Template'
-
-export { ValuePayloadPlugin }
-
-// eslint-disable-next-line import/no-default-export
-export default ValuePayloadPlugin

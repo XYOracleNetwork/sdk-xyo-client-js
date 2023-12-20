@@ -1,10 +1,4 @@
-import { QueryPayloadPlugin } from './Plugin'
-
 export * from './Payload'
+export { QueryPayloadPlugin as default, QueryPayloadPlugin } from './Plugin'
 export * from './Schema'
 export * from './Template'
-
-export { QueryPayloadPlugin }
-
-// eslint-disable-next-line import/no-default-export
-export default QueryPayloadPlugin

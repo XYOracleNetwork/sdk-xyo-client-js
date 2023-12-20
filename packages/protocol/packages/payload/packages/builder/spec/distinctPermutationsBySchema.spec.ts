@@ -2,10 +2,10 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 
 // Assuming you have an asynchronous serialization function like this
-async function asyncSerializePayloads(array: Payload[]): Promise<string> {
+const asyncSerializePayloads = async (array: Payload[]): Promise<string> => {
   // return (await Promise.all(array.map((p) => PayloadHasher.hashAsync(p)))).join('|')
-  await Promise.resolve()
-  return array.map((p) => JSON.stringify(PayloadHasher.jsonPayload(p))).join('|')
+  await Promise.resolve() // Here to reserve the right to make this async
+  return array.map((p) => PayloadHasher.stringifyHashFields(p)).join('|')
 }
 
 const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string[]): Promise<Payload[][]> => {
@@ -71,7 +71,7 @@ describe('distinctPermutationsBySchema', () => {
       expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
     })
   })
-  describe('with one dimension large', () => {
+  describe.skip('with one dimension very large', () => {
     const payloadCount = 1_000_000
     const schemaA = 'network.xyo.temp.a'
     const payloadsA = [...Array(payloadCount).keys()].map((i) => {

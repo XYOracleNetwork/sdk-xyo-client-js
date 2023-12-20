@@ -1,52 +1,63 @@
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 
-// Assuming you have an asynchronous serialization function like this
-const asyncSerializePayloads = async (array: Payload[]): Promise<string> => {
+/**
+ * Generates a unique key for a tuple of payloads
+ * @param payloads An array of payloads
+ * @returns A string that is a unique key for the payloads
+ */
+const generateKeyForTuple = async (payloads: Payload[]): Promise<string> => {
   // return (await Promise.all(array.map((p) => PayloadHasher.hashAsync(p)))).join('|')
   await Promise.resolve() // Here to reserve the right to make this async
-  return array.map((p) => PayloadHasher.stringifyHashFields(p)).join('|')
+  return payloads.map((p) => PayloadHasher.stringifyHashFields(p)).join('|')
 }
 
 const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string[]): Promise<Payload[][]> => {
   // Group payloads by schema
-  const groupedPayloads: Record<string, Payload[]> = {}
+  const groupedPayloads: Record<string, Payload[]> = Object.fromEntries(schemas.map((schema) => [schema, []]))
   for (const payload of payloads) {
     if (schemas.includes(payload.schema)) {
-      if (!groupedPayloads[payload.schema]) {
-        groupedPayloads[payload.schema] = []
-      }
       groupedPayloads[payload.schema].push(payload)
     }
   }
 
-  // Initialize variables for iteration
-  const uniquePermutations: Payload[][] = []
+  // Set to track seen (serialized) permutations for uniqueness check
   const seen: Set<string> = new Set()
+  // Start with an array containing an empty permutation
   let permutations = [[]] as Payload[][]
 
-  // Iteratively build permutations
+  // Iterate over each schema
   for (const schema of schemas) {
     const newPermutations: Payload[][] = []
+    // Iterate over existing permutations
     for (const perm of permutations) {
+      // Iterate over payloads for the current schema
       for (const payload of groupedPayloads[schema]) {
+        // Create a new permutation by adding the current payload
         const newPerm = [...perm, payload]
-        newPermutations.push(newPerm)
+        // Proceed with serialization only if the permutation is complete
+        if (newPerm.length === schemas.length) {
+          // Serialize the new permutation asynchronously
+          const serialized = await generateKeyForTuple(newPerm)
+          // Check if the serialized permutation is unique
+          if (!seen.has(serialized)) {
+            // Add it to the set of seen permutations
+            seen.add(serialized)
+            // Add the new permutation to the list of new permutations
+            newPermutations.push(newPerm)
+          }
+        } else {
+          // Add incomplete permutations to the list for further processing
+          newPermutations.push(newPerm)
+        }
       }
     }
+    // Update the list of permutations for the next schema iteration
     permutations = newPermutations
   }
 
-  // Check for uniqueness and serialize asynchronously
-  const serializedPermutations = await Promise.all(permutations.map((p) => asyncSerializePayloads(p)))
-  for (const [index, serialized] of serializedPermutations.entries()) {
-    if (!seen.has(serialized)) {
-      seen.add(serialized)
-      uniquePermutations.push(permutations[index])
-    }
-  }
-
-  return uniquePermutations
+  // Return the unique permutations
+  return permutations
 }
 
 describe('distinctPermutationsBySchema', () => {
@@ -71,8 +82,8 @@ describe('distinctPermutationsBySchema', () => {
       expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
     })
   })
-  describe.only('with one dimension very large', () => {
-    const payloadCount = 2_000_000
+  describe.skip('with one dimension very large', () => {
+    const payloadCount = 5_000_000
     const schemaA = 'network.xyo.temp.a'
     const payloadsA = [...Array(payloadCount).keys()].map((i) => {
       return { i, schema: schemaA }

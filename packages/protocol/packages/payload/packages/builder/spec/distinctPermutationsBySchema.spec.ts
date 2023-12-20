@@ -44,7 +44,7 @@ const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string
     }
   }
 
-  return generatePermutations(groupedPayloads)
+  return await generatePermutations(groupedPayloads)
 }
 
 describe('distinctPermutationsBySchema', () => {

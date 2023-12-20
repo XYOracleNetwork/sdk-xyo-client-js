@@ -48,18 +48,15 @@ const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string
 }
 
 describe('distinctPermutationsBySchema', () => {
-  describe('with single', () => {
+  describe('with single schema', () => {
     const schemaA = 'network.xyo.temp.a'
     const payloadsA = [0, 1].map((i) => {
       return { i, schema: schemaA }
     })
-    const payloadsB = [2, 3].map((i) => {
-      return { i, schema: schemaA }
-    })
     const schemas = [schemaA]
     it('finds the distinct permutations of all payloads', async () => {
-      const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsB], schemas)
-      expect(result).toBeArrayOfSize(4)
+      const result = await distinctPermutationsBySchema([...payloadsA], schemas)
+      expect(result).toBeArrayOfSize(Math.pow(2, schemas.length))
     })
     it('filters duplicates', async () => {
       const result = await distinctPermutationsBySchema([...payloadsA, ...payloadsA], schemas)

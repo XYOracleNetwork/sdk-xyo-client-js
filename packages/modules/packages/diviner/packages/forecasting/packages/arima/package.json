@@ -46,8 +46,8 @@
     "arima": "^0.2.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "typescript": "^5.3.3"
   },
   "type": "module"

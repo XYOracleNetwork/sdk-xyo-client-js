@@ -1,7 +1,7 @@
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { ModuleInstance, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
+import { InstanceTypeCheck, ModuleInstance, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -24,7 +24,7 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   extends ModuleWrapper<TWrappedModule>
   implements NodeInstance<TWrappedModule['params']>
 {
-  static override instanceIdentityCheck = isNodeInstance
+  static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
 

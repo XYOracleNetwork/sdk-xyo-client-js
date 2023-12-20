@@ -20,8 +20,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/schema-name-validator": "workspace:~",
     "typescript": "^5.3.3"
   },

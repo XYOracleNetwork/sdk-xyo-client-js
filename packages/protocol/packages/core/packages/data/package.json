@@ -14,11 +14,11 @@
     "@scure/base": "^1.1.5",
     "@xylabs/arraybuffer": "^2.13.20",
     "@xylabs/assert": "^2.13.20",
-    "ethers": "^6.9.0"
+    "ethers": "^6.9.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "typescript": "^5.3.3"
   },
   "exports": {

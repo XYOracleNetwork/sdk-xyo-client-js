@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@metamask/providers": "^14.0.2",
-    "ethers": "^6.9.0"
+    "ethers": "^6.9.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig-dom": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig-dom": "^3.2.25",
     "typescript": "^5.3.3"
   },
   "exports": {

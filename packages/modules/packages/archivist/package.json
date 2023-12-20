@@ -28,11 +28,11 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
     "@xylabs/delay": "^2.13.20",
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.84.2",
+    "@xyo-network/id-payload-plugin": "^2.84.3",
     "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.3.3"
   },

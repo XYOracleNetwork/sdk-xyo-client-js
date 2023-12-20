@@ -26,13 +26,13 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/delay": "^2.13.20",
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
-    "@xyo-network/id-payload-plugin": "^2.84.2",
+    "@xyo-network/id-payload-plugin": "^2.84.3",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
     "typescript": "^5.3.3"

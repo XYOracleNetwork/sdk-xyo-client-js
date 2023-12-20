@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.20",
-    "@xyo-network/address-payload-plugin": "^2.84.2",
+    "@xyo-network/address-payload-plugin": "^2.84.3",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-address-space-abstract": "workspace:~",
@@ -20,8 +20,8 @@
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.24",
-    "@xylabs/tsconfig": "^3.2.24",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

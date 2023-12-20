@@ -6,18 +6,23 @@ import { Payload } from '@xyo-network/payload-model'
 import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
 
+/** @deprecated use EvmWitnessConfigSchema version instead */
 export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness'
+/** @deprecated use EvmWitnessConfigSchema version instead */
 export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
 
+/** @deprecated use EvmWitnessConfig version instead */
 export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
   TAdditional,
   TSchema extends void ? (TAdditional extends Payload ? TAdditional['schema'] : BlockchainWitnessConfigSchema) : TSchema
 >
 
+/** @deprecated use AdditionalEvmWitnessParams version instead */
 export type AdditionalBlockchainWitnessParams = {
   providers: Provider[]
 }
 
+/** @deprecated use EvmWitnessParams version instead */
 export type BlockchainWitnessParams<
   TConfig extends AnyConfigSchema<BlockchainWitnessConfig> = BlockchainWitnessConfig,
   TAdditionalParams extends EmptyObject | void = void,
@@ -31,6 +36,7 @@ export type BlockchainWitnessParams<
   >
 >
 
+/** @deprecated use AbstractEvmWitness version instead */
 export abstract class AbstractBlockchainWitness<
   TParams extends BlockchainWitnessParams<AnyConfigSchema<BlockchainWitnessConfig>> = BlockchainWitnessParams,
   TIn extends Payload = Payload,

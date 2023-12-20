@@ -1,10 +1,9 @@
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/diviner-jsonpath-aggregate-memory'
+import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
-  SchemaToJsonPathTransformExpressionsDictionary,
-  SchemaToPayloadTransformersDictionary,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams,
   TemporalIndexingDivinerResultIndexSchema,

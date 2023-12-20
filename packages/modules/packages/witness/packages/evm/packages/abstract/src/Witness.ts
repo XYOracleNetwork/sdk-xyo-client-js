@@ -7,19 +7,19 @@ import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams }
 import { Provider } from 'ethers'
 
 export const EvmWitnessConfigSchema = 'network.xyo.evm.witness'
-export type BlockchainWitnessConfigSchema = typeof EvmWitnessConfigSchema
+export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema
 
-export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
+export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
   TAdditional,
-  TSchema extends void ? (TAdditional extends Payload ? TAdditional['schema'] : BlockchainWitnessConfigSchema) : TSchema
+  TSchema extends void ? (TAdditional extends Payload ? TAdditional['schema'] : EvmWitnessConfigSchema) : TSchema
 >
 
-export type AdditionalBlockchainWitnessParams = {
+export type AdditionalEvmWitnessParams = {
   providers: Provider[]
 }
 
-export type BlockchainWitnessParams<
-  TConfig extends AnyConfigSchema<BlockchainWitnessConfig> = BlockchainWitnessConfig,
+export type EvmWitnessParams<
+  TConfig extends AnyConfigSchema<EvmWitnessConfig> = EvmWitnessConfig,
   TAdditionalParams extends EmptyObject | void = void,
 > = WitnessParams<
   TConfig,
@@ -31,8 +31,8 @@ export type BlockchainWitnessParams<
   >
 >
 
-export abstract class AbstractBlockchainWitness<
-  TParams extends BlockchainWitnessParams<AnyConfigSchema<BlockchainWitnessConfig>> = BlockchainWitnessParams,
+export abstract class AbstractEvmWitness<
+  TParams extends EvmWitnessParams<AnyConfigSchema<EvmWitnessConfig>> = EvmWitnessParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<

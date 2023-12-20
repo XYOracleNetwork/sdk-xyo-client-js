@@ -1,13 +1,13 @@
 import { Payload } from '@xyo-network/payload-model'
 
-export const BlockchainAddressSchema = 'network.xyo.blockchain.address'
-export type BlockchainAddressSchema = typeof BlockchainAddressSchema
+export const EvmAddressSchema = 'network.xyo.evm.address'
+export type EvmAddressSchema = typeof EvmAddressSchema
 
-export type BlockchainAddress = Payload<
+export type EvmAddress = Payload<
   {
     address?: string
     blockTag?: string | number
     chainId?: number
   },
-  BlockchainAddressSchema
+  EvmAddressSchema
 >

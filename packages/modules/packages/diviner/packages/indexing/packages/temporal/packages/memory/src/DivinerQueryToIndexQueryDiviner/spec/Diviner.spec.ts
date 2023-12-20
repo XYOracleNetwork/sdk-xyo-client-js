@@ -1,6 +1,6 @@
+import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
-  SchemaToJsonPathTransformExpressionsDictionary,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig,
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,

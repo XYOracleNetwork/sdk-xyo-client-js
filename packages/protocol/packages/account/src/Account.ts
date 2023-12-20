@@ -16,8 +16,6 @@ import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
 import { KeyPair } from './Key'
 
-export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
-
 const nameOf = <T>(name: keyof T) => name
 
 function getPrivateKeyFromMnemonic(mnemonic: Mnemonic, path?: string): string {

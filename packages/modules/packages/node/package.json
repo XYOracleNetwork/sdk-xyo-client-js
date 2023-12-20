@@ -21,7 +21,7 @@
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "^2.84.3",
+    "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/archivist": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner": "workspace:~",

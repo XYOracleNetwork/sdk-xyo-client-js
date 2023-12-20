@@ -4,10 +4,9 @@ import { exists } from '@xylabs/exists'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
+import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
-  SchemaToJsonPathTransformExpressionsDictionary,
-  SchemaToPayloadTransformersDictionary,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
   TemporalIndexingDivinerResultIndex,

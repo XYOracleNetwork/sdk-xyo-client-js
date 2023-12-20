@@ -20,6 +20,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-memory": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
+    "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/diviner-temporal-indexing-model": "workspace:~",

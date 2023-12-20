@@ -20,33 +20,33 @@ const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string
     }
   }
 
-  // Recursive function to generate permutations
-  const generatePermutations = async (
-    groups: Record<string, Payload[]>,
-    perm: Payload[] = [],
-    seen: Set<string> = new Set(),
-  ): Promise<Payload[][]> => {
-    if (perm.length === schemas.length) {
-      const serialized = await asyncSerializePayloads(perm)
-      if (!seen.has(serialized)) {
-        seen.add(serialized)
-        return [perm]
+  // Initialize variables for iteration
+  const uniquePermutations: Payload[][] = []
+  const seen: Set<string> = new Set()
+  let permutations = [[]] as Payload[][]
+
+  // Iteratively build permutations
+  for (const schema of schemas) {
+    const newPermutations: Payload[][] = []
+    for (const perm of permutations) {
+      for (const payload of groupedPayloads[schema]) {
+        const newPerm = [...perm, payload]
+        newPermutations.push(newPerm)
       }
-      return []
-    } else {
-      const schema = schemas[perm.length]
-      return (
-        await Promise.all(
-          groups[schema].flatMap(async (item) => {
-            const newPerm = [...perm, item]
-            return await generatePermutations(groups, newPerm, seen)
-          }),
-        )
-      ).flat()
+    }
+    permutations = newPermutations
+  }
+
+  // Check for uniqueness and serialize asynchronously
+  const serializedPermutations = await Promise.all(permutations.map((p) => asyncSerializePayloads(p)))
+  for (const [index, serialized] of serializedPermutations.entries()) {
+    if (!seen.has(serialized)) {
+      seen.add(serialized)
+      uniquePermutations.push(permutations[index])
     }
   }
 
-  return await generatePermutations(groupedPayloads)
+  return uniquePermutations
 }
 
 describe('distinctPermutationsBySchema', () => {
@@ -71,8 +71,8 @@ describe('distinctPermutationsBySchema', () => {
       expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
     })
   })
-  describe.skip('with one dimension very large', () => {
-    const payloadCount = 1_000_000
+  describe.only('with one dimension very large', () => {
+    const payloadCount = 2_000_000
     const schemaA = 'network.xyo.temp.a'
     const payloadsA = [...Array(payloadCount).keys()].map((i) => {
       return { i, schema: schemaA }

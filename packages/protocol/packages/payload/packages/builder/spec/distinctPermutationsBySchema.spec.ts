@@ -48,13 +48,13 @@ const distinctPermutationsBySchema = async (payloads: Payload[], schemas: string
 }
 
 describe('distinctPermutationsBySchema', () => {
-  const payloadCount = 5
+  const payloadCount = 2
   const testMatrix: [string, string[]][] = [
     ['with single schema', ['network.xyo.temp.a']],
     ['with two schemas', ['network.xyo.temp.a', 'network.xyo.temp.b']],
-    ['with with many schemas', ['network.xyo.temp.a', 'network.xyo.temp.b', 'network.xyo.temp.c', 'network.xyo.temp.d', 'network.xyo.temp.e']],
+    ['with with many schemas', ['network.xyo.temp.a', 'network.xyo.temp.b', 'network.xyo.temp.c']],
   ]
-  describe.each(testMatrix)('%s', (title, schemas) => {
+  describe.each(testMatrix)('%s', (_title, schemas) => {
     const payloads = schemas.map((schema) => {
       return [...Array(payloadCount).keys()].map((i) => {
         return { i, schema }

@@ -1,1 +1,1 @@
-export * from '@xyo-network/witness-blockchain-abstract'
+export * from '@xyo-network/witness-evm-abstract'

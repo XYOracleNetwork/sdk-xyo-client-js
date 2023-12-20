@@ -5717,7 +5717,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm":
+"@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm, @xyo-network/witness-evm@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-evm@workspace:packages/modules/packages/witness/packages/evm"
   dependencies:
@@ -5782,6 +5782,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/abstract-witness": "workspace:~"
+    "@xyo-network/witness-evm": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-timestamp": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"

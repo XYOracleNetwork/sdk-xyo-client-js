@@ -5035,6 +5035,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils"
+  dependencies:
+    "@xylabs/assert": "npm:^2.13.20"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/object": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/payload-validator@workspace:packages/protocol/packages/payload/packages/validator, @xyo-network/payload-validator@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-validator@workspace:packages/protocol/packages/payload/packages/validator"

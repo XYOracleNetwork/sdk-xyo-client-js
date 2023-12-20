@@ -1,1 +1,1 @@
-export * from './Builder'
+export * from './combinationsBySchema'

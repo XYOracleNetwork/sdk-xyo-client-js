@@ -1,9 +1,9 @@
 import { IndexingDivinerStage, IndexingDivinerStageConfig } from '@xyo-network/diviner-indexing-model'
+import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfig } from './DivinerQueryToIndexQueryDiviner'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfig } from './IndexQueryResponseToDivinerQueryResponseDiviner'
-import { SchemaToJsonPathTransformExpressionsDictionary } from './jsonpath'
 import { TemporalIndexingDivinerSchema } from './Schema'
 import { TemporalIndexingDivinerStateToIndexCandidateDivinerConfig } from './StateToIndexCandidateDiviner'
 

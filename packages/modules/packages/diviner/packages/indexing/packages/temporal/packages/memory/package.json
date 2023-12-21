@@ -30,6 +30,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-utils": "workspace:^",
     "@xyo-network/witness-timestamp": "workspace:~"
   },
   "devDependencies": {

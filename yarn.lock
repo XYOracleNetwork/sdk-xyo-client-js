@@ -4344,6 +4344,7 @@ __metadata:
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-utils": "workspace:^"
     "@xyo-network/witness-timestamp": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5070,7 +5071,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils":
+"@xyo-network/payload-utils@workspace:^, @xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils"
   dependencies:

@@ -3877,6 +3877,7 @@ __metadata:
   resolution: "@xyo-network/diviner-jsonpath-aggregate-memory@workspace:packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^2.13.20"
+    "@xylabs/exists": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/abstract-diviner": "workspace:~"

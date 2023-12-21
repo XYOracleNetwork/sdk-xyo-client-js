@@ -18,7 +18,6 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
-    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
@@ -76,6 +75,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.84.18",
+  "version": "2.84.19",
   "type": "module"
 }

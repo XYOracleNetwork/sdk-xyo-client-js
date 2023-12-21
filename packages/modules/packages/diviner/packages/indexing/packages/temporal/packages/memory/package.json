@@ -20,6 +20,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-memory": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
+    "@xyo-network/diviner-jsonpath-aggregate-memory": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
@@ -38,7 +39,6 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
-    "@xyo-network/diviner-jsonpath-aggregate-memory": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/memory-archivist": "workspace:~",
@@ -84,6 +84,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.84.18",
+  "version": "2.84.19",
   "type": "module"
 }

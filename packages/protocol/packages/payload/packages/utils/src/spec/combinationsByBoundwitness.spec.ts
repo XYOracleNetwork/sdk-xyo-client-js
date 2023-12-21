@@ -27,7 +27,7 @@ describe('combinationsByBoundwitness', () => {
       expect(result).toBeArrayOfSize(bws.length)
     })
     it('filters duplicates', async () => {
-      const result = await combinationsByBoundwitness([...bws, ...payloads.flat(), ...bws])
+      const result = await combinationsByBoundwitness([...bws, ...payloads.flat(), ...bws, ...payloads.flat()])
       expect(result).toBeArrayOfSize(bws.length)
     })
   })

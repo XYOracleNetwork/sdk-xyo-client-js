@@ -1,9 +1,9 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
-import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
+import { CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
 
 export const EvmWitnessConfigSchema = 'network.xyo.evm.witness'
@@ -31,16 +31,21 @@ export type EvmWitnessParams<
   >
 >
 
+creatableModule()
 export abstract class AbstractEvmWitness<
-  TParams extends EvmWitnessParams<AnyConfigSchema<EvmWitnessConfig>> = EvmWitnessParams,
-  TIn extends Payload = Payload,
-  TOut extends Payload = Payload,
-  TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
-    WitnessInstance<TParams, TIn, TOut>,
-    TIn,
-    TOut
-  >,
-> extends AbstractWitness<TParams, TIn, TOut, TEventData> {
+    TParams extends EvmWitnessParams<AnyConfigSchema<EvmWitnessConfig>> = EvmWitnessParams,
+    TIn extends Payload = Payload,
+    TOut extends Payload = Payload,
+    TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+      WitnessInstance<TParams, TIn, TOut>,
+      TIn,
+      TOut
+    >,
+  >
+  extends AbstractWitness<TParams, TIn, TOut, TEventData>
+  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
+{
+  static override readonly configSchemas: string[] = [EvmWitnessConfigSchema]
   private _providers: Provider[] | undefined = undefined
 
   async getProvider(cache?: boolean): Promise<Provider | undefined>
@@ -61,4 +66,6 @@ export abstract class AbstractEvmWitness<
     this._providers = cachedProviders ?? (await this.params.providers())
     return this._providers
   }
+
+  protected abstract override observeHandler(payloads?: TIn[]): Promisable<TOut[]>
 }

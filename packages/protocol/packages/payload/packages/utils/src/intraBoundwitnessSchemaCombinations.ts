@@ -1,24 +1,17 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
-import { Payload } from '@xyo-network/payload-model'
 
 /**
- * Generates a unique key for a tuple of payloads
- * @param payloads An array of payloads
- * @returns A string that is a unique key for the payloads
+ * Returns all the possible combinations of payloads for the supplied schemas within the bound witness
+ * @param boundwitness The bound witness to search
+ * @param schemas The schemas to search for unique combinations of
+ * @returns The payload hashes corresponding to the unique combinations of the supplied schemas
  */
-const generateKeyForTuple = async (payloads: Payload[]): Promise<string> => {
-  // return (await Promise.all(array.map((p) => PayloadHasher.hashAsync(p)))).join('|')
-  await Promise.resolve() // Here to reserve the right to make this async
-  return payloads.map((p) => PayloadHasher.stringifyHashFields(p)).join('|')
-}
-
-export const intraBoundwitnessSchemaCombinations = (source: string[], target: string[]): number[][] => {
+export const intraBoundwitnessSchemaCombinations = (boundwitness: BoundWitness, schemas: string[]): string[][] => {
   // Map to store the indices of each element in the source array
   const indexMap: Record<string, number[]> = {}
 
   // Populate the index map with positions of each element
-  for (const [index, element] of source.entries()) {
+  for (const [index, element] of boundwitness.payload_schemas.entries()) {
     if (!indexMap[element]) {
       indexMap[element] = []
     }
@@ -29,7 +22,7 @@ export const intraBoundwitnessSchemaCombinations = (source: string[], target: st
   let uniqueCombinations = [[]] as number[][]
 
   // Iterate over each element in the target array
-  for (const element of target) {
+  for (const element of schemas) {
     const newCombinations: number[][] = []
     // Get the array of indices for the current element
     const indices = indexMap[element] || []
@@ -42,7 +35,7 @@ export const intraBoundwitnessSchemaCombinations = (source: string[], target: st
         if (!combination.includes(index)) {
           const newCombination = [...combination, index]
           // Only add the new combination if its length matches the current target index
-          if (newCombination.length === target.indexOf(element) + 1) {
+          if (newCombination.length === schemas.indexOf(element) + 1) {
             newCombinations.push(newCombination)
           }
         }
@@ -53,5 +46,9 @@ export const intraBoundwitnessSchemaCombinations = (source: string[], target: st
     uniqueCombinations = newCombinations
   }
 
-  return uniqueCombinations
+  return uniqueCombinations.map((indexes) => {
+    return indexes.map((index) => {
+      return boundwitness.payload_hashes[index]
+    })
+  })
 }

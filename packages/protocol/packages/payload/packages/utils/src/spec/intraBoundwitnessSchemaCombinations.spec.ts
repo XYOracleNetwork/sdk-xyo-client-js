@@ -1,4 +1,6 @@
-import { combinationsBySchema } from '../combinationsBySchema'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+
+import { intraBoundwitnessSchemaCombinations } from '../intraBoundwitnessSchemaCombinations'
 
 describe('intraBoundwitnessSchemaCombinations', () => {
   const payloadCount = 2
@@ -14,11 +16,8 @@ describe('intraBoundwitnessSchemaCombinations', () => {
       })
     })
     it('finds the distinct combinations of all payloads', async () => {
-      const result = await combinationsBySchema(payloads.flat(), schemas)
-      expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
-    })
-    it('filters duplicates', async () => {
-      const result = await combinationsBySchema([...payloads.flat(), ...payloads[0]], schemas)
+      const [bw] = await new BoundWitnessBuilder().payloads(payloads.flat()).build()
+      const result = intraBoundwitnessSchemaCombinations(bw, schemas)
       expect(result).toBeArrayOfSize(Math.pow(payloadCount, schemas.length))
     })
   })
@@ -33,7 +32,8 @@ describe('intraBoundwitnessSchemaCombinations', () => {
     const payloads = [...payloadsA, ...payloadsB]
     const schemas = [schemaA, schemaB]
     it('finds the distinct combinations of all payloads', async () => {
-      const result = await combinationsBySchema(payloads.flat(), schemas)
+      const [bw] = await new BoundWitnessBuilder().payloads(payloads.flat()).build()
+      const result = intraBoundwitnessSchemaCombinations(bw, schemas)
       expect(result).toBeArrayOfSize(Math.pow(payloadsA.length, payloadsB.length))
     })
   })

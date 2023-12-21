@@ -1,4 +1,3 @@
-import { exists } from '@xylabs/exists'
 import { difference } from '@xylabs/set'
 import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness'
 import { PayloadHasher } from '@xyo-network/hash'
@@ -14,11 +13,14 @@ export const combinationsByBoundwitness = async (payloads: Payload[]): Promise<[
   const bws = new Set(payloads.filter(isBoundWitness))
   const remaining = difference(new Set(payloads), bws)
   const payloadDictionary = await PayloadHasher.toMap([...remaining])
-  return [...bws]
-    .map((bw) => {
-      const { payload_hashes } = bw
-      const p = payload_hashes.map((h) => payloadDictionary[h])
-      return p.length === payload_hashes.length ? ([bw, ...p] as [BoundWitness, ...Payload[]]) : undefined
-    })
-    .filter(exists)
+  const results = [] as [BoundWitness, ...Payload[]][]
+  for (const bw of bws) {
+    const { payload_hashes } = bw
+    const p = payload_hashes.map((h) => payloadDictionary[h])
+    if (p.length === payload_hashes.length) {
+      const complete = [bw, ...p] as [BoundWitness, ...Payload[]]
+      results.push(complete)
+    }
+  }
+  return results
 }

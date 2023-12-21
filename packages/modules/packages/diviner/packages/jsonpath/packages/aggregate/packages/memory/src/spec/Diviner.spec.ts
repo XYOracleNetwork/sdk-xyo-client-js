@@ -56,17 +56,13 @@ describe('JsonPathAggregateDiviner', () => {
       wallet = await HDWallet.random()
     })
     describe('with single schema transform', () => {
-      const validateSingleResult = async (
-        input: [boundWitness: BoundWitness, timestamp: TimeStamp, thumbnail: ImageThumbnail],
-        result: Payload[],
-      ) => {
-        const [boundWitness, timestamp, thumbnail] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
+      const validateSingleResult = async (input: [thumbnail: ImageThumbnail], result: Payload[]) => {
+        const [thumbnail] = input
+        const payloadDictionary = await PayloadHasher.toMap([thumbnail])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
-        expect(index?.timestamp).toBe(timestamp.timestamp)
         expect(index?.url).toBe(thumbnail.sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)
       }
@@ -75,31 +71,23 @@ describe('JsonPathAggregateDiviner', () => {
         diviner = await JsonPathAggregateDiviner.create({ config, wallet })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
-        'network.xyo.boundwitness': [],
         'network.xyo.image.thumbnail': [
           { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
           { destinationField: 'status', sourcePathExpression: '$.http.status' },
         ],
-        'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: JsonPathAggregateDiviner
 
-      const cases: [TimeStamp, ImageThumbnail][] = [
-        [timestampPayloadA, imageThumbnailPayloadA],
-        [timestampPayloadB, imageThumbnailPayloadB],
-        [timestampPayloadC, imageThumbnailPayloadC],
-      ]
+      const cases: [ImageThumbnail][] = [[imageThumbnailPayloadB], [imageThumbnailPayloadC], [imageThumbnailPayloadA]]
       describe('with single input', () => {
-        it.each(cases)('transforms single input', async (timestamp, thumbnail) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
-          const result = await diviner.divine([boundWitness, timestamp, thumbnail])
-          await validateSingleResult([boundWitness, timestamp, thumbnail], result)
+        it.each(cases)('transforms to single output', async (thumbnail) => {
+          const result = await diviner.divine([thumbnail])
+          await validateSingleResult([thumbnail], result)
         })
-        it.each(cases)('handles sparse inputs', async (thumbnail, timestamp) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
-          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
-          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
+      })
+      describe('with sparse input', () => {
+        it.each(cases)('returns empty array', async () => {
+          expect(await diviner.divine([])).toBeArrayOfSize(0)
         })
       })
     })
@@ -153,7 +141,9 @@ describe('JsonPathAggregateDiviner', () => {
           const result = await diviner.divine([boundWitness, timestamp, thumbnail, payload])
           await validateMultiResult([boundWitness, timestamp, thumbnail, payload], result)
         })
-        it.each(cases)('handles sparse inputs', async (thumbnail, timestamp, payload) => {
+      })
+      describe('with sparse input', () => {
+        it.each(cases)('returns empty array', async (thumbnail, timestamp, payload) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
           expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
           expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)

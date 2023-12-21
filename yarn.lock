@@ -2697,7 +2697,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/ts-scripts-yarn3@npm:^3.2.19, @xylabs/ts-scripts-yarn3@npm:^3.2.25":
+"@xylabs/ts-scripts-yarn3@npm:^3.2.25":
   version: 3.2.25
   resolution: "@xylabs/ts-scripts-yarn3@npm:3.2.25"
   dependencies:
@@ -2815,7 +2815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/tsconfig-dom@npm:^3.2.19, @xylabs/tsconfig-dom@npm:^3.2.25, @xylabs/tsconfig-dom@npm:~3.2.25":
+"@xylabs/tsconfig-dom@npm:^3.2.25, @xylabs/tsconfig-dom@npm:~3.2.25":
   version: 3.2.25
   resolution: "@xylabs/tsconfig-dom@npm:3.2.25"
   dependencies:
@@ -4449,7 +4449,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.84.11, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.84.13, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5229,14 +5229,14 @@ __metadata:
     "@xylabs/axios": "npm:^2.13.20"
     "@xylabs/delay": "npm:^2.13.20"
     "@xylabs/error": "npm:^2.13.20"
-    "@xylabs/ts-scripts-yarn3": "npm:^3.2.19"
-    "@xylabs/tsconfig-dom": "npm:^3.2.19"
-    "@xyo-network/domain-payload-plugin": "npm:^2.84.11"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig-dom": "npm:^3.2.25"
+    "@xyo-network/domain-payload-plugin": "npm:^2.84.13"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.84.11"
+    "@xyo-network/schema-payload-plugin": "npm:^2.84.13"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
@@ -5254,7 +5254,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.84.11, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.84.13, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:

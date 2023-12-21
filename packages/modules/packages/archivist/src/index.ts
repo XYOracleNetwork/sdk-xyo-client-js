@@ -1,4 +1,3 @@
-export * from './AbstractArchivingModule'
 export * from './CookieArchivist'
 export * from './StorageArchivist'
 export * from '@xyo-network/archivist-abstract'

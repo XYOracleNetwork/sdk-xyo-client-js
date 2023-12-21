@@ -1,13 +1,17 @@
 import { ModuleConfig } from '@xyo-network/module-model'
+import { WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
-export type NodeConfigSchema = 'network.xyo.node.config'
-export const NodeConfigSchema: NodeConfigSchema = 'network.xyo.node.config'
+export const NodeConfigSchema = 'network.xyo.node.config'
+export type NodeConfigSchema = typeof NodeConfigSchema
 
-export type NodeConfig<TConfig extends Payload | void = void> = ModuleConfig<
-  TConfig,
-  {
-    archivist?: string
-  },
-  TConfig extends Payload ? TConfig['schema'] : NodeConfigSchema
+export type NodeConfig<TConfig extends Payload | void = void, TSchema extends string | void = void> = ModuleConfig<
+  WithAdditional<
+    {
+      archivist?: string
+      schema: TConfig extends Payload ? TConfig['schema'] : NodeConfigSchema
+    },
+    TConfig
+  >,
+  TSchema
 >

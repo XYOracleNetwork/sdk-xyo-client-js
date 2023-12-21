@@ -1,5 +1,6 @@
 import { Address } from '@xylabs/hex'
 import { ModuleConfig } from '@xyo-network/module-model'
+import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface ArchivistParents {
@@ -8,18 +9,21 @@ export interface ArchivistParents {
   write?: Address[]
 }
 
-export type ArchivistConfigSchema = 'network.xyo.archivist.config'
-export const ArchivistConfigSchema: ArchivistConfigSchema = 'network.xyo.archivist.config'
+export const ArchivistConfigSchema = 'network.xyo.archivist.config'
+export type ArchivistConfigSchema = typeof ArchivistConfigSchema
 
-export type ArchivistConfig<TConfig extends Payload | void = void> = ModuleConfig<
-  TConfig,
-  {
-    /** @field address of one or more parent archivists to read from */
-    parents?: ArchivistParents
-    /** @field fail if some parents can not be resolved (true if unspecified) */
-    requireAllParents?: boolean
-    /** @field should child store all reads from parents? */
-    storeParentReads?: boolean
-  },
-  TConfig extends Payload ? TConfig['schema'] : ArchivistConfigSchema
+export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = ModuleConfig<
+  WithAdditional<
+    {
+      /** @field address of one or more parent archivists to read from */
+      parents?: ArchivistParents
+      /** @field fail if some parents can not be resolved (true if unspecified) */
+      requireAllParents?: boolean
+      schema: TConfig extends Payload ? TConfig['schema'] : ArchivistConfigSchema
+      /** @field should child store all reads from parents? */
+      storeParentReads?: boolean
+    },
+    TConfig
+  >,
+  TSchema
 >

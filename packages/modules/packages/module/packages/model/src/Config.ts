@@ -21,9 +21,6 @@ export interface ArchivingModuleConfig {
 export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TSchema extends Schema | void = void> = Payload<
   WithAdditional<
     {
-      /** @field The path to use when creating the account */
-      accountPath?: string
-
       /** @field The name/address of the Archivist to use for this module */
       readonly archivist?: NameOrAddress
 

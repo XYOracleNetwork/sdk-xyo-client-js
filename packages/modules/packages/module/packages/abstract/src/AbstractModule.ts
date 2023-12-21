@@ -59,6 +59,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   extends BaseEmitter<TParams, TEventData>
   implements Module<TParams, TEventData>
 {
+  static readonly allowRandomAccount: boolean = true
   static configSchemas: string[]
   static enableLazyLoad = false
 
@@ -169,15 +170,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
-    const { account, config, wallet } = params ?? {}
-    const { accountDerivationPath } = config ?? {}
-
-    assertEx(
-      !(!!account && !!wallet),
-      `Specifying both {account} and {wallet} are not allowed [${config?.schema}] [${
-        account === 'random' ? 'random' : account?.address
-      }, ${wallet?.address}]`,
-    )
+    const { account } = params ?? {}
 
     const schema: string = params?.config?.schema ?? this.configSchema
     const allowedSchemas: string[] = this.configSchemas
@@ -188,7 +181,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
 
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
-    const generatedAccount = await AbstractModule.determineAccount({ account, accountDerivationPath, wallet })
+    const generatedAccount = await AbstractModule.determineAccount({ account })
     const address = generatedAccount.address
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
@@ -202,10 +195,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   static async determineAccount(params: {
     account?: AccountInstance | 'random'
-    accountDerivationPath?: string
+    accountPath?: string
     wallet?: WalletInstance
   }): Promise<AccountInstance> {
-    return await determineAccount(params)
+    return await determineAccount(params, this.allowRandomAccount)
   }
 
   static factory<TModule extends ModuleInstance>(

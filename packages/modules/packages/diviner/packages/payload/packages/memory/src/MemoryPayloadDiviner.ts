@@ -21,7 +21,7 @@ export class MemoryPayloadDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema, ...props } = filter
     let all = (await archivist.all?.()) as TOut[]

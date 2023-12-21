@@ -25,7 +25,7 @@ export class MemoryAddressChainDiviner<
     const result: Payload[] = []
     assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     try {
-      const archivistIn = await this.readArchivist()
+      const archivistIn = await this.getArchivist()
       const archivist = assertEx(archivistIn, 'Unable to resolve archivist')
       let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
       while (currentHash && result.length < (this.config.maxResults ?? 1000)) {

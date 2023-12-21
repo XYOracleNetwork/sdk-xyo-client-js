@@ -12,16 +12,6 @@ export type SchemaString = string
 export type ModuleName = string
 export type NameOrAddress = Address | ModuleName
 
-/** @deprecated */
-export interface IndividualArchivistConfig {
-  readonly commit?: NameOrAddress
-  readonly read?: NameOrAddress
-  readonly write?: NameOrAddress
-}
-
-/** @deprecated */
-export type ArchivistModuleConfig = NameOrAddress | IndividualArchivistConfig
-
 export interface ArchivingModuleConfig {
   readonly archiving?: {
     readonly archivists?: NameOrAddress[]
@@ -35,7 +25,7 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
       accountDerivationPath?: string
 
       /** @field The name/address of the Archivist to use for this module */
-      readonly archivist?: ArchivistModuleConfig
+      readonly archivist?: NameOrAddress
 
       /**
        * @field The labels used for this module. If a label is specified, then the
@@ -49,6 +39,8 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
 
       /** @field paging settings for queries */
       readonly paging?: Record<string, { size?: number }>
+
+      schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 
       /** @field The query schemas and allowed/disallowed addresses which are allowed to issue them against the module. If both allowed and disallowed is specified, then disallowed takes priority. */
       readonly security?: {
@@ -73,7 +65,7 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
     } & ArchivingModuleConfig,
     TConfig
   >,
-  TSchema extends Schema ? TSchema : TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
+  TSchema
 >
 
 export type AnyConfigSchema<TConfig extends Omit<ModuleConfig, 'schema'> & { schema: string } = Omit<ModuleConfig, 'schema'> & { schema: string }> =

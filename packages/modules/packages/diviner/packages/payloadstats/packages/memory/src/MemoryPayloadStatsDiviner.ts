@@ -16,7 +16,7 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
   static override configSchemas = [PayloadStatsDivinerConfigSchema]
 
   protected async divineAddress(address: string): Promise<number> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all
       .filter(isBoundWitness)
@@ -26,7 +26,7 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
   }
 
   protected async divineAllAddresses(): Promise<number> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all.length
   }

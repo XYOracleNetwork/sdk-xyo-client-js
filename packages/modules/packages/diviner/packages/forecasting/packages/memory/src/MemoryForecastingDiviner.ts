@@ -61,7 +61,7 @@ export class MemoryForecastingDiviner<
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
-    const archivist = asArchivistInstance(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = asArchivistInstance(await this.getArchivist(), 'Unable to resolve archivist')
     const bwDiviner = asDivinerInstance((await this.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner')
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')

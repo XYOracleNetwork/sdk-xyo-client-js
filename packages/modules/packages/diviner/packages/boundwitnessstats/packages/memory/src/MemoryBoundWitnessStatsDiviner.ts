@@ -18,13 +18,13 @@ export class MemoryBoundWitnessStatsDiviner<
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
   protected async divineAddress(address: string): Promise<number> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     return all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address)).length
   }
 
   protected async divineAllAddresses(): Promise<number> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     return all.filter(isBoundWitness).length
   }

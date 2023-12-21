@@ -44,10 +44,6 @@ export abstract class AbstractWitness<
     return [WitnessObserveQuerySchema, ...super.queries]
   }
 
-  get targetSet() {
-    return this.config?.targetSet
-  }
-
   protected override get _queryAccountPaths(): Record<WitnessQueryBase['schema'], string> {
     return {
       'network.xyo.query.witness.observe': '1/1',

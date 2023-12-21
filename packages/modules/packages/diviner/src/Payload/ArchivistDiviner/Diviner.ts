@@ -21,7 +21,7 @@ export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerPara
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.flatMap((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash))
-    const activeArchivist = await this.getArchivist('read')
+    const activeArchivist = await this.getArchivist()
     return (await activeArchivist?.get(hashes)) ?? []
   }
 }

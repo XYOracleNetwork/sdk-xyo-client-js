@@ -17,14 +17,14 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
   static override configSchemas = [SchemaListDivinerConfigSchema]
 
   protected async divineAddress(address: string): Promise<string[]> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
     return filtered.flatMap((bw) => bw.payload_schemas).filter(distinct)
   }
 
   protected async divineAllAddresses(): Promise<string[]> {
-    const archivist = assertEx(await this.readArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all.map((payload) => payload.schema).filter(distinct)
   }

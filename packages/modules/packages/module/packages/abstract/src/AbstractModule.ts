@@ -20,7 +20,6 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,
-  IndividualArchivistConfig,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
@@ -463,8 +462,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return result
   }
 
-  protected commitArchivist = () => this.getArchivist('commit')
-
   protected async describeHandler(): Promise<ModuleDescriptionPayload> {
     const description: ModuleDescriptionPayload = {
       address: this.address,
@@ -504,14 +501,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
-  // eslint-disable-next-line import/no-deprecated
-  protected async getArchivist(kind: keyof IndividualArchivistConfig): Promise<ArchivistInstance | undefined> {
+  protected async getArchivist(): Promise<ArchivistInstance | undefined> {
     if (!this.config.archivist) return undefined
-    const filter =
-      typeof this.config.archivist === 'string' || this.config.archivist instanceof String
-        ? (this.config.archivist as string)
-        : (this.config?.archivist?.[kind] as string)
-    const resolved = await this.upResolver.resolve(filter)
+    const resolved = await this.upResolver.resolve(this.config.archivist)
     return asArchivistInstance(resolved)
   }
 
@@ -603,8 +595,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return resultPayloads
   }
 
-  protected readArchivist = () => this.getArchivist('read')
-
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
     const archivists = this.config.archiving?.archivists
     if (!archivists) return []
@@ -669,6 +659,4 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       }
     }, true)
   }
-
-  protected writeArchivist = () => this.getArchivist('write')
 }

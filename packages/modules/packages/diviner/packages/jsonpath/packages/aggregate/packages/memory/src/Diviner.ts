@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import {
   JsonPathAggregateDivinerConfigSchema,
   JsonPathAggregateDivinerParams,
@@ -9,6 +10,7 @@ import {
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
 import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath'
 
@@ -59,13 +61,15 @@ export class JsonPathAggregateDiviner<
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     if (!payloads) return []
-    const reducedPayloads = await reducePayloads<TOut>(
-      payloads,
-      this.payloadTransformers,
-      this.destinationSchema,
-      this.config.excludeSources ?? false,
+    const combinations = this.transformableSchemas.includes(BoundWitnessSchema)
+      ? await combinationsByBoundwitness(payloads)
+      : await combinationsBySchema(payloads, this.transformableSchemas)
+    const reducedPayloads = await Promise.all(
+      combinations.map((combination) => {
+        return reducePayloads<TOut>(combination, this.payloadTransformers, this.destinationSchema, this.config.excludeSources ?? false)
+      }),
     )
-    return [reducedPayloads]
+    return reducedPayloads
   }
 
   /**

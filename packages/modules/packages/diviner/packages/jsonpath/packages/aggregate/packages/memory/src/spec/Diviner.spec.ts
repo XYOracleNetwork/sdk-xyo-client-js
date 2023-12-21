@@ -8,6 +8,10 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { JsonPathAggregateDiviner } from '../Diviner'
 
+function countCombinations<T>(jaggedArray: T[][]): number {
+  return jaggedArray.reduce((total, currentArray) => total * currentArray.length, 1)
+}
+
 type ImageThumbnail = Payload<{
   http?: {
     ipAddress?: string
@@ -30,7 +34,7 @@ describe('JsonPathAggregateDiviner', () => {
         status: 200,
       },
       schema: 'network.xyo.image.thumbnail',
-      sourceUrl: 'https://xyo.network',
+      sourceUrl: 'https://node.xyo.network',
       url: 'data',
     }
     const timestampB = 1_234_567_891
@@ -40,7 +44,7 @@ describe('JsonPathAggregateDiviner', () => {
         status: 500,
       },
       schema: 'network.xyo.image.thumbnail',
-      sourceUrl: 'https://xyo.network',
+      sourceUrl: 'https://www.google.com',
     }
     const timestampC = 1_234_567_892
     const timestampPayloadC = { schema: 'network.xyo.timestamp', timestamp: timestampC }
@@ -49,25 +53,22 @@ describe('JsonPathAggregateDiviner', () => {
         ipAddress: '192.169.1.1',
       },
       schema: 'network.xyo.image.thumbnail',
-      sourceUrl: 'https://www.google.com',
+      sourceUrl: 'https://explore.xyo.network',
     }
     let wallet: WalletInstance
     beforeAll(async () => {
       wallet = await HDWallet.random()
     })
-    describe('with single schema transform', () => {
-      const validateSingleResult = async (
-        input: [boundWitness: BoundWitness, timestamp: TimeStamp, thumbnail: ImageThumbnail],
-        result: Payload[],
-      ) => {
-        const [boundWitness, timestamp, thumbnail] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
+    describe('with only payload schema transforms', () => {
+      const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {
+        const [timestamp, thumbnail, payload] = input
+        const payloadDictionary = await PayloadHasher.toMap([timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
         expect(index?.sources.sort()).toEqual(Object.keys(payloadDictionary).sort())
         expect(index?.timestamp).toBe(timestamp.timestamp)
-        expect(index?.url).toBe(thumbnail.sourceUrl)
+        expect(index?.url).toBe((payload as { sourceUrl?: string }).sourceUrl)
         expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
@@ -75,31 +76,61 @@ describe('JsonPathAggregateDiviner', () => {
         diviner = await JsonPathAggregateDiviner.create({ config, wallet })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
-        'network.xyo.boundwitness': [],
-        'network.xyo.image.thumbnail': [
-          { destinationField: 'url', sourcePathExpression: '$.sourceUrl' },
-          { destinationField: 'status', sourcePathExpression: '$.http.status' },
-        ],
+        'network.xyo.image.thumbnail': [{ destinationField: 'status', sourcePathExpression: '$.http.status' }],
+        'network.xyo.image.thumbnail.other': [{ destinationField: 'url', sourcePathExpression: '$.sourceUrl' }],
         'network.xyo.timestamp': [{ destinationField: 'timestamp', sourcePathExpression: '$.timestamp' }],
       }
       let diviner: JsonPathAggregateDiviner
 
-      const cases: [TimeStamp, ImageThumbnail][] = [
-        [timestampPayloadA, imageThumbnailPayloadA],
-        [timestampPayloadB, imageThumbnailPayloadB],
-        [timestampPayloadC, imageThumbnailPayloadC],
+      const cases: [TimeStamp, ImageThumbnail, Payload<{ sourceUrl: string }>][] = [
+        [
+          timestampPayloadA,
+          { ...imageThumbnailPayloadA, sourceUrl: '' },
+          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadA.sourceUrl },
+        ],
+        [
+          timestampPayloadB,
+          { ...imageThumbnailPayloadB, sourceUrl: '' },
+          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadB.sourceUrl },
+        ],
+        [
+          timestampPayloadC,
+          { ...imageThumbnailPayloadC, sourceUrl: '' },
+          { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadC.sourceUrl },
+        ],
       ]
-      describe('with single result', () => {
-        it.each(cases)('transforms single result', async (timestamp, thumbnail) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
-          const result = await diviner.divine([boundWitness, timestamp, thumbnail])
-          await validateSingleResult([boundWitness, timestamp, thumbnail], result)
+      describe('with single input', () => {
+        it.each(cases)('transforms single input', async (timestamp, thumbnail, payload) => {
+          const result = await diviner.divine([timestamp, thumbnail, payload])
+          await validatePayloadResult([timestamp, thumbnail, payload], result)
         })
-        it.each(cases)('handles sparse inputs', async (thumbnail, timestamp) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
-          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(1)
-          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(1)
-          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
+      })
+      describe('with multiple inputs', () => {
+        it('transforms to multiple outputs', async () => {
+          const results = await diviner.divine(cases.flat())
+          expect(results).toBeArrayOfSize(countCombinations(cases))
+          let resultIndex = 0
+          for (let i = 0; i < cases.length; i++) {
+            const thumbnail = cases[i][1]
+            for (let j = 0; j < cases.length; j++) {
+              const payload = cases[j][2]
+              // eslint-disable-next-line unicorn/no-for-loop
+              for (let k = 0; k < cases.length; k++) {
+                const timestamp = cases[k][0]
+                const result = results[resultIndex]
+                await validatePayloadResult([timestamp, thumbnail, payload], [result])
+                resultIndex++
+              }
+            }
+          }
+        })
+      })
+      describe('with sparse input', () => {
+        it.each(cases)('returns empty array', async (thumbnail, timestamp, payload) => {
+          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
+          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
+          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
+          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
         })
       })
     })
@@ -147,17 +178,31 @@ describe('JsonPathAggregateDiviner', () => {
           { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadC.sourceUrl },
         ],
       ]
-      describe('with single result', () => {
-        it.each(cases)('transforms single result', async (timestamp, thumbnail, payload) => {
+      describe('with single input', () => {
+        it.each(cases)('transforms single input', async (timestamp, thumbnail, payload) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
           const result = await diviner.divine([boundWitness, timestamp, thumbnail, payload])
           await validateMultiResult([boundWitness, timestamp, thumbnail, payload], result)
         })
-        it.each(cases)('handles sparse inputs', async (thumbnail, timestamp, payload) => {
+      })
+      describe('with multiple inputs', () => {
+        it('transforms to multiple outputs', async () => {
+          const bws = await Promise.all(cases.map((c) => new BoundWitnessBuilder().payloads(c).build()))
+          const allCases = bws.map((bw, i) => [bw[0], ...cases[i]] as [BoundWitness, TimeStamp, ImageThumbnail, Payload])
+          const results = await diviner.divine(allCases.flat())
+          expect(results).toBeArrayOfSize(cases.length)
+          for (const [i, c] of allCases.entries()) {
+            const [boundWitness, timestamp, thumbnail, payload] = c
+            await validateMultiResult([boundWitness, timestamp, thumbnail, payload], [results[i]])
+          }
+        })
+      })
+      describe('with sparse input', () => {
+        it.each(cases)('returns empty array', async (thumbnail, timestamp, payload) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
-          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(1)
-          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(1)
-          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(1)
+          expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
+          expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
+          expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
         })
       })
     })

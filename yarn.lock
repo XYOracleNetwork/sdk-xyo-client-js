@@ -3697,6 +3697,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-distinct-model@workspace:packages/modules/packages/diviner/packages/distinct/packages/model":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-distinct-model@workspace:packages/modules/packages/diviner/packages/distinct/packages/model"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct, @xyo-network/diviner-distinct@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-distinct@workspace:packages/modules/packages/diviner/packages/distinct"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-range-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract, @xyo-network/diviner-forecasting-abstract@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting-abstract@workspace:packages/modules/packages/diviner/packages/forecasting/packages/abstract"
@@ -4426,6 +4452,7 @@ __metadata:
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/diviner-distinct": "workspace:~"
     "@xyo-network/diviner-jsonpatch": "workspace:~"
     "@xyo-network/diviner-jsonpath": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"

@@ -85,6 +85,16 @@ describe('JsonPathAggregateDiviner', () => {
           await validateSingleResult([thumbnail], result)
         })
       })
+      describe('with multiple inputs', () => {
+        it('transforms to multiple outputs', async () => {
+          const input = cases.flat()
+          const results = await diviner.divine(input)
+          expect(results).toBeArrayOfSize(cases.length)
+          for (const [i, result] of results.entries()) {
+            await validateSingleResult([input[i]], [result])
+          }
+        })
+      })
       describe('with sparse input', () => {
         it.each(cases)('returns empty array', async () => {
           expect(await diviner.divine([])).toBeArrayOfSize(0)
@@ -140,6 +150,18 @@ describe('JsonPathAggregateDiviner', () => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
           const result = await diviner.divine([boundWitness, timestamp, thumbnail, payload])
           await validateMultiResult([boundWitness, timestamp, thumbnail, payload], result)
+        })
+      })
+      describe('with multiple inputs', () => {
+        it('transforms to multiple outputs', async () => {
+          const bws = await Promise.all(cases.map((c) => new BoundWitnessBuilder().payloads(c).build()))
+          const allCases = bws.map((bw, i) => [bw[0], ...cases[i]] as [BoundWitness, TimeStamp, ImageThumbnail, Payload])
+          const results = await diviner.divine(allCases.flat())
+          expect(results).toBeArrayOfSize(cases.length)
+          for (const [i, c] of allCases.entries()) {
+            const [boundWitness, timestamp, thumbnail, payload] = c
+            await validateMultiResult([boundWitness, timestamp, thumbnail, payload], [results[i]])
+          }
         })
       })
       describe('with sparse input', () => {

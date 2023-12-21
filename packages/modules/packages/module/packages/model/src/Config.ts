@@ -22,7 +22,7 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
   WithAdditional<
     {
       /** @field The path to use when creating the account */
-      accountDerivationPath?: string
+      accountPath?: string
 
       /** @field The name/address of the Archivist to use for this module */
       readonly archivist?: NameOrAddress

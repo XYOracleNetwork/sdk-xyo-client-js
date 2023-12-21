@@ -51,6 +51,9 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       toCreatableModuleRegistry(standardCreatableModules),
       toCreatableModuleRegistry(additionalCreatableModules ?? {}),
     )
+
+    assertEx(!(await collision(node, manifest.config.name, external)), `Node name collision [${manifest.config.name}]`)
+
     if (!(await collision(node, manifest.config.name, external))) {
       assertEx(
         (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
@@ -75,9 +78,8 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     path?: string,
     additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<MemoryNode> {
-    const wallet = path ? await this.wallet.derivePath(path) : undefined
-    const account = path ? undefined : Account.randomSync()
-    const node = await MemoryNode.create({ account, config: manifest.config, wallet })
+    const account = path ? await this.wallet.derivePath(path) : Account.randomSync()
+    const node = await MemoryNode.create({ account, config: manifest.config })
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     // Load Private Modules
     const privateModules =
@@ -158,12 +160,10 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       .registerMany(registry)
       .locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
-    const wallet = path ? await this.wallet.derivePath(path) : undefined
-    const account = path ? undefined : Account.randomSync()
+    const account = path ? await this.wallet.derivePath(path) : 'random'
     const module = await creatableModule.create({
       account,
       config: assertEx(manifest.config, 'Missing config'),
-      wallet,
     })
     await node.register(module)
     return module

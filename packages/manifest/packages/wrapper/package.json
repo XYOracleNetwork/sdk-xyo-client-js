@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/manifest-wrapper",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -62,7 +63,6 @@
   "module": "dist/node/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/manifest-wrapper",
   "publishConfig": {
     "access": "public"
   },

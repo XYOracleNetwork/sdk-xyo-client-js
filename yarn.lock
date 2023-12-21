@@ -3806,6 +3806,8 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/object": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -4761,7 +4763,6 @@ __metadata:
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/wallet-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

@@ -13,7 +13,7 @@ import {
 } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance, DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
+import { creatableModule, isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -23,12 +23,14 @@ export type ConfigStore = Extract<keyof IndexingDivinerConfig, ConfigStoreKey>
 
 const moduleName = 'IndexingDiviner'
 
+@creatableModule<IndexingDiviner>()
 export class IndexingDiviner<
   TParams extends IndexingDivinerParams = IndexingDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
+  static override readonly allowRandomAccount = false
   static override readonly configSchemas: string[] = [IndexingDivinerConfigSchema, DivinerConfigSchema]
 
   private _lastState?: ModuleState<IndexingDivinerState>

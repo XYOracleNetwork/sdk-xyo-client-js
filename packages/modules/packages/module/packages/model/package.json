@@ -21,8 +21,7 @@
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/object": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/wallet-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",

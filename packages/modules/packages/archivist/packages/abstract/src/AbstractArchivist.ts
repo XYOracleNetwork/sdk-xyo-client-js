@@ -54,7 +54,7 @@ export abstract class AbstractArchivist<
   }
 
   get requireAllParents() {
-    return this.config.requireAllParents ?? true
+    return this.config.requireAllParents ?? false
   }
 
   protected override get _queryAccountPaths(): Record<ArchivistQueryBase['schema'], string> {

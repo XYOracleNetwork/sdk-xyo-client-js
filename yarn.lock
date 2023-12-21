@@ -2690,6 +2690,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/set@npm:^2.13.20":
+  version: 2.13.20
+  resolution: "@xylabs/set@npm:2.13.20"
+  checksum: 4b79b624afd65371a6ab43367e7ba9aba3ad4263d7c4314c8cdcb1e5a65c956edb9f191239b0f1eaee8e9c1ea9f8a3f12d309de9428194bad6e79b5e1ea96da4
+  languageName: node
+  linkType: hard
+
 "@xylabs/static-implements@npm:^2.13.20":
   version: 2.13.20
   resolution: "@xylabs/static-implements@npm:2.13.20"
@@ -5038,6 +5045,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils"
   dependencies:
+    "@xylabs/exists": "npm:^2.13.20"
+    "@xylabs/set": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/hash": "workspace:~"

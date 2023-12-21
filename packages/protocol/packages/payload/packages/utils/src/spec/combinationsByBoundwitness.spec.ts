@@ -23,12 +23,25 @@ describe('combinationsByBoundwitness', () => {
       }
     })
     it('finds the distinct combinations of all payloads', async () => {
-      const result = await combinationsByBoundwitness([...bws, ...payloads.flat()])
+      // All all inputs
+      const inputs = [...bws, ...payloads.flat()]
+      const result = await combinationsByBoundwitness(inputs)
       expect(result).toBeArrayOfSize(bws.length)
     })
     it('filters duplicates', async () => {
-      const result = await combinationsByBoundwitness([...bws, ...payloads.flat(), ...bws, ...payloads.flat()])
+      // Add extra (duplicate) inputs
+      const inputs = [...bws, ...payloads.flat(), ...bws, ...payloads.flat()]
+      const result = await combinationsByBoundwitness(inputs)
       expect(result).toBeArrayOfSize(bws.length)
+    })
+    it('omits sparse inputs', async () => {
+      // Remove some inputs
+      const input = payloads.flat()
+      input.pop() // Remove one payload
+      const inputs = [...bws, ...input]
+      const result = await combinationsByBoundwitness(inputs)
+      // Expect all except the one missing the payload
+      expect(result).toBeArrayOfSize(bws.length - 1)
     })
   })
 })

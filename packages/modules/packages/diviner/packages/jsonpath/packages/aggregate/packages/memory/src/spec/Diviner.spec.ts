@@ -89,8 +89,8 @@ describe('JsonPathAggregateDiviner', () => {
         [timestampPayloadB, imageThumbnailPayloadB],
         [timestampPayloadC, imageThumbnailPayloadC],
       ]
-      describe('with single result', () => {
-        it.each(cases)('transforms single result', async (timestamp, thumbnail) => {
+      describe('with single input', () => {
+        it.each(cases)('transforms single input', async (timestamp, thumbnail) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
           const result = await diviner.divine([boundWitness, timestamp, thumbnail])
           await validateSingleResult([boundWitness, timestamp, thumbnail], result)
@@ -147,8 +147,8 @@ describe('JsonPathAggregateDiviner', () => {
           { schema: 'network.xyo.image.thumbnail.other', sourceUrl: imageThumbnailPayloadC.sourceUrl },
         ],
       ]
-      describe('with single result', () => {
-        it.each(cases)('transforms single result', async (timestamp, thumbnail, payload) => {
+      describe('with single input', () => {
+        it.each(cases)('transforms single input', async (timestamp, thumbnail, payload) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
           const result = await diviner.divine([boundWitness, timestamp, thumbnail, payload])
           await validateMultiResult([boundWitness, timestamp, thumbnail, payload], result)

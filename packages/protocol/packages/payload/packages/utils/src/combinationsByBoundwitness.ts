@@ -1,6 +1,6 @@
 import { exists } from '@xylabs/exists'
 import { difference } from '@xylabs/set'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness'
+import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -11,7 +11,7 @@ import { Payload } from '@xyo-network/payload-model'
  * @returns An array of tuples of bound witnesses and their payloads
  */
 export const combinationsByBoundwitness = async (payloads: Payload[]): Promise<[BoundWitness, ...Payload[]][]> => {
-  const bws = new Set(payloads.filter(isBoundWitness))
+  const bws = new Set<BoundWitness>(payloads.filter(isBoundWitness))
   const remaining = difference(new Set(payloads), bws)
   const payloadDictionary = await PayloadHasher.toMap([...remaining])
   const results = [] as [BoundWitness, ...Payload[]][]

@@ -16,6 +16,7 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
+import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
 export type IndexablePayloads = [BoundWitness, ...Payload[]]
 
@@ -72,13 +73,14 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
         if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return indexableTuples
-        // Find the remaining indexable payloads
-        const indexablePayloadPositions = this.indexableSchemas.map((schema) => bw.payload_schemas.indexOf(schema))
-        const indexablePayloadHashes = indexablePayloadPositions.map((index) => bw.payload_hashes?.[index])
-        const indexablePayloads = indexablePayloadHashes.map((hash) => payloadDictionary[hash]).filter(exists)
-        // If we found a timestamp and the right amount of indexable payloads (of the
-        // correct schema as checked above) in this BW, then index it
-        if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, ...indexablePayloads])
+        // If it does contain all the required schemas, then find the combinations of payloads
+        // that satisfy the required schemas
+        intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas).map((combination) => {
+          const indexablePayloads = combination.map((hash) => payloadDictionary[hash]).filter(exists)
+          // If we found a timestamp and the right amount of indexable payloads (of the
+          // correct schema as checked above) in this BW, then index it
+          if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, ...indexablePayloads])
+        })
         return indexableTuples
       }, [])
       // Create the indexes from the tuples

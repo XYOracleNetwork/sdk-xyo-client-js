@@ -92,6 +92,23 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           const result = await diviner.divine([boundWitness, timestamp, thumbnail])
           await validateSingleResult([boundWitness, timestamp, thumbnail], result)
         })
+        it('transforms BW with multiple results inside', async () => {
+          const payloads = cases.flat()
+          const [boundWitness] = await new BoundWitnessBuilder().payloads(payloads).build()
+          const results = await diviner.divine([boundWitness, ...payloads])
+          expect(results).toBeArrayOfSize(Math.pow(cases.length, cases[0].length))
+          let resultIndex = 0
+          for (let i = 0; i < cases.length; i++) {
+            const thumbnail = cases[i][1]
+            // eslint-disable-next-line unicorn/no-for-loop
+            for (let j = 0; j < cases.length; j++) {
+              const timestamp = cases[j][0]
+              const result = results[resultIndex]
+              await validateSingleResult([boundWitness, timestamp, thumbnail], [result])
+              resultIndex++
+            }
+          }
+        })
         it.each(cases)('handles sparse inputs', async (thumbnail, timestamp) => {
           const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail]).build()
           expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)

@@ -5,6 +5,7 @@ import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import {
+  asSentinelInstance,
   ResolvedTask,
   SentinelConfig,
   SentinelConfigSchema,
@@ -66,16 +67,20 @@ export class MemorySentinel<
   ): Promise<Record<Address, Payload[]>> {
     const results: PromiseSettledResult<[Address, Payload[]]>[] = await Promise.allSettled(
       tasks?.map(async (task) => {
-        const witness = asWitnessInstance(task.module)
         const input = task.input ?? false
         const inPayloadsFound =
           input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
+        const witness = asWitnessInstance(task.module)
         if (witness) {
           return [witness.address, await witness.observe(inPayloadsFound)]
         }
         const diviner = asDivinerInstance(task.module)
         if (diviner) {
           return [diviner.address, await diviner.divine(inPayloadsFound)]
+        }
+        const sentinel = asSentinelInstance(task.module)
+        if (sentinel) {
+          return [sentinel.address, await sentinel.report(inPayloadsFound)]
         }
         throw new Error('Unsupported module type')
       }),

@@ -1,10 +1,10 @@
-import { HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { JsonPathAggregateDiviner } from '../Diviner'
 
@@ -55,9 +55,9 @@ describe('JsonPathAggregateDiviner', () => {
       schema: 'network.xyo.image.thumbnail',
       sourceUrl: 'https://explore.xyo.network',
     }
-    let wallet: WalletInstance
-    beforeAll(async () => {
-      wallet = await HDWallet.random()
+    let account: AccountInstance
+    beforeAll(() => {
+      account = Account.randomSync()
     })
     describe('with only payload schema transforms', () => {
       const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {
@@ -73,7 +73,7 @@ describe('JsonPathAggregateDiviner', () => {
       }
       beforeAll(async () => {
         const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
-        diviner = await JsonPathAggregateDiviner.create({ config, wallet })
+        diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.image.thumbnail': [{ destinationField: 'status', sourcePathExpression: '$.http.status' }],
@@ -151,7 +151,7 @@ describe('JsonPathAggregateDiviner', () => {
       }
       beforeAll(async () => {
         const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
-        diviner = await JsonPathAggregateDiviner.create({ config, wallet })
+        diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
         'network.xyo.boundwitness': [],

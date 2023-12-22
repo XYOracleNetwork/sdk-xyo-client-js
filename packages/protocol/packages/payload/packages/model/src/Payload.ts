@@ -1,11 +1,12 @@
-import { EmptyObject, JsonObject } from '@xyo-network/object'
+import { Hash } from '@xylabs/hex'
+import { EmptyObject, JsonObject, WithAdditional } from '@xyo-network/object'
 
 import { Schema, WithSchema } from './Schema'
 
 /** Meta fields for a payload - Either both $hash and $meta should exist or neither */
 export interface PayloadMetaFields extends EmptyObject {
   /** Hash of the body of the payload excluding the items in the $meta object */
-  $hash: string
+  $hash: Hash
   /** Meta data that should be included in the main hash of the payload */
   $meta: JsonObject
 }
@@ -34,3 +35,8 @@ export type Payload<T extends void | EmptyObject | WithSchema = void, S extends 
       } & PayloadFields
 
 export type OverridablePayload<T extends Payload> = Omit<T, 'schema'> & { schema: string }
+
+export type DivinedPayload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = Payload<
+  WithAdditional<{ sources: Hash[] }, T>,
+  S
+>

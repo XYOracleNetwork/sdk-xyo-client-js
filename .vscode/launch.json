@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/distinct/src/spec/Diviner.spec.ts"
+        "packages/modules/packages/diviner/packages/range/src/spec/Diviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

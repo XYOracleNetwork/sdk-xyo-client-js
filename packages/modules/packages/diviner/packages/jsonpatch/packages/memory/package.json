@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.20",
-    "@xylabs/exists": "^2.13.20",
+    "@xylabs/assert": "^2.13.22",
+    "@xylabs/exists": "^2.13.22",
     "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

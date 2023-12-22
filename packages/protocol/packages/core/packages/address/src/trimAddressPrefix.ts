@@ -6,7 +6,7 @@ export const addressPrefix = '0x'
 // magic number.
 const addressPrefixLength = addressPrefix.length
 
-/** @deprecated use @xylabs/hex asHex instead */
+/** @deprecated use @xylabs/hex hexFrom instead */
 export const trimAddressPrefix = (address: string) => {
   return address.toLowerCase().startsWith(addressPrefix) ? address.slice(Math.max(0, addressPrefixLength)) : address
 }

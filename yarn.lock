@@ -3919,6 +3919,7 @@ __metadata:
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-utils": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5071,7 +5072,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-utils@workspace:^, @xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils":
+"@xyo-network/payload-utils@workspace:^, @xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils, @xyo-network/payload-utils@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/payload-utils@workspace:packages/protocol/packages/payload/packages/utils"
   dependencies:
@@ -5079,6 +5080,8 @@ __metadata:
     "@xylabs/set": "npm:^2.13.20"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"

@@ -12,12 +12,14 @@
   "dependencies": {
     "@xylabs/exists": "^2.13.20",
     "@xylabs/set": "^2.13.20",
+    "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
+    "@xyo-network/boundwitness-builder": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

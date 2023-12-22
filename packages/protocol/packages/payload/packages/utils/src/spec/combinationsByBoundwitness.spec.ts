@@ -1,4 +1,5 @@
-import { BoundWitness, BoundWitnessBuilder } from '@xyo-network/boundwitness'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 
 import { combinationsByBoundwitness } from '../combinationsByBoundwitness'
 

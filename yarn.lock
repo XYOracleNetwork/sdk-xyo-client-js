@@ -3711,7 +3711,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/object": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3725,7 +3725,10 @@ __metadata:
     "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/diviner-distinct-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/hash": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/object": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

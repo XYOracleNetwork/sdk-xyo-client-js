@@ -128,6 +128,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     throw new Error('Unsupported')
   }
 
+  get id() {
+    return this.module.id
+  }
+
   get module() {
     return this.wrapperParams.module
   }

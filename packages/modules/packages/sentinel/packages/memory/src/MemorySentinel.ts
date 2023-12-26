@@ -29,6 +29,7 @@ export class MemorySentinel<
 
   async reportHandler(inPayloads: Payload[] = []): Promise<Payload[]> {
     await this.started('throw')
+    this.logger?.debug(`reportHandler:in: ${JSON.stringify(inPayloads)}`)
     const job = await this.jobPromise
 
     let index = 0
@@ -38,7 +39,9 @@ export class MemorySentinel<
       previousResults = generatedPayloads
       index++
     }
-    return Object.values(previousResults).flat()
+    const result = Object.values(previousResults).flat()
+    this.logger?.debug(`reportHandler:out: ${JSON.stringify(result)}`)
+    return result
   }
 
   override async start(timeout?: number | undefined): Promise<boolean> {
@@ -65,6 +68,9 @@ export class MemorySentinel<
     previousResults: Record<Address, Payload[]>,
     inPayloads?: Payload[],
   ): Promise<Record<Address, Payload[]>> {
+    this.logger?.debug(`generateResults:tasks: ${JSON.stringify(tasks.length)}`)
+    this.logger?.debug(`generateResults:previous: ${JSON.stringify(previousResults)}`)
+    this.logger?.debug(`generateResults:in: ${JSON.stringify(inPayloads)}`)
     const results: PromiseSettledResult<[Address, Payload[]]>[] = await Promise.allSettled(
       tasks?.map(async (task) => {
         const input = task.input ?? false
@@ -72,15 +78,21 @@ export class MemorySentinel<
           input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         const witness = asWitnessInstance(task.module)
         if (witness) {
-          return [witness.address, await witness.observe(inPayloadsFound)]
+          const observed = await witness.observe(inPayloadsFound)
+          this.logger?.debug(`observed [${witness.id}]: ${JSON.stringify(observed)}`)
+          return [witness.address, observed]
         }
         const diviner = asDivinerInstance(task.module)
         if (diviner) {
-          return [diviner.address, await diviner.divine(inPayloadsFound)]
+          const divined = await diviner.divine(inPayloadsFound)
+          this.logger?.debug(`divined [${diviner.id}]: ${JSON.stringify(divined)}`)
+          return [diviner.address, divined]
         }
         const sentinel = asSentinelInstance(task.module)
         if (sentinel) {
-          return [sentinel.address, await sentinel.report(inPayloadsFound)]
+          const reported = await sentinel.report(inPayloadsFound)
+          this.logger?.debug(`reported [${sentinel.id}]: ${JSON.stringify(reported)}`)
+          return [sentinel.address, reported]
         }
         throw new Error('Unsupported module type')
       }),
@@ -97,6 +109,7 @@ export class MemorySentinel<
         throw new Error('At least one module failed')
       }
     }
+    this.logger?.debug(`generateResults:out: ${JSON.stringify(finalResult)}`)
     return finalResult
   }
 

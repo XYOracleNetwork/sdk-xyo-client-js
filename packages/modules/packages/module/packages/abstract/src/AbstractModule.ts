@@ -126,6 +126,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return !!this.params.ephemeralQueryAccountEnabled
   }
 
+  get id() {
+    return this.config.name ?? this.address
+  }
+
   get queries(): string[] {
     return [ModuleDiscoverQuerySchema, ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleDescribeQuerySchema, ModuleManifestQuerySchema]
   }

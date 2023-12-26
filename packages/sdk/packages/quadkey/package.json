@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.22",
-    "@xylabs/hex": "^2.13.22",
+    "@xylabs/assert": "^2.13.23",
+    "@xylabs/hex": "^2.13.23",
     "@xyo-network/sdk-geo": "^2.11.2",
     "mapbox-gl": "^3.0.1"
   },

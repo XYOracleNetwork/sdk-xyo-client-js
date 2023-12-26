@@ -52,12 +52,15 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   get config(): ModuleConfig {
-    const config = this.bridge.targetConfig(this.address)
-    return config
+    return this.bridge.targetConfig(this.address)
   }
 
   get downResolver() {
     return assertEx(this.bridge.targetDownResolver(this.address), 'Unable to get resolver')
+  }
+
+  get id() {
+    return this.config.name ?? this.address
   }
 
   get queries() {

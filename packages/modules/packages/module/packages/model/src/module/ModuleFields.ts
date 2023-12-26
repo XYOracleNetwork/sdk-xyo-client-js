@@ -10,6 +10,9 @@ export type ModuleFields<TParams extends ModuleParams = ModuleParams> = {
   address: string
   config: TParams['config']
 
+  /** The name (if specified) or address of the module */
+  id: string
+
   params: TParams
 
   previousHash: () => Promisable<string | undefined>

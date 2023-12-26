@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'

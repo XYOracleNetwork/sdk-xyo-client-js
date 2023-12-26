@@ -22,7 +22,7 @@
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

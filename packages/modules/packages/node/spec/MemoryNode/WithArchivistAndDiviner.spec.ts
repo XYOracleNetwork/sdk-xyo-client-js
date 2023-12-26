@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist'
+import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import {
   ArchivistPayloadDiviner,

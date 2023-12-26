@@ -1,5 +1,5 @@
 import { Account } from '@xyo-network/account'
-import { asArchivistInstance } from '@xyo-network/archivist'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'

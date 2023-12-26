@@ -30,7 +30,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
-    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/sentinel-model": "workspace:~",
     "lru-cache": "^10.1.0"
   },
   "devDependencies": {

@@ -6,12 +6,12 @@ import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
-import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
+import { MemoryArchivist } from '../MemoryArchivist'
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
 /**

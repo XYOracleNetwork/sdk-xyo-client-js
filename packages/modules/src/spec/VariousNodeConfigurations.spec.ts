@@ -1,8 +1,9 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
-import { ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
-import { DivinerInstance } from '@xyo-network/diviner'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
+import { DivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'

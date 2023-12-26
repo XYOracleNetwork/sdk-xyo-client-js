@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 
-import { MemoryArchivist } from '../src'
+import { MemoryArchivist } from '../MemoryArchivist'
 
 /**
  * @group module

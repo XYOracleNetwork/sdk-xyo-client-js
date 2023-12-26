@@ -1,6 +1,7 @@
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
-import { Archivist, ArchivistInstance, MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { Archivist, ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { MemoryNode } from '@xyo-network/node-memory'

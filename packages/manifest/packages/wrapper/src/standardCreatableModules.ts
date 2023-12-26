@@ -1,8 +1,8 @@
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { HttpBridge } from '@xyo-network/http-bridge'
-import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { MemorySentinel } from '@xyo-network/sentinel'
+import { MemorySentinel } from '@xyo-network/sentinel-memory'
 
 export const standardCreatableModules: CreatableModuleDictionary = {
   'network.xyo.archivist.config': MemoryArchivist,

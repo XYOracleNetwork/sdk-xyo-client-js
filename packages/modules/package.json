@@ -24,6 +24,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-address-history": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",

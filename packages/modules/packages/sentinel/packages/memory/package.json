@@ -28,7 +28,7 @@
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/archivist": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",

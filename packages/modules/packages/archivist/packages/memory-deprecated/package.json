@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/filesystem-archivist",
+  "name": "@xyo-network/memory-archivist",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,25 +11,37 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.22",
-    "@xylabs/error": "^2.13.22",
+    "@xylabs/lodash": "^2.13.22",
     "@xylabs/promise": "^2.13.22",
-    "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "lru-cache": "^10.1.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
+    "@xyo-network/account": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
+  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
+      },
       "node": {
         "require": {
           "types": "./dist/node/index.d.cts",
@@ -45,7 +57,6 @@
   },
   "main": "dist/node/index.cjs",
   "module": "dist/node/index.js",
-  "types": "dist/node/index.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

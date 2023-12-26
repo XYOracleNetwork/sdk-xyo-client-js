@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/memory-archivist",
+  "name": "@xyo-network/archivist-memory",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -11,21 +11,28 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.22",
+    "@xylabs/delay": "^2.13.22",
     "@xylabs/lodash": "^2.13.22",
     "@xylabs/promise": "^2.13.22",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "lru-cache": "^10.1.0"
+    "js-cookie": "^3.0.5",
+    "lru-cache": "^10.1.0",
+    "store2": "^2.14.2"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

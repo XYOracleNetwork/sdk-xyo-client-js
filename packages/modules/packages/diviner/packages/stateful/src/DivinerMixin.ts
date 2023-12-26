@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { asArchivistInstance } from '@xyo-network/archivist'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-deprecated */
 
 import { Account } from '@xyo-network/account'
-import { MemoryArchivist } from '@xyo-network/archivist'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'

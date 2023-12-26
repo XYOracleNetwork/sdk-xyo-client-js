@@ -46,6 +46,8 @@ const finalConfig = {
           "@xyo-network/sdk",
           "@xyo-network/plugins",
           "@xyo-network/protocol",
+          "@xyo-network/sentinel",
+          "@xyo-network/archivist",
           "@xyo-network/witness",
           "react-player",
           "filepond",

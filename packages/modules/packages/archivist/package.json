@@ -9,30 +9,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.22",
-    "@xylabs/lodash": "^2.13.22",
-    "@xylabs/promise": "^2.13.22",
     "@xyo-network/archivist-abstract": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/archivist-wrapper": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
-    "@xyo-network/memory-archivist": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
-    "js-cookie": "^3.0.5",
-    "store2": "^2.14.2"
+    "@xyo-network/archivist-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.6",
-    "@xylabs/delay": "^2.13.22",
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/id-payload-plugin": "workspace:~",
-    "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

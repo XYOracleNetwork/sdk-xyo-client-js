@@ -1,7 +1,7 @@
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { DivinerModule } from '@xyo-network/diviner'
+import { DivinerModule } from '@xyo-network/diviner-model'
 import { Validator } from '@xyo-network/object'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
 import { WitnessModule } from '@xyo-network/witness-model'

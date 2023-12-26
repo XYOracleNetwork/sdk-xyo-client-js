@@ -1,7 +1,7 @@
 /* eslint-disable max-nested-callbacks */
 import { Account } from '@xyo-network/account'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { MemoryArchivist } from '@xyo-network/memory-archivist'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 

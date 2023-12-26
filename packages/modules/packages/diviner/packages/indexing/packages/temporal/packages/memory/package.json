@@ -38,11 +38,11 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
-    "@xyo-network/memory-archivist": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.3.3"
   },

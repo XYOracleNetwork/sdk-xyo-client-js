@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@xyo-network/shared": "workspace:~",
-    "axios": "^1.6.2",
+    "axios": "^1.6.3",
     "pako": "^2.1.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -59,6 +59,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.85.4",
+  "version": "2.85.5",
   "type": "module"
 }

@@ -3285,7 +3285,8 @@ __metadata:
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/node-wrapper": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/sentinel": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/sentinel-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
     typescript: "npm:^5.3.3"
@@ -4492,7 +4493,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.85.3, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.85.4, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5278,12 +5279,12 @@ __metadata:
     "@xylabs/error": "npm:^2.13.22"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig-dom": "npm:^3.2.25"
-    "@xyo-network/domain-payload-plugin": "npm:^2.85.3"
+    "@xyo-network/domain-payload-plugin": "npm:^2.85.4"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.85.3"
+    "@xyo-network/schema-payload-plugin": "npm:^2.85.4"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
@@ -5301,7 +5302,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.85.3, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.85.4, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:
@@ -5398,6 +5399,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/sentinel-memory@workspace:packages/modules/packages/sentinel/packages/memory, @xyo-network/sentinel-memory@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/sentinel-memory@workspace:packages/modules/packages/sentinel/packages/memory"
+  dependencies:
+    "@xylabs/assert": "npm:^2.13.22"
+    "@xylabs/delay": "npm:^2.13.22"
+    "@xylabs/hex": "npm:^2.13.22"
+    "@xylabs/promise": "npm:^2.13.22"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/abstract-witness": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/id-payload-plugin": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    "@xyo-network/sentinel-abstract": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/witness-adhoc": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model, @xyo-network/sentinel-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-model@workspace:packages/modules/packages/sentinel/packages/model"
@@ -5417,32 +5445,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sentinel@workspace:packages/modules/packages/sentinel, @xyo-network/sentinel@workspace:~":
+"@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper, @xyo-network/sentinel-wrapper@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
+  resolution: "@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:^2.13.22"
-    "@xylabs/delay": "npm:^2.13.22"
-    "@xylabs/hex": "npm:^2.13.22"
-    "@xylabs/promise": "npm:^2.13.22"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
-    "@xyo-network/sentinel-abstract": "workspace:~"
+    "@xyo-network/sentinel-memory": "workspace:~"
     "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/witness-adhoc": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/sentinel@workspace:packages/modules/packages/sentinel, @xyo-network/sentinel@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/sentinel@workspace:packages/modules/packages/sentinel"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/sentinel-abstract": "workspace:~"
+    "@xyo-network/sentinel-memory": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft

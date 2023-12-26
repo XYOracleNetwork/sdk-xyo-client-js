@@ -30,7 +30,8 @@
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/node-wrapper": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/sentinel": "workspace:~",
+    "@xyo-network/sentinel-model": "workspace:~",
+    "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
     "@xyo-network/witness-wrapper": "workspace:~"
   },
@@ -78,6 +79,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.85.3",
+  "version": "2.85.4",
   "type": "module"
 }

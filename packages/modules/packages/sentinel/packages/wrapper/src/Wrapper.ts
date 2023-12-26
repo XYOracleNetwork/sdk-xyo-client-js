@@ -1,4 +1,4 @@
-import { ArchivistInstance } from '@xyo-network/archivist'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import {

@@ -1,11 +1,11 @@
 import { Account } from '@xyo-network/account'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { ModuleQuery } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { MemoryArchivist } from '../MemoryArchivist'
 import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchivist'
 
 /**

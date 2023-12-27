@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@xyo-network/archivist-abstract": "workspace:~",
+    "@xyo-network/archivist-cookie": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/archivist-storage": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~"
   },
   "devDependencies": {
@@ -59,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.85.5",
+  "version": "2.85.6",
   "type": "module"
 }

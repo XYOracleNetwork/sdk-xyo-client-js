@@ -1,0 +1,75 @@
+{
+  "name": "@xyo-network/archivist-cookie",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/assert": "^2.13.23",
+    "@xylabs/delay": "^2.13.23",
+    "@xylabs/lodash": "^2.13.23",
+    "@xylabs/promise": "^2.13.23",
+    "@xyo-network/archivist-abstract": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
+    "js-cookie": "^3.0.5"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@xylabs/ts-scripts-yarn3": "^3.2.25",
+    "@xylabs/tsconfig": "^3.2.25",
+    "@xyo-network/account": "workspace:~",
+    "typescript": "^5.3.3"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "types": "dist/node/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
+      },
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.js"
+        }
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "version": "2.85.6",
+  "type": "module"
+}

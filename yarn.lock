@@ -3044,6 +3044,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie, @xyo-network/archivist-cookie@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-cookie@workspace:packages/modules/packages/archivist/packages/cookie"
+  dependencies:
+    "@types/js-cookie": "npm:^3.0.6"
+    "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/delay": "npm:^2.13.23"
+    "@xylabs/lodash": "npm:^2.13.23"
+    "@xylabs/promise": "npm:^2.13.23"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/id-payload-plugin": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    js-cookie: "npm:^3.0.5"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
@@ -3071,7 +3096,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-memory@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
-    "@types/js-cookie": "npm:^3.0.6"
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/delay": "npm:^2.13.23"
     "@xylabs/lodash": "npm:^2.13.23"
@@ -3081,17 +3105,13 @@ __metadata:
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
-    js-cookie: "npm:^3.0.5"
     lru-cache: "npm:^10.1.0"
-    store2: "npm:^2.14.2"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3108,6 +3128,33 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage, @xyo-network/archivist-storage@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage"
+  dependencies:
+    "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/delay": "npm:^2.13.23"
+    "@xylabs/lodash": "npm:^2.13.23"
+    "@xylabs/promise": "npm:^2.13.23"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
+    "@xylabs/tsconfig": "npm:^3.2.25"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:~"
+    "@xyo-network/archivist-memory": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/id-payload-plugin": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    store2: "npm:^2.14.2"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3134,8 +3181,10 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xyo-network/archivist-abstract": "workspace:~"
+    "@xyo-network/archivist-cookie": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-storage": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4507,7 +4556,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.85.5, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.85.6, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5293,12 +5342,12 @@ __metadata:
     "@xylabs/error": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig-dom": "npm:^3.2.25"
-    "@xyo-network/domain-payload-plugin": "npm:^2.85.5"
+    "@xyo-network/domain-payload-plugin": "npm:^2.85.6"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.85.5"
+    "@xyo-network/schema-payload-plugin": "npm:^2.85.6"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
@@ -5316,7 +5365,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.85.5, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.85.6, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:

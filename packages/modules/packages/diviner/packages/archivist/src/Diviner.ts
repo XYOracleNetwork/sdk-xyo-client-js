@@ -1,18 +1,18 @@
 import { assertEx } from '@xylabs/assert'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
+import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { HuriPayload, HuriSchema } from '../HuriPayload'
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config'
 
 export type ArchivistPayloadDivinerParams<
   TConfig extends AnyConfigSchema<ArchivistPayloadDivinerConfig> = AnyConfigSchema<ArchivistPayloadDivinerConfig>,
 > = DivinerParams<TConfig>
 
-export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
+export class ArchivistPayloadDiviner<TParams extends ArchivistPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
   protected async divineHandler(payloads?: Payload[]): Promise<Payload[]> {

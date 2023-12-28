@@ -1,19 +1,19 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { fulfilled } from '@xylabs/promise'
+import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AbstractPayloadDiviner } from '../AbstractPayloadDiviner'
-import { HuriPayload, HuriSchema } from '../HuriPayload'
 import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config'
+import { HuriPayload, HuriSchema } from './HuriPayload'
 
 export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
   DivinerParams<TConfig>
 
-export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractPayloadDiviner<TParams> {
+export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractDiviner<TParams> {
   static override configSchemas = [HuriPayloadDivinerConfigSchema]
 
   protected get options() {

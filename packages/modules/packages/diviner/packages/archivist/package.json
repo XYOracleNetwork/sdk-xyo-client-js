@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/diviner-abstract",
+  "name": "@xyo-network/diviner-archivist",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,19 +10,18 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.23",
-    "@xylabs/promise": "^2.13.23",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/diviner-distinct-model": "workspace:~",
+    "@xyo-network/diviner-huri": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
-    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
+    "@xyo-network/object": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

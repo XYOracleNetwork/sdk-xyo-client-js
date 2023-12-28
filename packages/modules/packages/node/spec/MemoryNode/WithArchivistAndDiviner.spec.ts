@@ -2,14 +2,9 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import {
-  ArchivistPayloadDiviner,
-  ArchivistPayloadDivinerConfigSchema,
-  asDivinerInstance,
-  DivinerInstance,
-  HuriPayload,
-  HuriSchema,
-} from '@xyo-network/diviner'
+import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
+import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
+import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
 import { Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/payload'
 
 import { MemoryNode } from '../../src'

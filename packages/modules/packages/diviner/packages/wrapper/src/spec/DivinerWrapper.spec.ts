@@ -1,7 +1,6 @@
 import { Account } from '@xyo-network/account'
+import { IdentityDiviner } from '@xyo-network/diviner-identity'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-
-import { IdentityDiviner } from '../IdentityDiviner'
 
 /**
  * @group module

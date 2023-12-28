@@ -5,8 +5,8 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { isArchivistModule } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BridgeModule } from '@xyo-network/bridge-model'
-import { DivinerWrapper } from '@xyo-network/diviner'
 import { isDivinerModule } from '@xyo-network/diviner-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import {
   AddressModuleFilter,
   Module,

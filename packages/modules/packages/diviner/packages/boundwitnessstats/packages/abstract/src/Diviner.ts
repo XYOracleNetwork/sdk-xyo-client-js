@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessStatsDivinerParams } from '@xyo-network/diviner-boundwitness-stats-model'
 
 export abstract class BoundWitnessStatsDiviner<

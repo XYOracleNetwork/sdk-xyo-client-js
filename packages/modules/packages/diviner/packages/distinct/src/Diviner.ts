@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { DistinctDivinerConfig, DistinctDivinerConfigSchema } from '@xyo-network/diviner-distinct-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'

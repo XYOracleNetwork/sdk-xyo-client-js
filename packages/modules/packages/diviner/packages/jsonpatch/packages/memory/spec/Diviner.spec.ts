@@ -174,7 +174,7 @@ describe('JsonPatchDiviner', () => {
   })
   describe('divine', () => {
     it.each(cases)('%s', async (_title, config, input, expected) => {
-      const sut = await JsonPatchDiviner.create({ config, wallet })
+      const sut = await JsonPatchDiviner.create({ account: wallet, config })
       const result = await sut.divine(input)
       expect(result).toBeArrayOfSize(expected.length)
       expect(result).toEqual(expected)

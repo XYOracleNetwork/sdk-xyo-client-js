@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { CoinUserLocationsDivinerParams } from '@xyo-network/diviner-coin-user-locations-model'
 
 export abstract class CoinUserLocationsDiviner<

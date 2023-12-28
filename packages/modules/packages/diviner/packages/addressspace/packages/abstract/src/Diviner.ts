@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'

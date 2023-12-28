@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import {
   IndexingDivinerConfig,

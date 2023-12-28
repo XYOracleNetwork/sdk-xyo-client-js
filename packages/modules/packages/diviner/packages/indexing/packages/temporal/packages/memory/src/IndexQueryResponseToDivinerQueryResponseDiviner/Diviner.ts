@@ -1,4 +1,4 @@
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'

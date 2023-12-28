@@ -1,5 +1,5 @@
 import { Promisable } from '@xylabs/promise'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import {
   ForecastingDivinerConfig,
   ForecastingDivinerConfigSchema,

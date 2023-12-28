@@ -72,7 +72,7 @@ describe('JsonPathDiviner', () => {
       schema: JsonPathDivinerConfigSchema,
       transforms,
     }
-    const sut = await JsonPathDiviner.create({ config, wallet })
+    const sut = await JsonPathDiviner.create({ account: wallet, config })
     // Arrange
     const expected = await Promise.all(
       outputs.map(async (output, index) => {

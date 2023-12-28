@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { AbstractDiviner } from '@xyo-network/abstract-diviner'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import {
   JsonPathAggregateDivinerConfigSchema,
   JsonPathAggregateDivinerParams,

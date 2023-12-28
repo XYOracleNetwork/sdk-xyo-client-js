@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.23",
-    "@xyo-network/abstract-diviner": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
+    "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-address-history-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~"

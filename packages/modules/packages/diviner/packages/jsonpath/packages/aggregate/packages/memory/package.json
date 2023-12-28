@@ -12,7 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.23",
     "@xylabs/exists": "^2.13.23",
-    "@xyo-network/abstract-diviner": "workspace:~",
+    "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",

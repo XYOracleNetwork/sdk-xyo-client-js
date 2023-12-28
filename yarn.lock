@@ -2889,7 +2889,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/abstract-diviner@workspace:packages/modules/packages/diviner/packages/abstract-deprecated, @xyo-network/abstract-diviner@workspace:~":
+"@xyo-network/abstract-diviner@workspace:packages/modules/packages/diviner/packages/abstract-deprecated":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-diviner@workspace:packages/modules/packages/diviner/packages/abstract-deprecated"
   dependencies:
@@ -3338,8 +3338,8 @@ __metadata:
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/diviner": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -3474,7 +3474,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3551,13 +3551,13 @@ __metadata:
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-history-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -3572,7 +3572,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-space-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -3631,15 +3631,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-archivist@workspace:packages/modules/packages/diviner/packages/archivist"
   dependencies:
+    "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/diviner-distinct-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-huri": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/huri": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3651,7 +3650,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3696,7 +3695,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3763,7 +3762,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3823,7 +3822,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-distinct-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
@@ -3841,7 +3840,7 @@ __metadata:
     "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-forecasting-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
@@ -3917,14 +3916,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-huri@workspace:packages/modules/packages/diviner/packages/huri"
   dependencies:
+    "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/lodash": "npm:^2.13.23"
+    "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/diviner-distinct-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/hash": "workspace:~"
+    "@xyo-network/huri": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3934,14 +3934,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-identity@workspace:packages/modules/packages/diviner/packages/identity"
   dependencies:
+    "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
-    "@xyo-network/diviner-distinct-model": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/hash": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/object": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -3954,10 +3954,10 @@ __metadata:
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4003,8 +4003,8 @@ __metadata:
     "@xylabs/exists": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4046,11 +4046,11 @@ __metadata:
     "@xylabs/exists": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-jsonpath-aggregate-model": "workspace:~"
     "@xyo-network/diviner-jsonpath-memory": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
@@ -4096,8 +4096,8 @@ __metadata:
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-jsonpath-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
@@ -4177,7 +4177,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -4225,7 +4225,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4306,7 +4306,7 @@ __metadata:
     "@xylabs/hex": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-range-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -4320,7 +4320,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4375,7 +4375,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4430,13 +4430,13 @@ __metadata:
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4461,13 +4461,13 @@ __metadata:
     "@xylabs/exists": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
     "@xyo-network/account": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
     "@xyo-network/diviner-indexing-memory": "workspace:~"
@@ -4525,7 +4525,7 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/abstract-diviner": "workspace:~"
+    "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-transform-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
@@ -4584,8 +4584,11 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
     "@xylabs/tsconfig-jest": "npm:^3.2.25"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/diviner-identity": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4595,13 +4598,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner@workspace:packages/modules/packages/diviner"
   dependencies:
-    "@xylabs/assert": "npm:^2.13.23"
-    "@xylabs/lodash": "npm:^2.13.23"
-    "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.25"
     "@xylabs/tsconfig": "npm:^3.2.25"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-archivist": "workspace:~"
     "@xyo-network/diviner-distinct": "workspace:~"
@@ -4612,10 +4610,6 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-range": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
-    "@xyo-network/huri": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5138,7 +5132,9 @@ __metadata:
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/diviner": "workspace:~"
+    "@xyo-network/diviner-archivist": "workspace:~"
+    "@xyo-network/diviner-huri": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-abstract": "workspace:~"

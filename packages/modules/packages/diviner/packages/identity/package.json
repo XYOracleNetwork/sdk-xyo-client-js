@@ -10,17 +10,17 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/abstract-diviner": "workspace:~",
-    "@xyo-network/diviner-distinct-model": "workspace:~",
+    "@xylabs/assert": "^2.13.23",
+    "@xylabs/promise": "^2.13.23",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",
     "@xylabs/tsconfig": "^3.2.25",
-    "@xyo-network/object": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

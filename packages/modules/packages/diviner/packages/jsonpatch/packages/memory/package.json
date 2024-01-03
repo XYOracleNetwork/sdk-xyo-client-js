@@ -16,7 +16,7 @@
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "json-joy": "^11.26.0"
+    "json-joy": "^11.28.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.25",

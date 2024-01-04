@@ -116,7 +116,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
     sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
     // Allow enough time for diviner to divine
-    await delay(300)
+    await delay(1000)
   }, 40_000)
   describe('diviner state', () => {
     let stateArchivist: MemoryArchivist

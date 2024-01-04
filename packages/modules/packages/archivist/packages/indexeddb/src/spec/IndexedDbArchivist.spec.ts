@@ -99,3 +99,46 @@ describe('IndexedDbArchivist', () => {
     })
   })
 })
+
+import { Promisable } from '@xylabs/promise'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
+
+const testArchivistRoundTrip = (archivist: Promisable<ArchivistInstance>, name: string) => {
+  test(`Archivist RoundTrip [${name}]`, async () => {
+    const idPayload: Payload<{ salt: string }> = {
+      salt: Date.now().toString(),
+      schema: IdSchema,
+    }
+    const payloadWrapper = PayloadWrapper.wrap(idPayload)
+
+    const archivistModule = await archivist
+    const insertResult = await archivistModule.insert([idPayload])
+    expect(insertResult).toBeDefined()
+
+    const getResult = await archivistModule.get([await payloadWrapper.hashAsync()])
+    expect(getResult).toBeDefined()
+    expect(getResult.length).toBe(1)
+    const gottenPayload = getResult[0]
+    if (gottenPayload) {
+      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
+      expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
+    }
+  })
+}
+
+const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name: string) => {
+  test(`Archivist All [${name}]`, async () => {
+    const idPayload = {
+      salt: Date.now().toString(),
+      schema: IdSchema,
+    }
+    const archivistModule = await archivist
+    for (let x = 0; x < 10; x++) {
+      await archivistModule.insert([idPayload])
+      await delay(10)
+    }
+    const getResult = await archivistModule.all?.()
+    expect(getResult).toBeDefined()
+    expect(getResult?.length).toBe(2)
+  })
+}

@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { Account } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 
@@ -7,7 +10,6 @@ import { MemoryArchivist } from '../MemoryArchivist'
  * @group module
  * @group archivist
  */
-
 describe('MemoryArchivist', () => {
   it('should listen to cleared events', async () => {
     const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })

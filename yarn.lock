@@ -3046,7 +3046,6 @@ __metadata:
   dependencies:
     "@types/js-cookie": "npm:^3.0.6"
     "@xylabs/assert": "npm:^2.13.23"
-    "@xylabs/delay": "npm:^2.13.23"
     "@xylabs/lodash": "npm:^2.13.23"
     "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.28"
@@ -3056,7 +3055,6 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -3093,7 +3091,6 @@ __metadata:
   resolution: "@xyo-network/archivist-memory@workspace:packages/modules/packages/archivist/packages/memory"
   dependencies:
     "@xylabs/assert": "npm:^2.13.23"
-    "@xylabs/delay": "npm:^2.13.23"
     "@xylabs/lodash": "npm:^2.13.23"
     "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.28"
@@ -3103,7 +3100,6 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -3133,7 +3129,6 @@ __metadata:
   resolution: "@xyo-network/archivist-storage@workspace:packages/modules/packages/archivist/packages/storage"
   dependencies:
     "@xylabs/assert": "npm:^2.13.23"
-    "@xylabs/delay": "npm:^2.13.23"
     "@xylabs/lodash": "npm:^2.13.23"
     "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.28"
@@ -3145,7 +3140,6 @@ __metadata:
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/hash": "workspace:~"
-    "@xyo-network/id-payload-plugin": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"

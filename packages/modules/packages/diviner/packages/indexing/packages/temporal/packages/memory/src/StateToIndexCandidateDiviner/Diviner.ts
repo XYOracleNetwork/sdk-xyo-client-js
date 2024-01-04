@@ -14,7 +14,8 @@ import {
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, Labels, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
+import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
 /**
@@ -128,13 +129,10 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   }
 
   protected async getPayloadsInBoundWitness(bw: BoundWitness, archivist: ArchivistInstance): Promise<IndexCandidate[] | undefined> {
-    const indexes = this.payload_schemas.map((schema) => bw.payload_schemas?.findIndex((s) => s === schema))
-    const hashes = indexes.map((index) => bw.payload_hashes?.[index])
-    const results = await archivist.get(hashes)
-    const indexCandidateIdentityFunctions = this.payload_schemas.map(isPayloadOfSchemaType)
-    const filteredResults = indexCandidateIdentityFunctions.map((is) => results.find(is))
-    if (filteredResults.includes(undefined)) return undefined
-    const indexCandidates: IndexCandidate[] = filteredResults.filter(exists) as IndexCandidate[]
+    const combinations = intraBoundwitnessSchemaCombinations(bw, this.payload_schemas).flat()
+    if (combinations.length === 0) return undefined
+    const hashes = new Set(combinations)
+    const indexCandidates = await archivist.get([...hashes])
     return [bw, ...indexCandidates]
   }
 }

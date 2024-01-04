@@ -163,7 +163,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
     it('has expected index', async () => {
       const payloads = await indexArchivist.all()
       const indexPayloads = payloads.filter(isTemporalIndexingDivinerResultIndex)
-      expect(indexPayloads).toBeArrayOfSize(1)
+      expect(indexPayloads).toBeArrayOfSize(witnessedThumbnails.length)
     })
   })
   describe('with no thumbnail for the provided URL', () => {
@@ -184,7 +184,8 @@ describe('TemporalIndexingDiviner - Multiple', () => {
         const results = await sut.divine([query])
         const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
-        const expected = await PayloadHasher.hashAsync(thumbnailCodeFail)
+        const payload = assertEx(witnessedThumbnails.at(-1))
+        const expected = await PayloadHasher.hashAsync(payload)
         expect(result?.sources).toContain(expected)
       })
     })

@@ -25,8 +25,8 @@
     "store2": "^2.14.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.25",
-    "@xylabs/tsconfig": "^3.2.25",
+    "@xylabs/ts-scripts-yarn3": "^3.2.28",
+    "@xylabs/tsconfig": "^3.2.28",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",

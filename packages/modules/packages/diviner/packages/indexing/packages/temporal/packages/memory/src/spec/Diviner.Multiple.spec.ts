@@ -41,7 +41,7 @@ type Query = PayloadDivinerQueryPayload & { status?: number; success?: boolean; 
 /**
  * @group slow
  */
-describe('TemporalIndexingDiviner', () => {
+describe('TemporalIndexingDiviner - Multiple', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {
@@ -107,32 +107,11 @@ describe('TemporalIndexingDiviner', () => {
     expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
 
     // Insert previously witnessed payloads into thumbnail archivist
-    const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpSuccessBoundWitness, httpSuccessPayloads] = await new BoundWitnessBuilder()
-      .payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
-      .build()
-    const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpFailBoundWitness, httpFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp]).build()
-
-    const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
-      .payloads([thumbnailWitnessFail, witnessFailTimestamp])
-      .build()
-
-    const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [codeFailBoundWitness, codeFailPayloads] = await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp]).build()
+    const timestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
+    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...witnessedThumbnails]).build()
 
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
-    await thumbnailArchivist.insert([
-      httpSuccessBoundWitness,
-      ...httpSuccessPayloads,
-      httpFailBoundWitness,
-      ...httpFailPayloads,
-      witnessFailBoundWitness,
-      ...witnessFailPayloads,
-      codeFailBoundWitness,
-      ...codeFailPayloads,
-    ])
+    await thumbnailArchivist.insert([boundWitness, ...payloads])
 
     sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('ImageThumbnailDiviner')))
 
@@ -162,7 +141,7 @@ describe('TemporalIndexingDiviner', () => {
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
       expect(statePayload.state).toBeObject()
-      expect(statePayload.state?.offset).toBe(witnessedThumbnails.length)
+      expect(statePayload.state?.offset).toBe(1)
     })
   })
   describe('diviner index', () => {
@@ -205,7 +184,8 @@ describe('TemporalIndexingDiviner', () => {
         const results = await sut.divine([query])
         const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
-        const expected = await PayloadHasher.hashAsync(thumbnailCodeFail)
+        const payload = assertEx(witnessedThumbnails.at(-1))
+        const expected = await PayloadHasher.hashAsync(payload)
         expect(result?.sources).toContain(expected)
       })
     })
@@ -215,30 +195,6 @@ describe('TemporalIndexingDiviner', () => {
         it.each(cases)('returns the most recent instance of that status code', async (payload) => {
           const { status } = payload.http ?? {}
           const query: Query = { schema, status, url }
-          const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
-          expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
-          expect(result?.sources).toContain(expected)
-        })
-      })
-      describe.skip('for success (most recent)', () => {
-        const cases: ImageThumbnail[] = [thumbnailHttpSuccess]
-        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
-          const success = !!(payload.url ?? false)
-          const query: Query = { schema, success, url }
-          const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
-          expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
-          expect(result?.sources).toContain(expected)
-        })
-      })
-      describe.skip('for failure (most recent)', () => {
-        const cases: ImageThumbnail[] = [thumbnailCodeFail]
-        it.each(cases)('returns the most recent instance of that success state', async (payload) => {
-          const success = !!(payload.url ?? false)
-          const query: Query = { schema, success, url }
           const results = await sut.divine([query])
           const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()

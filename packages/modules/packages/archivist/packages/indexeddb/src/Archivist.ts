@@ -3,33 +3,17 @@ import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
-  ArchivistConfig,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
-  ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/hash'
-import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
+import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
-export type IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
-export const IndexedDbArchivistConfigSchema: IndexedDbArchivistConfigSchema = 'network.xyo.archivist.indexeddb.config'
-
-export type IndexedDbArchivistConfig = ArchivistConfig<{
-  /**
-   * The database name
-   */
-  dbName?: string
-  schema: IndexedDbArchivistConfigSchema
-  /**
-   * The name of the object store
-   */
-  storeName?: string
-}>
-
-export type IndexedDbArchivistParams = ArchivistParams<AnyConfigSchema<IndexedDbArchivistConfig>>
+import { IndexedDbArchivistConfigSchema } from './Config'
+import { IndexedDbArchivistParams } from './Params'
 
 @creatableModule()
 export class IndexedDbArchivist<

@@ -1,4 +1,3 @@
-import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -12,8 +11,7 @@ import {
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { DBSchema, IDBPDatabase, openDB } from 'idb'
-import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
+import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
@@ -78,13 +76,7 @@ export class IndexedDbArchivist<
   }
   /**
    * The name of the object store. If not supplied via config, it defaults
-   * to `payloads`. The limitation of the current IndexedDB wrapper we're
-   * using is that it only supports a single object store per DB. See here:
-   * https://github.com/jakearchibald/idb-keyval/blob/main/custom-stores.md#defining-a-custom-database--store-name
-   * If this becomes a problem or we need migrations/transactions, we can
-   * move to this more-flexible library, which they recommend (and who
-   * recommends them for our simple use case of key-value storage):
-   * https://www.npmjs.com/package/idb
+   * to `payloads`.
    */
   get storeName() {
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName

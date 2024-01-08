@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@xylabs/delay": "^2.13.23",
-    "@xylabs/promise": "^2.13.23",
     "@xylabs/ts-scripts-yarn3": "^3.2.29",
     "@xylabs/tsconfig": "^3.2.29",
     "@xyo-network/account": "workspace:~",

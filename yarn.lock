@@ -3071,7 +3071,6 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^2.13.23"
     "@xylabs/delay": "npm:^2.13.23"
-    "@xylabs/promise": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.29"
     "@xylabs/tsconfig": "npm:^3.2.29"
     "@xyo-network/account": "workspace:~"

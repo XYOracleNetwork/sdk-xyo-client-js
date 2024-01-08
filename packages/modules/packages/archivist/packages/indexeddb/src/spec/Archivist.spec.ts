@@ -6,11 +6,36 @@ import { Account } from '@xyo-network/account'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-import { indexedDB } from 'fake-indexeddb'
+import {
+  IDBCursor,
+  IDBCursorWithValue,
+  IDBDatabase,
+  IDBFactory,
+  IDBIndex,
+  IDBKeyRange,
+  IDBObjectStore,
+  IDBOpenDBRequest,
+  IDBRequest,
+  IDBTransaction,
+  IDBVersionChangeEvent,
+  indexedDB,
+} from 'fake-indexeddb'
 
 import { IndexedDbArchivist } from '../Archivist'
 import { IndexedDbArchivistConfigSchema } from '../Config'
 
+// Augment window with prototypes to ensure instance of comparisons work
+window.IDBCursor = IDBCursor
+window.IDBCursorWithValue = IDBCursorWithValue
+window.IDBDatabase = IDBDatabase
+window.IDBFactory = IDBFactory
+window.IDBIndex = IDBIndex
+window.IDBKeyRange = IDBKeyRange
+window.IDBObjectStore = IDBObjectStore
+window.IDBOpenDBRequest = IDBOpenDBRequest
+window.IDBRequest = IDBRequest
+window.IDBTransaction = IDBTransaction
+window.IDBVersionChangeEvent = IDBVersionChangeEvent
 window.indexedDB = indexedDB
 
 /**

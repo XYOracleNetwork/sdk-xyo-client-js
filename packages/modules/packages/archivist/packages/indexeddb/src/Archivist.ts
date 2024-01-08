@@ -16,35 +16,6 @@ import { IDBPDatabase, openDB } from 'idb'
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
 
-// type PayloadStore<T extends string = string> = DBSchema & { [key in T]: { key: string; value: Payload } }
-
-/**
- * The index direction (1 for ascending, -1 for descending)
- */
-export type IndexDirection = -1 | 1
-
-/**
- * Description of index(es) to be created on a store
- */
-export type IndexDescription = {
-  /**
-   * The key(s) to index
-   */
-  key:
-    | {
-        [key: string]: IndexDirection
-      }
-    | Map<string, IndexDirection>
-  /**
-   * The name of the index
-   */
-  name: string
-  /**
-   * If true, the index must enforce uniqueness on the key
-   */
-  unique?: boolean
-}
-
 export interface PayloadStore {
   [s: string]: Payload
 }
@@ -87,8 +58,10 @@ export class IndexedDbArchivist<
   }
 
   protected override async allHandler(): Promise<Payload[]> {
+    // Get all payloads from the store
     const payloads = await this.db.getAll(this.storeName)
-    return payloads
+    // Remove any metadata before returning to the client
+    return payloads.map((payload) => PayloadHasher.jsonPayload(payload))
   }
 
   protected override async clearHandler(): Promise<void> {
@@ -96,27 +69,29 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
+    // Filter duplicates
+    const distinctHashes = [...new Set(hashes)]
     const found = await Promise.all(
-      // TODO: Filter for distinct hashes first
-      hashes.map(async (hash) => {
-        const existing = await this.get([hash])
+      distinctHashes.map(async (hash) => {
+        const existing = await this.db.getFromIndex(this.storeName, 'hash', hash)
         if (existing.length === 0) return
         this.db.delete(this.storeName, hash)
         return hash
       }),
     )
+    // Return hashes removed
     return found.filter(exists)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const payloads = await Promise.all(hashes.map((hash) => this.db.get(this.storeName, hash)))
+    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, 'hash', hash)))
     return payloads.filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const hashed = await PayloadHasher.toMap(payloads)
     // TODO: Only return the payloads that were successfully inserted
-    await Promise.all(Object.entries(hashed).map(([hash, payload]) => this.db.put(this.storeName, payload, hash)))
+    await Promise.all(Object.entries(hashed).map(([hash, payload]) => this.db.put(this.storeName, { ...payload, _hash: hash })))
     return payloads
   }
 
@@ -125,22 +100,19 @@ export class IndexedDbArchivist<
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
     const storeName = this.storeName
-    const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
     this._db = await openDB<PayloadStore>(this.dbName, 1, {
       async upgrade(database) {
         await Promise.resolve() // Async to match spec
         // Create the store
-        const store = database.createObjectStore(storeName)
+        const store = database.createObjectStore(storeName, {
+          // If it isn't explicitly set, create a value by auto incrementing.
+          autoIncrement: true,
+        })
         // Name the store
         store.name = storeName
-        // Create the indexes
-        for (const index of configIndexes) {
-          const { key, name, unique } = index
-          if (name && key) {
-            const keys = Object.keys(key)
-            store.createIndex(name, keys, { unique })
-          }
-        }
+        // Create an index on the hash
+        store.createIndex('hash', '_hash', { multiEntry: true, unique: false })
+        // TODO: Create additional indexes from config
       },
     })
 

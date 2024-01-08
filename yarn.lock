@@ -3082,6 +3082,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
     fake-indexeddb: "npm:^5.0.2"
+    idb: "npm:^8.0.0"
     idb-keyval: "npm:^6.2.1"
     typescript: "npm:^5.3.3"
   languageName: unknown

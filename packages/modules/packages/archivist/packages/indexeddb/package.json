@@ -16,6 +16,7 @@
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
+    "idb": "^8.0.0",
     "idb-keyval": "^6.2.1"
   },
   "devDependencies": {

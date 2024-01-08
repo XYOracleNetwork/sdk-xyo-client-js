@@ -1,4 +1,6 @@
+import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -10,10 +12,44 @@ import {
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
+import { DBSchema, IDBPDatabase, openDB } from 'idb'
 import { clear, createStore, delMany, entries, getMany, setMany, UseStore } from 'idb-keyval'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
+
+// type PayloadStore<T extends string = string> = DBSchema & { [key in T]: { key: string; value: Payload } }
+
+/**
+ * The index direction (1 for ascending, -1 for descending)
+ */
+export type IndexDirection = -1 | 1
+
+/**
+ * Description of index(es) to be created on a store
+ */
+export type IndexDescription = {
+  /**
+   * The key(s) to index
+   */
+  key:
+    | {
+        [key: string]: IndexDirection
+      }
+    | Map<string, IndexDirection>
+  /**
+   * The name of the index
+   */
+  name: string
+  /**
+   * If true, the index must enforce uniqueness on the key
+   */
+  unique?: boolean
+}
+
+export interface PayloadStore {
+  [s: string]: Payload
+}
 
 @creatableModule()
 export class IndexedDbArchivist<
@@ -24,7 +60,7 @@ export class IndexedDbArchivist<
   static defaultDbName = 'archivist'
   static defaultStoreName = 'payloads'
 
-  private _db: UseStore | undefined
+  private _db: IDBPDatabase<PayloadStore> | undefined
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -54,43 +90,41 @@ export class IndexedDbArchivist<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
-  private get db(): UseStore {
+  private get db(): IDBPDatabase<PayloadStore> {
     return assertEx(this._db, 'DB not initialized')
   }
 
   protected override async allHandler(): Promise<Payload[]> {
-    const result = await entries<string, Payload>(this.db)
-    return result.map<Payload>(([_hash, payload]) => payload)
+    const payloads = await this.db.getAll(this.storeName)
+    return payloads
   }
 
   protected override async clearHandler(): Promise<void> {
-    await clear(this.db)
+    await this.db.clear(this.storeName)
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    const payloadPairs: [string, Payload][] = await Promise.all(
-      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
+    const found = await Promise.all(
+      // TODO: Filter for distinct hashes first
+      hashes.map(async (hash) => {
+        const existing = await this.get([hash])
+        if (existing.length === 0) return
+        this.db.delete(this.storeName, hash)
+        return hash
+      }),
     )
-
-    const foundHashesToDelete = payloadPairs.map(([hash, _]) => hash)
-    await delMany(foundHashesToDelete, this.db)
-
-    return foundHashesToDelete
+    return found.filter(exists)
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    return (await getMany<Payload>(hashes, this.db)).filter((result) => result !== undefined)
+    const payloads = await Promise.all(hashes.map((hash) => this.db.get(this.storeName, hash)))
+    return payloads.filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const entries = await Promise.all(
-      payloads.map<Promise<[string, Payload]>>(async (payload) => {
-        const hash = await PayloadHasher.hashAsync(payload)
-        return [hash, payload]
-      }),
-    )
-    await setMany(entries, this.db)
-
+    const hashed = await PayloadHasher.toMap(payloads)
+    // TODO: Only return the payloads that were successfully inserted
+    await Promise.all(Object.entries(hashed).map(([hash, payload]) => this.db.put(this.storeName, payload, hash)))
     return payloads
   }
 
@@ -98,7 +132,26 @@ export class IndexedDbArchivist<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    this._db = createStore(this.dbName, this.storeName)
+    const storeName = this.storeName
+    const configIndexes = (this.config as { storage?: { indexes?: IndexDescription[] } })?.storage?.indexes ?? []
+    this._db = await openDB<PayloadStore>(this.dbName, 1, {
+      async upgrade(database) {
+        await Promise.resolve() // Async to match spec
+        // Create the store
+        const store = database.createObjectStore(storeName)
+        // Name the store
+        store.name = storeName
+        // Create the indexes
+        for (const index of configIndexes) {
+          const { key, name, unique } = index
+          if (name && key) {
+            const keys = Object.keys(key)
+            store.createIndex(name, keys, { unique })
+          }
+        }
+      },
+    })
+
     return true
   }
 }

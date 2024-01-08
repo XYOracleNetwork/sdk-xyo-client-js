@@ -114,17 +114,16 @@ describe('IndexedDbArchivist', () => {
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
       const count = 10
+      const sources: Payload[] = []
       for (let x = 0; x < count; x++) {
-        const idPayload = {
-          salt: `${x}`,
-          schema: IdSchema,
-        }
-        await archivistModule.insert([idPayload])
-        await delay(10)
+        const payload = { salt: `${x}`, schema: IdSchema }
+        sources.push(payload)
+        await archivistModule.insert([payload])
       }
       const getResult = await archivistModule.all?.()
       expect(getResult).toBeDefined()
-      expect(getResult?.length).toBe(count)
+      expect(getResult?.length).toBe(sources.length)
+      expect(getResult).toEqual(sources)
     })
   })
 })

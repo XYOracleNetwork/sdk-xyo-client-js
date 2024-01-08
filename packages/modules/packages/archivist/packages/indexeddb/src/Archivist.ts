@@ -27,6 +27,7 @@ export class IndexedDbArchivist<
 > extends AbstractArchivist<TParams, TEventData> {
   static override configSchemas = [IndexedDbArchivistConfigSchema]
   static defaultDbName = 'archivist'
+  static defaultDbVersion = 1
   static defaultStoreName = 'payloads'
 
   private _db: IDBPDatabase<PayloadStore> | undefined
@@ -40,6 +41,10 @@ export class IndexedDbArchivist<
    */
   get dbName() {
     return this.config?.dbName ?? this.config?.name ?? IndexedDbArchivist.defaultDbName
+  }
+
+  get dbVersion() {
+    return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
   }
 
   override get queries() {
@@ -100,7 +105,7 @@ export class IndexedDbArchivist<
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
     const storeName = this.storeName
-    this._db = await openDB<PayloadStore>(this.dbName, 1, {
+    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion, {
       async upgrade(database) {
         await Promise.resolve() // Async to match spec
         // Create the store

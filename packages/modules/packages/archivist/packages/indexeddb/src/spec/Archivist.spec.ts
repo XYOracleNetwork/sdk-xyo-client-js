@@ -83,15 +83,16 @@ describe('IndexedDbArchivist', () => {
 
   describe('Using IndexedDB from window', () => {
     test('Archivist RoundTrip [IndexedDB (window)]', async () => {
+      const dbName = '0041ce9d-75fb-491e-8d77-5f201fce3320'
+      const storeName = 'b6073168-48c4-4004-8105-699e7f0ab5cd'
       const idPayload: Payload<{ salt: string }> = {
         salt: Date.now().toString(),
         schema: IdSchema,
       }
       const payloadWrapper = PayloadWrapper.wrap(idPayload)
-
       const archivistModule = await IndexedDbArchivist.create({
         account: Account.randomSync(),
-        config: { schema: IndexedDbArchivistConfigSchema },
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
       const insertResult = await archivistModule.insert([idPayload])
       expect(insertResult).toBeDefined()
@@ -106,21 +107,24 @@ describe('IndexedDbArchivist', () => {
       }
     })
     test('Archivist All [IndexedDB (window)]', async () => {
-      const idPayload = {
-        salt: Date.now().toString(),
-        schema: IdSchema,
-      }
+      const dbName = 'e7674a1f-20db-4d76-83b9-0d933e35876d'
+      const storeName = '35754cad-3fed-4907-b44b-680d4bd9d205'
       const archivistModule = await IndexedDbArchivist.create({
         account: Account.randomSync(),
-        config: { schema: IndexedDbArchivistConfigSchema },
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
-      for (let x = 0; x < 10; x++) {
+      const count = 10
+      for (let x = 0; x < count; x++) {
+        const idPayload = {
+          salt: `${x}`,
+          schema: IdSchema,
+        }
         await archivistModule.insert([idPayload])
         await delay(10)
       }
       const getResult = await archivistModule.all?.()
       expect(getResult).toBeDefined()
-      expect(getResult?.length).toBe(2)
+      expect(getResult?.length).toBe(count)
     })
   })
 })

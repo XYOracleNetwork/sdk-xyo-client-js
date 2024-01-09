@@ -1,4 +1,4 @@
-import { ArchivistConfig } from '@xyo-network/archivist-model'
+import { ArchivistConfig, IndexDescription } from '@xyo-network/archivist-model'
 
 import { IndexedDbArchivistSchema } from './Schema'
 
@@ -15,6 +15,16 @@ export type IndexedDbArchivistConfig = ArchivistConfig<{
    */
   dbVersion?: number
   schema: IndexedDbArchivistConfigSchema
+  /**
+   * The storage configuration
+   * // TODO: Hoist to main archivist config
+   */
+  storage?: {
+    /**
+     * The indexes to create on the object store
+     */
+    indexes?: IndexDescription[]
+  }
   /**
    * The name of the object store
    */

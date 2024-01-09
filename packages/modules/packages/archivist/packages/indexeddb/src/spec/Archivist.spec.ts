@@ -55,12 +55,13 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
 }
 
 describe('IndexedDbArchivist', () => {
+  const account = Account.randomSync()
   describe('config', () => {
     describe('with dbName', () => {
       it('supplied via config uses config value', async () => {
         const dbName = 'testDbName'
         const archivist = await IndexedDbArchivist.create({
-          account: Account.randomSync(),
+          account,
           config: { dbName, schema: IndexedDbArchivistConfigSchema },
         })
         expect(archivist.dbName).toBe(dbName)
@@ -68,13 +69,13 @@ describe('IndexedDbArchivist', () => {
       it('not supplied via config uses module name', async () => {
         const name = 'testModuleName'
         const archivist = await IndexedDbArchivist.create({
-          account: Account.randomSync(),
+          account,
           config: { name, schema: IndexedDbArchivistConfigSchema },
         })
         expect(archivist.dbName).toBe(name)
       })
       it('not supplied via config or module name uses default value', async () => {
-        const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
+        const archivist = await IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } })
         expect(archivist.dbName).toBe(IndexedDbArchivist.defaultDbName)
       })
     })
@@ -82,40 +83,18 @@ describe('IndexedDbArchivist', () => {
       it('supplied via config uses config value', async () => {
         const storeName = 'testStoreName'
         const archivist = await IndexedDbArchivist.create({
-          account: Account.randomSync(),
+          account,
           config: { schema: IndexedDbArchivistConfigSchema, storeName },
         })
         expect(archivist.storeName).toBe(storeName)
       })
       it('not supplied via config uses default value', async () => {
-        const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
+        const archivist = await IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } })
         expect(archivist.storeName).toBe(IndexedDbArchivist.defaultStoreName)
       })
     })
   })
-  describe('with valid data', () => {
-    const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90287'
-    const storeName = 'f8d14049-2966-4198-a2ab-1c096a949315'
-    let sources: Payload[] = []
-    let archivistModule: ArchivistInstance
-    beforeAll(async () => {
-      archivistModule = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
-        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
-      })
-      sources = await fillDb(archivistModule)
-    })
-    it('can round trip data', async () => {
-      for (const source of sources) {
-        const sourceHash = await PayloadWrapper.hashAsync(source)
-        const getResult = await archivistModule.get([sourceHash])
-        expect(getResult).toBeDefined()
-        expect(getResult.length).toBe(1)
-        const resultHash = await PayloadWrapper.wrap(getResult[0]).hashAsync()
-        expect(resultHash).toBe(sourceHash)
-      }
-    })
-  })
+
   describe('all', () => {
     const dbName = 'e926a178-9c6a-4604-b65c-d1fccd97f1de'
     const storeName = '27fcea19-c30f-415a-a7f9-0b0514705cb1'
@@ -123,7 +102,7 @@ describe('IndexedDbArchivist', () => {
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account,
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
       sources = await fillDb(archivistModule)
@@ -143,7 +122,7 @@ describe('IndexedDbArchivist', () => {
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account,
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
       sources = await fillDb(archivistModule)
@@ -165,7 +144,7 @@ describe('IndexedDbArchivist', () => {
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account,
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
       sources = await fillDb(archivistModule)
@@ -185,6 +164,60 @@ describe('IndexedDbArchivist', () => {
       const getResult = await archivistModule.get([hashThatDoesNotExist])
       expect(getResult).toBeDefined()
       expect(getResult).toBeArrayOfSize(0)
+    })
+  })
+  describe('insert', () => {
+    describe('with unique data', () => {
+      const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90287'
+      const storeName = 'f8d14049-2966-4198-a2ab-1c096a949315'
+      let sources: Payload[] = []
+      let archivistModule: ArchivistInstance
+      beforeAll(async () => {
+        archivistModule = await IndexedDbArchivist.create({
+          account,
+          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        })
+        sources = await fillDb(archivistModule)
+      })
+      it('can round trip data', async () => {
+        sources = await fillDb(archivistModule)
+        for (const source of sources) {
+          const sourceHash = await PayloadWrapper.hashAsync(source)
+          const getResult = await archivistModule.get([sourceHash])
+          expect(getResult).toBeDefined()
+          expect(getResult.length).toBe(1)
+          const resultHash = await PayloadWrapper.wrap(getResult[0]).hashAsync()
+          expect(resultHash).toBe(sourceHash)
+        }
+      })
+    })
+    describe('with duplicate data', () => {
+      const dbName = 'bb43b6fe-2f9e-4bda-8177-f94336353f98'
+      const storeName = '91c6b87d-3ac8-4cfd-8aee-d509f3de0299'
+      let archivistModule: ArchivistInstance
+      beforeAll(async () => {
+        archivistModule = await IndexedDbArchivist.create({
+          account,
+          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+        })
+      })
+      it('handles duplicate insertions', async () => {
+        // Insert same payload twice
+        const source = { salt: '2d515e1d-d82c-4545-9903-3eded7fefa7c', schema: IdSchema }
+        expect(await archivistModule.insert([source])).toEqual([source])
+        expect(await archivistModule.insert([source])).toEqual([source])
+        // Ensure we can get the payload
+        const sourceHash = await PayloadWrapper.hashAsync(source)
+        const getResult = await archivistModule.get([sourceHash])
+        expect(getResult).toBeDefined()
+        expect(getResult.length).toBe(1)
+        const resultHash = await PayloadWrapper.wrap(getResult[0]).hashAsync()
+        expect(resultHash).toBe(sourceHash)
+        // Ensure the DB has all the payloads written to it
+        const allResult = await archivistModule.all?.()
+        expect(allResult).toBeDefined()
+        expect(allResult).toBeArrayOfSize(2)
+      })
     })
   })
 })

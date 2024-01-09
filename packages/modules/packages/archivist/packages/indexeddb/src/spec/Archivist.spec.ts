@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
@@ -43,62 +44,68 @@ window.indexedDB = indexedDB
  * @group archivist
  */
 
-describe('IndexedDbArchivist', () => {
-  describe('With dbName', () => {
-    it('supplied via config uses config value', async () => {
-      const dbName = 'testDbName'
-      const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
-        config: { dbName, schema: IndexedDbArchivistConfigSchema },
-      })
-      expect(archivist.dbName).toBe(dbName)
-    })
-    it('not supplied via config uses module name', async () => {
-      const name = 'testModuleName'
-      const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
-        config: { name, schema: IndexedDbArchivistConfigSchema },
-      })
-      expect(archivist.dbName).toBe(name)
-    })
-    it('not supplied via config or module name uses default value', async () => {
-      const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
-      expect(archivist.dbName).toBe(IndexedDbArchivist.defaultDbName)
-    })
+const fillDb = async (db: ArchivistInstance, count: number = 10) => {
+  const sources = Array.from({ length: count }).map((_, i) => {
+    return { salt: `${i}`, schema: IdSchema }
   })
-  describe('With dbStore', () => {
-    it('supplied via config uses config value', async () => {
-      const storeName = 'testStoreName'
-      const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
-        config: { schema: IndexedDbArchivistConfigSchema, storeName },
-      })
-      expect(archivist.storeName).toBe(storeName)
-    })
-    it('not supplied via config uses default value', async () => {
-      const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
-      expect(archivist.storeName).toBe(IndexedDbArchivist.defaultStoreName)
-    })
-  })
+  for (const source of sources) {
+    await db.insert([source])
+  }
+  return sources
+}
 
-  describe('Using IndexedDB from window', () => {
-    const dbName = '0041ce9d-75fb-491e-8d77-5f201fce3320'
-    const storeName = 'b6073168-48c4-4004-8105-699e7f0ab5cd'
-    const sources: Payload[] = []
+describe('IndexedDbArchivist', () => {
+  describe('config', () => {
+    describe('with dbName', () => {
+      it('supplied via config uses config value', async () => {
+        const dbName = 'testDbName'
+        const archivist = await IndexedDbArchivist.create({
+          account: Account.randomSync(),
+          config: { dbName, schema: IndexedDbArchivistConfigSchema },
+        })
+        expect(archivist.dbName).toBe(dbName)
+      })
+      it('not supplied via config uses module name', async () => {
+        const name = 'testModuleName'
+        const archivist = await IndexedDbArchivist.create({
+          account: Account.randomSync(),
+          config: { name, schema: IndexedDbArchivistConfigSchema },
+        })
+        expect(archivist.dbName).toBe(name)
+      })
+      it('not supplied via config or module name uses default value', async () => {
+        const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
+        expect(archivist.dbName).toBe(IndexedDbArchivist.defaultDbName)
+      })
+    })
+    describe('with dbStore', () => {
+      it('supplied via config uses config value', async () => {
+        const storeName = 'testStoreName'
+        const archivist = await IndexedDbArchivist.create({
+          account: Account.randomSync(),
+          config: { schema: IndexedDbArchivistConfigSchema, storeName },
+        })
+        expect(archivist.storeName).toBe(storeName)
+      })
+      it('not supplied via config uses default value', async () => {
+        const archivist = await IndexedDbArchivist.create({ account: Account.randomSync(), config: { schema: IndexedDbArchivistConfigSchema } })
+        expect(archivist.storeName).toBe(IndexedDbArchivist.defaultStoreName)
+      })
+    })
+  })
+  describe('with valid data', () => {
+    const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90287'
+    const storeName = 'f8d14049-2966-4198-a2ab-1c096a949315'
+    let sources: Payload[] = []
     let archivistModule: ArchivistInstance
     beforeAll(async () => {
       archivistModule = await IndexedDbArchivist.create({
         account: Account.randomSync(),
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
-      const count = 10
-      for (let x = 0; x < count; x++) {
-        const payload = { salt: `${x}`, schema: IdSchema }
-        sources.push(payload)
-        await archivistModule.insert([payload])
-      }
+      sources = await fillDb(archivistModule)
     })
-    test('Archivist RoundTrip [IndexedDB (window)]', async () => {
+    it('can round trip data', async () => {
       for (const source of sources) {
         const sourceHash = await PayloadWrapper.hashAsync(source)
         const getResult = await archivistModule.get([sourceHash])
@@ -108,11 +115,70 @@ describe('IndexedDbArchivist', () => {
         expect(resultHash).toBe(sourceHash)
       }
     })
-    test('Archivist All [IndexedDB (window)]', async () => {
+  })
+  describe('all', () => {
+    const dbName = 'e926a178-9c6a-4604-b65c-d1fccd97f1de'
+    const storeName = '27fcea19-c30f-415a-a7f9-0b0514705cb1'
+    let sources: Payload[] = []
+    let archivistModule: ArchivistInstance
+    beforeAll(async () => {
+      archivistModule = await IndexedDbArchivist.create({
+        account: Account.randomSync(),
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+      })
+      sources = await fillDb(archivistModule)
+    })
+    it('returns all data', async () => {
       const getResult = await archivistModule.all?.()
       expect(getResult).toBeDefined()
       expect(getResult?.length).toBe(sources.length)
       expect(getResult).toEqual(sources)
+    })
+  })
+
+  describe('delete', () => {
+    const dbName = '6e3fcd65-f24f-4ebc-b314-f597b385fb8e'
+    const storeName = 'c0872f52-32b9-415e-8ca9-af78713cee28'
+    let sources: Payload[] = []
+    let archivistModule: ArchivistInstance
+    beforeAll(async () => {
+      archivistModule = await IndexedDbArchivist.create({
+        account: Account.randomSync(),
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+      })
+      sources = await fillDb(archivistModule)
+    })
+    it('deletes data', async () => {
+      const getResult = await archivistModule.all?.()
+      expect(getResult).toBeDefined()
+      expect(getResult?.length).toBe(sources.length)
+      const hashes = await Promise.all(assertEx(getResult).map((payload) => PayloadWrapper.hashAsync(payload)))
+      const deleteResult = await archivistModule.delete?.(hashes)
+      expect(deleteResult).toBeArrayOfSize(hashes.length)
+      expect(await archivistModule.all?.()).toBeEmpty()
+    })
+  })
+  describe('get', () => {
+    const dbName = 'b4379714-73d1-42c6-88e7-1a363b7ed86f'
+    const storeName = '3dbdb153-79d0-45d0-b2f7-9f06cdd74b1e'
+    let sources: Payload[] = []
+    let archivistModule: ArchivistInstance
+    beforeAll(async () => {
+      archivistModule = await IndexedDbArchivist.create({
+        account: Account.randomSync(),
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+      })
+      sources = await fillDb(archivistModule)
+    })
+    it('gets existing data', async () => {
+      for (const source of sources) {
+        const sourceHash = await PayloadWrapper.hashAsync(source)
+        const getResult = await archivistModule.get([sourceHash])
+        expect(getResult).toBeDefined()
+        expect(getResult.length).toBe(1)
+        const resultHash = await PayloadWrapper.wrap(getResult[0]).hashAsync()
+        expect(resultHash).toBe(sourceHash)
+      }
     })
   })
 })

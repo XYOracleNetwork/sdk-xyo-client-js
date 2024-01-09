@@ -7,6 +7,7 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
+  IndexDescription,
 } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
@@ -29,6 +30,7 @@ export class IndexedDbArchivist<
   static defaultDbName = 'archivist'
   static defaultDbVersion = 1
   static defaultStoreName = 'payloads'
+  static hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
@@ -48,6 +50,13 @@ export class IndexedDbArchivist<
    */
   get dbVersion() {
     return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
+  }
+
+  /**
+   * The database indexes.
+   */
+  get indexes() {
+    return this.config?.storage?.indexes ?? []
   }
 
   override get queries() {
@@ -77,11 +86,10 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    // Filter duplicates
     const distinctHashes = [...new Set(hashes)]
     const found = await Promise.all(
       distinctHashes.map(async (hash) => {
-        const existing = await this.db.getFromIndex(this.storeName, 'hash', hash)
+        const existing = await this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)
         if (existing.length === 0) return
         this.db.delete(this.storeName, hash)
         return hash
@@ -92,14 +100,14 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, 'hash', hash)))
+    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)))
     return payloads.filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const hashed = await PayloadHasher.toMap(payloads)
+    const pairs = await PayloadHasher.hashPairs(payloads)
     // TODO: Only return the payloads that were successfully inserted
-    await Promise.all(Object.entries(hashed).map(([hash, payload]) => this.db.put(this.storeName, { ...payload, _hash: hash })))
+    await Promise.all(pairs.map(([payload, _hash]) => this.db.put(this.storeName, { ...payload, _hash })))
     return payloads
   }
 
@@ -107,8 +115,8 @@ export class IndexedDbArchivist<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    const storeName = this.storeName
-    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion, {
+    const { indexes, storeName, dbName, dbVersion } = this
+    this._db = await openDB<PayloadStore>(dbName, dbVersion, {
       async upgrade(database) {
         await Promise.resolve() // Async to match spec
         // Create the store
@@ -119,8 +127,13 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        store.createIndex('hash', '_hash', { multiEntry: true, unique: false })
-        // TODO: Create additional indexes from config
+        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex]
+        for (const { key, name, unique } of indexesToCreate) {
+          const indexKeys = Object.keys(key)
+          const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
+          const indexName = name ?? `IX_${indexKeys.join('_')}`
+          store.createIndex(indexName, keys, { multiEntry: true, unique })
+        }
       },
     })
 

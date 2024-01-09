@@ -89,9 +89,11 @@ export class IndexedDbArchivist<
     const distinctHashes = [...new Set(hashes)]
     const found = await Promise.all(
       distinctHashes.map(async (hash) => {
-        const existing = await this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)
-        if (existing.length === 0) return
-        this.db.delete(this.storeName, hash)
+        let existing: IDBValidKey | undefined
+        do {
+          existing = await this.db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)
+          if (existing) await this.db.delete(this.storeName, existing)
+        } while (!existing)
         return hash
       }),
     )
@@ -132,7 +134,7 @@ export class IndexedDbArchivist<
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
           const indexName = name ?? `IX_${indexKeys.join('_')}`
-          store.createIndex(indexName, keys, { multiEntry: true, unique })
+          store.createIndex(indexName, keys, { unique })
         }
       },
     })

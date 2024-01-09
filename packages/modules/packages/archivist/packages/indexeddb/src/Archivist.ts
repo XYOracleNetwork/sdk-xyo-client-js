@@ -43,6 +43,9 @@ export class IndexedDbArchivist<
     return this.config?.dbName ?? this.config?.name ?? IndexedDbArchivist.defaultDbName
   }
 
+  /**
+   * The database version. If not supplied via config, it defaults to 1.
+   */
   get dbVersion() {
     return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
   }

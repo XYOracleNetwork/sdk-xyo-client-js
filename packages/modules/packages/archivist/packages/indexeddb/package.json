@@ -16,11 +16,9 @@
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "idb": "^8.0.0",
-    "idb-keyval": "^6.2.1"
+    "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@xylabs/delay": "^2.13.23",
     "@xylabs/ts-scripts-yarn3": "^3.2.29",
     "@xylabs/tsconfig": "^3.2.29",
     "@xyo-network/account": "workspace:~",

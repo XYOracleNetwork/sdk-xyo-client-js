@@ -180,5 +180,11 @@ describe('IndexedDbArchivist', () => {
         expect(resultHash).toBe(sourceHash)
       }
     })
+    it('returns nothing for non-existing hashes', async () => {
+      const hashThatDoesNotExist = '0000000000000000000000000000000000000000000000000000000000000000'
+      const getResult = await archivistModule.get([hashThatDoesNotExist])
+      expect(getResult).toBeDefined()
+      expect(getResult).toBeArrayOfSize(0)
+    })
   })
 })

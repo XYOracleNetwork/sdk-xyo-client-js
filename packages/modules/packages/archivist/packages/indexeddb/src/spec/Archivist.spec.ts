@@ -57,7 +57,7 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
 describe('IndexedDbArchivist', () => {
   const account = Account.randomSync()
   describe('config', () => {
-    describe('with dbName', () => {
+    describe('dbName', () => {
       it('supplied via config uses config value', async () => {
         const dbName = 'testDbName'
         const archivist = await IndexedDbArchivist.create({
@@ -79,7 +79,7 @@ describe('IndexedDbArchivist', () => {
         expect(archivist.dbName).toBe(IndexedDbArchivist.defaultDbName)
       })
     })
-    describe('with dbStore', () => {
+    describe('dbStore', () => {
       it('supplied via config uses config value', async () => {
         const storeName = 'testStoreName'
         const archivist = await IndexedDbArchivist.create({
@@ -92,9 +92,23 @@ describe('IndexedDbArchivist', () => {
         const archivist = await IndexedDbArchivist.create({ account, config: { schema: IndexedDbArchivistConfigSchema } })
         expect(archivist.storeName).toBe(IndexedDbArchivist.defaultStoreName)
       })
+      it('allows for multiple dbStores within the same dbName', async () => {
+        const dbName = 'testDbName'
+        const storeName1 = 'testStoreName1'
+        const storeName2 = 'testStoreName2'
+        const archivist1 = await IndexedDbArchivist.create({
+          account,
+          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName1 },
+        })
+        const archivist2 = await IndexedDbArchivist.create({
+          account,
+          config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2 },
+        })
+        expect(archivist1.storeName).toBe(storeName1)
+        expect(archivist2.storeName).toBe(storeName2)
+      })
     })
   })
-
   describe('all', () => {
     const dbName = 'e926a178-9c6a-4604-b65c-d1fccd97f1de'
     const storeName = '27fcea19-c30f-415a-a7f9-0b0514705cb1'

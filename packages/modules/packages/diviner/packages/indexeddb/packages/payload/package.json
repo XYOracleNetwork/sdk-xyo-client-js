@@ -1,0 +1,71 @@
+{
+  "name": "@xyo-network/diviner-payload-indexeddb",
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/assert": "^2.13.23",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/diviner-payload-abstract": "workspace:~",
+    "@xyo-network/diviner-payload-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
+  },
+  "devDependencies": {
+    "@xylabs/ts-scripts-yarn3": "^3.2.33",
+    "@xylabs/tsconfig": "^3.2.33",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-memory": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "typescript": "^5.3.3"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "types": "dist/node/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
+      },
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.js"
+        }
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "version": "2.87.0-rc.1",
+  "type": "module",
+  "stableVersion": "2.86.1"
+}

@@ -66,12 +66,28 @@ export class IndexedDbPayloadDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema, ...props } = filter
-    // TODO: Conditionally on schemas
-    // TODO: How to handle offset?
-    return []
+    // TODO: Conditionally filter on schemas
+    const db = await openDB(this.dbName, 1)
+    const tx = db.transaction(this.storeName, 'readonly')
+    const store = tx.objectStore(this.storeName)
+    const results: TOut[] = []
+    let parsedOffset = offset ?? 0
+    const parsedLimit = limit ?? 10
+    let cursor = await store.openCursor()
+    // Skip records until the offset is reached
+    while (cursor && parsedOffset > 0) {
+      cursor = await cursor.advance(parsedOffset)
+      parsedOffset = 0 // Reset offset after skipping
+    }
+    // Collect results up to the limit
+    while (cursor && results.length < parsedLimit) {
+      results.push(cursor.value)
+      cursor = await cursor.continue()
+    }
+    await tx.done
+    return results
   }
   protected override async startHandler() {
     await super.startHandler()

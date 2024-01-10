@@ -31,6 +31,7 @@ export class IndexedDbArchivist<
   static defaultDbVersion = 1
   static defaultStoreName = 'payloads'
   static hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: false }
+  static schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
@@ -129,7 +130,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex]
+        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
         for (const { key, name, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys

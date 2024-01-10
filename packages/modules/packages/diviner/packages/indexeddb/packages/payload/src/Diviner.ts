@@ -75,16 +75,33 @@ export class IndexedDbPayloadDiviner<
     const results: TOut[] = []
     let parsedOffset = offset ?? 0
     const parsedLimit = limit ?? 10
-    let cursor = await store.openCursor()
-    // Skip records until the offset is reached
-    while (cursor && parsedOffset > 0) {
-      cursor = await cursor.advance(parsedOffset)
-      parsedOffset = 0 // Reset offset after skipping
-    }
-    // Collect results up to the limit
-    while (cursor && results.length < parsedLimit) {
-      results.push(cursor.value)
-      cursor = await cursor.continue()
+    const filterSchema = schemas?.[0]
+    if (filterSchema) {
+      const index = store.index(IndexedDbPayloadDiviner.schemaIndex.name)
+      index.getAll(filterSchema)
+      let cursor = await index.openCursor(IDBKeyRange.only(filterSchema))
+      // Skip records until the offset is reached
+      while (cursor && parsedOffset > 0) {
+        cursor = await cursor.advance(parsedOffset)
+        parsedOffset = 0 // Reset offset after skipping
+      }
+      // Collect results up to the limit
+      while (cursor && results.length < parsedLimit) {
+        results.push(cursor.value)
+        cursor = await cursor.continue()
+      }
+    } else {
+      let cursor = await store.openCursor()
+      // Skip records until the offset is reached
+      while (cursor && parsedOffset > 0) {
+        cursor = await cursor.advance(parsedOffset)
+        parsedOffset = 0 // Reset offset after skipping
+      }
+      // Collect results up to the limit
+      while (cursor && results.length < parsedLimit) {
+        results.push(cursor.value)
+        cursor = await cursor.continue()
+      }
     }
     await tx.done
     return results

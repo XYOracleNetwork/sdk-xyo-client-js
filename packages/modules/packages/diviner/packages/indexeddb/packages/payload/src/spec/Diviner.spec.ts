@@ -43,6 +43,8 @@ window.indexedDB = indexedDB
  * @group diviner
  */
 describe('IndexedDbPayloadDiviner', () => {
+  const dbName = 'testDb'
+  const storeName = 'testStore'
   let archivist: IndexedDbArchivist
   let sut: IndexedDbPayloadDiviner
   let node: MemoryNode
@@ -57,14 +59,16 @@ describe('IndexedDbPayloadDiviner', () => {
   beforeAll(async () => {
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'test', schema: IndexedDbArchivist.configSchema },
+      config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
     })
     await archivist.insert([payloadA, payloadB])
     sut = await IndexedDbPayloadDiviner.create({
       account: Account.randomSync(),
       config: {
         archivist: archivist.address,
+        dbName,
         schema: IndexedDbPayloadDiviner.configSchema,
+        storeName,
       },
     })
     node = await MemoryNode.create({

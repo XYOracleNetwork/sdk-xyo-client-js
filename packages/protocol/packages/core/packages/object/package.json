@@ -16,8 +16,8 @@
     "@xylabs/promise": "^2.13.23"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.29",
-    "@xylabs/tsconfig": "^3.2.29",
+    "@xylabs/ts-scripts-yarn3": "^3.2.33",
+    "@xylabs/tsconfig": "^3.2.33",
     "typescript": "^5.3.3"
   },
   "exports": {

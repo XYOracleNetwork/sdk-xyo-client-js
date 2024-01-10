@@ -19,8 +19,8 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.2.29",
-    "@xylabs/tsconfig": "^3.2.29",
+    "@xylabs/ts-scripts-yarn3": "^3.2.33",
+    "@xylabs/tsconfig": "^3.2.33",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",

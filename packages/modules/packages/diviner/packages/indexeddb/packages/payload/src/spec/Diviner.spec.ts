@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 /* eslint-disable max-nested-callbacks */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -5,16 +8,15 @@ import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-netw
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
-import { MemoryPayloadDiviner } from '../Diviner'
+import { IndexedDbPayloadDiviner } from '../Diviner'
 
 /**
  * @group module
  * @group diviner
  */
-
-describe('MemoryPayloadDiviner', () => {
+describe('IndexedDbPayloadDiviner', () => {
   let archivist: MemoryArchivist
-  let sut: MemoryPayloadDiviner
+  let sut: IndexedDbPayloadDiviner
   let node: MemoryNode
   const payloadA = {
     schema: 'network.xyo.test',
@@ -30,11 +32,11 @@ describe('MemoryPayloadDiviner', () => {
       config: { name: 'test', schema: MemoryArchivist.configSchema },
     })
     await archivist.insert([payloadA, payloadB])
-    sut = await MemoryPayloadDiviner.create({
+    sut = await IndexedDbPayloadDiviner.create({
       account: Account.randomSync(),
       config: {
         archivist: archivist.address,
-        schema: MemoryPayloadDiviner.configSchema,
+        schema: IndexedDbPayloadDiviner.configSchema,
       },
     })
     node = await MemoryNode.create({

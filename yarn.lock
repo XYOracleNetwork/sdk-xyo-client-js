@@ -3070,6 +3070,7 @@ __metadata:
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
   dependencies:
     "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/exists": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.33"
     "@xylabs/tsconfig": "npm:^3.2.33"
     "@xyo-network/account": "workspace:~"

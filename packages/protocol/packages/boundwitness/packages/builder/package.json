@@ -72,7 +72,7 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.87.0-rc.1",
+  "version": "2.87.0-rc.2",
   "type": "module",
   "stableVersion": "2.86.1"
 }

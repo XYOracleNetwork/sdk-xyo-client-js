@@ -74,6 +74,10 @@ export class IndexedDbArchivist<
     return assertEx(this._db, 'DB not initialized')
   }
 
+  private get indexes() {
+    return this.config?.storage?.indexes ?? []
+  }
+
   protected override async allHandler(): Promise<Payload[]> {
     // Get all payloads from the store
     const payloads = await this.db.getAll(this.storeName)
@@ -127,7 +131,7 @@ export class IndexedDbArchivist<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    const { storeName, dbName, dbVersion } = this
+    const { dbName, dbVersion, indexes, storeName } = this
     this._db = await openDB<PayloadStore>(dbName, dbVersion, {
       async upgrade(database) {
         await Promise.resolve() // Async to match spec
@@ -139,7 +143,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
+        const indexesToCreate = [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...indexes]
         for (const { key, multiEntry, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys

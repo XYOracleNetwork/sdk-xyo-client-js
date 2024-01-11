@@ -1,5 +1,6 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { IndexSeparator } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
@@ -15,6 +16,36 @@ import { IndexedDbBoundWitnessDivinerParams } from './Params'
 interface BoundWitnessStore {
   [s: string]: BoundWitness
 }
+
+type ValueFilter = (bw?: BoundWitness | null) => boolean
+
+const bwValueFilter = (
+  key: keyof Pick<BoundWitness, 'addresses' | 'payload_hashes' | 'payload_schemas'>,
+  values?: string[],
+): ValueFilter | undefined => {
+  if (!values || values?.length === 0) return undefined
+  return (bw) => {
+    if (!bw) return false
+    return containsAll(bw[key], values)
+  }
+}
+
+// const addressesValueFilter = (bw: BoundWitness, address?: string[]): ValueFilter | undefined => {
+//   if (!address || address?.length === 0) return undefined
+//   return (bw) => {
+//     return containsAll(address, bw.addresses)
+//   }
+// }
+// const payloadHashesValueFilter = (bw: BoundWitness, payload_hashes?: string[]): ValueFilter | undefined => {
+//   return (bw) => {
+//     return containsAll(payload_hashes, bw.payload_hashes)
+//   }
+// }
+// const payloadSchemasValueFilter = (bw: BoundWitness, payload_schemas?: string[]): ValueFilter | undefined => {
+//   return (bw) => {
+//     return containsAll(payload_schemas, bw.payload_schemas)
+//   }
+// }
 
 export class IndexedDbBoundWitnessDiviner<
   TParams extends IndexedDbBoundWitnessDivinerParams = IndexedDbBoundWitnessDivinerParams,
@@ -75,20 +106,42 @@ export class IndexedDbBoundWitnessDiviner<
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
     const suggestedIndex = this.selectBestIndex(filter, store)
     const keyRangeValue = this.getIndexRangeValue(suggestedIndex, filter)
+    const valueFilters: ValueFilter[] = [
+      bwValueFilter('addresses', addresses),
+      bwValueFilter('payload_hashes', payload_hashes),
+      bwValueFilter('payload_schemas', payload_schemas),
+    ].filter(exists)
     let cursor = suggestedIndex
       ? // Conditionally filter on schemas
         await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
       : // Just iterate all records
         await store.openCursor(suggestedIndex, direction)
 
-    // Skip records until the offset is reached
-    while (cursor && parsedOffset > 0) {
-      cursor = await cursor.advance(parsedOffset)
-      parsedOffset = 0 // Reset offset after skipping
+    // If we're filtering on more than just the schema, we need to
+    // iterate through all the results
+    if (valueFilters.length === 0) {
+      // Skip records until the offset is reached
+      while (cursor && parsedOffset > 0) {
+        cursor = await cursor.advance(parsedOffset)
+        parsedOffset = 0 // Reset offset after skipping
+      }
     }
     // Collect results up to the limit
     while (cursor && results.length < parsedLimit) {
-      results.push(cursor.value)
+      const bw = cursor.value
+      if (bw) {
+        // If we're filtering on more than just the schema
+        if (valueFilters.length > 0) {
+          // Ensure all filters pass
+          if (valueFilters.every((filter) => filter(bw))) {
+            // Then save the value
+            results.push(bw)
+          }
+        } else {
+          // Otherwise just save the value
+          results.push(bw)
+        }
+      }
       cursor = await cursor.continue()
     }
     await tx.done

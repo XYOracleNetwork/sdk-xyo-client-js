@@ -7,6 +7,7 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
+  buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/hash'
@@ -26,7 +27,7 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override readonly configSchemas = [IndexedDbArchivistConfigSchema]
+  static override configSchemas = [IndexedDbArchivistConfigSchema]
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
@@ -134,7 +135,7 @@ export class IndexedDbArchivist<
         for (const { key, name, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
-          const indexName = name ?? `IX_${indexKeys.join('_')}`
+          const indexName = name ?? buildStandardIndexName({ key, unique })
           store.createIndex(indexName, keys, { unique })
         }
       },

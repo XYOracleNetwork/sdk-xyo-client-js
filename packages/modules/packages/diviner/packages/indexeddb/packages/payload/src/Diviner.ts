@@ -3,8 +3,9 @@ import { IndexDescription } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { AnyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
-import { IDBPDatabase, openDB } from 'idb'
+import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config'
 import { IndexedDbPayloadDivinerParams } from './Params'
@@ -64,22 +65,27 @@ export class IndexedDbPayloadDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
-    if (!filter) return []
+    const query = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
+    if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schemas, limit, offset, hash, order, schema, ...props } = filter
+    const { schemas, limit, offset, hash, order, schema: _schema, sources, ...props } = query as unknown as TIn & { sources?: string[] }
     const db = await openDB(this.dbName, 1)
     const tx = db.transaction(this.storeName, 'readonly')
     const store = tx.objectStore(this.storeName)
     const results: TOut[] = []
     let parsedOffset = offset ?? 0
     const parsedLimit = limit ?? 10
+    assertEx((schemas?.length ?? 1) === 1, 'IndexedDbPayloadDiviner: Only one filter schema supported')
     const filterSchema = schemas?.[0]
-    let cursor = filterSchema
+    const filter = filterSchema ? { schema: filterSchema, ...props } : { ...props }
+    const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
+    const suggestedIndex = this.selectBestIndex(filter, store)
+    const filterValues = this.getKeyValuesFromQuery(suggestedIndex, filter)
+    let cursor = suggestedIndex
       ? // Conditionally filter on schemas
-        await store.index(IndexedDbPayloadDiviner.schemaIndex.name).openCursor(IDBKeyRange.only(filterSchema))
+        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
       : // Just iterate all records
-        await store.openCursor()
+        await store.openCursor(direction)
 
     // Skip records until the offset is reached
     while (cursor && parsedOffset > 0) {
@@ -100,5 +106,50 @@ export class IndexedDbPayloadDiviner<
     // want to fail fast here in case something is wrong
     this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
     return true
+  }
+
+  private getKeyValuesFromQuery(indexName: string | null, query: AnyObject): unknown[] {
+    if (!indexName) return []
+    // Function to extract fields from an index name
+    const extractFields = (indexName: string): string[] => {
+      return indexName
+        .slice(3)
+        .split('_')
+        .map((field) => field.toLowerCase())
+    }
+
+    // Extracting the relevant fields from the index name
+    const indexFields = extractFields(indexName)
+
+    // Collecting the values for these fields from the query object
+    return indexFields.map((field) => query[field as keyof AnyObject])
+  }
+
+  private selectBestIndex(query: AnyObject, store: IDBPObjectStore): string | null {
+    // List of available indexes
+    const { indexNames } = store
+
+    // Function to extract fields from an index name
+    const extractFields = (indexName: string): string[] => {
+      return indexName
+        .slice(3)
+        .split('_')
+        .map((field) => field.toLowerCase())
+    }
+
+    // Convert query object keys to a set for easier comparison
+    const queryKeys = new Set(Object.keys(query).map((key) => key.toLowerCase()))
+
+    // Find the best matching index
+    let bestMatch: { indexName: string; matchCount: number } = { indexName: '', matchCount: 0 }
+
+    for (const indexName of indexNames) {
+      const indexFields = extractFields(indexName)
+      const matchCount = indexFields.filter((field) => queryKeys.has(field)).length
+      if (matchCount > bestMatch.matchCount) {
+        bestMatch = { indexName, matchCount }
+      }
+    }
+    return bestMatch.matchCount > 0 ? bestMatch.indexName : null
   }
 }

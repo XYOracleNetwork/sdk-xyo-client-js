@@ -24,3 +24,16 @@ export type IndexDescription = {
    */
   unique?: boolean
 }
+
+/**
+ * Given an index description, this will build the index
+ * name in standard form
+ * @param index The index description
+ * @returns The index name in standard form
+ */
+export const buildStandardIndexName = (index: IndexDescription) => {
+  const { key, unique } = index
+  const prefix = unique ? 'UX' : 'IX'
+  const indexKeys = Object.keys(key)
+  return `${prefix}_${indexKeys.join('_')}`
+}

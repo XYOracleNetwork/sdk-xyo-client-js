@@ -14,14 +14,26 @@
     "@xylabs/assert": "^2.13.23",
     "@xylabs/exists": "^2.13.23",
     "@xylabs/hex": "^2.13.23",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/object": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "idb": "^8.0.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.33",
     "@xylabs/tsconfig": "^3.2.33",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-indexeddb": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "fake-indexeddb": "^5.0.2",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

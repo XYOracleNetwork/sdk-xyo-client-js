@@ -16,6 +16,10 @@ export type IndexDescription = {
       }
     | Map<string, IndexDirection>
   /**
+   * Is the indexed value an array
+   */
+  multiEntry?: boolean
+  /**
    * The name of the index
    */
   name?: string
@@ -23,4 +27,19 @@ export type IndexDescription = {
    * If true, the index must enforce uniqueness on the key
    */
   unique?: boolean
+}
+
+export const IndexSeparator = '-'
+
+/**
+ * Given an index description, this will build the index
+ * name in standard form
+ * @param index The index description
+ * @returns The index name in standard form
+ */
+export const buildStandardIndexName = (index: IndexDescription) => {
+  const { key, unique } = index
+  const prefix = unique ? 'UX' : 'IX'
+  const indexKeys = Object.keys(key)
+  return `${prefix}_${indexKeys.join(IndexSeparator)}`
 }

@@ -63,7 +63,8 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   beforeAll(async () => {
     const [boundWitnessA] = await new BoundWitnessBuilder().payloads([payloadA]).build()
     const [boundWitnessB] = await new BoundWitnessBuilder().payloads([payloadB]).build()
-    boundWitnesses.push(boundWitnessA, boundWitnessB)
+    const [boundWitnessC] = await new BoundWitnessBuilder().payloads([payloadA, payloadB]).build()
+    boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
       config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
@@ -108,7 +109,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           }
         })
       })
-      describe.skip('multiple', () => {
+      describe('multiple', () => {
         it('only returns payloads of that schema', async () => {
           const payload_schemas = ['network.xyo.test', 'network.xyo.debug']
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })

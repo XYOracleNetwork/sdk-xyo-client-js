@@ -58,7 +58,6 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     foo: ['bar', 'baz'],
     schema: 'network.xyo.debug',
   }
-  const payloads = [payloadA, payloadB]
   const boundWitnesses: BoundWitness[] = []
   beforeAll(async () => {
     const [boundWitnessA] = await new BoundWitnessBuilder().payloads([payloadA]).build()

@@ -10,7 +10,7 @@ import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 import { IndexedDbPayloadDivinerConfigSchema } from './Config'
 import { IndexedDbPayloadDivinerParams } from './Params'
 
-export interface PayloadStore {
+interface PayloadStore {
   [s: string]: Payload
 }
 

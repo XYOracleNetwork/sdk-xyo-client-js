@@ -31,7 +31,7 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
-  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: false }
+  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: true }
   static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
@@ -110,9 +110,19 @@ export class IndexedDbArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const pairs = await PayloadHasher.hashPairs(payloads)
-    // TODO: Only return the payloads that were successfully inserted
-    await Promise.all(pairs.map(([payload, _hash]) => this.db.put(this.storeName, { ...payload, _hash })))
-    return payloads
+    // Only return the payloads that were successfully inserted
+    const inserted = await Promise.all(
+      pairs.map(async ([payload, _hash]) => {
+        const tx = this.db.transaction(this.storeName, 'readwrite')
+        const store = tx.objectStore(this.storeName)
+        const existing = await store.index(IndexedDbArchivist.hashIndex.name).get(_hash)
+        if (!existing) {
+          await this.db.put(this.storeName, { ...payload, _hash })
+          return payload
+        }
+      }),
+    )
+    return inserted.filter(exists)
   }
 
   protected override async startHandler() {

@@ -218,9 +218,11 @@ describe('IndexedDbArchivist', () => {
       it('handles duplicate insertions', async () => {
         // Insert same payload twice
         const source = { salt: '2d515e1d-d82c-4545-9903-3eded7fefa7c', schema: IdSchema }
+        // First insertion should succeed and return the inserted payload
         expect(await archivistModule.insert([source])).toEqual([source])
-        expect(await archivistModule.insert([source])).toEqual([source])
-        // Ensure we can get the payload
+        // First insertion should succeed but return empty array since no new data was inserted
+        expect(await archivistModule.insert([source])).toEqual([])
+        // Ensure we can get the inserted payload
         const sourceHash = await PayloadWrapper.hashAsync(source)
         const getResult = await archivistModule.get([sourceHash])
         expect(getResult).toBeDefined()
@@ -230,7 +232,7 @@ describe('IndexedDbArchivist', () => {
         // Ensure the DB has all the payloads written to it
         const allResult = await archivistModule.all?.()
         expect(allResult).toBeDefined()
-        expect(allResult).toBeArrayOfSize(2)
+        expect(allResult).toBeArrayOfSize(1)
       })
     })
   })

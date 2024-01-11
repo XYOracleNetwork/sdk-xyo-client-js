@@ -147,7 +147,7 @@ describe('IndexedDbPayloadDiviner', () => {
       })
     })
     describe('desc', () => {
-      it('returns payloads in ascending order', async () => {
+      it('returns payloads in descending order', async () => {
         const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'desc' }).build()
         const results = await sut.divine([query])
         expect(results).toEqual([...payloads].reverse())

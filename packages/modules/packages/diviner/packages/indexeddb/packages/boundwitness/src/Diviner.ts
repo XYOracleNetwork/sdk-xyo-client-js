@@ -30,23 +30,6 @@ const bwValueFilter = (
   }
 }
 
-// const addressesValueFilter = (bw: BoundWitness, address?: string[]): ValueFilter | undefined => {
-//   if (!address || address?.length === 0) return undefined
-//   return (bw) => {
-//     return containsAll(address, bw.addresses)
-//   }
-// }
-// const payloadHashesValueFilter = (bw: BoundWitness, payload_hashes?: string[]): ValueFilter | undefined => {
-//   return (bw) => {
-//     return containsAll(payload_hashes, bw.payload_hashes)
-//   }
-// }
-// const payloadSchemasValueFilter = (bw: BoundWitness, payload_schemas?: string[]): ValueFilter | undefined => {
-//   return (bw) => {
-//     return containsAll(payload_schemas, bw.payload_schemas)
-//   }
-// }
-
 export class IndexedDbBoundWitnessDiviner<
   TParams extends IndexedDbBoundWitnessDivinerParams = IndexedDbBoundWitnessDivinerParams,
 > extends BoundWitnessDiviner<TParams> {
@@ -102,20 +85,14 @@ export class IndexedDbBoundWitnessDiviner<
     const results: BoundWitness[] = []
     let parsedOffset = offset ?? 0
     const parsedLimit = limit ?? 10
-    const filter = { schema: BoundWitnessSchema }
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
-    const suggestedIndex = this.selectBestIndex(filter, store)
-    const keyRangeValue = this.getIndexRangeValue(suggestedIndex, filter)
     const valueFilters: ValueFilter[] = [
       bwValueFilter('addresses', addresses),
       bwValueFilter('payload_hashes', payload_hashes),
       bwValueFilter('payload_schemas', payload_schemas),
     ].filter(exists)
-    let cursor = suggestedIndex
-      ? // Conditionally filter on schemas
-        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
-      : // Just iterate all records
-        await store.openCursor(suggestedIndex, direction)
+    // Only iterate over BWs
+    let cursor = await store.index('IX-schema').openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
 
     // If we're filtering on more than just the schema, we need to
     // iterate through all the results

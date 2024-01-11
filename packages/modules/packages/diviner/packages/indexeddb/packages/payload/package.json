@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.23",
+    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
@@ -23,7 +24,6 @@
     "@xylabs/tsconfig": "^3.2.33",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-indexeddb": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/object": "workspace:~",

@@ -26,12 +26,12 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas = [IndexedDbArchivistConfigSchema]
-  static defaultDbName = 'archivist'
-  static defaultDbVersion = 1
-  static defaultStoreName = 'payloads'
-  static hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: false }
-  static schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
+  static override readonly configSchemas = [IndexedDbArchivistConfigSchema]
+  static readonly defaultDbName = 'archivist'
+  static readonly defaultDbVersion = 1
+  static readonly defaultStoreName = 'payloads'
+  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: false }
+  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 

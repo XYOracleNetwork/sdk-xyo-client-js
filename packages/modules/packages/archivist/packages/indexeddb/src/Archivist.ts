@@ -147,7 +147,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
+        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex, IndexedDbArchivist.payloadSchemasIndex, IndexedDbArchivist.schemaIndex]
         for (const { key, multiEntry, name, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys

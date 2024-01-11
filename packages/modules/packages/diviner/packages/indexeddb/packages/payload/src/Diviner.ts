@@ -69,8 +69,7 @@ export class IndexedDbPayloadDiviner<
     if (!query) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema: _schema, sources, ...props } = query as unknown as TIn & { sources?: string[] }
-    const db = await openDB(this.dbName, 1)
-    const tx = db.transaction(this.storeName, 'readonly')
+    const tx = this.db.transaction(this.storeName, 'readonly')
     const store = tx.objectStore(this.storeName)
     const results: TOut[] = []
     let parsedOffset = offset ?? 0
@@ -100,6 +99,7 @@ export class IndexedDbPayloadDiviner<
     await tx.done
     return results
   }
+
   protected override async startHandler() {
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
@@ -125,7 +125,7 @@ export class IndexedDbPayloadDiviner<
     return indexFields.map((field) => query[field as keyof AnyObject])
   }
 
-  private selectBestIndex(query: AnyObject, store: IDBPObjectStore): string | null {
+  private selectBestIndex(query: AnyObject, store: IDBPObjectStore<PayloadStore>): string | null {
     // List of available indexes
     const { indexNames } = store
 

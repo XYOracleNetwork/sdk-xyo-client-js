@@ -31,8 +31,12 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
-  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, multiEntry: false, name: 'UX-_hash', unique: true }
-  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, multiEntry: false, name: 'IX-schema', unique: false }
+  private static readonly hashIndex: IndexDescription = { key: { _hash: 1 }, multiEntry: false, unique: true }
+  private static readonly schemaIndex: IndexDescription = { key: { schema: 1 }, multiEntry: false, unique: false }
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  static readonly hashIndexName = buildStandardIndexName(IndexedDbArchivist.hashIndex)
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
@@ -54,16 +58,10 @@ export class IndexedDbArchivist<
     return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
   }
 
-  /**
-   * The database indexes.
-   */
-  get indexes() {
-    return this.config?.storage?.indexes ?? []
-  }
-
   override get queries() {
     return [ArchivistAllQuerySchema, ArchivistClearQuerySchema, ArchivistDeleteQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
   }
+
   /**
    * The name of the object store. If not supplied via config, it defaults
    * to `payloads`.
@@ -93,7 +91,7 @@ export class IndexedDbArchivist<
       distinctHashes.map(async (hash) => {
         let existing: IDBValidKey | undefined
         do {
-          existing = await this.db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)
+          existing = await this.db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
           if (existing) await this.db.delete(this.storeName, existing)
         } while (!existing)
         return hash
@@ -104,7 +102,7 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndex.name, hash)))
+    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)))
     return payloads.filter(exists)
   }
 
@@ -115,7 +113,7 @@ export class IndexedDbArchivist<
       pairs.map(async ([payload, _hash]) => {
         const tx = this.db.transaction(this.storeName, 'readwrite')
         const store = tx.objectStore(this.storeName)
-        const existing = await store.index(IndexedDbArchivist.hashIndex.name).get(_hash)
+        const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
         if (!existing) {
           await this.db.put(this.storeName, { ...payload, _hash })
           return payload
@@ -129,7 +127,7 @@ export class IndexedDbArchivist<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    const { indexes, storeName, dbName, dbVersion } = this
+    const { storeName, dbName, dbVersion } = this
     this._db = await openDB<PayloadStore>(dbName, dbVersion, {
       async upgrade(database) {
         await Promise.resolve() // Async to match spec
@@ -141,7 +139,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
+        const indexesToCreate = [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
         for (const { key, multiEntry, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
@@ -150,7 +148,6 @@ export class IndexedDbArchivist<
         }
       },
     })
-
     return true
   }
 }

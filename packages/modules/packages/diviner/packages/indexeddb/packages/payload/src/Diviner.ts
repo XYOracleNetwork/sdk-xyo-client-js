@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
@@ -22,34 +23,25 @@ export class IndexedDbPayloadDiviner<
   TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [IndexedDbPayloadDivinerConfigSchema]
-  static defaultDbName = 'archivist'
-  static defaultDbVersion = 1
-  static defaultStoreName = 'payloads'
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
   /**
-   * The database name. If not supplied via config it defaults to
-   * `archivist`. This behavior biases towards a single, isolated
-   * DB per archivist which seems to make the most sense for 99% of
-   * use cases.
+   * The database name. If not supplied via config, it defaults
+   * to the archivist's name and if archivist's name is not supplied,
+   * it defaults to `archivist`. This behavior
+   * biases towards a single, isolated DB per archivist which seems to
+   * make the most sense for 99% of use cases.
    */
   get dbName() {
-    return this.config?.dbName ?? IndexedDbPayloadDiviner.defaultDbName
+    return this.config?.dbName ?? this.config?.archivist ?? IndexedDbArchivist.defaultDbName
   }
 
   /**
-   * The database version. If not supplied via config, it defaults to 1.
+   * The database version. If not supplied via config, it defaults to the archivist default version.
    */
   get dbVersion() {
-    return this.config?.dbVersion ?? IndexedDbPayloadDiviner.defaultDbVersion
-  }
-
-  /**
-   * The database indexes.
-   */
-  get indexes() {
-    return this.config?.storage?.indexes ?? []
+    return this.config?.dbVersion ?? IndexedDbArchivist.defaultDbVersion
   }
 
   /**
@@ -57,7 +49,7 @@ export class IndexedDbPayloadDiviner<
    * to `payloads`.
    */
   get storeName() {
-    return this.config?.storeName ?? IndexedDbPayloadDiviner.defaultStoreName
+    return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
   private get db(): IDBPDatabase<PayloadStore> {

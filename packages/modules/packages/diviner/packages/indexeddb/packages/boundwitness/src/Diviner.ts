@@ -4,17 +4,16 @@ import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import {
-  BoundWitnessDivinerConfigSchema,
-  BoundWitnessDivinerParams,
-  isBoundWitnessDivinerQueryPayload,
-} from '@xyo-network/diviner-boundwitness-model'
+import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
+import { IndexedDbBoundWitnessDivinerParams } from './Params'
+
 export class IndexedDbBoundWitnessDiviner<
-  TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams,
+  TParams extends IndexedDbBoundWitnessDivinerParams = IndexedDbBoundWitnessDivinerParams,
 > extends BoundWitnessDiviner<TParams> {
-  static override configSchemas = [BoundWitnessDivinerConfigSchema]
+  static override configSchemas = [IndexedDbBoundWitnessDivinerConfigSchema]
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')

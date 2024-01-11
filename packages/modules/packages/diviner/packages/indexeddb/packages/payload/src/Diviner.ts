@@ -3,6 +3,7 @@ import { IndexDescription } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import { PayloadHasher } from '@xyo-network/hash'
 import { AnyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
@@ -84,7 +85,7 @@ export class IndexedDbPayloadDiviner<
       ? // Conditionally filter on schemas
         await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
       : // Just iterate all records
-        await store.openCursor(direction)
+        await store.openCursor(suggestedIndex, direction)
 
     // Skip records until the offset is reached
     while (cursor && parsedOffset > 0) {
@@ -97,7 +98,8 @@ export class IndexedDbPayloadDiviner<
       cursor = await cursor.continue()
     }
     await tx.done
-    return results
+    // Remove any metadata before returning to the client
+    return results.map((payload) => PayloadHasher.jsonPayload(payload))
   }
 
   protected override async startHandler() {

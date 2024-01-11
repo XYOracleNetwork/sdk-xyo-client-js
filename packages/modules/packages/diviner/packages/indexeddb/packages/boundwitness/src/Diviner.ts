@@ -2,6 +2,7 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
+import { IndexSeparator } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -76,10 +77,13 @@ export class IndexedDbBoundWitnessDiviner<
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
     const suggestedIndex = this.selectBestIndex(filter, store)
     const filterValues = this.getKeyValuesFromQuery(suggestedIndex, filter)
+    const rangeValue = suggestedIndex?.includes('payload_hashes') ? filterValues : filterValues[0]
     let cursor = suggestedIndex
       ? // Conditionally filter on schemas
-        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
-      : // Just iterate all records
+        // TODO: Handle scalar and non-scalar values correctly
+        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(rangeValue), direction)
+      : // await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
+        // Just iterate all records
         await store.openCursor(suggestedIndex, direction)
 
     // Skip records until the offset is reached
@@ -113,7 +117,7 @@ export class IndexedDbBoundWitnessDiviner<
     const extractFields = (indexName: string): string[] => {
       return indexName
         .slice(3)
-        .split('_')
+        .split(IndexSeparator)
         .map((field) => field.toLowerCase())
     }
 
@@ -132,7 +136,7 @@ export class IndexedDbBoundWitnessDiviner<
     const extractFields = (indexName: string): string[] => {
       return indexName
         .slice(3)
-        .split('_')
+        .split(IndexSeparator)
         .map((field) => field.toLowerCase())
     }
 

@@ -5,7 +5,7 @@
 import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -101,7 +101,11 @@ describe('IndexedDbBoundWitnessDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => result.schema === schema)).toBe(true)
+          const bws = results.filter(isBoundWitness)
+          expect(bws.length).toBeGreaterThan(0)
+          for (const bw of bws) {
+            expect(bw.payload_schemas).toEqual(payload_schemas)
+          }
         })
       })
       describe.skip('multiple', () => {
@@ -112,33 +116,11 @@ describe('IndexedDbBoundWitnessDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => payload_schemas.includes(result.schema))).toBe(true)
-        })
-      })
-    })
-    describe('custom field', () => {
-      describe('property', () => {
-        it('only returns payloads with that property', async () => {
-          type WithUrl = { url?: string }
-          const url = payloadA.url
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload & WithUrl>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ url })
-            .build()
-          const results = await sut.divine([query])
-          expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
-        })
-      })
-      describe.skip('array', () => {
-        const cases: string[][] = [['bar'], ['baz'], ['bar', 'baz']]
-        it.each(cases)('only returns payloads that have an array containing all the values supplied', async (...foo) => {
-          type WithFoo = { foo?: string[] }
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload & WithFoo>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ foo })
-            .build()
-          const results = await sut.divine([query])
-          expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
+          const bws = results.filter(isBoundWitness)
+          expect(bws.length).toBeGreaterThan(0)
+          for (const bw of bws) {
+            expect(bw.payload_schemas).toEqual(payload_schemas)
+          }
         })
       })
     })

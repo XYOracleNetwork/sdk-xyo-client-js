@@ -31,14 +31,14 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
-  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, multiEntry: false, name: 'IX__hash', unique: true }
+  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, multiEntry: false, name: 'IX-_hash', unique: true }
   static readonly payloadSchemasIndex: Required<IndexDescription> = {
     key: { payload_schemas: 1 },
-    multiEntry: true,
-    name: 'IX_payload_schemas',
+    multiEntry: false,
+    name: 'IX-payload_schemas',
     unique: false,
   }
-  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, multiEntry: false, name: 'IX_schema', unique: false }
+  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, multiEntry: false, name: 'IX-schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 

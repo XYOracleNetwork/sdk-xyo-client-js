@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { IndexSeparator } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
@@ -114,7 +115,7 @@ export class IndexedDbPayloadDiviner<
     const extractFields = (indexName: string): string[] => {
       return indexName
         .slice(3)
-        .split('_')
+        .split(IndexSeparator)
         .map((field) => field.toLowerCase())
     }
 
@@ -133,7 +134,7 @@ export class IndexedDbPayloadDiviner<
     const extractFields = (indexName: string): string[] => {
       return indexName
         .slice(3)
-        .split('_')
+        .split(IndexSeparator)
         .map((field) => field.toLowerCase())
     }
 

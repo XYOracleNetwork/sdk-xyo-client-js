@@ -93,25 +93,30 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     )
   })
   describe('with filter for', () => {
-    describe('schema', () => {
+    describe('payload_schemas', () => {
       describe('single', () => {
-        it.each(['network.xyo.test', 'network.xyo.debug'])('only returns payloads of that schema', async (schema) => {
-          const payload_schemas = [schema]
-          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
-            .fields({ payload_schemas })
-            .build()
-          const results = await sut.divine([query])
-          expect(results.length).toBeGreaterThan(0)
-          const bws = results.filter(isBoundWitness)
-          expect(bws.length).toBeGreaterThan(0)
-          for (const bw of bws) {
-            expect(bw.payload_schemas).toEqual(payload_schemas)
-          }
-        })
+        it.each(['network.xyo.test', 'network.xyo.debug'])(
+          'returns only bound witnesses with payload_schemas that contain the schema',
+          async (schema) => {
+            const payload_schemas = [schema]
+            const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+              .fields({ payload_schemas })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            const bws = results.filter(isBoundWitness)
+            expect(bws.length).toBeGreaterThan(0)
+            for (const bw of bws) {
+              expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
+            }
+          },
+        )
       })
       describe('multiple', () => {
-        it('only returns payloads of that schema', async () => {
-          const payload_schemas = ['network.xyo.test', 'network.xyo.debug']
+        it.each([
+          ['network.xyo.test', 'network.xyo.debug'],
+          ['network.xyo.test', 'network.xyo.debug'],
+        ])('returns only bound witnesses with payload_schemas that contain the all the schemas', async (...payload_schemas) => {
           const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
             .fields({ payload_schemas })
             .build()
@@ -120,7 +125,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           const bws = results.filter(isBoundWitness)
           expect(bws.length).toBeGreaterThan(0)
           for (const bw of bws) {
-            expect(bw.payload_schemas).toEqual(payload_schemas)
+            expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
           }
         })
       })
@@ -150,6 +155,34 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           .build()
         const results = await sut.divine([query])
         expect(results).toEqual([...boundWitnesses].reverse())
+      })
+    })
+  })
+  describe('with offset', () => {
+    describe('when ascending order', () => {
+      it('returns payloads from the beginning', async () => {
+        for (const [i, boundWitness] of boundWitnesses.entries()) {
+          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+            .fields({ limit: 1, offset: i, order: 'asc' })
+            .build()
+          const results = await sut.divine([query])
+          expect(results).toBeArrayOfSize(1)
+          const [result] = results
+          expect(result).toEqual(boundWitness)
+        }
+      })
+    })
+    describe('when descending order', () => {
+      it('returns payloads from the end', async () => {
+        for (let i = 0; i < boundWitnesses.length; i++) {
+          const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
+            .fields({ limit: 1, offset: i, order: 'desc' })
+            .build()
+          const results = await sut.divine([query])
+          expect(results).toBeArrayOfSize(1)
+          const [result] = results
+          expect(result).toEqual(boundWitnesses[boundWitnesses.length - i - 1])
+        }
       })
     })
   })

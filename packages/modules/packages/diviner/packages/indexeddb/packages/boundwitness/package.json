@@ -13,7 +13,6 @@
     "@xylabs/array": "^2.13.23",
     "@xylabs/assert": "^2.13.23",
     "@xylabs/exists": "^2.13.23",
-    "@xylabs/hex": "^2.13.23",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~",
@@ -21,7 +20,6 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/object": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "idb": "^8.0.0"
   },

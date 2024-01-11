@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { IndexDescription } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
@@ -25,7 +24,6 @@ export class IndexedDbPayloadDiviner<
   static defaultDbName = 'archivist'
   static defaultDbVersion = 1
   static defaultStoreName = 'payloads'
-  static schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 

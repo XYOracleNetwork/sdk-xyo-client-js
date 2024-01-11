@@ -16,6 +16,10 @@ export type IndexDescription = {
       }
     | Map<string, IndexDirection>
   /**
+   * Is the indexed value an array
+   */
+  multiEntry?: boolean
+  /**
    * The name of the index
    */
   name?: string

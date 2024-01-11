@@ -31,8 +31,14 @@ export class IndexedDbArchivist<
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
-  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, name: 'IX__hash', unique: true }
-  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, name: 'IX_schema', unique: false }
+  static readonly hashIndex: Required<IndexDescription> = { key: { _hash: 1 }, multiEntry: false, name: 'IX__hash', unique: true }
+  static readonly payloadSchemasIndex: Required<IndexDescription> = {
+    key: { payload_schemas: 1 },
+    multiEntry: true,
+    name: 'IX_payload_schemas',
+    unique: false,
+  }
+  static readonly schemaIndex: Required<IndexDescription> = { key: { schema: 1 }, multiEntry: false, name: 'IX_schema', unique: false }
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
@@ -142,11 +148,11 @@ export class IndexedDbArchivist<
         store.name = storeName
         // Create an index on the hash
         const indexesToCreate = [...indexes, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex]
-        for (const { key, name, unique } of indexesToCreate) {
+        for (const { key, multiEntry, name, unique } of indexesToCreate) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
           const indexName = name ?? buildStandardIndexName({ key, unique })
-          store.createIndex(indexName, keys, { unique })
+          store.createIndex(indexName, keys, { multiEntry, unique })
         }
       },
     })

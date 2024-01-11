@@ -57,13 +57,14 @@ describe('IndexedDbPayloadDiviner', () => {
     foo: ['bar', 'baz'],
     schema: 'network.xyo.debug',
   }
+  const payloads = [payloadA, payloadB]
   const urlIndex: IndexDescription = { key: { url: 1 }, name: 'IX_url' }
   beforeAll(async () => {
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
       config: { dbName, schema: IndexedDbArchivist.configSchema, storage: { indexes: [urlIndex] }, storeName },
     })
-    await archivist.insert([payloadA, payloadB])
+    await archivist.insert(payloads)
     sut = await IndexedDbPayloadDiviner.create({
       account: Account.randomSync(),
       config: {
@@ -127,6 +128,29 @@ describe('IndexedDbPayloadDiviner', () => {
           expect(results.length).toBeGreaterThan(0)
           expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
         })
+      })
+    })
+  })
+  describe('with order', () => {
+    describe('not set', () => {
+      it('returns payloads in ascending order', async () => {
+        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).build()
+        const results = await sut.divine([query])
+        expect(results).toEqual(payloads)
+      })
+    })
+    describe('asc', () => {
+      it('returns payloads in ascending order', async () => {
+        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'asc' }).build()
+        const results = await sut.divine([query])
+        expect(results).toEqual(payloads)
+      })
+    })
+    describe('desc', () => {
+      it('returns payloads in ascending order', async () => {
+        const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema }).fields({ order: 'desc' }).build()
+        const results = await sut.divine([query])
+        expect(results).toEqual([...payloads].reverse())
       })
     })
   })

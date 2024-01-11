@@ -68,7 +68,6 @@ export class IndexedDbPayloadDiviner<
     if (!filter) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema, ...props } = filter
-    // TODO: Conditionally filter on schemas
     const db = await openDB(this.dbName, 1)
     const tx = db.transaction(this.storeName, 'readonly')
     const store = tx.objectStore(this.storeName)
@@ -76,32 +75,21 @@ export class IndexedDbPayloadDiviner<
     let parsedOffset = offset ?? 0
     const parsedLimit = limit ?? 10
     const filterSchema = schemas?.[0]
-    if (filterSchema) {
-      const index = store.index(IndexedDbPayloadDiviner.schemaIndex.name)
-      index.getAll(filterSchema)
-      let cursor = await index.openCursor(IDBKeyRange.only(filterSchema))
-      // Skip records until the offset is reached
-      while (cursor && parsedOffset > 0) {
-        cursor = await cursor.advance(parsedOffset)
-        parsedOffset = 0 // Reset offset after skipping
-      }
-      // Collect results up to the limit
-      while (cursor && results.length < parsedLimit) {
-        results.push(cursor.value)
-        cursor = await cursor.continue()
-      }
-    } else {
-      let cursor = await store.openCursor()
-      // Skip records until the offset is reached
-      while (cursor && parsedOffset > 0) {
-        cursor = await cursor.advance(parsedOffset)
-        parsedOffset = 0 // Reset offset after skipping
-      }
-      // Collect results up to the limit
-      while (cursor && results.length < parsedLimit) {
-        results.push(cursor.value)
-        cursor = await cursor.continue()
-      }
+    let cursor = filterSchema
+      ? // Conditionally filter on schemas
+        await store.index(IndexedDbPayloadDiviner.schemaIndex.name).openCursor(IDBKeyRange.only(filterSchema))
+      : // Just iterate all records
+        await store.openCursor()
+
+    // Skip records until the offset is reached
+    while (cursor && parsedOffset > 0) {
+      cursor = await cursor.advance(parsedOffset)
+      parsedOffset = 0 // Reset offset after skipping
+    }
+    // Collect results up to the limit
+    while (cursor && results.length < parsedLimit) {
+      results.push(cursor.value)
+      cursor = await cursor.continue()
     }
     await tx.done
     return results
@@ -110,28 +98,7 @@ export class IndexedDbPayloadDiviner<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    const { storeName, dbName, dbVersion } = this
-    this._db = await openDB<PayloadStore>(dbName, dbVersion, {
-      async upgrade(database) {
-        await Promise.resolve() // Async to match spec
-        // Create the store
-        const store = database.createObjectStore(storeName, {
-          // If it isn't explicitly set, create a value by auto incrementing.
-          autoIncrement: true,
-        })
-        // Name the store
-        store.name = storeName
-        // TODO: Create indexes from config as well
-        const indexesToCreate = [IndexedDbPayloadDiviner.schemaIndex]
-        for (const { key, name, unique } of indexesToCreate) {
-          const indexKeys = Object.keys(key)
-          const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
-          const indexName = name ?? `IX_${indexKeys.join('_')}`
-          store.createIndex(indexName, keys, { unique })
-        }
-      },
-    })
-
+    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
     return true
   }
 }

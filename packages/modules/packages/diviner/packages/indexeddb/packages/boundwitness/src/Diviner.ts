@@ -1,7 +1,5 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { hexFromHexString } from '@xylabs/hex'
 import { IndexSeparator } from '@xyo-network/archivist-model'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
@@ -14,8 +12,8 @@ import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
 import { IndexedDbBoundWitnessDivinerParams } from './Params'
 
-interface PayloadStore {
-  [s: string]: Payload
+interface BoundWitnessStore {
+  [s: string]: BoundWitness
 }
 
 export class IndexedDbBoundWitnessDiviner<
@@ -26,7 +24,7 @@ export class IndexedDbBoundWitnessDiviner<
   static defaultDbVersion = 1
   static defaultStoreName = 'payloads'
 
-  private _db: IDBPDatabase<PayloadStore> | undefined
+  private _db: IDBPDatabase<BoundWitnessStore> | undefined
 
   /**
    * The database name. If not supplied via config it defaults to
@@ -60,7 +58,7 @@ export class IndexedDbBoundWitnessDiviner<
     return this.config?.storeName ?? IndexedDbBoundWitnessDiviner.defaultStoreName
   }
 
-  private get db(): IDBPDatabase<PayloadStore> {
+  private get db(): IDBPDatabase<BoundWitnessStore> {
     return assertEx(this._db, 'DB not initialized')
   }
   protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
@@ -73,17 +71,14 @@ export class IndexedDbBoundWitnessDiviner<
     const results: BoundWitness[] = []
     let parsedOffset = offset ?? 0
     const parsedLimit = limit ?? 10
-    const filter = payload_schemas ? { payload_schemas } : { schema: BoundWitnessSchema }
+    const filter = { schema: BoundWitnessSchema }
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
     const suggestedIndex = this.selectBestIndex(filter, store)
-    const filterValues = this.getKeyValuesFromQuery(suggestedIndex, filter)
-    const rangeValue = suggestedIndex?.includes('payload_hashes') ? filterValues : filterValues[0]
+    const keyRangeValue = this.getIndexRangeValue(suggestedIndex, filter)
     let cursor = suggestedIndex
       ? // Conditionally filter on schemas
-        // TODO: Handle scalar and non-scalar values correctly
-        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(rangeValue), direction)
-      : // await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
-        // Just iterate all records
+        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
+      : // Just iterate all records
         await store.openCursor(suggestedIndex, direction)
 
     // Skip records until the offset is reached
@@ -107,11 +102,11 @@ export class IndexedDbBoundWitnessDiviner<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
+    this._db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
     return true
   }
 
-  private getKeyValuesFromQuery(indexName: string | null, query: AnyObject): unknown[] {
+  private getIndexRangeValue(indexName: string | null, query: AnyObject): unknown | unknown[] {
     if (!indexName) return []
     // Function to extract fields from an index name
     const extractFields = (indexName: string): string[] => {
@@ -125,10 +120,11 @@ export class IndexedDbBoundWitnessDiviner<
     const indexFields = extractFields(indexName)
 
     // Collecting the values for these fields from the query object
-    return indexFields.map((field) => query[field as keyof AnyObject])
+    const keyRangeValue = indexFields.map((field) => query[field as keyof AnyObject])
+    return keyRangeValue.length === 1 ? keyRangeValue[0] : keyRangeValue
   }
 
-  private selectBestIndex(query: AnyObject, store: IDBPObjectStore<PayloadStore>): string | null {
+  private selectBestIndex(query: AnyObject, store: IDBPObjectStore<BoundWitnessStore>): string | null {
     // List of available indexes
     const { indexNames } = store
 

@@ -79,10 +79,10 @@ export class IndexedDbPayloadDiviner<
     const filter = filterSchema ? { schema: filterSchema, ...props } : { ...props }
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
     const suggestedIndex = this.selectBestIndex(filter, store)
-    const filterValues = this.getKeyValuesFromQuery(suggestedIndex, filter)
+    const keyRangeValue = this.getKeyRangeValue(suggestedIndex, filter)
     let cursor = suggestedIndex
       ? // Conditionally filter on schemas
-        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(filterValues.length === 1 ? filterValues[0] : filterValues), direction)
+        await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
       : // Just iterate all records
         await store.openCursor(suggestedIndex, direction)
 
@@ -109,7 +109,7 @@ export class IndexedDbPayloadDiviner<
     return true
   }
 
-  private getKeyValuesFromQuery(indexName: string | null, query: AnyObject): unknown[] {
+  private getKeyRangeValue(indexName: string | null, query: AnyObject): unknown | unknown[] {
     if (!indexName) return []
     // Function to extract fields from an index name
     const extractFields = (indexName: string): string[] => {
@@ -123,7 +123,8 @@ export class IndexedDbPayloadDiviner<
     const indexFields = extractFields(indexName)
 
     // Collecting the values for these fields from the query object
-    return indexFields.map((field) => query[field as keyof AnyObject])
+    const keyRangeValue = indexFields.map((field) => query[field as keyof AnyObject])
+    return keyRangeValue.length === 1 ? keyRangeValue[0] : keyRangeValue
   }
 
   private selectBestIndex(query: AnyObject, store: IDBPObjectStore<PayloadStore>): string | null {

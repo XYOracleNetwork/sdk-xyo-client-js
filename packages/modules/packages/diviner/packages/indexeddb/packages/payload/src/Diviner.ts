@@ -1,3 +1,4 @@
+import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
@@ -14,6 +15,17 @@ import { IndexedDbPayloadDivinerParams } from './Params'
 
 interface PayloadStore {
   [s: string]: Payload
+}
+
+type ValueFilter = (bw?: Payload | null) => boolean
+
+const payloadValueFilter = (key: keyof Payload, value?: unknown | unknown[]): ValueFilter | undefined => {
+  if (!value) return undefined
+  return (payload) => {
+    if (!payload) return false
+    const sourceValue = payload?.[key]
+    return Array.isArray(sourceValue) && Array.isArray(value) ? containsAll(sourceValue, value) : sourceValue == value
+  }
 }
 
 export class IndexedDbPayloadDiviner<

@@ -96,18 +96,18 @@ export class IndexedDbBoundWitnessDiviner<
     }
     // Collect results up to the limit
     while (cursor && results.length < parsedLimit) {
-      const bw = cursor.value
-      if (bw) {
+      const value = cursor.value
+      if (value) {
         // If we're filtering on more than just the schema
         if (valueFilters.length > 0) {
           // Ensure all filters pass
-          if (valueFilters.every((filter) => filter(bw))) {
+          if (valueFilters.every((filter) => filter(value))) {
             // Then save the value
-            results.push(bw)
+            results.push(value)
           }
         } else {
           // Otherwise just save the value
-          results.push(bw)
+          results.push(value)
         }
       }
       cursor = await cursor.continue()

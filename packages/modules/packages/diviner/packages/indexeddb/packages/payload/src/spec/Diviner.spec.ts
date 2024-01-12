@@ -55,6 +55,7 @@ describe('IndexedDbPayloadDiviner', () => {
   }
   const payloadB = {
     foo: ['bar', 'baz'],
+    other: 'value',
     schema: 'network.xyo.debug',
   }
   const payloads = [payloadA, payloadB]
@@ -110,13 +111,29 @@ describe('IndexedDbPayloadDiviner', () => {
     })
     describe('custom field', () => {
       describe('property', () => {
-        it('only returns payloads with that property', async () => {
-          type WithUrl = { url?: string }
-          const url = payloadA.url
-          const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema }).fields({ url }).build()
-          const results = await sut.divine([query])
-          expect(results.length).toBeGreaterThan(0)
-          expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
+        describe('with index', () => {
+          it('only returns payloads with that property', async () => {
+            type WithUrl = { url?: string }
+            const url = payloadA.url
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithUrl>({ schema: PayloadDivinerQuerySchema })
+              .fields({ url })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every((result) => (result as WithUrl)?.url === url)).toBe(true)
+          })
+        })
+        describe('without index', () => {
+          it('only returns payloads with that property', async () => {
+            type WithOther = { other?: string }
+            const other = payloadB.other
+            const query = await new PayloadBuilder<PayloadDivinerQueryPayload & WithOther>({ schema: PayloadDivinerQuerySchema })
+              .fields({ other })
+              .build()
+            const results = await sut.divine([query])
+            expect(results.length).toBeGreaterThan(0)
+            expect(results.every((result) => (result as WithOther)?.other === other)).toBe(true)
+          })
         })
       })
       describe.skip('array', () => {

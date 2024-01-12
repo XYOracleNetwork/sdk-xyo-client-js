@@ -1,4 +1,6 @@
+import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
@@ -14,6 +16,20 @@ import { IndexedDbPayloadDivinerParams } from './Params'
 
 interface PayloadStore {
   [s: string]: Payload
+}
+
+type AnyPayload = Payload<Record<string, unknown>>
+
+type ValueFilter = (payload?: AnyPayload | null) => boolean
+
+const payloadValueFilter = (key: keyof AnyPayload, value?: unknown | unknown[]): ValueFilter | undefined => {
+  if (!value) return undefined
+  return (payload) => {
+    if (!payload) return false
+    const sourceValue = payload?.[key]
+    if (sourceValue === undefined) return false
+    return Array.isArray(sourceValue) && Array.isArray(value) ? containsAll(sourceValue, value) : sourceValue == value
+  }
 }
 
 export class IndexedDbPayloadDiviner<
@@ -72,6 +88,11 @@ export class IndexedDbPayloadDiviner<
     const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
     const suggestedIndex = this.selectBestIndex(filter, store)
     const keyRangeValue = this.getKeyRangeValue(suggestedIndex, filter)
+    const valueFilters: ValueFilter[] = props
+      ? Object.entries(props)
+          .map(([key, value]) => payloadValueFilter(key, value))
+          .filter(exists)
+      : []
     let cursor = suggestedIndex
       ? // Conditionally filter on schemas
         await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
@@ -85,7 +106,20 @@ export class IndexedDbPayloadDiviner<
     }
     // Collect results up to the limit
     while (cursor && results.length < parsedLimit) {
-      results.push(cursor.value)
+      const value = cursor.value
+      if (value) {
+        // If we're filtering on more than just the schema
+        if (valueFilters.length > 0) {
+          // Ensure all filters pass
+          if (valueFilters.every((filter) => filter(value))) {
+            // Then save the value
+            results.push(value)
+          }
+        } else {
+          // Otherwise just save the value
+          results.push(value)
+        }
+      }
       cursor = await cursor.continue()
     }
     await tx.done

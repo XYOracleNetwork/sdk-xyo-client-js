@@ -4222,7 +4222,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/payload"
   dependencies:
+    "@xylabs/array": "npm:^2.13.23"
     "@xylabs/assert": "npm:^2.13.23"
+    "@xylabs/exists": "npm:^2.13.23"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.33"
     "@xylabs/tsconfig": "npm:^3.2.33"
     "@xyo-network/account": "workspace:~"

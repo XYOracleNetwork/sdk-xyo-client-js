@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.87.0-rc.7",
+  "version": "2.87.0",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -50,6 +50,5 @@
     "@xylabs/tsconfig": "^3.2.33",
     "typescript": "^5.3.3"
   },
-  "type": "module",
-  "stableVersion": "2.86.1"
+  "type": "module"
 }

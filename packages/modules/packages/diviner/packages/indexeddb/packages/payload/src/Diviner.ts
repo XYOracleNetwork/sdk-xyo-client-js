@@ -69,7 +69,7 @@ export class IndexedDbPayloadDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const query = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
+    const query = payloads?.filter(isPayloadDivinerQueryPayload)?.pop()
     if (!query) return []
     const db = await this.tryGetInitializedDb()
     if (!db) return []

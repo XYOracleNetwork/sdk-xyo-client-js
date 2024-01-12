@@ -63,7 +63,7 @@ export class IndexedDbBoundWitnessDiviner<
   }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
-    const query = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
+    const query = payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop()
     if (!query) return []
     const db = await this.tryGetInitializedDb()
     if (!db) return []

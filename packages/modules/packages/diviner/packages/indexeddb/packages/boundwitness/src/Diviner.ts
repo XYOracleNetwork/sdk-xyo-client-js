@@ -1,5 +1,4 @@
 import { containsAll } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -62,17 +61,14 @@ export class IndexedDbBoundWitnessDiviner<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
-  private get db(): IDBPDatabase<BoundWitnessStore> {
-    return assertEx(this._db, 'DB not initialized')
-  }
-
   protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
-    const query = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
+    const query = payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop()
     if (!query) return []
-    this._db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
+    const db = await this.tryGetInitializedDb()
+    if (!db) return []
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
-    const tx = this.db.transaction(this.storeName, 'readonly')
+    const tx = db.transaction(this.storeName, 'readonly')
     const store = tx.objectStore(this.storeName)
     const results: BoundWitness[] = []
     let parsedOffset = offset ?? 0
@@ -123,5 +119,30 @@ export class IndexedDbBoundWitnessDiviner<
   protected override async startHandler() {
     await super.startHandler()
     return true
+  }
+
+  /**
+   * Checks that the desired DB/Store exists and is initialized
+   * @returns The initialized DB or undefined if it does not exist
+   */
+  private async tryGetInitializedDb(): Promise<IDBPDatabase<BoundWitnessStore> | undefined> {
+    // If we've already checked and found a successfully initialized
+    // db and objectStore, return the cached value
+    if (this._db) return this._db
+    // Enumerate the DBs
+    const dbs = await indexedDB.databases()
+    const dbExists = dbs.some((db) => {
+      // Check for the desired name/version
+      return db.name === this.dbName && db.version === this.dbVersion
+    })
+    // If the DB does not exist at the desired version, return undefined
+    if (!dbExists) return
+    // If the db does exist, open it
+    const db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
+    // Check that the desired objectStore exists
+    const storeExists = db.objectStoreNames.contains(this.storeName)
+    // If the correct db/store exists, cache it for future calls
+    if (storeExists) this._db = db
+    return this._db
   }
 }

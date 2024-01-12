@@ -116,11 +116,15 @@ export class IndexedDbArchivist<
     const inserted = await Promise.all(
       pairs.map(async ([payload, _hash]) => {
         const tx = this.db.transaction(this.storeName, 'readwrite')
-        const store = tx.objectStore(this.storeName)
-        const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
-        if (!existing) {
-          await this.db.put(this.storeName, { ...payload, _hash })
-          return payload
+        try {
+          const store = tx.objectStore(this.storeName)
+          const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+          if (!existing) {
+            await store.put({ ...payload, _hash })
+            return payload
+          }
+        } finally {
+          await tx.done
         }
       }),
     )

@@ -75,6 +75,7 @@ export class IndexedDbPayloadDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const query = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!query) return []
+    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema: _schema, sources, ...props } = query as unknown as TIn & { sources?: string[] }
     const tx = this.db.transaction(this.storeName, 'readonly')
@@ -129,9 +130,6 @@ export class IndexedDbPayloadDiviner<
 
   protected override async startHandler() {
     await super.startHandler()
-    // NOTE: We could defer this creation to first access but we
-    // want to fail fast here in case something is wrong
-    this._db = await openDB<PayloadStore>(this.dbName, this.dbVersion)
     return true
   }
 

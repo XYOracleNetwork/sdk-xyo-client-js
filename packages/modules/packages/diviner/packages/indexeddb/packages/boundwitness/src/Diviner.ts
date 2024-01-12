@@ -69,6 +69,7 @@ export class IndexedDbBoundWitnessDiviner<
   protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
     const query = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!query) return []
+    this._db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
     const tx = this.db.transaction(this.storeName, 'readonly')
@@ -121,9 +122,6 @@ export class IndexedDbBoundWitnessDiviner<
 
   protected override async startHandler() {
     await super.startHandler()
-    // NOTE: We could defer this creation to first access but we
-    // want to fail fast here in case something is wrong
-    this._db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
     return true
   }
 }

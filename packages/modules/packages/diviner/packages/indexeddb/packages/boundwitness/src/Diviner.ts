@@ -1,5 +1,4 @@
 import { containsAll } from '@xylabs/array'
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'

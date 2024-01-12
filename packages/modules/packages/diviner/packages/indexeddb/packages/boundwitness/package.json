@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@xylabs/array": "^2.13.23",
-    "@xylabs/assert": "^2.13.23",
     "@xylabs/exists": "^2.13.23",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",

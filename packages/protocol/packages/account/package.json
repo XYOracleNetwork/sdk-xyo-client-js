@@ -25,13 +25,13 @@
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "^0.4.0",
     "elliptic": "^6.5.4",
-    "ethers": "^6.9.2"
+    "ethers": "^6.10.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
-    "@xylabs/ts-scripts-yarn3": "^3.2.33",
-    "@xylabs/tsconfig": "^3.2.33",
+    "@xylabs/ts-scripts-yarn3": "^3.2.41",
+    "@xylabs/tsconfig": "^3.2.41",
     "typescript": "^5.3.3"
   },
   "exports": {

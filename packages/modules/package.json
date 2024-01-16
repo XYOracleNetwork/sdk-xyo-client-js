@@ -19,10 +19,10 @@
     "@xyo-network/witness": "workspace:~"
   },
   "devDependencies": {
-    "@swc/core": "^1.3.102",
+    "@swc/core": "^1.3.103",
     "@xylabs/delay": "^2.13.23",
-    "@xylabs/ts-scripts-yarn3": "^3.2.33",
-    "@xylabs/tsconfig": "^3.2.33",
+    "@xylabs/ts-scripts-yarn3": "^3.2.41",
+    "@xylabs/tsconfig": "^3.2.41",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

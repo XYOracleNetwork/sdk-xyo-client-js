@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@types/url-parse": "^1.4.11",
-    "@xylabs/ts-scripts-yarn3": "^3.2.33",
-    "@xylabs/tsconfig": "^3.2.33",
+    "@xylabs/ts-scripts-yarn3": "^3.2.41",
+    "@xylabs/tsconfig": "^3.2.41",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

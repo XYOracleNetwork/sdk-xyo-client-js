@@ -12,7 +12,7 @@ import {
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { IDBPDatabase, IDBPTransaction, openDB, StoreNames } from 'idb'
+import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
@@ -20,13 +20,6 @@ import { IndexedDbArchivistParams } from './Params'
 export interface PayloadStore {
   [s: string]: Payload
 }
-
-const blocked = (currentVersion: number, blockedVersion: number | null, event: IDBVersionChangeEvent): void =>
-  console.log(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
-const blocking = (currentVersion: number, blockedVersion: number | null, event: IDBVersionChangeEvent): void => {
-  console.log(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
-}
-const terminated = () => console.log('IndexedDbArchivist: Terminated')
 
 @creatableModule()
 export class IndexedDbArchivist<
@@ -171,10 +164,21 @@ export class IndexedDbArchivist<
   private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
     const { dbName, dbVersion, indexes, storeName } = this
     const db = await openDB<PayloadStore>(dbName, dbVersion, {
-      blocked,
-      blocking,
-      terminated,
+      blocked(currentVersion, blockedVersion, event) {
+        console.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      blocking(currentVersion, blockedVersion, event) {
+        console.warn(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      terminated() {
+        console.log('IndexedDbArchivist: Terminated')
+      },
       upgrade(database, oldVersion, newVersion, transaction) {
+        // NOTE: This is called whenever the DB is created/updated. We could simply ensure the desired end
+        // state but, out of an abundance of caution, we will just delete (so we know where we are starting
+        // from a known good point) and recreate the desired state. This prioritizes resilience over data
+        // retention but we can revisit that tradeoff when it becomes limiting. Because distributed browser
+        // state is extremely hard to debug, this seems like fair tradeoff for now.
         if (oldVersion !== newVersion) {
           console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
           // Delete any existing databases that are not the current version
@@ -183,7 +187,7 @@ export class IndexedDbArchivist<
             try {
               database.deleteObjectStore(name)
             } catch {
-              console.log(`IndexedDbArchivist: Failed to delete object store ${name}`)
+              console.log(`IndexedDbArchivist: Failed to delete existing object store ${name}`)
             }
           }
         }
@@ -207,53 +211,18 @@ export class IndexedDbArchivist<
   }
 
   /**
-   * IndexedDb Upgrade Handler
-   */
-  private upgrade(
-    database: IDBPDatabase<PayloadStore>,
-    oldVersion: number,
-    newVersion: number | null,
-    transaction: IDBPTransaction<PayloadStore, StoreNames<PayloadStore>[], 'versionchange'>,
-    _event: IDBVersionChangeEvent,
-  ) {
-    if (oldVersion !== newVersion) {
-      console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
-      // Delete any existing databases that are not the current version
-      const objectStores = transaction.objectStoreNames
-      for (const name of objectStores) {
-        try {
-          database.deleteObjectStore(name)
-        } catch {
-          console.log(`IndexedDbArchivist: Failed to delete object store ${name}`)
-        }
-      }
-    }
-    // Create the store
-    const store = database.createObjectStore(this.storeName, {
-      // If it isn't explicitly set, create a value by auto incrementing.
-      autoIncrement: true,
-    })
-    // Name the store
-    store.name = this.storeName
-    // Create an index on the hash
-    for (const { key, multiEntry, unique } of this.indexes) {
-      const indexKeys = Object.keys(key)
-      const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
-      const indexName = buildStandardIndexName({ key, unique })
-      store.createIndex(indexName, keys, { multiEntry, unique })
-    }
-  }
-
-  /**
    * Executes a callback with the initialized DB and then closes the db
    * @param callback The method to execute with the initialized DB
    * @returns
    */
   private async useDb<T>(callback: (db: IDBPDatabase<PayloadStore>) => Promise<T> | T): Promise<T> {
+    // Get the initialized DB
     const db = await this.getInitializedDb()
     try {
+      // Perform the callback
       return await callback(db)
     } finally {
+      // Close the DB
       db.close()
     }
   }

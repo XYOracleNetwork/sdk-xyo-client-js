@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
@@ -38,8 +37,6 @@ export class IndexedDbArchivist<
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
 
-  private _db: IDBPDatabase<PayloadStore> | undefined
-
   /**
    * The database name. If not supplied via config, it defaults
    * to the module name (not guaranteed to be unique) and if module
@@ -70,75 +67,130 @@ export class IndexedDbArchivist<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
-  private get db(): IDBPDatabase<PayloadStore> {
-    return assertEx(this._db, 'DB not initialized')
-  }
-
+  /**
+   * The indexes to create on the store
+   */
   private get indexes() {
-    return this.config?.storage?.indexes ?? []
+    return [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
   protected override async allHandler(): Promise<Payload[]> {
     // Get all payloads from the store
-    const payloads = await this.db.getAll(this.storeName)
+    const payloads = await this.useDb((db) => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
     return payloads.map((payload) => PayloadHasher.jsonPayload(payload))
   }
 
   protected override async clearHandler(): Promise<void> {
-    await this.db.clear(this.storeName)
+    await this.useDb((db) => db.clear(this.storeName))
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
+    // Remove any duplicates
     const distinctHashes = [...new Set(hashes)]
-    const found = await Promise.all(
-      distinctHashes.map(async (hash) => {
-        let existing: IDBValidKey | undefined
-        do {
-          existing = await this.db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
-          if (existing) await this.db.delete(this.storeName, existing)
-        } while (!existing)
-        return hash
-      }),
-    )
-    // Return hashes removed
-    return found.filter(exists)
+    return await this.useDb(async (db) => {
+      // Only return hashes that were successfully deleted
+      const found = await Promise.all(
+        distinctHashes.map(async (hash) => {
+          // Check if the hash exists
+          const existing = await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          // If it does exist
+          if (existing) {
+            // Delete it
+            await db.delete(this.storeName, existing)
+            // Return the hash so it gets added to the list of deleted hashes
+            return hash
+          }
+        }),
+      )
+      return found.filter(exists)
+    })
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
-    const payloads = await Promise.all(hashes.map((hash) => this.db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)))
+    const payloads = await this.useDb((db) =>
+      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+    )
     return payloads.filter(exists)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     const pairs = await PayloadHasher.hashPairs(payloads)
-    // Only return the payloads that were successfully inserted
-    const inserted = await Promise.all(
-      pairs.map(async ([payload, _hash]) => {
-        const tx = this.db.transaction(this.storeName, 'readwrite')
-        try {
-          const store = tx.objectStore(this.storeName)
-          const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
-          if (!existing) {
-            await store.put({ ...payload, _hash })
-            return payload
+    const db = await this.getInitializedDb()
+    try {
+      // Only return the payloads that were successfully inserted
+      const inserted = await Promise.all(
+        pairs.map(async ([payload, _hash]) => {
+          // Perform each insert via a transaction to ensure it is atomic
+          // with respect to checking for the pre-existence of the hash.
+          // This is done to preserve iteration via insertion order.
+          const tx = db.transaction(this.storeName, 'readwrite')
+          try {
+            // Get the object store
+            const store = tx.objectStore(this.storeName)
+            // Check if the hash already exists
+            const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+            // If it does not already exist
+            if (!existing) {
+              // Insert the payload
+              await store.put({ ...payload, _hash })
+              // Return it so it gets added to the list of inserted payloads
+              return payload
+            }
+          } finally {
+            // Close the transaction
+            await tx.done
           }
-        } finally {
-          await tx.done
-        }
-      }),
-    )
-    return inserted.filter(exists)
+        }),
+      )
+      return inserted.filter(exists)
+    } finally {
+      db.close()
+    }
   }
 
   protected override async startHandler() {
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
+    await this.useDb(() => {})
+    return true
+  }
+
+  /**
+   * Returns that the desired DB/Store initialized to the correct version
+   * @returns The initialized DB
+   */
+  private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
     const { dbName, dbVersion, indexes, storeName } = this
-    this._db = await openDB<PayloadStore>(dbName, dbVersion, {
-      async upgrade(database) {
-        await Promise.resolve() // Async to match spec
+    const db = await openDB<PayloadStore>(dbName, dbVersion, {
+      blocked(currentVersion, blockedVersion, event) {
+        console.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      blocking(currentVersion, blockedVersion, event) {
+        console.warn(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      terminated() {
+        console.log('IndexedDbArchivist: Terminated')
+      },
+      upgrade(database, oldVersion, newVersion, transaction) {
+        // NOTE: This is called whenever the DB is created/updated. We could simply ensure the desired end
+        // state but, out of an abundance of caution, we will just delete (so we know where we are starting
+        // from a known good point) and recreate the desired state. This prioritizes resilience over data
+        // retention but we can revisit that tradeoff when it becomes limiting. Because distributed browser
+        // state is extremely hard to debug, this seems like fair tradeoff for now.
+        if (oldVersion !== newVersion) {
+          console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
+          // Delete any existing databases that are not the current version
+          const objectStores = transaction.objectStoreNames
+          for (const name of objectStores) {
+            try {
+              database.deleteObjectStore(name)
+            } catch {
+              console.log(`IndexedDbArchivist: Failed to delete existing object store ${name}`)
+            }
+          }
+        }
         // Create the store
         const store = database.createObjectStore(storeName, {
           // If it isn't explicitly set, create a value by auto incrementing.
@@ -147,8 +199,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...indexes]
-        for (const { key, multiEntry, unique } of indexesToCreate) {
+        for (const { key, multiEntry, unique } of indexes) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
           const indexName = buildStandardIndexName({ key, unique })
@@ -156,6 +207,23 @@ export class IndexedDbArchivist<
         }
       },
     })
-    return true
+    return db
+  }
+
+  /**
+   * Executes a callback with the initialized DB and then closes the db
+   * @param callback The method to execute with the initialized DB
+   * @returns
+   */
+  private async useDb<T>(callback: (db: IDBPDatabase<PayloadStore>) => Promise<T> | T): Promise<T> {
+    // Get the initialized DB
+    const db = await this.getInitializedDb()
+    try {
+      // Perform the callback
+      return await callback(db)
+    } finally {
+      // Close the DB
+      db.close()
+    }
   }
 }

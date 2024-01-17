@@ -200,7 +200,9 @@ describe('IndexedDbArchivist', () => {
           const getResult = await archivistModule.get([sourceHash])
           expect(getResult).toBeDefined()
           expect(getResult.length).toBe(1)
-          const resultHash = await PayloadWrapper.wrap(getResult[0]).hashAsync()
+          const [result] = getResult
+          expect(result).toEqual(source)
+          const resultHash = await PayloadWrapper.wrap(result).hashAsync()
           expect(resultHash).toBe(sourceHash)
         }
       })

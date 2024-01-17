@@ -6,13 +6,12 @@ import { DivinerModuleEventData } from './EventData'
 import { CustomDivinerModule, DivinerModule } from './Module'
 import { DivinerParams } from './Params'
 
-export type DivinerInstance<
-  TParams extends DivinerParams = DivinerParams,
-  TIn extends Payload = Payload,
-  TOut extends Payload = Payload,
-> = DivinerModule<TParams, TIn, TOut> & DivinerQueryFunctions & ModuleInstance
+export interface DivinerInstance<TParams extends DivinerParams = DivinerParams, TIn extends Payload = Payload, TOut extends Payload = Payload>
+  extends DivinerModule<TParams, TIn, TOut>,
+    DivinerQueryFunctions,
+    ModuleInstance<TParams, DivinerModuleEventData<DivinerModule<TParams, TIn, TOut>>> {}
 
-export type CustomDivinerInstance<
+export interface CustomDivinerInstance<
   TParams extends DivinerParams = DivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
@@ -21,7 +20,9 @@ export type CustomDivinerInstance<
     TIn,
     TOut
   >,
-> = CustomDivinerModule<TParams, TIn, TOut, TEvents> & DivinerQueryFunctions & ModuleInstance
+> extends CustomDivinerModule<TParams, TIn, TOut, TEvents>,
+    DivinerQueryFunctions,
+    ModuleInstance<TParams, TEvents> {}
 
 /** @deprecated use DivinerInstance instead */
-export type Diviner = DivinerInstance
+export interface Diviner extends DivinerInstance {}

@@ -82,7 +82,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements ModuleInstance<TWrappedModule['params']>
+  implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule

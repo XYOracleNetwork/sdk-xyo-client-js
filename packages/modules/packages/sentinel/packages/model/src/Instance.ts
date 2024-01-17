@@ -5,9 +5,16 @@ import { CustomSentinelModule, SentinelModule } from './Module'
 import { SentinelParams } from './Params'
 import { Sentinel } from './Sentinel'
 
-export type SentinelInstance<TParams extends SentinelParams = SentinelParams> = SentinelModule<TParams> & Sentinel & ModuleInstance<TParams>
+export interface SentinelInstance<
+  TParams extends SentinelParams = SentinelParams,
+  TEventData extends SentinelModuleEventData = SentinelModuleEventData,
+> extends SentinelModule<TParams, TEventData>,
+    Sentinel,
+    ModuleInstance<TParams, TEventData> {}
 
-export type CustomSentinelInstance<
+export interface CustomSentinelInstance<
   TParams extends SentinelParams = SentinelParams,
   TEvents extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
-> = CustomSentinelModule<TParams, TEvents> & Sentinel & SentinelInstance<TParams>
+> extends CustomSentinelModule<TParams, TEvents>,
+    Sentinel,
+    SentinelInstance<TParams, TEvents> {}

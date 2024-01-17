@@ -5,7 +5,7 @@ import { CustomWitnessModule } from './CustomModule'
 import { WitnessModuleEventData } from './EventData'
 import { WitnessInstance } from './Instance'
 import { WitnessParams } from './Params'
-import { Witness } from './Witness'
+import { WitnessQueryFunctions } from './QueryFunctions'
 
 export type CustomWitnessInstance<
   TParams extends WitnessParams = WitnessParams,
@@ -16,4 +16,4 @@ export type CustomWitnessInstance<
     TIn,
     TOut
   >,
-> = CustomWitnessModule<TParams, TIn, TOut, TEvents> & Witness<TIn, TOut> & ModuleInstance
+> = CustomWitnessModule<TParams, TIn, TOut, TEvents> & WitnessQueryFunctions<TIn, TOut> & ModuleInstance

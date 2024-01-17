@@ -27,15 +27,11 @@ export interface Archivist<TReadResponse = Payload, TWriteResponse = Payload, TW
 
 export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ClearedEventData, ModuleEventData {}
 
-export type ArchivistQueryFunctions<TReadResponse = Payload, TWriteResponse = Payload, TWrite = TReadResponse, TId = string> = Archivist<
-  TReadResponse,
-  TWriteResponse,
-  TWrite,
-  TId
-> &
-  ModuleQueryFunctions
+export interface ArchivistQueryFunctions<TReadResponse = Payload, TWriteResponse = Payload, TWrite = TReadResponse, TId = string>
+  extends Archivist<TReadResponse, TWriteResponse, TWrite, TId>,
+    ModuleQueryFunctions {}
 
-export type ArchivistModule<
+export interface ArchivistModule<
   TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> = Module<TParams, TEventData>
+> extends Module<TParams, TEventData> {}

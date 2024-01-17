@@ -20,19 +20,17 @@ export interface ModuleResolver extends ResolveFunctions {
   removeResolver: (resolver: ModuleResolver) => this
 }
 
-export type ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData> = Module<
-  TParams,
-  TEventData
-> &
-  ResolveFunctions &
-  ModuleQueryFunctions & {
-    /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
-    readonly downResolver: Omit<ModuleResolver, 'resolve'>
+export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends Module<TParams, TEventData>,
+    ResolveFunctions,
+    ModuleQueryFunctions {
+  /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
+  readonly downResolver: Omit<ModuleResolver, 'resolve'>
 
-    /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
-    /* This is set by a NodeModule when attaching to the module */
-    readonly upResolver: Omit<ModuleResolver, 'resolve'>
-  }
+  /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
+  /* This is set by a NodeModule when attaching to the module */
+  readonly upResolver: Omit<ModuleResolver, 'resolve'>
+}
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>
 

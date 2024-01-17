@@ -1,5 +1,4 @@
 import { Promisable } from '@xylabs/promise'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { Module, ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
 
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
@@ -9,7 +8,6 @@ export interface NodeQueryFunctions {
   attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
   attached(): Promisable<string[]>
   detach(nameOrAddress: string): Promisable<string | undefined>
-  manifest(maxDepth?: number): Promise<ModuleManifestPayload>
   registered(): Promisable<string[]>
 }
 
@@ -20,17 +18,13 @@ export interface NodeModuleEventData
     ModuleUnregisteredEventData,
     ModuleEventData {}
 
-export type NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData> = Module<
-  TParams,
-  TEventData
->
+export interface NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends Module<TParams, TEventData> {}
 
-export type NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData> = NodeModule<
-  TParams,
-  TEventData
-> &
-  NodeQueryFunctions &
-  ModuleInstance & {
-    register: (mod: ModuleInstance) => Promisable<void>
-    registeredModules(): Promisable<ModuleInstance[]>
-  }
+export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends NodeModule<TParams, TEventData>,
+    NodeQueryFunctions,
+    ModuleInstance<TParams, TEventData> {
+  register: (mod: ModuleInstance) => Promisable<void>
+  registeredModules(): Promisable<ModuleInstance[]>
+}

@@ -22,7 +22,9 @@ export interface Bridge {
   disconnect: () => Promisable<boolean>
 }
 
-export type BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>> = ModuleParams<TConfig> & ModuleParams
+export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>>
+  extends ModuleParams<TConfig>,
+    ModuleParams<TConfig> {}
 
 export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData> {
@@ -44,8 +46,6 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
   ): Promisable<ModuleInstance | ModuleInstance[] | undefined>
 }
 
-export type BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData> = BridgeModule<
-  TParams,
-  TEventData
-> &
-  Bridge
+export interface BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+  extends BridgeModule<TParams, TEventData>,
+    Bridge {}

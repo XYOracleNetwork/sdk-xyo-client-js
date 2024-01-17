@@ -4,7 +4,6 @@ import { ModuleEventData } from '../EventsModels'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleFields } from './ModuleFields'
 
-export type Module<
-  TParams extends ModuleParams = ModuleParams,
-  TEventData extends ModuleEventData<object> = ModuleEventData<object>,
-> = ModuleFields<TParams> & EventFunctions<TEventData>
+export interface Module<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData<object> = ModuleEventData<object>>
+  extends ModuleFields<TParams>,
+    EventFunctions<TEventData> {}

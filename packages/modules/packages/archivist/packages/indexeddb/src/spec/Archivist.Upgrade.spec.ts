@@ -23,7 +23,7 @@ import {
 } from 'fake-indexeddb'
 
 import { IndexedDbArchivist } from '../Archivist'
-import { IndexedDbArchivistConfigSchema } from '../Config'
+import { IndexedDbArchivistConfig, IndexedDbArchivistConfigSchema } from '../Config'
 
 // Augment window with prototypes to ensure instance of comparisons work
 window.IDBCursor = IDBCursor
@@ -60,17 +60,19 @@ describe('IndexedDbArchivist.Upgrade', () => {
   describe('with newer version', () => {
     const cases: [number | undefined, number | undefined, string, string][] = [
       [undefined, undefined, '4db66c75-bb44-4a80-a846-6e2b142271a2', '4ab1aaa8-c64d-4b31-af94-01a60e27c33c'],
-      [0, 1, '5e75de01-4b3b-416b-b1bc-4b9686cc4119', '72207e1f-5b50-4b53-a03a-21636d241599'],
-      [1, 2, 'e371f396-0c5b-42ff-9472-04282afdef10', '5ce3bc2e-49ac-45c1-8fce-ab68961d327d'],
+      [1, 2, '5e75de01-4b3b-416b-b1bc-4b9686cc4119', '72207e1f-5b50-4b53-a03a-21636d241599'],
+      [2, 3, 'e371f396-0c5b-42ff-9472-04282afdef10', '5ce3bc2e-49ac-45c1-8fce-ab68961d327d'],
     ]
     it.each(cases)('handles upgrade', async (oldVersion, newVersion, dbName, storeName) => {
-      const oldConfig = { dbName, dbVersion: oldVersion, schema: IndexedDbArchivistConfigSchema, storeName }
+      const oldConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      if (oldVersion) oldConfig.dbVersion = oldVersion
       let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
       expect(archivistModule).toBeDefined()
       expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
       // const all = await archivistModule?.all?.()
       // expect(all?.length).toBe(sources.length)
-      const newConfig = { dbName, dbVersion: newVersion, schema: IndexedDbArchivistConfigSchema, storeName }
+      const newConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      if (newVersion) newConfig.dbVersion = newVersion
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
       expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)

@@ -60,7 +60,7 @@ export abstract class AbstractWitness<
   async observe(inPayloads?: TIn[]): Promise<TOut[]> {
     this._noOverride('observe')
     await this.started('throw')
-    await this.emit('observeStart', { inPayloads: inPayloads, module: this })
+    await this.emit('observeStart', { inPayloads, module: this } as TEventData['observeStart'])
     const outPayloads = assertEx(await this.observeHandler(inPayloads), 'Trying to witness nothing')
     //assertEx(outPayloads.length > 0, 'Trying to witness empty list')
     for (const payload of outPayloads ?? []) assertEx(payload.schema, 'observe: Missing Schema')
@@ -70,7 +70,7 @@ export abstract class AbstractWitness<
       await archivist.insert(outPayloads)
     }
 
-    await this.emit('observeEnd', { inPayloads, module: this, outPayloads })
+    await this.emit('observeEnd', { inPayloads, module: this, outPayloads } as TEventData['observeEnd'])
 
     return outPayloads
   }

@@ -56,10 +56,35 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
 
 describe('IndexedDbArchivist.Upgrade', () => {
   const account = Account.randomSync()
+  type UpgradeTestData = [oldVersion: number | undefined, newVersion: number | undefined, dbName: string, storeName: string]
 
-  describe('with newer version', () => {
-    const cases: [number | undefined, number | undefined, string, string][] = [
+  describe('with same version specified', () => {
+    const cases: UpgradeTestData[] = [
       [undefined, undefined, '4db66c75-bb44-4a80-a846-6e2b142271a2', '4ab1aaa8-c64d-4b31-af94-01a60e27c33c'],
+      [undefined, 1, 'c2fad8ae-c11a-4136-8634-1f080ddc485f', '16eb2cf0-eedb-4802-bd51-eb228735ab25'],
+      [1, 1, '125f20d6-410a-4c3b-b66a-ffaefe501e63', '16a755bf-5baa-480d-839b-f5adfaec6d7a'],
+      [2, 2, '9a688c8d-18a2-4093-a107-560aafd5d256', '569ccb65-96ee-4b5d-ad20-d8556bb0b72b'],
+    ]
+    it.each(cases)('handles reopening', async (oldVersion, newVersion, dbName, storeName) => {
+      const oldConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      if (oldVersion) oldConfig.dbVersion = oldVersion
+      let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
+      expect(archivistModule).toBeDefined()
+      expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
+      const payloads = await fillDb(archivistModule)
+      let all = await archivistModule?.all?.()
+      expect(all?.length).toBe(payloads.length)
+      const newConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
+      if (newVersion) newConfig.dbVersion = newVersion
+      archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
+      expect(archivistModule).toBeDefined()
+      expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
+      all = await archivistModule?.all?.()
+      expect(all?.length).toBe(10)
+    })
+  })
+  describe('with newer version specified', () => {
+    const cases: UpgradeTestData[] = [
       [1, 2, '5e75de01-4b3b-416b-b1bc-4b9686cc4119', '72207e1f-5b50-4b53-a03a-21636d241599'],
       [2, 3, 'e371f396-0c5b-42ff-9472-04282afdef10', '5ce3bc2e-49ac-45c1-8fce-ab68961d327d'],
     ]
@@ -69,13 +94,16 @@ describe('IndexedDbArchivist.Upgrade', () => {
       let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
       expect(archivistModule).toBeDefined()
       expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
-      // const all = await archivistModule?.all?.()
-      // expect(all?.length).toBe(sources.length)
+      const payloads = await fillDb(archivistModule)
+      let all = await archivistModule?.all?.()
+      expect(all?.length).toBe(payloads.length)
       const newConfig: IndexedDbArchivistConfig = { dbName, schema: IndexedDbArchivistConfigSchema, storeName }
       if (newVersion) newConfig.dbVersion = newVersion
       archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
       expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
+      all = await archivistModule?.all?.()
+      expect(all?.length).toBe(0)
     })
   })
 })

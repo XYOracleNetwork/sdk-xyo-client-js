@@ -137,8 +137,32 @@ export class IndexedDbArchivist<
     // want to fail fast here in case something is wrong
     const { dbName, dbVersion, indexes, storeName } = this
     this._db = await openDB<PayloadStore>(dbName, dbVersion, {
-      async upgrade(database) {
+      async blocked(currentVersion, blockedVersion, event) {
+        await Promise.resolve()
+        console.log(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      async blocking(currentVersion, blockedVersion, event) {
+        await Promise.resolve()
+        console.log(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
+      },
+      async terminated() {
+        await Promise.resolve()
+        console.log('IndexedDbArchivist: Terminated')
+      },
+      async upgrade(database, oldVersion, newVersion, transaction, event) {
         await Promise.resolve() // Async to match spec
+        if (oldVersion !== newVersion) {
+          console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
+          // Delete any existing databases that are not the current version
+          const objectStores = transaction.objectStoreNames
+          for (const name of objectStores) {
+            try {
+              database.deleteObjectStore(name)
+            } catch {
+              console.log(`IndexedDbArchivist: Failed to delete object store ${name}`)
+            }
+          }
+        }
         // Create the store
         const store = database.createObjectStore(storeName, {
           // If it isn't explicitly set, create a value by auto incrementing.
@@ -156,6 +180,7 @@ export class IndexedDbArchivist<
         }
       },
     })
+    this._db.close()
     return true
   }
 }

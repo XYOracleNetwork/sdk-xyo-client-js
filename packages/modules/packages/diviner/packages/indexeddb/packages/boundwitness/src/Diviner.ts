@@ -33,8 +33,6 @@ export class IndexedDbBoundWitnessDiviner<
 > extends BoundWitnessDiviner<TParams> {
   static override configSchemas = [IndexedDbBoundWitnessDivinerConfigSchema]
 
-  private _db: IDBPDatabase<BoundWitnessStore> | undefined
-
   /**
    * The database name. If not supplied via config, it defaults
    * to the archivist's name and if archivist's name is not supplied,
@@ -64,85 +62,113 @@ export class IndexedDbBoundWitnessDiviner<
   protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
     const query = payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop()
     if (!query) return []
-    const db = await this.tryGetInitializedDb()
-    if (!db) return []
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
-    const tx = db.transaction(this.storeName, 'readonly')
-    const store = tx.objectStore(this.storeName)
-    const results: BoundWitness[] = []
-    let parsedOffset = offset ?? 0
-    const parsedLimit = limit ?? 10
-    const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
-    const valueFilters: ValueFilter[] = [
-      bwValueFilter('addresses', addresses),
-      bwValueFilter('payload_hashes', payload_hashes),
-      bwValueFilter('payload_schemas', payload_schemas),
-    ].filter(exists)
-    // Only iterate over BWs
-    let cursor = await store.index(IndexedDbArchivist.schemaIndexName).openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
 
-    // If we're filtering on more than just the schema, we need to
-    // iterate through all the results
-    if (valueFilters.length === 0) {
-      // Skip records until the offset is reached
-      while (cursor && parsedOffset > 0) {
-        cursor = await cursor.advance(parsedOffset)
-        parsedOffset = 0 // Reset offset after skipping
-      }
-    }
-    // Collect results up to the limit
-    while (cursor && results.length < parsedLimit) {
-      const value = cursor.value
-      if (value) {
-        // If we're filtering on more than just the schema
-        if (valueFilters.length > 0) {
-          // Ensure all filters pass
-          if (valueFilters.every((filter) => filter(value))) {
-            // Then save the value
-            results.push(value)
-          }
-        } else {
-          // Otherwise just save the value
-          results.push(value)
+    const result = await this.tryUseDb(async (db) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
+      const tx = db.transaction(this.storeName, 'readonly')
+      const store = tx.objectStore(this.storeName)
+      const results: BoundWitness[] = []
+      let parsedOffset = offset ?? 0
+      const parsedLimit = limit ?? 10
+      const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
+      const valueFilters: ValueFilter[] = [
+        bwValueFilter('addresses', addresses),
+        bwValueFilter('payload_hashes', payload_hashes),
+        bwValueFilter('payload_schemas', payload_schemas),
+      ].filter(exists)
+      // Only iterate over BWs
+      let cursor = await store.index(IndexedDbArchivist.schemaIndexName).openCursor(IDBKeyRange.only(BoundWitnessSchema), direction)
+
+      // If we're filtering on more than just the schema, we need to
+      // iterate through all the results
+      if (valueFilters.length === 0) {
+        // Skip records until the offset is reached
+        while (cursor && parsedOffset > 0) {
+          cursor = await cursor.advance(parsedOffset)
+          parsedOffset = 0 // Reset offset after skipping
         }
       }
-      cursor = await cursor.continue()
-    }
-    await tx.done
-    // Remove any metadata before returning to the client
-    return results.filter(isBoundWitness).map((bw) => {
-      return { ...PayloadHasher.jsonPayload(bw), _signatures: bw._signatures }
+      // Collect results up to the limit
+      while (cursor && results.length < parsedLimit) {
+        const value = cursor.value
+        if (value) {
+          // If we're filtering on more than just the schema
+          if (valueFilters.length > 0) {
+            // Ensure all filters pass
+            if (valueFilters.every((filter) => filter(value))) {
+              // Then save the value
+              results.push(value)
+            }
+          } else {
+            // Otherwise just save the value
+            results.push(value)
+          }
+        }
+        cursor = await cursor.continue()
+      }
+      await tx.done
+      // Remove any metadata before returning to the client
+      return results.filter(isBoundWitness).map((bw) => {
+        return { ...PayloadHasher.jsonPayload(bw), _signatures: bw._signatures }
+      })
     })
+    return result ?? []
   }
 
   protected override async startHandler() {
     await super.startHandler()
+    // NOTE: Do not eager initialize the DB here. It will cause the
+    // DB to be created by this process and then the DB will be
+    // in a bad state for other processes that need to create the DB.
     return true
   }
 
   /**
-   * Checks that the desired DB/Store exists and is initialized
-   * @returns The initialized DB or undefined if it does not exist
+   * Checks that the desired DB/objectStore exists and is initialized to the correct version
+   * @returns The initialized DB or undefined if it does not exist in the desired state
    */
   private async tryGetInitializedDb(): Promise<IDBPDatabase<BoundWitnessStore> | undefined> {
-    // If we've already checked and found a successfully initialized
-    // db and objectStore, return the cached value
-    if (this._db) return this._db
     // Enumerate the DBs
     const dbs = await indexedDB.databases()
+    // Check that the DB exists at the desired version
     const dbExists = dbs.some((db) => {
-      // Check for the desired name/version
       return db.name === this.dbName && db.version === this.dbVersion
     })
-    // If the DB does not exist at the desired version, return undefined
-    if (!dbExists) return
-    // If the db does exist, open it
-    const db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
-    // Check that the desired objectStore exists
-    const storeExists = db.objectStoreNames.contains(this.storeName)
-    // If the correct db/store exists, cache it for future calls
-    if (storeExists) this._db = db
-    return this._db
+    // If the DB exists at the desired version
+    if (dbExists) {
+      // If the db does exist, open it
+      const db = await openDB<BoundWitnessStore>(this.dbName, this.dbVersion)
+      // Check that the desired objectStore exists
+      const storeExists = db.objectStoreNames.contains(this.storeName)
+      // If the correct db/version/objectStore exists
+      if (storeExists) {
+        return db
+      } else {
+        // Otherwise close the db so the process that is going to update the
+        // db can open it
+        db.close()
+      }
+    }
+  }
+
+  /**
+   * Executes a callback with the initialized DB and then closes the db
+   * @param callback The method to execute with the initialized DB
+   * @returns
+   */
+  private async tryUseDb<T>(callback: (db: IDBPDatabase<BoundWitnessStore>) => Promise<T> | T): Promise<T | undefined> {
+    // Get the initialized DB
+    const db = await this.tryGetInitializedDb()
+    if (db) {
+      try {
+        // Perform the callback
+        return await callback(db)
+      } finally {
+        // Close the DB
+        db.close()
+      }
+    }
+    return undefined
   }
 }

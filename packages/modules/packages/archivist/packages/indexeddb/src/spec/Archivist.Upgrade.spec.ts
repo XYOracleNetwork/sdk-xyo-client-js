@@ -1,12 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
-import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,
   IDBCursorWithValue,

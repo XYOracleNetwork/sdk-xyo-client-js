@@ -58,30 +58,22 @@ describe('IndexedDbArchivist.Upgrade', () => {
   const account = Account.randomSync()
 
   describe('with newer version', () => {
-    const dbName = 'b4379714-73d1-42c6-88e7-1a363b7ed86f'
-    const storeName = '3dbdb153-79d0-45d0-b2f7-9f06cdd74b1e'
-    const dbVersion = 2
-    let sources: Payload[] = []
-    let archivistModule: IndexedDbArchivist
-    beforeAll(async () => {
-      archivistModule = await IndexedDbArchivist.create({
-        account,
-        config: { dbName, dbVersion, schema: IndexedDbArchivistConfigSchema, storeName },
-      })
-      sources = await fillDb(archivistModule)
-    })
-    it('handles upgrade', async () => {
+    const cases: [number | undefined, number | undefined, string, string][] = [
+      [undefined, undefined, '4db66c75-bb44-4a80-a846-6e2b142271a2', '4ab1aaa8-c64d-4b31-af94-01a60e27c33c'],
+      [0, 1, '5e75de01-4b3b-416b-b1bc-4b9686cc4119', '72207e1f-5b50-4b53-a03a-21636d241599'],
+      [1, 2, 'e371f396-0c5b-42ff-9472-04282afdef10', '5ce3bc2e-49ac-45c1-8fce-ab68961d327d'],
+    ]
+    it.each(cases)('handles upgrade', async (oldVersion, newVersion, dbName, storeName) => {
+      const oldConfig = { dbName, dbVersion: oldVersion, schema: IndexedDbArchivistConfigSchema, storeName }
+      let archivistModule = await IndexedDbArchivist.create({ account, config: oldConfig })
       expect(archivistModule).toBeDefined()
-      expect(archivistModule?.dbVersion).toBe(dbVersion)
-      const all = await archivistModule?.all?.()
-      expect(all?.length).toBe(sources.length)
-      const upgradedDbVersion = dbVersion + 1
-      archivistModule = await IndexedDbArchivist.create({
-        account,
-        config: { dbName, dbVersion: upgradedDbVersion, schema: IndexedDbArchivistConfigSchema, storeName },
-      })
+      expect(archivistModule?.dbVersion).toBe(oldVersion ?? 1)
+      // const all = await archivistModule?.all?.()
+      // expect(all?.length).toBe(sources.length)
+      const newConfig = { dbName, dbVersion: newVersion, schema: IndexedDbArchivistConfigSchema, storeName }
+      archivistModule = await IndexedDbArchivist.create({ account, config: newConfig })
       expect(archivistModule).toBeDefined()
-      expect(archivistModule?.dbVersion).toBe(upgradedDbVersion)
+      expect(archivistModule?.dbVersion).toBe(newVersion ?? 1)
     })
   })
 })

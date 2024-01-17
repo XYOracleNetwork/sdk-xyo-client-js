@@ -12,7 +12,7 @@ import {
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { IDBPDatabase, openDB } from 'idb'
+import { IDBPDatabase, IDBPTransaction, openDB, StoreNames } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
@@ -20,6 +20,13 @@ import { IndexedDbArchivistParams } from './Params'
 export interface PayloadStore {
   [s: string]: Payload
 }
+
+const blocked = (currentVersion: number, blockedVersion: number | null, event: IDBVersionChangeEvent): void =>
+  console.log(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
+const blocking = (currentVersion: number, blockedVersion: number | null, event: IDBVersionChangeEvent): void => {
+  console.log(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
+}
+const terminated = () => console.log('IndexedDbArchivist: Terminated')
 
 @creatableModule()
 export class IndexedDbArchivist<
@@ -67,8 +74,11 @@ export class IndexedDbArchivist<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
+  /**
+   * The indexes to create on the store
+   */
   private get indexes() {
-    return this.config?.storage?.indexes ?? []
+    return [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
   protected override async allHandler(): Promise<Payload[]> {
@@ -83,24 +93,25 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
+    // Remove any duplicates
     const distinctHashes = [...new Set(hashes)]
-    const db = await this.getInitializedDb()
-    try {
+    return await this.useDb(async (db) => {
       // Only return hashes that were successfully deleted
       const found = await Promise.all(
         distinctHashes.map(async (hash) => {
-          let existing: IDBValidKey | undefined
-          do {
-            existing = await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
-            if (existing) await db.delete(this.storeName, existing)
-          } while (!existing)
-          return hash
+          // Check if the hash exists
+          const existing = await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          // If it does exist
+          if (existing) {
+            // Delete it
+            await db.delete(this.storeName, existing)
+            // Return the hash so it gets added to the list of deleted hashes
+            return hash
+          }
         }),
       )
       return found.filter(exists)
-    } finally {
-      db.close()
-    }
+    })
   }
 
   protected override async getHandler(hashes: string[]): Promise<Payload[]> {
@@ -117,15 +128,24 @@ export class IndexedDbArchivist<
       // Only return the payloads that were successfully inserted
       const inserted = await Promise.all(
         pairs.map(async ([payload, _hash]) => {
+          // Perform each insert via a transaction to ensure it is atomic
+          // with respect to checking for the pre-existence of the hash.
+          // This is done to preserve iteration via insertion order.
           const tx = db.transaction(this.storeName, 'readwrite')
           try {
+            // Get the object store
             const store = tx.objectStore(this.storeName)
+            // Check if the hash already exists
             const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+            // If it does not already exist
             if (!existing) {
+              // Insert the payload
               await store.put({ ...payload, _hash })
+              // Return it so it gets added to the list of inserted payloads
               return payload
             }
           } finally {
+            // Close the transaction
             await tx.done
           }
         }),
@@ -140,7 +160,7 @@ export class IndexedDbArchivist<
     await super.startHandler()
     // NOTE: We could defer this creation to first access but we
     // want to fail fast here in case something is wrong
-    await this.useDb(async () => {})
+    await this.useDb(() => {})
     return true
   }
 
@@ -151,17 +171,10 @@ export class IndexedDbArchivist<
   private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
     const { dbName, dbVersion, indexes, storeName } = this
     const db = await openDB<PayloadStore>(dbName, dbVersion, {
-      blocked(currentVersion, blockedVersion, event) {
-        console.log(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
-      },
-      blocking(currentVersion, blockedVersion, event) {
-        console.log(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
-      },
-      terminated() {
-        console.log('IndexedDbArchivist: Terminated')
-      },
-      async upgrade(database, oldVersion, newVersion, transaction) {
-        await Promise.resolve() // Async to match spec
+      blocked,
+      blocking,
+      terminated,
+      upgrade(database, oldVersion, newVersion, transaction) {
         if (oldVersion !== newVersion) {
           console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
           // Delete any existing databases that are not the current version
@@ -182,8 +195,7 @@ export class IndexedDbArchivist<
         // Name the store
         store.name = storeName
         // Create an index on the hash
-        const indexesToCreate = [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...indexes]
-        for (const { key, multiEntry, unique } of indexesToCreate) {
+        for (const { key, multiEntry, unique } of indexes) {
           const indexKeys = Object.keys(key)
           const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
           const indexName = buildStandardIndexName({ key, unique })
@@ -195,13 +207,50 @@ export class IndexedDbArchivist<
   }
 
   /**
+   * IndexedDb Upgrade Handler
+   */
+  private upgrade(
+    database: IDBPDatabase<PayloadStore>,
+    oldVersion: number,
+    newVersion: number | null,
+    transaction: IDBPTransaction<PayloadStore, StoreNames<PayloadStore>[], 'versionchange'>,
+    _event: IDBVersionChangeEvent,
+  ) {
+    if (oldVersion !== newVersion) {
+      console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
+      // Delete any existing databases that are not the current version
+      const objectStores = transaction.objectStoreNames
+      for (const name of objectStores) {
+        try {
+          database.deleteObjectStore(name)
+        } catch {
+          console.log(`IndexedDbArchivist: Failed to delete object store ${name}`)
+        }
+      }
+    }
+    // Create the store
+    const store = database.createObjectStore(this.storeName, {
+      // If it isn't explicitly set, create a value by auto incrementing.
+      autoIncrement: true,
+    })
+    // Name the store
+    store.name = this.storeName
+    // Create an index on the hash
+    for (const { key, multiEntry, unique } of this.indexes) {
+      const indexKeys = Object.keys(key)
+      const keys = indexKeys.length === 1 ? indexKeys[0] : indexKeys
+      const indexName = buildStandardIndexName({ key, unique })
+      store.createIndex(indexName, keys, { multiEntry, unique })
+    }
+  }
+
+  /**
    * Executes a callback with the initialized DB and then closes the db
    * @param callback The method to execute with the initialized DB
    * @returns
    */
-  private async useDb<T>(callback: (db: IDBPDatabase<PayloadStore>) => Promise<T>): Promise<T> {
+  private async useDb<T>(callback: (db: IDBPDatabase<PayloadStore>) => Promise<T> | T): Promise<T> {
     const db = await this.getInitializedDb()
-    if (!db) throw new Error('DB not initialized')
     try {
       return await callback(db)
     } finally {

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -34,7 +35,7 @@ export class IndexingDiviner<
   static override readonly configSchemas: string[] = [IndexingDivinerConfigSchema, DivinerConfigSchema]
 
   private _lastState?: ModuleState<IndexingDivinerState>
-  private _pollId?: string | number | NodeJS.Timeout
+  private _pollId?: string
 
   get payloadDivinerLimit() {
     return this.config.payloadDivinerLimit ?? 1000
@@ -218,14 +219,14 @@ export class IndexingDiviner<
    * specified by the `config.pollFrequency`
    */
   private poll() {
-    this._pollId = setTimeout(async () => {
+    this._pollId = setTimeoutEx(async () => {
       try {
         await Promise.resolve()
         await this.backgroundDivine()
       } catch (e) {
         console.log(e)
       } finally {
-        if (this._pollId) clearTimeout(this._pollId)
+        if (this._pollId) clearTimeoutEx(this._pollId)
         this._pollId = undefined
         this.poll()
       }

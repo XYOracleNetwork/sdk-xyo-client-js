@@ -23,7 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "@xylabs/eslint-config": "^3.2.41",
-    "@xylabs/forget": "^2.13.23",
+    "@xylabs/forget": "^2.13.25",
     "@xylabs/ts-scripts-yarn3": "^3.2.41",
     "@xylabs/tsconfig": "^3.2.41",
     "@xylabs/tsconfig-dom-jest": "^3.2.41",

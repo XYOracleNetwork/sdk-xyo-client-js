@@ -121,17 +121,16 @@ export class SimpleModuleResolver implements ModuleRepository {
     return (
       query
         ? compact(
-            modules.filter(
-              (module) =>
-                query?.reduce((supported, queryList) => {
-                  return (
-                    // eslint-disable-next-line unicorn/no-array-reduce
-                    queryList.reduce((supported, query) => {
-                      const queryable = module.queries.includes(query)
-                      return supported && queryable
-                    }, true) || supported
-                  )
-                }, false),
+            modules.filter((module) =>
+              query?.reduce((supported, queryList) => {
+                return (
+                  // eslint-disable-next-line unicorn/no-array-reduce
+                  queryList.reduce((supported, query) => {
+                    const queryable = module.queries.includes(query)
+                    return supported && queryable
+                  }, true) || supported
+                )
+              }, false),
             ),
           )
         : modules

@@ -5,12 +5,5 @@
     "typeRoots": []
   },
   "exclude": ["./node_modules", "./**/node_modules", "./dist", "./**/dist", "./**/docs", ".*"],
-  "extends": "@xylabs/tsconfig",
-  "ts-node": {
-    "compilerOptions": {
-      "module": "ESNext"
-    },
-    "files": true,
-    "transpileOnly": true
-  }
+  "extends": "@xylabs/tsconfig"
 }

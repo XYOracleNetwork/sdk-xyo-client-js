@@ -72,7 +72,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
 
           const currentTime = new Date()
           const logTime = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
-          this.logger.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
+          this.logger?.log(`[${logTime}][events:${type}][${debugName}] Event Name: ${eventNameString}\n\tdata: ${eventDataString}`)
         })
     }
     super(mutatedParams)

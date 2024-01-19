@@ -18,6 +18,6 @@ export abstract class Base<TParams extends BaseParams = BaseParams> {
   }
 
   protected get logger() {
-    return this.params?.logger ?? Base.defaultLogger ?? console
+    return this.params?.logger ?? Base.defaultLogger
   }
 }

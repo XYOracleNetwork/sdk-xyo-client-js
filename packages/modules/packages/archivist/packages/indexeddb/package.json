@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@xylabs/assert": "^2.13.25",
-    "@xylabs/ts-scripts-yarn3": "^3.2.41",
-    "@xylabs/tsconfig": "^3.2.41",
+    "@xylabs/ts-scripts-yarn3": "^3.2.42",
+    "@xylabs/tsconfig": "^3.2.42",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",

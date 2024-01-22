@@ -1,5 +1,5 @@
 import { isObject, mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
-import { EmptyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xylabs/object'
 // eslint-disable-next-line no-restricted-imports
 import type { ValueKeyIteratee } from 'lodash'
 

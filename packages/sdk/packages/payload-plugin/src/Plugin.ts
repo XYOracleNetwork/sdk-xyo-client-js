@@ -1,4 +1,4 @@
-import { Validator } from '@xyo-network/object'
+import { Validator } from '@xylabs/object'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'

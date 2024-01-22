@@ -1,6 +1,6 @@
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
+import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
-import { EmptyObject, ObjectWrapper } from '@xyo-network/object'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'

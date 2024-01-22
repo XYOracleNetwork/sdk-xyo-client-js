@@ -1,4 +1,4 @@
-import { IsObjectFactory, ObjectTypeShape, TypeCheck } from '@xyo-network/object'
+import { IsObjectFactory, ObjectTypeShape, TypeCheck } from '@xylabs/object'
 
 import { isModule } from '../module'
 import { ModuleInstance } from './ModuleInstance'

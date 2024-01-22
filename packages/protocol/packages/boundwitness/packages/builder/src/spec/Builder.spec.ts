@@ -2,9 +2,9 @@
 /* eslint-disable sort-keys */
 
 import { toUint8Array } from '@xylabs/arraybuffer'
+import { StringKeyObject } from '@xylabs/object'
 import { Account, AddressValue } from '@xyo-network/account'
 import { PayloadHasher } from '@xyo-network/hash'
-import { StringKeyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder'

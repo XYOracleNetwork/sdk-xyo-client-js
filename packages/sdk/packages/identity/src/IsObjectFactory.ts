@@ -5,15 +5,15 @@ import { Logger } from '@xylabs/logger'
 
 import { isType, ObjectTypeShape } from './isType'
 
-/** @deprecated use from @xyo-network/object instead */
+/** @deprecated use from @xylabs/object instead */
 export interface ObjectTypeConfig {
   log?: boolean | Logger
 }
 
-/** @deprecated use from @xyo-network/object instead */
+/** @deprecated use from @xylabs/object instead */
 export type ObjectTypeCheck<T extends {} = {}> = (obj: any, config?: ObjectTypeConfig) => obj is T
 
-/** @deprecated use from @xyo-network/object instead */
+/** @deprecated use from @xylabs/object instead */
 export class IsObjectFactory<T extends {}> {
   create(shape?: ObjectTypeShape, additionalChecks?: ObjectTypeCheck[]): ObjectTypeCheck<T> {
     return (obj, { log } = {}): obj is T => {

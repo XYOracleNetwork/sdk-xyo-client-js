@@ -1,4 +1,4 @@
-import { AsTypeFactory, EmptyObject } from '@xyo-network/object'
+import { AsTypeFactory, EmptyObject } from '@xylabs/object'
 
 /** Schema type in Javascript is a string */
 export type Schema = string

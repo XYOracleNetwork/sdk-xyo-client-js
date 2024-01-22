@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xylabs/object'
 import { Payload, Query } from '@xyo-network/payload-model'
 
 import { PayloadDivinerPredicate } from './Predicate'

@@ -3,7 +3,7 @@ import { assertEx } from '@xylabs/assert'
 
 import { ObjectTypeCheck, ObjectTypeConfig } from './IsObjectFactory'
 
-/** @deprecated use from @xyo-network/object instead */
+/** @deprecated use from @xylabs/object instead */
 export const AsObjectFactory = {
   // eslint-disable-next-line @typescript-eslint/ban-types
   create: <T extends {}>(typeCheck: ObjectTypeCheck<T>) => {

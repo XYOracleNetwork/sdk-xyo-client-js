@@ -1,5 +1,5 @@
+import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { DivinerConfig, SearchableStorage } from '@xyo-network/diviner-model'
-import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { IndexingDivinerSchema } from './Schema'

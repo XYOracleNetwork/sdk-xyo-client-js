@@ -1,5 +1,5 @@
+import { WithAdditional } from '@xylabs/object'
 import { ModuleConfig } from '@xyo-network/module-model'
-import { WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export const NodeConfigSchema = 'network.xyo.node.config'

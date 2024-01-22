@@ -1,4 +1,4 @@
-import { AnyObject } from '@xyo-network/object'
+import { AnyObject } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { DistinctDiviner } from '../Diviner'

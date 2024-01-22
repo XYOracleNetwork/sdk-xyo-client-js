@@ -1,5 +1,5 @@
+import { BaseParams, EmptyObject, WithAdditional } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
-import { BaseParams, EmptyObject, WithAdditional } from '@xyo-network/object'
 
 import { AnyConfigSchema, ModuleConfig } from './Config'
 

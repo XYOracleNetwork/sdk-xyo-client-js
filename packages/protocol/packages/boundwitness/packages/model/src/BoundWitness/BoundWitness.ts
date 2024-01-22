@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { BoundWitnessSchema } from './BoundWitnessSchema'

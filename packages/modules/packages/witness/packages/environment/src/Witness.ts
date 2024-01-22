@@ -1,5 +1,5 @@
+import { JsonValue } from '@xylabs/object'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
-import { JsonValue } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { Value, ValueSchema } from '@xyo-network/value-payload-plugin'
 import { WitnessConfigSchema } from '@xyo-network/witness-model'

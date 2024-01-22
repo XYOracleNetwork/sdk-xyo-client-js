@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.13.25",
-    "@xylabs/assert": "^2.13.25",
-    "@xylabs/exists": "^2.13.25",
-    "@xylabs/hex": "^2.13.25",
+    "@xylabs/array": "^2.13.28",
+    "@xylabs/assert": "^2.13.28",
+    "@xylabs/exists": "^2.13.28",
+    "@xylabs/hex": "^2.13.28",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-boundwitness-abstract": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",

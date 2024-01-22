@@ -1,4 +1,4 @@
-import { AsObjectFactory } from '@xyo-network/object'
+import { AsObjectFactory } from '@xylabs/object'
 
 import { isModule } from './isModule'
 

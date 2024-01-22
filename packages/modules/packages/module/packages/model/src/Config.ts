@@ -1,5 +1,6 @@
 import { Address } from '@xylabs/hex'
-import { EmptyObject, WithAdditional } from '@xyo-network/object'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
+import { RetryConfig } from '@xylabs/retry'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { Labels } from './Labels'
@@ -36,6 +37,8 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
 
       /** @field paging settings for queries */
       readonly paging?: Record<string, { size?: number }>
+
+      readonly retry?: RetryConfig
 
       schema: TConfig extends Payload ? TConfig['schema'] : ModuleConfigSchema
 

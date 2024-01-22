@@ -1,4 +1,4 @@
-import { StringKeyObject } from '@xyo-network/object'
+import { StringKeyObject } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 
 const testSchema = 'network.xyo.test'

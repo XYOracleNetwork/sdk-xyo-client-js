@@ -1,4 +1,4 @@
-import { TypeCheck } from '@xyo-network/object'
+import { TypeCheck } from '@xylabs/object'
 
 import { isModuleInstance } from './instance'
 import { isModule } from './module'

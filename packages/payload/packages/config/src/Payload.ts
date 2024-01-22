@@ -1,4 +1,4 @@
-import { AnyObject, WithAdditional } from '@xyo-network/object'
+import { AnyObject, WithAdditional } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
 
 import { ConfigSchema } from './Schema'

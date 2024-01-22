@@ -1,4 +1,4 @@
-import { AnyObject, EmptyObject, isObject } from '@xyo-network/object'
+import { AnyObject, EmptyObject, isObject } from '@xylabs/object'
 
 //if an object, sub-sort
 const subSort = (value: unknown) => {

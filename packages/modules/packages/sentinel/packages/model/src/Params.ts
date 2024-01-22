@@ -1,5 +1,5 @@
+import { EmptyObject } from '@xylabs/object'
 import { AnyConfigSchema, ModuleParams } from '@xyo-network/module-model'
-import { EmptyObject } from '@xyo-network/object'
 
 import { SentinelConfig } from './Config'
 

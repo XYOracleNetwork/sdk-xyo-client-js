@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { AnyObject } from '@xylabs/object'
 import { deepOmitUnderscoreFields, PayloadHasher, removeEmptyFields } from '@xyo-network/hash'
-import { AnyObject } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface PayloadBuilderOptions {

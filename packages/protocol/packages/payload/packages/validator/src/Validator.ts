@@ -1,5 +1,5 @@
+import { Validator, ValidatorBase } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { Validator, ValidatorBase } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { SchemaNameValidator } from '@xyo-network/schema-name-validator'
 

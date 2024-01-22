@@ -1,5 +1,5 @@
+import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
-import { AsObjectFactory } from '@xyo-network/object'
 
 import { ArchivistModule } from './Archivist'
 import { ArchivistInstance } from './ArchivistInstance'

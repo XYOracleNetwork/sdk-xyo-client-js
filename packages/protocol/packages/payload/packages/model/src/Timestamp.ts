@@ -1,4 +1,4 @@
-import { EmptyObject } from '@xyo-network/object'
+import { EmptyObject } from '@xylabs/object'
 
 /** Object with a timestamp */
 export interface Timestamp {

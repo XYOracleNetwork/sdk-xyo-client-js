@@ -1,5 +1,5 @@
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { IsObjectFactory, TypeCheck } from '@xyo-network/object'
 
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'

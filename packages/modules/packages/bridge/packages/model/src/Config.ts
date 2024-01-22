@@ -1,5 +1,5 @@
+import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { ModuleConfig } from '@xyo-network/module-model'
-import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 
 export const BridgeConfigSchema = 'network.xyo.bridge.config'

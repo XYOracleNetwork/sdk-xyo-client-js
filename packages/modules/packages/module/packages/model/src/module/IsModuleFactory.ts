@@ -1,4 +1,4 @@
-import { AnyObject, EmptyObject, TypeCheck } from '@xyo-network/object'
+import { AnyObject, EmptyObject, TypeCheck } from '@xylabs/object'
 
 import { asModuleObject } from './asModuleObject'
 import { isModuleObject } from './isModuleObject'

@@ -1,5 +1,5 @@
+import { AnyObject, EmptyObject } from '@xylabs/object'
 import { typeOf } from '@xylabs/typeof'
-import { AnyObject, EmptyObject } from '@xyo-network/object'
 
 export const removeEmptyFields = <T extends EmptyObject>(obj: T): T => {
   if (obj === null || Array.isArray(obj)) return obj

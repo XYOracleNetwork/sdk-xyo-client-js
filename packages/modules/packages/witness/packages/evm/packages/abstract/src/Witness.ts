@@ -1,7 +1,7 @@
+import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
-import { EmptyObject, WithAdditional } from '@xyo-network/object'
 import { Payload } from '@xyo-network/payload-model'
 import { CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'

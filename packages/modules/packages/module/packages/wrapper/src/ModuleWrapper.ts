@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
+import { Base } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -33,7 +34,6 @@ import {
   ModuleResolver,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
-import { Base } from '@xyo-network/object'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'

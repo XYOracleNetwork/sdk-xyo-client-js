@@ -1,5 +1,5 @@
+import { AsObjectFactory } from '@xylabs/object'
 import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } from '@xyo-network/module-model'
-import { AsObjectFactory } from '@xyo-network/object'
 
 import { NodeInstance, NodeModule } from './Node'
 import { NodeAttachedQuerySchema, NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema } from './Queries'

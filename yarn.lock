@@ -4165,6 +4165,7 @@ __metadata:
   dependencies:
     "@xylabs/object": "npm:^2"
     "@xylabs/promise": "npm:^2.13.28"
+    "@xylabs/retry": "npm:^2.13.28"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
     "@xyo-network/module-events": "workspace:~"
@@ -5214,9 +5215,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object"
   dependencies:
-    "@xylabs/assert": "npm:^2.13.28"
-    "@xylabs/logger": "npm:^2.13.28"
-    "@xylabs/promise": "npm:^2.13.28"
+    "@xylabs/object": "npm:^2.88.4"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
     typescript: "npm:^5.3.3"

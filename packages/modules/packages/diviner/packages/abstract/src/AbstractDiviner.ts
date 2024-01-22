@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
-import { retry, RetryConfig } from '@xylabs/retry'
+import { retry, RetryConfigWithComplete } from '@xylabs/retry'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import {
@@ -41,7 +41,7 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads?: TIn[], retryConfigIn?: RetryConfig): Promise<TOut[]> {
+  divine(payloads?: TIn[], retryConfigIn?: RetryConfigWithComplete): Promise<TOut[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry

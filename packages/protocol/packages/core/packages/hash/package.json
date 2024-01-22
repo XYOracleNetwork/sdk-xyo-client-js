@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^2.13.28",
-    "@xylabs/lodash": "^2.13.28",
-    "@xylabs/object": "^2",
-    "@xylabs/platform": "^2.13.28",
-    "@xylabs/typeof": "^2.13.28",
+    "@xylabs/hex": "^2.13.29",
+    "@xylabs/lodash": "^2.13.29",
+    "@xylabs/object": "^2.88.5",
+    "@xylabs/platform": "^2.13.29",
+    "@xylabs/typeof": "^2.13.29",
     "@xyo-network/wasm": "workspace:~",
     "hash-wasm": "^4.11.0",
     "sha.js": "^2.4.11"
@@ -65,6 +65,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.88.2",
+  "version": "2.88.3",
   "type": "module"
 }

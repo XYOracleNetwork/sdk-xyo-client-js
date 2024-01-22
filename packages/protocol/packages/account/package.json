@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.2.2",
-    "@xylabs/array": "^2.13.28",
-    "@xylabs/arraybuffer": "^2.13.28",
-    "@xylabs/assert": "^2.13.28",
-    "@xylabs/hex": "^2.13.28",
-    "@xylabs/libauth": "^2.13.28",
-    "@xylabs/static-implements": "^2.13.28",
+    "@xylabs/array": "^2.13.29",
+    "@xylabs/arraybuffer": "^2.13.29",
+    "@xylabs/assert": "^2.13.29",
+    "@xylabs/hex": "^2.13.29",
+    "@xylabs/libauth": "^2.13.29",
+    "@xylabs/static-implements": "^2.13.29",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/key-model": "workspace:~",
@@ -72,6 +72,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.88.2",
+  "version": "2.88.3",
   "type": "module"
 }

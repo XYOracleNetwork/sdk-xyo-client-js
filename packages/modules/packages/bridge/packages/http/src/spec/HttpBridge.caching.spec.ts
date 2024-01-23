@@ -2,7 +2,7 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { asDivinerInstance } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
 import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
@@ -11,6 +11,11 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
+
+interface IntermediateNode {
+  commandArchivist: ArchivistInstance
+  commandBoundWitnessDiviner: DivinerInstance
+}
 
 interface CachingBridge {
   bridge: BridgeInstance
@@ -21,6 +26,7 @@ interface CachingBridge {
 
 interface BridgeClient {
   cachingBridge: CachingBridge
+  intermediateNode: IntermediateNode
   name: string
   node: NodeInstance
 }
@@ -36,25 +42,21 @@ describe('HttpBridge.caching', () => {
   beforeAll(async () => {
     clients = await Promise.all(
       ['A', 'B'].map(async (name) => {
-        // Create Node
         const nodeAccount = await Account.create()
         const node = await MemoryNode.create({ account: nodeAccount })
 
-        // Create QueryResponseArchivist
         const commandStateStoreArchivistAccount = await Account.create()
         const commandStateStoreArchivist = await MemoryArchivist.create({
           account: commandStateStoreArchivistAccount,
           config: { schema: MemoryArchivist.configSchema },
         })
 
-        // Create QueryResponseArchivist
         const queryResponseArchivistAccount = await Account.create()
         const queryResponseArchivist = await MemoryArchivist.create({
           account: queryResponseArchivistAccount,
           config: { schema: MemoryArchivist.configSchema },
         })
 
-        // Create QueryResponseArchivist
         const moduleAccount = await Account.create()
         const module = await MemoryArchivist.create({
           account: moduleAccount,
@@ -74,8 +76,19 @@ describe('HttpBridge.caching', () => {
         await node.register(remoteNode)
         await node.attach(remoteNode?.address, true)
 
+        const commandArchivistModule = await node.resolve('Archivist')
+        expect(commandArchivistModule).toBeDefined()
+        const commandArchivist = asArchivistInstance(commandArchivistModule, 'Failed to cast archivist')
+        expect(commandArchivist).toBeDefined()
+
+        const commandBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
+        expect(commandBoundWitnessDivinerModule).toBeDefined()
+        const commandBoundWitnessDiviner = asDivinerInstance(commandBoundWitnessDivinerModule, 'Failed to cast diviner')
+        expect(commandBoundWitnessDiviner).toBeDefined()
+        const intermediateNode: IntermediateNode = { commandArchivist, commandBoundWitnessDiviner }
+
         const cachingBridge: CachingBridge = { bridge, commandStateStoreArchivist, module, queryResponseArchivist }
-        return { cachingBridge, name, node }
+        return { cachingBridge, intermediateNode, name, node }
       }),
     )
   })

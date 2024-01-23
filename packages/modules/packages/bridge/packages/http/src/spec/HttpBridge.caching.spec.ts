@@ -1,29 +1,18 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import {
-  ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
-  ArchivistInstance,
-  asArchivistInstance,
-  withArchivistInstance,
-} from '@xyo-network/archivist-model'
+import { ArchivistInsertQuery, ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asDivinerInstance, DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModule } from '@xyo-network/module-abstract'
-import { Module, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
-import { Payload, Query, QueryFields } from '@xyo-network/payload-model'
+import { Payload, QueryFields } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
-
-import { HttpBridge } from '../HttpBridge'
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 interface IntermediateNode {
   commandArchivist: ArchivistInstance
@@ -163,17 +152,18 @@ describe('HttpBridge.caching', () => {
   })
 
   it('Module A issues command', async () => {
-    const moduleA = clients[0].cachingBridge.module
-    const moduleB = clients[1].cachingBridge.module
-    const query: ArchivistInsertQuery = { address: moduleB.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(moduleA.account).query(query).payloads([payload]).build()
+    const source = clients[0].cachingBridge.module
+    const destination = clients[1].cachingBridge.module
+    const query: ArchivistInsertQuery = { address: destination.account.address, schema: ArchivistInsertQuerySchema }
+    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(source.account).query(query).payloads([payload]).build()
     sourceQueryHash = await PayloadHasher.hashAsync(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it('Module B receives command', async () => {
-    const moduleB = clients[1].cachingBridge.module
+    const source = clients[0].cachingBridge.module
+    const destination = clients[1].cachingBridge.module
     const { commandArchivist, commandArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store
     const offset = 0
@@ -185,19 +175,21 @@ describe('HttpBridge.caching', () => {
     for (const command of commands.filter(isQueryBoundWitness)) {
       const commandPayloads = await PayloadHasher.toMap(await commandArchivist.get(command.payload_hashes))
       const query = commandPayloads?.[command.query] as Payload<QueryFields>
-      if (query && query?.address === moduleB.address && moduleB.queries.includes(query.schema)) {
+      if (query && query?.address === destination.address && destination.queries.includes(query.schema)) {
         // Issue query against module
-        response = await moduleB.query(command, Object.values(commandPayloads))
+        response = await destination.query(command, Object.values(commandPayloads))
         expect(response).toBeDefined()
       }
     }
-    const archivist = asArchivistInstance(moduleB, 'Failed to cast archivist')
+    const archivist = asArchivistInstance(destination, 'Failed to cast archivist')
     expect(archivist?.all).toBeFunction()
     const all = await archivist.all?.()
     expect(all).toBeArrayOfSize(1)
     expect(all?.[0]).toEqual(payload)
   })
   it('Module B issues response', async () => {
+    const source = clients[0].cachingBridge.module
+    const destination = clients[1].cachingBridge.module
     const { queryResponseArchivist } = intermediateNode
     const [bw, payloads, errors] = response
     const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
@@ -205,15 +197,17 @@ describe('HttpBridge.caching', () => {
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it('Module A receives response', async () => {
-    // TODO: Attach event handler to archivist insert
+    const source = clients[0].cachingBridge.module
+    const destination = clients[1].cachingBridge.module
     const { bridgeQueryResponseArchivist } = clients[1].cachingBridge
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
+    // Attach event handler to archivist insert
     const done = new Promise((resolve, reject) => {
       bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
-        // TODO: Filter specifically for the sourceQuery for the hash we issued
         await Promise.resolve()
         const bw = insertResult.payloads.find(isBoundWitness)
         if (bw) {
+          // Filter specifically for the sourceQuery for the hash we issued
           if (bw?.sourceQuery === sourceQueryHash) {
             const payloads = insertResult.payloads.filter((payload) => payload !== bw)
             const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
@@ -226,10 +220,9 @@ describe('HttpBridge.caching', () => {
     })
     // TODO: Retrieve offset from state store
     const offset = 0
-    // TODO: Filter specifically for the sourceQuery for the hash we issued
-    // Filter for responses by the address of the module we issued the query to
-    const addresses = [clients[1].cachingBridge.module.address]
-    const query = { addresses, limit: 1, offset, schema: BoundWitnessDivinerQuerySchema, sort: 'asc' }
+    // Filter BWs specifically for the sourceQuery for the hash we issued to the address we issued it to
+    const addresses = [destination.address]
+    const query = { addresses, limit: 1, offset, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', sourceQuery: sourceQueryHash }
     const queryResponseResults = await queryResponseArchivistBoundWitnessDiviner.divine([query])
     expect(queryResponseResults).toBeArray()
     expect(queryResponseResults.length).toBe(1)

@@ -196,12 +196,23 @@ describe('HttpBridge.caching', () => {
     expect(all?.[0]).toEqual(payload)
   })
   it('Module B issues response', async () => {
+    const { queryResponseArchivist } = intermediateNode
     const [bw, payloads, errors] = response
-    const insertResult = await intermediateNode.queryResponseArchivist.insert([bw, ...payloads, ...errors])
+    const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
-  it.skip('Module A receives response', async () => {
-    const foo = await Promise.resolve()
+  it('Module A receives response', async () => {
+    // TODO: Attach event handler to archivist insert
+    const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
+    // TODO: Retrieve offset from state store
+    const offset = 0
+    // TODO: Filter specifically for the sourceQuery for the hash we issued
+    // Filter for responses by the address of the module we issued the query to
+    const addresses = [clients[1].cachingBridge.module.address]
+    const query = { addresses, limit: 1, offset, schema: BoundWitnessDivinerQuerySchema, sort: 'asc' }
+    const queryResponseResults = await queryResponseArchivistBoundWitnessDiviner.divine([query])
+    expect(queryResponseResults).toBeArray()
+    expect(queryResponseResults.length).toBe(1)
   })
 })

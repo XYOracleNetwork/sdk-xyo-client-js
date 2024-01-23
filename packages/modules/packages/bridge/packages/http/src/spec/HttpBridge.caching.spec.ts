@@ -1,20 +1,16 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import {
-  ArchivistInsertQuery,
-  ArchivistInsertQuerySchema,
-  ArchivistInstance,
-  ArchivistModule,
-  asArchivistInstance,
-} from '@xyo-network/archivist-model'
+import { ArchivistInsertQuery, ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
-import { AbstractModule } from '@xyo-network/module/packages/abstract'
-import { ModuleInstance } from '@xyo-network/module-model'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { asDivinerInstance, DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { PayloadHasher } from '@xyo-network/hash'
+import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Query, QueryFields } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridge } from '../HttpBridge'
@@ -22,7 +18,7 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 interface IntermediateNode {
   commandArchivist: ArchivistInstance
-  commandBoundWitnessDiviner: DivinerInstance
+  commandArchivistBoundWitnessDiviner: DivinerInstance
 }
 
 interface CachingBridge {
@@ -90,11 +86,11 @@ describe('HttpBridge.caching', () => {
         const commandArchivist = asArchivistInstance(commandArchivistModule, 'Failed to cast archivist')
         expect(commandArchivist).toBeDefined()
 
-        const commandBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
-        expect(commandBoundWitnessDivinerModule).toBeDefined()
-        const commandBoundWitnessDiviner = asDivinerInstance(commandBoundWitnessDivinerModule, 'Failed to cast diviner')
-        expect(commandBoundWitnessDiviner).toBeDefined()
-        const intermediateNode: IntermediateNode = { commandArchivist, commandBoundWitnessDiviner }
+        const commandArchivistBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
+        expect(commandArchivistBoundWitnessDivinerModule).toBeDefined()
+        const commandArchivistBoundWitnessDiviner = asDivinerInstance(commandArchivistBoundWitnessDivinerModule, 'Failed to cast diviner')
+        expect(commandArchivistBoundWitnessDiviner).toBeDefined()
+        const intermediateNode: IntermediateNode = { commandArchivist, commandArchivistBoundWitnessDiviner }
 
         const cachingBridge: CachingBridge = { bridge, commandStateStoreArchivist, module, queryResponseArchivist }
         return { cachingBridge, intermediateNode, name, node }
@@ -111,13 +107,28 @@ describe('HttpBridge.caching', () => {
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
+  it('Module B receives command', async () => {
+    const moduleB = clients[1].cachingBridge.module
+    const commandBoundWitnessDiviner = clients[0].intermediateNode.commandArchivistBoundWitnessDiviner
+    // TODO: Filter for commands to us by address
+    const query = { limit: 1, payload_schemas: [ArchivistInsertQuerySchema], schema: BoundWitnessDivinerQuerySchema, sort: 'desc' }
+    const commands = await commandBoundWitnessDiviner.divine([query])
+    expect(commands).toBeArray()
+    expect(commands.length).toBeGreaterThan(0)
+    for (const command of commands.filter(isQueryBoundWitness)) {
+      const commandPayloads = await PayloadHasher.toMap(await clients[1].intermediateNode.commandArchivist.get(command.payload_hashes))
+      const query = commandPayloads?.[command.query] as Payload<QueryFields>
+      // TODO: Issue query against module
+      if (query && query?.address === moduleB.address && moduleB.queries.includes(query.schema)) {
+        const response = await moduleB.query(command, Object.values(commandPayloads))
+        expect(response).toBeDefined()
+      }
+    }
+  })
+  it.skip('Module B issues response', async () => {
+    const foo = await Promise.resolve()
+  })
   it.skip('Module A receives response', async () => {
-    const foo = await Promise.resolve()
-  })
-  it.skip('Module A receives command', async () => {
-    const foo = await Promise.resolve()
-  })
-  it.skip('Module A issues response', async () => {
     const foo = await Promise.resolve()
   })
 })

@@ -5524,7 +5524,7 @@ __metadata:
     "@xyo-network/modules": "workspace:~"
     "@xyo-network/protocol": "workspace:~"
     "@xyo-network/sdk": "workspace:~"
-    dotenv: "npm:^16.3.2"
+    dotenv: "npm:^16.4.0"
     eslint: "npm:^8.56.0"
     eslint-plugin-unicorn: "npm:^50.0.1"
     jest: "npm:^29.7.0"
@@ -7884,10 +7884,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.3.2":
-  version: 16.3.2
-  resolution: "dotenv@npm:16.3.2"
-  checksum: 3d788056eb4c84ae8c8aa86642d0e1da1d41604fcd8d99a97c9b9c850e64faf5e6983717cfc071d4649139583f714d38f75414f8f869fe813cc38c6ad4601797
+"dotenv@npm:^16.4.0":
+  version: 16.4.0
+  resolution: "dotenv@npm:16.4.0"
+  checksum: e72aef255a475547b5646ae3fcd5dc1214642fff4443af2580ea80709ec5c7727b8cdc85b3b86859d9def2cbad0d1e7ccf9f85bf30ac2dae4c96745997ab54a1
   languageName: node
   linkType: hard
 

@@ -8,7 +8,7 @@ import { DivinerParams } from './Params'
 
 export interface DivinerInstance<TParams extends DivinerParams = DivinerParams, TIn extends Payload = Payload, TOut extends Payload = Payload>
   extends DivinerModule<TParams, TIn, TOut>,
-    DivinerQueryFunctions,
+    DivinerQueryFunctions<TIn, TOut>,
     ModuleInstance<TParams, DivinerModuleEventData<DivinerModule<TParams, TIn, TOut>>> {}
 
 export interface CustomDivinerInstance<
@@ -21,7 +21,7 @@ export interface CustomDivinerInstance<
     TOut
   >,
 > extends CustomDivinerModule<TParams, TIn, TOut, TEvents>,
-    DivinerQueryFunctions,
+    DivinerQueryFunctions<TIn, TOut>,
     ModuleInstance<TParams, TEvents> {}
 
 /** @deprecated use DivinerInstance instead */

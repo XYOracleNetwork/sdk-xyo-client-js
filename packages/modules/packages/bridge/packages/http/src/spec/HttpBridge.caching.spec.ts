@@ -204,6 +204,7 @@ describe('HttpBridge.caching', () => {
   })
   it('Module A receives response', async () => {
     // TODO: Attach event handler to archivist insert
+    const { bridgeQueryResponseArchivist } = clients[1].cachingBridge
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store
     const offset = 0
@@ -214,5 +215,12 @@ describe('HttpBridge.caching', () => {
     const queryResponseResults = await queryResponseArchivistBoundWitnessDiviner.divine([query])
     expect(queryResponseResults).toBeArray()
     expect(queryResponseResults.length).toBe(1)
+    // TODO: Identity function for isQueryBoundWitnessResponse/ModuleQueryResult
+    const queryResponseResult = queryResponseResults.find(isBoundWitness)
+    expect(queryResponseResult).toBeDefined()
+    const queryResponsePayloadHashes = assertEx(queryResponseResult, 'Failed to get queryResponseHash').payload_hashes
+    const queryResponsePayloads = await queryResponseArchivist.get(queryResponsePayloadHashes)
+    expect(queryResponsePayloads).toBeArrayOfSize(1)
+    // TODO: insert into archivist
   })
 })

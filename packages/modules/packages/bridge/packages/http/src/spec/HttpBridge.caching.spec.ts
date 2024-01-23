@@ -39,7 +39,6 @@ interface BridgeClient {
  */
 
 describe('HttpBridge.caching', () => {
-  // const nodeUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
   const payload = PayloadWrapper.parse({ salt: Date.now(), schema: 'network.xyo.test' })?.jsonPayload() as Payload
@@ -107,39 +106,6 @@ describe('HttpBridge.caching', () => {
           account: moduleAccount,
           config: { schema: MemoryArchivist.configSchema },
         })
-
-        // // Bridge to shared node
-        // const bridge = await HttpBridge.create({
-        //   account: Account.randomSync(),
-        //   config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
-        // })
-        // await bridge?.start?.()
-        // const remoteNode = asNodeInstance(
-        //   (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-        //   `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
-        // )
-        // await node.register(remoteNode)
-        // await node.attach(remoteNode?.address, true)
-
-        // const commandArchivistModule = await node.resolve('Archivist')
-        // expect(commandArchivistModule).toBeDefined()
-        // const commandArchivist = asArchivistInstance(commandArchivistModule, 'Failed to cast archivist')
-        // expect(commandArchivist).toBeDefined()
-
-        // const commandArchivistBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
-        // expect(commandArchivistBoundWitnessDivinerModule).toBeDefined()
-        // const commandArchivistBoundWitnessDiviner = asDivinerInstance(commandArchivistBoundWitnessDivinerModule, 'Failed to cast diviner')
-        // expect(commandArchivistBoundWitnessDiviner).toBeDefined()
-
-        // const queryResponseArchivistModule = await node.resolve('Archivist')
-        // expect(queryResponseArchivistModule).toBeDefined()
-        // const queryResponseArchivist = asArchivistInstance(queryResponseArchivistModule, 'Failed to cast archivist')
-        // expect(queryResponseArchivist).toBeDefined()
-
-        // const queryResponseArchivistBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
-        // expect(queryResponseArchivistBoundWitnessDivinerModule).toBeDefined()
-        // const queryResponseArchivistBoundWitnessDiviner = asDivinerInstance(queryResponseArchivistBoundWitnessDivinerModule, 'Failed to cast diviner')
-        // expect(queryResponseArchivistBoundWitnessDiviner).toBeDefined()
 
         const cachingBridge: CachingBridge = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module }
         for (const mod of Object.values(cachingBridge)) {

@@ -18,7 +18,7 @@ import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 describe('HttpBridge.caching', () => {
   const nodeUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
 
-  it('HttpBridge', async () => {
+  it('Module A issues command', async () => {
     const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
     const bridge: BridgeInstance = await HttpBridge.create({
@@ -53,7 +53,7 @@ describe('HttpBridge.caching', () => {
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
     expect(roundTripPayload).toBeDefined()
   })
-  it('HttpBridge - Nested', async () => {
+  it('Module A receives response', async () => {
     const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
     const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
     const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
@@ -93,9 +93,99 @@ describe('HttpBridge.caching', () => {
     // Fails to resolve
     const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
+    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadDiviner'] })
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessDiviner'] })
+    expect(boundwitnessStatsDivinerByName).toBeDefined()
+  })
+  it('Module A receives command', async () => {
+    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+
+    await memNode1.register(memNode2)
+    await memNode1.attach(memNode2.address, true)
+    await memNode2.register(memNode3)
+    await memNode2.attach(memNode3.address, true)
+
+    const bridge = await HttpBridge.create({
+      account: Account.randomSync(),
+      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    })
+
+    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+
+    expect(isModule(module)).toBeTrue()
+    expect(isModuleObject(module)).toBeTrue()
+
+    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
+
+    expect(isNodeInstance(remoteNode)).toBeTrue()
+    expect(isModuleInstance(remoteNode)).toBeTrue()
+
+    await memNode3.register(remoteNode)
+    await memNode3.attach(remoteNode?.address, true)
+    const description = await remoteNode.describe()
+    expect(description.children).toBeArray()
+    expect(description.children?.length).toBeGreaterThan(0)
+    expect(description.queries).toBeArray()
+    expect(description.queries?.length).toBeGreaterThan(0)
+
+    // Works if you supply the known address for 'Archivist'
+    //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
+    //expect(archivistByAddress).toBeDefined()
+
+    // Fails to resolve
+    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
+    expect(archivistByName).toBeDefined()
+    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadDiviner'] })
+    expect(payloadStatsDivinerByName).toBeDefined()
+    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessDiviner'] })
+    expect(boundwitnessStatsDivinerByName).toBeDefined()
+  })
+  it('Module A issues response', async () => {
+    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+
+    await memNode1.register(memNode2)
+    await memNode1.attach(memNode2.address, true)
+    await memNode2.register(memNode3)
+    await memNode2.attach(memNode3.address, true)
+
+    const bridge = await HttpBridge.create({
+      account: Account.randomSync(),
+      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+    })
+
+    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+
+    expect(isModule(module)).toBeTrue()
+    expect(isModuleObject(module)).toBeTrue()
+
+    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
+
+    expect(isNodeInstance(remoteNode)).toBeTrue()
+    expect(isModuleInstance(remoteNode)).toBeTrue()
+
+    await memNode3.register(remoteNode)
+    await memNode3.attach(remoteNode?.address, true)
+    const description = await remoteNode.describe()
+    expect(description.children).toBeArray()
+    expect(description.children?.length).toBeGreaterThan(0)
+    expect(description.queries).toBeArray()
+    expect(description.queries?.length).toBeGreaterThan(0)
+
+    // Works if you supply the known address for 'Archivist'
+    //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
+    //expect(archivistByAddress).toBeDefined()
+
+    // Fails to resolve
+    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
+    expect(archivistByName).toBeDefined()
+    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadDiviner'] })
+    expect(payloadStatsDivinerByName).toBeDefined()
+    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessDiviner'] })
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

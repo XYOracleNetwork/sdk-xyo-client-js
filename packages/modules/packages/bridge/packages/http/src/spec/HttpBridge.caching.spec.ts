@@ -198,8 +198,7 @@ describe('HttpBridge.caching', () => {
   })
   it('Module A receives response', async () => {
     const source = clients[0].cachingBridge.module
-    const destination = clients[1].cachingBridge.module
-    const { bridgeQueryResponseArchivist } = clients[1].cachingBridge
+    const { module: destination, bridgeQueryResponseArchivist } = clients[1].cachingBridge
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
     // Attach event handler to archivist insert
     const done = new Promise((resolve, reject) => {

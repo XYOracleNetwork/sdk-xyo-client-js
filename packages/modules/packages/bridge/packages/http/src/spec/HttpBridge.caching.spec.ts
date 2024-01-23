@@ -54,6 +54,7 @@ describe('HttpBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
   const payload = PayloadWrapper.parse({ salt: Date.now(), schema: 'network.xyo.test' })?.jsonPayload() as Payload
+  let sourceQueryHash: string
   let response: ModuleQueryResult
   beforeAll(async () => {
     const intermediateNodeAccount = await Account.create()
@@ -166,6 +167,7 @@ describe('HttpBridge.caching', () => {
     const moduleB = clients[1].cachingBridge.module
     const query: ArchivistInsertQuery = { address: moduleB.account.address, schema: ArchivistInsertQuerySchema }
     const [command, payloads] = await new QueryBoundWitnessBuilder().witness(moduleA.account).query(query).payloads([payload]).build()
+    sourceQueryHash = await PayloadHasher.hashAsync(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
@@ -211,10 +213,12 @@ describe('HttpBridge.caching', () => {
         // TODO: Filter specifically for the sourceQuery for the hash we issued
         await Promise.resolve()
         const bw = insertResult.payloads.find(isBoundWitness)
-        const payloads = insertResult.payloads.filter((payload) => payload !== bw)
         if (bw) {
-          const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
-          resolve(rematerializedResponse)
+          if (bw?.sourceQuery === sourceQueryHash) {
+            const payloads = insertResult.payloads.filter((payload) => payload !== bw)
+            const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
+            resolve(rematerializedResponse)
+          }
         } else {
           reject()
         }

@@ -21,16 +21,11 @@ interface IntermediateNode {
   queryResponseArchivistBoundWitnessDiviner: DivinerInstance
 }
 
-interface CachingBridge {
+interface BridgeClient {
   // bridge: BridgeInstance
   bridgeQueryResponseArchivist: ArchivistInstance
   commandStateStoreArchivist: ArchivistInstance
   module: AbstractModule
-}
-
-interface BridgeClient {
-  cachingBridge: CachingBridge
-  name: string
 }
 
 /**
@@ -85,7 +80,7 @@ describe('HttpBridge.caching', () => {
     }
 
     clients = await Promise.all(
-      ['A', 'B'].map(async (name) => {
+      ['A', 'B'].map(async () => {
         const clientNodeAccount = await Account.create()
         const clientNode = await MemoryNode.create({ account: clientNodeAccount })
 
@@ -107,29 +102,29 @@ describe('HttpBridge.caching', () => {
           config: { schema: MemoryArchivist.configSchema },
         })
 
-        const cachingBridge: CachingBridge = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module }
+        const cachingBridge: BridgeClient = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module }
         for (const mod of Object.values(cachingBridge)) {
           await clientNode.register(mod)
           await clientNode.attach(mod.address, true)
         }
-        return { cachingBridge, name }
+        return cachingBridge
       }),
     )
   })
 
   it('Module A issues command', async () => {
-    const source = clients[0].cachingBridge.module
-    const destination = clients[1].cachingBridge.module
-    const query: ArchivistInsertQuery = { address: destination.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(source.account).query(query).payloads([payload]).build()
+    const source = clients[0]
+    const destination = clients[1]
+    const query: ArchivistInsertQuery = { address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
+    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(source.module.account).query(query).payloads([payload]).build()
     sourceQueryHash = await PayloadHasher.hashAsync(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it('Module B receives command', async () => {
-    const source = clients[0].cachingBridge.module
-    const destination = clients[1].cachingBridge.module
+    const source = clients[0].module
+    const destination = clients[1].module
     const { commandArchivist, commandArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store
     const offset = 0
@@ -154,8 +149,6 @@ describe('HttpBridge.caching', () => {
     expect(all?.[0]).toEqual(payload)
   })
   it('Module B issues response', async () => {
-    const source = clients[0].cachingBridge.module
-    const destination = clients[1].cachingBridge.module
     const { queryResponseArchivist } = intermediateNode
     const [bw, payloads, errors] = response
     const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
@@ -163,12 +156,11 @@ describe('HttpBridge.caching', () => {
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it('Module A receives response', async () => {
-    const source = clients[0].cachingBridge.module
-    const { module: destination, bridgeQueryResponseArchivist } = clients[1].cachingBridge
+    const destination = clients[1]
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
     // Attach event handler to archivist insert
     const done = new Promise((resolve, reject) => {
-      bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
+      destination.bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
         await Promise.resolve()
         const bw = insertResult.payloads.find(isBoundWitness)
         if (bw) {
@@ -186,7 +178,7 @@ describe('HttpBridge.caching', () => {
     // TODO: Retrieve offset from state store
     const offset = 0
     // Filter BWs specifically for the sourceQuery for the hash we issued to the address we issued it to
-    const addresses = [destination.address]
+    const addresses = [destination.module.address]
     const query = { addresses, limit: 1, offset, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', sourceQuery: sourceQueryHash }
     const queryResponseResults = await queryResponseArchivistBoundWitnessDiviner.divine([query])
     expect(queryResponseResults).toBeArray()
@@ -198,7 +190,7 @@ describe('HttpBridge.caching', () => {
     const queryResponsePayloads = await queryResponseArchivist.get(queryResponsePayloadHashes)
     expect(queryResponsePayloads).toBeArrayOfSize(1)
     // Insert into bridgeQueryResponseArchivist
-    await bridgeQueryResponseArchivist.insert([assertEx(queryResponseResult), ...queryResponsePayloads])
+    await destination.bridgeQueryResponseArchivist.insert([assertEx(queryResponseResult), ...queryResponsePayloads])
     return done
   })
 })

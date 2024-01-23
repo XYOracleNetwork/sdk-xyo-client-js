@@ -206,6 +206,20 @@ describe('HttpBridge.caching', () => {
     // TODO: Attach event handler to archivist insert
     const { bridgeQueryResponseArchivist } = clients[1].cachingBridge
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
+    const done = new Promise((resolve, reject) => {
+      bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
+        // TODO: Filter specifically for the sourceQuery for the hash we issued
+        await Promise.resolve()
+        const bw = insertResult.payloads.find(isBoundWitness)
+        const payloads = insertResult.payloads.filter((payload) => payload !== bw)
+        if (bw) {
+          const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
+          resolve(rematerializedResponse)
+        } else {
+          reject()
+        }
+      })
+    })
     // TODO: Retrieve offset from state store
     const offset = 0
     // TODO: Filter specifically for the sourceQuery for the hash we issued
@@ -221,6 +235,8 @@ describe('HttpBridge.caching', () => {
     const queryResponsePayloadHashes = assertEx(queryResponseResult, 'Failed to get queryResponseHash').payload_hashes
     const queryResponsePayloads = await queryResponseArchivist.get(queryResponsePayloadHashes)
     expect(queryResponsePayloads).toBeArrayOfSize(1)
-    // TODO: insert into archivist
+    // Insert into bridgeQueryResponseArchivist
+    await bridgeQueryResponseArchivist.insert([assertEx(queryResponseResult), ...queryResponsePayloads])
+    return done
   })
 })

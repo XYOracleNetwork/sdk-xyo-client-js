@@ -123,7 +123,6 @@ describe('HttpBridge.caching', () => {
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it('Module B receives command', async () => {
-    const source = clients[0].module
     const destination = clients[1].module
     const { commandArchivist, commandArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store

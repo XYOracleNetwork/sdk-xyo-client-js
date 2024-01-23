@@ -1,8 +1,16 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import {
+  ArchivistInsertQuery,
+  ArchivistInsertQuerySchema,
+  ArchivistInstance,
+  ArchivistModule,
+  asArchivistInstance,
+} from '@xyo-network/archivist-model'
+import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
+import { AbstractModule } from '@xyo-network/module/packages/abstract'
 import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
@@ -20,7 +28,7 @@ interface IntermediateNode {
 interface CachingBridge {
   bridge: BridgeInstance
   commandStateStoreArchivist: ArchivistInstance
-  module: ModuleInstance
+  module: AbstractModule
   queryResponseArchivist: ArchivistInstance
 }
 
@@ -39,6 +47,7 @@ interface BridgeClient {
 describe('HttpBridge.caching', () => {
   const nodeUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
   let clients: BridgeClient[]
+  const payload = PayloadWrapper.parse({ salt: Date.now(), schema: 'network.xyo.test' })?.jsonPayload() as Payload
   beforeAll(async () => {
     clients = await Promise.all(
       ['A', 'B'].map(async (name) => {
@@ -94,33 +103,21 @@ describe('HttpBridge.caching', () => {
   })
 
   it('Module A issues command', async () => {
-    const { node } = clients[0]
-    // Connect to shared node modules
-    const commandArchivistModule = await node.resolve('Archivist')
-    expect(commandArchivistModule).toBeDefined()
-    const commandArchivist = asArchivistInstance(commandArchivistModule, 'Failed to cast archivist')
-    expect(commandArchivist).toBeDefined()
-
-    const commandBoundWitnessDivinerModule = await node.resolve('BoundWitnessDiviner')
-    expect(commandBoundWitnessDivinerModule).toBeDefined()
-    const commandBoundWitnessDiviner = asDivinerInstance(commandBoundWitnessDivinerModule, 'Failed to cast diviner')
-    expect(commandBoundWitnessDiviner).toBeDefined()
-
-    const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.jsonPayload() as Payload
-    expect(knownPayload).toBeDefined()
-    const knownHash = await PayloadWrapper.hashAsync(knownPayload as Payload)
-    const insertResult = await commandArchivist.insert([knownPayload])
+    const moduleA = clients[0].cachingBridge.module
+    const moduleB = clients[1].cachingBridge.module
+    const query: ArchivistInsertQuery = { address: moduleB.account.address, schema: ArchivistInsertQuerySchema }
+    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(moduleA.account).query(query).payloads([payload]).build()
+    const insertResult = await clients[0].intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
-    const roundTripPayload = (await commandArchivist.get([knownHash]))[0]
-    expect(roundTripPayload).toBeDefined()
+    expect(insertResult).toBeArrayOfSize(1 + payloads.length)
   })
   it.skip('Module A receives response', async () => {
-    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const foo = await Promise.resolve()
   })
   it.skip('Module A receives command', async () => {
-    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const foo = await Promise.resolve()
   })
   it.skip('Module A issues response', async () => {
-    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const foo = await Promise.resolve()
   })
 })

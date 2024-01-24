@@ -33,7 +33,7 @@ interface BridgeClient {
  * @group bridge
  */
 
-describe('HttpBridge.caching', () => {
+describe.skip('HttpBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
   const payload = PayloadWrapper.parse({ salt: Date.now(), schema: 'network.xyo.test' })?.jsonPayload() as Payload

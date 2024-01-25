@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 /* eslint-disable max-nested-callbacks */
-import { AnyObject } from '@xylabs/object'
+
 import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexDescription } from '@xyo-network/archivist-model'

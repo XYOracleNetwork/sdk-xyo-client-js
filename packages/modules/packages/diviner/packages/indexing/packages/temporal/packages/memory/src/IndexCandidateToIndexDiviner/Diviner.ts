@@ -12,7 +12,6 @@ import {
   TemporalIndexingDivinerResultIndex,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'

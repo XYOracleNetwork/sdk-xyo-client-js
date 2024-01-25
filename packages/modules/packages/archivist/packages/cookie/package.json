@@ -18,8 +18,8 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
     "js-cookie": "^3.0.5"
   },
   "devDependencies": {
@@ -29,6 +29,7 @@
     "@xylabs/tsconfig": "^3.2.42",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/id-payload-plugin": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.3.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

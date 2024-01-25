@@ -26,6 +26,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/protocol": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
     "typescript": "^5.3.3"

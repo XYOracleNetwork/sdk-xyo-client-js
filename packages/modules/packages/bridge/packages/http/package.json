@@ -41,6 +41,7 @@
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.3.3"
   },

@@ -5,7 +5,6 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AddressHistoryDiviner } from '../Diviner'
 

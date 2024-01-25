@@ -19,7 +19,6 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import store, { StoreBase } from 'store2'
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'

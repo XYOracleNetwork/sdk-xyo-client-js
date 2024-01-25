@@ -4,7 +4,9 @@ import { JsonObject } from '@xylabs/object'
 import { deepOmitPrefixedFields, PayloadHasher, removeEmptyFields } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-export interface PayloadBuilderOptions {
+export interface PayloadBuilderOptions<T> {
+  fields?: Partial<T>
+  meta?: JsonObject
   schema: string
 }
 
@@ -13,8 +15,10 @@ export class PayloadBuilder<T extends Payload = Payload> {
   private _fields: Partial<T> = {}
   private _schema: string
 
-  constructor({ schema }: PayloadBuilderOptions) {
+  constructor({ schema, fields, meta }: PayloadBuilderOptions<T>) {
     this._schema = schema
+    this._fields = fields ?? {}
+    this._$meta = meta
   }
 
   get schema() {
@@ -26,6 +30,24 @@ export class PayloadBuilder<T extends Payload = Payload> {
     const builder = new PayloadBuilder<T>({ schema: payload.schema })
     builder.fields(payload)
     return await builder.build()
+  }
+
+  static async dataHashPairs<T extends Payload>(payloads: T[]): Promise<[WithMeta<T>, Hash][]> {
+    return await Promise.all(
+      payloads.map(async (payload) => {
+        const built = await PayloadBuilder.build(payload)
+        return [built, built.$hash]
+      }),
+    )
+  }
+
+  static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]> {
+    return await Promise.all(
+      payloads.map(async (payload) => {
+        const built = await PayloadBuilder.build(payload)
+        return built.$hash
+      }),
+    )
   }
 
   static async filterExclude<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
@@ -56,12 +78,20 @@ export class PayloadBuilder<T extends Payload = Payload> {
     )
   }
 
+  static async toDataHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
+    const result: Record<Hash, T> = {}
+    for (const pair of await this.dataHashPairs(objs)) {
+      result[pair[1]] = pair[0]
+    }
+    return result
+  }
+
   /**
    * Creates an object map of payload hashes to payloads based on the payloads passed in
    * @param objs Any array of payloads
    * @returns A map of hashes to payloads
    */
-  static async toMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
+  static async toHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
     const result: Record<Hash, T> = {}
     for (const pair of await this.hashPairs(objs)) {
       result[pair[1]] = pair[0]

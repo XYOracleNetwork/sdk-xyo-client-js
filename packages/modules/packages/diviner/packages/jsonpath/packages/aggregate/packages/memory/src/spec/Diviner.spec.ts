@@ -63,7 +63,7 @@ describe('JsonPathAggregateDiviner', () => {
     describe('with only payload schema transforms', () => {
       const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {
         const [timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadBuilder.toMap([timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toDataHashMap([timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
@@ -141,7 +141,7 @@ describe('JsonPathAggregateDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadBuilder.toMap([boundWitness, timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toDataHashMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))

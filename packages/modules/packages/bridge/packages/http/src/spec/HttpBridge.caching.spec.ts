@@ -133,7 +133,7 @@ describe.skip('HttpBridge.caching', () => {
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)
     for (const command of commands.filter(isQueryBoundWitness)) {
-      const commandPayloads = await PayloadBuilder.toMap(await commandArchivist.get(command.payload_hashes))
+      const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
       const query = commandPayloads?.[command.query] as Payload<QueryFields>
       if (query && query?.address === destination.address && destination.queries.includes(query.schema)) {
         // Issue query against module

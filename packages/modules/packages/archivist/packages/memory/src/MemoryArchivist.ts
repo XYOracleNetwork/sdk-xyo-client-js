@@ -114,7 +114,11 @@ export class MemoryArchivist<
     return compact(
       hashes.map((hash) => {
         const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
-        return this.cache.get(resolvedHash)
+        const result = this.cache.get(resolvedHash)
+        if (resolvedHash !== hash && !result) {
+          throw new Error('Missing referenced payload')
+        }
+        return result
       }),
     )
   }

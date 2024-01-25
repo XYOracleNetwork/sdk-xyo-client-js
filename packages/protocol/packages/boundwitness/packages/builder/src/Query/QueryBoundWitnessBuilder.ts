@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { QueryBoundWitness, QueryBoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload'
 import { Query } from '@xyo-network/payload-model'
 
 import { BoundWitnessBuilder } from '../Builder'
@@ -14,7 +14,7 @@ export class QueryBoundWitnessBuilder<
   override async hashableFields(): Promise<TBoundWitness> {
     return {
       ...(await super.hashableFields()),
-      query: await PayloadHasher.hashAsync(assertEx(this._query, 'No Query Specified')),
+      query: (await PayloadBuilder.build(assertEx(this._query, 'No Query Specified'))).$hash,
       schema: QueryBoundWitnessSchema,
     }
   }

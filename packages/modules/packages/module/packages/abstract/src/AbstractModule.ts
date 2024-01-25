@@ -46,7 +46,7 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload, Query } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
@@ -265,7 +265,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this._noOverride('query')
-    const sourceQuery = await PayloadHasher.hashAsync(query)
+    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -275,14 +275,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         if (!this.allowAnonymous && query.addresses.length === 0) {
           throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
         }
-        resultPayloads.push(...(await this.queryHandler(assertEx(QueryBoundWitnessWrapper.unwrap(query)), payloads, queryConfig)))
+        resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {
           errorPayloads.push(
             await new ModuleErrorBuilder()
-              .sources([await PayloadHasher.hashAsync(query)])
+              .sources([sourceQuery.$hash])
               .name(this.config.name ?? '<Unknown>')
-              .query(query.schema)
+              .query(sourceQuery.schema)
               .message(error.message)
               .build(),
           )
@@ -292,8 +292,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         const timestamp = { schema: 'network.xyo.timestamp', timestamp: Date.now() }
         resultPayloads.push(timestamp)
       }
-      const result = await this.bindQueryResult(query, resultPayloads, sourceQuery, queryAccount ? [queryAccount] : [], errorPayloads)
-      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+      const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
+      const args: ModuleQueriedEventArgs = { module: this, payloads, query: sourceQuery, result }
       await this.emit('moduleQueried', args)
       return result
     })
@@ -442,13 +442,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async bindQueryResult<T extends Query>(
-    query: T,
+    query: WithMeta<T>,
     payloads: Payload[],
-    sourceQuery?: string,
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(sourceQuery)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)

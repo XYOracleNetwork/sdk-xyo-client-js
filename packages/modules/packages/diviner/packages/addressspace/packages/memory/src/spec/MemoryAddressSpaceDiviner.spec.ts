@@ -35,7 +35,7 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(16)
+      expect(all).toBeArrayOfSize(8)
 
       await node.register(archivist)
       await node.attach(archivist.address)

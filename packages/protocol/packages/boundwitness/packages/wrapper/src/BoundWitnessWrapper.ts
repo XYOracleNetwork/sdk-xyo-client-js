@@ -126,6 +126,19 @@ export class BoundWitnessWrapper<
     }
   }
 
+  static async wrappedDataMap<T extends BoundWitness>(
+    boundWitnesses: (T | BoundWitnessWrapper<T>)[],
+  ): Promise<Record<string, BoundWitnessWrapper<T>>> {
+    const result: Record<string, BoundWitnessWrapper<T>> = {}
+    await Promise.all(
+      boundWitnesses.map(async (payload) => {
+        const bw = await BoundWitnessWrapper.parse<T, Payload>(payload)
+        result[await bw.dataHash()] = bw
+      }),
+    )
+    return result
+  }
+
   static async wrappedMap<T extends BoundWitness>(boundWitnesses: (T | BoundWitnessWrapper<T>)[]): Promise<Record<string, BoundWitnessWrapper<T>>> {
     const result: Record<string, BoundWitnessWrapper<T>> = {}
     await Promise.all(

@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
+import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -19,12 +20,22 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
+
+    const allBoundWitnesses = await this.allBoundWitnesses()
+    const bwRecords = await PayloadBuilder.toDataHashMap(allBoundWitnesses)
+    const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
+
+    // Return the heads of each chain (get the last bw on each chain)
+    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
+  }
+
+  private async allBoundWitnesses() {
     const archivists =
       (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((module) =>
         asArchivistInstance(module, `Failed to cast module to Archivist [${module.config.name}]`),
       ) ?? []
     assertEx(archivists.length > 0, 'Did not find any archivists')
-    const bwLists = (
+    return (
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.all?.()
@@ -32,24 +43,19 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
         }),
       )
     ).flat()
-    const bwRecords = await BoundWitnessWrapper.wrappedMap(bwLists)
-    const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
-
-    // Return the heads of each chain (get the last bw on each chain)
-    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
   }
 
-  private buildAddressChains(address: string, bwRecords: Record<string, BoundWitnessWrapper>): Record<string, BoundWitnessWrapper[]> {
+  private buildAddressChains(address: string, bwRecords: Record<string, BoundWitness>): Record<string, BoundWitness[]> {
     // eslint-disable-next-line unicorn/no-array-reduce
-    const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
+    const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitness[]>>((prev, [key, value]) => {
       prev[key] = [value]
       return prev
     }, {})
     // eslint-disable-next-line unicorn/no-array-reduce
-    return Object.entries(bwRecords).reduce<Record<string, BoundWitnessWrapper[]>>((prev, [key, value]) => {
+    return Object.entries(bwRecords).reduce<Record<string, BoundWitness[]>>((prev, [key, value]) => {
       //check if key is still there (may have been deleted as prevHash)
       if (prev[key]) {
-        const previousHash = value.prev(address)
+        const previousHash = BoundWitnessBuilder.previousHash(value, address)
         if (
           previousHash && //if we have the previousHash, move this bw to its chain
           prev[previousHash]

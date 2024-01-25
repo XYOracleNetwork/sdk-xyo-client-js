@@ -4,6 +4,7 @@ import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AddressHistoryDiviner } from '../Diviner'
@@ -25,12 +26,12 @@ describe('AddressHistoryDiviner', () => {
       node = await MemoryNode.create({ account: Account.randomSync() })
       archivist = await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } })
       const wrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
-      const payload1 = await PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = await PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
-      await wrapper.insert([payload1.jsonPayload()])
-      await wrapper.insert([payload2.jsonPayload()])
-      await wrapper.insert([payload3.jsonPayload()])
+      const payload1 = await PayloadBuilder.build({ index: 1, schema: 'network.xyo.test' })
+      const payload2 = await PayloadBuilder.build({ index: 2, schema: 'network.xyo.test' })
+      const payload3 = await PayloadBuilder.build({ index: 3, schema: 'network.xyo.test' })
+      await wrapper.insert([payload1])
+      await wrapper.insert([payload2])
+      await wrapper.insert([payload3])
       const all = await wrapper.all()
       expect(all).toBeArrayOfSize(8)
       await node.register(archivist)

@@ -68,7 +68,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
     const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
     if (bws.length > 0 && indexablePayloads.length > 0) {
-      const payloadDictionary = await PayloadBuilder.toMap(payloads)
+      const payloadDictionary = await PayloadBuilder.toDataHashMap(payloads)
       // eslint-disable-next-line unicorn/no-array-reduce
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
@@ -94,7 +94,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
             return transformers ? transformers.map((transform) => transform(payload)) : []
           })
           // Include all the sources for reference
-          const sources = Object.keys(await PayloadBuilder.toMap([bw, ...sourcePayloads]))
+          const sources = Object.keys(await PayloadBuilder.toDataHashMap([bw, ...sourcePayloads]))
           // Build and return the index
           return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
             .fields(Object.assign({ sources }, ...indexFields))

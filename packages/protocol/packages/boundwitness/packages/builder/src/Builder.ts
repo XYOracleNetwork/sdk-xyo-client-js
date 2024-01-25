@@ -1,6 +1,6 @@
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { hexFromArrayBuffer } from '@xylabs/hex'
+import { Address, hexFromArrayBuffer } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
@@ -43,6 +43,22 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
         return assertEx(payload.schema, () => this.missingSchemaMessage(payload))
       })
     )
+  }
+
+  static addressIndex<T extends BoundWitness>(payload: T, address: Address) {
+    const index = payload.addresses.indexOf(address)
+    if (index === -1) {
+      throw new Error('Invalid address')
+    }
+    return index
+  }
+
+  static previousHash<T extends BoundWitness>(payload: T, address: Address) {
+    return payload.previous_hashes[this.addressIndex(payload, address)]
+  }
+
+  static signature<T extends BoundWitness>(payload: T, address: Address) {
+    return payload.$meta.signatures[this.addressIndex(payload, address)]
   }
 
   async build(meta = false): Promise<[WithMeta<TBoundWitness>, TPayload[], ModuleError[]]> {
@@ -173,17 +189,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
 
   private async getPayloadHashes(): Promise<string[]> {
     return this._payloadHashes ?? (await Promise.all(this._payloads.map(async (payload) => (await PayloadBuilder.build(payload)).$hash)))
-  }
-
-  private inlinePayloads() {
-    console.log('BoundWitnessBuilder: Using inlinePayloads will soon be disallowed')
-
-    return this._payloads.map<TPayload>((payload, index) => {
-      return {
-        ...payload,
-        schema: this._payload_schemas[index],
-      }
-    })
   }
 
   private missingSchemaMessage(payload: Payload) {

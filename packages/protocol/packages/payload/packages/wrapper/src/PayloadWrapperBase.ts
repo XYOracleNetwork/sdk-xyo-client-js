@@ -47,6 +47,10 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return this.jsonPayload()
   }
 
+  async dataHash() {
+    return await PayloadHasher.hashAsync(this.jsonPayload())
+  }
+
   async getErrors() {
     this._errors = this._errors ?? (await this.validate())
     return this._errors

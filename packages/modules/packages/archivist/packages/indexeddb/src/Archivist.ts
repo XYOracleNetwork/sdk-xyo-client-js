@@ -32,9 +32,12 @@ export class IndexedDbArchivist<
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
   private static readonly hashIndex: IndexDescription = { key: { _hash: 1 }, multiEntry: false, unique: true }
+  private static readonly dataHashIndex: IndexDescription = { key: { $hash: 1 }, multiEntry: false, unique: false }
   private static readonly schemaIndex: IndexDescription = { key: { schema: 1 }, multiEntry: false, unique: false }
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly hashIndexName = buildStandardIndexName(IndexedDbArchivist.hashIndex)
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  static readonly dataHashIndexName = buildStandardIndexName(IndexedDbArchivist.dataHashIndex)
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
 
@@ -72,24 +75,14 @@ export class IndexedDbArchivist<
    * The indexes to create on the store
    */
   private get indexes() {
-    return [IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
+    return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
   protected override async allHandler(): Promise<Payload[]> {
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
-    const found = new Set<string>()
     // Remove any metadata before returning to the client
-    return payloads
-      .map((payload) => PayloadHasher.jsonPayload(payload))
-      .filter((payload) => {
-        if (found.has(payload.$hash)) {
-          return false
-        } else {
-          found.add(payload.$hash)
-          return true
-        }
-      })
+    return payloads.map((payload) => PayloadHasher.jsonPayload(payload))
   }
 
   protected override async clearHandler(): Promise<void> {
@@ -124,9 +117,12 @@ export class IndexedDbArchivist<
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
+    const payloadsFromDataHashes = await this.useDb((db) =>
+      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
+    )
     //filter out duplicates
     const found = new Set<string>()
-    return payloads.filter(exists).filter((payload) => {
+    const payloadsFromHash = payloads.filter(exists).filter((payload) => {
       if (found.has(payload.$hash)) {
         return false
       } else {
@@ -134,6 +130,15 @@ export class IndexedDbArchivist<
         return true
       }
     })
+    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter((payload) => {
+      if (found.has(payload.$hash)) {
+        return false
+      } else {
+        found.add(payload.$hash)
+        return true
+      }
+    })
+    return [...payloadsFromHash, ...payloadsFromDataHash]
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
@@ -152,27 +157,16 @@ export class IndexedDbArchivist<
             // Get the object store
             const store = tx.objectStore(this.storeName)
 
-            let inserted = false
-
             // Check if the hash already exists
             const existingTopHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist
             if (!existingTopHash) {
               // Insert the payload
               await store.put({ ...payload, _hash })
-              inserted = true
             }
 
-            // Check if the hash already exists
-            const existingBodyHash = await store.index(IndexedDbArchivist.hashIndexName).get(payload.$hash)
-            // If it does not already exist
-            if (!existingBodyHash) {
-              // Insert the payload
-              await store.put({ ...payload, _hash: payload.$hash })
-              inserted = true
-            }
             // Return it so it gets added to the list of inserted payloads
-            return inserted ? payload : undefined
+            return payload
           } finally {
             // Close the transaction
             await tx.done

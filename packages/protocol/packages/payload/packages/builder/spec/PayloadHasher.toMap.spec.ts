@@ -79,7 +79,7 @@ describe('PayloadBuilder', () => {
     await PayloadHasher.wasmInitialized
   })
   it.each(cases)('%s', async (_title, sources) => {
-    const map = await PayloadBuilder.toMap(sources)
+    const map = await PayloadBuilder.toDataHashMap(sources)
     expect(Object.keys(map).length).toBe(sources.length)
     await Promise.all(
       Object.entries(map).map(async ([hash, payload], index) => {

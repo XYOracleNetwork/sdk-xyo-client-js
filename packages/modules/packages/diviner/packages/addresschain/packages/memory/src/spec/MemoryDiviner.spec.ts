@@ -6,6 +6,7 @@ import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner'
@@ -48,7 +49,7 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: await (await BoundWitnessWrapper.parse(all[6])).hashAsync(),
+          startHash: (await PayloadBuilder.build(all[7])).$hash,
         },
       })
       await node.register(diviner)

@@ -193,12 +193,14 @@ export abstract class AbstractArchivist<
   protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const emitEvents = config?.emitEvents ?? true
-    const map = await PayloadBuilder.toMap(await this.getHandler(hashes))
+    const gotten = await this.getHandler(hashes)
+    const map = await PayloadBuilder.toHashMap(gotten)
+    const dataMap = await PayloadBuilder.toDataHashMap(gotten)
 
     const foundPayloads: WithMeta<Payload>[] = []
     const notfoundHashes: string[] = []
     for (const hash of hashes) {
-      const found = map[hash]
+      const found = map[hash] ?? dataMap[hash]
       if (found) {
         foundPayloads.push(PayloadHasher.jsonPayload(found) as WithMeta<Payload>)
       } else {

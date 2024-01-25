@@ -66,7 +66,7 @@ describe('Various StorageArchivist types', () => {
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const payloadWrapper = PayloadWrapper.wrap(idPayload)
+    const payloadWrapper = await PayloadWrapper.wrap(idPayload)
 
     const archivist = await archivistPromise
     const insertResult = await archivist.insert([idPayload])
@@ -77,7 +77,7 @@ describe('Various StorageArchivist types', () => {
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
+      const gottenPayloadWrapper = await PayloadWrapper.wrap(gottenPayload)
       expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
     }
   })
@@ -136,11 +136,11 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
-  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = await PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 
-  const inserted = await parent.insert([wrapper.payload()])
+  const inserted = await parent.insert([wrapper.jsonPayload()])
 
   expect(inserted).toBeArrayOfSize(1)
 

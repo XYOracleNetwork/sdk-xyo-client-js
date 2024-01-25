@@ -15,6 +15,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -56,17 +57,17 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return assertEx(this._memoryArchivist)
   }
 
-  private static dataFromRawJson(rawJson: string) {
+  private static async dataFromRawJson(rawJson: string) {
     const data: FileSystemArchivistData = JSON.parse(rawJson)
     assertEx(typeof data === 'object', 'Archivist Data must be object')
     assertEx(Array.isArray(data.payloads), 'Archivist Data "payloads" field must be array of payloads')
-    data.payloads = this.payloadsFromRawPayloads(data.payloads)
+    data.payloads = await this.payloadsFromRawPayloads(data.payloads)
     return data
   }
 
-  private static payloadsFromRawPayloads(rawPayloads: Payload[]) {
+  private static async payloadsFromRawPayloads(rawPayloads: Payload[]) {
     //validation should be done in here.  I don't believe parse does much validation yet.
-    return rawPayloads.map((payload) => PayloadWrapper.wrap(payload).payload())
+    return await Promise.all(rawPayloads.map(async (payload) => (await PayloadWrapper.wrap(payload)).jsonPayload()))
   }
 
   protected override allHandler(): PromisableArray<Payload> {
@@ -97,8 +98,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     await super.startHandler()
     this._memoryArchivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     try {
-      const data = FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
-      await this._memoryArchivist.insert(data.payloads)
+      const data = await FilesystemArchivist.dataFromRawJson(await this.rawJsonFromFile())
+      await this._memoryArchivist.insert(await Promise.all(data.payloads.map((payload) => PayloadBuilder.build(payload))))
     } catch (ex) {
       handleError(ex, (error) => {
         this.logger?.error(error.message)

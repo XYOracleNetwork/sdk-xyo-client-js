@@ -11,8 +11,8 @@ import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { ModuleQueryResult } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, QueryFields } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 interface IntermediateNode {
   commandArchivist: ArchivistInstance
@@ -36,7 +36,7 @@ interface BridgeClient {
 describe.skip('HttpBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
-  const payload = PayloadWrapper.parse({ salt: Date.now(), schema: 'network.xyo.test' })?.jsonPayload() as Payload
+  const payload = { salt: Date.now(), schema: 'network.xyo.test' } as Payload
   let sourceQueryHash: string
   let response: ModuleQueryResult
   beforeAll(async () => {
@@ -133,7 +133,7 @@ describe.skip('HttpBridge.caching', () => {
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)
     for (const command of commands.filter(isQueryBoundWitness)) {
-      const commandPayloads = await PayloadHasher.toMap(await commandArchivist.get(command.payload_hashes))
+      const commandPayloads = await PayloadBuilder.toMap(await commandArchivist.get(command.payload_hashes))
       const query = commandPayloads?.[command.query] as Payload<QueryFields>
       if (query && query?.address === destination.address && destination.queries.includes(query.schema)) {
         // Issue query against module

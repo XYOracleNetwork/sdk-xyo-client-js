@@ -54,12 +54,12 @@ describe('BoundWitnessBuilder', () => {
         expect(actual).toBeDefined()
         // Note: with loading of previousHash, this test no longer valid
         /*expect(await PayloadHasher.hashAsync(actual)).toEqual('7f3203f2d191f12c26cd1aec62b718be8848471f82831a8870f82fc669a5f35b')*/
-        if (actual._signatures) {
+        if (actual.$meta?.signatures) {
           const addr = new AddressValue(toUint8Array(actual.addresses[0]))
           expect(addr.hex).toBe(actual.addresses[0])
           const verify = new AddressValue(toUint8Array(actual.addresses[0])).verify(
-            toUint8Array(await PayloadHasher.hashAsync(actual)),
-            toUint8Array(actual._signatures[0]),
+            toUint8Array(actual.$hash),
+            toUint8Array(actual.$meta.signatures[0]),
           )
           expect(verify).toBe(true)
         }

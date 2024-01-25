@@ -26,7 +26,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
     return transformers ? transformers.map((transform) => transform(payload)) : []
   })
   // Include all the sources for reference
-  const baseObject = excludeSources ? {} : { sources: (await PayloadHasher.hashPairs([...payloads])).map(([, hash]) => hash) }
+  const baseObject = excludeSources ? {} : { sources: (await PayloadBuilder.hashPairs([...payloads])).map(([, hash]) => hash) }
   // Build and return the payload
   return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign(baseObject, ...payloadFields)).build()
 }

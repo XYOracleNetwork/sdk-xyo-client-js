@@ -3,6 +3,7 @@ import { compact } from '@xylabs/lodash'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload, PayloadSetPayload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -13,12 +14,15 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
 
   private isQueryBoundWitnessWrapper = true
 
-  static parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): QueryBoundWitnessWrapper<T> {
+  static async parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): Promise<QueryBoundWitnessWrapper<T>> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to QueryBoundWitnessWrapper')
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as QueryBoundWitnessWrapper<T>
-        const wrapper = castWrapper?.isQueryBoundWitnessWrapper ? castWrapper : new QueryBoundWitnessWrapper<T>(obj as QueryBoundWitness, payloads)
+        const wrapper =
+          castWrapper instanceof QueryBoundWitnessWrapper
+            ? castWrapper
+            : new QueryBoundWitnessWrapper<T>(await PayloadBuilder.build(obj as QueryBoundWitness), payloads)
         /*if (!wrapper.valid) {
           console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
         }*/
@@ -37,14 +41,16 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   override async getWrappedPayloads(): Promise<PayloadWrapper<Payload>[]> {
     this._payloadsWithoutQuery =
       this._payloadsWithoutQuery ??
-      compact(
-        (
-          await PayloadHasher.filterExclude(
-            (await super.getWrappedPayloads()).map((wrapper) => wrapper.payload()),
-            this.payload().query,
-          )
-        ).map((payload) => PayloadWrapper.wrap(payload)),
-      )
+      (await Promise.all(
+        compact(
+          (
+            await PayloadHasher.filterExclude(
+              (await super.getWrappedPayloads()).map((wrapper) => wrapper.jsonPayload()),
+              this.jsonPayload().query,
+            )
+          ).map((payload) => PayloadWrapper.wrap(payload)),
+        ),
+      ))
     return this._payloadsWithoutQuery
   }
 }

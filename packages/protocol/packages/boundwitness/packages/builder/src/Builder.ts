@@ -6,8 +6,8 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher, sortFields } from '@xyo-network/hash'
-import { PayloadWrapper } from '@xyo-network/payload'
-import { ModuleError, Payload } from '@xyo-network/payload-model'
+import { PayloadBuilder, PayloadWrapper } from '@xyo-network/payload'
+import { ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export interface BoundWitnessBuilderConfig {
@@ -45,33 +45,30 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     )
   }
 
-  async build(meta = false): Promise<[TBoundWitness, TPayload[], ModuleError[]]> {
+  async build(meta = false): Promise<[WithMeta<TBoundWitness>, TPayload[], ModuleError[]]> {
     if (meta) {
       console.log('BoundWitnessBuilder: Calling build with meta=true will be disallowed soon')
     }
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const hashableFields = await this.hashableFields()
-      const _hash = await BoundWitnessWrapper.hashAsync(hashableFields)
+      const hash = (await PayloadBuilder.build(hashableFields)).$hash
 
       /* get all the previousHashes to verify atomic signing */
       const previousHashes = this._accounts.map((account) => account.previousHash)
 
-      const ret: TBoundWitness = {
+      const meta =
+        hashableFields.addresses.length > 0
+          ? {
+              $meta: {
+                signatures: await this.signatures(hash, previousHashes),
+              },
+            }
+          : {}
+
+      const ret: WithMeta<TBoundWitness> = {
         ...hashableFields,
-        _signatures: await this.signatures(_hash, previousHashes),
-      }
-      if (meta ?? this.config?.meta) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bwWithMeta = ret as any
-        bwWithMeta._client = 'js'
-        bwWithMeta._hash = _hash
-        bwWithMeta._timestamp = this._timestamp
-      }
-      if (this.config.inlinePayloads) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const anyRet = ret as any
-        //leaving this in here to prevent breaking code (for now)
-        anyRet._payloads = this.inlinePayloads()
+        $hash: hash,
+        ...meta,
       }
       return [ret, this._payloads, this._errors]
     })
@@ -175,7 +172,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
   }
 
   private async getPayloadHashes(): Promise<string[]> {
-    return this._payloadHashes ?? (await Promise.all(this._payloads.map((payload) => PayloadHasher.hashAsync(payload))))
+    return this._payloadHashes ?? (await Promise.all(this._payloads.map(async (payload) => (await PayloadBuilder.build(payload)).$hash)))
   }
 
   private inlinePayloads() {

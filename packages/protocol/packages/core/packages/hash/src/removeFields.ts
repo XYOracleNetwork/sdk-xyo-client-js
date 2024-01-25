@@ -22,8 +22,8 @@ export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIterate
   return merge({}, pickedNonObjects, processedObjects) as T
 }
 
-export const deepOmitUnderscoreFields = <T extends EmptyObject>(obj: T): T => {
-  return deepBy(obj, (_, key) => key.startsWith('_'), omitBy)
+export const deepOmitPrefixedFields = <T extends EmptyObject>(obj: T, prefix: string): T => {
+  return deepBy(obj, (_, key) => key.startsWith(prefix), omitBy)
 }
 
 export const deepPickUnderscoreFields = <T extends EmptyObject>(obj: T): T => {

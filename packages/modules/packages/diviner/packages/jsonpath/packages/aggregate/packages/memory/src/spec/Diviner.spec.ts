@@ -4,6 +4,7 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { JsonPathAggregateDiviner } from '../Diviner'
@@ -62,7 +63,7 @@ describe('JsonPathAggregateDiviner', () => {
     describe('with only payload schema transforms', () => {
       const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {
         const [timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadHasher.toMap([timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toMap([timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
@@ -140,7 +141,7 @@ describe('JsonPathAggregateDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))

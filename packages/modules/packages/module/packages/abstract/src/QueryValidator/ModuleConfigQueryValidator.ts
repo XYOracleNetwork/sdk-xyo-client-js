@@ -35,7 +35,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     if (!this.hasRules) return true
     const addresses = query.addresses
     if (addresses.length === 0) return false
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     const schema = (await wrapper.getQuery()).schema
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }

@@ -1,9 +1,12 @@
 import { AnyObject } from '@xylabs/object'
+import { PayloadHasher } from '@xyo-network/hash'
+import { Payload } from '@xyo-network/payload-model'
 
-import { PayloadHasher } from '../PayloadHasher'
+import { PayloadBuilder } from '../src'
 
-describe('PayloadHasher', () => {
+describe('PayloadBuilder', () => {
   const testObject = {
+    schema: 'network.xyo.test',
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
@@ -15,6 +18,7 @@ describe('PayloadHasher', () => {
     testUndefined: undefined,
   }
   const bigObject = {
+    schema: 'network.xyo.test',
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
@@ -29,13 +33,13 @@ describe('PayloadHasher', () => {
   for (let i = 0; i < 1000; i++) {
     bigObject.testObjArray.push(testObject)
   }
-  const cases: [string, AnyObject[]][] = [
+  const cases: [string, Payload<AnyObject>[]][] = [
     [
       'Hashes input payloads to a map',
       [
         { a: 0, schema: 'network.xyo.test.a' },
         { b: 1, schema: 'network.xyo.test.b' },
-      ],
+      ] satisfies Payload<AnyObject>[],
     ],
     [
       'Preserves ordering of input payloads when creating object keys',
@@ -67,22 +71,21 @@ describe('PayloadHasher', () => {
         { schema: 'network.xyo.test.x', x: 23 },
         { schema: 'network.xyo.test.y', y: 24 },
         { schema: 'network.xyo.test.z', z: 25 },
-      ],
+      ] satisfies Payload<AnyObject>[],
     ],
   ]
   beforeAll(async () => {
     PayloadHasher.wasmSupport.allowWasm = true
     await PayloadHasher.wasmInitialized
   })
-  it.each(cases)('%s', async (_title, ...sources) => {
-    const map = await PayloadHasher.toMap(sources)
+  it.each(cases)('%s', async (_title, sources) => {
+    const map = await PayloadBuilder.toMap(sources)
     expect(Object.keys(map).length).toBe(sources.length)
     await Promise.all(
       Object.entries(map).map(async ([hash, payload], index) => {
-        const source = sources[index]
-        const sourceHash = await PayloadHasher.hashAsync(source)
+        const source = await PayloadBuilder.build(sources[index])
         expect(source).toEqual(payload)
-        expect(sourceHash).toEqual(hash)
+        expect(source.$hash).toEqual(hash)
       }),
     )
   })

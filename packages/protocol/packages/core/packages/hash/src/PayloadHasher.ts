@@ -6,7 +6,7 @@ import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields'
-import { deepOmitUnderscoreFields } from './removeFields'
+import { deepOmitPrefixedFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
@@ -64,7 +64,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static hashFields<T extends EmptyObject>(obj: T): T {
-    return sortFields(removeEmptyFields(deepOmitUnderscoreFields(obj)))
+    return sortFields(removeEmptyFields(deepOmitPrefixedFields(obj, '_')))
   }
 
   /**
@@ -101,26 +101,11 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns Returns a clone of the payload that is JSON safe
    */
   static jsonPayload<T extends EmptyObject>(payload: T, meta = false): T {
-    return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
+    return sortFields(removeEmptyFields(meta ? payload : deepOmitPrefixedFields(payload, '_')))
   }
 
   static stringifyHashFields<T extends EmptyObject>(obj: T) {
     return JSON.stringify(this.hashFields(obj))
-  }
-
-  /**
-   * Creates an object map of payload hashes to payloads based on the payloads passed in
-   * @param objs Any array of payloads
-   * @returns A map of hashes to payloads
-   */
-  static async toMap<T extends EmptyObject>(objs: T[]): Promise<Record<Hash, T>> {
-    return Object.fromEntries(
-      await Promise.all(
-        objs.map(async (obj) => {
-          return [await PayloadHasher.hashAsync(obj), obj]
-        }),
-      ),
-    )
   }
 
   async hashAsync(): Promise<Hash> {

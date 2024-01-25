@@ -16,8 +16,8 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import Cookies from 'js-cookie'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
@@ -141,14 +141,16 @@ export class CookieArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     try {
+      const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
+      const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
       const resultPayloads: Payload[] = await Promise.all(
-        payloads.map(async (payload) => {
-          const wrapper = PayloadWrapper.wrap(payload)
-          const key = this.keyFromHash(await wrapper.hashAsync())
-          const value = JSON.stringify(wrapper.payload())
-          assertEx(value.length < this.maxEntrySize, `Payload too large [${wrapper.hashAsync()}, ${value.length}]`)
-          Cookies.set(key, JSON.stringify(wrapper.payload()))
-          return wrapper.payload()
+        pairs.map(async ([payload, hash]) => {
+          const payloadWithMeta = await PayloadBuilder.build(payload)
+          const key = this.keyFromHash(hash)
+          const value = JSON.stringify(payloadWithMeta)
+          assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
+          Cookies.set(key, value)
+          return payloadWithMeta
         }),
       )
       return resultPayloads

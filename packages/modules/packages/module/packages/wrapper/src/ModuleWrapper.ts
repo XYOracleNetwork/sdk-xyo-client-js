@@ -337,7 +337,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
-    const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
+    const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
     return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 

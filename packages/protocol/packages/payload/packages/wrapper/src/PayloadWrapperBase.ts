@@ -34,7 +34,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
       return
     }
     if (payload instanceof PayloadWrapperBase) {
-      return payload.payload() as TPayload
+      return payload.jsonPayload() as TPayload
     }
     if (!(typeof payload === 'object')) {
       throw 'Can not unwrap class that is not extended from object'

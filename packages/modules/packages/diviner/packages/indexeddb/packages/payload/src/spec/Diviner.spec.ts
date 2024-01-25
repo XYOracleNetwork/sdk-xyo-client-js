@@ -2,12 +2,14 @@
  * @jest-environment jsdom
  */
 /* eslint-disable max-nested-callbacks */
+import { AnyObject } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexDescription } from '@xyo-network/archivist-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -49,18 +51,22 @@ describe('IndexedDbPayloadDiviner', () => {
   let archivist: IndexedDbArchivist
   let sut: IndexedDbPayloadDiviner
   let node: MemoryNode
-  const payloadA = {
-    schema: 'network.xyo.test',
-    url: 'https://xyo.network',
-  }
-  const payloadB = {
-    foo: ['bar', 'baz'],
-    other: 'value',
-    schema: 'network.xyo.debug',
-  }
-  const payloads = [payloadA, payloadB]
   const urlIndex: IndexDescription = { key: { url: 1 }, name: 'IX_url' }
+  let payloadA: Payload<{ url: string }>
+  let payloadB: Payload<{ foo: string[]; other: string }>
+  let payloads: Payload[]
   beforeAll(async () => {
+    payloadA = await PayloadBuilder.build({
+      schema: 'network.xyo.test',
+      url: 'https://xyo.network',
+    })
+    payloadB = await PayloadBuilder.build({
+      foo: ['bar', 'baz'],
+      other: 'value',
+      schema: 'network.xyo.debug',
+    })
+    payloads = [payloadA, payloadB]
+
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
       config: { dbName, schema: IndexedDbArchivist.configSchema, storage: { indexes: [urlIndex] }, storeName },

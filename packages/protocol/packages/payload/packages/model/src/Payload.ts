@@ -1,5 +1,5 @@
 import { Hash } from '@xylabs/hex'
-import { EmptyObject, JsonObject, WithAdditional } from '@xylabs/object'
+import { AnyObject, EmptyObject, JsonObject, WithAdditional } from '@xylabs/object'
 
 import { Schema, WithSchema } from './Schema'
 
@@ -8,11 +8,11 @@ export interface PayloadMetaFields extends EmptyObject {
   /** Hash of the body of the payload excluding the items in the $meta object */
   $hash: Hash
   /** Meta data that should be included in the main hash of the payload */
-  $meta: JsonObject
+  $meta?: JsonObject
 }
 
 /** Additional fields for a payload */
-export type PayloadFields = EmptyObject //| PayloadMetaFields
+export type PayloadFields = EmptyObject
 
 export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 
@@ -40,3 +40,7 @@ export type DivinedPayload<T extends void | EmptyObject | WithSchema = void, S e
   WithAdditional<{ sources: Hash[] }, T>,
   S
 >
+
+export type WithMeta<T extends Payload = Payload> = T & PayloadMetaFields
+
+export type PayloadWithMeta<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithMeta<Payload<T, S>>

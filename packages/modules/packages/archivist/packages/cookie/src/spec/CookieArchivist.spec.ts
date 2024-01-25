@@ -17,7 +17,7 @@ const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>,
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const payloadWrapper = PayloadWrapper.wrap(idPayload)
+    const payloadWrapper = await PayloadWrapper.wrap(idPayload)
 
     const archivist = await archivistPromise
     const insertResult = await archivist.insert([idPayload])
@@ -28,7 +28,7 @@ const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>,
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
+      const gottenPayloadWrapper = await PayloadWrapper.wrap(gottenPayload)
       expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
     }
   })

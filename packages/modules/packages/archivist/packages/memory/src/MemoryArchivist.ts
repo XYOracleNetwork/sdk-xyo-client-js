@@ -17,8 +17,8 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
@@ -41,10 +41,10 @@ export class MemoryArchivist<
 {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
-  private _cache?: LRUCache<string, Payload>
+  private _cache?: LRUCache<string, PayloadWithMeta>
 
   get cache() {
-    this._cache = this._cache ?? new LRUCache<string, Payload>({ max: this.max })
+    this._cache = this._cache ?? new LRUCache<string, PayloadWithMeta>({ max: this.max })
     return this._cache
   }
 
@@ -108,19 +108,19 @@ export class MemoryArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
+    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
     const insertedPayloads = await Promise.all(
-      payloads.map((payload) => {
-        return this.insertPayloadIntoCache(payload)
+      pairs.map(([payload, hash]) => {
+        return this.insertPayloadIntoCache(payload, hash)
       }),
     )
 
     return insertedPayloads
   }
 
-  private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
-    const wrapper = PayloadWrapper.wrap(payload)
-    const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
-    this.cache.set(payloadWithMeta._hash, payloadWithMeta)
+  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string): PayloadWithMeta {
+    this.cache.set(hash, payload)
     return payload
   }
 }

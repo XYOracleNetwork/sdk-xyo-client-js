@@ -11,6 +11,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
@@ -115,7 +116,9 @@ export class IndexedDbArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const pairs = await PayloadHasher.hashPairs(payloads)
+    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
+    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+
     const db = await this.getInitializedDb()
     try {
       // Only return the payloads that were successfully inserted

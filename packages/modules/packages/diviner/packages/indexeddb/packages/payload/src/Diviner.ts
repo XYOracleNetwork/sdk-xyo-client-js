@@ -8,7 +8,7 @@ import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-mode
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadHasher } from '@xyo-network/hash'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config'
@@ -73,7 +73,18 @@ export class IndexedDbPayloadDiviner<
     if (!query) return []
     const result = await this.tryUseDb(async (db) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { schemas, limit, offset, hash, order, schema: _schema, sources, ...props } = query as unknown as TIn & { sources?: string[] }
+      const {
+        schemas,
+        limit,
+        offset,
+        hash,
+        order,
+        schema: _schema,
+        sources,
+        $meta,
+        $hash,
+        ...props
+      } = query as unknown as WithMeta<TIn> & { sources?: string[] }
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []

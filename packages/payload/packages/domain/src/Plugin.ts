@@ -10,5 +10,5 @@ export const DomainPayloadPlugin = () =>
   createPayloadPlugin<DomainPayload>({
     schema: DomainSchema,
     template: domainConfigTemplate,
-    wrap: (payload: Payload) => DomainPayloadWrapper.wrap(payload as DomainPayload),
+    wrap: async (payload: Payload) => await DomainPayloadWrapper.wrap(payload as DomainPayload),
   })

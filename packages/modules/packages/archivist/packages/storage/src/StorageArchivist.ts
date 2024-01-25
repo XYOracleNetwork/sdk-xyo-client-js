@@ -17,6 +17,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import store, { StoreBase } from 'store2'
@@ -162,16 +163,14 @@ export class StorageArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const resultPayloads = await Promise.all(
-      payloads.map(async (payload) => {
-        const wrapper = PayloadWrapper.wrap(payload)
-        const hash = await wrapper.hashAsync()
-        const value = JSON.stringify(wrapper.payload())
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
-        this.storage.set(hash, wrapper.payload())
-        return wrapper.payload()
-      }),
-    )
+    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
+    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+    const resultPayloads = pairs.map(([payload, hash]) => {
+      const value = JSON.stringify(payload)
+      assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
+      this.storage.set(hash, payload)
+      return payload
+    })
     return resultPayloads
   }
 

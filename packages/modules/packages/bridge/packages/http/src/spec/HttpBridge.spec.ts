@@ -51,7 +51,7 @@ describe('HttpBridge', () => {
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
-    const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload() as Payload
+    const knownPayload = (await PayloadWrapper.parse({ schema: 'network.xyo.test' }))?.jsonPayload() as Payload
     expect(knownPayload).toBeDefined()
     const knownHash = await PayloadWrapper.hashAsync(knownPayload as Payload)
     const insertResult = await archivistInstance.insert([knownPayload])

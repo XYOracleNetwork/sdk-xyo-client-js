@@ -3,6 +3,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
 import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
 import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -54,7 +55,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail])
+        const payloadDictionary = await PayloadBuilder.toMap([boundWitness, timestamp, thumbnail])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
         const index = result.find(isTemporalIndexingDivinerResultIndex)
@@ -151,7 +152,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isTemporalIndexingDivinerResultIndex)).toBeArrayOfSize(1)
         const index = result.find(isTemporalIndexingDivinerResultIndex)

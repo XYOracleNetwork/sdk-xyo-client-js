@@ -32,7 +32,7 @@ test('Archivist Parent Write Through', async () => {
   await node.register(storage)
   await node.attach(storage.address)
 
-  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = await PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 
@@ -41,7 +41,7 @@ test('Archivist Parent Write Through', async () => {
   })
 
   storage.on('moduleQueried', async ({ query, payloads }) => {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     expect(await wrapper.getQuery()).toBeDefined()
     console.log(`Queried: ${(await wrapper.getQuery()).schema}`)
   })

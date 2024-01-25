@@ -47,8 +47,13 @@ export class PayloadBuilder<T extends Payload = Payload> {
    * @param objs Any array of payloads
    * @returns An array of payload/hash tuples
    */
-  static async hashPairs<T extends Payload>(payloads: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(payloads.map<Promise<[T, string]>>(async (payload) => [payload, (await PayloadBuilder.build(payload)).$hash]))
+  static async hashPairs<T extends Payload>(payloads: T[]): Promise<[WithMeta<T>, Hash][]> {
+    return await Promise.all(
+      payloads.map<Promise<[WithMeta<T>, Hash]>>(async (payload) => {
+        const built = await PayloadBuilder.build(payload)
+        return [built, await PayloadHasher.hashAsync(built)]
+      }),
+    )
   }
 
   /**
@@ -57,14 +62,11 @@ export class PayloadBuilder<T extends Payload = Payload> {
    * @returns A map of hashes to payloads
    */
   static async toMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
-    return Object.fromEntries(
-      await Promise.all(
-        objs.map(async (obj) => {
-          const built = await PayloadBuilder.build(obj)
-          return [built.$hash, built]
-        }),
-      ),
-    )
+    const result: Record<Hash, T> = {}
+    for (const pair of await this.hashPairs(objs)) {
+      result[pair[1]] = pair[0]
+    }
+    return result
   }
 
   $meta(fields?: JsonObject) {

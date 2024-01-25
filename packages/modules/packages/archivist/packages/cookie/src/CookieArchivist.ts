@@ -141,8 +141,7 @@ export class CookieArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
     try {
-      const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
-      const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+      const pairs = await PayloadBuilder.hashPairs(payloads)
       const resultPayloads: Payload[] = await Promise.all(
         pairs.map(async ([payload, hash]) => {
           const payloadWithMeta = await PayloadBuilder.build(payload)
@@ -150,6 +149,7 @@ export class CookieArchivist<
           const value = JSON.stringify(payloadWithMeta)
           assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
           Cookies.set(key, value)
+          Cookies.set(payload.$hash, value)
           return payloadWithMeta
         }),
       )

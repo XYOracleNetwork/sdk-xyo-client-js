@@ -78,8 +78,18 @@ export class IndexedDbArchivist<
   protected override async allHandler(): Promise<Payload[]> {
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
+    const found = new Set<string>()
     // Remove any metadata before returning to the client
-    return payloads.map((payload) => PayloadHasher.jsonPayload(payload))
+    return payloads
+      .map((payload) => PayloadHasher.jsonPayload(payload))
+      .filter((payload) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
   }
 
   protected override async clearHandler(): Promise<void> {
@@ -87,8 +97,10 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
+    const pairs = await PayloadBuilder.hashPairs(await this.getHandler(hashes))
+    const hashesToDelete = pairs.flatMap((pair) => [pair[0].$hash, pair[1]])
     // Remove any duplicates
-    const distinctHashes = [...new Set(hashes)]
+    const distinctHashes = [...new Set(hashesToDelete)]
     return await this.useDb(async (db) => {
       // Only return hashes that were successfully deleted
       const found = await Promise.all(
@@ -104,7 +116,7 @@ export class IndexedDbArchivist<
           }
         }),
       )
-      return found.filter(exists)
+      return found.filter(exists).filter((hash) => hashes.includes(hash))
     })
   }
 
@@ -112,12 +124,20 @@ export class IndexedDbArchivist<
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
-    return payloads.filter(exists)
+    //filter out duplicates
+    const found = new Set<string>()
+    return payloads.filter(exists).filter((payload) => {
+      if (found.has(payload.$hash)) {
+        return false
+      } else {
+        found.add(payload.$hash)
+        return true
+      }
+    })
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
-    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+    const pairs = await PayloadBuilder.hashPairs(payloads)
 
     const db = await this.getInitializedDb()
     try {
@@ -131,15 +151,28 @@ export class IndexedDbArchivist<
           try {
             // Get the object store
             const store = tx.objectStore(this.storeName)
+
+            let inserted = false
+
             // Check if the hash already exists
-            const existing = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+            const existingTopHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist
-            if (!existing) {
+            if (!existingTopHash) {
               // Insert the payload
               await store.put({ ...payload, _hash })
-              // Return it so it gets added to the list of inserted payloads
-              return payload
+              inserted = true
             }
+
+            // Check if the hash already exists
+            const existingBodyHash = await store.index(IndexedDbArchivist.hashIndexName).get(payload.$hash)
+            // If it does not already exist
+            if (!existingBodyHash) {
+              // Insert the payload
+              await store.put({ ...payload, _hash: payload.$hash })
+              inserted = true
+            }
+            // Return it so it gets added to the list of inserted payloads
+            return inserted ? payload : undefined
           } finally {
             // Close the transaction
             await tx.done

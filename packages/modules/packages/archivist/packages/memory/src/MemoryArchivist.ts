@@ -41,7 +41,13 @@ export class MemoryArchivist<
 {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
+  private _bodyHashIndex?: LRUCache<string, string>
   private _cache?: LRUCache<string, PayloadWithMeta>
+
+  get bodyHashIndex() {
+    this._bodyHashIndex = this._bodyHashIndex ?? new LRUCache<string, string>({ max: this.max })
+    return this._bodyHashIndex
+  }
 
   get cache() {
     this._cache = this._cache ?? new LRUCache<string, PayloadWithMeta>({ max: this.max })
@@ -69,6 +75,7 @@ export class MemoryArchivist<
 
   protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
+    this.bodyHashIndex.clear()
     return this.emit('cleared', { module: this })
   }
 
@@ -104,12 +111,16 @@ export class MemoryArchivist<
   }
 
   protected override getHandler(hashes: string[]): Promisable<Payload[]> {
-    return compact(hashes.map((hash) => this.cache.get(hash)))
+    return compact(
+      hashes.map((hash) => {
+        const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
+        return this.cache.get(resolvedHash)
+      }),
+    )
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
-    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+    const pairs = await PayloadBuilder.hashPairs(payloads)
     const insertedPayloads = await Promise.all(
       pairs.map(([payload, hash]) => {
         return this.insertPayloadIntoCache(payload, hash)
@@ -121,6 +132,7 @@ export class MemoryArchivist<
 
   private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string): PayloadWithMeta {
     this.cache.set(hash, payload)
+    this.bodyHashIndex.set(payload.$hash, hash)
     return payload
   }
 }

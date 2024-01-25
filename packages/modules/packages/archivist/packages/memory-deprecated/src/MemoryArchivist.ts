@@ -126,6 +126,7 @@ export class MemoryArchivist<
     const payloadWithMeta = await PayloadBuilder.build(payload)
     const hash = await PayloadHasher.hashAsync(payloadWithMeta)
     this.cache.set(hash, payloadWithMeta)
+    this.cache.set(payloadWithMeta.$hash, payloadWithMeta)
     return payload
   }
 }

@@ -109,8 +109,18 @@ export class StorageArchivist<
   }*/
 
   protected override allHandler(): PromisableArray<Payload> {
+    const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    return Object.entries(this.storage.getAll()).map(([, value]) => value)
+    return Object.entries(this.storage.getAll())
+      .map(([, value]) => value)
+      .filter((payload) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -155,20 +165,28 @@ export class StorageArchivist<
   }
 
   protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    const found = new Set<string>()
     return compact(
       hashes.map((hash) => {
         return this.storage.get(hash)
       }),
-    )
+    ).filter((payload) => {
+      if (found.has(payload.$hash)) {
+        return false
+      } else {
+        found.add(payload.$hash)
+        return true
+      }
+    })
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const payloadsWithMeta = await Promise.all(payloads.map(async (payload) => await PayloadBuilder.build(payload)))
-    const pairs = await PayloadHasher.hashPairs(payloadsWithMeta)
+    const pairs = await PayloadBuilder.hashPairs(payloads)
     const resultPayloads = pairs.map(([payload, hash]) => {
       const value = JSON.stringify(payload)
       assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
       this.storage.set(hash, payload)
+      this.storage.set(payload.$hash, payload)
       return payload
     })
     return resultPayloads

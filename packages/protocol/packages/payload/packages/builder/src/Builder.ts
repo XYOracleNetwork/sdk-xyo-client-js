@@ -27,8 +27,9 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
   }
 
   static async build<T extends Payload>(payload: T) {
-    const builder = new PayloadBuilder<T>({ schema: payload.schema })
-    builder.fields(payload)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { schema, $hash, $meta, ...fields } = payload as WithMeta<T>
+    const builder = new PayloadBuilder<T>({ fields: fields as T, meta: $meta, schema: payload.schema })
     return await builder.build()
   }
 
@@ -117,8 +118,8 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
     return result
   }
 
-  $meta(fields?: JsonObject) {
-    this._$meta = fields
+  $meta(meta?: JsonObject) {
+    this._$meta = meta
     return this
   }
 

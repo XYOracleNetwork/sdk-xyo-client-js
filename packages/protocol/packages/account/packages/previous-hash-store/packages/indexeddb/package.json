@@ -15,7 +15,7 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "9.0.7",
+    "@types/uuid": "9.0.8",
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
     "@xylabs/tsconfig": "^3.2.42",
     "fake-indexeddb": "^5.0.2",

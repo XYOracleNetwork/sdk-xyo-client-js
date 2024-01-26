@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/object": "^2.88.5",
+    "@xylabs/object": "^2.88.6",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~"
   },

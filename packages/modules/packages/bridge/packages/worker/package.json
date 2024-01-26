@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.2.2",
-    "@xylabs/assert": "^2.13.29",
-    "@xylabs/delay": "^2.13.29",
-    "@xylabs/forget": "^2.13.29",
-    "@xylabs/lodash": "^2.13.29",
-    "@xylabs/logger": "^2.13.29",
-    "@xylabs/object": "^2.88.5",
-    "@xylabs/promise": "^2.13.29",
+    "@xylabs/assert": "^2.13.30",
+    "@xylabs/delay": "^2.13.30",
+    "@xylabs/forget": "^2.13.30",
+    "@xylabs/lodash": "^2.13.30",
+    "@xylabs/logger": "^2.13.30",
+    "@xylabs/object": "^2.88.6",
+    "@xylabs/promise": "^2.13.30",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -32,7 +32,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
-    "lru-cache": "^10.1.0"
+    "lru-cache": "^10.2.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.42",

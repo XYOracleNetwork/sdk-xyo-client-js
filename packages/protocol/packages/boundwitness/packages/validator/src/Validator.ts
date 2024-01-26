@@ -72,16 +72,16 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
 
   async signatures(): Promise<Error[]> {
     return [
-      ...validateArraysSameLength(this.obj.$meta.signatures ?? [], this.obj.addresses, 'Length mismatch: address/_signature'),
+      ...validateArraysSameLength(this.obj.$meta?.signatures ?? [], this.obj.addresses ?? [], 'Length mismatch: address/_signature'),
       ...(
         await Promise.all(
-          this.obj.addresses.map<Promise<Error[]>>(async (address, index) =>
+          this.obj.addresses?.map<Promise<Error[]>>(async (address, index) =>
             BoundWitnessValidator.validateSignature(
               toUint8Array(await PayloadBuilder.dataHash(this.payload)),
               toUint8Array(address),
-              toUint8Array(this.obj.$meta.signatures?.[index]),
+              toUint8Array(this.obj.$meta?.signatures?.[index]),
             ),
-          ),
+          ) ?? [],
         )
       ).flat(),
     ]

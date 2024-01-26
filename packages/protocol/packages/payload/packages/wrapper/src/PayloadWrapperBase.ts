@@ -2,10 +2,17 @@ import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { isAnyPayload, isPayload, Payload, WithMeta } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: string) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
+
+export const isPayloadWrapperBase = (value?: unknown): value is PayloadWrapperBase => {
+  if (typeof value === 'object' && !Array.isArray(value)) {
+    return typeof (value as PayloadWrapperBase).jsonPayload === 'function'
+  }
+  return false
+}
 
 export class PayloadWrapperBase<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> {
   private _errors?: Error[]
@@ -41,10 +48,22 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     }
 
     if (!(typeof payload === 'object')) {
-      throw 'Can not unwrap class that is not extended from object'
+      throw new TypeError('Can not unwrap value that is not extended from object')
     }
 
-    return await PayloadBuilder.build(payload instanceof PayloadWrapperBase ? payload.jsonPayload() : payload)
+    if (Array.isArray(payload)) {
+      throw new TypeError('Can not unwrap value that is an array')
+    }
+
+    if (isPayloadWrapperBase(payload)) {
+      return await PayloadBuilder.build(payload.jsonPayload())
+    }
+
+    if (isAnyPayload(payload)) {
+      return await PayloadBuilder.build(payload)
+    }
+
+    throw new TypeError('Can not unwrap an object that is not a PayloadWrapper or Payload')
   }
 
   /** @deprecated use jsonPayload instead */

@@ -3,7 +3,11 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
-import { PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
+import { isPayloadWrapperBase, PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
+
+export const isPayloadWrapper = (value?: unknown): value is PayloadWrapper => {
+  return isPayloadWrapperBase(value)
+}
 
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
   private static loaderFactory: PayloadLoaderFactory | null = null

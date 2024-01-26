@@ -5,7 +5,14 @@ import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
-import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+import { isPayloadWrapperBase, PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
+
+export const isBoundWitnessWrapper = (value?: unknown): value is PayloadWrapper => {
+  if (isPayloadWrapperBase(value)) {
+    return typeof (value as BoundWitnessWrapper).payloadsDataHashMap === 'function'
+  }
+  return false
+}
 
 export class BoundWitnessWrapper<
   TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,

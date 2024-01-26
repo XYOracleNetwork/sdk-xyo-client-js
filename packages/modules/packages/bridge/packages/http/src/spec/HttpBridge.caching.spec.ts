@@ -115,7 +115,9 @@ describe.skip('HttpBridge.caching', () => {
     const source = clients[0]
     const destination = clients[1]
     const query: ArchivistInsertQuery = { address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query).payloads([payload])).build()
+    const [command, payloads] = await (
+      await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query)).payloads([payload])
+    ).build()
     sourceQueryHash = await PayloadBuilder.dataHash(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()

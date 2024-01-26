@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/packages/indexeddb/src/spec/Archivist.spec.ts"
+        "packages/modules/packages/archivist/packages/memory/src/spec/MemoryArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -3,9 +3,9 @@ import { reverse } from '@xylabs/lodash'
 import { isBrowser } from '@xylabs/platform'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { DnsRecordType, domainResolve } from '@xyo-network/dns'
-import { PayloadHasher } from '@xyo-network/hash'
 import { FetchedPayload, Huri, HuriOptions } from '@xyo-network/huri'
 import { NetworkPayload } from '@xyo-network/network'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { Alias, DomainPayload } from './Payload'
@@ -96,6 +96,6 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
 
   private async getNetwork(hash?: string): Promise<NetworkPayload | undefined> {
     // eslint-disable-next-line unicorn/no-array-method-this-argument
-    return hash ? await PayloadHasher.find(this.jsonPayload().networks, hash) : this.jsonPayload().networks?.[0]
+    return hash ? await PayloadBuilder.findByDataHash(this.jsonPayload().networks, hash) : this.jsonPayload().networks?.[0]
   }
 }

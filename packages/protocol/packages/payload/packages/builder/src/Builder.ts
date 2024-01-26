@@ -60,17 +60,21 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
   }
 
   static async filterExclude<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
-    const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.hashPairs(payloads)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
+    return await PayloadHasher.filterExcludeByHash(await this.filterExcludeByDataHash(payloads, hash), hash)
   }
 
-  static async filterInclude<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterExcludeByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
-    return (await this.hashPairs(payloads)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
+    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async find<T extends Payload>(payloads: T[] = [], hash: Hash): Promise<T | undefined> {
-    return (await this.hashPairs(payloads)).find(([_, objHash]) => objHash === hash)?.[0]
+  static async filterIncludeByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+    const hashes = Array.isArray(hash) ? hash : [hash]
+    return (await this.dataHashPairs(payloads)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
+  }
+
+  static async findByDataHash<T extends Payload>(payloads: T[] = [], hash: Hash): Promise<T | undefined> {
+    return (await this.dataHashPairs(payloads)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
   static async hash<T extends Payload>(payload: T): Promise<Hash> {

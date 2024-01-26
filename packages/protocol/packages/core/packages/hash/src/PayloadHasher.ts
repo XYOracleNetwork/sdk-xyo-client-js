@@ -16,17 +16,17 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
-  static async filterExclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterExcludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async filterInclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterIncludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async find<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
+  static async findByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
     return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 

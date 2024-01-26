@@ -247,7 +247,7 @@ export abstract class AbstractArchivist<
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: Payload[],
+    payloads: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
@@ -289,14 +289,14 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistInsertQuerySchema: {
-        const payloads = wrappedQuery.payloads
-        assertEx(wrappedQuery.payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
-        const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.dataHash())
+        assertEx(payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
+        const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payload_hashes)
         assertEx(
-          resolvedPayloads.length === payloads.length,
-          () => `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`,
+          resolvedPayloads.length === query.payload_hashes.length,
+          () => `Could not find some passed hashes [${resolvedPayloads.length} != ${query.payload_hashes.length}]`,
         )
-        resultPayloads.push(...(await this.insertWithConfig(payloads)))
+        const payloadsWithoutQuery = await PayloadBuilder.filterExclude(resolvedPayloads, await PayloadBuilder.dataHash(queryPayload))
+        resultPayloads.push(...(await this.insertWithConfig(payloadsWithoutQuery)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
         // can grab the actual last one

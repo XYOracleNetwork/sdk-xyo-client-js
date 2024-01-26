@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/object": "^2.88.6",
+    "@xylabs/object": "^2.89.0",
     "@xyo-network/diviner-model": "workspace:~"
   },
   "devDependencies": {

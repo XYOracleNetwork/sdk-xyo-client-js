@@ -3,9 +3,9 @@ import { Promisable } from '@xylabs/promise'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { creatableModule, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import {
   CustomWitnessInstance,
@@ -86,7 +86,7 @@ export abstract class AbstractWitness<
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     // Remove the query payload from the arguments passed to us so we don't observe it
-    const filteredObservation = (await PayloadHasher.filterExclude(payloads, query.query)) as TIn[]
+    const filteredObservation = (await PayloadBuilder.filterExclude(payloads, query.query)) as TIn[]
     switch (queryPayload.schema) {
       case WitnessObserveQuerySchema: {
         const observePayloads = await this.observe(filteredObservation)

@@ -38,7 +38,7 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(8)
+      expect(all).toBeArrayOfSize(7)
 
       await node.register(archivist)
       await node.attach(archivist.address)
@@ -48,7 +48,7 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: (await PayloadBuilder.build(all[7])).$hash,
+          startHash: (await PayloadBuilder.build(all[6])).$hash,
         },
       })
       await node.register(diviner)

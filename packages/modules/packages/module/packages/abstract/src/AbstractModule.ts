@@ -264,7 +264,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this._noOverride('query')
-    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
+    const sourceQuery = await PayloadBuilder.build(assertEx(await QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -298,12 +298,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
-  queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
+  async queryable<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
     payloads?: Payload[],
     queryConfig?: TConfig,
-  ): boolean {
-    if (!this.started('warn')) return false
+  ): Promise<boolean> {
+    if (!(await this.started('warn'))) return false
     const configValidator = queryConfig
       ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
       : this.moduleConfigQueryValidator
@@ -402,6 +402,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
       resolve?.(result)
@@ -422,6 +423,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account?: AccountInstance,
   ): PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance> {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
@@ -435,7 +437,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account?: AccountInstance,
   ): Promise<[QueryBoundWitness, Payload[], Payload[]]> {
-    const builder = new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
+    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).witness(this.account).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
@@ -446,7 +448,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
+    const builder = (await (await new BoundWitnessBuilder().payloads(payloads)).errors(errors)).sourceQuery(query.$hash)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
@@ -559,7 +561,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     await this.started('throw')
     const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case ModuleManifestQuerySchema: {

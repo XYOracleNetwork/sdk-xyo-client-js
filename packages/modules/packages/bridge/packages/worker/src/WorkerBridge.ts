@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
+import { forget } from '@xylabs/forget'
 import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -20,8 +21,8 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -180,7 +181,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    const msgId = await PayloadWrapper.hashAsync(query)
+    const msgId = await PayloadBuilder.hash(query)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
         const message: QueryMessage = {
@@ -244,7 +245,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
     //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    for (const node of parentNodes) for (const child of children) node.emit('moduleAttached', { module: child })
+    for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
     return true
   }
 }

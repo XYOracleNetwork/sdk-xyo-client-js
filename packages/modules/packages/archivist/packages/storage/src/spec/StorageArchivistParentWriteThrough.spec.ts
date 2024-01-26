@@ -50,8 +50,8 @@ test('Archivist Parent Write Through', async () => {
 
   expect(inserted).toBeArrayOfSize(1)
 
-  const fromStorage = await storage.get([await wrapper.hashAsync()])
-  const fromMemory = await memory.get([await wrapper.hashAsync()])
+  const fromStorage = await storage.get([await wrapper.dataHash()])
+  const fromMemory = await memory.get([await wrapper.dataHash()])
 
   expect(fromStorage).toBeArrayOfSize(1)
   expect(fromMemory).toBeArrayOfSize(1)

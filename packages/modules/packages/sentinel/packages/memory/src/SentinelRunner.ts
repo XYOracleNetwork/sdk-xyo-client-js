@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   isSentinelIntervalAutomation,
   SentinelAutomationPayload,
@@ -21,7 +22,7 @@ export class SentinelRunner {
   constructor(sentinel: SentinelInstance, automations?: SentinelAutomationPayload[], onTriggerResult?: OnSentinelRunnerTriggerResult) {
     this.sentinel = sentinel
     this.onTriggerResult = onTriggerResult
-    if (automations) for (const automation of automations) this.add(automation)
+    if (automations) for (const automation of automations) forget(this.add(automation))
   }
 
   get automations() {
@@ -40,7 +41,7 @@ export class SentinelRunner {
   }
 
   async add(automation: SentinelAutomationPayload, restart = true) {
-    const hash = await PayloadWrapper.hashAsync(automation)
+    const hash = await PayloadBuilder.dataHash(automation)
     this._automations[hash] = automation
     if (restart) await this.restart()
     return hash
@@ -75,6 +76,7 @@ export class SentinelRunner {
       const start = Math.max(automation.start ?? now, now)
       const delay = Math.max(start - now, 0)
       if (delay < Number.POSITIVE_INFINITY) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.timeoutId = setTimeout(async () => {
           try {
             // Run the automation
@@ -104,7 +106,7 @@ export class SentinelRunner {
 
   private async trigger(automation: SentinelIntervalAutomationPayload) {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
-    await this.remove(await wrapper.hashAsync(), false)
+    await this.remove(await wrapper.dataHash(), false)
     wrapper.next()
     await this.add(wrapper.jsonPayload(), false)
     const triggerResult = await this.sentinel.report()

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { assertEx } from '@xylabs/assert'
+
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
@@ -145,12 +145,12 @@ describe('IndexedDbArchivist', () => {
       sources = await fillDb(archivistModule)
     })
     it('deletes data', async () => {
-      const getResult = await archivistModule.all?.()
+      const getResult = (await archivistModule.all?.()) ?? []
       expect(getResult).toBeDefined()
       expect(getResult?.length).toBe(sources.length)
-      const hashes = await Promise.all(assertEx(getResult).map((payload) => PayloadWrapper.hashAsync(payload)))
-      const deleteResult = await archivistModule.delete?.(hashes)
-      expect(deleteResult).toBeArrayOfSize(hashes.length)
+      const dataHashes = (await PayloadBuilder.dataHashes(getResult)) ?? []
+      const deleteResult = await archivistModule.delete?.(dataHashes)
+      expect(deleteResult).toBeArrayOfSize(dataHashes.length)
       expect(await archivistModule.all?.()).toBeEmpty()
     })
   })
@@ -168,11 +168,11 @@ describe('IndexedDbArchivist', () => {
     })
     it('gets existing data', async () => {
       for (const source of sources) {
-        const sourceHash = await PayloadWrapper.hashAsync(source)
+        const sourceHash = await PayloadBuilder.dataHash(source)
         const getResult = await archivistModule.get([sourceHash])
         expect(getResult).toBeDefined()
         expect(getResult.length).toBe(1)
-        const resultHash = await (await PayloadWrapper.wrap(getResult[0])).hashAsync()
+        const resultHash = await (await PayloadWrapper.wrap(getResult[0])).dataHash()
         expect(resultHash).toBe(sourceHash)
       }
     })
@@ -199,13 +199,13 @@ describe('IndexedDbArchivist', () => {
       it('can round trip data', async () => {
         sources = await fillDb(archivistModule)
         for (const source of sources) {
-          const sourceHash = await PayloadWrapper.hashAsync(source)
+          const sourceHash = await PayloadBuilder.dataHash(source)
           const getResult = await archivistModule.get([sourceHash])
           expect(getResult).toBeDefined()
           expect(getResult.length).toBe(1)
           const [result] = getResult
           expect(result).toEqual(source)
-          const resultHash = await (await PayloadWrapper.wrap(result)).hashAsync()
+          const resultHash = await PayloadBuilder.dataHash(result)
           expect(resultHash).toBe(sourceHash)
         }
       })
@@ -228,11 +228,11 @@ describe('IndexedDbArchivist', () => {
         // First insertion should succeed but return empty array since no new data was inserted
         expect(await archivistModule.insert([source])).toEqual([source])
         // Ensure we can get the inserted payload
-        const sourceHash = await PayloadWrapper.hashAsync(source)
+        const sourceHash = await PayloadBuilder.dataHash(source)
         const getResult = await archivistModule.get([sourceHash])
         expect(getResult).toBeDefined()
         expect(getResult.length).toBe(1)
-        const resultHash = await (await PayloadWrapper.wrap(getResult[0])).hashAsync()
+        const resultHash = await PayloadBuilder.dataHash(getResult[0])
         expect(resultHash).toBe(sourceHash)
         // Ensure the DB has all the payloads written to it
         const allResult = await archivistModule.all?.()

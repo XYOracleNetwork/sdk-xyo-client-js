@@ -36,6 +36,7 @@ export class WorkerNodeHost {
   }
 
   static start(logger?: Logger) {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     self.addEventListener('message', async (event: MessageEvent) => {
       switch (event.data.type) {
         case 'createNode': {
@@ -56,6 +57,7 @@ export class WorkerNodeHost {
   }
 
   private attachNode(node: NodeInstance) {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     self.addEventListener('message', async (event: MessageEvent) => {
       const message = event.data as Message
       switch (message.type) {

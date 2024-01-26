@@ -72,13 +72,13 @@ describe('Various StorageArchivist types', () => {
     const insertResult = await archivist.insert([idPayload])
     expect(insertResult).toBeDefined()
 
-    const getResult = await archivist.get([await payloadWrapper.hashAsync()])
+    const getResult = await archivist.get([await payloadWrapper.dataHash()])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
       const gottenPayloadWrapper = await PayloadWrapper.wrap(gottenPayload)
-      expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
+      expect(await gottenPayloadWrapper.dataHash()).toBe(await payloadWrapper.dataHash())
     }
   })
 })
@@ -144,7 +144,7 @@ test('Archivist Parent Reads', async () => {
 
   expect(inserted).toBeArrayOfSize(1)
 
-  const fromStorage = await storage.get([await wrapper.hashAsync()])
+  const fromStorage = await storage.get([await wrapper.dataHash()])
 
   expect(fromStorage).toBeArrayOfSize(1)
 })

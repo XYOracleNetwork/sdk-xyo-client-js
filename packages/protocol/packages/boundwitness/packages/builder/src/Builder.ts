@@ -1,12 +1,12 @@
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { Address, hexFromArrayBuffer } from '@xylabs/hex'
+import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { sortFields } from '@xyo-network/hash'
 import { PayloadBuilder, PayloadWrapper } from '@xyo-network/payload'
-import { ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export interface BoundWitnessBuilderConfig {
@@ -89,8 +89,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     })
   }
 
-  error(payload?: ModuleError) {
-    const unwrappedPayload = PayloadWrapper.unwrap(payload)
+  async error(payload?: ModuleError) {
+    const unwrappedPayload = await PayloadWrapper.unwrap(payload)
     assertEx(this._errorHashes === undefined, 'Can not set errors when hashes already set')
     if (unwrappedPayload) {
       this._errors.push(assertEx(sortFields(unwrappedPayload)))
@@ -98,11 +98,15 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  errors(errors?: (ModuleError | null)[]) {
-    for (const error of errors ?? []) {
-      if (error !== null) {
-        this.error(error)
-      }
+  async errors(errors?: (ModuleError | null)[]) {
+    if (errors) {
+      await Promise.all(
+        errors.map(async (error) => {
+          if (error !== null) {
+            await this.error(error)
+          }
+        }),
+      )
     }
     return this
   }
@@ -139,15 +143,15 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return result
   }
 
-  hashes(hashes: string[], schema: string[]) {
+  hashes(hashes: Hash[], schema: Schema[]) {
     assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
     this._payloadSchemas = schema
     return this
   }
 
-  payload(payload?: TPayload) {
-    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
+  async payload(payload?: TPayload) {
+    const unwrappedPayload = await PayloadWrapper.unwrap<TPayload>(payload)
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (unwrappedPayload) {
       this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))
@@ -155,17 +159,19 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  payloads(payloads?: (TPayload | null)[]) {
+  async payloads(payloads?: (TPayload | null)[]) {
     if (payloads)
-      for (const payload of payloads) {
-        if (payload !== null) {
-          this.payload(payload)
-        }
-      }
+      await Promise.all(
+        payloads.map(async (payload) => {
+          if (payload !== null) {
+            await this.payload(payload)
+          }
+        }),
+      )
     return this
   }
 
-  sourceQuery(hash?: string) {
+  sourceQuery(hash?: Hash) {
     this._sourceQuery = hash
     return this
   }
@@ -180,7 +186,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness<{ schema: st
     return this
   }
 
-  protected async signatures(_hash: string, previousHashes: (string | ArrayBuffer | undefined)[]): Promise<string[]> {
+  protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | undefined)[]): Promise<string[]> {
     const hash = toArrayBuffer(_hash)
     const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
     return await Promise.all(this._accounts.map(async (account, index) => hexFromArrayBuffer(await account.sign(hash, previousHashesBytes[index]))))

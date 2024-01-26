@@ -97,9 +97,11 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       this.privateChildren.map(async (child) => {
         const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
         const subNodes = await wrapper.loadNodes(node)
-        for (const subNode of subNodes) {
-          node.attach(subNode.address, false)
-        }
+        await Promise.all(
+          subNodes.map((subNode) => {
+            return node.attach(subNode.address, false)
+          }),
+        )
       }),
     )
 
@@ -107,9 +109,11 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       this.publicChildren.map(async (child) => {
         const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
         const subNodes = await wrapper.loadNodes(node)
-        for (const subNode of subNodes) {
-          node.attach(subNode.address, true)
-        }
+        await Promise.all(
+          subNodes.map((subNode) => {
+            return node.attach(subNode.address, true)
+          }),
+        )
       }),
     )
 

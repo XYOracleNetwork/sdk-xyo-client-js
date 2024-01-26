@@ -52,7 +52,7 @@ export const StatefulModuleMixin = <
       this._lastState = nextState
       const archivist = await this.getArchivistForStore()
       // const [bw] = await new BoundWitnessBuilder().payload(nextState).witness(this.account).build()
-      const [bw] = await new BoundWitnessBuilder().payload(nextState).build()
+      const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).build()
       await archivist.insert([bw, nextState])
     }
 

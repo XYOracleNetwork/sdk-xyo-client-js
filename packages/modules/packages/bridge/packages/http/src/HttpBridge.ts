@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosError, AxiosJson } from '@xylabs/axios'
+import { forget } from '@xylabs/forget'
 import { compact } from '@xylabs/lodash'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -90,7 +91,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
         const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
         //notify parents of child modules
         //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-        for (const node of parentNodes) for (const child of children) node.emit('moduleAttached', { module: child })
+        for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
         // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
         return true
       } else {

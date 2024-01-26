@@ -60,9 +60,9 @@ describe('IndexedDbBoundWitnessDiviner', () => {
   }
   const boundWitnesses: BoundWitness[] = []
   beforeAll(async () => {
-    const [boundWitnessA] = await new BoundWitnessBuilder().payloads([payloadA]).build()
-    const [boundWitnessB] = await new BoundWitnessBuilder().payloads([payloadB]).build()
-    const [boundWitnessC] = await new BoundWitnessBuilder().payloads([payloadA, payloadB]).build()
+    const [boundWitnessA] = await (await new BoundWitnessBuilder().payloads([payloadA])).build()
+    const [boundWitnessB] = await (await new BoundWitnessBuilder().payloads([payloadB])).build()
+    const [boundWitnessC] = await (await new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
     boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),

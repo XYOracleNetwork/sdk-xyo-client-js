@@ -262,16 +262,20 @@ describe('MemoryNode', () => {
         const nestedModules: ArchivistInstance[] = await Promise.all([
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
-        nestedModules.map(async (mod) => {
-          await nestedNode.register(mod)
-          await nestedNode.attach(mod.address, true)
-        })
+        await Promise.all(
+          nestedModules.map(async (mod) => {
+            await nestedNode.register(mod)
+            await nestedNode.attach(mod.address, true)
+          }),
+        )
         const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
         rootModules.push(nestedNode)
-        rootModules.map(async (mod) => {
-          await node.register(mod)
-          await node.attach(mod.address, true)
-        })
+        await Promise.all(
+          rootModules.map(async (mod) => {
+            await node.register(mod)
+            await node.attach(mod.address, true)
+          }),
+        )
       })
       it('describes node and all nested nodes and child modules', async () => {
         const memoryNode = await MemoryNode.create({ account: Account.randomSync() })

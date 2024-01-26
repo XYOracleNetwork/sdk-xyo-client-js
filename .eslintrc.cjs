@@ -4,7 +4,7 @@ const finalConfig = {
   },
   'extends': ['@xylabs', 'plugin:unicorn/recommended'],
   parser: '@typescript-eslint/parser',
-  parserOptions: { ecmaVersion: 'latest', project: null, sourceType: 'module', tsconfigRootDir: null },
+  parserOptions: { ecmaVersion: 'latest', project: './tsconfig.json', sourceType: 'module', tsconfigRootDir: null },
   "root": true,
   "ignorePatterns": [
     "dist",
@@ -20,6 +20,8 @@ const finalConfig = {
     ".*"
   ],
   "rules": {
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-misused-promises": "error",
     "unicorn/filename-case": ["off"],
     "unicorn/no-nested-ternary": ["off"],
     "unicorn/no-array-callback-reference": ["off"],

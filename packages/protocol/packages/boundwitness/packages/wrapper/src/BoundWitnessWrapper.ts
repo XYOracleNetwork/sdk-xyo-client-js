@@ -1,34 +1,28 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
-import { compact } from '@xylabs/lodash'
-import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { Hash } from '@xylabs/hex'
+import { asBoundWitness, BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper, PayloadWrapperBase } from '@xyo-network/payload-wrapper'
 
 export class BoundWitnessWrapper<
   TBoundWitness extends BoundWitness<{ schema: string }> = BoundWitness,
   TPayload extends Payload = Payload,
 > extends PayloadWrapperBase<TBoundWitness> {
-  private _allPayloadMap: Record<string, TPayload> | undefined
-  private _moduleErrors: Payload[]
   private _payloadMap: Record<string, TPayload> | undefined
-  private _payloads: TPayload[]
 
-  protected constructor(boundwitness: TBoundWitness, payloads?: TPayload[], moduleErrors?: Payload[]) {
+  protected constructor(
+    public boundwitness: WithMeta<TBoundWitness>,
+    public payloads: WithMeta<TPayload>[] = [],
+    public moduleErrors?: WithMeta<Payload>[],
+  ) {
     super(boundwitness)
-    this._payloads = payloads ? compact(payloads.filter(exists)) : []
-    this._moduleErrors = moduleErrors ? compact(moduleErrors.filter(exists)) : []
   }
 
   get addresses() {
     return this.boundwitness.addresses
-  }
-
-  get boundwitness() {
-    return this.obj
   }
 
   get payloadHashes() {
@@ -39,16 +33,12 @@ export class BoundWitnessWrapper<
     return this.boundwitness.payload_schemas
   }
 
-  get payloadsArray(): TPayload[] {
-    return Object.values(this._payloads ?? {})
-  }
-
   get previousHashes() {
     return this.boundwitness.previous_hashes
   }
 
   static as<T extends BoundWitness = BoundWitness>(value: unknown) {
-    return value instanceof BoundWitnessWrapper ? (value as BoundWitnessWrapper<T>) : null
+    return value instanceof BoundWitnessWrapper ? (value as BoundWitnessWrapper<T>) : undefined
   }
 
   static async load(address: string) {
@@ -60,47 +50,27 @@ export class BoundWitnessWrapper<
     return boundWitness ? await BoundWitnessWrapper.wrap(boundWitness) : null
   }
 
-  static async mapPayloads<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<string, TPayload>> {
-    const result: Record<string, TPayload> = {}
-    const payloadPairs = await Promise.all(
-      payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
-        const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-        return [unwrapped, (await PayloadBuilder.build(unwrapped)).$hash]
-      }),
-    )
-
-    for (const [payload, payloadHash] of payloadPairs) {
-      result[payloadHash] = payload
-    }
-    return result
-  }
-
-  static async mapWrappedPayloads<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<string, PayloadWrapper<TPayload>>> {
-    const result: Record<string, PayloadWrapper<TPayload>> = {}
-    const payloadPairs = await Promise.all(
-      payloads?.map<Promise<[TPayload, string]>>(async (payload) => {
-        const unwrapped = assertEx(PayloadWrapper.unwrap<TPayload>(payload))
-        return [unwrapped, await PayloadHasher.hashAsync(unwrapped)]
-      }),
-    )
-
-    await Promise.all(
-      payloadPairs.map(async ([payload, hash]) => {
-        result[hash] = await PayloadWrapper.wrap(payload)
-      }),
-    )
-    return result
-  }
-
   static async parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): Promise<BoundWitnessWrapper<T, P>> {
     const hydratedObj = await PayloadBuilder.build(typeof obj === 'string' ? JSON.parse(obj) : obj)
     assertEx(!Array.isArray(hydratedObj), 'Array can not be converted to BoundWitnessWrapper')
     switch (typeof hydratedObj) {
       case 'object': {
-        return hydratedObj instanceof BoundWitnessWrapper ? hydratedObj : new BoundWitnessWrapper(hydratedObj, payloads)
+        return hydratedObj instanceof BoundWitnessWrapper
+          ? hydratedObj
+          : new BoundWitnessWrapper(hydratedObj, payloads ? await Promise.all(payloads?.map((payload) => PayloadBuilder.build(payload))) : [])
       }
     }
     throw new Error(`Unable to parse [${typeof obj}]`)
+  }
+
+  static async payloadsDataHashMap<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<Hash, WithMeta<TPayload>>> {
+    const unwrapped = await this.unwrap(payloads)
+    return await PayloadBuilder.toDataHashMap(unwrapped)
+  }
+
+  static async payloadsHashMap<TPayload extends Payload>(payloads: TPayload[]): Promise<Record<Hash, TPayload>> {
+    const unwrapped = await this.unwrap(payloads)
+    return await PayloadBuilder.toHashMap(unwrapped)
   }
 
   static async tryParse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): Promise<BoundWitnessWrapper<T, P> | undefined> {
@@ -126,7 +96,7 @@ export class BoundWitnessWrapper<
     }
   }
 
-  static async wrappedDataMap<T extends BoundWitness>(
+  static async wrappedDataHashMap<T extends BoundWitness>(
     boundWitnesses: (T | BoundWitnessWrapper<T>)[],
   ): Promise<Record<string, BoundWitnessWrapper<T>>> {
     const result: Record<string, BoundWitnessWrapper<T>> = {}
@@ -139,19 +109,16 @@ export class BoundWitnessWrapper<
     return result
   }
 
-  static async wrappedMap<T extends BoundWitness>(boundWitnesses: (T | BoundWitnessWrapper<T>)[]): Promise<Record<string, BoundWitnessWrapper<T>>> {
+  static async wrappedHashMap<T extends BoundWitness>(
+    boundWitnesses: (T | BoundWitnessWrapper<T>)[],
+  ): Promise<Record<string, BoundWitnessWrapper<T>>> {
     const result: Record<string, BoundWitnessWrapper<T>> = {}
     await Promise.all(
       boundWitnesses.map(async (payload) => {
-        result[await BoundWitnessWrapper.hashAsync(payload)] = await BoundWitnessWrapper.parse(payload)
+        result[await BoundWitnessWrapper.hash(payload)] = await BoundWitnessWrapper.parse(payload)
       }),
     )
     return result
-  }
-
-  async allPayloadMap(): Promise<Record<string, TPayload>> {
-    this._allPayloadMap = this._allPayloadMap ?? (await BoundWitnessWrapper.mapPayloads<TPayload>(this.getPayloads()))
-    return this._allPayloadMap
   }
 
   async dig(depth?: number): Promise<BoundWitnessWrapper<TBoundWitness>> {
@@ -159,13 +126,12 @@ export class BoundWitnessWrapper<
 
     const innerBoundwitnessIndex: number = this.payloadSchemas.indexOf(BoundWitnessSchema)
     if (innerBoundwitnessIndex > -1) {
-      const innerBoundwitnessHash: string = this.payloadHashes[innerBoundwitnessIndex]
-      const innerBoundwitnessPayload = (await BoundWitnessWrapper.mapWrappedPayloads(await this.getPayloads()))[innerBoundwitnessHash]
+      const innerBoundwitnessHash: Hash = this.payloadHashes[innerBoundwitnessIndex]
+      const innerBoundwitnessPayload = asBoundWitness<WithMeta<TBoundWitness>>(
+        (await BoundWitnessWrapper.payloadsDataHashMap(this.payloads))[innerBoundwitnessHash],
+      )
       const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
-        ? new BoundWitnessWrapper<TBoundWitness>(
-            innerBoundwitnessPayload.jsonPayload() as unknown as TBoundWitness,
-            await PayloadHasher.filterExclude(this.payloadsArray, innerBoundwitnessHash),
-          )
+        ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadHasher.filterExclude(this.payloads, innerBoundwitnessHash))
         : undefined
       if (innerBoundwitness) {
         return innerBoundwitness.dig(depth ? depth - 1 : undefined)
@@ -176,20 +142,12 @@ export class BoundWitnessWrapper<
   }
 
   async getMissingPayloads() {
-    const payloadMap = await BoundWitnessWrapper.mapPayloads(await this.getPayloads())
+    const payloadMap = await this.payloadsDataHashMap()
     return this.payloadHashes.filter((hash) => !payloadMap[hash])
   }
 
-  getModuleErrors(): Payload[] {
-    return this._moduleErrors
-  }
-
-  getPayloads(): TPayload[] {
-    return this._payloads
-  }
-
   async getWrappedPayloads(): Promise<PayloadWrapper<TPayload>[]> {
-    return await Promise.all(this._payloads.map((payload) => PayloadWrapper.wrap(payload)))
+    return await Promise.all(this.payloads.map((payload) => PayloadWrapper.wrap(payload)))
   }
 
   hashesBySchema(schema: string) {
@@ -202,18 +160,28 @@ export class BoundWitnessWrapper<
     return result
   }
 
-  async payloadMap(): Promise<Record<string, TPayload>> {
-    this._payloadMap = this._payloadMap ?? (await BoundWitnessWrapper.mapPayloads<TPayload>(this.getPayloads()))
-    return this._payloadMap
-  }
-
-  async payloadsByHashes<T extends TPayload>(hashes: string[]): Promise<T[]> {
-    const map = await this.payloadMap()
+  async payloadsByDataHashes<T extends TPayload>(hashes: string[]): Promise<T[]> {
+    const map = await this.payloadsDataHashMap()
     return hashes.map<T>((hash) => assertEx(map[hash], 'Hash not found') as T)
   }
 
-  async payloadsBySchema<T extends TPayload>(schema: string): Promise<T[]> {
-    return (await this.getPayloads()).filter((payload) => payload?.schema === schema) as T[]
+  async payloadsByHashes<T extends TPayload>(hashes: string[]): Promise<T[]> {
+    const map = await this.payloadsHashMap()
+    return hashes.map<T>((hash) => assertEx(map[hash], 'Hash not found') as T)
+  }
+
+  payloadsBySchema<T extends TPayload>(schema: string): WithMeta<T>[] {
+    return this.payloads.filter((payload) => payload?.schema === schema) as WithMeta<T>[]
+  }
+
+  async payloadsDataHashMap(): Promise<Record<string, TPayload>> {
+    this._payloadMap = this._payloadMap ?? (await BoundWitnessWrapper.payloadsDataHashMap<TPayload>(this.payloads))
+    return this._payloadMap
+  }
+
+  async payloadsHashMap(): Promise<Record<string, TPayload>> {
+    this._payloadMap = this._payloadMap ?? (await BoundWitnessWrapper.payloadsHashMap<TPayload>(this.payloads))
+    return this._payloadMap
   }
 
   prev(address: string) {
@@ -221,7 +189,7 @@ export class BoundWitnessWrapper<
   }
 
   toResult() {
-    return [this.boundwitness, this.payloadsArray]
+    return [this.boundwitness, this.payloads]
   }
 
   override async validate(): Promise<Error[]> {

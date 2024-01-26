@@ -150,11 +150,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
-    const foundPairs = (
-      await Promise.all(
-        (await archivist.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-      )
-    ).filter(([hash]) => {
+    const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
         console.warn(`Parent returned payload with hash not asked for: ${hash}`)
@@ -163,8 +159,8 @@ export abstract class AbstractArchivist<
       return askedFor
     })
 
-    const foundHashes = new Set(foundPairs.map(([hash]) => hash))
-    const foundPayloads = foundPairs.map(([, payload]) => payload)
+    const foundHashes = new Set(foundPairs.map(([, hash]) => hash))
+    const foundPayloads = foundPairs.map(([payload]) => payload)
 
     const notfound = hashes.filter((hash) => !foundHashes.has(hash))
     return [foundPayloads, notfound]
@@ -293,9 +289,9 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistInsertQuerySchema: {
-        const payloads = wrappedQuery.getPayloads()
-        assertEx(wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
-        const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
+        const payloads = wrappedQuery.payloads
+        assertEx(wrappedQuery.payloads, `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
+        const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.dataHash())
         assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
         resultPayloads.push(...(await this.insertWithConfig(payloads)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once

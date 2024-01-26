@@ -7,7 +7,6 @@ import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-m
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { ModuleQueryResult } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -116,8 +115,8 @@ describe.skip('HttpBridge.caching', () => {
     const source = clients[0]
     const destination = clients[1]
     const query: ArchivistInsertQuery = { address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await new QueryBoundWitnessBuilder().witness(source.module.account).query(query).payloads([payload]).build()
-    sourceQueryHash = await PayloadHasher.hashAsync(command)
+    const [command, payloads] = await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query).payloads([payload])).build()
+    sourceQueryHash = await PayloadBuilder.dataHash(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
     expect(insertResult).toBeArrayOfSize(1 + payloads.length)

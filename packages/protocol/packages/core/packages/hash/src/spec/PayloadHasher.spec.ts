@@ -18,17 +18,17 @@ describe('Hasher', () => {
   })
   test('wasm vs js (compatibility-sync)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
-    const jsHash = await PayloadHasher.hashAsync(testObject)
+    const jsHash = await PayloadHasher.hash(testObject)
     PayloadHasher.wasmSupport.allowWasm = true
-    const wasmHash = await PayloadHasher.hashAsync(testObject)
+    const wasmHash = await PayloadHasher.hash(testObject)
     expect(jsHash).toEqual(wasmHash)
   })
 
   test('wasm vs js (compatibility-async)', async () => {
     PayloadHasher.wasmSupport.allowWasm = false
-    const jsHash = await PayloadHasher.hashAsync(testObject)
+    const jsHash = await PayloadHasher.hash(testObject)
     PayloadHasher.wasmSupport.allowWasm = true
-    const wasmHash = await PayloadHasher.hashAsync(testObject)
+    const wasmHash = await PayloadHasher.hash(testObject)
     expect(jsHash).toEqual(wasmHash)
   })
 
@@ -36,13 +36,13 @@ describe('Hasher', () => {
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
     for (let x = 0; x < 10_000; x++) {
-      await PayloadHasher.hashAsync({ ...testObject, nonce: x })
+      await PayloadHasher.hash({ ...testObject, nonce: x })
     }
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmHashStart = Date.now()
     for (let x = 0; x < 10_000; x++) {
-      await PayloadHasher.hashAsync({ ...testObject, nonce: x })
+      await PayloadHasher.hash({ ...testObject, nonce: x })
     }
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()
@@ -61,7 +61,7 @@ describe('Hasher', () => {
       jsTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const jsHashStart = Date.now()
-    await Promise.all(jsTestObjects.map((obj) => obj.hashAsync()))
+    await Promise.all(jsTestObjects.map((obj) => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmTestObjects: PayloadHasher[] = []
@@ -69,7 +69,7 @@ describe('Hasher', () => {
       wasmTestObjects.push(new PayloadHasher({ ...testObject, nonce: x }))
     }
     const wasmHashStart = Date.now()
-    await Promise.all(wasmTestObjects.map((obj) => obj.hashAsync()))
+    await Promise.all(wasmTestObjects.map((obj) => obj.hash()))
     const wasmHashDuration = Date.now() - wasmHashStart
     expect(wasmHashDuration).toBeDefined()
     expect(jsHashDuration).toBeDefined()

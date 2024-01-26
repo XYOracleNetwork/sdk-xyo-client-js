@@ -4,6 +4,7 @@ import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -53,7 +54,7 @@ describe('HttpBridge', () => {
     expect(archivistInstance).toBeDefined()
     const knownPayload = (await PayloadWrapper.parse({ schema: 'network.xyo.test' }))?.jsonPayload() as Payload
     expect(knownPayload).toBeDefined()
-    const knownHash = await PayloadWrapper.hashAsync(knownPayload as Payload)
+    const knownHash = await PayloadBuilder.dataHash(knownPayload as Payload)
     const insertResult = await archivistInstance.insert([knownPayload])
     expect(insertResult).toBeDefined()
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]

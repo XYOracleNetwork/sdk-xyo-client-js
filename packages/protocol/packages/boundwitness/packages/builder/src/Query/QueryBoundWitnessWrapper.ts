@@ -4,15 +4,12 @@ import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload'
-import { Payload, PayloadSetPayload, Query } from '@xyo-network/payload-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitnessWrapper<QueryBoundWitness> {
   private _payloadsWithoutQuery: PayloadWrapper<Payload>[] | undefined
   private _query: T | undefined
-  private _resultSet: PayloadSetPayload | undefined
-
-  private isQueryBoundWitnessWrapper = true
 
   static async parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): Promise<QueryBoundWitnessWrapper<T>> {
     assertEx(!Array.isArray(obj), 'Array can not be converted to QueryBoundWitnessWrapper')
@@ -22,7 +19,10 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
         const wrapper =
           castWrapper instanceof QueryBoundWitnessWrapper
             ? castWrapper
-            : new QueryBoundWitnessWrapper<T>(await PayloadBuilder.build(obj as QueryBoundWitness), payloads)
+            : new QueryBoundWitnessWrapper<T>(
+                await PayloadBuilder.build(obj as QueryBoundWitness),
+                payloads ? await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))) : undefined,
+              )
         /*if (!wrapper.valid) {
           console.warn(`Parsed invalid QueryBoundWitness ${JSON.stringify(wrapper.errors.map((error) => error.message))}`)
         }*/
@@ -33,7 +33,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   }
 
   async getQuery(): Promise<T> {
-    const payloadMap = await this.allPayloadMap()
+    const payloadMap = await this.payloadsDataHashMap()
     this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
     return assertEx(this._query, `Missing Query [${this.boundwitness}]`)
   }

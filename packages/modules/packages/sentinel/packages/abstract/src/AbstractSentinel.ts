@@ -56,7 +56,7 @@ export abstract class AbstractSentinel<
       const payloads = await this.reportHandler(inPayloads)
 
       //create boundwitness
-      const result = (await new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()).flat()
+      const result = (await (await new BoundWitnessBuilder().payloads(payloads)).witness(this.account).build()).flat()
 
       if (this.config.archiving) {
         await this.storeToArchivists(result)

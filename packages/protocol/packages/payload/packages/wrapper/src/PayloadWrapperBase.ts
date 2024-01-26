@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { PayloadHasher } from '@xyo-network/hash'
-import { Payload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: string) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
@@ -13,33 +14,37 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     super(payload)
   }
 
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
-    payload?: TPayload | TWrapper,
-  ): TPayload | undefined
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
-    payload?: (TPayload | TWrapper)[],
-  ): (TPayload | undefined)[]
-  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
-    payload?: TPayload | TWrapper | (TPayload | TWrapper)[],
-  ): TPayload | (TPayload | undefined)[] | undefined {
+  static async unwrap<TPayload extends Payload = Payload>(payload?: TPayload): Promise<WithMeta<TPayload> | undefined>
+  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+    payload: TPayload | TWrapper,
+  ): Promise<WithMeta<TPayload>>
+  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+    payload: (TPayload | TWrapper)[],
+  ): Promise<WithMeta<TPayload>[]>
+  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+    payload: TPayload | TWrapper | (TPayload | TWrapper)[],
+  ): Promise<WithMeta<TPayload> | WithMeta<TPayload>[] | undefined> {
     return Array.isArray(payload)
-      ? payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
-      : this.unwrapSinglePayload<TPayload, TWrapper>(payload)
+      ? await Promise.all(payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload)))
+      : await this.unwrapSinglePayload<TPayload, TWrapper>(payload)
   }
 
-  static unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  static async unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: TPayload): Promise<WithMeta<TPayload> | undefined>
+  static async unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+    payload: TPayload | TWrapper,
+  ): Promise<WithMeta<TPayload>>
+  static async unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload?: TPayload | TWrapper,
-  ) {
+  ): Promise<WithMeta<TPayload> | undefined> {
     if (payload === undefined) {
       return
     }
-    if (payload instanceof PayloadWrapperBase) {
-      return payload.jsonPayload() as TPayload
-    }
+
     if (!(typeof payload === 'object')) {
       throw 'Can not unwrap class that is not extended from object'
     }
-    return payload as TPayload
+
+    return await PayloadBuilder.build(payload instanceof PayloadWrapperBase ? payload.jsonPayload() : payload)
   }
 
   /** @deprecated use jsonPayload instead */
@@ -48,7 +53,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
   }
 
   async dataHash() {
-    return await PayloadHasher.hashAsync(this.jsonPayload())
+    return await PayloadBuilder.dataHash(this.jsonPayload())
   }
 
   async getErrors() {

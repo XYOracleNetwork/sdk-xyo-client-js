@@ -35,7 +35,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param obj A payload
    * @returns The payload hash
    */
-  static async hashAsync<T extends EmptyObject>(obj: T): Promise<Hash> {
+  static async hash<T extends EmptyObject>(obj: T): Promise<Hash> {
     if (PayloadHasher.allowSubtle) {
       try {
         const enc = new TextEncoder()
@@ -73,7 +73,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
+    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
   }
 
   /**
@@ -90,8 +90,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param objs Any array of payloads
    * @returns An array of payload hashes
    */
-  static async hashes<T extends EmptyObject>(objs: T[]): Promise<Hash[]> {
-    return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
+  static async hashes<T extends EmptyObject>(objs?: T[]): Promise<Hash[] | undefined> {
+    return objs ? await Promise.all(objs.map((obj) => this.hash(obj))) : undefined
   }
 
   /**
@@ -108,8 +108,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     return JSON.stringify(this.hashFields(obj))
   }
 
-  async hashAsync(): Promise<Hash> {
-    return await PayloadHasher.hashAsync(this.obj)
+  async hash(): Promise<Hash> {
+    return await PayloadHasher.hash(this.obj)
   }
 
   hashSync(): Hash {

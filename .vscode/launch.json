@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/diviner/packages/jsonpath/packages/aggregate/packages/memory/src/jsonpath/spec/reducePayloads.spec.ts"
+        "packages/modules/packages/archivist/packages/indexeddb/src/spec/Archivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

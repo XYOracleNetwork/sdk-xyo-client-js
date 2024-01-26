@@ -10,10 +10,10 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { isModuleState, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -108,7 +108,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
 
     // Insert previously witnessed payloads into thumbnail archivist
     const timestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [boundWitness, payloads] = await new BoundWitnessBuilder().payloads([timestamp, ...witnessedThumbnails]).build()
+    const [boundWitness, payloads] = await (await new BoundWitnessBuilder().payloads([timestamp, ...witnessedThumbnails])).build()
 
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([boundWitness, ...payloads])
@@ -185,7 +185,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
         const result = results.find(isTemporalIndexingDivinerResultIndex)
         expect(result).toBeDefined()
         const payload = assertEx(witnessedThumbnails.at(-1))
-        const expected = await PayloadHasher.hashAsync(payload)
+        const expected = await PayloadBuilder.dataHash(payload)
         expect(result?.sources).toContain(expected)
       })
     })
@@ -198,7 +198,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
           const results = await sut.divine([query])
           const result = results.find(isTemporalIndexingDivinerResultIndex)
           expect(result).toBeDefined()
-          const expected = await PayloadHasher.hashAsync(payload)
+          const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)
         })
       })

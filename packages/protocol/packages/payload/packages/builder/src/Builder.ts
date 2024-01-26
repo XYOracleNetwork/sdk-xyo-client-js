@@ -32,6 +32,10 @@ export class PayloadBuilder<T extends Payload = Payload> {
     return await builder.build()
   }
 
+  static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
+    return (await this.build(payload)).$hash
+  }
+
   static async dataHashPairs<T extends Payload>(payloads: T[]): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map(async (payload) => {
@@ -41,13 +45,17 @@ export class PayloadBuilder<T extends Payload = Payload> {
     )
   }
 
-  static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]> {
-    return await Promise.all(
-      payloads.map(async (payload) => {
-        const built = await PayloadBuilder.build(payload)
-        return built.$hash
-      }),
-    )
+  static async dataHashes<T extends Payload>(payloads?: T[]): Promise<undefined | Hash[]>
+  static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
+  static async dataHashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
+    return payloads
+      ? await Promise.all(
+          payloads.map(async (payload) => {
+            const built = await PayloadBuilder.build(payload)
+            return built.$hash
+          }),
+        )
+      : undefined
   }
 
   static async filterExclude<T extends Payload>(payloads: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
@@ -64,6 +72,10 @@ export class PayloadBuilder<T extends Payload = Payload> {
     return (await this.hashPairs(payloads)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
+  static async hash<T extends Payload>(payload: T): Promise<Hash> {
+    return await PayloadHasher.hash(payload)
+  }
+
   /**
    * Creates an array of payload/hash tuples based on the payloads passed in
    * @param objs Any array of payloads
@@ -73,9 +85,15 @@ export class PayloadBuilder<T extends Payload = Payload> {
     return await Promise.all(
       payloads.map<Promise<[WithMeta<T>, Hash]>>(async (payload) => {
         const built = await PayloadBuilder.build(payload)
-        return [built, await PayloadHasher.hashAsync(built)]
+        return [built, await PayloadBuilder.hash(built)]
       }),
     )
+  }
+
+  static async hashes<T extends Payload>(payloads?: T[]): Promise<undefined | Hash[]>
+  static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
+  static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
+    return await PayloadHasher.hashes(payloads)
   }
 
   static async toDataHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
@@ -106,7 +124,7 @@ export class PayloadBuilder<T extends Payload = Payload> {
 
   async build(): Promise<WithMeta<T>> {
     const dataHashableFields = this.dataHashableFields()
-    const $hash = await PayloadHasher.hashAsync(dataHashableFields)
+    const $hash = await PayloadBuilder.hash(dataHashableFields)
     const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash }
 
     //only add $meta if it exists and has at least one field

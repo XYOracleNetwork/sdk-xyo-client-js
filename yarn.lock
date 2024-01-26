@@ -4899,28 +4899,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory-deprecated":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/memory-archivist@workspace:packages/modules/packages/archivist/packages/memory-deprecated"
-  dependencies:
-    "@xylabs/assert": "npm:^2.13.29"
-    "@xylabs/lodash": "npm:^2.13.29"
-    "@xylabs/promise": "npm:^2.13.29"
-    "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
-    "@xylabs/tsconfig": "npm:^3.2.42"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/archivist-abstract": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/hash": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    lru-cache: "npm:^10.1.0"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/metamask-connector@workspace:packages/sdk/packages/metamask-connector, @xyo-network/metamask-connector@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/metamask-connector@workspace:packages/sdk/packages/metamask-connector"

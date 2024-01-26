@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -15,7 +16,6 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -148,19 +148,16 @@ export class StorageArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    const payloadPairs: [string, Payload][] = await Promise.all(
-      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-    )
-    const deletedPairs: [string, Payload][] = compact(
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+    const deletedHashes = compact(
       await Promise.all(
-        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+        hashes.map((hash) => {
           this.storage.remove(hash)
-          return [hash, payload]
+          return hash
         }),
       ),
     )
-    return deletedPairs.map(([hash]) => hash)
+    return deletedHashes
   }
 
   protected override getHandler(hashes: string[]): Promisable<Payload[]> {

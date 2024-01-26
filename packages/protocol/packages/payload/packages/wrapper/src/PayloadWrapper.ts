@@ -60,14 +60,14 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     const result: Record<string, PayloadWrapper<T>> = {}
     await Promise.all(
       payloads.map(async (payload) => {
-        result[await PayloadWrapper.hashAsync(payload)] = await PayloadWrapper.wrap(payload)
+        result[await PayloadWrapper.hash(payload)] = await PayloadWrapper.wrap(payload)
       }),
     )
     return result
   }
 
   override async validate(): Promise<Error[]> {
-    const payload = this.payload()
+    const payload = this.jsonPayload()
     return payload ? await new PayloadValidator<TPayload>(payload).validate() : []
   }
 }

@@ -12,8 +12,8 @@ import {
   PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
 export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<ForecastingDivinerConfig>>
@@ -33,7 +33,7 @@ export abstract class AbstractForecastingDiviner<
     const stopTimestamp = query.timestamp || Date.now()
     const startTimestamp = windowSettings.windowSize ? stopTimestamp - windowSettings.windowSize : 0
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
-    const sources = await Promise.all(data.map((x) => PayloadHasher.hashAsync(x)))
+    const sources = (await PayloadBuilder.dataHashes(data)) ?? []
     const values = await this.forecastingMethod(data, this.transformer)
     const response: ForecastPayload = { schema: ForecastPayloadSchema, sources, values }
     return [response]

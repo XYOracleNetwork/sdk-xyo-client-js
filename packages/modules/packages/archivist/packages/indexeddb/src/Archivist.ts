@@ -1,4 +1,5 @@
 import { exists } from '@xylabs/exists'
+import { Hash } from '@xylabs/hex'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -91,7 +92,7 @@ export class IndexedDbArchivist<
 
   protected override async deleteHandler(hashes: string[]): Promise<string[]> {
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(hashes))
-    const hashesToDelete = pairs.flatMap((pair) => [pair[0].$hash, pair[1]])
+    const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
     return await this.useDb(async (db) => {
@@ -99,7 +100,9 @@ export class IndexedDbArchivist<
       const found = await Promise.all(
         distinctHashes.map(async (hash) => {
           // Check if the hash exists
-          const existing = await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          const existing =
+            (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash)) ??
+            (await db.getKeyFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))
           // If it does exist
           if (existing) {
             // Delete it

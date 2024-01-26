@@ -3,7 +3,7 @@ import { uniq } from '@xylabs/lodash'
 import { validateType } from '@xylabs/typeof'
 import { AddressValue } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
@@ -77,7 +77,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
         await Promise.all(
           this.obj.addresses.map<Promise<Error[]>>(async (address, index) =>
             BoundWitnessValidator.validateSignature(
-              toUint8Array(await PayloadHasher.hashAsync(this.payload)),
+              toUint8Array(await PayloadBuilder.dataHash(this.payload)),
               toUint8Array(address),
               toUint8Array(this.obj.$meta.signatures?.[index]),
             ),

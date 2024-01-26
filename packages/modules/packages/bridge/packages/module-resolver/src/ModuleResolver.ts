@@ -146,7 +146,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     }
 
     const cached = this.resolvedModules[targetAddress]
-    if (cached) return (await cached) as T
+    if (cached !== undefined) return (await cached) as T
 
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??

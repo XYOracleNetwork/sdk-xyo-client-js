@@ -26,7 +26,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
     const chains = Object.values(this.buildAddressChains(this.queryAddress, bwRecords))
 
     // Return the heads of each chain (get the last bw on each chain)
-    return chains.map((chain) => assertEx(PayloadWrapper.unwrap(chain.shift())))
+    return await Promise.all(chains.map(async (chain) => assertEx(await PayloadWrapper.unwrap(chain.shift()))))
   }
 
   private async allBoundWitnesses() {

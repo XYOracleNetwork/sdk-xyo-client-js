@@ -318,6 +318,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
@@ -331,7 +332,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
-    const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
+    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }

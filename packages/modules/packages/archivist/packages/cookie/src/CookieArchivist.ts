@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -14,7 +15,6 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -115,22 +115,20 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    const payloadPairs: [string, Payload][] = await Promise.all(
-      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-    )
-    const deletedPairs: [string, Payload][] = compact(
+  protected override async deleteHandler(hashes: Hash[]): Promise<string[]> {
+    const payloadPairs = await PayloadBuilder.dataHashPairs(await this.get(hashes))
+    const deletedPairs = compact(
       await Promise.all(
-        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+        payloadPairs.map<[Payload, Hash]>(([payload, hash]) => {
           Cookies.remove(hash)
-          return [hash, payload]
+          return [payload, hash]
         }),
       ),
     )
-    return deletedPairs.map(([hash]) => hash)
+    return deletedPairs.map(([, hash]) => hash)
   }
 
-  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<Payload[]> {
     return compact(
       hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
@@ -145,11 +143,10 @@ export class CookieArchivist<
       const resultPayloads: Payload[] = await Promise.all(
         pairs.map(async ([payload, hash]) => {
           const payloadWithMeta = await PayloadBuilder.build(payload)
-          const key = this.keyFromHash(hash)
           const value = JSON.stringify(payloadWithMeta)
           assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
-          Cookies.set(key, value)
-          Cookies.set(payload.$hash, value)
+          Cookies.set(this.keyFromHash(hash), value)
+          Cookies.set(this.keyFromHash(payload.$hash), value)
           return payloadWithMeta
         }),
       )

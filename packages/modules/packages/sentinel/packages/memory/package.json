@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.29",
+    "@xylabs/forget": "^2.13.29",
     "@xylabs/hex": "^2.13.29",
     "@xylabs/promise": "^2.13.29",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/sentinel-abstract": "workspace:~",

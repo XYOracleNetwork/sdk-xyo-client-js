@@ -63,7 +63,7 @@ export abstract class AbstractDiviner<
     //remove the query payload
     const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema: {

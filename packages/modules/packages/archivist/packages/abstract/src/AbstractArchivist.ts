@@ -252,7 +252,7 @@ export abstract class AbstractArchivist<
   ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const queryPayload = await wrappedQuery.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     if (this.config.storeQueries) {
       await this.insertHandler([query])

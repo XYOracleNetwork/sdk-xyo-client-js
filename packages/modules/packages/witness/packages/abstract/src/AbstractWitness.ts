@@ -83,7 +83,7 @@ export abstract class AbstractWitness<
   ): Promise<ModuleQueryHandlerResult> {
     const wrapper = await QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     // Remove the query payload from the arguments passed to us so we don't observe it
     const filteredObservation = (await PayloadHasher.filterExclude(payloads, query.query)) as TIn[]

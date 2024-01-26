@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^2.13.29",
     "@xylabs/axios": "^2.13.29",
+    "@xylabs/forget": "^2.13.29",
     "@xylabs/lodash": "^2.13.29",
     "@xylabs/object": "^2.88.5",
     "@xyo-network/abstract-bridge": "workspace:~",
@@ -38,7 +39,6 @@
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",

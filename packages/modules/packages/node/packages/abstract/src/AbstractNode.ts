@@ -164,7 +164,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   ): Promise<ModuleQueryHandlerResult> {
     const wrapper = await QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case NodeAttachQuerySchema: {

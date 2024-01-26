@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.29",
+    "@xylabs/hex": "^2.13.29",
     "@xylabs/lodash": "^2.13.29",
     "@xylabs/promise": "^2.13.29",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",

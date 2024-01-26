@@ -14,7 +14,7 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

@@ -138,7 +138,7 @@ export abstract class AbstractSentinel<
   ): Promise<ModuleQueryHandlerResult> {
     const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case SentinelReportQuerySchema: {

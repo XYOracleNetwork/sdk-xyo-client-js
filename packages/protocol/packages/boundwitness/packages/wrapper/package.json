@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^2.13.29",
-    "@xylabs/exists": "^2.13.29",
-    "@xylabs/lodash": "^2.13.29",
+    "@xylabs/hex": "^2.13.29",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",
     "@xyo-network/hash": "workspace:~",

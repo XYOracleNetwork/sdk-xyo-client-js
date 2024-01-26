@@ -15,7 +15,7 @@
     "@xylabs/typeof": "^2.13.29",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
+    "@xyo-network/payload": "workspace:~",
     "@xyo-network/payload-validator": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

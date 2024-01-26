@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { JsonObject } from '@xylabs/object'
+import { AnyObject, JsonObject } from '@xylabs/object'
 import { deepOmitPrefixedFields, PayloadHasher, removeEmptyFields } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
@@ -10,7 +10,7 @@ export interface PayloadBuilderOptions<T> {
   schema: string
 }
 
-export class PayloadBuilder<T extends Payload = Payload> {
+export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
   private _$meta?: JsonObject
   private _fields: Partial<T> = {}
   private _schema: string
@@ -45,7 +45,7 @@ export class PayloadBuilder<T extends Payload = Payload> {
     )
   }
 
-  static async dataHashes<T extends Payload>(payloads?: T[]): Promise<undefined | Hash[]>
+  static async dataHashes(payloads: undefined): Promise<undefined>
   static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async dataHashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return payloads
@@ -90,7 +90,7 @@ export class PayloadBuilder<T extends Payload = Payload> {
     )
   }
 
-  static async hashes<T extends Payload>(payloads?: T[]): Promise<undefined | Hash[]>
+  static async hashes(payloads: undefined): Promise<undefined>
   static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
     return await PayloadHasher.hashes(payloads)

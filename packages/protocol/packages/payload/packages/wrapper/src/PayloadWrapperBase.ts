@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isAnyPayload, isPayload, Payload, WithMeta } from '@xyo-network/payload-model'
+import { isAnyPayload, Payload, WithMeta } from '@xyo-network/payload-model'
 
 export type PayloadLoader = (address: string) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader

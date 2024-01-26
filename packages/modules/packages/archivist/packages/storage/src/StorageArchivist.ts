@@ -180,7 +180,7 @@ export class StorageArchivist<
     const pairs = await PayloadBuilder.hashPairs(payloads)
     const resultPayloads = pairs.map(([payload, hash]) => {
       const value = JSON.stringify(payload)
-      assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
+      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
       this.storage.set(hash, payload)
       this.storage.set(payload.$hash, payload)
       return payload

@@ -144,7 +144,7 @@ export class BoundWitnessWrapper<
         return innerBoundwitness.dig(depth ? depth - 1 : undefined)
       }
     }
-    assertEx(!depth, `Dig failed [Remaining Depth: ${depth}]`)
+    assertEx(!depth, () => `Dig failed [Remaining Depth: ${depth}]`)
     return this
   }
 

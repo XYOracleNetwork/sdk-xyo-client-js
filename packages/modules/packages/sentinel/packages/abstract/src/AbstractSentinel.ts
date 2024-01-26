@@ -85,7 +85,7 @@ export abstract class AbstractSentinel<
     let tasks: ResolvedTask[] = await Promise.all(
       this.config.tasks.map(async (task) => ({
         input: task.input ?? false,
-        module: assertEx(await this.resolve(task.module), `Unable to resolve task module [${task.module}]`),
+        module: assertEx(await this.resolve(task.module), () => `Unable to resolve task module [${task.module}]`),
       })),
     )
     while (tasks.length > 0) {
@@ -123,7 +123,7 @@ export abstract class AbstractSentinel<
         }
         return true
       })
-      assertEx(newList.length > 0, `Unable to generateJob [${tasks.length}]`)
+      assertEx(newList.length > 0, () => `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)
       //remove the tasks we just added
       tasks = tasks.filter((task) => !newList.includes(task))

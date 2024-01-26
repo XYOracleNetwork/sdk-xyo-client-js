@@ -40,6 +40,6 @@ export class Data extends AbstractData {
   }
 
   private checkLength() {
-    assertEx(this.bytes.byteLength === this._length, `Length Mismatch: ${this.bytes.byteLength} !== ${this._length}`)
+    assertEx(this.bytes.byteLength === this._length, () => `Length Mismatch: ${this.bytes.byteLength} !== ${this._length}`)
   }
 }

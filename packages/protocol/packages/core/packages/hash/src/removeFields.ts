@@ -1,7 +1,8 @@
-import { isObject, mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
-import { EmptyObject } from '@xylabs/object'
+import { assertEx } from '@xylabs/assert'
+import { mapValues, merge, omitBy, pickBy } from '@xylabs/lodash'
+import { EmptyObject, isObject } from '@xylabs/object'
 // eslint-disable-next-line no-restricted-imports
-import type { ValueKeyIteratee } from 'lodash'
+type ValueKeyIteratee<T> = (value: T, key: string) => unknown
 
 export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIteratee<T>, func: typeof omitBy | typeof pickBy): T => {
   if (Array.isArray(obj)) {
@@ -23,9 +24,23 @@ export const deepBy = <T extends EmptyObject>(obj: T, predicate: ValueKeyIterate
 }
 
 export const deepOmitPrefixedFields = <T extends EmptyObject>(obj: T, prefix: string): T => {
-  return deepBy(obj, (_, key) => key.startsWith(prefix), omitBy)
+  return deepBy(
+    obj,
+    (_, key) => {
+      assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
+      return key.startsWith(prefix)
+    },
+    omitBy,
+  )
 }
 
 export const deepPickUnderscoreFields = <T extends EmptyObject>(obj: T): T => {
-  return deepBy(obj, (_, key) => key.startsWith('_'), pickBy)
+  return deepBy(
+    obj,
+    (_, key) => {
+      assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
+      return key.startsWith('_')
+    },
+    pickBy,
+  )
 }

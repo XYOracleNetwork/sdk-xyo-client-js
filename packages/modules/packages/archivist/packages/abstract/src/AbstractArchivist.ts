@@ -290,9 +290,12 @@ export abstract class AbstractArchivist<
       }
       case ArchivistInsertQuerySchema: {
         const payloads = wrappedQuery.payloads
-        assertEx(wrappedQuery.payloads, `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
+        assertEx(wrappedQuery.payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
         const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.dataHash())
-        assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
+        assertEx(
+          resolvedPayloads.length === payloads.length,
+          () => `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`,
+        )
         resultPayloads.push(...(await this.insertWithConfig(payloads)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
@@ -329,9 +332,10 @@ export abstract class AbstractArchivist<
 
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,
-      `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-        archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
-      )}]`,
+      () =>
+        `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
+          archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+        )}]`,
     )
 
     // eslint-disable-next-line unicorn/no-array-reduce

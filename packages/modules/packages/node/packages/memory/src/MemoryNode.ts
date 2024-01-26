@@ -28,7 +28,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   override async register(module: ModuleInstance) {
     await this.started('throw')
-    assertEx(!this.registeredModuleMap[module.address], `Module already registered at that address[${module.address}][${module.config.schema}]`)
+    assertEx(!this.registeredModuleMap[module.address], () => `Module already registered at that address[${module.address}][${module.config.schema}]`)
     this.registeredModuleMap[module.address] = module
     const args = { module, name: module.config.name }
     await this.emit('moduleRegistered', args)
@@ -61,7 +61,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private async attachUsingAddress(address: string, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
-    assertEx(!existingModule, `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
+    assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
 
     if (!module) {

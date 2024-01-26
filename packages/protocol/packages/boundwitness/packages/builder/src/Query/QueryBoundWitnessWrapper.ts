@@ -35,7 +35,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   async getQuery(): Promise<T> {
     const payloadMap = await this.payloadsDataHashMap()
     this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
-    return assertEx(this._query, `Missing Query [${this.boundwitness}]`)
+    return assertEx(this._query, () => `Missing Query [${this.boundwitness}]`)
   }
 
   override async getWrappedPayloads(): Promise<PayloadWrapper<Payload>[]> {

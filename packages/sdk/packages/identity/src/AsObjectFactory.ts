@@ -33,7 +33,7 @@ export const AsObjectFactory = {
         return !!resolvedAssert
       }
 
-      return noUndefined(resolvedAssert) ? assertEx(result, typeof resolvedAssert === 'function' ? resolvedAssert() : resolvedAssert) : result
+      return noUndefined(resolvedAssert) ? assertEx(result, () => (typeof resolvedAssert === 'function' ? resolvedAssert() : resolvedAssert)) : result
     }
     return func
   },

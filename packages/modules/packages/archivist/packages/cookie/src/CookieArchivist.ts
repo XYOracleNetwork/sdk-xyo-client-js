@@ -144,7 +144,7 @@ export class CookieArchivist<
         pairs.map(async ([payload, hash]) => {
           const payloadWithMeta = await PayloadBuilder.build(payload)
           const value = JSON.stringify(payloadWithMeta)
-          assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
+          assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
           Cookies.set(this.keyFromHash(hash), value)
           Cookies.set(this.keyFromHash(payload.$hash), value)
           return payloadWithMeta

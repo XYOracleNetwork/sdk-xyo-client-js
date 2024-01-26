@@ -139,7 +139,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
   }
 
   targetConfig(address: string): ModuleConfig {
-    return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
+    return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
   async targetDiscover(address?: string, maxDepth = 2): Promise<Payload[]> {
@@ -155,7 +155,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     const addressToDiscover = address ?? (await this.getRootAddress())
     const queryPayload: ModuleDiscoverQuery = { maxDepth, schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
-    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
 
     this._targetQueries[addressToDiscover] = compact(
       discover?.map((payload) => {
@@ -170,12 +170,12 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
 
     const targetConfigSchema = assertEx(
       discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
-      `Discover did not return a [${ConfigSchema}] payload`,
+      () => `Discover did not return a [${ConfigSchema}] payload`,
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
       discover.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
-      `Discover did not return a [${targetConfigSchema}] payload`,
+      () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 
     //if caching, set entry
@@ -188,7 +188,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     const addressToCall = address ?? (await this.getRootAddress())
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
-    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
     return assertEx(manifest.find(isPayloadOfSchemaType(ModuleManifestPayloadSchema)), 'Did not receive manifest') as ModuleManifestPayload
   }
 
@@ -196,7 +196,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     if (!this.connected) {
       throw new Error('Not connected')
     }
-    return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
+    return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {

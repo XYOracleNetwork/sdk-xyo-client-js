@@ -24,7 +24,7 @@ export class HDWallet extends Account implements WalletInstance {
     protected readonly node: HDNodeWallet,
   ) {
     const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
-    assertEx(!privateKey || privateKey?.length === 32, `Private key must be 32 bytes [${privateKey?.length}]`)
+    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
     super(key, privateKey ? { privateKey } : undefined)
   }
 

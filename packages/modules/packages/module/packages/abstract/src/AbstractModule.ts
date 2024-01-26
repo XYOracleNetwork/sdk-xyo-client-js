@@ -178,7 +178,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const schema: string = params?.config?.schema ?? this.configSchema
     const allowedSchemas: string[] = this.configSchemas
 
-    assertEx(allowedSchemas.includes(schema), `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
+    assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
     const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
     params?.logger?.debug(`config: ${JSON.stringify(mutatedConfig, null, 2)}`)
     const mutatedParams: TModule['params'] = { ...params, config: mutatedConfig } as TModule['params']
@@ -225,7 +225,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const thisFunc = (this as any)[functionName]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
+    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   async busy<R>(closure: () => Promise<R>) {
@@ -508,7 +508,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
     const distinctPaths = new Set<string>(paths)
-    assertEx(distinctPaths.size === paths.length, `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
+    assertEx(distinctPaths.size === paths.length, () => `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
     // Create an account for query this module supports
     const wallet = this.account as unknown as HDWallet
     if (wallet?.derivePath) {

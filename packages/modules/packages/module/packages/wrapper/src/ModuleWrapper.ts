@@ -219,7 +219,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
-    assertEx(module && this.moduleIdentityCheck(module), `Passed module failed identity check: ${module?.config?.schema}`)
+    assertEx(module && this.moduleIdentityCheck(module), () => `Passed module failed identity check: ${module?.config?.schema}`)
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 

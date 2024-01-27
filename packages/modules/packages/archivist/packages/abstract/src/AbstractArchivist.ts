@@ -24,7 +24,6 @@ import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export interface ActionConfig {
   emitEvents?: boolean

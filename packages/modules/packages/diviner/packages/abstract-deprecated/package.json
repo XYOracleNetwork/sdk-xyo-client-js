@@ -15,9 +15,9 @@
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.89.0-rc.7",
+  "version": "2.89.0-rc.8",
   "type": "module",
   "stableVersion": "2.88.3"
 }

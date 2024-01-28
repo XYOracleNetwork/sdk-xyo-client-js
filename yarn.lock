@@ -3212,7 +3212,6 @@ __metadata:
     "@xylabs/error": "npm:^2.14.0"
     "@xylabs/hex": "npm:^2.14.0"
     "@xylabs/lodash": "npm:^2.14.0"
-    "@xylabs/logger": "npm:^2.14.0"
     "@xylabs/object": "npm:^2.89.0"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
@@ -4678,7 +4677,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.89.0-rc.8, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.89.0-rc.9, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5216,7 +5215,9 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^2.14.0"
     "@xylabs/hex": "npm:^2.14.0"
+    "@xylabs/logger": "npm:^2.14.0"
     "@xylabs/object": "npm:^2.89.0"
+    "@xylabs/promise": "npm:^2.14.0"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
     "@xyo-network/hash": "workspace:~"
@@ -5455,12 +5456,12 @@ __metadata:
     "@xylabs/error": "npm:^2.14.0"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig-dom": "npm:^3.2.42"
-    "@xyo-network/domain-payload-plugin": "npm:^2.89.0-rc.8"
+    "@xyo-network/domain-payload-plugin": "npm:^2.89.0-rc.9"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.89.0-rc.8"
+    "@xyo-network/schema-payload-plugin": "npm:^2.89.0-rc.9"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.3.3"
@@ -5478,7 +5479,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.89.0-rc.8, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.89.0-rc.9, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:

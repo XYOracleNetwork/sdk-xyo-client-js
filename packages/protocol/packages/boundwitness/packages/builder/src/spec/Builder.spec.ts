@@ -63,18 +63,10 @@ describe('BoundWitnessBuilder', () => {
         }
       })
     })
-    describe('with inlinePayloads true', () => {
-      it('contains the _payloads field', async () => {
-        const address = await Account.fromPhrase('sibling split sadness nose fever umbrella favorite ritual movie zone buyer movie')
-        const builder = await new BoundWitnessBuilder({ inlinePayloads: true }).witness(address).payload(payload1)
-        const [actual] = await builder.build()
-        expect(actual).toBeDefined()
-      })
-    })
-    describe('with inlinePayloads false', () => {
+    describe('with payloads', () => {
       it('omits the _payloads field', async () => {
         const address = await Account.fromPhrase('canyon defense similar chalk good box quote miss decorate load amused gown')
-        const builder = await new BoundWitnessBuilder({ inlinePayloads: false }).witness(address).payload(payload1)
+        const builder = await new BoundWitnessBuilder().witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
       })

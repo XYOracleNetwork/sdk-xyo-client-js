@@ -1,31 +1,15 @@
-import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { AnyObject, JsonObject } from '@xylabs/object'
-import { deepOmitPrefixedFields, PayloadHasher, removeEmptyFields } from '@xyo-network/hash'
+import { AnyObject } from '@xylabs/object'
+import { PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-export interface PayloadBuilderOptions<T> {
-  fields?: Partial<T>
-  meta?: JsonObject
-  schema: string
-}
+import { PayloadBuilderBase } from './BuilderBase'
+import { PayloadBuilderOptions } from './Options'
 
-export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
-  private _$meta?: JsonObject
-  private _fields: Partial<T> = {}
-  private _schema: string
-
-  constructor({ schema, fields, meta }: PayloadBuilderOptions<T>) {
-    this._schema = schema
-    this._fields = fields ?? {}
-    this._$meta = meta
-  }
-
-  get schema() {
-    this._schema = this._schema ?? this._fields['schema']
-    return this._schema
-  }
-
+export class PayloadBuilder<
+  T extends Payload = Payload<AnyObject>,
+  O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
+> extends PayloadBuilderBase<T, O> {
   static async build<T extends Payload>(payload: T) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schema, $hash, $meta, ...fields } = payload as WithMeta<T>
@@ -122,13 +106,8 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
     return result
   }
 
-  $meta(meta?: JsonObject) {
-    this._$meta = meta
-    return this
-  }
-
   async build(): Promise<WithMeta<T>> {
-    const dataHashableFields = this.dataHashableFields()
+    const dataHashableFields = await this.dataHashableFields()
     const $hash = await PayloadBuilder.hash(dataHashableFields)
     const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash }
 
@@ -137,23 +116,5 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
       hashableFields['$meta'] = this._$meta
     }
     return hashableFields as WithMeta<T>
-  }
-
-  dataHashableFields() {
-    return {
-      ...removeEmptyFields(deepOmitPrefixedFields(deepOmitPrefixedFields(this._fields, '$'), '_')),
-      schema: assertEx(this.schema, 'Payload: Missing Schema'),
-    } as T
-  }
-
-  fields(fields?: Partial<T>) {
-    if (fields) {
-      const { $meta } = fields as Partial<WithMeta<T>>
-      if ($meta) {
-        this.$meta($meta)
-      }
-      this._fields = { ...this._fields, ...removeEmptyFields(fields) }
-    }
-    return this
   }
 }

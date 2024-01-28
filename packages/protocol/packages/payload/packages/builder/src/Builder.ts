@@ -148,6 +148,10 @@ export class PayloadBuilder<T extends Payload = Payload<AnyObject>> {
 
   fields(fields?: Partial<T>) {
     if (fields) {
+      const { $meta } = fields as Partial<WithMeta<T>>
+      if ($meta) {
+        this.$meta($meta)
+      }
       this._fields = { ...this._fields, ...removeEmptyFields(fields) }
     }
     return this

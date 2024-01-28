@@ -100,8 +100,13 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param meta Keeps underscore (meta) fields if set to true
    * @returns Returns a clone of the payload that is JSON safe
    */
-  static jsonPayload<T extends EmptyObject>(payload: T, meta = false): T {
+  static json<T extends EmptyObject>(payload: T, meta = false): T {
     return sortFields(removeEmptyFields(meta ? payload : deepOmitPrefixedFields(payload, '_')))
+  }
+
+  /** @deprecated us json instead */
+  static jsonPayload<T extends EmptyObject>(payload: T, meta = false): T {
+    return this.json(payload, meta)
   }
 
   static stringifyHashFields<T extends EmptyObject>(obj: T) {

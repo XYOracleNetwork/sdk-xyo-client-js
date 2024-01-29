@@ -175,16 +175,17 @@ describe('HttpBridge.caching', () => {
       destination.bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
         await Promise.resolve()
         const bw = insertResult.payloads.find(isBoundWitness)
-        if (bw) {
+        if (
+          bw &&
           // Filter specifically for the sourceQuery for the hash we issued
-          if (bw?.sourceQuery === sourceQueryHash) {
-            const payloads = insertResult.payloads.filter((payload) => payload !== bw)
-            const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
-            resolve(rematerializedResponse)
-          }
-        } else {
-          reject()
+          (bw?.$meta as Partial<{ sourceQuery: string }>)?.sourceQuery === sourceQueryHash
+        ) {
+          const payloads = insertResult.payloads.filter((payload) => payload !== bw)
+          const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
+          resolve(rematerializedResponse)
+          return
         }
+        reject('Error receiving response')
       })
     })
     // TODO: Retrieve offset from state store

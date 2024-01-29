@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInsertQuery, ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
@@ -27,18 +27,27 @@ interface BridgeClient {
   module: AbstractModule
 }
 
+type QueryMeta = {
+  /**
+   * The destination addresses of the query
+   */
+  destination: string[]
+}
+
 /**
  * @group module
  * @group bridge
  */
 
-describe.skip('HttpBridge.caching', () => {
+describe('HttpBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
-  const payload = { salt: Date.now(), schema: 'network.xyo.test' } as Payload
+  let payload: Payload
   let sourceQueryHash: string
   let response: ModuleQueryResult
   beforeAll(async () => {
+    payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
+
     const intermediateNodeAccount = await Account.create()
     const node = await MemoryNode.create({ account: intermediateNodeAccount })
 
@@ -114,7 +123,10 @@ describe.skip('HttpBridge.caching', () => {
   it('Module A issues command', async () => {
     const source = clients[0]
     const destination = clients[1]
-    const query: ArchivistInsertQuery = { address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
+    const $meta: QueryMeta = {
+      destination: [destination.module.account.address],
+    }
+    const query = { $meta, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
     const [command, payloads] = await (
       await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query)).payloads([payload])
     ).build()

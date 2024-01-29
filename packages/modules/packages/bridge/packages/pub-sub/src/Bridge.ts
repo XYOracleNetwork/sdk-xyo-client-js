@@ -33,8 +33,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     if (this.gateway) {
       if (!this.gateway.connected) await this.gateway.connect()
       this.connected = this.gateway.connected
-      // TODO: Further resolve supporting modules (Archivists, Diviners, etc.)
-      return true
+      if (this.connected) {
+        // TODO: Further resolve supporting modules (Archivists, Diviners, etc.)
+      }
+      return this.connected
     } else {
       this.connected = false
       return false

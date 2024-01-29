@@ -151,12 +151,18 @@ describe('HttpBridge.caching', () => {
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)
     for (const command of commands.filter(isQueryBoundWitness)) {
-      const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
-      const query = commandPayloads?.[command.query] as Payload<QueryFields>
-      if (query && query?.address === destination.address && destination.queries.includes(query.schema)) {
-        // Issue query against module
-        response = await destination.query(command, Object.values(commandPayloads))
-        expect(response).toBeDefined()
+      // Ensure the query is addressed to the destination
+      const { destination: commandDestination } = command.$meta as { destination?: string[] }
+      if (query && commandDestination?.includes(destination.address) && destination.queries.includes(query.schema)) {
+        // Get the associated payloads
+        const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
+        const query = commandPayloads?.[command.query] as Payload<QueryFields>
+        // If the destination can process this type of query
+        if (destination.queries.includes(query.schema)) {
+          // Issue the query against module
+          response = await destination.query(command, Object.values(commandPayloads))
+          expect(response).toBeDefined()
+        }
       }
     }
     const archivist = asArchivistInstance(destination, 'Failed to cast archivist')

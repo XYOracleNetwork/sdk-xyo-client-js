@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -8,6 +9,8 @@ import { Payload, QueryFields, SchemaFields } from '@xyo-network/payload-model'
 
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
+
+const moduleName = 'PubSubBridge'
 
 @creatableModule()
 export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
@@ -20,7 +23,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   protected readonly gatewayAddress = 'pub-sub'
 
   private _gateway: BridgeInstance | undefined
-  get gateway(): BridgeInstance | undefined {
+
+  get queryArchivist() {
+    return assertEx(this.config.queries?.archivist, `${moduleName}: Missing config for QueryArchivist address`)
+  }
+  get queryBoundWitnessDiviner() {
+    return assertEx(this.config.queries?.boundWitnessDiviner, `${moduleName}: Missing config for QueryBoundWitnessDiviner address`)
+  }
+  get responseArchivist() {
+    return assertEx(this.config.responses?.archivist, `${moduleName}: Missing config for ResponseArchivist address`)
+  }
+  get responseBoundWitnessDiviner() {
+    return assertEx(this.config.responses?.boundWitnessDiviner, `${moduleName}: Missing config for ResponseBoundWitnessDiviner address`)
+  }
+  protected get gateway(): BridgeInstance | undefined {
     return this._gateway
   }
   protected set gateway(v: BridgeInstance | undefined) {
@@ -35,6 +51,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
       this.connected = this.gateway.connected
       if (this.connected) {
         // TODO: Further resolve supporting modules (Archivists, Diviners, etc.)
+        const intermediaryModules = [this.queryArchivist, this.queryBoundWitnessDiviner, this.responseArchivist, this.responseBoundWitnessDiviner]
+        const resolved = await Promise.all(intermediaryModules.map((address) => this.resolve(address)))
       }
       return this.connected
     } else {
@@ -44,8 +62,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   }
 
   async disconnect(): Promise<boolean> {
-    await Promise.resolve()
-    this.gateway = undefined
+    await this.gateway?.disconnect()
     this.connected = false
     return true
   }

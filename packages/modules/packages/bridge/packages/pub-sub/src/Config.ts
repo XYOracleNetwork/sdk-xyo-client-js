@@ -28,6 +28,9 @@ export interface IntermediaryConfig {
   // bridge?: string
 }
 
+/**
+ * Configuration for the PubSubBridge
+ */
 export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
     /**

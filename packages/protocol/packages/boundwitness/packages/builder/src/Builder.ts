@@ -14,6 +14,7 @@ type GeneratedBoundWitnessFields = 'addresses' | 'payload_hashes' | 'payload_sch
 export interface BoundWitnessBuilderOptions<T extends BoundWitness = BoundWitness, TPayload extends Payload = Payload>
   extends Omit<PayloadBuilderOptions<Omit<T, GeneratedBoundWitnessFields>>, 'schema'> {
   readonly accounts?: AccountInstance[]
+  readonly destination?: string[]
   readonly payloadHashes?: T['payload_hashes']
   readonly payloadSchemas?: T['payload_schemas']
   readonly payloads?: TPayload[]
@@ -27,6 +28,7 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
 > {
   private static readonly _buildMutex = new Mutex()
   private _accounts: AccountInstance[]
+  private _destination?: string[]
   private _errorHashes?: string[]
   private _errors: ModuleError[] = []
   private _payloadHashes?: string[]
@@ -37,12 +39,13 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
 
   constructor(options?: BoundWitnessBuilderOptions<T, TPayload>) {
     super({ ...options, schema: BoundWitnessSchema })
-    const { accounts, payloadHashes, payloadSchemas, payloads, sourceQuery, timestamp } = options ?? {}
+    const { accounts, payloadHashes, payloadSchemas, payloads, sourceQuery, timestamp, destination } = options ?? {}
     this._accounts = accounts ?? []
     this._payloadHashes = payloadHashes
     this._payloadSchemas = payloadSchemas
     this._payloads = payloads ?? []
     this._sourceQuery = sourceQuery
+    this._destination = destination
     this._timestamp = timestamp ?? true
   }
 
@@ -89,6 +92,11 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
       if (this._sourceQuery) {
         metaHolder.$meta = metaHolder.$meta ?? {}
         metaHolder.$meta.sourceQuery = this._sourceQuery
+      }
+
+      if (this._destination) {
+        metaHolder.$meta = metaHolder.$meta ?? {}
+        metaHolder.$meta.destination = this._destination
       }
 
       const ret: WithMeta<T> = {

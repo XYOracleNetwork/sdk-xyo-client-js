@@ -18,14 +18,23 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
-    const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery } = filter
+    const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map((address) => hexFromHexString(address)).filter(exists)
     if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))
     if (payload_hashes?.length) bws = bws.filter((bw) => containsAll(bw.payload_hashes, payload_hashes))
     if (payload_schemas?.length) bws = bws.filter((bw) => containsAll(bw.payload_schemas, payload_schemas))
-    if (sourceQuery) bws = bws.filter((bw) => bw.sourceQuery === sourceQuery)
+    if (sourceQuery) bws = bws.filter((bw) => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === sourceQuery)
+    if (destination && destination.length > 0)
+      bws = bws.filter((bw) => {
+        const { destination: bwDestination } = bw?.$meta as { destination?: string[] }
+        if (bwDestination !== undefined) {
+          const filter = assertEx(destination, 'Missing destination')
+          return containsAll(filter, (bw.$meta as { destination?: string[] })?.destination ?? [])
+        }
+        return false
+      })
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0
     return bws.slice(parsedOffset, parsedLimit)

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInsertQuery, ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
@@ -27,18 +27,27 @@ interface BridgeClient {
   module: AbstractModule
 }
 
+type QueryMeta = {
+  /**
+   * The destination addresses of the query
+   */
+  destination: string[]
+}
+
 /**
  * @group module
  * @group bridge
  */
 
-describe.skip('HttpBridge.caching', () => {
+describe('HttpBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
-  const payload = { salt: Date.now(), schema: 'network.xyo.test' } as Payload
+  let payload: Payload
   let sourceQueryHash: string
   let response: ModuleQueryResult
   beforeAll(async () => {
+    payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
+
     const intermediateNodeAccount = await Account.create()
     const node = await MemoryNode.create({ account: intermediateNodeAccount })
 
@@ -114,10 +123,11 @@ describe.skip('HttpBridge.caching', () => {
   it('Module A issues command', async () => {
     const source = clients[0]
     const destination = clients[1]
-    const query: ArchivistInsertQuery = { address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await (
-      await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query)).payloads([payload])
-    ).build()
+    const query = { _destination: destination, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
+    const builder = new QueryBoundWitnessBuilder({ destination: [destination.module.account.address] }).witness(source.module.account)
+    await builder.payloads([payload])
+    await builder.query(query)
+    const [command, payloads] = await builder.build()
     sourceQueryHash = await PayloadBuilder.dataHash(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
@@ -128,18 +138,32 @@ describe.skip('HttpBridge.caching', () => {
     const { commandArchivist, commandArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store
     const offset = 0
-    // TODO: Filter for commands to us by address
-    const query = { limit: 1, offset, payload_schemas: [ArchivistInsertQuerySchema], schema: BoundWitnessDivinerQuerySchema, sort: 'asc' }
-    const commands = await commandArchivistBoundWitnessDiviner.divine([query])
+    // Filter for commands to us by destination address
+    const divinerQuery = {
+      destination: [destination.address],
+      limit: 1,
+      offset,
+      payload_schemas: [ArchivistInsertQuerySchema],
+      schema: BoundWitnessDivinerQuerySchema,
+      sort: 'asc',
+    }
+    const commands = await commandArchivistBoundWitnessDiviner.divine([divinerQuery])
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)
     for (const command of commands.filter(isQueryBoundWitness)) {
-      const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
-      const query = commandPayloads?.[command.query] as Payload<QueryFields>
-      if (query && query?.address === destination.address && destination.queries.includes(query.schema)) {
-        // Issue query against module
-        response = await destination.query(command, Object.values(commandPayloads))
-        expect(response).toBeDefined()
+      // Ensure the query is addressed to the destination
+      const { destination: commandDestination } = command.$meta as { destination?: string[] }
+      // TODO: Check supported query using index of query => payload_schemas
+      if (divinerQuery && commandDestination?.includes(destination.address)) {
+        // Get the associated payloads
+        const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
+        const query = commandPayloads?.[command.query] as Payload<QueryFields>
+        // If the destination can process this type of query
+        if (destination.queries.includes(query.schema)) {
+          // Issue the query against module
+          response = await destination.query(command, Object.values(commandPayloads))
+          expect(response).toBeDefined()
+        }
       }
     }
     const archivist = asArchivistInstance(destination, 'Failed to cast archivist')
@@ -163,16 +187,17 @@ describe.skip('HttpBridge.caching', () => {
       destination.bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
         await Promise.resolve()
         const bw = insertResult.payloads.find(isBoundWitness)
-        if (bw) {
+        if (
+          bw &&
           // Filter specifically for the sourceQuery for the hash we issued
-          if (bw?.sourceQuery === sourceQueryHash) {
-            const payloads = insertResult.payloads.filter((payload) => payload !== bw)
-            const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
-            resolve(rematerializedResponse)
-          }
-        } else {
-          reject()
+          (bw?.$meta as Partial<{ sourceQuery: string }>)?.sourceQuery === sourceQueryHash
+        ) {
+          const payloads = insertResult.payloads.filter((payload) => payload !== bw)
+          const rematerializedResponse: ModuleQueryResult = [bw, payloads, []]
+          resolve(rematerializedResponse)
+          return
         }
+        reject('Error receiving response')
       })
     })
     // TODO: Retrieve offset from state store

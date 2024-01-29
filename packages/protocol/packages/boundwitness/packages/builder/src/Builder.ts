@@ -92,7 +92,6 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
       if (this._sourceQuery) {
         metaHolder.$meta = metaHolder.$meta ?? {}
         metaHolder.$meta.sourceQuery = this._sourceQuery
-        if (this._destination) metaHolder.$meta.destination = this._destination
       }
 
       if (this._destination) {

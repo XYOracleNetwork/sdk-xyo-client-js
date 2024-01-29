@@ -153,16 +153,19 @@ describe('HttpBridge.caching', () => {
     for (const command of commands.filter(isQueryBoundWitness)) {
       // Ensure the query is addressed to the destination
       const { destination: commandDestination } = command.$meta as { destination?: string[] }
-      // TODO: Check supported query using index of query => payload_schemas
-      if (divinerQuery && commandDestination?.includes(destination.address)) {
-        // Get the associated payloads
-        const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
-        const query = commandPayloads?.[command.query] as Payload<QueryFields>
-        // If the destination can process this type of query
-        if (destination.queries.includes(query.schema)) {
-          // Issue the query against module
-          response = await destination.query(command, Object.values(commandPayloads))
-          expect(response).toBeDefined()
+      if (commandDestination && commandDestination?.includes(destination.address)) {
+        // Find the query
+        const queryIndex = command.payload_hashes.indexOf(command.query)
+        if (queryIndex !== -1) {
+          const querySchema = command.payload_schemas[queryIndex]
+          // If the destination can process this type of query
+          if (destination.queries.includes(querySchema)) {
+            // Get the associated payloads
+            const commandPayloads = await commandArchivist.get(command.payload_hashes)
+            // Issue the query against module
+            response = await destination.query(command, commandPayloads)
+            expect(response).toBeDefined()
+          }
         }
       }
     }
@@ -184,8 +187,8 @@ describe('HttpBridge.caching', () => {
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
     // Attach event handler to archivist insert
     const done = new Promise((resolve, reject) => {
-      destination.bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
-        await Promise.resolve()
+      destination.bridgeQueryResponseArchivist.on('inserted', (insertResult) => {
+        // TODO: Find all BWs and filter for the one we issued
         const bw = insertResult.payloads.find(isBoundWitness)
         if (
           bw &&

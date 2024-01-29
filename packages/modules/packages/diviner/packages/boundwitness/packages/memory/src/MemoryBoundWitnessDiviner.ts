@@ -25,7 +25,7 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))
     if (payload_hashes?.length) bws = bws.filter((bw) => containsAll(bw.payload_hashes, payload_hashes))
     if (payload_schemas?.length) bws = bws.filter((bw) => containsAll(bw.payload_schemas, payload_schemas))
-    if (sourceQuery) bws = bws.filter((bw) => bw.sourceQuery === sourceQuery)
+    if (sourceQuery) bws = bws.filter((bw) => (bw?.$meta as Partial<{ sourceQuery: string }>)?.sourceQuery === sourceQuery)
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0
     return bws.slice(parsedOffset, parsedLimit)

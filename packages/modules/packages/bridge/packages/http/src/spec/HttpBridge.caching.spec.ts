@@ -123,13 +123,11 @@ describe('HttpBridge.caching', () => {
   it('Module A issues command', async () => {
     const source = clients[0]
     const destination = clients[1]
-    const $meta: QueryMeta = {
-      destination: [destination.module.account.address],
-    }
-    const query = { $meta, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
-    const [command, payloads] = await (
-      await (await new QueryBoundWitnessBuilder().witness(source.module.account).query(query)).payloads([payload])
-    ).build()
+    const query = { _destination: destination, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
+    const builder = new QueryBoundWitnessBuilder({ destination: [destination.module.account.address] }).witness(source.module.account)
+    await builder.payloads([payload])
+    await builder.query(query)
+    const [command, payloads] = await builder.build()
     sourceQueryHash = await PayloadBuilder.dataHash(command)
     const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
     expect(insertResult).toBeDefined()
@@ -140,8 +138,15 @@ describe('HttpBridge.caching', () => {
     const { commandArchivist, commandArchivistBoundWitnessDiviner } = intermediateNode
     // TODO: Retrieve offset from state store
     const offset = 0
-    // TODO: Filter for commands to us by address
-    const query = { limit: 1, offset, payload_schemas: [ArchivistInsertQuerySchema], schema: BoundWitnessDivinerQuerySchema, sort: 'asc' }
+    // Filter for commands to us by destination address
+    const query = {
+      destination: [destination.address],
+      limit: 1,
+      offset,
+      payload_schemas: [ArchivistInsertQuerySchema],
+      schema: BoundWitnessDivinerQuerySchema,
+      sort: 'asc',
+    }
     const commands = await commandArchivistBoundWitnessDiviner.divine([query])
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)

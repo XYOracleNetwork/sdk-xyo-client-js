@@ -158,10 +158,10 @@ describe('HttpBridge.caching', () => {
         const queryIndex = command.payload_hashes.indexOf(command.query)
         if (queryIndex !== -1) {
           const querySchema = command.payload_schemas[queryIndex]
+          // If the destination can process this type of query
           if (destination.queries.includes(querySchema)) {
             // Get the associated payloads
             const commandPayloads = await commandArchivist.get(command.payload_hashes)
-            // If the destination can process this type of query
             // Issue the query against module
             response = await destination.query(command, commandPayloads)
             expect(response).toBeDefined()
@@ -187,8 +187,8 @@ describe('HttpBridge.caching', () => {
     const { queryResponseArchivist, queryResponseArchivistBoundWitnessDiviner } = intermediateNode
     // Attach event handler to archivist insert
     const done = new Promise((resolve, reject) => {
-      destination.bridgeQueryResponseArchivist.on('inserted', async (insertResult) => {
-        await Promise.resolve()
+      destination.bridgeQueryResponseArchivist.on('inserted', (insertResult) => {
+        // TODO: Find all BWs and filter for the one we issued
         const bw = insertResult.payloads.find(isBoundWitness)
         if (
           bw &&

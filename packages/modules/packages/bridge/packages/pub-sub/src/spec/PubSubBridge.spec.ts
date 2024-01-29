@@ -8,7 +8,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { PubSubBridge } from '../PubSubBridge'
+import { PubSubBridge } from '../Bridge'
 import { PubSubBridgeConfigSchema } from '../PubSubBridgeConfig'
 
 /**

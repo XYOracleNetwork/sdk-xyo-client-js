@@ -5,11 +5,10 @@ import { compact } from '@xylabs/lodash'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeModule, BridgeParams, CacheConfig } from '@xyo-network/bridge-model'
+import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
-  AnyConfigSchema,
   creatableModule,
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -25,12 +24,11 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
 
-import { PubSubBridgeConfig, PubSubBridgeConfigSchema } from './PubSubBridgeConfig'
-
-export type HttpBridgeParams<TConfig extends AnyConfigSchema<PubSubBridgeConfig> = AnyConfigSchema<PubSubBridgeConfig>> = BridgeParams<TConfig>
+import { PubSubBridgeConfigSchema } from './Config'
+import { PubSubBridgeParams } from './Params'
 
 @creatableModule()
-export class PubSubBridge<TParams extends HttpBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractBridge<TParams, TEventData>
   implements BridgeModule<TParams, TEventData>
 {

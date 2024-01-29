@@ -8,29 +8,29 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { HttpBridge } from '../PubSubBridge'
-import { HttpBridgeConfigSchema } from '../PubSubBridgeConfig'
+import { PubSubBridge } from '../PubSubBridge'
+import { PubSubBridgeConfigSchema } from '../PubSubBridgeConfig'
 
 /**
  * @group module
  * @group bridge
  */
 
-describe('HttpBridge', () => {
+describe('PubSubBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
 
-  console.log(`HttpBridge:baseUrl ${baseUrl}`)
+  console.log(`PubSubBridge:baseUrl ${baseUrl}`)
   const cases = [
     ['/', `${baseUrl}`],
     /*['/node', `${baseUrl}/node`],*/
   ]
 
-  it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
+  it.each(cases)('PubSubBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
-    const bridge: BridgeInstance = await HttpBridge.create({
+    const bridge: BridgeInstance = await PubSubBridge.create({
       account: Account.randomSync(),
-      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { nodeUrl, schema: PubSubBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
@@ -60,7 +60,7 @@ describe('HttpBridge', () => {
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
     expect(roundTripPayload).toBeDefined()
   })
-  it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
+  it.each(cases)('PubSubBridge - Nested: %s', async (_, nodeUrl) => {
     const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
     const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
     const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
@@ -70,9 +70,9 @@ describe('HttpBridge', () => {
     await memNode2.register(memNode3)
     await memNode2.attach(memNode3.address, true)
 
-    const bridge = await HttpBridge.create({
+    const bridge = await PubSubBridge.create({
       account: Account.randomSync(),
-      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { nodeUrl, schema: PubSubBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()

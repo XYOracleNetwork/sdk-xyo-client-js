@@ -25,16 +25,16 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
 
-import { HttpBridgeConfig, HttpBridgeConfigSchema } from './PubSubBridgeConfig'
+import { PubSubBridgeConfig, PubSubBridgeConfigSchema } from './PubSubBridgeConfig'
 
-export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
+export type HttpBridgeParams<TConfig extends AnyConfigSchema<PubSubBridgeConfig> = AnyConfigSchema<PubSubBridgeConfig>> = BridgeParams<TConfig>
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+export class PubSubBridge<TParams extends HttpBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractBridge<TParams, TEventData>
   implements BridgeModule<TParams, TEventData>
 {
-  static override configSchemas = [HttpBridgeConfigSchema]
+  static override configSchemas = [PubSubBridgeConfigSchema]
   static maxPayloadSizeWarning = 256 * 256
 
   private _axios?: AxiosJson
@@ -207,7 +207,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     try {
       const moduleUrlString = this.moduleUrl(address).toString()
       const payloadSize = JSON.stringify([query, payloads]).length
-      if (payloadSize > HttpBridge.maxPayloadSizeWarning) {
+      if (payloadSize > PubSubBridge.maxPayloadSizeWarning) {
         this.logger?.warn(`Large targetQuery being sent: ${payloadSize} bytes [${address}] [${query.schema}] [${payloads.length}]`)
       }
       const result = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(moduleUrlString, [query, payloads])

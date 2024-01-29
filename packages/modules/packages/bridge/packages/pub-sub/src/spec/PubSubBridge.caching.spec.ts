@@ -39,7 +39,7 @@ type QueryMeta = {
  * @group bridge
  */
 
-describe('HttpBridge.caching', () => {
+describe('PubSubBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: BridgeClient[]
   let payload: Payload

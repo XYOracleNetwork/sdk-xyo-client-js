@@ -9,7 +9,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { PubSubBridge } from '../Bridge'
-import { PubSubBridgeConfigSchema } from '../PubSubBridgeConfig'
+import { PubSubBridgeConfigSchema } from '../Config'
 
 /**
  * @group module

@@ -139,7 +139,7 @@ describe('HttpBridge.caching', () => {
     // TODO: Retrieve offset from state store
     const offset = 0
     // Filter for commands to us by destination address
-    const query = {
+    const divinerQuery = {
       destination: [destination.address],
       limit: 1,
       offset,
@@ -147,13 +147,14 @@ describe('HttpBridge.caching', () => {
       schema: BoundWitnessDivinerQuerySchema,
       sort: 'asc',
     }
-    const commands = await commandArchivistBoundWitnessDiviner.divine([query])
+    const commands = await commandArchivistBoundWitnessDiviner.divine([divinerQuery])
     expect(commands).toBeArray()
     expect(commands.length).toBeGreaterThan(0)
     for (const command of commands.filter(isQueryBoundWitness)) {
       // Ensure the query is addressed to the destination
       const { destination: commandDestination } = command.$meta as { destination?: string[] }
-      if (query && commandDestination?.includes(destination.address) && destination.queries.includes(query.schema)) {
+      // TODO: Check supported query using index of query => payload_schemas
+      if (divinerQuery && commandDestination?.includes(destination.address)) {
         // Get the associated payloads
         const commandPayloads = await PayloadBuilder.toDataHashMap(await commandArchivist.get(command.payload_hashes))
         const query = commandPayloads?.[command.query] as Payload<QueryFields>

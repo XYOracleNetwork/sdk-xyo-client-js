@@ -16,7 +16,7 @@
     "mapbox-gl": "^3.1.2"
   },
   "devDependencies": {
-    "@types/mapbox-gl": "^2.7.19",
+    "@types/mapbox-gl": "^2.7.20",
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
     "@xylabs/tsconfig": "^3.2.42",
     "typescript": "^5.3.3"
@@ -60,7 +60,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.89.0-rc.9",
+  "version": "2.89.0-rc.10",
   "type": "module",
   "stableVersion": "2.88.3"
 }

@@ -1,7 +1,7 @@
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeModule } from '@xyo-network/bridge-model'
+import { BridgeInstance, BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { creatableModule, ModuleConfig, ModuleEventData, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload, QueryFields, SchemaFields } from '@xyo-network/payload-model'
@@ -19,11 +19,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   // TODO: Get from config
   protected readonly gatewayAddress = 'pub-sub'
 
-  private _gateway: BridgeModule | undefined
-  get gateway(): BridgeModule | undefined {
+  private _gateway: BridgeInstance | undefined
+  get gateway(): BridgeInstance | undefined {
     return this._gateway
   }
-  protected set gateway(v: BridgeModule | undefined) {
+  protected set gateway(v: BridgeInstance | undefined) {
     this._gateway = v
   }
 
@@ -31,8 +31,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     await super.startHandler()
     this.gateway = await this.resolve(this.gatewayAddress)
     if (this.gateway) {
-      this.connected = true
-      // TODO: Further resolve Archivists
+      if (!this.gateway.connected) await this.gateway.connect()
+      this.connected = this.gateway.connected
+      // TODO: Further resolve supporting modules (Archivists, Diviners, etc.)
       return true
     } else {
       this.connected = false

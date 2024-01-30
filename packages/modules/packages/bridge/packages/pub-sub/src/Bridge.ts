@@ -23,33 +23,32 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   protected readonly gatewayAddress = 'pub-sub'
 
   private _gateway: BridgeInstance | undefined
-
-  get queryArchivist() {
-    return assertEx(this.config.queries?.archivist, `${moduleName}: Missing config for query.archivist in module configuration`)
-  }
-  get queryBoundWitnessDiviner() {
-    return assertEx(this.config.queries?.boundWitnessDiviner, `${moduleName}: Missing config for query.boundWitnessDiviner in module configuration`)
-  }
-  get queryBridge() {
-    return assertEx(this.config.queries?.bridge, `${moduleName}: Missing config for query.bridge in module configuration`)
-  }
-  get responseArchivist() {
-    return assertEx(this.config.responses?.archivist, `${moduleName}: Missing config for response.archivist in module configuration`)
-  }
-  get responseBoundWitnessDiviner() {
-    return assertEx(
-      this.config.responses?.boundWitnessDiviner,
-      `${moduleName}: Missing config for response.boundWitnessDiviner in module configuration`,
-    )
-  }
-  get responseBridge() {
-    return assertEx(this.config.responses?.bridge, `${moduleName}: Missing config for response.bridge in module configuration`)
-  }
   protected get gateway(): BridgeInstance | undefined {
     return this._gateway
   }
   protected set gateway(v: BridgeInstance | undefined) {
     this._gateway = v
+  }
+  protected get queryArchivist() {
+    return assertEx(this.config.queries?.archivist, `${moduleName}: Missing config for query.archivist in module configuration`)
+  }
+  protected get queryBoundWitnessDiviner() {
+    return assertEx(this.config.queries?.boundWitnessDiviner, `${moduleName}: Missing config for query.boundWitnessDiviner in module configuration`)
+  }
+  protected get queryBridge() {
+    return assertEx(this.config.queries?.bridge, `${moduleName}: Missing config for query.bridge in module configuration`)
+  }
+  protected get responseArchivist() {
+    return assertEx(this.config.responses?.archivist, `${moduleName}: Missing config for response.archivist in module configuration`)
+  }
+  protected get responseBoundWitnessDiviner() {
+    return assertEx(
+      this.config.responses?.boundWitnessDiviner,
+      `${moduleName}: Missing config for response.boundWitnessDiviner in module configuration`,
+    )
+  }
+  protected get responseBridge() {
+    return assertEx(this.config.responses?.bridge, `${moduleName}: Missing config for response.bridge in module configuration`)
   }
 
   async connect(): Promise<boolean> {

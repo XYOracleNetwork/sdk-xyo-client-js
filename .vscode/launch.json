@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.caching.spec.ts"
+        "packages/modules/packages/bridge/packages/pub-sub/src/spec/PubSubBridge.caching.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -1,19 +1,12 @@
-import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isBoundWitness, isQueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModule } from '@xyo-network/module-abstract'
-import { ModuleQueryResult } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, QueryFields } from '@xyo-network/payload-model'
 
 import { PubSubBridge } from '../Bridge'
 
@@ -39,9 +32,6 @@ interface Client {
 describe('PubSubBridge.caching', () => {
   let intermediateNode: IntermediateNode
   let clients: Client[]
-  let payload: Payload
-  let sourceQueryHash: string
-  let response: ModuleQueryResult
   beforeAll(async () => {
     const intermediateNodeAccount = await Account.create()
     const node = await MemoryNode.create({ account: intermediateNodeAccount })
@@ -108,14 +98,24 @@ describe('PubSubBridge.caching', () => {
         const pubSubBridgeAccount = await Account.create()
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account: pubSubBridgeAccount,
-          config: { schema: PubSubBridge.configSchema },
+          config: {
+            queries: {
+              archivist: intermediateNode.commandArchivist.address,
+              boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+            },
+            responses: {
+              archivist: intermediateNode.queryResponseArchivist.address,
+              boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
+            },
+            schema: PubSubBridge.configSchema,
+          },
         })
-
-        for (const mod of Object.values(pubSubBridge)) {
+        const client = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, pubSubBridge }
+        for (const mod of Object.values(client)) {
           await clientNode.register(mod)
           await clientNode.attach(mod.address, true)
         }
-        return { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, pubSubBridge }
+        return client
       }),
     )
   })
@@ -124,12 +124,13 @@ describe('PubSubBridge.caching', () => {
     await Promise.resolve()
     const clientA = clients[0]
     const clientB = clients[1]
-    const proxy = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
+    const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
+    expect(destination).toBeDefined()
     const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
     const payloadHash = await PayloadHasher.hash(payload)
-    const insertResult = await proxy?.insert([payload])
+    const insertResult = await destination?.insert([payload])
     expect(insertResult).toBeArrayOfSize(1)
-    const getResult = await proxy?.get([payloadHash])
+    const getResult = await destination?.get([payloadHash])
     expect(getResult).toBeArrayOfSize(1)
     expect(getResult?.[0]).toEqual(payload)
   })

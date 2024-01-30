@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { Archivist, ArchivistInsertQuerySchema, asArchivistModule, WriteArchivist } from '@xyo-network/archivist-model'
+import { Archivist, ArchivistInsertQuerySchema, asArchivistInstance, asArchivistModule, WriteArchivist } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { asBridgeInstance, asBridgeModule, BridgeInstance, BridgeModule } from '@xyo-network/bridge-model'
@@ -9,6 +9,7 @@ import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { creatableModule, ModuleConfig, ModuleEventData, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, QueryFields, SchemaFields } from '@xyo-network/payload-model'
+import { LRUCache } from 'lru-cache'
 
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
@@ -28,6 +29,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   protected _configResponsesArchivist: string = ''
   protected _configResponsesBoundWitnessDiviner: string = ''
   protected _configResponsesBridge: string = ''
+
+  /**
+   * A cache of queries that have been issued
+   */
+  protected queryCache: LRUCache<string, QueryBoundWitness> = new LRUCache<string, QueryBoundWitness>({
+    // TODO: Make these configurable via config
+    max: 10_000,
+    ttl: 1000 * 60,
+  })
 
   protected get queryArchivist() {
     return this._configQueriesArchivist
@@ -105,16 +115,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     }
     await this.started('throw')
 
-    // const source = clients[0]
-    // const destination = clients[1]
-    // const query = { _destination: destination, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
-    // const builder = new QueryBoundWitnessBuilder({ destination: [destination.module.account.address] }).witness(source.module.account)
-    // await builder.payloads([payload])
-    // await builder.query(query)
-    // const [command, payloads] = await builder.build()
-    // sourceQueryHash = await PayloadBuilder.dataHash(command)
-    // const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
-
     // TODO: How to get source here???  (query.addresses)
     const insertQuery = { _destination: address, address, schema: ArchivistInsertQuerySchema }
     const builder = new QueryBoundWitnessBuilder({ destination: [address] }).witness(this.account)
@@ -124,7 +124,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     const queryBridge = asBridgeInstance(await this.resolve(this.queryBridge))
     if (!queryBridge) throw new Error(`${moduleName}: Unable to resolve queryBridge for query`)
     // TODO: As archivist with insert (asWriteArchivistModule)
-    const queryArchivist = asArchivistModule(await queryBridge.resolve(this.queryArchivist)) as unknown as Archivist
+    const queryArchivist = asArchivistInstance(await queryBridge.resolve(this.queryArchivist))
     if (!queryArchivist) throw new Error(`${moduleName}: Unable to resolve queryArchivist for query`)
     const insertValue = payloads ? [wrappedQuery, ...payloads] : [wrappedQuery]
     const insertResult = await queryArchivist.insert?.(insertValue)

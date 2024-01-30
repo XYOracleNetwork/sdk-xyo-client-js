@@ -25,7 +25,7 @@ export interface IntermediaryConfig {
   // /**
   //  * The name/address of the bridge module used to communicate with the intermediary
   //  */
-  // bridge?: string
+  bridge?: string
 }
 
 /**

@@ -17,7 +17,7 @@ import { PubSubBridgeParams } from './Params'
 const moduleName = 'PubSubBridge'
 
 @creatableModule()
-export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
+export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractBridge<TParams, TEventData>
   implements BridgeModule<TParams, TEventData>
 {
@@ -45,18 +45,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
   protected get queryBoundWitnessDiviner() {
     return this._configQueriesBoundWitnessDiviner
   }
-  protected get queryBridge() {
-    return this._configQueriesBridge
-  }
+  // protected get queryBridge() {
+  //   return this._configQueriesBridge
+  // }
   protected get responseArchivist() {
     return this._configResponsesArchivist
   }
   protected get responseBoundWitnessDiviner() {
     return this._configResponsesBoundWitnessDiviner
   }
-  protected get responseBridge() {
-    return this._configResponsesBridge
-  }
+  // protected get responseBridge() {
+  //   return this._configResponsesBridge
+  // }
 
   async connect(): Promise<boolean> {
     const parentConnected = await super.startHandler()
@@ -115,18 +115,16 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     }
     await this.started('throw')
 
-    // TODO: How to get source here???  (query.addresses)
-    const insertQuery = { _destination: address, address, schema: ArchivistInsertQuerySchema }
-    const builder = new QueryBoundWitnessBuilder({ destination: [address] }).witness(this.account)
-    await builder.query(insertQuery)
-    if (payloads) await builder.payloads(payloads)
-    const [wrappedQuery] = await builder.build()
-    const queryBridge = asBridgeInstance(await this.resolve(this.queryBridge))
-    if (!queryBridge) throw new Error(`${moduleName}: Unable to resolve queryBridge for query`)
-    // TODO: As archivist with insert (asWriteArchivistModule)
-    const queryArchivist = asArchivistInstance(await queryBridge.resolve(this.queryArchivist))
+    // TODO: How to get source here???  (query.addresses)/use our address for all responses
+    const insertQueryBuilder = new QueryBoundWitnessBuilder({ destination: [address] }).witness(this.account)
+    await insertQueryBuilder.query({ _destination: address, address, schema: ArchivistInsertQuerySchema })
+    if (payloads) await insertQueryBuilder.payloads([query, ...payloads])
+    const [insertQuery] = await insertQueryBuilder.build()
+    const queryArchivist = asArchivistInstance(await this.resolve(this.queryArchivist))
     if (!queryArchivist) throw new Error(`${moduleName}: Unable to resolve queryArchivist for query`)
-    const insertValue = payloads ? [wrappedQuery, ...payloads] : [wrappedQuery]
+    const insertValue = [insertQuery, query]
+    // If there was data associated with the query, add it to the insert
+    if (payloads) insertValue.push(...payloads)
     const insertResult = await queryArchivist.insert?.(insertValue)
     // TODO: Deeper assertions here (length, hashes?)
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
@@ -150,7 +148,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
       this.config.queries?.boundWitnessDiviner,
       `${moduleName}: Missing entry for query.boundWitnessDiviner in module configuration`,
     )
-    this._configQueriesBridge = assertEx(this.config.queries?.bridge, `${moduleName}: Missing entry for query.bridge in module configuration`)
+    // this._configQueriesBridge = assertEx(this.config.queries?.bridge, `${moduleName}: Missing entry for query.bridge in module configuration`)
     this._configResponsesArchivist = assertEx(
       this.config.responses?.archivist,
       `${moduleName}: Missing entry for response.archivist in module configuration`,
@@ -159,7 +157,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
       this.config.responses?.boundWitnessDiviner,
       `${moduleName}: Missing entry for response.boundWitnessDiviner in module configuration`,
     )
-    this._configResponsesBridge = assertEx(this.config.responses?.bridge, `${moduleName}: Missing entry for response.bridge in module configuration`)
+    // this._configResponsesBridge = assertEx(this.config.responses?.bridge, `${moduleName}: Missing entry for response.bridge in module configuration`)
     return Promise.resolve(true)
   }
 

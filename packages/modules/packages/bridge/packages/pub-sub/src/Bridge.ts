@@ -1,10 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
+import { Archivist, ArchivistInsertQuerySchema, asArchivistModule, WriteArchivist } from '@xyo-network/archivist-model'
+import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeInstance, BridgeModule } from '@xyo-network/bridge-model'
+import { asBridgeInstance, asBridgeModule, BridgeInstance, BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { creatableModule, ModuleConfig, ModuleEventData, ModuleQueryResult } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, QueryFields, SchemaFields } from '@xyo-network/payload-model'
 
 import { PubSubBridgeConfigSchema } from './Config'
@@ -93,15 +96,45 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     throw new Error('Method not implemented.')
   }
   override async targetQuery(
-    _address: string,
-    _query: SchemaFields & object & QueryFields & { schema: string },
-    _payloads?: Payload[] | undefined,
+    address: string,
+    query: SchemaFields & object & QueryFields & { schema: string },
+    payloads?: Payload[] | undefined,
   ): Promise<ModuleQueryResult> {
     if (!this.connected) {
       throw new Error('Not connected')
     }
     await this.started('throw')
-    throw new Error('Method not implemented.')
+
+    // const source = clients[0]
+    // const destination = clients[1]
+    // const query = { _destination: destination, address: destination.module.account.address, schema: ArchivistInsertQuerySchema }
+    // const builder = new QueryBoundWitnessBuilder({ destination: [destination.module.account.address] }).witness(source.module.account)
+    // await builder.payloads([payload])
+    // await builder.query(query)
+    // const [command, payloads] = await builder.build()
+    // sourceQueryHash = await PayloadBuilder.dataHash(command)
+    // const insertResult = await intermediateNode.commandArchivist.insert([command, ...payloads])
+
+    // TODO: How to get source here???  (query.addresses)
+    const insertQuery = { _destination: address, address, schema: ArchivistInsertQuerySchema }
+    const builder = new QueryBoundWitnessBuilder({ destination: [address] }).witness(this.account)
+    await builder.query(insertQuery)
+    if (payloads) await builder.payloads(payloads)
+    const [wrappedQuery] = await builder.build()
+    const queryBridge = asBridgeInstance(await this.resolve(this.queryBridge))
+    if (!queryBridge) throw new Error(`${moduleName}: Unable to resolve queryBridge for query`)
+    // TODO: As archivist with insert (asWriteArchivistModule)
+    const queryArchivist = asArchivistModule(await queryBridge.resolve(this.queryArchivist)) as unknown as Archivist
+    if (!queryArchivist) throw new Error(`${moduleName}: Unable to resolve queryArchivist for query`)
+    const insertValue = payloads ? [wrappedQuery, ...payloads] : [wrappedQuery]
+    const insertResult = await queryArchivist.insert?.(insertValue)
+    // TODO: Deeper assertions here (length, hashes?)
+    if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
+    const context = new Promise<ModuleQueryResult>((resolve, reject) => {
+      // TODO: Hook response queue here and subscribe to response event with competing timeout
+      reject(`${moduleName}: Timeout waiting for query response`)
+    })
+    return context
   }
   override targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
@@ -128,5 +161,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams, TEventData extends
     )
     this._configResponsesBridge = assertEx(this.config.responses?.bridge, `${moduleName}: Missing entry for response.bridge in module configuration`)
     return Promise.resolve(true)
+  }
+
+  protected async zzz_internalHousekeeping(): Promise<void> {
+    // TODO:
+    // - Enumerate all local modules (or ones that have issued commands)
+    // - check for commands to local modules
+    // - issue commands against local modules
+    // - Check for responses to local modules
+    // - Execute event handlers to notify local modules
+    await Promise.resolve()
   }
 }

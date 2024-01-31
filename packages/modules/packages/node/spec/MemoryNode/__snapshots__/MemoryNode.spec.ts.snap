@@ -37,7 +37,10 @@ exports[`MemoryNode description node with nested nodes and modules serializes to
     "network.xyo.query.module.manifest"
   ],
   "schema": "network.xyo.module.description",
-  "children": []
+  "children": [
+    "4c3e913823664e68ce252e256b8c442172dbec4a",
+    "e8cae43b8ef15e6e2166b7560b2df802ac28fe53"
+  ]
 }"
 `;
 

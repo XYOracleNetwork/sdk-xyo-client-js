@@ -26,15 +26,20 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     if (payload_hashes?.length) bws = bws.filter((bw) => containsAll(bw.payload_hashes, payload_hashes))
     if (payload_schemas?.length) bws = bws.filter((bw) => containsAll(bw.payload_schemas, payload_schemas))
     if (sourceQuery) bws = bws.filter((bw) => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === sourceQuery)
-    if (destination && destination.length > 0)
+    // If there's a destination filter of the right kind
+    if (destination && Array.isArray(destination) && destination?.length > 0) {
+      const targetFilter = assertEx(destination, 'Missing destination')
+      // Find all BWs that satisfy the destination constraint
       bws = bws.filter((bw) => {
-        const { destination: bwDestination } = bw?.$meta as { destination?: string[] }
-        if (bwDestination !== undefined) {
-          const filter = assertEx(destination, 'Missing destination')
-          return containsAll(filter, (bw.$meta as { destination?: string[] })?.destination ?? [])
-        }
-        return false
+        const targetDestinationField = (bw?.$meta as { destination?: string[] })?.destination
+        // If the destination field is an array and contains at least one element
+        return targetDestinationField !== undefined && Array.isArray(targetDestinationField) && targetDestinationField.length > 0
+          ? // Check that the targetDestinationField contains all the elements in the targetFilter
+            containsAll(targetFilter, targetDestinationField ?? [])
+          : // Otherwise, filter it out
+            false
       })
+    }
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0
     return bws.slice(parsedOffset, parsedLimit)

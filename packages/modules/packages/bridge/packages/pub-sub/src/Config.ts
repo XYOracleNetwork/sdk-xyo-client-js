@@ -37,10 +37,17 @@ export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchem
      * Configuration for intermediary query storage
      */
     queries?: IntermediaryConfig
+
     /**
      * Configuration for intermediary response storage
      */
     responses?: IntermediaryConfig
+
+    /**
+     * The root address to connect the bridge to
+     */
+    rootAddress?: string
+
     /**
      * The configurations schema for the module
      */

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { compact } from '@xylabs/lodash'
-import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -18,7 +18,8 @@ import {
   ModuleManifestQuerySchema,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload, QueryFields, SchemaFields } from '@xyo-network/payload-model'
+import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -33,14 +34,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   implements BridgeModule<TParams, TEventData>
 {
   static override configSchemas = [PubSubBridgeConfigSchema]
-
   static maxPayloadSizeWarning = 256 * 256
+
   protected _configQueriesArchivist: string = ''
   protected _configQueriesBoundWitnessDiviner: string = ''
   protected _configQueriesBridge: string = ''
   protected _configResponsesArchivist: string = ''
   protected _configResponsesBoundWitnessDiviner: string = ''
   protected _configResponsesBridge: string = ''
+  protected _configRootAddress: string = ''
+  protected _discoverCache?: LRUCache<string, Payload[]>
+  protected _targetConfigs: Record<string, ModuleConfig> = {}
+  protected _targetQueries: Record<string, string[]> = {}
   /**
    * A cache of queries that have been issued
    */
@@ -49,10 +54,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     max: 10_000,
     ttl: 1000 * 60,
   })
-  private _discoverCache?: LRUCache<string, Payload[]>
-  private _rootAddress?: string
-  private _targetConfigs: Record<string, ModuleConfig> = {}
-  private _targetQueries: Record<string, string[]> = {}
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -71,27 +72,45 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected get queryBoundWitnessDiviner() {
     return this._configQueriesBoundWitnessDiviner
   }
-
-  // protected get queryBridge() {
-  //   return this._configQueriesBridge
-  // }
   protected get responseArchivist() {
     return this._configResponsesArchivist
   }
   protected get responseBoundWitnessDiviner() {
     return this._configResponsesBoundWitnessDiviner
   }
-  // protected get responseBridge() {
-  //   return this._configResponsesBridge
-  // }
+  protected get rootAddress() {
+    return this._configRootAddress
+  }
 
   async connect(): Promise<boolean> {
-    const parentConnected = await super.startHandler()
-    if (parentConnected) {
-      // TODO: Further resolve supporting modules (Archivists, Diviners, etc.)
-      const intermediaryModules = [this.queryArchivist, this.queryBoundWitnessDiviner, this.responseArchivist, this.responseBoundWitnessDiviner]
-      const resolved = await Promise.all(intermediaryModules.map((address) => this.resolve(address)))
-      return this.connected
+    await super.startHandler()
+    const rootTargetDownResolver = this.targetDownResolver()
+    if (rootTargetDownResolver) {
+      this.downResolver.addResolver(rootTargetDownResolver)
+      await this.targetDiscover(this.rootAddress)
+
+      const childAddresses = await rootTargetDownResolver.getRemoteAddresses()
+
+      const children = compact(
+        await Promise.all(
+          childAddresses.map(async (address) => {
+            const resolved = await rootTargetDownResolver.resolve({ address: [address] })
+            return resolved[0]
+          }),
+        ),
+      )
+
+      // Discover all to load cache
+      await Promise.all(children.map((child) => assertEx(child.discover())))
+
+      const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
+      //notify parents of child modules
+      //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
+      for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
+      // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
+      this.connected = true
+
+      return true
     } else {
       this.connected = false
       return false
@@ -104,9 +123,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return true
   }
 
-  override getRootAddress(): Promisable<string> {
-    if (!this.connected) throw new Error('Not connected')
-    throw new Error('Method not implemented.')
+  override getRootAddress(): string {
+    return this.rootAddress
   }
 
   override targetConfig(address: string): ModuleConfig {
@@ -153,7 +171,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return discover
   }
   override async targetManifest(address: string, maxDepth?: number | undefined): Promise<ModuleManifestPayload> {
-    const addressToCall = address ?? (await this.getRootAddress())
+    const addressToCall = address ?? this.getRootAddress()
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
@@ -163,11 +181,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     if (!this.connected) throw new Error('Not connected')
     return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
-  override async targetQuery(
-    address: string,
-    query: SchemaFields & object & QueryFields & { schema: string },
-    payloads?: Payload[] | undefined,
-  ): Promise<ModuleQueryResult> {
+  override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
 
@@ -205,7 +219,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.config.queries?.boundWitnessDiviner,
       `${moduleName}: Missing entry for query.boundWitnessDiviner in module configuration`,
     )
-    // this._configQueriesBridge = assertEx(this.config.queries?.bridge, `${moduleName}: Missing entry for query.bridge in module configuration`)
     this._configResponsesArchivist = assertEx(
       this.config.responses?.archivist,
       `${moduleName}: Missing entry for response.archivist in module configuration`,
@@ -214,7 +227,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.config.responses?.boundWitnessDiviner,
       `${moduleName}: Missing entry for response.boundWitnessDiviner in module configuration`,
     )
-    // this._configResponsesBridge = assertEx(this.config.responses?.bridge, `${moduleName}: Missing entry for response.bridge in module configuration`)
+    this._configRootAddress = assertEx(this.config.rootAddress, `${moduleName}: Missing entry for rootAddress in module configuration`)
     return Promise.resolve(true)
   }
 

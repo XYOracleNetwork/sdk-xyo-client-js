@@ -120,8 +120,20 @@ describe('PubSubBridge.caching', () => {
     )
   })
 
-  it('Module A issues command to Module B', async () => {
-    await Promise.resolve()
+  it('Debug test', async () => {
+    const clientA = clients[0]
+    const clientB = clients[1]
+    const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
+    expect(destination).toBeDefined()
+    const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
+    const payloadHash = await PayloadHasher.hash(payload)
+    const insertResult = await destination?.insert([payload])
+    expect(insertResult).toBeArrayOfSize(1)
+    const getResult = await destination?.get([payloadHash])
+    expect(getResult).toBeArrayOfSize(1)
+    expect(getResult?.[0]).toEqual(payload)
+  })
+  it.skip('Module A issues command to Module B', async () => {
     const clientA = clients[0]
     const clientB = clients[1]
     const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))

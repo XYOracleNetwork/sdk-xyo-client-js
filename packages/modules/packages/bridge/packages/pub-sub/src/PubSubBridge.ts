@@ -294,7 +294,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     // Check for any queries that have been issued and have not been responded to
     const localModules = await this.resolve()
     const localAddresses = localModules.map((module) => module.address)
-    // TODO: Do in parallel
+    // TODO: Do in parallel/batches
     for (const localAddress of localAddresses) {
       try {
         // TODO: Retrieve offset from state store

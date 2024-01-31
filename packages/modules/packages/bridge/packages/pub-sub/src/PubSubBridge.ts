@@ -18,6 +18,8 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
+  asModule,
+  asModuleInstance,
   creatableModule,
   ModuleConfig,
   ModuleDiscoverQuery,
@@ -303,7 +305,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         // Filter for commands to us by destination address
         const divinerQuery = { destination: [localAddress], limit, offset, schema, sort }
         const commands = await queryBoundWitnessDiviner.divine([divinerQuery])
-        const localModule = assertEx(await this.resolve(localAddress), `${moduleName}: Error resolving local address: ${localAddress}`)
+        const localModule = assertEx(asModule(await this.resolve(localAddress)), `${moduleName}: Error resolving local address: ${localAddress}`)
         for (const command of commands.filter(isQueryBoundWitness)) {
           // Ensure the query is addressed to the destination
           const commandDestination = (command.$meta as { destination?: string[] })?.destination
@@ -361,8 +363,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     for (const [sourceQuery, status] of pendingCommands) {
       if (status === Pending) {
         const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
-        const debug = await queryResponseArchivist.all?.()
-        const allHashes = debug ? await PayloadHasher.hashPairs(debug) : []
         const result = await responseBoundWitnessDiviner.divine([divinerQuery])
         if (result && result.length > 0) {
           const response = result.find(isBoundWitness)

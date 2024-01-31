@@ -84,6 +84,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   async connect(): Promise<boolean> {
     await super.startHandler()
+    this.connected = true
     const rootTargetDownResolver = this.targetDownResolver()
     if (rootTargetDownResolver) {
       this.downResolver.addResolver(rootTargetDownResolver)

@@ -6,6 +6,7 @@ import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
+import { rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -378,7 +379,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   private doBackgroundProcessing = async () => {
-    await Promise.allSettled([await this.checkForIncomingCommands(), await this.checkForResponses()])
+    const results = await Promise.allSettled([await this.checkForIncomingCommands(), await this.checkForResponses()])
+    for (const failure in results.filter(rejected)) {
+      this.logger?.error(`${moduleName}: Error in background processing: ${failure}`)
+    }
   }
 
   /**
@@ -388,7 +392,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private poll() {
     this._pollId = setTimeoutEx(async () => {
       try {
-        await Promise.resolve()
         await this.doBackgroundProcessing()
       } catch (e) {
         console.log(e)

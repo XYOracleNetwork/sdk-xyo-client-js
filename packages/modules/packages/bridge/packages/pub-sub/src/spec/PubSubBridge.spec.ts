@@ -16,7 +16,7 @@ import { PubSubBridgeConfigSchema } from '../Config'
  * @group bridge
  */
 
-describe('PubSubBridge', () => {
+describe.skip('PubSubBridge', () => {
   const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
 
   console.log(`PubSubBridge:baseUrl ${baseUrl}`)

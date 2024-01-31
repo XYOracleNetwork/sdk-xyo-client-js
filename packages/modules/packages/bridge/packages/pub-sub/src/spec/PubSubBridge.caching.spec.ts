@@ -76,7 +76,7 @@ describe('PubSubBridge.caching', () => {
 
     for (const mod of Object.values(intermediateNode).filter((v) => v.address !== node.address)) {
       await node.register(mod)
-      await node.attach(mod.address, true)
+      await node.attach(mod.address, false)
     }
 
     const clients = await Promise.all(
@@ -133,7 +133,7 @@ describe('PubSubBridge.caching', () => {
       await node.attach(pubSubBridge.address, false)
       clientsWithBridges.push({ ...client, pubSubBridge })
       await intermediateNode.node.register(node)
-      await intermediateNode.node.attach(node.address, true)
+      await intermediateNode.node.attach(node.address, false)
       await pubSubBridge.connect()
     }
   })
@@ -141,6 +141,9 @@ describe('PubSubBridge.caching', () => {
   it('Debug test', async () => {
     const clientA = clientsWithBridges[0]
     const clientB = clientsWithBridges[1]
+    // Modules can't resolve each other
+    expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
+    expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
     const [query] = await (await new QueryBoundWitnessBuilder().query({ schema: ArchivistInsertQuerySchema })).build()
     const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query)
     expect(result).toBeDefined()

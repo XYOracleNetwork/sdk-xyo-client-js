@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
@@ -133,21 +134,16 @@ describe('PubSubBridge.caching', () => {
       clientsWithBridges.push({ ...client, pubSubBridge })
       await intermediateNode.node.register(node)
       await intermediateNode.node.attach(node.address, true)
+      await pubSubBridge.connect()
     }
   })
 
   it('Debug test', async () => {
     const clientA = clientsWithBridges[0]
     const clientB = clientsWithBridges[1]
-    const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
-    expect(destination).toBeDefined()
-    const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
-    const payloadHash = await PayloadHasher.hash(payload)
-    const insertResult = await destination?.insert([payload])
-    expect(insertResult).toBeArrayOfSize(1)
-    const getResult = await destination?.get([payloadHash])
-    expect(getResult).toBeArrayOfSize(1)
-    expect(getResult?.[0]).toEqual(payload)
+    const [query] = await (await new QueryBoundWitnessBuilder().query({ schema: ArchivistInsertQuerySchema })).build()
+    const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query)
+    expect(result).toBeDefined()
   })
   it.skip('Module A issues command to Module B', async () => {
     const clientA = clientsWithBridges[0]

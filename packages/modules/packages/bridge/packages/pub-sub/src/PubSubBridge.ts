@@ -378,9 +378,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   private doBackgroundProcessing = async () => {
-    // TODO: Run in parallel
-    await this.checkForIncomingCommands()
-    await this.checkForResponses()
+    await Promise.allSettled([await this.checkForIncomingCommands(), await this.checkForResponses()])
   }
 
   /**

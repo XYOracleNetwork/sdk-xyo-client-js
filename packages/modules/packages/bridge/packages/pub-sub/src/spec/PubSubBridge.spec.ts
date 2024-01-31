@@ -1,108 +1,164 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
+import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
+import { DivinerInstance } from '@xyo-network/diviner-model'
+import { PayloadHasher } from '@xyo-network/hash'
+import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { PubSubBridge } from '../Bridge'
-import { PubSubBridgeConfigSchema } from '../Config'
+import { PubSubBridge } from '../PubSubBridge'
+
+interface IntermediateNode {
+  commandArchivist: ArchivistInstance
+  commandArchivistBoundWitnessDiviner: DivinerInstance
+  node: MemoryNode
+  queryResponseArchivist: ArchivistInstance
+  queryResponseArchivistBoundWitnessDiviner: DivinerInstance
+}
+
+interface Client {
+  bridgeQueryResponseArchivist: ArchivistInstance
+  commandStateStoreArchivist: ArchivistInstance
+  module: AbstractModule
+  node: MemoryNode
+}
+interface ClientWithBridge extends Client {
+  pubSubBridge: PubSubBridge
+}
 
 /**
  * @group module
  * @group bridge
  */
 
-describe.skip('PubSubBridge', () => {
-  const baseUrl = `${process.env.API_DOMAIN}` ?? 'http://localhost:8080'
+describe('PubSubBridge.caching', () => {
+  let intermediateNode: IntermediateNode
+  const clientsWithBridges: ClientWithBridge[] = []
+  beforeAll(async () => {
+    const intermediateNodeAccount = await Account.create()
+    const node = await MemoryNode.create({ account: intermediateNodeAccount })
 
-  console.log(`PubSubBridge:baseUrl ${baseUrl}`)
-  const cases = [
-    ['/', `${baseUrl}`],
-    /*['/node', `${baseUrl}/node`],*/
-  ]
-
-  it.each(cases)('PubSubBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: Account.randomSync() })
-
-    const bridge: BridgeInstance = await PubSubBridge.create({
-      account: Account.randomSync(),
-      config: { nodeUrl, schema: PubSubBridgeConfigSchema, security: { allowAnonymous: true } },
+    const commandArchivistAccount = await Account.create()
+    const commandArchivist = await MemoryArchivist.create({
+      account: commandArchivistAccount,
+      config: { schema: MemoryArchivist.configSchema },
     })
 
-    await bridge?.start?.()
+    const commandArchivistBoundWitnessDivinerAccount = await Account.create()
+    const commandArchivistBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+      account: commandArchivistBoundWitnessDivinerAccount,
+      config: { archivist: commandArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
+    })
 
-    const remoteNode = asNodeInstance(
-      (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-      `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
+    const queryResponseArchivistAccount = await Account.create()
+    const queryResponseArchivist = await MemoryArchivist.create({
+      account: queryResponseArchivistAccount,
+      config: { schema: MemoryArchivist.configSchema },
+    })
+
+    const queryResponseArchivistBoundWitnessDivinerAccount = await Account.create()
+    const queryResponseArchivistBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+      account: queryResponseArchivistBoundWitnessDivinerAccount,
+      config: { archivist: queryResponseArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
+    })
+
+    intermediateNode = {
+      commandArchivist,
+      commandArchivistBoundWitnessDiviner,
+      node,
+      queryResponseArchivist,
+      queryResponseArchivistBoundWitnessDiviner,
+    }
+
+    for (const mod of Object.values(intermediateNode).filter((v) => v.address !== node.address)) {
+      await node.register(mod)
+      await node.attach(mod.address, false)
+    }
+
+    const clients = await Promise.all(
+      ['A', 'B'].map(async (name) => {
+        const clientNodeAccount = await Account.create()
+        const node = await MemoryNode.create({ account: clientNodeAccount })
+
+        const commandStateStoreArchivistAccount = await Account.create()
+        const commandStateStoreArchivist = await MemoryArchivist.create({
+          account: commandStateStoreArchivistAccount,
+          config: { name: `commandStateStoreArchivist${name}`, schema: MemoryArchivist.configSchema },
+        })
+
+        const bridgeQueryResponseArchivistAccount = await Account.create()
+        const bridgeQueryResponseArchivist = await MemoryArchivist.create({
+          account: bridgeQueryResponseArchivistAccount,
+          config: { name: `bridgeQueryResponseArchivist${name}`, schema: MemoryArchivist.configSchema },
+        })
+
+        const moduleAccount = await Account.create()
+        const module = await MemoryArchivist.create({
+          account: moduleAccount,
+          config: { name: `module${name}`, schema: MemoryArchivist.configSchema },
+        })
+
+        const client = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, node }
+        for (const mod of [bridgeQueryResponseArchivist, commandStateStoreArchivist, module]) {
+          await node.register(mod)
+          await node.attach(mod.address, false)
+        }
+        return client
+      }),
     )
-
-    await memNode.register(remoteNode)
-    await memNode.attach(remoteNode?.address, true)
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
-
-    const archivistByName = await memNode.resolve('Archivist')
-    expect(archivistByName).toBeDefined()
-    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
-    expect(archivistInstance).toBeDefined()
-    const knownPayload = (await PayloadWrapper.parse({ schema: 'network.xyo.test' }))?.jsonPayload() as Payload
-    expect(knownPayload).toBeDefined()
-    const knownHash = await PayloadBuilder.dataHash(knownPayload as Payload)
-    const insertResult = await archivistInstance.insert([knownPayload])
-    expect(insertResult).toBeDefined()
-    const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
-    expect(roundTripPayload).toBeDefined()
+    for (const client of clients) {
+      const node = client.node
+      const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
+      const pubSubBridgeAccount = await Account.create()
+      const pubSubBridge: PubSubBridge = await PubSubBridge.create({
+        account: pubSubBridgeAccount,
+        config: {
+          queries: {
+            archivist: intermediateNode.commandArchivist.address,
+            boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+          },
+          responses: {
+            archivist: intermediateNode.queryResponseArchivist.address,
+            boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
+          },
+          rootAddress: otherNodeAddress,
+          schema: PubSubBridge.configSchema,
+        },
+      })
+      await node.register(pubSubBridge)
+      await node.attach(pubSubBridge.address, false)
+      clientsWithBridges.push({ ...client, pubSubBridge })
+      await intermediateNode.node.register(node)
+      await intermediateNode.node.attach(node.address, false)
+      await pubSubBridge.connect()
+    }
   })
-  it.each(cases)('PubSubBridge - Nested: %s', async (_, nodeUrl) => {
-    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
-    const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
-    const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
 
-    await memNode1.register(memNode2)
-    await memNode1.attach(memNode2.address, true)
-    await memNode2.register(memNode3)
-    await memNode2.attach(memNode3.address, true)
-
-    const bridge = await PubSubBridge.create({
-      account: Account.randomSync(),
-      config: { nodeUrl, schema: PubSubBridgeConfigSchema, security: { allowAnonymous: true } },
-    })
-
-    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
-
-    expect(isModule(module)).toBeTrue()
-    expect(isModuleObject(module)).toBeTrue()
-
-    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
-
-    expect(isNodeInstance(remoteNode)).toBeTrue()
-    expect(isModuleInstance(remoteNode)).toBeTrue()
-
-    await memNode3.register(remoteNode)
-    await memNode3.attach(remoteNode?.address, true)
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
-
-    // Works if you supply the known address for 'Archivist'
-    //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
-    //expect(archivistByAddress).toBeDefined()
-
-    // Fails to resolve
-    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
-    expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
-    expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
-    expect(boundwitnessStatsDivinerByName).toBeDefined()
+  it('Debug test', async () => {
+    const clientA = clientsWithBridges[0]
+    const clientB = clientsWithBridges[1]
+    // Modules can't resolve each other
+    expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
+    expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
+    const [query] = await (await new QueryBoundWitnessBuilder().query({ schema: ArchivistInsertQuerySchema })).build()
+    const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query)
+    expect(result).toBeDefined()
+  })
+  it.skip('Module A issues command to Module B', async () => {
+    const clientA = clientsWithBridges[0]
+    const clientB = clientsWithBridges[1]
+    const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
+    expect(destination).toBeDefined()
+    const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
+    const payloadHash = await PayloadHasher.hash(payload)
+    const insertResult = await destination?.insert([payload])
+    expect(insertResult).toBeArrayOfSize(1)
+    const getResult = await destination?.get([payloadHash])
+    expect(getResult).toBeArrayOfSize(1)
+    expect(getResult?.[0]).toEqual(payload)
   })
 })

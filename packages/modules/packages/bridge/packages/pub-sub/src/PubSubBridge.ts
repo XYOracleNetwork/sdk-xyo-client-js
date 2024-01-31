@@ -1,12 +1,16 @@
+/* eslint-disable max-depth */
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
-import { compact } from '@xylabs/lodash'
+import { compact, delay } from '@xylabs/lodash'
+import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   creatableModule,
@@ -55,6 +59,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     ttl: 1000 * 60,
   })
 
+  private _pollId?: string
+  // TODO: Hoist to config
+  private pollFrequency: number = 1000
+
   get discoverCache() {
     const config = this.discoverCacheConfig
     this._discoverCache = this._discoverCache ?? new LRUCache<string, Payload[]>({ ttlAutopurge: true, ...config })
@@ -85,6 +93,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   async connect(): Promise<boolean> {
     await super.startHandler()
     this.connected = true
+    this.poll()
     return true
     // const rootTargetDownResolver = this.targetDownResolver()
     // if (rootTargetDownResolver) {
@@ -199,7 +208,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
       // TODO: Hook response queue here and subscribe to response event with competing timeout
-      reject(`${moduleName}: Timeout waiting for query response`)
+      // reject(`${moduleName}: Timeout waiting for query response`)
     })
     return context
   }
@@ -230,13 +239,84 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return Promise.resolve(true)
   }
 
-  protected async zzz_internalHousekeeping(): Promise<void> {
-    // TODO:
-    // - Enumerate all local modules (or ones that have issued commands)
-    // - check for commands to local modules
-    // - issue commands against local modules
-    // - Check for responses to local modules
-    // - Execute event handlers to notify local modules
-    await Promise.resolve()
+  private backgroundWork = async () => {
+    const queryBoundWitnessDiviner = assertEx(
+      asDivinerInstance(await this.resolve(this.queryBoundWitnessDiviner)),
+      `${moduleName}: Error resolving queryBoundWitnessDiviner`,
+    )
+    const commandArchivist = assertEx(asArchivistInstance(await this.resolve(this.queryArchivist)), `${moduleName}: Error resolving queryArchivist`)
+    const queryResponseArchivist = assertEx(
+      asArchivistInstance(await this.resolve(this.responseArchivist)),
+      `${moduleName}: Error resolving queryArchivist`,
+    )
+    // Check for any queries that have been issued and have not been responded to
+    const localModules = await this.resolve()
+    const localAddresses = localModules.map((module) => module.address)
+    // TODO: Do in parallel
+    for (const address of localAddresses) {
+      try {
+        // TODO: Handle offset and limit
+        // TODO: Retrieve offset from state store
+        const offset = 0
+        // Filter for commands to us by destination address
+        const divinerQuery = {
+          destination: [address],
+          limit: 1,
+          offset,
+          schema: BoundWitnessDivinerQuerySchema,
+          sort: 'asc',
+        }
+        const commands = await queryBoundWitnessDiviner.divine([divinerQuery])
+        const destination = assertEx(await this.resolve(address), `${moduleName}: Error resolving local address: ${address}`)
+        for (const command of commands.filter(isQueryBoundWitness)) {
+          // Ensure the query is addressed to the destination
+          const commandDestination = (command.$meta as { destination?: string[] })?.destination
+          if (commandDestination && commandDestination?.includes(address)) {
+            // Find the query
+            const queryIndex = command.payload_hashes.indexOf(command.query)
+            if (queryIndex !== -1) {
+              const querySchema = command.payload_schemas[queryIndex]
+              // If the destination can process this type of query
+              if (destination.queries.includes(querySchema)) {
+                // Get the associated payloads
+                const commandPayloads = await commandArchivist.get(command.payload_hashes)
+                try {
+                  // Issue the query against module
+                  const response = await destination.query(command, commandPayloads)
+                  const [bw, payloads, errors] = response
+                  const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
+                  // TODO: Deeper assertions here (length, hashes?)
+                } catch (error) {
+                  this.logger?.error(`${moduleName}: Error processing command ${command} for address ${address}: ${error}`)
+                }
+              }
+            }
+          }
+        }
+      } catch (error) {
+        // TODO: Log error
+        this.logger?.error(`${moduleName}: Error processing commands for address ${address}: ${error}`)
+      }
+    }
+    // Check for responses to any queries that we have issued
+  }
+
+  /**
+   * Runs the background divine process on a loop with a delay
+   * specified by the `config.pollFrequency`
+   */
+  private poll() {
+    this._pollId = setTimeoutEx(async () => {
+      try {
+        await Promise.resolve()
+        await this.backgroundWork()
+      } catch (e) {
+        console.log(e)
+      } finally {
+        if (this._pollId) clearTimeoutEx(this._pollId)
+        this._pollId = undefined
+        this.poll()
+      }
+    }, this.pollFrequency)
   }
 }

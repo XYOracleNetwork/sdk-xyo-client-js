@@ -144,8 +144,12 @@ describe('PubSubBridge.caching', () => {
     // Modules can't resolve each other
     expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
     expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
-    const [query] = await (await new QueryBoundWitnessBuilder().query({ schema: ArchivistInsertQuerySchema })).build()
-    const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query)
+    const payloads = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+    const builder = new QueryBoundWitnessBuilder()
+    await builder.query({ schema: ArchivistInsertQuerySchema })
+    await builder.payloads(payloads)
+    const [query] = await builder.build()
+    const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
     expect(result).toBeDefined()
   })
   it.skip('Module A issues command to Module B', async () => {

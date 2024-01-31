@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-depth */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
@@ -27,6 +28,7 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
@@ -224,7 +226,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     // If there was data associated with the query, add it to the insert
     const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
     // TODO: Deeper assertions here (length, hashes?)
-    const sourceQueryHash = await PayloadHasher.hash(routedQuery)
+    // TODO: Cleaner than casting
+    const sourceQueryHash = (routedQuery as unknown as { $hash: string }).$hash
     this.queryCache.set(sourceQueryHash, Pending)
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
@@ -359,10 +362,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       if (status === Pending) {
         const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
         const debug = await queryResponseArchivist.all?.()
+        const allHashes = debug ? await PayloadHasher.hashPairs(debug) : []
         const result = await responseBoundWitnessDiviner.divine([divinerQuery])
         if (result && result.length > 0) {
           const response = result.find(isBoundWitness)
-          if (response && response.sourceQuery === sourceQuery) {
+          if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
             // TODO: Get any payloads associated with the response
             const payloads = response.payload_hashes?.length > 0 ? await queryResponseArchivist.get(response.payload_hashes) : []
             const errors: ModuleError[] = []

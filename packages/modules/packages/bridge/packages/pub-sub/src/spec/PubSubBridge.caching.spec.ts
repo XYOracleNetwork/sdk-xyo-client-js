@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -13,6 +14,7 @@ import { PubSubBridge } from '../Bridge'
 interface IntermediateNode {
   commandArchivist: ArchivistInstance
   commandArchivistBoundWitnessDiviner: DivinerInstance
+  node: MemoryNode
   queryResponseArchivist: ArchivistInstance
   queryResponseArchivistBoundWitnessDiviner: DivinerInstance
 }
@@ -21,6 +23,9 @@ interface Client {
   bridgeQueryResponseArchivist: ArchivistInstance
   commandStateStoreArchivist: ArchivistInstance
   module: AbstractModule
+  node: MemoryNode
+}
+interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
 }
 
@@ -31,7 +36,7 @@ interface Client {
 
 describe('PubSubBridge.caching', () => {
   let intermediateNode: IntermediateNode
-  let clients: Client[]
+  const clientsWithBridges: ClientWithBridge[] = []
   beforeAll(async () => {
     const intermediateNodeAccount = await Account.create()
     const node = await MemoryNode.create({ account: intermediateNodeAccount })
@@ -63,66 +68,77 @@ describe('PubSubBridge.caching', () => {
     intermediateNode = {
       commandArchivist,
       commandArchivistBoundWitnessDiviner,
+      node,
       queryResponseArchivist,
       queryResponseArchivistBoundWitnessDiviner,
     }
 
-    for (const mod of Object.values(intermediateNode)) {
+    for (const mod of Object.values(intermediateNode).filter((v) => v.address !== node.address)) {
       await node.register(mod)
       await node.attach(mod.address, true)
     }
 
-    clients = await Promise.all(
-      ['A', 'B'].map(async () => {
+    const clients = await Promise.all(
+      ['A', 'B'].map(async (name) => {
         const clientNodeAccount = await Account.create()
-        const clientNode = await MemoryNode.create({ account: clientNodeAccount })
+        const node = await MemoryNode.create({ account: clientNodeAccount })
 
         const commandStateStoreArchivistAccount = await Account.create()
         const commandStateStoreArchivist = await MemoryArchivist.create({
           account: commandStateStoreArchivistAccount,
-          config: { schema: MemoryArchivist.configSchema },
+          config: { name: `commandStateStoreArchivist${name}`, schema: MemoryArchivist.configSchema },
         })
 
         const bridgeQueryResponseArchivistAccount = await Account.create()
         const bridgeQueryResponseArchivist = await MemoryArchivist.create({
           account: bridgeQueryResponseArchivistAccount,
-          config: { schema: MemoryArchivist.configSchema },
+          config: { name: `bridgeQueryResponseArchivist${name}`, schema: MemoryArchivist.configSchema },
         })
 
         const moduleAccount = await Account.create()
         const module = await MemoryArchivist.create({
           account: moduleAccount,
-          config: { schema: MemoryArchivist.configSchema },
+          config: { name: `module${name}`, schema: MemoryArchivist.configSchema },
         })
 
-        const pubSubBridgeAccount = await Account.create()
-        const pubSubBridge: PubSubBridge = await PubSubBridge.create({
-          account: pubSubBridgeAccount,
-          config: {
-            queries: {
-              archivist: intermediateNode.commandArchivist.address,
-              boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
-            },
-            responses: {
-              archivist: intermediateNode.queryResponseArchivist.address,
-              boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
-            },
-            schema: PubSubBridge.configSchema,
-          },
-        })
-        const client = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, pubSubBridge }
-        for (const mod of Object.values(client)) {
-          await clientNode.register(mod)
-          await clientNode.attach(mod.address, true)
+        const client = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, node }
+        for (const mod of [bridgeQueryResponseArchivist, commandStateStoreArchivist, module]) {
+          await node.register(mod)
+          await node.attach(mod.address, false)
         }
         return client
       }),
     )
+    for (const client of clients) {
+      const node = client.node
+      const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
+      const pubSubBridgeAccount = await Account.create()
+      const pubSubBridge: PubSubBridge = await PubSubBridge.create({
+        account: pubSubBridgeAccount,
+        config: {
+          queries: {
+            archivist: intermediateNode.commandArchivist.address,
+            boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+          },
+          responses: {
+            archivist: intermediateNode.queryResponseArchivist.address,
+            boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
+          },
+          rootAddress: otherNodeAddress,
+          schema: PubSubBridge.configSchema,
+        },
+      })
+      await node.register(pubSubBridge)
+      await node.attach(pubSubBridge.address, false)
+      clientsWithBridges.push({ ...client, pubSubBridge })
+      await intermediateNode.node.register(node)
+      await intermediateNode.node.attach(node.address, true)
+    }
   })
 
   it('Debug test', async () => {
-    const clientA = clients[0]
-    const clientB = clients[1]
+    const clientA = clientsWithBridges[0]
+    const clientB = clientsWithBridges[1]
     const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
     expect(destination).toBeDefined()
     const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
@@ -134,8 +150,8 @@ describe('PubSubBridge.caching', () => {
     expect(getResult?.[0]).toEqual(payload)
   })
   it.skip('Module A issues command to Module B', async () => {
-    const clientA = clients[0]
-    const clientB = clients[1]
+    const clientA = clientsWithBridges[0]
+    const clientB = clientsWithBridges[1]
     const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
     expect(destination).toBeDefined()
     const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()

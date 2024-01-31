@@ -192,7 +192,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const [insertQuery] = await insertQueryBuilder.build()
     const queryArchivist = asArchivistInstance(await this.resolve(this.queryArchivist))
     if (!queryArchivist) throw new Error(`${moduleName}: Unable to resolve queryArchivist for query`)
-    const insertValue = [insertQuery, query]
+    const insertValue: Payload[] = [insertQuery, query]
     // If there was data associated with the query, add it to the insert
     if (payloads) insertValue.push(...payloads)
     const insertResult = await queryArchivist.insert?.(insertValue)

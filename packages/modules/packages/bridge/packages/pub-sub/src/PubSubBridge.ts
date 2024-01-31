@@ -1,14 +1,15 @@
 /* eslint-disable max-depth */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import { compact, delay } from '@xylabs/lodash'
+import { compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness, isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -26,7 +27,7 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -50,6 +51,9 @@ const toMap = async <T extends EmptyObject>(objs: T[]): Promise<Record<string, T
   return Object.fromEntries([...dataHashes, ...metaHashes])
 }
 
+const Pending = 'pending' as const
+type Pending = typeof Pending
+
 @creatableModule()
 export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractBridge<TParams, TEventData>
@@ -68,10 +72,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _discoverCache?: LRUCache<string, Payload[]>
   protected _targetConfigs: Record<string, ModuleConfig> = {}
   protected _targetQueries: Record<string, string[]> = {}
+
+  // type Pending = typeof PubSubBridge.pending
   /**
    * A cache of queries that have been issued
    */
-  protected queryCache: LRUCache<string, QueryBoundWitness> = new LRUCache<string, QueryBoundWitness>({
+  protected queryCache: LRUCache<string, Pending | ModuleQueryResult> = new LRUCache<string, Pending | ModuleQueryResult>({
     // TODO: Make these configurable via config
     max: 10_000,
     ttl: 1000 * 60,
@@ -218,10 +224,24 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     // If there was data associated with the query, add it to the insert
     const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
     // TODO: Deeper assertions here (length, hashes?)
+    const sourceQueryHash = await PayloadHasher.hash(routedQuery)
+    this.queryCache.set(sourceQueryHash, Pending)
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
-      // TODO: Hook response queue here and subscribe to response event with competing timeout
-      // reject(`${moduleName}: Timeout waiting for query response`)
+      const foo = async () => {
+        do {
+          await delay(100)
+          const status = this.queryCache.get(sourceQueryHash)
+          if (status === undefined) break
+          if (status !== Pending) {
+            resolve(status)
+            return
+          }
+        } while (this.queryCache.get(sourceQueryHash) === Pending)
+        reject(`${moduleName}: Timeout waiting for query response`)
+        return
+      }
+      forget(foo())
     })
     return context
   }
@@ -250,12 +270,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     )
     this._configRootAddress = assertEx(this.config.rootAddress, `${moduleName}: Missing entry for rootAddress in module configuration`)
     return Promise.resolve(true)
-  }
-
-  private backgroundWork = async () => {
-    // TODO: Run in parallel
-    await this.checkForIncomingCommands()
-    await this.checkForResponses()
   }
 
   /**
@@ -331,73 +345,38 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    * Background process for checking for inbound responses
    */
   private checkForResponses = async () => {
-    const queryBoundWitnessDiviner = assertEx(
-      asDivinerInstance(await this.resolve(this.queryBoundWitnessDiviner)),
-      `${moduleName}: Error resolving queryBoundWitnessDiviner`,
-    )
-    const commandArchivist = assertEx(asArchivistInstance(await this.resolve(this.queryArchivist)), `${moduleName}: Error resolving queryArchivist`)
     const queryResponseArchivist = assertEx(
       asArchivistInstance(await this.resolve(this.responseArchivist)),
       `${moduleName}: Error resolving queryArchivist`,
     )
-    // Check for any queries that have been issued and have not been responded to
-    const localModules = await this.resolve()
-    const localAddresses = localModules.map((module) => module.address)
-    // TODO: Do in parallel
-    for (const address of localAddresses) {
-      try {
-        // TODO: Handle offset and limit
-        // TODO: Retrieve offset from state store
-        const offset = 0
-        // Filter for commands to us by destination address
-        const divinerQuery = {
-          destination: [address],
-          limit: 1,
-          offset,
-          schema: BoundWitnessDivinerQuerySchema,
-          sort: 'asc',
-        }
-        const commands = await queryBoundWitnessDiviner.divine([divinerQuery])
-        const destination = assertEx(await this.resolve(address), `${moduleName}: Error resolving local address: ${address}`)
-        for (const command of commands.filter(isQueryBoundWitness)) {
-          // Ensure the query is addressed to the destination
-          const commandDestination = (command.$meta as { destination?: string[] })?.destination
-          if (commandDestination && commandDestination?.includes(address)) {
-            // Find the query
-            const queryIndex = command.payload_hashes.indexOf(command.query)
-            if (queryIndex !== -1) {
-              const querySchema = command.payload_schemas[queryIndex]
-              // If the destination can process this type of query
-              if (destination.queries.includes(querySchema)) {
-                // Get the associated payloads
-                const debug = await commandArchivist?.all?.()
-                const commandPayloads = await commandArchivist.get(command.payload_hashes)
-                const commandPayloadsDict = await toMap(commandPayloads)
-                // Check that we have all the arguments for the command
-                if (!containsAll(Object.keys(commandPayloadsDict), command.payload_hashes)) {
-                  this.logger?.info(`${moduleName}: Error processing command ${command} for address ${address}, missing payloads`)
-                  continue
-                }
-                try {
-                  // Issue the query against module
-                  const response = await destination.query(command, commandPayloads)
-                  // TODO: Deeper assertions here for query
-                  const [bw, payloads, errors] = response
-                  // TODO: Deeper assertions here for insert
-                  const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
-                } catch (error) {
-                  this.logger?.error(`${moduleName}: Error processing command ${command} for address ${address}: ${error}`)
-                }
-              }
-            }
+    const responseBoundWitnessDiviner = assertEx(
+      asDivinerInstance(await this.resolve(this.responseBoundWitnessDiviner)),
+      `${moduleName}: Error resolving responseBoundWitnessDiviner`,
+    )
+    const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
+    // TODO: Do in parallel/batches
+    for (const [sourceQuery, status] of pendingCommands) {
+      if (status === Pending) {
+        const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+        const debug = await queryResponseArchivist.all?.()
+        const result = await responseBoundWitnessDiviner.divine([divinerQuery])
+        if (result && result.length > 0) {
+          const response = result.find(isBoundWitness)
+          if (response && response.sourceQuery === sourceQuery) {
+            // TODO: Get any payloads associated with the response
+            const payloads = response.payload_hashes?.length > 0 ? await queryResponseArchivist.get(response.payload_hashes) : []
+            const errors: ModuleError[] = []
+            this.queryCache.set(sourceQuery, [response, payloads, errors])
           }
         }
-      } catch (error) {
-        // TODO: Log error
-        this.logger?.error(`${moduleName}: Error processing commands for address ${address}: ${error}`)
       }
     }
-    // Check for responses to any queries that we have issued
+  }
+
+  private doBackgroundProcessing = async () => {
+    // TODO: Run in parallel
+    await this.checkForIncomingCommands()
+    await this.checkForResponses()
   }
 
   /**
@@ -408,7 +387,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this._pollId = setTimeoutEx(async () => {
       try {
         await Promise.resolve()
-        await this.backgroundWork()
+        await this.doBackgroundProcessing()
       } catch (e) {
         console.log(e)
       } finally {

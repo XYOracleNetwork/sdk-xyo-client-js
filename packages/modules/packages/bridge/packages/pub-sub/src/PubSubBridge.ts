@@ -305,7 +305,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         // Filter for commands to us by destination address
         const divinerQuery = { destination: [localAddress], limit, offset, schema, sort }
         const commands = await queryBoundWitnessDiviner.divine([divinerQuery])
-        const localModule = assertEx(asModule(await this.resolve(localAddress)), `${moduleName}: Error resolving local address: ${localAddress}`)
+        const localModule = assertEx(await this.resolve(localAddress), `${moduleName}: Error resolving local address: ${localAddress}`)
         for (const command of commands.filter(isQueryBoundWitness)) {
           // Ensure the query is addressed to the destination
           const commandDestination = (command.$meta as { destination?: string[] })?.destination

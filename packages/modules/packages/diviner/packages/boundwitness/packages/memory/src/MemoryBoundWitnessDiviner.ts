@@ -11,6 +11,56 @@ import {
 } from '@xyo-network/diviner-boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
+export interface EqualityComparisonOperators {
+  /**
+   * 'Not Equal To' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value does not match the provided string.
+   * Example: field != 'value'
+   */
+  '!=': string
+
+  /**
+   * 'Less Than' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value is lexicographically less than the provided string.
+   * Example: field < 'value'
+   */
+  '<': string
+
+  /**
+   * 'Less Than or Equal To' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value is lexicographically less than or equal to the provided string.
+   * Example: field <= 'value'
+   */
+  '<=': string
+
+  /**
+   * 'Equal To' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value matches the provided string exactly.
+   * Example: field = 'value'
+   */
+  '=': string
+
+  /**
+   * 'Greater Than' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value is lexicographically greater than the provided string.
+   * Example: field > 'value'
+   */
+  '>': string
+
+  /**
+   * 'Greater Than or Equal To' comparison operator.
+   * Compares the field with the specified string value,
+   * selecting records where the field value is lexicographically greater than or equal to the provided string.
+   * Example: field >= 'value'
+   */
+  '>=': string
+}
+
 export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams> extends BoundWitnessDiviner<TParams> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 

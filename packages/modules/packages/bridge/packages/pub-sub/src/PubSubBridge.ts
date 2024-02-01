@@ -111,7 +111,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    */
   protected get queryCache(): LRUCache<string, Pending | ModuleQueryResult> {
     const config = this.queryCacheConfig
-    this._queryCache = this._queryCache ?? new LRUCache<string, Pending | ModuleQueryResult>({ ttlAutopurge: true, ...config })
+    const requiredConfig = { noUpdateTTL: false, ttlAutopurge: true }
+    this._queryCache = this._queryCache ?? new LRUCache<string, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
     return this._queryCache
   }
 
@@ -240,7 +241,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this.queryCache.set(sourceQueryHash, Pending)
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
-      const foo = async () => {
+      const pollForResponse = async () => {
+        // Poll for response until cache key expires
         do {
           await delay(100)
           const status = this.queryCache.get(sourceQueryHash)
@@ -250,10 +252,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
             return
           }
         } while (this.queryCache.get(sourceQueryHash) === Pending)
+        this.logger?.error(`${moduleName}: Timeout waiting for query response`)
+        // TODO: Should we "resolve" with error in tuple in this case instead? The answer
+        // is probably that we should match whatever a local module would do if it were to error
         reject(`${moduleName}: Timeout waiting for query response`)
         return
       }
-      forget(foo())
+      forget(pollForResponse())
     })
     return context
   }

@@ -138,43 +138,55 @@ describe('PubSubBridge.caching', () => {
     }
   })
 
-  it('Debug test', async () => {
-    const clientA = clientsWithBridges[0]
-    const clientB = clientsWithBridges[1]
-    // Modules can't resolve each other
-    expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
-    expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
+  describe('With valid command', () => {
+    it('Module A issues command to Module B', async () => {
+      const clientA = clientsWithBridges[0]
+      const clientB = clientsWithBridges[1]
+      // Modules can't resolve each other
+      expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
+      expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
 
-    // Issue command via bridge
-    const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-    const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
-    await builder.query({ schema: ArchivistInsertQuerySchema })
-    await builder.payloads(data)
-    const [query, payloads] = await builder.build()
-    const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
+      // Issue command via bridge
+      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
+      await builder.query({ schema: ArchivistInsertQuerySchema })
+      await builder.payloads(data)
+      const [query, payloads] = await builder.build()
+      const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
 
-    // Expect result to be defined
-    expect(result).toBeDefined()
+      // Expect result to be defined
+      expect(result).toBeDefined()
 
-    // Expect target to have data
-    const clientBArchivist = asArchivistInstance(clientB.module)
-    expect(clientBArchivist).toBeDefined()
-    const archivist = assertEx(clientBArchivist)
-    const all = await archivist.all?.()
-    expect(all).toBeArrayOfSize(1)
-    expect(all).toIncludeAllMembers(data)
+      // Expect target to have data
+      const clientBArchivist = asArchivistInstance(clientB.module)
+      expect(clientBArchivist).toBeDefined()
+      const archivist = assertEx(clientBArchivist)
+      const all = await archivist.all?.()
+      expect(all).toBeArrayOfSize(1)
+      expect(all).toIncludeAllMembers(data)
+    })
   })
-  it.skip('Module A issues command to Module B', async () => {
-    const clientA = clientsWithBridges[0]
-    const clientB = clientsWithBridges[1]
-    const destination = asArchivistInstance(await clientA.pubSubBridge.resolve(clientB.module.address))
-    expect(destination).toBeDefined()
-    const payload = await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()
-    const payloadHash = await PayloadHasher.hash(payload)
-    const insertResult = await destination?.insert([payload])
-    expect(insertResult).toBeArrayOfSize(1)
-    const getResult = await destination?.get([payloadHash])
-    expect(getResult).toBeArrayOfSize(1)
-    expect(getResult?.[0]).toEqual(payload)
+  describe.skip('With invalid command', () => {
+    it('Non-existent address, times out', async () => {
+      const clientA = clientsWithBridges[0]
+      const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
+
+      // Issue command via bridge
+      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
+      await builder.query({ schema: ArchivistInsertQuerySchema })
+      await builder.payloads(data)
+      const [query, payloads] = await builder.build()
+      const result = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
+
+      // Expect result to be defined
+      expect(result).toBeDefined()
+    })
+    it('Multiple of the "same" command', async () => {
+      await Promise.resolve()
+    })
+    it('Unsupported command', async () => {
+      await Promise.resolve()
+    })
   })
 })

@@ -7,8 +7,10 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModule } from '@xyo-network/module-abstract'
+import { asModule } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { isModuleError } from '@xyo-network/payload-model'
 
 import { PubSubBridge } from '../PubSubBridge'
 
@@ -129,9 +131,13 @@ describe('PubSubBridge.caching', () => {
       const pubSubBridge: PubSubBridge = await PubSubBridge.create({
         account: pubSubBridgeAccount,
         config: {
+          pollFrequency: 250,
           queries: {
             archivist: intermediateNode.commandArchivist.address,
             boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+          },
+          queryCache: {
+            ttl: 1000 * 5,
           },
           responses: {
             archivist: intermediateNode.queryResponseArchivist.address,
@@ -179,7 +185,7 @@ describe('PubSubBridge.caching', () => {
       expect(all).toIncludeAllMembers(data)
     })
   })
-  describe.skip('With invalid command', () => {
+  describe('With invalid command', () => {
     it('Non-existent address, times out', async () => {
       const clientA = clientsWithBridges[0]
       const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
@@ -190,10 +196,14 @@ describe('PubSubBridge.caching', () => {
       await builder.query({ schema: ArchivistInsertQuerySchema })
       await builder.payloads(data)
       const [query, payloads] = await builder.build()
-      const result = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
+      const [bw, _, errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
 
       // Expect result to be defined
-      expect(result).toBeDefined()
+      expect(bw).toBeDefined()
+      expect(errors).toBeDefined()
+      expect(errors).toBeArrayOfSize(1)
+      const error = errors.find(isModuleError)
+      expect(error).toBeDefined()
     })
     it('Multiple of the "same" command', async () => {
       await Promise.resolve()

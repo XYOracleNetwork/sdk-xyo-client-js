@@ -32,7 +32,7 @@ import {
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, ModuleError, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -240,25 +240,30 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
     // TODO: Deeper assertions here (length, hashes?)
     // TODO: Cleaner than casting
-    const sourceQueryHash = (routedQuery as unknown as { $hash: string }).$hash
-    this.queryCache.set(sourceQueryHash, Pending)
+    const routedQueryHash = (routedQuery as unknown as { $hash: string }).$hash
+    this.queryCache.set(routedQueryHash, Pending)
     if (!insertResult) throw new Error(`${moduleName}: Unable to issue query to queryArchivist`)
-    const context = new Promise<ModuleQueryResult>((resolve, reject) => {
+    const context = new Promise<ModuleQueryResult>((resolve) => {
       const pollForResponse = async () => {
         // Poll for response until cache key expires
         do {
           await delay(100)
-          const status = this.queryCache.get(sourceQueryHash)
+          const status = this.queryCache.get(routedQueryHash)
           if (status === undefined) break
           if (status !== Pending) {
             resolve(status)
             return
           }
-        } while (this.queryCache.get(sourceQueryHash) === Pending)
+        } while (this.queryCache.get(routedQueryHash) === Pending)
         this.logger?.error(`${moduleName}: Timeout waiting for query response`)
-        // TODO: Should we "resolve" with error in tuple in this case instead? The answer
-        // is probably that we should match whatever a local module would do if it were to error
-        reject(`${moduleName}: Timeout waiting for query response`)
+        // Resolve with error to match what a local module would do if it were to error
+        const error: ModuleError = {
+          message: 'Timeout waiting for query response',
+          query: 'network.xyo.boundwitness',
+          schema: 'network.xyo.error.module',
+          sources: [routedQueryHash],
+        }
+        resolve([routedQuery, [], [error]])
         return
       }
       forget(pollForResponse())

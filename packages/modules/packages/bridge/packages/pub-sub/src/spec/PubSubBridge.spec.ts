@@ -45,11 +45,21 @@ const logger = useDebugLogging
     }
   : undefined
 
+const pollFrequency = 250
+const ttl = 1000 * 5
+
+const clientNodePhrases = {
+  A: 'drastic govern leisure pair merit property lava lab equal invest black beach dad glory action',
+  B: 'recycle flower copper kiwi want plate hint shoot shift maze symptom scheme bless moon carry',
+}
+const bridgePhrases = {
+  A: 'wait three forget tomato spike return raise oppose tuition useful purity begin noise empty report',
+  B: 'donate pluck consider cause tired sail road leopard mammal two board mobile logic wrist make',
+}
 /**
  * @group module
  * @group bridge
  */
-
 describe('PubSubBridge.caching', () => {
   let intermediateNode: IntermediateNode
   const clientsWithBridges: ClientWithBridge[] = []
@@ -94,13 +104,8 @@ describe('PubSubBridge.caching', () => {
       await node.attach(mod.address, false)
     }
 
-    const clientPhrases = {
-      A: 'drastic govern leisure pair merit property lava lab equal invest black beach dad glory action',
-      B: 'recycle flower copper kiwi want plate hint shoot shift maze symptom scheme bless moon carry',
-    }
-
     const clients = await Promise.all(
-      Object.entries(clientPhrases).map(async ([name, phrase]) => {
+      Object.entries(clientNodePhrases).map(async ([name, phrase]) => {
         const clientNodeAccount = await HDWallet.fromPhrase(phrase)
         const node = await MemoryNode.create({ account: clientNodeAccount })
 
@@ -130,46 +135,42 @@ describe('PubSubBridge.caching', () => {
         return client
       }),
     )
-    const bridgePhrases = [
-      'wait three forget tomato spike return raise oppose tuition useful purity begin noise empty report',
-      'donate pluck consider cause tired sail road leopard mammal two board mobile logic wrist make',
-    ]
-    expect(bridgePhrases.length).toEqual(clients.length)
-    const connections = []
-    for (let i = 0; i < clients.length; i++) {
-      const client = clients[i]
-      const phrase = bridgePhrases[i]
-      const node = client.node
-      const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
-      const account = await HDWallet.fromPhrase(phrase)
-      const pubSubBridge: PubSubBridge = await PubSubBridge.create({
-        account,
-        config: {
-          pollFrequency: 250,
-          queries: {
-            archivist: intermediateNode.commandArchivist.address,
-            boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+
+    await Promise.all(
+      Object.entries(bridgePhrases).map(async ([name, phrase], i) => {
+        const client = clients[i]
+        const node = client.node
+        const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
+        const account = await HDWallet.fromPhrase(phrase)
+        const pubSubBridge: PubSubBridge = await PubSubBridge.create({
+          account,
+          config: {
+            name: `pubSubBridge${name}`,
+            pollFrequency,
+            queries: {
+              archivist: intermediateNode.commandArchivist.address,
+              boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+            },
+            queryCache: {
+              ttl,
+            },
+            responses: {
+              archivist: intermediateNode.queryResponseArchivist.address,
+              boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
+            },
+            rootAddress: otherNodeAddress,
+            schema: PubSubBridge.configSchema,
           },
-          queryCache: {
-            ttl: 1000 * 5,
-          },
-          responses: {
-            archivist: intermediateNode.queryResponseArchivist.address,
-            boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
-          },
-          rootAddress: otherNodeAddress,
-          schema: PubSubBridge.configSchema,
-        },
-        logger,
-      })
-      await node.register(pubSubBridge)
-      await node.attach(pubSubBridge.address, false)
-      clientsWithBridges.push({ ...client, pubSubBridge })
-      await intermediateNode.node.register(node)
-      await intermediateNode.node.attach(node.address, false)
-      connections.push(pubSubBridge.connect())
-    }
-    await Promise.all(connections)
+          logger,
+        })
+        await node.register(pubSubBridge)
+        await node.attach(pubSubBridge.address, false)
+        clientsWithBridges.push({ ...client, pubSubBridge })
+        await intermediateNode.node.register(node)
+        await intermediateNode.node.attach(node.address, false)
+        await pubSubBridge.connect()
+      }),
+    )
   })
 
   describe('With valid command', () => {

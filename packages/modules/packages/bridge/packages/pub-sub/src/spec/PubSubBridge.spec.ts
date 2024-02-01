@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -35,8 +36,8 @@ interface ClientWithBridge extends Client {
 const useDebugLogging = true
 const logger = useDebugLogging
   ? {
-      // debug: console.debug,
-      debug: () => {},
+      debug: console.debug,
+      // debug: () => {},
       error: console.error,
       info: console.info,
       log: console.log,
@@ -93,9 +94,14 @@ describe('PubSubBridge.caching', () => {
       await node.attach(mod.address, false)
     }
 
+    const clientPhrases = {
+      A: 'drastic govern leisure pair merit property lava lab equal invest black beach dad glory action',
+      B: 'recycle flower copper kiwi want plate hint shoot shift maze symptom scheme bless moon carry',
+    }
+
     const clients = await Promise.all(
-      ['A', 'B'].map(async (name) => {
-        const clientNodeAccount = await Account.create()
+      Object.entries(clientPhrases).map(async ([name, phrase]) => {
+        const clientNodeAccount = await HDWallet.fromPhrase(phrase)
         const node = await MemoryNode.create({ account: clientNodeAccount })
 
         const commandStateStoreArchivistAccount = await Account.create()
@@ -124,15 +130,15 @@ describe('PubSubBridge.caching', () => {
         return client
       }),
     )
-    const testPhrases = [
+    const bridgePhrases = [
       'wait three forget tomato spike return raise oppose tuition useful purity begin noise empty report',
       'donate pluck consider cause tired sail road leopard mammal two board mobile logic wrist make',
     ]
-    expect(testPhrases.length).toEqual(clients.length)
+    expect(bridgePhrases.length).toEqual(clients.length)
     const connections = []
     for (let i = 0; i < clients.length; i++) {
       const client = clients[i]
-      const phrase = testPhrases[i]
+      const phrase = bridgePhrases[i]
       const node = client.node
       const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
       const account = await HDWallet.fromPhrase(phrase)

@@ -27,6 +27,10 @@ export interface IntermediaryConfig {
 export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
     /**
+     * How often to poll for new queries/responses
+     */
+    pollFrequency?: number
+    /**
      * Configuration for intermediary query storage
      */
     queries?: IntermediaryConfig

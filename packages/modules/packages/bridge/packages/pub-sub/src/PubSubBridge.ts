@@ -80,8 +80,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _targetQueries: Record<string, string[]> = {}
 
   private _pollId?: string
-  // TODO: Hoist to config
-  private pollFrequency: number = 1000
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -94,6 +92,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
+  get pollFrequency(): number {
+    return this.config.pollFrequency ?? 1000
+  }
+
   get queryCacheConfig(): LRUCache.Options<string, Pending | ModuleQueryResult, unknown> {
     const queryCacheConfig: CacheConfig | undefined = this.config.queryCache === true ? {} : this.config.queryCache
     return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
@@ -102,6 +104,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected get queryArchivist() {
     return this._configQueriesArchivist
   }
+
   protected get queryBoundWitnessDiviner() {
     return this._configQueriesBoundWitnessDiviner
   }

@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -124,12 +124,20 @@ describe('PubSubBridge.caching', () => {
         return client
       }),
     )
-    for (const client of clients) {
+    const testPhrases = [
+      'wait three forget tomato spike return raise oppose tuition useful purity begin noise empty report',
+      'donate pluck consider cause tired sail road leopard mammal two board mobile logic wrist make',
+    ]
+    expect(testPhrases.length).toEqual(clients.length)
+    const connections = []
+    for (let i = 0; i < clients.length; i++) {
+      const client = clients[i]
+      const phrase = testPhrases[i]
       const node = client.node
       const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
-      const pubSubBridgeAccount = await Account.create()
+      const account = await HDWallet.fromPhrase(phrase)
       const pubSubBridge: PubSubBridge = await PubSubBridge.create({
-        account: pubSubBridgeAccount,
+        account,
         config: {
           pollFrequency: 250,
           queries: {
@@ -153,12 +161,13 @@ describe('PubSubBridge.caching', () => {
       clientsWithBridges.push({ ...client, pubSubBridge })
       await intermediateNode.node.register(node)
       await intermediateNode.node.attach(node.address, false)
-      await pubSubBridge.connect()
+      connections.push(pubSubBridge.connect())
     }
+    await Promise.all(connections)
   })
 
   describe('With valid command', () => {
-    it('Module A issues command to Module B', async () => {
+    it.only('Module A issues command to Module B', async () => {
       const clientA = clientsWithBridges[0]
       const clientB = clientsWithBridges[1]
       // Modules can't resolve each other

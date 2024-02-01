@@ -1,5 +1,5 @@
 import { EmptyObject } from '@xylabs/object'
-import { BridgeConfig } from '@xyo-network/bridge-model'
+import { BridgeConfig, CacheConfig } from '@xyo-network/bridge-model'
 
 import { PubSubBridgeSchema } from './Schema'
 
@@ -37,6 +37,11 @@ export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchem
      * Configuration for intermediary query storage
      */
     queries?: IntermediaryConfig
+
+    /**
+     * Configuration for intermediary response storage
+     */
+    queryCache?: CacheConfig | true
 
     /**
      * Configuration for intermediary response storage

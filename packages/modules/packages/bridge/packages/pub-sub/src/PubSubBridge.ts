@@ -75,18 +75,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _configResponsesBridge: string = ''
   protected _configRootAddress: string = ''
   protected _discoverCache?: LRUCache<string, Payload[]>
+  protected _queryCache?: LRUCache<string, Pending | ModuleQueryResult>
   protected _targetConfigs: Record<string, ModuleConfig> = {}
   protected _targetQueries: Record<string, string[]> = {}
-
-  // type Pending = typeof PubSubBridge.pending
-  /**
-   * A cache of queries that have been issued
-   */
-  protected queryCache: LRUCache<string, Pending | ModuleQueryResult> = new LRUCache<string, Pending | ModuleQueryResult>({
-    // TODO: Make these configurable via config
-    max: 10_000,
-    ttl: 1000 * 60,
-  })
 
   private _pollId?: string
   // TODO: Hoist to config
@@ -103,12 +94,27 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
+  get queryCacheConfig(): LRUCache.Options<string, Pending | ModuleQueryResult, unknown> {
+    const queryCacheConfig: CacheConfig | undefined = this.config.queryCache === true ? {} : this.config.queryCache
+    return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
+  }
+
   protected get queryArchivist() {
     return this._configQueriesArchivist
   }
   protected get queryBoundWitnessDiviner() {
     return this._configQueriesBoundWitnessDiviner
   }
+
+  /**
+   * A cache of queries that have been issued
+   */
+  protected get queryCache(): LRUCache<string, Pending | ModuleQueryResult> {
+    const config = this.queryCacheConfig
+    this._queryCache = this._queryCache ?? new LRUCache<string, Pending | ModuleQueryResult>({ ttlAutopurge: true, ...config })
+    return this._queryCache
+  }
+
   protected get responseArchivist() {
     return this._configResponsesArchivist
   }

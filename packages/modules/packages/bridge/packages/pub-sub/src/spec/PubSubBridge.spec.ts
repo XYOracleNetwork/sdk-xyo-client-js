@@ -30,6 +30,18 @@ interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
 }
 
+const useDebugLogging = true
+const logger = useDebugLogging
+  ? {
+      // debug: console.debug,
+      debug: () => {},
+      error: console.error,
+      info: console.info,
+      log: console.log,
+      warn: console.warn,
+    }
+  : undefined
+
 /**
  * @group module
  * @group bridge
@@ -128,6 +140,7 @@ describe('PubSubBridge.caching', () => {
           rootAddress: otherNodeAddress,
           schema: PubSubBridge.configSchema,
         },
+        logger,
       })
       await node.register(pubSubBridge)
       await node.attach(pubSubBridge.address, false)

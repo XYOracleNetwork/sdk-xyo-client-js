@@ -19,13 +19,6 @@ export interface IntermediaryConfig {
    * Name/Address of the diviner where intermediate communications are filtered
    */
   boundWitnessDiviner: string
-  // // TODO: Is it required to have a bridge module (that we "wrap"). Having it per intermediary
-  // // allows for more flexibility, but it also means that we have to have additional configuration
-  // // for the nominal case (single intermediary)
-  // // /**
-  // //  * The name/address of the bridge module used to communicate with the intermediary
-  // //  */
-  // bridge?: string
 }
 
 /**

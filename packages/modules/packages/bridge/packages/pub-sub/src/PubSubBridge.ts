@@ -351,7 +351,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
           }
         }
       } catch (error) {
-        // TODO: Log error
         this.logger?.error(`${moduleName}: Error processing commands for address ${localAddress}: ${error}`)
       }
     }
@@ -390,6 +389,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   private doBackgroundProcessing = async () => {
+    // TODO: We should make it configurable if we want to be inbound, outbound, or both
+    // as there is good reason for wanting to limit to just one or the other
     const results = await Promise.allSettled([await this.checkForIncomingCommands(), await this.checkForResponses()])
     for (const failure in results.filter(rejected)) {
       this.logger?.error(`${moduleName}: Error in background processing: ${failure}`)

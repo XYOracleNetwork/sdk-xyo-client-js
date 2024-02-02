@@ -177,28 +177,35 @@ describe('PubSubBridge.caching', () => {
       }),
     )
   })
+  afterAll(async () => {
+    await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.disconnect()))
+    await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
+  })
 
   describe('With valid command', () => {
-    it.only('Module A issues command to Module B', async () => {
-      const clientA = clientsWithBridges[0]
-      const clientB = clientsWithBridges[1]
+    it.each([
+      ['A', 'B'],
+      ['B', 'A'],
+    ])('Module %s issues command to Module %s', async (A, B) => {
+      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${A}`))
+      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${B}`))
       // Modules can't resolve each other
-      expect(await clientA.module.resolve(clientB.module.address)).toBeUndefined()
-      expect(await clientB.module.resolve(clientA.module.address)).toBeUndefined()
+      expect(await source.module.resolve(destination.module.address)).toBeUndefined()
+      expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       // Issue command via bridge
       const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
+      const builder = new QueryBoundWitnessBuilder().witness(source.module.account)
       await builder.query({ schema: ArchivistInsertQuerySchema })
       await builder.payloads(data)
       const [query, payloads] = await builder.build()
-      const result = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
+      const result = await source.pubSubBridge.targetQuery(destination.module.address, query, payloads)
 
       // Expect result to be defined
       expect(result).toBeDefined()
 
       // Expect target to have data
-      const clientBArchivist = asArchivistInstance(clientB.module)
+      const clientBArchivist = asArchivistInstance(destination.module)
       expect(clientBArchivist).toBeDefined()
       const archivist = assertEx(clientBArchivist)
       const all = await archivist.all?.()

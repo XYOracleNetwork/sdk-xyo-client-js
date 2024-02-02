@@ -140,13 +140,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return this._configRootAddress
   }
 
-  protected get stateStoreArchivistConfig() {
-    return this._configStateStoreArchivist
-  }
+  // protected get stateStoreArchivistConfig() {
+  //   return this._configStateStoreArchivist
+  // }
 
-  protected get stateStoreBoundWitnessDivinerConfig() {
-    return this._configStateStoreBoundWitnessDiviner
-  }
+  // protected get stateStoreBoundWitnessDivinerConfig() {
+  //   return this._configStateStoreBoundWitnessDiviner
+  // }
 
   async connect(): Promise<boolean> {
     await super.startHandler()
@@ -310,6 +310,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    * to a transaction completion in a database and should only be called
    * when results have been successfully persisted to the appropriate
    * external stores.
+   * @param address The module address to commit the state for
    * @param nextState The state to commit
    */
   protected async commitState(address: string, nextState: number) {
@@ -341,14 +342,14 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.config.responses?.boundWitnessDiviner,
       `${this.moduleName}: Missing entry for response.boundWitnessDiviner in module configuration`,
     )
-    this._configStateStoreArchivist = assertEx(
-      this.config.stateStore?.archivist,
-      `${this.moduleName}: Missing entry for stateStore.archivist in module configuration`,
-    )
-    this._configStateStoreBoundWitnessDiviner = assertEx(
-      this.config.stateStore?.boundWitnessDiviner,
-      `${this.moduleName}: Missing entry for stateStore.boundWitnessDiviner in module configuration`,
-    )
+    // this._configStateStoreArchivist = assertEx(
+    //   this.config.stateStore?.archivist,
+    //   `${this.moduleName}: Missing entry for stateStore.archivist in module configuration`,
+    // )
+    // this._configStateStoreBoundWitnessDiviner = assertEx(
+    //   this.config.stateStore?.boundWitnessDiviner,
+    //   `${this.moduleName}: Missing entry for stateStore.boundWitnessDiviner in module configuration`,
+    // )
   }
 
   /**
@@ -395,19 +396,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     )
   }
 
-  protected getStateStoreArchivist = async () => {
-    return assertEx(
-      asArchivistInstance(await this.resolve(this.stateStoreArchivistConfig)),
-      `${this.moduleName}: Error resolving stateStoreArchivist`,
-    )
-  }
+  // protected getStateStoreArchivist = async () => {
+  //   return assertEx(
+  //     asArchivistInstance(await this.resolve(this.stateStoreArchivistConfig)),
+  //     `${this.moduleName}: Error resolving stateStoreArchivist`,
+  //   )
+  // }
 
-  protected getStateStoreBoundWitnessDiviner = async () => {
-    return assertEx(
-      asDivinerInstance(await this.resolve(this.stateStoreBoundWitnessDivinerConfig)),
-      `${this.moduleName}: Error resolving stateStoreBoundWitnessDiviner`,
-    )
-  }
+  // protected getStateStoreBoundWitnessDiviner = async () => {
+  //   return assertEx(
+  //     asDivinerInstance(await this.resolve(this.stateStoreBoundWitnessDivinerConfig)),
+  //     `${this.moduleName}: Error resolving stateStoreBoundWitnessDiviner`,
+  //   )
+  // }
 
   protected issueCommandAgainstLocalModule = async (localModule: ModuleInstance, command: QueryBoundWitness) => {
     const localModuleName = localModule.config.name ?? localModule.address

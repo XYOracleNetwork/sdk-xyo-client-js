@@ -95,7 +95,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
-  get pollFrequency(): number {
+  get pollFrequencyConfig(): number {
     return this.config.pollFrequency ?? 1000
   }
 
@@ -108,11 +108,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return `${this.config.name ?? moduleName}`
   }
 
-  protected get queryArchivist() {
+  protected get queryArchivistConfig() {
     return this._configQueriesArchivist
   }
 
-  protected get queryBoundWitnessDiviner() {
+  protected get queryBoundWitnessDivinerConfig() {
     return this._configQueriesBoundWitnessDiviner
   }
 
@@ -126,19 +126,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return this._queryCache
   }
 
-  protected get responseArchivist() {
+  protected get responseArchivistConfig() {
     return this._configResponsesArchivist
   }
-  protected get responseBoundWitnessDiviner() {
+  protected get responseBoundWitnessDivinerConfig() {
     return this._configResponsesBoundWitnessDiviner
   }
   protected get rootAddress() {
     return this._configRootAddress
   }
-  protected get stateStoreArchivist() {
+  protected get stateStoreArchivistConfig() {
     return this._configStateStoreArchivist
   }
-  protected get stateStoreBoundWitnessDiviner() {
+  protected get stateStoreBoundWitnessDivinerConfig() {
     return this._configStateStoreBoundWitnessDiviner
   }
 
@@ -185,7 +185,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this.connected = false
     return true
   }
-
   override getRootAddress(): string {
     return this.rootAddress
   }
@@ -246,7 +245,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const $meta = { ...query?.$meta, destination: [address] }
     // TODO: How to get source here???  (query.addresses)/use our address for all responses
     const routedQuery = { ...query, $meta }
-    const queryArchivist = asArchivistInstance(await this.resolve(this.queryArchivist, { direction: 'all' }))
+    const queryArchivist = asArchivistInstance(await this.resolve(this.queryArchivistConfig, { direction: 'all' }))
     if (!queryArchivist) throw new Error(`${this.moduleName}: Unable to resolve queryArchivist for query`)
     // If there was data associated with the query, add it to the insert
     const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
@@ -287,8 +286,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return true
   }
 
-  protected override startHandler(): Promise<boolean> {
-    // Validate necessary configuration
+  /**
+   * Ensures the necessary config entries are present
+   */
+  protected ensureNecessaryConfig = () => {
+    this._configRootAddress = assertEx(this.config.rootAddress, `${this.moduleName}: Missing entry for rootAddress in module configuration`)
     this._configQueriesArchivist = assertEx(
       this.config.queries?.archivist,
       `${this.moduleName}: Missing entry for query.archivist in module configuration`,
@@ -313,7 +315,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.config.stateStore?.boundWitnessDiviner,
       `${this.moduleName}: Missing entry for stateStore.boundWitnessDiviner in module configuration`,
     )
-    this._configRootAddress = assertEx(this.config.rootAddress, `${this.moduleName}: Missing entry for rootAddress in module configuration`)
+  }
+
+  protected override startHandler(): Promise<boolean> {
+    this.ensureNecessaryConfig()
     return Promise.resolve(true)
   }
 
@@ -323,15 +328,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private checkForIncomingCommands = async () => {
     this.logger?.debug(`${this.moduleName}: Checking for inbound commands`)
     const queryBoundWitnessDiviner = assertEx(
-      asDivinerInstance(await this.resolve(this.queryBoundWitnessDiviner)),
+      asDivinerInstance(await this.resolve(this.queryBoundWitnessDivinerConfig)),
       `${this.moduleName}: Error resolving queryBoundWitnessDiviner`,
     )
     const commandArchivist = assertEx(
-      asArchivistInstance(await this.resolve(this.queryArchivist)),
+      asArchivistInstance(await this.resolve(this.queryArchivistConfig)),
       `${this.moduleName}: Error resolving queryArchivist`,
     )
     const queryResponseArchivist = assertEx(
-      asArchivistInstance(await this.resolve(this.responseArchivist)),
+      asArchivistInstance(await this.resolve(this.responseArchivistConfig)),
       `${this.moduleName}: Error resolving queryArchivist`,
     )
     // Check for any queries that have been issued and have not been responded to
@@ -401,11 +406,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    */
   private checkForResponses = async () => {
     const queryResponseArchivist = assertEx(
-      asArchivistInstance(await this.resolve(this.responseArchivist)),
+      asArchivistInstance(await this.resolve(this.responseArchivistConfig)),
       `${this.moduleName}: Error resolving queryArchivist`,
     )
     const responseBoundWitnessDiviner = assertEx(
-      asDivinerInstance(await this.resolve(this.responseBoundWitnessDiviner)),
+      asDivinerInstance(await this.resolve(this.responseBoundWitnessDivinerConfig)),
       `${this.moduleName}: Error resolving responseBoundWitnessDiviner`,
     )
     const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
@@ -451,6 +456,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         this._pollId = undefined
         this.poll()
       }
-    }, this.pollFrequency)
+    }, this.pollFrequencyConfig)
   }
 }

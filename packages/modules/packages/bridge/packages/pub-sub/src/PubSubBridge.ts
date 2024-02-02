@@ -2,7 +2,7 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import { add, compact } from '@xylabs/lodash'
+import { compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
 import { Promisable, rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
@@ -257,11 +257,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
+    this.logger?.debug(`${this.moduleName}: Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     // TODO: How to get source here???  (query.addresses)/use our address for all responses
     const routedQuery = { ...query, $meta }
-    const queryArchivist = asArchivistInstance(await this.resolve(this.queryArchivistConfig, { direction: 'all' }))
+    const queryArchivist = await this.getQueryArchivist()
     if (!queryArchivist) throw new Error(`${this.moduleName}: Unable to resolve queryArchivist for query`)
+    this.logger?.debug(`${this.moduleName}: Issued query to: ${address}`)
     // If there was data associated with the query, add it to the insert
     const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
     // TODO: Deeper assertions here (length, hashes?)
@@ -270,6 +272,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this.queryCache.set(routedQueryHash, Pending)
     if (!insertResult) throw new Error(`${this.moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve) => {
+      this.logger?.debug(`${this.moduleName}: Polling for response to query: ${routedQueryHash}`)
       const pollForResponse = async () => {
         let response = this.queryCache.get(routedQueryHash)
         // Poll for response until cache key expires (response timed out)
@@ -280,7 +283,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
           response = this.queryCache.get(routedQueryHash)
           // If status is no longer pending that means we received a response
           if (response && response !== Pending) {
-            this.logger?.error(`${this.moduleName}: Returning response to query: ${routedQueryHash}`)
+            this.logger?.debug(`${this.moduleName}: Returning response to query: ${routedQueryHash}`)
             resolve(response)
             return
           }

@@ -41,6 +41,11 @@ export interface IntermediaryConfig {
 export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
     /**
+     * How many queries to process at once when retrieving queries
+     * for an address
+     */
+    individualAddressBatchQueryLimit?: number
+    /**
      * How often to poll for new queries/responses
      */
     pollFrequency?: number

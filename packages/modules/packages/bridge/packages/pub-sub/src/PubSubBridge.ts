@@ -94,6 +94,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
+  get individualAddressBatchQueryLimitConfig(): number {
+    return this.config.individualAddressBatchQueryLimit ?? 10
+  }
+
   get pollFrequencyConfig(): number {
     return this.config.pollFrequency ?? 1000
   }
@@ -358,16 +362,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     )
   }
 
+  /**
+   * Finds unprocessed commands addressed to the supplied address
+   * @param address The address to find commands for
+   */
   protected findCommandsToAddress = async (address: string) => {
     const queryBoundWitnessDiviner = await this.getQueryBoundWitnessDiviner()
-    // TODO: Retrieve offset from state store
+    // Retrieve last offset from state store
     const timestamp = await this.retrieveState(address)
-    // TODO: Configurable limit for throttling/batching
-    const limit = 1
-    const schema = BoundWitnessDivinerQuerySchema
-    const sort = 'asc'
+    const destination = [address]
+    const limit = this.individualAddressBatchQueryLimitConfig
     // Filter for commands to us by destination address
-    const divinerQuery = { destination: [address], limit, schema, sort, timestamp }
+    const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
     const result = await queryBoundWitnessDiviner.divine([divinerQuery])
     const commands = result.filter(isQueryBoundWitness)
     const nextState = Math.max(...commands.map((c) => c.timestamp ?? 0))

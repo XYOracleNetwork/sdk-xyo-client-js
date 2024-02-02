@@ -2,7 +2,7 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { hexFromHexString } from '@xylabs/hex'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
   BoundWitnessDivinerConfigSchema,
@@ -61,6 +61,9 @@ export interface EqualityComparisonOperators {
   '>=': string
 }
 
+type WithTimestamp = BoundWitness & { timestamp: number }
+const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !== undefined
+
 export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams> extends BoundWitnessDiviner<TParams> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
@@ -68,7 +71,7 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
-    const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination } = filter
+    const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination, timestamp } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness)
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map((address) => hexFromHexString(address)).filter(exists)
@@ -89,6 +92,12 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
           : // Otherwise, filter it out
             false
       })
+    }
+    if (timestamp !== undefined) {
+      bws =
+        order === 'desc'
+          ? bws.filter(hasTimestamp).filter((bw) => bw.timestamp <= timestamp)
+          : bws.filter(hasTimestamp).filter((bw) => bw.timestamp >= timestamp)
     }
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0

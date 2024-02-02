@@ -227,6 +227,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     // return discover
     return []
   }
+
   override async targetManifest(address: string, maxDepth?: number | undefined): Promise<ModuleManifestPayload> {
     const addressToCall = address ?? this.getRootAddress()
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
@@ -234,10 +235,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
     return assertEx(manifest.find(isPayloadOfSchemaType(ModuleManifestPayloadSchema)), 'Did not receive manifest') as ModuleManifestPayload
   }
+
   override targetQueries(address: string): string[] {
     if (!this.connected) throw new Error('Not connected')
     return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
+
   override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
@@ -331,6 +334,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return assertEx(asArchivistInstance(await this.resolve(this.responseArchivistConfig)), `${this.moduleName}: Error resolving responseArchivist`)
   }
 
+  protected getResponseBoundWitnessDiviner = async () => {
+    return assertEx(
+      asDivinerInstance(await this.resolve(this.responseBoundWitnessDivinerConfig)),
+      `${this.moduleName}: Error resolving responseBoundWitnessDiviner`,
+    )
+  }
+
   protected override startHandler(): Promise<boolean> {
     this.ensureNecessaryConfig()
     return Promise.resolve(true)
@@ -410,14 +420,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    * Background process for checking for inbound responses
    */
   private checkForResponses = async () => {
-    const responseArchivist = assertEx(
-      asArchivistInstance(await this.resolve(this.responseArchivistConfig)),
-      `${this.moduleName}: Error resolving queryArchivist`,
-    )
-    const responseBoundWitnessDiviner = assertEx(
-      asDivinerInstance(await this.resolve(this.responseBoundWitnessDivinerConfig)),
-      `${this.moduleName}: Error resolving responseBoundWitnessDiviner`,
-    )
+    const responseArchivist = await this.getResponseArchivist()
+    const responseBoundWitnessDiviner = await this.getResponseBoundWitnessDiviner()
     const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
     // TODO: Do in parallel/batches
     for (const [sourceQuery, status] of pendingCommands) {

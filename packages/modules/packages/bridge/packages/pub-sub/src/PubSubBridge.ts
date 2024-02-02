@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
@@ -213,8 +214,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       return cachedResult
     }
     await this.started('throw')
-    this.logger?.debug(`${this.moduleName}: Begin issuing targetDiscover to: ${address}`)
-    // const addressToDiscover = address ?? (await this.getRootAddress())
+    const addressToDiscover = address ?? (await this.getRootAddress())
+    this.logger?.debug(`${this.moduleName}: Begin issuing targetDiscover to: ${addressToDiscover}`)
     // const queryPayload: ModuleDiscoverQuery = { maxDepth, schema: ModuleDiscoverQuerySchema }
     // const boundQuery = await this.bindQuery(queryPayload)
     // const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
@@ -236,7 +237,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     //   discover.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
     //   () => `Discover did not return a [${targetConfigSchema}] payload`,
     // )
-    // //if caching, set entry
+    // if caching, set entry
     // this.discoverCache?.set(address ?? 'root', discover)
     // return discover
     return []
@@ -554,7 +555,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       try {
         await this.doBackgroundProcessing()
       } catch (e) {
-        console.log(e)
+        this.logger?.error?.(`${this.moduleName}: Error in main loop: ${e}`)
       } finally {
         if (this._pollId) clearTimeoutEx(this._pollId)
         this._pollId = undefined

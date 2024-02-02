@@ -491,62 +491,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return true
   }
 
-  /**
-   * Background process for checking for inbound commands
-   */
-  private checkForIncomingCommands = async () => {
-    this.logger?.debug(`${this.moduleName}: Checking for inbound commands`)
-    // Check for any queries that have been issued and have not been responded to
-    const localModules = await this.resolve()
-    const localAddresses = localModules.map((module) => module.address)
-    // TODO: Do in parallel/batches
-    for (const localAddress of localAddresses) {
-      try {
-        const localModule = assertEx(await this.resolve(localAddress), `${this.moduleName}: Error resolving local address: ${localAddress}`)
-        const localModuleName = localModule.config.name ?? localAddress
-        this.logger?.debug(`${this.moduleName}: Checking for inbound commands to ${localModuleName}`)
-        const commands = await this.findCommandsToAddress(localAddress)
-        if (commands.length === 0) continue
-        this.logger?.debug(`${this.moduleName}: Found commands addressed to local module: ${localModuleName}`)
-        for (const command of commands) {
-          await this.issueCommandAgainstLocalModule(localModule, command)
-        }
-      } catch (error) {
-        this.logger?.error(`${this.moduleName}: Error processing commands for address ${localAddress}: ${error}`)
-      }
-    }
-  }
-
-  /**
-   * Background process for checking for inbound responses
-   */
-  private checkForResponses = async () => {
-    const responseArchivist = await this.getResponseArchivist()
-    const responseBoundWitnessDiviner = await this.getResponseBoundWitnessDiviner()
-    const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
-    // TODO: Do in parallel/batches
-    for (const [sourceQuery, status] of pendingCommands) {
-      if (status === Pending) {
-        const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
-        const result = await responseBoundWitnessDiviner.divine([divinerQuery])
-        if (result && result.length > 0) {
-          const response = result.find(isBoundWitness)
-          if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
-            this.logger?.debug(`${this.moduleName}: Found response to query: ${sourceQuery}`)
-            // Get any payloads associated with the response
-            const payloads = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
-            const errors: ModuleError[] = []
-            this.queryCache.set(sourceQuery, [response, payloads, errors])
-          }
-        }
-      }
-    }
-  }
-
   private doBackgroundProcessing = async () => {
     // TODO: We should make it configurable if we want to be inbound, outbound, or both
     // as there is good reason for wanting to limit to just one or the other
-    const results = await Promise.allSettled([await this.checkForIncomingCommands(), await this.checkForResponses()])
+    const results = await Promise.allSettled([await this.processIncomingQueries(), await this.processIncomingResponses()])
     for (const failure in results.filter(rejected)) {
       this.logger?.error(`${this.moduleName}: Error in background processing: ${failure}`)
     }
@@ -568,5 +516,62 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         this.poll()
       }
     }, this.pollFrequencyConfig)
+  }
+
+  /**
+   * Background process for checking for inbound commands
+   */
+  private processIncomingQueries = async () => {
+    this.logger?.debug(`${this.moduleName}: Checking for inbound commands`)
+    // Check for any queries that have been issued and have not been responded to
+    const localModules = await this.resolve()
+    // TODO: Ensure we filter out any proxy modules we created so we don't create a loopback
+    const localAddresses = localModules.map((module) => module.address)
+    // TODO: Do in throttled batches
+    await Promise.allSettled(
+      localAddresses.map(async (localAddress) => {
+        try {
+          const localModule = assertEx(await this.resolve(localAddress), `${this.moduleName}: Error resolving local address: ${localAddress}`)
+          const localModuleName = localModule.config.name ?? localAddress
+          this.logger?.debug(`${this.moduleName}: Checking for inbound commands to ${localModuleName}`)
+          const commands = await this.findCommandsToAddress(localAddress)
+          if (commands.length === 0) return
+          this.logger?.debug(`${this.moduleName}: Found commands addressed to local module: ${localModuleName}`)
+          for (const command of commands) {
+            await this.issueCommandAgainstLocalModule(localModule, command)
+          }
+        } catch (error) {
+          this.logger?.error(`${this.moduleName}: Error processing commands for address ${localAddress}: ${error}`)
+        }
+      }),
+    )
+  }
+
+  /**
+   * Background process for processing incoming responses to previously issued queries
+   */
+  private processIncomingResponses = async () => {
+    const responseArchivist = await this.getResponseArchivist()
+    const responseBoundWitnessDiviner = await this.getResponseBoundWitnessDiviner()
+    const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
+    // TODO: Do in throttled batches
+    await Promise.allSettled(
+      pendingCommands.map(async ([sourceQuery, status]) => {
+        if (status === Pending) {
+          const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+          const result = await responseBoundWitnessDiviner.divine([divinerQuery])
+          if (result && result.length > 0) {
+            const response = result.find(isBoundWitness)
+            if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
+              this.logger?.debug(`${this.moduleName}: Found response to query: ${sourceQuery}`)
+              // Get any payloads associated with the response
+              const payloads = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
+              const errors: ModuleError[] = []
+              this.queryCache.set(sourceQuery, [response, payloads, errors])
+            }
+          }
+        }
+      }),
+    )
   }
 }

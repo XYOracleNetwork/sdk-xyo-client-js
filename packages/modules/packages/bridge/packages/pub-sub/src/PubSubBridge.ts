@@ -157,38 +157,38 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     await super.startHandler()
     this.connected = true
     this.poll()
-    // return true
-    const rootTargetDownResolver = this.targetDownResolver()
-    if (rootTargetDownResolver) {
-      this.downResolver.addResolver(rootTargetDownResolver)
-      await this.targetDiscover(this.rootAddress)
+    return true
+    // const rootTargetDownResolver = this.targetDownResolver()
+    // if (rootTargetDownResolver) {
+    //   this.downResolver.addResolver(rootTargetDownResolver)
+    //   await this.targetDiscover(this.rootAddress)
 
-      const childAddresses = await rootTargetDownResolver.getRemoteAddresses()
+    //   const childAddresses = await rootTargetDownResolver.getRemoteAddresses()
 
-      const children = compact(
-        await Promise.all(
-          childAddresses.map(async (address) => {
-            const resolved = await rootTargetDownResolver.resolve({ address: [address] })
-            return resolved[0]
-          }),
-        ),
-      )
+    //   const children = compact(
+    //     await Promise.all(
+    //       childAddresses.map(async (address) => {
+    //         const resolved = await rootTargetDownResolver.resolve({ address: [address] })
+    //         return resolved[0]
+    //       }),
+    //     ),
+    //   )
 
-      // Discover all to load cache
-      await Promise.all(children.map((child) => assertEx(child.discover())))
+    //   // Discover all to load cache
+    //   await Promise.all(children.map((child) => assertEx(child.discover())))
 
-      const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
-      //notify parents of child modules
-      //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-      for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
-      // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
-      this.connected = true
+    //   const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
+    //   //notify parents of child modules
+    //   //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
+    //   for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
+    //   // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
+    //   this.connected = true
 
-      return true
-    } else {
-      this.connected = false
-      return false
-    }
+    //   return true
+    // } else {
+    //   this.connected = false
+    //   return false
+    // }
   }
 
   async disconnect(): Promise<boolean> {
@@ -213,6 +213,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       return cachedResult
     }
     await this.started('throw')
+    this.logger?.debug(`${this.moduleName}: Begin issuing targetDiscover to: ${address}`)
     // const addressToDiscover = address ?? (await this.getRootAddress())
     // const queryPayload: ModuleDiscoverQuery = { maxDepth, schema: ModuleDiscoverQuerySchema }
     // const boundQuery = await this.bindQuery(queryPayload)

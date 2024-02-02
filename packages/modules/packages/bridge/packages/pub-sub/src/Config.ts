@@ -7,6 +7,20 @@ export const PubSubBridgeConfigSchema = `${PubSubBridgeSchema}.config`
 export type PubSubBridgeConfigSchema = typeof PubSubBridgeConfigSchema
 
 /**
+ * Configuration for searchable storage of local state
+ */
+export interface SearchableStorage {
+  /**
+   * Name/Address of the archivist where intermediate communications are stored
+   */
+  archivist: string
+  /**
+   * Name/Address of the diviner where intermediate communications are filtered
+   */
+  boundWitnessDiviner: string
+}
+
+/**
  * Configuration for the mutually accessible
  * modules between the modules being connected
  */
@@ -54,6 +68,11 @@ export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchem
      * The configurations schema for the module
      */
     schema: PubSubBridgeConfigSchema
+
+    /**
+     * Where the archivist should persist its internal state
+     */
+    stateStore?: SearchableStorage
   } & TConfig,
   TSchema extends string ? TSchema : PubSubBridgeConfigSchema
 >

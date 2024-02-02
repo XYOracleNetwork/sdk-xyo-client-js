@@ -75,6 +75,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _configResponsesBoundWitnessDiviner: string = ''
   protected _configResponsesBridge: string = ''
   protected _configRootAddress: string = ''
+  protected _configStateStoreArchivist: string = ''
+  protected _configStateStoreBoundWitnessDiviner: string = ''
   protected _discoverCache?: LRUCache<string, Payload[]>
   protected _queryCache?: LRUCache<string, Pending | ModuleQueryResult>
   protected _targetConfigs: Record<string, ModuleConfig> = {}
@@ -132,6 +134,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
   protected get rootAddress() {
     return this._configRootAddress
+  }
+  protected get stateStoreArchivist() {
+    return this._configStateStoreArchivist
+  }
+  protected get stateStoreBoundWitnessDiviner() {
+    return this._configStateStoreBoundWitnessDiviner
   }
 
   async connect(): Promise<boolean> {
@@ -297,6 +305,14 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.config.responses?.boundWitnessDiviner,
       `${this.moduleName}: Missing entry for response.boundWitnessDiviner in module configuration`,
     )
+    this._configStateStoreArchivist = assertEx(
+      this.config.stateStore?.archivist,
+      `${this.moduleName}: Missing entry for stateStore.archivist in module configuration`,
+    )
+    this._configStateStoreBoundWitnessDiviner = assertEx(
+      this.config.stateStore?.boundWitnessDiviner,
+      `${this.moduleName}: Missing entry for stateStore.boundWitnessDiviner in module configuration`,
+    )
     this._configRootAddress = assertEx(this.config.rootAddress, `${this.moduleName}: Missing entry for rootAddress in module configuration`)
     return Promise.resolve(true)
   }
@@ -364,6 +380,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
                   // TODO: Deeper assertions here for query
                   const [bw, payloads, errors] = response
                   // TODO: Deeper assertions here for insert
+                  this.logger?.debug(`${this.moduleName}: Replying to command ${commandHash} addressed to local module: ${localModuleName}`)
                   const insertResult = await queryResponseArchivist.insert([bw, ...payloads, ...errors])
                 } catch (error) {
                   this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for address ${localAddress}: ${error}`)

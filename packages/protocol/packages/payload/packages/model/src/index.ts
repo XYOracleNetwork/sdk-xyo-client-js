@@ -1,6 +1,7 @@
 export * from './Error'
 export * from './isPayload'
 export * from './isPayloadOfSchemaType'
+export * from './isPayloadWithHash'
 export * from './Payload'
 export * from './PayloadFindFilter'
 export * from './PayloadSet'

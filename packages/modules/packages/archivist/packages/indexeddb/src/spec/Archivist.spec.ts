@@ -107,6 +107,9 @@ describe('IndexedDbArchivist', () => {
           account,
           config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2 },
         })
+        // TODO: This test is not testing the end state of indexedDB, but rather the
+        // state of the Archivist instance and therefore isn't valid.  We'd want to actually
+        // open indexedDB and check the state of the stores matches what we want (which it doesn't).
         expect(archivist1.storeName).toBe(storeName1)
         expect(archivist2.storeName).toBe(storeName2)
       })

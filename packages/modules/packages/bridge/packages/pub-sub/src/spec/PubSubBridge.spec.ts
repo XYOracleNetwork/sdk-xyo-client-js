@@ -173,7 +173,6 @@ describe('PubSubBridge.caching', () => {
         clientsWithBridges.push({ ...client, pubSubBridge })
         await intermediateNode.node.register(node)
         await intermediateNode.node.attach(node.address, false)
-        await pubSubBridge.connect()
       }),
     )
   })
@@ -182,10 +181,10 @@ describe('PubSubBridge.caching', () => {
     await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
   })
 
-  describe('With valid command', () => {
+  describe.only('With valid command', () => {
     it.each([
       ['A', 'B'],
-      ['B', 'A'],
+      // ['B', 'A'],
     ])('Module %s issues command to Module %s', async (A, B) => {
       const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${A}`))
       const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${B}`))

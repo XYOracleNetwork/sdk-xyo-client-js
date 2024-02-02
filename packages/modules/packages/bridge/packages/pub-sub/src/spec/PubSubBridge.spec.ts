@@ -179,13 +179,8 @@ describe('PubSubBridge.caching', () => {
     await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
   })
 
-  describe.only('With valid command', () => {
-    it.each([
-      ['A', 'B'],
-      // ['B', 'A'],
-    ])('Module %s issues command to Module %s', async (A, B) => {
-      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${A}`))
-      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${B}`))
+  describe('With valid command', () => {
+    const issueSourceQueryToDestination = async (source: ClientWithBridge, destination: ClientWithBridge, expectedArchivistSize: number) => {
       // Modules can't resolve each other
       expect(await source.module.resolve(destination.module.address)).toBeUndefined()
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
@@ -206,8 +201,18 @@ describe('PubSubBridge.caching', () => {
       expect(clientBArchivist).toBeDefined()
       const archivist = assertEx(clientBArchivist)
       const all = await archivist.all?.()
-      expect(all).toBeArrayOfSize(1)
+      expect(all).toBeArrayOfSize(expectedArchivistSize)
       expect(all).toIncludeAllMembers(data)
+    }
+    it.each([
+      ['A', 'B', 1],
+      ['B', 'A', 1],
+      ['A', 'B', 2],
+      ['B', 'A', 2],
+    ])('Module %s issues command to Module %s', async (A, B, expectedArchivistSize) => {
+      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${A}`))
+      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${B}`))
+      await issueSourceQueryToDestination(source, destination, expectedArchivistSize)
     })
   })
   describe('With invalid command', () => {
@@ -221,7 +226,7 @@ describe('PubSubBridge.caching', () => {
       await builder.query({ schema: ArchivistInsertQuerySchema })
       await builder.payloads(data)
       const [query, payloads] = await builder.build()
-      const [bw, _, errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
+      const [bw, , errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
 
       // Expect result to be defined
       expect(bw).toBeDefined()

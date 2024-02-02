@@ -28,8 +28,6 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  ModuleState,
-  StateDictionary,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -478,10 +476,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     // TODO: Do in parallel/batches
     for (const localAddress of localAddresses) {
       try {
-        const commands = await this.findCommandsToAddress(localAddress)
-        if (commands.length === 0) continue
         const localModule = assertEx(await this.resolve(localAddress), `${this.moduleName}: Error resolving local address: ${localAddress}`)
         const localModuleName = localModule.config.name ?? localAddress
+        this.logger?.debug(`${this.moduleName}: Checking for inbound commands to ${localModuleName}`)
+        const commands = await this.findCommandsToAddress(localAddress)
+        if (commands.length === 0) continue
         this.logger?.debug(`${this.moduleName}: Found commands addressed to local module: ${localModuleName}`)
         for (const command of commands) {
           await this.issueCommandAgainstLocalModule(localModule, command)

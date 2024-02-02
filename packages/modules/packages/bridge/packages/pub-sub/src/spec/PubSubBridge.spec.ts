@@ -65,7 +65,7 @@ describe('PubSubBridge.caching', () => {
   const clientsWithBridges: ClientWithBridge[] = []
   beforeAll(async () => {
     const intermediateNodeAccount = await Account.create()
-    const node = await MemoryNode.create({ account: intermediateNodeAccount })
+    const node = await MemoryNode.create({ account: intermediateNodeAccount, config: { name: 'rootNode', schema: MemoryNode.configSchema } })
 
     const queryArchivistAccount = await Account.create()
     const queryArchivist = await MemoryArchivist.create({
@@ -88,7 +88,7 @@ describe('PubSubBridge.caching', () => {
     const responseBoundWitnessDivinerAccount = await Account.create()
     const responseBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: responseBoundWitnessDivinerAccount,
-      config: { archivist: responseArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
+      config: { archivist: responseArchivist.address, name: 'responseBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.configSchema },
     })
 
     intermediateNode = { node, queryArchivist, queryBoundWitnessDiviner, responseArchivist, responseBoundWitnessDiviner }
@@ -101,7 +101,10 @@ describe('PubSubBridge.caching', () => {
     const clients = await Promise.all(
       Object.entries(clientNodePhrases).map(async ([name, phrase]) => {
         const clientNodeAccount = await HDWallet.fromPhrase(phrase)
-        const node = await MemoryNode.create({ account: clientNodeAccount })
+        const node = await MemoryNode.create({
+          account: clientNodeAccount,
+          config: { name: `node${name}`, schema: MemoryNode.configSchema },
+        })
 
         const stateStoreArchivistAccount = await Account.create()
         const stateStoreArchivist = await MemoryArchivist.create({

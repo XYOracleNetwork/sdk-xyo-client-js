@@ -1,15 +1,14 @@
-/* eslint-disable max-depth */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import { compact } from '@xylabs/lodash'
+import { add, compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
 import { rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
-import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness, isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
@@ -29,6 +28,8 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
+  ModuleState,
+  StateDictionary,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -76,6 +77,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _configStateStoreArchivist: string = ''
   protected _configStateStoreBoundWitnessDiviner: string = ''
   protected _discoverCache?: LRUCache<string, Payload[]>
+  protected _lastState?: LRUCache<string, number>
   protected _queryCache?: LRUCache<string, Pending | ModuleQueryResult>
   protected _targetConfigs: Record<string, ModuleConfig> = {}
   protected _targetQueries: Record<string, string[]> = {}
@@ -100,6 +102,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   get queryCacheConfig(): LRUCache.Options<string, Pending | ModuleQueryResult, unknown> {
     const queryCacheConfig: CacheConfig | undefined = this.config.queryCache === true ? {} : this.config.queryCache
     return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
+  }
+
+  /**
+   * A cache of the last offset of the Diviner process per address
+   */
+  protected get lastState(): LRUCache<string, number> {
+    const requiredConfig = { max: 1000, ttl: 0 }
+    this._lastState = this._lastState ?? new LRUCache<string, number>(requiredConfig)
+    return this._lastState
   }
 
   protected get moduleName() {
@@ -127,15 +138,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected get responseArchivistConfig() {
     return this._configResponsesArchivist
   }
+
   protected get responseBoundWitnessDivinerConfig() {
     return this._configResponsesBoundWitnessDiviner
   }
+
   protected get rootAddress() {
     return this._configRootAddress
   }
+
   protected get stateStoreArchivistConfig() {
     return this._configStateStoreArchivist
   }
+
   protected get stateStoreBoundWitnessDivinerConfig() {
     return this._configStateStoreBoundWitnessDiviner
   }
@@ -183,6 +198,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this.connected = false
     return true
   }
+
   override getRootAddress(): string {
     return this.rootAddress
   }
@@ -288,6 +304,21 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   /**
+   * Commit the internal state of the process. This is similar
+   * to a transaction completion in a database and should only be called
+   * when results have been successfully persisted to the appropriate
+   * external stores.
+   * @param nextState The state to commit
+   */
+  protected async commitState(address: string, nextState: number) {
+    await Promise.resolve()
+    // TODO: Offload to Archivist/Diviner instead of in-memory
+    const lastState = this.lastState.get(address)
+    if (lastState && lastState >= nextState) return
+    this.lastState.set(address, nextState)
+  }
+
+  /**
    * Ensures the necessary config entries are present
    */
   protected ensureNecessaryConfig = () => {
@@ -321,15 +352,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected findCommandsToAddress = async (address: string) => {
     const queryBoundWitnessDiviner = await this.getQueryBoundWitnessDiviner()
     // TODO: Retrieve offset from state store
-    const offset = 0
-    // TODO: Handle offset and limit
+    const timestamp = await this.retrieveState(address)
+    // TODO: Configurable limit for throttling/batching
     const limit = 1
     const schema = BoundWitnessDivinerQuerySchema
     const sort = 'asc'
     // Filter for commands to us by destination address
-    const divinerQuery = { destination: [address], limit, offset, schema, sort }
+    const divinerQuery = { destination: [address], limit, schema, sort, timestamp }
     const result = await queryBoundWitnessDiviner.divine([divinerQuery])
     const commands = result.filter(isQueryBoundWitness)
+    const nextState = Math.max(...commands.map((c) => c.timestamp ?? 0))
+    // TODO: This needs to be thought through as we can't use a distributed timestamp.
+    // We need to use the timestamp of the store so there's no chance of multiple
+    // commands at the same time
+    await this.commitState(address, nextState)
     return commands
   }
 
@@ -352,6 +388,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return assertEx(
       asDivinerInstance(await this.resolve(this.responseBoundWitnessDivinerConfig)),
       `${this.moduleName}: Error resolving responseBoundWitnessDiviner`,
+    )
+  }
+
+  protected getStateStoreArchivist = async () => {
+    return assertEx(
+      asArchivistInstance(await this.resolve(this.stateStoreArchivistConfig)),
+      `${this.moduleName}: Error resolving stateStoreArchivist`,
+    )
+  }
+
+  protected getStateStoreBoundWitnessDiviner = async () => {
+    return assertEx(
+      asDivinerInstance(await this.resolve(this.stateStoreBoundWitnessDivinerConfig)),
+      `${this.moduleName}: Error resolving stateStoreBoundWitnessDiviner`,
     )
   }
 
@@ -393,6 +443,24 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
   }
 
+  /**
+   * Retrieves the last state of the process. Used to recover state after
+   * preemptions, reboots, etc.
+   */
+  protected async retrieveState(address: string): Promise<number> {
+    await Promise.resolve()
+    const state = this.lastState.get(address)
+    if (state === undefined) {
+      // If this is a boot we can go back a bit in time
+      // and begin processing recent commands
+      const newState = Date.now() - 1000
+      this.lastState.set(address, newState)
+      return newState
+    } else {
+      return state
+    }
+  }
+
   protected override startHandler(): Promise<boolean> {
     this.ensureNecessaryConfig()
     return Promise.resolve(true)
@@ -421,7 +489,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         this.logger?.error(`${this.moduleName}: Error processing commands for address ${localAddress}: ${error}`)
       }
     }
-    // Check for responses to any queries that we have issued
   }
 
   /**

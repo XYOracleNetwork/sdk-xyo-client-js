@@ -362,9 +362,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const result = await queryBoundWitnessDiviner.divine([divinerQuery])
     const commands = result.filter(isQueryBoundWitness)
     const nextState = Math.max(...commands.map((c) => c.timestamp ?? 0))
-    // TODO: This needs to be thought through as we can't use a distributed timestamp.
-    // We need to use the timestamp of the store so there's no chance of multiple
-    // commands at the same time
+    // TODO: This needs to be thought through as we can't use a distributed timestamp
+    // because of collisions. We need to use the timestamp of the store so there's no
+    // chance of multiple commands at the same time
     await this.commitState(address, nextState)
     return commands
   }
@@ -428,7 +428,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
           }
           try {
             // Issue the query against module
-            this.logger?.debug(`${this.moduleName}: Issuing command ${commandHash} addressed to module: ${localModuleName}`)
+            const commandSchema = commandPayloadsDict[command.query].schema
+            this.logger?.debug(`${this.moduleName}: Issuing command ${commandSchema} (${commandHash}) addressed to module: ${localModuleName}`)
             const response = await localModule.query(command, commandPayloads)
             // TODO: Deeper assertions here for query
             const [bw, payloads, errors] = response

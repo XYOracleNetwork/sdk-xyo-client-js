@@ -23,6 +23,7 @@ import {
   ModuleManifestQuerySchema,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, isPayloadWithHash, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
@@ -258,12 +259,22 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const routedQuery = { ...query, $meta }
     const queryArchivist = await this.getQueryArchivist()
     if (!queryArchivist) throw new Error(`${this.moduleName}: Unable to resolve queryArchivist for query`)
-    this.logger?.debug(`${this.moduleName}: Issued query to: ${address}`)
+    // TODO: Should we always re-hash to true up timestamps?  We can't
+    // re-sign correctly so we would lose that information if we did and
+    // would also be replying to consumers with a different query hash than
+    // they sent us (which might be OK since it reflect the chain of custody)
+    // Revisit this once we have proxy module support as they are another
+    // intermediary to consider.
+    const routedQueryHash =
+      // Trust the signed hash if it's there
+      (routedQuery as WithMeta<QueryBoundWitness>)?.$hash ??
+      // TODO: What is the right way to find the dataHash
+      Object.keys(await PayloadBuilder.toDataHashMap([routedQuery]))[0]
+    this.logger?.debug(`${this.moduleName}: Issuing query: ${routedQueryHash} to: ${address}`)
     // If there was data associated with the query, add it to the insert
-    const insertResult = await queryArchivist.insert?.(payloads ? [routedQuery, ...payloads] : [routedQuery])
-    // TODO: Deeper assertions here (length, hashes?)
-    // TODO: Cleaner than casting
-    const routedQueryHash = (routedQuery as unknown as { $hash: string }).$hash
+    const data = payloads ? [routedQuery, ...payloads] : [routedQuery]
+    const insertResult = await queryArchivist.insert?.(data)
+    this.logger?.debug(`${this.moduleName}: Issued query: ${routedQueryHash} to: ${address}`)
     this.queryCache.set(routedQueryHash, Pending)
     if (!insertResult) throw new Error(`${this.moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve) => {

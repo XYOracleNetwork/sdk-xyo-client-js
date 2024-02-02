@@ -16,18 +16,18 @@ import { isModuleError } from '@xyo-network/payload-model'
 import { PubSubBridge } from '../PubSubBridge'
 
 interface IntermediateNode {
-  commandArchivist: ArchivistInstance
-  commandArchivistBoundWitnessDiviner: DivinerInstance
   node: MemoryNode
-  queryResponseArchivist: ArchivistInstance
-  queryResponseArchivistBoundWitnessDiviner: DivinerInstance
+  queryArchivist: ArchivistInstance
+  queryBoundWitnessDiviner: DivinerInstance
+  responseArchivist: ArchivistInstance
+  responseBoundWitnessDiviner: DivinerInstance
 }
 
 interface Client {
-  bridgeQueryResponseArchivist: ArchivistInstance
-  commandStateStoreArchivist: ArchivistInstance
   module: AbstractModule
   node: MemoryNode
+  stateStoreArchivist: ArchivistInstance
+  stateStoreBoundWitnessDiviner: DivinerInstance
 }
 interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
@@ -67,37 +67,31 @@ describe('PubSubBridge.caching', () => {
     const intermediateNodeAccount = await Account.create()
     const node = await MemoryNode.create({ account: intermediateNodeAccount })
 
-    const commandArchivistAccount = await Account.create()
-    const commandArchivist = await MemoryArchivist.create({
-      account: commandArchivistAccount,
-      config: { schema: MemoryArchivist.configSchema },
+    const queryArchivistAccount = await Account.create()
+    const queryArchivist = await MemoryArchivist.create({
+      account: queryArchivistAccount,
+      config: { name: 'queryArchivist', schema: MemoryArchivist.configSchema },
     })
 
-    const commandArchivistBoundWitnessDivinerAccount = await Account.create()
-    const commandArchivistBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
-      account: commandArchivistBoundWitnessDivinerAccount,
-      config: { archivist: commandArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
+    const queryBoundWitnessDivinerAccount = await Account.create()
+    const queryBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+      account: queryBoundWitnessDivinerAccount,
+      config: { archivist: queryArchivist.address, name: 'queryBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.configSchema },
     })
 
-    const queryResponseArchivistAccount = await Account.create()
-    const queryResponseArchivist = await MemoryArchivist.create({
-      account: queryResponseArchivistAccount,
-      config: { schema: MemoryArchivist.configSchema },
+    const responseArchivistAccount = await Account.create()
+    const responseArchivist = await MemoryArchivist.create({
+      account: responseArchivistAccount,
+      config: { name: 'responseArchivist', schema: MemoryArchivist.configSchema },
     })
 
-    const queryResponseArchivistBoundWitnessDivinerAccount = await Account.create()
-    const queryResponseArchivistBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
-      account: queryResponseArchivistBoundWitnessDivinerAccount,
-      config: { archivist: queryResponseArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
+    const responseBoundWitnessDivinerAccount = await Account.create()
+    const responseBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+      account: responseBoundWitnessDivinerAccount,
+      config: { archivist: responseArchivist.address, schema: MemoryBoundWitnessDiviner.configSchema },
     })
 
-    intermediateNode = {
-      commandArchivist,
-      commandArchivistBoundWitnessDiviner,
-      node,
-      queryResponseArchivist,
-      queryResponseArchivistBoundWitnessDiviner,
-    }
+    intermediateNode = { node, queryArchivist, queryBoundWitnessDiviner, responseArchivist, responseBoundWitnessDiviner }
 
     for (const mod of Object.values(intermediateNode).filter((v) => v.address !== node.address)) {
       await node.register(mod)
@@ -109,16 +103,20 @@ describe('PubSubBridge.caching', () => {
         const clientNodeAccount = await HDWallet.fromPhrase(phrase)
         const node = await MemoryNode.create({ account: clientNodeAccount })
 
-        const commandStateStoreArchivistAccount = await Account.create()
-        const commandStateStoreArchivist = await MemoryArchivist.create({
-          account: commandStateStoreArchivistAccount,
-          config: { name: `commandStateStoreArchivist${name}`, schema: MemoryArchivist.configSchema },
+        const stateStoreArchivistAccount = await Account.create()
+        const stateStoreArchivist = await MemoryArchivist.create({
+          account: stateStoreArchivistAccount,
+          config: { name: `stateStoreArchivist${name}`, schema: MemoryArchivist.configSchema },
         })
 
-        const bridgeQueryResponseArchivistAccount = await Account.create()
-        const bridgeQueryResponseArchivist = await MemoryArchivist.create({
-          account: bridgeQueryResponseArchivistAccount,
-          config: { name: `bridgeQueryResponseArchivist${name}`, schema: MemoryArchivist.configSchema },
+        const stateStoreBoundWitnessDivinerAccount = await Account.create()
+        const stateStoreBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
+          account: stateStoreBoundWitnessDivinerAccount,
+          config: {
+            archivist: stateStoreArchivist.address,
+            name: `stateStoreBoundWitnessDiviner${name}`,
+            schema: MemoryBoundWitnessDiviner.configSchema,
+          },
         })
 
         const moduleAccount = await Account.create()
@@ -127,8 +125,8 @@ describe('PubSubBridge.caching', () => {
           config: { name: `module${name}`, schema: MemoryArchivist.configSchema },
         })
 
-        const client = { bridgeQueryResponseArchivist, commandStateStoreArchivist, module, node }
-        for (const mod of [bridgeQueryResponseArchivist, commandStateStoreArchivist, module]) {
+        const client = { module, node, stateStoreArchivist, stateStoreBoundWitnessDiviner }
+        for (const mod of [stateStoreArchivist, stateStoreBoundWitnessDiviner, module]) {
           await node.register(mod)
           await node.attach(mod.address, false)
         }
@@ -148,18 +146,22 @@ describe('PubSubBridge.caching', () => {
             name: `pubSubBridge${name}`,
             pollFrequency,
             queries: {
-              archivist: intermediateNode.commandArchivist.address,
-              boundWitnessDiviner: intermediateNode.commandArchivistBoundWitnessDiviner.address,
+              archivist: intermediateNode.queryArchivist.address,
+              boundWitnessDiviner: intermediateNode.queryBoundWitnessDiviner.address,
             },
             queryCache: {
               ttl,
             },
             responses: {
-              archivist: intermediateNode.queryResponseArchivist.address,
-              boundWitnessDiviner: intermediateNode.queryResponseArchivistBoundWitnessDiviner.address,
+              archivist: intermediateNode.responseArchivist.address,
+              boundWitnessDiviner: intermediateNode.responseBoundWitnessDiviner.address,
             },
             rootAddress: otherNodeAddress,
             schema: PubSubBridge.configSchema,
+            stateStore: {
+              archivist: client.stateStoreArchivist.address,
+              boundWitnessDiviner: client.stateStoreBoundWitnessDiviner.address,
+            },
           },
           logger,
         })

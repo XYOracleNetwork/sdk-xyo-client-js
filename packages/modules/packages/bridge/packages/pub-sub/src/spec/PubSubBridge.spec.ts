@@ -32,11 +32,10 @@ interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
 }
 
-const useDebugLogging = true
+const useDebugLogging = false
 const logger = useDebugLogging
   ? {
       debug: console.debug,
-      // debug: () => {},
       error: console.error,
       info: console.info,
       log: console.log,
@@ -181,7 +180,7 @@ describe('PubSubBridge', () => {
   })
 
   describe('With invalid command', () => {
-    it('Non-existent address, times out', async () => {
+    it('when non-existent address, times out', async () => {
       const clientA = clientsWithBridges[0]
       const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
 

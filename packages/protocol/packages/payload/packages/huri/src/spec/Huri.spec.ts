@@ -63,13 +63,13 @@ describe('Huri', () => {
   })
   describe('Api Fetch', () => {
     it('Valid Huri', async () => {
-      const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
+      const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
       const result = await huri.fetch()
       expect(result?.schema).toBe('network.xyo.schema')
     })
     it('Valid Huri with token', (done) => {
       const token = 'abc123'
-      const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057', { token })
+      const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057', { token })
       expect(huri.token).toBe(token)
       axios.interceptors.request.use((config) => {
         const tokenValue = config.headers.get('Authorization')
@@ -81,7 +81,7 @@ describe('Huri', () => {
       huri.fetch().catch(() => {})
     })
     it('Invalid Huri', async () => {
-      const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')
+      const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653bad')
       await expect(huri.fetch()).rejects.toThrow()
     })
   })
@@ -96,7 +96,7 @@ describe('Huri', () => {
           } as T
           return payload
         }
-        const huri = new Huri('https://beta.api.archivist.xyo.network/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
+        const huri = new Huri('http://localhost:8080/18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')
         const result = await huri.fetch()
         Huri.fetch = oldFetch
         expect(result?.schema).toBe('18f97b3e85f5bede65e7c0a85d74aee896de58ead8bc4b1b3d7300646c653057')

@@ -28,17 +28,17 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   }
 
   //we do not require sending in $hash since it will be generated anyway
-  fields(fields: Omit<WithMeta<T>, '$hash' | 'schema'> & Partial<Pick<WithMeta<T>, '$hash' | 'schema'>>) {
+  fields(fields: Omit<WithMeta<T>, '$hash' | 'schema' | '$meta'> & Partial<Pick<WithMeta<T>, '$hash' | 'schema' | '$meta'>>) {
     if (fields) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { $meta, $hash, schema, ...fieldsOnly } = fields as WithMeta<T>
+      const { $meta, $hash, schema, ...fieldsOnly } = fields
       if ($meta) {
         this.$meta($meta)
       }
       if (schema) {
         this.schema(schema)
       }
-      this._fields = { ...this._fields, ...removeEmptyFields(fieldsOnly) }
+      this._fields = { ...this._fields, ...removeEmptyFields(fieldsOnly) } as T
     }
     return this
   }

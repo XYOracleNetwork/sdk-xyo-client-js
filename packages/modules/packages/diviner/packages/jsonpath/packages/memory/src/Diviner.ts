@@ -43,7 +43,7 @@ export class JsonPathDiviner<
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
         const fields: PayloadFields[] = this.transforms.map((transform) => transform(payload))
         // Include all the sources for reference
-        const sources = Object.keys(await PayloadBuilder.toDataHashMap([payload]))
+        const sources = await PayloadBuilder.dataHashes([payload])
         // Build and return the index
         return await new PayloadBuilder<TOut>({ schema: this.destinationSchema }).fields(Object.assign({ sources }, ...fields)).build()
       }),

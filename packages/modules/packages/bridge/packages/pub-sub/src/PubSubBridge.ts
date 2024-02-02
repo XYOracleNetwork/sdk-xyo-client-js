@@ -469,9 +469,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
   }
 
-  protected override startHandler(): Promise<boolean> {
+  protected override async startHandler(): Promise<boolean> {
     this.ensureNecessaryConfig()
-    return Promise.resolve(true)
+    await this.connect()
+    return true
   }
 
   protected override stopHandler(_timeout?: number | undefined): boolean {

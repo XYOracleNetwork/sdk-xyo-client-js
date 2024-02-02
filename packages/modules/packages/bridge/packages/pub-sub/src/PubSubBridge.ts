@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-/* eslint-disable max-statements */
 /* eslint-disable max-depth */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
@@ -27,6 +25,7 @@ import {
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
+  ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
@@ -319,6 +318,21 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     )
   }
 
+  protected findCommandsToAddress = async (address: string) => {
+    const queryBoundWitnessDiviner = await this.getQueryBoundWitnessDiviner()
+    // TODO: Retrieve offset from state store
+    const offset = 0
+    // TODO: Handle offset and limit
+    const limit = 1
+    const schema = BoundWitnessDivinerQuerySchema
+    const sort = 'asc'
+    // Filter for commands to us by destination address
+    const divinerQuery = { destination: [address], limit, offset, schema, sort }
+    const result = await queryBoundWitnessDiviner.divine([divinerQuery])
+    const commands = result.filter(isQueryBoundWitness)
+    return commands
+  }
+
   protected getQueryArchivist = async () => {
     return assertEx(asArchivistInstance(await this.resolve(this.queryArchivistConfig)), `${this.moduleName}: Error resolving queryArchivist`)
   }
@@ -341,6 +355,44 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     )
   }
 
+  protected issueCommandAgainstLocalModule = async (localModule: ModuleInstance, command: QueryBoundWitness) => {
+    const localModuleName = localModule.config.name ?? localModule.address
+    const queryArchivist = await this.getQueryArchivist()
+    const responseArchivist = await this.getResponseArchivist()
+    const commandDestination = (command.$meta as { destination?: string[] })?.destination
+    if (commandDestination && commandDestination?.includes(localModule.address)) {
+      // Find the query
+      const queryIndex = command.payload_hashes.indexOf(command.query)
+      if (queryIndex !== -1) {
+        const querySchema = command.payload_schemas[queryIndex]
+        // If the destination can process this type of query
+        if (localModule.queries.includes(querySchema)) {
+          // Get the associated payloads
+          const commandPayloads = await queryArchivist.get(command.payload_hashes)
+          const commandPayloadsDict = await toMap(commandPayloads)
+          const commandHash = isPayloadWithHash(command) ? command.$hash : await PayloadHasher.hash(command)
+          // Check that we have all the arguments for the command
+          if (!containsAll(Object.keys(commandPayloadsDict), command.payload_hashes)) {
+            this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for module ${localModuleName}, missing payloads`)
+            return
+          }
+          try {
+            // Issue the query against module
+            this.logger?.debug(`${this.moduleName}: Issuing command ${commandHash} addressed to module: ${localModuleName}`)
+            const response = await localModule.query(command, commandPayloads)
+            // TODO: Deeper assertions here for query
+            const [bw, payloads, errors] = response
+            // TODO: Deeper assertions here for insert
+            this.logger?.debug(`${this.moduleName}: Replying to command ${commandHash} addressed to module: ${localModuleName}`)
+            const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
+          } catch (error) {
+            this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for module ${localModuleName}: ${error}`)
+          }
+        }
+      }
+    }
+  }
+
   protected override startHandler(): Promise<boolean> {
     this.ensureNecessaryConfig()
     return Promise.resolve(true)
@@ -351,63 +403,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
    */
   private checkForIncomingCommands = async () => {
     this.logger?.debug(`${this.moduleName}: Checking for inbound commands`)
-    const queryArchivist = await this.getQueryArchivist()
-    const queryBoundWitnessDiviner = await this.getQueryBoundWitnessDiviner()
-    const responseArchivist = await this.getResponseArchivist()
     // Check for any queries that have been issued and have not been responded to
     const localModules = await this.resolve()
     const localAddresses = localModules.map((module) => module.address)
     // TODO: Do in parallel/batches
     for (const localAddress of localAddresses) {
       try {
-        // TODO: Retrieve offset from state store
-        const offset = 0
-        // TODO: Handle offset and limit
-        const limit = 1
-        const schema = BoundWitnessDivinerQuerySchema
-        const sort = 'asc'
-        // Filter for commands to us by destination address
-        const divinerQuery = { destination: [localAddress], limit, offset, schema, sort }
-        const result = await queryBoundWitnessDiviner.divine([divinerQuery])
-        const commands = result.filter(isBoundWitness)
+        const commands = await this.findCommandsToAddress(localAddress)
         if (commands.length === 0) continue
         const localModule = assertEx(await this.resolve(localAddress), `${this.moduleName}: Error resolving local address: ${localAddress}`)
         const localModuleName = localModule.config.name ?? localAddress
         this.logger?.debug(`${this.moduleName}: Found commands addressed to local module: ${localModuleName}`)
-        for (const command of commands.filter(isQueryBoundWitness)) {
-          // Ensure the query is addressed to the destination
-          const commandDestination = (command.$meta as { destination?: string[] })?.destination
-          if (commandDestination && commandDestination?.includes(localAddress)) {
-            // Find the query
-            const queryIndex = command.payload_hashes.indexOf(command.query)
-            if (queryIndex !== -1) {
-              const querySchema = command.payload_schemas[queryIndex]
-              // If the destination can process this type of query
-              if (localModule.queries.includes(querySchema)) {
-                // Get the associated payloads
-                const commandPayloads = await queryArchivist.get(command.payload_hashes)
-                const commandPayloadsDict = await toMap(commandPayloads)
-                const commandHash = isPayloadWithHash(command) ? command.$hash : await PayloadHasher.hash(command)
-                // Check that we have all the arguments for the command
-                if (!containsAll(Object.keys(commandPayloadsDict), command.payload_hashes)) {
-                  this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for address ${localAddress}, missing payloads`)
-                  continue
-                }
-                try {
-                  // Issue the query against module
-                  this.logger?.debug(`${this.moduleName}: Issuing command ${commandHash} addressed to local module: ${localModuleName}`)
-                  const response = await localModule.query(command, commandPayloads)
-                  // TODO: Deeper assertions here for query
-                  const [bw, payloads, errors] = response
-                  // TODO: Deeper assertions here for insert
-                  this.logger?.debug(`${this.moduleName}: Replying to command ${commandHash} addressed to local module: ${localModuleName}`)
-                  const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
-                } catch (error) {
-                  this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for address ${localAddress}: ${error}`)
-                }
-              }
-            }
-          }
+        for (const command of commands) {
+          await this.issueCommandAgainstLocalModule(localModule, command)
         }
       } catch (error) {
         this.logger?.error(`${this.moduleName}: Error processing commands for address ${localAddress}: ${error}`)

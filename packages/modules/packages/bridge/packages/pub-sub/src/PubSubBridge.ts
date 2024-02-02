@@ -271,18 +271,24 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     if (!insertResult) throw new Error(`${this.moduleName}: Unable to issue query to queryArchivist`)
     const context = new Promise<ModuleQueryResult>((resolve) => {
       const pollForResponse = async () => {
-        // Poll for response until cache key expires
-        do {
+        let response = this.queryCache.get(routedQueryHash)
+        // Poll for response until cache key expires (response timed out)
+        while (response !== undefined) {
+          // Wait a bit
           await delay(100)
-          const status = this.queryCache.get(routedQueryHash)
-          if (status === undefined) break
-          if (status !== Pending) {
-            resolve(status)
+          // Check the status of the response
+          response = this.queryCache.get(routedQueryHash)
+          // If status is no longer pending that means we received a response
+          if (response && response !== Pending) {
+            this.logger?.error(`${this.moduleName}: Returning response to query: ${routedQueryHash}`)
+            resolve(response)
             return
           }
-        } while (this.queryCache.get(routedQueryHash) === Pending)
+        }
+        // If we got here waiting for a response timed out
         this.logger?.error(`${this.moduleName}: Timeout waiting for query response`)
         // Resolve with error to match what a local module would do if it were to error
+        // TODO: BW Builder/Sign result as this module?
         const error: ModuleError = {
           message: 'Timeout waiting for query response',
           query: 'network.xyo.boundwitness',
@@ -466,6 +472,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   protected override stopHandler(_timeout?: number | undefined): boolean {
+    // TODO: There's more to it than this (global background circuit
+    // breaker, timeoutEx management, etc.)
     if (this._pollId) clearTimeoutEx(this._pollId)
     this._pollId = undefined
     return true
@@ -512,7 +520,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         if (result && result.length > 0) {
           const response = result.find(isBoundWitness)
           if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
-            // TODO: Get any payloads associated with the response
+            this.logger?.debug(`${this.moduleName}: Found response to query: ${sourceQuery}`)
+            // Get any payloads associated with the response
             const payloads = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
             const errors: ModuleError[] = []
             this.queryCache.set(sourceQuery, [response, payloads, errors])

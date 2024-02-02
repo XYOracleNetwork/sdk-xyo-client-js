@@ -3,37 +3,27 @@ import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
-import { compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
-import { Promisable, rejected } from '@xylabs/promise'
+import { rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
-import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { isBoundWitness, isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
-import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
-  asModule,
-  asModuleInstance,
   creatableModule,
   ModuleConfig,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, isPayloadWithHash, ModuleError, Payload, Query, WithMeta } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import { isPayloadOfSchemaType, isPayloadWithHash, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { PubSubBridgeConfigSchema } from './Config'
@@ -210,7 +200,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  override async targetDiscover(address?: string | undefined, maxDepth?: number | undefined): Promise<Payload[]> {
+  override async targetDiscover(address?: string | undefined, _maxDepth?: number | undefined): Promise<Payload[]> {
     if (!this.connected) throw new Error('Not connected')
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root ')
@@ -265,7 +255,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     await this.started('throw')
     this.logger?.debug(`${this.moduleName}: Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
-    // TODO: How to get source here???  (query.addresses)/use our address for all responses
     const routedQuery = { ...query, $meta }
     const queryArchivist = await this.getQueryArchivist()
     if (!queryArchivist) throw new Error(`${this.moduleName}: Unable to resolve queryArchivist for query`)
@@ -446,11 +435,21 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
             const commandSchema = commandPayloadsDict[command.query].schema
             this.logger?.debug(`${this.moduleName}: Issuing command ${commandSchema} (${commandHash}) addressed to module: ${localModuleName}`)
             const response = await localModule.query(command, commandPayloads)
-            // TODO: Deeper assertions here for query
             const [bw, payloads, errors] = response
-            // TODO: Deeper assertions here for insert
             this.logger?.debug(`${this.moduleName}: Replying to command ${commandHash} addressed to module: ${localModuleName}`)
             const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
+            // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
+            // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
+            // should always be unique causing at least one insertion
+            if (insertResult.length > 0) {
+              this.logger?.error(`${this.moduleName}: Error replying to command ${commandHash} addressed to module: ${localModuleName}`)
+            }
+            if (command?.timestamp) {
+              // TODO: This needs to be thought through as we can't use a distributed timestamp
+              // because of collisions. We need to ensure we are using the timestamp of the store
+              // so there's no chance of multiple commands at the same time
+              await this.commitState(localModule.address, command.timestamp)
+            }
           } catch (error) {
             this.logger?.error(`${this.moduleName}: Error processing command ${commandHash} for module ${localModuleName}: ${error}`)
           }

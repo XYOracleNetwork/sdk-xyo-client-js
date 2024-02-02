@@ -4,7 +4,7 @@ import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { add, compact } from '@xylabs/lodash'
 import { EmptyObject } from '@xylabs/object'
-import { rejected } from '@xylabs/promise'
+import { Promisable, rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ArchivistInsertQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -463,6 +463,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected override startHandler(): Promise<boolean> {
     this.ensureNecessaryConfig()
     return Promise.resolve(true)
+  }
+
+  protected override stopHandler(_timeout?: number | undefined): boolean {
+    if (this._pollId) clearTimeoutEx(this._pollId)
+    this._pollId = undefined
+    return true
   }
 
   /**

@@ -1,5 +1,6 @@
 /* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
+import { delay } from '@xylabs/delay'
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -9,7 +10,7 @@ import { DivinerInstance } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isModuleError } from '@xyo-network/payload-model'
+import { isModuleError, Payload } from '@xyo-network/payload-model'
 
 import { PubSubBridge } from '../PubSubBridge'
 
@@ -180,13 +181,23 @@ describe('PubSubBridge.caching', () => {
   })
 
   describe('With valid command', () => {
-    const issueSourceQueryToDestination = async (source: ClientWithBridge, destination: ClientWithBridge, expectedArchivistSize: number) => {
+    const issueSourceQueryToDestination = async (
+      source: ClientWithBridge,
+      destination: ClientWithBridge,
+      testPayloadCount: number,
+      expectedArchivistSize: number,
+    ) => {
       // Modules can't resolve each other
       expect(await source.module.resolve(destination.module.address)).toBeUndefined()
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       // Issue command via bridge
-      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const data: Payload[] = []
+      for (let i = 0; i < testPayloadCount; i++) {
+        data.push(await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build())
+        await delay(2) // Ensure we get a different timestamp than the previous
+      }
+      expect(data.length).toBe(testPayloadCount)
       const builder = new QueryBoundWitnessBuilder().witness(source.module.account)
       await builder.query({ schema: ArchivistInsertQuerySchema })
       await builder.payloads(data)
@@ -205,14 +216,19 @@ describe('PubSubBridge.caching', () => {
       expect(all).toIncludeAllMembers(data)
     }
     it.each([
-      ['A', 'B', 1],
-      ['B', 'A', 1],
-      ['A', 'B', 2],
-      ['B', 'A', 2],
-    ])('Module %s issues command to Module %s', async (A, B, expectedArchivistSize) => {
-      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${A}`))
-      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${B}`))
-      await issueSourceQueryToDestination(source, destination, expectedArchivistSize)
+      ['A', 'B'],
+      ['B', 'A'],
+    ])('Module %s issues command to Module %s', async (sourceModuleLetter, destinationModuleLetter) => {
+      const testPayloadCount = 2
+      const testIterations = 3
+      for (let i = 0; i < testIterations; i++) {
+        // Issue test archivist insert command from module A to module B
+        const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${sourceModuleLetter}`))
+        const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${destinationModuleLetter}`))
+        // Ensure the end count is what we'd expect after `i` insertions (proves
+        // commands are being processed only once)
+        await issueSourceQueryToDestination(source, destination, testPayloadCount, testPayloadCount * (i + 1))
+      }
     })
   })
   describe('With invalid command', () => {
@@ -234,9 +250,6 @@ describe('PubSubBridge.caching', () => {
       expect(errors).toBeArrayOfSize(1)
       const error = errors.find(isModuleError)
       expect(error).toBeDefined()
-    })
-    it('Multiple of the "same" command', async () => {
-      await Promise.resolve()
     })
     it('Unsupported command', async () => {
       await Promise.resolve()

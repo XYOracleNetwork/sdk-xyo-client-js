@@ -6,7 +6,7 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import { DivinerInstance } from '@xyo-network/diviner-model'
+import { DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -59,7 +59,7 @@ const bridgePhrases = {
  * @group module
  * @group bridge
  */
-describe('PubSubBridge.caching', () => {
+describe('PubSubBridge', () => {
   let intermediateNode: IntermediateNode
   const clientsWithBridges: ClientWithBridge[] = []
   beforeAll(async () => {
@@ -180,6 +180,61 @@ describe('PubSubBridge.caching', () => {
     await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
   })
 
+  describe('With invalid command', () => {
+    it('Non-existent address, times out', async () => {
+      const clientA = clientsWithBridges[0]
+      const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
+
+      // Issue command via bridge
+      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
+      await builder.query({ schema: ArchivistInsertQuerySchema })
+      await builder.payloads(data)
+      const [query, payloads] = await builder.build()
+      const [bw, , errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
+
+      // Expect result to be defined
+      expect(bw).toBeDefined()
+      expect(errors).toBeDefined()
+      expect(errors).toBeArrayOfSize(1)
+      const error = errors.find(isModuleError)
+      expect(error).toBeDefined()
+    })
+    it('when unsupported query type responds with error', async () => {
+      const clientA = clientsWithBridges[0]
+      const clientB = clientsWithBridges[1]
+
+      // Build unsupported query
+      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
+      await builder.query({ schema: DivinerDivineQuerySchema })
+      await builder.payloads(data)
+      const [query, payloads] = await builder.build()
+
+      // Issue query locally and get error
+      const [localBw, localPayloads, localErrors] = await clientB.module.query(query, payloads)
+      expect(localBw).toBeDefined()
+      expect(localPayloads).toBeArrayOfSize(0)
+      expect(localErrors).toBeDefined()
+      expect(localErrors).toBeArrayOfSize(1)
+      const localError = localErrors.find(isModuleError)
+      expect(localError).toBeDefined()
+
+      // Issue query across bridge and get error
+      const [remoteBw, remotePayloads, remoteErrors] = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
+      expect(remoteBw).toBeDefined()
+      expect(remotePayloads).toBeArrayOfSize(0)
+      expect(remoteErrors).toBeDefined()
+      expect(remoteErrors).toBeArrayOfSize(1)
+      const remoteError = remoteErrors.find(isModuleError)
+      expect(remoteError).toBeDefined()
+
+      // NOTE: For now, we expect the error messages to be different since
+      // we're ignoring the error when it's a remote command
+      // but actually executing the query locally
+      expect(localError?.message).not.toEqual(remoteError?.message)
+    })
+  })
   describe('With valid command', () => {
     const issueSourceQueryToDestination = async (
       source: ClientWithBridge,
@@ -219,40 +274,16 @@ describe('PubSubBridge.caching', () => {
       ['A', 'B'],
       ['B', 'A'],
     ])('Module %s issues command to Module %s', async (sourceModuleLetter, destinationModuleLetter) => {
+      // Issue test archivist insert command from source to destination
+      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${sourceModuleLetter}`))
+      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${destinationModuleLetter}`))
       const testPayloadCount = 2
       const testIterations = 3
       for (let i = 0; i < testIterations; i++) {
-        // Issue test archivist insert command from module A to module B
-        const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${sourceModuleLetter}`))
-        const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${destinationModuleLetter}`))
         // Ensure the end count is what we'd expect after `i` insertions (proves
         // commands are being processed only once)
         await issueSourceQueryToDestination(source, destination, testPayloadCount, testPayloadCount * (i + 1))
       }
-    })
-  })
-  describe('With invalid command', () => {
-    it('Non-existent address, times out', async () => {
-      const clientA = clientsWithBridges[0]
-      const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
-
-      // Issue command via bridge
-      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
-      await builder.query({ schema: ArchivistInsertQuerySchema })
-      await builder.payloads(data)
-      const [query, payloads] = await builder.build()
-      const [bw, , errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
-
-      // Expect result to be defined
-      expect(bw).toBeDefined()
-      expect(errors).toBeDefined()
-      expect(errors).toBeArrayOfSize(1)
-      const error = errors.find(isModuleError)
-      expect(error).toBeDefined()
-    })
-    it('Unsupported command', async () => {
-      await Promise.resolve()
     })
   })
 })

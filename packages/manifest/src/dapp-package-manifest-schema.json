@@ -208,7 +208,7 @@
           "additionalProperties": false,
           "properties": {
             "module": {
-              "$ref": "#/definitions/external/moduleRequest"
+              "$ref": "#/definitions/external/definitions/moduleRequest"
             }
           },
           "type": "array"
@@ -225,7 +225,7 @@
       },
       "properties": {
         "modules": {
-          "$ref": "#/definitions/external/modules"
+          "$ref": "#/definitions/external/definitions/modules"
         }
       },
       "type": "object"

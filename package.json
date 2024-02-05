@@ -18,10 +18,10 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@types/jest": "^29.5.11",
+    "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "@xylabs/eslint-config": "^3.2.42",
     "@xylabs/forget": "^2.14.0",
     "@xylabs/ts-scripts-yarn3": "^3.2.42",

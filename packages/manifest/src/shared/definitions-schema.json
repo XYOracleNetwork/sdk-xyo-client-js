@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://xyo.network/schemas/definitions-schema.json",
+  "$id": "https://xyo.network/schemas/definitions-schema.json",
   "definitions": {
     "architecture": {
       "description": "Architecture",

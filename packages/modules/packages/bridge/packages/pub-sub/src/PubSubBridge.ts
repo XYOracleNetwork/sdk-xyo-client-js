@@ -1,9 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
-import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   creatableModule,
@@ -18,7 +16,7 @@ import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBus } from './AsyncQueryBus'
 import { PubSubBridgeConfigSchema } from './Config'
-import { AsyncQueryBusParams, PubSubBridgeParams } from './Params'
+import { PubSubBridgeParams } from './Params'
 
 const moduleName = 'PubSubBridge'
 
@@ -37,8 +35,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _targetConfigs: Record<string, ModuleConfig> = {}
   protected _targetQueries: Record<string, string[]> = {}
 
-  private _bus?: Promise<AsyncQueryBus>
-  private _pollId?: string
+  private _bus?: AsyncQueryBus
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -67,8 +64,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   //   return this._configStateStoreBoundWitnessDiviner
   // }
 
-  async connect(): Promise<boolean> {
-    await super.startHandler()
+  connect() {
+    //await super.startHandler()
     this.connected = true
     return true
     // const rootTargetDownResolver = this.targetDownResolver()
@@ -106,8 +103,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   async disconnect(): Promise<boolean> {
     await Promise.resolve()
-    const bus = await this.bus()
-    bus.stop()
     this.connected = false
     return true
   }
@@ -173,7 +168,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
-    const bus = await this.bus()
+    const bus = this.bus()
     return bus.send(address, query, payloads)
   }
 
@@ -184,64 +179,26 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   /**
    * Ensures the necessary config entries are present and create bus if needed
    */
-  protected async bus() {
+  protected bus() {
     if (!this._bus) {
-      this._bus = (async () => {
-        const { rootAddress, queries, responses, pollFrequency, individualAddressBatchQueryLimit, queryCache } = this.config
-
-        const params: AsyncQueryBusParams = {
-          config: { individualAddressBatchQueryLimit, pollFrequency, queryCache, rootAddress },
-          listeningModules: async () => await this.resolve(),
-          logger: this.logger,
-          queries: {
-            archivist: assertEx(
-              asArchivistInstance(
-                await this.resolve(assertEx(queries?.archivist, `${this.moduleName}: Missing entry for queries.archivist in module configuration`)),
-              ),
-            ),
-            boundWitnessDiviner: assertEx(
-              asDivinerInstance(
-                await this.resolve(
-                  assertEx(queries?.boundWitnessDiviner, `${this.moduleName}: Missing entry for queries.boundWitnessDiviner in module configuration`),
-                ),
-              ),
-            ),
-          },
-          responses: {
-            archivist: assertEx(
-              asArchivistInstance(
-                await this.resolve(
-                  assertEx(responses?.archivist, `${this.moduleName}: Missing entry for responses.archivist in module configuration`),
-                ),
-              ),
-            ),
-            boundWitnessDiviner: assertEx(
-              asDivinerInstance(
-                await this.resolve(
-                  assertEx(
-                    responses?.boundWitnessDiviner,
-                    `${this.moduleName}: Missing entry for responses.boundWitnessDiviner in module configuration`,
-                  ),
-                ),
-              ),
-            ),
-          },
-        }
-        const bus = new AsyncQueryBus(params)
-        bus.start()
-        return bus
-      })()
+      this._bus = new AsyncQueryBus({
+        config: this.config,
+        logger: this.logger,
+        resolver: this,
+      })
     }
-    return await this._bus
+    return this._bus
   }
 
   protected override async startHandler(): Promise<boolean> {
-    await this.connect()
+    await Promise.resolve(this.connect())
+    const bus = this.bus()
+    bus.start()
     return true
   }
 
-  protected override async stopHandler(_timeout?: number | undefined) {
-    const bus = await this.bus()
+  protected override stopHandler(_timeout?: number | undefined) {
+    const bus = this.bus()
     bus.stop()
     return true
   }

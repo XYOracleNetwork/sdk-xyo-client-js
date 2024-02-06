@@ -1,15 +1,18 @@
 /* eslint-disable max-lines */
 import { containsAll } from '@xylabs/array'
+import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { Base } from '@xylabs/object'
 import { rejected } from '@xylabs/promise'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
+import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { isBoundWitness, isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { CacheConfig } from '@xyo-network/bridge-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadHasher } from '@xyo-network/hash'
-import { ModuleConfig, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfig, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadWithHash, ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -50,6 +53,14 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
     return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
   }
 
+  get resolver() {
+    return this.params.resolver
+  }
+
+  get started() {
+    return !!this._pollId
+  }
+
   /**
    * A cache of the last offset of the Diviner process per address
    */
@@ -69,12 +80,59 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
     return this._queryCache
   }
 
+  async listeningModules() {
+    const mods = this.config.listeningModules
+      ? await Promise.all(
+          this.config.listeningModules.map(async (listeningModule) =>
+            assertEx(
+              asModuleInstance(await this.resolver.resolve(listeningModule)),
+              () => `${this.moduleName}: Unable to resolve all listeningModule [${listeningModule}]`,
+            ),
+          ),
+        )
+      : await this.resolver.resolve({ direction: 'all' })
+    return mods
+  }
+
+  async queriesArchivist() {
+    return assertEx(
+      asArchivistInstance(await this.resolver.resolve(this.config.queries?.archivist)),
+      () => `${this.moduleName}: Unable to resolve queriesArchivist`,
+    )
+  }
+
+  async queriesDiviner() {
+    return assertEx(
+      asDivinerInstance(await this.resolver.resolve(this.config.queries?.boundWitnessDiviner)),
+      () => `${this.moduleName}: Unable to resolve queriesDiviner`,
+    )
+  }
+
+  async responsesArchivist() {
+    return assertEx(
+      asArchivistInstance(await this.resolver.resolve(this.config.responses?.archivist)),
+      () => `${this.moduleName}: Unable to resolve responsesArchivist`,
+    )
+  }
+
+  async responsesDiviner() {
+    return assertEx(
+      asDivinerInstance(await this.resolver.resolve(this.config.responses?.boundWitnessDiviner)),
+      () => `${this.moduleName}: Unable to resolve responsesDiviner`,
+    )
+  }
+
   async send(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     this.logger?.debug(`${this.moduleName}: Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = { ...query, $meta }
-    const queryArchivist = this.params.queries.archivist
-    if (!queryArchivist) throw new Error(`${this.moduleName}: Unable to resolve queryArchivist for query`)
+    const queryArchivist = await this.queriesArchivist()
+
+    const sourceAddress = query.addresses.at(0)
+    if (sourceAddress && !this.config.listeningModules?.includes(sourceAddress)) {
+      this.config.listeningModules?.push(sourceAddress)
+    }
+
     // TODO: Should we always re-hash to true up timestamps?  We can't
     // re-sign correctly so we would lose that information if we did and
     // would also be replying to consumers with a different query hash than
@@ -129,19 +187,24 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
   }
 
   start() {
+    if (this.started) {
+      console.warn('AsyncQueryBus starting when already started')
+    }
     this.poll()
   }
 
   stop() {
+    if (!this.started) {
+      console.warn('AsyncQueryBus stopping when already stopped')
+    }
     if (this._pollId) clearTimeoutEx(this._pollId)
     this._pollId = undefined
   }
 
   protected callLocalModule = async (localModule: ModuleInstance, command: QueryBoundWitness) => {
-    console.log(`callLocalModule: ${localModule.address}`)
     const localModuleName = localModule.config.name ?? localModule.address
-    const queryArchivist = this.params.queries.archivist
-    const responseArchivist = this.params.responses.archivist
+    const queryArchivist = await this.queriesArchivist()
+    const responseArchivist = await this.responsesArchivist()
     const commandDestination = (command.$meta as { destination?: string[] })?.destination
     if (commandDestination && commandDestination?.includes(localModule.address)) {
       // Find the query
@@ -208,7 +271,7 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
    * @param address The address to find commands for
    */
   protected findCommandsToAddress = async (address: string) => {
-    const queryBoundWitnessDiviner = this.params.queries.boundWitnessDiviner
+    const queryBoundWitnessDiviner = await this.queriesDiviner()
     // Retrieve last offset from state store
     const timestamp = await this.retrieveState(address)
     const destination = [address]
@@ -276,7 +339,7 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
   private processIncomingQueries = async () => {
     this.logger?.debug(`${this.moduleName}: Checking for inbound commands`)
     // Check for any queries that have been issued and have not been responded to
-    const localModules = await this.params.listeningModules()
+    const localModules = await this.listeningModules()
 
     // TODO: Do in throttled batches
     await Promise.allSettled(
@@ -301,8 +364,8 @@ export class AsyncQueryBus<TParams extends AsyncQueryBusParams = AsyncQueryBusPa
    * Background process for processing incoming responses to previously issued queries
    */
   private processIncomingResponses = async () => {
-    const responseArchivist = this.params.responses.archivist
-    const responseBoundWitnessDiviner = this.params.responses.boundWitnessDiviner
+    const responseArchivist = await this.responsesArchivist()
+    const responseBoundWitnessDiviner = await this.responsesDiviner()
     const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
     // TODO: Do in throttled batches
     await Promise.allSettled(

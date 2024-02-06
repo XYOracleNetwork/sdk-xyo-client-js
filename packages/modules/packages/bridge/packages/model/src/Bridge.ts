@@ -10,7 +10,7 @@ import {
   ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleResolverInstance,
 } from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
 
@@ -53,7 +53,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    *
    * @param address Address of the module connected to the bridge
    */
-  targetDownResolver(address?: string): ModuleResolver | undefined
+  targetDownResolver(address?: string): ModuleResolverInstance | undefined
 
   /**
    * Returns the result of a manifest query for a bridged module

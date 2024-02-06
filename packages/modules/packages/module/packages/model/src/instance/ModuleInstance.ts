@@ -5,7 +5,11 @@ import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 
-export interface ResolveFunctions {
+export const isModuleResolver = (value?: unknown): value is ModuleResolver => {
+  return typeof (value as Partial<ModuleResolver>).resolve === 'function'
+}
+
+export interface ModuleResolver {
   resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
   resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
   resolve<T extends ModuleInstance = ModuleInstance>(
@@ -14,22 +18,21 @@ export interface ResolveFunctions {
   ): Promisable<T | T[] | undefined>
 }
 
-export interface ModuleResolver extends ResolveFunctions {
-  addResolver: (resolver: ModuleResolver) => this
-  isModuleResolver: boolean
-  removeResolver: (resolver: ModuleResolver) => this
+export interface ModuleResolverInstance extends ModuleResolver {
+  addResolver: (resolver: ModuleResolverInstance) => this
+  removeResolver: (resolver: ModuleResolverInstance) => this
 }
 
 export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends Module<TParams, TEventData>,
-    ResolveFunctions,
+    ModuleResolver,
     ModuleQueryFunctions {
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
-  readonly downResolver: Omit<ModuleResolver, 'resolve'>
+  readonly downResolver: Omit<ModuleResolverInstance, 'resolve'>
 
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */
-  readonly upResolver: Omit<ModuleResolver, 'resolve'>
+  readonly upResolver: Omit<ModuleResolverInstance, 'resolve'>
 }
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>

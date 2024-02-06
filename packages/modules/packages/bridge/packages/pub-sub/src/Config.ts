@@ -41,6 +41,9 @@ export interface AsyncQueryBusConfig<TArchivist = string, TDiviner = string> {
    * for an address
    */
   individualAddressBatchQueryLimit?: number
+
+  listeningModules?: string[]
+
   /**
    * How often to poll for new queries/responses
    */
@@ -64,11 +67,6 @@ export interface AsyncQueryBusConfig<TArchivist = string, TDiviner = string> {
    * The root address to connect the bridge to
    */
   rootAddress?: string
-
-  /**
-   * The configurations schema for the module
-   */
-  schema: PubSubBridgeConfigSchema
 
   /**
    * Where the archivist should persist its internal state

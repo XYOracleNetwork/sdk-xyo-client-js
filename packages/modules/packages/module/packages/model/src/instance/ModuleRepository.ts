@@ -1,7 +1,7 @@
 import { Module } from '../module'
-import { ModuleResolver } from './ModuleInstance'
+import { ModuleResolverInstance } from './ModuleInstance'
 
-export interface ModuleRepository extends ModuleResolver {
+export interface ModuleRepository extends ModuleResolverInstance {
   add(module: Module): this
   add(module: Module[]): this
   add(module: Module | Module[]): this

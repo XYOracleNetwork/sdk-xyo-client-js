@@ -20,5 +20,6 @@
     "nodes",
     "schema"
   ],
-  "title": "XYO Manifest"
+  "title": "XYO Manifest",
+  "type": "object"
 }

@@ -1,2 +1,1 @@
-export * from './invalidCase'
-export * from './validCase'
+export * from './dappManifest'

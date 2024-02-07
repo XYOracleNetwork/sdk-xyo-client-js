@@ -2,7 +2,7 @@ export const invalidDappPackageManifestSchema = {
   external: {
     modules1: [
       {
-        name: 'SomeModule',
+        name: 0,
       },
     ],
   },
@@ -14,7 +14,7 @@ export const invalidDappPackageManifestSchema = {
         schema: 'network.xyo.node.config',
       },
       modules: {
-        public1: [
+        public: [
           {
             config: {
               accountPath: "1'",

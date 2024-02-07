@@ -31,7 +31,7 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleResolverInstance,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
@@ -119,11 +119,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
-  get downResolver(): ModuleResolver {
+  get downResolver(): ModuleResolverInstance {
     //Should we be allowing this?
     const instance = asModuleInstance(this.module)
     if (instance) {
-      return instance.downResolver as ModuleResolver
+      return instance.downResolver as ModuleResolverInstance
     }
     throw new Error('Unsupported')
   }
@@ -140,11 +140,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queries
   }
 
-  get upResolver(): ModuleResolver {
+  get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
     const instance = asModuleInstance(this.module)
     if (instance) {
-      return instance.upResolver as ModuleResolver
+      return instance.upResolver as ModuleResolverInstance
     }
     throw new Error('Unsupported')
   }

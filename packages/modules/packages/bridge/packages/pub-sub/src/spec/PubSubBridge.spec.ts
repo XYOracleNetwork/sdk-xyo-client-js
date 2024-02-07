@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
@@ -93,7 +94,7 @@ describe('PubSubBridge', () => {
 
     for (const mod of Object.values(intermediateNode).filter((v) => v.address !== node.address)) {
       await node.register(mod)
-      await node.attach(mod.address, false)
+      await node.attach(mod.address, true)
     }
 
     const clients = await Promise.all(
@@ -104,13 +105,13 @@ describe('PubSubBridge', () => {
           config: { name: `node${name}`, schema: MemoryNode.configSchema },
         })
 
-        const stateStoreArchivistAccount = await Account.create()
+        const stateStoreArchivistAccount = Account.randomSync()
         const stateStoreArchivist = await MemoryArchivist.create({
           account: stateStoreArchivistAccount,
           config: { name: `stateStoreArchivist${name}`, schema: MemoryArchivist.configSchema },
         })
 
-        const stateStoreBoundWitnessDivinerAccount = await Account.create()
+        const stateStoreBoundWitnessDivinerAccount = Account.randomSync()
         const stateStoreBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
           account: stateStoreBoundWitnessDivinerAccount,
           config: {
@@ -120,7 +121,7 @@ describe('PubSubBridge', () => {
           },
         })
 
-        const moduleAccount = await Account.create()
+        const moduleAccount = Account.randomSync()
         const module = await MemoryArchivist.create({
           account: moduleAccount,
           config: { name: `module${name}`, schema: MemoryArchivist.configSchema },
@@ -144,6 +145,7 @@ describe('PubSubBridge', () => {
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account,
           config: {
+            listeningModules: [client.module.address],
             name: `pubSubBridge${name}`,
             pollFrequency,
             queries: {
@@ -169,8 +171,8 @@ describe('PubSubBridge', () => {
         await node.register(pubSubBridge)
         await node.attach(pubSubBridge.address, false)
         clientsWithBridges.push({ ...client, pubSubBridge })
-        await intermediateNode.node.register(node)
-        await intermediateNode.node.attach(node.address, false)
+        await node.register(intermediateNode.node)
+        await node.attach(intermediateNode.node.address, false)
       }),
     )
   })
@@ -260,6 +262,8 @@ describe('PubSubBridge', () => {
 
       // Expect result to be defined
       expect(result).toBeDefined()
+
+      expect(result[1]).toBeArrayOfSize(2)
 
       // Expect target to have data
       const clientBArchivist = asArchivistInstance(destination.module)

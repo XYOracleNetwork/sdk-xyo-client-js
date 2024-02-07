@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { EventListener } from '@xyo-network/module-events'
-import { AnyConfigSchema, Module, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleInstance, ModuleResolver, ModuleResolverInstance } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
@@ -105,9 +105,9 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     if (external) {
       //expose it externally
-      this.downResolver.addResolver(module.downResolver as ModuleResolver)
+      this.downResolver.addResolver(module.downResolver as ModuleResolverInstance)
     } else {
-      this.privateResolver.addResolver(module.downResolver as ModuleResolver)
+      this.privateResolver.addResolver(module.downResolver as ModuleResolverInstance)
     }
 
     const args = { module, name: module.config.name }
@@ -159,7 +159,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     module.upResolver?.removeResolver?.(this.upResolver)
 
     //remove external exposure
-    this.downResolver.removeResolver(module.downResolver as ModuleResolver)
+    this.downResolver.removeResolver(module.downResolver as ModuleResolverInstance)
 
     const args = { module, name: module.config.name }
     await this.emit('moduleDetached', args)

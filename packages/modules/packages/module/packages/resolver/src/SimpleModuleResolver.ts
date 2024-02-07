@@ -6,7 +6,7 @@ import {
   ModuleFilterOptions,
   ModuleInstance,
   ModuleRepository,
-  ModuleResolver,
+  ModuleResolverInstance,
   NameModuleFilter,
   QueryModuleFilter,
 } from '@xyo-network/module-model'
@@ -15,10 +15,6 @@ import {
 export class SimpleModuleResolver implements ModuleRepository {
   private addressToName: Record<string, string> = {}
   private modules: Record<string, ModuleInstance> = {}
-
-  get isModuleResolver() {
-    return true
-  }
 
   add(module: ModuleInstance): this
   add(module: ModuleInstance[]): this
@@ -31,7 +27,7 @@ export class SimpleModuleResolver implements ModuleRepository {
     return this
   }
 
-  addResolver(_resolver: ModuleResolver): this {
+  addResolver(_resolver: ModuleResolverInstance): this {
     throw 'Adding resolvers not supported'
   }
 
@@ -44,7 +40,7 @@ export class SimpleModuleResolver implements ModuleRepository {
     return this
   }
 
-  removeResolver(_resolver: ModuleResolver): this {
+  removeResolver(_resolver: ModuleResolverInstance): this {
     throw 'Removing resolvers not supported'
   }
 

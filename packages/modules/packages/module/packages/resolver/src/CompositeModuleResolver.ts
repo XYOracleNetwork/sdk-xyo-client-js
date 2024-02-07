@@ -1,12 +1,19 @@
 import { exists } from '@xylabs/exists'
 import { Base, BaseParams } from '@xylabs/object'
-import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleRepository, ModuleResolver } from '@xyo-network/module-model'
+import {
+  duplicateModules,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleInstance,
+  ModuleRepository,
+  ModuleResolverInstance,
+} from '@xyo-network/module-model'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolver {
+export class CompositeModuleResolver extends Base implements ModuleRepository, ModuleResolverInstance {
   static defaultMaxDepth = 5
-  protected resolvers: ModuleResolver[] = []
+  protected resolvers: ModuleResolverInstance[] = []
   private localResolver: SimpleModuleResolver
 
   constructor(params: BaseParams = {}) {
@@ -14,10 +21,6 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
     this.localResolver = localResolver
-  }
-
-  get isModuleResolver() {
-    return true
   }
 
   add(module: ModuleInstance): this
@@ -31,7 +34,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  addResolver(resolver: ModuleResolver): this {
+  addResolver(resolver: ModuleResolverInstance): this {
     this.resolvers.push(resolver)
     return this
   }
@@ -45,7 +48,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
     return this
   }
 
-  removeResolver(resolver: ModuleResolver): this {
+  removeResolver(resolver: ModuleResolverInstance): this {
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
     return this
   }
@@ -79,7 +82,7 @@ export class CompositeModuleResolver extends Base implements ModuleRepository, M
           return result
         }),
       )
-      const flatResult: T[] = result.flat()
+      const flatResult: T[] = result.flat().filter(exists)
       return flatResult.filter(duplicateModules)
     }
   }

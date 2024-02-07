@@ -40,10 +40,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   private readonly isNode = true
 
-  get isModuleResolver(): boolean {
-    return true
-  }
-
   override get queries(): string[] {
     return [NodeAttachQuerySchema, NodeDetachQuerySchema, NodeAttachedQuerySchema, NodeRegisteredQuerySchema, ...super.queries]
   }

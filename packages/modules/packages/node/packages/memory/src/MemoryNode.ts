@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { EventListener } from '@xyo-network/module-events'
-import { AnyConfigSchema, Module, ModuleInstance, ModuleResolver, ModuleResolverInstance } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'

@@ -88,6 +88,9 @@
           "$ref": "#/definitions/external/definitions/modules"
         }
       },
+      "required": [
+        "modules"
+      ],
       "type": "object"
     },
     "feature": {

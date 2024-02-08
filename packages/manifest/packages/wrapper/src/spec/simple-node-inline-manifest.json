@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema.json",
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
   "nodes": [
     {
       "config": {
@@ -37,7 +37,7 @@
             "config": {
               "language": "javascript",
               "name": "SimpleHttpBridge",
-              "nodeUrl": "http://localhost:8080",
+              "nodeUrl": "https://beta.api.archivist.xyo.network",
               "schema": "network.xyo.bridge.http.config"
             }
           }

@@ -14,7 +14,7 @@ import {
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBus } from './AsyncQueryBus'
+import { AsyncQueryBusClient, AsyncQueryBusServer } from './AsyncQueryBus'
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
 
@@ -35,7 +35,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _targetConfigs: Record<string, ModuleConfig> = {}
   protected _targetQueries: Record<string, string[]> = {}
 
-  private _bus?: AsyncQueryBus
+  private _busClient?: AsyncQueryBusClient
+  private _busServer?: AsyncQueryBusServer
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -168,7 +169,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
-    const bus = this.bus()
+    const bus = this.busClient()
     return bus.send(address, query, payloads)
   }
 
@@ -176,30 +177,38 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return true
   }
 
-  /**
-   * Ensures the necessary config entries are present and create bus if needed
-   */
-  protected bus() {
-    if (!this._bus) {
-      this._bus = new AsyncQueryBus({
+  protected busClient() {
+    if (!this._busClient) {
+      this._busClient = new AsyncQueryBusClient({
         config: this.config,
         logger: this.logger,
         resolver: this,
       })
     }
-    return this._bus
+    return this._busClient
+  }
+
+  protected busServer() {
+    if (!this._busServer) {
+      this._busServer = new AsyncQueryBusServer({
+        config: this.config,
+        logger: this.logger,
+        resolver: this,
+      })
+    }
+    return this._busServer
   }
 
   protected override async startHandler(): Promise<boolean> {
     await Promise.resolve(this.connect())
-    const bus = this.bus()
-    bus.start()
+    this.busServer().start()
+    this.busClient().start()
     return true
   }
 
   protected override stopHandler(_timeout?: number | undefined) {
-    const bus = this.bus()
-    bus.stop()
+    this.busClient().stop()
+    this.busServer().stop()
     return true
   }
 }

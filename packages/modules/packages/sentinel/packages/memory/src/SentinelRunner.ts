@@ -61,14 +61,12 @@ export class SentinelRunner {
     this._automations = {}
   }
 
-  async restart() {
+  restart() {
     this.stop()
-    await this.start()
+    this.start()
   }
 
-  async start() {
-    // NOTE: Keep async to match module start signature
-    await Promise.resolve()
+  start() {
     assertEx(this.timeoutId === undefined, 'Already started')
     const automation = this.next
     if (isSentinelIntervalAutomation(automation)) {
@@ -84,7 +82,7 @@ export class SentinelRunner {
             this.stop()
           } finally {
             // No matter what start the next automation
-            await this.start()
+            this.start()
           }
         }, delay)
       }

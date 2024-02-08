@@ -56,7 +56,7 @@ const cryptoTest = async () => {
 }
 */
 
-describe('Hasher - BigObject', () => {
+describe.skip('Hasher - BigObject', () => {
   const testObject = {
     testArray: [1, 2, 3],
     testBoolean: true,

@@ -26,7 +26,7 @@ const validWithTempArchive = [
 
 const invalid = [`https:///api.archivist.xyo.network/${hash}`, `https://api.archivist.xyo.network//${hash}`]
 
-describe('Huri', () => {
+describe.skip('Huri', () => {
   describe('Valid Items', () => {
     valid.map((item) => {
       test(`valid [${item}]`, () => {

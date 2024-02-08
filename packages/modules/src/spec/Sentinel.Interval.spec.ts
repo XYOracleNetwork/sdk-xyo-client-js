@@ -62,6 +62,7 @@ describe('Sentinel.Interval', () => {
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
     expect(payloads.length).toBeGreaterThan(0)
+    console.log(`payloads: ${JSON.stringify(payloads, null, 2)}`)
     expect(payloads.some((p) => p.schema === 'network.xyo.test')).toBeTrue()
   })
   it.skip('manual query', async () => {

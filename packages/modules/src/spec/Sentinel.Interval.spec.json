@@ -55,7 +55,6 @@
               "schema": "network.xyo.diviner.jsonpatch.config"
             }
           },
-
           {
             "config": {
               "name": "PayloadDivinerQueryTemplateWitness",
@@ -64,7 +63,9 @@
                 "limit": 1,
                 "order": "asc",
                 "schema": "network.xyo.diviner.payload.query",
-                "schemas": ["network.xyo.test"]
+                "schemas": [
+                  "network.xyo.test"
+                ]
               }
             }
           },
@@ -75,12 +76,6 @@
               "name": "PayloadDivinerQueryBuilder",
               "schema": "network.xyo.diviner.jsonpath.aggregate.config",
               "schemaTransforms": {
-                "network.xyo.module.state": [
-                  {
-                    "destinationField": "offset",
-                    "sourcePathExpression": "$.offset"
-                  }
-                ],
                 "network.xyo.diviner.payload.query": [
                   {
                     "destinationField": "limit",
@@ -106,7 +101,9 @@
           {
             "config": {
               "archiving": {
-                "archivists": ["Results"]
+                "archivists": [
+                  "Results"
+                ]
               },
               "automations": [
                 {
@@ -126,11 +123,15 @@
                   "module": "PayloadDivinerQueryTemplateWitness"
                 },
                 {
-                  "input": ["PayloadDivinerQueryTemplateWitness"],
+                  "input": [
+                    "PayloadDivinerQueryTemplateWitness"
+                  ],
                   "module": "PayloadDivinerQueryBuilder"
                 },
                 {
-                  "input": ["PayloadDivinerQueryBuilder"],
+                  "input": [
+                    "PayloadDivinerQueryBuilder"
+                  ],
                   "module": "PayloadDiviner"
                 }
               ]

@@ -15,7 +15,6 @@
     "@xylabs/delay": "^2.14.0",
     "@xylabs/forget": "^2.14.0",
     "@xylabs/object": "^2.89.0",
-    "@xylabs/promise": "^2.14.0",
     "@xylabs/timer": "^2.14.0",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

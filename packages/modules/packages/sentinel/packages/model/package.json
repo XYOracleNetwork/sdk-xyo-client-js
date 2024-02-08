@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/object": "^2.89.0",
     "@xylabs/promise": "^2.14.0",
+    "@xylabs/hex": "^2.14.0",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

@@ -5,6 +5,7 @@ import { Archivist, ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 import { MemorySentinel, MemorySentinelParams } from '@xyo-network/sentinel-memory'
 import { ReportEndEventArgs, SentinelConfig, SentinelConfigSchema } from '@xyo-network/sentinel-model'
@@ -63,9 +64,11 @@ describe('Sentinel', () => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
-          const panelPayloads = payloads.map((payload) => {
-            return PayloadHasher.hashFields(payload)
-          })
+          const panelPayloads = await Promise.all(
+            payloads.map((payload) => {
+              return PayloadBuilder.build(PayloadHasher.hashFields(payload))
+            }),
+          )
           expect(archivistPayloads).toContainValues(panelPayloads)
         }
       }

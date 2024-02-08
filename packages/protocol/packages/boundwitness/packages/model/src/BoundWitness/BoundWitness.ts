@@ -4,8 +4,10 @@ import { Payload } from '@xyo-network/payload-model'
 import { BoundWitnessSchema } from './BoundWitnessSchema'
 
 export type BoundWitnessFields = {
-  /** @field Array of signatures by the accounts that are listed in addresses */
-  _signatures: string[]
+  $meta: {
+    /** @field Array of signatures by the accounts that are listed in addresses */
+    signatures: string[]
+  }
   /** @field Array of signatures by the accounts that are listed in addresses */
   addresses: string[]
   blockNumber?: number

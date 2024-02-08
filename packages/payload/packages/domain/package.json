@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^2.13.29",
-    "@xylabs/lodash": "^2.13.29",
-    "@xylabs/platform": "^2.13.29",
+    "@xylabs/axios": "^2.14.0",
+    "@xylabs/lodash": "^2.14.0",
+    "@xylabs/platform": "^2.14.0",
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/dns": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/network": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~"
@@ -66,6 +66,7 @@
     "url": "https://github.com/XYOracleNetwork/plugins.git"
   },
   "sideEffects": false,
-  "version": "2.88.3",
-  "type": "module"
+  "version": "2.89.0-rc.14",
+  "type": "module",
+  "stableVersion": "2.88.3"
 }

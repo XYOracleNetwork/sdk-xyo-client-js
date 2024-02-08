@@ -1,3 +1,4 @@
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { knownNetworks } from './knownNetworks'
@@ -22,7 +23,7 @@ export class NetworkPayloadWrapper extends PayloadWrapper<NetworkPayload> {
   }
 
   static async known(hash: string): Promise<NetworkPayload | undefined> {
-    return await NetworkPayloadWrapper.find(await knownNetworks(), hash)
+    return await PayloadBuilder.findByDataHash(await knownNetworks(), hash)
   }
 
   filterNodesByType(type: NetworkNodeType) {

@@ -70,7 +70,7 @@ export const getProviderFromEnv = (
   if (!provider) {
     provider = createInfuraWss(chainId) ?? createInfuraRpc(chainId) ?? createQuicknodeRpc(chainId)
   }
-  return assertEx(provider, `Unable to create provider [${chainId}]: ${providerSource}|${providerType}`)
+  return assertEx(provider, () => `Unable to create provider [${chainId}]: ${providerSource}|${providerType}`)
 }
 
 const providers: Record<string, Provider> = {}

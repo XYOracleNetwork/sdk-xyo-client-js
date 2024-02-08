@@ -110,7 +110,7 @@ export class IndexedDbBoundWitnessDiviner<
       await tx.done
       // Remove any metadata before returning to the client
       return results.filter(isBoundWitness).map((bw) => {
-        return { ...PayloadHasher.jsonPayload(bw), _signatures: bw._signatures }
+        return PayloadHasher.jsonPayload(bw)
       })
     })
     return result ?? []

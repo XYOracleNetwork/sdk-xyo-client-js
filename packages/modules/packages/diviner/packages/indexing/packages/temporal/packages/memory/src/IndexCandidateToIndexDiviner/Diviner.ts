@@ -12,7 +12,6 @@ import {
   TemporalIndexingDivinerResultIndex,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
@@ -68,7 +67,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     const bws: BoundWitness[] = payloads.filter(isBoundWitness)
     const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
     if (bws.length > 0 && indexablePayloads.length > 0) {
-      const payloadDictionary = await PayloadHasher.toMap(payloads)
+      const payloadDictionary = await PayloadBuilder.toDataHashMap(payloads)
       // eslint-disable-next-line unicorn/no-array-reduce
       const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
         // If this Bound Witness doesn't contain all the required schemas don't index it
@@ -94,7 +93,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
             return transformers ? transformers.map((transform) => transform(payload)) : []
           })
           // Include all the sources for reference
-          const sources = Object.keys(await PayloadHasher.toMap([bw, ...sourcePayloads]))
+          const sources = await PayloadBuilder.dataHashes([bw, ...sourcePayloads])
           // Build and return the index
           return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
             .fields(Object.assign({ sources }, ...indexFields))

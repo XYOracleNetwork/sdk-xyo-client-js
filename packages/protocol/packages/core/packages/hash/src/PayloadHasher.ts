@@ -6,7 +6,7 @@ import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields'
-import { deepOmitUnderscoreFields } from './removeFields'
+import { deepOmitPrefixedFields } from './removeFields'
 import { sortFields } from './sortFields'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
@@ -16,17 +16,17 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
-  static async filterExclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterExcludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => !hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async filterInclude<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
+  static async filterIncludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
     const hashes = Array.isArray(hash) ? hash : [hash]
     return (await this.hashPairs(objs)).filter(([_, objHash]) => hashes.includes(objHash))?.map((pair) => pair[0])
   }
 
-  static async find<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
+  static async findByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash): Promise<T | undefined> {
     return (await this.hashPairs(objs)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
@@ -35,7 +35,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param obj A payload
    * @returns The payload hash
    */
-  static async hashAsync<T extends EmptyObject>(obj: T): Promise<Hash> {
+  static async hash<T extends EmptyObject>(obj: T): Promise<Hash> {
     if (PayloadHasher.allowSubtle) {
       try {
         const enc = new TextEncoder()
@@ -64,7 +64,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static hashFields<T extends EmptyObject>(obj: T): T {
-    return sortFields(removeEmptyFields(deepOmitUnderscoreFields(obj)))
+    return sortFields(removeEmptyFields(deepOmitPrefixedFields(obj, '_')))
   }
 
   /**
@@ -73,7 +73,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hashAsync(obj)]))
+    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
   }
 
   /**
@@ -90,8 +90,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param objs Any array of payloads
    * @returns An array of payload hashes
    */
-  static async hashes<T extends EmptyObject>(objs: T[]): Promise<Hash[]> {
-    return await Promise.all(objs.map((obj) => this.hashAsync(obj)))
+  static async hashes<T extends EmptyObject>(objs?: T[]): Promise<Hash[] | undefined> {
+    return objs ? await Promise.all(objs.map((obj) => this.hash(obj))) : undefined
   }
 
   /**
@@ -100,31 +100,21 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param meta Keeps underscore (meta) fields if set to true
    * @returns Returns a clone of the payload that is JSON safe
    */
+  static json<T extends EmptyObject>(payload: T, meta = false): T {
+    return sortFields(removeEmptyFields(meta ? payload : deepOmitPrefixedFields(payload, '_')))
+  }
+
+  /** @deprecated us json instead */
   static jsonPayload<T extends EmptyObject>(payload: T, meta = false): T {
-    return sortFields(removeEmptyFields(meta ? payload : deepOmitUnderscoreFields(payload)))
+    return this.json(payload, meta)
   }
 
   static stringifyHashFields<T extends EmptyObject>(obj: T) {
     return JSON.stringify(this.hashFields(obj))
   }
 
-  /**
-   * Creates an object map of payload hashes to payloads based on the payloads passed in
-   * @param objs Any array of payloads
-   * @returns A map of hashes to payloads
-   */
-  static async toMap<T extends EmptyObject>(objs: T[]): Promise<Record<Hash, T>> {
-    return Object.fromEntries(
-      await Promise.all(
-        objs.map(async (obj) => {
-          return [await PayloadHasher.hashAsync(obj), obj]
-        }),
-      ),
-    )
-  }
-
-  async hashAsync(): Promise<Hash> {
-    return await PayloadHasher.hashAsync(this.obj)
+  async hash(): Promise<Hash> {
+    return await PayloadHasher.hash(this.obj)
   }
 
   hashSync(): Hash {

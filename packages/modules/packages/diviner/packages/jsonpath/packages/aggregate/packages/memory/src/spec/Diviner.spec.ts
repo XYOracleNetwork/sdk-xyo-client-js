@@ -3,7 +3,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { JsonPathAggregateDiviner } from '../Diviner'
@@ -62,7 +62,7 @@ describe('JsonPathAggregateDiviner', () => {
     describe('with only payload schema transforms', () => {
       const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {
         const [timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadHasher.toMap([timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toDataHashMap([timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
@@ -127,7 +127,7 @@ describe('JsonPathAggregateDiviner', () => {
       })
       describe('with sparse input', () => {
         it.each(cases)('returns empty array', async (thumbnail, timestamp, payload) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
+          const [boundWitness] = await (await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload])).build()
           expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
           expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
           expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)
@@ -140,7 +140,7 @@ describe('JsonPathAggregateDiviner', () => {
         result: Payload[],
       ) => {
         const [boundWitness, timestamp, thumbnail, payload] = input
-        const payloadDictionary = await PayloadHasher.toMap([boundWitness, timestamp, thumbnail, payload])
+        const payloadDictionary = await PayloadBuilder.toDataHashMap([boundWitness, timestamp, thumbnail, payload])
         expect(result).toBeArrayOfSize(1)
         expect(result.filter(isPayloadOfSchemaType(destinationSchema))).toBeArrayOfSize(1)
         const index = result.find(isPayloadOfSchemaType<ResultType>(destinationSchema))
@@ -180,14 +180,14 @@ describe('JsonPathAggregateDiviner', () => {
       ]
       describe('with single input', () => {
         it.each(cases)('transforms single input', async (timestamp, thumbnail, payload) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
+          const [boundWitness] = await (await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload])).build()
           const result = await diviner.divine([boundWitness, timestamp, thumbnail, payload])
           await validateMultiResult([boundWitness, timestamp, thumbnail, payload], result)
         })
       })
       describe('with multiple inputs', () => {
         it('transforms to multiple outputs', async () => {
-          const bws = await Promise.all(cases.map((c) => new BoundWitnessBuilder().payloads(c).build()))
+          const bws = await Promise.all(cases.map(async (c) => (await new BoundWitnessBuilder().payloads(c)).build()))
           const allCases = bws.map((bw, i) => [bw[0], ...cases[i]] as [BoundWitness, TimeStamp, ImageThumbnail, Payload])
           const results = await diviner.divine(allCases.flat())
           expect(results).toBeArrayOfSize(cases.length)
@@ -199,7 +199,7 @@ describe('JsonPathAggregateDiviner', () => {
       })
       describe('with sparse input', () => {
         it.each(cases)('returns empty array', async (thumbnail, timestamp, payload) => {
-          const [boundWitness] = await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload]).build()
+          const [boundWitness] = await (await new BoundWitnessBuilder().payloads([timestamp, thumbnail, payload])).build()
           expect(await diviner.divine([thumbnail, timestamp])).toBeArrayOfSize(0)
           expect(await diviner.divine([boundWitness, timestamp])).toBeArrayOfSize(0)
           expect(await diviner.divine([boundWitness, thumbnail])).toBeArrayOfSize(0)

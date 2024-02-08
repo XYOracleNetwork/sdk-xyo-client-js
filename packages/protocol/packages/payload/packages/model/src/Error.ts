@@ -1,3 +1,4 @@
+import { isPayloadOfSchemaType } from './isPayloadOfSchemaType'
 import { Payload } from './Payload'
 
 export type ModuleErrorSchema = 'network.xyo.error.module'
@@ -10,3 +11,5 @@ export type ModuleError = Payload<{
   schema: ModuleErrorSchema
   sources?: string[]
 }>
+
+export const isModuleError = isPayloadOfSchemaType<ModuleError>(ModuleErrorSchema)

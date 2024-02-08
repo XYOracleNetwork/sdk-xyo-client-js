@@ -24,7 +24,7 @@ export type AccountConfig = InitializationConfig & AccountOptions
 
 export interface AccountInstance extends KeyPairInstance {
   address: string
-  addressBytes: ArrayBuffer | undefined
+  addressBytes: ArrayBuffer
   previousHash: string | undefined
   previousHashBytes: ArrayBuffer | undefined
   sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => ArrayBuffer | Promise<ArrayBuffer>

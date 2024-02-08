@@ -1,5 +1,5 @@
 import { SchemaToJsonPathTransformExpressionsDictionary } from '@xyo-network/diviner-jsonpath-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
 import { jsonPathToTransformersDictionary } from '../jsonPathToTransformersDictionary'
@@ -78,10 +78,12 @@ describe('transformPayloads', () => {
   it.each(cases)('%s', async (_title, inputs, schemaTransforms, output) => {
     const transforms = jsonPathToTransformersDictionary(schemaTransforms)
     const destinationSchema = output.schema
-    const sources = await PayloadHasher.hashes(inputs)
+    const sources = await PayloadBuilder.dataHashes(inputs)
+    const withSources = await reducePayloads(inputs, transforms, destinationSchema, false)
+    const withoutSources = await reducePayloads(inputs, transforms, destinationSchema, true)
     // With sources
-    expect(await reducePayloads(inputs, transforms, destinationSchema, false)).toEqual({ sources, ...output })
+    expect(withSources).toEqual(await PayloadBuilder.build({ sources, ...output }))
     // Without sources
-    expect(await reducePayloads(inputs, transforms, destinationSchema, true)).toEqual({ ...output })
+    expect(withoutSources).toEqual(await PayloadBuilder.build({ ...output }))
   })
 })

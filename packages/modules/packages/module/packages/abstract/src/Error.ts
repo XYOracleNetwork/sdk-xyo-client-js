@@ -1,5 +1,5 @@
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, ModuleErrorSchema } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, WithMeta } from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
   _message?: string
@@ -10,14 +10,15 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
     super({ schema: ModuleErrorSchema })
   }
 
-  override build(): Promise<ModuleError> {
-    return Promise.resolve({
+  override build(): Promise<WithMeta<ModuleError>> {
+    this.fields({
       message: this._message,
       name: this._name,
       query: this._query,
       schema: ModuleErrorSchema,
       sources: this._sources,
     })
+    return super.build()
   }
 
   message(message: string) {

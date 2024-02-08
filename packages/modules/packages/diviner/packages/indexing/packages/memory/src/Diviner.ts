@@ -82,7 +82,7 @@ export class IndexingDiviner<
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
-    const [bw] = await new BoundWitnessBuilder().payload(nextState).witness(this.account).build()
+    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).witness(this.account).build()
     await archivist.insert([bw, nextState])
   }
 
@@ -115,7 +115,7 @@ export class IndexingDiviner<
    */
   protected async getArchivistForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.archivist, () => `${moduleName}: Config for ${store}.archivist not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.archivist [${name}]`)
     return ArchivistWrapper.wrap(mod, this.account)
   }
 
@@ -126,7 +126,7 @@ export class IndexingDiviner<
    */
   protected async getBoundWitnessDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.boundWitnessDiviner, () => `${moduleName}: Config for ${store}.boundWitnessDiviner not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.boundWitnessDiviner [${name}]`)
     return DivinerWrapper.wrap(mod, this.account)
   }
 
@@ -151,7 +151,7 @@ export class IndexingDiviner<
    */
   protected async getPayloadDivinerForStore(store: ConfigStore) {
     const name = assertEx(this.config?.[store]?.payloadDiviner, () => `${moduleName}: Config for ${store}.payloadDiviner not specified`)
-    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner`)
+    const mod = assertEx(await this.resolve(name), () => `${moduleName}: Failed to resolve ${store}.payloadDiviner [${name}]`)
     return DivinerWrapper.wrap(mod, this.account)
   }
 

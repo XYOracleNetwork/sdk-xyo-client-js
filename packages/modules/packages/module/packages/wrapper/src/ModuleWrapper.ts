@@ -31,7 +31,7 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleResolverInstance,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
@@ -119,11 +119,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
-  get downResolver(): ModuleResolver {
+  get downResolver(): ModuleResolverInstance {
     //Should we be allowing this?
     const instance = asModuleInstance(this.module)
     if (instance) {
-      return instance.downResolver as ModuleResolver
+      return instance.downResolver as ModuleResolverInstance
     }
     throw new Error('Unsupported')
   }
@@ -140,11 +140,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queries
   }
 
-  get upResolver(): ModuleResolver {
+  get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
     const instance = asModuleInstance(this.module)
     if (instance) {
-      return instance.upResolver as ModuleResolver
+      return instance.upResolver as ModuleResolverInstance
     }
     throw new Error('Unsupported')
   }
@@ -219,7 +219,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     module: Module | undefined,
     account?: AccountInstance,
   ): TModuleWrapper {
-    assertEx(module && this.moduleIdentityCheck(module), `Passed module failed identity check: ${module?.config?.schema}`)
+    assertEx(module && this.moduleIdentityCheck(module), () => `Passed module failed identity check: ${module?.config?.schema}`)
     return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
   }
 
@@ -318,6 +318,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
@@ -331,13 +332,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
-    const builder = new QueryBoundWitnessBuilder().payloads(payloads).query(query)
+    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
-    const wrapper = BoundWitnessWrapper.wrap(result[0], result[1])
+    const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
     return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
   }
 

@@ -1,4 +1,5 @@
 import { MetaMaskInpageProvider } from '@metamask/providers'
+import { forget } from '@xylabs/forget'
 import { BrowserProvider, Listener } from 'ethers'
 
 export class MetaMaskConnector {
@@ -111,17 +112,23 @@ export class MetaMaskConnector {
 
   /** Web3Provider Listeners - https://docs.ethers.org/v5/api/providers/provider/#Provider--events */
   web3ProviderOn(event: string, listener: Listener) {
-    this.provider?.on(event, listener)
+    if (this.provider) {
+      forget(this.provider.on(event, listener))
+    }
     this.listeners.push(listener)
   }
 
   web3ProviderRemoveListener(event: string, listener: Listener) {
-    this.provider?.removeListener(event, listener)
+    if (this.provider) {
+      forget(this.provider.removeListener(event, listener))
+    }
     this.listeners = this.listeners.filter((savedListener) => listener !== savedListener)
   }
 
   web3ProviderRemoveListeners() {
-    this.provider?.removeAllListeners()
+    if (this.provider) {
+      forget(this.provider.removeAllListeners())
+    }
   }
 
   private logProviderMissing() {

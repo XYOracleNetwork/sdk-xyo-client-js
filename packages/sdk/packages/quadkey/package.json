@@ -10,13 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.29",
-    "@xylabs/hex": "^2.13.29",
+    "@xylabs/assert": "^2.14.0",
+    "@xylabs/hex": "^2.14.0",
     "@xyo-network/sdk-geo": "^2.11.2",
-    "mapbox-gl": "^3.1.0"
+    "mapbox-gl": "^3.1.2"
   },
   "devDependencies": {
-    "@types/mapbox-gl": "^2.7.19",
+    "@types/mapbox-gl": "^2.7.20",
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
     "@xylabs/tsconfig": "^3.2.42",
     "typescript": "^5.3.3"
@@ -60,6 +60,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.88.3",
-  "type": "module"
+  "version": "2.89.0-rc.14",
+  "type": "module",
+  "stableVersion": "2.88.3"
 }

@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { JsonPathDivinerConfigSchema, JsonPathTransformExpression } from '@xyo-network/diviner-jsonpath-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
@@ -67,21 +67,21 @@ describe('JsonPathDiviner', () => {
   })
   it.each(cases)('%s', async (_title, inputs, transforms, outputs) => {
     const destinationSchema = outputs?.[0]?.schema
-    const config = {
+    const config = await PayloadBuilder.build({
       destinationSchema,
       schema: JsonPathDivinerConfigSchema,
       transforms,
-    }
+    })
     const sut = await JsonPathDiviner.create({ account: wallet, config })
     // Arrange
     const expected = await Promise.all(
       outputs.map(async (output, index) => {
-        return { sources: [await PayloadHasher.hashAsync(inputs[index])], ...output }
+        return await PayloadBuilder.build({ sources: [(await PayloadBuilder.build(inputs[index])).$hash], ...output })
       }),
     )
 
     // Act
-    const actual = await sut.divine(inputs)
+    const actual = await sut.divine(await Promise.all(inputs.map((input) => PayloadBuilder.build(input))))
 
     // Assert
     expect(actual).toEqual(expected)

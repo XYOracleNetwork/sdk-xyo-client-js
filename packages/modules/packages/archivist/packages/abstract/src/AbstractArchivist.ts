@@ -18,12 +18,12 @@ import {
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, BoundWitnessSchema, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 export interface ActionConfig {
   emitEvents?: boolean
@@ -149,11 +149,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
-    const foundPairs = (
-      await Promise.all(
-        (await archivist.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-      )
-    ).filter(([hash]) => {
+    const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
         console.warn(`Parent returned payload with hash not asked for: ${hash}`)
@@ -162,8 +158,8 @@ export abstract class AbstractArchivist<
       return askedFor
     })
 
-    const foundHashes = new Set(foundPairs.map(([hash]) => hash))
-    const foundPayloads = foundPairs.map(([, payload]) => payload)
+    const foundHashes = new Set(foundPairs.map(([, hash]) => hash))
+    const foundPayloads = foundPairs.map(([payload]) => payload)
 
     const notfound = hashes.filter((hash) => !foundHashes.has(hash))
     return [foundPayloads, notfound]
@@ -192,26 +188,20 @@ export abstract class AbstractArchivist<
   protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const emitEvents = config?.emitEvents ?? true
-    const map = await PayloadWrapper.toMap(await this.getHandler(hashes))
+    const gotten = await this.getHandler(hashes)
+    const map = await PayloadBuilder.toHashMap(gotten)
+    const dataMap = await PayloadBuilder.toDataHashMap(gotten)
 
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const { foundPayloads, notfoundHashes } = hashes.reduce<{ foundPayloads: Payload[]; notfoundHashes: string[] }>(
-      (prev, hash) => {
-        const found = map[hash]
-        if (found) {
-          //TODO: Find a better way to scrub meta data without scrubbing _signatures
-          if (found.schema === BoundWitnessSchema) {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found), _signatures: (found as BoundWitness)._signatures } as BoundWitness)
-          } else {
-            prev.foundPayloads.push({ ...PayloadHasher.hashFields(found) } as Payload)
-          }
-        } else {
-          prev.notfoundHashes.push(hash)
-        }
-        return prev
-      },
-      { foundPayloads: [], notfoundHashes: [] },
-    )
+    const foundPayloads: WithMeta<Payload>[] = []
+    const notfoundHashes: string[] = []
+    for (const hash of hashes) {
+      const found = map[hash] ?? dataMap[hash]
+      if (found) {
+        foundPayloads.push(PayloadHasher.jsonPayload(found) as WithMeta<Payload>)
+      } else {
+        notfoundHashes.push(hash)
+      }
+    }
 
     const [parentFoundPayloads] = await this.getFromParents(notfoundHashes)
 
@@ -256,12 +246,12 @@ export abstract class AbstractArchivist<
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
     query: T,
-    payloads?: Payload[],
+    payloads: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrappedQuery = QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
     const queryPayload = await wrappedQuery.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     if (this.config.storeQueries) {
       await this.insertHandler([query])
@@ -298,11 +288,14 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistInsertQuerySchema: {
-        const payloads = await wrappedQuery.getPayloads()
-        assertEx(await wrappedQuery.getPayloads(), `Missing payloads: ${JSON.stringify(wrappedQuery.payload(), null, 2)}`)
-        const resolvedPayloads = await PayloadWrapper.filterExclude(payloads, await wrappedQuery.hashAsync())
-        assertEx(resolvedPayloads.length === payloads.length, `Could not find some passed hashes [${resolvedPayloads.length} != ${payloads.length}]`)
-        resultPayloads.push(...(await this.insertWithConfig(payloads)))
+        assertEx(payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
+        const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payload_hashes)
+        assertEx(
+          resolvedPayloads.length === query.payload_hashes.length,
+          () => `Could not find some passed hashes [${resolvedPayloads.length} != ${query.payload_hashes.length}]`,
+        )
+        const payloadsWithoutQuery = await PayloadBuilder.filterExclude(resolvedPayloads, await PayloadBuilder.dataHash(queryPayload))
+        resultPayloads.push(...(await this.insertWithConfig(payloadsWithoutQuery)))
         // NOTE: There isn't an exact equivalence between what we get and what we store. Once
         // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
         // can grab the actual last one
@@ -338,9 +331,10 @@ export abstract class AbstractArchivist<
 
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,
-      `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-        archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
-      )}]`,
+      () =>
+        `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
+          archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+        )}]`,
     )
 
     // eslint-disable-next-line unicorn/no-array-reduce

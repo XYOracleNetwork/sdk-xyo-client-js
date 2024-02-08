@@ -3,6 +3,7 @@
  */
 import { Account } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 
 import { MemoryArchivist } from '../MemoryArchivist'
 
@@ -22,5 +23,15 @@ describe('MemoryArchivist', () => {
       expect(true).toBe(true)
     })
     await archivist.clear()
+  })
+
+  it('should return same items inserted', async () => {
+    const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
+
+    const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]
+    const result = await archivist.insert(payloads)
+
+    expect(result.length).toEqual(payloads.length)
+    expect(result[0].schema).toEqual(payloads[0].schema)
   })
 })

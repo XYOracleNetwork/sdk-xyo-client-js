@@ -66,19 +66,19 @@ describe('Various StorageArchivist types', () => {
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const payloadWrapper = PayloadWrapper.wrap(idPayload)
+    const payloadWrapper = await PayloadWrapper.wrap(idPayload)
 
     const archivist = await archivistPromise
     const insertResult = await archivist.insert([idPayload])
     expect(insertResult).toBeDefined()
 
-    const getResult = await archivist.get([await payloadWrapper.hashAsync()])
+    const getResult = await archivist.get([await payloadWrapper.dataHash()])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
-      expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
+      const gottenPayloadWrapper = await PayloadWrapper.wrap(gottenPayload)
+      expect(await gottenPayloadWrapper.dataHash()).toBe(await payloadWrapper.dataHash())
     }
   })
 })
@@ -136,15 +136,15 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
-  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = await PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 
-  const inserted = await parent.insert([wrapper.payload()])
+  const inserted = await parent.insert([wrapper.jsonPayload()])
 
   expect(inserted).toBeArrayOfSize(1)
 
-  const fromStorage = await storage.get([await wrapper.hashAsync()])
+  const fromStorage = await storage.get([await wrapper.dataHash()])
 
   expect(fromStorage).toBeArrayOfSize(1)
 })

@@ -5,7 +5,7 @@ import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
 import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
-import { Payload, PayloadBuilder, PayloadSchema, PayloadWrapper } from '@xyo-network/payload'
+import { Payload, PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
 
 import { MemoryNode } from '../../src'
 
@@ -50,7 +50,7 @@ describe('MemoryNode', () => {
     expect(payloads?.length).toBe(1)
 
     if (payloads && payloads[0]) {
-      const huri = await PayloadWrapper.hashAsync(payloads[0])
+      const huri = await PayloadBuilder.dataHash(payloads[0])
       const huriPayload: HuriPayload = { huri: [huri], schema: HuriSchema }
       const module = await node.resolve(diviner.address)
       const foundDiviner = asDivinerInstance(module)
@@ -60,7 +60,7 @@ describe('MemoryNode', () => {
         expect(payloads?.length).toBe(1)
         expect(payloads[0]).toBeDefined()
         if (payloads?.length === 1 && payloads[0]) {
-          expect(await PayloadWrapper.hashAsync(payloads[0])).toBe(huri)
+          expect(await PayloadBuilder.dataHash(payloads[0])).toBe(huri)
         }
       }
     }

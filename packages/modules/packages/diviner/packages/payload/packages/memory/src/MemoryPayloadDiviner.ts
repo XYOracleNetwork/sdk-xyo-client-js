@@ -7,8 +7,8 @@ import {
   PayloadDivinerParams,
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
-import { PayloadHasher } from '@xyo-network/hash'
-import { Payload } from '@xyo-network/payload-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 export class MemoryPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
@@ -23,7 +23,7 @@ export class MemoryPayloadDiviner<
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schemas, limit, offset, hash, order, schema, ...props } = filter
+    const { schemas, limit, offset, hash, order, schema, $meta, $hash, ...props } = filter as WithMeta<TIn>
     let all = (await archivist.all?.()) as TOut[]
     if (all) {
       if (order === 'desc') all = all.reverse()
@@ -47,18 +47,18 @@ export class MemoryPayloadDiviner<
       const parsedOffset = offset || 0
       return offset === undefined
         ? (async () => {
-            const allPairs = await Promise.all(all.map<Promise<[string, TOut]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]))
+            const allPairs = await PayloadBuilder.hashPairs(all)
             if (hash) {
               //remove all until found
-              while (allPairs.length > 0 && allPairs[0][0] !== hash) {
+              while (allPairs.length > 0 && allPairs[0][1] !== hash) {
                 allPairs.shift()
               }
               //remove it if found
-              if (allPairs.length > 0 && allPairs[0][0] === hash) {
+              if (allPairs.length > 0 && allPairs[0][1] === hash) {
                 allPairs.shift()
               }
             }
-            return allPairs.map(([, payload]) => payload)
+            return allPairs.map(([payload]) => payload)
           })()
         : all.slice(parsedOffset, parsedLimit)
     } else {

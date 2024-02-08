@@ -2,10 +2,10 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner'
@@ -28,13 +28,13 @@ describe('MemoryAddressHistoryDiviner', () => {
         wrapperAccount,
       )
 
-      const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
+      const payload1 = await PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
+      const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
+      const payload3 = await PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
-      await archivist.insert([payload1.payload()])
-      await archivist.insert([payload2.payload()])
-      await archivist.insert([payload3.payload()])
+      await archivist.insert([payload1.jsonPayload()])
+      await archivist.insert([payload2.jsonPayload()])
+      await archivist.insert([payload3.jsonPayload()])
 
       const all = await archivist.all()
 
@@ -48,7 +48,7 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: await BoundWitnessWrapper.parse(all[6]).hashAsync(),
+          startHash: (await PayloadBuilder.build(all[6])).$hash,
         },
       })
       await node.register(diviner)

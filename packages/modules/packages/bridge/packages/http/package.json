@@ -10,10 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.13.29",
-    "@xylabs/axios": "^2.13.29",
-    "@xylabs/lodash": "^2.13.29",
-    "@xylabs/object": "^2.88.5",
+    "@xylabs/assert": "^2.14.0",
+    "@xylabs/axios": "^2.14.0",
+    "@xylabs/forget": "^2.14.0",
+    "@xylabs/lodash": "^2.14.0",
+    "@xylabs/object": "^2.89.0",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -24,7 +25,7 @@
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
-    "lru-cache": "^10.1.0",
+    "lru-cache": "^10.2.0",
     "url-parse": "^1.5.10"
   },
   "devDependencies": {
@@ -32,15 +33,9 @@
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
     "@xylabs/tsconfig": "^3.2.42",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/diviner-boundwitness-memory": "workspace:~",
-    "@xyo-network/diviner-boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
-    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.3.3"
   },
@@ -83,6 +78,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.88.3",
-  "type": "module"
+  "version": "2.89.0-rc.14",
+  "type": "module",
+  "stableVersion": "2.88.3"
 }

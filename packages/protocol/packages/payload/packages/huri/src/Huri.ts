@@ -92,7 +92,7 @@ export class Huri<T extends Payload = Payload> {
 
   private static parsePath(huri: string) {
     const protocolSplit = huri.split('//')
-    assertEx(protocolSplit.length <= 2, `Invalid format [${huri}]`)
+    assertEx(protocolSplit.length <= 2, () => `Invalid format [${huri}]`)
     if (protocolSplit.length === 1) {
       return huri
     }
@@ -103,12 +103,12 @@ export class Huri<T extends Payload = Payload> {
 
   private static parseProtocol(huri: string) {
     const protocolSplit = huri.split('//')
-    assertEx(protocolSplit.length <= 2, `Invalid second protocol [${protocolSplit[2]}]`)
+    assertEx(protocolSplit.length <= 2, () => `Invalid second protocol [${protocolSplit[2]}]`)
     const rawProtocol = protocolSplit.length === 2 ? protocolSplit.shift() : undefined
     if (rawProtocol) {
       const protocolParts = rawProtocol?.split(':')
-      assertEx(protocolParts.length === 2, `Invalid protocol format [${rawProtocol}]`)
-      assertEx(protocolParts[1].length === 0, `Invalid protocol format (post :) [${rawProtocol}]`)
+      assertEx(protocolParts.length === 2, () => `Invalid protocol format [${rawProtocol}]`)
+      assertEx(protocolParts[1].length === 0, () => `Invalid protocol format (post :) [${rawProtocol}]`)
       return protocolParts.shift()
     }
   }

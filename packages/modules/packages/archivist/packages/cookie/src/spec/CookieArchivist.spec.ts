@@ -17,19 +17,20 @@ const testArchivistRoundTrip = (archivistPromise: Promisable<ArchivistInstance>,
       salt: Date.now().toString(),
       schema: IdSchema,
     }
-    const payloadWrapper = PayloadWrapper.wrap(idPayload)
+    const payloadWrapper = await PayloadWrapper.wrap(idPayload)
 
     const archivist = await archivistPromise
     const insertResult = await archivist.insert([idPayload])
     expect(insertResult).toBeDefined()
 
-    const getResult = await archivist.get([await payloadWrapper.hashAsync()])
+    const getResult = await archivist.get([await payloadWrapper.dataHash()])
     expect(getResult).toBeDefined()
     expect(getResult.length).toBe(1)
     const gottenPayload = getResult[0]
     if (gottenPayload) {
-      const gottenPayloadWrapper = PayloadWrapper.wrap(gottenPayload)
-      expect(await gottenPayloadWrapper.hashAsync()).toBe(await payloadWrapper.hashAsync())
+      const gottenPayloadWrapper = await PayloadWrapper.wrap(gottenPayload)
+      expect(await gottenPayloadWrapper.hash()).toBe(await payloadWrapper.hash())
+      expect(await gottenPayloadWrapper.dataHash()).toBe(await payloadWrapper.dataHash())
     }
   })
 }
@@ -47,7 +48,7 @@ const testArchivistAll = (archivist: Promisable<ArchivistInstance>, name: string
     }
     const getResult = await archivistModule.all?.()
     expect(getResult).toBeDefined()
-    expect(getResult?.length).toBe(2)
+    expect(getResult?.length).toBe(4)
   })
 }
 

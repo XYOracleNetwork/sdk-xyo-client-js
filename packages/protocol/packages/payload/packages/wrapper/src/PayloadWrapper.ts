@@ -1,8 +1,13 @@
 import { assertEx } from '@xylabs/assert'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
-import { PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
+import { isPayloadWrapperBase, PayloadLoaderFactory, PayloadWrapperBase } from './PayloadWrapperBase'
+
+export const isPayloadWrapper = (value?: unknown): value is PayloadWrapper => {
+  return isPayloadWrapperBase(value)
+}
 
 export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadWrapperBase<TPayload> {
   private static loaderFactory: PayloadLoaderFactory | null = null
@@ -25,33 +30,29 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     }
   }
 
-  static parse<T extends Payload>(payload?: unknown): PayloadWrapper<T> | undefined {
+  static async parse<T extends Payload>(payload?: unknown): Promise<PayloadWrapper<T> | undefined> {
     const hydratedObj = typeof payload === 'string' ? JSON.parse(payload) : payload
-    return this.wrap(hydratedObj as PayloadWrapper<T> | T)
+    return await this.wrap(hydratedObj as PayloadWrapper<T> | T)
   }
 
   static setLoaderFactory(factory: PayloadLoaderFactory | null) {
     this.loaderFactory = factory
   }
 
-  static tryParse<T extends Payload>(obj: unknown): PayloadWrapper<T> | null | undefined {
+  static async tryParse<T extends Payload>(obj: unknown): Promise<PayloadWrapper<T> | null | undefined> {
     if (obj === undefined || obj === null) return obj
     try {
-      return this.parse<T>(obj)
+      return await this.parse<T>(obj)
     } catch {
       return undefined
     }
   }
 
-  static wrap<T extends Payload>(payload?: T | PayloadWrapper<T>): PayloadWrapper<T> {
+  static async wrap<T extends Payload>(payload?: T | PayloadWrapper<T>): Promise<PayloadWrapper<T>> {
     assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        const typedPayload = payload as T
-        return assertEx(
-          PayloadWrapper.as(payload) ? (payload as PayloadWrapper<T>) : typedPayload.schema ? new PayloadWrapper(typedPayload) : undefined,
-          'Unable to parse payload object',
-        )
+        return payload instanceof PayloadWrapper ? payload : new PayloadWrapper(await PayloadBuilder.build(payload))
       }
       default: {
         throw new Error(`Can only parse objects [${typeof payload}]`)
@@ -63,14 +64,14 @@ export class PayloadWrapper<TPayload extends Payload = Payload> extends PayloadW
     const result: Record<string, PayloadWrapper<T>> = {}
     await Promise.all(
       payloads.map(async (payload) => {
-        result[await PayloadWrapper.hashAsync(payload)] = PayloadWrapper.wrap(payload)
+        result[await PayloadWrapper.hash(payload)] = await PayloadWrapper.wrap(payload)
       }),
     )
     return result
   }
 
   override async validate(): Promise<Error[]> {
-    const payload = this.payload()
+    const payload = this.jsonPayload()
     return payload ? await new PayloadValidator<TPayload>(payload).validate() : []
   }
 }

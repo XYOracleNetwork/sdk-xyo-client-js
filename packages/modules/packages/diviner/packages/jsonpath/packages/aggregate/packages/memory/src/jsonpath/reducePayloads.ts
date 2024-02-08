@@ -1,6 +1,5 @@
 import { exists } from '@xylabs/exists'
 import { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
 
@@ -26,7 +25,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
     return transformers ? transformers.map((transform) => transform(payload)) : []
   })
   // Include all the sources for reference
-  const baseObject = excludeSources ? {} : { sources: (await PayloadHasher.hashPairs([...payloads])).map(([, hash]) => hash) }
+  const baseObject = excludeSources ? {} : { sources: await PayloadBuilder.dataHashes(payloads) }
   // Build and return the payload
   return await new PayloadBuilder<T>({ schema: destinationSchema }).fields(Object.assign(baseObject, ...payloadFields)).build()
 }

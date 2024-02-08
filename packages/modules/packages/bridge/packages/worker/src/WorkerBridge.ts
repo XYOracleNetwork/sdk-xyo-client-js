@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
+import { forget } from '@xylabs/forget'
 import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -20,8 +21,8 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -125,7 +126,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   targetConfig(address: string): ModuleConfig {
-    return assertEx(this._targetConfigs[address], `targetConfig not set [${address}]`)
+    return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
   async targetDiscover(address?: string): Promise<Payload[]> {
@@ -137,7 +138,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const addressToDiscover = address ?? ''
     const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
-    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
+    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
     this._targetQueries[addressToDiscover] = compact(
       discover?.map((payload) => {
         if (payload.schema === QuerySchema) {
@@ -151,12 +152,12 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
 
     const targetConfigSchema = assertEx(
       discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
-      `Discover did not return a [${ConfigSchema}] payload`,
+      () => `Discover did not return a [${ConfigSchema}] payload`,
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
       discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
-      `Discover did not return a [${targetConfigSchema}] payload`,
+      () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 
     //if caching, set entry
@@ -176,11 +177,11 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   targetQueries(address: string): string[] {
-    return assertEx(this._targetQueries[address], `targetQueries not set [${address}]`)
+    return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
   async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    const msgId = await PayloadWrapper.hashAsync(query)
+    const msgId = await PayloadBuilder.hash(query)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
         const message: QueryMessage = {
@@ -211,7 +212,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
         return null
       })(),
     ])
-    return assertEx(result, `targetQuery timed out [${address}]`)
+    return assertEx(result, () => `targetQuery timed out [${address}]`)
   }
 
   targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
@@ -244,7 +245,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
     //notify parents of child modules
     //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    for (const node of parentNodes) for (const child of children) node.emit('moduleAttached', { module: child })
+    for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
     return true
   }
 }

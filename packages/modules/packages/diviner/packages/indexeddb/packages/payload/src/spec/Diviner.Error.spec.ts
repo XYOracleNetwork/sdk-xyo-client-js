@@ -6,6 +6,7 @@ import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -105,7 +106,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
       })
       it('returns values', async () => {
         const result = await sut.divine([{ schema: PayloadDivinerQuerySchema }])
-        expect(result).toEqual(values)
+        expect(result).toEqual(await Promise.all(values.map((value) => PayloadBuilder.build(value))))
       })
     })
   })

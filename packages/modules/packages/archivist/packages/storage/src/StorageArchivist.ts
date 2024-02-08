@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -15,10 +16,9 @@ import {
   ArchivistParams,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import store, { StoreBase } from 'store2'
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -108,8 +108,18 @@ export class StorageArchivist<
   }*/
 
   protected override allHandler(): PromisableArray<Payload> {
+    const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
-    return Object.entries(this.storage.getAll()).map(([, value]) => value)
+    return Object.entries(this.storage.getAll())
+      .map(([, value]) => value)
+      .filter((payload) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -138,40 +148,43 @@ export class StorageArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    const payloadPairs: [string, Payload][] = await Promise.all(
-      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-    )
-    const deletedPairs: [string, Payload][] = compact(
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+    const deletedHashes = compact(
       await Promise.all(
-        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
+        hashes.map((hash) => {
           this.storage.remove(hash)
-          return [hash, payload]
+          return hash
         }),
       ),
     )
-    return deletedPairs.map(([hash]) => hash)
+    return deletedHashes
   }
 
   protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+    const found = new Set<string>()
     return compact(
       hashes.map((hash) => {
         return this.storage.get(hash)
       }),
-    )
+    ).filter((payload) => {
+      if (found.has(payload.$hash)) {
+        return false
+      } else {
+        found.add(payload.$hash)
+        return true
+      }
+    })
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
-    const resultPayloads = await Promise.all(
-      payloads.map(async (payload) => {
-        const wrapper = PayloadWrapper.wrap(payload)
-        const hash = await wrapper.hashAsync()
-        const value = JSON.stringify(wrapper.payload())
-        assertEx(value.length < this.maxEntrySize, `Payload too large [${hash}, ${value.length}]`)
-        this.storage.set(hash, wrapper.payload())
-        return wrapper.payload()
-      }),
-    )
+    const pairs = await PayloadBuilder.hashPairs(payloads)
+    const resultPayloads = pairs.map(([payload, hash]) => {
+      const value = JSON.stringify(payload)
+      assertEx(value.length < this.maxEntrySize, () => `Payload too large [${hash}, ${value.length}]`)
+      this.storage.set(hash, payload)
+      this.storage.set(payload.$hash, payload)
+      return payload
+    })
     return resultPayloads
   }
 

@@ -26,6 +26,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
     "typescript": "^5.3.3"
@@ -68,6 +69,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.88.3",
-  "type": "module"
+  "version": "2.89.0-rc.14",
+  "type": "module",
+  "stableVersion": "2.88.3"
 }

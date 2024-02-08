@@ -10,7 +10,7 @@ import {
   ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
+  ModuleResolverInstance,
 } from '@xyo-network/module-model'
 import { Payload, Query } from '@xyo-network/payload-model'
 
@@ -28,17 +28,83 @@ export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = An
 
 export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends ModuleInstance<TParams, TEventData> {
+  /**
+   * Returns the address of the base module that the bridge is connected to. Since discovery can be
+   * a recursive process, the root module is the module that the bridge is directly connected to even
+   * though its children (through potentially several generations) are also able to be communicated to
+   * across the bridge.
+   */
   getRootAddress(): Promisable<string>
+
+  /**
+   * Returns the config for a bridged module
+   * @param address Address of the module connected to the bridge
+   */
   targetConfig(address: string): ModuleConfig
+
+  /**
+   * Returns the result of a discover query for a bridged module
+   * @param address Address of the module connected to the bridge
+   * @param maxDepth
+   */
   targetDiscover(address?: string, maxDepth?: number): Promisable<Payload[]>
-  targetDownResolver(address?: string): ModuleResolver | undefined
+
+  /**
+   *
+   * @param address Address of the module connected to the bridge
+   */
+  targetDownResolver(address?: string): ModuleResolverInstance | undefined
+
+  /**
+   * Returns the result of a manifest query for a bridged module
+   * @param address Address of the module connected to the bridge
+   * @param maxDepth
+   */
   targetManifest(address?: string, maxDepth?: number): Promisable<ModuleManifestPayload>
+
+  /**
+   * Returns the supported queries for a bridged module
+   * @param address Address of the module connected to the bridge
+   */
   targetQueries(address: string): string[]
+
+  /**
+   * Queries a module connected to the bridge using the supplied query, payloads, and query configuration
+   * @param address Address of the module connected to the bridge
+   * @param query The query to issue against the address
+   * @param payloads The payloads to use in the query
+   */
   targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
+
+  /**
+   * Determines if a bridged module is queryable using the supplied query, payloads, and query configuration
+   * @param address Address of the module connected to the bridge
+   * @param query The query to issue against the address
+   * @param payloads The payloads to use in the query
+   * @param queryConfig The query configuration
+   */
   targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
 
+  /**
+   *
+   * @param address Address of the module potentially connected to the bridge
+   * @param filter
+   * @param options
+   */
   targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<ModuleInstance[]>
+  /**
+   *
+   * @param address Address of the module potentially connected to the bridge
+   * @param nameOrAddress
+   * @param options
+   */
   targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promisable<ModuleInstance | undefined>
+  /**
+   *
+   * @param address Address of the module potentially connected to the bridge
+   * @param nameOrAddressOrFilter
+   * @param options
+   */
   targetResolve(
     address: string,
     nameOrAddressOrFilter?: ModuleFilter | string,

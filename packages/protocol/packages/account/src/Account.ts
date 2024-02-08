@@ -53,7 +53,7 @@ export class Account extends KeyPair implements AccountInstance {
         node = params?.path ? HDNodeWallet.fromPhrase(params.mnemonic).derivePath?.(params.path) : HDNodeWallet.fromPhrase(params.mnemonic)
       }
     }
-    assertEx(!privateKeyToUse || privateKeyToUse?.byteLength === 32, `Private key must be 32 bytes [${privateKeyToUse?.byteLength}]`)
+    assertEx(!privateKeyToUse || privateKeyToUse?.byteLength === 32, () => `Private key must be 32 bytes [${privateKeyToUse?.byteLength}]`)
     super(privateKeyToUse)
     this._node = node
   }
@@ -124,7 +124,7 @@ export class Account extends KeyPair implements AccountInstance {
       const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : toHexLegacy(previousHash)
       assertEx(
         currentPreviousHash === passedCurrentHash,
-        `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
+        () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
       )
 
       const signature = this.private.sign(hash)

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -17,8 +18,8 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
@@ -41,10 +42,16 @@ export class MemoryArchivist<
 {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
-  private _cache?: LRUCache<string, Payload>
+  private _bodyHashIndex?: LRUCache<string, string>
+  private _cache?: LRUCache<string, PayloadWithMeta>
+
+  get bodyHashIndex() {
+    this._bodyHashIndex = this._bodyHashIndex ?? new LRUCache<string, string>({ max: this.max })
+    return this._bodyHashIndex
+  }
 
   get cache() {
-    this._cache = this._cache ?? new LRUCache<string, Payload>({ max: this.max })
+    this._cache = this._cache ?? new LRUCache<string, PayloadWithMeta>({ max: this.max })
     return this._cache
   }
 
@@ -69,6 +76,7 @@ export class MemoryArchivist<
 
   protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
+    this.bodyHashIndex.clear()
     return this.emit('cleared', { module: this })
   }
 
@@ -89,38 +97,44 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
-    const payloadPairs: [string, Payload][] = await Promise.all(
-      (await this.get(hashes)).map<Promise<[string, Payload]>>(async (payload) => [await PayloadHasher.hashAsync(payload), payload]),
-    )
-    const deletedPairs: [string, Payload][] = compact(
+  protected override async deleteHandler(hashes: Hash[]): Promise<string[]> {
+    const deletedHashes = compact(
       await Promise.all(
-        payloadPairs.map<[string, Payload] | undefined>(([hash, payload]) => {
-          return this.cache.delete(hash) ? [hash, payload] : undefined
+        hashes.map((hash) => {
+          return this.cache.delete(hash) ? hash : undefined
         }),
       ),
     )
-    return deletedPairs.map(([hash]) => hash)
+    return deletedHashes
   }
 
   protected override getHandler(hashes: string[]): Promisable<Payload[]> {
-    return compact(hashes.map((hash) => this.cache.get(hash)))
+    return compact(
+      hashes.map((hash) => {
+        const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
+        const result = this.cache.get(resolvedHash)
+        if (resolvedHash !== hash && !result) {
+          throw new Error('Missing referenced payload')
+        }
+        return result
+      }),
+    )
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+    const pairs = await PayloadBuilder.hashPairs(payloads)
     const insertedPayloads = await Promise.all(
-      payloads.map((payload) => {
-        return this.insertPayloadIntoCache(payload)
+      pairs.map(([payload, hash]) => {
+        return this.insertPayloadIntoCache(payload, hash)
       }),
     )
 
     return insertedPayloads
   }
 
-  private async insertPayloadIntoCache(payload: Payload): Promise<Payload> {
-    const wrapper = PayloadWrapper.wrap(payload)
-    const payloadWithMeta = { ...PayloadHasher.hashFields(payload), _hash: await wrapper.hashAsync(), _timestamp: Date.now() }
-    this.cache.set(payloadWithMeta._hash, payloadWithMeta)
+  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string): PayloadWithMeta {
+    this.cache.set(hash, payload)
+    this.bodyHashIndex.set(payload.$hash, hash)
     return payload
   }
 }

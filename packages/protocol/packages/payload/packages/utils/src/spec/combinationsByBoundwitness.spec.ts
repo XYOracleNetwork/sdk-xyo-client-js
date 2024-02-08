@@ -19,7 +19,7 @@ describe('combinationsByBoundwitness', () => {
     const bws: BoundWitness[] = []
     beforeAll(async () => {
       for (const p of payloads) {
-        const bw = await new BoundWitnessBuilder().payloads(p).build()
+        const bw = await (await new BoundWitnessBuilder().payloads(p)).build()
         bws.push(bw[0])
       }
     })

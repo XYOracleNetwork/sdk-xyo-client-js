@@ -5,6 +5,7 @@ import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
   TemporalIndexingDivinerResultIndexSchema,
 } from '@xyo-network/diviner-temporal-indexing-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner } from '../Diviner'
@@ -50,18 +51,20 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       const cases: [QueryType, PayloadDivinerQueryPayload][] = queries.map((query, i) => [query, expected[i]])
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {
+          const builtExpected = await PayloadBuilder.build(expected)
           const results = await diviner.divine([query])
           const actual = results.filter(isPayloadDivinerQueryPayload)
           expect(actual).toBeArrayOfSize(1)
-          expect(actual?.[0]).toEqual(expected)
+          expect(actual?.[0]).toEqual(builtExpected)
         })
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
+          const builtExpected = await Promise.all(expected.map((payload) => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadDivinerQueryPayload)
-          expect(actual).toBeArrayOfSize(expected.length)
-          expect(actual).toEqual(expected)
+          expect(actual).toBeArrayOfSize(builtExpected.length)
+          expect(actual).toEqual(builtExpected)
         })
       })
     })
@@ -229,18 +232,20 @@ describe('TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner', () => {
       })
       describe('with single query', () => {
         it.each(cases)('transforms query using default settings', async (query, expected) => {
+          const builtExpected = await PayloadBuilder.build(expected)
           const results = await diviner.divine([query])
           const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
           expect(actual).toBeArrayOfSize(1)
-          expect(actual?.[0]).toEqual(expected)
+          expect(actual?.[0]).toEqual(builtExpected)
         })
       })
       describe('with multiple queries', () => {
         it('transforms queries using default settings', async () => {
+          const builtExpected = await Promise.all(expected.map((payload) => PayloadBuilder.build(payload)))
           const results = await diviner.divine(queries)
           const actual = results.filter(isPayloadOfSchemaType(indexQuerySchema))
-          expect(actual).toBeArrayOfSize(expected.length)
-          expect(actual).toEqual(expected)
+          expect(actual).toBeArrayOfSize(builtExpected.length)
+          expect(actual).toEqual(builtExpected)
         })
       })
     })

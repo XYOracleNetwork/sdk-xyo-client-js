@@ -56,7 +56,7 @@ export abstract class AbstractSentinel<
       const payloads = await this.reportHandler(inPayloads)
 
       //create boundwitness
-      const result = (await new BoundWitnessBuilder().payloads(payloads).witness(this.account).build()).flat()
+      const result = (await (await new BoundWitnessBuilder().payloads(payloads)).witness(this.account).build()).flat()
 
       if (this.config.archiving) {
         await this.storeToArchivists(result)
@@ -85,7 +85,7 @@ export abstract class AbstractSentinel<
     let tasks: ResolvedTask[] = await Promise.all(
       this.config.tasks.map(async (task) => ({
         input: task.input ?? false,
-        module: assertEx(await this.resolve(task.module), `Unable to resolve task module [${task.module}]`),
+        module: assertEx(await this.resolve(task.module), () => `Unable to resolve task module [${task.module}]`),
       })),
     )
     while (tasks.length > 0) {
@@ -123,7 +123,7 @@ export abstract class AbstractSentinel<
         }
         return true
       })
-      assertEx(newList.length > 0, `Unable to generateJob [${tasks.length}]`)
+      assertEx(newList.length > 0, () => `Unable to generateJob [${tasks.length}]`)
       job.tasks.push(newList)
       //remove the tasks we just added
       tasks = tasks.filter((task) => !newList.includes(task))
@@ -136,9 +136,9 @@ export abstract class AbstractSentinel<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case SentinelReportQuerySchema: {

@@ -4,6 +4,7 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadWithMeta } from '@xyo-network/payload-model'
 
 import { MemoryPayloadDiviner } from '../MemoryPayloadDiviner'
 
@@ -16,15 +17,18 @@ describe('MemoryPayloadDiviner', () => {
   let archivist: MemoryArchivist
   let sut: MemoryPayloadDiviner
   let node: MemoryNode
-  const payloadA = {
-    schema: 'network.xyo.test',
-    url: 'https://xyo.network',
-  }
-  const payloadB = {
-    foo: ['bar', 'baz'],
-    schema: 'network.xyo.debug',
-  }
+  let payloadA: PayloadWithMeta<{ schema: string; url: string }>
+  let payloadB: PayloadWithMeta<{ foo: string[]; schema: string }>
   beforeAll(async () => {
+    payloadA = await PayloadBuilder.build({
+      schema: 'network.xyo.test',
+      url: 'https://xyo.network',
+    })
+    payloadB = await PayloadBuilder.build({
+      foo: ['bar', 'baz'],
+      schema: 'network.xyo.debug',
+    })
+
     archivist = await MemoryArchivist.create({
       account: Account.randomSync(),
       config: { name: 'test', schema: MemoryArchivist.configSchema },

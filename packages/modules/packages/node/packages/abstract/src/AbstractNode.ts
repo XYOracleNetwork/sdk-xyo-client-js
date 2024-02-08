@@ -40,10 +40,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   private readonly isNode = true
 
-  get isModuleResolver(): boolean {
-    return true
-  }
-
   override get queries(): string[] {
     return [NodeAttachQuerySchema, NodeDetachQuerySchema, NodeAttachedQuerySchema, NodeRegisteredQuerySchema, ...super.queries]
   }
@@ -162,9 +158,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case NodeAttachQuerySchema: {

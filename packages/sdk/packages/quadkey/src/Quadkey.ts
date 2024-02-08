@@ -94,9 +94,9 @@ export class Quadkey {
   }
 
   get siblings() {
-    const siblings = assertEx(this.parent?.children, `siblings: parentChildren ${this.base4Hash}`)
+    const siblings = assertEx(this.parent?.children, () => `siblings: parentChildren ${this.base4Hash}`)
     const filteredSiblings = siblings.filter((quadkey) => quadkey.key !== this.key)
-    assertEx(filteredSiblings.length === 3, `siblings: expected 3 [${filteredSiblings.length}]`)
+    assertEx(filteredSiblings.length === 3, () => `siblings: expected 3 [${filteredSiblings.length}]`)
     return filteredSiblings
   }
 
@@ -133,7 +133,7 @@ export class Quadkey {
     let id = 0n
     for (let i = 0; i < value.length; i++) {
       const nibble = Number.parseInt(value[i])
-      assertEx(nibble < 4 && nibble >= 0, `Invalid Base4 String: ${value}`)
+      assertEx(nibble < 4 && nibble >= 0, () => `Invalid Base4 String: ${value}`)
       id = (id << 2n) | BigInt(nibble)
     }
     return new Quadkey().setId(id).setZoom(value.length)
@@ -287,7 +287,7 @@ export class Quadkey {
   }
 
   setZoom(zoom: number) {
-    assertEx(zoom < MAX_ZOOM, `Invalid zoom [${zoom}] max=${MAX_ZOOM}`)
+    assertEx(zoom < MAX_ZOOM, () => `Invalid zoom [${zoom}] max=${MAX_ZOOM}`)
     this.key = (this.key & ID_MASK) | (BigInt(zoom) << 248n)
     return this
   }

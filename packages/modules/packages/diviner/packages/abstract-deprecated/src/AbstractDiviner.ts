@@ -12,9 +12,9 @@ import {
   DivinerQuery,
   DivinerQueryBase,
 } from '@xyo-network/diviner-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 
 /** @deprecated use @xyo-network/diviner-abstract instead */
@@ -58,11 +58,11 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
     //remove the query payload
-    const cleanPayloads = await PayloadHasher.filterExclude(payloads, query.query)
+    const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()
-    assertEx(this.queryable(query, payloads, queryConfig))
+    assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case DivinerDivineQuerySchema: {

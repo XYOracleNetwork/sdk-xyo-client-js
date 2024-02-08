@@ -13,7 +13,7 @@ import {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleInstance,
-  ModuleResolver,
+  ModuleResolverInstance,
   NameModuleFilter,
   QueryModuleFilter,
 } from '@xyo-network/module-model'
@@ -28,7 +28,7 @@ import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 
 import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './ProxyModule'
 
-export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> extends CompositeModuleResolver implements ModuleResolver {
+export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> extends CompositeModuleResolver implements ModuleResolverInstance {
   private primed: Promise<boolean> | undefined = undefined
   private remoteAddresses?: Promise<string[]>
   private resolvedModules: Record<string, Promise<ModuleInstance>> = {}
@@ -41,10 +41,6 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     protected options?: ModuleFilterOptions<T>,
   ) {
     super()
-  }
-
-  override get isModuleResolver(): boolean {
-    return true
   }
 
   override add(module: Module): this
@@ -146,7 +142,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     }
 
     const cached = this.resolvedModules[targetAddress]
-    if (cached) return (await cached) as T
+    if (cached !== undefined) return (await cached) as T
 
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??

@@ -8,7 +8,7 @@
       "type": "string"
     },
     "nodes": {
-      "$ref": "shared/definitions-schema.json#/definitions/nodes",
+      "$ref": "definitions-schema.json#/definitions/nodes",
       "description": "The list of Nodes that are defined in the manifest"
     },
     "schema": {
@@ -20,5 +20,6 @@
     "nodes",
     "schema"
   ],
-  "title": "XYO Manifest"
+  "title": "XYO Manifest",
+  "type": "object"
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://xyo.network/schemas/definitions-schema.json",
+  "$id": "https://xyo.network/schemas/dapp-package-manifest-schema.json",
   "definitions": {
     "architecture": {
       "description": "Architecture",
@@ -227,5 +227,28 @@
       "nullable": true,
       "type": "array"
     }
-  }
+  },
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "external": {
+      "$ref": "#/definitions/external",
+      "description": "The list of permission requests made by the dApp"
+    },
+    "nodes": {
+      "$ref": "#/definitions/nodes",
+      "description": "The list of Nodes that are defined in the manifest"
+    },
+    "schema": {
+      "pattern": "^network.xyo.dapp.manifest$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "nodes",
+    "schema"
+  ],
+  "title": "XYO Dapp Manifest",
+  "type": "object"
 }

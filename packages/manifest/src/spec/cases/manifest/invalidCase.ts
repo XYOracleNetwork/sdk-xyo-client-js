@@ -1,20 +1,13 @@
-export const invalidDappPackageManifestSchema = {
-  external: {
-    modules1: [
-      {
-        name: 'SomeModule',
-      },
-    ],
-  },
+export const invalidPackageManifestSchema = {
   nodes: [
     {
-      config: {
+      config3: {
         accountPath: "0'",
         name: 1,
         schema: 'network.xyo.node.config',
       },
       modules: {
-        public1: [
+        public2: [
           {
             config: {
               accountPath: "1'",

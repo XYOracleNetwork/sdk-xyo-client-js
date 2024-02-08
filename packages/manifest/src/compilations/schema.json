@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://xyo.network/schemas/definitions-schema.json",
   "definitions": {
     "architecture": {
       "description": "Architecture",
@@ -227,5 +226,26 @@
       "nullable": true,
       "type": "array"
     }
-  }
+  },
+  "additionalProperties": false,
+  "description": "Describes an XYO Package which is a collection of XYO Modules",
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "nodes": {
+      "$ref": "#/definitions/nodes",
+      "description": "The list of Nodes that are defined in the manifest"
+    },
+    "schema": {
+      "pattern": "^network.xyo.manifest$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "nodes",
+    "schema"
+  ],
+  "title": "XYO Manifest",
+  "type": "object"
 }

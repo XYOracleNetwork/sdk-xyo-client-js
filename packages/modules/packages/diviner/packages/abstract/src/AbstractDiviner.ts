@@ -48,7 +48,7 @@ export abstract class AbstractDiviner<
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, module: this })
       const resultPayloads = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-      await this.emit('divineStart', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
+      await this.emit('divineEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
       return resultPayloads
     })
   }

@@ -5,6 +5,8 @@ import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
 
+export type ModulePipeLine = 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'
+
 export const isModuleResolver = (value?: unknown): value is ModuleResolver => {
   return typeof (value as Partial<ModuleResolver>).resolve === 'function'
 }
@@ -29,6 +31,8 @@ export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEv
     ModuleQueryFunctions {
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: Omit<ModuleResolverInstance, 'resolve'>
+
+  readonly pipeline?: ModulePipeLine
 
   /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
   /* This is set by a NodeModule when attaching to the module */

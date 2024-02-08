@@ -35,7 +35,7 @@ export class MemorySentinel<
     let index = 0
     let previousResults: Record<Address, Payload[]> = {}
     while (index < job.tasks.length) {
-      const generatedPayloads = await this.generateResults(job.tasks[index], previousResults, inPayloads)
+      const generatedPayloads = await this.runJob(job.tasks[index], previousResults, inPayloads)
       previousResults = generatedPayloads
       index++
     }
@@ -48,7 +48,7 @@ export class MemorySentinel<
     if (await super.start(timeout)) {
       if ((this.config.automations?.length ?? 0) > 0) {
         this.runner = new SentinelRunner(this, this.config.automations)
-        await this.runner.start()
+        this.runner.start()
       }
       return true
     }
@@ -63,14 +63,28 @@ export class MemorySentinel<
     return await super.stop(timeout)
   }
 
-  private async generateResults(
+  private async inputAddresses(input: string | string[]): Promise<string[]> {
+    if (Array.isArray(input)) {
+      return (await Promise.all(input.map(async (inputItem) => await this.inputAddresses(inputItem)))).flat()
+    } else {
+      const resolved = await this.resolve(input)
+      return resolved ? [resolved.address] : []
+    }
+  }
+
+  private processPreviousResults(payloads: Record<string, Payload[]>, inputs: string[]) {
+    return inputs.flatMap((input) => payloads[input] ?? [])
+  }
+
+  private async runJob(
     tasks: ResolvedTask[],
     previousResults: Record<Address, Payload[]>,
     inPayloads?: Payload[],
   ): Promise<Record<Address, Payload[]>> {
-    this.logger?.debug(`generateResults:tasks: ${JSON.stringify(tasks.length)}`)
-    this.logger?.debug(`generateResults:previous: ${JSON.stringify(previousResults)}`)
-    this.logger?.debug(`generateResults:in: ${JSON.stringify(inPayloads)}`)
+    await this.emit('jobStart', { inPayloads, module: this })
+    this.logger?.debug(`runJob:tasks: ${JSON.stringify(tasks.length)}`)
+    this.logger?.debug(`runJob:previous: ${JSON.stringify(previousResults)}`)
+    this.logger?.debug(`runJob:in: ${JSON.stringify(inPayloads)}`)
     const results: PromiseSettledResult<[Address, Payload[]]>[] = await Promise.allSettled(
       tasks?.map(async (task) => {
         const input = task.input ?? false
@@ -78,20 +92,26 @@ export class MemorySentinel<
           input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         const witness = asWitnessInstance(task.module)
         if (witness) {
+          await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, module: this })
           const observed = await witness.observe(inPayloadsFound)
           this.logger?.debug(`observed [${witness.id}]: ${JSON.stringify(observed)}`)
+          await this.emit('taskEnd', { address: witness.address, inPayloads: inPayloadsFound, module: this, outPayloads: observed })
           return [witness.address, observed]
         }
         const diviner = asDivinerInstance(task.module)
         if (diviner) {
+          await this.emit('taskStart', { address: diviner.address, inPayloads: inPayloadsFound, module: this })
           const divined = await diviner.divine(inPayloadsFound)
           this.logger?.debug(`divined [${diviner.id}]: ${JSON.stringify(divined)}`)
+          await this.emit('taskEnd', { address: diviner.address, inPayloads: inPayloadsFound, module: this, outPayloads: divined })
           return [diviner.address, divined]
         }
         const sentinel = asSentinelInstance(task.module)
         if (sentinel) {
+          await this.emit('taskStart', { address: sentinel.address, inPayloads: inPayloadsFound, module: this })
           const reported = await sentinel.report(inPayloadsFound)
           this.logger?.debug(`reported [${sentinel.id}]: ${JSON.stringify(reported)}`)
+          await this.emit('taskEnd', { address: sentinel.address, inPayloads: inPayloadsFound, module: this, outPayloads: reported })
           return [sentinel.address, reported]
         }
         throw new Error('Unsupported module type')
@@ -110,19 +130,7 @@ export class MemorySentinel<
       }
     }
     this.logger?.debug(`generateResults:out: ${JSON.stringify(finalResult)}`)
+    await this.emit('jobEnd', { finalResult, inPayloads, module: this })
     return finalResult
-  }
-
-  private async inputAddresses(input: string | string[]): Promise<string[]> {
-    if (Array.isArray(input)) {
-      return (await Promise.all(input.map(async (inputItem) => await this.inputAddresses(inputItem)))).flat()
-    } else {
-      const resolved = await this.resolve(input)
-      return resolved ? [resolved.address] : []
-    }
-  }
-
-  private processPreviousResults(payloads: Record<string, Payload[]>, inputs: string[]) {
-    return inputs.flatMap((input) => payloads[input] ?? [])
   }
 }

@@ -12,5 +12,5 @@ export type DivineEndEventArgs<T extends Module = Module, TIn extends Payload = 
 >
 
 export interface DivineEndEventData<T extends Module = Module, TIn extends Payload = Payload, TOut extends Payload = Payload> extends EventData {
-  observeEnd: DivineEndEventArgs<T, TIn, TOut>
+  divineEnd: DivineEndEventArgs<T, TIn, TOut>
 }

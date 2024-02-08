@@ -12,9 +12,9 @@
     "packages/**/*"
   ],
   "dependencies": {
-    "@xyo-network/modules": "workspace:~",
+    "@xyo-network/modules": "2.29.0",
     "@xyo-network/protocol": "workspace:~",
-    "@xyo-network/sdk": "workspace:~"
+    "@xyo-network/sdk": "2.29.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

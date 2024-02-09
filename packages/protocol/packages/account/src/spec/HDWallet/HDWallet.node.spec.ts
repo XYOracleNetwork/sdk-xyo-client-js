@@ -5,6 +5,6 @@ import { generateHDWalletTests } from './HDWallet.spec'
  * @group nodejs
  */
 
-describe.skip('Node Wallet Test', () => {
+describe('Node Wallet Test', () => {
   generateHDWalletTests('HDWallet: Node', HDWallet)
 })

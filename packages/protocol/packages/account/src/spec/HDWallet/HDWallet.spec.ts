@@ -10,8 +10,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       })
     })
     describe('derivePath', () => {
-      const paths = ['m/0/4', "m/44'/0'/0'", "m/44'/60'/0'/0/0", "m/44'/60'/0'/0/1", "m/49'/0'/0'", "m/84'/0'/0'", "m/84'/0'/0'/0"]
-      it.each(paths)('works repeatably & interoperably', async (path: string) => {
+      const paths = ['0/4', "44'/0'/0'", "44'/60'/0'/0/0", "44'/60'/0'/0/1", "49'/0'/0'", "84'/0'/0'", "84'/0'/0'/0"]
+      it.only.each(paths)('works repeatably & interoperably', async (path: string) => {
         const sutA = await HDWallet.fromPhrase(mnemonic)
         const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
         const accountA = await sutA.derivePath?.(path)
@@ -19,6 +19,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.address).toBe(accountB.address)
         expect(accountA.private.hex).toBe(accountB.private.hex)
         expect(accountA.public.hex).toBe(accountB.public.hex)
+        expect(accountA.address).toMatchSnapshot()
+        expect(accountB.address).toMatchSnapshot()
       })
       it('works when paths provided incrementally', async () => {
         const parent = "44'/60'/0'"
@@ -32,6 +34,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.private.hex).toBe(accountB.private.hex)
         expect(accountA.public.hex).toBe(accountB.public.hex)
         expect(accountA).toEqual(accountB)
+        expect(accountA.address).toMatchSnapshot()
+        expect(accountB.address).toMatchSnapshot()
       })
       it('works when paths provided absolutely', async () => {
         const parent = "44'/60'/0'"
@@ -45,6 +49,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.private.hex).toBe(accountB.private.hex)
         expect(accountA.public.hex).toBe(accountB.public.hex)
         expect(accountA).toEqual(accountB)
+        expect(accountA.address).toMatchSnapshot()
+        expect(accountB.address).toMatchSnapshot()
       })
       it('returns cached instances on subsequent requests', async () => {
         const parent = "44'/60'/0'"

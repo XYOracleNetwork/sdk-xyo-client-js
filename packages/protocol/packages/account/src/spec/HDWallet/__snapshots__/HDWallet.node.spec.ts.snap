@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 1`] = `"54587f03f9bde7f9e9bd96e52449ba1a2c658246"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 2`] = `"54587f03f9bde7f9e9bd96e52449ba1a2c658246"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 3`] = `"2f5b1009d9c7e1c7c6cb95faaa4838d909daf5da"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 4`] = `"2f5b1009d9c7e1c7c6cb95faaa4838d909daf5da"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 5`] = `"924bef9752e187e7c953edd9f1fe4b62e85bb6d8"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 6`] = `"924bef9752e187e7c953edd9f1fe4b62e85bb6d8"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 7`] = `"523b8aaa26597967ff490160304a11b4b0a33a2a"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 8`] = `"523b8aaa26597967ff490160304a11b4b0a33a2a"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 9`] = `"a7c9479db7434347279e93d2c4efa94f20978069"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 10`] = `"a7c9479db7434347279e93d2c4efa94f20978069"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 11`] = `"6ccdc15833e44601e672117890a46d148b2a21e5"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 12`] = `"6ccdc15833e44601e672117890a46d148b2a21e5"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 13`] = `"ce824224a93838e2368d2bb3d818b2fefac42947"`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 14`] = `"ce824224a93838e2368d2bb3d818b2fefac42947"`;

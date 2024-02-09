@@ -77,17 +77,27 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       PayloadBuilder.toDataHashMap(indexableBoundWitnesses),
       PayloadBuilder.toDataHashMap(indexablePayloads),
     ])
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const validIndexableTuples: IndexableHashes[] = Object.entries(bwDictionary).reduce<IndexableHashes[]>((indexableTuples, [bwHash, bw]) => {
+
+    // Initialize the array for validIndexableTuples outside of the loop
+    const validIndexableTuples: IndexableHashes[] = []
+
+    // Iterate over each entry in bwDictionary
+    for (const [bwHash, bw] of Object.entries(bwDictionary)) {
       // Find the combinations of payloads that satisfy the required schemas
-      intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas).map((combination) => {
+      const combinations = intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas)
+
+      // Iterate over each combination
+      for (const combination of combinations) {
         const indexablePayloads = combination.map((hash) => payloadDictionary[hash]).filter(exists)
-        // If we found a timestamp and the right amount of indexable payloads (of the
-        // correct schema as checked above) in this BW, then index it
-        if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bwHash, ...combination])
-      })
-      return indexableTuples
-    }, [])
+
+        // If we found the right amount of indexable payloads (of the correct schema as checked
+        // above) in this BW, then index it
+        if (indexablePayloads.length === this.indexableSchemas.length) {
+          validIndexableTuples.push([bwHash, ...combination])
+        }
+      }
+    }
+
     // Create the indexes from the tuples
     const indexes = await Promise.all(
       validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {

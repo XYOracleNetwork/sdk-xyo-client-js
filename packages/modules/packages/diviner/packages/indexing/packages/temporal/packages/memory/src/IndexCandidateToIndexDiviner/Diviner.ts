@@ -17,7 +17,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
-export type IndexablePayloads = [BoundWitness, ...Payload[]]
+type IndexableHashes = [string, ...string[]]
 
 const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 
@@ -64,45 +64,50 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
-    const bws: BoundWitness[] = payloads.filter(isBoundWitness)
+    // If the Bound Witness does not contain all the required schemas do not index it
+    const indexableBoundWitnesses: BoundWitness[] = payloads
+      .filter(isBoundWitness)
+      .filter((bw) => containsAll(bw.payload_schemas, this.indexableSchemas))
+    // If the Payload is not one of the indexable schemas do not index it
     const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
-    if (bws.length > 0 && indexablePayloads.length > 0) {
-      const payloadDictionary = await PayloadBuilder.toDataHashMap(payloads)
-      // eslint-disable-next-line unicorn/no-array-reduce
-      const validIndexableTuples: IndexablePayloads[] = bws.reduce<IndexablePayloads[]>((indexableTuples, bw) => {
-        // If this Bound Witness doesn't contain all the required schemas don't index it
-        if (!containsAll(bw.payload_schemas, this.indexableSchemas)) return indexableTuples
-        // If it does contain all the required schemas, then find the combinations of payloads
-        // that satisfy the required schemas
-        intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas).map((combination) => {
-          const indexablePayloads = combination.map((hash) => payloadDictionary[hash]).filter(exists)
-          // If we found a timestamp and the right amount of indexable payloads (of the
-          // correct schema as checked above) in this BW, then index it
-          if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bw, ...indexablePayloads])
+    // If there is nothing to index, return an empty array
+    if (indexableBoundWitnesses.length === 0 || indexablePayloads.length === 0) return []
+    // Hash all the indexable data once
+    const [bwDictionary, payloadDictionary] = await Promise.all([
+      PayloadBuilder.toDataHashMap(indexableBoundWitnesses),
+      PayloadBuilder.toDataHashMap(indexablePayloads),
+    ])
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const validIndexableTuples: IndexableHashes[] = Object.entries(bwDictionary).reduce<IndexableHashes[]>((indexableTuples, [bwHash, bw]) => {
+      // Find the combinations of payloads that satisfy the required schemas
+      intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas).map((combination) => {
+        const indexablePayloads = combination.map((hash) => payloadDictionary[hash]).filter(exists)
+        // If we found a timestamp and the right amount of indexable payloads (of the
+        // correct schema as checked above) in this BW, then index it
+        if (indexablePayloads.length === this.indexableSchemas.length) indexableTuples.push([bwHash, ...combination])
+      })
+      return indexableTuples
+    }, [])
+    // Create the indexes from the tuples
+    const indexes = await Promise.all(
+      validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {
+        const sourcePayloads = sourcePayloadHashes.map((hash) => payloadDictionary[hash])
+        // Use the payload transformers to convert the fields from the source payloads to the destination fields
+        const indexFields = sourcePayloads.flatMap<PayloadFields[]>((payload) => {
+          // Find the transformers for this payload
+          const transformers = this.payloadTransformers[payload.schema]
+          // If transformers exist, apply them to the payload otherwise return an empty array
+          return transformers ? transformers.map((transform) => transform(payload)) : []
         })
-        return indexableTuples
-      }, [])
-      // Create the indexes from the tuples
-      const indexes = await Promise.all(
-        validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bw, ...sourcePayloads]) => {
-          // Use the payload transformers to convert the fields from the source payloads to the destination fields
-          const indexFields = sourcePayloads.flatMap<PayloadFields[]>((payload) => {
-            // Find the transformers for this payload
-            const transformers = this.payloadTransformers[payload.schema]
-            // If transformers exist, apply them to the payload otherwise return an empty array
-            return transformers ? transformers.map((transform) => transform(payload)) : []
-          })
-          // Include all the sources for reference
-          const sources = await PayloadBuilder.dataHashes([bw, ...sourcePayloads])
-          // Build and return the index
-          return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
-            .fields(Object.assign({ sources }, ...indexFields))
-            .build()
-        }),
-      )
-      return indexes.flat()
-    }
-    return []
+        // Include all the sources for reference
+        const sources: string[] = [bwHash, ...sourcePayloadHashes]
+        // Build and return the index
+        return await new PayloadBuilder<TemporalIndexingDivinerResultIndex>({ schema: TemporalIndexingDivinerResultIndexSchema })
+          .fields(Object.assign({ sources }, ...indexFields))
+          .build()
+      }),
+    )
+    return indexes.flat()
   }
 
   /**

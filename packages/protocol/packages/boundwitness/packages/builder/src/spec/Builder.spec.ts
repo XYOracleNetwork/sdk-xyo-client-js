@@ -44,7 +44,7 @@ describe('BoundWitnessBuilder', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', async (payload) => {
         const address = await Account.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
-        let builder = new BoundWitnessBuilder({ timestamp: false })
+        let builder = new BoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.witness(address)
         expect(builder).toBeDefined()

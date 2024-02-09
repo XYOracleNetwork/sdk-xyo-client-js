@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { AnyObject, JsonObject } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
@@ -30,13 +31,14 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     schema: string,
     fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
     $meta?: JsonObject,
+    $hash?: Hash,
     timestamp?: number,
   ): Promise<WithMeta<T>> {
     const dataFields = await this.dataHashableFields<T>(schema, fields)
     return deepOmitPrefixedFields<WithMeta<T>>(
       {
         ...dataFields,
-        $hash: await PayloadBuilder.dataHash(dataFields),
+        $hash: $hash ?? (await PayloadBuilder.dataHash(dataFields)),
         $meta: { ...$meta, timestamp: timestamp ?? $meta?.timestamp ?? Date.now() } as JsonObject,
         schema,
       } as WithMeta<T>,

@@ -76,7 +76,7 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
 
   async build(): Promise<[WithMeta<T>, TPayload[], ModuleError[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
-      const hashableFields = await this.hashableFields()
+      const hashableFields = await this.dataHashableFields()
       const hash = (await PayloadBuilder.build(hashableFields)).$hash
 
       /* get all the previousHashes to verify atomic signing */
@@ -99,13 +99,36 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
         metaHolder.$meta.destination = this._destination
       }
 
-      const ret: WithMeta<T> = {
+      const ret = {
         ...hashableFields,
         $hash: hash,
         ...metaHolder,
-      }
+      } as WithMeta<T>
       return [ret, this._payloads, this._errors]
     })
+  }
+
+  override async dataHashableFields(): Promise<Omit<T, '$meta' | '$hash'>> {
+    const addresses = this._accounts.map((account) => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
+    const previous_hashes = this._accounts.map((account) => account.previousHash ?? null)
+    const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes')
+    const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
+    const fields = { addresses, payload_hashes, payload_schemas, previous_hashes } as Omit<T, '$meta' | '$hash' | 'schema'>
+    const result = await BoundWitnessBuilder.dataHashableFields<T>(this._schema, fields)
+
+    assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
+
+    assertEx(!result.payload_hashes.some((hash) => !hash), () => 'nulls found in hashes')
+
+    assertEx(!result.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
+
+    if (typeof this._timestamp === 'number') {
+      result.timestamp = this._timestamp
+    } else if (this._timestamp) {
+      result.timestamp = Date.now()
+    }
+
+    return result as Omit<T, '$meta' | '$hash'>
   }
 
   async error(payload?: ModuleError) {
@@ -128,34 +151,6 @@ export class BoundWitnessBuilder<T extends BoundWitness = BoundWitness, TPayload
       )
     }
     return this
-  }
-
-  override async hashableFields(): Promise<T> {
-    const addresses = this._accounts.map((account) => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
-    const previous_hashes = this._accounts.map((account) => account.previousHash ?? null)
-    const payload_hashes = assertEx(await this.getPayloadHashes(), 'Missing payload_hashes')
-    const payload_schemas = assertEx(this._payload_schemas, 'Missing payload_schemas')
-    const result: T = {
-      ...(await super.hashableFields()),
-      addresses,
-      payload_hashes,
-      payload_schemas,
-      previous_hashes,
-    } as T
-
-    assertEx(result.payload_hashes?.length === result.payload_schemas?.length, 'Payload hash/schema mismatch')
-
-    assertEx(!result.payload_hashes.some((hash) => !hash), () => 'nulls found in hashes')
-
-    assertEx(!result.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
-
-    if (typeof this._timestamp === 'number') {
-      result.timestamp = this._timestamp
-    } else if (this._timestamp) {
-      result.timestamp = Date.now()
-    }
-
-    return result
   }
 
   hashes(hashes: Hash[], schema: Schema[]) {

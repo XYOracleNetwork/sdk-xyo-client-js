@@ -10,11 +10,14 @@ export class PayloadBuilder<
   T extends Payload = Payload<AnyObject>,
   O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
 > extends PayloadBuilderBase<T, O> {
-  static async build<T extends Payload>(payload: T) {
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T, validate = false): Promise<WithMeta<T>> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schema, $hash, $meta, ...fields } = payload as WithMeta<T>
-    const builder = new PayloadBuilder<T>({ fields: fields as T, meta: $meta, schema: payload.schema })
-    return await builder.build()
+    const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
+    const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
+    const $hash = validate || incomingDataHash === undefined ? await PayloadBuilder.hash(dataHashableFields) : incomingDataHash
+    const hashableFields = { ...dataHashableFields, $hash, $meta }
+
+    return hashableFields as WithMeta<T>
   }
 
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {

@@ -4,6 +4,7 @@ import { Promisable } from '@xylabs/promise'
 import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
+import { PayloadBuilder } from './Builder'
 import { PayloadBuilderOptions } from './Options'
 
 export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>> {
@@ -18,13 +19,38 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     this._$meta = meta
   }
 
+  static dataHashableFields<T extends Payload = Payload<AnyObject>>(
+    schema: string,
+    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
+  ): Promisable<Omit<T, '$hash' | '$meta'>> {
+    return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...fields }, '$'), '_') as T
+  }
+
+  static async hashableFields<T extends Payload = Payload<AnyObject>>(
+    schema: string,
+    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
+    $meta?: JsonObject,
+    timestamp?: number,
+  ): Promise<WithMeta<T>> {
+    const dataFields = await this.dataHashableFields<T>(schema, fields)
+    return deepOmitPrefixedFields<WithMeta<T>>(
+      {
+        ...dataFields,
+        $hash: await PayloadBuilder.dataHash(dataFields),
+        $meta: { ...$meta, timestamp: timestamp ?? $meta?.timestamp ?? Date.now() } as JsonObject,
+        schema,
+      } as WithMeta<T>,
+      '_',
+    )
+  }
+
   $meta(meta?: JsonObject) {
     this._$meta = meta ?? (this._fields as WithMeta<T>).$meta
     return this
   }
 
-  async dataHashableFields(): Promise<T> {
-    return deepOmitPrefixedFields(await this.hashableFields(), '$')
+  async dataHashableFields() {
+    return await PayloadBuilderBase.dataHashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields)
   }
 
   //we do not require sending in $hash since it will be generated anyway
@@ -43,12 +69,8 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     return this
   }
 
-  hashableFields(): Promisable<T> {
-    const schema = assertEx(this._schema, 'Payload: Missing Schema')
-    return {
-      ...removeEmptyFields(deepOmitPrefixedFields(this._fields ?? {}, '_')),
-      schema,
-    } as T
+  async hashableFields() {
+    return await PayloadBuilderBase.hashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields, this._$meta)
   }
 
   schema(value: Schema) {

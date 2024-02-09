@@ -11,12 +11,20 @@ export class QueryBoundWitnessBuilder<
 > extends BoundWitnessBuilder<TBoundWitness> {
   private _query: WithMeta<TQuery> | undefined
 
-  override async hashableFields(): Promise<TBoundWitness> {
+  override async dataHashableFields(): Promise<Omit<TBoundWitness, '$hash' | '$meta'>> {
+    return {
+      ...(await super.dataHashableFields()),
+      query: assertEx(this._query, 'No Query Specified').$hash,
+      schema: QueryBoundWitnessSchema,
+    } as Omit<TBoundWitness, '$hash' | '$meta'>
+  }
+
+  override async hashableFields(): Promise<WithMeta<TBoundWitness>> {
     return {
       ...(await super.hashableFields()),
       query: assertEx(this._query, 'No Query Specified').$hash,
       schema: QueryBoundWitnessSchema,
-    }
+    } as WithMeta<TBoundWitness>
   }
 
   async query<T extends TQuery>(query: T) {

@@ -16,7 +16,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
     "@xylabs/tsconfig": "^3.2.42",
-    "ethers": "^6.10.0",
+    "ethers": "^6.11.0",
     "typescript": "^5.3.3"
   },
   "exports": {

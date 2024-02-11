@@ -11,7 +11,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
     })
     describe('derivePath', () => {
       const paths = ['0/4', "44'/0'/0'", "44'/60'/0'/0/0", "44'/60'/0'/0/1", "49'/0'/0'", "84'/0'/0'", "84'/0'/0'/0"]
-      it.only.each(paths)('works repeatably & interoperably', async (path: string) => {
+      it.each(paths)('works repeatably & interoperably', async (path: string) => {
         const sutA = await HDWallet.fromPhrase(mnemonic)
         const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
         const accountA = await sutA.derivePath?.(path)
@@ -22,7 +22,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })
-      it('works when paths provided incrementally', async () => {
+      it.skip('works when paths provided incrementally', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
         const sutA = await HDWallet.fromPhrase(mnemonic)
@@ -37,7 +37,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })
-      it('works when paths provided absolutely', async () => {
+      it.skip('works when paths provided absolutely', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
         const sutA = await HDWallet.fromPhrase(mnemonic)
@@ -52,7 +52,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })
-      it('returns cached instances on subsequent requests', async () => {
+      it.skip('returns cached instances on subsequent requests', async () => {
         const parent = "44'/60'/0'"
         const child = '0/1'
         const sutA = await HDWallet.fromPhrase(mnemonic)

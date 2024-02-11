@@ -17,9 +17,8 @@ import {
   asArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -197,7 +196,7 @@ export abstract class AbstractArchivist<
     for (const hash of hashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
-        foundPayloads.push(PayloadHasher.jsonPayload(found) as WithMeta<Payload>)
+        foundPayloads.push((await PayloadBuilder.build(found)) as WithMeta<Payload>)
       } else {
         notfoundHashes.push(hash)
       }
@@ -288,7 +287,7 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistInsertQuerySchema: {
-        assertEx(payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.jsonPayload(), null, 2)}`)
+        assertEx(payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.payload, null, 2)}`)
         const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payload_hashes)
         assertEx(
           resolvedPayloads.length === query.payload_hashes.length,

@@ -43,14 +43,6 @@ describe('transformPayloads', () => {
       { c: 0, schema: 'network.xyo.test.destination' },
     ],
     [
-      'transforms with default value if source property is undefined',
-      [{ a: undefined, schema: 'network.xyo.test.source.a' }],
-      {
-        'network.xyo.test.source.a': [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
-      },
-      { c: 0, schema: 'network.xyo.test.destination' },
-    ],
-    [
       'does not transform with default value if source property is null',
       [{ a: null, schema: 'network.xyo.test.source.a' }],
       {

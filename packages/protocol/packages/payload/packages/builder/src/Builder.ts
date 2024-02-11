@@ -1,5 +1,5 @@
 import { Hash } from '@xylabs/hex'
-import { AnyObject } from '@xylabs/object'
+import { AnyObject, JsonObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
@@ -15,7 +15,7 @@ export class PayloadBuilder<
     const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
     const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
     const $hash = validate || incomingDataHash === undefined ? await PayloadBuilder.hash(dataHashableFields) : incomingDataHash
-    const hashableFields = { ...dataHashableFields, $hash, $meta }
+    const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
 
     return hashableFields as WithMeta<T>
   }

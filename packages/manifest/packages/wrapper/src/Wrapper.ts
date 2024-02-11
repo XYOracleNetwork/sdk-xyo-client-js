@@ -138,7 +138,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode[]> {
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     const result = await Promise.all(
-      this.jsonPayload().nodes?.map(async (nodeManifest, index) => {
+      this.payload.nodes?.map(async (nodeManifest, index) => {
         const subNode = await this.loadNodeFromManifest(nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, registry)
         await node?.register(subNode)
         return subNode
@@ -148,7 +148,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   }
 
   nodeManifest(index: number) {
-    return this.jsonPayload().nodes?.[index]
+    return this.payload.nodes?.[index]
   }
 
   /** Register a module on a node based on a manifest */

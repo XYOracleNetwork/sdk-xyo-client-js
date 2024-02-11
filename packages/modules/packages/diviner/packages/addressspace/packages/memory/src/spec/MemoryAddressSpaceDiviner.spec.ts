@@ -29,9 +29,9 @@ describe('MemoryAddressSpaceDiviner', () => {
       const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
       const payload3 = await PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
-      await archivist.insert([payload1.payload()])
-      await archivist.insert([payload2.payload()])
-      await archivist.insert([payload3.payload()])
+      await archivist.insert([payload1.payload])
+      await archivist.insert([payload2.payload])
+      await archivist.insert([payload3.payload])
 
       const all = await archivist.all()
 
@@ -51,7 +51,7 @@ describe('MemoryAddressSpaceDiviner', () => {
         expect(payload.schema).toBe(AddressSchema)
       }
       const addresses = (await Promise.all(results.map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload)))).map(
-        (payload) => payload.jsonPayload().address,
+        (payload) => payload.payload.address,
       )
       expect(addresses).toContain(wrapperAccount.address)
     })

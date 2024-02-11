@@ -73,9 +73,9 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
     this.aliases = null
 
     const archivistUri = await this.findArchivistUri(networkSlug)
-    if (this.payload().aliases) {
+    if (this.payload.aliases) {
       const fetchedAliases = await Promise.all(
-        Object.entries(this.payload().aliases ?? {}).map(([, alias]) => {
+        Object.entries(this.payload.aliases ?? {}).map(([, alias]) => {
           return this.fetchAlias(alias, { archivistUri })
         }),
       )
@@ -96,6 +96,6 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
 
   private async getNetwork(hash?: string): Promise<NetworkPayload | undefined> {
     // eslint-disable-next-line unicorn/no-array-method-this-argument
-    return hash ? await PayloadBuilder.findByDataHash(this.jsonPayload().networks, hash) : this.jsonPayload().networks?.[0]
+    return hash ? await PayloadBuilder.findByDataHash(this.payload.networks, hash) : this.payload.networks?.[0]
   }
 }

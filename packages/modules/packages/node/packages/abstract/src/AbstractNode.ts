@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {

@@ -1,5 +1,5 @@
+import { JsonValue } from '@xylabs/object'
 import { Payload } from '@xyo-network/payload-model'
-import { JsonValue } from '@xyo-network/value-payload-plugin'
 
 export type PayloadValueTransformer<TSource extends Payload = Payload> = (payload: TSource) => JsonValue
 

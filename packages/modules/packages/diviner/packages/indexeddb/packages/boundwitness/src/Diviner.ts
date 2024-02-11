@@ -4,7 +4,7 @@ import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
@@ -109,9 +109,11 @@ export class IndexedDbBoundWitnessDiviner<
       }
       await tx.done
       // Remove any metadata before returning to the client
-      return results.filter(isBoundWitness).map((bw) => {
-        return PayloadHasher.jsonPayload(bw)
-      })
+      return await Promise.all(
+        results.filter(isBoundWitness).map((bw) => {
+          return PayloadBuilder.build(bw)
+        }),
+      )
     })
     return result ?? []
   }

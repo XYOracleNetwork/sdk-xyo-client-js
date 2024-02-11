@@ -24,7 +24,6 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",

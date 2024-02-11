@@ -1,7 +1,7 @@
 import { forget } from '@xylabs/forget'
 import { Validator } from '@xylabs/object'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadSetPayload } from '@xyo-network/payload-model'

@@ -1,10 +1,11 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload, Query } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
+
+import { BoundWitnessWrapper } from './BoundWitnessWrapper'
 
 export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitnessWrapper<QueryBoundWitness> {
   private _payloadsWithoutQuery: PayloadWrapper<Payload>[] | undefined
@@ -35,7 +36,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
     this._payloadsWithoutQuery =
       this._payloadsWithoutQuery ??
       (await Promise.all(
-        compact((await PayloadBuilder.filterExclude(this.payloads, this.jsonPayload().query)).map((payload) => PayloadWrapper.wrap(payload))),
+        compact((await PayloadBuilder.filterExclude(this.payloads, this.payload.query)).map((payload) => PayloadWrapper.wrap(payload))),
       ))
     return this._payloadsWithoutQuery
   }

@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/src/spec/Sentinel.Interval.spec.ts"
+        "packages/modules/packages/diviner/packages/addresschain/packages/memory/src/spec/MemoryDiviner.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

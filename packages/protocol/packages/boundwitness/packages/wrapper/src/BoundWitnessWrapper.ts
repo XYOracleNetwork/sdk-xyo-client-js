@@ -58,7 +58,10 @@ export class BoundWitnessWrapper<
     return boundWitness ? await BoundWitnessWrapper.wrap(boundWitness) : null
   }
 
-  static async parse<T extends BoundWitness, P extends Payload>(obj: unknown, payloads?: P[]): Promise<BoundWitnessWrapper<T, P>> {
+  static async parse<T extends BoundWitness = BoundWitness, P extends Payload = Payload>(
+    obj: unknown,
+    payloads?: P[],
+  ): Promise<BoundWitnessWrapper<T, P>> {
     let hydratedObj: AnyObject | undefined = undefined
     switch (typeof obj) {
       case 'string': {
@@ -78,7 +81,8 @@ export class BoundWitnessWrapper<
         return hydratedObj as BoundWitnessWrapper<T, P>
       }
       if (isBoundWitness(hydratedObj)) {
-        const [bw] = await BoundWitnessBuilder.build<T>(hydratedObj)
+        //we use PayloadBuilder here since we want to use the BoundWitness as-is (no resigning), but want to add the $hash is needed
+        const bw = await PayloadBuilder.build<T>(hydratedObj as T)
         return new BoundWitnessWrapper(bw, payloads ? await Promise.all(payloads?.map((payload) => PayloadBuilder.build(payload))) : [])
       }
     }

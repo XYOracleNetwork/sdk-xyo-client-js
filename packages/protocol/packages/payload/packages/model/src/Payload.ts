@@ -42,5 +42,14 @@ export type DivinedPayload<T extends void | EmptyObject | WithSchema = void, S e
 >
 
 export type WithMeta<T extends Payload = Payload> = T & PayloadMetaFields
+export type WithOptionalMeta<T extends Payload = Payload> = Partial<WithMeta<T>> & Omit<WithMeta<T>, '$hash'>
 
 export type PayloadWithMeta<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithMeta<Payload<T, S>>
+
+export const unMeta = <T extends WithMeta<Payload>>(payload?: T): T | undefined => {
+  if (payload) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { $meta, $hash, ...result } = payload
+    return result as T
+  }
+}

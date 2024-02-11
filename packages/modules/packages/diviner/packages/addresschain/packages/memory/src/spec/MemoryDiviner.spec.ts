@@ -23,22 +23,27 @@ describe('MemoryAddressHistoryDiviner', () => {
       const wrapperAccount = Account.randomSync()
       const divinerAccount = Account.randomSync()
       const archivistAccount = Account.randomSync()
-      const archivist = ArchivistWrapper.wrap(
-        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
-        wrapperAccount,
-      )
+      const archivist = await MemoryArchivist.create({
+        account: archivistAccount,
+        config: { schema: MemoryArchivist.configSchema, storeQueries: true },
+      })
+
+      const archivistWrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
+
+      const wrapperAddress = wrapperAccount.address
+      const archivistAddress = archivist.account.address
 
       const payload1 = await PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
       const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
       const payload3 = await PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
-      await archivist.insert([payload1.payload])
-      await archivist.insert([payload2.payload])
-      await archivist.insert([payload3.payload])
+      await archivistWrapper.insert([payload1.payload])
+      await archivistWrapper.insert([payload2.payload])
+      await archivistWrapper.insert([payload3.payload])
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(7)
+      expect(all).toBeArrayOfSize(6)
 
       await node.register(archivist)
       await node.attach(archivist.address)
@@ -48,16 +53,16 @@ describe('MemoryAddressHistoryDiviner', () => {
           address: wrapperAccount.address,
           archivist: archivist.address,
           schema: AddressChainDivinerConfigSchema,
-          startHash: (await PayloadBuilder.build(all[6])).$hash,
+          startHash: (await PayloadBuilder.build(all[5])).$hash,
         },
       })
       await node.register(diviner)
       await node.attach(diviner.address)
 
       const result = (await diviner.divine()) as BoundWitness[]
-      expect(result.length).toBe(4)
+      expect(result.length).toBe(3)
       expect(result[0].schema).toBe(BoundWitnessSchema)
-      expect(result[0].addresses).toContain(wrapperAccount.address)
+      expect(result[0].addresses).toContain(wrapperAddress)
     })
   })
 })

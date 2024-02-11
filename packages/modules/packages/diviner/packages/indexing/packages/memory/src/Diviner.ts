@@ -16,7 +16,7 @@ import { asDivinerInstance, DivinerConfigSchema, DivinerModule, DivinerModuleEve
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 export type ConfigStoreKey = 'indexStore' | 'stateStore'
 
@@ -194,7 +194,7 @@ export class IndexingDiviner<
       const archivist = await this.getArchivistForStore('stateStore')
       const payload = (await archivist.get([hash])).find(isModuleState<IndexingDivinerState>)
       if (payload) {
-        return payload
+        return payload as WithMeta<ModuleState<IndexingDivinerState>>
       }
     }
     return undefined

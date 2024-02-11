@@ -1,7 +1,7 @@
 import { exists } from '@xylabs/exists'
 import { SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadFields } from '@xyo-network/payload-model'
+import { Payload, PayloadFields, WithMeta } from '@xyo-network/payload-model'
 
 /**
  * Reduces the payloads to a single payload using the supplied transformers
@@ -16,7 +16,7 @@ export const reducePayloads = async <T extends Payload = Payload>(
   payloadTransformers: SchemaToPayloadTransformersDictionary,
   destinationSchema: string,
   excludeSources = false,
-): Promise<T> => {
+): Promise<WithMeta<T>> => {
   // Use the payload transformers to convert the fields from the source payloads to the destination fields
   const payloadFields = payloads.filter(exists).flatMap<PayloadFields[]>((payload) => {
     // Find the transformers for this payload

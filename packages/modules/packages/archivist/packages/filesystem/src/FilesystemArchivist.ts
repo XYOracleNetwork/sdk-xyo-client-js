@@ -16,7 +16,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]
@@ -69,7 +69,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await Promise.all(rawPayloads.map(async (payload) => await PayloadBuilder.build(payload)))
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<PayloadWithMeta> {
     return this.memoryArchivist.all()
   }
 
@@ -77,7 +77,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.clear()
   }
 
-  protected override async commitHandler(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     return await this.memoryArchivist.commit()
   }
 
@@ -85,11 +85,11 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return this.memoryArchivist.delete(hashes)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     return await this.memoryArchivist.get(hashes)
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     return await this.memoryArchivist.insert(payloads)
   }
 

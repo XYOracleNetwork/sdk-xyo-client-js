@@ -22,7 +22,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 export interface ActionConfig {
   emitEvents?: boolean
@@ -71,7 +71,7 @@ export abstract class AbstractArchivist<
     return !!this.config?.storeParentReads
   }
 
-  all(): PromisableArray<Payload> {
+  all(): PromisableArray<WithMeta<Payload>> {
     this._noOverride('all')
     return this.busy(async () => {
       await this.started('throw')
@@ -87,7 +87,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  commit(): Promisable<BoundWitness[]> {
+  commit(): Promisable<WithMeta<BoundWitness>[]> {
     this._noOverride('commit')
     return this.busy(async () => {
       await this.started('throw')
@@ -103,7 +103,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async get(hashes: string[]): Promise<Payload[]> {
+  async get(hashes: string[]): Promise<WithMeta<Payload>[]> {
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
@@ -111,7 +111,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async insert(payloads: Payload[]): Promise<Payload[]> {
+  async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
     this._noOverride('insert')
     return await this.busy(async () => {
       await this.started('throw')
@@ -119,7 +119,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  protected allHandler(): PromisableArray<Payload> {
+  protected allHandler(): PromisableArray<WithMeta<Payload>> {
     throw new Error('Not implemented')
   }
 
@@ -127,7 +127,7 @@ export abstract class AbstractArchivist<
     throw new Error('Not implemented')
   }
 
-  protected commitHandler(): Promisable<BoundWitness[]> {
+  protected commitHandler(): Promisable<WithMeta<BoundWitness>[]> {
     throw new Error('Not implemented')
   }
 
@@ -147,7 +147,7 @@ export abstract class AbstractArchivist<
     return deletedHashes
   }
 
-  protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[Payload[], string[]]> {
+  protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[WithMeta<Payload>[], string[]]> {
     const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
@@ -164,11 +164,11 @@ export abstract class AbstractArchivist<
     return [foundPayloads, notfound]
   }
 
-  protected async getFromParents(hashes: string[]): Promise<[Payload[], string[]]> {
+  protected async getFromParents(hashes: string[]): Promise<[WithMeta<Payload>[], string[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
     let remainingHashes = [...hashes]
     let parentIndex = 0
-    let result: Payload[] = []
+    let result: WithMeta<Payload>[] = []
 
     //intentionally doing this serially
     while (parentIndex < parents.length && remainingHashes.length > 0) {
@@ -180,23 +180,23 @@ export abstract class AbstractArchivist<
     return [result, remainingHashes]
   }
 
-  protected getHandler(_hashes: string[]): Promisable<Payload[]> {
+  protected getHandler(_hashes: string[]): Promisable<PayloadWithMeta[]> {
     throw new Error('Not implemented')
   }
 
-  protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<Payload[]> {
+  protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<PayloadWithMeta[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const emitEvents = config?.emitEvents ?? true
     const gotten = await this.getHandler(hashes)
     const map = await PayloadBuilder.toHashMap(gotten)
     const dataMap = await PayloadBuilder.toDataHashMap(gotten)
 
-    const foundPayloads: WithMeta<Payload>[] = []
+    const foundPayloads: PayloadWithMeta[] = []
     const notfoundHashes: string[] = []
     for (const hash of hashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
-        foundPayloads.push((await PayloadBuilder.build(found)) as WithMeta<Payload>)
+        foundPayloads.push((await PayloadBuilder.build(found)) as PayloadWithMeta)
       } else {
         notfoundHashes.push(hash)
       }
@@ -214,11 +214,28 @@ export abstract class AbstractArchivist<
     return this._lastInsertedPayload
   }
 
-  protected insertHandler(_payloads: Payload[]): Promise<Payload[]> {
+  protected insertHandler(_payloads: Payload[]): Promise<WithMeta<Payload>[]> {
     throw new Error('Not implemented')
   }
 
-  protected async insertWithConfig(payloads: Payload[], config?: InsertConfig): Promise<Payload[]> {
+  protected async insertQueryHandler<T extends QueryBoundWitnessWrapper = QueryBoundWitnessWrapper>(query: T, payloads?: Payload[]) {
+    assertEx(payloads, () => `Missing payloads: ${JSON.stringify(query.payload, null, 2)}`)
+    const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payloadHashes)
+    assertEx(
+      resolvedPayloads.length === query.payloadHashes.length,
+      () => `Could not find some passed hashes [${resolvedPayloads.length} != ${query.payloadHashes.length}]`,
+    )
+    const queryPayload = await query.getQuery()
+    const payloadsWithoutQuery = await PayloadBuilder.filterExclude(resolvedPayloads, await PayloadBuilder.dataHash(queryPayload))
+    const result = await this.insertWithConfig(payloadsWithoutQuery)
+    // NOTE: There isn't an exact equivalence between what we get and what we store. Once
+    // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
+    // can grab the actual last one
+    this._lastInsertedPayload = resolvedPayloads.at(-1)
+    return result
+  }
+
+  protected async insertWithConfig(payloads: Payload[], config?: InsertConfig): Promise<PayloadWithMeta[]> {
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
@@ -252,9 +269,6 @@ export abstract class AbstractArchivist<
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
-    if (this.config.storeQueries) {
-      await this.insertHandler([query])
-    }
 
     switch (queryPayload.schema) {
       case ArchivistAllQuerySchema: {
@@ -287,23 +301,19 @@ export abstract class AbstractArchivist<
         break
       }
       case ArchivistInsertQuerySchema: {
-        assertEx(payloads, () => `Missing payloads: ${JSON.stringify(wrappedQuery.payload, null, 2)}`)
-        const resolvedPayloads = await PayloadBuilder.filterIncludeByDataHash(payloads, query.payload_hashes)
-        assertEx(
-          resolvedPayloads.length === query.payload_hashes.length,
-          () => `Could not find some passed hashes [${resolvedPayloads.length} != ${query.payload_hashes.length}]`,
-        )
-        const payloadsWithoutQuery = await PayloadBuilder.filterExclude(resolvedPayloads, await PayloadBuilder.dataHash(queryPayload))
-        resultPayloads.push(...(await this.insertWithConfig(payloadsWithoutQuery)))
-        // NOTE: There isn't an exact equivalence between what we get and what we store. Once
-        // we move to returning only inserted Payloads(/hash) instead of a BoundWitness, we
-        // can grab the actual last one
-        this._lastInsertedPayload = resolvedPayloads.at(-1)
+        resultPayloads.push(...(await this.insertQueryHandler(wrappedQuery, payloads)))
         break
       }
       default: {
-        return await super.queryHandler(query, payloads)
+        const result = await super.queryHandler(query, payloads)
+        if (this.config.storeQueries) {
+          await this.insertHandler([query])
+        }
+        return result
       }
+    }
+    if (this.config.storeQueries) {
+      await this.insertHandler([query])
     }
     return resultPayloads
   }
@@ -312,7 +322,7 @@ export abstract class AbstractArchivist<
     return await parent.insert(payloads)
   }
 
-  protected async writeToParents(payloads: Payload[]): Promise<Payload[]> {
+  protected async writeToParents(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const parents = await this.parents()
     return compact(
       await Promise.all(

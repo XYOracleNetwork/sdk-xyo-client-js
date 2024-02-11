@@ -161,7 +161,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     assertEx(!bw.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
   }
 
-  async build(): Promise<[WithMeta<TBoundWitness>, TPayload[], ModuleError[]]> {
+  async build(): Promise<[WithMeta<TBoundWitness>, WithMeta<TPayload>[], WithMeta<ModuleError>[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
       const $hash = (await PayloadBuilder.build(dataHashableFields)).$hash
@@ -172,7 +172,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
         $hash,
         $meta,
       } as WithMeta<TBoundWitness>
-      return [ret, this._payloads, this._errors]
+      return [
+        ret,
+        await Promise.all(this._payloads?.map((payload) => PayloadBuilder.build(payload))),
+        await Promise.all(this._errors?.map((error) => PayloadBuilder.build(error))),
+      ]
     })
   }
 

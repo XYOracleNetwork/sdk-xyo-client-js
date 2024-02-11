@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { fulfilled, Promisable, PromisableArray } from '@xylabs/promise'
+import { fulfilled, Promisable } from '@xylabs/promise'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -18,7 +18,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
@@ -69,7 +69,7 @@ export class MemoryArchivist<
     ]
   }
 
-  protected override async allHandler(): Promise<Payload[]> {
+  protected override async allHandler(): Promise<PayloadWithMeta[]> {
     return compact(await Promise.all(this.cache.dump().map((value) => PayloadBuilder.build(value[1].value))))
   }
 
@@ -79,7 +79,7 @@ export class MemoryArchivist<
     return this.emit('cleared', { module: this })
   }
 
-  protected override async commitHandler(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
@@ -107,7 +107,7 @@ export class MemoryArchivist<
     return deletedHashes
   }
 
-  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
     return compact(
       hashes.map((hash) => {
         const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
@@ -120,7 +120,7 @@ export class MemoryArchivist<
     )
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     const insertedPayloads = await Promise.all(
       pairs.map(([payload, hash]) => {

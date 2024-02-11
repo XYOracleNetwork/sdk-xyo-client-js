@@ -1,6 +1,6 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { hexFromArrayBuffer, toHexLegacy } from '@xylabs/hex'
+import { hexFromArrayBuffer } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -21,13 +21,13 @@ const nameOf = <T>(name: keyof T) => name
 function getPrivateKeyFromMnemonic(mnemonic: Mnemonic, path?: string): string {
   const node = HDNodeWallet.fromMnemonic(mnemonic)
   const wallet = path ? node.derivePath?.(path) : node
-  return wallet.privateKey.padStart(64, '0')
+  return wallet.privateKey.padStart(64, '0').toLowerCase()
 }
 
 function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
   const node = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
   const wallet = path ? node.derivePath?.(path) : node
-  return wallet.privateKey.padStart(64, '0')
+  return wallet.privateKey.padStart(64, '0').toLowerCase()
 }
 
 @staticImplements<AccountStatic>()
@@ -59,7 +59,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get address() {
-    return hexFromArrayBuffer(this.addressBytes, { prefix: false })
+    return hexFromArrayBuffer(this.addressBytes, { prefix: false }).toLowerCase()
   }
 
   get addressBytes() {
@@ -67,7 +67,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get previousHash() {
-    return this.previousHashBytes ? toHexLegacy(this.previousHashBytes) : undefined
+    return this.previousHashBytes ? hexFromArrayBuffer(this.previousHashBytes, { prefix: false }).toLowerCase() : undefined
   }
 
   get previousHashBytes() {
@@ -121,7 +121,8 @@ export class Account extends KeyPair implements AccountInstance {
     await KeyPair.wasmInitialized
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
-      const passedCurrentHash = typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : toHexLegacy(previousHash)
+      const passedCurrentHash =
+        typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : hexFromArrayBuffer(previousHash, { prefix: false })
       assertEx(
         currentPreviousHash === passedCurrentHash,
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
@@ -131,7 +132,7 @@ export class Account extends KeyPair implements AccountInstance {
       const newPreviousHash = toUint8Array(hash, 32)
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
-        await Account.previousHashStore.setItem(this.address, toHexLegacy(newPreviousHash))
+        await Account.previousHashStore.setItem(this.address, hexFromArrayBuffer(newPreviousHash, { prefix: false }))
       }
       return signature
     })

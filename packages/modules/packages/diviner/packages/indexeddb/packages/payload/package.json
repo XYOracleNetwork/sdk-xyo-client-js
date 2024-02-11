@@ -10,17 +10,17 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^2.14.0",
-    "@xylabs/assert": "^2.14.0",
-    "@xylabs/exists": "^2.14.0",
-    "@xylabs/object": "^2.89.0",
+    "@xylabs/array": "^2.14.1",
+    "@xylabs/assert": "^2.14.1",
+    "@xylabs/exists": "^2.14.1",
+    "@xylabs/object": "^2.89.1",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-abstract": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
-    "@xyo-network/hash": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "idb": "^8.0.0"
   },
@@ -30,7 +30,6 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
     "fake-indexeddb": "^5.0.2",
     "typescript": "^5.3.3"
   },
@@ -73,6 +72,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.89.3",
+  "version": "2.90.2",
   "type": "module"
 }

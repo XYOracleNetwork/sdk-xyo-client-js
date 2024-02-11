@@ -3,10 +3,8 @@ import { assertEx } from '@xylabs/assert'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadWithHash } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
 import { AsyncQueryBusParams } from './Params'
@@ -63,7 +61,7 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
           // Get the associated payloads
           const commandPayloads = await queryArchivist.get(command.payload_hashes)
           const commandPayloadsDict = await PayloadBuilder.toAllHashMap(commandPayloads)
-          const commandHash = isPayloadWithHash(command) ? command.$hash : await PayloadHasher.hash(command)
+          const commandHash = (await PayloadBuilder.build(command)).$hash
           // Check that we have all the arguments for the command
           if (!containsAll(Object.keys(commandPayloadsDict), command.payload_hashes)) {
             this.logger?.error(`Error processing command ${commandHash} for module ${localModuleName}, missing payloads`)

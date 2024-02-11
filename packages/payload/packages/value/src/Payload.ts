@@ -1,11 +1,7 @@
+import { JsonValue } from '@xylabs/object'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { ValueSchema } from './Schema'
-
-// TODO: Move to core or xylabs
-export type JsonValue = string | number | boolean | null | JsonObject | JsonArray
-export type JsonObject = { [key: string]: JsonValue }
-export type JsonArray = JsonValue[]
 
 export type Value<T extends JsonValue = JsonValue> = Payload<{
   schema: ValueSchema

@@ -10,11 +10,11 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^2.14.0",
-    "@xylabs/axios": "^2.14.0",
-    "@xylabs/forget": "^2.14.0",
-    "@xylabs/lodash": "^2.14.0",
-    "@xylabs/object": "^2.89.0",
+    "@xylabs/assert": "^2.14.1",
+    "@xylabs/axios": "^2.14.1",
+    "@xylabs/forget": "^2.14.1",
+    "@xylabs/lodash": "^2.14.1",
+    "@xylabs/object": "^2.89.1",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -78,6 +78,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.89.3",
+  "version": "2.90.2",
   "type": "module"
 }

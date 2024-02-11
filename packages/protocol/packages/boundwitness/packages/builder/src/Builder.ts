@@ -50,7 +50,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   protected get addresses(): Address[] {
-    return this._accounts.map((account) => account.address)
+    return this._accounts.map((account) => account.address.toLowerCase())
   }
 
   protected get payloadSchemas(): string[] {
@@ -104,7 +104,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   static previousHash<T extends BoundWitness>(boundWitness: T, address: Address) {
-    return boundWitness.previous_hashes[this.addressIndex(boundWitness, address)]
+    return boundWitness.previous_hashes[this.addressIndex(boundWitness, address)]?.toLowerCase()
   }
 
   protected static async linkingFields<T extends BoundWitness = BoundWitness>(
@@ -236,7 +236,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   sourceQuery(query?: Hash) {
-    this._sourceQuery = query
+    this._sourceQuery = query?.toLowerCase()
     return this
   }
 

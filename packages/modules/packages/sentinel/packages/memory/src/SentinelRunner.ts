@@ -106,7 +106,7 @@ export class SentinelRunner {
     const wrapper = new SentinelIntervalAutomationWrapper(automation)
     await this.remove(await wrapper.dataHash(), false)
     wrapper.next()
-    await this.add(wrapper.jsonPayload(), false)
+    await this.add(wrapper.payload, false)
     const triggerResult = await this.sentinel.report()
     this.onTriggerResult?.(triggerResult)
     // await this.start()

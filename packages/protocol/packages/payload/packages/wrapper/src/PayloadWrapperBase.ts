@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
-import { PayloadHasher } from '@xyo-network/hash'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isAnyPayload, Payload, WithMeta } from '@xyo-network/payload-model'
 
@@ -8,18 +7,13 @@ export type PayloadLoader = (address: string) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export const isPayloadWrapperBase = (value?: unknown): value is PayloadWrapperBase => {
-  if (typeof value === 'object' && !Array.isArray(value)) {
-    return typeof (value as PayloadWrapperBase).jsonPayload === 'function'
-  }
-  return false
+  return value instanceof PayloadWrapperBase
 }
 
-export class PayloadWrapperBase<TPayload extends Payload = Payload> extends PayloadHasher<TPayload> {
+export class PayloadWrapperBase<TPayload extends Payload = Payload> {
   private _errors?: Error[]
 
-  protected constructor(payload: TPayload) {
-    super(payload)
-  }
+  protected constructor(public payload: TPayload) {}
 
   static async unwrap<TPayload extends Payload = Payload>(payload?: TPayload): Promise<WithMeta<TPayload> | undefined>
   static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
@@ -56,7 +50,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     }
 
     if (isPayloadWrapperBase(payload)) {
-      return await PayloadBuilder.build(payload.jsonPayload())
+      return await PayloadBuilder.build(payload.payload)
     }
 
     if (isAnyPayload(payload)) {
@@ -66,13 +60,8 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     throw new TypeError('Can not unwrap an object that is not a PayloadWrapper or Payload')
   }
 
-  /** @deprecated use jsonPayload instead */
-  body() {
-    return this.jsonPayload()
-  }
-
   async dataHash() {
-    return await PayloadBuilder.dataHash(this.jsonPayload())
+    return await PayloadBuilder.dataHash(this.payload)
   }
 
   async getErrors() {
@@ -84,14 +73,13 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> extends Payl
     return (await this.getErrors()).length === 0
   }
 
-  /** @deprecated use jsonPayload(true) instead */
-  payload(): TPayload {
-    return this.jsonPayload(true)
+  async hash() {
+    return await PayloadBuilder.hash(this.payload)
   }
 
   //intentionally a function to prevent confusion with payload
   schema(): string {
-    return assertEx(this.jsonPayload()?.schema, 'Missing payload schema')
+    return assertEx(this.payload?.schema, 'Missing payload schema')
   }
 
   validate(): Promisable<Error[]> {

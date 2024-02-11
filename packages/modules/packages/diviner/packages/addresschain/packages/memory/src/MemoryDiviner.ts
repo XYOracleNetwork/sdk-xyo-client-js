@@ -33,7 +33,7 @@ export class MemoryAddressChainDiviner<
         const bwPayload: BoundWitness | undefined = await this.archivistFindHash([archivist], currentHash)
         const bwWrapper: BoundWitnessWrapper | undefined = await BoundWitnessWrapper.tryParse(bwPayload)
         if (bwWrapper) {
-          result.push(bwWrapper.jsonPayload())
+          result.push(bwWrapper.payload)
           currentHash = bwWrapper.prev(this.queryAddress)
         } else {
           //was not a bound witness - bail

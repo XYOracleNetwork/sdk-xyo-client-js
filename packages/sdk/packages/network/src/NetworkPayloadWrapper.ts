@@ -27,6 +27,6 @@ export class NetworkPayloadWrapper extends PayloadWrapper<NetworkPayload> {
   }
 
   filterNodesByType(type: NetworkNodeType) {
-    return this.payload().nodes?.filter((node) => node.type === type)
+    return this.payload.nodes?.filter((node) => node.type === type)
   }
 }

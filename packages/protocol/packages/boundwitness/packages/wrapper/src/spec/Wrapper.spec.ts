@@ -22,7 +22,7 @@ describe('BoundWitnessWrapper', () => {
           previous_hashes: [],
           schema: BoundWitnessSchema,
         })
-      ).jsonPayload()
+      ).payload
     describe('get', () => {
       describe('when no payloads set', () => {
         it('returns an empty object', async () => {

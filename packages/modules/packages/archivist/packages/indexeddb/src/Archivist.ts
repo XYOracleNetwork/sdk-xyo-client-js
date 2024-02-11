@@ -10,7 +10,6 @@ import {
   buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -83,7 +82,7 @@ export class IndexedDbArchivist<
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
-    return payloads.map((payload) => PayloadHasher.jsonPayload(payload))
+    return await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload)))
   }
 
   protected override async clearHandler(): Promise<void> {

@@ -8,7 +8,7 @@ import { IndexSeparator } from '@xyo-network/archivist-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
-import { PayloadHasher } from '@xyo-network/hash'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
@@ -133,7 +133,7 @@ export class IndexedDbPayloadDiviner<
       }
       await tx.done
       // Remove any metadata before returning to the client
-      return results.map((payload) => PayloadHasher.jsonPayload(payload))
+      return await Promise.all(results.map((payload) => PayloadBuilder.build(payload)))
     })
     return result ?? []
   }

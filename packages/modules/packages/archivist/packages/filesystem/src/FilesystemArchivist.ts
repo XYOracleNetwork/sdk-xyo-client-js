@@ -17,7 +17,6 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
-import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]
@@ -67,7 +66,7 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
 
   private static async payloadsFromRawPayloads(rawPayloads: Payload[]) {
     //validation should be done in here.  I don't believe parse does much validation yet.
-    return await Promise.all(rawPayloads.map(async (payload) => (await PayloadWrapper.wrap(payload)).jsonPayload()))
+    return await Promise.all(rawPayloads.map(async (payload) => await PayloadBuilder.build(payload)))
   }
 
   protected override allHandler(): PromisableArray<Payload> {

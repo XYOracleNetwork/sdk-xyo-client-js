@@ -140,7 +140,7 @@ test('Archivist Parent Reads', async () => {
 
   expect(wrapper).toBeDefined()
 
-  const inserted = await parent.insert([wrapper.jsonPayload()])
+  const inserted = await parent.insert([wrapper.payload])
 
   expect(inserted).toBeArrayOfSize(1)
 

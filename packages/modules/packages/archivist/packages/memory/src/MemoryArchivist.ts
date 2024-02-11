@@ -16,7 +16,6 @@ import {
   ArchivistModuleEventData,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
@@ -70,8 +69,8 @@ export class MemoryArchivist<
     ]
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
-    return compact(this.cache.dump().map((value) => PayloadHasher.hashFields(value[1].value)))
+  protected override async allHandler(): Promise<Payload[]> {
+    return compact(await Promise.all(this.cache.dump().map((value) => PayloadBuilder.build(value[1].value))))
   }
 
   protected override clearHandler(): void | Promise<void> {

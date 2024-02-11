@@ -3,7 +3,6 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { Archivist, ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { PayloadHasher } from '@xyo-network/hash'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
@@ -66,7 +65,7 @@ describe('Sentinel', () => {
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = await Promise.all(
             payloads.map((payload) => {
-              return PayloadBuilder.build(PayloadHasher.hashFields(payload))
+              return PayloadBuilder.build(payload)
             }),
           )
           expect(archivistPayloads).toContainValues(panelPayloads)

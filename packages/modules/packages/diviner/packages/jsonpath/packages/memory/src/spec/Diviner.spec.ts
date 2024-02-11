@@ -38,7 +38,7 @@ describe('JsonPathDiviner', () => {
     ],
     [
       'transforms with default value if source property is undefined',
-      [{ a: undefined, schema: 'network.xyo.test.source.a' }],
+      [{ schema: 'network.xyo.test.source.a' }],
       [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],

@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { retry, RetryConfigWithComplete } from '@xylabs/retry'
-import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   CustomDivinerModule,
   DivinerConfigSchema,

@@ -9,9 +9,9 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected get frequencyMillis() {
-    const frequency = this.jsonPayload().frequency
+    const frequency = this.payload.frequency
     if (frequency === undefined) return Number.POSITIVE_INFINITY
-    const frequencyUnits = this.jsonPayload().frequencyUnits
+    const frequencyUnits = this.payload.frequencyUnits
     switch (frequencyUnits ?? 'hour') {
       case 'second': {
         return frequency * 1000
@@ -32,12 +32,12 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected get remaining() {
-    return this.jsonPayload().remaining ?? Number.POSITIVE_INFINITY
+    return this.payload.remaining ?? Number.POSITIVE_INFINITY
   }
 
   next() {
     const now = Date.now()
-    const previousStart = this.jsonPayload()?.start ?? now
+    const previousStart = this.payload?.start ?? now
     const start = Math.max(previousStart, now)
     const nextStart = start + this.frequencyMillis
     this.setStart(nextStart)
@@ -47,7 +47,7 @@ export class SentinelIntervalAutomationWrapper<
   }
 
   protected checkEnd() {
-    if (this.jsonPayload().start > (this.jsonPayload().end ?? Number.POSITIVE_INFINITY)) {
+    if (this.payload.start > (this.payload.end ?? Number.POSITIVE_INFINITY)) {
       this.setStart(Number.POSITIVE_INFINITY)
     }
   }
@@ -63,7 +63,7 @@ export class SentinelIntervalAutomationWrapper<
    * @param remaining The remaining time in milliseconds
    */
   protected setRemaining(remaining: number) {
-    this.obj.remaining = remaining
+    this.payload.remaining = remaining
   }
 
   /**
@@ -71,6 +71,6 @@ export class SentinelIntervalAutomationWrapper<
    * @param start The start time in milliseconds
    */
   protected setStart(start: number) {
-    this.obj.start = start
+    this.payload.start = start
   }
 }

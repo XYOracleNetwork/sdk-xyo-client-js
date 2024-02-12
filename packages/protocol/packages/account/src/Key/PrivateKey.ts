@@ -16,7 +16,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   constructor(value?: ArrayBuffer) {
     super(32)
     if (value) {
-      this._keyPair = PrivateKey.ecContext.keyFromPrivate(toUint8Array(value), 'array')
+      this._keyPair = PrivateKey.ecContext.keyFromPrivate(toUint8Array(value, 32), 'array')
     } else {
       try {
         this._keyPair = PrivateKey.ecContext.genKeyPair()
@@ -26,7 +26,7 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
         console.warn('Account created without browser crypto')
       }
     }
-    this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'))
+    this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'), 32)
   }
 
   override get bytes() {

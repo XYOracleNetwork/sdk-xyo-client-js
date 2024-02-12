@@ -24,30 +24,34 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountB.address).toMatchSnapshot()
       })
       it('works when paths provided incrementally', async () => {
-        const parent = "44'/60'/0'"
-        const child = '0/1'
+        const parentRelativePath = "44'/60'/0'"
+        const childRelativePath = '0/1'
         const sutA = await HDWallet.fromPhrase(mnemonic)
         const sutB = await HDWallet.fromPhrase(mnemonic)
         expect(sutA.path).toEqual(sutB.path)
-        const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
-        const accountB = await sutB.derivePath?.([parent, child].join('/'))
+        const accountA = await (await sutA.derivePath(parentRelativePath)).derivePath?.(childRelativePath)
+        const accountB = await sutB.derivePath?.([parentRelativePath, childRelativePath].join('/'))
         expect(accountA.address).toEqual(accountB.address)
         expect(accountA.private.hex).toEqual(accountB.private.hex)
         expect(accountA.public.hex).toEqual(accountB.public.hex)
+        expect(accountA.path).toEqual(accountB.path)
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })
       it('works when paths provided absolutely', async () => {
-        const parent = "44'/60'/0'"
-        const child = '0/1'
-        const sutA = await HDWallet.fromPhrase(mnemonic)
-        const sutB = await HDWallet.fromPhrase(mnemonic)
-        expect(sutA.path).toEqual(sutB.path)
-        const accountA = await (await sutA.derivePath(parent)).derivePath?.(child)
-        const accountB = await sutB.derivePath?.(['m', parent, child].join('/'))
+        const parentAbsolutePath = "m/44'/60'/0'"
+        const childRelativePath = '0/1'
+        const absolutePath = [parentAbsolutePath, childRelativePath].join('/')
+        const sutA = await HDWallet.fromPhrase(mnemonic, absolutePath)
+        const sutB = await HDWallet.fromPhrase(mnemonic, parentAbsolutePath)
+        expect(sutA.path).toEqual(absolutePath)
+        expect(sutB.path).toEqual(parentAbsolutePath)
+        const accountA = sutA
+        const accountB = await sutB.derivePath(childRelativePath)
         expect(accountA.address).toEqual(accountB.address)
         expect(accountA.private.hex).toEqual(accountB.private.hex)
         expect(accountA.public.hex).toEqual(accountB.public.hex)
+        expect(accountA.path).toEqual(accountB.path)
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })

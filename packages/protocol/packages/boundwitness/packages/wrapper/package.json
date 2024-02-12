@@ -13,7 +13,7 @@
     "@xylabs/assert": "^2.14.1",
     "@xylabs/hex": "^2.14.1",
     "@xylabs/lodash": "^2.14.1",
-    "@xylabs/object": "^2.14.1",
+    "@xylabs/object": "^2.89.1",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-validator": "workspace:~",

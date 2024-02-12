@@ -6,6 +6,7 @@ import { AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-ch
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { MemoryAddressChainDiviner } from '../MemoryDiviner'
@@ -31,7 +32,6 @@ describe('MemoryAddressHistoryDiviner', () => {
       const archivistWrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
 
       const wrapperAddress = wrapperAccount.address
-      const archivistAddress = archivist.account.address
 
       const payload1 = await PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
       const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
@@ -59,7 +59,7 @@ describe('MemoryAddressHistoryDiviner', () => {
       await node.register(diviner)
       await node.attach(diviner.address)
 
-      const result = (await diviner.divine()) as BoundWitness[]
+      const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
       expect(result.length).toBe(3)
       expect(result[0].schema).toBe(BoundWitnessSchema)
       expect(result[0].addresses).toContain(wrapperAddress)

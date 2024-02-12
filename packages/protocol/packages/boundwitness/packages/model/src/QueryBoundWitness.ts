@@ -1,4 +1,4 @@
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { WithMeta } from '@xyo-network/payload-model'
 
 import { BoundWitness, BoundWitnessSchema } from './BoundWitness'
 import { isBoundWitness, isBoundWitnessWithMeta } from './isBoundWitness'

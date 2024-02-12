@@ -1,5 +1,5 @@
 import { Hash } from '@xylabs/hex'
-import { EmptyObject, JsonObject, WithAdditional } from '@xylabs/object'
+import { EmptyObject, JsonObject } from '@xylabs/object'
 
 import { Schema, WithSchema } from './Schema'
 

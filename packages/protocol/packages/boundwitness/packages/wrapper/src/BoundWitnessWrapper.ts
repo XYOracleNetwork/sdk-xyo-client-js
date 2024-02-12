@@ -1,7 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { AnyObject, isObject } from '@xylabs/object'
-import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { asBoundWitness, BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

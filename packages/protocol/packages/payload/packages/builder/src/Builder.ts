@@ -124,7 +124,7 @@ export class PayloadBuilder<
     return result
   }
 
-  static withoutMeta<T extends PayloadWithMeta>(payload: undefined): undefined
+  static withoutMeta(payload: undefined): undefined
   static withoutMeta<T extends PayloadWithMeta>(payload: T): Omit<T, '$meta'>
   static withoutMeta<T extends PayloadWithMeta>(payloads: T[]): Omit<T, '$meta'>[]
   static withoutMeta<T extends PayloadWithMeta>(payloads: T | T[]) {

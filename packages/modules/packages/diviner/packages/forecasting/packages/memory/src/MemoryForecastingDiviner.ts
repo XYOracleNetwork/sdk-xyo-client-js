@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
@@ -72,7 +72,7 @@ export class MemoryForecastingDiviner<
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.maxTrainingLength) {
       const query: BoundWitnessDivinerQueryPayload = { addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp }
-      const boundWitnesses = ((await bwDiviner.divine([query])) as BoundWitness[]).filter(
+      const boundWitnesses = ((await bwDiviner.divine([query])) as WithMeta<BoundWitness>[]).filter(
         (bw) => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
       )
       if (boundWitnesses.length === 0) break

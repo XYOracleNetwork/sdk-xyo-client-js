@@ -115,7 +115,8 @@ export abstract class AbstractArchivist<
     this._noOverride('insert')
     return await this.busy(async () => {
       await this.started('throw')
-      return await this.insertWithConfig(payloads)
+      //make sure all incoming payloads have proper $hash and $meta
+      return await this.insertWithConfig(await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload, true))))
     })
   }
 

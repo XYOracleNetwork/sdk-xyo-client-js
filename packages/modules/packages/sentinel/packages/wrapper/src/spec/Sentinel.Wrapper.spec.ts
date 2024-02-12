@@ -62,7 +62,7 @@ describe('Sentinel', () => {
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
-          expect(archivistPayloads).toBeArrayOfSize(payloads.length)
+          expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)
           const panelPayloads = await Promise.all(
             payloads.map((payload) => {
               return PayloadBuilder.build(payload)

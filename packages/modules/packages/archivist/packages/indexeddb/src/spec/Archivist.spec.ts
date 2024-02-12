@@ -6,7 +6,7 @@ import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import {
   IDBCursor,
@@ -190,7 +190,7 @@ describe('IndexedDbArchivist', () => {
     describe('with unique data', () => {
       const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90287'
       const storeName = 'f8d14049-2966-4198-a2ab-1c096a949315'
-      let sources: Payload[] = []
+      let sources: PayloadWithMeta[] = []
       let archivistModule: ArchivistInstance
       beforeAll(async () => {
         archivistModule = await IndexedDbArchivist.create({
@@ -207,7 +207,7 @@ describe('IndexedDbArchivist', () => {
           expect(getResult).toBeDefined()
           expect(getResult.length).toBe(1)
           const [result] = getResult
-          expect(result).toEqual(source)
+          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
           const resultHash = await PayloadBuilder.dataHash(result)
           expect(resultHash).toBe(sourceHash)
         }

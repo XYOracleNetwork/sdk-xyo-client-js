@@ -20,6 +20,7 @@ describe('Hasher', () => {
   })
 
   test('wasm vs js (performance-parallel)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsTestObjects: PayloadHasher[] = []
@@ -29,6 +30,7 @@ describe('Hasher', () => {
     const jsHashStart = Date.now()
     await Promise.all(jsTestObjects.map((obj) => obj.hash()))
     const jsHashDuration = Date.now() - jsHashStart
+    PayloadHasher.warnIfUsingJsHash = true
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = true
     const wasmTestObjects: PayloadHasher[] = []

@@ -27,6 +27,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static readonly subtleHashThreads: any[] = []
   static readonly subtleSemaphore = new Semaphore(maxHashThreads * maxListenersPerThread)
+  static warnIfUsingJsHash = true
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static readonly wasmHashThreads: any[] = []
 
@@ -62,10 +63,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
         const data = enc.encode(stringToHash)
         const hashArray = await this.subtleHash(data)
         return hexFromArrayBuffer(hashArray, { bitLength: 256 })
-      } catch (ex) {
-        const error = ex as Error
-        console.error(`Setting allowSubtle to false [${error.message}]`)
-        console.log(error.stack)
+      } catch {
         PayloadHasher.allowSubtle = false
       }
     }
@@ -114,6 +112,9 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static async jsHash(data: string) {
     await this.jsSemaphore.acquire()
+    if (PayloadHasher.warnIfUsingJsHash) {
+      console.warn('Using jsHash [No subtle or wasm?]')
+    }
     try {
       if (this.jsHashThreads.length < maxHashThreads) {
         const w = new Worker('./worker/jsHash.js')

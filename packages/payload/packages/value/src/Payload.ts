@@ -1,5 +1,5 @@
 import { JsonValue } from '@xylabs/object'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, Payload } from '@xyo-network/payload-model'
 
 import { ValueSchema } from './Schema'
 
@@ -9,3 +9,4 @@ export type Value<T extends JsonValue = JsonValue> = Payload<{
 }>
 
 export const isValuePayload = isPayloadOfSchemaType<Value>(ValueSchema)
+export const isValuePayloadWithMeta = isPayloadOfSchemaTypeWithMeta<Value>(ValueSchema)

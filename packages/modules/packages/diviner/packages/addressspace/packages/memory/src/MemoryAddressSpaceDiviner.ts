@@ -10,10 +10,14 @@ import { Payload } from '@xyo-network/payload-model'
 /**
  * This Diviner returns the list of all addresses encountered for the reachable archivists
  */
-export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams> extends AddressSpaceDiviner<TParams> {
+export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams = AddressSpaceDivinerParams> extends AddressSpaceDiviner<
+  TParams,
+  Payload,
+  AddressPayload
+> {
   static override configSchemas = [AddressSpaceDivinerConfigSchema]
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<AddressPayload[]> {
+  protected override async divineHandler(payloads?: Payload[]) {
     assertEx(!payloads?.length, 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
     const archivistMod = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)

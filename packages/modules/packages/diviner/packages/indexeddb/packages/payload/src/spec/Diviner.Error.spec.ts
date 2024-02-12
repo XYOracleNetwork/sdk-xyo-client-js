@@ -43,8 +43,8 @@ window.indexedDB = indexedDB
  * @group diviner
  */
 describe('IndexedDbPayloadDiviner.Errors', () => {
-  const dbName = 'testDb'
-  const storeName = 'testStore'
+  const dbName = 'testDb-IndexedDbPayloadDiviner.Errors'
+  const storeName = 'testStore-IndexedDbPayloadDiviner.Errors'
   let sut: IndexedDbPayloadDiviner
   const values = [
     {
@@ -58,6 +58,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
         account: Account.randomSync(),
         config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
       })
+      await archivist.clear?.()
       await archivist.insert(values)
       const sut = await IndexedDbPayloadDiviner.create({
         account: Account.randomSync(),
@@ -106,7 +107,9 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
       })
       it('returns values', async () => {
         const result = await sut.divine([{ schema: PayloadDivinerQuerySchema }])
-        expect(result).toEqual(await Promise.all(values.map((value) => PayloadBuilder.build(value))))
+        expect(PayloadBuilder.withoutMeta(result)).toMatchObject(
+          PayloadBuilder.withoutMeta(await Promise.all(values.map((value) => PayloadBuilder.build(value)))),
+        )
       })
     })
   })

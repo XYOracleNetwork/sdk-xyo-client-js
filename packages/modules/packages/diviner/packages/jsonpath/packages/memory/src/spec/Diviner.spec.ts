@@ -84,6 +84,6 @@ describe('JsonPathDiviner', () => {
     const actual = await sut.divine(await Promise.all(inputs.map((input) => PayloadBuilder.build(input))))
 
     // Assert
-    expect(actual).toEqual(expected)
+    expect(PayloadBuilder.withoutMeta(actual)).toEqual(PayloadBuilder.withoutMeta(expected))
   })
 })

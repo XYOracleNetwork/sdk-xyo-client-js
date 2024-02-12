@@ -36,11 +36,6 @@ export type Payload<T extends void | EmptyObject | WithSchema = void, S extends 
 
 export type OverridablePayload<T extends Payload> = Omit<T, 'schema'> & { schema: string }
 
-export type DivinedPayload<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = Payload<
-  WithAdditional<{ sources: Hash[] }, T>,
-  S
->
-
 export type WithMeta<T extends Payload = Payload> = T & PayloadMetaFields
 export type WithOptionalMeta<T extends Payload = Payload> = Partial<WithMeta<T>> & Omit<WithMeta<T>, '$hash'>
 

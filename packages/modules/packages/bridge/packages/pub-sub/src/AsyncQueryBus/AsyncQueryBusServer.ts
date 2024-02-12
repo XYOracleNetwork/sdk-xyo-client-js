@@ -1,7 +1,7 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
-import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -108,7 +108,7 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
     // Filter for commands to us by destination address
     const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
     const result = await queryBoundWitnessDiviner.divine([divinerQuery])
-    const commands = result.filter(isQueryBoundWitness)
+    const commands = result.filter(isQueryBoundWitnessWithMeta)
     const nextState = Math.max(...commands.map((c) => c.timestamp ?? 0))
     // TODO: This needs to be thought through as we can't use a distributed timestamp
     // because of collisions. We need to use the timestamp of the store so there's no

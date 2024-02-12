@@ -17,7 +17,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
@@ -68,7 +68,7 @@ export class CookieArchivist<
     ]
   }
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<WithMeta<Payload>> {
     try {
       return Object.entries(Cookies.get())
         .filter(([key]) => key.startsWith(`${this.namespace}-`))
@@ -92,16 +92,16 @@ export class CookieArchivist<
     }
   }
 
-  protected override async commitHandler(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     try {
       const payloads = await this.all()
       assertEx(payloads.length > 0, 'Nothing to commit')
       const settled = await Promise.allSettled(
         compact(
           Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
-            const queryPayload: ArchivistInsertQuery = {
+            const queryPayload: WithMeta<ArchivistInsertQuery> = await PayloadBuilder.build({
               schema: ArchivistInsertQuerySchema,
-            }
+            })
             const query = await this.bindQuery(queryPayload, payloads)
             return (await parent?.query(query[0], query[1]))?.[0]
           }),
@@ -128,7 +128,7 @@ export class CookieArchivist<
     return deletedPairs.map(([, hash]) => hash)
   }
 
-  protected override getHandler(hashes: Hash[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
     return compact(
       hashes.map((hash) => {
         const cookieString = Cookies.get(this.keyFromHash(hash))
@@ -137,10 +137,10 @@ export class CookieArchivist<
     )
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
     try {
       const pairs = await PayloadBuilder.hashPairs(payloads)
-      const resultPayloads: Payload[] = await Promise.all(
+      const resultPayloads: WithMeta<Payload>[] = await Promise.all(
         pairs.map(async ([payload, hash]) => {
           const payloadWithMeta = await PayloadBuilder.build(payload)
           const value = JSON.stringify(payloadWithMeta)

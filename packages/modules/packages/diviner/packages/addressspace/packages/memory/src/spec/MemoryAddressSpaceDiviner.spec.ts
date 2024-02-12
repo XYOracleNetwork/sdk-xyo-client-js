@@ -35,7 +35,7 @@ describe('MemoryAddressSpaceDiviner', () => {
 
       const all = await archivist.all()
 
-      expect(all).toBeArrayOfSize(7)
+      expect(all).toBeArrayOfSize(6)
 
       await node.register(archivist)
       await node.attach(archivist.address)
@@ -46,13 +46,11 @@ describe('MemoryAddressSpaceDiviner', () => {
       await node.register(diviner)
       await node.attach(diviner.address)
       const results = await diviner.divine()
-      expect(results.length).toBe(2)
+      expect(results.length).toBe(1)
       for (const payload of results) {
         expect(payload.schema).toBe(AddressSchema)
       }
-      const addresses = (await Promise.all(results.map((payload) => PayloadWrapper.wrap<AddressPayload>(payload as AddressPayload)))).map(
-        (payload) => payload.payload.address,
-      )
+      const addresses = results.map((payload) => payload.address)
       expect(addresses).toContain(wrapperAccount.address)
     })
   })

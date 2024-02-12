@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
-import { isBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -40,7 +40,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
   async send(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
-    const routedQuery = { ...query, $meta }
+    const routedQuery = await PayloadBuilder.build({ ...query, $meta })
     const queryArchivist = await this.queriesArchivist()
 
     const sourceAddress = query.addresses.at(0)
@@ -93,7 +93,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
           schema: 'network.xyo.error.module',
           sources: [routedQueryHash],
         }
-        resolve([routedQuery, [], [error]])
+        resolve([routedQuery, [], [await PayloadBuilder.build(error)]])
         return
       }
       forget(pollForResponse())
@@ -148,13 +148,12 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
           const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
           const result = await responseBoundWitnessDiviner.divine([divinerQuery])
           if (result && result.length > 0) {
-            const response = result.find(isBoundWitness)
+            const response = result.find(isBoundWitnessWithMeta)
             if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
               this.logger?.debug(`Found response to query: ${sourceQuery}`)
               // Get any payloads associated with the response
               const payloads = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
-              const errors: ModuleError[] = []
-              this.queryCache.set(sourceQuery, [response, payloads, errors])
+              this.queryCache.set(sourceQuery, [response, payloads, []])
             }
           }
         }

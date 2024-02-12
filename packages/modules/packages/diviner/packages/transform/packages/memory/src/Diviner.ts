@@ -21,12 +21,14 @@ const getJsonPathTransformer = <TSource extends Payload = Payload, TDestination 
   return transformer
 }
 
-export class MemoryTransformDiviner<TParams extends TransformDivinerParams = TransformDivinerParams> extends AbstractTransformDiviner<TParams> {
+export class MemoryTransformDiviner<
+  TParams extends TransformDivinerParams = TransformDivinerParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+> extends AbstractTransformDiviner<TParams, TIn, TOut> {
   static override configSchemas = [TransformDivinerConfigSchema]
 
-  protected override transformer<TSource extends Payload = Payload, TDestination extends Payload = Payload>(
-    transform: Transform,
-  ): PayloadTransformer<TSource, TDestination> {
-    return getJsonPathTransformer(transform)
+  protected override transformer(transform: Transform) {
+    return getJsonPathTransformer<TIn, TOut>(transform)
   }
 }

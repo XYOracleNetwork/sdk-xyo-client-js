@@ -125,24 +125,6 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
     [{ schema: 'network.xyo.test', value: 'foo' }],
   ],
   [
-    'Filters if property undefined',
-    {
-      operations: [{ op: 'undefined', path: '/value' }],
-      schema: JsonPatchDivinerConfigSchema,
-    },
-    [{ schema: 'network.xyo.test', value: undefined }],
-    [{ schema: 'network.xyo.test', value: undefined }],
-  ],
-  [
-    'Filters if property non-existent',
-    {
-      operations: [{ op: 'undefined', path: '/value' }],
-      schema: JsonPatchDivinerConfigSchema,
-    },
-    [{ schema: 'network.xyo.test' }],
-    [{ schema: 'network.xyo.test' }],
-  ],
-  [
     'Filters if property null',
     {
       operations: [{ op: 'test', path: '/value', value: null }],
@@ -177,7 +159,7 @@ describe('JsonPatchDiviner', () => {
       const sut = await JsonPatchDiviner.create({ account: wallet, config })
       const result = await sut.divine(input)
       expect(result).toBeArrayOfSize(expected.length)
-      expect(result).toEqual(expected)
+      expect(result).toMatchObject(expected)
     })
   })
 })

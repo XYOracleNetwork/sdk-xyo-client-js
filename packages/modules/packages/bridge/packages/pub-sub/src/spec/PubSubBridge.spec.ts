@@ -11,7 +11,7 @@ import { DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner-
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isModuleError, Payload } from '@xyo-network/payload-model'
+import { isModuleError, Payload, unMeta, WithMeta } from '@xyo-network/payload-model'
 
 import { PubSubBridge } from '../PubSubBridge'
 
@@ -248,7 +248,7 @@ describe('PubSubBridge', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       // Issue command via bridge
-      const data: Payload[] = []
+      const data: WithMeta<Payload>[] = []
       for (let i = 0; i < testPayloadCount; i++) {
         data.push(await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build())
         await delay(2) // Ensure we get a different timestamp than the previous
@@ -271,7 +271,7 @@ describe('PubSubBridge', () => {
       const archivist = assertEx(clientBArchivist)
       const all = await archivist.all?.()
       expect(all).toBeArrayOfSize(expectedArchivistSize)
-      expect(all).toIncludeAllMembers(data)
+      expect(all?.map(unMeta)).toIncludeAllMembers(data.map(unMeta))
     }
     it.each([
       ['A', 'B'],

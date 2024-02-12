@@ -1,6 +1,6 @@
 import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
   isSchemaListQueryPayload,
@@ -19,7 +19,10 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
   protected async divineAddress(address: string): Promise<string[]> {
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
-    const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
+    const filtered = all
+      .filter(isBoundWitness)
+      .filter(isBoundWitnessWithMeta)
+      .filter((bw) => bw.addresses.includes(address))
     return filtered.flatMap((bw) => bw.payload_schemas).filter(distinct)
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { PayloadHasher } from '../PayloadHasher'
 /*
 const cryptoTest = async () => {
@@ -97,6 +98,7 @@ describe.skip('Hasher - BigObject', () => {
     console.log(`stringifyDuration: ${stringifyDuration}`)
     console.log(`objSize: ${objSize}`)
 
+    PayloadHasher.warnIfUsingJsHash = true
     PayloadHasher.wasmSupport.allowWasm = false
     PayloadHasher.allowSubtle = true
     const subtleHashStart = Date.now()
@@ -106,6 +108,7 @@ describe.skip('Hasher - BigObject', () => {
     const subtleHashDuration = Date.now() - subtleHashStart
     console.log(`subtleHashDuration: ${subtleHashDuration} [${await PayloadHasher.hash(bigObject)}]`)
 
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.wasmSupport.allowWasm = false
     PayloadHasher.allowSubtle = false
     const jsHashStart = Date.now()

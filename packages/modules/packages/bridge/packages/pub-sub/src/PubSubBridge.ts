@@ -11,7 +11,7 @@ import {
   ModuleManifestQuerySchema,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusServer } from './AsyncQueryBus'
@@ -158,7 +158,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
-    return assertEx(manifest.find(isPayloadOfSchemaType(ModuleManifestPayloadSchema)), 'Did not receive manifest') as ModuleManifestPayload
+    return assertEx(
+      manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestPayload>>(ModuleManifestPayloadSchema)),
+      'Did not receive manifest',
+    ) as ModuleManifestPayload
   }
 
   override targetQueries(address: string): string[] {

@@ -14,6 +14,7 @@ import {
   StateDictionary,
 } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithMeta } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfig } from './Config'
 
@@ -37,7 +38,7 @@ export const StatefulModuleMixin = <
   ModuleBase: TModule,
 ) => {
   abstract class StatefulModuleBase extends ModuleBase {
-    _lastState?: ModuleState<TState>
+    _lastState?: WithMeta<ModuleState<TState>>
 
     /**
      * Commit the internal state of the Diviner process. This is similar
@@ -46,7 +47,7 @@ export const StatefulModuleMixin = <
      * external stores.
      * @param nextState The state to commit
      */
-    async commitState(nextState: ModuleState<TState>) {
+    async commitState(nextState: WithMeta<ModuleState<TState>>) {
       // Don't commit state if no state has changed
       if (nextState.state.offset === this._lastState?.state.offset) return
       this._lastState = nextState
@@ -100,7 +101,7 @@ export const StatefulModuleMixin = <
      * Retrieves the last state of the Diviner process. Used to recover state after
      * preemptions, reboots, etc.
      */
-    async retrieveState(): Promise<ModuleState<TState> | undefined> {
+    async retrieveState(): Promise<WithMeta<ModuleState<TState>> | undefined> {
       if (this._lastState) return this._lastState
       let hash: string = ''
       const diviner = await this.getBoundWitnessDivinerForStore()
@@ -135,7 +136,7 @@ export const StatefulModuleMixin = <
         const archivist = await this.getArchivistForStore()
         const payload = (await archivist.get([hash])).find(isModuleState<TState>)
         if (payload) {
-          return payload
+          return payload as WithMeta<ModuleState<TState>>
         }
       }
       return undefined

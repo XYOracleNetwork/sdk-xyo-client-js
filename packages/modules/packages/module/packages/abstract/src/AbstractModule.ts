@@ -423,9 +423,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
-  ): PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance> {
+  ): PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[], Payload[]], AccountInstance>(async (resolve) => {
+    const promise = new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
       const result = await this.bindQueryInternal(query, payloads, account)
       resolve?.(result)
       return result
@@ -437,7 +437,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
-  ): Promise<[QueryBoundWitness, Payload[], Payload[]]> {
+  ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
     const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).witness(this.account).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
@@ -453,7 +453,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
-    const result: ModuleQueryResult = [(await builder.build())[0], payloads, errors ?? []]
+    const result: ModuleQueryResult = [
+      (await builder.build())[0],
+      await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),
+      await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
+    ]
     if (this.config.archiving) {
       await this.storeToArchivists(result.flat())
     }

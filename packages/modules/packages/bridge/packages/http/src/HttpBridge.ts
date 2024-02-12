@@ -12,6 +12,7 @@ import {
   AnyConfigSchema,
   creatableModule,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
@@ -20,7 +21,7 @@ import {
   ModuleQueryResult,
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 import Url from 'url-parse'
@@ -160,7 +161,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     this._targetQueries[addressToDiscover] = compact(
       discover?.map((payload) => {
         if (payload.schema === QuerySchema) {
-          const schemaPayload = payload as QueryPayload
+          const schemaPayload = payload as WithMeta<QueryPayload>
           return schemaPayload.query
         } else {
           return null
@@ -169,12 +170,12 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     )
 
     const targetConfigSchema = assertEx(
-      discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
+      discover.find(isPayloadOfSchemaType<WithMeta<ConfigPayload>>(ConfigSchema)),
       () => `Discover did not return a [${ConfigSchema}] payload`,
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
-      discover.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
+      discover.find(isPayloadOfSchemaType<WithMeta<ModuleConfig>>(ModuleConfigSchema)),
       () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 
@@ -189,7 +190,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
-    return assertEx(manifest.find(isPayloadOfSchemaType(ModuleManifestPayloadSchema)), 'Did not receive manifest') as ModuleManifestPayload
+    return assertEx(manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestPayload>>(ModuleManifestPayloadSchema)), 'Did not receive manifest')
   }
 
   targetQueries(address: string): string[] {

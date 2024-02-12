@@ -5,10 +5,11 @@
 import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithMeta } from '@xyo-network/payload-model'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -58,7 +59,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     foo: ['bar', 'baz'],
     schema: 'network.xyo.debug',
   }
-  const boundWitnesses: BoundWitness[] = []
+  const boundWitnesses: WithMeta<BoundWitness>[] = []
   beforeAll(async () => {
     const [boundWitnessA] = await (await new BoundWitnessBuilder().payloads([payloadA])).build()
     const [boundWitnessB] = await (await new BoundWitnessBuilder().payloads([payloadB])).build()
@@ -103,7 +104,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
               .build()
             const results = await sut.divine([query])
             expect(results.length).toBeGreaterThan(0)
-            const bws = results.filter(isBoundWitness)
+            const bws = results.filter(isBoundWitnessWithMeta)
             expect(bws.length).toBeGreaterThan(0)
             for (const bw of bws) {
               expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
@@ -121,7 +122,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
-          const bws = results.filter(isBoundWitness)
+          const bws = results.filter(isBoundWitnessWithMeta)
           expect(bws.length).toBeGreaterThan(0)
           for (const bw of bws) {
             expect(bw.payload_schemas).toIncludeAllMembers(payload_schemas)
@@ -167,7 +168,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
           const [result] = results
-          expect(result).toEqual(boundWitness)
+          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(boundWitness))
         }
       })
     })
@@ -180,7 +181,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
           const results = await sut.divine([query])
           expect(results).toBeArrayOfSize(1)
           const [result] = results
-          expect(result).toEqual(boundWitnesses[boundWitnesses.length - i - 1])
+          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(boundWitnesses[boundWitnesses.length - i - 1]))
         }
       })
     })

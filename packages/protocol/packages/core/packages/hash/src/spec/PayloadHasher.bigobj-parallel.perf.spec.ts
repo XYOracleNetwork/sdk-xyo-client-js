@@ -42,6 +42,7 @@ describe('Hasher - BigObject Parallel ', () => {
     console.log(`stringifyDuration: ${stringifyDuration}`)
     console.log(`objSize: ${objSize}`)
 
+    PayloadHasher.warnIfUsingJsHash = true
     PayloadHasher.wasmSupport.allowWasm = false
     PayloadHasher.allowSubtle = true
     const subtleHashStart = Date.now()
@@ -53,6 +54,7 @@ describe('Hasher - BigObject Parallel ', () => {
     const subtleHashDuration = Date.now() - subtleHashStart
     console.log(`subtleHashDuration: ${subtleHashDuration} [${await PayloadHasher.hash(bigObject)}]`)
 
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.wasmSupport.allowWasm = false
     PayloadHasher.allowSubtle = false
     const jsHashStart = Date.now()

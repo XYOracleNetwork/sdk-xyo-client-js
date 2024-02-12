@@ -7,7 +7,7 @@ import {
   isDivinerModule,
 } from '@xyo-network/diviner-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithMeta } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule>
@@ -18,7 +18,7 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule = DivinerModule
   static override moduleIdentityCheck = isDivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
-  async divine(payloads?: Payload[]): Promise<Payload[]> {
+  async divine(payloads?: Payload[]): Promise<WithMeta<Payload>[]> {
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }

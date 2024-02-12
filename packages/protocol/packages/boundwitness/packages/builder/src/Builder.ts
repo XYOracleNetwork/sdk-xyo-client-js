@@ -119,7 +119,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return { addresses, payload_hashes, payload_schemas, previous_hashes, timestamp } as Omit<T, '$meta' | '$hash' | 'schema'>
   }
 
-  protected static async metaFields(
+  protected static override async metaFields(
     dataHash: Hash,
     otherMeta?: JsonObject,
     accounts?: AccountInstance[],
@@ -127,7 +127,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     destination?: Address[],
     sourceQuery?: Hash,
   ): Promise<JsonObject> {
-    const meta: JsonObject = { ...otherMeta }
+    const meta: JsonObject = { ...(await PayloadBuilderBase.metaFields(dataHash, otherMeta)) }
 
     if (accounts?.length && previousHashes?.length) {
       assertEx(accounts.length === previousHashes.length, 'accounts and previousHashes must have same length')
@@ -161,7 +161,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     assertEx(!bw.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
   }
 
-  async build(): Promise<[WithMeta<TBoundWitness>, TPayload[], ModuleError[]]> {
+  async build(): Promise<[WithMeta<TBoundWitness>, WithMeta<TPayload>[], WithMeta<ModuleError>[]]> {
     return await BoundWitnessBuilder._buildMutex.runExclusive(async () => {
       const dataHashableFields = (await this.dataHashableFields()) as TBoundWitness
       const $hash = (await PayloadBuilder.build(dataHashableFields)).$hash
@@ -172,7 +172,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
         $hash,
         $meta,
       } as WithMeta<TBoundWitness>
-      return [ret, this._payloads, this._errors]
+      return [
+        ret,
+        await Promise.all(this._payloads?.map((payload) => PayloadBuilder.build(payload))),
+        await Promise.all(this._errors?.map((error) => PayloadBuilder.build(error))),
+      ]
     })
   }
 
@@ -250,6 +254,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
+  protected override async metaFields(dataHash: Hash): Promise<JsonObject> {
+    return await BoundWitnessBuilder.metaFields(dataHash, this._$meta, this._accounts, this.previousHashes, this._destination, this._sourceQuery)
+  }
+
   protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {
     const hash = toArrayBuffer(_hash)
     const previousHashesBytes = previousHashes.map((ph) => (ph ? toUint8Array(ph) : undefined))
@@ -258,10 +266,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   private async linkingFields() {
     return await BoundWitnessBuilder.linkingFields<TBoundWitness>(this._accounts, this._payloads, this.timestamp)
-  }
-
-  private async metaFields(dataHash: Hash): Promise<JsonObject> {
-    return await BoundWitnessBuilder.metaFields(dataHash, this._$meta, this._accounts, this.previousHashes, this._destination, this._sourceQuery)
   }
 
   private missingSchemaMessage(payload: Payload) {

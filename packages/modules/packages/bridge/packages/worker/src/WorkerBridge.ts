@@ -7,7 +7,7 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload, NodeManifestPayloadSchema, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -22,7 +22,7 @@ import {
 } from '@xyo-network/module-model'
 import { NodeAttachQuerySchema } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { LRUCache } from 'lru-cache'
 
@@ -142,7 +142,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     this._targetQueries[addressToDiscover] = compact(
       discover?.map((payload) => {
         if (payload.schema === QuerySchema) {
-          const schemaPayload = payload as QueryPayload
+          const schemaPayload = payload as WithMeta<QueryPayload>
           return schemaPayload.query
         } else {
           return null
@@ -151,12 +151,12 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     )
 
     const targetConfigSchema = assertEx(
-      discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
+      discover.find(isPayloadOfSchemaType<WithMeta<ConfigPayload>>(ConfigSchema)),
       () => `Discover did not return a [${ConfigSchema}] payload`,
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
-      discover?.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
+      discover?.find(isPayloadOfSchemaType<WithMeta<ModuleConfig>>(targetConfigSchema)),
       () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 
@@ -171,7 +171,8 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     const boundQuery = await this.bindQuery(queryPayload)
     const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
     return assertEx(
-      manifest.find(isPayloadOfSchemaType(ModuleManifestQuerySchema) || manifest.find(isPayloadOfSchemaType(NodeManifestPayloadSchema))),
+      manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestQuery>>(ModuleManifestQuerySchema)) ??
+        manifest.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema)),
       'Did not receive manifest',
     ) as ModuleManifestPayload
   }

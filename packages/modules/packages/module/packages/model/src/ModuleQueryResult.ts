@@ -1,4 +1,4 @@
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleError, Payload } from '@xyo-network/payload-model'
+import { ModuleError, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-export type ModuleQueryResult = [BoundWitness, Payload[], ModuleError[]]
+export type ModuleQueryResult = [WithMeta<BoundWitness>, PayloadWithMeta[], WithMeta<ModuleError>[]]

@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -39,10 +40,12 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       await Promise.all(
         archivists.map(async (archivist) => {
           const all = await archivist.all?.()
-          return all?.filter((payload) => payload.schema === BoundWitnessSchema) as BoundWitness[]
+          return all?.filter(isBoundWitnessWithMeta)
         }),
       )
-    ).flat()
+    )
+      .flat()
+      .filter(exists)
   }
 
   private buildAddressChains(address: string, bwRecords: Record<string, BoundWitness>): Record<string, BoundWitness[]> {

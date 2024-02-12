@@ -1,4 +1,4 @@
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerResultIndexSchema } from './Schema'
 
@@ -9,6 +9,11 @@ export type TemporalIndexingDivinerResultIndex = Payload<
   },
   TemporalIndexingDivinerResultIndexSchema
 >
+
 export const isTemporalIndexingDivinerResultIndex = isPayloadOfSchemaType<TemporalIndexingDivinerResultIndex>(
+  TemporalIndexingDivinerResultIndexSchema,
+)
+
+export const isTemporalIndexingDivinerResultIndexWithMeta = isPayloadOfSchemaType<WithMeta<TemporalIndexingDivinerResultIndex>>(
   TemporalIndexingDivinerResultIndexSchema,
 )

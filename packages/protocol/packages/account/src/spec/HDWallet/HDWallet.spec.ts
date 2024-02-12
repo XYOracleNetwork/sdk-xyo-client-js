@@ -52,6 +52,8 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.private.hex).toEqual(accountB.private.hex)
         expect(accountA.public.hex).toEqual(accountB.public.hex)
         expect(accountA.path).toEqual(accountB.path)
+        // accountA and accountB should be the same instance
+        // expect(accountA).toBe(accountB)
         expect(accountA.address).toMatchSnapshot()
         expect(accountB.address).toMatchSnapshot()
       })

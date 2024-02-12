@@ -7,7 +7,7 @@ import { hexFromHexString } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountConfig } from '@xyo-network/account-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
-import { HDNodeWallet, Mnemonic } from 'ethers'
+import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
 //import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
@@ -92,7 +92,7 @@ export class HDWallet extends Account implements WalletInstance {
     return await HDWallet.createFromNode(node as HDNodeWallet)
   }
 
-  static override async fromMnemonic(mnemonic: Mnemonic, path?: string): Promise<HDWallet> {
+  static override async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<HDWallet> {
     let existing = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
     if (existing) {
       if (path) {
@@ -111,14 +111,8 @@ export class HDWallet extends Account implements WalletInstance {
     existing = await HDWallet.createFromNode(node)
     const ref = new WeakRef(existing)
     HDWallet._mnemonicMap[mnemonic.phrase] = ref
-    if (path) {
-      const derivedNode = await existing.derivePath(path)
-      const ref = new WeakRef(derivedNode)
-      existing._pathMap[path] = ref
-      console.log(`fromMnemonic3: [${path}][${derivedNode.path}]`)
-      return derivedNode
-    }
-    console.log(`fromMnemonic4: [${path}][${existing.path}]`)
+    if (existing.path) existing._pathMap[existing.path] = ref
+    console.log(`fromMnemonic3: [${path}][${existing.path}]`)
     return existing
   }
 

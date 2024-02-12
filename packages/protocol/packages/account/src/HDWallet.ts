@@ -107,7 +107,7 @@ export class HDWallet extends Account implements WalletInstance {
       }
     }
 
-    const node = HDNodeWallet.fromMnemonic(mnemonic)
+    const node = HDNodeWallet.fromMnemonic(mnemonic, path)
     existing = await HDWallet.createFromNode(node)
     const ref = new WeakRef(existing)
     HDWallet._mnemonicMap[mnemonic.phrase] = ref

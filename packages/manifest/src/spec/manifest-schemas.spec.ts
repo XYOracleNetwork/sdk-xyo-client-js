@@ -13,7 +13,7 @@ import { invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDa
 const cases = [
   {
     describeName: 'PackageManifestSchema',
-    expectedErrorCount: 3,
+    expectedErrorCount: 4,
     invalidCase: invalidPackageManifestSchema,
     schemaToTest: packageManifestSchema,
     validCase: validPackageManifestSchema,
@@ -21,7 +21,7 @@ const cases = [
   {
     compiled: true,
     describeName: 'CompiledPackageManifestSchema',
-    expectedErrorCount: 3,
+    expectedErrorCount: 4,
     invalidCase: invalidPackageManifestSchema,
     schemaToTest: packageManifestSchemaCompiled,
     validCase: validPackageManifestSchema,

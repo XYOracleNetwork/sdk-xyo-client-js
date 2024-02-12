@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://xyo.network/schemas/dapp-package-manifest-schema.json",
+  "additionalProperties": false,
   "definitions": {
     "architecture": {
       "description": "Architecture",
@@ -229,6 +230,9 @@
     }
   },
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },

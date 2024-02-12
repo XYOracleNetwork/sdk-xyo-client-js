@@ -1,4 +1,6 @@
 export const invalidPackageManifestSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  foo: 'bar',
   nodes: [
     {
       config3: {

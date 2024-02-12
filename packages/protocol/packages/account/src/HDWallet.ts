@@ -64,8 +64,8 @@ export class HDWallet extends Account implements WalletInstance {
     return this.node.parentFingerprint
   }
 
-  get path(): string {
-    return this.node.path ? `${this.node.path}` : "m/44'/60'"
+  get path(): string | null {
+    return this.node.path
   }
 
   get privateKey(): string {

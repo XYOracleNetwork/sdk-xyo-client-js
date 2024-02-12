@@ -92,7 +92,7 @@ export class HDWallet extends Account implements WalletInstance {
     return await HDWallet.createFromNode(node as HDNodeWallet)
   }
 
-  static override async fromMnemonic(mnemonic: Mnemonic, path = "m/44'/60'"): Promise<HDWallet> {
+  static override async fromMnemonic(mnemonic: Mnemonic, path?: string): Promise<HDWallet> {
     let existing = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
     if (existing) {
       if (path) {

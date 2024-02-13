@@ -1,7 +1,14 @@
 import { WalletStatic } from '@xyo-network/wallet-model'
 import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
 
+/**
+ * Converts a compressed public key to an uncompressed public key
+ * @param compressed The compressed public key
+ * @returns The uncompressed public key
+ */
 const toUncompressedPublicKey = (compressed: string): string => SigningKey.computePublicKey(compressed, false).toLowerCase().replace('0x04', '')
+
+const formatHexString = (unformatted: string): string => unformatted.toLowerCase().replace('0x', '')
 
 export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => {
   describe(title, () => {
@@ -16,16 +23,18 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       it.each(paths)('works repeatably & interoperably with Ethers', async (path: string) => {
         const sutA = await HDWallet.fromPhrase(phrase)
         const sutB = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
-        expect(sutA.address).toEqual(sutB.address.toLowerCase().replace('0x', ''))
-        expect(sutA.private.hex).toEqual(sutB.privateKey.toLowerCase().replace('0x', ''))
+        expect(sutA.address).toEqual(formatHexString(sutB.address))
+        expect(sutA.private.hex).toEqual(formatHexString(sutB.privateKey))
         expect(sutA.public.hex).toEqual(toUncompressedPublicKey(sutB.publicKey))
         expect(sutA.path).toEqual(sutB.path)
         const accountA = await sutA.derivePath(path)
         const accountB = sutB.derivePath(path)
-        expect(accountA.address).toEqual(accountB.address.toLowerCase().replace('0x', ''))
-        expect(accountA.private.hex).toEqual(accountB.privateKey.toLowerCase().replace('0x', ''))
+        expect(accountA.address).toEqual(formatHexString(accountB.address))
+        expect(accountA.private.hex).toEqual(formatHexString(accountB.privateKey))
         expect(accountA.public.hex).toEqual(toUncompressedPublicKey(accountB.publicKey))
         expect(accountA.path).toEqual(accountB.path)
+        expect(accountA.address).toMatchSnapshot()
+        expect(accountB.address).toMatchSnapshot()
       })
     })
     describe('derivePath', () => {

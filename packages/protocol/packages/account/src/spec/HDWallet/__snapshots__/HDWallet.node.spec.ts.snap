@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 1`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 2`] = `"0x012167A8cD67F0f20fBFC54212aC9BBa982Dbae3"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 3`] = `"6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 4`] = `"0x6AB24A1bccCc3FF79E8F826B7cc5BF583b5e9C57"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 5`] = `"5e0e54445fdd4e453fca8216b056226c5ef6a2f1"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 6`] = `"0x5e0E54445fDd4e453FCa8216b056226C5eF6a2F1"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 7`] = `"3654cafa0b49eef056adc7dce5f745b08f98498d"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 8`] = `"0x3654cafa0b49EEf056ADc7DCe5f745B08f98498D"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 9`] = `"f2a43815de64547920effab3112c6af940454fff"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 10`] = `"0xf2A43815dE64547920eFfAb3112C6AF940454fFf"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 11`] = `"e072bfa0adf20b46997aa346333683de09765ce6"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 12`] = `"0xe072bFA0ADF20b46997AA346333683de09765Ce6"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 13`] = `"09a9478624b423318d0b5c69b08896c9c961af4b"`;
+
+exports[`Node Wallet Test HDWallet: Node constructor works repeatably & interoperably with Ethers 14`] = `"0x09A9478624b423318D0b5C69B08896C9C961af4B"`;
+
 exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 1`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
 
 exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 2`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;

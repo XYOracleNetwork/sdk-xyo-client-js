@@ -18,9 +18,9 @@ export class WASMPrivateKey extends PrivateKey {
   constructor(value?: ArrayBuffer) {
     super(value)
     const privateHex = this._keyPair.getPrivate('hex')
-    this._privateKeyBytes = toUint8Array(privateHex)
+    this._privateKeyBytes = toUint8Array(privateHex, value?.byteLength)
     const publicHex = this._keyPair.getPublic('hex')
-    this._publicKeyBytes = toUint8Array(publicHex)
+    this._publicKeyBytes = toUint8Array(publicHex, value?.byteLength)
   }
 
   override get public(): PublicKeyInstance {

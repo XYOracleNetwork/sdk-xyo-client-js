@@ -8,6 +8,7 @@ import { spawn, Worker } from 'threads'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitPrefixedFields } from './removeFields'
 import { sortFields } from './sortFields'
+import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 const maxHashThreads = 8
@@ -117,7 +118,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     }
     try {
       if (this.jsHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/jsHash.js')
+        const code = jsHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.jsHashThreads.push(worker)
       }
@@ -156,7 +162,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     await this.subtleSemaphore.acquire()
     try {
       if (this.subtleHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/subtleHash.js')
+        const code = subtleHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.subtleHashThreads.push(worker)
       }
@@ -176,7 +187,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     await this.wasmSemaphore.acquire()
     try {
       if (this.wasmHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/wasmHash.js')
+        const code = wasmHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.wasmHashThreads.push(worker)
       }

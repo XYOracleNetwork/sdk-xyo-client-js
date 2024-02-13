@@ -5,7 +5,6 @@ import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/bou
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithMeta } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
 import { AsyncQueryBusParams } from './Params'

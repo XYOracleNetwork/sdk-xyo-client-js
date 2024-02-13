@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { isAnyPayload } from './isPayload'
 import { Payload, PayloadWithMeta, WithMeta } from './Payload'
 
@@ -32,7 +33,9 @@ const testType: Test = testWithMeta
 const isTest: Test[] = testPayloads.filter(isPayloadOfSchemaType(TestSchema))
 const isTestFromMeta: Payload[] = testMetaPayloads.filter(isPayloadOfSchemaType(TestSchema))
 const isTestFromMetaWithMeta: PayloadWithMeta[] = testMetaPayloads.filter(isPayloadOfSchemaType(TestSchema))
-const isTestFromMetaTyped: Test[] = testMetaPayloads.filter(isPayloadOfSchemaType(TestSchema))
+
+const isTestFromMetaTyped = testMetaPayloads.filter(isPayloadOfSchemaType<Test>(TestSchema))
+
 const isTestFromMetaTypedWithMeta: WithMeta<Test>[] = testMetaPayloads.filter(isPayloadOfSchemaType(TestSchema))
 
 const isTestWithMeta: WithMeta<Test>[] = testPayloads.filter(isPayloadOfSchemaTypeWithMeta(TestSchema))

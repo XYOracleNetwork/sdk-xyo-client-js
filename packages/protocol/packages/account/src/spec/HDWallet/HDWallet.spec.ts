@@ -1,5 +1,13 @@
-import { WalletStatic } from '@xyo-network/wallet-model'
+import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
+
+type Wallet = HDNodeWallet | WalletInstance
+interface WalletSnapshot {
+  address: string
+  path: string | null
+  privateKey: string
+  publicKey: string
+}
 
 /**
  * Converts a compressed public key to an uncompressed public key
@@ -9,6 +17,15 @@ import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
 const toUncompressedPublicKey = (compressed: string): string => SigningKey.computePublicKey(compressed, false).toLowerCase().replace('0x04', '')
 
 const formatHexString = (unformatted: string): string => unformatted.toLowerCase().replace('0x', '')
+
+const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
+  const { address, path, privateKey, publicKey } = wallet
+  return { address, path, privateKey, publicKey }
+}
+
+const snapshotWalletInstances = (walletA: Wallet, walletB: Wallet) => {
+  expect([toWalletSnapshot(walletA), toWalletSnapshot(walletB)]).toMatchSnapshot()
+}
 
 export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => {
   describe(title, () => {
@@ -27,14 +44,14 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(sutA.private.hex).toEqual(formatHexString(sutB.privateKey))
         expect(sutA.public.hex).toEqual(toUncompressedPublicKey(sutB.publicKey))
         expect(sutA.path).toEqual(sutB.path)
+        snapshotWalletInstances(sutA, sutB)
         const accountA = await sutA.derivePath(path)
         const accountB = sutB.derivePath(path)
         expect(accountA.address).toEqual(formatHexString(accountB.address))
         expect(accountA.private.hex).toEqual(formatHexString(accountB.privateKey))
         expect(accountA.public.hex).toEqual(toUncompressedPublicKey(accountB.publicKey))
         expect(accountA.path).toEqual(accountB.path)
-        expect(accountA.address).toMatchSnapshot()
-        expect(accountB.address).toMatchSnapshot()
+        snapshotWalletInstances(accountA, accountB)
       })
     })
     describe('derivePath', () => {

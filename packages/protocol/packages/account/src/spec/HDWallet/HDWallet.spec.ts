@@ -63,14 +63,14 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         const sutA = await HDWallet.fromPhrase(phrase)
         const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
         expect(sutB.path).toBeNull()
+        snapshotWalletInstances(sutA, sutB)
         const accountA = await sutA.derivePath?.(path)
         const accountB = await sutB.derivePath?.(path)
         expect(accountB.path).toBeNull()
         expect(accountA.address).toBe(accountB.address)
         expect(accountA.private.hex).toBe(accountB.private.hex)
         expect(accountA.public.hex).toBe(accountB.public.hex)
-        expect(accountA.address).toMatchSnapshot()
-        expect(accountB.address).toMatchSnapshot()
+        snapshotWalletInstances(accountA, accountB)
       })
       it('works when paths provided incrementally', async () => {
         const parentRelativePath = "44'/60'/0'"
@@ -78,14 +78,14 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         const sutA = await HDWallet.fromPhrase(phrase)
         const sutB = await HDWallet.fromPhrase(phrase)
         expect(sutA.path).toEqual(sutB.path)
+        // snapshotWalletInstances(sutA, sutB)
         const accountA = await (await sutA.derivePath(parentRelativePath)).derivePath?.(childRelativePath)
         const accountB = await sutB.derivePath?.([parentRelativePath, childRelativePath].join('/'))
         expect(accountA.address).toEqual(accountB.address)
         expect(accountA.private.hex).toEqual(accountB.private.hex)
         expect(accountA.public.hex).toEqual(accountB.public.hex)
         expect(accountA.path).toEqual(accountB.path)
-        expect(accountA.address).toMatchSnapshot()
-        expect(accountB.address).toMatchSnapshot()
+        snapshotWalletInstances(accountA, accountB)
       })
       it('works when paths provided absolutely', async () => {
         const parentAbsolutePath = "m/44'/60'/0'"
@@ -95,6 +95,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         const sutB = await HDWallet.fromPhrase(phrase, parentAbsolutePath)
         expect(sutA.path).toEqual(absolutePath)
         expect(sutB.path).toEqual(parentAbsolutePath)
+        // snapshotWalletInstances(sutA, sutB)
         const accountA = sutA
         const accountB = await sutB.derivePath(childRelativePath)
         expect(accountA.address).toEqual(accountB.address)
@@ -103,8 +104,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.path).toEqual(accountB.path)
         // accountA and accountB should be the same instance
         // expect(accountA).toBe(accountB)
-        expect(accountA.address).toMatchSnapshot()
-        expect(accountB.address).toMatchSnapshot()
+        snapshotWalletInstances(accountA, accountB)
       })
       it('returns cached instances on subsequent requests', async () => {
         const parent = "44'/60'/0'"
@@ -120,6 +120,7 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         expect(accountA.public.hex).toEqual(accountB.public.hex)
         // accountA and accountB should be the same instance
         // expect(accountA).toBe(accountB)
+        snapshotWalletInstances(accountA, accountB)
       })
     })
   })

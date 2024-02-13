@@ -513,6 +513,23 @@ exports[`Node Wallet Test HDWallet: Node derivePath works when paths provided ab
 exports[`Node Wallet Test HDWallet: Node derivePath works when paths provided incrementally 1`] = `
 [
   {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+  {
+    "address": "e46c258c74c7c1df33d7caa4c2c664dc0843ab3f",
+    "path": "m/44'/60'/0'/0/0",
+    "privateKey": "0x96a7705eedbb701a03ee235911253fd3eb80e48a06106c0bf957d42b72bd8efa",
+    "publicKey": "0x03a9f10779cb44e73a1983b8225ce9de96ff63cbc8a2900db102fa55a38a14b206",
+  },
+]
+`;
+
+exports[`Node Wallet Test HDWallet: Node derivePath works when paths provided incrementally 2`] = `
+[
+  {
     "address": "3654cafa0b49eef056adc7dce5f745b08f98498d",
     "path": "m/44'/60'/0'/0/0/44'/60'/0'/0/1",
     "privateKey": "0x00689c78fca99bb3f0c6d116478b3b5250af3b3e4c5cc8bf211b6dca638806d0",

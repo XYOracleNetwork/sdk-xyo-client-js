@@ -16,7 +16,6 @@
         "--runInBand",
         "--testTimeout=120000",
         "packages/protocol/packages/account/src/spec/HDWallet/HDWallet.node.spec.ts"
-        // "packages/protocol/packages/core/packages/data/src/spec/Data.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

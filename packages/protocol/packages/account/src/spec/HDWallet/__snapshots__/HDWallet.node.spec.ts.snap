@@ -1,32 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 1`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 1`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 2`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 2`] = `"012167a8cd67f0f20fbfc54212ac9bba982dbae3"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 3`] = `"6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 3`] = `"6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 4`] = `"6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 4`] = `"6ab24a1bcccc3ff79e8f826b7cc5bf583b5e9c57"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 5`] = `"5e0e54445fdd4e453fca8216b056226c5ef6a2f1"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 5`] = `"5e0e54445fdd4e453fca8216b056226c5ef6a2f1"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 6`] = `"5e0e54445fdd4e453fca8216b056226c5ef6a2f1"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 6`] = `"5e0e54445fdd4e453fca8216b056226c5ef6a2f1"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 7`] = `"3654cafa0b49eef056adc7dce5f745b08f98498d"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 7`] = `"3654cafa0b49eef056adc7dce5f745b08f98498d"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 8`] = `"3654cafa0b49eef056adc7dce5f745b08f98498d"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 8`] = `"3654cafa0b49eef056adc7dce5f745b08f98498d"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 9`] = `"f2a43815de64547920effab3112c6af940454fff"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 9`] = `"f2a43815de64547920effab3112c6af940454fff"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 10`] = `"f2a43815de64547920effab3112c6af940454fff"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 10`] = `"f2a43815de64547920effab3112c6af940454fff"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 11`] = `"e072bfa0adf20b46997aa346333683de09765ce6"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 11`] = `"e072bfa0adf20b46997aa346333683de09765ce6"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 12`] = `"e072bfa0adf20b46997aa346333683de09765ce6"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 12`] = `"e072bfa0adf20b46997aa346333683de09765ce6"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 13`] = `"09a9478624b423318d0b5c69b08896c9c961af4b"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 13`] = `"09a9478624b423318d0b5c69b08896c9c961af4b"`;
 
-exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably 14`] = `"09a9478624b423318d0b5c69b08896c9c961af4b"`;
+exports[`Node Wallet Test HDWallet: Node derivePath works repeatably & interoperably from phrase & extended key 14`] = `"09a9478624b423318d0b5c69b08896c9c961af4b"`;
 
 exports[`Node Wallet Test HDWallet: Node derivePath works when paths provided absolutely 1`] = `"148c7da67c48a8c6da464ba8b3619c2fd4037a43"`;
 

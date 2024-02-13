@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
@@ -78,7 +78,7 @@ export class IndexedDbArchivist<
     return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
-  protected override async allHandler(): Promise<Payload[]> {
+  protected override async allHandler(): Promise<PayloadWithMeta[]> {
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
@@ -115,7 +115,7 @@ export class IndexedDbArchivist<
     })
   }
 
-  protected override async getHandler(hashes: string[]): Promise<Payload[]> {
+  protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
@@ -143,7 +143,7 @@ export class IndexedDbArchivist<
     return [...payloadsFromHash, ...payloadsFromDataHash]
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
 
     const db = await this.getInitializedDb()

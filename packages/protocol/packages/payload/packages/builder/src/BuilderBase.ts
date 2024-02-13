@@ -48,6 +48,14 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     )
   }
 
+  protected static metaFields(dataHash: Hash, otherMeta?: JsonObject): Promisable<JsonObject> {
+    const meta: JsonObject = { ...otherMeta }
+
+    meta.timestamp = meta.timestamp ?? Date.now()
+
+    return meta
+  }
+
   $meta(meta?: JsonObject) {
     this._$meta = meta ?? (this._fields as WithMeta<T>).$meta
     return this
@@ -79,5 +87,9 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
 
   schema(value: Schema) {
     this._schema = value
+  }
+
+  protected async metaFields(dataHash: Hash): Promise<JsonObject> {
+    return await PayloadBuilderBase.metaFields(dataHash, this._$meta)
   }
 }

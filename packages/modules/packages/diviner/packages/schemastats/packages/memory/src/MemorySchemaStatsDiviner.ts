@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { SchemaStatsDiviner } from '@xyo-network/diviner-schema-stats-abstract'
 import {
   isSchemaStatsQueryPayload,
@@ -18,7 +18,10 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   protected async divineAddress(address: string): Promise<Record<string, number>> {
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
-    const filtered = all.filter(isBoundWitness).filter((bw) => bw.addresses.includes(address))
+    const filtered = all
+      .filter(isBoundWitness)
+      .filter(isBoundWitnessWithMeta)
+      .filter((bw) => bw.addresses.includes(address))
     // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = filtered.reduce(
       (acc, payload) => {

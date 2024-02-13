@@ -8,6 +8,7 @@ import { spawn, Worker } from 'threads'
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitPrefixedFields } from './removeFields'
 import { sortFields } from './sortFields'
+import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 const maxHashThreads = 8
@@ -27,6 +28,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static readonly subtleHashThreads: any[] = []
   static readonly subtleSemaphore = new Semaphore(maxHashThreads * maxListenersPerThread)
+  static warnIfUsingJsHash = true
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static readonly wasmHashThreads: any[] = []
 
@@ -62,10 +64,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
         const data = enc.encode(stringToHash)
         const hashArray = await this.subtleHash(data)
         return hexFromArrayBuffer(hashArray, { bitLength: 256 })
-      } catch (ex) {
-        const error = ex as Error
-        console.error(`Setting allowSubtle to false [${error.message}]`)
-        console.log(error.stack)
+      } catch {
         PayloadHasher.allowSubtle = false
       }
     }
@@ -114,9 +113,17 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static async jsHash(data: string) {
     await this.jsSemaphore.acquire()
+    if (PayloadHasher.warnIfUsingJsHash) {
+      console.warn('Using jsHash [No subtle or wasm?]')
+    }
     try {
       if (this.jsHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/jsHash.js')
+        const code = jsHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.jsHashThreads.push(worker)
       }
@@ -155,7 +162,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     await this.subtleSemaphore.acquire()
     try {
       if (this.subtleHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/subtleHash.js')
+        const code = subtleHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.subtleHashThreads.push(worker)
       }
@@ -175,7 +187,12 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     await this.wasmSemaphore.acquire()
     try {
       if (this.wasmHashThreads.length < maxHashThreads) {
-        const w = new Worker('./worker/wasmHash.js')
+        const code = wasmHashFunc.toString().slice(6)
+        const w = new Worker(
+          code,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { fromSource: true } as any,
+        )
         const worker = await spawn(w)
         this.wasmHashThreads.push(worker)
       }

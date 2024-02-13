@@ -10,14 +10,20 @@ export class PayloadBuilder<
   T extends Payload = Payload<AnyObject>,
   O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
 > extends PayloadBuilderBase<T, O> {
-  static async build<T extends Payload = Payload<AnyObject>>(payload: T, validate = false): Promise<WithMeta<T>> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
-    const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
-    const $hash = validate || incomingDataHash === undefined ? await PayloadBuilder.hash(dataHashableFields) : incomingDataHash
-    const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T, validate?: boolean): Promise<WithMeta<T>>
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T[], validate?: boolean): Promise<WithMeta<T>[]>
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], validate = false) {
+    if (Array.isArray(payload)) {
+      return await Promise.all(payload.map((payload) => this.build(payload)))
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
+      const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
+      const $hash = validate || incomingDataHash === undefined ? await PayloadBuilder.hash(dataHashableFields) : incomingDataHash
+      const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
 
-    return hashableFields as WithMeta<T>
+      return hashableFields as WithMeta<T>
+    }
   }
 
   static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
@@ -118,15 +124,27 @@ export class PayloadBuilder<
     return result
   }
 
+  static withoutMeta(payload: undefined): undefined
+  static withoutMeta<T extends PayloadWithMeta>(payload: T): Omit<T, '$meta'>
+  static withoutMeta<T extends PayloadWithMeta>(payloads: T[]): Omit<T, '$meta'>[]
+  static withoutMeta<T extends PayloadWithMeta>(payloads: T | T[]) {
+    if (Array.isArray(payloads)) {
+      return payloads.map((payload) => this.withoutMeta(payload))
+    } else {
+      if (payloads) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { $meta, ...result } = payloads
+        return result as Omit<T, '$meta'>
+      }
+    }
+  }
+
   async build(): Promise<WithMeta<T>> {
     const dataHashableFields = await this.dataHashableFields()
     const $hash = await PayloadBuilder.hash(dataHashableFields)
-    const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash }
+    const $meta = await this.metaFields($hash)
+    const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash, $meta }
 
-    //only add $meta if it exists and has at least one field
-    if (this._$meta && Object.keys(this._$meta).length > 0) {
-      hashableFields['$meta'] = this._$meta
-    }
     return hashableFields as WithMeta<T>
   }
 }

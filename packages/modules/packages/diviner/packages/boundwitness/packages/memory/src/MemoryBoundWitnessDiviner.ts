@@ -7,9 +7,10 @@ import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
   BoundWitnessDivinerConfigSchema,
   BoundWitnessDivinerParams,
+  BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { Payload } from '@xyo-network/payload-model'
+import { WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
   /**
@@ -64,15 +65,19 @@ export interface EqualityComparisonOperators {
 type WithTimestamp = BoundWitness & { timestamp: number }
 const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !== undefined
 
-export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams> extends BoundWitnessDiviner<TParams> {
+export class MemoryBoundWitnessDiviner<
+  TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams,
+  TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
+  TOut extends BoundWitness = BoundWitness,
+> extends BoundWitnessDiviner<TParams, TIn, TOut> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination, timestamp } = filter
-    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness)
+    let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map((address) => hexFromHexString(address)).filter(exists)
     if (allAddresses?.length) bws = bws.filter((bw) => containsAll(bw.addresses, allAddresses))
@@ -101,6 +106,6 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     }
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0
-    return bws.slice(parsedOffset, parsedLimit)
+    return bws.slice(parsedOffset, parsedLimit) as WithMeta<TOut>[]
   }
 }

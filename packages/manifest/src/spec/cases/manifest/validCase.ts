@@ -1,4 +1,5 @@
 export const validPackageManifestSchema = {
+  $schema: 'https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/compilations/schema.json',
   nodes: [
     {
       config: {

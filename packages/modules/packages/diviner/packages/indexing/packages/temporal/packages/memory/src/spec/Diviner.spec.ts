@@ -4,14 +4,14 @@ import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
-import { isTemporalIndexingDivinerResultIndex } from '@xyo-network/diviner-temporal-indexing-model'
+import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
-import { isModuleState, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { isModuleStateWithMeta, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -134,7 +134,7 @@ describe('TemporalIndexingDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('ImageThumbnailDiviner')))
+    sut = assertEx(asDivinerInstance(await node.resolve('ImageThumbnailDiviner'))) as TemporalIndexingDiviner
 
     // Allow enough time for diviner to divine
     await delay(1000)
@@ -147,7 +147,7 @@ describe('TemporalIndexingDiviner', () => {
     })
     it('has expected bound witnesses', async () => {
       const payloads = await stateArchivist.all()
-      const stateBoundWitnesses = payloads.filter(isBoundWitness)
+      const stateBoundWitnesses = payloads.filter(isBoundWitnessWithMeta)
       expect(stateBoundWitnesses).toBeArrayOfSize(2)
       for (const stateBoundWitness of stateBoundWitnesses) {
         expect(stateBoundWitness).toBeObject()
@@ -157,7 +157,7 @@ describe('TemporalIndexingDiviner', () => {
     })
     it('has expected state', async () => {
       const payloads = await stateArchivist.all()
-      const statePayloads = payloads.filter(isModuleState)
+      const statePayloads = payloads.filter(isModuleStateWithMeta)
       expect(statePayloads).toBeArrayOfSize(2)
       expect(statePayloads.at(-1)).toBeObject()
       const statePayload = assertEx(statePayloads.at(-1))
@@ -174,7 +174,7 @@ describe('TemporalIndexingDiviner', () => {
     // NOTE: We're not signing indexes for performance reasons
     it.skip('has expected bound witnesses', async () => {
       const payloads = await indexArchivist.all()
-      const indexBoundWitnesses = payloads.filter(isBoundWitness)
+      const indexBoundWitnesses = payloads.filter(isBoundWitnessWithMeta)
       expect(indexBoundWitnesses).toBeArrayOfSize(1)
       const indexBoundWitness = indexBoundWitnesses[0]
       expect(indexBoundWitness).toBeObject()
@@ -203,7 +203,7 @@ describe('TemporalIndexingDiviner', () => {
       it('returns the most recent result', async () => {
         const query: Query = { schema, url }
         const results = await sut.divine([query])
-        const result = results.find(isTemporalIndexingDivinerResultIndex)
+        const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
         expect(result).toBeDefined()
         const expected = await PayloadBuilder.dataHash(thumbnailCodeFail)
         expect(result?.sources).toContain(expected)
@@ -216,7 +216,7 @@ describe('TemporalIndexingDiviner', () => {
           const { status } = payload.http ?? {}
           const query: Query = { schema, status, url }
           const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
+          const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)
@@ -228,7 +228,7 @@ describe('TemporalIndexingDiviner', () => {
           const success = !!(payload.url ?? false)
           const query: Query = { schema, success, url }
           const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
+          const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)
@@ -240,7 +240,7 @@ describe('TemporalIndexingDiviner', () => {
           const success = !!(payload.url ?? false)
           const query: Query = { schema, success, url }
           const results = await sut.divine([query])
-          const result = results.find(isTemporalIndexingDivinerResultIndex)
+          const result = results.find(isTemporalIndexingDivinerResultIndexWithMeta)
           expect(result).toBeDefined()
           const expected = await PayloadBuilder.dataHash(payload)
           expect(result?.sources).toContain(expected)

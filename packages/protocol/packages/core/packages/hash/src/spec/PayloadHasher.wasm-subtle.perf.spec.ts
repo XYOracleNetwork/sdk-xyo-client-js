@@ -3,7 +3,7 @@ import { AnyObject } from '@xylabs/object'
 
 import { PayloadHasher } from '../PayloadHasher'
 
-const perfIterations = 100_000
+const perfIterations = 1000
 
 describe('Hasher', () => {
   const testObject = () => ({

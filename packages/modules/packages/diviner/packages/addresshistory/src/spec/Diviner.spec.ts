@@ -5,6 +5,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryQuerySchema } from '@xyo-network/diviner-address-history-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithMeta } from '@xyo-network/payload-model'
 
 import { AddressHistoryDiviner } from '../Diviner'
 
@@ -32,7 +33,7 @@ describe('AddressHistoryDiviner', () => {
       await wrapper.insert([payload2])
       await wrapper.insert([payload3])
       const all = await wrapper.all()
-      expect(all).toBeArrayOfSize(7)
+      expect(all).toBeArrayOfSize(6)
       await node.register(archivist)
       await node.attach(archivist.address)
       diviner = await AddressHistoryDiviner.create({
@@ -51,7 +52,7 @@ describe('AddressHistoryDiviner', () => {
     })
     describe('with no query payloads', () => {
       it('returns divined result for all addresses', async () => {
-        const result = (await diviner.divine()) as BoundWitness[]
+        const result = (await diviner.divine()) as WithMeta<BoundWitness>[]
         expect(result.length).toBe(1)
         expect(result[0].addresses).toInclude(wrapperAccount.address)
       })

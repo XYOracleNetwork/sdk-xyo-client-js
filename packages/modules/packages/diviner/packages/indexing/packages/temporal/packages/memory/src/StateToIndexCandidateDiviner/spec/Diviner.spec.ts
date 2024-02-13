@@ -8,7 +8,7 @@ import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
-import { isModuleState, ModuleFactoryLocator, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
+import { isModuleStateWithMeta, ModuleFactoryLocator, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -104,7 +104,9 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<TemporalIndexingDivinerStateToIndexCandidateDiviner>(await node.resolve('TemporalStateToIndexCandidateDiviner')))
+    sut = assertEx(
+      asDivinerInstance(await node.resolve('TemporalStateToIndexCandidateDiviner')),
+    ) as TemporalIndexingDivinerStateToIndexCandidateDiviner
   })
 
   describe('divine', () => {
@@ -112,7 +114,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       it('return state and no results', async () => {
         const results = await sut.divine()
         expect(results.length).toBe(1)
-        const state = results.find(isModuleState<IndexingDivinerState>)
+        const state = results.find(isModuleStateWithMeta<IndexingDivinerState>)
         expect(state).toBeDefined()
         expect(state?.state.offset).toBe(0)
       })
@@ -132,7 +134,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
         expect(results.length).toBe(expectedResults)
 
         // Validate expected state
-        const nextState = results.find(isModuleState<IndexingDivinerState>)
+        const nextState = results.find(isModuleStateWithMeta<IndexingDivinerState>)
         expect(nextState).toBeDefined()
         expect(nextState?.state.offset).toBe(witnessedThumbnails.length)
 

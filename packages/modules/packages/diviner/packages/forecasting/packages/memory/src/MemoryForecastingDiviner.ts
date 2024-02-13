@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { AbstractForecastingDiviner, ForecastingDivinerParams } from '@xyo-network/diviner-forecasting-abstract'
 import {
   arimaForecastingMethod,
@@ -11,7 +11,7 @@ import {
   seasonalArimaForecastingName,
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
-import { asDivinerInstance } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
 import { Payload } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
@@ -62,7 +62,10 @@ export class MemoryForecastingDiviner<
     const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
     const archivist = asArchivistInstance(await this.getArchivist(), 'Unable to resolve archivist')
-    const bwDiviner = asDivinerInstance((await this.resolve(this.config.boundWitnessDiviner)).pop(), 'Unable to resolve boundWitnessDiviner')
+    const bwDiviner = asDivinerInstance(
+      (await this.resolve(this.config.boundWitnessDiviner)).pop(),
+      'Unable to resolve boundWitnessDiviner',
+    ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
     const limit = this.batchLimit
     const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')
     let timestamp = stopTimestamp
@@ -72,7 +75,7 @@ export class MemoryForecastingDiviner<
     // Loop until there are no more BWs to process or we've got enough payloads to satisfy the training window
     while (more || payloads.length < this.maxTrainingLength) {
       const query: BoundWitnessDivinerQueryPayload = { addresses, limit, payload_schemas, schema: BoundWitnessDivinerQuerySchema, timestamp }
-      const boundWitnesses = ((await bwDiviner.divine([query])) as BoundWitness[]).filter(
+      const boundWitnesses = (await bwDiviner.divine([query])).filter(
         (bw) => bw.timestamp && bw.timestamp >= startTimestamp && bw.timestamp <= stopTimestamp,
       )
       if (boundWitnesses.length === 0) break

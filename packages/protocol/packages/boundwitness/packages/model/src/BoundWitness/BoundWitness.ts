@@ -17,7 +17,7 @@ export type BoundWitnessFields = {
   previous_hashes: (string | null)[]
   /** @field Hash of the QueryBoundWitness that caused this BoundWitness to be created  */
   sourceQuery?: string
-  timestamp?: number
+  timestamp: number
 }
 
 export type BoundWitness<T extends Payload | EmptyObject | void = void> = Payload<

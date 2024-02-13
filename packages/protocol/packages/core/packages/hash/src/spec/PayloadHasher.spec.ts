@@ -19,6 +19,7 @@ describe('Hasher', () => {
     await PayloadHasher.wasmInitialized
   })
   test('wasm vs js (compatibility-sync)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHash = await PayloadHasher.hash(testObject)
@@ -28,6 +29,7 @@ describe('Hasher', () => {
   })
 
   test('wasm vs js (compatibility-async)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHash = await PayloadHasher.hash(testObject)
@@ -37,6 +39,7 @@ describe('Hasher', () => {
   })
 
   test('subtle vs js (compatibility-async)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHash = await PayloadHasher.hash(testObject)
@@ -46,6 +49,7 @@ describe('Hasher', () => {
   })
 
   test('wasm vs js (performance-serial)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsHashStart = Date.now()
@@ -69,6 +73,7 @@ describe('Hasher', () => {
   })
 
   test.skip('wasm vs js (performance-parallel)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsTestObjects: PayloadHasher[] = []
@@ -97,6 +102,7 @@ describe('Hasher', () => {
   })
 
   test('subtle vs js (performance-parallel)', async () => {
+    PayloadHasher.warnIfUsingJsHash = false
     PayloadHasher.allowSubtle = false
     PayloadHasher.wasmSupport.allowWasm = false
     const jsTestObjects: PayloadHasher[] = []

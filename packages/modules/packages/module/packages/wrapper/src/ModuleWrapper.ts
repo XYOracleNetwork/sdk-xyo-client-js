@@ -34,7 +34,7 @@ import {
   ModuleResolverInstance,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, Query } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -226,7 +226,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
-      (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as AddressPreviousHashPayload,
+      (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
       'Result did not include correct payload',
     )
   }
@@ -260,12 +260,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
-    return (await this.sendQuery(queryPayload))[0] as ModuleManifestPayload
+    return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
-    return (await this.sendQuery(queryPayload)) as AddressPreviousHashPayload[]
+    return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
   }
 
   off<TEventName extends keyof TWrappedModule['eventData']>(
@@ -296,7 +296,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
-    return ((await this.sendQuery(queryPayload)).pop() as AddressPreviousHashPayload).previousHash
+    return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
@@ -339,10 +339,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
     const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
-    return await wrapper.payloadsBySchema<ModuleError>(ModuleErrorSchema)
+    return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
   }
 
-  protected async sendQuery<T extends Query>(queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
+  protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+  ): Promise<WithMeta<R>[]> {
     // Bind them
     const query = await this.bindQuery(queryPayload, payloads)
 
@@ -356,6 +359,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       throw errors[0]
     }
 
-    return resultPayloads
+    return resultPayloads as WithMeta<R>[]
   }
 }

@@ -1,7 +1,7 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { BoundWitness, isBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
@@ -14,7 +14,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadFields } from '@xyo-network/payload-model'
+import { isAnyPayload, Payload, PayloadFields } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
 type IndexableHashes = [string, ...string[]]
@@ -64,12 +64,13 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   }
 
   protected override async divineHandler(payloads: Payload[] = []): Promise<Payload[]> {
+    const builtPayloads = await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload)))
     // If the Bound Witness does not contain all the required schemas do not index it
-    const indexableBoundWitnesses: BoundWitness[] = payloads
-      .filter(isBoundWitness)
+    const indexableBoundWitnesses = builtPayloads
+      .filter(isBoundWitnessWithMeta)
       .filter((bw) => containsAll(bw.payload_schemas, this.indexableSchemas))
     // If the Payload is not one of the indexable schemas do not index it
-    const indexablePayloads: Payload[] = payloads.filter((p) => this.isIndexablePayload(p))
+    const indexablePayloads = builtPayloads.filter((p) => this.isIndexablePayload(p))
     // If there is nothing to index, return an empty array
     if (indexableBoundWitnesses.length === 0 || indexablePayloads.length === 0) return []
     // Hash all the indexable data once
@@ -125,8 +126,8 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
    * @param x The candidate payload
    * @returns True if the payload is one indexed by this diviner, false otherwise
    */
-  protected isIndexablePayload = (x: Payload) => {
-    return this.indexableSchemas.includes(x?.schema)
+  protected isIndexablePayload = (x: unknown) => {
+    return isAnyPayload(x) && this.indexableSchemas.includes(x?.schema)
   }
 
   /**

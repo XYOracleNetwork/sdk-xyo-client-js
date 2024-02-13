@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnyObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
 import { Payload } from '@xyo-network/payload-model'
@@ -10,25 +11,23 @@ describe('PayloadBuilder', () => {
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
-    testNullObject: { t: null, x: undefined },
+    testNullObject: { t: null, x: null },
     testNumber: 5,
     testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: undefined },
+    testSomeNullObject: { s: 1, t: null, x: null },
     testString: 'hello there.  this is a pretty long string.  what do you think?',
-    testUndefined: undefined,
   }
   const bigObject = {
     schema: 'network.xyo.test',
     testArray: [1, 2, 3],
     testBoolean: true,
     testNull: null,
-    testNullObject: { t: null, x: undefined },
+    testNullObject: { t: null, x: null },
     testNumber: 5,
     testObjArray: [testObject],
     testObject: { t: 1 },
-    testSomeNullObject: { s: 1, t: null, x: undefined },
+    testSomeNullObject: { s: 1, t: null },
     testString: 'hello there.  this is a pretty long string.  what do you think?',
-    testUndefined: undefined,
   }
   for (let i = 0; i < 1000; i++) {
     bigObject.testObjArray.push(testObject)
@@ -84,8 +83,10 @@ describe('PayloadBuilder', () => {
     await Promise.all(
       Object.entries(map).map(async ([hash, payload], index) => {
         const source = await PayloadBuilder.build(sources[index])
-        expect(source).toEqual(payload)
-        expect(source.$hash).toEqual(hash)
+        const { $meta: m1, ...sourceWithoutMeta } = source
+        const { $meta: m2, ...payloadWithoutMeta } = payload
+        expect(sourceWithoutMeta).toEqual(payloadWithoutMeta)
+        expect(sourceWithoutMeta.$hash).toEqual(hash)
       }),
     )
   })

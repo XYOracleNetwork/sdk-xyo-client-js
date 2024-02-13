@@ -1,8 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Base } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { CacheConfig } from '@xyo-network/bridge-model'
-import { asDivinerInstance } from '@xyo-network/diviner-model'
+import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
 import { ModuleConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
@@ -70,7 +72,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return assertEx(
       asDivinerInstance(await this.resolver.resolve(this.config.queries?.boundWitnessDiviner)),
       () => `Unable to resolve queriesDiviner [${this.config.queries?.boundWitnessDiviner}]`,
-    )
+    ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
   }
 
   async responsesArchivist() {
@@ -84,7 +86,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return assertEx(
       asDivinerInstance(await this.resolver.resolve(this.config.responses?.boundWitnessDiviner)),
       () => `Unable to resolve responsesDiviner [${this.config.responses?.boundWitnessDiviner}]`,
-    )
+    ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
   }
 
   /**

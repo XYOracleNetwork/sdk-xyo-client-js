@@ -18,7 +18,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import store, { StoreBase } from 'store2'
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -107,7 +107,7 @@ export class StorageArchivist<
     return await super.loadAccount()
   }*/
 
-  protected override allHandler(): PromisableArray<Payload> {
+  protected override allHandler(): PromisableArray<PayloadWithMeta> {
     const found = new Set<string>()
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     return Object.entries(this.storage.getAll())
@@ -128,7 +128,7 @@ export class StorageArchivist<
     return this.emit('cleared', { module: this })
   }
 
-  protected override async commitHandler(): Promise<BoundWitness[]> {
+  protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     const payloads = await this.all()
     assertEx(payloads.length > 0, 'Nothing to commit')
@@ -160,7 +160,7 @@ export class StorageArchivist<
     return deletedHashes
   }
 
-  protected override getHandler(hashes: string[]): Promisable<Payload[]> {
+  protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
     const found = new Set<string>()
     return compact(
       hashes.map((hash) => {
@@ -176,7 +176,7 @@ export class StorageArchivist<
     })
   }
 
-  protected override async insertHandler(payloads: Payload[]): Promise<Payload[]> {
+  protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     const resultPayloads = pairs.map(([payload, hash]) => {
       const value = JSON.stringify(payload)

@@ -14,4 +14,4 @@ export type QueryBoundWitness = BoundWitness<{
 
 export const isQueryBoundWitness = (x?: unknown): x is QueryBoundWitness => isBoundWitness(x) && (x as QueryBoundWitness)?.query !== undefined
 export const isQueryBoundWitnessWithMeta = (x?: unknown): x is WithMeta<QueryBoundWitness> =>
-  isBoundWitnessWithMeta(x) && (x as WithMeta<QueryBoundWitness>)?.query !== undefined
+  isBoundWitness(x) && isBoundWitnessWithMeta(x) && (x as WithMeta<QueryBoundWitness>)?.query !== undefined

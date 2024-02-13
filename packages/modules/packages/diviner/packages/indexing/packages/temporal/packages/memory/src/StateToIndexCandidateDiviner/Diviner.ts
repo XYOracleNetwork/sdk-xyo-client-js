@@ -4,7 +4,8 @@ import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
+import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
@@ -52,7 +53,7 @@ const moduleName = 'TemporalIndexingDivinerStateToIndexCandidateDiviner'
  */
 export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   TParams extends TemporalIndexingDivinerStateToIndexCandidateDivinerParams = TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
-> extends AbstractDiviner<TParams> {
+> extends AbstractDiviner<TParams, Payload, ModuleState | IndexCandidate> {
   static override readonly configSchema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
   static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
   static labels: Labels = {
@@ -89,9 +90,8 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     // Get source data
     const sourceArchivist = await this.getArchivistForStore()
     if (!sourceArchivist) return [lastState]
-    const indexCandidates: IndexCandidate[] = (
-      await Promise.all(batch.filter(isBoundWitnessWithMeta).map((bw) => this.getPayloadsInBoundWitness(bw, sourceArchivist)))
-    )
+    const bws = batch.filter(isBoundWitnessWithMeta)
+    const indexCandidates: IndexCandidate[] = (await Promise.all(bws.map((bw) => this.getPayloadsInBoundWitness(bw, sourceArchivist))))
       .filter(exists)
       .flat()
     const nextState = { schema: ModuleStateSchema, state: { ...lastState.state, offset: offset + batch.length } }
@@ -115,7 +115,9 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
    * Retrieves the BoundWitness Diviner for the payloadStore
    * @returns The BoundWitness Diviner for the payloadStore or undefined if not resolvable
    */
-  protected async getBoundWitnessDivinerForStore(): Promise<DivinerWrapper | undefined> {
+  protected async getBoundWitnessDivinerForStore(): Promise<
+    DivinerWrapper<BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>, BoundWitness> | undefined
+  > {
     // It should be defined, so we'll error if it's not
     const name: string = assertEx(
       this.config?.payloadStore?.boundWitnessDiviner,
@@ -125,7 +127,9 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     const mod = await this.resolve(name)
     if (!mod) return undefined
     // Return the wrapped diviner
-    return DivinerWrapper.wrap(mod, this.account)
+    return DivinerWrapper.wrap<
+      DivinerWrapper<BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>, BoundWitness>
+    >(mod, this.account)
   }
 
   protected async getPayloadsInBoundWitness(bw: BoundWitness, archivist: ArchivistInstance): Promise<IndexCandidate[] | undefined> {

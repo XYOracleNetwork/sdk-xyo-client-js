@@ -104,7 +104,9 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
       ...codeFailPayloads,
     ])
 
-    sut = assertEx(asDivinerInstance<TemporalIndexingDivinerStateToIndexCandidateDiviner>(await node.resolve('TemporalStateToIndexCandidateDiviner')))
+    sut = assertEx(
+      asDivinerInstance(await node.resolve('TemporalStateToIndexCandidateDiviner')),
+    ) as TemporalIndexingDivinerStateToIndexCandidateDiviner
   })
 
   describe('divine', () => {

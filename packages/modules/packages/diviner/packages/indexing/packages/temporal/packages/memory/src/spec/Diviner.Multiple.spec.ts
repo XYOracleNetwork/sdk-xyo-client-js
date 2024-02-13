@@ -114,7 +114,7 @@ describe('TemporalIndexingDiviner - Multiple', () => {
     const thumbnailArchivist = assertEx(asArchivistInstance<MemoryArchivist>(await node.resolve('ImageThumbnailArchivist')))
     await thumbnailArchivist.insert([boundWitness, ...payloads])
 
-    sut = assertEx(asDivinerInstance<TemporalIndexingDiviner>(await node.resolve('ImageThumbnailDiviner')))
+    sut = assertEx(asDivinerInstance(await node.resolve('ImageThumbnailDiviner'))) as TemporalIndexingDiviner
 
     // Allow enough time for diviner to divine
     await delay(1000)

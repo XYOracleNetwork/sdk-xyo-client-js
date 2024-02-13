@@ -7,6 +7,7 @@ import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import {
   BoundWitnessDivinerConfigSchema,
   BoundWitnessDivinerParams,
+  BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
@@ -64,10 +65,14 @@ export interface EqualityComparisonOperators {
 type WithTimestamp = BoundWitness & { timestamp: number }
 const hasTimestamp = (bw: BoundWitness): bw is WithTimestamp => bw.timestamp !== undefined
 
-export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams> extends BoundWitnessDiviner<TParams> {
+export class MemoryBoundWitnessDiviner<
+  TParams extends BoundWitnessDivinerParams = BoundWitnessDivinerParams,
+  TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
+  TOut extends BoundWitness = BoundWitness,
+> extends BoundWitnessDiviner<TParams, TIn, TOut> {
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
@@ -101,6 +106,6 @@ export class MemoryBoundWitnessDiviner<TParams extends BoundWitnessDivinerParams
     }
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0
-    return bws.slice(parsedOffset, parsedLimit)
+    return bws.slice(parsedOffset, parsedLimit) as WithMeta<TOut>[]
   }
 }

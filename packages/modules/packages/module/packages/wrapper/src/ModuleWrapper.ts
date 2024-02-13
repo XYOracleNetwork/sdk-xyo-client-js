@@ -34,7 +34,7 @@ import {
   ModuleResolverInstance,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, PayloadWithMeta, Query, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -342,7 +342,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
   }
 
-  protected async sendQuery<T extends Query>(queryPayload: T, payloads?: Payload[]): Promise<PayloadWithMeta[]> {
+  protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+  ): Promise<WithMeta<R>[]> {
     // Bind them
     const query = await this.bindQuery(queryPayload, payloads)
 
@@ -356,6 +359,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       throw errors[0]
     }
 
-    return resultPayloads
+    return resultPayloads as WithMeta<R>[]
   }
 }

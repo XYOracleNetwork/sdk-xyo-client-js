@@ -1,7 +1,14 @@
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
 
+/**
+ * The wallet types that can be tested
+ */
 type Wallet = HDNodeWallet | WalletInstance
+
+/**
+ * The serializable information of a wallet
+ */
 interface WalletSnapshot {
   address: string
   path: string | null
@@ -16,17 +23,39 @@ interface WalletSnapshot {
  */
 const toUncompressedPublicKey = (compressed: string): string => SigningKey.computePublicKey(compressed, false).toLowerCase().replace('0x04', '')
 
+/**
+ * Standardizes the representation of a hex string
+ * @param unformatted The unformatted hex string
+ * @returns The formatted hex string
+ */
 const formatHexString = (unformatted: string): string => unformatted.toLowerCase().replace('0x', '')
 
+/**
+ * Serializes a wallet to its snapshot representation
+ * @param wallet The wallet to snapshot
+ * @returns The snapshot representation of the wallet
+ */
 const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
   const { address, path, privateKey, publicKey } = wallet
   return { address, path, privateKey, publicKey }
 }
 
+/**
+ * Snapshots the instances of two wallets to ensure repeatability
+ * of creation from the same source and prevent unintentional changes
+ * to the wallet protocol
+ * @param walletA The first wallet to snapshot
+ * @param walletB The second wallet to snapshot
+ */
 const snapshotWalletInstances = (walletA: Wallet, walletB: Wallet) => {
   expect([toWalletSnapshot(walletA), toWalletSnapshot(walletB)]).toMatchSnapshot()
 }
 
+/**
+ * Compares two wallets to ensure their public/private keys are equal
+ * @param sutA The first wallet to compare
+ * @param sutB The second wallet to compare
+ */
 const expectWalletsEqual = (sutA: WalletInstance, sutB: Wallet) => {
   expect(sutA.address).toEqual(formatHexString(sutB.address))
   expect(sutA.privateKey).toEqual(sutB.privateKey)
@@ -35,11 +64,21 @@ const expectWalletsEqual = (sutA: WalletInstance, sutB: Wallet) => {
   expect(sutA.public.hex).toEqual(toUncompressedPublicKey(sutB.publicKey))
 }
 
+/**
+ * Compares two wallets to ensure their public/private keys and paths are equal
+ * @param sutA The first wallet to compare
+ * @param sutB The second wallet to compare
+ */
 const expectWalletsAndPathsEqual = (sutA: WalletInstance, sutB: Wallet) => {
   expectWalletsEqual(sutA, sutB)
   expect(sutA.path).toEqual(sutB.path)
 }
 
+/**
+ * Generates tests for a wallet type
+ * @param title The title of the test suite
+ * @param HDWallet The wallet type to test
+ */
 export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => {
   describe(title, () => {
     const phrase = 'later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'

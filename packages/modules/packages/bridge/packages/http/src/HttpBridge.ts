@@ -12,7 +12,6 @@ import {
   AnyConfigSchema,
   creatableModule,
   ModuleConfig,
-  ModuleConfigSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,

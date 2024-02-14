@@ -1,3 +1,3 @@
 /* eslint-disable import/no-internal-modules */
-export * from './dist/browser/index.js'
-export * from './src/types.js'
+export * from './dist/browser/index.d.js'
+export * from './src/types.d.js'

@@ -16,7 +16,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   constructor(readonly options: O) {
     const { schema, fields, meta } = options
     this._schema = schema
-    this._fields = fields
+    this._fields = removeEmptyFields(fields ?? {}) as Omit<T, 'schema' | '$hash' | '$meta'>
     this._$meta = meta
   }
 

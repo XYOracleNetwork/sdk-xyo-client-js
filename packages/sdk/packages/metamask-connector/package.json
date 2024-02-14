@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@metamask/providers": "^14.0.2",
-    "@xylabs/forget": "^2.14.1",
-    "ethers": "^6.11.0"
+    "@xylabs/forget": "^2.14.2",
+    "ethers": "^6.11.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
@@ -58,6 +58,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.12",
+  "version": "2.90.13",
   "type": "module"
 }

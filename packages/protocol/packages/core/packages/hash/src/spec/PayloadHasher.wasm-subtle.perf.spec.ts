@@ -1,7 +1,7 @@
 import { delay } from '@xylabs/delay'
 import { AnyObject } from '@xylabs/object'
 
-import { PayloadHasher } from '../PayloadHasher'
+import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
 
 const perfIterations = 1000
 

@@ -1,4 +1,4 @@
-import { PayloadHasher } from '../PayloadHasher'
+import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
 
 const perfIterations = 50
 

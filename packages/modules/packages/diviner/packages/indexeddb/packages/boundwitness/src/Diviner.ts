@@ -3,9 +3,8 @@ import { exists } from '@xylabs/exists'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
-import { isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQueryPayload, isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
@@ -30,7 +29,9 @@ const bwValueFilter = (
 
 export class IndexedDbBoundWitnessDiviner<
   TParams extends IndexedDbBoundWitnessDivinerParams = IndexedDbBoundWitnessDivinerParams,
-> extends BoundWitnessDiviner<TParams> {
+  TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
+  TOut extends BoundWitness = BoundWitness,
+> extends BoundWitnessDiviner<TParams, TIn, TOut> {
   static override configSchemas = [IndexedDbBoundWitnessDivinerConfigSchema]
 
   /**
@@ -59,7 +60,7 @@ export class IndexedDbBoundWitnessDiviner<
     return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
   }
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<BoundWitness[]> {
+  protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const query = payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop()
     if (!query) return []
 
@@ -68,7 +69,7 @@ export class IndexedDbBoundWitnessDiviner<
       const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
-      const results: BoundWitness[] = []
+      const results: TOut[] = []
       let parsedOffset = offset ?? 0
       const parsedLimit = limit ?? 10
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'

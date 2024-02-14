@@ -23,7 +23,7 @@ export class DivinerWrapper<
   static override moduleIdentityCheck = isDivinerModule
   static override requiredQueries = [DivinerDivineQuerySchema, ...super.requiredQueries]
 
-  async divine(payloads?: TIn[]): Promise<WithSources<WithMeta<TOut>>[]> {
+  async divine(payloads?: TIn[]): Promise<WithMeta<WithSources<TOut>>[]> {
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQuery(queryPayload, payloads)
   }

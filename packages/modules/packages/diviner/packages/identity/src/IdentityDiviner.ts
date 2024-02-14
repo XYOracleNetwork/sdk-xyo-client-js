@@ -9,10 +9,14 @@ import { Payload } from '@xyo-network/payload-model'
 export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>> = ArchivistParams<TConfig>
 
 @creatableModule()
-export class IdentityDiviner<TParams extends IdentityDivinerParams = IdentityDivinerParams> extends AbstractDiviner<TParams> {
+export class IdentityDiviner<TParams extends IdentityDivinerParams = IdentityDivinerParams, TIn extends Payload = Payload> extends AbstractDiviner<
+  TParams,
+  TIn,
+  TIn
+> {
   static override targetSchema = 'network.xyo.test'
 
-  protected override divineHandler(payloads?: Payload[]): Promisable<Payload[]> {
-    return assertEx(payloads, 'IdentityDiviner requires passed payload')
+  protected override divineHandler(payloads?: TIn[]): Promisable<TIn[]> {
+    return assertEx(payloads, 'IdentityDiviner requires passed payload') as TIn[]
   }
 }

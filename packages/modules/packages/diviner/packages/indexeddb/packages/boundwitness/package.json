@@ -20,7 +20,6 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
     "idb": "^8.0.0"
   },
   "devDependencies": {
@@ -31,6 +30,7 @@
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
     "fake-indexeddb": "^5.0.2",
     "typescript": "^5.3.3"
   },
@@ -73,6 +73,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.10",
+  "version": "2.90.11",
   "type": "module"
 }

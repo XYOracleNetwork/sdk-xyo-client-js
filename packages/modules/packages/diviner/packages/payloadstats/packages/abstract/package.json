@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/diviner-abstract": "workspace:~",
-    "@xyo-network/diviner-payload-stats-model": "workspace:~"
+    "@xyo-network/diviner-payload-stats-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.2.42",
@@ -57,6 +58,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.10",
+  "version": "2.90.11",
   "type": "module"
 }

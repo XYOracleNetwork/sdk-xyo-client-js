@@ -13,16 +13,20 @@ import { HuriPayload, HuriSchema } from './HuriPayload'
 export type HuriPayloadDivinerParams<TConfig extends AnyConfigSchema<HuriPayloadDivinerConfig> = AnyConfigSchema<HuriPayloadDivinerConfig>> =
   DivinerParams<TConfig>
 
-export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams> extends AbstractDiviner<TParams> {
+export class HuriPayloadDiviner<
+  TParams extends HuriPayloadDivinerParams = HuriPayloadDivinerParams,
+  TIn extends HuriPayload = HuriPayload,
+  TOut extends Payload = Payload,
+> extends AbstractDiviner<TParams, TIn, TOut> {
   static override configSchemas = [HuriPayloadDivinerConfigSchema]
 
   protected get options() {
     return this.config?.options
   }
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
+  protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const huriPayloads = assertEx(
-      payloads?.filter((payload): payload is HuriPayload => payload?.schema === HuriSchema),
+      payloads?.filter((payload): payload is TIn => payload?.schema === HuriSchema),
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const huriList = huriPayloads.flatMap((huriPayload, index) =>
@@ -30,6 +34,6 @@ export class HuriPayloadDiviner<TParams extends HuriPayloadDivinerParams = HuriP
     )
 
     const settled = await Promise.allSettled(huriList.map((huri) => huri.fetch()))
-    return compact(settled.filter(fulfilled).map((settle) => settle.value))
+    return compact(settled.filter(fulfilled).map((settle) => settle.value)) as TOut[]
   }
 }

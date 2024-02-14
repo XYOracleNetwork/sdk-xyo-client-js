@@ -12,7 +12,6 @@ import {
   AnyConfigSchema,
   creatableModule,
   ModuleConfig,
-  ModuleConfigSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleEventData,
@@ -175,7 +174,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
-      discover.find(isPayloadOfSchemaType<WithMeta<ModuleConfig>>(ModuleConfigSchema)),
+      discover.find(isPayloadOfSchemaType(targetConfigSchema)) as ModuleConfig,
       () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 

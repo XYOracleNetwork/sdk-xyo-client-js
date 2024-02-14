@@ -24,8 +24,9 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     schema: string,
     fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
   ): Promisable<Omit<T, '$hash' | '$meta'>> {
-    assertEx(fields === undefined || isJsonObject(fields), 'Fields must be JsonObject')
-    return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...fields }, '$'), '_') as T
+    const cleanFields = fields ? removeEmptyFields(fields) : undefined
+    assertEx(cleanFields === undefined || isJsonObject(cleanFields), 'Fields must be JsonObject')
+    return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...cleanFields }, '$'), '_') as T
   }
 
   static async hashableFields<T extends Payload = Payload<AnyObject>>(

@@ -4,7 +4,7 @@ import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { AnyObject, JsonObject } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
-import { sortFields } from '@xyo-network/hash'
+import { removeEmptyFields, sortFields } from '@xyo-network/hash'
 import { PayloadBuilder, PayloadBuilderBase, PayloadBuilderOptions, PayloadWrapper } from '@xyo-network/payload'
 import { ModuleError, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -90,7 +90,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     schema: string,
     fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
   ): Promise<Omit<T, '$hash' | '$meta'>> {
-    return await PayloadBuilderBase.dataHashableFields(schema, fields)
+    return await PayloadBuilderBase.dataHashableFields(schema, fields ? removeEmptyFields(fields) : undefined)
   }
 
   static override async hashableFields<T extends Payload = Payload<AnyObject>>(

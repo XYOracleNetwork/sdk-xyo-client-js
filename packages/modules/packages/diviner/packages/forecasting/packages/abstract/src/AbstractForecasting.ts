@@ -14,20 +14,22 @@ import {
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, WithSources } from '@xyo-network/payload-model'
 
 export type ForecastingDivinerParams = DivinerParams<AnyConfigSchema<ForecastingDivinerConfig>>
 
 export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
-> extends AbstractDiviner<TParams> {
+  TIn extends ForecastingDivinerQueryPayload = ForecastingDivinerQueryPayload,
+  TOut extends ForecastPayload = ForecastPayload,
+> extends AbstractDiviner<TParams, TIn, TOut> {
   static override configSchemas = [ForecastingDivinerConfigSchema]
 
   protected abstract get forecastingMethod(): ForecastingMethod
   protected abstract get transformer(): PayloadValueTransformer
 
-  protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
-    const query = payloads?.find<ForecastingDivinerQueryPayload>(isForecastingDivinerQueryPayload)
+  protected override async divineHandler(payloads?: TIn[]) {
+    const query = payloads?.find(isForecastingDivinerQueryPayload)
     if (!query) return []
     const windowSettings: ForecastingSettings = { ...this.config, ...this.query }
     const stopTimestamp = query.timestamp || Date.now()
@@ -35,7 +37,7 @@ export abstract class AbstractForecastingDiviner<
     const data = await this.getPayloadsInWindow(startTimestamp, stopTimestamp)
     const sources = await PayloadBuilder.dataHashes(data)
     const values = await this.forecastingMethod(data, this.transformer)
-    const response: ForecastPayload = { schema: ForecastPayloadSchema, sources, values }
+    const response = { schema: ForecastPayloadSchema, sources, values } as WithSources<TOut>
     return [response]
   }
 

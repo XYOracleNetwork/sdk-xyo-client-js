@@ -12,14 +12,7 @@ import {
   IndexingDivinerStage,
   IndexingDivinerState,
 } from '@xyo-network/diviner-indexing-model'
-import {
-  asDivinerInstance,
-  DivinerConfigSchema,
-  DivinerInstance,
-  DivinerModule,
-  DivinerModuleEventData,
-  WithSources,
-} from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -63,7 +56,7 @@ export class IndexingDiviner<
     const indexCandidateDiviner = await this.getIndexingDivinerStage('stateToIndexCandidateDiviner')
     const results = lastState ? await indexCandidateDiviner.divine([lastState]) : await indexCandidateDiviner.divine()
     // Filter next state out from results
-    const nextState = results.find(isModuleStateWithMeta<IndexingDivinerState>) as WithSources<ModuleState<IndexingDivinerState>>
+    const nextState = results.find(isModuleStateWithMeta<IndexingDivinerState>)
     const indexCandidates = results.filter((x) => !isModuleStateWithMeta(x))
     // Transform candidates to indexes
     const toIndexTransformDiviner = await this.getIndexingDivinerStage('indexCandidateToIndexDiviner')

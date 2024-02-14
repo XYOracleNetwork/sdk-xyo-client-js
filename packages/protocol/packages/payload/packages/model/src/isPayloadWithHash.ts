@@ -1,5 +1,6 @@
+import { WithMeta } from '../types.browser.cjs'
 import { isAnyPayload } from './isPayload'
-import { Payload, WithMeta } from './Payload'
+import { Payload } from './Payload'
 
 /**
  * Return true if the value is a payload with the required meta fields

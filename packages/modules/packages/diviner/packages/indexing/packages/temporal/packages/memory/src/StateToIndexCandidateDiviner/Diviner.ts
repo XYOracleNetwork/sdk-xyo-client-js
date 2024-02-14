@@ -115,9 +115,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
    * Retrieves the BoundWitness Diviner for the payloadStore
    * @returns The BoundWitness Diviner for the payloadStore or undefined if not resolvable
    */
-  protected async getBoundWitnessDivinerForStore(): Promise<
-    DivinerWrapper<BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>, BoundWitness> | undefined
-  > {
+  protected async getBoundWitnessDivinerForStore() {
     // It should be defined, so we'll error if it's not
     const name: string = assertEx(
       this.config?.payloadStore?.boundWitnessDiviner,
@@ -125,10 +123,14 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
     )
     // It might not be resolvable (yet), so we'll return undefined if it's not
     const mod = await this.resolve(name)
-    if (!mod) return undefined
+    if (!mod) return
     // Return the wrapped diviner
     return DivinerWrapper.wrap<
-      DivinerWrapper<BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>, BoundWitness>
+      DivinerWrapper<
+        BoundWitnessDiviner<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>,
+        BoundWitnessDivinerQueryPayload,
+        BoundWitness
+      >
     >(mod, this.account)
   }
 

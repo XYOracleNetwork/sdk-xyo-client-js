@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { WithMeta } from '../types.browser.cjs'
+
 import { isAnyPayload } from './isPayload'
+import { WithMeta } from './Meta'
 import { Payload } from './Payload'
 
 export const isPayloadOfSchemaType = <T extends Payload>(schema: string) => {

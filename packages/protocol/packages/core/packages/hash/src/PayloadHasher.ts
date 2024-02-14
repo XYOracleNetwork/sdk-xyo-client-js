@@ -2,9 +2,10 @@ import { assertEx } from '@xylabs/assert'
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { WasmSupport } from '@xyo-network/wasm'
-import { Semaphore } from 'async-mutex'
 import shajs from 'sha.js'
-import { spawn, Worker } from 'threads'
+import { ModuleThread, Pool, spawn, Worker } from 'threads'
+// eslint-disable-next-line import/no-internal-modules
+import { WorkerModule } from 'threads/dist/types/worker'
 
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitPrefixedFields } from './removeFields'
@@ -12,35 +13,43 @@ import { sortFields } from './sortFields'
 import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
-const maxHashThreads = 8
-const maxListenersPerThread = 1
 
 export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
   static allowSubtle = true
-  static createBrowserWorker?: (path: string) => Worker | undefined
-  static createNodeWorker?: (func: () => unknown) => Worker | undefined
+  static createBrowserWorker?: (url?: URL) => Worker | undefined
+  static createNodeWorker?: (func?: () => unknown) => Worker | undefined
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static readonly jsHashThreads: any[] = []
-  static readonly jsSemaphore = new Semaphore(maxHashThreads * maxListenersPerThread)
+  static jsHashWorkerUrl?: URL
+  static subtleHashWorkerUrl?: URL
 
-  static lastJsThreadUsed: number
-  static lastSubtleThreadUsed: number
-  static lastWasmThreadUsed: number
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static readonly subtleHashThreads: any[] = []
-  static readonly subtleSemaphore = new Semaphore(maxHashThreads * maxListenersPerThread)
   static warnIfUsingJsHash = true
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static readonly wasmHashThreads: any[] = []
+
+  static wasmHashWorkerUrl?: URL
 
   static readonly wasmInitialized = wasmSupportStatic.initialize()
-  static readonly wasmSemaphore = new Semaphore(maxHashThreads * maxListenersPerThread)
   static readonly wasmSupport = wasmSupportStatic
 
-  static createWorker(path: string, func: () => unknown) {
-    return assertEx(this.createBrowserWorker?.(path) ?? this.createNodeWorker?.(func), 'Unable to create worker')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+
+  private static get jsHashPool() {
+    return (this._jsHashPool = this._jsHashPool ?? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc))
+  }
+
+  private static get subtleHashPool() {
+    return (this._subtleHashPool = this._subtleHashPool ?? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc))
+  }
+
+  private static get wasmHashPool() {
+    return (this._wasmHashPool = this._wasmHashPool ?? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc))
+  }
+
+  static createWorker(url?: URL, func?: () => unknown) {
+    return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), 'Unable to create worker')
   }
 
   static async filterExcludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {
@@ -119,26 +128,10 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static async jsHash(data: string) {
-    await this.jsSemaphore.acquire()
     if (PayloadHasher.warnIfUsingJsHash) {
       console.warn('Using jsHash [No subtle or wasm?]')
     }
-    try {
-      if (this.jsHashThreads.length < maxHashThreads) {
-        const w = this.createWorker('worker/jsHash.js', jsHashFunc)
-        const worker = await spawn(w)
-        this.jsHashThreads.push(worker)
-      }
-      let threadToUse = this.lastJsThreadUsed === undefined ? 0 : this.lastJsThreadUsed + 1
-      if (threadToUse >= this.jsHashThreads.length) {
-        threadToUse = 0
-      }
-      this.lastJsThreadUsed = threadToUse
-
-      return await this.jsHashThreads[threadToUse].hash(data)
-    } finally {
-      this.jsSemaphore.release()
-    }
+    return await this.jsHashPool.queue(async (thread) => await thread.hash(data))
   }
 
   /**
@@ -161,43 +154,16 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static async subtleHash(data: Uint8Array): Promise<ArrayBuffer> {
-    await this.subtleSemaphore.acquire()
-    try {
-      if (this.subtleHashThreads.length < maxHashThreads) {
-        const w = this.createWorker('worker/subtleHash.js', subtleHashFunc)
-        const worker = await spawn(w)
-        this.subtleHashThreads.push(worker)
-      }
-      let threadToUse = this.lastSubtleThreadUsed === undefined ? 0 : this.lastSubtleThreadUsed + 1
-      if (threadToUse >= this.subtleHashThreads.length) {
-        threadToUse = 0
-      }
-      this.lastSubtleThreadUsed = threadToUse
-
-      return await this.subtleHashThreads[threadToUse].hash(data)
-    } finally {
-      this.subtleSemaphore.release()
-    }
+    return await this.subtleHashPool.queue(async (thread) => await thread.hash(data))
   }
 
   static async wasmHash(data: string) {
-    await this.wasmSemaphore.acquire()
-    try {
-      if (this.wasmHashThreads.length < maxHashThreads) {
-        const w = this.createWorker('worker/wasmHash.js', wasmHashFunc)
-        const worker = await spawn(w)
-        this.wasmHashThreads.push(worker)
-      }
-      let threadToUse = this.lastWasmThreadUsed === undefined ? 0 : this.lastWasmThreadUsed + 1
-      if (threadToUse >= this.wasmHashThreads.length) {
-        threadToUse = 0
-      }
-      this.lastWasmThreadUsed = threadToUse
+    return await this.wasmHashPool.queue(async (thread) => await thread.hash(data))
+  }
 
-      return await this.wasmHashThreads[threadToUse].hash(data)
-    } finally {
-      this.wasmSemaphore.release()
-    }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private static createWorkerPool<T extends WorkerModule<any>>(url?: URL, func?: () => unknown, size = 8) {
+    return Pool(() => spawn<T>(this.createWorker(url, func)), size)
   }
 
   async hash(): Promise<Hash> {

@@ -10,4 +10,25 @@ PayloadHasher.createNodeWorker = createNodeWorker
 export class BrowserPayloadHasher extends PayloadHasher {
   static override createBrowserWorker = createBrowserWorker
   static override createNodeWorker = createNodeWorker
+  static override jsHashWorkerUrl = (() => {
+    try {
+      return new URL('worker/jsHash.ts', import.meta.url)
+    } catch {
+      return
+    }
+  })()
+  static override subtleHashWorkerUrl = (() => {
+    try {
+      return new URL('worker/subtleHash.ts', import.meta.url)
+    } catch {
+      return
+    }
+  })()
+  static override wasmHashWorkerUrl = (() => {
+    try {
+      return new URL('worker/wasmHash.ts', import.meta.url)
+    } catch {
+      return
+    }
+  })()
 }

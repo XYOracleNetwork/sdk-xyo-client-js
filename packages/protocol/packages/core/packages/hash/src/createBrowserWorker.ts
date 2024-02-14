@@ -1,9 +1,9 @@
 import { Worker } from 'threads'
 
-export const createBrowserWorker = (path: string) => {
+export const createBrowserWorker = (url?: URL) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new Worker(new URL(path, import.meta.url) as any)
+    return new Worker(url as any)
   } catch {
     return
   }

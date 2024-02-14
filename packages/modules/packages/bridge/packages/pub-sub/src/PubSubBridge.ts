@@ -140,11 +140,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     //   }) ?? [],
     // )
     // const targetConfigSchema = assertEx(
-    //   discover.find((payload) => payload.schema === ConfigSchema) as ConfigPayload,
+    //   discover.find(isPayloadOfSchemaType<WithMeta<ConfigPayload>>(ConfigSchema)),
     //   () => `Discover did not return a [${ConfigSchema}] payload`,
     // ).config
+
     // this._targetConfigs[addressToDiscover] = assertEx(
-    //   discover.find((payload) => payload.schema === targetConfigSchema) as ModuleConfig,
+    //   discover.find(isPayloadOfSchemaType(targetConfigSchema)) as ModuleConfig,
     //   () => `Discover did not return a [${targetConfigSchema}] payload`,
     // )
     // if caching, set entry

@@ -156,7 +156,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     ).config
 
     this._targetConfigs[addressToDiscover] = assertEx(
-      discover?.find(isPayloadOfSchemaType<WithMeta<ModuleConfig>>(targetConfigSchema)),
+      discover.find(isPayloadOfSchemaType(targetConfigSchema)) as ModuleConfig,
       () => `Discover did not return a [${targetConfigSchema}] payload`,
     )
 

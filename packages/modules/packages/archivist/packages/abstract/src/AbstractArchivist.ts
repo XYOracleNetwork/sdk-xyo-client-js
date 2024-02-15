@@ -116,7 +116,7 @@ export abstract class AbstractArchivist<
     return await this.busy(async () => {
       await this.started('throw')
       //make sure all incoming payloads have proper $hash and $meta
-      return await this.insertWithConfig(await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload, true))))
+      return await this.insertWithConfig(payloads)
     })
   }
 
@@ -197,7 +197,7 @@ export abstract class AbstractArchivist<
     for (const hash of hashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
-        foundPayloads.push(await PayloadBuilder.build<Payload>(found))
+        foundPayloads.push(await PayloadBuilder.build<Payload>(found, true))
       } else {
         notfoundHashes.push(hash)
       }
@@ -240,7 +240,7 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const insertedPayloads = await this.insertHandler(await PayloadBuilder.build(payloads))
+    const insertedPayloads = await this.insertHandler(await PayloadBuilder.build(payloads, true))
 
     if (writeToParents) {
       await this.writeToParents(insertedPayloads)
@@ -267,7 +267,7 @@ export abstract class AbstractArchivist<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
-    const builtQuery = await PayloadBuilder.build(query)
+    const builtQuery = await PayloadBuilder.build(query, true)
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

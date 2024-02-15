@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
-import { Payload, Query } from '@xyo-network/payload-model'
+import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { BoundWitnessWrapper } from './BoundWitnessWrapper'
@@ -43,7 +43,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
 
   async getQuery(): Promise<T> {
     const payloadMap = await this.payloadsDataHashMap()
-    this._query = this._query ?? (payloadMap[this.boundwitness.query] as T | undefined)
+    this._query = this._query ?? (payloadMap[this.boundwitness.query] as WithMeta<T> | undefined)
     return assertEx(this._query, () => `Missing Query [${this.boundwitness}]`)
   }
 }

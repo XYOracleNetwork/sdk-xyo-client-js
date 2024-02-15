@@ -94,8 +94,8 @@ export class PayloadBuilder<
     return await PayloadHasher.hashes(payloads)
   }
 
-  static async toAllHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
-    const result: Record<Hash, T> = {}
+  static async toAllHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, WithMeta<T>>> {
+    const result: Record<Hash, WithMeta<T>> = {}
     for (const pair of await this.hashPairs(objs)) {
       result[pair[1]] = pair[0]
       result[pair[0].$hash] = pair[0]
@@ -103,8 +103,8 @@ export class PayloadBuilder<
     return result
   }
 
-  static async toDataHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
-    const result: Record<Hash, T> = {}
+  static async toDataHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, WithMeta<T>>> {
+    const result: Record<Hash, WithMeta<T>> = {}
     for (const pair of await this.dataHashPairs(objs)) {
       result[pair[1]] = pair[0]
     }
@@ -116,8 +116,8 @@ export class PayloadBuilder<
    * @param objs Any array of payloads
    * @returns A map of hashes to payloads
    */
-  static async toHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, T>> {
-    const result: Record<Hash, T> = {}
+  static async toHashMap<T extends Payload>(objs: T[]): Promise<Record<Hash, WithMeta<T>>> {
+    const result: Record<Hash, WithMeta<T>> = {}
     for (const pair of await this.hashPairs(objs)) {
       result[pair[1]] = pair[0]
     }

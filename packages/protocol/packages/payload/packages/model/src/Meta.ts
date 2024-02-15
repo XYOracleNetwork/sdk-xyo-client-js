@@ -3,7 +3,7 @@ import { EmptyObject, JsonObject } from '@xylabs/object'
 import { Payload, PayloadMetaFields } from './Payload'
 import { Schema, WithSchema } from './Schema'
 
-export type WithMeta<T extends Payload = Payload, M extends JsonObject | void = void> = T & PayloadMetaFields<M>
+export type WithMeta<T extends Payload = Payload, M extends JsonObject | void = void> = PayloadMetaFields<M> & T
 export type WithOptionalMeta<T extends Payload = Payload, M extends JsonObject | void = void> = Partial<WithMeta<T, M>> &
   Omit<WithMeta<T, M>, '$hash'>
 

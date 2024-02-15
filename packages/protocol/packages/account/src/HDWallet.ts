@@ -116,7 +116,7 @@ export class HDWallet extends Account implements WalletInstance {
     return existing
   }
 
-  static override async fromPhrase(phrase: string, path?: string) {
+  static override async fromPhrase(phrase: string, path: string = defaultPath) {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 

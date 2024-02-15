@@ -29,6 +29,34 @@ export type MemoryArchivistConfig = ArchivistConfig<{
   schema: MemoryArchivistConfigSchema | ArchivistConfig['schema']
 }>
 
+type WithStorageMeta<T extends Payload> = T & {
+  _sequence: bigint
+}
+
+const maxSequenceIndex = 10_000_000_000n
+
+const sequenceNumber = (index: number) => {
+  assertEx(index < maxSequenceIndex, () => `index may not be larger than ${maxSequenceIndex}`)
+  return BigInt(Date.now()) * maxSequenceIndex + BigInt(index)
+}
+
+const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0) => {
+  return { ...payload, _sequence: sequenceNumber(index) } as WithStorageMeta<T>
+}
+
+const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]) => {
+  return payloads.sort((a, b) => (a._sequence < b._sequence ? -1 : a._sequence > b._sequence ? 1 : 0))
+}
+
+function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T
+function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>): T | undefined
+function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>) {
+  if (!payload) return
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { _sequence, ...noMeta } = payload as WithStorageMeta<T>
+  return noMeta as T
+}
+
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>
 @creatableModule()
@@ -42,7 +70,7 @@ export class MemoryArchivist<
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _bodyHashIndex?: LRUCache<string, string>
-  private _cache?: LRUCache<string, PayloadWithMeta>
+  private _cache?: LRUCache<string, WithStorageMeta<PayloadWithMeta>>
 
   get bodyHashIndex() {
     this._bodyHashIndex = this._bodyHashIndex ?? new LRUCache<string, string>({ max: this.max })
@@ -50,7 +78,7 @@ export class MemoryArchivist<
   }
 
   get cache() {
-    this._cache = this._cache ?? new LRUCache<string, PayloadWithMeta>({ max: this.max })
+    this._cache = this._cache ?? new LRUCache<string, WithStorageMeta<PayloadWithMeta>>({ max: this.max })
     return this._cache
   }
 
@@ -70,7 +98,8 @@ export class MemoryArchivist<
   }
 
   protected override async allHandler(): Promise<PayloadWithMeta[]> {
-    return compact(await Promise.all(this.cache.dump().map((value) => PayloadBuilder.build(value[1].value))))
+    const all = compact(await Promise.all(this.cache.dump().map((value) => value[1].value)))
+    return sortByStorageMeta(all).map((payload) => removeStorageMeta(payload))
   }
 
   protected override clearHandler(): void | Promise<void> {
@@ -115,7 +144,7 @@ export class MemoryArchivist<
         if (resolvedHash !== hash && !result) {
           throw new Error('Missing referenced payload')
         }
-        return result
+        return removeStorageMeta(result)
       }),
     )
   }
@@ -131,9 +160,10 @@ export class MemoryArchivist<
     return insertedPayloads
   }
 
-  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string): PayloadWithMeta {
-    this.cache.set(hash, payload)
-    this.bodyHashIndex.set(payload.$hash, hash)
+  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): PayloadWithMeta {
+    const withMeta = addStorageMeta(payload, index)
+    this.cache.set(hash, withMeta)
+    this.bodyHashIndex.set(withMeta.$hash, hash)
     return payload
   }
 }

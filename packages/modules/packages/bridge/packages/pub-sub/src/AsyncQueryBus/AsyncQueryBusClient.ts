@@ -6,7 +6,7 @@ import { isBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwit
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
 import { Pending } from './Config'
@@ -152,7 +152,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
             if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
               this.logger?.debug(`Found response to query: ${sourceQuery}`)
               // Get any payloads associated with the response
-              const payloads = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
+              const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
               this.queryCache.set(sourceQuery, [response, payloads, []])
             }
           }

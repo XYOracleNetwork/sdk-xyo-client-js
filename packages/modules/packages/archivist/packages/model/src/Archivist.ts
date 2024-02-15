@@ -21,20 +21,20 @@ export interface StashArchivist<TWriteResponse> {
 }
 
 export interface Archivist<
-  TReadResponse = WithMeta<Payload>,
-  TWriteResponse = WithMeta<Payload>,
-  TWrite = WithOptionalMeta<TReadResponse & Payload>,
+  TReadResponse extends Payload = Payload,
+  TWriteResponse extends Payload = Payload,
+  TWrite extends Payload = TReadResponse & Payload,
   TId = string,
-> extends ReadArchivist<TReadResponse, TId>,
-    WriteArchivist<TReadResponse, TWriteResponse, TWrite, TId>,
-    StashArchivist<TWriteResponse> {}
+> extends ReadArchivist<WithMeta<TReadResponse>, TId>,
+    WriteArchivist<WithMeta<TReadResponse>, WithMeta<TWriteResponse>, TWrite, TId>,
+    StashArchivist<WithMeta<TWriteResponse>> {}
 
 export interface ArchivistModuleEventData extends InsertedEventData, DeletedEventData, ClearedEventData, ModuleEventData {}
 
 export interface ArchivistQueryFunctions<
-  TReadResponse = WithMeta<Payload>,
-  TWriteResponse = WithMeta<Payload>,
-  TWrite = WithOptionalMeta<TReadResponse & Payload>,
+  TReadResponse extends Payload = Payload,
+  TWriteResponse extends Payload = Payload,
+  TWrite extends Payload = TReadResponse & Payload,
   TId = string,
 > extends Archivist<TReadResponse, TWriteResponse, TWrite, TId>,
     ModuleQueryFunctions {}

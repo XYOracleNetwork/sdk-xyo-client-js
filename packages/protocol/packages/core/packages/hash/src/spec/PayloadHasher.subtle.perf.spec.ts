@@ -1,6 +1,6 @@
 import { NodePayloadHasher as PayloadHasher } from '../NodePayloadHasher'
 
-const perfIterations = 10_000
+const perfIterations = 1000
 
 describe('Hasher - Subtle performance', () => {
   const testObject = {

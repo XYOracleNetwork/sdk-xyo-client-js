@@ -18,6 +18,7 @@
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
     "@xyo-network/payload": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "^0.4.1"
   },
@@ -67,6 +68,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.90.16",
+  "version": "2.90.17",
   "type": "module"
 }

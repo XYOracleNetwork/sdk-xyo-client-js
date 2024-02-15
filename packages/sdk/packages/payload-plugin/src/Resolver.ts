@@ -57,7 +57,7 @@ export class PayloadPluginResolver {
     return this.resolve(payload).validate?.(payload)
   }
 
-  wrap(payload: Payload): Promise<PayloadWrapper<Payload>> | undefined {
+  wrap(payload: Payload): PayloadWrapper<Payload> | undefined {
     return this.resolve(payload).wrap?.(payload)
   }
 }

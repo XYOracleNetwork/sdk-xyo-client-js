@@ -15,7 +15,7 @@ export const defaultPayloadPluginFunctions = <T extends Payload>(schema: string)
     validate: (payload: Payload): PayloadValidator<T> => {
       return new PayloadValidator<T>(payload as T)
     },
-    wrap: async (payload: Payload): Promise<PayloadWrapper<T>> => {
+    wrap: (payload: Payload): PayloadWrapper<T> => {
       return PayloadWrapper.wrap<T>(payload as T)
     },
   }

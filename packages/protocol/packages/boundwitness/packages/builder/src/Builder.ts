@@ -5,7 +5,7 @@ import { AnyObject, JsonObject } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { removeEmptyFields, sortFields } from '@xyo-network/hash'
-import { PayloadBuilder, PayloadBuilderBase, PayloadBuilderOptions, PayloadWrapper } from '@xyo-network/payload'
+import { PayloadBuilder, PayloadBuilderBase, PayloadBuilderOptions } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -189,24 +189,21 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return result as Omit<TBoundWitness, '$meta' | '$hash'>
   }
 
-  async error(payload?: ModuleError) {
-    const unwrappedPayload = PayloadWrapper.unwrap(payload)
+  error(payload?: ModuleError) {
     assertEx(this._errorHashes === undefined, 'Can not set errors when hashes already set')
-    if (unwrappedPayload) {
-      this._errors.push(assertEx(sortFields(unwrappedPayload)))
+    if (payload) {
+      this._errors.push(assertEx(sortFields(payload)))
     }
     return this
   }
 
-  async errors(errors?: (ModuleError | null)[]) {
+  errors(errors?: (ModuleError | null)[]) {
     if (errors) {
-      await Promise.all(
-        errors.map(async (error) => {
-          if (error !== null) {
-            await this.error(error)
-          }
-        }),
-      )
+      errors.map((error) => {
+        if (error !== null) {
+          this.error(error)
+        }
+      })
     }
     return this
   }
@@ -218,24 +215,21 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
-  async payload(payload?: TPayload) {
-    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
+  payload(payload?: TPayload) {
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
-    if (unwrappedPayload) {
-      this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))
+    if (payload) {
+      this._payloads.push(assertEx(sortFields<TPayload>(payload)))
     }
     return this
   }
 
-  async payloads(payloads?: (TPayload | null)[]) {
+  payloads(payloads?: (TPayload | null)[]) {
     if (payloads)
-      await Promise.all(
-        payloads.map(async (payload) => {
-          if (payload !== null) {
-            await this.payload(payload)
-          }
-        }),
-      )
+      payloads.map((payload) => {
+        if (payload !== null) {
+          this.payload(payload)
+        }
+      })
     return this
   }
 

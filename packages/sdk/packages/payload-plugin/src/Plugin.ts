@@ -11,7 +11,7 @@ export type PayloadPlugin<TPayload extends Payload = Payload> = {
   schema: TPayload['schema']
   template?: () => Partial<TPayload>
   validate?: (payload: Payload) => Validator<Payload>
-  wrap?: (payload: Payload) => Promise<PayloadWrapper>
+  wrap?: (payload: Payload) => PayloadWrapper
 }
 
 /* Note: We use PartialWitnessConfig to allow people to config witnesses without having to pass in all the schema info*/

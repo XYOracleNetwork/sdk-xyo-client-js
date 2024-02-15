@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/protocol/packages/core/packages/hash/src/spec/PayloadHasher.subtle.perf.spec.ts"
+        "packages/protocol/packages/account/src/spec/HDWallet/HDWallet.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

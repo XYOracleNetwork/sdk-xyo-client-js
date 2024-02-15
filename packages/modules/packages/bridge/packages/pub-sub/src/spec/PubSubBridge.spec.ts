@@ -6,8 +6,10 @@ import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
+import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import { DivinerDivineQuerySchema, DivinerInstance } from '@xyo-network/diviner-model'
+import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
+import { DivinerDivineQuerySchema, DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -18,9 +20,9 @@ import { PubSubBridge } from '../PubSubBridge'
 interface IntermediateNode {
   node: MemoryNode
   queryArchivist: ArchivistInstance
-  queryBoundWitnessDiviner: DivinerInstance
+  queryBoundWitnessDiviner: DivinerInstance<DivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
   responseArchivist: ArchivistInstance
-  responseBoundWitnessDiviner: DivinerInstance
+  responseBoundWitnessDiviner: DivinerInstance<DivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
 }
 
 interface Client {
@@ -170,7 +172,8 @@ describe('PubSubBridge', () => {
         })
         await node.register(pubSubBridge)
         await node.attach(pubSubBridge.address, false)
-        clientsWithBridges.push({ ...client, pubSubBridge })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)
         await node.attach(intermediateNode.node.address, false)
       }),

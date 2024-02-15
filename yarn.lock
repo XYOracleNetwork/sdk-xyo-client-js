@@ -3036,7 +3036,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.42"
     "@xyo-network/key-model": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3063,7 +3063,7 @@ __metadata:
     "@xyo-network/wasm": "workspace:~"
     async-mutex: "npm:^0.4.1"
     elliptic: "npm:^6.5.4"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3571,7 +3571,7 @@ __metadata:
     "@xylabs/assert": "npm:^2.14.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -4826,7 +4826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.90.14, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.90.15, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5050,7 +5050,7 @@ __metadata:
     "@xylabs/forget": "npm:^2.14.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig-dom": "npm:^3.2.42"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5602,12 +5602,12 @@ __metadata:
     "@xylabs/error": "npm:^2.14.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig-dom": "npm:^3.2.42"
-    "@xyo-network/domain-payload-plugin": "npm:^2.90.14"
+    "@xyo-network/domain-payload-plugin": "npm:^2.90.15"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.90.14"
+    "@xyo-network/schema-payload-plugin": "npm:^2.90.15"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.3.3"
@@ -5625,7 +5625,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.90.14, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.90.15, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:
@@ -5848,7 +5848,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig": "npm:^3.2.42"
     "@xyo-network/account-model": "workspace:~"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5896,7 +5896,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     jest: "npm:^29.7.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -5944,7 +5944,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
-    ethers: "npm:^6.11.1"
+    ethers: "npm:6.11.0"
     jest: "npm:^29.7.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -8976,9 +8976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.11.1":
-  version: 6.11.1
-  resolution: "ethers@npm:6.11.1"
+"ethers@npm:6.11.0":
+  version: 6.11.0
+  resolution: "ethers@npm:6.11.0"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.1"
     "@noble/curves": "npm:1.2.0"
@@ -8987,7 +8987,7 @@ __metadata:
     aes-js: "npm:4.0.0-beta.5"
     tslib: "npm:2.4.0"
     ws: "npm:8.5.0"
-  checksum: bfeba2670dbfdac3951a66ab2d5bbc18dd7e1be69da9142ad4fe3859a30891e7bb048ecbb6ab542b67df777ada1860445bb3dd83536219c0d3639fe05e74df8e
+  checksum: c6e5964ceabf2d289f8ae5b16e634995375457a8c5b814ea54799b5a3c951668465adb9b6dda3aea559d9c4fe3faa8297a38651853b54a53de9448663a908f12
   languageName: node
   linkType: hard
 

@@ -27,19 +27,19 @@ export class PayloadWithMetaWrapper<TPayload extends Payload = Payload> extends 
     }
   }
 
-  static override async parse<T extends Payload>(payload?: unknown): Promise<PayloadDataWrapper<T> | undefined> {
+  static override parse<T extends Payload>(payload?: unknown): PayloadDataWrapper<T> | undefined {
     const hydratedObj = typeof payload === 'string' ? JSON.parse(payload) : payload
-    return await this.wrap(hydratedObj as PayloadDataWrapper<T> | T)
+    return this.wrap(hydratedObj as PayloadDataWrapper<T> | T)
   }
 
   static override setLoaderFactory(factory: PayloadLoaderFactory | null) {
     this.loaderFactory = factory
   }
 
-  static override async tryParse<T extends Payload>(obj: unknown): Promise<PayloadDataWrapper<T> | null | undefined> {
-    if (obj === undefined || obj === null) return obj
+  static override tryParse<T extends Payload>(obj: unknown): PayloadDataWrapper<T> | undefined {
+    if (obj === undefined || obj === null) return
     try {
-      return await this.parse<T>(obj)
+      return this.parse<T>(obj)
     } catch {
       return undefined
     }

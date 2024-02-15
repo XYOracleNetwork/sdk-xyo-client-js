@@ -190,7 +190,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   async error(payload?: ModuleError) {
-    const unwrappedPayload = await PayloadWrapper.unwrap(payload)
+    const unwrappedPayload = PayloadWrapper.unwrap(payload)
     assertEx(this._errorHashes === undefined, 'Can not set errors when hashes already set')
     if (unwrappedPayload) {
       this._errors.push(assertEx(sortFields(unwrappedPayload)))
@@ -219,7 +219,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   async payload(payload?: TPayload) {
-    const unwrappedPayload = await PayloadWrapper.unwrap<TPayload>(payload)
+    const unwrappedPayload = PayloadWrapper.unwrap<TPayload>(payload)
     assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
     if (unwrappedPayload) {
       this._payloads.push(assertEx(sortFields<TPayload>(unwrappedPayload)))

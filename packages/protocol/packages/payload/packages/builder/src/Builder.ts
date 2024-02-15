@@ -19,33 +19,33 @@ export class PayloadBuilder<
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
       const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
-      const $hash = validate || incomingDataHash === undefined ? await PayloadBuilder.hash(dataHashableFields) : incomingDataHash
+      const $hash = validate || incomingDataHash === undefined ? await PayloadHasher.hash(dataHashableFields) : incomingDataHash
       const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
 
       return hashableFields as WithMeta<T>
     }
   }
 
-  static async dataHash<T extends Payload>(payload: T): Promise<Hash> {
-    return (await this.build(payload)).$hash
+  static async dataHash<T extends Payload>(payload: T, validate = true): Promise<Hash> {
+    return (await this.build(payload, validate)).$hash
   }
 
-  static async dataHashPairs<T extends Payload>(payloads: T[]): Promise<[WithMeta<T>, Hash][]> {
+  static async dataHashPairs<T extends Payload>(payloads: T[], validate = true): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map(async (payload) => {
-        const built = await PayloadBuilder.build(payload)
+        const built = await PayloadBuilder.build(payload, validate)
         return [built, built.$hash]
       }),
     )
   }
 
-  static async dataHashes(payloads: undefined): Promise<undefined>
-  static async dataHashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
-  static async dataHashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
+  static async dataHashes(payloads: undefined, validate?: boolean): Promise<undefined>
+  static async dataHashes<T extends Payload>(payloads: T[], validate?: boolean): Promise<Hash[]>
+  static async dataHashes<T extends Payload>(payloads?: T[], validate = true): Promise<Hash[] | undefined> {
     return payloads
       ? await Promise.all(
           payloads.map(async (payload) => {
-            const built = await PayloadBuilder.build(payload)
+            const built = await PayloadBuilder.build(payload, validate)
             return built.$hash
           }),
         )
@@ -70,8 +70,8 @@ export class PayloadBuilder<
     return (await this.dataHashPairs(payloads)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
-  static async hash<T extends Payload>(payload: T): Promise<Hash> {
-    return await PayloadHasher.hash(payload)
+  static async hash<T extends Payload>(payload: T, validate = false): Promise<Hash> {
+    return await PayloadHasher.hash(await PayloadBuilder.build(payload, validate))
   }
 
   /**
@@ -141,7 +141,7 @@ export class PayloadBuilder<
 
   async build(): Promise<WithMeta<T>> {
     const dataHashableFields = await this.dataHashableFields()
-    const $hash = await PayloadBuilder.hash(dataHashableFields)
+    const $hash = await PayloadHasher.hash(dataHashableFields)
     const $meta = await this.metaFields($hash)
     const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash, $meta }
 

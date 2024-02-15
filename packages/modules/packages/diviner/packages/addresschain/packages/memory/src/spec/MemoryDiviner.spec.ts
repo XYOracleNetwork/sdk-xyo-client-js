@@ -33,9 +33,9 @@ describe('MemoryAddressHistoryDiviner', () => {
 
       const wrapperAddress = wrapperAccount.address
 
-      const payload1 = await PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
-      const payload2 = await PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
-      const payload3 = await PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
+      const payload1 = PayloadWrapper.wrap({ index: 1, schema: 'network.xyo.test' })
+      const payload2 = PayloadWrapper.wrap({ index: 2, schema: 'network.xyo.test' })
+      const payload3 = PayloadWrapper.wrap({ index: 3, schema: 'network.xyo.test' })
 
       await archivistWrapper.insert([payload1.payload])
       await archivistWrapper.insert([payload2.payload])

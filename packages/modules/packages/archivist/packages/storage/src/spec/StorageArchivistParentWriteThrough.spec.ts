@@ -32,7 +32,7 @@ test('Archivist Parent Write Through', async () => {
   await node.register(storage)
   await node.attach(storage.address)
 
-  const wrapper = await PayloadWrapper.wrap({ schema: 'network.xyo.test' })
+  const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()
 

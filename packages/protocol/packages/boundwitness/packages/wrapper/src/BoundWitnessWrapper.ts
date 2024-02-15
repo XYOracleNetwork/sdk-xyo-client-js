@@ -129,19 +129,6 @@ export class BoundWitnessWrapper<
     return result
   }
 
-  static async wrappedHashMap<T extends BoundWitness>(
-    boundWitnesses: (T | BoundWitnessWrapper<T>)[],
-  ): Promise<Record<string, BoundWitnessWrapper<T>>> {
-    const result: Record<string, BoundWitnessWrapper<T>> = {}
-    await Promise.all(
-      boundWitnesses.map(async (bw) => {
-        const wrapped: BoundWitnessWrapper<T> = BoundWitnessWrapper.parse(bw)
-        result[await wrapped.hash()] = BoundWitnessWrapper.parse(bw)
-      }),
-    )
-    return result
-  }
-
   async dig(depth?: number): Promise<BoundWitnessWrapper<TBoundWitness>> {
     if (depth === 0) return this
 

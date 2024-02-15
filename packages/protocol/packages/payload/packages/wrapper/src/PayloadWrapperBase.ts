@@ -15,34 +15,30 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
 
   protected constructor(public payload: TPayload) {}
 
-  static async unwrap<TPayload extends Payload = Payload>(payload?: TPayload): Promise<WithMeta<TPayload> | undefined>
-  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  static unwrap<TPayload extends Payload = Payload>(payload?: TPayload): WithMeta<TPayload> | undefined
+  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper,
-  ): Promise<WithMeta<TPayload>>
-  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  ): TPayload
+  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: (TPayload | TWrapper)[],
-  ): Promise<WithMeta<TPayload>[]>
-  static async unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  ): TPayload[]
+  static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper | (TPayload | TWrapper)[],
-  ): Promise<WithMeta<TPayload> | WithMeta<TPayload>[] | undefined> {
+  ): TPayload | TPayload[] | undefined {
     return Array.isArray(payload)
-      ? await Promise.all(payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload)))
-      : await this.unwrapSinglePayload<TPayload, TWrapper>(payload)
+      ? payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
+      : this.unwrapSinglePayload<TPayload, TWrapper>(payload)
   }
 
-  static async unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: TPayload): Promise<WithMeta<TPayload> | undefined>
-  static async unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  static unwrapSinglePayload<TPayload extends Payload = Payload>(payload?: TPayload): TPayload | undefined
+  static unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper,
-  ): Promise<WithMeta<TPayload>>
-  static async unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
+  ): TPayload
+  static unwrapSinglePayload<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload?: TPayload | TWrapper,
-  ): Promise<WithMeta<TPayload> | undefined> {
+  ): TPayload | undefined {
     if (payload === undefined) {
       return
-    }
-
-    if (!(typeof payload === 'object')) {
-      throw new TypeError('Can not unwrap value that is not extended from object')
     }
 
     if (Array.isArray(payload)) {
@@ -50,11 +46,11 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
     }
 
     if (isPayloadWrapperBase(payload)) {
-      return await PayloadBuilder.build(payload.payload)
+      return payload.payload
     }
 
     if (isAnyPayload(payload)) {
-      return await PayloadBuilder.build(payload)
+      return payload
     }
 
     throw new TypeError('Can not unwrap an object that is not a PayloadWrapper or Payload')
@@ -71,10 +67,6 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
 
   async getValid() {
     return (await this.getErrors()).length === 0
-  }
-
-  async hash() {
-    return await PayloadBuilder.hash(this.payload)
   }
 
   //intentionally a function to prevent confusion with payload

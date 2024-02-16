@@ -126,7 +126,7 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[IDBValidKey, Payload] | undefined> {
+  ): Promise<[IDBValidKey, PayloadWithMeta] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
@@ -139,65 +139,15 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
-    const tuplesByHash = await this.useDb((db) => {
-      // Start a transaction on the store
-      const transaction = db.transaction(this.storeName, 'readonly')
-      const store = transaction.objectStore(this.storeName)
-
-      // Get the index
-      const index = store.index(IndexedDbArchivist.hashIndexName)
-
-      return Promise.all(
-        hashes.map(async (hash) => {
-          const query: IDBValidKey = hash
-          const cursor = await index.openCursor(hash)
-
-          if (cursor) {
-            // If a match is found, store the value and the primary key
-            const singleValue = cursor.value
-            const primaryKey = cursor.primaryKey
-            return [primaryKey, singleValue]
-          }
-        }),
-      )
-    })
-    const tuplesByDataHash = await this.useDb((db) => {
-      // Start a transaction on the store
-      const transaction = db.transaction(this.storeName, 'readonly')
-      const store = transaction.objectStore(this.storeName)
-
-      // Get the index
-      const index = store.index(IndexedDbArchivist.dataHashIndexName)
-
-      return Promise.all(
-        hashes.map(async (hash) => {
-          const query: IDBValidKey = hash
-          const cursor = await index.openCursor(hash)
-
-          if (cursor) {
-            // If a match is found, store the value and the primary key
-            const singleValue = cursor.value
-            const primaryKey = cursor.primaryKey
-            return [primaryKey, singleValue]
-          }
-        }),
-      )
-    })
-    const payloadsFromHashes = await this.useDb((db) =>
+    const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
-    const payloadsFromDataHashes2 = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
-    )
-    const payloads = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
-    )
     const payloadsFromDataHashes = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
+      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
     )
     //filter out duplicates
     const found = new Set<string>()
-    const payloadsFromHash = payloads.filter(exists).filter((payload) => {
+    const payloadsFromHash = payloads.filter(exists).filter(([_key, payload]) => {
       if (found.has(payload.$hash)) {
         return false
       } else {
@@ -205,7 +155,7 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter((payload) => {
+    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter(([_key, payload]) => {
       if (found.has(payload.$hash)) {
         return false
       } else {
@@ -213,7 +163,7 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    return [...payloadsFromHash, ...payloadsFromDataHash]
+    return [...payloadsFromHash.map(([k, v]) => v), ...payloadsFromDataHash.map(([k, v]) => v)]
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

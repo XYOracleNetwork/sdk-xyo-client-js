@@ -1,0 +1,34 @@
+releases:
+  "@xyo-network/abstract-bridge": patch
+  "@xyo-network/archivist": patch
+  "@xyo-network/archivist-abstract": patch
+  "@xyo-network/archivist-cookie": patch
+  "@xyo-network/archivist-indexeddb": patch
+  "@xyo-network/archivist-memory": patch
+  "@xyo-network/archivist-model": patch
+  "@xyo-network/archivist-storage": patch
+  "@xyo-network/archivist-wrapper": patch
+  "@xyo-network/bridge": patch
+  "@xyo-network/bridge-model": patch
+  "@xyo-network/bridge-module-resolver": patch
+  "@xyo-network/bridge-pub-sub": patch
+  "@xyo-network/bridge-wrapper": patch
+  "@xyo-network/diviner": patch
+  "@xyo-network/diviner-abstract": patch
+  "@xyo-network/diviner-address-chain": patch
+  "@xyo-network/diviner-address-chain-abstract": patch
+  "@xyo-network/diviner-address-chain-memory": patch
+  "@xyo-network/diviner-address-chain-model": patch
+  "@xyo-network/diviner-address-history": patch
+  "@xyo-network/diviner-address-history-model": patch
+  "@xyo-network/filesystem-archivist": patch
+  "@xyo-network/http-bridge": patch
+  "@xyo-network/manifest": patch
+  "@xyo-network/manifest-model": patch
+  "@xyo-network/manifest-wrapper": patch
+  "@xyo-network/modules": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+  "@xyo-network/worker-bridge": patch
+
+undecided:
+  - "@xyo-network/hash"

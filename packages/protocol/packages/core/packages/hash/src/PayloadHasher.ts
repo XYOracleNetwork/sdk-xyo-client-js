@@ -3,6 +3,7 @@ import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import { WasmSupport } from '@xyo-network/wasm'
+import { Mutex } from 'async-mutex'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 import { ModuleThread, Pool, spawn, Worker } from 'threads'
@@ -43,6 +44,9 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   // These get set to null if they fail to create and then we just don't use workers - needed for storybook
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
+
+  private static readonly _spawnMutex = new Mutex()
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,6 +93,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static createWorker(url?: URL, func?: () => unknown) {
+    if (url) console.debug(`createWorker: ${url}`)
     return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), 'Unable to create worker')
   }
 
@@ -208,7 +213,11 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static createWorkerPool<T extends WorkerModule<any>>(url?: URL, func?: () => unknown, size = 8) {
-    return Pool(() => spawn<T>(this.createWorker(url, func)), size)
+    if (url) console.debug(`createWorkerPool: ${url}`)
+    const createFunc = async () => {
+      return await this._spawnMutex.runExclusive(() => spawn<T>(this.createWorker(url, func)))
+    }
+    return Pool(createFunc, size)
   }
 
   async hash(): Promise<Hash> {

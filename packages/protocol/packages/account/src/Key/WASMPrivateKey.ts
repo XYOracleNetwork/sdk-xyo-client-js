@@ -15,10 +15,8 @@ export class WASMPrivateKey extends PrivateKey {
 
   private _publicKeyBytes: ArrayBuffer
 
-  constructor(value?: ArrayBuffer) {
+  constructor(value: ArrayBuffer) {
     super(value)
-    const privateHex = this._keyPair.getPrivate('hex')
-    this._privateKeyBytes = toUint8Array(privateHex, value?.byteLength)
     const publicHex = this._keyPair.getPublic('hex')
     this._publicKeyBytes = toUint8Array(publicHex, value?.byteLength)
   }
@@ -46,7 +44,7 @@ export class WASMPrivateKey extends PrivateKey {
     // return malleateSignatureCompact(signMessageHashCompact(this.bytes, toUint8Array(hash)))
 
     const { signMessageHashCompact } = await WASMPrivateKey.getSecp256k1()
-    return signMessageHashCompact(this.bytes, toUint8Array(hash))
+    return signMessageHashCompact(toUint8Array(this.bytes), toUint8Array(hash))
   }
 
   override async verify(msg: ArrayBuffer, signature: ArrayBuffer) {

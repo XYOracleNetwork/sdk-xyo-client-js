@@ -78,16 +78,16 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [httpSuccessBoundWitness, httpSuccessPayloads] = await (
-      await new BoundWitnessBuilder().payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
-    ).build()
+    const [httpSuccessBoundWitness, httpSuccessPayloads] = await new BoundWitnessBuilder()
+      .payloads([thumbnailHttpSuccess, httpSuccessTimestamp])
+      .build()
     const httpFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [httpFailBoundWitness, httpFailPayloads] = await (await new BoundWitnessBuilder().payloads([thumbnailHttpFail, httpFailTimestamp])).build()
 
     const witnessFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
-    const [witnessFailBoundWitness, witnessFailPayloads] = await (
-      await new BoundWitnessBuilder().payloads([thumbnailWitnessFail, witnessFailTimestamp])
-    ).build()
+    const [witnessFailBoundWitness, witnessFailPayloads] = await new BoundWitnessBuilder()
+      .payloads([thumbnailWitnessFail, witnessFailTimestamp])
+      .build()
 
     const codeFailTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }
     const [codeFailBoundWitness, codeFailPayloads] = await (await new BoundWitnessBuilder().payloads([thumbnailCodeFail, codeFailTimestamp])).build()

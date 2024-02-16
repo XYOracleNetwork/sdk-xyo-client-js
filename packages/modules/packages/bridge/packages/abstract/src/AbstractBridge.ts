@@ -100,9 +100,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    return typeof nameOrAddressOrFilter === 'string'
-      ? await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
-      : (await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
+    return (
+      (typeof nameOrAddressOrFilter === 'string'
+        ? await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
+        : await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
+    )
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(

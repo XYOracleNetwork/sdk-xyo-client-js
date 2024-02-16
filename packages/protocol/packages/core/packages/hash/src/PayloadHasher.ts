@@ -17,9 +17,18 @@ import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
 export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
+  static allowHashPooling = true
   static allowSubtle = true
   static createBrowserWorker?: (url?: URL) => Worker | undefined
   static createNodeWorker?: (func?: () => unknown) => Worker | undefined
+
+  static initialized = (() => {
+    globalThis.xyo = globalThis.xyo ?? {}
+    if (globalThis.xyo.hashing) {
+      console.warn('Two static instances of PayloadHasher detected')
+    }
+    globalThis.xyo === globalThis.xyo ?? { hashing: PayloadHasher }
+  })()
 
   static jsHashWorkerUrl?: URL
   static subtleHashWorkerUrl?: URL
@@ -40,25 +49,43 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
 
   private static get jsHashPool() {
-    if (this._jsHashPool === null) {
+    if (!this.allowHashPooling || this._jsHashPool === null) {
       return null
     }
-    return (this._jsHashPool = this._jsHashPool ?? this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null)
+    try {
+      return (this._jsHashPool = this._jsHashPool ?? this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null)
+    } catch {
+      console.warn('Creating js hash worker failed')
+      this._jsHashPool = null
+      return null
+    }
   }
 
   private static get subtleHashPool() {
-    if (this._subtleHashPool === null) {
+    if (!this.allowHashPooling || this._subtleHashPool === null) {
       return null
     }
-    return (this._subtleHashPool =
-      this._subtleHashPool ?? this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null)
+    try {
+      return (this._subtleHashPool =
+        this._subtleHashPool ?? this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null)
+    } catch {
+      console.warn('Creating subtle hash worker failed')
+      this._subtleHashPool = null
+      return null
+    }
   }
 
   private static get wasmHashPool() {
-    if (this._wasmHashPool === null) {
+    if (!this.allowHashPooling || this._wasmHashPool === null) {
       return null
     }
-    return (this._wasmHashPool = this._wasmHashPool ?? this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null)
+    try {
+      return (this._wasmHashPool = this._wasmHashPool ?? this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null)
+    } catch {
+      console.warn('Creating wasm hash worker failed')
+      this._wasmHashPool = null
+      return null
+    }
   }
 
   static createWorker(url?: URL, func?: () => unknown) {

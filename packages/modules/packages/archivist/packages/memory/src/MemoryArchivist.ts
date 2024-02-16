@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -31,30 +31,6 @@ export type MemoryArchivistConfig = ArchivistConfig<{
 
 type WithStorageMeta<T extends Payload> = T & {
   _sequence: bigint
-}
-
-const maxSequenceIndex = 10_000_000_000n
-
-const sequenceNumber = (index: number) => {
-  assertEx(index < maxSequenceIndex, () => `index may not be larger than ${maxSequenceIndex}`)
-  return BigInt(Date.now()) * maxSequenceIndex + BigInt(index)
-}
-
-const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0) => {
-  return { ...payload, _sequence: sequenceNumber(index) } as WithStorageMeta<T>
-}
-
-const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]) => {
-  return payloads.sort((a, b) => (a._sequence < b._sequence ? -1 : a._sequence > b._sequence ? 1 : 0))
-}
-
-function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T
-function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>): T | undefined
-function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>) {
-  if (!payload) return
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { _sequence, ...noMeta } = payload as WithStorageMeta<T>
-  return noMeta as T
 }
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =

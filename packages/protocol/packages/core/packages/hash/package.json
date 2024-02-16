@@ -17,7 +17,6 @@
     "@xylabs/platform": "^2.14.2",
     "@xylabs/typeof": "^2.14.2",
     "@xyo-network/wasm": "workspace:~",
-    "async-mutex": "^0.4.1",
     "hash-wasm": "^4.11.0",
     "sha.js": "^2.4.11",
     "threads": "^1.7.0"

@@ -115,7 +115,71 @@ export class IndexedDbArchivist<
     })
   }
 
+  protected async getFromIndexAsTuple(key: IDBValidKey, indexName: string): Promise<[IDBValidKey, Payload] | undefined> {
+    return await this.useDb(async (db) => {
+      // Start a transaction on the store
+      const transaction = db.transaction(this.storeName, 'readonly')
+      const store = transaction.objectStore(this.storeName)
+
+      // Get the index
+      const index = store.index(IndexedDbArchivist.hashIndexName)
+
+      const cursor = await index.openCursor(key)
+
+      if (cursor) {
+        // If a match is found, store the value and the primary key
+        const singleValue = cursor.value
+        const primaryKey = cursor.primaryKey
+        return [primaryKey, singleValue]
+      }
+    })
+  }
+
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
+    const tuplesByHash = await this.useDb((db) => {
+      // Start a transaction on the store
+      const transaction = db.transaction(this.storeName, 'readonly')
+      const store = transaction.objectStore(this.storeName)
+
+      // Get the index
+      const index = store.index(IndexedDbArchivist.hashIndexName)
+
+      return Promise.all(
+        hashes.map(async (hash) => {
+          const query: IDBValidKey = hash
+          const cursor = await index.openCursor(hash)
+
+          if (cursor) {
+            // If a match is found, store the value and the primary key
+            const singleValue = cursor.value
+            const primaryKey = cursor.primaryKey
+            return [primaryKey, singleValue]
+          }
+        }),
+      )
+    })
+    const tuplesByDataHash = await this.useDb((db) => {
+      // Start a transaction on the store
+      const transaction = db.transaction(this.storeName, 'readonly')
+      const store = transaction.objectStore(this.storeName)
+
+      // Get the index
+      const index = store.index(IndexedDbArchivist.dataHashIndexName)
+
+      return Promise.all(
+        hashes.map(async (hash) => {
+          const query: IDBValidKey = hash
+          const cursor = await index.openCursor(hash)
+
+          if (cursor) {
+            // If a match is found, store the value and the primary key
+            const singleValue = cursor.value
+            const primaryKey = cursor.primaryKey
+            return [primaryKey, singleValue]
+          }
+        }),
+      )
+    })
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )

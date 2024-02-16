@@ -123,7 +123,7 @@ export class IndexedDbArchivist<
    * @param key The key to get from the index
    * @returns The primary key and the payload, or undefined if not found
    */
-  protected async getFromIndexAsTuple(
+  protected async getFromIndexWithPrimaryKey(
     db: IDBPDatabase<PayloadStore>,
     storeName: string,
     indexName: string,
@@ -143,10 +143,10 @@ export class IndexedDbArchivist<
 
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
     const payloadsFromDataHashes = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
+      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
     )
     //filter out duplicates
     const found = new Set<string>()

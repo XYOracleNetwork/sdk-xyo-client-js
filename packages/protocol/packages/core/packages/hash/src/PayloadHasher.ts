@@ -1,7 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
+import { subtle } from '@xylabs/platform'
 import { WasmSupport } from '@xyo-network/wasm'
+import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 import { ModuleThread, Pool, spawn, Worker } from 'threads'
 // eslint-disable-next-line import/no-internal-modules
@@ -29,23 +31,34 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   static readonly wasmInitialized = wasmSupportStatic.initialize()
   static readonly wasmSupport = wasmSupportStatic
 
+  // These get set to null if they fail to create and then we just don't use workers - needed for storybook
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+  private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+  private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>>
+  private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
 
   private static get jsHashPool() {
-    return (this._jsHashPool = this._jsHashPool ?? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc))
+    if (this._jsHashPool === null) {
+      return null
+    }
+    return (this._jsHashPool = this._jsHashPool ?? this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null)
   }
 
   private static get subtleHashPool() {
-    return (this._subtleHashPool = this._subtleHashPool ?? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc))
+    if (this._subtleHashPool === null) {
+      return null
+    }
+    return (this._subtleHashPool =
+      this._subtleHashPool ?? this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null)
   }
 
   private static get wasmHashPool() {
-    return (this._wasmHashPool = this._wasmHashPool ?? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc))
+    if (this._wasmHashPool === null) {
+      return null
+    }
+    return (this._wasmHashPool = this._wasmHashPool ?? this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null)
   }
 
   static createWorker(url?: URL, func?: () => unknown) {
@@ -131,7 +144,10 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
     if (PayloadHasher.warnIfUsingJsHash) {
       console.warn('Using jsHash [No subtle or wasm?]')
     }
-    return await this.jsHashPool.queue(async (thread) => await thread.hash(data))
+    const pool = this.jsHashPool
+    return pool === null
+      ? asHash(shajs('sha256').update(data).digest().toString('hex'), true)
+      : await pool.queue(async (thread) => await thread.hash(data))
   }
 
   /**
@@ -154,11 +170,13 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static async subtleHash(data: Uint8Array): Promise<ArrayBuffer> {
-    return await this.subtleHashPool.queue(async (thread) => await thread.hash(data))
+    const pool = this.subtleHashPool
+    return pool === null ? await subtle.digest('SHA-256', data) : await pool.queue(async (thread) => await thread.hash(data))
   }
 
   static async wasmHash(data: string) {
-    return await this.wasmHashPool.queue(async (thread) => await thread.hash(data))
+    const pool = this.wasmHashPool
+    return pool === null ? asHash(await sha256(data), true) : pool.queue(async (thread) => await thread.hash(data))
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

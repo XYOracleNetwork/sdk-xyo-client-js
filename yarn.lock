@@ -4827,7 +4827,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.90.19, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.90.20, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -4905,6 +4905,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.2.42"
     "@xylabs/typeof": "npm:^2.14.2"
     "@xyo-network/wasm": "workspace:~"
+    async-mutex: "npm:^0.4.1"
     esbuild: "npm:^0.20.0"
     hash-wasm: "npm:^4.11.0"
     sha.js: "npm:^2.4.11"
@@ -5603,12 +5604,12 @@ __metadata:
     "@xylabs/error": "npm:^2.14.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.2.42"
     "@xylabs/tsconfig-dom": "npm:^3.2.42"
-    "@xyo-network/domain-payload-plugin": "npm:^2.90.19"
+    "@xyo-network/domain-payload-plugin": "npm:^2.90.20"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.90.19"
+    "@xyo-network/schema-payload-plugin": "npm:^2.90.20"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.3.3"
@@ -5626,7 +5627,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.90.19, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.90.20, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:

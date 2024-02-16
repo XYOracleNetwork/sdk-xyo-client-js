@@ -116,9 +116,11 @@ export class IndexedDbArchivist<
   }
 
   /**
-   * Uses an index to get a payload by the index value, returning the primary key and the payload
-   * @param key The key to get from the index
+   * Uses an index to get a payload by the index value, but returns the value with the primary key (from the root store)
+   * @param db The db instance to use
+   * @param storeName The name of the store to use
    * @param indexName The index to use
+   * @param key The key to get from the index
    * @returns The primary key and the payload, or undefined if not found
    */
   protected async getFromIndexAsTuple(
@@ -133,7 +135,7 @@ export class IndexedDbArchivist<
     const cursor = await index.openCursor(key)
     if (cursor) {
       const singleValue = cursor.value
-      // It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
+      // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
       const primaryKey = cursor.primaryKey as number
       return [primaryKey, singleValue]
     }
@@ -164,7 +166,14 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    return [...payloadsFromHash, ...payloadsFromDataHash].sort((a, b) => a[0] - b[0]).map(([_key, payload]) => payload)
+    return (
+      // Merge what we found from the hash and data hash indexes
+      [...payloadsFromHash, ...payloadsFromDataHash]
+        // Sort in ascending order by primary key (for semi-predictable ordering in terms of insertion order)
+        .sort((a, b) => a[0] - b[0])
+        // Return just the payloads
+        .map(([_key, payload]) => payload)
+    )
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

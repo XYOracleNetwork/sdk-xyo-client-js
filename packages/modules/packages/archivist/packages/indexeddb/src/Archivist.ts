@@ -115,19 +115,19 @@ export class IndexedDbArchivist<
     })
   }
 
+  /**
+   * Uses an index to get a payload by the index value, returning the primary key and the payload
+   * @param key The key to get from the index
+   * @param indexName The index to use
+   * @returns The primary key and the payload, or undefined if not found
+   */
   protected async getFromIndexAsTuple(key: IDBValidKey, indexName: string): Promise<[IDBValidKey, Payload] | undefined> {
     return await this.useDb(async (db) => {
-      // Start a transaction on the store
       const transaction = db.transaction(this.storeName, 'readonly')
       const store = transaction.objectStore(this.storeName)
-
-      // Get the index
-      const index = store.index(IndexedDbArchivist.hashIndexName)
-
+      const index = store.index(indexName)
       const cursor = await index.openCursor(key)
-
       if (cursor) {
-        // If a match is found, store the value and the primary key
         const singleValue = cursor.value
         const primaryKey = cursor.primaryKey
         return [primaryKey, singleValue]

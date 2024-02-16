@@ -75,6 +75,6 @@
     "package-compile": "package-compile-only && yarn bundle"
   },
   "sideEffects": false,
-  "version": "2.90.21",
+  "version": "2.90.22",
   "type": "module"
 }

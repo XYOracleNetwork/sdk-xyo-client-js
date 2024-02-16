@@ -121,18 +121,21 @@ export class IndexedDbArchivist<
    * @param indexName The index to use
    * @returns The primary key and the payload, or undefined if not found
    */
-  protected async getFromIndexAsTuple(key: IDBValidKey, indexName: string): Promise<[IDBValidKey, Payload] | undefined> {
-    return await this.useDb(async (db) => {
-      const transaction = db.transaction(this.storeName, 'readonly')
-      const store = transaction.objectStore(this.storeName)
-      const index = store.index(indexName)
-      const cursor = await index.openCursor(key)
-      if (cursor) {
-        const singleValue = cursor.value
-        const primaryKey = cursor.primaryKey
-        return [primaryKey, singleValue]
-      }
-    })
+  protected async getFromIndexAsTuple(
+    db: IDBPDatabase<PayloadStore>,
+    storeName: string,
+    indexName: string,
+    key: IDBValidKey,
+  ): Promise<[IDBValidKey, Payload] | undefined> {
+    const transaction = db.transaction(storeName, 'readonly')
+    const store = transaction.objectStore(storeName)
+    const index = store.index(indexName)
+    const cursor = await index.openCursor(key)
+    if (cursor) {
+      const singleValue = cursor.value
+      const primaryKey = cursor.primaryKey
+      return [primaryKey, singleValue]
+    }
   }
 
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
@@ -180,6 +183,12 @@ export class IndexedDbArchivist<
         }),
       )
     })
+    const payloadsFromHashes = await this.useDb((db) =>
+      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+    )
+    const payloadsFromDataHashes2 = await this.useDb((db) =>
+      Promise.all(hashes.map((hash) => this.getFromIndexAsTuple(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
+    )
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )

@@ -126,14 +126,15 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[IDBValidKey, PayloadWithMeta] | undefined> {
+  ): Promise<[number, PayloadWithMeta] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
     const cursor = await index.openCursor(key)
     if (cursor) {
       const singleValue = cursor.value
-      const primaryKey = cursor.primaryKey
+      // It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
+      const primaryKey = cursor.primaryKey as number
       return [primaryKey, singleValue]
     }
   }
@@ -163,7 +164,7 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    return [...payloadsFromHash.map(([k, v]) => v), ...payloadsFromDataHash.map(([k, v]) => v)]
+    return [...payloadsFromHash, ...payloadsFromDataHash].sort((a, b) => a[0] - b[0]).map(([_key, payload]) => payload)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

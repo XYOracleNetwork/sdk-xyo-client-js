@@ -20,10 +20,7 @@ const finalConfig = {
     ".*"
   ],
   "rules": {
-    "@typescript-eslint/no-floating-promises": "error",
-    "@typescript-eslint/no-misused-promises": "error",
     "import/no-default-export": ["off"],
-    "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "no-public" }],
     "no-restricted-imports": [
       "warn",
       {

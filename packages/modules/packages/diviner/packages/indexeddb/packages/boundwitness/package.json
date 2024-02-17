@@ -23,8 +23,8 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.3.2",
-    "@xylabs/tsconfig": "^3.3.2",
+    "@xylabs/ts-scripts-yarn3": "^3.3.3",
+    "@xylabs/tsconfig": "^3.3.3",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",

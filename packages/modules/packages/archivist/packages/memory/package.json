@@ -23,8 +23,8 @@
     "lru-cache": "^10.2.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.3.2",
-    "@xylabs/tsconfig": "^3.3.2",
+    "@xylabs/ts-scripts-yarn3": "^3.3.3",
+    "@xylabs/tsconfig": "^3.3.3",
     "@xyo-network/account": "workspace:~",
     "typescript": "^5.3.3"
   },

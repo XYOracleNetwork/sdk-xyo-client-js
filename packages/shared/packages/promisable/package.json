@@ -38,8 +38,8 @@
   "module": "dist/node/index.js",
   "types": "dist/node/index.d.mts",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.3.3",
-    "@xylabs/tsconfig": "^3.3.3",
+    "@xylabs/ts-scripts-yarn3": "^3.4.1",
+    "@xylabs/tsconfig": "^3.4.1",
     "typescript": "^5.3.3"
   },
   "homepage": "https://xyo.network",

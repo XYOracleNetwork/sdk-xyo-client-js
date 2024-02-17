@@ -57,7 +57,10 @@ export class PayloadSetPluginResolver {
   async resolve(set?: PayloadSetPayload): Promise<PayloadSetPlugin | undefined>
   async resolve(set?: string): Promise<PayloadSetPlugin | undefined>
   async resolve(set?: string | PayloadSetPayload): Promise<PayloadSetPlugin | undefined> {
-    const setHash = typeof set === 'string' ? set : set ? await PayloadBuilder.dataHash(set) : undefined
+    const setHash =
+      typeof set === 'string' ? set
+      : set ? await PayloadBuilder.dataHash(set)
+      : undefined
     return setHash ? this._plugins[setHash] : undefined
   }
 

@@ -101,9 +101,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     return (
-      (typeof nameOrAddressOrFilter === 'string'
-        ? await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
-        : await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
+      (typeof nameOrAddressOrFilter === 'string' ?
+        await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
+      : await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
     )
   }
 

@@ -42,8 +42,8 @@ export class PayloadBuilder<
   static async dataHashes(payloads: undefined, validate?: boolean): Promise<undefined>
   static async dataHashes<T extends Payload>(payloads: T[], validate?: boolean): Promise<Hash[]>
   static async dataHashes<T extends Payload>(payloads?: T[], validate = true): Promise<Hash[] | undefined> {
-    return payloads
-      ? await Promise.all(
+    return payloads ?
+        await Promise.all(
           payloads.map(async (payload) => {
             const built = await PayloadBuilder.build(payload, validate)
             return built.$hash

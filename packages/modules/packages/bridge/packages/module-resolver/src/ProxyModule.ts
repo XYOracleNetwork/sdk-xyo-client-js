@@ -152,9 +152,9 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     return await this.busy(async () => {
-      return await (typeof nameOrAddressOrFilter === 'string'
-        ? this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-        : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
+      return await (typeof nameOrAddressOrFilter === 'string' ?
+        this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
+      : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
     })
   }
 }

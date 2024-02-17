@@ -67,8 +67,9 @@ export class JsonPathAggregateDiviner<
       delete p.$meta
       return p as TIn
     })
-    const combinations = this.transformableSchemas.includes(BoundWitnessSchema)
-      ? await combinationsByBoundwitness(strippedPayloads)
+    const combinations =
+      this.transformableSchemas.includes(BoundWitnessSchema) ?
+        await combinationsByBoundwitness(strippedPayloads)
       : await combinationsBySchema(strippedPayloads, this.transformableSchemas)
     const reducedPayloads = await Promise.all(
       combinations.map((combination) => {

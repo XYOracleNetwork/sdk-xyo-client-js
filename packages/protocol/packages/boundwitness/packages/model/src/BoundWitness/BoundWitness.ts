@@ -22,5 +22,7 @@ export type BoundWitnessFields = {
 
 export type BoundWitness<T extends Payload | EmptyObject | void = void> = Payload<
   T extends void ? BoundWitnessFields : BoundWitnessFields & T,
-  T extends void ? BoundWitnessSchema : T extends Payload ? T['schema'] : BoundWitnessSchema
+  T extends void ? BoundWitnessSchema
+  : T extends Payload ? T['schema']
+  : BoundWitnessSchema
 >

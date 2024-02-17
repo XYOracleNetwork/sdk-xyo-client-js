@@ -175,8 +175,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
       console.warn('Using jsHash [No subtle or wasm?]')
     }
     const pool = this.jsHashPool
-    return pool === null
-      ? asHash(shajs('sha256').update(data).digest().toString('hex'), true)
+    return pool === null ?
+        asHash(shajs('sha256').update(data).digest().toString('hex'), true)
       : await pool.queue(async (thread) => await thread.hash(data))
   }
 

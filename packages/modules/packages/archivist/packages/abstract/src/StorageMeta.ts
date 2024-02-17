@@ -17,7 +17,11 @@ export const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0)
 }
 
 export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]) => {
-  return payloads.sort((a, b) => (a._sequence < b._sequence ? -1 : a._sequence > b._sequence ? 1 : 0))
+  return payloads.sort((a, b) =>
+    a._sequence < b._sequence ? -1
+    : a._sequence > b._sequence ? 1
+    : 0,
+  )
 }
 
 export function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T

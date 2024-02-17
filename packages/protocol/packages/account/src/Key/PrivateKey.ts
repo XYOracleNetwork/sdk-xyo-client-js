@@ -13,8 +13,9 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _public?: PublicKeyInstance
 
   constructor(value?: ArrayBuffer) {
-    const keyPair = value
-      ? PrivateKey.ecContext.keyFromPrivate(toUint8Array(value, 32), 'array')
+    const keyPair =
+      value ?
+        PrivateKey.ecContext.keyFromPrivate(toUint8Array(value, 32), 'array')
       : (() => {
           try {
             return PrivateKey.ecContext.genKeyPair()

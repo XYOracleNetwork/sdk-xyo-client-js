@@ -122,7 +122,9 @@ export class Account extends KeyPair implements AccountInstance {
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
       const passedCurrentHash =
-        typeof previousHash === 'string' ? previousHash : previousHash === undefined ? undefined : hexFromArrayBuffer(previousHash, { prefix: false })
+        typeof previousHash === 'string' ? previousHash
+        : previousHash === undefined ? undefined
+        : hexFromArrayBuffer(previousHash, { prefix: false })
       assertEx(
         currentPreviousHash === passedCurrentHash,
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,

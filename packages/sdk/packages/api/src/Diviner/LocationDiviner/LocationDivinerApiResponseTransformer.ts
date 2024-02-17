@@ -13,11 +13,11 @@ export const locationDivinerApiResponseTransformer: AxiosResponseTransformer = (
 export const getLocationDivinerApiResponseTransformer = (axiosInstance = axios): AxiosResponseTransformer[] => {
   // If there's any existing response transforms preserve them and
   // append our response transform, otherwise just return ours
-  return axiosInstance.defaults.transformResponse
-    ? [
-        ...(Array.isArray(axiosInstance.defaults.transformResponse)
-          ? axiosInstance.defaults.transformResponse
-          : [axiosInstance.defaults.transformResponse]),
+  return axiosInstance.defaults.transformResponse ?
+      [
+        ...(Array.isArray(axiosInstance.defaults.transformResponse) ?
+          axiosInstance.defaults.transformResponse
+        : [axiosInstance.defaults.transformResponse]),
         locationDivinerApiResponseTransformer,
       ]
     : [locationDivinerApiResponseTransformer]

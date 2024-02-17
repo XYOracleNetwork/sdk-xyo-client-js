@@ -305,9 +305,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<boolean> {
     if (!(await this.started('warn'))) return false
-    const configValidator = queryConfig
-      ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
-      : this.moduleConfigQueryValidator
+    const configValidator =
+      queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
 
     return validators.every((validator) => validator(query, payloads))
@@ -552,9 +551,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const name = this.config.name
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash = previousHash
-      ? { address, previousHash, schema: AddressPreviousHashSchema }
-      : { address, schema: AddressPreviousHashSchema }
+    const moduleAccountPreviousHash =
+      previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressPreviousHashSchema }
     return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 

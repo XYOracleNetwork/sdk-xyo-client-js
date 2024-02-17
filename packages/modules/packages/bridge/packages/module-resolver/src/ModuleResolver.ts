@@ -126,7 +126,11 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
 
     const identity = options?.identity
     if (identity) {
-      return Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module)) : identity(unfiltered) ? unfiltered : undefined
+      return (
+        Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module))
+        : identity(unfiltered) ? unfiltered
+        : undefined
+      )
     } else {
       return unfiltered
     }

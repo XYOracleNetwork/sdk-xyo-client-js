@@ -36,8 +36,9 @@ interface ClientWithBridge extends Client {
 }
 
 const useDebugLogging = false
-const logger = useDebugLogging
-  ? {
+const logger =
+  useDebugLogging ?
+    {
       debug: console.debug,
       error: console.error,
       info: console.info,

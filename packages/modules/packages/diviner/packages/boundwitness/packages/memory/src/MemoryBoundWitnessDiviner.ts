@@ -91,18 +91,18 @@ export class MemoryBoundWitnessDiviner<
       bws = bws.filter((bw) => {
         const targetDestinationField = (bw?.$meta as { destination?: string[] })?.destination
         // If the destination field is an array and contains at least one element
-        return targetDestinationField !== undefined && Array.isArray(targetDestinationField) && targetDestinationField.length > 0
-          ? // Check that the targetDestinationField contains all the elements in the targetFilter
+        return targetDestinationField !== undefined && Array.isArray(targetDestinationField) && targetDestinationField.length > 0 ?
+            // Check that the targetDestinationField contains all the elements in the targetFilter
             containsAll(targetFilter, targetDestinationField ?? [])
-          : // Otherwise, filter it out
-            false
+            // Otherwise, filter it out
+          : false
       })
     }
     if (timestamp !== undefined) {
       bws =
-        order === 'desc'
-          ? bws.filter(hasTimestamp).filter((bw) => bw.timestamp <= timestamp)
-          : bws.filter(hasTimestamp).filter((bw) => bw.timestamp >= timestamp)
+        order === 'desc' ?
+          bws.filter(hasTimestamp).filter((bw) => bw.timestamp <= timestamp)
+        : bws.filter(hasTimestamp).filter((bw) => bw.timestamp >= timestamp)
     }
     const parsedLimit = limit ?? bws.length
     const parsedOffset = offset ?? 0

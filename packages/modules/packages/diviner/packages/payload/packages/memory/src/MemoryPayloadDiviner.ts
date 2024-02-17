@@ -32,8 +32,9 @@ export class MemoryPayloadDiviner<
         const additionalFilterCriteria = Object.entries(props)
         for (const [prop, filter] of additionalFilterCriteria) {
           const property = prop as keyof TOut
-          all = Array.isArray(filter)
-            ? all.filter((payload) =>
+          all =
+            Array.isArray(filter) ?
+              all.filter((payload) =>
                 filter.every((value) => {
                   const prop = payload?.[property]
                   //TODO: This seems to be written just to check arrays, and now that $meta is there, need to check type?
@@ -45,8 +46,8 @@ export class MemoryPayloadDiviner<
       }
       const parsedLimit = limit ?? all.length
       const parsedOffset = offset || 0
-      return offset === undefined
-        ? (async () => {
+      return offset === undefined ?
+          (async () => {
             const allPairs = await PayloadBuilder.hashPairs(all)
             if (hash) {
               //remove all until found

@@ -21,8 +21,9 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
   }
 
   async listeningModules() {
-    const mods = this.config.listeningModules
-      ? await Promise.all(
+    const mods =
+      this.config.listeningModules ?
+        await Promise.all(
           this.config.listeningModules.map(async (listeningModule) =>
             assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
           ),

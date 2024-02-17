@@ -89,7 +89,9 @@ export class MemorySentinel<
       tasks?.map(async (task) => {
         const input = task.input ?? false
         const inPayloadsFound =
-          input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
+          input === true ? inPayloads
+          : input === false ? []
+          : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         const witness = asWitnessInstance(task.module)
         if (witness) {
           await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, module: this })

@@ -34,11 +34,10 @@ export type PayloadSetDualPlugin<
   TDiviner extends DivinerModule = DivinerModule,
 > = PayloadSetWitnessPlugin<TWitness> & PayloadSetDivinerPlugin<TDiviner>
 
-export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = WitnessModule | DivinerModule> = TModule extends WitnessModule
-  ? PayloadSetWitnessPlugin<TModule>
-  : TModule extends DivinerModule
-    ? PayloadSetDivinerPlugin<TModule>
-    : never
+export type PayloadSetPlugin<TModule extends WitnessModule | DivinerModule = WitnessModule | DivinerModule> =
+  TModule extends WitnessModule ? PayloadSetWitnessPlugin<TModule>
+  : TModule extends DivinerModule ? PayloadSetDivinerPlugin<TModule>
+  : never
 
 export const isPayloadSetWitnessPlugin = (plugin: PayloadSetPlugin): plugin is PayloadSetWitnessPlugin => {
   return (plugin as PayloadSetWitnessPlugin)?.witness !== undefined

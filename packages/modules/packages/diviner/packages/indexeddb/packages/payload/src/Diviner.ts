@@ -97,16 +97,18 @@ export class IndexedDbPayloadDiviner<
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'
       const suggestedIndex = this.selectBestIndex(filter, store)
       const keyRangeValue = this.getKeyRangeValue(suggestedIndex, filter)
-      const valueFilters: ValueFilter[] = props
-        ? Object.entries(props)
+      const valueFilters: ValueFilter[] =
+        props ?
+          Object.entries(props)
             .map(([key, value]) => payloadValueFilter(key, value))
             .filter(exists)
         : []
-      let cursor = suggestedIndex
-        ? // Conditionally filter on schemas
+      let cursor =
+        suggestedIndex ?
+          // Conditionally filter on schemas
           await store.index(suggestedIndex).openCursor(IDBKeyRange.only(keyRangeValue), direction)
-        : // Just iterate all records
-          await store.openCursor(suggestedIndex, direction)
+          // Just iterate all records
+        : await store.openCursor(suggestedIndex, direction)
 
       // Skip records until the offset is reached
       while (cursor && parsedOffset > 0) {

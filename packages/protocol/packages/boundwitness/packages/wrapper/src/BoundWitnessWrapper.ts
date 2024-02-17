@@ -138,8 +138,9 @@ export class BoundWitnessWrapper<
       const innerBoundwitnessPayload = asBoundWitness<WithMeta<TBoundWitness>>(
         (await PayloadBuilder.toDataHashMap(this.payloads))[innerBoundwitnessHash],
       )
-      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
-        ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
+      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined =
+        innerBoundwitnessPayload ?
+          new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
         : undefined
       if (innerBoundwitness) {
         return innerBoundwitness.dig(depth ? depth - 1 : undefined)

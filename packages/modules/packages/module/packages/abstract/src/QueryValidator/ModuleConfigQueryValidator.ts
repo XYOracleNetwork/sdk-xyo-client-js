@@ -59,8 +59,8 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
 
 // TODO: Handle 0x prefix
 const toAddressesString = (addresses: string | CosigningAddressSet): SortedPipedAddressesString => {
-  return Array.isArray(addresses)
-    ? addresses
+  return Array.isArray(addresses) ?
+      addresses
         .sort()
         .map((address) => address.toLowerCase())
         .join(delimiter)

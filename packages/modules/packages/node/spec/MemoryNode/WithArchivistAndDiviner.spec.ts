@@ -25,10 +25,11 @@ describe('MemoryNode', () => {
     await node.register(archivist)
     await node.attach(archivist.address, true)
 
-    const diviner: DivinerInstance = await ArchivistPayloadDiviner.create({
+    const diviner = (await ArchivistPayloadDiviner.create({
       account: Account.randomSync(),
       config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
-    })
+    })) as DivinerInstance
+
     await node.register(diviner)
     await node.attach(diviner.address, true)
 

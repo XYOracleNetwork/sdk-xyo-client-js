@@ -5,33 +5,9 @@ import { Promisable } from '@xylabs/promise'
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleParams } from '../ModuleParams'
+import { ModuleIdentifier } from './ModuleIdentifier'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
-
-export type ModuleName = string //Capitalize<string>
-
-export type ModuleIdentifier = Address | ModuleName
-
-export type ModuleIdentifierPart = Lowercase<string>
-
-export type ReservedModuleIdentifierCharacter = ':'
-export const ReservedModuleIdentifierCharacters = new Set<ReservedModuleIdentifierCharacter>([':'])
-
-export const isReservedModuleIdentifierCharacter = (value: unknown): value is ReservedModuleIdentifierCharacter => {
-  return typeof value === 'string' && value.length === 1 && ReservedModuleIdentifierCharacters.has(value as ReservedModuleIdentifierCharacter)
-}
-
-export const isModuleIdentifierPart = (value: unknown, falseAction: 'throw' | 'none' = 'none'): value is ModuleIdentifierPart => {
-  const result = typeof value === 'string' && ![...value].some(isReservedModuleIdentifierCharacter)
-  switch (falseAction) {
-    case 'throw': {
-      throw new Error(`Invalid ModuleIdentifierPart: ${value}`)
-    }
-    default: {
-      return result
-    }
-  }
-}
 
 export const isModuleResolver = (value?: unknown): value is ModuleResolver => {
   return typeof (value as Partial<ModuleResolver>).resolve === 'function'

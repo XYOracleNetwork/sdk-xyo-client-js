@@ -21,6 +21,7 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,
+  isModuleName,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
@@ -175,6 +176,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     if (!this.configSchemas || this.configSchemas.length === 0) {
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
+
+    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), `Invalid module name: ${params?.config?.name}`)
 
     const { account } = params ?? {}
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AsObjectFactory, isObject } from '@xylabs/object'
 
 import { Payload } from './Payload'

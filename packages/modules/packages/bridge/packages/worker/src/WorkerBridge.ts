@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -41,14 +42,14 @@ export interface Message<T extends string = string> {
 }
 
 export interface QueryMessage extends Message<'xyoQuery'> {
-  address: string
+  address: Address
   msgId?: string
   payloads?: Payload[]
   query: QueryBoundWitness
 }
 
 export interface QueryResultMessage {
-  address: string
+  address: Address
   msgId?: string
   result: ModuleQueryResult
 }
@@ -120,16 +121,16 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return true
   }
 
-  override getRootAddress(): Promisable<string> {
+  override getRootAddress(): Promisable<Address> {
     //TODO: Get the real address
     return this.address
   }
 
-  targetConfig(address: string): ModuleConfig {
+  targetConfig(address: Address): ModuleConfig {
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address?: string): Promise<Payload[]> {
+  async targetDiscover(address?: Address): Promise<Payload[]> {
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root')
     if (cachedResult) {
@@ -165,7 +166,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return discover
   }
 
-  async targetManifest(address: string, maxDepth?: number) {
+  async targetManifest(address: Address, maxDepth?: number) {
     const addressToCall = address ?? (await this.getRootAddress())
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
@@ -177,11 +178,11 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     ) as ModuleManifestPayload
   }
 
-  targetQueries(address: string): string[] {
+  targetQueries(address: Address): string[] {
     return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+  async targetQuery(address: Address, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     const msgId = await PayloadBuilder.hash(query)
     const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
       try {
@@ -216,7 +217,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return assertEx(result, () => `targetQuery timed out [${address}]`)
   }
 
-  targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
+  targetQueryable(_address: Address, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
   }
 

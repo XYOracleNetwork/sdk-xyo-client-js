@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessStatsDiviner } from '@xyo-network/diviner-boundwitness-stats-abstract'
 import {
@@ -17,7 +18,7 @@ export class MemoryBoundWitnessStatsDiviner<
 > extends BoundWitnessStatsDiviner<TParams> {
   static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
 
-  protected async divineAddress(address: string): Promise<number> {
+  protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), 'Archivist does not support "all"')
     return all

@@ -149,7 +149,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
+    return await Promise.all(objs.map<Promise<[T, Hash]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
   }
 
   /**

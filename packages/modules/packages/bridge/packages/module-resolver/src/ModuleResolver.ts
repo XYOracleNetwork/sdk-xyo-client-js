@@ -1,4 +1,5 @@
 import { handleError } from '@xylabs/error'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -12,6 +13,7 @@ import {
   Module,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleResolverInstance,
   NameModuleFilter,
@@ -30,8 +32,8 @@ import { ProxyModule, ProxyModuleConfigSchema, ProxyModuleParams } from './Proxy
 
 export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> extends CompositeModuleResolver implements ModuleResolverInstance {
   private primed: Promise<boolean> | undefined = undefined
-  private remoteAddresses?: Promise<string[]>
-  private resolvedModules: Record<string, Promise<ModuleInstance>> = {}
+  private remoteAddresses?: Promise<Address[]>
+  private resolvedModules: Record<Address, Promise<ModuleInstance>> = {}
 
   // TODO: Allow optional ctor param for supplying address for nested Nodes
   // protected readonly address?: string,
@@ -89,7 +91,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     return this.primed
   }
 
-  override remove(_address: string | string[]): this {
+  override remove(_address: Address | Address[]): this {
     throw new Error('Method not implemented.')
   }
 
@@ -100,9 +102,12 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
   }
 
   override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    nameOrAddress: ModuleIdentifier,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | undefined>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const unfiltered = await (async () => {
@@ -113,7 +118,8 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
         if (mutatedOptions.maxDepth < 0) {
           return
         }
-        const result: T | undefined = (await this.resolveByAddress<T>(nameOrAddressOrFilter)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
+        const result: T | undefined =
+          (await this.resolveByAddress<T>(nameOrAddressOrFilter as Address)) ?? (await this.resolveByName<T>(nameOrAddressOrFilter))
         return result
       } else {
         if (mutatedOptions.maxDepth < 0) {
@@ -136,7 +142,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
     }
   }
 
-  private async resolveByAddress<T extends ModuleInstance = ModuleInstance>(targetAddress: string): Promise<T | undefined> {
+  private async resolveByAddress<T extends ModuleInstance = ModuleInstance>(targetAddress: Address): Promise<T | undefined> {
     const remoteAddresses = await this.getRemoteAddresses()
 
     //check if it is even there
@@ -150,7 +156,7 @@ export class BridgeModuleResolver<T extends ModuleInstance = ModuleInstance> ext
 
     this.resolvedModules[targetAddress] =
       this.resolvedModules[targetAddress] ??
-      (async (address: string) => {
+      (async (address: Address) => {
         //discover it to set the config in the bridge
         await this.bridge.targetDiscover(address)
 

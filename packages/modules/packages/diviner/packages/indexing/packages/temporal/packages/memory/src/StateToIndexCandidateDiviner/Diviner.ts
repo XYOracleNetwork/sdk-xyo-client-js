@@ -13,7 +13,7 @@ import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
-import { isModuleState, Labels, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
+import { isModuleState, Labels, ModuleIdentifier, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
@@ -103,7 +103,10 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
    */
   protected async getArchivistForStore(): Promise<ArchivistWrapper | undefined> {
     // It should be defined, so we'll error if it's not
-    const name: string = assertEx(this.config?.payloadStore?.archivist, () => `${moduleName}: Config for payloadStore.archivist not specified`)
+    const name: ModuleIdentifier = assertEx(
+      this.config?.payloadStore?.archivist,
+      () => `${moduleName}: Config for payloadStore.archivist not specified`,
+    )
     // It might not be resolvable (yet), so we'll return undefined if it's not
     const mod = await this.resolve(name)
     if (!mod) return undefined
@@ -117,7 +120,7 @@ export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
    */
   protected async getBoundWitnessDivinerForStore() {
     // It should be defined, so we'll error if it's not
-    const name: string = assertEx(
+    const name: ModuleIdentifier = assertEx(
       this.config?.payloadStore?.boundWitnessDiviner,
       () => `${moduleName}: Config for payloadStore.boundWitnessDiviner not specified`,
     )

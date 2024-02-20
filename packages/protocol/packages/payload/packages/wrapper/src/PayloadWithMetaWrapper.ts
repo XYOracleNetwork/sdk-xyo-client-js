@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Payload } from '@xyo-network/payload-model'
 
 import { isPayloadDataWrapper, PayloadDataWrapper } from './PayloadDataWrapper'
@@ -17,7 +18,7 @@ export class PayloadWithMetaWrapper<TPayload extends Payload = Payload> extends 
     return value instanceof PayloadDataWrapper ? (value as PayloadDataWrapper<T>) : null
   }
 
-  static override async load(address: string) {
+  static override async load(address: Address) {
     if (this.loaderFactory === null) {
       console.warn('No loader factory set')
       return null

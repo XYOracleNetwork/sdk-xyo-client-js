@@ -1,5 +1,6 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
@@ -100,7 +101,7 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
    * Finds unprocessed commands addressed to the supplied address
    * @param address The address to find commands for
    */
-  protected findCommandsToAddress = async (address: string) => {
+  protected findCommandsToAddress = async (address: Address) => {
     const queryBoundWitnessDiviner = await this.queriesDiviner()
     // Retrieve last offset from state store
     const timestamp = await this.retrieveState(address)

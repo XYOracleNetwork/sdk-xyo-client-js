@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 
 import { assertEx } from '@xylabs/assert'
 import { handleError } from '@xylabs/error'
+import { Hash } from '@xylabs/hex'
 import { PromisableArray } from '@xylabs/promise'
 import { HDWallet } from '@xyo-network/account'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -81,11 +82,11 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
     return await this.memoryArchivist.commit()
   }
 
-  protected override deleteHandler(hashes: string[]): PromisableArray<string> {
+  protected override deleteHandler(hashes: Hash[]): PromisableArray<string> {
     return this.memoryArchivist.delete(hashes)
   }
 
-  protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
+  protected override async getHandler(hashes: Hash[]): Promise<PayloadWithMeta[]> {
     return await this.memoryArchivist.get(hashes)
   }
 

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
@@ -161,7 +162,7 @@ export class IndexingDiviner<
    */
   protected async retrieveState(): Promise<ModuleState<IndexingDivinerState> | undefined> {
     if (this._lastState) return this._lastState
-    let hash: string = ''
+    let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
     const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
@@ -183,13 +184,13 @@ export class IndexingDiviner<
           // eslint-disable-next-line unicorn/no-array-reduce
           .reduce(
             (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
-            '',
+            '' as Hash,
           )
       }
     }
 
     // If we able to located the last state
-    if (hash) {
+    if (hash !== '') {
       // Get last state
       const archivist = await this.getArchivistForStore('stateStore')
       const payload = (await archivist.get([hash])).find(isModuleState<IndexingDivinerState>)

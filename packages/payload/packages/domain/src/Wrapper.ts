@@ -1,4 +1,5 @@
 import { axios, AxiosError } from '@xylabs/axios'
+import { Hash } from '@xylabs/hex'
 import { reverse } from '@xylabs/lodash'
 import { isBrowser } from '@xylabs/platform'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -64,11 +65,11 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
     }
   }
 
-  async fetch(networkSlug?: string) {
+  async fetch(networkSlug?: Hash) {
     await this.fetchAliases(networkSlug)
   }
 
-  async fetchAliases(networkSlug?: string) {
+  async fetchAliases(networkSlug?: Hash) {
     //set it to null to signify fetch ran
     this.aliases = null
 
@@ -90,11 +91,11 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
     return payload ? { alias, huri, payload: payload } : null
   }
 
-  private async findArchivistUri(hash?: string): Promise<string | undefined> {
+  private async findArchivistUri(hash?: Hash): Promise<string | undefined> {
     return (await this.getNetwork(hash))?.nodes?.find((payload) => (payload.type === 'archivist' ? payload : undefined))?.uri
   }
 
-  private async getNetwork(hash?: string): Promise<NetworkPayload | undefined> {
+  private async getNetwork(hash?: Hash): Promise<NetworkPayload | undefined> {
     // eslint-disable-next-line unicorn/no-array-method-this-argument
     return hash ? await PayloadBuilder.findByDataHash(this.payload.networks, hash) : this.payload.networks?.[0]
   }

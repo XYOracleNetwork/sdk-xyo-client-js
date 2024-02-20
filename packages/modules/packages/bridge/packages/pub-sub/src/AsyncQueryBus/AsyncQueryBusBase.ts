@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Base } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -12,10 +13,10 @@ import { Pending } from './Config'
 import { AsyncQueryBusParams } from './Params'
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
-  protected _lastState?: LRUCache<string, number>
-  protected _queryCache?: LRUCache<string, Pending | ModuleQueryResult>
-  protected _targetConfigs: Record<string, ModuleConfig> = {}
-  protected _targetQueries: Record<string, string[]> = {}
+  protected _lastState?: LRUCache<Address, number>
+  protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>
+  protected _targetConfigs: Record<Address, ModuleConfig> = {}
+  protected _targetQueries: Record<Address, string[]> = {}
 
   constructor(params: TParams) {
     super(params)
@@ -33,7 +34,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return this.config.pollFrequency ?? 1000
   }
 
-  get queryCacheConfig(): LRUCache.Options<string, Pending | ModuleQueryResult, unknown> {
+  get queryCacheConfig(): LRUCache.Options<Address, Pending | ModuleQueryResult, unknown> {
     const queryCacheConfig: CacheConfig | undefined = this.config.queryCache === true ? {} : this.config.queryCache
     return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
   }
@@ -45,19 +46,19 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   /**
    * A cache of the last offset of the Diviner process per address
    */
-  protected get lastState(): LRUCache<string, number> {
+  protected get lastState(): LRUCache<Address, number> {
     const requiredConfig = { max: 1000, ttl: 0 }
-    this._lastState = this._lastState ?? new LRUCache<string, number>(requiredConfig)
+    this._lastState = this._lastState ?? new LRUCache<Address, number>(requiredConfig)
     return this._lastState
   }
 
   /**
    * A cache of queries that have been issued
    */
-  protected get queryCache(): LRUCache<string, Pending | ModuleQueryResult> {
+  protected get queryCache(): LRUCache<Address, Pending | ModuleQueryResult> {
     const config = this.queryCacheConfig
     const requiredConfig = { noUpdateTTL: false, ttlAutopurge: true }
-    this._queryCache = this._queryCache ?? new LRUCache<string, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
+    this._queryCache = this._queryCache ?? new LRUCache<Address, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
     return this._queryCache
   }
 
@@ -97,7 +98,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * @param address The module address to commit the state for
    * @param nextState The state to commit
    */
-  protected async commitState(address: string, nextState: number) {
+  protected async commitState(address: Address, nextState: number) {
     await Promise.resolve()
     // TODO: Offload to Archivist/Diviner instead of in-memory
     const lastState = this.lastState.get(address)
@@ -109,7 +110,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
    * Retrieves the last state of the process. Used to recover state after
    * preemptions, reboots, etc.
    */
-  protected async retrieveState(address: string): Promise<number> {
+  protected async retrieveState(address: Address): Promise<number> {
     await Promise.resolve()
     const state = this.lastState.get(address)
     if (state === undefined) {

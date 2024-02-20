@@ -2,6 +2,7 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { IdLogger } from '@xylabs/logger'
 import { Promisable, PromiseEx } from '@xylabs/promise'
@@ -32,6 +33,7 @@ import {
   ModuleFactory,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuerySchema,
   ModuleParams,
@@ -313,9 +315,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
@@ -401,7 +403,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
+  protected bindHashes(hashes: Hash[], schema: SchemaString[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
@@ -411,7 +413,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
+  protected async bindHashesInternal(hashes: Hash[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)

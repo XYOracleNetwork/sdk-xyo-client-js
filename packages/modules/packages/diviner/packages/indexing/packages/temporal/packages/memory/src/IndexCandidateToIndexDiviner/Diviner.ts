@@ -1,7 +1,8 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
+import { Hash } from '@xylabs/hex'
+import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
@@ -17,7 +18,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isAnyPayload, Payload, PayloadFields } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
-type IndexableHashes = [string, ...string[]]
+type IndexableHashes = [Hash, ...Hash[]]
 
 const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 
@@ -83,7 +84,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
     const validIndexableTuples: IndexableHashes[] = []
 
     // Iterate over each entry in bwDictionary
-    for (const [bwHash, bw] of Object.entries(bwDictionary)) {
+    for (const [bwHash, bw] of Object.entries(bwDictionary) as [Hash, BoundWitness][]) {
       // Find the combinations of payloads that satisfy the required schemas
       const combinations = intraBoundwitnessSchemaCombinations(bw, this.indexableSchemas)
 

@@ -1,4 +1,5 @@
 import { DivinerConfig } from '@xyo-network/diviner-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
 
 import { StatefulDivinerSchema } from './Schema'
 
@@ -17,8 +18,8 @@ export type StatefulDivinerConfigSchema = typeof StatefulDivinerConfigSchema
 export type StatefulDivinerConfig = DivinerConfig<{
   schema: StatefulDivinerConfigSchema
   stateStore: {
-    archivist: string
-    boundWitnessDiviner: string
-    payloadDiviner: string
+    archivist: ModuleIdentifier
+    boundWitnessDiviner: ModuleIdentifier
+    payloadDiviner: ModuleIdentifier
   }
 }>

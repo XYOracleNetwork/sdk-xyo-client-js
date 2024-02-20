@@ -1,3 +1,4 @@
+import { Hash } from '@xylabs/hex'
 import {
   ArchivistAllQuery,
   ArchivistAllQuerySchema,
@@ -49,7 +50,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return hashes
   }
 
-  async get(hashes: string[]): Promise<PayloadWithMeta[]> {
+  async get(hashes: Hash[]): Promise<PayloadWithMeta[]> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQuery(queryPayload)
   }

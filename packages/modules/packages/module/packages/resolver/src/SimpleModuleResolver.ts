@@ -1,14 +1,16 @@
+import { Address } from '@xylabs/hex'
 import { compact, flatten } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import {
-  AddressModuleFilter,
+  isAddressModuleFilter,
+  isNameModuleFilter,
+  isQueryModuleFilter,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleRepository,
   ModuleResolverInstance,
-  NameModuleFilter,
-  QueryModuleFilter,
 } from '@xyo-network/module-model'
 
 //This class is now package private (not exported from index.ts)
@@ -31,7 +33,7 @@ export class SimpleModuleResolver implements ModuleRepository {
     throw 'Adding resolvers not supported'
   }
 
-  remove(address: string | string[]): this {
+  remove(address: Address | Address[]): this {
     if (Array.isArray(address)) {
       for (const addr of address) this.removeSingleModule(addr)
     } else {
@@ -45,24 +47,25 @@ export class SimpleModuleResolver implements ModuleRepository {
   }
 
   resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
-  resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
+  resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
   resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    idOrFilter?: ModuleFilter<T> | string,
     options?: ModuleFilterOptions<T>,
   ): Promisable<T[] | T | undefined> {
     const unfiltered = (() => {
-      if (nameOrAddressOrFilter) {
-        if (typeof nameOrAddressOrFilter === 'string') {
-          return (
-            this.resolveByName<T>(Object.values(this.modules), [nameOrAddressOrFilter]).pop() ??
-            this.resolveByAddress<T>(Object.values(this.modules), [nameOrAddressOrFilter]).pop()
-          )
-        } else if ((nameOrAddressOrFilter as AddressModuleFilter).address) {
-          return this.resolveByAddress<T>(Object.values(this.modules), (nameOrAddressOrFilter as AddressModuleFilter).address)
-        } else if ((nameOrAddressOrFilter as NameModuleFilter).name) {
-          return this.resolveByName<T>(Object.values(this.modules), (nameOrAddressOrFilter as NameModuleFilter).name)
-        } else if ((nameOrAddressOrFilter as QueryModuleFilter).query) {
-          return this.resolveByQuery<T>(Object.values(this.modules), (nameOrAddressOrFilter as QueryModuleFilter).query)
+      if (idOrFilter) {
+        if (typeof idOrFilter === 'string') {
+          const id = idOrFilter
+          return this.resolveByName<T>(Object.values(this.modules), [id]).pop() ?? this.resolveByAddress<T>(Object.values(this.modules), [id]).pop()
+        } else {
+          const filter = idOrFilter
+          if (isAddressModuleFilter(filter)) {
+            return this.resolveByAddress<T>(Object.values(this.modules), filter.address)
+          } else if (isNameModuleFilter(filter)) {
+            return this.resolveByName<T>(Object.values(this.modules), filter.name)
+          } else if (isQueryModuleFilter(filter)) {
+            return this.resolveByQuery<T>(Object.values(this.modules), filter.query)
+          }
         }
       } else {
         return Object.values(this.modules) as T[]
@@ -86,7 +89,7 @@ export class SimpleModuleResolver implements ModuleRepository {
     }
   }
 
-  private removeSingleModule(address: string) {
+  private removeSingleModule(address: Address) {
     if (address && this.modules[address]) {
       delete this.modules[address]
       const name = this.addressToName[address]

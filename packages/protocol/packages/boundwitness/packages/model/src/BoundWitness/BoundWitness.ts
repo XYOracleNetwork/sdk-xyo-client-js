@@ -1,22 +1,23 @@
+import { Address, Hash, Hex } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { BoundWitnessSchema } from './BoundWitnessSchema'
 
 export type BoundWitnessFields = {
   $meta: {
     /** @field Array of signatures by the accounts that are listed in addresses */
-    signatures: string[]
+    signatures: Hex[]
   }
   /** @field Array of signatures by the accounts that are listed in addresses */
-  addresses: string[]
+  addresses: Address[]
   blockNumber?: number
-  error_hashes?: string[]
-  payload_hashes: string[]
-  payload_schemas: string[]
-  previous_hashes: (string | null)[]
+  error_hashes?: Hash[]
+  payload_hashes: Hash[]
+  payload_schemas: Schema[]
+  previous_hashes: (Hash | null)[]
   /** @field Hash of the QueryBoundWitness that caused this BoundWitness to be created  */
-  sourceQuery?: string
+  sourceQuery?: Hash
   timestamp: number
 }
 

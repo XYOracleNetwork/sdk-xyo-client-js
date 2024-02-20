@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -11,6 +12,7 @@ import {
   ModuleConfig,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
@@ -57,7 +59,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (module as AbstractNode).isNode
   }
 
-  async attached(): Promise<string[]> {
+  async attached(): Promise<Address[]> {
     return (await this.attachedModules()).map((module) => module.address)
   }
 
@@ -73,7 +75,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     throw new Error('Method not implemented.')
   }
 
-  registered(): Promisable<string[]> {
+  registered(): Promisable<Address[]> {
     throw new Error('Method not implemented.')
   }
 
@@ -82,9 +84,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  override async resolve(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  override async resolve(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   override async resolve(
-    nameOrAddressOrFilter?: ModuleFilter | string,
+    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     //checking type of nameOrAddressOrFilter before calling other functions since TS seems
@@ -203,9 +205,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolveAll(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolveAll(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   private async resolveAll(
-    nameOrAddressOrFilter?: ModuleFilter | string,
+    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     switch (typeof nameOrAddressOrFilter) {
@@ -221,9 +223,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   private async resolvePrivate(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolvePrivate(nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolvePrivate(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   private async resolvePrivate(
-    nameOrAddressOrFilter?: ModuleFilter | string,
+    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     const direction = options?.direction ?? 'all'
@@ -238,6 +240,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     }
   }
 
-  abstract attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
-  abstract detach(nameOrAddress: string): Promisable<string | undefined>
+  abstract attach(nameOrAddress: string, external?: boolean): Promisable<Address | undefined>
+  abstract detach(nameOrAddress: string): Promisable<Address | undefined>
 }

@@ -1,5 +1,6 @@
 import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { isBoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { SchemaListDiviner } from '@xyo-network/diviner-schema-list-abstract'
 import {
@@ -16,7 +17,7 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
   static override configSchemas = [SchemaListDivinerConfigSchema]
 
-  protected async divineAddress(address: string): Promise<string[]> {
+  protected async divineAddress(address: Address): Promise<string[]> {
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     const filtered = all

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosError, AxiosJson } from '@xylabs/axios'
 import { forget } from '@xylabs/forget'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -38,10 +39,10 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
   static maxPayloadSizeWarning = 256 * 256
 
   private _axios?: AxiosJson
-  private _discoverCache?: LRUCache<string, Payload[]>
-  private _rootAddress?: string
-  private _targetConfigs: Record<string, ModuleConfig> = {}
-  private _targetQueries: Record<string, string[]> = {}
+  private _discoverCache?: LRUCache<Address, Payload[]>
+  private _rootAddress?: Address
+  private _targetConfigs: Record<Address, ModuleConfig> = {}
+  private _targetQueries: Record<Address, string[]> = {}
 
   get axios() {
     this._axios = this._axios ?? new AxiosJson()
@@ -50,11 +51,11 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
 
   get discoverCache() {
     const config = this.discoverCacheConfig
-    this._discoverCache = this._discoverCache ?? new LRUCache<string, Payload[]>({ ttlAutopurge: true, ...config })
+    this._discoverCache = this._discoverCache ?? new LRUCache<Address, Payload[]>({ ttlAutopurge: true, ...config })
     return this._discoverCache
   }
 
-  get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
+  get discoverCacheConfig(): LRUCache.Options<Address, Payload[], unknown> {
     const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
@@ -134,15 +135,15 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     throw new Error('rootAddress not set')
   }
 
-  moduleUrl(address: string) {
+  moduleUrl(address: Address) {
     return new URL(address, this.nodeUrl.toString())
   }
 
-  targetConfig(address: string): ModuleConfig {
+  targetConfig(address: Address): ModuleConfig {
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address?: string, maxDepth = 2): Promise<Payload[]> {
+  async targetDiscover(address?: Address, maxDepth = 2): Promise<Payload[]> {
     if (!this.connected) {
       throw new Error('Not connected')
     }
@@ -184,7 +185,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return discover
   }
 
-  async targetManifest(address: string, maxDepth?: number) {
+  async targetManifest(address: Address, maxDepth?: number) {
     const addressToCall = address ?? (await this.getRootAddress())
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
@@ -192,14 +193,14 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return assertEx(manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestPayload>>(ModuleManifestPayloadSchema)), 'Did not receive manifest')
   }
 
-  targetQueries(address: string): string[] {
+  targetQueries(address: Address): string[] {
     if (!this.connected) {
       throw new Error('Not connected')
     }
     return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
-  async targetQuery(address: string, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+  async targetQuery(address: Address, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     if (!this.connected) {
       throw new Error('Not connected')
     }
@@ -227,7 +228,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     }
   }
 
-  targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
+  targetQueryable(_address: Address, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
   }
 

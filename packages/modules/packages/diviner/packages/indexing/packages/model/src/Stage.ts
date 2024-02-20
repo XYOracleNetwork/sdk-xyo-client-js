@@ -1,6 +1,8 @@
 export type DivinerStageSchema = 'network.xyo.diviner.stage'
 export const DivinerStageSchema: DivinerStageSchema = 'network.xyo.diviner.stage'
 
+import { ModuleIdentifier } from '@xyo-network/module-model'
+
 /**
  * The diviners for each stage of an indexing diviner
  */
@@ -26,5 +28,5 @@ export type IndexingDivinerStage =
  * Config section for declaring each indexing diviner stage
  */
 export type IndexingDivinerStageConfig = {
-  [key in IndexingDivinerStage]: string
+  [key in IndexingDivinerStage]: ModuleIdentifier
 }

@@ -1,6 +1,6 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { hexFromArrayBuffer } from '@xylabs/hex'
+import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -59,7 +59,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get address() {
-    return hexFromArrayBuffer(this.addressBytes, { prefix: false }).toLowerCase()
+    return hexFromArrayBuffer(this.addressBytes, { prefix: false }).toLowerCase() as Address
   }
 
   get addressBytes() {
@@ -67,7 +67,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   get previousHash() {
-    return this.previousHashBytes ? hexFromArrayBuffer(this.previousHashBytes, { prefix: false }).toLowerCase() : undefined
+    return this.previousHashBytes ? (hexFromArrayBuffer(this.previousHashBytes, { prefix: false }).toLowerCase() as Hash) : undefined
   }
 
   get previousHashBytes() {
@@ -95,7 +95,7 @@ export class Account extends KeyPair implements AccountInstance {
     return value instanceof Account ? value : undefined
   }
 
-  static isAddress(address: string) {
+  static isAddress(address: Address) {
     return address.length === 40
   }
 

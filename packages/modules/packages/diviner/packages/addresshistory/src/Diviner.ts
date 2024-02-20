@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { Address } from '@xylabs/hex'
 import { ArchivistGetQuerySchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
@@ -48,7 +49,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       .filter(exists)
   }
 
-  private buildAddressChains(address: string, bwRecords: Record<string, BoundWitness>): Record<string, BoundWitness[]> {
+  private buildAddressChains(address: Address, bwRecords: Record<string, BoundWitness>): Record<string, BoundWitness[]> {
     // eslint-disable-next-line unicorn/no-array-reduce
     const arrayedResult = Object.entries(bwRecords).reduce<Record<string, BoundWitness[]>>((prev, [key, value]) => {
       prev[key] = [value]

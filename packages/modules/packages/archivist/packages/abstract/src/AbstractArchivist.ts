@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import {
@@ -20,7 +21,7 @@ import {
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { duplicateModules, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
@@ -95,7 +96,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async delete(hashes: string[]): Promise<string[]> {
+  async delete(hashes: Hash[]): Promise<string[]> {
     this._noOverride('delete')
     return await this.busy(async () => {
       await this.started('throw')
@@ -103,7 +104,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async get(hashes: string[]): Promise<WithMeta<Payload>[]> {
+  async get(hashes: Hash[]): Promise<WithMeta<Payload>[]> {
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
@@ -148,7 +149,7 @@ export abstract class AbstractArchivist<
     return deletedHashes
   }
 
-  protected async getFromParent(hashes: string[], archivist: ArchivistInstance): Promise<[WithMeta<Payload>[], string[]]> {
+  protected async getFromParent(hashes: Hash[], archivist: ArchivistInstance): Promise<[WithMeta<Payload>[], Hash[]]> {
     const foundPairs = (await PayloadBuilder.dataHashPairs((await archivist.get(hashes)) as WithMeta<Payload>[])).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
@@ -165,7 +166,7 @@ export abstract class AbstractArchivist<
     return [foundPayloads, notfound]
   }
 
-  protected async getFromParents(hashes: string[]): Promise<[WithMeta<Payload>[], string[]]> {
+  protected async getFromParents(hashes: Hash[]): Promise<[WithMeta<Payload>[], string[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
     let remainingHashes = [...hashes]
     let parentIndex = 0
@@ -181,11 +182,11 @@ export abstract class AbstractArchivist<
     return [result, remainingHashes]
   }
 
-  protected getHandler(_hashes: string[]): Promisable<Payload[]> {
+  protected getHandler(_hashes: Hash[]): Promisable<Payload[]> {
     throw new Error('Not implemented')
   }
 
-  protected async getWithConfig(hashes: string[], config?: InsertConfig): Promise<WithMeta<Payload>[]> {
+  protected async getWithConfig(hashes: Hash[], config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const emitEvents = config?.emitEvents ?? true
     const gotten = await this.getHandler(hashes)
@@ -193,7 +194,7 @@ export abstract class AbstractArchivist<
     const dataMap = await PayloadBuilder.toDataHashMap(gotten)
 
     const foundPayloads: WithMeta<Payload>[] = []
-    const notfoundHashes: string[] = []
+    const notfoundHashes: Hash[] = []
     for (const hash of hashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
@@ -335,10 +336,11 @@ export abstract class AbstractArchivist<
     ).flat()
   }
 
-  private async resolveArchivists(archivists: string[] = []) {
-    const archivistModules = [...(await this.resolve({ address: archivists })), ...(await this.resolve({ name: archivists }))].filter(
-      duplicateModules,
-    )
+  private async resolveArchivists(archivists: ModuleIdentifier[] = []) {
+    const archivistModules = [
+      ...(await this.resolve({ address: archivists as Address[] })),
+      ...(await this.resolve({ name: archivists as ModuleName[] })),
+    ].filter(duplicateModules)
 
     assertEx(
       !this.requireAllParents || archivistModules.length === archivists.length,

@@ -10,7 +10,7 @@ const delimiter = ''
 
 export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleConfig>> implements QueryValidator {
   protected allowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
-  protected disallowed: Record<SchemaString, Address[]> = {}
+  protected disallowed: Record<SchemaString, SortedPipedAddressesString[]> = {}
   protected readonly hasAllowedRules: boolean
   protected readonly hasDisallowedRules: boolean
   protected readonly hasRules: boolean
@@ -40,7 +40,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }
 
-  protected queryAllowed = (schema: SchemaString, addresses: string[]): boolean => {
+  protected queryAllowed = (schema: SchemaString, addresses: Address[]): boolean => {
     if (!this.hasAllowedRules) return true
     // All cosigners must sign
     if (addresses.length > 1) {

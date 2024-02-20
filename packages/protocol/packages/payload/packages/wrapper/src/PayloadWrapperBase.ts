@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isAnyPayload, Payload, WithMeta } from '@xyo-network/payload-model'
 
-export type PayloadLoader = (address: string) => Promise<Payload | null>
+export type PayloadLoader = (address: Address) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export const isPayloadWrapperBase = (value?: unknown): value is PayloadWrapperBase => {

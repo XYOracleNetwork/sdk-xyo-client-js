@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
@@ -7,7 +8,7 @@ import { ModuleParams } from '../ModuleParams'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
 export type ModuleFields<TParams extends ModuleParams = ModuleParams> = {
-  address: string
+  address: Address
   config: TParams['config']
 
   /** The name (if specified) or address of the module */

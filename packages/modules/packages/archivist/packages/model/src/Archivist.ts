@@ -8,6 +8,7 @@ import { ClearedEventData, DeletedEventData, InsertedEventData } from './EventMo
 export interface ReadArchivist<TReadResponse, TId = string> {
   all?(): PromisableArray<TReadResponse>
   get(ids: TId[]): PromisableArray<TReadResponse>
+  next?(previous?: TId, limit?: number): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {

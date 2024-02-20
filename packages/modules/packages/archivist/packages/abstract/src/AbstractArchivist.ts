@@ -76,7 +76,7 @@ export abstract class AbstractArchivist<
     this._noOverride('all')
     return this.busy(async () => {
       await this.started('throw')
-      return await this.allHandler()
+      return await PayloadBuilder.build(await this.allHandler())
     })
   }
 
@@ -96,7 +96,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async delete(hashes: Hash[]): Promise<string[]> {
+  async delete(hashes: Hash[]): Promise<Hash[]> {
     this._noOverride('delete')
     return await this.busy(async () => {
       await this.started('throw')
@@ -108,7 +108,7 @@ export abstract class AbstractArchivist<
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
-      return await this.getWithConfig(hashes)
+      return await PayloadBuilder.build(await this.getWithConfig(hashes))
     })
   }
 
@@ -121,7 +121,15 @@ export abstract class AbstractArchivist<
     })
   }
 
-  protected allHandler(): PromisableArray<WithMeta<Payload>> {
+  async next?(previous?: Hash, limit?: number): Promise<WithMeta<Payload>[]> {
+    this._noOverride('next')
+    return await this.busy(async () => {
+      await this.started('throw')
+      return await this.nextWithConfig(previous, limit)
+    })
+  }
+
+  protected allHandler(): PromisableArray<Payload> {
     throw new Error('Not implemented')
   }
 
@@ -133,11 +141,11 @@ export abstract class AbstractArchivist<
     throw new Error('Not implemented')
   }
 
-  protected deleteHandler(_hashes: string[]): PromisableArray<string> {
+  protected deleteHandler(_hashes: Hash[]): PromisableArray<Hash> {
     throw new Error('Not implemented')
   }
 
-  protected async deleteWithConfig(hashes: string[], config?: ActionConfig): Promise<string[]> {
+  protected async deleteWithConfig(hashes: Hash[], config?: ActionConfig): Promise<Hash[]> {
     const emitEvents = config?.emitEvents ?? true
 
     const deletedHashes = await this.deleteHandler(hashes)
@@ -166,7 +174,7 @@ export abstract class AbstractArchivist<
     return [foundPayloads, notfound]
   }
 
-  protected async getFromParents(hashes: Hash[]): Promise<[WithMeta<Payload>[], string[]]> {
+  protected async getFromParents(hashes: Hash[]): Promise<[WithMeta<Payload>[], Hash[]]> {
     const parents = Object.values((await this.parents())?.read ?? {})
     let remainingHashes = [...hashes]
     let parentIndex = 0
@@ -186,9 +194,7 @@ export abstract class AbstractArchivist<
     throw new Error('Not implemented')
   }
 
-  protected async getWithConfig(hashes: Hash[], config?: InsertConfig): Promise<WithMeta<Payload>[]> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const emitEvents = config?.emitEvents ?? true
+  protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     const gotten = await this.getHandler(hashes)
     const map = await PayloadBuilder.toHashMap(gotten)
     const dataMap = await PayloadBuilder.toDataHashMap(gotten)
@@ -198,7 +204,7 @@ export abstract class AbstractArchivist<
     for (const hash of hashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
-        foundPayloads.push(await PayloadBuilder.build<Payload>(found, true))
+        foundPayloads.push(found)
       } else {
         notfoundHashes.push(hash)
       }
@@ -209,14 +215,14 @@ export abstract class AbstractArchivist<
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)
     }
-    return [...foundPayloads, ...parentFoundPayloads]
+    return await PayloadBuilder.build([...foundPayloads, ...parentFoundPayloads])
   }
 
   protected head(): Promisable<Payload | undefined> {
     return this._lastInsertedPayload
   }
 
-  protected insertHandler(_payloads: WithMeta<Payload>[]): Promise<WithMeta<Payload>[]> {
+  protected insertHandler(_payloads: Payload[]): Promise<WithMeta<Payload>[]> {
     throw new Error('Not implemented')
   }
 
@@ -241,7 +247,7 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const insertedPayloads = await this.insertHandler(await PayloadBuilder.build(payloads, true))
+    const insertedPayloads = await PayloadBuilder.build(await this.insertHandler(payloads), true)
 
     if (writeToParents) {
       await this.writeToParents(insertedPayloads)
@@ -251,6 +257,15 @@ export abstract class AbstractArchivist<
     }
 
     return insertedPayloads
+  }
+
+  protected nextHandler(_previous?: Hash, _limit?: number): Promisable<WithMeta<Payload>[]> {
+    throw new Error('Not implemented')
+  }
+
+  protected async nextWithConfig(previous?: Hash, limit?: number, _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
+    const foundPayloads = await this.nextHandler(previous, limit)
+    return await PayloadBuilder.build(foundPayloads)
   }
 
   protected async parents() {

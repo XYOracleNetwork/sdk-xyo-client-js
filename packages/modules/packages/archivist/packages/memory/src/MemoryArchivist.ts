@@ -101,7 +101,7 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<string[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     const deletedHashes = compact(
       await Promise.all(
         hashes.map((hash) => {

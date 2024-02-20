@@ -2,15 +2,15 @@
  * @group module
  */
 
-import { isModuleIdentifierPart, isReservedModuleIdentifierCharacter } from '../instance'
+import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../instance'
 
 describe('ModuleInstance', () => {
   it('isReservedModuleIdentifierCharacter', () => {
-    expect(isReservedModuleIdentifierCharacter(':')).toBeTrue()
-    expect(isReservedModuleIdentifierCharacter('?')).toBeTrue()
-    expect(isReservedModuleIdentifierCharacter('&')).toBeTrue()
-    expect(isReservedModuleIdentifierCharacter('&&')).toBeTrue()
-    expect(isReservedModuleIdentifierCharacter('a')).toBeFalse()
+    expect(includesReservedModuleIdentifierCharacter(':')).toBeTrue()
+    expect(includesReservedModuleIdentifierCharacter('?')).toBeTrue()
+    expect(includesReservedModuleIdentifierCharacter('&')).toBeTrue()
+    expect(includesReservedModuleIdentifierCharacter('&&')).toBeTrue()
+    expect(includesReservedModuleIdentifierCharacter('a')).toBeFalse()
   })
   it('isModuleIdentifierPart', () => {
     expect(isModuleIdentifierPart('module-a')).toBeTrue()

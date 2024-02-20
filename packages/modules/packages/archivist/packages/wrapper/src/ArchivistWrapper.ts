@@ -14,6 +14,8 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModule,
+  ArchivistNextQuery,
+  ArchivistNextQuerySchema,
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
@@ -60,5 +62,10 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
       schema: ArchivistInsertQuerySchema,
     }
     return await this.sendQuery(queryPayload, payloads)
+  }
+
+  async next(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
+    const queryPayload: ArchivistNextQuery = { limit, previous, schema: ArchivistNextQuerySchema }
+    return await this.sendQuery(queryPayload)
   }
 }

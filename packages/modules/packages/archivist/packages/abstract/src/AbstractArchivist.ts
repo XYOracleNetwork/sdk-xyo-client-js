@@ -65,6 +65,7 @@ export abstract class AbstractArchivist<
       'network.xyo.query.archivist.delete': '1/4',
       'network.xyo.query.archivist.get': '1/5',
       'network.xyo.query.archivist.insert': '1/6',
+      'network.xyo.query.archivist.next': '1/7',
     }
   }
 

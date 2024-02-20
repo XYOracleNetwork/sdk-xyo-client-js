@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable } from '@xylabs/promise'
-import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta, WithStorageMeta } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -14,6 +14,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
+  ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
@@ -28,10 +29,6 @@ export type MemoryArchivistConfig = ArchivistConfig<{
   max?: number
   schema: MemoryArchivistConfigSchema | ArchivistConfig['schema']
 }>
-
-type WithStorageMeta<T extends Payload> = T & {
-  _sequence: bigint
-}
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>
@@ -69,6 +66,7 @@ export class MemoryArchivist<
       ArchivistClearQuerySchema,
       ArchivistInsertQuerySchema,
       ArchivistCommitQuerySchema,
+      ArchivistNextQuerySchema,
       ...super.queries,
     ]
   }
@@ -112,7 +110,7 @@ export class MemoryArchivist<
     return deletedHashes
   }
 
-  protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
     return compact(
       hashes.map((hash) => {
         const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
@@ -134,6 +132,12 @@ export class MemoryArchivist<
     )
 
     return insertedPayloads
+  }
+
+  protected override async nextHandler(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
+    const all = sortByStorageMeta(compact(await Promise.all(this.cache.dump().map((value) => value[1].value))))
+    const startIndex = previous ? all.findIndex((value) => value.$hash === previous) + 1 : 0
+    return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))
   }
 
   private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): PayloadWithMeta {

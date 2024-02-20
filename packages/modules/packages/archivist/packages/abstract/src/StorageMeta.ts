@@ -25,9 +25,13 @@ export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStora
 }
 
 export function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T
+export function removeStorageMeta<T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]): T[]
 export function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>): T | undefined
 export function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>) {
   if (!payload) return
+  if (Array.isArray(payload)) {
+    return payload.map((p) => removeStorageMeta(p))
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { _sequence, ...noMeta } = payload as WithStorageMeta<T>
   return noMeta as T

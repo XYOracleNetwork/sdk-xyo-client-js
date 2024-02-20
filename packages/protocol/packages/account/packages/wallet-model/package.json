@@ -11,6 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
+    "@xylabs/hex": "^3.0.0",
     "@xyo-network/account-model": "workspace:~"
   },
   "devDependencies": {
@@ -57,6 +58,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^3.0.0",
+    "@xylabs/hex": "^3.0.0",
     "@xylabs/promise": "^3.0.0",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
@@ -63,6 +64,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

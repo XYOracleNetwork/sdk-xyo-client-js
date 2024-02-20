@@ -8,7 +8,6 @@ export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 
 import { Address } from '@xylabs/hex'
-import { ModuleName } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export interface Manifest {
@@ -20,7 +19,7 @@ export interface ConfigManifest {
   features?: string[]
   labels?: Record<string, string | undefined>
   language?: string
-  name: ModuleName
+  name: string
   os?: string
   schema: string
 }

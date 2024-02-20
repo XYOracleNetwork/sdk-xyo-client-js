@@ -12,10 +12,10 @@
     "@xylabs/axios": "^3.0.0",
     "@xylabs/delay": "^3.0.0",
     "@xylabs/error": "^3.0.0",
-    "@xyo-network/domain-payload-plugin": "^2.90.23",
+    "@xyo-network/domain-payload-plugin": "^2.91.0",
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/schema-payload-plugin": "^2.90.23",
+    "@xyo-network/schema-payload-plugin": "^2.91.0",
     "ajv": "^8.12.0",
     "lru-cache": "^10.2.0"
   },
@@ -68,5 +68,5 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.23"
+  "version": "2.91.0"
 }

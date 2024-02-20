@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/exists": "^3.0.0",
+    "@xylabs/hex": "^3.0.0",
     "@xylabs/set": "^3.0.0",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
@@ -62,6 +63,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

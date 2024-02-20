@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^3.0.0",
+    "@xylabs/hex": "^3.0.0",
     "@xylabs/lodash": "^3.0.0",
     "@xylabs/promise": "^3.0.0",
     "@xyo-network/archivist-model": "workspace:~",
@@ -65,6 +66,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

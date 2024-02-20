@@ -13,6 +13,7 @@
     "@xylabs/array": "^3.0.0",
     "@xylabs/assert": "^3.0.0",
     "@xylabs/exists": "^3.0.0",
+    "@xylabs/hex": "^3.0.0",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
@@ -85,6 +86,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

@@ -14,6 +14,7 @@
     "@xylabs/assert": "^3.0.0",
     "@xylabs/delay": "^3.0.0",
     "@xylabs/forget": "^3.0.0",
+    "@xylabs/hex": "^3.0.0",
     "@xylabs/lodash": "^3.0.0",
     "@xylabs/logger": "^3.0.0",
     "@xylabs/object": "^3.0.0",
@@ -69,6 +70,6 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.90.23",
+  "version": "2.91.0",
   "type": "module"
 }

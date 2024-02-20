@@ -112,7 +112,6 @@ export class HDWallet extends Account implements WalletInstance {
     const ref = new WeakRef(existing)
     HDWallet._mnemonicMap[mnemonic.phrase] = ref
     if (existing.path) existing._pathMap[existing.path] = ref
-    console.log(`fromMnemonic3: [${path}][${existing.path}]`)
     return existing
   }
 

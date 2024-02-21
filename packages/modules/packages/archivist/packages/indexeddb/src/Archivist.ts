@@ -115,16 +115,42 @@ export class IndexedDbArchivist<
     })
   }
 
+  /**
+   * Uses an index to get a payload by the index value, but returns the value with the primary key (from the root store)
+   * @param db The db instance to use
+   * @param storeName The name of the store to use
+   * @param indexName The index to use
+   * @param key The key to get from the index
+   * @returns The primary key and the payload, or undefined if not found
+   */
+  protected async getFromIndexWithPrimaryKey(
+    db: IDBPDatabase<PayloadStore>,
+    storeName: string,
+    indexName: string,
+    key: IDBValidKey,
+  ): Promise<[number, PayloadWithMeta] | undefined> {
+    const transaction = db.transaction(storeName, 'readonly')
+    const store = transaction.objectStore(storeName)
+    const index = store.index(indexName)
+    const cursor = await index.openCursor(key)
+    if (cursor) {
+      const singleValue = cursor.value
+      // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
+      const primaryKey = cursor.primaryKey as number
+      return [primaryKey, singleValue]
+    }
+  }
+
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
     )
     const payloadsFromDataHashes = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => db.getFromIndex(this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
+      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
     )
     //filter out duplicates
     const found = new Set<string>()
-    const payloadsFromHash = payloads.filter(exists).filter((payload) => {
+    const payloadsFromHash = payloads.filter(exists).filter(([_key, payload]) => {
       if (found.has(payload.$hash)) {
         return false
       } else {
@@ -132,7 +158,7 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter((payload) => {
+    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter(([_key, payload]) => {
       if (found.has(payload.$hash)) {
         return false
       } else {
@@ -140,7 +166,14 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    return [...payloadsFromHash, ...payloadsFromDataHash]
+    return (
+      // Merge what we found from the hash and data hash indexes
+      [...payloadsFromHash, ...payloadsFromDataHash]
+        // Sort in ascending order by primary key (for semi-predictable ordering in terms of insertion order)
+        .sort((a, b) => a[0] - b[0])
+        // Return just the payloads
+        .map(([_key, payload]) => payload)
+    )
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

@@ -3216,6 +3216,7 @@ __metadata:
     "@xylabs/hex": "npm:^3.0.2"
     "@xylabs/lodash": "npm:^3.0.2"
     "@xylabs/promise": "npm:^3.0.2"
+    "@xylabs/set": "npm:^3.0.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/archivist-model": "workspace:~"

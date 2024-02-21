@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromisableArray } from '@xylabs/promise'
+import { difference } from '@xylabs/set'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -181,7 +182,7 @@ export abstract class AbstractArchivist<
     let parentIndex = 0
     let result: WithMeta<Payload>[] = []
 
-    //intentionally doing this serially
+    // NOTE: intentionally doing this serially
     while (parentIndex < parents.length && remainingHashes.length > 0) {
       const [found, notfound] = await this.getFromParent(remainingHashes, parents[parentIndex])
       result = [...result, ...found]
@@ -196,22 +197,46 @@ export abstract class AbstractArchivist<
   }
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
-    const gotten = await this.getHandler(hashes)
-    const map = await PayloadBuilder.toHashMap(gotten)
-    const dataMap = await PayloadBuilder.toDataHashMap(gotten)
+    // Filter out duplicates
+    const requestedHashes = new Set(hashes)
 
-    const foundPayloads: WithMeta<Payload>[] = []
-    const notfoundHashes: Hash[] = []
-    for (const hash of hashes) {
-      const found = map[hash] ?? dataMap[hash]
-      if (found) {
-        foundPayloads.push(found)
-      } else {
-        notfoundHashes.push(hash)
+    // Attempt to find the payloads in the store
+    const gotten = await this.getHandler([...requestedHashes])
+
+    // Do not just blindly return what the archivist told us but
+    // ensure to only return requested payloads and keep track of
+    // the ones it did not find so we can ask the parents.
+    const foundPayloads: PayloadWithMeta[] = []
+    const foundHashes = new Set<Hash>()
+
+    // NOTE: We are iterating over the returned result from the archivist
+    // (not the array of hashes passed in) to preserve the natural order of the
+    // hashes as returned by the archivist as that should loosely
+    // correspond to the order when iterated and the symmetry will
+    // be helpful for debugging
+    for (const payload of gotten) {
+      // Compute the hashes for this payload
+      const map = await PayloadBuilder.toAllHashMap([payload])
+      let requestedPayloadFound = false
+      for (const [key, payload] of Object.entries(map)) {
+        const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
+        // If this hash was requested
+        if (requestedHashes.has(hash)) {
+          // Indicate that we found it (but do not insert it yet). Since
+          // one payload could satisfy two requested hashes (vit its dataHash
+          // & rootHash) we only want to insert that payload once but we want
+          // to keep track of all the hashes it satisfies so we can ask th
+          // parents for the ones we did not find
+          requestedPayloadFound = true
+          // Add it to the list of found hashes
+          foundHashes.add(hash)
+        }
+        if (requestedPayloadFound) foundPayloads.push(payload)
       }
     }
-
-    const [parentFoundPayloads] = await this.getFromParents(notfoundHashes)
+    // For all the hashes we did not find, ask the parents
+    const notFoundHashes = [...difference(requestedHashes, foundHashes)]
+    const [parentFoundPayloads] = await this.getFromParents(notFoundHashes)
 
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)

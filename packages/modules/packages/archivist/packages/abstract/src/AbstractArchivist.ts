@@ -198,35 +198,45 @@ export abstract class AbstractArchivist<
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // Filter out duplicates
-    const requestedHashes: Set<Hash> = new Set(hashes)
-    // Find the payloads in the store
+    const requestedHashes = new Set<Hash>(hashes)
+
+    // Attempt to find the payloads in the store
     const gotten = await this.getHandler([...requestedHashes])
 
-    // Ensure to only return requested payloads.
-    const foundPayloads = []
-    // Keep track of the ones it did not find. Initially begin with
-    // all the requested hashes and remove the ones that are found.
+    // Do not just blindly return what the archivist told us but
+    // ensure to only return requested payloads and keep track of
+    // the ones it did not find so we can ask the parents.
+    const foundPayloads: PayloadWithMeta[] = []
     const foundHashes = new Set<Hash>()
-    for (const payload of gotten) {
-      const [hash, dataHash] = await Promise.all([PayloadBuilder.hash(payload), PayloadBuilder.dataHash(payload)])
-      let found = false
-      if (requestedHashes.has(hash)) {
-        found = true
-        foundHashes.add(hash)
-      }
-      if (requestedHashes.has(dataHash)) {
-        found = true
-        foundHashes.add(dataHash)
-      }
 
-      if (found) {
-        foundPayloads.push(payload)
-      } else {
-        console.warn(`Archivist returned payload with hash not asked for: ${hash}`)
+    // NOTE: We are iterating over the returned result from the archivist
+    // (not the array of hashes passed in) to preserve the natural order of the
+    // hashes as returned by the archivist as that should loosely
+    // correspond to the order when iterated and the symmetry will
+    // be helpful for debugging
+    for (const payload of gotten) {
+      // Compute the hashes for this payload
+      const map = await PayloadBuilder.toAllHashMap([payload])
+      let requestedPayloadFound = false
+      for (const [key, payload] of Object.entries(map)) {
+        const hash = key as Hash
+        // If this hash was requested
+        if (requestedHashes.has(hash)) {
+          // Indicate that we found it (but do not insert it yet). Since
+          // one payload could satisfy two requested hashes (vit its dataHash
+          // & rootHash) we only want to insert that payload once but we want
+          // to keep track of all the hashes it satisfies so we can ask th
+          // parents for the ones we did not find
+          requestedPayloadFound = true
+          // Add it to the list of found hashes
+          foundHashes.add(hash)
+        }
+        if (requestedPayloadFound) foundPayloads.push(payload)
       }
     }
-    const notfound = [...difference(requestedHashes, foundHashes)]
-    const [parentFoundPayloads] = await this.getFromParents(notfound)
+    // For all the hashes we did not find, ask the parents
+    const notFoundHashes = [...difference(requestedHashes, foundHashes)]
+    const [parentFoundPayloads] = await this.getFromParents(notFoundHashes)
 
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)

@@ -10,8 +10,7 @@ import {
   DivinerModule,
   DivinerModuleEventData,
   DivinerParams,
-  DivinerQuery,
-  DivinerQueryBase,
+  DivinerQueries,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
@@ -34,7 +33,7 @@ export abstract class AbstractDiviner<
     return [DivinerDivineQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<DivinerQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<DivinerQueries['schema'], string> {
     return {
       'network.xyo.query.diviner.divine': '1/1',
     }
@@ -59,7 +58,7 @@ export abstract class AbstractDiviner<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<DivinerQueries>(query, payloads)
     //remove the query payload
     const cleanPayloads = await PayloadBuilder.filterExclude(payloads, query.query)
     const queryPayload = await wrapper.getQuery()

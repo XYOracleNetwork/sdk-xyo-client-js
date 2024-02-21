@@ -43,6 +43,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
+  state() {
+    return []
+  }
+
   subscribe(_queryAccount?: AccountInstance) {
     return this.subscribeHandler()
   }

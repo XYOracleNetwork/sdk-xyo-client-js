@@ -35,7 +35,7 @@ interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
 }
 
-const useDebugLogging = false
+const useDebugLogging = true
 const logger =
   useDebugLogging ?
     {

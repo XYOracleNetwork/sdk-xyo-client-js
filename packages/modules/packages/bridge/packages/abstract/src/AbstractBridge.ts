@@ -9,8 +9,7 @@ import {
   BridgeDisconnectQuerySchema,
   BridgeModule,
   BridgeParams,
-  BridgeQuery,
-  BridgeQueryBase,
+  BridgeQueries,
 } from '@xyo-network/bridge-model'
 import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
@@ -42,7 +41,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<BridgeQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
     return {
       'network.xyo.query.bridge.connect': '1/1',
       'network.xyo.query.bridge.connected': '1/3',
@@ -116,7 +115,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     query: T,
     payloads?: Payload[],
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<BridgeQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<BridgeQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     const resultPayloads: Payload[] = []
 

@@ -14,8 +14,7 @@ import {
   WitnessModuleEventData,
   WitnessObserveQuerySchema,
   WitnessParams,
-  WitnessQuery,
-  WitnessQueryBase,
+  WitnessQueries,
 } from '@xyo-network/witness-model'
 
 creatableModule()
@@ -44,7 +43,7 @@ export abstract class AbstractWitness<
     return [WitnessObserveQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<WitnessQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<WitnessQueries['schema'], string> {
     return {
       'network.xyo.query.witness.observe': '1/1',
     }
@@ -81,7 +80,7 @@ export abstract class AbstractWitness<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<WitnessQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<WitnessQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

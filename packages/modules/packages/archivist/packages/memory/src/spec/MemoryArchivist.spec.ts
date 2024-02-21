@@ -50,11 +50,11 @@ describe('MemoryArchivist', () => {
     await archivist.insert(payloads1)
     await archivist.insert(payloads2)
 
-    const batch1 = await archivist.next?.(undefined, 2)
+    const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)
     expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
 
-    const batch2 = await archivist.next?.(batch1?.[0].$hash, 2)
+    const batch2 = await archivist.next?.({ limit: 2, previous: batch1?.[0].$hash })
     expect(batch2).toBeArrayOfSize(2)
     expect(batch2?.[1].$hash).toEqual(payloads2[0].$hash)
   })

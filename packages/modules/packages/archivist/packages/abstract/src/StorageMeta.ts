@@ -16,10 +16,10 @@ export const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0)
   return { ...payload, _sequence: sequenceNumber(index) } as WithStorageMeta<T>
 }
 
-export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]) => {
+export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) => {
   return payloads.sort((a, b) =>
-    a._sequence < b._sequence ? -1
-    : a._sequence > b._sequence ? 1
+    a._sequence < b._sequence ? -direction
+    : a._sequence > b._sequence ? direction
     : 0,
   )
 }

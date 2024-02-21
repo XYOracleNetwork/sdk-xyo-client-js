@@ -13,7 +13,7 @@ import {
   SentinelJob,
   SentinelModuleEventData,
   SentinelParams,
-  SentinelQueryBase,
+  SentinelQueries,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
 
@@ -44,7 +44,7 @@ export abstract class AbstractSentinel<
     return this.config.throwErrors ?? true
   }
 
-  protected override get _queryAccountPaths(): Record<SentinelQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<SentinelQueries['schema'], string> {
     return {
       'network.xyo.query.sentinel.report': '1/1',
     }
@@ -137,7 +137,7 @@ export abstract class AbstractSentinel<
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueryBase>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<SentinelQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

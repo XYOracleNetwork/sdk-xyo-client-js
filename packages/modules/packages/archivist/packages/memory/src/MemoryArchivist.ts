@@ -14,6 +14,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
+  ArchivistNextOptions,
   ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -40,6 +41,7 @@ export class MemoryArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance, ModuleInstance
 {
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _bodyHashIndex?: LRUCache<string, string>
@@ -134,7 +136,8 @@ export class MemoryArchivist<
     return insertedPayloads
   }
 
-  protected override async nextHandler(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+    const { limit, previous } = options ?? {}
     const all = sortByStorageMeta(compact(await Promise.all(this.cache.dump().map((value) => value[1].value))))
     const startIndex = previous ? all.findIndex((value) => value.$hash === previous) + 1 : 0
     return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))

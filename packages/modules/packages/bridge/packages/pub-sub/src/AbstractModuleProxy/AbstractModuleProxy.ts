@@ -182,6 +182,10 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return typeof nameOrAddressOrFilter === 'string' ? undefined : []
   }
 
+  state() {
+    return []
+  }
+
   protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],

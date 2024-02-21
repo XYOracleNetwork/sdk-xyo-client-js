@@ -6,8 +6,7 @@ export * from './Get'
 export * from './Insert'
 export * from './Next'
 
-import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
-import { Query } from '@xyo-network/payload-model'
+import { ModuleQueries } from '@xyo-network/module-model'
 
 import { ArchivistAllQuery } from './All'
 import { ArchivistClearQuery } from './Clear'
@@ -17,7 +16,7 @@ import { ArchivistGetQuery } from './Get'
 import { ArchivistInsertQuery } from './Insert'
 import { ArchivistNextQuery } from './Next'
 
-export type ArchivistQueryBase =
+export type ArchivistQueries =
   | ArchivistAllQuery
   | ArchivistClearQuery
   | ArchivistCommitQuery
@@ -26,11 +25,4 @@ export type ArchivistQueryBase =
   | ArchivistInsertQuery
   | ArchivistNextQuery
 
-/**
- * @deprecated Use ArchivistQueryBase instead to
- * match naming convention
- */
-export type ArchivistQueryRoot = ArchivistQueryBase
-
-export type ArchivistModuleQueries = ModuleQueryBase | ArchivistQueryBase
-export type ArchivistQuery<TQuery extends Query | void = void> = ModuleQuery<TQuery extends Query ? ArchivistQueryBase | TQuery : ArchivistQueryBase>
+export type ArchivistModuleQueries = ModuleQueries | ArchivistQueries

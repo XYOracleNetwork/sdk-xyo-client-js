@@ -14,6 +14,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModule,
+  ArchivistNextOptions,
   ArchivistNextQuery,
   ArchivistNextQuerySchema,
   isArchivistInstance,
@@ -64,8 +65,8 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload, payloads)
   }
 
-  async next(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
-    const queryPayload: ArchivistNextQuery = { limit, previous, schema: ArchivistNextQuerySchema }
+  async next(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+    const queryPayload: ArchivistNextQuery = { ...options, schema: ArchivistNextQuerySchema }
     return await this.sendQuery(queryPayload)
   }
 }

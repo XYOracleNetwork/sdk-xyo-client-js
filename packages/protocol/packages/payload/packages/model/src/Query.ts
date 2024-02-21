@@ -1,6 +1,8 @@
 import { Address } from '@xylabs/hex'
+import { EmptyObject } from '@xylabs/object'
 
 import { Payload } from './Payload'
+import { Schema, WithSchema } from './Schema'
 
 export interface QueryFields {
   /** @field The addresses of the intended handlers */
@@ -16,4 +18,11 @@ export interface QueryFields {
   minBid?: number
 }
 
-export type Query<T extends Payload | void = void> = T extends Payload ? Payload<T & QueryFields> : Payload<QueryFields>
+export type Query<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = Payload<
+  T extends void ? QueryFields : T & QueryFields,
+  S extends void ?
+    T extends WithSchema ? T['schema']
+    : T extends void ? string
+    : void
+  : S
+>

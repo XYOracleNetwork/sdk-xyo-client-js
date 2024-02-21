@@ -20,6 +20,7 @@ const finalConfig = {
     ".*"
   ],
   "rules": {
+    "import/no-cycle": ["warn"],
     "import/no-default-export": ["off"],
     "no-restricted-imports": [
       "warn",

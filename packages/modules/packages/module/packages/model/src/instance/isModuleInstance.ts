@@ -1,7 +1,7 @@
 import { IsObjectFactory, ObjectTypeShape, TypeCheck } from '@xylabs/object'
 
 import { isModule } from '../module'
-import { ModuleInstance } from './ModuleInstance'
+import { ModuleInstance } from './Instance'
 
 export const requiredModuleInstanceFunctions: ObjectTypeShape = {
   describe: 'function',

@@ -80,7 +80,7 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
             // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
             // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
             // should always be unique causing at least one insertion
-            if (insertResult.length > 0) {
+            if (insertResult.length === 0) {
               this.logger?.error(`Error replying to command ${commandHash} addressed to module: ${localModuleName}`)
             }
             if (command?.timestamp) {

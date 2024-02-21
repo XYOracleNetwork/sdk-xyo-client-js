@@ -158,4 +158,8 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
       : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
     })
   }
+
+  state() {
+    return []
+  }
 }

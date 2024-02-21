@@ -1,5 +1,4 @@
-import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
-import { Query } from '@xyo-network/payload-model'
+import { ModuleQueries } from '@xyo-network/module-model'
 
 import { NodeAttachQuery } from './Attach'
 import { NodeAttachedQuery } from './Attached'
@@ -11,6 +10,5 @@ export * from './Attached'
 export * from './Detach'
 export * from './Registered'
 
-export type NodeQueryBase = NodeAttachQuery | NodeDetachQuery | NodeAttachedQuery | NodeRegisteredQuery
-export type NodeModuleQueries = ModuleQueryBase | NodeQueryBase
-export type NodeQuery<T extends Query | void = void> = ModuleQuery<T extends Query ? NodeQueryBase | T : NodeQueryBase>
+export type NodeQueries = NodeAttachQuery | NodeDetachQuery | NodeAttachedQuery | NodeRegisteredQuery
+export type NodeModuleQueries = ModuleQueries | NodeQueries

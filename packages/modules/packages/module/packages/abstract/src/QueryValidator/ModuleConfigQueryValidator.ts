@@ -1,6 +1,6 @@
 import { Address } from '@xylabs/hex'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQuery, SchemaString } from '@xyo-network/module-model'
+import { AnyConfigSchema, CosigningAddressSet, ModuleConfig, ModuleQueries, SchemaString } from '@xyo-network/module-model'
 
 import { Queryable, QueryValidator } from './QueryValidator'
 
@@ -35,7 +35,7 @@ export class ModuleConfigQueryValidator<TConfig extends AnyConfigSchema<ModuleCo
     if (!this.hasRules) return true
     const addresses = query.addresses
     if (addresses.length === 0) return false
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const schema = (await wrapper.getQuery()).schema
     return this.queryAllowed(schema, addresses) && !this.queryDisallowed(schema, addresses)
   }

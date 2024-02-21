@@ -7,7 +7,7 @@ import {
   BridgeDisconnectQuerySchema,
   BridgeInstance,
   BridgeModule,
-  BridgeQuery,
+  BridgeQueries,
   isBridgeInstance,
   isBridgeModule,
 } from '@xyo-network/bridge-model'
@@ -43,13 +43,13 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   }
 
   async connect(uri?: string): Promise<boolean> {
-    const queryPayload: BridgeQuery = { schema: BridgeConnectQuerySchema, uri }
+    const queryPayload: BridgeQueries = { schema: BridgeConnectQuerySchema, uri }
     await this.sendQuery(queryPayload)
     return true
   }
 
   async disconnect(uri?: string): Promise<boolean> {
-    const queryPayload: BridgeQuery = { schema: BridgeDisconnectQuerySchema, uri }
+    const queryPayload: BridgeQueries = { schema: BridgeDisconnectQuerySchema, uri }
     await this.sendQuery(queryPayload)
     return true
   }

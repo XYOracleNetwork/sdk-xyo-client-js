@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { axios } from '@xylabs/axios'
-import { Hash } from '@xylabs/hex'
+import { Address, Hash, isHash } from '@xylabs/hex'
 import { AddressValue } from '@xyo-network/account'
+import { ModuleName } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type ObjectCategory = 'block' | 'payload'
@@ -30,8 +31,8 @@ export interface FetchedPayload<T extends Payload = Payload> {
 
 export class Huri<T extends Payload = Payload> {
   archive?: string
-  archivist?: string
-  hash: string
+  archivist?: Address | ModuleName
+  hash: Hash
   originalHref: string
   protocol?: string
   token?: string
@@ -50,7 +51,9 @@ export class Huri<T extends Payload = Payload> {
     this.protocol = protocol ?? 'https'
 
     const path = assertEx(Huri.parsePath(huriString), 'Missing path')
-    this.hash = this.parsePath(path, protocol !== undefined)
+    this.hash = assertEx(this.parsePath(path, protocol !== undefined), 'Missing hash') as Hash
+
+    assertEx(isHash(this.hash), () => `Invalid hash [${this.hash}]`)
 
     //if archivistUri sent, overwrite protocol and archivist
     if (archivistUri) {

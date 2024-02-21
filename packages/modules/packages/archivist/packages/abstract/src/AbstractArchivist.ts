@@ -13,9 +13,9 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
+  ArchivistNextOptions,
   ArchivistParams,
-  ArchivistQuery,
-  ArchivistQueryBase,
+  ArchivistQueries,
   asArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
@@ -58,7 +58,7 @@ export abstract class AbstractArchivist<
     return this.config.requireAllParents ?? false
   }
 
-  protected override get _queryAccountPaths(): Record<ArchivistQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<ArchivistQueries['schema'], string> {
     return {
       'network.xyo.query.archivist.all': '1/1',
       'network.xyo.query.archivist.clear': '1/2',
@@ -123,11 +123,11 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async next?(previous?: Hash, limit?: number): Promise<WithMeta<Payload>[]> {
+  async next?(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
     this._noOverride('next')
     return await this.busy(async () => {
       await this.started('throw')
-      return await this.nextWithConfig(previous, limit)
+      return await this.nextWithConfig(options)
     })
   }
 
@@ -285,12 +285,12 @@ export abstract class AbstractArchivist<
     return insertedPayloads
   }
 
-  protected nextHandler(_previous?: Hash, _limit?: number): Promisable<WithMeta<Payload>[]> {
+  protected nextHandler(_options?: ArchivistNextOptions): Promisable<WithMeta<Payload>[]> {
     throw new Error('Not implemented')
   }
 
-  protected async nextWithConfig(previous?: Hash, limit?: number, _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
-    const foundPayloads = await this.nextHandler(previous, limit)
+  protected async nextWithConfig(options?: ArchivistNextOptions, _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
+    const foundPayloads = await this.nextHandler(options)
     return await PayloadBuilder.build(foundPayloads)
   }
 
@@ -308,7 +308,7 @@ export abstract class AbstractArchivist<
     payloads: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQuery>(query, payloads)
+    const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQueries>(query, payloads)
     const builtQuery = await PayloadBuilder.build(query, true)
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))

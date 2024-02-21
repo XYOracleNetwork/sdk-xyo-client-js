@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/protocol/packages/account/src/spec/HDWallet/HDWallet.spec.ts"
+        "packages/modules/packages/bridge/packages/pub-sub/src/spec/AsyncBus.proxy.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -39,10 +39,10 @@ import {
   ModuleManifestQuerySchema,
   ModuleParams,
   ModuleQueriedEventArgs,
-  ModuleQuery,
-  ModuleQueryBase,
+  ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
+  ModuleStateQuerySchema,
   ModuleSubscribeQuerySchema,
   SchemaString,
   serializableField,
@@ -72,18 +72,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   readonly upResolver: Omit<CompositeModuleResolver, 'resolve>'> = new CompositeModuleResolver()
 
   protected _account: AccountInstance | undefined = undefined
-  protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueryBase['schema'], string> = {
+  protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueries['schema'], string> = {
     [ModuleAddressQuerySchema]: '1',
     [ModuleDescribeQuerySchema]: '4',
     [ModuleDiscoverQuerySchema]: '2',
     [ModuleManifestQuerySchema]: '5',
+    [ModuleStateQuerySchema]: '6',
     [ModuleSubscribeQuerySchema]: '3',
   }
-  protected readonly _queryAccounts: Record<ModuleQueryBase['schema'], AccountInstance | undefined> = {
+  protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
     [ModuleDescribeQuerySchema]: undefined,
     [ModuleDiscoverQuerySchema]: undefined,
     [ModuleManifestQuerySchema]: undefined,
+    [ModuleStateQuerySchema]: undefined,
     [ModuleSubscribeQuerySchema]: undefined,
   }
   protected _startPromise: Promisable<boolean> | undefined = undefined
@@ -454,7 +456,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
     const builder = (await (await new BoundWitnessBuilder().payloads(payloads)).errors(errors)).sourceQuery(query.$hash)
-    const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueryBase['schema']]
+    const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueries['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
     const result: ModuleQueryResult = [
@@ -523,7 +525,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     if (wallet?.derivePath) {
       for (const key in this.queryAccountPaths) {
         if (Object.prototype.hasOwnProperty.call(this.queryAccountPaths, key)) {
-          const query = key as ModuleQueryBase['schema']
+          const query = key as ModuleQueries['schema']
           const queryAccountPath = this.queryAccountPaths[query]
           if (queryAccountPath) {
             this._queryAccounts[query] = await wallet.derivePath?.(queryAccountPath)
@@ -567,7 +569,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     await this.started('throw')
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

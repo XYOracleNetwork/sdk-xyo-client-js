@@ -313,6 +313,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return typeof nameOrAddressOrFilter === 'string' ? undefined : []
   }
 
+  state() {
+    return []
+  }
+
   protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],

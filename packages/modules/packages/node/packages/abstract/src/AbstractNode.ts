@@ -25,8 +25,7 @@ import {
   NodeModule,
   NodeModuleEventData,
   NodeParams,
-  NodeQuery,
-  NodeQueryBase,
+  NodeQueries,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -46,7 +45,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [NodeAttachQuerySchema, NodeDetachQuerySchema, NodeAttachedQuerySchema, NodeRegisteredQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<NodeQueryBase['schema'], string> {
+  protected override get _queryAccountPaths(): Record<NodeQueries['schema'], string> {
     return {
       'network.xyo.query.node.attach': '1/1',
       'network.xyo.query.node.attached': '1/2',
@@ -160,7 +159,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<NodeQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<NodeQueries>(query, payloads)
     const queryPayload = await wrapper.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

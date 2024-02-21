@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -27,11 +28,11 @@ export class MemoryAddressChainDiviner<
     try {
       const archivistIn = await this.getArchivist()
       const archivist = assertEx(archivistIn, 'Unable to resolve archivist')
-      let currentHash: string | null = assertEx(this.config.startHash, 'Missing startHash')
+      let currentHash: Hash | null = assertEx(this.config.startHash, 'Missing startHash')
       while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
         console.log(`currentHash: ${currentHash}`)
         const bwPayload: BoundWitness | undefined = await this.archivistFindHash([archivist], currentHash)
-        const bwWrapper: BoundWitnessWrapper | undefined = await BoundWitnessWrapper.tryParse(bwPayload)
+        const bwWrapper: BoundWitnessWrapper | undefined = BoundWitnessWrapper.tryParse(bwPayload)
         if (bwWrapper) {
           result.push(bwWrapper.payload)
           currentHash = bwWrapper.prev(this.queryAddress)
@@ -47,7 +48,7 @@ export class MemoryAddressChainDiviner<
     return result
   }
 
-  private async archivistFindHash(archivists: ArchivistInstance[], hash: string): Promise<BoundWitness | undefined> {
+  private async archivistFindHash(archivists: ArchivistInstance[], hash: Hash): Promise<BoundWitness | undefined> {
     console.log('archivistFindHash')
     let index = 0
     if (archivists[index]) {

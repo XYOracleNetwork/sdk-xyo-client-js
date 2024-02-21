@@ -10,4 +10,5 @@ export type ModuleQueryFunctions = {
   discover: () => Promisable<Payload[]>
   manifest: (maxDepth?: number, ignoreAddresses?: string[]) => Promisable<ModuleManifestPayload>
   moduleAddress: () => Promisable<AddressPreviousHashPayload[]>
+  state: () => Promisable<Payload[]>
 }

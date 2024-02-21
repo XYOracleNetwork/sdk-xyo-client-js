@@ -1,8 +1,8 @@
-import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromisableArray } from '@xylabs/promise'
+import { difference } from '@xylabs/set'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -198,24 +198,25 @@ export abstract class AbstractArchivist<
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // Filter out duplicates
-    const uniqueHashes: Hash[] = hashes.filter(distinct)
+    const requestedHashes: Set<Hash> = new Set(hashes as Iterable<Hash>)
     // Find the payloads in the store
-    const gotten = await this.getHandler(uniqueHashes)
+    const gotten = await this.getHandler([...requestedHashes])
 
-    // Verify archivist sent only request payloads
+    // Ensure to only return requested payloads.
     const foundPayloads = []
-    // Keep track of the ones it did not find
-    let notfoundHashes: Hash[] = [...uniqueHashes]
+    // Keep track of the ones it did not find. Initially begin with
+    // all the requested hashes and remove the ones that are found.
+    const foundHashes = new Set<Hash>()
     for (const payload of gotten) {
       const [hash, dataHash] = await Promise.all([PayloadBuilder.hash(payload), PayloadBuilder.dataHash(payload)])
       let found = false
-      if (uniqueHashes.includes(hash)) {
+      if (requestedHashes.has(hash)) {
         found = true
-        notfoundHashes = notfoundHashes.filter((h) => h !== hash)
+        foundHashes.add(hash)
       }
-      if (uniqueHashes.includes(dataHash)) {
+      if (requestedHashes.has(dataHash)) {
         found = true
-        notfoundHashes = notfoundHashes.filter((h) => h !== dataHash)
+        foundHashes.add(dataHash)
       }
 
       if (found) {
@@ -224,8 +225,8 @@ export abstract class AbstractArchivist<
         console.warn(`Archivist returned payload with hash not asked for: ${hash}`)
       }
     }
-
-    const [parentFoundPayloads] = await this.getFromParents(notfoundHashes)
+    const notfound = [...difference<Hash>(requestedHashes, foundHashes)]
+    const [parentFoundPayloads] = await this.getFromParents(notfound)
 
     if (this.storeParentReads) {
       await this.insertWithConfig(parentFoundPayloads)

@@ -201,17 +201,16 @@ export abstract class AbstractArchivist<
     const uniqueHashes: Hash[] = hashes.filter(distinct)
     // Find the payloads in the store
     const gotten = await this.getHandler(uniqueHashes)
-    // Build dictionaries of the payloads hashes/dataHashes
-    const [hashMap, dataHashMap] = await Promise.all([PayloadBuilder.toHashMap(gotten), PayloadBuilder.toDataHashMap(gotten)])
 
     // NOTE: Doing this prevents us from having archivists send us
     // payloads we didn't ask for, but removes the natural ordering.
-    const foundPayloads: WithMeta<Payload>[] = []
+    const foundPayloads = []
     const notfoundHashes: Hash[] = []
-    for (const hash of uniqueHashes) {
-      const found = hashMap[hash] ?? dataHashMap[hash]
+    for (const payload of gotten) {
+      const [hash, dataHash] = await Promise.all([PayloadBuilder.hash(payload), PayloadBuilder.dataHash(payload)])
+      const found = uniqueHashes.includes(hash) || uniqueHashes.includes(dataHash)
       if (found) {
-        foundPayloads.push(found)
+        foundPayloads.push(payload)
       } else {
         notfoundHashes.push(hash)
       }

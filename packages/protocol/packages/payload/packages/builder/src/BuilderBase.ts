@@ -5,7 +5,6 @@ import { Promisable } from '@xylabs/promise'
 import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilder } from './Builder'
 import { PayloadBuilderOptions } from './Options'
 
 export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>> {
@@ -27,26 +26,6 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     const cleanFields = fields ? removeEmptyFields(fields) : undefined
     assertEx(cleanFields === undefined || isJsonObject(cleanFields), 'Fields must be JsonObject')
     return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...cleanFields }, '$'), '_') as T
-  }
-
-  static async hashableFields<T extends Payload = Payload<AnyObject>>(
-    schema: string,
-    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
-    $meta?: JsonObject,
-    $hash?: Hash,
-    timestamp?: number,
-  ): Promise<WithMeta<T>> {
-    const dataFields = await this.dataHashableFields<T>(schema, fields)
-    assertEx($meta === undefined || isJsonObject($meta), '$meta must be JsonObject')
-    return deepOmitPrefixedFields<WithMeta<T>>(
-      {
-        ...dataFields,
-        $hash: $hash ?? (await PayloadBuilder.dataHash(dataFields)),
-        $meta: { ...$meta, timestamp: timestamp ?? $meta?.timestamp ?? Date.now() } as JsonObject,
-        schema,
-      } as WithMeta<T>,
-      '_',
-    )
   }
 
   protected static metaFields(dataHash: Hash, otherMeta?: JsonObject): Promisable<JsonObject> {
@@ -80,10 +59,6 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
       this._fields = { ...this._fields, ...removeEmptyFields(fieldsOnly) } as T
     }
     return this
-  }
-
-  async hashableFields() {
-    return await PayloadBuilderBase.hashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields, this._$meta)
   }
 
   schema(value: Schema) {

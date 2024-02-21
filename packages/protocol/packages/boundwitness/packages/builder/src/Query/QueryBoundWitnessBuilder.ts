@@ -19,17 +19,9 @@ export class QueryBoundWitnessBuilder<
     } as Omit<TBoundWitness, '$hash' | '$meta'>
   }
 
-  override async hashableFields(): Promise<WithMeta<TBoundWitness>> {
-    return {
-      ...(await super.hashableFields()),
-      query: assertEx(this._query, 'No Query Specified').$hash,
-      schema: QueryBoundWitnessSchema,
-    } as WithMeta<TBoundWitness>
-  }
-
   async query<T extends TQuery>(query: T) {
     this._query = await PayloadBuilder.build(query)
-    await this.payload(this._query)
+    this.payload(this._query)
     return this
   }
 }

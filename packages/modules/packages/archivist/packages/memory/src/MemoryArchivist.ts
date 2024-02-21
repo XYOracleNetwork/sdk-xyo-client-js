@@ -41,7 +41,6 @@ export class MemoryArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance, ModuleInstance
 {
-  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
   private _bodyHashIndex?: LRUCache<string, string>

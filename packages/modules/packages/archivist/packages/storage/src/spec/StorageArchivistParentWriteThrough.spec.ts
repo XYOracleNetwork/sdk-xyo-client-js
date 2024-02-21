@@ -2,7 +2,7 @@ import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleQuery } from '@xyo-network/module-model'
+import { ModuleQueries } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -41,7 +41,7 @@ test('Archivist Parent Write Through', async () => {
   })
 
   storage.on('moduleQueried', async ({ query, payloads }) => {
-    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQuery>(query, payloads)
+    const wrapper = await QueryBoundWitnessWrapper.parseQuery<ModuleQueries>(query, payloads)
     expect(await wrapper.getQuery()).toBeDefined()
     console.log(`Queried: ${(await wrapper.getQuery()).schema}`)
   })

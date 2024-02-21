@@ -1,6 +1,7 @@
+import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { AnyObject, JsonObject } from '@xylabs/object'
-import { PayloadHasher } from '@xyo-network/hash'
+import { AnyObject, isJsonObject, JsonObject } from '@xylabs/object'
+import { deepOmitPrefixedFields, PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 import { PayloadBuilderBase } from './BuilderBase'
@@ -88,6 +89,26 @@ export class PayloadBuilder<
     )
   }
 
+  static async hashableFields<T extends Payload = Payload<AnyObject>>(
+    schema: string,
+    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
+    $meta?: JsonObject,
+    $hash?: Hash,
+    timestamp?: number,
+  ): Promise<WithMeta<T>> {
+    const dataFields = await this.dataHashableFields<T>(schema, fields)
+    assertEx($meta === undefined || isJsonObject($meta), '$meta must be JsonObject')
+    return deepOmitPrefixedFields<WithMeta<T>>(
+      {
+        ...dataFields,
+        $hash: $hash ?? (await PayloadBuilder.dataHash(dataFields)),
+        $meta: { ...$meta, timestamp: timestamp ?? $meta?.timestamp ?? Date.now() } as JsonObject,
+        schema,
+      } as WithMeta<T>,
+      '_',
+    )
+  }
+
   static async hashes(payloads: undefined): Promise<undefined>
   static async hashes<T extends Payload>(payloads: T[]): Promise<Hash[]>
   static async hashes<T extends Payload>(payloads?: T[]): Promise<Hash[] | undefined> {
@@ -146,5 +167,9 @@ export class PayloadBuilder<
     const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash, $meta }
 
     return hashableFields as WithMeta<T>
+  }
+
+  async hashableFields() {
+    return await PayloadBuilder.hashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields, this._$meta)
   }
 }

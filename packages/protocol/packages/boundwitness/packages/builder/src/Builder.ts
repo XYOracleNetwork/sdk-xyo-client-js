@@ -93,16 +93,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return await PayloadBuilderBase.dataHashableFields(schema, fields ? removeEmptyFields(fields) : undefined)
   }
 
-  static override async hashableFields<T extends Payload = Payload<AnyObject>>(
-    schema: string,
-    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
-    $meta?: JsonObject,
-    $hash?: Hash,
-    timestamp?: number,
-  ): Promise<WithMeta<T>> {
-    return await PayloadBuilderBase.hashableFields(schema, fields, $meta, $hash, timestamp)
-  }
-
   static previousHash<T extends BoundWitness>(boundWitness: T, address: Address) {
     return boundWitness.previous_hashes[this.addressIndex(boundWitness, address)]?.toLowerCase()
   }

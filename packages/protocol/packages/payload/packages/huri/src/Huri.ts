@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { axios } from '@xylabs/axios'
 import { Address, Hash, isHash } from '@xylabs/hex'
 import { AddressValue } from '@xyo-network/account'
-import { ModuleName } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type ObjectCategory = 'block' | 'payload'
@@ -31,7 +30,7 @@ export interface FetchedPayload<T extends Payload = Payload> {
 
 export class Huri<T extends Payload = Payload> {
   archive?: string
-  archivist?: Address | ModuleName
+  archivist?: Address | string
   hash: Hash
   originalHref: string
   protocol?: string

@@ -1,4 +1,6 @@
+import { Hash } from '@xylabs/hex'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
+import { Schema } from '@xyo-network/payload-model'
 
 /**
  * Returns all the possible combinations of payloads for the supplied schemas within the bound witness
@@ -6,7 +8,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
  * @param schemas The schemas to search for unique combinations of
  * @returns The payload hashes corresponding to the unique combinations of the supplied schemas
  */
-export const intraBoundwitnessSchemaCombinations = (boundwitness: BoundWitness, schemas: string[]): string[][] => {
+export const intraBoundwitnessSchemaCombinations = (boundwitness: BoundWitness, schemas: Schema[]): Hash[][] => {
   // Map to store the indices of each element in the source array
   const indexMap: Record<string, number[]> = {}
 

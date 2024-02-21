@@ -5,6 +5,7 @@ import {
   assignCreatableModuleRegistry,
   CreatableModuleDictionary,
   CreatableModuleRegistry,
+  isModuleName,
   ModuleFactoryLocator,
   ModuleInstance,
   toCreatableModuleRegistry,
@@ -51,6 +52,8 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       toCreatableModuleRegistry(standardCreatableModules),
       toCreatableModuleRegistry(additionalCreatableModules ?? {}),
     )
+
+    assertEx(isModuleName(manifest.config.name), `Invalid Module Name: ${manifest.config.name}`)
 
     assertEx(!(await collision(node, manifest.config.name, external)), `Node name collision [${manifest.config.name}]`)
 

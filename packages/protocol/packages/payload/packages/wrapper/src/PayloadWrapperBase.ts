@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isAnyPayload, Payload, WithMeta } from '@xyo-network/payload-model'
 
-export type PayloadLoader = (address: string) => Promise<Payload | null>
+export type PayloadLoader = (address: Address) => Promise<Payload | null>
 export type PayloadLoaderFactory = () => PayloadLoader
 
 export const isPayloadWrapperBase = (value?: unknown): value is PayloadWrapperBase => {
@@ -25,8 +26,8 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
   static unwrap<TPayload extends Payload = Payload, TWrapper extends PayloadWrapperBase<TPayload> = PayloadWrapperBase<TPayload>>(
     payload: TPayload | TWrapper | (TPayload | TWrapper)[],
   ): TPayload | TPayload[] | undefined {
-    return Array.isArray(payload)
-      ? payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
+    return Array.isArray(payload) ?
+        payload.map((payload) => this.unwrapSinglePayload<TPayload, TWrapper>(payload))
       : this.unwrapSinglePayload<TPayload, TWrapper>(payload)
   }
 

@@ -14,7 +14,7 @@ export type GeneratedBoundWitnessFields = 'addresses' | 'payload_hashes' | 'payl
 export interface BoundWitnessBuilderOptions<TBoundWitness extends BoundWitness = BoundWitness, TPayload extends Payload = Payload>
   extends Omit<PayloadBuilderOptions<Omit<TBoundWitness, GeneratedBoundWitnessFields>>, 'schema'> {
   readonly accounts?: AccountInstance[]
-  readonly destination?: string[]
+  readonly destination?: Hash[]
   readonly payloadHashes?: TBoundWitness['payload_hashes']
   readonly payloadSchemas?: TBoundWitness['payload_schemas']
   readonly payloads?: TPayload[]
@@ -28,11 +28,11 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 > {
   private static readonly _buildMutex = new Mutex()
   private _accounts: AccountInstance[]
-  private _destination?: string[]
-  private _errorHashes?: string[]
+  private _destination?: Hash[]
+  private _errorHashes?: Hash[]
   private _errors: ModuleError[] = []
-  private _payloadHashes?: string[]
-  private _payloadSchemas?: string[]
+  private _payloadHashes?: Hash[]
+  private _payloadSchemas?: Schema[]
   private _payloads: TPayload[]
   private _sourceQuery?: Hash
   private _timestamp: boolean | number
@@ -50,7 +50,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   protected get addresses(): Address[] {
-    return this._accounts.map((account) => account.address.toLowerCase())
+    return this._accounts.map((account) => account.address.toLowerCase()) as Address[]
   }
 
   protected get payloadSchemas(): string[] {
@@ -234,7 +234,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   sourceQuery(query?: Hash) {
-    this._sourceQuery = query?.toLowerCase()
+    this._sourceQuery = query?.toLowerCase() as Hash
     return this
   }
 

@@ -1,5 +1,7 @@
+import { Address, Hash } from '@xylabs/hex'
+
 export interface PreviousHashStore {
-  getItem(address: string): string | null | Promise<string | null>
-  removeItem(address: string): void | Promise<void>
-  setItem(address: string, previousHash: string): void | Promise<void>
+  getItem(address: Address): Hash | null | Promise<Hash | null>
+  removeItem(address: Address): void | Promise<void>
+  setItem(address: Address, previousHash: Hash): void | Promise<void>
 }

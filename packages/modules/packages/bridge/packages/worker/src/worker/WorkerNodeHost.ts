@@ -1,6 +1,7 @@
 import { generateMnemonic } from '@scure/bip39'
 // eslint-disable-next-line import/no-internal-modules
 import { wordlist } from '@scure/bip39/wordlists/english'
+import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
 import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
@@ -17,7 +18,7 @@ export interface CreateNodeMessage extends Message<'createNode'> {
 export type CreateNodeEvent = MessageEvent<CreateNodeMessage>
 
 export interface NodeCreatedMessage extends Message<'nodeCreated'> {
-  address: string
+  address: Address
 }
 
 export class WorkerNodeHost {

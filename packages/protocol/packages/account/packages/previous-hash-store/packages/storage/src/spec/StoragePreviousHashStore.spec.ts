@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Address } from '@xylabs/hex'
 import { v4 as uuid } from 'uuid'
 
 import { Storage, StoragePreviousHashStore } from '../StoragePreviousHashStore'
@@ -35,14 +36,14 @@ describe('StoragePreviousHashStore', () => {
     describe('getItem', () => {
       it('with no value returns null', async () => {
         const store = new StoragePreviousHashStore()
-        const address = uuid()
+        const address = uuid().toLowerCase() as Address
         expect(await store.getItem(address)).toBe(null)
       })
     })
     describe('round trip storage', () => {
       it('sets/retrieves an item', async () => {
         const store = new StoragePreviousHashStore()
-        const address = uuid()
+        const address = uuid().toLowerCase() as Address
         await store.setItem(address, previousHash)
         expect(await store.getItem(address)).toBe(previousHash)
       })
@@ -50,7 +51,7 @@ describe('StoragePreviousHashStore', () => {
     describe('removeItem', () => {
       it('removes an item', async () => {
         const store = new StoragePreviousHashStore()
-        const address = uuid()
+        const address = uuid().toLowerCase() as Address
         await store.setItem(address, previousHash)
         expect(await store.getItem(address)).toBe(previousHash)
         await store.removeItem(address)

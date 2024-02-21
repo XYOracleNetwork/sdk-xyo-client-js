@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { PayloadStatsDiviner } from '@xyo-network/diviner-payload-stats-abstract'
 import {
@@ -15,7 +16,7 @@ import { Payload } from '@xyo-network/payload-model'
 export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams = PayloadStatsDivinerParams> extends PayloadStatsDiviner<TParams> {
   static override configSchemas = [PayloadStatsDivinerConfigSchema]
 
-  protected async divineAddress(address: string): Promise<number> {
+  protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, 'Archivist does not support "all"')()
     return all
@@ -34,7 +35,12 @@ export class MemoryPayloadStatsDiviner<TParams extends PayloadStatsDivinerParams
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const query = payloads?.find<PayloadStatsQueryPayload>(isPayloadStatsQueryPayload)
     if (!query) return []
-    const addresses = query?.address ? (Array.isArray(query?.address) ? query.address : [query.address]) : undefined
+    const addresses =
+      query?.address ?
+        Array.isArray(query?.address) ?
+          query.address
+        : [query.address]
+      : undefined
     const counts = addresses ? await Promise.all(addresses.map((address) => this.divineAddress(address))) : [await this.divineAllAddresses()]
     return await Promise.all(
       counts.map((count) => new PayloadBuilder<PayloadStatsPayload>({ schema: PayloadStatsDivinerSchema }).fields({ count }).build()),

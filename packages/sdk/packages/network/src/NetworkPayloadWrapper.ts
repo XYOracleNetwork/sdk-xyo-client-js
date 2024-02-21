@@ -1,3 +1,4 @@
+import { Hash } from '@xylabs/hex'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -22,7 +23,7 @@ export class NetworkPayloadWrapper extends PayloadWrapper<NetworkPayload> {
     return this.filterNodesByType('sentinel')
   }
 
-  static async known(hash: string): Promise<NetworkPayload | undefined> {
+  static async known(hash: Hash): Promise<NetworkPayload | undefined> {
     return await PayloadBuilder.findByDataHash(await knownNetworks(), hash)
   }
 

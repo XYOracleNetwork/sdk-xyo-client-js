@@ -1,3 +1,5 @@
+export * from './AbstractModuleProxy'
+export * from './AsyncQueryBus'
 export * from './Config'
 export * from './Params'
 export * from './PubSubBridge'

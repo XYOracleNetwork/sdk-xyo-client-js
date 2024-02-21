@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
+import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
@@ -24,8 +25,9 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
   }
 
   async listeningModules() {
-    const mods = this.config.listeningModules
-      ? await Promise.all(
+    const mods =
+      this.config.listeningModules ?
+        await Promise.all(
           this.config.listeningModules.map(async (listeningModule) =>
             assertEx(
               asModuleInstance(await this.resolver.resolve(listeningModule)),
@@ -37,7 +39,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
     return mods
   }
 
-  async send(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
+  async send(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
@@ -145,7 +147,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusParams = AsyncQuer
     await Promise.allSettled(
       pendingCommands.map(async ([sourceQuery, status]) => {
         if (status === Pending) {
-          const divinerQuery = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+          const divinerQuery: BoundWitnessDivinerQueryPayload = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
           const result = await responseBoundWitnessDiviner.divine([divinerQuery])
           if (result && result.length > 0) {
             const response = result.find(isBoundWitnessWithMeta)

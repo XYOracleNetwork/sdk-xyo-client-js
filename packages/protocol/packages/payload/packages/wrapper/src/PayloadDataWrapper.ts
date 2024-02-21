@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
@@ -19,7 +20,7 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     return value instanceof PayloadDataWrapper ? (value as PayloadDataWrapper<T>) : null
   }
 
-  static async load(address: string) {
+  static async load(address: Address) {
     if (this.loaderFactory === null) {
       console.warn('No loader factory set')
       return null
@@ -51,9 +52,9 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
     assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
-        return payload instanceof PayloadDataWrapper
-          ? payload
-          : new PayloadDataWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
+        return payload instanceof PayloadDataWrapper ? payload : (
+            new PayloadDataWrapper((isPayloadWrapperBase(payload) ? payload.payload : payload) as T)
+          )
       }
       default: {
         throw new Error(`Can only parse objects [${typeof payload}]`)

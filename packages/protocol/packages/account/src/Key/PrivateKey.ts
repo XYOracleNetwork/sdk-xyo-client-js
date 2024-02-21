@@ -10,27 +10,22 @@ import { PublicKey } from './PublicKey'
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   protected _isPrivateKey = true
   protected _keyPair: EC.ec.KeyPair
-  protected _privateKeyBytes: Uint8Array
   protected _public?: PublicKeyInstance
 
   constructor(value?: ArrayBuffer) {
-    super(32)
-    if (value) {
-      this._keyPair = PrivateKey.ecContext.keyFromPrivate(toUint8Array(value, 32), 'array')
-    } else {
-      try {
-        this._keyPair = PrivateKey.ecContext.genKeyPair()
-      } catch {
-        //this catch is for the few browsers that do not have crypto random
-        this._keyPair = PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999_999_999_999).toString())
-        console.warn('Account created without browser crypto')
-      }
-    }
-    this._privateKeyBytes = toUint8Array(this._keyPair.getPrivate('hex'), 32)
-  }
-
-  override get bytes() {
-    return this._privateKeyBytes
+    const keyPair =
+      value ?
+        PrivateKey.ecContext.keyFromPrivate(toUint8Array(value, 32), 'array')
+      : (() => {
+          try {
+            return PrivateKey.ecContext.genKeyPair()
+          } catch {
+            //this catch is for the few browsers that do not have crypto random
+            return PrivateKey.ecContext.keyFromPrivate(Math.floor(Math.random() * 999_999_999_999).toString())
+          }
+        })()
+    super(32, toUint8Array(keyPair.getPrivate('hex'), 32))
+    this._keyPair = keyPair
   }
 
   get public(): PublicKeyInstance {

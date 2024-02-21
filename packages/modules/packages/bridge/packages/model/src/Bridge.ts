@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
@@ -34,13 +35,13 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * though its children (through potentially several generations) are also able to be communicated to
    * across the bridge.
    */
-  getRootAddress(): Promisable<string>
+  getRootAddress(): Promisable<Address>
 
   /**
    * Returns the config for a bridged module
    * @param address Address of the module connected to the bridge
    */
-  targetConfig(address: string): ModuleConfig
+  targetConfig(address: Address): ModuleConfig
 
   /**
    * Returns the result of a discover query for a bridged module
@@ -66,7 +67,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * Returns the supported queries for a bridged module
    * @param address Address of the module connected to the bridge
    */
-  targetQueries(address: string): string[]
+  targetQueries(address: Address): string[]
 
   /**
    * Queries a module connected to the bridge using the supplied query, payloads, and query configuration
@@ -74,7 +75,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * @param query The query to issue against the address
    * @param payloads The payloads to use in the query
    */
-  targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
+  targetQuery(address: Address, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
 
   /**
    * Determines if a bridged module is queryable using the supplied query, payloads, and query configuration
@@ -83,7 +84,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * @param payloads The payloads to use in the query
    * @param queryConfig The query configuration
    */
-  targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
+  targetQueryable(address: Address, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promisable<boolean>
 
   /**
    *
@@ -91,14 +92,14 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * @param filter
    * @param options
    */
-  targetResolve(address: string, filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<ModuleInstance[]>
+  targetResolve(address: Address, filter?: ModuleFilter, options?: ModuleFilterOptions): Promisable<ModuleInstance[]>
   /**
    *
    * @param address Address of the module potentially connected to the bridge
    * @param nameOrAddress
    * @param options
    */
-  targetResolve(address: string, nameOrAddress: string, options?: ModuleFilterOptions): Promisable<ModuleInstance | undefined>
+  targetResolve(address: Address, nameOrAddress: string, options?: ModuleFilterOptions): Promisable<ModuleInstance | undefined>
   /**
    *
    * @param address Address of the module potentially connected to the bridge
@@ -106,7 +107,7 @@ export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEven
    * @param options
    */
   targetResolve(
-    address: string,
+    address: Address,
     nameOrAddressOrFilter?: ModuleFilter | string,
     options?: ModuleFilterOptions,
   ): Promisable<ModuleInstance | ModuleInstance[] | undefined>

@@ -1,3 +1,4 @@
+import { Address, Hash } from '@xylabs/hex'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import store, { StoreBase } from 'store2'
 
@@ -34,14 +35,14 @@ export class StoragePreviousHashStore implements PreviousHashStore {
     return this._storage
   }
 
-  async getItem(address: string): Promise<string | null> {
+  async getItem(address: Address): Promise<Hash | null> {
     const value = await this.storage.get(address)
     return value ?? null
   }
-  async removeItem(address: string): Promise<void> {
+  async removeItem(address: Address): Promise<void> {
     await this.storage.remove(address)
   }
-  async setItem(address: string, previousHash: string): Promise<void> {
+  async setItem(address: Address, previousHash: Hash): Promise<void> {
     await this.storage.set(address, previousHash)
   }
 }

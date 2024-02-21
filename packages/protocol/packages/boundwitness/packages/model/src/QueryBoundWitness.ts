@@ -1,3 +1,4 @@
+import { Hash } from '@xylabs/hex'
 import { WithMeta } from '@xyo-network/payload-model'
 
 import { BoundWitness, BoundWitnessSchema } from './BoundWitness'
@@ -7,7 +8,7 @@ export type QueryBoundWitnessSchema = BoundWitnessSchema
 export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = BoundWitnessSchema
 
 export type QueryBoundWitness = BoundWitness<{
-  query: string
+  query: Hash
   resultSet?: string
   schema: QueryBoundWitnessSchema
 }>

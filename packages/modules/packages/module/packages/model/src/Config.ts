@@ -3,6 +3,7 @@ import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { RetryConfig } from '@xylabs/retry'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
+import { ModuleIdentifier, ModuleName } from './instance'
 import { Labels } from './Labels'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
@@ -10,12 +11,11 @@ export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config
 
 export type CosigningAddressSet = string[]
 export type SchemaString = string
-export type ModuleName = string
 export type NameOrAddress = Address | ModuleName
 
 export interface ArchivingModuleConfig {
   readonly archiving?: {
-    readonly archivists?: NameOrAddress[]
+    readonly archivists?: ModuleIdentifier[]
   }
 }
 
@@ -23,7 +23,7 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
   WithAdditional<
     {
       /** @field The name/address of the Archivist to use for this module */
-      readonly archivist?: NameOrAddress
+      readonly archivist?: ModuleIdentifier
 
       /**
        * @field The labels used for this module. If a label is specified, then the
@@ -33,7 +33,7 @@ export type ModuleConfig<TConfig extends EmptyObject | Payload | void = void, TS
       readonly labels?: Labels
 
       /** @field Friendly name of module (not collision resistent). Can be used to resolve module when registered/attached to Node. */
-      readonly name?: string
+      readonly name?: ModuleName
 
       /** @field paging settings for queries */
       readonly paging?: Record<string, { size?: number }>

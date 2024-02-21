@@ -2,6 +2,7 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
+import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { IdLogger } from '@xylabs/logger'
 import { Promisable, PromiseEx } from '@xylabs/promise'
@@ -20,6 +21,7 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   duplicateModules,
+  isModuleName,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
@@ -32,6 +34,7 @@ import {
   ModuleFactory,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuerySchema,
   ModuleParams,
@@ -174,6 +177,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
+    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), `Invalid module name: ${params?.config?.name}`)
+
     const { account } = params ?? {}
 
     const schema: string = params?.config?.schema ?? this.configSchema
@@ -305,18 +310,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<boolean> {
     if (!(await this.started('warn'))) return false
-    const configValidator = queryConfig
-      ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable
-      : this.moduleConfigQueryValidator
+    const configValidator =
+      queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
     const validators = [this.supportedQueryValidator, configValidator]
 
     return validators.every((validator) => validator(query, payloads))
   }
 
   async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
@@ -402,7 +406,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
-  protected bindHashes(hashes: string[], schema: SchemaString[], account?: AccountInstance) {
+  protected bindHashes(hashes: Hash[], schema: SchemaString[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
@@ -412,7 +416,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: string[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
+  protected async bindHashesInternal(hashes: Hash[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
@@ -552,9 +556,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const name = this.config.name
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash = previousHash
-      ? { address, previousHash, schema: AddressPreviousHashSchema }
-      : { address, schema: AddressPreviousHashSchema }
+    const moduleAccountPreviousHash =
+      previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressPreviousHashSchema }
     return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
   }
 

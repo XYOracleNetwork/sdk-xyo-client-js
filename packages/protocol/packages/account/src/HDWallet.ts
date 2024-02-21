@@ -3,7 +3,7 @@ import { generateMnemonic } from '@scure/bip39'
 import { wordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
-import { hexFromHexString } from '@xylabs/hex'
+import { Address, Hex, hexFromHexString } from '@xylabs/hex'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountConfig } from '@xyo-network/account-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
@@ -28,7 +28,7 @@ export class HDWallet extends Account implements WalletInstance {
     super(key, privateKey ? { privateKey } : undefined)
   }
 
-  override get address(): string {
+  override get address(): Address {
     return hexFromHexString(this.node.address, { prefix: false })
   }
 
@@ -68,12 +68,12 @@ export class HDWallet extends Account implements WalletInstance {
     return this.node.path
   }
 
-  get privateKey(): string {
-    return this.node.privateKey
+  get privateKey(): Hex {
+    return this.node.privateKey.toLowerCase() as Hex
   }
 
-  get publicKey(): string {
-    return this.node.publicKey
+  get publicKey(): Hex {
+    return this.node.publicKey.toLowerCase() as Hex
   }
 
   static override async create(_opts?: AccountConfig): Promise<WalletInstance> {
@@ -112,7 +112,6 @@ export class HDWallet extends Account implements WalletInstance {
     const ref = new WeakRef(existing)
     HDWallet._mnemonicMap[mnemonic.phrase] = ref
     if (existing.path) existing._pathMap[existing.path] = ref
-    console.log(`fromMnemonic3: [${path}][${existing.path}]`)
     return existing
   }
 

@@ -18,6 +18,7 @@ const testBoundWitness: BoundWitness = {
   payload_schemas: ['network.xyo.test'],
   previous_hashes: [null],
   schema: BoundWitnessSchema,
+  timestamp: Date.now(),
 }
 
 test.skip('all', async () => {

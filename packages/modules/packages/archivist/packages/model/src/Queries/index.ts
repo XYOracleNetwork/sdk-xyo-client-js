@@ -4,6 +4,7 @@ export * from './Commit'
 export * from './Delete'
 export * from './Get'
 export * from './Insert'
+export * from './Next'
 
 import { ModuleQuery, ModuleQueryBase } from '@xyo-network/module-model'
 import { Query } from '@xyo-network/payload-model'
@@ -14,6 +15,7 @@ import { ArchivistCommitQuery } from './Commit'
 import { ArchivistDeleteQuery } from './Delete'
 import { ArchivistGetQuery } from './Get'
 import { ArchivistInsertQuery } from './Insert'
+import { ArchivistNextQuery } from './Next'
 
 export type ArchivistQueryBase =
   | ArchivistAllQuery
@@ -22,6 +24,7 @@ export type ArchivistQueryBase =
   | ArchivistDeleteQuery
   | ArchivistGetQuery
   | ArchivistInsertQuery
+  | ArchivistNextQuery
 
 /**
  * @deprecated Use ArchivistQueryBase instead to

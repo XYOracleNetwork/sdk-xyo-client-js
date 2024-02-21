@@ -11,7 +11,11 @@ export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema
 
 export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
   TAdditional,
-  TSchema extends void ? (TAdditional extends Payload ? TAdditional['schema'] : EvmWitnessConfigSchema) : TSchema
+  TSchema extends void ?
+    TAdditional extends Payload ?
+      TAdditional['schema']
+    : EvmWitnessConfigSchema
+  : TSchema
 >
 
 export type AdditionalEvmWitnessParams = {

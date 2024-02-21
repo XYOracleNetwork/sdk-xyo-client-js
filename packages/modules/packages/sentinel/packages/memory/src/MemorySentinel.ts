@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { AnyConfigSchema } from '@xyo-network/module-model'
+import { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import {
@@ -63,7 +63,7 @@ export class MemorySentinel<
     return await super.stop(timeout)
   }
 
-  private async inputAddresses(input: string | string[]): Promise<string[]> {
+  private async inputAddresses(input: ModuleIdentifier | ModuleIdentifier[]): Promise<Address[]> {
     if (Array.isArray(input)) {
       return (await Promise.all(input.map(async (inputItem) => await this.inputAddresses(inputItem)))).flat()
     } else {
@@ -89,7 +89,9 @@ export class MemorySentinel<
       tasks?.map(async (task) => {
         const input = task.input ?? false
         const inPayloadsFound =
-          input === true ? inPayloads : input === false ? [] : this.processPreviousResults(previousResults, await this.inputAddresses(input))
+          input === true ? inPayloads
+          : input === false ? []
+          : this.processPreviousResults(previousResults, await this.inputAddresses(input))
         const witness = asWitnessInstance(task.module)
         if (witness) {
           await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, module: this })

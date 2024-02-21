@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -29,7 +30,7 @@ export type TProxyModuleConfig = ModuleConfig<{ schema: ProxyModuleConfigSchema 
 export type ProxyModuleParams = ModuleParams<
   TProxyModuleConfig,
   {
-    address: string
+    address: Address
     bridge: BridgeModule
   }
 >
@@ -44,7 +45,7 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
   }
 
   get address() {
-    return this.proxyParams.address.toLowerCase()
+    return this.proxyParams.address
   }
 
   get bridge() {
@@ -152,9 +153,9 @@ export class ProxyModule extends BaseEmitter<ModuleParams, ModuleEventData> impl
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     return await this.busy(async () => {
-      return await (typeof nameOrAddressOrFilter === 'string'
-        ? this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
-        : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
+      return await (typeof nameOrAddressOrFilter === 'string' ?
+        this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options)
+      : this.bridge.targetResolve(this.address, nameOrAddressOrFilter, options))
     })
   }
 }

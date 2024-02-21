@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable } from '@xylabs/promise'
-import { AbstractArchivist } from '@xyo-network/archivist-abstract'
+import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta, WithStorageMeta } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -14,6 +14,7 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
+  ArchivistNextQuerySchema,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
@@ -28,34 +29,6 @@ export type MemoryArchivistConfig = ArchivistConfig<{
   max?: number
   schema: MemoryArchivistConfigSchema | ArchivistConfig['schema']
 }>
-
-type WithStorageMeta<T extends Payload> = T & {
-  _sequence: bigint
-}
-
-const maxSequenceIndex = 10_000_000_000n
-
-const sequenceNumber = (index: number) => {
-  assertEx(index < maxSequenceIndex, () => `index may not be larger than ${maxSequenceIndex}`)
-  return BigInt(Date.now()) * maxSequenceIndex + BigInt(index)
-}
-
-const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0) => {
-  return { ...payload, _sequence: sequenceNumber(index) } as WithStorageMeta<T>
-}
-
-const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]) => {
-  return payloads.sort((a, b) => (a._sequence < b._sequence ? -1 : a._sequence > b._sequence ? 1 : 0))
-}
-
-function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T
-function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>): T | undefined
-function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>) {
-  if (!payload) return
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { _sequence, ...noMeta } = payload as WithStorageMeta<T>
-  return noMeta as T
-}
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>
@@ -93,6 +66,7 @@ export class MemoryArchivist<
       ArchivistClearQuerySchema,
       ArchivistInsertQuerySchema,
       ArchivistCommitQuerySchema,
+      ArchivistNextQuerySchema,
       ...super.queries,
     ]
   }
@@ -125,7 +99,7 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<string[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     const deletedHashes = compact(
       await Promise.all(
         hashes.map((hash) => {
@@ -136,7 +110,7 @@ export class MemoryArchivist<
     return deletedHashes
   }
 
-  protected override getHandler(hashes: string[]): Promisable<PayloadWithMeta[]> {
+  protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
     return compact(
       hashes.map((hash) => {
         const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
@@ -158,6 +132,12 @@ export class MemoryArchivist<
     )
 
     return insertedPayloads
+  }
+
+  protected override async nextHandler(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
+    const all = sortByStorageMeta(compact(await Promise.all(this.cache.dump().map((value) => value[1].value))))
+    const startIndex = previous ? all.findIndex((value) => value.$hash === previous) + 1 : 0
+    return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))
   }
 
   private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): PayloadWithMeta {

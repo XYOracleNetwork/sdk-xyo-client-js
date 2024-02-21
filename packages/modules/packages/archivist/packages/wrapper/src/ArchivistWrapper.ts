@@ -1,3 +1,4 @@
+import { Hash } from '@xylabs/hex'
 import {
   ArchivistAllQuery,
   ArchivistAllQuerySchema,
@@ -13,6 +14,8 @@ import {
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModule,
+  ArchivistNextQuery,
+  ArchivistNextQuerySchema,
   isArchivistInstance,
   isArchivistModule,
 } from '@xyo-network/archivist-model'
@@ -43,13 +46,13 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async delete(hashes: string[]) {
+  async delete(hashes: Hash[]) {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
     await this.sendQuery(queryPayload)
     return hashes
   }
 
-  async get(hashes: string[]): Promise<PayloadWithMeta[]> {
+  async get(hashes: Hash[]): Promise<PayloadWithMeta[]> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQuery(queryPayload)
   }
@@ -59,5 +62,10 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
       schema: ArchivistInsertQuerySchema,
     }
     return await this.sendQuery(queryPayload, payloads)
+  }
+
+  async next(previous?: Hash, limit?: number): Promise<PayloadWithMeta[]> {
+    const queryPayload: ArchivistNextQuery = { limit, previous, schema: ArchivistNextQuerySchema }
+    return await this.sendQuery(queryPayload)
   }
 }

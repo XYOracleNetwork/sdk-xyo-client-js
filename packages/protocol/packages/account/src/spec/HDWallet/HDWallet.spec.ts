@@ -1,3 +1,4 @@
+import { Address, Hex } from '@xylabs/hex'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
 
@@ -10,10 +11,10 @@ type Wallet = HDNodeWallet | WalletInstance
  * The serializable information of a wallet
  */
 interface WalletSnapshot {
-  address: string
+  address: Address
   path: string | null
-  privateKey: string
-  publicKey: string
+  privateKey: Hex
+  publicKey: Hex
 }
 
 /**
@@ -36,7 +37,7 @@ const formatHexString = (unformatted: string): string => unformatted.toLowerCase
  * @returns The snapshot representation of the wallet
  */
 const toWalletSnapshot = (wallet: Wallet): WalletSnapshot => {
-  const { address, path, privateKey, publicKey } = wallet
+  const { address, path, privateKey, publicKey } = wallet as WalletInstance
   return { address, path, privateKey, publicKey }
 }
 

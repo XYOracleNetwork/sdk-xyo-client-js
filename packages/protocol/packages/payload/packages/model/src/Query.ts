@@ -1,8 +1,10 @@
+import { Address } from '@xylabs/hex'
+
 import { Payload } from './Payload'
 
 export interface QueryFields {
   /** @field The addresses of the intended handlers */
-  address?: string | [string]
+  address?: Address | Address[]
 
   /** @field The maximum XYO that can be spent executing the query */
   budget?: number

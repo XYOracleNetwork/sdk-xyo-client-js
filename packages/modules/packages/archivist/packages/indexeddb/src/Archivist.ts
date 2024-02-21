@@ -89,7 +89,7 @@ export class IndexedDbArchivist<
     await this.useDb((db) => db.clear(this.storeName))
   }
 
-  protected override async deleteHandler(hashes: string[]): Promise<string[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(hashes))
     const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])
     // Remove any duplicates

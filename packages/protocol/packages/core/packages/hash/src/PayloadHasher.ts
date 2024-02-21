@@ -17,9 +17,18 @@ import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 const wasmSupportStatic = new WasmSupport(['bigInt'])
 
 export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
+  static allowHashPooling = true
   static allowSubtle = true
   static createBrowserWorker?: (url?: URL) => Worker | undefined
   static createNodeWorker?: (func?: () => unknown) => Worker | undefined
+
+  static initialized = (() => {
+    globalThis.xyo = globalThis.xyo ?? {}
+    if (globalThis.xyo.hashing) {
+      console.warn('Two static instances of PayloadHasher detected')
+    }
+    globalThis.xyo === globalThis.xyo ?? { hashing: PayloadHasher }
+  })()
 
   static jsHashWorkerUrl?: URL
   static subtleHashWorkerUrl?: URL
@@ -34,34 +43,55 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   // These get set to null if they fail to create and then we just don't use workers - needed for storybook
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _jsHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _subtleHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static _wasmHashPool?: Pool<ModuleThread<WorkerModule<any>>> | null
 
   private static get jsHashPool() {
-    if (this._jsHashPool === null) {
+    if (!this.allowHashPooling || this._jsHashPool === null) {
       return null
     }
-    return (this._jsHashPool = this._jsHashPool ?? this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null)
+    try {
+      return (this._jsHashPool = this._jsHashPool ?? (this.jsHashWorkerUrl ? this.createWorkerPool(this.jsHashWorkerUrl, jsHashFunc) : null))
+    } catch {
+      console.warn('Creating js hash worker failed')
+      this._jsHashPool = null
+      return null
+    }
   }
 
   private static get subtleHashPool() {
-    if (this._subtleHashPool === null) {
+    if (!this.allowHashPooling || this._subtleHashPool === null) {
       return null
     }
-    return (this._subtleHashPool =
-      this._subtleHashPool ?? this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null)
+    try {
+      return (this._subtleHashPool =
+        this._subtleHashPool ?? (this.subtleHashWorkerUrl ? this.createWorkerPool(this.subtleHashWorkerUrl, subtleHashFunc) : null))
+    } catch {
+      console.warn('Creating subtle hash worker failed')
+      this._subtleHashPool = null
+      return null
+    }
   }
 
   private static get wasmHashPool() {
-    if (this._wasmHashPool === null) {
+    if (!this.allowHashPooling || this._wasmHashPool === null) {
       return null
     }
-    return (this._wasmHashPool = this._wasmHashPool ?? this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null)
+    try {
+      return (this._wasmHashPool =
+        this._wasmHashPool ?? (this.wasmHashWorkerUrl ? this.createWorkerPool(this.wasmHashWorkerUrl, wasmHashFunc) : null))
+    } catch {
+      console.warn('Creating wasm hash worker failed')
+      this._wasmHashPool = null
+      return null
+    }
   }
 
   static createWorker(url?: URL, func?: () => unknown) {
+    if (url) console.debug(`createWorker: ${url}`)
     return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), 'Unable to create worker')
   }
 
@@ -119,7 +149,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns An array of payload/hash tuples
    */
   static async hashPairs<T extends EmptyObject>(objs: T[]): Promise<[T, Hash][]> {
-    return await Promise.all(objs.map<Promise<[T, string]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
+    return await Promise.all(objs.map<Promise<[T, Hash]>>(async (obj) => [obj, await PayloadHasher.hash(obj)]))
   }
 
   /**
@@ -145,8 +175,8 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
       console.warn('Using jsHash [No subtle or wasm?]')
     }
     const pool = this.jsHashPool
-    return pool === null
-      ? asHash(shajs('sha256').update(data).digest().toString('hex'), true)
+    return pool === null ?
+        asHash(shajs('sha256').update(data).digest().toString('hex'), true)
       : await pool.queue(async (thread) => await thread.hash(data))
   }
 
@@ -181,7 +211,9 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static createWorkerPool<T extends WorkerModule<any>>(url?: URL, func?: () => unknown, size = 8) {
-    return Pool(() => spawn<T>(this.createWorker(url, func)), size)
+    if (url) console.debug(`createWorkerPool: ${url}`)
+    const createFunc = () => spawn<T>(this.createWorker(url, func))
+    return Pool(createFunc, size)
   }
 
   async hash(): Promise<Hash> {

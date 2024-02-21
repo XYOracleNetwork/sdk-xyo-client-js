@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { EventListener } from '@xyo-network/module-events'
-import { AnyConfigSchema, Module, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
@@ -14,16 +15,16 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 {
   static override configSchemas = [NodeConfigSchema]
 
-  private registeredModuleMap: Record<string, ModuleInstance> = {}
+  private registeredModuleMap: Record<Address, ModuleInstance> = {}
 
-  override async attach(nameOrAddress: string, external?: boolean) {
+  override async attach(nameOrAddress: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
-    return (await this.attachUsingAddress(nameOrAddress, external)) ?? (await this.attachUsingName(nameOrAddress, external))
+    return (await this.attachUsingAddress(nameOrAddress as Address, external)) ?? (await this.attachUsingName(nameOrAddress, external))
   }
 
-  override async detach(nameOrAddress: string) {
+  override async detach(nameOrAddress: ModuleIdentifier) {
     await this.started('throw')
-    return (await this.detachUsingAddress(nameOrAddress)) ?? (await this.detachUsingName(nameOrAddress))
+    return (await this.detachUsingAddress(nameOrAddress as Address)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
   override async register(module: ModuleInstance) {
@@ -35,7 +36,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   override registered() {
-    return Object.keys(this.registeredModuleMap).map((key) => {
+    return (Object.keys(this.registeredModuleMap) as Address[]).map((key) => {
       return key
     })
   }
@@ -59,7 +60,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return super.startHandler()
   }
 
-  private async attachUsingAddress(address: string, external?: boolean) {
+  private async attachUsingAddress(address: Address, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
     assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
@@ -145,7 +146,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     }
   }
 
-  private async detachUsingAddress(address: string) {
+  private async detachUsingAddress(address: Address) {
     const module = this.registeredModuleMap[address]
 
     if (!module) {

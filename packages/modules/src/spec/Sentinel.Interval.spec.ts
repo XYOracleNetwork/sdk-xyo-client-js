@@ -10,6 +10,7 @@ import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { WithMeta } from '@xyo-network/payload-model'
 import { AdhocWitness } from '@xyo-network/witness-adhoc'
 
 import SentinelManifest from './Sentinel.Interval.spec.json'
@@ -91,7 +92,8 @@ describe('Sentinel.Interval', () => {
       schemas: ['network.xyo.module.state'],
     }
     const initialState = await addressStatePayloadDiviner?.divine([lastStateQuery])
-    const statePayloads = initialState?.filter((p): p is { offset?: number; schema: string } => p.schema === 'network.xyo.module.state') ?? []
+    const statePayloads =
+      initialState?.filter((p): p is WithMeta<{ offset?: number; schema: string }> => p.schema === 'network.xyo.module.state') ?? []
     const offset = statePayloads?.[0]?.offset ?? 0
     const payloadDiviner = asDivinerInstance(await node.resolve('PayloadDiviner'))
     const payloadDivinerQuery = {

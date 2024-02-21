@@ -115,7 +115,7 @@ export class CookieArchivist<
     }
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<string[]> {
+  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
     const payloadPairs = await PayloadBuilder.dataHashPairs(await this.get(hashes))
     const deletedPairs = compact(
       await Promise.all(

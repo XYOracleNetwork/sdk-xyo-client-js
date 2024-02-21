@@ -1,3 +1,4 @@
+import { Address, Hash } from '@xylabs/hex'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import type { Mnemonic } from 'ethers'
@@ -23,9 +24,9 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 export type AccountConfig = InitializationConfig & AccountOptions
 
 export interface AccountInstance extends KeyPairInstance {
-  address: string
-  addressBytes: ArrayBuffer
-  previousHash: string | undefined
+  readonly address: Address
+  readonly addressBytes: ArrayBuffer
+  previousHash: Hash | undefined
   previousHashBytes: ArrayBuffer | undefined
   sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => ArrayBuffer | Promise<ArrayBuffer>
   verify: (msg: ArrayBuffer, signature: ArrayBuffer) => boolean | Promise<boolean>

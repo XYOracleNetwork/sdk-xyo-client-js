@@ -1,4 +1,5 @@
 export * from './asModuleInstance'
 export * from './isModuleInstance'
+export * from './ModuleIdentifier'
 export * from './ModuleInstance'
 export * from './ModuleRepository'

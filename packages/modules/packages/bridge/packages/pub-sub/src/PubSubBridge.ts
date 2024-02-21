@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
@@ -27,7 +28,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 {
   static override configSchemas = [PubSubBridgeConfigSchema]
 
-  protected _configRootAddress: string = ''
+  protected _configRootAddress: Address = ''
   protected _configStateStoreArchivist: string = ''
   protected _configStateStoreBoundWitnessDiviner: string = ''
   protected _discoverCache?: LRUCache<string, Payload[]>
@@ -108,15 +109,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return true
   }
 
-  override getRootAddress(): string {
+  override getRootAddress(): Address {
     return this.rootAddress
   }
 
-  override targetConfig(address: string): ModuleConfig {
+  override targetConfig(address: Address): ModuleConfig {
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  override async targetDiscover(address?: string | undefined, _maxDepth?: number | undefined): Promise<Payload[]> {
+  override async targetDiscover(address?: Address | undefined, _maxDepth?: number | undefined): Promise<Payload[]> {
     if (!this.connected) throw new Error('Not connected')
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root ')
@@ -154,7 +155,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return []
   }
 
-  override async targetManifest(address: string, maxDepth?: number | undefined): Promise<ModuleManifestPayload> {
+  override async targetManifest(address: Address, maxDepth?: number | undefined): Promise<ModuleManifestPayload> {
     const addressToCall = address ?? this.getRootAddress()
     const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
@@ -165,19 +166,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     ) as ModuleManifestPayload
   }
 
-  override targetQueries(address: string): string[] {
+  override targetQueries(address: Address): string[] {
     if (!this.connected) throw new Error('Not connected')
     return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
-  override async targetQuery(address: string, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
+  override async targetQuery(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
     const bus = this.busClient()
     return bus.send(address, query, payloads)
   }
 
-  override targetQueryable(_address: string, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
+  override targetQueryable(_address: Address, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
     return true
   }
 

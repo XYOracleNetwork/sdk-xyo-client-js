@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -20,6 +21,7 @@ import {
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
@@ -34,7 +36,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   connected = false
 
-  protected _targetDownResolvers: Record<string, BridgeModuleResolver> = {}
+  protected _targetDownResolvers: Record<Address, BridgeModuleResolver> = {}
 
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
@@ -49,9 +51,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: string, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | string,
+    nameOrAddress: ModuleIdentifier,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | undefined>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'down'
@@ -74,7 +79,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   targetDownResolver<T extends ModuleInstance = ModuleInstance>(
-    address?: string,
+    address?: Address,
     options?: ModuleFilterOptions<T>,
   ): BridgeModuleResolver<T> | undefined {
     if (!this.connected) {
@@ -86,23 +91,25 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: string,
+    address: Address,
     filter?: ModuleFilter<T>,
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance[]>
   async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: string,
-    nameOrAddress: string,
+    address: Address,
+    nameOrAddress: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance | undefined>
   async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: string,
-    nameOrAddressOrFilter?: ModuleFilter | string,
+    address: Address,
+    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    return typeof nameOrAddressOrFilter === 'string'
-      ? await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
-      : (await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
+    return (
+      (typeof nameOrAddressOrFilter === 'string' ?
+        await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
+      : await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
+    )
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
@@ -136,17 +143,17 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract connect(): Promisable<boolean>
   abstract disconnect(): Promisable<boolean>
 
-  abstract getRootAddress(): Promisable<string>
+  abstract getRootAddress(): Promisable<Address>
 
-  abstract targetConfig(address: string): ModuleConfig
+  abstract targetConfig(address: Address): ModuleConfig
 
-  abstract targetDiscover(address?: string, maxDepth?: number): Promisable<Payload[]>
+  abstract targetDiscover(address?: Address, maxDepth?: number): Promisable<Payload[]>
 
-  abstract targetManifest(address: string, maxDepth?: number): Promisable<ModuleManifestPayload>
+  abstract targetManifest(address: Address, maxDepth?: number): Promisable<ModuleManifestPayload>
 
-  abstract targetQueries(address: string): string[]
+  abstract targetQueries(address: Address): string[]
 
-  abstract targetQuery(address: string, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
+  abstract targetQuery(address: Address, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
 
-  abstract targetQueryable(address: string, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
+  abstract targetQueryable(address: Address, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
 }

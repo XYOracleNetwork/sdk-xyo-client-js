@@ -1,6 +1,9 @@
+import { Address } from '@xylabs/hex'
+
+import { ModuleName } from './instance'
 export interface ModuleDescription {
-  address: string
+  address: Address
   children?: string[]
-  name?: string
+  name?: ModuleName
   queries: string[]
 }

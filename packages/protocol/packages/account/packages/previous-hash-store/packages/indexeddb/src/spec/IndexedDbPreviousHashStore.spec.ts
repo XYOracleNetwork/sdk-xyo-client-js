@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Address } from '@xylabs/hex'
 import {
   IDBCursor,
   IDBCursorWithValue,
@@ -48,14 +49,14 @@ describe('IndexedDbPreviousHashStore', () => {
   describe('getItem', () => {
     it('with no value returns null', async () => {
       const store = new IndexedDbPreviousHashStore()
-      const address = uuid()
+      const address = uuid().toLowerCase() as Address
       expect(await store.getItem(address)).toBe(null)
     })
   })
   describe('round trip storage', () => {
     it('sets/retrieves an item', async () => {
       const store = new IndexedDbPreviousHashStore()
-      const address = uuid()
+      const address = uuid().toLowerCase() as Address
       await store.setItem(address, previousHash)
       expect(await store.getItem(address)).toBe(previousHash)
     })
@@ -63,7 +64,7 @@ describe('IndexedDbPreviousHashStore', () => {
   describe('removeItem', () => {
     it('removes an item', async () => {
       const store = new IndexedDbPreviousHashStore()
-      const address = uuid()
+      const address = uuid().toLowerCase() as Address
       await store.setItem(address, previousHash)
       expect(await store.getItem(address)).toBe(previousHash)
       await store.removeItem(address)

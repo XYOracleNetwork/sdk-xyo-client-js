@@ -1,5 +1,5 @@
 import { assertEx } from '@xylabs/assert'
-import { Hash } from '@xylabs/hex'
+import { Address, Hash } from '@xylabs/hex'
 import { isObject } from '@xylabs/object'
 import { asBoundWitness, BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessValidator } from '@xyo-network/boundwitness-validator'
@@ -51,7 +51,7 @@ export class BoundWitnessWrapper<
     return value instanceof BoundWitnessWrapper ? (value as BoundWitnessWrapper<T>) : undefined
   }
 
-  static async load(address: string) {
+  static async load(address: Address) {
     const wrapper = await PayloadWrapper.load(address)
     const payload = wrapper?.payload
     assertEx(payload && isBoundWitness(payload), 'Attempt to load non-boundwitness')
@@ -138,8 +138,9 @@ export class BoundWitnessWrapper<
       const innerBoundwitnessPayload = asBoundWitness<WithMeta<TBoundWitness>>(
         (await PayloadBuilder.toDataHashMap(this.payloads))[innerBoundwitnessHash],
       )
-      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined = innerBoundwitnessPayload
-        ? new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
+      const innerBoundwitness: BoundWitnessWrapper<TBoundWitness> | undefined =
+        innerBoundwitnessPayload ?
+          new BoundWitnessWrapper<TBoundWitness>(innerBoundwitnessPayload, await PayloadBuilder.filterExclude(this.payloads, innerBoundwitnessHash))
         : undefined
       if (innerBoundwitness) {
         return innerBoundwitness.dig(depth ? depth - 1 : undefined)
@@ -168,12 +169,12 @@ export class BoundWitnessWrapper<
     return result
   }
 
-  async payloadsByDataHashes(hashes: string[]): Promise<TPayload[]> {
+  async payloadsByDataHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsDataHashMap()
     return hashes.map((hash) => assertEx(map[hash], 'Hash not found') as TPayload)
   }
 
-  async payloadsByHashes(hashes: string[]): Promise<TPayload[]> {
+  async payloadsByHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsHashMap()
     return hashes.map((hash) => assertEx(map[hash], 'Hash not found') as TPayload)
   }
@@ -192,7 +193,7 @@ export class BoundWitnessWrapper<
     return this._payloadMap
   }
 
-  prev(address: string) {
+  prev(address: Address) {
     return this.previousHashes[this.addresses.indexOf(address)]
   }
 

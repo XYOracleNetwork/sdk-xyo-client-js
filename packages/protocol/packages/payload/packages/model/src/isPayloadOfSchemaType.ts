@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { isAnyPayload } from './isPayload'
 import { WithMeta } from './Meta'
 import { Payload } from './Payload'

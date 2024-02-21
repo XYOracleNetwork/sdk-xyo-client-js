@@ -1,3 +1,4 @@
+import { Address, Hash } from '@xylabs/hex'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { DBSchema, IDBPDatabase, openDB } from 'idb'
 
@@ -32,14 +33,14 @@ export class IndexedDbPreviousHashStore implements PreviousHashStore {
     return 'previous-hash' as const
   }
 
-  async getItem(address: string): Promise<string | null> {
-    const value = await (await this.db).get(this.storeName, address)
+  async getItem(address: Address): Promise<Hash | null> {
+    const value = (await (await this.db).get(this.storeName, address)) as Hash
     return value ?? null
   }
-  async removeItem(address: string): Promise<void> {
+  async removeItem(address: Address): Promise<void> {
     await (await this.db).delete(this.storeName, address)
   }
-  async setItem(address: string, previousHash: string): Promise<void> {
+  async setItem(address: Address, previousHash: string): Promise<void> {
     await (await this.db).put(this.storeName, previousHash, address)
   }
 }

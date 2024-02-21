@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Hash } from '@xylabs/hex'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
@@ -87,7 +88,7 @@ export abstract class StatefulDiviner<
    */
   protected async retrieveState(): Promise<WithMeta<ModuleState<TState>> | undefined> {
     if (this._lastState) return this._lastState
-    let hash: string = ''
+    let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStateStore()
     const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
@@ -109,7 +110,7 @@ export abstract class StatefulDiviner<
           // eslint-disable-next-line unicorn/no-array-reduce
           .reduce(
             (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),
-            '',
+            '' as Hash,
           )
       }
     }

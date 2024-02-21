@@ -1,14 +1,15 @@
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
-import { Module, ModuleEventData, ModuleInstance } from '@xyo-network/module-model'
+import { Module, ModuleEventData, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
 import { NodeParams } from './Params'
 
 export interface NodeQueryFunctions {
-  attach(nameOrAddress: string, external?: boolean): Promisable<string | undefined>
-  attached(): Promisable<string[]>
-  detach(nameOrAddress: string): Promisable<string | undefined>
-  registered(): Promisable<string[]>
+  attach(nameOrAddress: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>
+  attached(): Promisable<Address[]>
+  detach(nameOrAddress: ModuleIdentifier): Promisable<Address | undefined>
+  registered(): Promisable<Address[]>
 }
 
 export interface NodeModuleEventData

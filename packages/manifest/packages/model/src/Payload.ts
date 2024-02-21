@@ -7,6 +7,7 @@ export const ModuleManifestPayloadSchema: ModuleManifestPayloadSchema = 'network
 export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 
+import { Address } from '@xylabs/hex'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export interface Manifest {
@@ -38,7 +39,7 @@ export interface ModuleManifest extends Manifest {
   config: ConfigManifest
   lazyStart?: boolean
   status?: {
-    address: string
+    address: Address
   }
 }
 

@@ -8,6 +8,6 @@ export interface PrivateKeyInstance extends EllipticKeyInstance {
 }
 
 export interface PrivateKeyStatic {
-  new (value?: ArrayBuffer): PrivateKeyInstance
+  new (value: ArrayBuffer): PrivateKeyInstance
   isPrivateKey(value: unknown): boolean
 }

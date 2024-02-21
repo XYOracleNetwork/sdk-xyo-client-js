@@ -182,7 +182,7 @@ export abstract class AbstractArchivist<
     let parentIndex = 0
     let result: WithMeta<Payload>[] = []
 
-    //intentionally doing this serially
+    // NOTE: intentionally doing this serially
     while (parentIndex < parents.length && remainingHashes.length > 0) {
       const [found, notfound] = await this.getFromParent(remainingHashes, parents[parentIndex])
       result = [...result, ...found]
@@ -198,15 +198,18 @@ export abstract class AbstractArchivist<
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // Filter out duplicates
-    const uniqueHashes = hashes.filter(distinct)
+    const uniqueHashes: Hash[] = hashes.filter(distinct)
+    // Find the payloads in the store
     const gotten = await this.getHandler(uniqueHashes)
-    const map = await PayloadBuilder.toHashMap(gotten)
-    const dataMap = await PayloadBuilder.toDataHashMap(gotten)
+    // Build dictionaries of the payloads hashes/dataHashes
+    const [hashMap, dataHashMap] = await Promise.all([PayloadBuilder.toHashMap(gotten), PayloadBuilder.toDataHashMap(gotten)])
 
+    // NOTE: Doing this prevents us from having archivists send us
+    // payloads we didn't ask for, but removes the natural ordering.
     const foundPayloads: WithMeta<Payload>[] = []
     const notfoundHashes: Hash[] = []
     for (const hash of uniqueHashes) {
-      const found = map[hash] ?? dataMap[hash]
+      const found = hashMap[hash] ?? dataHashMap[hash]
       if (found) {
         foundPayloads.push(found)
       } else {

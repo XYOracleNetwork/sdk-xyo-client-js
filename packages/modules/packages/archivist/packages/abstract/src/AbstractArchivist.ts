@@ -198,7 +198,7 @@ export abstract class AbstractArchivist<
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // Filter out duplicates
-    const requestedHashes: Set<Hash> = new Set(hashes as Iterable<Hash>)
+    const requestedHashes: Set<Hash> = new Set(hashes)
     // Find the payloads in the store
     const gotten = await this.getHandler([...requestedHashes])
 
@@ -225,7 +225,7 @@ export abstract class AbstractArchivist<
         console.warn(`Archivist returned payload with hash not asked for: ${hash}`)
       }
     }
-    const notfound = [...difference<Hash>(requestedHashes, foundHashes)]
+    const notfound = [...difference(requestedHashes, foundHashes)]
     const [parentFoundPayloads] = await this.getFromParents(notfound)
 
     if (this.storeParentReads) {

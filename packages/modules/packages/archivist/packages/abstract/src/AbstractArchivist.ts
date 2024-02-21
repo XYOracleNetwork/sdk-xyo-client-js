@@ -202,17 +202,26 @@ export abstract class AbstractArchivist<
     // Find the payloads in the store
     const gotten = await this.getHandler(uniqueHashes)
 
-    // NOTE: Doing this prevents us from having archivists send us
-    // payloads we didn't ask for, but removes the natural ordering.
+    // Verify archivist sent only request payloads
     const foundPayloads = []
-    const notfoundHashes: Hash[] = []
+    // Keep track of the ones it did not find
+    let notfoundHashes: Hash[] = [...uniqueHashes]
     for (const payload of gotten) {
       const [hash, dataHash] = await Promise.all([PayloadBuilder.hash(payload), PayloadBuilder.dataHash(payload)])
-      const found = uniqueHashes.includes(hash) || uniqueHashes.includes(dataHash)
+      let found = false
+      if (uniqueHashes.includes(hash)) {
+        found = true
+        notfoundHashes = notfoundHashes.filter((h) => h !== hash)
+      }
+      if (uniqueHashes.includes(dataHash)) {
+        found = true
+        notfoundHashes = notfoundHashes.filter((h) => h !== dataHash)
+      }
+
       if (found) {
         foundPayloads.push(payload)
       } else {
-        notfoundHashes.push(hash)
+        console.warn(`Archivist returned payload with hash not asked for: ${hash}`)
       }
     }
 

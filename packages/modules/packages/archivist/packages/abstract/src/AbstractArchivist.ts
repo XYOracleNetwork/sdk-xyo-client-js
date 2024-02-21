@@ -198,7 +198,7 @@ export abstract class AbstractArchivist<
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
     // Filter out duplicates
-    const requestedHashes = new Set<Hash>(hashes)
+    const requestedHashes = new Set(hashes)
 
     // Attempt to find the payloads in the store
     const gotten = await this.getHandler([...requestedHashes])
@@ -219,7 +219,7 @@ export abstract class AbstractArchivist<
       const map = await PayloadBuilder.toAllHashMap([payload])
       let requestedPayloadFound = false
       for (const [key, payload] of Object.entries(map)) {
-        const hash = key as Hash
+        const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
         // If this hash was requested
         if (requestedHashes.has(hash)) {
           // Indicate that we found it (but do not insert it yet). Since

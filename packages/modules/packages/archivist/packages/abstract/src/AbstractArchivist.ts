@@ -1,3 +1,4 @@
+import { distinct } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
@@ -196,13 +197,15 @@ export abstract class AbstractArchivist<
   }
 
   protected async getWithConfig(hashes: Hash[], _config?: InsertConfig): Promise<WithMeta<Payload>[]> {
-    const gotten = await this.getHandler(hashes)
+    // Filter out duplicates
+    const uniqueHashes = hashes.filter(distinct)
+    const gotten = await this.getHandler(uniqueHashes)
     const map = await PayloadBuilder.toHashMap(gotten)
     const dataMap = await PayloadBuilder.toDataHashMap(gotten)
 
     const foundPayloads: WithMeta<Payload>[] = []
     const notfoundHashes: Hash[] = []
-    for (const hash of hashes) {
+    for (const hash of uniqueHashes) {
       const found = map[hash] ?? dataMap[hash]
       if (found) {
         foundPayloads.push(found)

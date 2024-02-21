@@ -57,6 +57,17 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
   return sources
 }
 
+const shuffleArray = <T>(array: Array<T>) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    // Generate a random index between 0 and i
+    const j = Math.floor(Math.random() * (i + 1))
+
+    // Swap elements at indices i and j
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
 describe('IndexedDbArchivist', () => {
   const account = Account.randomSync()
   describe('config', () => {
@@ -178,6 +189,13 @@ describe('IndexedDbArchivist', () => {
         const resultHash = await PayloadWrapper.wrap(getResult[0]).dataHash()
         expect(resultHash).toBe(sourceHash)
       }
+    })
+    it('returned by order of insertion', async () => {
+      const shuffled = shuffleArray(sources)
+      const sourceHashes = await Promise.all(shuffled.map((source) => PayloadBuilder.dataHash(source)))
+      const getResult = await archivistModule.get(sourceHashes)
+      expect(getResult.length).toBe(sourceHashes.length)
+      expect(getResult).toBeDefined()
     })
     it('returns nothing for non-existing hashes', async () => {
       const hashThatDoesNotExist = '0000000000000000000000000000000000000000000000000000000000000000'

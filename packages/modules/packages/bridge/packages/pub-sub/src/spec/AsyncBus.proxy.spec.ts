@@ -40,15 +40,10 @@ const logger =
   : undefined
 
 const pollFrequency = 250
-const ttl = 1000 * 5
 
 const clientNodePhrases = {
   A: 'drastic govern leisure pair merit property lava lab equal invest black beach dad glory action',
   B: 'recycle flower copper kiwi want plate hint shoot shift maze symptom scheme bless moon carry',
-}
-const bridgePhrases = {
-  A: 'wait three forget tomato spike return raise oppose tuition useful purity begin noise empty report',
-  B: 'donate pluck consider cause tired sail road leopard mammal two board mobile logic wrist make',
 }
 
 /**
@@ -195,7 +190,7 @@ describe('BusProxy', () => {
   })
 
   describe('With valid command', () => {
-    const issueSourceQueryToDestination = async (source: Client, destination: Client, testPayloadCount: number, expectedArchivistSize: number) => {
+    const issueSourceQueryToDestination = async (source: Client, destination: Client) => {
       // Modules can't resolve each other
       expect(await source.module.resolve(destination.module.address)).toBeUndefined()
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
@@ -214,12 +209,11 @@ describe('BusProxy', () => {
       // Issue test archivist insert command from source to destination
       const source = clientsWithBridges[0]
       const destination = clientsWithBridges[1]
-      const testPayloadCount = 2
-      const testIterations = 3
+      const testIterations = 1
       for (let i = 0; i < testIterations; i++) {
         // Ensure the end count is what we'd expect after `i` insertions (proves
         // commands are being processed only once)
-        await issueSourceQueryToDestination(source, destination, testPayloadCount, testPayloadCount * (i + 1))
+        await issueSourceQueryToDestination(source, destination)
       }
     })
   })

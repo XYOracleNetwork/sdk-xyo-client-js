@@ -16,8 +16,8 @@ import { AsyncQueryBusClientParams } from './Params'
 
 export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = AsyncQueryBusClientParams> extends AsyncQueryBusBase<TParams> {
   protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>
-  private _pollId?: string
   private _pollCount = 0
+  private _pollId?: string
 
   constructor(params: TParams) {
     super(params)

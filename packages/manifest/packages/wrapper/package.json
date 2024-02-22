@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^3.0.2",
+    "@xylabs/assert": "^3.0.3",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/http-bridge": "workspace:~",
@@ -74,6 +74,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.91.1",
+  "version": "2.91.2",
   "type": "module"
 }

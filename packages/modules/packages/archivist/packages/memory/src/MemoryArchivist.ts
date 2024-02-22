@@ -72,8 +72,8 @@ export class MemoryArchivist<
     ]
   }
 
-  protected override async allHandler(): Promise<PayloadWithMeta[]> {
-    const all = compact(await Promise.all(this.cache.dump().map(([, item]) => item.value)))
+  protected override allHandler(): Promisable<PayloadWithMeta[]> {
+    const all = compact(this.cache.dump().map(([, item]) => item.value))
     return sortByStorageMeta(all).map((payload) => removeStorageMeta(payload))
   }
 
@@ -126,13 +126,11 @@ export class MemoryArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-    const insertedPayloads = await Promise.all(
-      pairs.map(([payload, hash]) => {
-        return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash)
-      }),
-    )
+    const insertedPayloads = pairs.map(([payload, hash]) => {
+      return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash)
+    })
 
-    return insertedPayloads
+    return removeStorageMeta(insertedPayloads)
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
@@ -142,10 +140,10 @@ export class MemoryArchivist<
     return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))
   }
 
-  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): PayloadWithMeta {
+  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): WithStorageMeta<PayloadWithMeta> {
     const withMeta = addStorageMeta(payload, index)
     this.cache.set(hash, withMeta)
     this.bodyHashIndex.set(withMeta.$hash, hash)
-    return payload
+    return withMeta
   }
 }

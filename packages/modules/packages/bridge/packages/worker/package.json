@@ -11,14 +11,14 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.2.2",
-    "@xylabs/assert": "^3.0.2",
-    "@xylabs/delay": "^3.0.2",
-    "@xylabs/forget": "^3.0.2",
-    "@xylabs/hex": "^3.0.2",
-    "@xylabs/lodash": "^3.0.2",
-    "@xylabs/logger": "^3.0.2",
-    "@xylabs/object": "^3.0.2",
-    "@xylabs/promise": "^3.0.2",
+    "@xylabs/assert": "^3.0.3",
+    "@xylabs/delay": "^3.0.3",
+    "@xylabs/forget": "^3.0.3",
+    "@xylabs/hex": "^3.0.3",
+    "@xylabs/lodash": "^3.0.3",
+    "@xylabs/logger": "^3.0.3",
+    "@xylabs/object": "^3.0.3",
+    "@xylabs/promise": "^3.0.3",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -70,6 +70,6 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.91.1",
+  "version": "2.91.2",
   "type": "module"
 }

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { AnyObject, isJsonObject, JsonObject } from '@xylabs/object'
+import { AnyObject, isJsonObject, JsonObject, toJson } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
@@ -24,7 +24,10 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
   ): Promisable<Omit<T, '$hash' | '$meta'>> {
     const cleanFields = fields ? removeEmptyFields(fields) : undefined
-    assertEx(cleanFields === undefined || isJsonObject(cleanFields), 'Fields must be JsonObject')
+    assertEx(
+      cleanFields === undefined || isJsonObject(cleanFields),
+      () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
+    )
     return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...cleanFields }, '$'), '_') as T
   }
 

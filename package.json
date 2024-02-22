@@ -21,7 +21,7 @@
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
     "@xylabs/eslint-config": "^3.4.1",
-    "@xylabs/forget": "^3.0.2",
+    "@xylabs/forget": "^3.0.3",
     "@xylabs/ts-scripts-yarn3": "^3.4.1",
     "@xylabs/tsconfig": "^3.4.1",
     "@xylabs/tsconfig-dom-jest": "^3.4.1",
@@ -113,7 +113,7 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.91.1",
+  "version": "2.91.2",
   "packageManager": "yarn@4.0.2",
   "volta": {
     "node": "18.19.0",

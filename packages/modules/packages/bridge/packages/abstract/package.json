@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.2",
-    "@xylabs/promise": "^3.0.2",
+    "@xylabs/hex": "^3.0.3",
+    "@xylabs/promise": "^3.0.3",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
@@ -65,6 +65,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.91.1",
+  "version": "2.91.2",
   "type": "module"
 }

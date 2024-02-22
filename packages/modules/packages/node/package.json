@@ -16,7 +16,7 @@
     "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^3.0.2",
+    "@xylabs/delay": "^3.0.3",
     "@xylabs/ts-scripts-yarn3": "^3.4.1",
     "@xylabs/tsconfig": "^3.4.1",
     "@xyo-network/account": "workspace:~",
@@ -72,6 +72,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.91.1",
+  "version": "2.91.2",
   "type": "module"
 }

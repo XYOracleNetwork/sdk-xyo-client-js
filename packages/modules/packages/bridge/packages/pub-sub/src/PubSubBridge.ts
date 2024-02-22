@@ -15,7 +15,7 @@ import {
 import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusClient, AsyncQueryBusServer } from './AsyncQueryBus'
+import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
 
@@ -37,7 +37,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _targetQueries: Record<string, string[]> = {}
 
   private _busClient?: AsyncQueryBusClient
-  private _busServer?: AsyncQueryBusServer
+  private _busHost?: AsyncQueryBusHost
 
   get discoverCache() {
     const config = this.discoverCacheConfig
@@ -185,7 +185,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected busClient() {
     if (!this._busClient) {
       this._busClient = new AsyncQueryBusClient({
-        config: this.config,
+        config: this.config.client,
         logger: this.logger,
         resolver: this,
       })
@@ -193,27 +193,25 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return this._busClient
   }
 
-  protected busServer() {
-    if (!this._busServer) {
-      this._busServer = new AsyncQueryBusServer({
-        config: this.config,
+  protected busHost() {
+    if (!this._busHost) {
+      this._busHost = new AsyncQueryBusHost({
+        config: this.config.host,
         logger: this.logger,
         resolver: this,
       })
     }
-    return this._busServer
+    return this._busHost
   }
 
   protected override async startHandler(): Promise<boolean> {
     await Promise.resolve(this.connect())
-    this.busServer().start()
-    this.busClient().start()
+    this.busHost().start()
     return true
   }
 
   protected override stopHandler(_timeout?: number | undefined) {
-    this.busClient().stop()
-    this.busServer().stop()
+    this.busHost().stop()
     return true
   }
 }

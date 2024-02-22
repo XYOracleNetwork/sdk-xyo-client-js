@@ -10,7 +10,7 @@ import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
-import { AsyncQueryBusClient, AsyncQueryBusConfig, AsyncQueryBusModuleHost, AsyncQueryBusModuleProxy } from '../AsyncQueryBus'
+import { AsyncQueryBusClient, AsyncQueryBusClientConfig, AsyncQueryBusHost, AsyncQueryBusModuleProxy } from '../AsyncQueryBus'
 
 interface IntermediateNode {
   node: MemoryNode
@@ -27,7 +27,7 @@ interface Client {
   stateStoreBoundWitnessDiviner: DivinerInstance
 }
 
-const useDebugLogging = true
+const useDebugLogging = false
 const logger =
   useDebugLogging ?
     {
@@ -55,8 +55,8 @@ const bridgePhrases = {
  * @group module
  * @group bridge
  */
-describe.skip('BusProxy', () => {
-  let host: AsyncQueryBusModuleHost
+describe('BusProxy', () => {
+  let host: AsyncQueryBusHost
   let bridgeClient: AsyncQueryBusClient
   let intermediateNode: IntermediateNode
   const clientsWithBridges: Client[] = []
@@ -137,15 +137,24 @@ describe.skip('BusProxy', () => {
     const clientInfo = clients[0]
     clientsWithBridges.push(clients[0])
 
+    const clearingHouse = {
+      queries: { archivist: queryArchivist.address, boundWitnessDiviner: queryBoundWitnessDiviner.address },
+      responses: { archivist: responseArchivist.address, boundWitnessDiviner: responseBoundWitnessDiviner.address },
+    }
+
+    const clientStateStore = {
+      archivist: clientInfo.stateStoreArchivist.address,
+      boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address,
+    }
+
     bridgeClient = new AsyncQueryBusClient({
       resolver: clientInfo.module,
       logger,
       config: {
         pollFrequency,
-        queries: { archivist: queryArchivist.address, boundWitnessDiviner: queryBoundWitnessDiviner.address },
-        responses: { archivist: responseArchivist.address, boundWitnessDiviner: responseBoundWitnessDiviner.address },
-        stateStore: { archivist: clientInfo.stateStoreArchivist.address, boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address },
-      } satisfies AsyncQueryBusConfig,
+        clearingHouse,
+        stateStore: clientStateStore,
+      } satisfies AsyncQueryBusClientConfig,
     })
 
     const clientNode = clients[0].node
@@ -160,14 +169,18 @@ describe.skip('BusProxy', () => {
     const hostInfo = clients[1]
     clientsWithBridges.push(clients[1])
 
-    host = new AsyncQueryBusModuleHost({
-      module: hostInfo.module as ModuleInstance,
+    const hostStateStore = {
+      archivist: clientInfo.stateStoreArchivist.address,
+      boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address,
+    }
+
+    host = new AsyncQueryBusHost({
+      resolver: hostInfo.module,
       logger,
       config: {
         pollFrequency,
-        queries: { archivist: queryArchivist.address, boundWitnessDiviner: queryBoundWitnessDiviner.address },
-        responses: { archivist: responseArchivist.address, boundWitnessDiviner: responseBoundWitnessDiviner.address },
-        stateStore: { archivist: hostInfo.stateStoreArchivist.address, boundWitnessDiviner: hostInfo.stateStoreBoundWitnessDiviner.address },
+        clearingHouse,
+        stateStore: hostStateStore,
       },
     })
 
@@ -181,16 +194,16 @@ describe.skip('BusProxy', () => {
     host.stop()
   })
 
-  describe.skip('With valid command', () => {
+  describe('With valid command', () => {
     const issueSourceQueryToDestination = async (source: Client, destination: Client, testPayloadCount: number, expectedArchivistSize: number) => {
       // Modules can't resolve each other
       expect(await source.module.resolve(destination.module.address)).toBeUndefined()
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
-      await host.start()
-
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
       const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, queries: [], bridgeClient })
+
+      host.start()
 
       const m = await proxy.manifest()
       expect(m).toBeDefined()

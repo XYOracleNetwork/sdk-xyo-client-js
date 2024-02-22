@@ -1,4 +1,5 @@
 import { CacheConfig } from '@xyo-network/bridge-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
 
 export const Pending = 'pending' as const
 export type Pending = typeof Pending
@@ -6,67 +7,56 @@ export type Pending = typeof Pending
 /**
  * Configuration for searchable storage of local state
  */
-export interface SearchableStorage<TArchivist = string, TDiviner = string> {
+export interface SearchableStorage {
   /**
    * Name/Address of the archivist where intermediate communications are stored
    */
-  archivist: TArchivist
+  archivist: ModuleIdentifier
   /**
    * Name/Address of the diviner where intermediate communications are filtered
    */
-  boundWitnessDiviner: TDiviner
+  boundWitnessDiviner: ModuleIdentifier
 }
 
-/**
- * Configuration for the mutually accessible
- * modules between the modules being connected
- */
-export interface Intermediary<TArchivist = string, TDiviner = string> {
+export interface AsyncQueryBusClearingHouseConfig {
   /**
-   * Name/Address of the archivist where intermediate communications are stored
+   * Configuration for intermediary query storage
    */
-  archivist: TArchivist
+  queries?: SearchableStorage
+
   /**
-   * Name/Address of the diviner where intermediate communications are filtered
+   * Configuration for intermediary response storage
    */
-  boundWitnessDiviner: TDiviner
+  responses?: SearchableStorage
 }
 
-export interface AsyncQueryBusConfig<TArchivist = string, TDiviner = string> {
-  /**
-   * How many queries to process at once when retrieving queries
-   * for an address
-   */
-  individualAddressBatchQueryLimit?: number
-
-  listeningModules?: string[]
+export interface AsyncQueryBusBaseConfig {
+  clearingHouse?: AsyncQueryBusClearingHouseConfig
 
   /**
    * How often to poll for new queries/responses
    */
   pollFrequency?: number
-  /**
-   * Configuration for intermediary query storage
-   */
-  queries?: Intermediary<TArchivist, TDiviner>
-
-  /**
-   * Configuration for intermediary response storage
-   */
-  queryCache?: CacheConfig | true
-
-  /**
-   * Configuration for intermediary response storage
-   */
-  responses?: Intermediary<TArchivist, TDiviner>
-
-  /**
-   * The root address to connect the bridge to
-   */
-  rootAddress?: string
 
   /**
    * Where the archivist should persist its internal state
    */
-  stateStore?: SearchableStorage<TArchivist, TDiviner>
+  stateStore?: SearchableStorage
+}
+
+export interface AsyncQueryBusClientConfig extends AsyncQueryBusBaseConfig {
+  /**
+   * Configuration for intermediary response storage
+   */
+  queryCache?: CacheConfig | true
+}
+
+export interface AsyncQueryBusHostConfig extends AsyncQueryBusBaseConfig {
+  listeningModules?: string[]
+
+  /**
+   * How many queries to process at once when retrieving queries
+   * for an address
+   */
+  perAddressBatchQueryLimit?: number
 }

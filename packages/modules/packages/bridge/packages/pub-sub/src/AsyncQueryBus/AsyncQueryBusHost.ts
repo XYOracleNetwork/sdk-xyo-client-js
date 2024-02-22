@@ -6,30 +6,36 @@ import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/bou
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { WithMeta } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
-import { AsyncQueryBusParams } from './Params'
+import { Pending } from './Config'
+import { AsyncQueryBusHostParams } from './Params'
 
-export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends AsyncQueryBusBase<TParams> {
+export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   private _pollId?: string
 
   constructor(params: TParams) {
     super(params)
   }
 
+  get perAddressBatchQueryLimit(): number {
+    return this.config?.perAddressBatchQueryLimit ?? 10
+  }
+
   get started() {
     return !!this._pollId
   }
 
-  async listeningModules() {
+  async listeningModules(): Promise<ModuleInstance[]> {
     const mods =
-      this.config.listeningModules ?
+      this.config?.listeningModules ?
         await Promise.all(
           this.config.listeningModules.map(async (listeningModule) =>
             assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
           ),
         )
-      : await this.resolver.resolve({ direction: 'all' })
+      : await this.resolver.resolve(undefined, { direction: 'down' })
     return mods
   }
 
@@ -48,32 +54,33 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
     this._pollId = undefined
   }
 
-  protected callLocalModule = async (localModule: ModuleInstance, command: QueryBoundWitness) => {
+  protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
+    //console.log(`callLocalModule: ${query.$hash}`)
     const localModuleName = localModule.config.name ?? localModule.address
     const queryArchivist = await this.queriesArchivist()
     const responseArchivist = await this.responsesArchivist()
-    const commandDestination = (command.$meta as { destination?: string[] })?.destination
+    const commandDestination = (query.$meta as { destination?: string[] })?.destination
     if (commandDestination && commandDestination?.includes(localModule.address)) {
       // Find the query
-      const queryIndex = command.payload_hashes.indexOf(command.query)
+      const queryIndex = query.payload_hashes.indexOf(query.query)
       if (queryIndex !== -1) {
-        const querySchema = command.payload_schemas[queryIndex]
+        const querySchema = query.payload_schemas[queryIndex]
         // If the destination can process this type of query
         if (localModule.queries.includes(querySchema)) {
           // Get the associated payloads
-          const commandPayloads = await queryArchivist.get(command.payload_hashes)
+          const commandPayloads = await queryArchivist.get(query.payload_hashes)
           const commandPayloadsDict = await PayloadBuilder.toAllHashMap(commandPayloads)
-          const commandHash = (await PayloadBuilder.build(command)).$hash
+          const commandHash = (await PayloadBuilder.build(query)).$hash
           // Check that we have all the arguments for the command
-          if (!containsAll(Object.keys(commandPayloadsDict), command.payload_hashes)) {
+          if (!containsAll(Object.keys(commandPayloadsDict), query.payload_hashes)) {
             this.logger?.error(`Error processing command ${commandHash} for module ${localModuleName}, missing payloads`)
             return
           }
           try {
             // Issue the query against module
-            const commandSchema = commandPayloadsDict[command.query].schema
+            const commandSchema = commandPayloadsDict[query.query].schema
             this.logger?.debug(`Issuing command ${commandSchema} (${commandHash}) addressed to module: ${localModuleName}`)
-            const response = await localModule.query(command, commandPayloads)
+            const response = await localModule.query(query, commandPayloads)
             const [bw, payloads, errors] = response
             this.logger?.debug(`Replying to command ${commandHash} addressed to module: ${localModuleName}`)
             const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
@@ -83,11 +90,11 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
             if (insertResult.length === 0) {
               this.logger?.error(`Error replying to command ${commandHash} addressed to module: ${localModuleName}`)
             }
-            if (command?.timestamp) {
+            if (query?.timestamp) {
               // TODO: This needs to be thought through as we can't use a distributed timestamp
               // because of collisions. We need to ensure we are using the timestamp of the store
               // so there's no chance of multiple commands at the same time
-              await this.commitState(localModule.address, command.timestamp)
+              await this.commitState(localModule.address, query.timestamp)
             }
           } catch (error) {
             this.logger?.error(`Error processing command ${commandHash} for module ${localModuleName}: ${error}`)
@@ -101,22 +108,22 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
    * Finds unprocessed commands addressed to the supplied address
    * @param address The address to find commands for
    */
-  protected findCommandsToAddress = async (address: Address) => {
+  protected findQueriesToAddress = async (address: Address) => {
     const queryBoundWitnessDiviner = await this.queriesDiviner()
     // Retrieve last offset from state store
     const timestamp = await this.retrieveState(address)
     const destination = [address]
-    const limit = this.individualAddressBatchQueryLimitConfig
+    const limit = this.perAddressBatchQueryLimit
     // Filter for commands to us by destination address
     const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
     const result = await queryBoundWitnessDiviner.divine([divinerQuery])
-    const commands = result.filter(isQueryBoundWitnessWithMeta)
-    const nextState = Math.max(...commands.map((c) => c.timestamp ?? 0))
+    const queries = result.filter(isQueryBoundWitnessWithMeta)
+    const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp
     // TODO: This needs to be thought through as we can't use a distributed timestamp
     // because of collisions. We need to use the timestamp of the store so there's no
     // chance of multiple commands at the same time
     await this.commitState(address, nextState)
-    return commands
+    return queries
   }
 
   /**
@@ -151,11 +158,11 @@ export class AsyncQueryBusServer<TParams extends AsyncQueryBusParams = AsyncQuer
         try {
           const localModuleName = localModule.config.name ?? localModule.address
           this.logger?.debug(`Checking for inbound commands to ${localModuleName}`)
-          const commands = await this.findCommandsToAddress(localModule.address)
-          if (commands.length === 0) return
+          const queries = await this.findQueriesToAddress(localModule.address)
+          if (queries.length === 0) return
           this.logger?.debug(`Found commands addressed to local module: ${localModuleName}`)
-          for (const command of commands) {
-            await this.callLocalModule(localModule, command)
+          for (const query of queries) {
+            await this.callLocalModule(localModule, query)
           }
         } catch (error) {
           this.logger?.error(`Error processing commands for address ${localModule.address}: ${error}`)

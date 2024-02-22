@@ -35,7 +35,7 @@ interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
 }
 
-const useDebugLogging = true
+const useDebugLogging = false
 const logger =
   useDebugLogging ?
     {
@@ -143,31 +143,35 @@ describe('PubSubBridge', () => {
       Object.entries(bridgePhrases).map(async ([name, phrase], i) => {
         const client = clients[i]
         const node = client.node
-        const otherNodeAddress = assertEx(clients.find((c) => c.node.address !== node.address)).node.address
         const account = await HDWallet.fromPhrase(phrase)
+        const stateStore = {
+          archivist: client.stateStoreArchivist.address,
+          boundWitnessDiviner: client.stateStoreBoundWitnessDiviner.address,
+        }
+        const clearingHouse = {
+          queries: {
+            archivist: intermediateNode.queryArchivist.address,
+            boundWitnessDiviner: intermediateNode.queryBoundWitnessDiviner.address,
+          },
+          responses: {
+            archivist: intermediateNode.responseArchivist.address,
+            boundWitnessDiviner: intermediateNode.responseBoundWitnessDiviner.address,
+          },
+        }
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account,
           config: {
-            listeningModules: [client.module.address],
+            host: { listeningModules: [client.module.address], pollFrequency, clearingHouse, stateStore },
             name: `pubSubBridge${name}`,
-            pollFrequency,
-            queries: {
-              archivist: intermediateNode.queryArchivist.address,
-              boundWitnessDiviner: intermediateNode.queryBoundWitnessDiviner.address,
+            client: {
+              pollFrequency,
+              clearingHouse,
+              queryCache: {
+                ttl,
+              },
+              stateStore,
             },
-            queryCache: {
-              ttl,
-            },
-            responses: {
-              archivist: intermediateNode.responseArchivist.address,
-              boundWitnessDiviner: intermediateNode.responseBoundWitnessDiviner.address,
-            },
-            rootAddress: otherNodeAddress,
             schema: PubSubBridge.configSchema,
-            stateStore: {
-              archivist: client.stateStoreArchivist.address,
-              boundWitnessDiviner: client.stateStoreBoundWitnessDiviner.address,
-            },
           },
           logger,
         })

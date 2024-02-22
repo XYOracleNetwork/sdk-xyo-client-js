@@ -3,18 +3,15 @@ import { Address } from '@xylabs/hex'
 import { Base } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { CacheConfig } from '@xyo-network/bridge-model'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
-import { ModuleConfig, ModuleQueryResult } from '@xyo-network/module-model'
+import { ModuleConfig } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { Pending } from './Config'
 import { AsyncQueryBusParams } from './Params'
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
   protected _lastState?: LRUCache<Address, number>
-  protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
 
@@ -22,21 +19,12 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     super(params)
   }
 
-  get config() {
+  get config(): TParams['config'] {
     return this.params.config
   }
 
-  get individualAddressBatchQueryLimitConfig(): number {
-    return this.config.individualAddressBatchQueryLimit ?? 10
-  }
-
   get pollFrequencyConfig(): number {
-    return this.config.pollFrequency ?? 1000
-  }
-
-  get queryCacheConfig(): LRUCache.Options<Address, Pending | ModuleQueryResult, unknown> {
-    const queryCacheConfig: CacheConfig | undefined = this.config.queryCache === true ? {} : this.config.queryCache
-    return { max: 100, ttl: 1000 * 60, ...queryCacheConfig }
+    return this.config?.pollFrequency ?? 1000
   }
 
   get resolver() {
@@ -52,41 +40,31 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return this._lastState
   }
 
-  /**
-   * A cache of queries that have been issued
-   */
-  protected get queryCache(): LRUCache<Address, Pending | ModuleQueryResult> {
-    const config = this.queryCacheConfig
-    const requiredConfig = { noUpdateTTL: false, ttlAutopurge: true }
-    this._queryCache = this._queryCache ?? new LRUCache<Address, Pending | ModuleQueryResult>({ ...config, ...requiredConfig })
-    return this._queryCache
-  }
-
   async queriesArchivist() {
     return assertEx(
-      asArchivistInstance(await this.resolver.resolve(this.config.queries?.archivist)),
-      () => `Unable to resolve queriesArchivist [${this.config.queries?.archivist}]`,
+      asArchivistInstance(await this.resolver.resolve(this.config?.clearingHouse?.queries?.archivist)),
+      () => `Unable to resolve queriesArchivist [${this.config?.clearingHouse?.queries?.archivist}]`,
     )
   }
 
   async queriesDiviner() {
     return assertEx(
-      asDivinerInstance(await this.resolver.resolve(this.config.queries?.boundWitnessDiviner)),
-      () => `Unable to resolve queriesDiviner [${this.config.queries?.boundWitnessDiviner}]`,
+      asDivinerInstance(await this.resolver.resolve(this.config?.clearingHouse?.queries?.boundWitnessDiviner)),
+      () => `Unable to resolve queriesDiviner [${this.config?.clearingHouse?.queries?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
   }
 
   async responsesArchivist() {
     return assertEx(
-      asArchivistInstance(await this.resolver.resolve(this.config.responses?.archivist)),
-      () => `Unable to resolve responsesArchivist [${this.config.responses?.archivist}]`,
+      asArchivistInstance(await this.resolver.resolve(this.config?.clearingHouse?.responses?.archivist)),
+      () => `Unable to resolve responsesArchivist [${this.config?.clearingHouse?.responses?.archivist}]`,
     )
   }
 
   async responsesDiviner() {
     return assertEx(
-      asDivinerInstance(await this.resolver.resolve(this.config.responses?.boundWitnessDiviner)),
-      () => `Unable to resolve responsesDiviner [${this.config.responses?.boundWitnessDiviner}]`,
+      asDivinerInstance(await this.resolver.resolve(this.config?.clearingHouse?.responses?.boundWitnessDiviner)),
+      () => `Unable to resolve responsesDiviner [${this.config?.clearingHouse?.responses?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
   }
 

@@ -1,5 +1,5 @@
 export * from './AsyncQueryBusClient'
-export * from './AsyncQueryBusServer'
+export * from './AsyncQueryBusHost'
 export * from './Config'
 export * from './ModuleHost'
 export * from './ModuleProxy'

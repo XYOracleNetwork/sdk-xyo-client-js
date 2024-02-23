@@ -62,6 +62,7 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account: AccountInstance,
+    checkIdentity?: boolean,
   ): TModuleWrapper | undefined
 
   /** @deprecated pass an account for second parameter */
@@ -70,6 +71,7 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account: AccountInstance,
+    checkIdentity?: boolean,
   ): TModuleWrapper
 }
 
@@ -183,13 +185,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account: AccountInstance,
+    checkIdentity?: boolean,
   ): TModuleWrapper | undefined
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account?: AccountInstance,
+    checkIdentity = true,
   ): TModuleWrapper | undefined {
-    if (this.canWrap(module)) {
+    if (!checkIdentity || this.canWrap(module)) {
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
@@ -213,14 +217,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account: AccountInstance,
+    checkIdentity?: boolean,
   ): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     module: Module | undefined,
     account?: AccountInstance,
+    checkIdentity = true,
   ): TModuleWrapper {
-    assertEx(module && this.moduleIdentityCheck(module), () => `Passed module failed identity check: ${module?.config?.schema}`)
-    return assertEx(this.tryWrap(module, account ?? Account.randomSync()), 'Unable to wrap module as ModuleWrapper')
+    assertEx(!checkIdentity || (module && this.moduleIdentityCheck(module)), () => `Passed module failed identity check: ${module?.config?.schema}`)
+    return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), 'Unable to wrap module as ModuleWrapper')
   }
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {

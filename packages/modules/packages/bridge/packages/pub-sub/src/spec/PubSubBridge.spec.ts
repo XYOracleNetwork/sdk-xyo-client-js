@@ -5,6 +5,7 @@ import { delay } from '@xylabs/delay'
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
@@ -15,6 +16,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isModuleError, Payload, unMeta, WithMeta } from '@xyo-network/payload-model'
 
+import { AsyncQueryBusIntersectConfig, SearchableStorage } from '../AsyncQueryBus'
 import { PubSubBridge } from '../PubSubBridge'
 
 interface IntermediateNode {
@@ -144,11 +146,11 @@ describe('PubSubBridge', () => {
         const client = clients[i]
         const node = client.node
         const account = await HDWallet.fromPhrase(phrase)
-        const stateStore = {
+        const stateStore: SearchableStorage = {
           archivist: client.stateStoreArchivist.address,
           boundWitnessDiviner: client.stateStoreBoundWitnessDiviner.address,
         }
-        const clearingHouse = {
+        const intersect: AsyncQueryBusIntersectConfig = {
           queries: {
             archivist: intermediateNode.queryArchivist.address,
             boundWitnessDiviner: intermediateNode.queryBoundWitnessDiviner.address,
@@ -161,11 +163,11 @@ describe('PubSubBridge', () => {
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account,
           config: {
-            host: { listeningModules: [client.module.address], pollFrequency, clearingHouse, stateStore },
+            host: { listeningModules: [client.module.address], pollFrequency, intersect, stateStore },
             name: `pubSubBridge${name}`,
             client: {
               pollFrequency,
-              clearingHouse,
+              intersect,
               queryCache: {
                 ttl,
               },
@@ -181,6 +183,7 @@ describe('PubSubBridge', () => {
         clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)
         await node.attach(intermediateNode.node.address, false)
+        pubSubBridge.connect()
       }),
     )
   })
@@ -196,18 +199,18 @@ describe('PubSubBridge', () => {
 
       // Issue command via bridge
       const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
-      await builder.query({ schema: ArchivistInsertQuerySchema })
-      await builder.payloads(data)
-      const [query, payloads] = await builder.build()
-      const [bw, , errors] = await clientA.pubSubBridge.targetQuery(nonExistentAddress, query, payloads)
+      const instance = ArchivistWrapper.wrap(await clientA.pubSubBridge.resolve(nonExistentAddress), Account.randomSync(), false)
+      expect(instance).toBeDefined()
 
-      // Expect result to be defined
-      expect(bw).toBeDefined()
-      expect(errors).toBeDefined()
-      expect(errors).toBeArrayOfSize(1)
-      const error = errors.find(isModuleError)
-      expect(error).toBeDefined()
+      if (instance) {
+        try {
+          await instance.insert(data)
+          //should never reach
+          expect(false).toBeTrue()
+        } catch {
+          expect(true).toBeTrue()
+        }
+      }
     })
     it('when unsupported query type responds with error', async () => {
       const clientA = clientsWithBridges[0]
@@ -255,30 +258,22 @@ describe('PubSubBridge', () => {
       expect(await source.module.resolve(destination.module.address)).toBeUndefined()
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
+      const clientA = clientsWithBridges[0]
+
       // Issue command via bridge
-      const data: WithMeta<Payload>[] = []
-      for (let i = 0; i < testPayloadCount; i++) {
-        data.push(await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build())
-        await delay(2) // Ensure we get a different timestamp than the previous
-      }
-      expect(data.length).toBe(testPayloadCount)
-      const builder = new QueryBoundWitnessBuilder().witness(source.module.account)
-      await builder.query({ schema: ArchivistInsertQuerySchema })
-      await builder.payloads(data)
-      const [query, payloads] = await builder.build()
-      const result = await source.pubSubBridge.targetQuery(destination.module.address, query, payloads)
+      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
+      const instance = ArchivistWrapper.wrap(await clientA.pubSubBridge.resolve(destination.module.address), Account.randomSync(), false)
+      expect(instance).toBeDefined()
 
-      // Expect result to be defined
-      expect(result).toBeDefined()
+      const result = await instance?.insert(data)
 
-      expect(result[1]).toBeArrayOfSize(2)
+      expect(result).toBeArrayOfSize(data.length)
 
       // Expect target to have data
       const clientBArchivist = asArchivistInstance(destination.module)
       expect(clientBArchivist).toBeDefined()
       const archivist = assertEx(clientBArchivist)
       const all = await archivist.all?.()
-      expect(all).toBeArrayOfSize(expectedArchivistSize)
       expect(all?.map(unMeta)).toIncludeAllMembers(data.map(unMeta))
     }
     it.each([

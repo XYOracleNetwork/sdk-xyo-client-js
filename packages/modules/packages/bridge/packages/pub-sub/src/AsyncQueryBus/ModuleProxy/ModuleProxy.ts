@@ -6,7 +6,7 @@ import { AbstractModuleProxy, ModuleProxyParams } from '../../AbstractModuleProx
 import { AsyncQueryBusClient } from '../AsyncQueryBusClient'
 
 export type AsyncQueryBusModuleProxyParams = ModuleProxyParams & {
-  bridgeClient: AsyncQueryBusClient
+  busClient: AsyncQueryBusClient
 }
 
 export class AsyncQueryBusModuleProxy<TWrappedModule extends Module = Module>
@@ -14,6 +14,6 @@ export class AsyncQueryBusModuleProxy<TWrappedModule extends Module = Module>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    return await this.proxyParams.bridgeClient.send(this.address, query, payloads)
+    return await this.proxyParams.busClient.send(this.address, query, payloads)
   }
 }

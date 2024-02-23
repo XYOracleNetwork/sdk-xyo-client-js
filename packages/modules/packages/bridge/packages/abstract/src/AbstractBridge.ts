@@ -77,6 +77,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
+  targetDiscover(_address?: Address, _maxDepth?: number): Promisable<Payload[]> {
+    throw new Error('Not Supported')
+  }
+
   targetDownResolver<T extends ModuleInstance = ModuleInstance>(
     address?: Address,
     options?: ModuleFilterOptions<T>,
@@ -145,8 +149,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract getRootAddress(): Promisable<Address>
 
   abstract targetConfig(address: Address): ModuleConfig
-
-  abstract targetDiscover(address?: Address, maxDepth?: number): Promisable<Payload[]>
 
   abstract targetManifest(address: Address, maxDepth?: number): Promisable<ModuleManifestPayload>
 

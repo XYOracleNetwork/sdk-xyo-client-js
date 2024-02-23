@@ -143,7 +143,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address?: Address, maxDepth = 2): Promise<Payload[]> {
+  override async targetDiscover(address?: Address, maxDepth = 2): Promise<Payload[]> {
     if (!this.connected) {
       throw new Error('Not connected')
     }

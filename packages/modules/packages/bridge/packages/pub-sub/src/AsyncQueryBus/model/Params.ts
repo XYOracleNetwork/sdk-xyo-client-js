@@ -1,7 +1,9 @@
 import { BaseParams } from '@xylabs/object'
 import { ModuleResolver } from '@xyo-network/module-model'
 
-import { AsyncQueryBusBaseConfig, AsyncQueryBusClientConfig, AsyncQueryBusHostConfig } from './Config'
+import { AsyncQueryBusBaseConfig } from './BaseConfig'
+import { AsyncQueryBusClientConfig } from './ClientConfig'
+import { AsyncQueryBusHostConfig } from './HostConfig'
 
 export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQueryBusBaseConfig> = BaseParams<{
   config?: TConfig

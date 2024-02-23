@@ -1,21 +1,35 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import { forget } from '@xylabs/forget'
+import { Address, isAddress } from '@xylabs/hex'
+import { compact } from '@xylabs/lodash'
+import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
+import { Account } from '@xyo-network/account'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
+import { BridgeModule } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   creatableModule,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleEventData,
-  ModuleManifestQuery,
-  ModuleManifestQuerySchema,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import { NodeAttachQuerySchema } from '@xyo-network/node-model'
+import { Payload } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
+import {
+  AsyncQueryBusClient,
+  AsyncQueryBusClientParams,
+  AsyncQueryBusHost,
+  AsyncQueryBusModuleProxy,
+  AsyncQueryBusModuleProxyParams,
+} from './AsyncQueryBus'
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
 
@@ -31,24 +45,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   protected _configRootAddress: Address = ''
   protected _configStateStoreArchivist: string = ''
   protected _configStateStoreBoundWitnessDiviner: string = ''
-  protected _discoverCache?: LRUCache<string, Payload[]>
   protected _lastState?: LRUCache<string, number>
-  protected _targetConfigs: Record<string, ModuleConfig> = {}
-  protected _targetQueries: Record<string, string[]> = {}
 
   private _busClient?: AsyncQueryBusClient
   private _busHost?: AsyncQueryBusHost
-
-  get discoverCache() {
-    const config = this.discoverCacheConfig
-    this._discoverCache = this._discoverCache ?? new LRUCache<string, Payload[]>({ ttlAutopurge: true, ...config })
-    return this._discoverCache
-  }
-
-  get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
-    const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
-    return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
-  }
 
   protected get moduleName() {
     return `${this.config.name ?? moduleName}`
@@ -58,49 +58,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return this._configRootAddress
   }
 
-  // protected get stateStoreArchivistConfig() {
-  //   return this._configStateStoreArchivist
-  // }
-
-  // protected get stateStoreBoundWitnessDivinerConfig() {
-  //   return this._configStateStoreBoundWitnessDiviner
-  // }
-
   connect() {
-    //await super.startHandler()
     this.connected = true
-    return true
-    // const rootTargetDownResolver = this.targetDownResolver()
-    // if (rootTargetDownResolver) {
-    //   this.downResolver.addResolver(rootTargetDownResolver)
-    //   await this.targetDiscover(this.rootAddress)
-
-    //   const childAddresses = await rootTargetDownResolver.getRemoteAddresses()
-
-    //   const children = compact(
-    //     await Promise.all(
-    //       childAddresses.map(async (address) => {
-    //         const resolved = await rootTargetDownResolver.resolve({ address: [address] })
-    //         return resolved[0]
-    //       }),
-    //     ),
-    //   )
-
-    //   // Discover all to load cache
-    //   await Promise.all(children.map((child) => assertEx(child.discover())))
-
-    //   const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
-    //   //notify parents of child modules
-    //   //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    //   for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
-    //   // console.log(`Started HTTP Bridge in ${Date.now() - start}ms`)
-    //   this.connected = true
-
-    //   return true
-    // } else {
-    //   this.connected = false
-    //   return false
-    // }
+    return this.connected
   }
 
   async disconnect(): Promise<boolean> {
@@ -113,69 +73,49 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return this.rootAddress
   }
 
-  override targetConfig(address: Address): ModuleConfig {
-    return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
-  }
-
-  override async targetDiscover(address?: Address | undefined, _maxDepth?: number | undefined): Promise<Payload[]> {
-    if (!this.connected) throw new Error('Not connected')
-    //if caching, return cached result if exists
-    const cachedResult = this.discoverCache?.get(address ?? 'root ')
-    if (cachedResult) {
-      return cachedResult
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    _options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (idOrFilter === undefined) {
+      return []
     }
-    await this.started('throw')
-    const addressToDiscover = address ?? (await this.getRootAddress())
-    this.logger?.debug(`${this.moduleName}: Begin issuing targetDiscover to: ${addressToDiscover}`)
-    // const queryPayload: ModuleDiscoverQuery = { maxDepth, schema: ModuleDiscoverQuerySchema }
-    // const boundQuery = await this.bindQuery(queryPayload)
-    // const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
-    // this._targetQueries[addressToDiscover] = compact(
-    //   discover?.map((payload) => {
-    //     if (payload.schema === QuerySchema) {
-    //       const schemaPayload = payload as QueryPayload
-    //       return schemaPayload.query
-    //     } else {
-    //       return null
-    //     }
-    //   }) ?? [],
-    // )
-    // const targetConfigSchema = assertEx(
-    //   discover.find(isPayloadOfSchemaType<WithMeta<ConfigPayload>>(ConfigSchema)),
-    //   () => `Discover did not return a [${ConfigSchema}] payload`,
-    // ).config
+    if (typeof idOrFilter === 'string') {
+      const upResolve = await this.upResolver.resolve<T>(idOrFilter)
+      if (upResolve) return upResolve
+      assertEx(!isAddress(idOrFilter), 'Name resolutions not supported')
+      const params: AsyncQueryBusModuleProxyParams = {
+        account: Account.randomSync(),
+        busClient: assertEx(this.busClient(), 'Bus client not initialized'),
+        moduleAddress: idOrFilter as Address,
+        queries: [],
+      }
+      // eslint-disable-next-line unicorn/no-useless-promise-resolve-reject
+      return await Promise.resolve(new AsyncQueryBusModuleProxy<T>(params) as unknown as T)
+    } else {
+      throw new TypeError('Filter not Supported')
+    }
+  }
 
-    // this._targetConfigs[addressToDiscover] = assertEx(
-    //   discover.find(isPayloadOfSchemaType(targetConfigSchema)) as ModuleConfig,
-    //   () => `Discover did not return a [${targetConfigSchema}] payload`,
-    // )
-    // if caching, set entry
-    // this.discoverCache?.set(address ?? 'root', discover)
-    // return discover
+  override targetConfig(_address: Address): ModuleConfig {
+    return { schema: ModuleConfigSchema }
+  }
+
+  override targetManifest(_address: Address, _maxDepth?: number | undefined): Promisable<ModuleManifestPayload> {
+    return { config: { name: '', schema: ModuleConfigSchema }, schema: ModuleManifestPayloadSchema }
+  }
+
+  override targetQueries(_address: Address): string[] {
     return []
-  }
-
-  override async targetManifest(address: Address, maxDepth?: number | undefined): Promise<ModuleManifestPayload> {
-    const addressToCall = address ?? this.getRootAddress()
-    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
-    const boundQuery = await this.bindQuery(queryPayload)
-    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
-    return assertEx(
-      manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestPayload>>(ModuleManifestPayloadSchema)),
-      'Did not receive manifest',
-    ) as ModuleManifestPayload
-  }
-
-  override targetQueries(address: Address): string[] {
-    if (!this.connected) throw new Error('Not connected')
-    return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
   }
 
   override async targetQuery(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
     if (!this.connected) throw new Error('Not connected')
     await this.started('throw')
-    const bus = this.busClient()
-    return bus.send(address, query, payloads)
+    const bus = assertEx(this.busClient(), 'Client not configured')
+    return bus?.send(address, query, payloads)
   }
 
   override targetQueryable(_address: Address, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
@@ -183,7 +123,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   protected busClient() {
-    if (!this._busClient) {
+    if (!this._busClient && this.config.client) {
       this._busClient = new AsyncQueryBusClient({
         config: this.config.client,
         logger: this.logger,
@@ -194,7 +134,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   protected busHost() {
-    if (!this._busHost) {
+    if (!this._busHost && this.config.host) {
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
@@ -206,12 +146,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   protected override async startHandler(): Promise<boolean> {
     await Promise.resolve(this.connect())
-    this.busHost().start()
+    this.busHost()?.start()
     return true
   }
 
   protected override stopHandler(_timeout?: number | undefined) {
-    this.busHost().stop()
+    this.busHost()?.stop()
     return true
   }
 }

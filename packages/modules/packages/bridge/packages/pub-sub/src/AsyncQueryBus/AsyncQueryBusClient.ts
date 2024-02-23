@@ -11,8 +11,7 @@ import { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/pa
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
-import { Pending } from './Config'
-import { AsyncQueryBusClientParams } from './Params'
+import { AsyncQueryBusClientParams, Pending } from './model'
 
 export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = AsyncQueryBusClientParams> extends AsyncQueryBusBase<TParams> {
   protected _queryCache?: LRUCache<Address, Pending | ModuleQueryResult>

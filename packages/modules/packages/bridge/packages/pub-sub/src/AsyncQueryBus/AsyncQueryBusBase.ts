@@ -8,7 +8,7 @@ import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
 import { ModuleConfig } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusParams } from './Params'
+import { AsyncQueryBusParams } from './model'
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
   protected _lastState?: LRUCache<Address, number>
@@ -42,29 +42,29 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
 
   async queriesArchivist() {
     return assertEx(
-      asArchivistInstance(await this.resolver.resolve(this.config?.clearingHouse?.queries?.archivist)),
-      () => `Unable to resolve queriesArchivist [${this.config?.clearingHouse?.queries?.archivist}]`,
+      asArchivistInstance(await this.resolver.resolve(this.config?.intersect?.queries?.archivist)),
+      () => `Unable to resolve queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
     )
   }
 
   async queriesDiviner() {
     return assertEx(
-      asDivinerInstance(await this.resolver.resolve(this.config?.clearingHouse?.queries?.boundWitnessDiviner)),
-      () => `Unable to resolve queriesDiviner [${this.config?.clearingHouse?.queries?.boundWitnessDiviner}]`,
+      asDivinerInstance(await this.resolver.resolve(this.config?.intersect?.queries?.boundWitnessDiviner)),
+      () => `Unable to resolve queriesDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
   }
 
   async responsesArchivist() {
     return assertEx(
-      asArchivistInstance(await this.resolver.resolve(this.config?.clearingHouse?.responses?.archivist)),
-      () => `Unable to resolve responsesArchivist [${this.config?.clearingHouse?.responses?.archivist}]`,
+      asArchivistInstance(await this.resolver.resolve(this.config?.intersect?.responses?.archivist)),
+      () => `Unable to resolve responsesArchivist [${this.config?.intersect?.responses?.archivist}]`,
     )
   }
 
   async responsesDiviner() {
     return assertEx(
-      asDivinerInstance(await this.resolver.resolve(this.config?.clearingHouse?.responses?.boundWitnessDiviner)),
-      () => `Unable to resolve responsesDiviner [${this.config?.clearingHouse?.responses?.boundWitnessDiviner}]`,
+      asDivinerInstance(await this.resolver.resolve(this.config?.intersect?.responses?.boundWitnessDiviner)),
+      () => `Unable to resolve responsesDiviner [${this.config?.intersect?.responses?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
   }
 

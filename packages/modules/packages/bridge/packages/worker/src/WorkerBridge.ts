@@ -130,7 +130,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
   }
 
-  async targetDiscover(address?: Address): Promise<Payload[]> {
+  override async targetDiscover(address?: Address): Promise<Payload[]> {
     //if caching, return cached result if exists
     const cachedResult = this.discoverCache?.get(address ?? 'root')
     if (cachedResult) {

@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/sentinel/packages/wrapper/src/spec/Sentinel.Wrapper.spec.ts"
+        "packages/modules/packages/bridge/packages/pub-sub/src/spec/PubSubBridge.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

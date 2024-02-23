@@ -9,7 +9,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { WithMeta } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
-import { AsyncQueryBusHostParams } from './Params'
+import { AsyncQueryBusHostParams } from './model'
 
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   private _pollId?: string

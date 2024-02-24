@@ -35,10 +35,7 @@ describe('HttpBridge', () => {
 
     await bridge?.start?.()
 
-    const remoteNode = asNodeInstance(
-      (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-      `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
-    )
+    const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
 
     await memNode.register(remoteNode)
     await memNode.attach(remoteNode?.address, true)
@@ -75,12 +72,12 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
-    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+    const module = await bridge.resolve('XYOPublic')
 
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
-    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
+    const remoteNode = asNodeInstance(module, 'Failed to resolve [XYOPublic]')
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()

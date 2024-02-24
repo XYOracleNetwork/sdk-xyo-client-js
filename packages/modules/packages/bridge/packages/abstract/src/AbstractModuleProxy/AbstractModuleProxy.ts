@@ -73,7 +73,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get queries(): string[] {
-    return this.proxyParams.queries
+    return [ModuleDiscoverQuerySchema, ...this.proxyParams.queries]
   }
 
   get upResolver(): ModuleResolverInstance {

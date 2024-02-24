@@ -11,6 +11,7 @@ import { LRUCache } from 'lru-cache'
 import { AsyncQueryBusParams } from './model'
 
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
+  protected _exposedAddresses = new Set<Address>()
   protected _lastState?: LRUCache<Address, number>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
@@ -40,6 +41,11 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return this._lastState
   }
 
+  expose(address: Address, validate = true) {
+    assertEx(!validate || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
+    this._exposedAddresses.add(address)
+  }
+
   async queriesArchivist() {
     return assertEx(
       asArchivistInstance(await this.resolver.resolve(this.config?.intersect?.queries?.archivist)),
@@ -66,6 +72,11 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
       asDivinerInstance(await this.resolver.resolve(this.config?.intersect?.responses?.boundWitnessDiviner)),
       () => `Unable to resolve responsesDiviner [${this.config?.intersect?.responses?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
+  }
+
+  unexpose(address: Address, validate = true) {
+    assertEx(!validate || this._exposedAddresses.has(address), () => `Address not exposed [${address}]`)
+    this._exposedAddresses.delete(address)
   }
 
   /**

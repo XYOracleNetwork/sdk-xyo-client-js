@@ -195,6 +195,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
 
   async state(): Promise<Payload[]> {
     if (this._state === undefined) {
+      //temporarily add ModuleStateQuerySchema to the schema list so we can wrap it and get the real query list
       const queryPayload: QueryPayload = { query: ModuleStateQuerySchema, schema: QuerySchema }
       this._state = [queryPayload]
       const wrapper = ModuleWrapper.wrap(this, this.account)

@@ -203,7 +203,7 @@ describe('BusProxy', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
-      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, queries: [], busClient })
+      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, busClient })
 
       host.start()
 

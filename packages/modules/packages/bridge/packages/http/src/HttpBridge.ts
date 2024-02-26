@@ -38,14 +38,14 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return new URL(address, this.nodeUrl)
   }
 
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+  resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promisable<T | undefined> {
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
       moduleAddress: id as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }
-    return await Promise.resolve(new HttpModuleProxy<T>(params) as unknown as T)
+    return new HttpModuleProxy<T>(params) as unknown as T
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {

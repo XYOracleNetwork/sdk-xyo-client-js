@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
@@ -44,18 +45,14 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return []
   }
 
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+  resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promisable<T | undefined> {
     const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {
       account,
       busClient: assertEx(this.busClient(), 'Bus client not initialized'),
       moduleAddress: id as Address,
     }
-    const module = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
-    await module.start?.()
-    const wrappedModule = ModuleWrapper.wrap(module, account)
-    const state = await wrappedModule.state()
-    return module
+    return new AsyncQueryBusModuleProxy<T>(params) as unknown as T
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Lowercase<string>[]> {

@@ -9,7 +9,6 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
-import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 

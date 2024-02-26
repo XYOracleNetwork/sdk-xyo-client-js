@@ -105,7 +105,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return bridge
   }
 
-  override exposeHandler(id: string, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
     return []
   }
 
@@ -117,7 +117,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return await Promise.resolve(undefined)
   }
 
-  override unexposeHandler(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
     return []
   }
 }

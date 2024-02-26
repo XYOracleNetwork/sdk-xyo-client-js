@@ -5,7 +5,6 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { creatableModule, ModuleEventData, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
-import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'

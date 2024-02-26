@@ -1,6 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { isArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
@@ -18,8 +21,11 @@ import {
   ModuleFilterPayload,
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
+import { isDivinerModule } from '@xyo-network/diviner-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
+  Module,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
@@ -27,11 +33,37 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
+import { isNodeModule } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isSentinelModule } from '@xyo-network/sentinel-model'
+import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
+import { isWitnessModule } from '@xyo-network/witness-model'
+import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 
 // const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdentifierPart[] => {
 //   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
 // }
+
+const wrapModuleWithType = (module: Module, account: AccountInstance): ModuleWrapper => {
+  if (isArchivistModule(module)) {
+    return ArchivistWrapper.wrap(module, account)
+  }
+  if (isDivinerModule(module)) {
+    return DivinerWrapper.wrap(module, account)
+  }
+  if (isNodeModule(module)) {
+    return NodeWrapper.wrap(module, account)
+  }
+  if (isSentinelModule(module)) {
+    return SentinelWrapper.wrap(module, account)
+  }
+  if (isWitnessModule(module)) {
+    return WitnessWrapper.wrap(module, account)
+  }
+  throw 'Failed to wrap'
+}
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
@@ -80,7 +112,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       //assertEx(isHex(idOrFilter, { prefix: false }), `Name resolutions not supported [${idOrFilter}]`)
       const module = await this.resolveHandler<T>(idOrFilter)
       await module?.start?.()
-      return module
+      return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
     } else {
       throw new TypeError('Filter not Supported')
     }

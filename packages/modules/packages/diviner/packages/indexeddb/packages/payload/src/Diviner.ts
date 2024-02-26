@@ -2,6 +2,7 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { Hash } from '@xylabs/hex'
 import { AnyObject } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
@@ -85,7 +86,7 @@ export class IndexedDbPayloadDiviner<
         $meta,
         $hash,
         ...props
-      } = query as unknown as WithMeta<TIn> & { sources?: string[] }
+      } = query as unknown as WithMeta<TIn> & { sources?: Hash[] }
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []

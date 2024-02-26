@@ -136,7 +136,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleDescribeQuerySchema, ModuleManifestQuerySchema]
+    return [
+      ModuleDiscoverQuerySchema,
+      ModuleAddressQuerySchema,
+      ModuleSubscribeQuerySchema,
+      ModuleDescribeQuerySchema,
+      ModuleManifestQuerySchema,
+      ModuleStateQuerySchema,
+    ]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -591,6 +598,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         resultPayloads.push(...(await this.moduleAddressHandler()))
         break
       }
+      case ModuleStateQuerySchema: {
+        resultPayloads.push(...(await this.stateHandler()))
+        break
+      }
       case ModuleSubscribeQuerySchema: {
         this.subscribeHandler()
         break
@@ -614,6 +625,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     await this.initializeQueryAccounts()
     this._started = true
     return true
+  }
+
+  protected async stateHandler(): Promise<Payload[]> {
+    return [await this.manifestHandler(), ...(await this.discoverHandler()), await this.describeHandler()]
   }
 
   protected stopHandler(_timeout?: number): Promisable<boolean> {

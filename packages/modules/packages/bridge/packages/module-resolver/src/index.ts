@@ -1,2 +1,2 @@
-export * from './ModuleResolver'
-export * from './ProxyModule'
+//this package is deprecated
+export const x = 1

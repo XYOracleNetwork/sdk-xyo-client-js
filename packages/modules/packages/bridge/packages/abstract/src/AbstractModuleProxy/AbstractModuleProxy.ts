@@ -29,7 +29,9 @@ import {
   ModuleQueryResult,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
+import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
@@ -45,6 +47,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
 
   eventData = {} as TWrappedModule['eventData']
 
+  protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
 
   constructor(params: TParams) {
@@ -73,7 +76,10 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get queries(): string[] {
-    return [ModuleDiscoverQuerySchema, ...this.proxyParams.queries]
+    const queryPayloads = assertEx(this._state, 'Module state not found.  Make sure proxy has been started').filter((item) =>
+      isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
+    ) as QueryPayload[]
+    return queryPayloads.map((payload) => payload.query)
   }
 
   get upResolver(): ModuleResolverInstance {
@@ -182,8 +188,17 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return typeof nameOrAddressOrFilter === 'string' ? undefined : []
   }
 
-  state() {
-    return []
+  async start(): Promise<boolean> {
+    await this.state()
+    return true
+  }
+
+  async state(): Promise<Payload[]> {
+    if (this._state === undefined) {
+      const wrapper = ModuleWrapper.wrap(this, this.account)
+      this._state = await wrapper.state()
+    }
+    return this._state
   }
 
   protected bindQuery<T extends Query>(

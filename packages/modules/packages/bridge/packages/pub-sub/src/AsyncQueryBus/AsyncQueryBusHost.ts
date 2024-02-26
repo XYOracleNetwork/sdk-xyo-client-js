@@ -54,12 +54,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
-    //console.log(`callLocalModule: ${query.$hash}`)
     const localModuleName = localModule.config.name ?? localModule.address
     const queryArchivist = await this.queriesArchivist()
     const responseArchivist = await this.responsesArchivist()
-    const commandDestination = (query.$meta as { destination?: string[] })?.destination
-    if (commandDestination && commandDestination?.includes(localModule.address)) {
+    const queryDestination = (query.$meta as { destination?: string[] })?.destination
+    if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
       const queryIndex = query.payload_hashes.indexOf(query.query)
       if (queryIndex !== -1) {
@@ -67,27 +66,27 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         // If the destination can process this type of query
         if (localModule.queries.includes(querySchema)) {
           // Get the associated payloads
-          const commandPayloads = await queryArchivist.get(query.payload_hashes)
-          const commandPayloadsDict = await PayloadBuilder.toAllHashMap(commandPayloads)
-          const commandHash = (await PayloadBuilder.build(query)).$hash
+          const queryPayloads = await queryArchivist.get(query.payload_hashes)
+          const queryPayloadsDict = await PayloadBuilder.toAllHashMap(queryPayloads)
+          const queryHash = (await PayloadBuilder.build(query)).$hash
           // Check that we have all the arguments for the command
-          if (!containsAll(Object.keys(commandPayloadsDict), query.payload_hashes)) {
-            this.logger?.error(`Error processing command ${commandHash} for module ${localModuleName}, missing payloads`)
+          if (!containsAll(Object.keys(queryPayloadsDict), query.payload_hashes)) {
+            this.logger?.error(`Error processing command ${queryHash} for module ${localModuleName}, missing payloads`)
             return
           }
           try {
             // Issue the query against module
-            const commandSchema = commandPayloadsDict[query.query].schema
-            this.logger?.debug(`Issuing command ${commandSchema} (${commandHash}) addressed to module: ${localModuleName}`)
-            const response = await localModule.query(query, commandPayloads)
+            const querySchema = queryPayloadsDict[query.query].schema
+            this.logger?.debug(`Issuing query ${querySchema} (${queryHash}) addressed to module: ${localModuleName}`)
+            const response = await localModule.query(query, queryPayloads)
             const [bw, payloads, errors] = response
-            this.logger?.debug(`Replying to command ${commandHash} addressed to module: ${localModuleName}`)
+            this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
             const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
             // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
             // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
             // should always be unique causing at least one insertion
             if (insertResult.length === 0) {
-              this.logger?.error(`Error replying to command ${commandHash} addressed to module: ${localModuleName}`)
+              this.logger?.error(`Error replying to query ${queryHash} addressed to module: ${localModuleName}`)
             }
             if (query?.timestamp) {
               // TODO: This needs to be thought through as we can't use a distributed timestamp
@@ -96,7 +95,8 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
               await this.commitState(localModule.address, query.timestamp)
             }
           } catch (error) {
-            this.logger?.error(`Error processing command ${commandHash} for module ${localModuleName}: ${error}`)
+            this.logger?.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
+            console.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
           }
         }
       }
@@ -144,10 +144,10 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   /**
-   * Background process for checking for inbound commands
+   * Background process for checking for inbound queries
    */
   private processIncomingQueries = async () => {
-    this.logger?.debug('Checking for inbound commands')
+    this.logger?.debug('Checking for inbound queries')
     // Check for any queries that have been issued and have not been responded to
     const localModules = await this.listeningModules()
 
@@ -156,15 +156,15 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       localModules.map(async (localModule) => {
         try {
           const localModuleName = localModule.config.name ?? localModule.address
-          this.logger?.debug(`Checking for inbound commands to ${localModuleName}`)
+          this.logger?.debug(`Checking for inbound queries to ${localModuleName}`)
           const queries = await this.findQueriesToAddress(localModule.address)
           if (queries.length === 0) return
-          this.logger?.debug(`Found commands addressed to local module: ${localModuleName}`)
+          this.logger?.debug(`Found queries addressed to local module: ${localModuleName}`)
           for (const query of queries) {
             await this.callLocalModule(localModule, query)
           }
         } catch (error) {
-          this.logger?.error(`Error processing commands for address ${localModule.address}: ${error}`)
+          this.logger?.error(`Error processing queries for address ${localModule.address}: ${error}`)
         }
       }),
     )

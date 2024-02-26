@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
-import { Address, isHex } from '@xylabs/hex'
+import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleEventData, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { creatableModule, ModuleEventData, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
@@ -44,13 +45,17 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+    const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {
-      account: Account.randomSync(),
+      account,
       busClient: assertEx(this.busClient(), 'Bus client not initialized'),
       moduleAddress: id as Address,
       queries: [],
     }
-    return await Promise.resolve(new AsyncQueryBusModuleProxy<T>(params) as unknown as T)
+    const module = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
+    const wrappedModule = ModuleWrapper.wrap(module, account)
+    const state = await wrappedModule.state()
+    return module
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Lowercase<string>[]> {

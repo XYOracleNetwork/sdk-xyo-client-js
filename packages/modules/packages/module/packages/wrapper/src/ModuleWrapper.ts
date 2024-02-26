@@ -32,6 +32,8 @@ import {
   ModuleManifestQuerySchema,
   ModuleQueryResult,
   ModuleResolverInstance,
+  ModuleStateQuery,
+  ModuleStateQuerySchema,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
@@ -319,8 +321,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return typeof nameOrAddressOrFilter === 'string' ? undefined : []
   }
 
-  state() {
-    return []
+  async state(): Promise<Payload[]> {
+    const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
+    return await this.sendQuery(queryPayload)
   }
 
   protected bindQuery<T extends Query>(

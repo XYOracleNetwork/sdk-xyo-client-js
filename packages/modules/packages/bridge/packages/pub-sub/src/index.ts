@@ -1,4 +1,4 @@
-export * from './AbstractModuleProxy'
+export * from './AbstractModuleHost'
 export * from './AsyncQueryBus'
 export * from './Config'
 export * from './Params'

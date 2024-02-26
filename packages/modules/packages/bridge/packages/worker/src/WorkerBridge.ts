@@ -1,30 +1,22 @@
 import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
-import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeModule, CacheConfig } from '@xyo-network/bridge-model'
-import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions, CacheConfig } from '@xyo-network/bridge-model'
+import { PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
   ModuleConfig,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
   ModuleEventData,
-  ModuleManifestQuery,
-  ModuleManifestQuerySchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { NodeAttachQuerySchema } from '@xyo-network/node-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
-import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import { Payload } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { defaultPackageManifest } from './defaultNodeManifest'
@@ -113,141 +105,19 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return bridge
   }
 
-  connect(): Promisable<boolean> {
-    return true
+  override exposeHandler(id: string, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    return []
   }
 
-  disconnect(): Promisable<boolean> {
-    return true
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
+    _id: ModuleIdentifier,
+    _options?: ModuleFilterOptions<T>,
+  ): Promise<T | undefined> {
+    // eslint-disable-next-line unicorn/no-useless-promise-resolve-reject, unicorn/no-useless-undefined
+    return await Promise.resolve(undefined)
   }
 
-  override getRootAddress(): Promisable<Address> {
-    //TODO: Get the real address
-    return this.address
-  }
-
-  targetConfig(address: Address): ModuleConfig {
-    return assertEx(this._targetConfigs[address], () => `targetConfig not set [${address}]`)
-  }
-
-  override async targetDiscover(address?: Address): Promise<Payload[]> {
-    //if caching, return cached result if exists
-    const cachedResult = this.discoverCache?.get(address ?? 'root')
-    if (cachedResult) {
-      return cachedResult
-    }
-    const addressToDiscover = address ?? ''
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
-    const boundQuery = await this.bindQuery(queryPayload)
-    const discover = assertEx(await this.targetQuery(addressToDiscover, boundQuery[0], boundQuery[1]), () => `Unable to resolve [${address}]`)[1]
-    this._targetQueries[addressToDiscover] = compact(
-      discover?.map((payload) => {
-        if (payload.schema === QuerySchema) {
-          const schemaPayload = payload as WithMeta<QueryPayload>
-          return schemaPayload.query
-        } else {
-          return null
-        }
-      }) ?? [],
-    )
-
-    const targetConfigSchema = assertEx(
-      discover.find(isPayloadOfSchemaType<WithMeta<ConfigPayload>>(ConfigSchema)),
-      () => `Discover did not return a [${ConfigSchema}] payload`,
-    ).config
-
-    this._targetConfigs[addressToDiscover] = assertEx(
-      discover.find(isPayloadOfSchemaType(targetConfigSchema)) as ModuleConfig,
-      () => `Discover did not return a [${targetConfigSchema}] payload`,
-    )
-
-    //if caching, set entry
-    this.discoverCache?.set(address ?? 'root', discover)
-    return discover
-  }
-
-  async targetManifest(address: Address, maxDepth?: number) {
-    const addressToCall = address ?? (await this.getRootAddress())
-    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
-    const boundQuery = await this.bindQuery(queryPayload)
-    const manifest = assertEx(await this.targetQuery(addressToCall, boundQuery[0], boundQuery[1]), `Unable to resolve [${address}]`)[1]
-    return assertEx(
-      manifest.find(isPayloadOfSchemaType<WithMeta<ModuleManifestQuery>>(ModuleManifestQuerySchema)) ??
-        manifest.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema)),
-      'Did not receive manifest',
-    ) as ModuleManifestPayload
-  }
-
-  targetQueries(address: Address): string[] {
-    return assertEx(this._targetQueries[address], () => `targetQueries not set [${address}]`)
-  }
-
-  async targetQuery(address: Address, query: QueryBoundWitness, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    const msgId = await PayloadBuilder.hash(query)
-    const mainPromise = new Promise<ModuleQueryResult>((resolve, reject) => {
-      try {
-        const message: QueryMessage = {
-          address,
-          msgId,
-          payloads,
-          query,
-          type: 'xyoQuery',
-        }
-
-        const receiveFunc = (message: MessageEvent) => {
-          if (message.data.msgId === msgId) {
-            this.worker.removeEventListener('message', receiveFunc)
-            resolve((message.data as QueryResultMessage).result)
-          }
-        }
-
-        this.worker.addEventListener('message', receiveFunc)
-        this.worker.postMessage(message)
-      } catch (ex) {
-        reject(ex)
-      }
-    })
-    const result = await Promise.race([
-      mainPromise,
-      (async () => {
-        await delay(1000)
-        return null
-      })(),
-    ])
-    return assertEx(result, () => `targetQuery timed out [${address}]`)
-  }
-
-  targetQueryable(_address: Address, _query: QueryBoundWitness, _payloads?: Payload[], _queryConfig?: ModuleConfig): boolean {
-    return true
-  }
-
-  protected override async startHandler() {
-    await super.startHandler()
-
-    const downResolver = assertEx(this.targetDownResolver(), 'Unable to get down resolver')
-
-    this.downResolver.addResolver(downResolver)
-
-    await this.targetDiscover()
-
-    const childAddresses = await downResolver.getRemoteAddresses()
-
-    const children = compact(
-      await Promise.all(
-        childAddresses.map(async (address) => {
-          const resolved = await downResolver.resolve({ address: [address] })
-          return resolved[0]
-        }),
-      ),
-    )
-
-    // Discover all to load cache
-    await Promise.all(children.map((child) => child.discover()))
-
-    const parentNodes = await this.upResolver.resolve({ query: [[NodeAttachQuerySchema]] })
-    //notify parents of child modules
-    //TODO: this needs to be thought through. If this the correct direction for data flow and how do we 'un-attach'?
-    for (const node of parentNodes) for (const child of children) forget(node.emit('moduleAttached', { module: child }))
-    return true
+  override unexposeHandler(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    return []
   }
 }

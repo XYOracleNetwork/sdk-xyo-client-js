@@ -9,6 +9,7 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -192,6 +193,8 @@ describe('PubSubBridge', () => {
         Account.randomSync(),
         false,
       )
+      const discoverResult = await proxy.discover()
+      expect(discoverResult.length).toBeGreaterThan(1)
       const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }
       const result = await proxy.insert([payload])
       expect(result).toBeArrayOfSize(1)

@@ -3077,17 +3077,27 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
     "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/boundwitness-wrapper": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/node-wrapper": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/sentinel-wrapper": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/witness-wrapper": "workspace:~"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -4437,6 +4447,7 @@ __metadata:
     "@xylabs/array": "npm:^3.0.3"
     "@xylabs/assert": "npm:^3.0.3"
     "@xylabs/exists": "npm:^3.0.3"
+    "@xylabs/hex": "npm:^3.0.3"
     "@xylabs/object": "npm:^3.0.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
@@ -4904,7 +4915,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.92.0-rc.1, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.92.0-rc.2, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5689,12 +5700,12 @@ __metadata:
     "@xylabs/error": "npm:^3.0.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig-dom": "npm:^3.4.1"
-    "@xyo-network/domain-payload-plugin": "npm:^2.92.0-rc.1"
+    "@xyo-network/domain-payload-plugin": "npm:^2.92.0-rc.2"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.92.0-rc.1"
+    "@xyo-network/schema-payload-plugin": "npm:^2.92.0-rc.2"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.3.3"
@@ -5712,7 +5723,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.92.0-rc.1, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.92.0-rc.2, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:
@@ -5855,7 +5866,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper":
+"@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper, @xyo-network/sentinel-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper"
   dependencies:

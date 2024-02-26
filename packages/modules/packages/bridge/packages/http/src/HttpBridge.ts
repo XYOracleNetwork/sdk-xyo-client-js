@@ -44,7 +44,6 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
       axios: this.axios,
       moduleAddress: id as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
-      queries: [],
     }
     return await Promise.resolve(new HttpModuleProxy<T>(params) as unknown as T)
   }

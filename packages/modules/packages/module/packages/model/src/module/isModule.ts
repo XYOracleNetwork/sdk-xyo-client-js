@@ -1,18 +1,12 @@
 import { TypeCheck } from '@xylabs/object'
+import { Schema } from '@xyo-network/payload-model'
 
-import { ModuleDiscoverQuerySchema } from '../Queries'
+import { ModuleStateQuerySchema } from '../Queries'
 import { IsModuleFactory } from './IsModuleFactory'
 import { isModuleObject } from './isModuleObject'
 import { Module } from './Module'
 
-export const requiredModuleQueries: string[] = [
-  /* We need to update this once live module conform */
-  //ModuleDescribeQuerySchema,
-  //ModuleAddressQuerySchema,
-  ModuleDiscoverQuerySchema,
-  //ModuleManifestQuerySchema,
-  //ModuleSubscribeQuerySchema,
-]
+export const requiredModuleQueries: Schema[] = [ModuleStateQuerySchema]
 
 //we do not use IsInstanceFactory here to prevent a cycle
 const factory = new IsModuleFactory<Module>()

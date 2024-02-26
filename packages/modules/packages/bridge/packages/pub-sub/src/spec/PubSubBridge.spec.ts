@@ -188,16 +188,17 @@ describe('PubSubBridge', () => {
   })
   describe('client test', () => {
     it('simple insert', async () => {
-      const proxy = ArchivistWrapper.wrap(
-        (await clientsWithBridges[0].pubSubBridge.resolve(clientsWithBridges[1].module.address)) as ArchivistInstance,
-        Account.randomSync(),
-        false,
-      )
-      const discoverResult = await proxy.discover()
-      expect(discoverResult.length).toBeGreaterThan(1)
-      const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }
-      const result = await proxy.insert([payload])
-      expect(result).toBeArrayOfSize(1)
+      const proxy = await clientsWithBridges[0].pubSubBridge.resolve(clientsWithBridges[1].module.address)
+      expect(proxy).toBeDefined()
+      if (proxy) {
+        await proxy.start?.()
+        const wrapper = ArchivistWrapper.wrap(proxy as ArchivistInstance, Account.randomSync())
+        const discoverResult = await proxy.discover()
+        expect(discoverResult.length).toBeGreaterThan(1)
+        const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }
+        const result = await wrapper.insert([payload])
+        expect(result).toBeArrayOfSize(1)
+      }
     })
   })
 })

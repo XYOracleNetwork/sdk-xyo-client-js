@@ -28,6 +28,7 @@ import {
   ModuleManifestQuerySchema,
   ModuleQueryResult,
   ModuleResolverInstance,
+  ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
@@ -36,7 +37,6 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
   moduleAddress: Address
-  queries: string[]
 }>
 
 export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = ModuleProxyParams, TWrappedModule extends Module = Module>
@@ -195,6 +195,8 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
 
   async state(): Promise<Payload[]> {
     if (this._state === undefined) {
+      const queryPayload: QueryPayload = { query: ModuleStateQuerySchema, schema: QuerySchema }
+      this._state = [queryPayload]
       const wrapper = ModuleWrapper.wrap(this, this.account)
       this._state = await wrapper.state()
     }

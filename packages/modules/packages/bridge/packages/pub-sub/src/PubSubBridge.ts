@@ -50,9 +50,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       account,
       busClient: assertEx(this.busClient(), 'Bus client not initialized'),
       moduleAddress: id as Address,
-      queries: [],
     }
     const module = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
+    await module.start?.()
     const wrappedModule = ModuleWrapper.wrap(module, account)
     const state = await wrappedModule.state()
     return module

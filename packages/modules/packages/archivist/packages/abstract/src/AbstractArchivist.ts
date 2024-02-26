@@ -230,6 +230,7 @@ export abstract class AbstractArchivist<
           requestedPayloadFound = true
           // Add it to the list of found hashes
           foundHashes.add(hash)
+          requestedHashes.delete(hash)
         }
         if (requestedPayloadFound) foundPayloads.push(payload)
       }

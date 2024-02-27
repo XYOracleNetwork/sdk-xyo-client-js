@@ -86,14 +86,17 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   connect(): Promisable<boolean> {
+    this._noOverride('connect')
     throw new Error('Unsupported')
   }
 
   disconnect(): Promisable<boolean> {
+    this._noOverride('disconnect')
     throw new Error('Unsupported')
   }
 
   expose(id: string, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    this._noOverride('expose')
     return this.exposeHandler(id, options)
   }
 
@@ -119,6 +122,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    this._noOverride('unexpose')
     return this.unexposeHandler(id, options)
   }
 

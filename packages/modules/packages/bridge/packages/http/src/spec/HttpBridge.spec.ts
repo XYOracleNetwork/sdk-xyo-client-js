@@ -45,7 +45,7 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const archivistByName = await memNode.resolve('Archivist')
+    const archivistByName = await bridge.resolve('Archivist')
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
@@ -95,11 +95,11 @@ describe('HttpBridge', () => {
     //expect(archivistByAddress).toBeDefined()
 
     // Fails to resolve
-    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
+    const [archivistByName] = await bridge.resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
+    const [payloadStatsDivinerByName] = await bridge.resolve({ name: ['PayloadStatsDiviner'] })
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = await bridge.resolve({ name: ['BoundWitnessStatsDiviner'] })
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

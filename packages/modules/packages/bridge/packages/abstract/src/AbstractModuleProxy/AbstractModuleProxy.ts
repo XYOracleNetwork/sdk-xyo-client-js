@@ -7,7 +7,9 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BridgeInstance } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { BaseEmitter } from '@xyo-network/module-abstract'
 import { EventAnyListener, EventListener, EventUnsubscribeFunction } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
@@ -41,12 +43,10 @@ export type ModuleProxyParams = BaseParams<{
 }>
 
 export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = ModuleProxyParams, TWrappedModule extends Module = Module>
-  extends Base<TWrappedModule['params']>
+  extends BaseEmitter<TWrappedModule['params'], TWrappedModule['eventData']>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
-
-  eventData = {} as TWrappedModule['eventData']
 
   protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
@@ -111,10 +111,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     )
   }
 
-  clearListeners(_eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
-    throw new Error('Unsupported')
-  }
-
   //TODO: Make ModuleDescription into real payload
   async describe(): Promise<ModuleDescription> {
     const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
@@ -126,18 +122,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return await this.sendQuery(queryPayload)
   }
 
-  emit(_eventName: Parameters<TWrappedModule['emit']>[0], _eventArgs: Parameters<TWrappedModule['emit']>[1]): Promise<void> {
-    throw new Error('Unsupported')
-  }
-
-  emitSerial(_eventName: Parameters<TWrappedModule['emitSerial']>[0], _eventArgs: Parameters<TWrappedModule['emitSerial']>[1]): Promise<void> {
-    throw new Error('Unsupported')
-  }
-
-  listenerCount(_eventNames: Parameters<TWrappedModule['listenerCount']>[0]): number {
-    throw new Error('Unsupported')
-  }
-
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
@@ -146,35 +130,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
-  }
-
-  off<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventNames: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ) {
-    throw new Error('Unsupported')
-  }
-
-  offAny(_listener: EventAnyListener) {
-    throw new Error('Unsupported')
-  }
-
-  on<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventNames: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
-  }
-
-  onAny(_listener: EventAnyListener): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
-  }
-
-  once<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventName: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
   }
 
   async previousHash(): Promise<string | undefined> {

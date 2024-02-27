@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -25,6 +26,8 @@ import { isDivinerModule } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
+  isAddressModuleFilter,
+  isNameModuleFilter,
   Module,
   ModuleEventData,
   ModuleFilter,
@@ -104,7 +107,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
-    _options?: ModuleFilterOptions<T>,
+    options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     if (idOrFilter === undefined) {
       return []
@@ -117,7 +120,13 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       await module?.start?.()
       return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
     } else {
-      throw new TypeError('Filter not Supported')
+      const filter = idOrFilter
+      if (isAddressModuleFilter(filter)) {
+        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+      } else if (isNameModuleFilter(filter)) {
+        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
+      }
+      throw new Error('Not supported')
     }
   }
 

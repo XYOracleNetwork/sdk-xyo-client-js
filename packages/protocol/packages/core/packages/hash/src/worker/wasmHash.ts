@@ -1,7 +1,7 @@
 import { asHash } from '@xylabs/hex'
-import { sha256 } from 'hash-wasm'
 // eslint-disable-next-line import/no-internal-modules
-import { expose } from 'threads/worker'
+import { expose } from '@xylabs/threads/worker'
+import { sha256 } from 'hash-wasm'
 
 expose({
   async hash(data: string) {

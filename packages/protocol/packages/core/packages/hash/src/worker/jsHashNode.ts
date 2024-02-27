@@ -3,7 +3,7 @@ export const jsHashFunc = () => {
   const shajs = require('sha.js')
   const { asHash } = require('@xylabs/hex')
   // eslint-disable-next-line import/no-internal-modules
-  const { expose } = require('threads/worker')
+  const { expose } = require('@xylabs/threads/worker')
 
   expose({
     hash(data: string) {

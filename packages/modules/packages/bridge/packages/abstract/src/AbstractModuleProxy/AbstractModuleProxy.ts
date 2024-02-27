@@ -30,6 +30,7 @@ import {
   ModuleResolverInstance,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -50,6 +51,9 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
 
+  private _downResolver = new CompositeModuleResolver()
+  private _upResolver = new CompositeModuleResolver()
+
   constructor(params: TParams) {
     super({ config: { schema: ModuleConfigSchema } })
     this.proxyParams = params
@@ -68,7 +72,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get downResolver(): ModuleResolverInstance {
-    throw new Error('Unsupported')
+    return this._downResolver
   }
 
   get id() {
@@ -83,7 +87,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get upResolver(): ModuleResolverInstance {
-    throw new Error('Unsupported')
+    return this._upResolver
   }
 
   static hasRequiredQueries(module: Module) {

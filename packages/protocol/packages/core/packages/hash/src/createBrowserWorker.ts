@@ -1,4 +1,4 @@
-import { Worker } from 'threads'
+import { Worker } from '@xylabs/threads'
 
 export const createBrowserWorker = (url?: URL) => {
   try {

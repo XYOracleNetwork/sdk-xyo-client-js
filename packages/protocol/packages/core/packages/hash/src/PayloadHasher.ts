@@ -2,12 +2,12 @@ import { assertEx } from '@xylabs/assert'
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
+import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
+// eslint-disable-next-line import/no-internal-modules
+import { WorkerModule } from '@xylabs/threads/dist/types/worker'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
-import { ModuleThread, Pool, spawn, Worker } from 'threads'
-// eslint-disable-next-line import/no-internal-modules
-import { WorkerModule } from 'threads/dist/types/worker'
 
 import { removeEmptyFields } from './removeEmptyFields'
 import { deepOmitPrefixedFields } from './removeFields'

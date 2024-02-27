@@ -52,7 +52,7 @@ const clientNodePhrases = {
  */
 describe('BusProxy', () => {
   let host: AsyncQueryBusHost
-  let bridgeClient: AsyncQueryBusClient
+  let busClient: AsyncQueryBusClient
   let intermediateNode: IntermediateNode
   const clientsWithBridges: Client[] = []
   beforeAll(async () => {
@@ -132,7 +132,7 @@ describe('BusProxy', () => {
     const clientInfo = clients[0]
     clientsWithBridges.push(clients[0])
 
-    const clearingHouse = {
+    const intersect = {
       queries: { archivist: queryArchivist.address, boundWitnessDiviner: queryBoundWitnessDiviner.address },
       responses: { archivist: responseArchivist.address, boundWitnessDiviner: responseBoundWitnessDiviner.address },
     }
@@ -142,12 +142,12 @@ describe('BusProxy', () => {
       boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address,
     }
 
-    bridgeClient = new AsyncQueryBusClient({
+    busClient = new AsyncQueryBusClient({
       resolver: clientInfo.module,
       logger,
       config: {
         pollFrequency,
-        clearingHouse,
+        intersect,
         stateStore: clientStateStore,
       } satisfies AsyncQueryBusClientConfig,
     })
@@ -174,7 +174,7 @@ describe('BusProxy', () => {
       logger,
       config: {
         pollFrequency,
-        clearingHouse,
+        intersect,
         stateStore: hostStateStore,
       },
     })
@@ -196,7 +196,7 @@ describe('BusProxy', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
-      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, queries: [], bridgeClient })
+      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, queries: [], busClient })
 
       host.start()
 

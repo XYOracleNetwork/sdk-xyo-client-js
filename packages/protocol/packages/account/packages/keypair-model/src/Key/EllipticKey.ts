@@ -1,4 +1,4 @@
-import { Data } from '@xyo-network/data'
+import { DataInstance } from '@xyo-network/data'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EllipticKeyInstance extends Data {}
+export interface EllipticKeyInstance extends DataInstance {}

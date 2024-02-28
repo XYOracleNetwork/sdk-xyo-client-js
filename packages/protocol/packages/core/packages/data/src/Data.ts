@@ -2,11 +2,19 @@
 import { base16, base58 } from '@scure/base'
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
+import { Hex } from '@xylabs/hex'
 import { keccak256 } from 'ethers'
 
 import { AbstractData } from './AbstractData'
 
-export class Data extends AbstractData {
+export interface DataInstance {
+  base58: string
+  bytes: ArrayBuffer
+  hex: Hex
+  keccak256: Uint8Array
+}
+
+export class Data extends AbstractData implements DataInstance {
   private _bytes?: ArrayBuffer
   private _length: number
 
@@ -27,7 +35,7 @@ export class Data extends AbstractData {
 
   get hex() {
     this.checkLength()
-    return base16.encode(new Uint8Array(this.bytes)).toLowerCase()
+    return base16.encode(new Uint8Array(this.bytes)).toLowerCase() as Hex
   }
 
   get keccak256() {

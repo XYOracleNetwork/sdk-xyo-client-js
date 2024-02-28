@@ -1,19 +1,21 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import { exists } from '@xylabs/exists'
+import { Address, asAddress, isAddress, toAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { Base, BaseParams } from '@xylabs/object'
+import { BaseParams } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-abstract'
-import { EventAnyListener, EventListener, EventUnsubscribeFunction } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  isAddressModuleFilter,
+  isNameModuleFilter,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -28,6 +30,7 @@ import {
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
+  ModuleName,
   ModuleQueryResult,
   ModuleResolverInstance,
   ModuleStateQuerySchema,
@@ -39,6 +42,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
+  bridge: BridgeInstance
   moduleAddress: Address
 }>
 
@@ -141,10 +145,24 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return true
   }
 
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance | undefined>
-  resolve(nameOrAddressOrFilter?: string | ModuleFilter, _options?: unknown): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
-    return typeof nameOrAddressOrFilter === 'string' ? undefined : []
+  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance[]>
+  resolve(id: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance | undefined>
+  async resolve(
+    idOrFilter?: string | ModuleFilter,
+    options?: ModuleFilterOptions<ModuleInstance>,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    if (typeof idOrFilter === 'string') {
+      const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
+      return address ? await this.proxyParams.bridge.resolve(address) : undefined
+    } else {
+      const filter = idOrFilter
+      if (isAddressModuleFilter(filter)) {
+        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+      } else if (isNameModuleFilter(filter)) {
+        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
+      }
+      throw new Error('Not supported')
+    }
   }
 
   async start(): Promise<boolean> {
@@ -185,6 +203,12 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
+  }
+
+  protected childAddressByName(name: ModuleName): Address | undefined {
+    const nodeManifests = this._state?.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
+    const children = nodeManifests?.flatMap((nodeManifest) => nodeManifest.modules?.public).filter(exists)
+    return asAddress(children?.find((child) => child.config.name === name)?.status?.address)
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {

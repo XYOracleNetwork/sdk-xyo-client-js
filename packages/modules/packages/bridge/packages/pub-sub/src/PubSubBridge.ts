@@ -48,6 +48,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {
       account,
+      bridge: this,
       busClient: assertEx(this.busClient(), 'Bus client not initialized'),
       moduleAddress: id as Address,
     }

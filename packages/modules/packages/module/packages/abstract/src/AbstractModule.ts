@@ -327,23 +327,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
-    switch (typeof nameOrAddressOrFilter) {
+    switch (typeof idOrFilter) {
       case 'string': {
         return (
-          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(nameOrAddressOrFilter, options) : undefined) ??
-          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(nameOrAddressOrFilter, options) : undefined)
+          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options) : undefined) ??
+          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options) : undefined)
         )
       }
       default: {
-        const filter: ModuleFilter<T> | undefined = nameOrAddressOrFilter
+        const filter: ModuleFilter<T> | undefined = idOrFilter
         return [
           ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),
           ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),

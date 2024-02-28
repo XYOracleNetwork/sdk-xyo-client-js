@@ -42,6 +42,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
+      bridge: this,
       moduleAddress: id as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }

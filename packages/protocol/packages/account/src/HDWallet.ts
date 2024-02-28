@@ -114,7 +114,7 @@ export class HDWallet extends Account implements WalletInstance {
     return existing
   }
 
-  static override async fromPhrase(phrase: string, path: string = defaultPath) {
+  static override async fromPhrase(phrase: string, path: string = defaultPath): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 
@@ -127,8 +127,8 @@ export class HDWallet extends Account implements WalletInstance {
     return value instanceof HDWallet ? value : undefined
   }
 
-  static random() {
-    return this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
+  static async random(): Promise<WalletInstance> {
+    return await this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
   }
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {

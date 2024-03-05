@@ -2,7 +2,7 @@ const finalConfig = {
   env: {
     es2024: true
   },
-  'extends': ['@xylabs'],
+  'extends': ['@xylabs', "plugin:deprecation/recommended"],
   parser: '@typescript-eslint/parser',
   parserOptions: { ecmaVersion: 'latest', project: './tsconfig.json', sourceType: 'module', tsconfigRootDir: null },
   "root": true,
@@ -21,6 +21,7 @@ const finalConfig = {
   ],
   "rules": {
     "import/no-cycle": ["warn"],
+    "deprecation/deprecation": ["warn"],
     "import/no-default-export": ["off"],
     "no-restricted-imports": [
       "warn",

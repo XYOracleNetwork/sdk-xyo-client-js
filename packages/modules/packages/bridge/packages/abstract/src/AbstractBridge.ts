@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Promisable } from '@xylabs/promise'
@@ -36,6 +37,7 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { isNodeModule } from '@xyo-network/node-model'
 import { NodeWrapper } from '@xyo-network/node-wrapper'
@@ -109,16 +111,29 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    if (idOrFilter === undefined) {
-      return []
-    }
+    const direction = options?.direction ?? 'all'
     if (typeof idOrFilter === 'string') {
-      const upResolve = await this.upResolver.resolve<T>(idOrFilter)
-      if (upResolve) return upResolve
+      if (direction === 'all' || direction === 'down') {
+        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter)
+        if (downResolve) return downResolve
+      }
+      if (direction === 'all' || direction === 'up') {
+        const upResolve = await this.upResolver.resolve<T>(idOrFilter)
+        if (upResolve) return upResolve
+      }
       //assertEx(isHex(idOrFilter, { prefix: false }), `Name resolutions not supported [${idOrFilter}]`)
       const module = await this.resolveHandler<T>(idOrFilter)
       await module?.start?.()
       return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
+    } else if (idOrFilter === undefined) {
+      if (direction === 'all' || direction === 'down') {
+        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options)
+        if (downResolve) return downResolve
+      }
+      if (direction === 'all' || direction === 'up') {
+        const upResolve = await this.upResolver.resolve<T>(idOrFilter, options)
+        if (upResolve) return upResolve
+      }
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
@@ -126,7 +141,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       } else if (isNameModuleFilter(filter)) {
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }
-      throw new Error('Not supported')
     }
   }
 

@@ -5779,6 +5779,7 @@ __metadata:
     "@xyo-network/sdk": "workspace:~"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"
+    eslint-plugin-deprecation: "npm:^2.0.0"
     jest: "npm:^29.7.0"
     jest-docblock: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"

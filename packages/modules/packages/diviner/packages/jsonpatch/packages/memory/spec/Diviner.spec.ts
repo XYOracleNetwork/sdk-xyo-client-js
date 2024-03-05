@@ -1,4 +1,4 @@
-import { HDWallet } from '@xyo-network/account'
+import { HDWallet, WalletInstance } from '@xyo-network/account'
 import { JsonPatchDivinerConfig, JsonPatchDivinerConfigSchema } from '@xyo-network/diviner-jsonpatch-model'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -150,7 +150,7 @@ const cases: [string, JsonPatchDivinerConfig, TestData[], TestData[]][] = [
  */
 
 describe('JsonPatchDiviner', () => {
-  let wallet: HDWallet
+  let wallet: WalletInstance
   beforeAll(async () => {
     wallet = await HDWallet.random()
   })

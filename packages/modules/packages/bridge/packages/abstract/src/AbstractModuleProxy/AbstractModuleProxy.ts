@@ -42,7 +42,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
-  bridge: BridgeInstance
+  bridge?: BridgeInstance
   moduleAddress: Address
 }>
 
@@ -153,7 +153,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     if (typeof idOrFilter === 'string') {
       const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
-      return address ? await this.proxyParams.bridge.resolve(address) : undefined
+      return address ? await this.proxyParams.bridge?.resolve(address) : undefined
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {

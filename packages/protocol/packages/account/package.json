@@ -24,7 +24,7 @@
     "@xyo-network/wallet-model": "workspace:~",
     "@xyo-network/wasm": "workspace:~",
     "async-mutex": "^0.4.1",
-    "elliptic": "^6.5.4",
+    "elliptic": "^6.5.5",
     "ethers": "6.11.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

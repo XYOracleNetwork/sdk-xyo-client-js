@@ -1218,10 +1218,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/mapbox-gl-supported@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@mapbox/mapbox-gl-supported@npm:2.0.1"
-  checksum: 36877eb32510e43ad524152fc95bb29e04e3ba7129d0f81ccb3704a71badac7e53e6ef0a203d3ae6d4fd289844fb6229e7ec31c9e66934c4a74b33ee1a7fde0f
+"@mapbox/mapbox-gl-supported@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@mapbox/mapbox-gl-supported@npm:3.0.0"
+  checksum: e129beda3aa7f26cdb5d6a31ef4bfa95ca557307465d4084906542d2d86bf75e809741b234022993bf19a747d3a78e1cc3dca5de882a763f1df66c571b95b7b5
   languageName: node
   linkType: hard
 
@@ -1815,90 +1815,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-darwin-arm64@npm:1.4.2"
+"@swc/core-darwin-arm64@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-darwin-arm64@npm:1.4.5"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-darwin-x64@npm:1.4.2"
+"@swc/core-darwin-x64@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-darwin-x64@npm:1.4.5"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.4.2"
+"@swc/core-linux-arm-gnueabihf@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.4.5"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.4.2"
+"@swc/core-linux-arm64-gnu@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.4.5"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-linux-arm64-musl@npm:1.4.2"
+"@swc/core-linux-arm64-musl@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-linux-arm64-musl@npm:1.4.5"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-linux-x64-gnu@npm:1.4.2"
+"@swc/core-linux-x64-gnu@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-linux-x64-gnu@npm:1.4.5"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-linux-x64-musl@npm:1.4.2"
+"@swc/core-linux-x64-musl@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-linux-x64-musl@npm:1.4.5"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.4.2"
+"@swc/core-win32-arm64-msvc@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.4.5"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.4.2"
+"@swc/core-win32-ia32-msvc@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.4.5"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core-win32-x64-msvc@npm:1.4.2"
+"@swc/core-win32-x64-msvc@npm:1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core-win32-x64-msvc@npm:1.4.5"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@swc/core@npm:1.4.2"
+"@swc/core@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "@swc/core@npm:1.4.5"
   dependencies:
-    "@swc/core-darwin-arm64": "npm:1.4.2"
-    "@swc/core-darwin-x64": "npm:1.4.2"
-    "@swc/core-linux-arm-gnueabihf": "npm:1.4.2"
-    "@swc/core-linux-arm64-gnu": "npm:1.4.2"
-    "@swc/core-linux-arm64-musl": "npm:1.4.2"
-    "@swc/core-linux-x64-gnu": "npm:1.4.2"
-    "@swc/core-linux-x64-musl": "npm:1.4.2"
-    "@swc/core-win32-arm64-msvc": "npm:1.4.2"
-    "@swc/core-win32-ia32-msvc": "npm:1.4.2"
-    "@swc/core-win32-x64-msvc": "npm:1.4.2"
+    "@swc/core-darwin-arm64": "npm:1.4.5"
+    "@swc/core-darwin-x64": "npm:1.4.5"
+    "@swc/core-linux-arm-gnueabihf": "npm:1.4.5"
+    "@swc/core-linux-arm64-gnu": "npm:1.4.5"
+    "@swc/core-linux-arm64-musl": "npm:1.4.5"
+    "@swc/core-linux-x64-gnu": "npm:1.4.5"
+    "@swc/core-linux-x64-musl": "npm:1.4.5"
+    "@swc/core-win32-arm64-msvc": "npm:1.4.5"
+    "@swc/core-win32-ia32-msvc": "npm:1.4.5"
+    "@swc/core-win32-x64-msvc": "npm:1.4.5"
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.5"
   peerDependencies:
@@ -1927,7 +1927,7 @@ __metadata:
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
-  checksum: 750c09e35fb14317b1ff7f8f528eebd732988ce34736c3404805e70ff44e08a19ec6d0c16b9468fab602b596eb39cc6d2771f0483a62efd614768e046323b5f4
+  checksum: 9dd5e482818945279debdeec0dbd3afc71c7a2ce18c378445aa3f3757d9346f4c15181678179389772da72460d6f405f27bafff8059dd79a185b988f0adb00a7
   languageName: node
   linkType: hard
 
@@ -3174,7 +3174,7 @@ __metadata:
     "@xyo-network/wallet-model": "workspace:~"
     "@xyo-network/wasm": "workspace:~"
     async-mutex: "npm:^0.4.1"
-    elliptic: "npm:^6.5.4"
+    elliptic: "npm:^6.5.5"
     ethers: "npm:6.11.1"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -4282,7 +4282,7 @@ __metadata:
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    json-joy: "npm:^11.28.1"
+    json-joy: "npm:^11.33.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -4295,7 +4295,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    json-joy: "npm:^11.28.1"
+    json-joy: "npm:^11.33.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5294,7 +5294,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/modules@workspace:packages/modules"
   dependencies:
-    "@swc/core": "npm:^1.4.2"
+    "@swc/core": "npm:^1.4.5"
     "@xylabs/delay": "npm:^3.0.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
@@ -5691,7 +5691,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/sdk-geo": "npm:^2.11.2"
-    mapbox-gl: "npm:^3.1.2"
+    mapbox-gl: "npm:^3.2.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5791,7 +5791,7 @@ __metadata:
     supertest: "npm:^6.3.4"
     ts-jest: "npm:^29.1.2"
     ts-node: "npm:^10.9.2"
-    typedoc: "npm:^0.25.9"
+    typedoc: "npm:^0.25.11"
     typedoc-material-theme: "npm:^1.0.2"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -8185,9 +8185,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"elliptic@npm:^6.5.4":
-  version: 6.5.4
-  resolution: "elliptic@npm:6.5.4"
+"elliptic@npm:^6.5.5":
+  version: 6.5.5
+  resolution: "elliptic@npm:6.5.5"
   dependencies:
     bn.js: "npm:^4.11.9"
     brorand: "npm:^1.1.0"
@@ -8196,7 +8196,7 @@ __metadata:
     inherits: "npm:^2.0.4"
     minimalistic-assert: "npm:^1.0.1"
     minimalistic-crypto-utils: "npm:^1.0.1"
-  checksum: 2cd7ff4b69720dbb2ca1ca650b2cf889d1df60c96d4a99d331931e4fe21e45a7f3b8074e86618ca7e56366c4b6258007f234f9d61d9b0c87bbbc8ea990b99e94
+  checksum: 5444b4f18e0c0fdfa14de26f69f7dbc44c78a211e91825823d698dcc91071ef1a3954d87730f364183fc83b0a86d8affed864e347da2e549bdcead3b46de126f
   languageName: node
   linkType: hard
 
@@ -11774,9 +11774,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-joy@npm:^11.28.1":
-  version: 11.28.1
-  resolution: "json-joy@npm:11.28.1"
+"json-joy@npm:^11.33.0":
+  version: 11.33.0
+  resolution: "json-joy@npm:11.33.0"
   dependencies:
     arg: "npm:^5.0.2"
     hyperdyperid: "npm:^1.2.0"
@@ -11799,7 +11799,7 @@ __metadata:
     json-pointer: bin/json-pointer.js
     json-pointer-test: bin/json-pointer-test.js
     json-unpack: bin/json-unpack.js
-  checksum: 0f957e676ef6d8bf1748424b8cb7686fc7757130aae6967fcad5e3cb60891a8701bbd999feae4e0f8dcb8cbd1f9fc2da4757b421ccde057c782fb09a899aa1ff
+  checksum: 846048b7f762f3c003f081f2fc23df7653716c7d5541dc23a7d7112346d8de95e0cc560d04b96bf3f0fd6a68614232ee6270ffb574d314ab21e42f87a4116110
   languageName: node
   linkType: hard
 
@@ -12087,6 +12087,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.clonedeep@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.clonedeep@npm:4.5.0"
+  checksum: 957ed243f84ba6791d4992d5c222ffffca339a3b79dbe81d2eaf0c90504160b500641c5a0f56e27630030b18b8e971ea10b44f928a977d5ced3c8948841b555f
+  languageName: node
+  linkType: hard
+
 "lodash.memoize@npm:4.x":
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
@@ -12324,13 +12331,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mapbox-gl@npm:^3.0.0, mapbox-gl@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "mapbox-gl@npm:3.1.2"
+"mapbox-gl@npm:^3.0.0, mapbox-gl@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "mapbox-gl@npm:3.2.0"
   dependencies:
     "@mapbox/geojson-rewind": "npm:^0.5.2"
     "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
-    "@mapbox/mapbox-gl-supported": "npm:^2.0.1"
+    "@mapbox/mapbox-gl-supported": "npm:^3.0.0"
     "@mapbox/point-geometry": "npm:^0.1.0"
     "@mapbox/tiny-sdf": "npm:^2.0.6"
     "@mapbox/unitbezier": "npm:^0.0.1"
@@ -12343,15 +12350,18 @@ __metadata:
     gl-matrix: "npm:^3.4.3"
     grid-index: "npm:^1.1.0"
     kdbush: "npm:^4.0.1"
+    lodash.clonedeep: "npm:^4.5.0"
     murmurhash-js: "npm:^1.0.0"
     pbf: "npm:^3.2.1"
     potpack: "npm:^2.0.0"
     quickselect: "npm:^2.0.0"
     rw: "npm:^1.3.3"
+    serialize-to-js: "npm:^3.1.2"
     supercluster: "npm:^8.0.0"
     tinyqueue: "npm:^2.0.3"
+    tweakpane: "npm:^4.0.3"
     vt-pbf: "npm:^3.1.3"
-  checksum: 0373962422463a5aa59e4c07e384e637ceb16dc9d1c036470164cf457f7e076fa227a2b201c593dd7e2746a31aed1816e2d9e59d9e04561f34f7937345301e0a
+  checksum: 1128d1ec5f38f46805a4ddc42928a1a5a33765e4a9c266aa5d97da319843746f40eba51a748a54bb068966007a7574b7a6fcc5aa994dc9b0e9e2a61eeeb01592
   languageName: node
   linkType: hard
 
@@ -16498,6 +16508,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"serialize-to-js@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "serialize-to-js@npm:3.1.2"
+  checksum: 9d657ce68753eede892da8ef9d89121a6c184441a9a7f6d1292a28814ad1858aeb3ca5c473d2cd3ec1ee206ce5d46094807182af1ff3b3bd81bc10e887a209e3
+  languageName: node
+  linkType: hard
+
 "set-blocking@npm:^2.0.0":
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
@@ -17770,6 +17787,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tweakpane@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "tweakpane@npm:4.0.3"
+  checksum: 47b92255af368b0e23d6b3279f617de57cb56df6eff21d6b4140a8e9d3e711d14b44418a39d1f7e986c960d5c34cabf22d07c9c629880cd780c1b640d3c32a27
+  languageName: node
+  linkType: hard
+
 "type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
@@ -17923,9 +17947,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.25.8, typedoc@npm:^0.25.9":
-  version: 0.25.9
-  resolution: "typedoc@npm:0.25.9"
+"typedoc@npm:^0.25.11, typedoc@npm:^0.25.8":
+  version: 0.25.11
+  resolution: "typedoc@npm:0.25.11"
   dependencies:
     lunr: "npm:^2.3.9"
     marked: "npm:^4.3.0"
@@ -17935,7 +17959,7 @@ __metadata:
     typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x
   bin:
     typedoc: bin/typedoc
-  checksum: 537b29c919241620887833f8db3febf6f2b4abc432a11e368527bb82f0ca49a2ba65acef88a8982e01ae3382a65a07395b03164349dcb6020c3157fdbb171b70
+  checksum: ec1f617c16b5fca455853c329a9958fe41b247d0c1a72dc153654fd5ce323f2ccdfd10ef1f3349d340398e3770a036381d856b90fda4aafe554640b53f5b2a1c
   languageName: node
   linkType: hard
 

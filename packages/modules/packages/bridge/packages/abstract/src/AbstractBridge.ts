@@ -1,5 +1,11 @@
-import { Address } from '@xylabs/hex'
+/* eslint-disable complexity */
+import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
+import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { isArchivistModule } from '@xyo-network/archivist-model'
+import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
@@ -7,38 +13,71 @@ import {
   BridgeConnectedQuerySchema,
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,
-  BridgeModule,
+  BridgeExposeOptions,
+  BridgeExposeQuerySchema,
+  BridgeInstance,
   BridgeParams,
   BridgeQueries,
+  BridgeUnexposeOptions,
+  BridgeUnexposeQuerySchema,
+  ModuleFilterPayload,
+  ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
-import { BridgeModuleResolver } from '@xyo-network/bridge-module-resolver'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { isDivinerModule } from '@xyo-network/diviner-model'
+import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
-  duplicateModules,
-  ModuleConfig,
+  isAddressModuleFilter,
+  isNameModuleFilter,
+  Module,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
   ModuleQueryHandlerResult,
-  ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { Payload, Query } from '@xyo-network/payload-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
+import { isNodeModule } from '@xyo-network/node-model'
+import { NodeWrapper } from '@xyo-network/node-wrapper'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isSentinelModule } from '@xyo-network/sentinel-model'
+import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
+import { isWitnessModule } from '@xyo-network/witness-model'
+import { WitnessWrapper } from '@xyo-network/witness-wrapper'
+
+// const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdentifierPart[] => {
+//   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
+// }
+
+const wrapModuleWithType = (module: Module, account: AccountInstance): ModuleWrapper => {
+  if (isArchivistModule(module)) {
+    return ArchivistWrapper.wrap(module, account)
+  }
+  if (isDivinerModule(module)) {
+    return DivinerWrapper.wrap(module, account)
+  }
+  if (isNodeModule(module)) {
+    return NodeWrapper.wrap(module, account)
+  }
+  if (isSentinelModule(module)) {
+    return SentinelWrapper.wrap(module, account)
+  }
+  if (isWitnessModule(module)) {
+    return WitnessWrapper.wrap(module, account)
+  }
+  throw 'Failed to wrap'
+}
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements BridgeModule<TParams, TEventData>
+  implements BridgeInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
-  connected = false
-
-  protected _targetDownResolvers: Record<Address, BridgeModuleResolver> = {}
-
   override get queries(): string[] {
-    return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, ...super.queries]
+    return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
   }
 
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
@@ -46,73 +85,68 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       'network.xyo.query.bridge.connect': '1/1',
       'network.xyo.query.bridge.connected': '1/3',
       'network.xyo.query.bridge.disconnect': '1/2',
+      'network.xyo.query.bridge.expose': '1/4',
+      'network.xyo.query.bridge.unexpose': '1/5',
     }
+  }
+
+  connect(): Promisable<boolean> {
+    this._noOverride('connect')
+    throw new Error('Unsupported')
+  }
+
+  disconnect(): Promisable<boolean> {
+    this._noOverride('disconnect')
+    throw new Error('Unsupported')
+  }
+
+  expose(id: string, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    this._noOverride('expose')
+    return this.exposeHandler(id, options)
   }
 
   override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddress: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<T | undefined>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    nameOrAddressOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    const direction = options?.direction ?? 'down'
-    const down = direction === 'down' || direction === 'all'
-    await this.started('throw')
-    switch (typeof nameOrAddressOrFilter) {
-      case 'string': {
-        return (
-          (await super.resolve<T>(nameOrAddressOrFilter, options)) ??
-          (down ? await this.targetDownResolver()?.resolve<T>(nameOrAddressOrFilter, { ...options, direction: 'down' }) : undefined)
-        )
+    const direction = options?.direction ?? 'all'
+    if (typeof idOrFilter === 'string') {
+      if (direction === 'all' || direction === 'down') {
+        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter)
+        if (downResolve) return downResolve
       }
-      default: {
-        return [
-          ...(down ? (await this.targetDownResolver()?.resolve(nameOrAddressOrFilter, { ...options, direction: 'down' })) ?? [] : []),
-          ...(await super.resolve<T>(nameOrAddressOrFilter, options)),
-        ].filter(duplicateModules)
+      if (direction === 'all' || direction === 'up') {
+        const upResolve = await this.upResolver.resolve<T>(idOrFilter)
+        if (upResolve) return upResolve
+      }
+      //assertEx(isHex(idOrFilter, { prefix: false }), `Name resolutions not supported [${idOrFilter}]`)
+      const module = await this.resolveHandler<T>(idOrFilter)
+      await module?.start?.()
+      return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
+    } else if (idOrFilter === undefined) {
+      if (direction === 'all' || direction === 'down') {
+        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options)
+        if (downResolve) return downResolve
+      }
+      if (direction === 'all' || direction === 'up') {
+        const upResolve = await this.upResolver.resolve<T>(idOrFilter, options)
+        if (upResolve) return upResolve
+      }
+    } else {
+      const filter = idOrFilter
+      if (isAddressModuleFilter(filter)) {
+        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+      } else if (isNameModuleFilter(filter)) {
+        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }
     }
   }
 
-  targetDiscover(_address?: Address, _maxDepth?: number): Promisable<Payload[]> {
-    throw new Error('Not Supported')
-  }
-
-  targetDownResolver<T extends ModuleInstance = ModuleInstance>(
-    address?: Address,
-    options?: ModuleFilterOptions<T>,
-  ): BridgeModuleResolver<T> | undefined {
-    if (!this.connected) {
-      return undefined
-    }
-    this._targetDownResolvers[address ?? 'root'] =
-      this._targetDownResolvers[address ?? 'root'] ?? new BridgeModuleResolver(this, this.account, options)
-    return this._targetDownResolvers[address ?? 'root'] as BridgeModuleResolver<T>
-  }
-
-  async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: Address,
-    filter?: ModuleFilter<T>,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance[]>
-  async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: Address,
-    nameOrAddress: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | undefined>
-  async targetResolve<T extends ModuleInstance = ModuleInstance>(
-    address: Address,
-    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    return (
-      (typeof nameOrAddressOrFilter === 'string' ?
-        await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)
-      : await this.targetDownResolver(address, options)?.resolve(nameOrAddressOrFilter)) ?? []
-    )
+  unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+    this._noOverride('unexpose')
+    return this.unexposeHandler(id, options)
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
@@ -136,6 +170,44 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         await this.disconnect()
         break
       }
+      case BridgeExposeQuerySchema: {
+        const filterPayloads = (payloads ?? []).filter(isPayloadOfSchemaType<ModuleFilterPayload>(ModuleFilterPayloadSchema))
+        assertEx(filterPayloads, 'At least one filter is required')
+
+        await Promise.all(
+          filterPayloads.map(async (filter) => {
+            const { id, ...options } = filter
+            const addresses = await this.expose(id, options)
+            addresses.map((address) => {
+              const addressPayload: AddressPayload = {
+                address,
+                schema: AddressSchema,
+              }
+              resultPayloads.push(addressPayload)
+            })
+          }),
+        )
+        break
+      }
+      case BridgeUnexposeQuerySchema: {
+        const filterPayloads = (payloads ?? []).filter(isPayloadOfSchemaType<ModuleFilterPayload>(ModuleFilterPayloadSchema))
+        assertEx(filterPayloads, 'At least one filter is required')
+
+        await Promise.all(
+          filterPayloads.map(async (filter) => {
+            const { id, ...options } = filter
+            const addresses = await this.unexpose(id, options)
+            addresses.map((address) => {
+              const addressPayload: AddressPayload = {
+                address,
+                schema: AddressSchema,
+              }
+              resultPayloads.push(addressPayload)
+            })
+          }),
+        )
+        break
+      }
       default: {
         return await super.queryHandler(query, payloads)
       }
@@ -143,18 +215,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return resultPayloads
   }
 
-  abstract connect(): Promisable<boolean>
-  abstract disconnect(): Promisable<boolean>
+  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]>
 
-  abstract getRootAddress(): Promisable<Address>
+  abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<T>,
+  ): Promisable<T | undefined>
 
-  abstract targetConfig(address: Address): ModuleConfig
-
-  abstract targetManifest(address: Address, maxDepth?: number): Promisable<ModuleManifestPayload>
-
-  abstract targetQueries(address: Address): string[]
-
-  abstract targetQuery(address: Address, query: Query, payloads?: Payload[]): Promisable<ModuleQueryResult>
-
-  abstract targetQueryable(address: Address, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): boolean
+  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]>
 }

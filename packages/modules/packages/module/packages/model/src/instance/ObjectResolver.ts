@@ -1,7 +1,7 @@
 import { AnyObject, EmptyObject } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 
-import { ModuleIdentifier } from './ModuleIdentifier'
+import { ModuleIdentifier } from '../ModuleIdentifier'
 import { ObjectFilter, ObjectFilterOptions } from './ObjectFilter'
 
 export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unknown): value is ObjectResolver<T> => {

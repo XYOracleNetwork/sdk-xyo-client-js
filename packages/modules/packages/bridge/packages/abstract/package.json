@@ -10,16 +10,35 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.5",
-    "@xylabs/promise": "^3.0.5",
+    "@xylabs/assert": "^3.0.6",
+    "@xylabs/exists": "^3.0.6",
+    "@xylabs/hex": "^3.0.6",
+    "@xylabs/lodash": "^3.0.6",
+    "@xylabs/object": "^3.0.6",
+    "@xylabs/promise": "^3.0.6",
+    "@xyo-network/account-model": "workspace:~",
+    "@xyo-network/address-payload-plugin": "workspace:~",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/archivist-wrapper": "workspace:~",
+    "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/bridge-module-resolver": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/diviner-wrapper": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~",
+    "@xyo-network/module-wrapper": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/node-wrapper": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/query-payload-plugin": "workspace:~",
+    "@xyo-network/sentinel-model": "workspace:~",
+    "@xyo-network/sentinel-wrapper": "workspace:~",
+    "@xyo-network/witness-model": "workspace:~",
+    "@xyo-network/witness-wrapper": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.4.1",
@@ -65,6 +84,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.91.3",
-  "type": "module"
+  "version": "2.92.0-rc.10",
+  "type": "module",
+  "stableVersion": "2.91.3"
 }

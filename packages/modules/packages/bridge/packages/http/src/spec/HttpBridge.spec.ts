@@ -35,10 +35,7 @@ describe('HttpBridge', () => {
 
     await bridge?.start?.()
 
-    const remoteNode = asNodeInstance(
-      (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop(),
-      `Failed to resolve rootNode [${await bridge.getRootAddress()}]`,
-    )
+    const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
 
     await memNode.register(remoteNode)
     await memNode.attach(remoteNode?.address, true)
@@ -48,7 +45,7 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const archivistByName = await memNode.resolve('Archivist')
+    const archivistByName = await bridge.resolve('Archivist')
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
@@ -75,12 +72,12 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
-    const module = (await bridge.resolve({ address: [await bridge.getRootAddress()] }))?.pop()
+    const module = await bridge.resolve('XYOPublic')
 
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
-    const remoteNode = asNodeInstance(module, `Failed to resolve rootNode [${await bridge.getRootAddress()}]`)
+    const remoteNode = asNodeInstance(module, 'Failed to resolve [XYOPublic]')
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()
@@ -98,11 +95,11 @@ describe('HttpBridge', () => {
     //expect(archivistByAddress).toBeDefined()
 
     // Fails to resolve
-    const [archivistByName] = await memNode1.resolve({ name: ['Archivist'] })
+    const [archivistByName] = await bridge.resolve({ name: ['Archivist'] })
     expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await memNode1.resolve({ name: ['PayloadStatsDiviner'] })
+    const [payloadStatsDivinerByName] = await bridge.resolve({ name: ['PayloadStatsDiviner'] })
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await memNode1.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = await bridge.resolve({ name: ['BoundWitnessStatsDiviner'] })
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

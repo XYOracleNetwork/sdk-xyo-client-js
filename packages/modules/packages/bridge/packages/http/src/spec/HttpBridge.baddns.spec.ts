@@ -28,8 +28,6 @@ describe('HttpBridge', () => {
 
     await bridge?.start?.()
 
-    expect(bridge?.connected).toBe(false)
-
     await memNode.register(bridge)
     await memNode.attach(bridge.address, true)
 

@@ -11,27 +11,21 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.2.2",
-    "@xylabs/assert": "^3.0.5",
-    "@xylabs/delay": "^3.0.5",
-    "@xylabs/forget": "^3.0.5",
-    "@xylabs/hex": "^3.0.5",
-    "@xylabs/lodash": "^3.0.5",
-    "@xylabs/logger": "^3.0.5",
-    "@xylabs/object": "^3.0.5",
-    "@xylabs/promise": "^3.0.5",
+    "@xylabs/assert": "^3.0.6",
+    "@xylabs/hex": "^3.0.6",
+    "@xylabs/logger": "^3.0.6",
+    "@xylabs/object": "^3.0.6",
+    "@xylabs/promise": "^3.0.6",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
     "lru-cache": "^10.2.0"
   },
@@ -70,6 +64,7 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.91.3",
-  "type": "module"
+  "version": "2.92.0-rc.10",
+  "type": "module",
+  "stableVersion": "2.91.3"
 }

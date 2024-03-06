@@ -217,16 +217,18 @@ export abstract class AbstractArchivist<
     for (const payload of gotten) {
       // Compute the hashes for this payload
       const map = await PayloadBuilder.toAllHashMap([payload])
-      let requestedPayloadFound = false
       for (const [key, payload] of Object.entries(map)) {
+        let requestedPayloadFound = false
         const hash = key as Hash // NOTE: Required cast as Object.entries always returns string keys
         // If this hash was requested
-        if (requestedHashes.has(hash)) {
-          // Indicate that we found it (but do not insert it yet). Since
+        if (
+          requestedHashes.has(hash) && // Indicate that we found it (but do not insert it yet). Since
           // one payload could satisfy two requested hashes (vit its dataHash
           // & rootHash) we only want to insert that payload once but we want
           // to keep track of all the hashes it satisfies so we can ask th
           // parents for the ones we did not find
+          !foundHashes.has(hash)
+        ) {
           requestedPayloadFound = true
           // Add it to the list of found hashes
           foundHashes.add(hash)

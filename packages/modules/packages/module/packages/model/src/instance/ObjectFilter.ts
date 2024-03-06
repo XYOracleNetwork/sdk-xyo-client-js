@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 import { AnyObject, EmptyObject, TypeCheck } from '@xylabs/object'
 
-import { ModuleName } from './ModuleIdentifier'
+import { ModuleName } from '../ModuleIdentifier'
 
 export type Direction = 'up' | 'down' | 'all'
 export type Visibility = 'public' | 'private' | 'all'

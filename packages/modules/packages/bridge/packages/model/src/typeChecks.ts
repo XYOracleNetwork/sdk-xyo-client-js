@@ -6,8 +6,7 @@ import { BridgeConnectQuerySchema, BridgeDisconnectQuerySchema } from './Queries
 
 export const isBridgeInstance = new IsInstanceFactory<BridgeInstance>().create(
   {
-    connect: 'function',
-    disconnect: 'function',
+    expose: 'function',
   },
   [isModuleInstance],
 )

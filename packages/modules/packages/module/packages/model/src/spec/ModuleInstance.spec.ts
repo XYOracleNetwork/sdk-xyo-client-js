@@ -2,7 +2,7 @@
  * @group module
  */
 
-import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../instance'
+import { includesReservedModuleIdentifierCharacter, isModuleIdentifierPart } from '../ModuleIdentifier'
 
 describe('ModuleInstance', () => {
   it('isReservedModuleIdentifierCharacter', () => {

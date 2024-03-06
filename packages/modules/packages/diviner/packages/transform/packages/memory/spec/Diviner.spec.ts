@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { Transform, TransformDivinerConfigSchema } from '@xyo-network/diviner-transform-model'
 import { Payload } from '@xyo-network/payload-model'
 import { isValuePayloadWithMeta, Value, ValueSchema } from '@xyo-network/value-payload-plugin'
@@ -42,7 +42,7 @@ const cases: [transform: Transform, payload: Payload, expected: Value][] = [
 
 describe('MemoryTransformDiviner', () => {
   let sut: MemoryTransformDiviner
-  let account: Account
+  let account: AccountInstance
   beforeAll(() => {
     account = Account.randomSync()
   })

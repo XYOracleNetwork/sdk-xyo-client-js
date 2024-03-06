@@ -10,7 +10,14 @@ import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
-import { AsyncQueryBusClient, AsyncQueryBusClientConfig, AsyncQueryBusHost, AsyncQueryBusModuleProxy } from '../AsyncQueryBus'
+import {
+  AsyncQueryBusClient,
+  AsyncQueryBusClientConfig,
+  AsyncQueryBusHost,
+  AsyncQueryBusIntersectConfig,
+  AsyncQueryBusModuleProxy,
+  SearchableStorage,
+} from '../AsyncQueryBus'
 
 interface IntermediateNode {
   node: MemoryNode
@@ -132,12 +139,12 @@ describe('BusProxy', () => {
     const clientInfo = clients[0]
     clientsWithBridges.push(clients[0])
 
-    const intersect = {
+    const intersect: AsyncQueryBusIntersectConfig = {
       queries: { archivist: queryArchivist.address, boundWitnessDiviner: queryBoundWitnessDiviner.address },
       responses: { archivist: responseArchivist.address, boundWitnessDiviner: responseBoundWitnessDiviner.address },
     }
 
-    const clientStateStore = {
+    const clientStateStore: SearchableStorage = {
       archivist: clientInfo.stateStoreArchivist.address,
       boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address,
     }
@@ -164,7 +171,7 @@ describe('BusProxy', () => {
     const hostInfo = clients[1]
     clientsWithBridges.push(clients[1])
 
-    const hostStateStore = {
+    const hostStateStore: SearchableStorage = {
       archivist: clientInfo.stateStoreArchivist.address,
       boundWitnessDiviner: clientInfo.stateStoreBoundWitnessDiviner.address,
     }
@@ -196,7 +203,7 @@ describe('BusProxy', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
-      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, queries: [], busClient })
+      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, busClient })
 
       host.start()
 

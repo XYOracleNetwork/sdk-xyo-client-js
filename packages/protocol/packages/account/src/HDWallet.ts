@@ -81,9 +81,8 @@ export class HDWallet extends Account implements WalletInstance {
     throw new Error('Not implemented')
   }
 
-  static async createFromNode(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
-    const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
-    return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
+  static async createFromNode(node: HDNodeWallet, previousHash?: string): Promise<WalletInstance> {
+    return await this.createFromNodeInternal(node, previousHash)
   }
 
   static async fromExtendedKey(key: string): Promise<WalletInstance> {
@@ -92,8 +91,8 @@ export class HDWallet extends Account implements WalletInstance {
     return await HDWallet.createFromNode(node as HDNodeWallet)
   }
 
-  static override async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<HDWallet> {
-    let existing = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
+  static override async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<WalletInstance> {
+    let existing: HDWallet | undefined = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
     if (existing) {
       if (path) {
         const existingDerivedNode = existing._pathMap[path]?.deref()
@@ -108,28 +107,33 @@ export class HDWallet extends Account implements WalletInstance {
     }
 
     const node = HDNodeWallet.fromMnemonic(mnemonic, path)
-    existing = await HDWallet.createFromNode(node)
+    existing = await HDWallet.createFromNodeInternal(node)
     const ref = new WeakRef(existing)
     HDWallet._mnemonicMap[mnemonic.phrase] = ref
     if (existing.path) existing._pathMap[existing.path] = ref
     return existing
   }
 
-  static override async fromPhrase(phrase: string, path: string = defaultPath) {
+  static override async fromPhrase(phrase: string, path: string = defaultPath): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 
-  static async fromSeed(seed: string | Uint8Array): Promise<HDWallet> {
+  static async fromSeed(seed: string | Uint8Array): Promise<WalletInstance> {
     const node = HDNodeWallet.fromSeed(seed)
-    return await HDWallet.createFromNode(node)
+    return await HDWallet.createFromNodeInternal(node)
   }
 
   static override is(value: unknown): HDWallet | undefined {
     return value instanceof HDWallet ? value : undefined
   }
 
-  static random() {
-    return this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
+  static async random(): Promise<WalletInstance> {
+    return await this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
+  }
+
+  protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
+    const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
+    return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 
   protected static getWallet(phrase?: string, path: string = ''): HDWallet | undefined {
@@ -144,7 +148,7 @@ export class HDWallet extends Account implements WalletInstance {
     mnemonicDict[path] = new WeakRef(wallet)
   }
 
-  async derivePath(path: string): Promise<HDWallet> {
+  async derivePath(path: string): Promise<WalletInstance> {
     return await HDWallet.createFromNode(this.node.derivePath(path))
     /*
     //console.log(`derivePath: ${path}`)

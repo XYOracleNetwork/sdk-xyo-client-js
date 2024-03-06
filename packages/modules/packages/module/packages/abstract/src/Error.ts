@@ -1,11 +1,12 @@
+import { Hash } from '@xylabs/hex'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, ModuleErrorSchema, WithMeta } from '@xyo-network/payload-model'
 
 export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
   _message?: string
   _name?: string
-  _query?: string
-  _sources?: string[]
+  _query?: Hash
+  _sources?: Hash[]
   constructor() {
     super({ schema: ModuleErrorSchema })
   }
@@ -31,12 +32,12 @@ export class ModuleErrorBuilder extends PayloadBuilder<ModuleError> {
     return this
   }
 
-  query(query: string) {
+  query(query: Hash) {
     this._query = query
     return this
   }
 
-  sources(sources: string[]) {
+  sources(sources: Hash[]) {
     this._sources = sources
     return this
   }

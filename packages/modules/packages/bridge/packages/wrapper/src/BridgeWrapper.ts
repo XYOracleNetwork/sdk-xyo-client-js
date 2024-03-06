@@ -1,30 +1,21 @@
-import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { AddressPayload } from '@xyo-network/address-payload-plugin'
 import {
-  BridgeConnectQuerySchema,
-  BridgeDisconnectQuerySchema,
+  BridgeExposeOptions,
+  BridgeExposeQuery,
+  BridgeExposeQuerySchema,
   BridgeInstance,
   BridgeModule,
-  BridgeQueries,
+  BridgeUnexposeOptions,
+  BridgeUnexposeQuery,
+  BridgeUnexposeQuerySchema,
   isBridgeInstance,
   isBridgeModule,
+  ModuleFilterPayload,
+  ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import {
-  ModuleConfig,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
-  ModuleFilter,
-  ModuleFilterOptions,
-  ModuleInstance,
-  ModuleManifestQuery,
-  ModuleManifestQuerySchema,
-  ModuleQueryResult,
-} from '@xyo-network/module-model'
+import { ModuleIdentifier } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
-import { isPayloadOfSchemaType, Payload, Query } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
 export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
@@ -34,77 +25,17 @@ export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
   static override instanceIdentityCheck = isBridgeInstance
   static override moduleIdentityCheck = isBridgeModule
 
-  get connected(): boolean {
-    throw new Error('Not supported')
+  async expose(id: ModuleIdentifier, options?: BridgeExposeOptions): Promise<Address[]> {
+    const filterPayload: ModuleFilterPayload = { id, schema: ModuleFilterPayloadSchema, ...options }
+    return (await this.sendQuery<BridgeExposeQuery, ModuleFilterPayload, AddressPayload>({ schema: BridgeExposeQuerySchema }, [filterPayload])).map(
+      ({ address }) => address,
+    )
   }
 
-  get targetDownResolver() {
-    return this.module.targetDownResolver
-  }
-
-  async connect(uri?: string): Promise<boolean> {
-    const queryPayload: BridgeQueries = { schema: BridgeConnectQuerySchema, uri }
-    await this.sendQuery(queryPayload)
-    return true
-  }
-
-  async disconnect(uri?: string): Promise<boolean> {
-    const queryPayload: BridgeQueries = { schema: BridgeDisconnectQuerySchema, uri }
-    await this.sendQuery(queryPayload)
-    return true
-  }
-
-  getRootAddress(): Promisable<Address> {
-    throw new Error('Method not implemented.')
-  }
-
-  targetConfig(address: Address): ModuleConfig {
-    return this.module.targetConfig(address)
-  }
-
-  async targetDiscover(address: Address): Promise<Payload[]> {
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
-    return await this.sendTargetQuery(address, queryPayload)
-  }
-
-  async targetManifest(address: Address, maxDepth?: number): Promise<ModuleManifestPayload> {
-    const queryPayload: ModuleManifestQuery = { maxDepth, schema: ModuleManifestQuerySchema }
-    return assertEx(
-      (await this.sendTargetQuery(address, queryPayload)).find(
-        isPayloadOfSchemaType(ModuleManifestPayloadSchema) || isPayloadOfSchemaType(NodeManifestPayloadSchema),
-      ),
-    ) as ModuleManifestPayload
-  }
-
-  targetQueries(address: Address): string[] {
-    return this.module.targetQueries(address)
-  }
-
-  async targetQuery<T extends QueryBoundWitness = QueryBoundWitness>(address: Address, query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    return await this.module.targetQuery(address, query, payloads)
-  }
-
-  async targetQueryable(address: Address, query: QueryBoundWitness, payloads?: Payload[], queryConfig?: ModuleConfig): Promise<boolean> {
-    return await this.module.targetQueryable(address, query, payloads, queryConfig)
-  }
-
-  async targetResolve(address: Address, filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  async targetResolve(address: Address, nameOrAddress: string, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
-  async targetResolve(
-    address: Address,
-    nameOrAddressOrFilter?: ModuleFilter | string,
-    options?: ModuleFilterOptions,
-  ): Promise<Promisable<ModuleInstance | ModuleInstance[] | undefined>> {
-    return await this.module.targetResolve(address, nameOrAddressOrFilter, options)
-  }
-
-  protected async sendTargetQuery<T extends Query>(address: Address, queryPayload: T, payloads?: Payload[]): Promise<Payload[]> {
-    const query = await this.bindQuery(queryPayload, payloads)
-    const [, resultPayloads, errors] = await this.module.targetQuery(address, query[0], query[1])
-    //TODO: figure out a rollup error solution
-    if (errors?.length > 0) {
-      throw errors[0]
-    }
-    return resultPayloads
+  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions): Promise<Address[]> {
+    const filterPayload: ModuleFilterPayload = { id, schema: ModuleFilterPayloadSchema, ...options }
+    return (
+      await this.sendQuery<BridgeUnexposeQuery, ModuleFilterPayload, AddressPayload>({ schema: BridgeUnexposeQuerySchema }, [filterPayload])
+    ).map(({ address }) => address)
   }
 }

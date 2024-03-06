@@ -3,8 +3,8 @@ import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { RetryConfig } from '@xylabs/retry'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
-import { ModuleIdentifier, ModuleName } from './instance'
 import { Labels } from './Labels'
+import { ModuleIdentifier, ModuleName } from './ModuleIdentifier'
 
 export type ModuleConfigSchema = 'network.xyo.module.config'
 export const ModuleConfigSchema: ModuleConfigSchema = 'network.xyo.module.config'

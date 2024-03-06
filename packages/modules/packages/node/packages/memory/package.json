@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.0.5",
-    "@xylabs/hex": "^3.0.5",
-    "@xylabs/lodash": "^3.0.5",
+    "@xylabs/assert": "^3.0.6",
+    "@xylabs/hex": "^3.0.6",
+    "@xylabs/lodash": "^3.0.6",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-resolver": "workspace:~",
@@ -63,6 +63,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.91.3",
-  "type": "module"
+  "version": "2.92.0-rc.10",
+  "type": "module",
+  "stableVersion": "2.91.3"
 }

@@ -7,7 +7,7 @@ import { ModuleConfig } from '../Config'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
-export type ModuleFields<TParams extends ModuleParams = ModuleParams> = {
+export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
   address: Address
   config: TParams['config']
 

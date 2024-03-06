@@ -2,8 +2,8 @@ import { PrivateKeyInstance } from './PrivateKey'
 import { PublicKeyInstance } from './PublicKey'
 
 export interface KeyPairInstance {
-  get private(): PrivateKeyInstance
-  get public(): PublicKeyInstance
+  private: PrivateKeyInstance
+  public: PublicKeyInstance
 }
 
 export interface KeyPairStatic {

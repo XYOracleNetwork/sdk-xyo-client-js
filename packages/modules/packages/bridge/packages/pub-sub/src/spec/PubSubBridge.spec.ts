@@ -1,20 +1,16 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable max-statements */
-import { assertEx } from '@xylabs/assert'
-import { delay } from '@xylabs/delay'
+
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInsertQuerySchema, ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
-import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
-import { DivinerDivineQuerySchema, DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isModuleError, Payload, unMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusIntersectConfig, SearchableStorage } from '../AsyncQueryBus'
 import { PubSubBridge } from '../PubSubBridge'
@@ -183,112 +179,25 @@ describe('PubSubBridge', () => {
         clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)
         await node.attach(intermediateNode.node.address, false)
-        pubSubBridge.connect()
       }),
     )
   })
   afterAll(async () => {
-    await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.disconnect()))
     await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
   })
-
-  describe('With invalid command', () => {
-    it('when non-existent address, times out', async () => {
-      const clientA = clientsWithBridges[0]
-      const nonExistentAddress = 'ba05fd6b4ad8bb12f23259750e49dafef433862d'
-
-      // Issue command via bridge
-      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const instance = ArchivistWrapper.wrap(await clientA.pubSubBridge.resolve(nonExistentAddress), Account.randomSync(), false)
-      expect(instance).toBeDefined()
-
-      if (instance) {
-        try {
-          await instance.insert(data)
-          //should never reach
-          expect(false).toBeTrue()
-        } catch {
-          expect(true).toBeTrue()
-        }
-      }
-    })
-    it('when unsupported query type responds with error', async () => {
-      const clientA = clientsWithBridges[0]
-      const clientB = clientsWithBridges[1]
-
-      // Build unsupported query
-      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const builder = new QueryBoundWitnessBuilder().witness(clientA.module.account)
-      await builder.query({ schema: DivinerDivineQuerySchema })
-      await builder.payloads(data)
-      const [query, payloads] = await builder.build()
-
-      // Issue query locally and get error
-      const [localBw, localPayloads, localErrors] = await clientB.module.query(query, payloads)
-      expect(localBw).toBeDefined()
-      expect(localPayloads).toBeArrayOfSize(0)
-      expect(localErrors).toBeDefined()
-      expect(localErrors).toBeArrayOfSize(1)
-      const localError = localErrors.find(isModuleError)
-      expect(localError).toBeDefined()
-
-      // Issue query across bridge and get error
-      const [remoteBw, remotePayloads, remoteErrors] = await clientA.pubSubBridge.targetQuery(clientB.module.address, query, payloads)
-      expect(remoteBw).toBeDefined()
-      expect(remotePayloads).toBeArrayOfSize(0)
-      expect(remoteErrors).toBeDefined()
-      expect(remoteErrors).toBeArrayOfSize(1)
-      const remoteError = remoteErrors.find(isModuleError)
-      expect(remoteError).toBeDefined()
-
-      // NOTE: For now, we expect the error messages to be different since
-      // we're ignoring the error when it's a remote command
-      // but actually executing the query locally
-      expect(localError?.message).not.toEqual(remoteError?.message)
-    })
-  })
-  describe('With valid command', () => {
-    const issueSourceQueryToDestination = async (
-      source: ClientWithBridge,
-      destination: ClientWithBridge,
-      testPayloadCount: number,
-      expectedArchivistSize: number,
-    ) => {
-      // Modules can't resolve each other
-      expect(await source.module.resolve(destination.module.address)).toBeUndefined()
-      expect(await destination.module.resolve(source.module.address)).toBeUndefined()
-
-      const clientA = clientsWithBridges[0]
-
-      // Issue command via bridge
-      const data = [await new PayloadBuilder({ schema: 'network.xyo.test' }).fields({ salt: Date.now() }).build()]
-      const instance = ArchivistWrapper.wrap(await clientA.pubSubBridge.resolve(destination.module.address), Account.randomSync(), false)
-      expect(instance).toBeDefined()
-
-      const result = await instance?.insert(data)
-
-      expect(result).toBeArrayOfSize(data.length)
-
-      // Expect target to have data
-      const clientBArchivist = asArchivistInstance(destination.module)
-      expect(clientBArchivist).toBeDefined()
-      const archivist = assertEx(clientBArchivist)
-      const all = await archivist.all?.()
-      expect(all?.map(unMeta)).toIncludeAllMembers(data.map(unMeta))
-    }
-    it.each([
-      ['A', 'B'],
-      ['B', 'A'],
-    ])('Module %s issues command to Module %s', async (sourceModuleLetter, destinationModuleLetter) => {
-      // Issue test archivist insert command from source to destination
-      const source = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${sourceModuleLetter}`))
-      const destination = assertEx(clientsWithBridges.find((v) => v.module.config.name === `module${destinationModuleLetter}`))
-      const testPayloadCount = 2
-      const testIterations = 3
-      for (let i = 0; i < testIterations; i++) {
-        // Ensure the end count is what we'd expect after `i` insertions (proves
-        // commands are being processed only once)
-        await issueSourceQueryToDestination(source, destination, testPayloadCount, testPayloadCount * (i + 1))
+  describe('client test', () => {
+    it('simple insert', async () => {
+      const proxy = await clientsWithBridges[0].pubSubBridge.resolve(clientsWithBridges[1].module.address)
+      expect(proxy).toBeDefined()
+      if (proxy) {
+        await proxy.start?.()
+        const wrapper = ArchivistWrapper.wrap(proxy as ArchivistInstance, Account.randomSync())
+        const stateResult = await proxy.state()
+        //console.log(`state: ${JSON.stringify(stateResult, null, 2)}`)
+        expect(stateResult.length).toBeGreaterThan(1)
+        const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }
+        const result = await wrapper.insert([payload])
+        expect(result).toBeArrayOfSize(1)
       }
     })
   })

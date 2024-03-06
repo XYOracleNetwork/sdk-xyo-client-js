@@ -44,7 +44,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   state() {
-    return []
+    return this.busy(async () => {
+      return await this.stateHandler()
+    })
   }
 
   subscribe(_queryAccount?: AccountInstance) {

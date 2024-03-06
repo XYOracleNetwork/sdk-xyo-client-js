@@ -1,17 +1,21 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import { exists } from '@xylabs/exists'
+import { Address, asAddress, toAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { Base, BaseParams } from '@xylabs/object'
-import { Promisable, PromiseEx } from '@xylabs/promise'
+import { BaseParams } from '@xylabs/object'
+import { PromiseEx } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
-import { EventAnyListener, EventListener, EventUnsubscribeFunction } from '@xyo-network/module-events'
+import { BridgeInstance } from '@xyo-network/bridge-model'
+import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  isAddressModuleFilter,
+  isNameModuleFilter,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -26,26 +30,33 @@ import {
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
+  ModuleName,
   ModuleQueryResult,
   ModuleResolverInstance,
+  ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { ModuleWrapper } from '@xyo-network/module-wrapper'
+import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
+  bridge?: BridgeInstance
   moduleAddress: Address
-  queries: string[]
 }>
 
 export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = ModuleProxyParams, TWrappedModule extends Module = Module>
-  extends Base<TWrappedModule['params']>
+  extends BaseEmitter<TWrappedModule['params'], TWrappedModule['eventData']>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
-  eventData = {} as TWrappedModule['eventData']
-
+  protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
+
+  private _downResolver = new CompositeModuleResolver()
+  private _upResolver = new CompositeModuleResolver()
 
   constructor(params: TParams) {
     super({ config: { schema: ModuleConfigSchema } })
@@ -65,7 +76,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get downResolver(): ModuleResolverInstance {
-    throw new Error('Unsupported')
+    return this._downResolver
   }
 
   get id() {
@@ -73,11 +84,14 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get queries(): string[] {
-    return this.proxyParams.queries
+    const queryPayloads = assertEx(this._state, 'Module state not found.  Make sure proxy has been started').filter((item) =>
+      isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
+    ) as QueryPayload[]
+    return queryPayloads.map((payload) => payload.query)
   }
 
   get upResolver(): ModuleResolverInstance {
-    throw new Error('Unsupported')
+    return this._upResolver
   }
 
   static hasRequiredQueries(module: Module) {
@@ -101,10 +115,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     )
   }
 
-  clearListeners(_eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
-    throw new Error('Unsupported')
-  }
-
   //TODO: Make ModuleDescription into real payload
   async describe(): Promise<ModuleDescription> {
     const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
@@ -114,18 +124,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   async discover(): Promise<Payload[]> {
     const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
     return await this.sendQuery(queryPayload)
-  }
-
-  emit(_eventName: Parameters<TWrappedModule['emit']>[0], _eventArgs: Parameters<TWrappedModule['emit']>[1]): Promise<void> {
-    throw new Error('Unsupported')
-  }
-
-  emitSerial(_eventName: Parameters<TWrappedModule['emitSerial']>[0], _eventArgs: Parameters<TWrappedModule['emitSerial']>[1]): Promise<void> {
-    throw new Error('Unsupported')
-  }
-
-  listenerCount(_eventNames: Parameters<TWrappedModule['listenerCount']>[0]): number {
-    throw new Error('Unsupported')
   }
 
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -138,35 +136,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
   }
 
-  off<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventNames: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ) {
-    throw new Error('Unsupported')
-  }
-
-  offAny(_listener: EventAnyListener) {
-    throw new Error('Unsupported')
-  }
-
-  on<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventNames: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
-  }
-
-  onAny(_listener: EventAnyListener): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
-  }
-
-  once<TEventName extends keyof TWrappedModule['eventData']>(
-    _eventName: TEventName,
-    _listener: EventListener<TWrappedModule['eventData'][TEventName]>,
-  ): EventUnsubscribeFunction {
-    throw new Error('Unsupported')
-  }
-
   async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
@@ -176,14 +145,40 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return true
   }
 
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance | undefined>
-  resolve(nameOrAddressOrFilter?: string | ModuleFilter, _options?: unknown): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
-    return typeof nameOrAddressOrFilter === 'string' ? undefined : []
+  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance[]>
+  resolve(id: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance | undefined>
+  async resolve(
+    idOrFilter?: string | ModuleFilter,
+    options?: ModuleFilterOptions<ModuleInstance>,
+  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    if (typeof idOrFilter === 'string') {
+      const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
+      return address ? await this.proxyParams.bridge?.resolve(address) : undefined
+    } else {
+      const filter = idOrFilter
+      if (isAddressModuleFilter(filter)) {
+        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+      } else if (isNameModuleFilter(filter)) {
+        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
+      }
+      throw new Error('Not supported')
+    }
   }
 
-  state() {
-    return []
+  async start(): Promise<boolean> {
+    await this.state()
+    return true
+  }
+
+  async state(): Promise<Payload[]> {
+    if (this._state === undefined) {
+      //temporarily add ModuleStateQuerySchema to the schema list so we can wrap it and get the real query list
+      const queryPayload: QueryPayload = { query: ModuleStateQuerySchema, schema: QuerySchema }
+      this._state = [queryPayload]
+      const wrapper = ModuleWrapper.wrap(this, this.account)
+      this._state = await wrapper.state()
+    }
+    return this._state
   }
 
   protected bindQuery<T extends Query>(
@@ -208,6 +203,12 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
+  }
+
+  protected childAddressByName(name: ModuleName): Address | undefined {
+    const nodeManifests = this._state?.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
+    const children = nodeManifests?.flatMap((nodeManifest) => nodeManifest.modules?.public).filter(exists)
+    return asAddress(children?.find((child) => child.config.name === name)?.status?.address)
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {

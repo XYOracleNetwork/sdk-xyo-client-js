@@ -1,3 +1,4 @@
+import { Hash } from '@xylabs/hex'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
@@ -98,7 +99,7 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
     if (queries.length > 0) {
       const results = await Promise.all(
         queries.map(async (query) => {
-          const fields = await reducePayloads<PayloadDivinerQueryPayload & { sources?: string[] }>(
+          const fields = await reducePayloads<PayloadDivinerQueryPayload & { sources?: Hash[] }>(
             [query],
             this.payloadTransformers,
             this.indexQuerySchema,

@@ -2324,13 +2324,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pako@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@types/pako@npm:2.0.3"
-  checksum: afa618a0a05a931216703a30f4cba6902ce5cd4db8170a480f95bc8e268afebb3bb8deea4444e8292aba86348e400e068af1b5f4c75b9185b3a7efd1999fb78e
-  languageName: node
-  linkType: hard
-
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -3193,16 +3186,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/address@workspace:packages/protocol/packages/core/packages/address, @xyo-network/address@workspace:~":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/address@workspace:packages/protocol/packages/core/packages/address"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/api-models@workspace:packages/sdk/packages/api-models, @xyo-network/api-models@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/api-models@workspace:packages/sdk/packages/api-models"
@@ -3401,20 +3384,6 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-storage": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/axios@workspace:packages/sdk/packages/axios":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/axios@workspace:packages/sdk/packages/axios"
-  dependencies:
-    "@types/pako": "npm:^2.0.3"
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    "@xyo-network/shared": "workspace:~"
-    axios: "npm:^1.6.7"
-    pako: "npm:^2.1.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -3645,7 +3614,6 @@ __metadata:
     "@xylabs/object": "npm:^3.0.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
-    "@xyo-network/address": "workspace:~"
     "@xyo-network/data": "workspace:~"
     "@xyo-network/hash": "workspace:~"
     "@xyo-network/wasm": "workspace:~"
@@ -4955,27 +4923,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain@workspace:packages/sdk/packages/domain":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/domain@workspace:packages/sdk/packages/domain"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/error@workspace:packages/sdk/packages/error, @xyo-network/error@workspace:~":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/error@workspace:packages/sdk/packages/error"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    "@xylabs/tsconfig-jest": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem":
   version: 0.0.0-use.local
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
@@ -5025,7 +4972,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
   dependencies:
+    "@xylabs/assert": "npm:^3.0.6"
     "@xylabs/axios": "npm:^3.0.6"
+    "@xylabs/exists": "npm:^3.0.6"
     "@xylabs/hex": "npm:^3.0.6"
     "@xylabs/object": "npm:^3.0.6"
     "@xylabs/promise": "npm:^3.0.6"
@@ -5037,6 +4986,7 @@ __metadata:
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
@@ -5082,16 +5032,6 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/data": "workspace:~"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/logger@workspace:packages/sdk/packages/logger":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/logger@workspace:packages/sdk/packages/logger"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5444,18 +5384,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/object-identity@workspace:packages/sdk/packages/identity":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/object-identity@workspace:packages/sdk/packages/identity"
-  dependencies:
-    "@xylabs/assert": "npm:^3.0.6"
-    "@xylabs/logger": "npm:^3.0.6"
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object":
   version: 0.0.0-use.local
   resolution: "@xyo-network/object@workspace:packages/protocol/packages/core/packages/object"
@@ -5647,26 +5575,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/promisable@workspace:packages/shared/packages/promisable":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/promisable@workspace:packages/shared/packages/promisable"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/promise@workspace:packages/shared/packages/promise":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/promise@workspace:packages/shared/packages/promise"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
-    "@xylabs/tsconfig": "npm:^3.4.1"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/protocol@workspace:packages/protocol, @xyo-network/protocol@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/protocol@workspace:packages/protocol"
@@ -5805,7 +5713,6 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.4.1"
     "@xyo-network/api-models": "workspace:~"
     "@xyo-network/dns": "workspace:~"
-    "@xyo-network/error": "workspace:~"
     "@xyo-network/metamask-connector": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-plugin": "workspace:~"
@@ -5921,11 +5828,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/shared@workspace:packages/shared, @xyo-network/shared@workspace:~":
+"@xyo-network/shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/shared"
   dependencies:
     "@xylabs/error": "npm:^3.0.6"
+    "@xylabs/logger": "npm:^3.0.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.4.1"
     "@xylabs/tsconfig": "npm:^3.4.1"
     typescript: "npm:^5.3.3"

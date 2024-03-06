@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/export
 export * from '@xyo-network/api-models'
 export * from '@xyo-network/dns'
-export * from '@xyo-network/error'
 export * from '@xyo-network/metamask-connector'
 export * from '@xyo-network/network'
 export * from '@xyo-network/payload-plugin'

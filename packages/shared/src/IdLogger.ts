@@ -1,6 +1,4 @@
-/* eslint-disable import/no-deprecated */
-// eslint-disable-next-line import/no-deprecated
-import { getFunctionName, Logger } from './Logger'
+import { getFunctionName, Logger } from '@xylabs/logger'
 
 /** @deprecated use from @xylabs/logger instead */
 export class IdLogger implements Logger {

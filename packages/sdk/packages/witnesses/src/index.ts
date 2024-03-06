@@ -1,1 +1,1 @@
-export * from './Adhoc'
+export * from './Plugin'

@@ -229,7 +229,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @param meta Keeps underscore (meta) fields if set to true
    * @returns Returns a clone of the payload that is JSON safe
    */
-  jsonPayload(meta = false): T {
-    return PayloadHasher.jsonPayload(this.obj, meta)
+  json(meta = false): T {
+    return PayloadHasher.json(this.obj, meta)
   }
 }

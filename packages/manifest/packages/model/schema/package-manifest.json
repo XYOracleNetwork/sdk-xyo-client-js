@@ -1,5 +1,4 @@
 {
-    "$ref": "#/definitions/PackageManifest",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "Address": {
@@ -166,23 +165,6 @@
             ],
             "type": "object"
         },
-        "PackageManifest": {
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "nodes": {
-                    "items": {
-                        "$ref": "#/definitions/NodeManifest"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "nodes"
-            ],
-            "type": "object"
-        },
         "Record": {
             "$ref": "#/definitions/__type_1"
         },
@@ -195,6 +177,21 @@
         "__type_1": {
             "type": "object"
         }
-    }
+    },
+    "properties": {
+        "description": {
+            "type": "string"
+        },
+        "nodes": {
+            "items": {
+                "$ref": "#/definitions/NodeManifest"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "nodes"
+    ],
+    "type": "object"
 }
 

@@ -65,7 +65,7 @@
   },
   "scripts": {
     "package-compile": "yarn package-compile-only && yarn gen-schema",
-    "gen-schema": "yarn typescript-json-schema src/types/index.ts --required true --topRef true --aliasRefs true --out schema/package-manifest.json --refs true PackageManifest"
+    "gen-schema": "yarn typescript-json-schema src/types/index.ts --required true --aliasRefs true --out schema/package-manifest.json PackageManifest"
   },
   "sideEffects": false,
   "version": "2.92.0",

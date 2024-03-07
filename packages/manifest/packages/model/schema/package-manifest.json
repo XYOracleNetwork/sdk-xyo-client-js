@@ -1,32 +1,6 @@
 {
+    "$ref": "#/definitions/PackageManifest",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "#/definitions/JsonObject"
-        },
-        {
-            "properties": {
-                "description": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        {
-            "properties": {
-                "nodes": {
-                    "items": {
-                        "$ref": "#/definitions/NodeManifest"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "nodes"
-            ],
-            "type": "object"
-        }
-    ],
     "definitions": {
         "Address": {
             "$ref": "#/definitions/Lowercase"
@@ -38,37 +12,31 @@
             "type": "array"
         },
         "ConfigManifest": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/__type"
+            "additionalProperties": {
+                "$ref": "#/definitions/JsonValue"
+            },
+            "properties": {
+                "accountPath": {
+                    "type": "string"
                 },
-                {
-                    "properties": {
-                        "description": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
+                "description": {
+                    "type": "string"
                 },
-                {
-                    "properties": {
-                        "accountPath": {
-                            "type": "string"
-                        },
-                        "name": {
-                            "type": "string"
-                        },
-                        "schema": {
-                            "$ref": "#/definitions/S"
-                        }
-                    },
-                    "required": [
-                        "name",
-                        "schema"
-                    ],
-                    "type": "object"
+                "name": {
+                    "type": "string"
+                },
+                "schema": {
+                    "$ref": "#/definitions/ConfigManifest.S"
                 }
-            ]
+            },
+            "required": [
+                "name",
+                "schema"
+            ],
+            "type": "object"
+        },
+        "ConfigManifest.S": {
+            "type": "string"
         },
         "JsonArray": {
             "$ref": "#/definitions/Array"
@@ -100,150 +68,123 @@
             "type": "array"
         },
         "ModuleManifest": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/__type"
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/ConfigManifest"
                 },
-                {
-                    "properties": {
-                        "description": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
+                "description": {
+                    "type": "string"
                 },
-                {
+                "options": {
+                    "$ref": "#/definitions/ModuleOptionsManifest"
+                },
+                "status": {
                     "properties": {
-                        "config": {
-                            "$ref": "#/definitions/ConfigManifest"
-                        },
-                        "options": {
-                            "$ref": "#/definitions/ModuleOptionsManifest"
-                        },
-                        "status": {
-                            "properties": {
-                                "address": {
-                                    "$ref": "#/definitions/Address"
-                                }
-                            },
-                            "required": [
-                                "address"
-                            ],
-                            "type": "object"
+                        "address": {
+                            "$ref": "#/definitions/Address"
                         }
                     },
                     "required": [
-                        "config"
+                        "address"
                     ],
                     "type": "object"
                 }
-            ]
+            },
+            "required": [
+                "config"
+            ],
+            "type": "object"
         },
         "ModuleOptionsManifest": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/__type"
+            "properties": {
+                "description": {
+                    "type": "string"
                 },
-                {
-                    "properties": {
-                        "description": {
-                            "type": "string"
-                        }
+                "features": {
+                    "items": {
+                        "type": "string"
                     },
-                    "type": "object"
+                    "type": "array"
                 },
-                {
+                "labels": {
+                    "$ref": "#/definitions/Record"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "lazyStart": {
+                    "type": "boolean"
+                },
+                "os": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "NodeManifest": {
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/ConfigManifest"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "modules": {
                     "properties": {
-                        "features": {
+                        "private": {
                             "items": {
-                                "type": "string"
+                                "$ref": "#/definitions/ModuleManifest"
                             },
                             "type": "array"
                         },
-                        "labels": {
-                            "$ref": "#/definitions/Record"
-                        },
-                        "language": {
-                            "type": "string"
-                        },
-                        "lazyStart": {
-                            "type": "boolean"
-                        },
-                        "os": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
-        },
-        "NodeManifest": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/__type"
-                },
-                {
-                    "properties": {
-                        "description": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                {
-                    "properties": {
-                        "config": {
-                            "$ref": "#/definitions/ConfigManifest"
-                        },
-                        "options": {
-                            "$ref": "#/definitions/ModuleOptionsManifest"
-                        },
-                        "status": {
-                            "properties": {
-                                "address": {
-                                    "$ref": "#/definitions/Address"
-                                }
+                        "public": {
+                            "items": {
+                                "$ref": "#/definitions/ModuleManifest"
                             },
-                            "required": [
-                                "address"
-                            ],
-                            "type": "object"
+                            "type": "array"
+                        }
+                    },
+                    "type": "object"
+                },
+                "options": {
+                    "$ref": "#/definitions/ModuleOptionsManifest"
+                },
+                "status": {
+                    "properties": {
+                        "address": {
+                            "$ref": "#/definitions/Address"
                         }
                     },
                     "required": [
-                        "config"
+                        "address"
                     ],
                     "type": "object"
-                },
-                {
-                    "properties": {
-                        "modules": {
-                            "properties": {
-                                "private": {
-                                    "items": {
-                                        "$ref": "#/definitions/ModuleManifest"
-                                    },
-                                    "type": "array"
-                                },
-                                "public": {
-                                    "items": {
-                                        "$ref": "#/definitions/ModuleManifest"
-                                    },
-                                    "type": "array"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
                 }
-            ]
+            },
+            "required": [
+                "config"
+            ],
+            "type": "object"
+        },
+        "PackageManifest": {
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "nodes": {
+                    "items": {
+                        "$ref": "#/definitions/NodeManifest"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "nodes"
+            ],
+            "type": "object"
         },
         "Record": {
             "$ref": "#/definitions/__type_1"
-        },
-        "S": {
-            "type": "string"
         },
         "__type": {
             "additionalProperties": {

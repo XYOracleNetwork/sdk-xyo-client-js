@@ -1,6 +1,6 @@
 import { ModuleManifest } from './Module'
 
-export type NodeManifest = ModuleManifest & {
+export interface NodeManifest extends ModuleManifest {
   modules?: {
     private?: ModuleManifest[]
     public?: ModuleManifest[]

@@ -1,6 +1,6 @@
 import { Manifest } from './Manifest'
 
-export type ModuleOptionsManifest = Manifest & {
+export interface ModuleOptionsManifest extends Manifest {
   features?: string[]
   labels?: Record<string, string | undefined>
   language?: string

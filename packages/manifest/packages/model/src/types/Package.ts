@@ -1,6 +1,6 @@
 import { Manifest } from './Manifest'
 import { NodeManifest } from './Node'
 
-export type PackageManifest = Manifest & {
+export interface PackageManifest extends Manifest {
   nodes: NodeManifest[]
 }

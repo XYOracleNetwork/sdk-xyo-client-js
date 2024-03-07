@@ -1,5 +1,3 @@
-import { JsonObject } from '@xylabs/object'
-
-export type Manifest = JsonObject & {
+export interface Manifest {
   description?: string
 }

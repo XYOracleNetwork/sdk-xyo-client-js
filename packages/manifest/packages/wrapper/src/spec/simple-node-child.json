@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/src/schema.json",
+  "$schema": "https://raw.githubusercontent.com/XYOracleNetwork/sdk-xyo-client-js/main/packages/manifest/packages/model/schema/package-manifest.json",
   "nodes": [
     {
       "config": {
@@ -11,7 +11,6 @@
         "private": [
           {
             "config": {
-              "language": "javascript",
               "name": "ScratchArchivistChild",
               "schema": "network.xyo.archivist.config"
             }
@@ -20,14 +19,12 @@
         "public": [
           {
             "config": {
-              "language": "javascript",
               "name": "SimpleArchivistChild",
               "schema": "network.xyo.archivist.config"
             }
           },
           {
             "config": {
-              "language": "javascript",
               "name": "SimpleSentinelChild",
               "schema": "network.xyo.sentinel.config",
               "synchronous": true

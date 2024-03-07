@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "Address": {
             "$ref": "#/definitions/Lowercase"
@@ -67,6 +68,7 @@
             "type": "array"
         },
         "ModuleManifest": {
+            "additionalProperties": false,
             "properties": {
                 "config": {
                     "$ref": "#/definitions/ConfigManifest"
@@ -78,6 +80,7 @@
                     "$ref": "#/definitions/ModuleOptionsManifest"
                 },
                 "status": {
+                    "additionalProperties": false,
                     "properties": {
                         "address": {
                             "$ref": "#/definitions/Address"
@@ -95,6 +98,7 @@
             "type": "object"
         },
         "ModuleOptionsManifest": {
+            "additionalProperties": false,
             "properties": {
                 "description": {
                     "type": "string"
@@ -121,6 +125,7 @@
             "type": "object"
         },
         "NodeManifest": {
+            "additionalProperties": false,
             "properties": {
                 "config": {
                     "$ref": "#/definitions/ConfigManifest"
@@ -129,6 +134,7 @@
                     "type": "string"
                 },
                 "modules": {
+                    "additionalProperties": false,
                     "properties": {
                         "private": {
                             "items": {
@@ -149,6 +155,7 @@
                     "$ref": "#/definitions/ModuleOptionsManifest"
                 },
                 "status": {
+                    "additionalProperties": false,
                     "properties": {
                         "address": {
                             "$ref": "#/definitions/Address"
@@ -175,6 +182,7 @@
             "type": "object"
         },
         "__type_1": {
+            "additionalProperties": false,
             "type": "object"
         }
     },

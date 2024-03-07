@@ -32,7 +32,6 @@
           },
           {
             "config": {
-              "language": "javascript",
               "name": "SimpleHttpBridgeChild",
               "nodeUrl": "https://beta.api.archivist.xyo.network",
               "schema": "network.xyo.bridge.http.config"

@@ -4,7 +4,8 @@ import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { IdLogger } from '@xylabs/logger'
+import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
+import { Base } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -64,6 +65,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 {
   static readonly allowRandomAccount: boolean = true
   static configSchemas: string[]
+  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.log)
   static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()
@@ -156,6 +158,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   get timestamp() {
     return this.config.timestamp ?? false
+  }
+
+  protected override get logger() {
+    return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
   }
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
@@ -279,7 +285,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
     this._noOverride('query')
-    const sourceQuery = await PayloadBuilder.build(assertEx(await QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
+    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
@@ -330,26 +336,46 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
+    { required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
+    const childOptions = { ...options, required: false }
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
+    let result: T | T[] | undefined
     switch (typeof idOrFilter) {
       case 'string': {
-        return (
-          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options) : undefined) ??
-          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options) : undefined)
-        )
+        result =
+          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
+          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
+        break
       }
       default: {
         const filter: ModuleFilter<T> | undefined = idOrFilter
-        return [
-          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),
-          ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, options) : []),
+        result = [
+          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
+          ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
         ].filter(duplicateModules)
+        break
       }
     }
+    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
+      switch (required) {
+        case 'warn': {
+          this.logger.warn('resolve failed', idOrFilter)
+          break
+        }
+        case 'log': {
+          this.logger.log('resolve failed', idOrFilter)
+          break
+        }
+        default: {
+          this.logger.error('resolve failed', idOrFilter)
+          break
+        }
+      }
+    }
+    return result
   }
 
   start(_timeout?: number): Promisable<boolean> {

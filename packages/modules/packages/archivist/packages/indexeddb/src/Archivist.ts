@@ -227,16 +227,16 @@ export class IndexedDbArchivist<
    * @returns The initialized DB
    */
   private async getInitializedDb(): Promise<IDBPDatabase<PayloadStore>> {
-    const { dbName, dbVersion, indexes, storeName } = this
+    const { dbName, dbVersion, indexes, storeName, logger } = this
     const db = await openDB<PayloadStore>(dbName, dbVersion, {
       blocked(currentVersion, blockedVersion, event) {
-        console.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
+        logger.warn(`IndexedDbArchivist: Blocked from upgrading from ${currentVersion} to ${blockedVersion}`, event)
       },
       blocking(currentVersion, blockedVersion, event) {
-        console.warn(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
+        logger.warn(`IndexedDbArchivist: Blocking upgrade from ${currentVersion} to ${blockedVersion}`, event)
       },
       terminated() {
-        console.log('IndexedDbArchivist: Terminated')
+        logger.log('IndexedDbArchivist: Terminated')
       },
       upgrade(database, oldVersion, newVersion, transaction) {
         // NOTE: This is called whenever the DB is created/updated. We could simply ensure the desired end
@@ -245,14 +245,14 @@ export class IndexedDbArchivist<
         // retention but we can revisit that tradeoff when it becomes limiting. Because distributed browser
         // state is extremely hard to debug, this seems like fair tradeoff for now.
         if (oldVersion !== newVersion) {
-          console.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
+          logger.log(`IndexedDbArchivist: Upgrading from ${oldVersion} to ${newVersion}`)
           // Delete any existing databases that are not the current version
           const objectStores = transaction.objectStoreNames
           for (const name of objectStores) {
             try {
               database.deleteObjectStore(name)
             } catch {
-              console.log(`IndexedDbArchivist: Failed to delete existing object store ${name}`)
+              logger.log(`IndexedDbArchivist: Failed to delete existing object store ${name}`)
             }
           }
         }

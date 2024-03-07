@@ -6,10 +6,16 @@ import { ModuleName } from '../ModuleIdentifier'
 export type Direction = 'up' | 'down' | 'all'
 export type Visibility = 'public' | 'private' | 'all'
 
-export interface ObjectFilterOptions<T extends EmptyObject = AnyObject> {
+export interface ResolveStrategy {
+  maxDepth?: number
+  required?: boolean | 'warn' | 'log'
+  retry?: number
+  timeout?: number
+}
+
+export interface ObjectFilterOptions<T extends EmptyObject = AnyObject> extends ResolveStrategy {
   direction?: Direction
   identity?: TypeCheck<T>
-  maxDepth?: number
   visibility?: Visibility
 }
 

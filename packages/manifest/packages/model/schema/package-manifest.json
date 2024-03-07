@@ -21,6 +21,10 @@
                     "$ref": "#/definitions/ConfigManifest.S"
                 }
             },
+            "required": [
+                "name",
+                "schema"
+            ],
             "type": "object"
         },
         "ConfigManifest.S": {
@@ -51,9 +55,15 @@
                             "$ref": "#/definitions/Address"
                         }
                     },
+                    "required": [
+                        "address"
+                    ],
                     "type": "object"
                 }
             },
+            "required": [
+                "config"
+            ],
             "type": "object"
         },
         "ModuleOptionsManifest": {
@@ -120,9 +130,15 @@
                             "$ref": "#/definitions/Address"
                         }
                     },
+                    "required": [
+                        "address"
+                    ],
                     "type": "object"
                 }
             },
+            "required": [
+                "config"
+            ],
             "type": "object"
         },
         "Record": {
@@ -144,6 +160,9 @@
             "type": "array"
         }
     },
+    "required": [
+        "nodes"
+    ],
     "type": "object"
 }
 

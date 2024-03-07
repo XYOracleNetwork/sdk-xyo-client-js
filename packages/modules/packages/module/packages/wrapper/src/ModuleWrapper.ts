@@ -8,7 +8,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { AnyModuleManifestPayload } from '@xyo-network/manifest-model'
 import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
@@ -266,9 +266,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.listenerCount(eventNames)
   }
 
-  async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
+  async manifest(maxDepth?: number): Promise<AnyModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
-    return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
+    return (await this.sendQuery(queryPayload))[0] as WithMeta<AnyModuleManifestPayload>
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {

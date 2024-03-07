@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@scure/bip39": "^1.2.2",
-    "@xylabs/array": "^3.0.6",
-    "@xylabs/arraybuffer": "^3.0.6",
-    "@xylabs/assert": "^3.0.6",
-    "@xylabs/hex": "^3.0.6",
-    "@xylabs/libauth": "^3.0.6",
-    "@xylabs/static-implements": "^3.0.6",
+    "@xylabs/array": "^3.0.8",
+    "@xylabs/arraybuffer": "^3.0.8",
+    "@xylabs/assert": "^3.0.8",
+    "@xylabs/hex": "^3.0.8",
+    "@xylabs/libauth": "^3.0.8",
+    "@xylabs/static-implements": "^3.0.8",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/data": "workspace:~",
     "@xyo-network/key-model": "workspace:~",
@@ -30,9 +30,9 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
-    "@xylabs/ts-scripts-yarn3": "^3.4.1",
-    "@xylabs/tsconfig": "^3.4.1",
-    "typescript": "^5.3.3"
+    "@xylabs/ts-scripts-yarn3": "^3.5.0",
+    "@xylabs/tsconfig": "^3.5.0",
+    "typescript": "^5.4.2"
   },
   "exports": {
     ".": {

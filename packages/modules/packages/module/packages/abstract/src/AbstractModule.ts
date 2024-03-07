@@ -14,7 +14,7 @@ import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boun
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { AnyModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
@@ -542,7 +542,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected manifestHandler(_depth?: number, _ignoreAddresses?: string[]): Promisable<ModuleManifestPayload> {
+  protected manifestHandler(_depth?: number, _ignoreAddresses?: string[]): Promisable<AnyModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema, status: { address: this.address } }
   }

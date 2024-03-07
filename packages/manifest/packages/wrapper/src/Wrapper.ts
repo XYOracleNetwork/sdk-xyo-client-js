@@ -82,7 +82,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
   ): Promise<MemoryNode> {
     const account = path ? await this.wallet.derivePath(path) : Account.randomSync()
-    const node = await MemoryNode.create({ account, config: manifest.config })
+    const node = await MemoryNode.create({ account, config: { ...manifest.config } })
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     // Load Private Modules
     const privateModules =
@@ -165,7 +165,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     const registry = toCreatableModuleRegistry(creatableModules ?? {})
     const creatableModule = new ModuleFactoryLocator(this.locator.registry)
       .registerMany(registry)
-      .locate(manifest.config.schema, manifest.config.labels)
+      .locate(manifest.config.schema, manifest.options?.labels)
     const path = manifest.config.accountPath
     const account = path ? await this.wallet.derivePath(path) : 'random'
     const module = await creatableModule.create({

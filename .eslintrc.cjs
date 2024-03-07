@@ -20,8 +20,6 @@ const finalConfig = {
     ".*"
   ],
   "rules": {
-    "import/no-cycle": ["warn"],
-    "deprecation/deprecation": ["warn"],
     "import/no-default-export": ["off"],
     "no-restricted-imports": [
       "warn",

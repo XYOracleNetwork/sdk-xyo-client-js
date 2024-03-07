@@ -18,8 +18,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.4.1",
-    "@xylabs/tsconfig": "^3.4.1",
+    "@xylabs/ts-scripts-yarn3": "^3.5.0",
+    "@xylabs/tsconfig": "^3.5.0",
     "@xyo-network/abstract-witness": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
@@ -28,7 +28,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "types": "dist/node/index.d.ts",
   "exports": {

@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.0.6",
-    "@xylabs/assert": "^3.0.6",
-    "@xylabs/delay": "^3.0.6",
-    "@xylabs/forget": "^3.0.6",
-    "@xylabs/hex": "^3.0.6",
-    "@xylabs/object": "^3.0.6",
-    "@xylabs/promise": "^3.0.6",
-    "@xylabs/timer": "^3.0.6",
+    "@xylabs/array": "^3.0.8",
+    "@xylabs/assert": "^3.0.8",
+    "@xylabs/delay": "^3.0.8",
+    "@xylabs/forget": "^3.0.8",
+    "@xylabs/hex": "^3.0.8",
+    "@xylabs/object": "^3.0.8",
+    "@xylabs/promise": "^3.0.8",
+    "@xylabs/timer": "^3.0.8",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -31,14 +31,14 @@
     "lru-cache": "^10.2.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.4.1",
-    "@xylabs/tsconfig": "^3.4.1",
+    "@xylabs/ts-scripts-yarn3": "^3.5.0",
+    "@xylabs/tsconfig": "^3.5.0",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

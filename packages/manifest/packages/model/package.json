@@ -1,4 +1,5 @@
 {
+  "name": "@xyo-network/manifest-model",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,16 +11,19 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.0.6",
+    "@xylabs/hex": "^3.0.8",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.4.1",
-    "@xylabs/tsconfig": "^3.4.1",
-    "typescript": "^5.3.3",
+    "@xylabs/ts-scripts-yarn3": "^3.5.0",
+    "@xylabs/tsconfig": "^3.5.0",
+    "typescript": "^5.4.2",
     "typescript-json-schema": "^0.63.0"
   },
   "types": "dist/node/index.d.ts",
+  "files": [
+    "./dist/schema/package-manifest.json"
+  ],
   "exports": {
     ".": {
       "browser": {
@@ -43,8 +47,8 @@
         }
       }
     },
-    "./schema/package": {
-      "default": "./dist/PackageManifest.schema.json"
+    "./schema/package-manifest.json": {
+      "default": "./schema/package-manifest.json"
     },
     "./package.json": "./package.json"
   },
@@ -52,7 +56,6 @@
   "module": "dist/node/index.js",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/manifest-model",
   "publishConfig": {
     "access": "public"
   },
@@ -61,7 +64,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "scripts": {
-    "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
+    "package-compile": "yarn package-compile-only && yarn gen-schema",
+    "gen-schema": "yarn typescript-json-schema src/types/index.ts --noExtraProps true --required true --aliasRefs true --out schema/package-manifest.json --refs true PackageManifest"
   },
   "sideEffects": false,
   "version": "2.92.0",

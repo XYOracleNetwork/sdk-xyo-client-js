@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^3.0.6",
+    "@xylabs/assert": "^3.0.8",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/http-bridge": "workspace:~",
@@ -24,11 +24,10 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.4.1",
-    "@xylabs/tsconfig": "^3.4.1",
+    "@xylabs/ts-scripts-yarn3": "^3.5.0",
+    "@xylabs/tsconfig": "^3.5.0",
     "@xyo-network/address-payload-plugin": "workspace:~",
-    "typescript": "^5.3.3",
-    "typescript-json-schema": "^0.63.0"
+    "typescript": "^5.4.2"
   },
   "types": "dist/node/index.d.ts",
   "exports": {
@@ -69,9 +68,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
-  },
-  "scripts": {
-    "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
   "version": "2.92.0",

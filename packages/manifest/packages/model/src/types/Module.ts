@@ -4,7 +4,7 @@ import { ConfigManifest } from './Config'
 import { Manifest } from './Manifest'
 import { ModuleOptionsManifest } from './Options'
 
-export interface ModuleManifest extends Manifest {
+export type ModuleManifest = Manifest & {
   config: ConfigManifest
   options?: ModuleOptionsManifest
   status?: {

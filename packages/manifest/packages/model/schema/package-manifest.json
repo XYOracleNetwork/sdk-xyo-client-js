@@ -1,32 +1,97 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "allOf": [
+        {
+            "$ref": "#/definitions/JsonObject"
+        },
+        {
+            "properties": {
+                "description": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        {
+            "properties": {
+                "nodes": {
+                    "items": {
+                        "$ref": "#/definitions/NodeManifest"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "nodes"
+            ],
+            "type": "object"
+        }
+    ],
     "definitions": {
         "Address": {
             "$ref": "#/definitions/Lowercase"
         },
-        "ConfigManifest": {
-            "properties": {
-                "accountPath": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "schema": {
-                    "$ref": "#/definitions/ConfigManifest.S"
-                }
+        "Array": {
+            "items": {
+                "$ref": "#/definitions/JsonValue"
             },
-            "required": [
-                "name",
-                "schema"
-            ],
-            "type": "object"
+            "type": "array"
         },
-        "ConfigManifest.S": {
-            "type": "string"
+        "ConfigManifest": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/__type"
+                },
+                {
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "accountPath": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/S"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "schema"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "JsonArray": {
+            "$ref": "#/definitions/Array"
+        },
+        "JsonObject": {
+            "$ref": "#/definitions/__type"
+        },
+        "JsonValue": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/JsonObject"
+                },
+                {
+                    "$ref": "#/definitions/JsonArray"
+                },
+                {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            ]
         },
         "Lowercase": {
             "items": {
@@ -35,125 +100,160 @@
             "type": "array"
         },
         "ModuleManifest": {
-            "properties": {
-                "config": {
-                    "$ref": "#/definitions/ConfigManifest"
+            "allOf": [
+                {
+                    "$ref": "#/definitions/__type"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "options": {
-                    "$ref": "#/definitions/ModuleOptionsManifest"
-                },
-                "status": {
+                {
                     "properties": {
-                        "address": {
-                            "$ref": "#/definitions/Address"
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "config": {
+                            "$ref": "#/definitions/ConfigManifest"
+                        },
+                        "options": {
+                            "$ref": "#/definitions/ModuleOptionsManifest"
+                        },
+                        "status": {
+                            "properties": {
+                                "address": {
+                                    "$ref": "#/definitions/Address"
+                                }
+                            },
+                            "required": [
+                                "address"
+                            ],
+                            "type": "object"
                         }
                     },
                     "required": [
-                        "address"
+                        "config"
                     ],
                     "type": "object"
                 }
-            },
-            "required": [
-                "config"
-            ],
-            "type": "object"
+            ]
         },
         "ModuleOptionsManifest": {
-            "properties": {
-                "description": {
-                    "type": "string"
+            "allOf": [
+                {
+                    "$ref": "#/definitions/__type"
                 },
-                "features": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "labels": {
-                    "$ref": "#/definitions/Record"
-                },
-                "language": {
-                    "type": "string"
-                },
-                "lazyStart": {
-                    "type": "boolean"
-                },
-                "os": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "NodeManifest": {
-            "properties": {
-                "config": {
-                    "$ref": "#/definitions/ConfigManifest"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "modules": {
+                {
                     "properties": {
-                        "private": {
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "features": {
                             "items": {
-                                "$ref": "#/definitions/ModuleManifest"
+                                "type": "string"
                             },
                             "type": "array"
                         },
-                        "public": {
-                            "items": {
-                                "$ref": "#/definitions/ModuleManifest"
-                            },
-                            "type": "array"
+                        "labels": {
+                            "$ref": "#/definitions/Record"
+                        },
+                        "language": {
+                            "type": "string"
+                        },
+                        "lazyStart": {
+                            "type": "boolean"
+                        },
+                        "os": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            ]
+        },
+        "NodeManifest": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/__type"
+                },
+                {
+                    "properties": {
+                        "description": {
+                            "type": "string"
                         }
                     },
                     "type": "object"
                 },
-                "options": {
-                    "$ref": "#/definitions/ModuleOptionsManifest"
-                },
-                "status": {
+                {
                     "properties": {
-                        "address": {
-                            "$ref": "#/definitions/Address"
+                        "config": {
+                            "$ref": "#/definitions/ConfigManifest"
+                        },
+                        "options": {
+                            "$ref": "#/definitions/ModuleOptionsManifest"
+                        },
+                        "status": {
+                            "properties": {
+                                "address": {
+                                    "$ref": "#/definitions/Address"
+                                }
+                            },
+                            "required": [
+                                "address"
+                            ],
+                            "type": "object"
                         }
                     },
                     "required": [
-                        "address"
+                        "config"
                     ],
                     "type": "object"
+                },
+                {
+                    "properties": {
+                        "modules": {
+                            "properties": {
+                                "private": {
+                                    "items": {
+                                        "$ref": "#/definitions/ModuleManifest"
+                                    },
+                                    "type": "array"
+                                },
+                                "public": {
+                                    "items": {
+                                        "$ref": "#/definitions/ModuleManifest"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
                 }
-            },
-            "required": [
-                "config"
-            ],
-            "type": "object"
+            ]
         },
         "Record": {
-            "$ref": "#/definitions/__type"
+            "$ref": "#/definitions/__type_1"
         },
-        "__type": {
-            "type": "object"
-        }
-    },
-    "properties": {
-        "description": {
+        "S": {
             "type": "string"
         },
-        "nodes": {
-            "items": {
-                "$ref": "#/definitions/NodeManifest"
+        "__type": {
+            "additionalProperties": {
+                "$ref": "#/definitions/JsonValue"
             },
-            "type": "array"
+            "type": "object"
+        },
+        "__type_1": {
+            "type": "object"
         }
-    },
-    "required": [
-        "nodes"
-    ],
-    "type": "object"
+    }
 }
 

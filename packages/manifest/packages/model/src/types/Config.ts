@@ -1,6 +1,6 @@
 import { Manifest } from './Manifest'
 
-export interface ConfigManifest<S extends string = string> extends Manifest {
+export type ConfigManifest<S extends string = string> = Manifest & {
   accountPath?: string
   name: string
   schema: S

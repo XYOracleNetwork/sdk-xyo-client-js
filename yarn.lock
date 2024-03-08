@@ -1827,90 +1827,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-darwin-arm64@npm:1.4.5"
+"@swc/core-darwin-arm64@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-darwin-arm64@npm:1.4.6"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-darwin-x64@npm:1.4.5"
+"@swc/core-darwin-x64@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-darwin-x64@npm:1.4.6"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.4.5"
+"@swc/core-linux-arm-gnueabihf@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.4.6"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.4.5"
+"@swc/core-linux-arm64-gnu@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.4.6"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-linux-arm64-musl@npm:1.4.5"
+"@swc/core-linux-arm64-musl@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-linux-arm64-musl@npm:1.4.6"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-linux-x64-gnu@npm:1.4.5"
+"@swc/core-linux-x64-gnu@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-linux-x64-gnu@npm:1.4.6"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-linux-x64-musl@npm:1.4.5"
+"@swc/core-linux-x64-musl@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-linux-x64-musl@npm:1.4.6"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.4.5"
+"@swc/core-win32-arm64-msvc@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.4.6"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.4.5"
+"@swc/core-win32-ia32-msvc@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.4.6"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core-win32-x64-msvc@npm:1.4.5"
+"@swc/core-win32-x64-msvc@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core-win32-x64-msvc@npm:1.4.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.4.5":
-  version: 1.4.5
-  resolution: "@swc/core@npm:1.4.5"
+"@swc/core@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "@swc/core@npm:1.4.6"
   dependencies:
-    "@swc/core-darwin-arm64": "npm:1.4.5"
-    "@swc/core-darwin-x64": "npm:1.4.5"
-    "@swc/core-linux-arm-gnueabihf": "npm:1.4.5"
-    "@swc/core-linux-arm64-gnu": "npm:1.4.5"
-    "@swc/core-linux-arm64-musl": "npm:1.4.5"
-    "@swc/core-linux-x64-gnu": "npm:1.4.5"
-    "@swc/core-linux-x64-musl": "npm:1.4.5"
-    "@swc/core-win32-arm64-msvc": "npm:1.4.5"
-    "@swc/core-win32-ia32-msvc": "npm:1.4.5"
-    "@swc/core-win32-x64-msvc": "npm:1.4.5"
+    "@swc/core-darwin-arm64": "npm:1.4.6"
+    "@swc/core-darwin-x64": "npm:1.4.6"
+    "@swc/core-linux-arm-gnueabihf": "npm:1.4.6"
+    "@swc/core-linux-arm64-gnu": "npm:1.4.6"
+    "@swc/core-linux-arm64-musl": "npm:1.4.6"
+    "@swc/core-linux-x64-gnu": "npm:1.4.6"
+    "@swc/core-linux-x64-musl": "npm:1.4.6"
+    "@swc/core-win32-arm64-msvc": "npm:1.4.6"
+    "@swc/core-win32-ia32-msvc": "npm:1.4.6"
+    "@swc/core-win32-x64-msvc": "npm:1.4.6"
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.5"
   peerDependencies:
@@ -1939,7 +1939,7 @@ __metadata:
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
-  checksum: 10/9dd5e482818945279debdeec0dbd3afc71c7a2ce18c378445aa3f3757d9346f4c15181678179389772da72460d6f405f27bafff8059dd79a185b988f0adb00a7
+  checksum: 10/acf826107e5c72d2cf436fb80b4799b5fd2981e4493bcf573cdcc2c6abd02b29942df8f6b15f6c67a1d39bb709ac9e67194879f0dd7d36bdb41782a3ca612841
   languageName: node
   linkType: hard
 
@@ -4896,7 +4896,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.92.0, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.92.1, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5229,7 +5229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/modules@workspace:packages/modules"
   dependencies:
-    "@swc/core": "npm:^1.4.5"
+    "@swc/core": "npm:^1.4.6"
     "@xylabs/delay": "npm:^3.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.0"
     "@xylabs/tsconfig": "npm:^3.5.0"
@@ -5621,12 +5621,12 @@ __metadata:
     "@xylabs/error": "npm:^3.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.0"
     "@xylabs/tsconfig-dom": "npm:^3.5.0"
-    "@xyo-network/domain-payload-plugin": "npm:^2.92.0"
+    "@xyo-network/domain-payload-plugin": "npm:^2.92.1"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.92.0"
+    "@xyo-network/schema-payload-plugin": "npm:^2.92.1"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.2"
@@ -5644,7 +5644,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.92.0, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.92.1, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:

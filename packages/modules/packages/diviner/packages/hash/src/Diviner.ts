@@ -19,6 +19,7 @@ export type HashLeaseEstimateDivinerConfig = DivinerConfig<
   {
     baseMonthlyPrice?: number
     characterLengthFactor?: number
+    minNameLength?: number
   },
   HashLeaseEstimateDivinerConfigSchema
 >
@@ -66,6 +67,10 @@ export class HashLeaseEstimateDiviner<
     return this.config.characterLengthFactor ?? 10
   }
 
+  get minNameLength() {
+    return this.config.minNameLength ?? 3
+  }
+
   get reservedStrings() {
     this._reservedStrings =
       this._reservedStrings ??
@@ -73,7 +78,9 @@ export class HashLeaseEstimateDiviner<
         reservedBrands.map(({ name }) => name),
         ...reservedDomains.map(({ name }) => name.split('.')),
         ...reservedCryptos.map(({ name, symbol }) => [name, symbol]),
-      ].flat()
+      ]
+        .flat()
+        .map((item) => item.toLowerCase())
     return this._reservedStrings
   }
 
@@ -94,6 +101,12 @@ export class HashLeaseEstimateDiviner<
 
       assertEx(duration <= ONE_YEAR, 'Max expiration may be one year in the future')
       assertEx(duration >= ONE_YEAR / 2, 'Min expiration must be half year in the future')
+
+      //check if all lowercase
+      assertEx(sourceName.name.toLowerCase() === sourceName.name, 'name must be lowercase')
+
+      //check if min length
+      assertEx(sourceName.name.length >= this.minNameLength, 'name must be at least 3 characters')
 
       //check if in one of the reserved name lists
       assertEx(!this.reservedStrings.includes(sourceName.name), 'Reserved name')

@@ -9,7 +9,7 @@ describe('HashLeaseEstimateDiviner', () => {
   it('allowed (3)', async () => {
     const diviner = await HashLeaseEstimateDiviner.create({ account: 'random' })
     const name = await PayloadBuilder.build<Name>({
-      name: 'abc',
+      name: 'acb',
       schema: NameSchema,
     })
     const lease = (await PayloadBuilder.build({
@@ -175,6 +175,78 @@ describe('HashLeaseEstimateDiviner', () => {
       expect(outPayload.schema).toBe(HashLeaseEstimateSchema)
       expect(outPayload.price).toBeGreaterThan(40)
       expect(outPayload.price).toBeLessThanOrEqual(42)
+    }
+  })
+  it('reserved (apple)', async () => {
+    const diviner = await HashLeaseEstimateDiviner.create({ account: 'random' })
+    const name = await PayloadBuilder.build<Name>({
+      name: 'apple',
+      schema: NameSchema,
+    })
+    const lease = (await PayloadBuilder.build({
+      expire: Date.now() + ONE_YEAR,
+      schema: HashLeaseSchema,
+      sources: [name.$hash],
+    })) as WithMeta<HashLease>
+    try {
+      const outPayload = (await diviner.divine([name, lease])).at(0)
+      expect(outPayload).toBeUndefined()
+    } catch {
+      expect(true).toBeTrue()
+    }
+  })
+  it('reserved (xyo)', async () => {
+    const diviner = await HashLeaseEstimateDiviner.create({ account: 'random' })
+    const name = await PayloadBuilder.build<Name>({
+      name: 'apple',
+      schema: NameSchema,
+    })
+    const lease = (await PayloadBuilder.build({
+      expire: Date.now() + ONE_YEAR,
+      schema: HashLeaseSchema,
+      sources: [name.$hash],
+    })) as WithMeta<HashLease>
+    try {
+      const outPayload = (await diviner.divine([name, lease])).at(0)
+      expect(outPayload).toBeUndefined()
+    } catch {
+      expect(true).toBeTrue()
+    }
+  })
+  it('reserved fragment (xyP2P)', async () => {
+    const diviner = await HashLeaseEstimateDiviner.create({ account: 'random' })
+    const name = await PayloadBuilder.build<Name>({
+      name: 'xyP2P',
+      schema: NameSchema,
+    })
+    const lease = (await PayloadBuilder.build({
+      expire: Date.now() + ONE_YEAR,
+      schema: HashLeaseSchema,
+      sources: [name.$hash],
+    })) as WithMeta<HashLease>
+    try {
+      const outPayload = (await diviner.divine([name, lease])).at(0)
+      expect(outPayload).toBeUndefined()
+    } catch {
+      expect(true).toBeTrue()
+    }
+  })
+  it('not lowercase (xyP2P)', async () => {
+    const diviner = await HashLeaseEstimateDiviner.create({ account: 'random' })
+    const name = await PayloadBuilder.build<Name>({
+      name: 'xyP2P',
+      schema: NameSchema,
+    })
+    const lease = (await PayloadBuilder.build({
+      expire: Date.now() + ONE_YEAR,
+      schema: HashLeaseSchema,
+      sources: [name.$hash],
+    })) as WithMeta<HashLease>
+    try {
+      const outPayload = (await diviner.divine([name, lease])).at(0)
+      expect(outPayload).toBeUndefined()
+    } catch {
+      expect(true).toBeTrue()
     }
   })
 })

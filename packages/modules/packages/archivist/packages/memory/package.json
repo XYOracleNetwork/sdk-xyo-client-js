@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/assert": "^3.0.12",
+    "@xylabs/exists": "^3.0.12",
     "@xylabs/hex": "^3.0.12",
     "@xylabs/lodash": "^3.0.12",
     "@xylabs/promise": "^3.0.12",
@@ -67,6 +68,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.2",
+  "version": "2.92.3",
   "type": "module"
 }

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { fulfilled, Promisable } from '@xylabs/promise'
@@ -43,22 +44,8 @@ export class MemoryArchivist<
 {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 
-  private _bodyHashIndex?: LRUCache<string, string>
-  private _cache?: LRUCache<string, WithStorageMeta<PayloadWithMeta>>
-
-  get bodyHashIndex() {
-    this._bodyHashIndex = this._bodyHashIndex ?? new LRUCache<string, string>({ max: this.max })
-    return this._bodyHashIndex
-  }
-
-  get cache() {
-    this._cache = this._cache ?? new LRUCache<string, WithStorageMeta<PayloadWithMeta>>({ max: this.max })
-    return this._cache
-  }
-
-  get max() {
-    return this.config?.max ?? 10_000
-  }
+  private _cache?: LRUCache<Hash, WithStorageMeta<PayloadWithMeta>>
+  private _dataHashIndex?: LRUCache<Hash, Hash>
 
   override get queries() {
     return [
@@ -72,6 +59,20 @@ export class MemoryArchivist<
     ]
   }
 
+  protected get cache() {
+    this._cache = this._cache ?? new LRUCache<Hash, WithStorageMeta<PayloadWithMeta>>({ max: this.max })
+    return this._cache
+  }
+
+  protected get dataHashIndex() {
+    this._dataHashIndex = this._dataHashIndex ?? new LRUCache<Hash, Hash>({ max: this.max })
+    return this._dataHashIndex
+  }
+
+  protected get max() {
+    return this.config?.max ?? 10_000
+  }
+
   protected override allHandler(): Promisable<PayloadWithMeta[]> {
     const all = compact(this.cache.dump().map(([, item]) => item.value))
     return sortByStorageMeta(all).map((payload) => removeStorageMeta(payload))
@@ -79,7 +80,7 @@ export class MemoryArchivist<
 
   protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
-    this.bodyHashIndex.clear()
+    this.dataHashIndex.clear()
     return this.emit('cleared', { module: this })
   }
 
@@ -100,21 +101,24 @@ export class MemoryArchivist<
     return compact(settled.filter(fulfilled).map((result) => result.value))
   }
 
-  protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    const deletedHashes = compact(
-      await Promise.all(
-        hashes.map((hash) => {
-          return this.cache.delete(hash) ? hash : undefined
-        }),
-      ),
-    )
+  protected override deleteHandler(hashes: Hash[]): Promisable<Hash[]> {
+    const deletedHashes: Hash[] = this.cache
+      .dump()
+      .map(([key, item]) => {
+        if (hashes.includes(key) || hashes.includes(item.value.$hash)) {
+          this.cache.delete(key)
+          return key
+        }
+      })
+      .filter(exists)
+    this.rebuildDataHashIndex()
     return deletedHashes
   }
 
   protected override getHandler(hashes: Hash[]): Promisable<PayloadWithMeta[]> {
     return compact(
       hashes.map((hash) => {
-        const resolvedHash = this.bodyHashIndex.get(hash) ?? hash
+        const resolvedHash = this.dataHashIndex.get(hash) ?? hash
         const result = this.cache.get(resolvedHash)
         if (resolvedHash !== hash && !result) {
           throw new Error('Missing referenced payload')
@@ -140,10 +144,18 @@ export class MemoryArchivist<
     return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))
   }
 
-  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: string, index = 0): WithStorageMeta<PayloadWithMeta> {
+  private insertPayloadIntoCache(payload: PayloadWithMeta, hash: Hash, index = 0): WithStorageMeta<PayloadWithMeta> {
     const withMeta = addStorageMeta(payload, index)
     this.cache.set(hash, withMeta)
-    this.bodyHashIndex.set(withMeta.$hash, hash)
+    this.dataHashIndex.set(withMeta.$hash, hash)
     return withMeta
+  }
+
+  private rebuildDataHashIndex() {
+    this._dataHashIndex = new LRUCache<Hash, Hash>({ max: this.max })
+    const pairs = this.cache.dump()
+    for (const [hash, payload] of pairs) {
+      this.dataHashIndex.set(payload.value.$hash, hash)
+    }
   }
 }

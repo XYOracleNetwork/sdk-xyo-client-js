@@ -7,7 +7,7 @@ import { AbstractModuleInstance } from '../AbstractModuleInstance'
 export class TestAbstractModule extends AbstractModuleInstance {
   static override readonly configSchemas: string[] = [ModuleConfigSchema]
   protected override get _queryAccountPaths() {
-    return super._baseModuleQueryAccountPaths
+    return super.baseModuleQueryAccountPaths
   }
 }
 

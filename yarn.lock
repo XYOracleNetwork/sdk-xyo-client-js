@@ -1365,6 +1365,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@multiformats/base-x@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@multiformats/base-x@npm:4.0.1"
+  checksum: 10/ecbf84bdd7613fd795e4a41f20f3e8cc7df8bbee84690b7feed383d45a638ed228a80ff6f5c930373cbf24539f64857b66023ee3c1e914f6bac9995c76414a87
+  languageName: node
+  linkType: hard
+
 "@noble/curves@npm:1.2.0":
   version: 1.2.0
   resolution: "@noble/curves@npm:1.2.0"
@@ -2253,12 +2260,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mapbox-gl@npm:^2.7.21":
-  version: 2.7.21
-  resolution: "@types/mapbox-gl@npm:2.7.21"
+"@types/mapbox-gl@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@types/mapbox-gl@npm:3.1.0"
   dependencies:
     "@types/geojson": "npm:*"
-  checksum: 10/95ad2c0c135b090dfef9a5fc8e66a0f2ac70d44617c23e10984288fe268c49e9c72c3e801461a680ad60981c6b2fdd03a4f0df5ccc2bfa24f4b00c5ef6c66df4
+  checksum: 10/f748f05f5fb32b91632f4f5d176f9ddc767e3913c31f43dbf905ffb5fe6628b52d388043a787fffb6e8b69187addca3624339edf238ec4eb249e37821ed9621f
   languageName: node
   linkType: hard
 
@@ -4135,6 +4142,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
+    "@xylabs/tsconfig": "npm:^3.5.2"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-huri@workspace:packages/modules/packages/diviner/packages/huri, @xyo-network/diviner-huri@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-huri@workspace:packages/modules/packages/diviner/packages/huri"
@@ -4245,7 +4262,7 @@ __metadata:
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    json-joy: "npm:^11.34.0"
+    json-joy: "npm:^11.36.0"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
@@ -4258,7 +4275,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    json-joy: "npm:^11.34.0"
+    json-joy: "npm:^11.36.0"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
@@ -4403,16 +4420,6 @@ __metadata:
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
-    typescript: "npm:^5.4.2"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/diviner-name-service@workspace:packages/modules/packages/diviner/packages/name-service":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/diviner-name-service@workspace:packages/modules/packages/diviner/packages/name-service"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
-    "@xylabs/tsconfig": "npm:^3.5.2"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
@@ -5598,12 +5605,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey"
   dependencies:
-    "@types/mapbox-gl": "npm:^2.7.21"
+    "@types/mapbox-gl": "npm:^3.1.0"
     "@xylabs/assert": "npm:^3.0.11"
     "@xylabs/hex": "npm:^3.0.11"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
-    "@xyo-network/sdk-geo": "npm:^2.11.2"
+    "@xyo-network/sdk-geo": "npm:^2.11.3"
     mapbox-gl: "npm:^3.2.0"
     typescript: "npm:^5.4.2"
   languageName: unknown
@@ -5666,13 +5673,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk-geo@npm:^2.11.2":
-  version: 2.11.2
-  resolution: "@xyo-network/sdk-geo@npm:2.11.2"
+"@xyo-network/sdk-geo@npm:^2.11.3":
+  version: 2.11.3
+  resolution: "@xyo-network/sdk-geo@npm:2.11.3"
   dependencies:
     geojson: "npm:^0.5.0"
-    mapbox-gl: "npm:^3.0.0"
-  checksum: 10/ce065b7ce61c00bccfe10c03dd39cfab945e0be666a37c56f5b14fa3925020f272a90612539c5fb4db10738fae893e1301036c68a6aaa8f22b13b47539c63a7d
+    mapbox-gl: "npm:^3.2.0"
+  checksum: 10/48903a6083ef1926e8ddaeb2035d8fb72dd2575c43e470dd2e48c7e0559573eb7b6df99808e7b21f90973402f8114a4704ff800a2051bbb92a816a6cc279542b
   languageName: node
   linkType: hard
 
@@ -5704,7 +5711,7 @@ __metadata:
     supertest: "npm:^6.3.4"
     ts-jest: "npm:^29.1.2"
     ts-node: "npm:^10.9.2"
-    typedoc: "npm:^0.25.11"
+    typedoc: "npm:^0.25.12"
     typedoc-material-theme: "npm:^1.0.2"
     typescript: "npm:^5.4.2"
   languageName: unknown
@@ -11681,13 +11688,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-joy@npm:^11.34.0":
-  version: 11.34.0
-  resolution: "json-joy@npm:11.34.0"
+"json-joy@npm:^11.36.0":
+  version: 11.36.0
+  resolution: "json-joy@npm:11.36.0"
   dependencies:
     arg: "npm:^5.0.2"
     hyperdyperid: "npm:^1.2.0"
-    thingies: "npm:^1.14.1"
+    multibase: "npm:^4.0.6"
+    thingies: "npm:^1.17.0"
   peerDependencies:
     quill-delta: ^5
     rxjs: 7
@@ -11706,7 +11714,7 @@ __metadata:
     json-pointer: bin/json-pointer.js
     json-pointer-test: bin/json-pointer-test.js
     json-unpack: bin/json-unpack.js
-  checksum: 10/7201ef2bae3b623912f67d13dad4c709749eebfc52cb1b2ca52a3fe0e9ae4220d9e3f031e27fde654b235bc20c7466a1c73db0148e0c9c85ddec6f6806915032
+  checksum: 10/a254c2df759574c64abe3ff41e9fb8ddd8fd4595a8e6335927e09e3efa99faf3693790dde8916131a3c6eb7647a6117bc3e33d5d5b4232fc5b142f681396cb18
   languageName: node
   linkType: hard
 
@@ -12226,7 +12234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mapbox-gl@npm:^3.0.0, mapbox-gl@npm:^3.2.0":
+"mapbox-gl@npm:^3.2.0":
   version: 3.2.0
   resolution: "mapbox-gl@npm:3.2.0"
   dependencies:
@@ -13046,6 +13054,15 @@ __metadata:
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: 10/aa92de608021b242401676e35cfa5aa42dd70cbdc082b916da7fb925c542173e36bce97ea3e804923fe92c0ad991434e4a38327e15a1b5b5f945d66df615ae6d
+  languageName: node
+  linkType: hard
+
+"multibase@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "multibase@npm:4.0.6"
+  dependencies:
+    "@multiformats/base-x": "npm:^4.0.1"
+  checksum: 10/4c008da32f6f0f7c790bb9749e0811cfce0cbae31920a005419c8674706878bfd79ac8939d38042fcb66a02605c712b57db7a1e95b1c163d4de8586c54752bcb
   languageName: node
   linkType: hard
 
@@ -17265,12 +17282,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"thingies@npm:^1.14.1":
-  version: 1.16.0
-  resolution: "thingies@npm:1.16.0"
+"thingies@npm:^1.17.0":
+  version: 1.18.0
+  resolution: "thingies@npm:1.18.0"
   peerDependencies:
     tslib: ^2
-  checksum: 10/19b062220e9b27d958c92c8257f7112786d4e3cdcb7f91acd7b30f7dd1b785c77dc11a5938b10a66bd2ec4cefe581ebe4867a939dbf65f09fc23259cfa857f3a
+  checksum: 10/557db8a0023551cd221cecf543a5574b49f874621cbc27de51f29d14155af9e189fc71d3b41dd7d8c92224b80ebb65280d54db93bc36426f41b2e8c93aaefc5d
   languageName: node
   linkType: hard
 
@@ -17842,19 +17859,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.25.11":
-  version: 0.25.11
-  resolution: "typedoc@npm:0.25.11"
+"typedoc@npm:^0.25.11, typedoc@npm:^0.25.12":
+  version: 0.25.12
+  resolution: "typedoc@npm:0.25.12"
   dependencies:
     lunr: "npm:^2.3.9"
     marked: "npm:^4.3.0"
     minimatch: "npm:^9.0.3"
     shiki: "npm:^0.14.7"
   peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x
   bin:
     typedoc: bin/typedoc
-  checksum: 10/ec1f617c16b5fca455853c329a9958fe41b247d0c1a72dc153654fd5ce323f2ccdfd10ef1f3349d340398e3770a036381d856b90fda4aafe554640b53f5b2a1c
+  checksum: 10/eb02b35a6fd1f8c3f9bb2b42b379139cce5b72b3797e983e58f61578b23610c1ee770dc442286981ab13d2949bdb746a84c38bcd856f09ac50a7a861cca56fd8
   languageName: node
   linkType: hard
 

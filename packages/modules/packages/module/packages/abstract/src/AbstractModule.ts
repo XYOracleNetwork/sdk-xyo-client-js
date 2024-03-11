@@ -45,12 +45,11 @@ import {
   ModuleQueryResult,
   ModuleStateQuerySchema,
   ModuleSubscribeQuerySchema,
-  SchemaString,
   serializableField,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { ModuleError, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
@@ -441,7 +440,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     })
   }
 
-  protected bindHashes(hashes: Hash[], schema: SchemaString[], account?: AccountInstance) {
+  protected bindHashes(hashes: Hash[], schema: Schema[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
       const result = this.bindHashesInternal(hashes, schema, account)
@@ -451,7 +450,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: Hash[], schema: SchemaString[], account?: AccountInstance): Promise<BoundWitness> {
+  protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account?: AccountInstance): Promise<BoundWitness> {
     const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
     const result = (await (account ? builder.witness(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)

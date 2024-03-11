@@ -9,6 +9,15 @@
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
+  "dependencies": {
+    "@xylabs/assert": "^3.0.11",
+    "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner-abstract": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
+  },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",

@@ -21,8 +21,8 @@
   "devDependencies": {
     "@swc/core": "^1.4.6",
     "@xylabs/delay": "^3.0.11",
-    "@xylabs/ts-scripts-yarn3": "^3.5.0",
-    "@xylabs/tsconfig": "^3.5.0",
+    "@xylabs/ts-scripts-yarn3": "^3.5.2",
+    "@xylabs/tsconfig": "^3.5.2",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

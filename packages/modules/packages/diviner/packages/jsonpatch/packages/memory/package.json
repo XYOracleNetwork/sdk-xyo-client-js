@@ -19,8 +19,8 @@
     "json-joy": "^11.34.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.5.0",
-    "@xylabs/tsconfig": "^3.5.0",
+    "@xylabs/ts-scripts-yarn3": "^3.5.2",
+    "@xylabs/tsconfig": "^3.5.2",
     "@xyo-network/account": "workspace:~",
     "typescript": "^5.4.2"
   },

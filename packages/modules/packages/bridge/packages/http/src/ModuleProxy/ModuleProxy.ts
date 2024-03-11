@@ -40,4 +40,8 @@ export class HttpModuleProxy<TWrappedModule extends Module = Module>
       throw error
     }
   }
+
+  setConfig(config: TWrappedModule['params']['config']) {
+    this.params.config = config
+  }
 }

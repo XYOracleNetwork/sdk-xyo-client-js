@@ -7,7 +7,7 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -63,7 +63,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return new URL(address, this.nodeUrl)
   }
 
-  resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promisable<T | undefined> {
+  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promise<T | undefined> {
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
@@ -71,7 +71,14 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
       moduleAddress: id as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }
-    return new HttpModuleProxy<T>(params) as unknown as T
+    const proxy = new HttpModuleProxy<T>(params)
+    //calling state here to get the config
+    const state = await proxy.state()
+    const manifest = state.find((payload) => isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
+    if (manifest) {
+      proxy.setConfig(manifest.config)
+    }
+    return proxy as unknown as T
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {

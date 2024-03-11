@@ -80,7 +80,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get id() {
-    return this.proxyParams.moduleAddress
+    return `${this.proxyParams.bridge?.id}:${this.config.name ?? this.proxyParams.moduleAddress}`
   }
 
   get queries(): string[] {

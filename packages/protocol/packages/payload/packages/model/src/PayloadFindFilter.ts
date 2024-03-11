@@ -1,19 +1,8 @@
-/** @deprecated use offset as a string (hash) instead */
-export interface PayloadFindFilterTimeOffset {
-  offset?: number
-}
+import { Hash } from '@xylabs/hex'
 
-export interface PayloadFindFilterHashOffset {
-  offset?: string
-}
-
-export type PayloadFindFilterOffset = PayloadFindFilterTimeOffset | PayloadFindFilterHashOffset
-
-export type PayloadFindFilter = {
-  //hash?: string | string[]
+export interface PayloadFindFilter {
   limit?: number
+  offset?: Hash
   order?: 'desc' | 'asc'
   schema?: string | string[]
-  /** @deprecated use offset instead */
-  timestamp?: number
-} & PayloadFindFilterOffset
+}

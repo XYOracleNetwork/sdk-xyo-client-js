@@ -44,6 +44,7 @@ function assertEntropy(entropy: Uint8Array) {
 export function generateMnemonic(wordlist: string[], strength = 128): string {
   assert.number(strength)
   if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy')
+  // eslint-disable-next-line deprecation/deprecation
   return entropyToMnemonic(randomBytes(strength / 8), wordlist)
 }
 
@@ -114,6 +115,7 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
 /** @deprecated use @scure/bip39 instead */
 export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
   try {
+    // eslint-disable-next-line deprecation/deprecation
     mnemonicToEntropy(mnemonic, wordlist)
   } catch {
     return false

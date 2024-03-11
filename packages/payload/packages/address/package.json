@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/plugins/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.11",
+    "@xylabs/hex": "^3.0.12",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-plugin": "workspace:~"
   },

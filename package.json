@@ -21,7 +21,7 @@
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
     "@xylabs/eslint-config": "^3.5.2",
-    "@xylabs/forget": "^3.0.11",
+    "@xylabs/forget": "^3.0.12",
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
     "@xylabs/tsconfig-dom-jest": "^3.5.2",
@@ -48,8 +48,7 @@
     "bn.js": "^5",
     "ethers": "6.11.0",
     "fake-indexeddb": "^4",
-    "quick-lru": "^5",
-    "typescript": "5.2.2"
+    "quick-lru": "^5"
   },
   "exports": {
     ".": {

@@ -159,7 +159,7 @@ describe('PubSubBridge', () => {
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account,
           config: {
-            host: { listeningModules: [client.module.address], pollFrequency, intersect, stateStore },
+            host: { /*listeningModules: [client.module.address],*/ pollFrequency, intersect, stateStore },
             name: `pubSubBridge${name}`,
             client: {
               pollFrequency,
@@ -175,6 +175,7 @@ describe('PubSubBridge', () => {
         })
         await node.register(pubSubBridge)
         await node.attach(pubSubBridge.address, false)
+        await pubSubBridge.expose(client.module.id)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)

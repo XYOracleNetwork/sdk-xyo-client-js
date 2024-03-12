@@ -207,8 +207,12 @@ describe('BusProxy', () => {
 
       host.start()
 
+      host.expose(destination.module.address)
+
       const m = await proxy.manifest()
       expect(m).toBeDefined()
+
+      host.unexpose(destination.module.address)
 
       host.stop()
     }

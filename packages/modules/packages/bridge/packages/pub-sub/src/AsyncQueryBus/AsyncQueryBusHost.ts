@@ -12,10 +12,15 @@ import { AsyncQueryBusBase } from './AsyncQueryBusBase'
 import { AsyncQueryBusHostParams } from './model'
 
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
+  protected _exposedAddresses = new Set<Address>()
   private _pollId?: string
 
   constructor(params: TParams) {
     super(params)
+  }
+
+  get exposedAddresses() {
+    return this._exposedAddresses
   }
 
   get perAddressBatchQueryLimit(): number {
@@ -26,15 +31,19 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
+  expose(address: Address, validate = true) {
+    assertEx(!validate || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
+    this._exposedAddresses.add(address)
+    this.logger?.debug(`${address} exposed`)
+  }
+
   async listeningModules(): Promise<ModuleInstance[]> {
-    const mods =
-      this.config?.listeningModules ?
-        await Promise.all(
-          this.config.listeningModules.map(async (listeningModule) =>
-            assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
-          ),
-        )
-      : await this.resolver.resolve(undefined, { direction: 'down' })
+    const exposedModules = [...(this.config?.listeningModules ?? []), ...this.exposedAddresses.values()]
+    const mods = await Promise.all(
+      exposedModules.map(async (listeningModule) =>
+        assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
+      ),
+    )
     return mods
   }
 
@@ -51,6 +60,12 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     }
     if (this._pollId) clearTimeoutEx(this._pollId)
     this._pollId = undefined
+  }
+
+  unexpose(address: Address, validate = true) {
+    assertEx(!validate || this._exposedAddresses.has(address), () => `Address not exposed [${address}]`)
+    this._exposedAddresses.delete(address)
+    this.logger?.debug(`${address} unexposed`)
   }
 
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {

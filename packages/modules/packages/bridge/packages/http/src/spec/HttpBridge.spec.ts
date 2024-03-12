@@ -30,10 +30,14 @@ describe('HttpBridge', () => {
 
     const bridge: BridgeInstance = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
+    await memNode.register(bridge)
+    await memNode.attach(bridge?.address, true)
+    const resolvedBridge = memNode.resolve(bridge.id)
+    expect(resolvedBridge).toBeDefined()
 
     const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
 

@@ -4,15 +4,15 @@ import { EmptyObject, JsonObject } from '@xylabs/object'
 import { Schema, WithSchema } from './Schema'
 
 /** Meta fields for a payload - Either both $hash and $meta should exist or neither */
-export interface PayloadMetaFields<TAdditionalMeta extends JsonObject | void = void> extends EmptyObject {
+export interface PayloadMetaFields<TAdditionalMeta extends EmptyObject | void = void> extends EmptyObject {
   /** Hash of the body of the payload excluding the items in the $meta object */
   $hash: Hash
   /** Meta data that should be included in the main hash of the payload */
-  $meta?: TAdditionalMeta extends void ? JsonObject : JsonObject & TAdditionalMeta
+  $meta?: TAdditionalMeta extends void ? JsonObject : TAdditionalMeta
 }
 
 /** Additional fields for a payload */
-export type PayloadFields = EmptyObject
+export interface PayloadFields extends EmptyObject {}
 
 export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 

@@ -1,8 +1,7 @@
 import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { InstanceTypeCheck, ModuleIdentifier, ModuleInstance, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
+import { InstanceTypeCheck, ModuleIdentifier, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -53,17 +52,9 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     return payloads.pop() as NodeManifestPayload
   }
 
-  register(_module: ModuleInstance) {
-    throw new Error('Not implemented')
-  }
-
   async registered(): Promise<Address[]> {
     const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
     const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
     return payloads.map((p) => p.address)
-  }
-
-  registeredModules(): Promisable<ModuleInstance[]> {
-    throw new Error('Not implemented')
   }
 }

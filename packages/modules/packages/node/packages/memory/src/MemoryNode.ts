@@ -27,7 +27,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return (await this.detachUsingAddress(nameOrAddress as Address)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
-  override async register(module: ModuleInstance) {
+  async register(module: ModuleInstance) {
     await this.started('throw')
     assertEx(!this.registeredModuleMap[module.address], () => `Module already registered at that address[${module.address}][${module.config.schema}]`)
     this.registeredModuleMap[module.address] = module
@@ -41,13 +41,13 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     })
   }
 
-  override registeredModules() {
+  registeredModules() {
     return Object.values(this.registeredModuleMap).map((value) => {
       return value
     })
   }
 
-  override async unregister(module: ModuleInstance) {
+  async unregister(module: ModuleInstance): Promise<ModuleInstance> {
     await this.started('throw')
     await this.detach(module.address)
     delete this.registeredModuleMap[module.address]

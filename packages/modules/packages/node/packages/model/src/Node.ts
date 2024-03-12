@@ -6,10 +6,10 @@ import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEvent
 import { NodeParams } from './Params'
 
 export interface NodeQueryFunctions {
-  attach(nameOrAddress: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>
-  attached(): Promisable<Address[]>
-  detach(nameOrAddress: ModuleIdentifier): Promisable<Address | undefined>
-  registered(): Promisable<Address[]>
+  attach: (nameOrAddress: ModuleIdentifier, external?: boolean) => Promisable<Address | undefined>
+  attached: () => Promisable<Address[]>
+  detach: (nameOrAddress: ModuleIdentifier) => Promisable<Address | undefined>
+  registered: () => Promisable<Address[]>
 }
 
 export interface NodeModuleEventData
@@ -26,6 +26,7 @@ export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventDat
   extends NodeModule<TParams, TEventData>,
     NodeQueryFunctions,
     ModuleInstance<TParams, TEventData> {
-  register: (mod: ModuleInstance) => Promisable<void>
-  registeredModules(): Promisable<ModuleInstance[]>
+  register?: (mod: ModuleInstance) => Promisable<void>
+  registeredModules?: () => Promisable<ModuleInstance[]>
+  unregister?: (mod: ModuleInstance) => Promisable<ModuleInstance>
 }

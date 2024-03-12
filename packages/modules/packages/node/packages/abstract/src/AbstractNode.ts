@@ -70,18 +70,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
-  register(_module: ModuleInstance): Promisable<void> {
-    throw new Error('Method not implemented.')
-  }
-
-  registered(): Promisable<Address[]> {
-    throw new Error('Method not implemented.')
-  }
-
-  registeredModules(): Promisable<Module[]> {
-    throw new Error('Method not implemented.')
-  }
-
   override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
   override async resolve(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   override async resolve(
@@ -115,10 +103,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         }
       }
     }
-  }
-
-  unregister(_module: ModuleInstance): Promisable<this> {
-    throw new Error('Method not implemented.')
   }
 
   protected override async discoverHandler(maxDepth?: number): Promise<Payload[]> {
@@ -241,4 +225,5 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   abstract attach(nameOrAddress: string, external?: boolean): Promisable<Address | undefined>
   abstract detach(nameOrAddress: string): Promisable<Address | undefined>
+  abstract registered(): Promisable<Address[]>
 }

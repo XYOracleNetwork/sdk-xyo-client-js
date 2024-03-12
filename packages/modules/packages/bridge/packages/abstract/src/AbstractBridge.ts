@@ -121,7 +121,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         const upResolve = await this.upResolver.resolve<T>(idOrFilter)
         if (upResolve) return upResolve
       }
-      //assertEx(isHex(idOrFilter, { prefix: false }), `Name resolutions not supported [${idOrFilter}]`)
       const module = await this.resolveHandler<T>(idOrFilter)
       await module?.start?.()
       return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined

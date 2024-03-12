@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
-import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
@@ -44,15 +43,19 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return []
   }
 
-  resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promisable<T | undefined> {
+  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+    const idParts = id.split(':')
+    const firstPart = idParts.shift()
+    const remainderParts = idParts.join(':')
     const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {
       account,
       bridge: this,
       busClient: assertEx(this.busClient(), 'Bus client not initialized'),
-      moduleAddress: id as Address,
+      moduleAddress: firstPart as Address,
     }
-    return new AsyncQueryBusModuleProxy<T>(params) as unknown as T
+    const proxy = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
+    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : proxy
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Lowercase<string>[]> {

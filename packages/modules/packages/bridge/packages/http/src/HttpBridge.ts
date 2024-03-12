@@ -63,12 +63,15 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return new URL(address, this.nodeUrl)
   }
 
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, _options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+    const idParts = id.split(':')
+    const firstPart = idParts.shift()
+    const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
       bridge: this,
-      moduleAddress: id as Address,
+      moduleAddress: firstPart as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }
     const proxy = new HttpModuleProxy<T>(params)
@@ -77,6 +80,9 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     const manifest = state.find((payload) => isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
     if (manifest) {
       proxy.setConfig(manifest.config)
+    }
+    if (remainderParts.length > 0) {
+      return proxy.resolve(remainderParts, options) as unknown as T
     }
     return proxy as unknown as T
   }

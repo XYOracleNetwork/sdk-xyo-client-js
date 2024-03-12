@@ -9,7 +9,9 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
+import { ModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { NodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusIntersectConfig, SearchableStorage } from '../AsyncQueryBus'
@@ -24,10 +26,12 @@ interface IntermediateNode {
 }
 
 interface Client {
-  module: AbstractModule
-  node: MemoryNode
+  module: ModuleInstance
+  node: NodeInstance
   stateStoreArchivist: ArchivistInstance
   stateStoreBoundWitnessDiviner: DivinerInstance
+  subModule: ModuleInstance
+  subNode: NodeInstance
 }
 interface ClientWithBridge extends Client {
   pubSubBridge: PubSubBridge
@@ -106,6 +110,11 @@ describe('PubSubBridge', () => {
           config: { name: `node${name}`, schema: MemoryNode.configSchema },
         })
 
+        const subNode = await MemoryNode.create({
+          account: 'random',
+          config: { name: `subNode${name}`, schema: MemoryNode.configSchema },
+        })
+
         const stateStoreArchivistAccount = Account.randomSync()
         const stateStoreArchivist = await MemoryArchivist.create({
           account: stateStoreArchivistAccount,
@@ -122,16 +131,28 @@ describe('PubSubBridge', () => {
           },
         })
 
-        const moduleAccount = Account.randomSync()
         const module = await MemoryArchivist.create({
-          account: moduleAccount,
+          account: 'random',
           config: { name: `module${name}`, schema: MemoryArchivist.configSchema },
         })
 
-        const client = { module, node, stateStoreArchivist, stateStoreBoundWitnessDiviner }
+        const subModule = await MemoryArchivist.create({
+          account: 'random',
+          config: { name: `subModule${name}`, schema: MemoryArchivist.configSchema },
+        })
+
+        const client = { module, node, stateStoreArchivist, stateStoreBoundWitnessDiviner, subNode, subModule }
         for (const mod of [stateStoreArchivist, stateStoreBoundWitnessDiviner, module]) {
           await node.register(mod)
           await node.attach(mod.address, false)
+        }
+        for (const mod of [subNode]) {
+          await node.register(mod)
+          await node.attach(mod.address, true)
+        }
+        for (const mod of [subModule]) {
+          await subNode.register(mod)
+          await subNode.attach(mod.address, true)
         }
         return client
       }),
@@ -176,6 +197,8 @@ describe('PubSubBridge', () => {
         await node.register(pubSubBridge)
         await node.attach(pubSubBridge.address, false)
         await pubSubBridge.expose(client.module.id)
+        await pubSubBridge.expose(client.subNode.id)
+        await pubSubBridge.expose(client.subModule.id)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)
@@ -184,16 +207,38 @@ describe('PubSubBridge', () => {
     )
   })
   afterAll(async () => {
-    await Promise.all(clientsWithBridges.map((c) => c.pubSubBridge.stop()))
+    await Promise.all(
+      clientsWithBridges.map(async (c) => {
+        await c.pubSubBridge.unexpose(c.module.id)
+        await c.pubSubBridge.unexpose(c.subNode.id)
+        await c.pubSubBridge.unexpose(c.subModule.id)
+        await c.pubSubBridge.stop()
+      }),
+    )
   })
   describe('client test', () => {
     it('simple insert', async () => {
       const proxy = await clientsWithBridges[0].pubSubBridge.resolve(clientsWithBridges[1].module.address)
+      const subProxy = await clientsWithBridges[0].pubSubBridge.resolve(
+        `${clientsWithBridges[1].subNode.address}:${clientsWithBridges[1].subModule.address}`,
+      )
       expect(proxy).toBeDefined()
       if (proxy) {
         await proxy.start?.()
         const wrapper = ArchivistWrapper.wrap(proxy as ArchivistInstance, Account.randomSync())
         const stateResult = await proxy.state()
+        //console.log(`state: ${JSON.stringify(stateResult, null, 2)}`)
+        expect(stateResult.length).toBeGreaterThan(1)
+        const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }
+        const result = await wrapper.insert([payload])
+        expect(result).toBeArrayOfSize(1)
+      }
+
+      expect(subProxy).toBeDefined()
+      if (subProxy) {
+        await subProxy.start?.()
+        const wrapper = ArchivistWrapper.wrap(subProxy as ArchivistInstance, Account.randomSync())
+        const stateResult = await subProxy.state()
         //console.log(`state: ${JSON.stringify(stateResult, null, 2)}`)
         expect(stateResult.length).toBeGreaterThan(1)
         const payload: Payload<{ schema: 'network.xyo.test'; value: number }> = { schema: 'network.xyo.test', value: 1 }

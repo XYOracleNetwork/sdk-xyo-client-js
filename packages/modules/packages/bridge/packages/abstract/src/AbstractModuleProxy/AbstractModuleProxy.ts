@@ -9,7 +9,7 @@ import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { BridgeInstance } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
@@ -166,7 +166,12 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   async start(): Promise<boolean> {
-    await this.state()
+    const state = await this.state()
+    const manifestPayload = state.find(
+      (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
+    ) as ModuleManifestPayload
+    const manifest = assertEx(manifestPayload, "Can't find manifest payload")
+    this.params.config = { ...manifest.config }
     return true
   }
 

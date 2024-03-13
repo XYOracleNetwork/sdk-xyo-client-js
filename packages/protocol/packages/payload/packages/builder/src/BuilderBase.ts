@@ -3,25 +3,39 @@ import { Hash } from '@xylabs/hex'
 import { AnyObject, isJsonObject, JsonObject, toJson } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
-import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
 
 import { PayloadBuilderOptions } from './Options'
 
+export type WithOptionalSchema<T extends Payload> = Omit<T, 'schema'> & Partial<T>
+
+export type WithoutSchema<T extends WithOptionalSchema<Payload>> = Omit<T, 'schema'>
+
+export type WithoutMeta<T extends WithOptionalMeta<Payload>> = Omit<T, '$hash' | '$meta'>
+
+export const removeMetaAndSchema = <T extends Payload>(payload: WithOptionalSchema<WithOptionalMeta<T>>): WithoutSchema<WithoutMeta<T>> => {
+  const { ...result } = payload
+  delete result.$hash
+  delete result.$meta
+  delete result.schema
+  return result as Omit<T, 'schema'>
+}
+
 export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>> {
   protected _$meta?: JsonObject
-  protected _fields?: Omit<T, 'schema' | '$hash' | '$meta'>
+  protected _fields?: WithoutSchema<WithoutMeta<T>>
   protected _schema: Schema
 
   constructor(readonly options: O) {
     const { schema, fields, meta } = options
     this._schema = schema
-    this._fields = removeEmptyFields(fields ?? {}) as Omit<T, 'schema' | '$hash' | '$meta'>
+    this._fields = removeEmptyFields(fields ?? {}) as WithoutSchema<WithoutMeta<T>>
     this._$meta = meta
   }
 
   static dataHashableFields<T extends Payload = Payload<AnyObject>>(
     schema: string,
-    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
+    fields?: WithoutSchema<WithoutMeta<T>>,
   ): Promisable<Omit<T, '$hash' | '$meta'>> {
     const cleanFields = fields ? removeEmptyFields(fields) : undefined
     assertEx(
@@ -49,7 +63,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   }
 
   //we do not require sending in $hash since it will be generated anyway
-  fields(fields: Omit<WithMeta<T>, '$hash' | 'schema' | '$meta'> & Partial<Pick<WithMeta<T>, '$hash' | 'schema' | '$meta'>>) {
+  fields(fields: WithOptionalSchema<WithOptionalMeta<T>>) {
     if (fields) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { $meta, $hash, schema, ...fieldsOnly } = fields
@@ -59,7 +73,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
       if (schema) {
         this.schema(schema)
       }
-      this._fields = { ...this._fields, ...removeEmptyFields(fieldsOnly) } as T
+      this._fields = removeMetaAndSchema<T>(fields)
     }
     return this
   }

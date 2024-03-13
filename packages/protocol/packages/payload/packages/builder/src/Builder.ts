@@ -4,7 +4,7 @@ import { AnyObject, isJsonObject, JsonObject } from '@xylabs/object'
 import { deepOmitPrefixedFields, PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-import { PayloadBuilderBase } from './BuilderBase'
+import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase'
 import { PayloadBuilderOptions } from './Options'
 
 export class PayloadBuilder<
@@ -18,7 +18,8 @@ export class PayloadBuilder<
       return await Promise.all(payload.map((payload) => this.build(payload)))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { schema, $hash: incomingDataHash, $meta, ...fields } = payload as WithMeta<T>
+      const { schema, $hash: incomingDataHash, $meta } = payload as WithMeta<T>
+      const fields = removeMetaAndSchema(payload)
       const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
       const $hash = validate || incomingDataHash === undefined ? await PayloadHasher.hash(dataHashableFields) : incomingDataHash
       const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
@@ -91,7 +92,7 @@ export class PayloadBuilder<
 
   static async hashableFields<T extends Payload = Payload<AnyObject>>(
     schema: string,
-    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
+    fields?: WithoutSchema<WithoutMeta<T>>,
     $meta?: JsonObject,
     $hash?: Hash,
     timestamp?: number,

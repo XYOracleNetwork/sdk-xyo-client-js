@@ -12,7 +12,9 @@ export interface PayloadMetaFields<TAdditionalMeta extends EmptyObject | void = 
 }
 
 /** Additional fields for a payload */
-export interface PayloadFields extends EmptyObject {}
+export interface PayloadFields extends EmptyObject {
+  schema: Schema
+}
 
 export type WithPayload<T extends EmptyObject | void = void> = WithSchema<T extends EmptyObject ? PayloadFields & T : PayloadFields>
 

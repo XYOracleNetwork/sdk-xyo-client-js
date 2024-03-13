@@ -15,7 +15,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isAnyPayload, Payload, PayloadFields } from '@xyo-network/payload-model'
+import { isAnyPayload, Payload } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
 type IndexableHashes = [Hash, ...Hash[]]
@@ -105,7 +105,7 @@ export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
       validIndexableTuples.map<Promise<TemporalIndexingDivinerResultIndex>>(async ([bwHash, ...sourcePayloadHashes]) => {
         const sourcePayloads = sourcePayloadHashes.map((hash) => payloadDictionary[hash])
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const indexFields = sourcePayloads.flatMap<PayloadFields[]>((payload) => {
+        const indexFields = sourcePayloads.flatMap((payload) => {
           // Find the transformers for this payload
           const transformers = this.payloadTransformers[payload.schema]
           // If transformers exist, apply them to the payload otherwise return an empty array

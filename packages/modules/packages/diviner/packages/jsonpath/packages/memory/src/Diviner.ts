@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { PayloadBuilder, WithoutSchema } from '@xyo-network/payload-builder'
 import { Payload, PayloadFields, PayloadSchema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath'
@@ -41,7 +41,7 @@ export class JsonPathDiviner<
     const results = await Promise.all(
       payloads.map<Promise<TOut>>(async (payload) => {
         // Use the payload transformers to convert the fields from the source payloads to the destination fields
-        const fields: PayloadFields[] = this.transforms.map((transform) => transform(payload))
+        const fields = this.transforms.map((transform) => transform(payload)) as WithoutSchema<TOut>[]
         // Include all the sources for reference
         const sources = await PayloadBuilder.dataHashes([payload])
         // Build and return the index

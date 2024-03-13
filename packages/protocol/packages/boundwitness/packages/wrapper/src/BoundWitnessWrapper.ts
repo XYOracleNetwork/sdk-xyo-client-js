@@ -72,7 +72,7 @@ export class BoundWitnessWrapper<
       }
       case 'object': {
         if (isObject(obj)) {
-          hydratedObj = obj as WithMeta<T>
+          hydratedObj = obj as unknown as WithMeta<T>
         }
         break
       }

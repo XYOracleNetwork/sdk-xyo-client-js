@@ -1,9 +1,13 @@
 import { assertEx } from '@xylabs/assert'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
-export type WithStorageMeta<T extends Payload> = T & {
+export interface StorageMeta {
   _sequence: bigint
 }
+
+export type WithOptionalStorageMeta<T extends Payload> = T & Partial<StorageMeta>
+
+export type WithStorageMeta<T extends Payload> = T & StorageMeta
 
 export const maxSequenceIndex = 10_000_000_000n
 
@@ -24,15 +28,16 @@ export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStora
   )
 }
 
-export function removeStorageMeta<T extends PayloadWithMeta>(payload: WithStorageMeta<T>): T
-export function removeStorageMeta<T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[]): T[]
-export function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>): T | undefined
-export function removeStorageMeta<T extends PayloadWithMeta>(payload?: WithStorageMeta<T>) {
+export function removeStorageMeta<T extends Payload>(payload: WithOptionalStorageMeta<WithMeta<T>>): WithMeta<T>
+export function removeStorageMeta<T extends Payload>(payloads: WithOptionalStorageMeta<WithMeta<T>>[]): WithMeta<T>[]
+export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStorageMeta<WithMeta<T>>): WithMeta<T> | undefined
+export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStorageMeta<WithMeta<T>>) {
   if (!payload) return
   if (Array.isArray(payload)) {
     return payload.map((p) => removeStorageMeta(p))
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { _sequence, ...noMeta } = payload as WithStorageMeta<T>
-  return noMeta as T
+  const { ...noMeta } = payload as WithOptionalStorageMeta<T>
+  delete noMeta._sequence
+  return noMeta as WithMeta<T>
 }

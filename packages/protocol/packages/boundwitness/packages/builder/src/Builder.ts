@@ -5,7 +5,7 @@ import { AnyObject, JsonObject } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { removeEmptyFields, sortFields } from '@xyo-network/hash'
-import { PayloadBuilder, PayloadBuilderBase, PayloadBuilderOptions } from '@xyo-network/payload-builder'
+import { PayloadBuilder, PayloadBuilderBase, PayloadBuilderOptions, WithoutMeta, WithoutSchema } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -88,8 +88,8 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
 
   static override async dataHashableFields<T extends Payload = Payload<AnyObject>>(
     schema: string,
-    fields?: Omit<T, 'schema' | '$hash' | '$meta'>,
-  ): Promise<Omit<T, '$hash' | '$meta'>> {
+    fields?: WithoutSchema<WithoutMeta<T>>,
+  ): Promise<WithoutMeta<T>> {
     return await PayloadBuilderBase.dataHashableFields(schema, fields ? removeEmptyFields(fields) : undefined)
   }
 
@@ -106,7 +106,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     const previous_hashes = accounts.map((account) => account.previousHash ?? null)
     const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema)
-    return { addresses, payload_hashes, payload_schemas, previous_hashes, timestamp } as Omit<T, '$meta' | '$hash' | 'schema'>
+    return { addresses, payload_hashes, payload_schemas, previous_hashes, timestamp } as WithoutSchema<WithoutMeta<T>>
   }
 
   protected static override async metaFields(
@@ -170,7 +170,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     })
   }
 
-  override async dataHashableFields(): Promise<Omit<TBoundWitness, '$meta' | '$hash'>> {
+  override async dataHashableFields(): Promise<WithoutMeta<TBoundWitness>> {
     const fields = await this.linkingFields()
     const result = await BoundWitnessBuilder.dataHashableFields<TBoundWitness>(this._schema, fields)
 

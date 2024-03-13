@@ -9,7 +9,7 @@ import {
   SchemaToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { Payload, PayloadSchema, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema, WithOptionalMeta } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
 import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath'
@@ -62,7 +62,7 @@ export class JsonPathAggregateDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     if (!payloads) return []
     const strippedPayloads = payloads.map((payload) => {
-      const p = { ...payload } as Partial<WithMeta<TIn>>
+      const p = { ...payload } as WithOptionalMeta<TIn>
       delete p.$hash
       delete p.$meta
       return p as TIn

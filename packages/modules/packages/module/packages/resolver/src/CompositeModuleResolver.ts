@@ -40,7 +40,7 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
     super(params)
     const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
-    const { max = 100, ttl = 1000 * 60 * 5 /* five minutes */ } = cache ?? {}
+    const { max = 100, ttl = 1000 * 5 /* five seconds */ } = cache ?? {}
     this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
     this._localResolver = localResolver
   }

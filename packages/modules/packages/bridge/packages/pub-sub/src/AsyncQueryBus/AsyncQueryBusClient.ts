@@ -3,9 +3,8 @@ import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { CacheConfig } from '@xyo-network/bridge-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { ModuleQueryResult } from '@xyo-network/module-model'
+import { CacheConfig, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -69,7 +68,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     this.logger?.debug(`Issued query: ${routedQueryHash} to: ${address}`)
     this.queryCache.set(routedQueryHash, Pending)
     if (!insertResult) throw new Error('Unable to issue query to queryArchivist')
-    const context = new Promise<ModuleQueryResult>((resolve) => {
+    const context = new Promise<ModuleQueryResult>((resolve, reject) => {
       this.logger?.debug(`Polling for response to query: ${routedQueryHash}`)
       const pollForResponse = async () => {
         try {
@@ -98,7 +97,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
             schema: 'network.xyo.error.module',
             sources: [routedQueryHash],
           }
-          resolve([routedQuery, [], [await PayloadBuilder.build(error)]])
+          reject(error)
           return
         } finally {
           this.stop()

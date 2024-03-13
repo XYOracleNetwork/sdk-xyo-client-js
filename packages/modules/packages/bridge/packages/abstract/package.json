@@ -38,7 +38,8 @@
     "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "@xyo-network/witness-wrapper": "workspace:~"
+    "@xyo-network/witness-wrapper": "workspace:~",
+    "lru-cache": "^10.2.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",

@@ -46,6 +46,7 @@ import { isSentinelModule } from '@xyo-network/sentinel-model'
 import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
 import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
+import { LRUCache } from 'lru-cache'
 
 // const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdentifierPart[] => {
 //   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
@@ -75,6 +76,18 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   implements BridgeInstance<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
+
+  private _cache?: LRUCache<ModuleIdentifier, ModuleInstance>
+
+  get cache() {
+    this._cache =
+      this._cache ??
+      (() => {
+        const { max = 100, ttl = 1000 * 60 * 5 /* five minutes */, ...cache } = this.config.resolveCache ?? {}
+        return new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
+      })()
+    return this._cache
+  }
 
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
@@ -121,9 +134,21 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         const upResolve = await this.upResolver.resolve<T>(idOrFilter)
         if (upResolve) return upResolve
       }
+      const cachedResult = this.cache.get(idOrFilter)
+      if (cachedResult) {
+        if (cachedResult.status === 'dead') {
+          this.cache.delete(idOrFilter)
+        } else {
+          return cachedResult as T
+        }
+      }
       const module = await this.resolveHandler<T>(idOrFilter)
       await module?.start?.()
-      return module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
+      const result = module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
+      if (result) {
+        this.cache.set(idOrFilter, result)
+      }
+      return result
     } else if (idOrFilter === undefined) {
       if (direction === 'all' || direction === 'down') {
         const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options)

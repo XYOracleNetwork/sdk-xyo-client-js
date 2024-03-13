@@ -21,6 +21,7 @@ import {
   AddressPreviousHashSchema,
   CreatableModule,
   CreatableModuleFactory,
+  DeadModuleError,
   duplicateModules,
   isModuleName,
   Module,
@@ -44,6 +45,7 @@ import {
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleStateQuerySchema,
+  ModuleStatus,
   ModuleSubscribeQuerySchema,
   serializableField,
 } from '@xyo-network/module-model'
@@ -81,6 +83,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     [ModuleStateQuerySchema]: '6',
     [ModuleSubscribeQuerySchema]: '3',
   }
+  protected _lastError?: Error
   protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
     [ModuleDescribeQuerySchema]: undefined,
@@ -95,6 +98,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
+  private _status: ModuleStatus = 'stopped'
 
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
@@ -128,6 +132,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.params.config
   }
 
+  get dead() {
+    return this.status === 'dead'
+  }
+
   get ephemeralQueryAccountEnabled(): boolean {
     return !!this.params.ephemeralQueryAccountEnabled
   }
@@ -155,6 +163,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._queryAccounts
   }
 
+  get status() {
+    return this._status
+  }
+
   get timestamp() {
     return this.config.timestamp ?? false
   }
@@ -165,6 +177,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected override get logger() {
     return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+  }
+
+  protected set status(value: ModuleStatus) {
+    if (this._status !== 'dead') {
+      this._status = value
+    }
   }
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
@@ -244,14 +262,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return anyThis[funcName]
   }
 
-  _noOverride(functionName: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const thisFunc = (this as any)[functionName]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
-  }
-
   async busy<R>(closure: () => Promise<R>) {
     if (this._busyCount <= 0) {
       this._busyCount = 0
@@ -279,6 +289,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   previousHash(): Promisable<string | undefined> {
+    this._checkDead()
     return this.account.previousHash
   }
 
@@ -287,6 +298,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<ModuleQueryResult> {
+    this._checkDead()
     this._noOverride('query')
     const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
     return await this.busy(async () => {
@@ -301,6 +313,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {
+          this._lastError = error
+          this.status = 'dead'
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])
@@ -327,6 +341,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     queryConfig?: TConfig,
   ): Promise<boolean> {
+    if (this.dead) {
+      return false
+    }
     if (!(await this.started('warn'))) return false
     const configValidator =
       queryConfig ? new ModuleConfigQueryValidator(Object.assign({}, this.config, queryConfig)).queryable : this.moduleConfigQueryValidator
@@ -348,12 +365,18 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     let result: T | T[] | undefined
     switch (typeof idOrFilter) {
       case 'string': {
+        if (this.dead) {
+          return undefined
+        }
         result =
           (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
           (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
         break
       }
       default: {
+        if (this.dead) {
+          return []
+        }
         const filter: ModuleFilter<T> | undefined = idOrFilter
         result = [
           ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
@@ -384,7 +407,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   start(_timeout?: number): Promisable<boolean> {
     //using promise as mutex
     this._startPromise = this._startPromise ?? this.startHandler()
-    return this._startPromise
+    const result = this._startPromise
+    this.status = result ? 'started' : 'dead'
+    return result
   }
 
   async started(notStartedAction: 'error' | 'throw' | 'warn' | 'log' | 'none' = 'log', tryStart = true): Promise<boolean> {
@@ -440,8 +465,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       const result = await this.stopHandler()
       this._started = undefined
       this._startPromise = undefined
+      this.status = result ? 'stopped' : 'dead'
       return result
     })
+  }
+
+  protected _checkDead() {
+    if (this.dead) {
+      throw new DeadModuleError(this.id, this._lastError)
+    }
+  }
+
+  protected _noOverride(functionName: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const thisFunc = (this as any)[functionName]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rootFunc = this._getRootFunction(functionName)
+    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   protected bindHashes(hashes: Hash[], schema: Schema[], account?: AccountInstance) {

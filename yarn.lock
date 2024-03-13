@@ -3110,6 +3110,7 @@ __metadata:
     "@xyo-network/sentinel-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft
@@ -5209,6 +5210,7 @@ __metadata:
     "@xyo-network/module-model": "workspace:~"
     jest: "npm:^29.7.0"
     jest-mock-extended: "npm:^3.0.5"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.2"
   languageName: unknown
   linkType: soft

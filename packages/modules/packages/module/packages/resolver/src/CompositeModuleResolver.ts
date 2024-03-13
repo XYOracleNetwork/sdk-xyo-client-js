@@ -4,6 +4,7 @@ import { Address } from '@xylabs/hex'
 import { Base, BaseParams } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import {
+  CacheConfig,
   duplicateModules,
   ModuleFilter,
   ModuleFilterOptions,
@@ -13,6 +14,7 @@ import {
   ModuleRepository,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
+import { LRUCache } from 'lru-cache'
 
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 import { ModuleIdentifierTransformer } from './transformers'
@@ -20,6 +22,7 @@ import { ModuleIdentifierTransformer } from './transformers'
 export type ModuleIdentifierTransformerFunc = (id: ModuleIdentifier) => Promisable<ModuleIdentifier>
 
 export interface ModuleResolverParams extends BaseParams {
+  cache?: CacheConfig
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
 
@@ -30,13 +33,16 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
 export class CompositeModuleResolver extends Base<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
   static defaultMaxDepth = 5
   protected resolvers: ModuleResolverInstance[] = []
-  private localResolver: SimpleModuleResolver
+  private _cache: LRUCache<ModuleIdentifier, ModuleInstance>
+  private _localResolver: SimpleModuleResolver
 
-  constructor(params: ModuleResolverParams = {}) {
+  constructor({ cache, ...params }: ModuleResolverParams = {}) {
     super(params)
     const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
-    this.localResolver = localResolver
+    const { max = 100, ttl = 1000 * 60 * 5 /* five minutes */ } = cache ?? {}
+    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
+    this._localResolver = localResolver
   }
 
   private get moduleIdentifierTransformers() {
@@ -89,6 +95,14 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
       if (mutatedOptions.maxDepth < 0) {
         return undefined
       }
+      const cachedResult = this._cache.get(id)
+      if (cachedResult) {
+        if (cachedResult.status === 'dead') {
+          this._cache.delete(id)
+        } else {
+          return cachedResult as T
+        }
+      }
       const results = await Promise.all(
         this.resolvers.map(async (resolver) => {
           const result: T | undefined = await resolver.resolve<T>(id, mutatedOptions)
@@ -96,6 +110,9 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
         }),
       )
       const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
+      if (result) {
+        this._cache.set(id, result)
+      }
       return result
     } else {
       const filter = idOrFilter
@@ -115,11 +132,11 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
 
   private addSingleModule(module?: ModuleInstance) {
     if (module) {
-      this.localResolver.add(module)
+      this._localResolver.add(module)
     }
   }
   private removeSingleModule(address: Address) {
-    this.localResolver.remove(address)
+    this._localResolver.remove(address)
   }
 
   private async resolveMultipartIdentifier<T extends ModuleInstance = ModuleInstance>(moduleIdentifier: ModuleIdentifier): Promise<T | undefined> {

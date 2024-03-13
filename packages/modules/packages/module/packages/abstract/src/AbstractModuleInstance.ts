@@ -20,36 +20,42 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   describe(): Promise<ModuleDescriptionPayload> {
+    this._checkDead()
     return this.busy(async () => {
       return await this.describeHandler()
     })
   }
 
   discover(): Promise<Payload[]> {
+    this._checkDead()
     return this.busy(async () => {
       return await this.discoverHandler()
     })
   }
 
   manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
+    this._checkDead()
     return this.busy(async () => {
       return await this.manifestHandler(maxDepth, ignoreAddresses)
     })
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+    this._checkDead()
     return this.busy(async () => {
       return await this.moduleAddressHandler()
     })
   }
 
   state() {
+    this._checkDead()
     return this.busy(async () => {
       return await this.stateHandler()
     })
   }
 
   subscribe(_queryAccount?: AccountInstance) {
+    this._checkDead()
     return this.subscribeHandler()
   }
 }

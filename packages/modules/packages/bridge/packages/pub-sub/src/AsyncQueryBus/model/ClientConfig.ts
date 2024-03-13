@@ -1,4 +1,4 @@
-import { CacheConfig } from '@xyo-network/bridge-model'
+import { CacheConfig } from '@xyo-network/module-model'
 
 import { AsyncQueryBusBaseConfig } from './BaseConfig'
 

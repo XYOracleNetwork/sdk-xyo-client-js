@@ -34,6 +34,7 @@ import {
   ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
+  ModuleStatus,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
@@ -94,10 +95,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   eventData = {} as TWrappedModule['eventData']
 
-  start?: undefined
-  stop?: undefined
-
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
+
+  private _status: ModuleStatus = 'wrapped'
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
     const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TWrappedModule>
@@ -144,6 +144,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queries
   }
 
+  get status() {
+    return this._status
+  }
+
   get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
     const instance = asModuleInstance(this.module)
@@ -151,6 +155,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       return instance.upResolver as ModuleResolverInstance
     }
     throw new Error('Unsupported')
+  }
+
+  protected set status(value: ModuleStatus) {
+    if (this._status !== 'dead') {
+      this._status = value
+    }
   }
 
   static canWrap(module?: Module) {

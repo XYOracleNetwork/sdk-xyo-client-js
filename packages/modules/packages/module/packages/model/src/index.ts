@@ -1,3 +1,4 @@
+export * from './cache'
 export * from './Config'
 export * from './CreatableModule'
 export * from './EventsModels'

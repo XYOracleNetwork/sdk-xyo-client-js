@@ -14,6 +14,7 @@ import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  DeadModuleError,
   isAddressModuleFilter,
   isNameModuleFilter,
   Module,
@@ -34,6 +35,7 @@ import {
   ModuleQueryResult,
   ModuleResolverInstance,
   ModuleStateQuerySchema,
+  ModuleStatus,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
@@ -52,10 +54,12 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
+  protected _lastError?: Error
   protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
 
   private _downResolver = new CompositeModuleResolver()
+  private _status: ModuleStatus = 'proxy'
   private _upResolver = new CompositeModuleResolver()
 
   constructor(params: TParams) {
@@ -75,6 +79,10 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return this.params.config
   }
 
+  get dead() {
+    return this.status === 'dead'
+  }
+
   get downResolver(): ModuleResolverInstance {
     return this._downResolver
   }
@@ -90,8 +98,18 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return queryPayloads.map((payload) => payload.query)
   }
 
+  get status() {
+    return this._status
+  }
+
   get upResolver(): ModuleResolverInstance {
     return this._upResolver
+  }
+
+  protected set status(value: ModuleStatus) {
+    if (this._status !== 'dead') {
+      this._status = value
+    }
   }
 
   static hasRequiredQueries(module: Module) {
@@ -141,6 +159,18 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
   }
 
+  async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+    this._checkDead()
+    try {
+      return await this.queryHandler<T>(query, payloads)
+    } catch (ex) {
+      const error = ex as Error
+      this._lastError = error
+      this.status = 'dead'
+      throw new DeadModuleError(this.id, this._lastError)
+    }
+  }
+
   queryable<T extends QueryBoundWitness = QueryBoundWitness>(_query: T, _payloads?: Payload[]) {
     return true
   }
@@ -184,6 +214,12 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
       this._state = await wrapper.state()
     }
     return this._state
+  }
+
+  protected _checkDead() {
+    if (this.dead) {
+      throw new DeadModuleError(this.id, this._lastError)
+    }
   }
 
   protected bindQuery<T extends Query>(
@@ -241,5 +277,5 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return resultPayloads as WithMeta<R>[]
   }
 
-  abstract query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>
+  abstract queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>
 }

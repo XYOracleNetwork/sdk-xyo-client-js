@@ -264,7 +264,7 @@ describe('MemoryNode', () => {
         ])
         await Promise.all(
           nestedModules.map(async (mod) => {
-            await nestedNode.register(mod)
+            await nestedNode.register?.(mod)
             await nestedNode.attach(mod.address, true)
           }),
         )
@@ -285,6 +285,7 @@ describe('MemoryNode', () => {
         await memoryNode.attach(archivist1.address, true)
         await memoryNode.register(archivist2)
         await memoryNode.attach(archivist2.address, true)
+        console.log('status:', memoryNode.status)
         const description = await memoryNode.describe()
         validateModuleDescription(description)
         expect(description.children).toBeArrayOfSize(2)

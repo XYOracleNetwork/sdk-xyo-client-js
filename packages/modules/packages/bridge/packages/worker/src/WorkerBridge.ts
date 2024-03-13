@@ -3,10 +3,11 @@ import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions, CacheConfig } from '@xyo-network/bridge-model'
+import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
+  CacheConfig,
   creatableModule,
   ModuleConfig,
   ModuleEventData,

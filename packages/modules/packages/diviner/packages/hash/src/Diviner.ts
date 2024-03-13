@@ -53,6 +53,7 @@ export class HashLeaseEstimateDiviner<
   TParams extends HashLeaseEstimateDivinerParams = HashLeaseEstimateDivinerParams,
   TIn extends WithSources<HashLease> | Name = WithSources<HashLease> | Name,
 > extends AbstractDiviner<TParams, TIn, HashLeaseEstimate> {
+  static override configSchemas = [HashLeaseEstimateDivinerConfigSchema]
   static override targetSchema = HashLeaseEstimateSchema
 
   private _reservedFragments: string[] = ['xyo', 'xy', 'coin', 'lifehash', 'foreventry']

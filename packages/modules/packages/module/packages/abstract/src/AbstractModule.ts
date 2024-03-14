@@ -2,7 +2,7 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
-import { Hash } from '@xylabs/hex'
+import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
 import { Base } from '@xylabs/object'
@@ -611,7 +611,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected manifestHandler(_depth?: number, _ignoreAddresses?: string[]): Promisable<ModuleManifestPayload> {
+  protected manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promisable<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema, status: { address: this.address } }
   }

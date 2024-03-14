@@ -160,7 +160,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParent(hashes: Hash[], archivist: ArchivistInstance): Promise<[WithMeta<Payload>[], Hash[]]> {
-    const foundPairs = (await PayloadBuilder.dataHashPairs((await archivist.get(hashes)) as WithMeta<Payload>[])).filter(([, hash]) => {
+    const foundPairs = (await PayloadBuilder.dataHashPairs(await archivist.get(hashes))).filter(([, hash]) => {
       const askedFor = hashes.includes(hash)
       if (!askedFor) {
         console.warn(`Parent returned payload with hash not asked for: ${hash}`)

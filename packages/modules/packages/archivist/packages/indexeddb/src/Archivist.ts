@@ -136,8 +136,11 @@ export class IndexedDbArchivist<
     if (cursor) {
       const singleValue = cursor.value
       // NOTE: It's known to be a number because we are using IndexedDB supplied auto-incrementing keys
-      const primaryKey = cursor.primaryKey as number
-      return [primaryKey, singleValue]
+      if (typeof cursor.primaryKey !== 'number') {
+        throw new TypeError('primaryKey must be a number')
+      }
+
+      return [cursor.primaryKey, singleValue]
     }
   }
 

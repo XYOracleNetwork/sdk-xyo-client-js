@@ -48,10 +48,6 @@ import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 import { LRUCache } from 'lru-cache'
 
-// const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdentifierPart[] => {
-//   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
-// }
-
 const wrapModuleWithType = (module: Module, account: AccountInstance): ModuleWrapper => {
   if (isArchivistModule(module)) {
     return ArchivistWrapper.wrap(module, account)

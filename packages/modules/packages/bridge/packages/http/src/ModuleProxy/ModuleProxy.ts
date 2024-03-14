@@ -2,7 +2,7 @@ import { Axios, AxiosError } from '@xylabs/axios'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { Module, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import { ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export type HttpModuleProxyParams = ModuleProxyParams & {
@@ -11,7 +11,7 @@ export type HttpModuleProxyParams = ModuleProxyParams & {
   moduleUrl: string
 }
 
-export class HttpModuleProxy<TWrappedModule extends Module = Module>
+export class HttpModuleProxy<TWrappedModule extends ModuleInstance = ModuleInstance>
   extends AbstractModuleProxy<HttpModuleProxyParams, TWrappedModule>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {

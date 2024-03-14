@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { AddressPreviousHashPayload, Module, ModuleDescriptionPayload, ModuleEventData, ModuleParams } from '@xyo-network/module-model'
@@ -33,7 +34,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
-  manifest(maxDepth?: number, ignoreAddresses?: string[]): Promise<ModuleManifestPayload> {
+  manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
     this._checkDead()
     return this.busy(async () => {
       return await this.manifestHandler(maxDepth, ignoreAddresses)

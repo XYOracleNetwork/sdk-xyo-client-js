@@ -22,7 +22,8 @@ import {
   ModuleAddressQuerySchema,
   ModuleDescribeQuery,
   ModuleDescribeQuerySchema,
-  ModuleDescription,
+  ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
@@ -37,7 +38,7 @@ import {
   ModuleStatus,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
-import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { asPayload, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -253,10 +254,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.clearListeners(eventNames)
   }
 
-  //TODO: Make ModuleDescription into real payload
-  async describe(): Promise<ModuleDescription> {
+  async describe(): Promise<ModuleDescriptionPayload> {
     const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    return (await this.sendQuery(queryPayload))[0] as unknown as ModuleDescription
+    const response = (await this.sendQuery(queryPayload)).at(0)
+    return assertEx(asPayload<ModuleDescriptionPayload>([ModuleDescriptionSchema])(response), () => `invalid describe payload [${response?.schema}]`)
   }
 
   async discover(): Promise<Payload[]> {

@@ -24,6 +24,8 @@ import {
   ModuleDescribeQuery,
   ModuleDescribeQuerySchema,
   ModuleDescription,
+  ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
   ModuleFilter,
@@ -39,7 +41,7 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
-import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { asPayload, isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
@@ -136,7 +138,8 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   //TODO: Make ModuleDescription into real payload
   async describe(): Promise<ModuleDescription> {
     const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    return (await this.sendQuery(queryPayload))[0] as unknown as ModuleDescription
+    const response = (await this.sendQuery(queryPayload)).at(0)
+    return assertEx(asPayload<ModuleDescriptionPayload>([ModuleDescriptionSchema])(response), () => `Invalid payload [${response?.schema}]`)
   }
 
   async discover(): Promise<Payload[]> {
@@ -175,21 +178,24 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return true
   }
 
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance[]>
-  resolve(id: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<ModuleInstance | undefined>
-  async resolve(
+  resolve<T extends ModuleInstance = ModuleInstance>(
+    filter?: ModuleFilter | undefined,
+    options?: ModuleFilterOptions<ModuleInstance> | undefined,
+  ): Promise<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(id: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T | undefined>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter?: string | ModuleFilter,
     options?: ModuleFilterOptions<ModuleInstance>,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+  ): Promise<T | T[] | undefined> {
     if (typeof idOrFilter === 'string') {
       const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
-      return address ? await this.proxyParams.bridge?.resolve(address) : undefined
+      return address ? await this.proxyParams.bridge?.resolve<T>(address) : undefined
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        return (await Promise.all(filter.address.map((item) => this.resolve<T>(item, options)))).filter(exists)
       } else if (isNameModuleFilter(filter)) {
-        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
+        return (await Promise.all(filter.name.map((item) => this.resolve<T>(item, options)))).filter(exists)
       }
       throw new Error('Not supported')
     }

@@ -17,7 +17,7 @@ export const sequenceNumber = (index: number) => {
 }
 
 export const addStorageMeta = <T extends PayloadWithMeta>(payload: T, index = 0) => {
-  return { ...payload, _sequence: sequenceNumber(index) } as WithStorageMeta<T>
+  return { ...payload, _sequence: sequenceNumber(index) }
 }
 
 export const sortByStorageMeta = <T extends PayloadWithMeta>(payloads: WithStorageMeta<T>[], direction: -1 | 1 = 1) => {
@@ -37,7 +37,7 @@ export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStora
     return payload.map((p) => removeStorageMeta(p))
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { ...noMeta } = payload as WithOptionalStorageMeta<T>
+  const { ...noMeta } = payload
   delete noMeta._sequence
-  return noMeta as WithMeta<T>
+  return noMeta
 }

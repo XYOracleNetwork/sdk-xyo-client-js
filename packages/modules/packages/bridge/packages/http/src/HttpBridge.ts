@@ -82,7 +82,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
       proxy.setConfig(manifest.config)
     }
     if (remainderParts.length > 0) {
-      return proxy.resolve(remainderParts, options) as unknown as T
+      return await proxy.resolve<T>(remainderParts, options)
     }
     return proxy as unknown as T
   }

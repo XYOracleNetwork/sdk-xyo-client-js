@@ -1,10 +1,14 @@
 import { RetryConfig } from '@xylabs/retry'
+import { Schema } from '@xyo-network/payload-model'
 
 import { Labels } from '../Labels'
 import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier'
 import { ModuleSecurityConfig } from './Security'
 
 export interface ModuleConfigFields {
+  /** Limit to only these allowed queries */
+  readonly allowedQueries?: Schema[] | undefined
+
   /** @field The name/address of the Archivist to use for this module */
   readonly archivist?: ModuleIdentifier
 

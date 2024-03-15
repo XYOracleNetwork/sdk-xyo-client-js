@@ -4,7 +4,7 @@ import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -101,9 +101,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
           try {
             // Issue the query against module
             const querySchema = queryPayloadsDict[query.query].schema
-            assertEx(this.isQueryAllowed(localModule.address, querySchema), `Query not Allowed [${localModule.address}] ${querySchema}`)
             this.logger?.debug(`Issuing query ${querySchema} (${queryHash}) addressed to module: ${localModuleName}`)
-            const response = await localModule.query(query, queryPayloads)
+            const response = await localModule.query(query, queryPayloads, {
+              allowedQueries: this._exposeOptions[localModule.address]?.allowedQueries,
+              schema: ModuleConfigSchema,
+            })
             const [bw, payloads, errors] = response
             this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
             const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
@@ -148,15 +150,6 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     // chance of multiple commands at the same time
     await this.commitState(address, nextState)
     return queries
-  }
-
-  private isQueryAllowed(address: Address, query: Schema) {
-    const allowedQueries = this._exposeOptions[address]?.allowedQueries
-    if (allowedQueries) {
-      return allowedQueries.includes(query)
-    }
-    //if allowedQueries not set, all are allowed
-    return true
   }
 
   /**

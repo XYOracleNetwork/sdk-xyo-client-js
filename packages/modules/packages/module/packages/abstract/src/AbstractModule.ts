@@ -310,6 +310,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         if (!this.allowAnonymous && query.addresses.length === 0) {
           throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
         }
+        if (queryConfig?.allowedQueries) {
+          assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
+        }
         resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {

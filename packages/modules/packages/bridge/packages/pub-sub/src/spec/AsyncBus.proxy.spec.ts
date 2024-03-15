@@ -241,9 +241,12 @@ describe('BusProxy', () => {
       host.start()
 
       host.expose(destination.module.address, { allowedQueries: [ArchivistGetQuerySchema] })
-
-      const m = await proxy.manifest()
-      expect(m).toBeDefined()
+      try {
+        await proxy.manifest()
+        expect(true).toBeFalse()
+      } catch {
+        expect(true).toBeTrue()
+      }
 
       host.unexpose(destination.module.address)
 

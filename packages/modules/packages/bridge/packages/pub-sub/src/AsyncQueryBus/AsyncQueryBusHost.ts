@@ -6,13 +6,19 @@ import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/bou
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { WithMeta } from '@xyo-network/payload-model'
+import { Schema, WithMeta } from '@xyo-network/payload-model'
 
 import { AsyncQueryBusBase } from './AsyncQueryBusBase'
 import { AsyncQueryBusHostParams } from './model'
 
+export interface ExposeOptions {
+  allowedQueries?: Schema[]
+  failOnAlreadyExposed?: boolean
+}
+
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   protected _exposedAddresses = new Set<Address>()
+  private _exposeOptions: Record<Address, ExposeOptions> = {}
   private _pollId?: string
 
   constructor(params: TParams) {
@@ -31,9 +37,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
-  expose(address: Address, validate = true) {
-    assertEx(!validate || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
+  expose(address: Address, options: ExposeOptions = {}) {
+    const { failOnAlreadyExposed } = options
+    assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
     this._exposedAddresses.add(address)
+    this._exposeOptions[address] = { ...options }
     this.logger?.debug(`${address} exposed`)
   }
 
@@ -65,6 +73,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   unexpose(address: Address, validate = true) {
     assertEx(!validate || this._exposedAddresses.has(address), () => `Address not exposed [${address}]`)
     this._exposedAddresses.delete(address)
+    delete this._exposeOptions[address]
     this.logger?.debug(`${address} unexposed`)
   }
 
@@ -92,6 +101,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
           try {
             // Issue the query against module
             const querySchema = queryPayloadsDict[query.query].schema
+            assertEx(this.isQueryAllowed(localModule.address, querySchema), `Query not Allowed [${localModule.address}] ${querySchema}`)
             this.logger?.debug(`Issuing query ${querySchema} (${queryHash}) addressed to module: ${localModuleName}`)
             const response = await localModule.query(query, queryPayloads)
             const [bw, payloads, errors] = response
@@ -138,6 +148,15 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     // chance of multiple commands at the same time
     await this.commitState(address, nextState)
     return queries
+  }
+
+  private isQueryAllowed(address: Address, query: Schema) {
+    const allowedQueries = this._exposeOptions[address]?.allowedQueries
+    if (allowedQueries) {
+      return allowedQueries.includes(query)
+    }
+    //if allowedQueries not set, all are allowed
+    return true
   }
 
   /**

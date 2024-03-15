@@ -2,7 +2,7 @@
 /* eslint-disable max-statements */
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -208,6 +208,39 @@ describe('BusProxy', () => {
       host.start()
 
       host.expose(destination.module.address)
+
+      const m = await proxy.manifest()
+      expect(m).toBeDefined()
+
+      host.unexpose(destination.module.address)
+
+      host.stop()
+    }
+    it('Module %s issues command to Module %s', async () => {
+      // Issue test archivist insert command from source to destination
+      const source = clientsWithBridges[0]
+      const destination = clientsWithBridges[1]
+      const testIterations = 1
+      for (let i = 0; i < testIterations; i++) {
+        // Ensure the end count is what we'd expect after `i` insertions (proves
+        // commands are being processed only once)
+        await issueSourceQueryToDestination(source, destination)
+      }
+    })
+  })
+
+  describe('With disallowed query command', () => {
+    const issueSourceQueryToDestination = async (source: Client, destination: Client) => {
+      // Modules can't resolve each other
+      expect(await source.module.resolve(destination.module.address)).toBeUndefined()
+      expect(await destination.module.resolve(source.module.address)).toBeUndefined()
+
+      const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
+      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, busClient })
+
+      host.start()
+
+      host.expose(destination.module.address, { allowedQueries: [ArchivistGetQuerySchema] })
 
       const m = await proxy.manifest()
       expect(m).toBeDefined()

@@ -1,22 +1,26 @@
-import { Address } from '@xylabs/hex'
+import { assertEx } from '@xylabs/assert'
+import { Address, isAddress } from '@xylabs/hex'
 import { compact, flatten } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import {
   isAddressModuleFilter,
+  isModuleName,
   isNameModuleFilter,
   isQueryModuleFilter,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleName,
   ModuleRepository,
+  ModuleResolver,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
 
 //This class is now package private (not exported from index.ts)
-export class SimpleModuleResolver implements ModuleRepository {
-  private addressToName: Record<string, string> = {}
-  private modules: Record<string, ModuleInstance> = {}
+export class SimpleModuleResolver implements ModuleRepository, ModuleResolver {
+  private addressToName: Record<Address, ModuleName> = {}
+  private modules: Record<Address, ModuleInstance> = {}
 
   add(module: ModuleInstance): this
   add(module: ModuleInstance[]): this
@@ -46,21 +50,33 @@ export class SimpleModuleResolver implements ModuleRepository {
     throw 'Removing resolvers not supported'
   }
 
-  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promisable<T[]>
+  resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
   resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
   resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: ModuleFilter<T> | string,
+    idOrFilter: ModuleFilter<T> | string = '*',
     options?: ModuleFilterOptions<T>,
   ): Promisable<T[] | T | undefined> {
     const unfiltered = (() => {
       if (idOrFilter) {
         if (typeof idOrFilter === 'string') {
-          const id = idOrFilter
-          return this.resolveByName<T>(Object.values(this.modules), [id]).pop() ?? this.resolveByAddress<T>(Object.values(this.modules), [id]).pop()
+          if (idOrFilter === '*') {
+            return Object.values(this.modules) as T[]
+          }
+          const id = idOrFilter as ModuleIdentifier
+          const name = isModuleName(id) ? id : undefined
+          const address = isAddress(id) ? id : undefined
+          assertEx(name || address, 'module identifier must be a ModuleName or Address')
+          return (
+            (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined) ??
+            (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
+          )
         } else {
           const filter = idOrFilter
           if (isAddressModuleFilter(filter)) {
-            return this.resolveByAddress<T>(Object.values(this.modules), filter.address)
+            return this.resolveByAddress<T>(this.modules, filter.address)
           } else if (isNameModuleFilter(filter)) {
             return this.resolveByName<T>(Object.values(this.modules), filter.name)
           } else if (isQueryModuleFilter(filter)) {
@@ -90,6 +106,7 @@ export class SimpleModuleResolver implements ModuleRepository {
   }
 
   private removeSingleModule(address: Address) {
+    assertEx(isAddress(address), 'Invalid address')
     if (address && this.modules[address]) {
       delete this.modules[address]
       const name = this.addressToName[address]
@@ -99,42 +116,35 @@ export class SimpleModuleResolver implements ModuleRepository {
     }
   }
 
-  private resolveByAddress<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], address?: string[]): T[] {
-    return (
-      address ?
-        compact(
-          flatten(
-            address?.map((address) => {
-              return modules.filter((module) => module.address === address)
-            }),
-          ),
-        )
-      : modules) as T[]
+  private resolveByAddress<T extends ModuleInstance = ModuleInstance>(modules: Record<Address, ModuleInstance>, address: Address[]): T[] {
+    return compact(
+      address.map((address) => {
+        return modules[address]
+      }),
+    ) as T[]
   }
 
-  private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name?: string[]): T[] {
-    if (name) {
-      return compact(name.flatMap((name) => modules.filter((module) => module.config?.name === name))) as T[]
-    }
-    return modules as T[]
+  private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
+    return compact(
+      name.map((name) => {
+        return modules.find((module) => module.config.name === name)
+      }),
+    ) as T[]
   }
 
-  private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query?: string[][]): T[] {
-    return (
-      query ?
-        compact(
-          modules.filter((module) =>
-            query?.reduce((supported, queryList) => {
-              return (
-                // eslint-disable-next-line unicorn/no-array-reduce
-                queryList.reduce((supported, query) => {
-                  const queryable = module.queries.includes(query)
-                  return supported && queryable
-                }, true) || supported
-              )
-            }, false),
-          ),
-        )
-      : modules) as T[]
+  private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query: string[][]): T[] {
+    return compact(
+      modules.filter((module) =>
+        query?.reduce((supported, queryList) => {
+          return (
+            // eslint-disable-next-line unicorn/no-array-reduce
+            queryList.reduce((supported, query) => {
+              const queryable = module.queries.includes(query)
+              return supported && queryable
+            }, true) || supported
+          )
+        }, false),
+      ),
+    ) as T[]
   }
 }

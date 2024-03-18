@@ -30,6 +30,7 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
@@ -178,15 +179,23 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return true
   }
 
-  resolve<T extends ModuleInstance = ModuleInstance>(
-    filter?: ModuleFilter | undefined,
-    options?: ModuleFilterOptions<ModuleInstance> | undefined,
-  ): Promise<T[]>
-  resolve<T extends ModuleInstance = ModuleInstance>(id: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T | undefined>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  async resolve(): Promise<ModuleInstance[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: string | ModuleFilter,
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<ModuleInstance>,
+  ): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter?: ModuleIdentifier | ModuleFilter,
     options?: ModuleFilterOptions<ModuleInstance>,
   ): Promise<T | T[] | undefined> {
+    if (idOrFilter === '*') {
+      throw new Error('Not supported: *')
+    }
     if (typeof idOrFilter === 'string') {
       const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
       return address ? await this.proxyParams.bridge?.resolve<T>(address) : undefined

@@ -11,9 +11,6 @@ import {
   creatableModule,
   ModuleConfig,
   ModuleEventData,
-  ModuleFilterOptions,
-  ModuleIdentifier,
-  ModuleInstance,
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
@@ -108,14 +105,6 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
 
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
     return []
-  }
-
-  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    _id: ModuleIdentifier,
-    _options?: ModuleFilterOptions<T>,
-  ): Promise<T | undefined> {
-    // eslint-disable-next-line unicorn/no-useless-promise-resolve-reject, unicorn/no-useless-undefined
-    return await Promise.resolve(undefined)
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {

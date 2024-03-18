@@ -50,7 +50,7 @@ export type ModuleIdentifier =
 
 export type ColonPair<T extends string> = `${T}:${T}` | T
 
-export type ModuleIdentifierPart = Address | ModuleName
+export type ModuleIdentifierPart = Exclude<Address | ModuleName, '*'>
 
 export const isModuleName = (value: unknown): value is ModuleName => {
   return typeof value === 'string' && !isAddress(value) && !includesReservedModuleIdentifierCharacter(value)

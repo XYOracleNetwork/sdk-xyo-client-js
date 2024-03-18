@@ -1,11 +1,6 @@
-/* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { Promisable } from '@xylabs/promise'
-import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { isArchivistModule } from '@xyo-network/archivist-model'
-import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
@@ -23,13 +18,8 @@ import {
   ModuleFilterPayload,
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
-import { isDivinerModule } from '@xyo-network/diviner-model'
-import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
-  isAddressModuleFilter,
-  isNameModuleFilter,
-  Module,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
@@ -37,35 +27,7 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
-import { ModuleWrapper } from '@xyo-network/module-wrapper'
-import { isNodeModule } from '@xyo-network/node-model'
-import { NodeWrapper } from '@xyo-network/node-wrapper'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
-import { isSentinelModule } from '@xyo-network/sentinel-model'
-import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
-import { isWitnessModule } from '@xyo-network/witness-model'
-import { WitnessWrapper } from '@xyo-network/witness-wrapper'
-import { LRUCache } from 'lru-cache'
-
-const wrapModuleWithType = (module: Module, account: AccountInstance): ModuleWrapper => {
-  if (isArchivistModule(module)) {
-    return ArchivistWrapper.wrap(module, account)
-  }
-  if (isDivinerModule(module)) {
-    return DivinerWrapper.wrap(module, account)
-  }
-  if (isNodeModule(module)) {
-    return NodeWrapper.wrap(module, account)
-  }
-  if (isSentinelModule(module)) {
-    return SentinelWrapper.wrap(module, account)
-  }
-  if (isWitnessModule(module)) {
-    return WitnessWrapper.wrap(module, account)
-  }
-  throw 'Failed to wrap'
-}
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
@@ -73,20 +35,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
-  private _cache?: LRUCache<ModuleIdentifier, ModuleInstance>
-
-  get cache() {
-    this._cache =
-      this._cache ??
-      (() => {
-        const { max = 100, ttl = 1000 * 60 * 5 /* five minutes */, ...cache } = this.config.resolveCache ?? {}
-        return new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
-      })()
-    return this._cache
-  }
-
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
+  }
+
+  get resolver() {
+    return assertEx(this.params.resolver, 'No resolver provided')
   }
 
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
@@ -114,54 +68,18 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return this.exposeHandler(id, options)
   }
 
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    const direction = options?.direction ?? 'all'
-    if (typeof idOrFilter === 'string') {
-      if (direction === 'all' || direction === 'down') {
-        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter)
-        if (downResolve) return downResolve
-      }
-      if (direction === 'all' || direction === 'up') {
-        const upResolve = await this.upResolver.resolve<T>(idOrFilter)
-        if (upResolve) return upResolve
-      }
-      const cachedResult = this.cache.get(idOrFilter)
-      if (cachedResult) {
-        if (cachedResult.status === 'dead') {
-          this.cache.delete(idOrFilter)
-        } else {
-          return cachedResult as T
-        }
-      }
-      const module = await this.resolveHandler<T>(idOrFilter)
-      await module?.start?.()
-      const result = module ? (wrapModuleWithType(module, this.account) as unknown as T) : undefined
-      if (result) {
-        this.cache.set(idOrFilter, result)
-      }
-      return result
-    } else if (idOrFilter === undefined) {
-      if (direction === 'all' || direction === 'down') {
-        const downResolve = await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, options)
-        if (downResolve) return downResolve
-      }
-      if (direction === 'all' || direction === 'up') {
-        const upResolve = await this.upResolver.resolve<T>(idOrFilter, options)
-        if (upResolve) return upResolve
-      }
-    } else {
-      const filter = idOrFilter
-      if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
-      } else if (isNameModuleFilter(filter)) {
-        return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
-      }
-    }
+    return await this.resolver.resolve(idOrFilter, options)
   }
 
   unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
@@ -236,11 +154,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]>
-
-  abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    id: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promisable<T | undefined>
 
   abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]>
 }

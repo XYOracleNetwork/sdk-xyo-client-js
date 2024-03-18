@@ -1,14 +1,14 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { Account } from '@xyo-network/account'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleEventData, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { creatableModule, ModuleEventData, ModuleFilterOptions, ModuleIdentifier, ModuleResolver } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { AsyncQueryBusClient, AsyncQueryBusHost, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
+import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
 import { PubSubBridgeConfigSchema } from './Config'
 import { PubSubBridgeParams } from './Params'
+import { PubSubBridgeModuleResolver } from './PubSubBridgeModuleResolver'
 
 const moduleName = 'PubSubBridge'
 
@@ -27,6 +27,20 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   private _busClient?: AsyncQueryBusClient
   private _busHost?: AsyncQueryBusHost
+  private _resolver?: PubSubBridgeModuleResolver
+
+  override get resolver() {
+    this._resolver =
+      this._resolver ??
+      new PubSubBridgeModuleResolver({
+        bridge: this,
+        busClient: assertEx(this.busClient(), 'busClient not configured'),
+        downResolver: this.downResolver,
+        upResolver: this.upResolver,
+        wrapperAccount: this.account,
+      })
+    return this._resolver
+  }
 
   protected get moduleName() {
     return `${this.config.name ?? moduleName}`
@@ -41,21 +55,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       return [module.address]
     }
     return []
-  }
-
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
-    const idParts = id.split(':')
-    const firstPart = idParts.shift()
-    const remainderParts = idParts.join(':')
-    const account = Account.randomSync()
-    const params: AsyncQueryBusModuleProxyParams = {
-      account,
-      bridge: this,
-      busClient: assertEx(this.busClient(), 'Bus client not initialized'),
-      moduleAddress: firstPart as Address,
-    }
-    const proxy = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
-    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : proxy
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Lowercase<string>[]> {

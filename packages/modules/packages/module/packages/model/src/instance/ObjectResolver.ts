@@ -9,10 +9,15 @@ export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unkn
 }
 
 export interface ObjectResolver<TResult extends EmptyObject> {
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  resolve<T extends TResult = TResult>(): Promisable<T | undefined>
+  resolve<T extends TResult = TResult>(all: '*', options?: ObjectFilterOptions<T>): Promisable<T[]>
+  resolve<T extends TResult = TResult>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promisable<T | undefined>
+  resolve<T extends TResult = TResult>(filter: ObjectFilter<T>, options?: ObjectFilterOptions<T>): Promisable<T[]>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   resolve<T extends TResult = TResult>(filter?: ObjectFilter<T>, options?: ObjectFilterOptions<T>): Promisable<T[]>
-  resolve<T extends TResult = TResult>(nameOrAddress: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promisable<T | undefined>
   resolve<T extends TResult = TResult>(
-    nameOrAddressOrFilter?: ObjectFilter<T> | ModuleIdentifier,
+    idOrFilter?: ObjectFilter<T> | ModuleIdentifier,
     options?: ObjectFilterOptions<T>,
   ): Promisable<T | T[] | undefined>
 }

@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/forget": "^3.0.13",
-    "@xylabs/object": "^3.0.13",
-    "@xylabs/promise": "^3.0.13",
+    "@xylabs/forget": "^3.0.14",
+    "@xylabs/object": "^3.0.14",
+    "@xylabs/promise": "^3.0.14",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

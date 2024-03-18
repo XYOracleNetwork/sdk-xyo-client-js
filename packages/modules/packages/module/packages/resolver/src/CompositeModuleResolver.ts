@@ -78,15 +78,37 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
     return this
   }
-
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  async resolve(): Promise<ModuleInstance[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth) - 1 }
+
+    //resolve all
+    if (idOrFilter === '*') {
+      const all = idOrFilter
+      if (mutatedOptions.maxDepth < 0) {
+        return []
+      }
+      const result = await Promise.all(
+        this.resolvers.map(async (resolver) => {
+          const result: T[] = await resolver.resolve<T>(all, mutatedOptions)
+          return result
+        }),
+      )
+      const flatResult: T[] = result.flat().filter(exists)
+      return flatResult.filter(duplicateModules)
+    }
+
     if (typeof idOrFilter === 'string') {
+      //resolve ModuleIdentifier
       const idParts = moduleIdentifierParts(idOrFilter)
       if (idParts.length > 1) {
         return await this.resolveMultipartIdentifier<T>(idOrFilter)
@@ -115,6 +137,7 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
       }
       return result
     } else {
+      //resolve filter
       const filter = idOrFilter
       if (mutatedOptions.maxDepth < 0) {
         return []

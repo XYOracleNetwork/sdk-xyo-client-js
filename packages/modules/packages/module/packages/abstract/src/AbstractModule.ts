@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
@@ -71,8 +72,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected static privateConstructorKey = Date.now().toString()
 
-  readonly downResolver: Omit<CompositeModuleResolver, 'resolve'> = new CompositeModuleResolver()
-  readonly upResolver: Omit<CompositeModuleResolver, 'resolve>'> = new CompositeModuleResolver()
+  readonly downResolver = new CompositeModuleResolver()
+  readonly upResolver = new CompositeModuleResolver()
 
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueries['schema'], string> = {
@@ -355,10 +356,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return validators.every((validator) => validator(query, payloads))
   }
 
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  async resolve(): Promise<ModuleInstance[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: ModuleFilter<T> | ModuleIdentifier,
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     { required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const childOptions = { ...options, required: false }
@@ -366,44 +372,39 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
     let result: T | T[] | undefined
-    switch (typeof idOrFilter) {
-      case 'string': {
-        if (this.dead) {
-          return undefined
-        }
-        result =
-          (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
-          (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
-        break
+    if (idOrFilter === '*') {
+      if (this.dead) {
+        return []
       }
-      default: {
-        if (this.dead) {
-          return []
-        }
-        const filter: ModuleFilter<T> | undefined = idOrFilter
-        result = [
-          ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-          ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-        ].filter(duplicateModules)
-        break
-      }
-    }
-    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
-      switch (required) {
-        case 'warn': {
-          this.logger.warn('resolve failed', idOrFilter)
-          break
-        }
-        case 'log': {
-          this.logger.log('resolve failed', idOrFilter)
+      return [
+        ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
+        ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
+      ].filter(duplicateModules)
+    } else {
+      switch (typeof idOrFilter) {
+        case 'string': {
+          if (this.dead) {
+            return undefined
+          }
+          result =
+            (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
+            (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
           break
         }
         default: {
-          this.logger.error('resolve failed', idOrFilter)
+          if (this.dead) {
+            return []
+          }
+          const filter: ModuleFilter<T> | undefined = idOrFilter
+          result = [
+            ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
+            ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
+          ].filter(duplicateModules)
           break
         }
       }
     }
+    this.validateRequiredResolve(required, result, idOrFilter)
     return result
   }
 
@@ -752,5 +753,28 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
       }
     }, true)
+  }
+
+  private validateRequiredResolve(
+    required: boolean | 'warn' | 'log',
+    result: ModuleInstance[] | ModuleInstance | undefined,
+    idOrFilter: ModuleIdentifier | ModuleFilter,
+  ) {
+    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
+      switch (required) {
+        case 'warn': {
+          this.logger.warn('resolve failed', idOrFilter)
+          break
+        }
+        case 'log': {
+          this.logger.log('resolve failed', idOrFilter)
+          break
+        }
+        default: {
+          this.logger.error('resolve failed', idOrFilter)
+          break
+        }
+      }
+    }
   }
 }

@@ -28,6 +28,7 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
@@ -326,10 +327,18 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.queryable(query, payloads)
   }
 
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance[]>
-  resolve(nameOrAddress: string, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance | undefined>
-  resolve(nameOrAddressOrFilter?: string | ModuleFilter, _options?: unknown): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
-    return typeof nameOrAddressOrFilter === 'string' ? undefined : []
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  resolve(): Promisable<ModuleInstance[]>
+  resolve(all: '*', options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
+  resolve(filter: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
+  resolve(id: ModuleIdentifier, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance>
+  /** @deprecated use '*' if trying to resolve all */
+  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
+  resolve(
+    idOrFilter: ModuleIdentifier | ModuleFilter = '*',
+    _options?: unknown,
+  ): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
+    return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
   }
 
   async state(): Promise<Payload[]> {

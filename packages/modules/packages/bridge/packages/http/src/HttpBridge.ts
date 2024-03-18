@@ -4,16 +4,13 @@ import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { Account } from '@xyo-network/account'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
   ModuleEventData,
-  ModuleFilterOptions,
-  ModuleIdentifier,
   ModuleInstance,
   ModuleQueryResult,
   ModuleStateQuery,
@@ -23,7 +20,7 @@ import { isNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
-import { HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
+import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
 
 export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
 
@@ -36,6 +33,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
   static maxPayloadSizeWarning = 256 * 256
 
   private _axios?: AxiosJson
+  private _resolver?: HttpBridgeModuleResolver
 
   get axios() {
     this._axios = this._axios ?? new AxiosJson()
@@ -55,36 +53,17 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
     return assertEx(this.config.nodeUrl, 'No Url Set')
   }
 
+  override get resolver() {
+    this._resolver = this._resolver ?? new HttpBridgeModuleResolver({ bridge: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
+    return this._resolver
+  }
+
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
     throw new Error('Unsupported')
   }
 
   moduleUrl(address: Address) {
     return new URL(address, this.nodeUrl)
-  }
-
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
-    const idParts = id.split(':')
-    const firstPart = idParts.shift()
-    const remainderParts = idParts.join(':')
-    const params: HttpModuleProxyParams = {
-      account: Account.randomSync(),
-      axios: this.axios,
-      bridge: this,
-      moduleAddress: firstPart as Address,
-      moduleUrl: this.moduleUrl(id as Address).href,
-    }
-    const proxy = new HttpModuleProxy<T>(params)
-    //calling state here to get the config
-    const state = await proxy.state()
-    const manifest = state.find((payload) => isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
-    if (manifest) {
-      proxy.setConfig(manifest.config)
-    }
-    if (remainderParts.length > 0) {
-      return await proxy.resolve<T>(remainderParts, options)
-    }
-    return proxy as unknown as T
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {

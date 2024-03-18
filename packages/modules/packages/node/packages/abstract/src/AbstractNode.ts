@@ -70,36 +70,54 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve(all: '*', options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  override async resolve(filter: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  override async resolve(id: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   override async resolve(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  override async resolve(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   override async resolve(
-    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
+    idOrFilter: ModuleFilter | ModuleIdentifier = '*',
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     //checking type of nameOrAddressOrFilter before calling other functions since TS seems
     //to need help here narrowing before the call
-    if (typeof nameOrAddressOrFilter === 'string') {
+    if (idOrFilter === '*') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate(nameOrAddressOrFilter)
+          return await this.resolvePrivate('*')
         }
         case 'all': {
-          return await this.resolveAll(nameOrAddressOrFilter)
+          return await this.resolveAll('*')
         }
         default: {
-          return await super.resolve(nameOrAddressOrFilter, options)
+          return await super.resolve('*', options)
+        }
+      }
+    }
+    if (typeof idOrFilter === 'string') {
+      switch (options?.visibility) {
+        case 'private': {
+          return await this.resolvePrivate(idOrFilter)
+        }
+        case 'all': {
+          return await this.resolveAll(idOrFilter)
+        }
+        default: {
+          return await super.resolve(idOrFilter, options)
         }
       }
     } else {
       switch (options?.visibility) {
         case 'all': {
-          return await this.resolveAll(nameOrAddressOrFilter)
+          return await this.resolveAll(idOrFilter)
         }
         case 'private': {
-          return await this.resolvePrivate(nameOrAddressOrFilter)
+          return await this.resolvePrivate(idOrFilter)
         }
         default: {
-          return await super.resolve(nameOrAddressOrFilter, options)
+          return await super.resolve(idOrFilter, options)
         }
       }
     }
@@ -129,7 +147,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       manifest.modules.private = privateModules
     }*/
 
-    const publicModules = await Promise.all((await this.resolve(undefined, { direction: 'down', maxDepth })).filter(notThisModule).map(toManifest))
+    const publicModules = await Promise.all((await this.resolve('*', { direction: 'down', maxDepth })).filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules
@@ -187,43 +205,49 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return resultPayloads
   }
 
-  private async resolveAll(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolveAll(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolveAll(all: '*', options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolveAll(filter: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolveAll(id: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   private async resolveAll(
-    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
+    idOrFilter: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    switch (typeof nameOrAddressOrFilter) {
+    if (idOrFilter === '*') {
+      return [...(await this.resolvePrivate(idOrFilter, options)), ...(await super.resolve(idOrFilter, options))].filter(duplicateModules)
+    }
+    switch (typeof idOrFilter) {
       case 'string': {
-        return (await this.resolvePrivate(nameOrAddressOrFilter, options)) ?? (await super.resolve(nameOrAddressOrFilter, options))
+        return (await this.resolvePrivate(idOrFilter, options)) ?? (await super.resolve(idOrFilter, options))
       }
       default: {
-        return [...(await this.resolvePrivate(nameOrAddressOrFilter, options)), ...(await super.resolve(nameOrAddressOrFilter, options))].filter(
-          duplicateModules,
-        )
+        return [...(await this.resolvePrivate(idOrFilter, options)), ...(await super.resolve(idOrFilter, options))].filter(duplicateModules)
       }
     }
   }
 
-  private async resolvePrivate(filter?: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolvePrivate(nameOrAddress: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
+  private async resolvePrivate(all: '*', options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolvePrivate(filter: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
+  private async resolvePrivate(id: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
   private async resolvePrivate(
-    nameOrAddressOrFilter?: ModuleFilter | ModuleIdentifier,
+    idOrFilter: ModuleFilter | ModuleIdentifier,
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
     const direction = options?.direction ?? 'all'
     const down = direction === 'down' || direction === 'all'
-    switch (typeof nameOrAddressOrFilter) {
+    if (idOrFilter === '*') {
+      return down ? await this.privateResolver.resolve(idOrFilter) : []
+    }
+    switch (typeof idOrFilter) {
       case 'string': {
-        return down ? await this.privateResolver.resolve(nameOrAddressOrFilter) : undefined
+        return down ? await this.privateResolver.resolve(idOrFilter) : undefined
       }
       default: {
-        return down ? await this.privateResolver.resolve(nameOrAddressOrFilter) : undefined
+        return down ? await this.privateResolver.resolve(idOrFilter) : undefined
       }
     }
   }
 
-  abstract attach(nameOrAddress: string, external?: boolean): Promisable<Address | undefined>
-  abstract detach(nameOrAddress: string): Promisable<Address | undefined>
+  abstract attach(id: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>
+  abstract detach(id: ModuleIdentifier): Promisable<Address | undefined>
   abstract registered(): Promisable<Address[]>
 }

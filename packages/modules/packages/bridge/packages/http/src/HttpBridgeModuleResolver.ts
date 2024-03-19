@@ -33,7 +33,7 @@ export class HttpBridgeModuleResolver<
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
-      bridge: this.options.bridge,
+      host: this.options.bridge,
       moduleAddress: firstPart as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }

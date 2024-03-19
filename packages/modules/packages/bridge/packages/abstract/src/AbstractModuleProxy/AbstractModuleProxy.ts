@@ -8,7 +8,6 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { BridgeInstance } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { BaseEmitter } from '@xyo-network/module-abstract'
 import {
@@ -36,6 +35,7 @@ import {
   ModuleManifestQuerySchema,
   ModuleName,
   ModuleQueryResult,
+  ModuleResolver,
   ModuleResolverInstance,
   ModuleStateQuerySchema,
   ModuleStatus,
@@ -47,7 +47,7 @@ import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
-  bridge?: BridgeInstance
+  host: ModuleResolver
   moduleAddress: Address
 }>
 
@@ -91,7 +91,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get id() {
-    return `${this.proxyParams.bridge?.id}:${this.config.name ?? this.proxyParams.moduleAddress}`
+    return this.config.name ?? this.proxyParams.moduleAddress
   }
 
   get queries(): string[] {
@@ -198,7 +198,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     }
     if (typeof idOrFilter === 'string') {
       const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
-      return address ? await this.proxyParams.bridge?.resolve<T>(address) : undefined
+      return address ? await this.proxyParams.host.resolve<T>(address) : undefined
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {

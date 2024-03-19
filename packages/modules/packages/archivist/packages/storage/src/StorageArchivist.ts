@@ -131,7 +131,7 @@ export class StorageArchivist<
   protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     const payloads = await this.all()
-    assertEx(payloads.length > 0, 'Nothing to commit')
+    assertEx(payloads.length > 0, () => 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {

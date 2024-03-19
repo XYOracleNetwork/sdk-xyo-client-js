@@ -92,7 +92,7 @@ export class IndexedDbPayloadDiviner<
       const results: TOut[] = []
       let parsedOffset = offset ?? 0
       const parsedLimit = limit ?? 10
-      assertEx((schemas?.length ?? 1) === 1, 'IndexedDbPayloadDiviner: Only one filter schema supported')
+      assertEx((schemas?.length ?? 1) === 1, () => 'IndexedDbPayloadDiviner: Only one filter schema supported')
       const filterSchema = schemas?.[0]
       const filter = filterSchema ? { schema: filterSchema, ...props } : { ...props }
       const direction: IDBCursorDirection = order === 'desc' ? 'prev' : 'next'

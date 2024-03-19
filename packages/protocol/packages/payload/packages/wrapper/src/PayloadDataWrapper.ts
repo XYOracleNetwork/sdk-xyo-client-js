@@ -49,7 +49,7 @@ export class PayloadDataWrapper<TPayload extends Payload = Payload> extends Payl
   }
 
   static wrap<T extends Payload>(payload?: T | PayloadDataWrapper<T>): PayloadDataWrapper<T> {
-    assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
+    assertEx(!Array.isArray(payload), () => 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
         return payload instanceof PayloadDataWrapper ? payload : (

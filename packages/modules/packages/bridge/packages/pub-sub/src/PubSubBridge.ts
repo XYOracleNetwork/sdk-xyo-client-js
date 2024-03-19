@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleEventData, ModuleFilterOptions, ModuleIdentifier, ModuleResolver } from '@xyo-network/module-model'
+import { creatableModule, ModuleFilterOptions, ModuleIdentifier } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -13,10 +13,7 @@ import { PubSubBridgeModuleResolver } from './PubSubBridgeModuleResolver'
 const moduleName = 'PubSubBridge'
 
 @creatableModule()
-export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends AbstractBridge<TParams, TEventData>
-  implements BridgeModule<TParams, TEventData>
-{
+export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
   static override configSchemas = [PubSubBridgeConfigSchema]
 
   protected _configRootAddress: Address = ''
@@ -34,7 +31,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._resolver ??
       new PubSubBridgeModuleResolver({
         bridge: this,
-        busClient: assertEx(this.busClient(), 'busClient not configured'),
+        busClient: assertEx(this.busClient(), () => 'busClient not configured'),
         downResolver: this.downResolver,
         upResolver: this.upResolver,
         wrapperAccount: this.account,
@@ -46,22 +43,22 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return `${this.config.name ?? moduleName}`
   }
 
-  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<Lowercase<string>[]> {
+  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<Address[]> {
     const filterOptions: ModuleFilterOptions = { direction: options?.direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {
-      const host = assertEx(this.busHost(), 'Not configured as a host')
+      const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.expose(module.address)
       return [module.address]
     }
     return []
   }
 
-  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Lowercase<string>[]> {
+  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
     const filterOptions: ModuleFilterOptions = { direction: options?.direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {
-      const host = assertEx(this.busHost(), 'Not configured as a host')
+      const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.unexpose(module.address)
       return [module.address]
     }

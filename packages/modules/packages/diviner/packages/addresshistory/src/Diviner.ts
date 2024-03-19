@@ -17,11 +17,11 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   static override configSchemas = [AddressHistoryDivinerConfigSchema]
 
   get queryAddress() {
-    return assertEx(this.config.address, 'Missing address')
+    return assertEx(this.config.address, () => 'Missing address')
   }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
-    assertEx(!payloads?.length, 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
+    assertEx(!payloads?.length, () => 'MemoryAddressHistoryDiviner.divine does not allow payloads to be sent')
 
     const allBoundWitnesses = await this.allBoundWitnesses()
     const bwRecords = await PayloadBuilder.toDataHashMap(allBoundWitnesses)
@@ -36,7 +36,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
       (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((module) =>
         asArchivistInstance(module, `Failed to cast module to Archivist [${module.config.name}]`),
       ) ?? []
-    assertEx(archivists.length > 0, 'Did not find any archivists')
+    assertEx(archivists.length > 0, () => 'Did not find any archivists')
     return (
       await Promise.all(
         archivists.map(async (archivist) => {

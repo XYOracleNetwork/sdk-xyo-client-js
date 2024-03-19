@@ -98,7 +98,7 @@ export class PayloadBuilder<
     timestamp?: number,
   ): Promise<WithMeta<T>> {
     const dataFields = await this.dataHashableFields<T>(schema, fields)
-    assertEx($meta === undefined || isJsonObject($meta), '$meta must be JsonObject')
+    assertEx($meta === undefined || isJsonObject($meta), () => '$meta must be JsonObject')
     return deepOmitPrefixedFields<WithMeta<T>>(
       {
         ...dataFields,
@@ -171,6 +171,10 @@ export class PayloadBuilder<
   }
 
   async hashableFields() {
-    return await PayloadBuilder.hashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields, this._$meta)
+    return await PayloadBuilder.hashableFields(
+      assertEx(this._schema, () => 'Payload: Missing Schema'),
+      this._fields,
+      this._$meta,
+    )
   }
 }

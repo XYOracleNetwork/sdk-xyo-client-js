@@ -47,7 +47,7 @@ export class PayloadWithMetaWrapper<TPayload extends Payload = Payload> extends 
   }
 
   static override wrap<T extends Payload>(payload?: T | PayloadWithMetaWrapper<T>): PayloadWithMetaWrapper<T> {
-    assertEx(!Array.isArray(payload), 'Array can not be converted to PayloadWrapper')
+    assertEx(!Array.isArray(payload), () => 'Array can not be converted to PayloadWrapper')
     switch (typeof payload) {
       case 'object': {
         return payload instanceof PayloadWithMetaWrapper ? payload : (

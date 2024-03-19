@@ -18,7 +18,7 @@ export interface DetermineRandomParams {}
 export type DetermineAccountParams = DetermineAccountFromAccountParams | DetermineAccountFromWalletParams | DetermineRandomParams
 
 const isDetermineAccountFromAccountParams = (params: DetermineAccountParams): params is DetermineAccountFromAccountParams => {
-  assertEx(!(params as DetermineAccountFromWalletParams).accountPath, 'accountPath may not be provided when account is provided')
+  assertEx(!(params as DetermineAccountFromWalletParams).accountPath, () => 'accountPath may not be provided when account is provided')
   return !!(params as DetermineAccountFromAccountParams).account
 }
 
@@ -29,14 +29,17 @@ const isDetermineAccountFromWalletParams = (params: DetermineAccountParams): par
 export async function determineAccount(params: DetermineAccountParams, allowRandomAccount = true): Promise<AccountInstance> {
   if (isDetermineAccountFromAccountParams(params)) {
     if (params.account === 'random') {
-      assertEx(allowRandomAccount, 'Random address not allowed')
+      assertEx(allowRandomAccount, () => 'Random address not allowed')
       return Account.randomSync()
     }
     return params.account
   }
 
   if (isDetermineAccountFromWalletParams(params)) {
-    return assertEx(params.accountPath ? await params.wallet.derivePath(params.accountPath) : params.wallet, 'Failed to derive account from path')
+    return assertEx(
+      params.accountPath ? await params.wallet.derivePath(params.accountPath) : params.wallet,
+      () => 'Failed to derive account from path',
+    )
   }
 
   //this should eventually be removed/thrown

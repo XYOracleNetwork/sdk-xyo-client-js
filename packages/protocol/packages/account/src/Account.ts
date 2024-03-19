@@ -40,7 +40,7 @@ export class Account extends KeyPair implements AccountInstance {
   private readonly _signingMutex = new Mutex()
 
   constructor(key: unknown, params?: AccountConfig) {
-    assertEx(key === Account._protectedConstructorKey, 'Do not call this protected constructor')
+    assertEx(key === Account._protectedConstructorKey, () => 'Do not call this protected constructor')
     let privateKeyToUse: ArrayBuffer | undefined
     let node: HDNodeWallet | undefined
     if (params) {

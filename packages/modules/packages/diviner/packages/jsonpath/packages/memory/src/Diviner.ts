@@ -3,7 +3,7 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
 import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadBuilder, WithoutSchema } from '@xyo-network/payload-builder'
-import { Payload, PayloadFields, PayloadSchema } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath'
 
@@ -29,7 +29,7 @@ export class JsonPathDiviner<
    */
   protected get transforms(): PayloadTransformer[] {
     if (!this._transforms) {
-      const transforms = assertEx(this.config.transforms, 'config.transforms is not defined')
+      const transforms = assertEx(this.config.transforms, () => 'config.transforms is not defined')
       this._transforms = transforms.map(toPayloadTransformer)
     }
     return this._transforms

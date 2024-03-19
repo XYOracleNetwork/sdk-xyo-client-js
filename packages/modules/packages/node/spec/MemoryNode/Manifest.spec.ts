@@ -38,11 +38,11 @@ describe('MemoryNode', () => {
         await memoryNode.attach(witness.address, false)
       }),
     )
-    const publicModules = await memoryNode.resolve(undefined, { visibility: 'public' })
+    const publicModules = await memoryNode.resolve('*', { visibility: 'public' })
     expect(publicModules).toBeArrayOfSize(5)
-    const privateModules = await memoryNode.resolve(undefined, { visibility: 'private' })
+    const privateModules = await memoryNode.resolve('*', { visibility: 'private' })
     expect(privateModules).toBeArrayOfSize(3)
-    const allModules = await memoryNode.resolve(undefined, { visibility: 'all' })
+    const allModules = await memoryNode.resolve('*', { visibility: 'all' })
     expect(allModules).toBeArrayOfSize(8)
 
     const manifest = (await memoryNode.manifest()) as NodeManifestPayload

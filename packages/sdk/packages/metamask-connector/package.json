@@ -9,8 +9,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@metamask/providers": "^15.0.0",
-    "@xylabs/forget": "^3.0.14",
+    "@metamask/providers": "^16.0.0",
+    "@xylabs/forget": "^3.0.15",
     "ethers": "6.11.1"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

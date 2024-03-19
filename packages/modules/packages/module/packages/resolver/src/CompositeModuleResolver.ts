@@ -164,7 +164,7 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
 
   private async resolveMultipartIdentifier<T extends ModuleInstance = ModuleInstance>(moduleIdentifier: ModuleIdentifier): Promise<T | undefined> {
     const idParts = moduleIdentifierParts(moduleIdentifier)
-    assertEx(idParts.length >= 2, 'Not a valid multipart identifier')
+    assertEx(idParts.length >= 2, () => 'Not a valid multipart identifier')
     const id = assertEx(idParts.shift())
     const module = await this.resolve(id)
     return await module?.resolve<T>(idParts.join(':'))

@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, isAddress } from '@xylabs/hex'
-import { compact, flatten } from '@xylabs/lodash'
+import { compact } from '@xylabs/lodash'
 import { Promisable } from '@xylabs/promise'
 import {
   isAddressModuleFilter,
@@ -68,7 +68,7 @@ export class SimpleModuleResolver implements ModuleRepository, ModuleResolver {
           const id = idOrFilter as ModuleIdentifier
           const name = isModuleName(id) ? id : undefined
           const address = isAddress(id) ? id : undefined
-          assertEx(name || address, 'module identifier must be a ModuleName or Address')
+          assertEx(name || address, () => 'module identifier must be a ModuleName or Address')
           return (
             (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined) ??
             (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
@@ -106,7 +106,7 @@ export class SimpleModuleResolver implements ModuleRepository, ModuleResolver {
   }
 
   private removeSingleModule(address: Address) {
-    assertEx(isAddress(address), 'Invalid address')
+    assertEx(isAddress(address), () => 'Invalid address')
     if (address && this.modules[address]) {
       delete this.modules[address]
       const name = this.addressToName[address]

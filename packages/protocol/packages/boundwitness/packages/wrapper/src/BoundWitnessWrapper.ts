@@ -54,7 +54,7 @@ export class BoundWitnessWrapper<
   static async load(address: Address) {
     const wrapper = await PayloadWrapper.load(address)
     const payload = wrapper?.payload
-    assertEx(payload && isBoundWitness(payload), 'Attempt to load non-boundwitness')
+    assertEx(payload && isBoundWitness(payload), () => 'Attempt to load non-boundwitness')
 
     const boundWitness: BoundWitness | undefined = payload && isBoundWitness(payload) ? payload : undefined
     return boundWitness ? await BoundWitnessWrapper.wrap(boundWitness) : null
@@ -171,12 +171,12 @@ export class BoundWitnessWrapper<
 
   async payloadsByDataHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsDataHashMap()
-    return hashes.map((hash) => assertEx(map[hash], 'Hash not found') as TPayload)
+    return hashes.map((hash) => assertEx(map[hash], () => 'Hash not found') as TPayload)
   }
 
   async payloadsByHashes(hashes: Hash[]): Promise<TPayload[]> {
     const map = await this.payloadsHashMap()
-    return hashes.map((hash) => assertEx(map[hash], 'Hash not found') as TPayload)
+    return hashes.map((hash) => assertEx(map[hash], () => 'Hash not found') as TPayload)
   }
 
   payloadsBySchema<T extends TPayload>(schema: string): WithMeta<T>[] {

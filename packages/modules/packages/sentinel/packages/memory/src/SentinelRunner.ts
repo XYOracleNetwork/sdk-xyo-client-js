@@ -67,7 +67,7 @@ export class SentinelRunner {
   }
 
   start() {
-    assertEx(this.timeoutId === undefined, 'Already started')
+    assertEx(this.timeoutId === undefined, () => 'Already started')
     const automation = this.next
     if (isSentinelIntervalAutomation(automation)) {
       const now = Date.now()

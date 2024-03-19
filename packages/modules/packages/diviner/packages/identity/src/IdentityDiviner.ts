@@ -16,6 +16,6 @@ export class IdentityDiviner<TParams extends IdentityDivinerParams = IdentityDiv
   static override targetSchema = 'network.xyo.test'
 
   protected override divineHandler(payloads?: TIn[]): Promisable<TIn[]> {
-    return assertEx(payloads, 'IdentityDiviner requires passed payload') as TIn[]
+    return assertEx(payloads, () => 'IdentityDiviner requires passed payload') as TIn[]
   }
 }

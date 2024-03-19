@@ -17,13 +17,13 @@ export const checkIpfsUrl = (urlToCheck: string, ipfsGateway?: string): string =
     const query = url.search
     if (protocol === 'ipfs:') {
       protocol = 'https:'
-      host = assertEx(ipfsGateway, 'No ipfsGateway provided')
+      host = assertEx(ipfsGateway, () => 'No ipfsGateway provided')
       path = url.host === 'ipfs' ? `ipfs${path}` : `ipfs/${url.host}${path}`
       const root = `${protocol}//${host}/${path}`
       return query?.length > 0 ? `${root}?${query}` : root
     } else if (allowIpfsIoRepair && protocol === 'https' && host === 'ipfs.io') {
       protocol = 'https:'
-      host = assertEx(ipfsGateway, 'No ipfsGateway provided')
+      host = assertEx(ipfsGateway, () => 'No ipfsGateway provided')
       const pathParts = path.split('/')
       if (pathParts[0] === 'ipfs') {
         pathParts.shift()

@@ -23,7 +23,7 @@ export const defaultPayloadPluginFunctions = <T extends Payload>(schema: string)
 
 export const createPayloadPlugin = <TPayload extends Payload = Payload>(plugin: PayloadPlugin<TPayload>): PayloadPlugin<TPayload> => {
   return {
-    ...defaultPayloadPluginFunctions<TPayload>(assertEx(plugin.schema, 'schema field required to create plugin')),
+    ...defaultPayloadPluginFunctions<TPayload>(assertEx(plugin.schema, () => 'schema field required to create plugin')),
     ...plugin,
   }
 }

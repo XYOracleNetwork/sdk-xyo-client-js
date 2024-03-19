@@ -85,7 +85,7 @@ export class MemoryArchivist<
   }
 
   protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {
-    const payloads = assertEx(await this.allHandler(), 'Nothing to commit')
+    const payloads = assertEx(await this.allHandler(), () => 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
         Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {

@@ -92,7 +92,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
 
   static createWorker(url?: URL, func?: () => unknown) {
     if (url) console.debug(`createWorker: ${url}`)
-    return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), 'Unable to create worker')
+    return assertEx(this.createBrowserWorker?.(url) ?? this.createNodeWorker?.(func), () => 'Unable to create worker')
   }
 
   static async filterExcludeByHash<T extends EmptyObject>(objs: T[] = [], hash: Hash[] | Hash): Promise<T[]> {

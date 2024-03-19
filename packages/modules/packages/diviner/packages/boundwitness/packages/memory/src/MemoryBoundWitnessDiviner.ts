@@ -73,9 +73,9 @@ export class MemoryBoundWitnessDiviner<
   static override configSchemas = [BoundWitnessDivinerConfigSchema]
 
   protected override async divineHandler(payloads?: TIn[]) {
-    const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), 'Missing query payload')
+    const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
     const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination, timestamp } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
     if (order === 'desc') bws = bws.reverse()
@@ -86,7 +86,7 @@ export class MemoryBoundWitnessDiviner<
     if (sourceQuery) bws = bws.filter((bw) => (bw?.$meta as { sourceQuery?: string })?.sourceQuery === sourceQuery)
     // If there's a destination filter of the right kind
     if (destination && Array.isArray(destination) && destination?.length > 0) {
-      const targetFilter = assertEx(destination, 'Missing destination')
+      const targetFilter = assertEx(destination, () => 'Missing destination')
       // Find all BWs that satisfy the destination constraint
       bws = bws.filter((bw) => {
         const targetDestinationField = (bw?.$meta as { destination?: string[] })?.destination

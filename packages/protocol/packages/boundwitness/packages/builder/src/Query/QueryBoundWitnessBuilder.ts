@@ -14,7 +14,7 @@ export class QueryBoundWitnessBuilder<
   override async dataHashableFields(): Promise<Omit<TBoundWitness, '$hash' | '$meta'>> {
     return {
       ...(await super.dataHashableFields()),
-      query: assertEx(this._query, 'No Query Specified').$hash,
+      query: assertEx(this._query, () => 'No Query Specified').$hash,
       schema: QueryBoundWitnessSchema,
     } as Omit<TBoundWitness, '$hash' | '$meta'>
   }

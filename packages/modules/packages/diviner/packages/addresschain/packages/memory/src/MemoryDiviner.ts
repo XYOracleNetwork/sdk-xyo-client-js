@@ -19,16 +19,16 @@ export class MemoryAddressChainDiviner<
   static override configSchemas = [AddressChainDivinerConfigSchema]
 
   get queryAddress() {
-    return assertEx(this.config.address, 'Missing address')
+    return assertEx(this.config.address, () => 'Missing address')
   }
 
   protected override async divineHandler(payloads?: Payload[]): Promise<Payload[]> {
     const result: Payload[] = []
-    assertEx(!payloads?.length, 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
+    assertEx(!payloads?.length, () => 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     try {
       const archivistIn = await this.getArchivist()
-      const archivist = assertEx(archivistIn, 'Unable to resolve archivist')
-      let currentHash: Hash | null = assertEx(this.config.startHash, 'Missing startHash')
+      const archivist = assertEx(archivistIn, () => 'Unable to resolve archivist')
+      let currentHash: Hash | null = assertEx(this.config.startHash, () => 'Missing startHash')
       while (currentHash && result.length < (this.config.maxResults ?? 1000)) {
         console.log(`currentHash: ${currentHash}`)
         const bwPayload: BoundWitness | undefined = await this.archivistFindHash([archivist], currentHash)

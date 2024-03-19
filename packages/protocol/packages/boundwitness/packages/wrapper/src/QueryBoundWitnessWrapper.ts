@@ -12,7 +12,7 @@ export class QueryBoundWitnessWrapper<T extends Query = Query> extends BoundWitn
   private _query: T | undefined
 
   static async parseQuery<T extends Query = Query>(obj: unknown, payloads?: Payload[]): Promise<QueryBoundWitnessWrapper<T>> {
-    assertEx(!Array.isArray(obj), 'Array can not be converted to QueryBoundWitnessWrapper')
+    assertEx(!Array.isArray(obj), () => 'Array can not be converted to QueryBoundWitnessWrapper')
     switch (typeof obj) {
       case 'object': {
         const castWrapper = obj as QueryBoundWitnessWrapper<T>

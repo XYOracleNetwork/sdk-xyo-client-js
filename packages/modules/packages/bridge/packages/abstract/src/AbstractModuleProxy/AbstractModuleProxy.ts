@@ -34,6 +34,7 @@ import {
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
   ModuleName,
+  ModuleQueriedEventArgs,
   ModuleQueryResult,
   ModuleResolver,
   ModuleResolverInstance,
@@ -95,7 +96,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   }
 
   get queries(): string[] {
-    const queryPayloads = assertEx(this._state, 'Module state not found.  Make sure proxy has been started').filter((item) =>
+    const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter((item) =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
     ) as QueryPayload[]
     return queryPayloads.map((payload) => payload.query)
@@ -132,7 +133,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
       (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
-      'Result did not include correct payload',
+      () => 'Result did not include correct payload',
     )
   }
 
@@ -166,7 +167,10 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     this._checkDead()
     try {
-      return await this.queryHandler<T>(query, payloads)
+      const result = await this.queryHandler<T>(query, payloads)
+      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+      await this.emit('moduleQueried', args)
+      return result
     } catch (ex) {
       const error = ex as Error
       this._lastError = error
@@ -215,7 +219,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     const manifestPayload = state.find(
       (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
     ) as ModuleManifestPayload
-    const manifest = assertEx(manifestPayload, "Can't find manifest payload")
+    const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.params.config = { ...manifest.config }
     return true
   }

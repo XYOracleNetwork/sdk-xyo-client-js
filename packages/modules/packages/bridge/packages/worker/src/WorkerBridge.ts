@@ -5,15 +5,7 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
-import {
-  AnyConfigSchema,
-  CacheConfig,
-  creatableModule,
-  ModuleConfig,
-  ModuleEventData,
-  ModuleParams,
-  ModuleQueryResult,
-} from '@xyo-network/module-model'
+import { AnyConfigSchema, CacheConfig, creatableModule, ModuleConfig, ModuleParams, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
@@ -45,10 +37,7 @@ export interface QueryResultMessage {
 }
 
 @creatableModule()
-export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends AbstractBridge<TParams, TEventData>
-  implements BridgeModule<TParams, TEventData>
-{
+export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
   static override configSchemas = [WorkerBridgeConfigSchema]
 
   private _discoverCache?: LRUCache<string, Payload[]>

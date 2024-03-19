@@ -102,7 +102,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   private _status: ModuleStatus = 'stopped'
 
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
-    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
+    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     super(mutatedParams)
@@ -118,7 +118,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get account() {
-    return assertEx(this._account, 'Missing account')
+    return assertEx(this._account, () => 'Missing account')
   }
 
   get address() {
@@ -202,7 +202,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const thisFunc = (this as any)[functionName]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rootFunc = this._getRootFunction(functionName)
-    assertEx(thisFunc === rootFunc, `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
+    assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
   static async create<TModule extends ModuleInstance>(
@@ -214,7 +214,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
-    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), `Invalid module name: ${params?.config?.name}`)
+    assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
 
     const { account } = params ?? {}
 
@@ -301,7 +301,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<ModuleQueryResult> {
     this._checkDead()
     this._noOverride('query')
-    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), 'Invalid query'))
+    const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), () => 'Invalid query'))
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []

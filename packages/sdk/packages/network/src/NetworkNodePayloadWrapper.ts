@@ -11,7 +11,7 @@ export class NetworkNodePayloadWrapper<T extends NetworkNodePayload = NetworkNod
   static async known(hash: Hash) {
     const config = assertEx(
       (await PayloadBuilder.findByDataHash(knownArchivists(), hash)) ?? (await PayloadBuilder.findByDataHash(knownDiviners(), hash)),
-      'Unknown node',
+      () => 'Unknown node',
     )
     return new NetworkNodePayloadWrapper(config)
   }

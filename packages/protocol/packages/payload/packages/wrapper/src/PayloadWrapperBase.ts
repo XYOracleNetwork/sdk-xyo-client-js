@@ -72,7 +72,7 @@ export class PayloadWrapperBase<TPayload extends Payload = Payload> {
 
   //intentionally a function to prevent confusion with payload
   schema(): string {
-    return assertEx(this.payload?.schema, 'Missing payload schema')
+    return assertEx(this.payload?.schema, () => 'Missing payload schema')
   }
 
   validate(): Promisable<Error[]> {

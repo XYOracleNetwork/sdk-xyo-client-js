@@ -92,29 +92,29 @@ export class HashLeaseEstimateDiviner<
     const payloadMap = await PayloadBuilder.toDataHashMap(payloads)
     return leases.map((lease) => {
       const sources = lease.sources ?? []
-      assertEx(sources.length === 1, 'Must pass single source')
-      const leaseSource = assertEx(sources.at(0), 'Failed to load lease source')
-      const sourcePayload = assertEx(payloadMap[leaseSource], 'Hash lease payload not provided')
+      assertEx(sources.length === 1, () => 'Must pass single source')
+      const leaseSource = assertEx(sources.at(0), () => 'Failed to load lease source')
+      const sourcePayload = assertEx(payloadMap[leaseSource], () => 'Hash lease payload not provided')
       assertEx(sourcePayload.schema === NameSchema, () => `Invalid source schema [${sourcePayload.schema}]`)
       const sourceName = sourcePayload as Name
 
       const duration = lease.expire - Date.now()
 
-      assertEx(duration <= ONE_YEAR, 'Max expiration may be one year in the future')
-      assertEx(duration >= ONE_YEAR / 2, 'Min expiration must be half year in the future')
+      assertEx(duration <= ONE_YEAR, () => 'Max expiration may be one year in the future')
+      assertEx(duration >= ONE_YEAR / 2, () => 'Min expiration must be half year in the future')
 
       //check if all lowercase
-      assertEx(sourceName.name.toLowerCase() === sourceName.name, 'name must be lowercase')
+      assertEx(sourceName.name.toLowerCase() === sourceName.name, () => 'name must be lowercase')
 
       //check if min length
-      assertEx(sourceName.name.length >= this.minNameLength, 'name must be at least 3 characters')
+      assertEx(sourceName.name.length >= this.minNameLength, () => 'name must be at least 3 characters')
 
       //check if in one of the reserved name lists
-      assertEx(!this.reservedStrings.includes(sourceName.name), 'Reserved name')
+      assertEx(!this.reservedStrings.includes(sourceName.name), () => 'Reserved name')
 
       //check if any of our fragments are in the name
       for (const reserved of this._reservedFragments) {
-        assertEx(!sourceName.name.includes(reserved), 'Reserved name fragment')
+        assertEx(!sourceName.name.includes(reserved), () => 'Reserved name fragment')
       }
       const price = this.calculateLengthCost(sourceName.name, duration)
       return { price, schema: HashLeaseEstimateSchema, sources: [lease.$hash] }

@@ -60,9 +60,9 @@ export abstract class AbstractWitness<
     this._noOverride('observe')
     await this.started('throw')
     await this.emit('observeStart', { inPayloads, module: this } as TEventData['observeStart'])
-    const outPayloads = assertEx(await this.observeHandler(inPayloads), 'Trying to witness nothing')
+    const outPayloads = assertEx(await this.observeHandler(inPayloads), () => 'Trying to witness nothing')
     //assertEx(outPayloads.length > 0, 'Trying to witness empty list')
-    for (const payload of outPayloads ?? []) assertEx(payload.schema, 'observe: Missing Schema')
+    for (const payload of outPayloads ?? []) assertEx(payload.schema, () => 'observe: Missing Schema')
 
     const archivist = await this.getArchivistInstance()
     if (archivist) {

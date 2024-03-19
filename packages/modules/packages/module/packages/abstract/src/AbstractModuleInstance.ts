@@ -12,7 +12,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   implements Module<TParams, TEventData>
 {
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
-    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, 'Use create function instead of constructor')
+    assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     super(privateConstructorKey, mutatedParams, account)

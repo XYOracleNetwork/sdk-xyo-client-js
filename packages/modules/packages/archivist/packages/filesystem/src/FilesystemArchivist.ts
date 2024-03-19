@@ -59,8 +59,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
 
   private static async dataFromRawJson(rawJson: string) {
     const data: FileSystemArchivistData = JSON.parse(rawJson)
-    assertEx(typeof data === 'object', 'Archivist Data must be object')
-    assertEx(Array.isArray(data.payloads), 'Archivist Data "payloads" field must be array of payloads')
+    assertEx(typeof data === 'object', () => 'Archivist Data must be object')
+    assertEx(Array.isArray(data.payloads), () => 'Archivist Data "payloads" field must be array of payloads')
     data.payloads = await this.payloadsFromRawPayloads(data.payloads)
     return data
   }

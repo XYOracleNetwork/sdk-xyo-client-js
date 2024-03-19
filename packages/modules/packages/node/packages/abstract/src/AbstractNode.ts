@@ -63,7 +63,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attachedModules(maxDepth = 2): Promise<ModuleInstance[]> {
-    return (await (this.resolve(undefined, { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 
   override async manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {

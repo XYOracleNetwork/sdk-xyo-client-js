@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -11,6 +12,7 @@ import {
   BridgeExposeOptions,
   BridgeExposeQuerySchema,
   BridgeInstance,
+  BridgeModuleEventData,
   BridgeParams,
   BridgeQueries,
   BridgeUnexposeOptions,
@@ -19,19 +21,12 @@ import {
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import {
-  ModuleEventData,
-  ModuleFilter,
-  ModuleFilterOptions,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleQueryHandlerResult,
-} from '@xyo-network/module-model'
+import { ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends AbstractModuleInstance<TParams, TEventData>
-  implements BridgeInstance<TParams, TEventData>
+export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
+  extends AbstractModuleInstance<TParams, BridgeModuleEventData>
+  implements BridgeInstance<TParams, BridgeModuleEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
 
@@ -40,7 +35,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   get resolver() {
-    return assertEx(this.params.resolver, 'No resolver provided')
+    return assertEx(this.params.resolver, () => 'No resolver provided')
   }
 
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
@@ -63,9 +58,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     throw new Error('Unsupported')
   }
 
-  expose(id: string, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  async expose(id: string, options?: BridgeExposeOptions | undefined): Promise<Address[]> {
     this._noOverride('expose')
-    return this.exposeHandler(id, options)
+    const address = await this.exposeHandler(id, options)
+    await this.emit('exposed', { address, module: this })
+    return address
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -82,9 +79,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return await this.resolver.resolve(idOrFilter, options)
   }
 
-  unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  async unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
     this._noOverride('unexpose')
-    return this.unexposeHandler(id, options)
+    const address = this.unexposeHandler(id, options)
+    await this.emit('unexposed', { address, module: this })
+    return address
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
@@ -110,7 +109,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       }
       case BridgeExposeQuerySchema: {
         const filterPayloads = (payloads ?? []).filter(isPayloadOfSchemaType<ModuleFilterPayload>(ModuleFilterPayloadSchema))
-        assertEx(filterPayloads, 'At least one filter is required')
+        assertEx(filterPayloads, () => 'At least one filter is required')
 
         await Promise.all(
           filterPayloads.map(async (filter) => {
@@ -129,7 +128,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       }
       case BridgeUnexposeQuerySchema: {
         const filterPayloads = (payloads ?? []).filter(isPayloadOfSchemaType<ModuleFilterPayload>(ModuleFilterPayloadSchema))
-        assertEx(filterPayloads, 'At least one filter is required')
+        assertEx(filterPayloads, () => 'At least one filter is required')
 
         await Promise.all(
           filterPayloads.map(async (filter) => {
@@ -153,7 +152,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return resultPayloads
   }
 
-  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]>
+  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<Address[]>
 
-  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]>
+  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<Address[]>
 }

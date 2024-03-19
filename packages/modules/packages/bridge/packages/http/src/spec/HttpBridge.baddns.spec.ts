@@ -31,7 +31,7 @@ describe('HttpBridge', () => {
     await memNode.register(bridge)
     await memNode.attach(bridge.address, true)
 
-    const modules = await memNode.resolve()
+    const modules = await memNode.resolve('*')
     expect(modules.length).toBe(2)
   })
 })

@@ -73,7 +73,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     const getModulesToNotifyAbout = async (node: ModuleInstance) => {
       //send attach events for all existing attached modules
-      const childModules = await node.resolve(undefined, { direction: 'down' })
+      const childModules = await node.resolve('*', { direction: 'down' })
       return compact(
         childModules.map((child) => {
           //don't report self
@@ -170,7 +170,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     if (isNodeModule(module)) {
       const notifyOfExistingModules = async (node: ModuleInstance) => {
         //send attach events for all existing attached modules
-        const childModules = await node.resolve(undefined, { direction: 'down' })
+        const childModules = await node.resolve('*', { direction: 'down' })
         await Promise.all(
           childModules.map(async (child) => {
             //don't report self

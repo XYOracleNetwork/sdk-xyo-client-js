@@ -49,8 +49,8 @@ export class Huri<T extends Payload = Payload> {
     const protocol = Huri.parseProtocol(huriString)
     this.protocol = protocol ?? 'https'
 
-    const path = assertEx(Huri.parsePath(huriString), 'Missing path')
-    this.hash = assertEx(this.parsePath(path, protocol !== undefined), 'Missing hash') as Hash
+    const path = assertEx(Huri.parsePath(huriString), () => 'Missing path')
+    this.hash = assertEx(this.parsePath(path, protocol !== undefined), () => 'Missing hash') as Hash
 
     assertEx(isHash(this.hash), () => `Invalid hash [${this.hash}]`)
 
@@ -130,13 +130,13 @@ export class Huri<T extends Payload = Payload> {
     const pathParts = path.split('/')
 
     //if the protocol was found, then there is not allowed to be a leading /
-    assertEx(!(hasProtocol && pathParts[0].length === 0), 'Invalid protocol separator')
+    assertEx(!(hasProtocol && pathParts[0].length === 0), () => 'Invalid protocol separator')
 
     //remove leading '/' if needed
     pathParts[0].length === 0 ? pathParts.shift() : null
 
     //hash is assumed to be the last part
-    const hash = assertEx(pathParts.pop(), 'No hash specified')
+    const hash = assertEx(pathParts.pop(), () => 'No hash specified')
 
     //archivist is assumed to be the first part
     this.archivist = pathParts.shift() ?? 'api.archivist.xyo.network'
@@ -145,19 +145,19 @@ export class Huri<T extends Payload = Payload> {
     this.archive = pathParts.pop()
 
     //after we pull off all the path parts, there should be nothing left
-    assertEx(pathParts.length === 0, 'Too many path parts')
+    assertEx(pathParts.length === 0, () => 'Too many path parts')
 
     return hash
   }
 
   private validateParse() {
     //the archivist should not be zero length
-    assertEx(this.archivist?.length !== 0, 'Invalid archivist length')
+    assertEx(this.archivist?.length !== 0, () => 'Invalid archivist length')
 
     //the archivist should not be zero length (can be undefined)
-    assertEx(this.archive?.length !== 0, 'Invalid archive length')
+    assertEx(this.archive?.length !== 0, () => 'Invalid archive length')
 
     //the archive should not be set if the archivist is not set
-    assertEx(!(this.archive && !this.archivist), 'If specifying archive, archivist is also required')
+    assertEx(!(this.archive && !this.archivist), () => 'If specifying archive, archivist is also required')
   }
 }

@@ -59,7 +59,10 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
   }
 
   async dataHashableFields() {
-    return await PayloadBuilderBase.dataHashableFields(assertEx(this._schema, 'Payload: Missing Schema'), this._fields)
+    return await PayloadBuilderBase.dataHashableFields(
+      assertEx(this._schema, () => 'Payload: Missing Schema'),
+      this._fields,
+    )
   }
 
   //we do not require sending in $hash since it will be generated anyway

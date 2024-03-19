@@ -16,8 +16,8 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.14",
-    "@xylabs/object": "^3.0.14",
+    "@xylabs/hex": "^3.0.15",
+    "@xylabs/object": "^3.0.15",
     "@xyo-network/payload-model": "workspace:~"
   },
   "exports": {

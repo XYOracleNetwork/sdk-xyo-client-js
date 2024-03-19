@@ -240,14 +240,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     checkIdentity = true,
   ): TModuleWrapper {
     assertEx(!checkIdentity || (module && this.moduleIdentityCheck(module)), () => `Passed module failed identity check: ${module?.config?.schema}`)
-    return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), 'Unable to wrap module as ModuleWrapper')
+    return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap module as ModuleWrapper')
   }
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
       (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
-      'Result did not include correct payload',
+      () => 'Result did not include correct payload',
     )
   }
 

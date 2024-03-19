@@ -19,9 +19,9 @@ export class MemoryPayloadDiviner<
   static override configSchemas = [PayloadDivinerConfigSchema]
 
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
-    const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), 'Missing query payload')
+    const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), 'Unable to resolve archivist')
+    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { schemas, limit, offset, hash, order, schema, $meta, $hash, ...props } = filter as WithMeta<TIn>
     let all = (await archivist.all?.()) as WithMeta<TOut>[]

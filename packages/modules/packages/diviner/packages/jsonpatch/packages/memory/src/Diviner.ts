@@ -16,7 +16,7 @@ export class JsonPatchDiviner<
   static override configSchemas = [JsonPatchDivinerConfigSchema]
 
   protected get operations(): readonly Operation[] {
-    return assertEx(this.config?.operations, 'JsonPatchDiviner: invalid operations')
+    return assertEx(this.config?.operations, () => 'JsonPatchDiviner: invalid operations')
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {

@@ -120,7 +120,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     const meta: JsonObject = { ...(await PayloadBuilderBase.metaFields(dataHash, otherMeta)) }
 
     if (accounts?.length && previousHashes?.length) {
-      assertEx(accounts.length === previousHashes.length, 'accounts and previousHashes must have same length')
+      assertEx(accounts.length === previousHashes.length, () => 'accounts and previousHashes must have same length')
       meta.signatures = await this.signatures(accounts, dataHash, previousHashes)
     }
 
@@ -146,9 +146,9 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   private static validateLinkingFields(bw: Pick<BoundWitness, 'payload_hashes' | 'payload_schemas'>) {
-    assertEx(bw.payload_hashes?.length === bw.payload_schemas?.length, 'Payload hash/schema mismatch')
+    assertEx(bw.payload_hashes?.length === bw.payload_schemas?.length, () => 'Payload hash/schema mismatch')
     assertEx(!bw.payload_hashes.some((hash) => !hash), () => 'nulls found in hashes')
-    assertEx(!bw.payload_schemas.some((schema) => !schema), 'nulls found in schemas')
+    assertEx(!bw.payload_schemas.some((schema) => !schema), () => 'nulls found in schemas')
   }
 
   async build(): Promise<[WithMeta<TBoundWitness>, WithMeta<TPayload>[], WithMeta<ModuleError>[]]> {
@@ -180,7 +180,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   error(payload?: ModuleError) {
-    assertEx(this._errorHashes === undefined, 'Can not set errors when hashes already set')
+    assertEx(this._errorHashes === undefined, () => 'Can not set errors when hashes already set')
     if (payload) {
       this._errors.push(assertEx(sortFields(payload)))
     }
@@ -199,14 +199,14 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   }
 
   hashes(hashes: Hash[], schema: Schema[]) {
-    assertEx(this.payloads.length === 0, 'Can not set hashes when payloads already set')
+    assertEx(this.payloads.length === 0, () => 'Can not set hashes when payloads already set')
     this._payloadHashes = hashes
     this._payloadSchemas = schema
     return this
   }
 
   payload(payload?: TPayload) {
-    assertEx(this._payloadHashes === undefined, 'Can not set payloads when hashes already set')
+    assertEx(this._payloadHashes === undefined, () => 'Can not set payloads when hashes already set')
     if (payload) {
       this._payloads.push(assertEx(sortFields<TPayload>(payload)))
     }

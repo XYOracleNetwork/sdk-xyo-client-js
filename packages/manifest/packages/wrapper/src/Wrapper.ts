@@ -53,15 +53,15 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       toCreatableModuleRegistry(additionalCreatableModules ?? {}),
     )
 
-    assertEx(isModuleName(manifest.config.name), `Invalid Module Name: ${manifest.config.name}`)
+    assertEx(isModuleName(manifest.config.name), () => `Invalid Module Name: ${manifest.config.name}`)
 
-    assertEx(!(await collision(node, manifest.config.name, external)), `Node name collision [${manifest.config.name}]`)
+    assertEx(!(await collision(node, manifest.config.name, external)), () => `Node name collision [${manifest.config.name}]`)
 
     if (!(await collision(node, manifest.config.name, external))) {
       assertEx(
         (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
           (await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external)),
-        `No module with config schema [${manifest.config.name}] registered`,
+        () => `No module with config schema [${manifest.config.name}] registered`,
       )
     }
   }
@@ -69,7 +69,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode>
   async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
   async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode> {
-    const manifest = assertEx(this.nodeManifest(index), 'Failed to find Node Manifest')
+    const manifest = assertEx(this.nodeManifest(index), () => 'Failed to find Node Manifest')
     const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
     return await this.loadNodeFromManifest(manifest, manifest.config.accountPath ?? `${index}'`, registry)
   }
@@ -170,7 +170,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     const account = path ? await this.wallet.derivePath(path) : 'random'
     const module = await creatableModule.create({
       account,
-      config: assertEx(manifest.config, 'Missing config'),
+      config: assertEx(manifest.config, () => 'Missing config'),
     })
     await node.register(module)
     return module

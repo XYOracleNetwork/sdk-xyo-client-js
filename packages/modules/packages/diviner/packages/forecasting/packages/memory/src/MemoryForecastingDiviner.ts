@@ -45,29 +45,33 @@ export class MemoryForecastingDiviner<
   // TODO: Inject via config
   protected readonly maxTrainingLength = 10_000
 
+  get boundWitnessDiviner() {
+    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured')
+  }
+
   protected override get forecastingMethod(): ForecastingMethod {
-    const forecastingMethodName = assertEx(this.config.forecastingMethod, 'Missing forecastingMethod in config') as SupportedForecastingType
+    const forecastingMethodName = assertEx(this.config.forecastingMethod, () => 'Missing forecastingMethod in config') as SupportedForecastingType
     const forecastingMethod = MemoryForecastingDiviner.forecastingMethodDict[forecastingMethodName]
     if (forecastingMethod) return forecastingMethod
     throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
   }
 
   protected override get transformer(): PayloadValueTransformer {
-    const pathExpression = assertEx(this.config.jsonPathExpression, 'Missing jsonPathExpression in config')
+    const pathExpression = assertEx(this.config.jsonPathExpression, () => 'Missing jsonPathExpression in config')
     return getJsonPathTransformer(pathExpression)
   }
 
   protected override async getPayloadsInWindow(startTimestamp: number, stopTimestamp: number): Promise<Payload[]> {
     const addresses = this.config.witnessAddresses
-    const payload_schemas = [assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')]
+    const payload_schemas = [assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
-    const archivist = asArchivistInstance(await this.getArchivist(), 'Unable to resolve archivist')
+    const archivist = asArchivistInstance(await this.getArchivist(), () => 'Unable to resolve archivist')
     const bwDiviner = asDivinerInstance(
-      (await this.resolve(this.config.boundWitnessDiviner)).pop(),
+      (await this.resolve(this.boundWitnessDiviner)).pop(),
       'Unable to resolve boundWitnessDiviner',
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
     const limit = this.batchLimit
-    const witnessSchema = assertEx(this.config.witnessSchema, 'Missing witnessSchema in config')
+    const witnessSchema = assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')
     let timestamp = stopTimestamp
     let more = true
 

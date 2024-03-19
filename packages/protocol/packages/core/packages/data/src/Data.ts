@@ -30,7 +30,7 @@ export class Data extends AbstractData implements DataInstance {
   }
 
   get bytes() {
-    return assertEx(this._bytes, 'Data uninitialized')
+    return assertEx(this._bytes, () => 'Data uninitialized')
   }
 
   get hex() {

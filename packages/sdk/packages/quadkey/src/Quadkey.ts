@@ -24,7 +24,7 @@ const ZOOM_MASK = 0xffn << 248n
 const ID_MASK = ZOOM_MASK ^ FULL_MASK
 
 const assertMaxBitUint = (value: bigint, bits = 256n) => {
-  assertEx(value < 2n ** bits && value >= 0, 'Not a 256 Bit Uint!')
+  assertEx(value < 2n ** bits && value >= 0, () => 'Not a 256 Bit Uint!')
 }
 
 export class Quadkey {
@@ -64,7 +64,7 @@ export class Quadkey {
   }
 
   get children() {
-    assertEx(this.zoom < MAX_ZOOM - 1, 'Can not get children of bottom tiles')
+    assertEx(this.zoom < MAX_ZOOM - 1, () => 'Can not get children of bottom tiles')
     const result: Quadkey[] = []
     const shiftedId = this.id << 2n
     for (let i = 0n; i < 4n; i++) {
@@ -143,7 +143,7 @@ export class Quadkey {
     const tiles = tilesFromBoundingBox(boundingBox, Math.floor(zoom))
     const result: Quadkey[] = []
     for (const tile of tiles) {
-      result.push(assertEx(Quadkey.fromTile(tile), 'Bad Quadkey'))
+      result.push(assertEx(Quadkey.fromTile(tile), () => 'Bad Quadkey'))
     }
 
     return result
@@ -249,7 +249,7 @@ export class Quadkey {
   }
 
   relative(direction: string) {
-    const directionConstant = assertEx(RelativeDirectionConstantLookup[direction], 'Invalid direction')
+    const directionConstant = assertEx(RelativeDirectionConstantLookup[direction], () => 'Invalid direction')
     let quadkey = this.base4Hash
     if (quadkey.length === 0) {
       return this

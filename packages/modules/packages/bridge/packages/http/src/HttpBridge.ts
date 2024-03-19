@@ -10,7 +10,6 @@ import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/man
 import {
   AnyConfigSchema,
   creatableModule,
-  ModuleEventData,
   ModuleInstance,
   ModuleQueryResult,
   ModuleStateQuery,
@@ -25,10 +24,7 @@ import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
 export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends AbstractBridge<TParams, TEventData>
-  implements BridgeModule<TParams, TEventData>
-{
+export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
   static override configSchemas = [HttpBridgeConfigSchema]
   static maxPayloadSizeWarning = 256 * 256
 
@@ -50,7 +46,7 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
   }
 
   get nodeUrl() {
-    return assertEx(this.config.nodeUrl, 'No Url Set')
+    return assertEx(this.config.nodeUrl, () => 'No Url Set')
   }
 
   override get resolver() {
@@ -112,7 +108,9 @@ export class HttpBridge<TParams extends HttpBridgeParams, TEventData extends Mod
   private async legacyResolveNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
     const children: ModuleInstance[] = (
       await Promise.all(
-        (nodeManifest.modules?.public ?? []).map((childManifest) => this.resolve(assertEx(childManifest.status?.address, 'Child has no address'))),
+        (nodeManifest.modules?.public ?? []).map((childManifest) =>
+          this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address')),
+        ),
       )
     ).filter(exists)
     const childNodes = children.filter((mod) => isNodeInstance(mod))

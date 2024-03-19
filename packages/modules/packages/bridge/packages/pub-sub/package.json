@@ -36,7 +36,6 @@
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
-    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "typescript": "^5.4.2"

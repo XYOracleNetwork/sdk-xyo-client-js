@@ -14,6 +14,7 @@
     "@xylabs/exists": "^3.0.15",
     "@xylabs/hex": "^3.0.15",
     "@xylabs/lodash": "^3.0.15",
+    "@xylabs/object": "^3.0.15",
     "@xylabs/promise": "^3.0.15",
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",

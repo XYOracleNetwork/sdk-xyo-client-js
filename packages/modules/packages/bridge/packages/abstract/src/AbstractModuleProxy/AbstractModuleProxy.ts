@@ -3,13 +3,11 @@ import { exists } from '@xylabs/exists'
 import { Address, asAddress, toAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { BaseParams } from '@xylabs/object'
-import { PromiseEx } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
-import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { BaseEmitter } from '@xyo-network/module-abstract'
+import { AbstractModule } from '@xyo-network/module-abstract'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
@@ -35,13 +33,12 @@ import {
   ModuleManifestQuerySchema,
   ModuleName,
   ModuleQueriedEventArgs,
+  ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolver,
-  ModuleResolverInstance,
   ModuleStateQuerySchema,
   ModuleStatus,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { asPayload, isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -53,67 +50,36 @@ export type ModuleProxyParams = BaseParams<{
 }>
 
 export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = ModuleProxyParams, TWrappedModule extends Module = Module>
-  extends BaseEmitter<TWrappedModule['params'], TWrappedModule['eventData']>
+  extends AbstractModule<TWrappedModule['params'], TWrappedModule['eventData']>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
 
-  protected _lastError?: Error
   protected _state: Payload[] | undefined = undefined
   protected readonly proxyParams: TParams
 
-  private _downResolver = new CompositeModuleResolver()
-  private _status: ModuleStatus = 'proxy'
-  private _upResolver = new CompositeModuleResolver()
-
   constructor(params: TParams) {
-    super({ config: { schema: ModuleConfigSchema } })
+    super(AbstractModuleProxy.privateConstructorKey, { config: { schema: ModuleConfigSchema } }, params.account)
     this.proxyParams = params
   }
 
-  get account() {
+  override get account() {
     return this.proxyParams.account
   }
 
-  get address() {
+  override get address() {
     return this.proxyParams.moduleAddress
   }
 
-  get config() {
-    return this.params.config
-  }
-
-  get dead() {
-    return this.status === 'dead'
-  }
-
-  get downResolver(): ModuleResolverInstance {
-    return this._downResolver
-  }
-
-  get id() {
-    return this.config.name ?? this.proxyParams.moduleAddress
-  }
-
-  get queries(): string[] {
+  override get queries(): string[] {
     const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter((item) =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),
     ) as QueryPayload[]
     return queryPayloads.map((payload) => payload.query)
   }
 
-  get status() {
-    return this._status
-  }
-
-  get upResolver(): ModuleResolverInstance {
-    return this._upResolver
-  }
-
-  protected set status(value: ModuleStatus) {
-    if (this._status !== 'dead') {
-      this._status = value
-    }
+  protected override get _queryAccountPaths() {
+    return this._baseModuleQueryAccountPaths
   }
 
   static hasRequiredQueries(module: Module) {
@@ -159,41 +125,58 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
   }
 
-  async previousHash(): Promise<string | undefined> {
+  override async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
   }
 
-  async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  override async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     this._checkDead()
-    try {
-      const result = await this.queryHandler<T>(query, payloads)
-      const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-      await this.emit('moduleQueried', args)
-      return result
-    } catch (ex) {
-      const error = ex as Error
-      this._lastError = error
-      this.status = 'dead'
-      throw new DeadModuleError(this.id, this._lastError)
-    }
+    return await this.busy(async () => {
+      try {
+        const result = await this.proxyQueryHandler<T>(query, payloads)
+        const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
+        await this.emit('moduleQueried', args)
+        return result
+      } catch (ex) {
+        const error = ex as Error
+        this._lastError = error
+        this.status = 'dead'
+        throw new DeadModuleError(this.id, this._lastError)
+      }
+    })
   }
 
-  queryable<T extends QueryBoundWitness = QueryBoundWitness>(_query: T, _payloads?: Payload[]) {
-    return true
+  override queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(
+    _query: T,
+    _payloads?: Payload[],
+    _queryConfig?: TWrappedModule['params']['config'],
+  ): Promise<ModuleQueryHandlerResult> {
+    throw new Error('queryHandler should never be called')
+  }
+
+  override async queryable<T extends QueryBoundWitness = QueryBoundWitness>(
+    _query: T,
+    _payloads?: Payload[],
+    _queryConfig?: TWrappedModule['params']['config'],
+  ): Promise<boolean> {
+    return await Promise.resolve(true)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  async resolve(): Promise<ModuleInstance[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<ModuleInstance>,
   ): Promise<T | undefined>
   /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    filter?: ModuleFilter,
+    options?: ModuleFilterOptions<ModuleInstance>,
+  ): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter?: ModuleIdentifier | ModuleFilter,
     options?: ModuleFilterOptions<ModuleInstance>,
   ): Promise<T | T[] | undefined> {
@@ -214,14 +197,14 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     }
   }
 
-  async start(): Promise<boolean> {
+  override async start(): Promise<boolean> {
     const state = await this.state()
     const manifestPayload = state.find(
       (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
     ) as ModuleManifestPayload
     const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.params.config = { ...manifest.config }
-    return true
+    return await super.start()
   }
 
   async state(): Promise<Payload[]> {
@@ -233,36 +216,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
       this._state = await wrapper.state()
     }
     return this._state
-  }
-
-  protected _checkDead() {
-    if (this.dead) {
-      throw new DeadModuleError(this.id, this._lastError)
-    }
-  }
-
-  protected bindQuery<T extends Query>(
-    query: T,
-    payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
-  ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
-      const result = await this.bindQueryInternal(query, payloads, account)
-      resolve?.(result)
-      return result
-    }, account)
-    return promise
-  }
-
-  protected async bindQueryInternal<T extends Query>(
-    query: T,
-    payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
-  ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
-    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
-    const result = await (account ? builder.witness(account) : builder).build()
-    return result
   }
 
   protected childAddressByName(name: ModuleName): Address | undefined {
@@ -296,5 +249,5 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return resultPayloads as WithMeta<R>[]
   }
 
-  abstract queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>
+  abstract proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>
 }

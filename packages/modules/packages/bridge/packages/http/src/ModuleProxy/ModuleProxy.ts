@@ -15,7 +15,7 @@ export class HttpModuleProxy<TWrappedModule extends ModuleInstance = ModuleInsta
   extends AbstractModuleProxy<HttpModuleProxyParams, TWrappedModule>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
-  async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+  async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     try {
       const { axios, moduleUrl, maxPayloadSizeWarning } = this.proxyParams
       const payloadSize = JSON.stringify([query, payloads]).length

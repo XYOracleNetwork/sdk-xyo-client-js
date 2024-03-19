@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/bridge/packages/pub-sub/src/spec/PubSubBridge.spec.ts"
+        "packages/modules/packages/archivist/packages/view/src/spec/ViewArchivist.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

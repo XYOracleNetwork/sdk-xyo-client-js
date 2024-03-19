@@ -3366,6 +3366,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/archivist-view@workspace:packages/modules/packages/archivist/packages/view, @xyo-network/archivist-view@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/archivist-view@workspace:packages/modules/packages/archivist/packages/view"
+  dependencies:
+    "@xylabs/assert": "npm:^3.0.15"
+    "@xylabs/exists": "npm:^3.0.15"
+    "@xylabs/hex": "npm:^3.0.15"
+    "@xylabs/lodash": "npm:^3.0.15"
+    "@xylabs/promise": "npm:^3.0.15"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
+    "@xylabs/tsconfig": "npm:^3.5.2"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-memory": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    lru-cache: "npm:^10.2.0"
+    typescript: "npm:^5.4.2"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper, @xyo-network/archivist-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
@@ -3394,6 +3418,7 @@ __metadata:
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-storage": "workspace:~"
+    "@xyo-network/archivist-view": "workspace:~"
     "@xyo-network/archivist-wrapper": "workspace:~"
     typescript: "npm:^5.4.2"
   languageName: unknown

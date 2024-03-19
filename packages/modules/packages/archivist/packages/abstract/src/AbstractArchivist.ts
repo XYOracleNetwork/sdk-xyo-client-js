@@ -123,7 +123,7 @@ export abstract class AbstractArchivist<
     })
   }
 
-  async next?(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
+  async next(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
     this._noOverride('next')
     return await this.busy(async () => {
       await this.started('throw')

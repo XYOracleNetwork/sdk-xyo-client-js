@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { fulfilled, Promisable } from '@xylabs/promise'
 import { AbstractArchivist, addStorageMeta, removeStorageMeta, sortByStorageMeta, WithStorageMeta } from '@xyo-network/archivist-abstract'
 import {
@@ -21,16 +22,21 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export type MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
 export const MemoryArchivistConfigSchema: MemoryArchivistConfigSchema = 'network.xyo.archivist.memory.config'
 
-export type MemoryArchivistConfig = ArchivistConfig<{
-  max?: number
-  schema: MemoryArchivistConfigSchema | ArchivistConfig['schema']
-}>
+export type MemoryArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends Schema | void = void> = ArchivistConfig<
+  WithAdditional<
+    {
+      max?: number
+    },
+    TConfig
+  >,
+  TSchema extends Schema ? TSchema : MemoryArchivistConfigSchema | ArchivistConfig['schema']
+>
 
 export type MemoryArchivistParams<TConfig extends AnyConfigSchema<MemoryArchivistConfig> = AnyConfigSchema<MemoryArchivistConfig>> =
   ModuleParams<TConfig>

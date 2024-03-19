@@ -13,19 +13,19 @@ export interface NextOptions<TId = string> {
 }
 
 export interface ReadArchivist<TReadResponse, TId = string> {
-  all?(): PromisableArray<TReadResponse>
+  all(): PromisableArray<TReadResponse>
   get(ids: TId[]): PromisableArray<TReadResponse>
-  next?(options?: NextOptions<TId>): PromisableArray<TReadResponse>
+  next(options?: NextOptions<TId>): PromisableArray<TReadResponse>
 }
 
 export interface WriteArchivist<TReadResponse, TWriteResponse = TReadResponse, TWrite = TReadResponse, TId = string> {
-  clear?(): Promisable<void>
-  delete?(ids: TId[]): PromisableArray<TId>
+  clear(): Promisable<void>
+  delete(ids: TId[]): PromisableArray<TId>
   insert(item: TWrite[]): PromisableArray<TWriteResponse>
 }
 
 export interface StashArchivist<TWriteResponse> {
-  commit?(): PromisableArray<TWriteResponse>
+  commit(): PromisableArray<TWriteResponse>
 }
 
 export interface ArchivistNextOptions extends NextOptions<Hash> {}

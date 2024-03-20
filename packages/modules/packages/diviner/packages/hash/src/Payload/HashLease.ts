@@ -13,7 +13,7 @@ export type HashLease = Payload<
      * The absolute expiration time of the lease
      * @deprecated use duration instead
      */
-    expire: number
+    expire?: number
   },
   HashLeaseSchema
 >

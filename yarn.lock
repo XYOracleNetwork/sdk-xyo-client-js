@@ -4179,7 +4179,6 @@ __metadata:
     "@xylabs/assert": "npm:^3.0.15"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
-    "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"

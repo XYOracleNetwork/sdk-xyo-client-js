@@ -101,7 +101,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   private _busyCount = 0
   private _status: ModuleStatus = 'stopped'
 
-  constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
+  protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams

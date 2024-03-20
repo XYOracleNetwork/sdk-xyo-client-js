@@ -4,12 +4,16 @@ ignores: [
   "@typescript-eslint/eslint-plugin",
   "@typescript-eslint/parser",
   "@xylabs/eslint-config",
-  "eslint",
   "eslint-import-resolver-typescript",
   "eslint-plugin-deprecation",
   "eslint-plugin-import",
+  "eslint",
+  "jest-docblock",
   "jest-environment-jsdom",
+  "jest-runner-groups",
+  "jest-runner",
   "reflect-metadata",
   "supertest",
-  "ts-node"
+  "ts-node",
+  "typedoc-material-theme"
 ]

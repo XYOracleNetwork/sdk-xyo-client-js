@@ -10,7 +10,7 @@ import { HashLeaseEstimate, HashLeaseEstimateSchema } from './Payload'
 export class HashLeaseEstimateDiviner<
   TParams extends HashLeaseEstimateDivinerParams = HashLeaseEstimateDivinerParams,
   TIn extends Payload = Payload,
-  TOut extends HashLeaseEstimate = HashLeaseEstimate,
+  TOut extends HashLeaseEstimate | Payload = HashLeaseEstimate | Payload,
 > extends AbstractDiviner<TParams, TIn, TOut> {
   static override configSchemas = [HashLeaseEstimateDivinerConfigSchema]
   static override targetSchema = HashLeaseEstimateSchema

@@ -28,7 +28,7 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "types": "dist/node/index.d.ts",
   "exports": {

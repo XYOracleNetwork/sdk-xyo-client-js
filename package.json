@@ -21,7 +21,7 @@
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
     "@xylabs/eslint-config": "^3.5.2",
-    "@xylabs/forget": "^3.0.15",
+    "@xylabs/forget": "^3.0.21",
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
     "@xylabs/tsconfig-dom-jest": "^3.5.2",
@@ -41,7 +41,7 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.25.12",
     "typedoc-material-theme": "^1.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "resolutions": {
     "axios": "^1",

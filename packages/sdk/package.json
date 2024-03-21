@@ -23,7 +23,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "exports": {

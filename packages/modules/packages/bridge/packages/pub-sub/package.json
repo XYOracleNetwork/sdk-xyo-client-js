@@ -10,14 +10,14 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.0.15",
-    "@xylabs/assert": "^3.0.15",
-    "@xylabs/delay": "^3.0.15",
-    "@xylabs/forget": "^3.0.15",
-    "@xylabs/hex": "^3.0.15",
-    "@xylabs/object": "^3.0.15",
-    "@xylabs/promise": "^3.0.15",
-    "@xylabs/timer": "^3.0.15",
+    "@xylabs/array": "^3.0.21",
+    "@xylabs/assert": "^3.0.21",
+    "@xylabs/delay": "^3.0.21",
+    "@xylabs/forget": "^3.0.21",
+    "@xylabs/hex": "^3.0.21",
+    "@xylabs/object": "^3.0.21",
+    "@xylabs/promise": "^3.0.21",
+    "@xylabs/timer": "^3.0.21",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -38,7 +38,7 @@
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

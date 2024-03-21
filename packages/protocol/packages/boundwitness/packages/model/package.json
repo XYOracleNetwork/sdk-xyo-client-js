@@ -13,11 +13,11 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.15",
-    "@xylabs/object": "^3.0.15",
+    "@xylabs/hex": "^3.0.21",
+    "@xylabs/object": "^3.0.21",
     "@xyo-network/payload-model": "workspace:~"
   },
   "exports": {

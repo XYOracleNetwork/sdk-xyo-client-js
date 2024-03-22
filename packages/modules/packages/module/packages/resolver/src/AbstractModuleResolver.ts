@@ -1,9 +1,7 @@
 import { assertEx } from '@xylabs/assert'
-import { Base, BaseParams } from '@xylabs/object'
+import { Base, BaseParams, toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
-
-import { toJson } from './toJson'
 
 export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> extends Base<T> implements ModuleResolver {
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
@@ -21,7 +19,7 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
       return values.map((value) =>
         asModuleInstance<T>(value, () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${JSON.stringify(toJson(value), null, 2)}]`
+          return `resolveHandler returned invalid result (*) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
         }),
       )
     }
@@ -32,7 +30,7 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
           value,
           () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            `resolveHandler returned invalid result (string) [${(value as any)?.constructor?.name}][${JSON.stringify(toJson(value), null, 2)}]`,
+            `resolveHandler returned invalid result (string) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`,
         )
       }
       default: {
@@ -41,7 +39,7 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
         return values.map((value) =>
           asModuleInstance<T>(value, () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return `resolveHandler returned invalid result (filter) [${(value as any)?.constructor?.name}][${JSON.stringify(toJson(value), null, 2)}]`
+            return `resolveHandler returned invalid result (filter) [${(value as any)?.constructor?.name}][${toJsonString(value)}]`
           }),
         )
       }

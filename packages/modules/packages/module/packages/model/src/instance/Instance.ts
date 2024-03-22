@@ -1,4 +1,4 @@
-import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
@@ -16,7 +16,7 @@ export class DeadModuleError extends Error {
     public error: Error | undefined,
     msg = 'Dead Module Error',
   ) {
-    super(`${msg} [${id}]`)
+    super(`${msg} [${id}]: ${error}`)
 
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, DeadModuleError.prototype)

@@ -4,8 +4,8 @@ import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { BaseParams } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
-import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import {
@@ -34,6 +34,7 @@ import {
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { asPayload, isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
@@ -138,7 +139,14 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
         const error = ex as Error
         this._lastError = error
         this.status = 'dead'
-        throw new DeadModuleError(this.id, this._lastError)
+        const deadError = new DeadModuleError(this.address, error)
+        const errorPayload: ModuleError = {
+          message: deadError.message,
+          name: deadError.name,
+          schema: ModuleErrorSchema,
+        }
+        const sourceQuery = await PayloadBuilder.build(assertEx(QueryBoundWitnessWrapper.unwrap(query), () => 'Invalid query'))
+        return await this.bindQueryResult(sourceQuery, [], undefined, [errorPayload])
       }
     })
   }

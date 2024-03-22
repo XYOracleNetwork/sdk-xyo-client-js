@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/module/packages/resolver/src/spec/CompositeModuleResolver.spec.ts"
+        "packages/manifest/packages/wrapper/src/spec/Manifest.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

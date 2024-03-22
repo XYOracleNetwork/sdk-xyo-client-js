@@ -1,4 +1,5 @@
 import { Axios, AxiosError } from '@xylabs/axios'
+import { toJsonString } from '@xylabs/object'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -35,8 +36,7 @@ export class HttpModuleProxy<TWrappedModule extends ModuleInstance = ModuleInsta
       return result.data?.data
     } catch (ex) {
       const error = ex as AxiosError
-      this.logger?.error(`Error Status: ${error.status}`)
-      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
+      this.logger?.error(`Error: ${toJsonString(error)}`)
       throw error
     }
   }

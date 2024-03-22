@@ -29,7 +29,11 @@ export class HttpBridgeModuleResolver<
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
-  ): Promise<T | undefined> {
+  ): Promise<T | T[] | undefined> {
+    const parentResult = await super.resolveHandler(id, options)
+    if (parentResult) {
+      return parentResult
+    }
     const idParts = id.split(':')
     const firstPart = idParts.shift()
     const remainderParts = idParts.join(':')

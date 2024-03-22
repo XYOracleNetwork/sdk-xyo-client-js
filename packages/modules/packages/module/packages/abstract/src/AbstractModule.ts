@@ -23,7 +23,6 @@ import {
   CreatableModule,
   CreatableModuleFactory,
   DeadModuleError,
-  duplicateModules,
   isModuleName,
   Module,
   ModuleAddressQuerySchema,
@@ -60,6 +59,7 @@ import { BaseEmitter } from './BaseEmitter'
 import { determineAccount } from './determineAccount'
 import { ModuleErrorBuilder } from './Error'
 import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from './QueryValidator'
+import { ResolveHelper } from './ResolveHelper'
 
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
@@ -365,47 +365,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const childOptions = { ...options, required: false }
-    const direction = options?.direction ?? 'all'
-    const up = direction === 'up' || direction === 'all'
-    const down = direction === 'down' || direction === 'all'
-    let result: T | T[] | undefined
-    if (idOrFilter === '*') {
-      if (this.dead) {
-        return []
+    switch (typeof idOrFilter) {
+      case 'string': {
+        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
       }
-      return [
-        ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
-        ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
-      ].filter(duplicateModules)
-    } else {
-      switch (typeof idOrFilter) {
-        case 'string': {
-          if (this.dead) {
-            return undefined
-          }
-          result =
-            (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
-            (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
-          break
-        }
-        default: {
-          if (this.dead) {
-            return []
-          }
-          const filter: ModuleFilter<T> | undefined = idOrFilter
-          result = [
-            ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-            ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-          ].filter(duplicateModules)
-          break
-        }
+      case 'object': {
+        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
+      }
+      default: {
+        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
       }
     }
-    this.validateRequiredResolve(required, result, idOrFilter)
-    return result
   }
 
   start(_timeout?: number): Promisable<boolean> {
@@ -753,28 +725,5 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
       }
     }, true)
-  }
-
-  private validateRequiredResolve(
-    required: boolean | 'warn' | 'log',
-    result: ModuleInstance[] | ModuleInstance | undefined,
-    idOrFilter: ModuleIdentifier | ModuleFilter,
-  ) {
-    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
-      switch (required) {
-        case 'warn': {
-          this.logger.warn('resolve failed', idOrFilter)
-          break
-        }
-        case 'log': {
-          this.logger.log('resolve failed', idOrFilter)
-          break
-        }
-        default: {
-          this.logger.error('resolve failed', idOrFilter)
-          break
-        }
-      }
-    }
   }
 }

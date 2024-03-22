@@ -41,8 +41,6 @@ describe('HttpBridge', () => {
 
     const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
 
-    await memNode.register(remoteNode)
-    await memNode.attach(remoteNode?.address, true)
     const description = await remoteNode.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)

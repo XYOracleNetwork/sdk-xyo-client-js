@@ -1,4 +1,5 @@
 import { exists } from '@xylabs/exists'
+import { Address } from '@xylabs/hex'
 import {
   isAddressModuleFilter,
   isNameModuleFilter,
@@ -11,6 +12,7 @@ import {
 } from '@xyo-network/module-model'
 
 export interface ModuleProxyResolverOptions {
+  childAddresses: Address[]
   host: ModuleResolver
 }
 
@@ -38,8 +40,11 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
-      const downModules = direction === 'down' || direction === 'all' ? await this.options.host.resolve('*', { ...options, direction: 'down' }) : []
-      const upModules = direction === 'up' || direction === 'all' ? await this.options.host.resolve('*', { ...options, direction: 'down' }) : []
+      const downModules =
+        direction === 'down' || direction === 'all' ?
+          await this.options.host.resolve({ address: this.options.childAddresses }, { ...options, direction: 'down' })
+        : []
+      const upModules = direction === 'up' || direction === 'all' ? await this.options.host.resolve('*', { ...options, direction: 'up' }) : []
       //for '*', we never create a proxy
       return [...downModules, ...upModules]
     } else if (typeof idOrFilter === 'string') {
@@ -60,7 +65,8 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        const results = (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        return results
       } else if (isNameModuleFilter(filter)) {
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }

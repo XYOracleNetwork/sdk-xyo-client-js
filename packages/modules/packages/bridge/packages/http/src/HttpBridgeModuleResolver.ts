@@ -1,6 +1,6 @@
 import { AxiosJson } from '@xylabs/axios'
 import { Address } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions } from '@xyo-network/abstract-bridge'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
@@ -26,7 +26,10 @@ export class HttpBridgeModuleResolver<
     return new URL(address, this.options.rootUrl)
   }
 
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | undefined> {
     const idParts = id.split(':')
     const firstPart = idParts.shift()
     const remainderParts = idParts.join(':')
@@ -45,8 +48,11 @@ export class HttpBridgeModuleResolver<
       proxy.setConfig(manifest.config)
     }
     if (remainderParts.length > 0) {
-      return await proxy.resolve<T>(remainderParts, options)
+      const result = await proxy.resolve<T>(remainderParts, options)
+      if (result) {
+        return wrapModuleWithType(result, Account.randomSync()) as unknown as T
+      }
     }
-    return proxy as unknown as T
+    return wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
   }
 }

@@ -12,7 +12,10 @@ export interface PubSubBridgeModuleResolverOptions extends BridgeModuleResolverO
 export class PubSubBridgeModuleResolver<
   T extends PubSubBridgeModuleResolverOptions = PubSubBridgeModuleResolverOptions,
 > extends AbstractBridgeModuleResolver<T> {
-  async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined> {
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | undefined> {
     const idParts = id.split(':')
     const firstPart = idParts.shift()
     const remainderParts = idParts.join(':')

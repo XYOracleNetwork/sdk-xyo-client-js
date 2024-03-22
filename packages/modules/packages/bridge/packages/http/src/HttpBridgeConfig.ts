@@ -6,6 +6,7 @@ export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridg
 
 export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
+    discoverRoot?: boolean
     /** @deprecated Do not use this for any new development */
     legacyMode?: boolean
     nodeUrl?: string

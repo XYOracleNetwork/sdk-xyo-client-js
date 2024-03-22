@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address, asAddress, toAddress } from '@xylabs/hex'
+import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { BaseParams } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -12,8 +12,6 @@ import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
   DeadModuleError,
-  isAddressModuleFilter,
-  isNameModuleFilter,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
@@ -25,9 +23,6 @@ import {
   ModuleDescriptionSchema,
   ModuleDiscoverQuery,
   ModuleDiscoverQuerySchema,
-  ModuleFilter,
-  ModuleFilterOptions,
-  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
@@ -37,11 +32,12 @@ import {
   ModuleQueryResult,
   ModuleResolver,
   ModuleStateQuerySchema,
-  ModuleStatus,
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { asPayload, isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+
+import { ModuleProxyResolver } from './ModuleProxyResolver'
 
 export type ModuleProxyParams = BaseParams<{
   account: AccountInstance
@@ -163,40 +159,6 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return await Promise.resolve(true)
   }
 
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  override async resolve(): Promise<ModuleInstance[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<ModuleInstance> | undefined): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<ModuleInstance>): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    id: ModuleIdentifier,
-    options?: ModuleFilterOptions<ModuleInstance>,
-  ): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    filter?: ModuleFilter,
-    options?: ModuleFilterOptions<ModuleInstance>,
-  ): Promise<T[]>
-  override async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter?: ModuleIdentifier | ModuleFilter,
-    options?: ModuleFilterOptions<ModuleInstance>,
-  ): Promise<T | T[] | undefined> {
-    if (idOrFilter === '*') {
-      throw new Error('Not supported: *')
-    }
-    if (typeof idOrFilter === 'string') {
-      const address = toAddress(this.childAddressByName(idOrFilter) ?? idOrFilter, { prefix: false })
-      return address ? await this.proxyParams.host.resolve<T>(address) : undefined
-    } else {
-      const filter = idOrFilter
-      if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve<T>(item, options)))).filter(exists)
-      } else if (isNameModuleFilter(filter)) {
-        return (await Promise.all(filter.name.map((item) => this.resolve<T>(item, options)))).filter(exists)
-      }
-      throw new Error('Not supported')
-    }
-  }
-
   override async start(): Promise<boolean> {
     const state = await this.state()
     const manifestPayload = state.find(
@@ -204,6 +166,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     ) as ModuleManifestPayload
     const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.params.config = { ...manifest.config }
+    this.downResolver.addResolver(new ModuleProxyResolver({ childAddresses: await this.childAddress(), host: this.proxyParams.host }))
     return await super.start()
   }
 
@@ -216,6 +179,13 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
       this._state = await wrapper.state()
     }
     return this._state
+  }
+
+  protected async childAddress(): Promise<Address[]> {
+    const state = await this.state()
+    const nodeManifests = state.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
+    const children = nodeManifests?.flatMap((nodeManifest) => nodeManifest.modules?.public).filter(exists)
+    return children?.map((child) => child.status?.address).filter(exists)
   }
 
   protected childAddressByName(name: ModuleName): Address | undefined {

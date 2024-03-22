@@ -15,11 +15,11 @@ describe('Manifest', () => {
       expect(node).toBeDefined()
       const discover = await node.discover()
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
-      expect(discoveredAddresses.length).toBe(4)
+      expect(discoveredAddresses.length).toBe(5)
       //expect((await node.resolve()).length).toBeGreaterThan(4)
       const roundTrip = (await node.manifest()) as NodeManifest
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public?.length).toBe(3)
+      expect(roundTrip.modules?.public?.length).toBe(4)
     })
   })
 })

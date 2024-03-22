@@ -1,6 +1,14 @@
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
-import { AnyConfigSchema, Module, ModuleEventData, ModuleIdentifier, ModuleInstance, ModuleParams, ModuleResolver } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  Module,
+  ModuleEventData,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleParams,
+  ModuleResolverInstance,
+} from '@xyo-network/module-model'
 
 import { BridgeConfig } from './Config'
 import { ExposedEventData, UnexposedEventData } from './EventModels'
@@ -17,7 +25,7 @@ export interface Bridge {
 export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>>
   extends ModuleParams<TConfig>,
     ModuleParams<TConfig> {
-  resolver?: ModuleResolver
+  resolver?: ModuleResolverInstance
 }
 
 export interface BridgeModuleEventData extends ExposedEventData, UnexposedEventData, ModuleEventData {}

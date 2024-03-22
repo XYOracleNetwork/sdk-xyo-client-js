@@ -13,14 +13,19 @@ import {
   ModuleInstance,
   ModuleName,
   ModuleRepository,
-  ModuleResolver,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
 
+import { AbstractModuleResolver } from './AbstractModuleResolver'
+
 //This class is now package private (not exported from index.ts)
-export class SimpleModuleResolver implements ModuleRepository, ModuleResolver {
+export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
   private addressToName: Record<Address, ModuleName> = {}
   private modules: Record<Address, ModuleInstance> = {}
+
+  constructor() {
+    super({})
+  }
 
   add(module: ModuleInstance): this
   add(module: ModuleInstance[]): this
@@ -50,12 +55,7 @@ export class SimpleModuleResolver implements ModuleRepository, ModuleResolver {
     throw 'Removing resolvers not supported'
   }
 
-  resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promisable<T[]>
-  resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
-  resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promisable<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promisable<T[]>
-  resolve<T extends ModuleInstance = ModuleInstance>(
+  resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | string = '*',
     options?: ModuleFilterOptions<T>,
   ): Promisable<T[] | T | undefined> {

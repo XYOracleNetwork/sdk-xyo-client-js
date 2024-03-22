@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xylabs/axios'
-import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -15,7 +14,7 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { isNodeInstance } from '@xyo-network/node-model'
+import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -34,15 +33,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   get axios() {
     this._axios = this._axios ?? new AxiosJson()
     return this._axios
-  }
-
-  get legacyMode() {
-    // eslint-disable-next-line deprecation/deprecation
-    const result = !!this.config.legacyMode
-    if (result) {
-      console.warn(`Running in legacy bridge mode [${this.config.name ?? this.address}]`)
-    }
-    return result
   }
 
   get nodeUrl() {
@@ -66,9 +56,24 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     throw new Error('Unsupported')
   }
 
+  protected override async discoverRoots(): Promise<ModuleInstance[]> {
+    const state = await this.getRootState()
+    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+    if (nodeManifest) {
+      const modules = await this.resolveRootNode(nodeManifest)
+      for (const mod of modules) {
+        this.downResolver.add(mod)
+      }
+      return modules
+    }
+    return []
+  }
+
   protected override async startHandler(): Promise<boolean> {
-    if (this.legacyMode) {
-      await this.legacyDiscover()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { discoverRoot = true, legacyMode } = this.config
+    if (discoverRoot || legacyMode) {
+      await this.discoverRoots()
     }
     return true
   }
@@ -92,21 +97,15 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     }
   }
 
-  private async legacyDiscover() {
-    const state = await this.getRootState()
-    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-    if (nodeManifest) {
-      const modules = await this.legacyResolveNode(nodeManifest)
-      for (const mod of modules) {
-        this.downResolver.add(mod)
-      }
-      return modules
-    }
-    return []
-  }
-
-  private async legacyResolveNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
-    const children: ModuleInstance[] = (
+  private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
+    const rootNode = asNodeInstance(
+      await this.resolve(
+        assertEx(nodeManifest.status?.address, () => 'Root has no address'),
+        { required: true },
+      ),
+      'Root modules is not a node',
+    )
+    /*const children: ModuleInstance[] = (
       await Promise.all(
         (nodeManifest.modules?.public ?? []).map((childManifest) =>
           this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address')),
@@ -122,7 +121,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
           return nodeManifest ? await this.legacyResolveNode(nodeManifest) : []
         }),
       )
-    ).flat()
-    return [...children, ...grandChildren]
+    ).flat()*/
+    return [rootNode]
   }
 }

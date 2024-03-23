@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xylabs/axios'
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -52,6 +53,15 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return new URL(address, this.nodeUrl)
   }
 
+  override async startHandler(): Promise<boolean> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { discoverRoot = true, legacyMode } = this.config
+    if (discoverRoot || legacyMode) {
+      await this.discoverRoots()
+    }
+    return true
+  }
+
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
     throw new Error('Unsupported')
   }
@@ -60,22 +70,13 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     const state = await this.getRootState()
     const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
     if (nodeManifest) {
-      const modules = await this.resolveRootNode(nodeManifest)
+      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
       for (const mod of modules) {
         this.downResolver.add(mod)
       }
       return modules
     }
     return []
-  }
-
-  protected override async startHandler(): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { discoverRoot = true, legacyMode } = this.config
-    if (discoverRoot || legacyMode) {
-      await this.discoverRoots()
-    }
-    return true
   }
 
   private async getRootState() {
@@ -98,13 +99,12 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
-    const rootNode = asNodeInstance(
-      await this.resolve(
-        assertEx(nodeManifest.status?.address, () => 'Root has no address'),
-        { required: true },
-      ),
-      'Root modules is not a node',
+    const rootModule = assertEx(
+      await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
+      () => `Root not found [${nodeManifest.status?.address}]`,
     )
+    const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
+    this.downResolver.add(rootNode)
     /*const children: ModuleInstance[] = (
       await Promise.all(
         (nodeManifest.modules?.public ?? []).map((childManifest) =>

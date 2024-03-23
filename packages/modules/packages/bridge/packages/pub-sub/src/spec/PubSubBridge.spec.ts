@@ -179,7 +179,7 @@ describe('PubSubBridge', () => {
         const pubSubBridge: PubSubBridge = await PubSubBridge.create({
           account,
           config: {
-            host: { /*listeningModules: [client.module.address],*/ pollFrequency, intersect, stateStore },
+            host: { pollFrequency, intersect, stateStore },
             name: `pubSubBridge${name}`,
             client: {
               pollFrequency,
@@ -189,6 +189,7 @@ describe('PubSubBridge', () => {
               },
               stateStore,
             },
+            roots: [node.address],
             schema: PubSubBridge.configSchema,
           },
           logger,

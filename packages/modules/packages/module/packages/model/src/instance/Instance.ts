@@ -16,7 +16,7 @@ export class DeadModuleError extends Error {
     public error: Error | undefined,
     msg = 'Dead Module Error',
   ) {
-    super(`${msg} [${id}]: ${error}`)
+    super(`${msg} [${id}]: ${error?.message ?? toJsonString(error)}`)
 
     // Set the prototype explicitly.
     Object.setPrototypeOf(this, DeadModuleError.prototype)

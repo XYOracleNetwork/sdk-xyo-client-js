@@ -39,7 +39,10 @@ describe('HttpBridge', () => {
     const resolvedBridge = memNode.resolve(bridge.id)
     expect(resolvedBridge).toBeDefined()
 
-    const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
+    const rootModule = await bridge.resolve('XYOPublic')
+    expect(rootModule).toBeDefined()
+
+    const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
 
     const description = await remoteNode.describe()
     expect(description.children).toBeArray()

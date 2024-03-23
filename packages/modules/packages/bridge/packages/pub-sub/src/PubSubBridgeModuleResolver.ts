@@ -1,5 +1,5 @@
 import { Address } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions } from '@xyo-network/abstract-bridge'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
@@ -9,13 +9,15 @@ export interface PubSubBridgeModuleResolverOptions extends BridgeModuleResolverO
   busClient: AsyncQueryBusClient
 }
 
-export class PubSubBridgeModuleResolver<
-  T extends PubSubBridgeModuleResolverOptions = PubSubBridgeModuleResolverOptions,
-> extends AbstractBridgeModuleResolver<T> {
+export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<PubSubBridgeModuleResolverOptions> {
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
-  ): Promise<T | undefined> {
+  ): Promise<T | T[] | undefined> {
+    const parentResult = await super.resolveHandler(id, options)
+    if (parentResult) {
+      return parentResult
+    }
     const idParts = id.split(':')
     const firstPart = idParts.shift()
     const remainderParts = idParts.join(':')
@@ -27,6 +29,10 @@ export class PubSubBridgeModuleResolver<
       moduleAddress: firstPart as Address,
     }
     const proxy = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
-    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : proxy
+    await proxy.start?.()
+    const wrappedProxy = wrapModuleWithType(proxy, account) as unknown as T
+    this.add(wrappedProxy)
+    console.log('ding!')
+    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : wrappedProxy
   }
 }

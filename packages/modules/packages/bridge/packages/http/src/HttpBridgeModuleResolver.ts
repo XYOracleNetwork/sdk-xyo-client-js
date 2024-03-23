@@ -1,9 +1,10 @@
 import { AxiosJson } from '@xylabs/axios'
 import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { asModuleInstance, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
@@ -47,16 +48,17 @@ export class HttpBridgeModuleResolver<
     const proxy = new HttpModuleProxy<T>(params)
     //calling state here to get the config
     const state = await proxy.state()
-    const manifest = state.find((payload) => isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
+    const manifest = state.find((payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
     if (manifest) {
       proxy.setConfig(manifest.config)
     }
+
     if (remainderParts.length > 0) {
       const result = await proxy.resolve<T>(remainderParts, options)
-      if (result) {
-        return wrapModuleWithType(result, Account.randomSync()) as unknown as T
-      }
+      return result
     }
-    return wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+    const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+    const as = asModuleInstance<T>(wrapped)
+    return as
   }
 }

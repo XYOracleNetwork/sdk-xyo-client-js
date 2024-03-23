@@ -14,6 +14,12 @@ export class AsyncQueryBusModuleProxy<TWrappedModule extends Module = Module>
   implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
+    console.log('proxyQueryHandler - async query bus module proxy')
     return await this.proxyParams.busClient.send(this.address, query, payloads)
+  }
+
+  override async startHandler(): Promise<boolean> {
+    console.log('startHandler - async query bus module proxy')
+    return await super.startHandler()
   }
 }

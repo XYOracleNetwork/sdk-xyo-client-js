@@ -65,12 +65,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return address
   }
 
-  override async start() {
-    const resolver = this.resolver
-    if (resolver) {
-      this.downResolver.addResolver(resolver)
-    }
-    return await super.start()
+  override async startHandler() {
+    await this.discoverRoots()
+    return await super.startHandler()
   }
 
   async unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {

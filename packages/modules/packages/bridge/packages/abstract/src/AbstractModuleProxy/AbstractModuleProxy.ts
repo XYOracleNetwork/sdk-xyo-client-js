@@ -4,7 +4,7 @@ import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { BaseParams } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
-import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModule } from '@xyo-network/module-abstract'
@@ -167,7 +167,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return await Promise.resolve(true)
   }
 
-  override async start(): Promise<boolean> {
+  override async startHandler(): Promise<boolean> {
     const state = await this.state()
     const manifestPayload = state.find(
       (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
@@ -175,7 +175,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.params.config = { ...manifest.config }
     this.downResolver.addResolver(new ModuleProxyResolver({ childAddresses: await this.childAddress(), host: this.proxyParams.host }))
-    return await super.start()
+    return true
   }
 
   async state(): Promise<Payload[]> {

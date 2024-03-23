@@ -7,7 +7,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
-import { ModuleInstance } from '@xyo-network/module-model'
+import { ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
 import {
@@ -150,7 +150,7 @@ describe('BusProxy', () => {
     }
 
     busClient = new AsyncQueryBusClient({
-      resolver: clientInfo.module,
+      resolver: clientInfo.module.upResolver as ModuleResolverInstance,
       logger,
       config: {
         pollFrequency,

@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
@@ -12,10 +13,12 @@ import {
   creatableModule,
   ModuleInstance,
   ModuleQueryResult,
+  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { asNodeInstance } from '@xyo-network/node-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -99,17 +102,26 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
+    //console.log(`resolveRootNode: ${toJsonString(nodeManifest, 5)}`)
     const rootModule = assertEx(
       await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
+    console.log(`rootNode: ${rootNode.config.name}`)
     this.downResolver.add(rootNode)
-    /*const children: ModuleInstance[] = (
+    const children: ModuleInstance[] = (
       await Promise.all(
-        (nodeManifest.modules?.public ?? []).map((childManifest) =>
-          this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address')),
-        ),
+        (nodeManifest.modules?.public ?? []).map(async (childManifest) => {
+          console.log(`childNodeLoad: ${childManifest.status?.address}`)
+          const mod = await this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address'))
+          console.log(`childNodeFound: ${mod?.address}`)
+          if (mod) {
+            console.log(`childNode: ${mod.config.name}`)
+            rootNode.downResolver.addResolver(new CompositeModuleResolver().add(mod))
+          }
+          return mod
+        }),
       )
     ).filter(exists)
     const childNodes = children.filter((mod) => isNodeInstance(mod))
@@ -118,10 +130,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
         childNodes.map(async (node) => {
           const state = await node.state()
           const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-          return nodeManifest ? await this.legacyResolveNode(nodeManifest) : []
+          return nodeManifest ? await this.resolveRootNode(nodeManifest) : []
         }),
       )
-    ).flat()*/
-    return [rootNode]
+    ).flat()
+    return [rootNode, ...children, ...grandChildren]
   }
 }

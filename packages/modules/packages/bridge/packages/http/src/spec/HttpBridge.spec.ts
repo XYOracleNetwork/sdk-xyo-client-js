@@ -50,7 +50,7 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const archivistByName = await bridge.resolve('Archivist')
+    const archivistByName = await bridge.resolve('XYOPublic:Archivist')
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()

@@ -39,6 +39,7 @@ import {
   ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuerySchema,
+  ModuleName,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
@@ -590,10 +591,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
     const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth: 1 })
+    const childAddressToName: Record<Address, ModuleName | null> = {}
+    for (const child of children) {
+      if (child.address !== this.address) {
+        childAddressToName[child.address] = child.config.name ?? null
+      }
+    }
     return {
       config: { name, ...this.config },
       schema: ModuleManifestPayloadSchema,
-      status: { address: this.address, children: children.map((child) => child.address).filter((address) => address !== this.address) },
+      status: { address: this.address, children: childAddressToName },
     }
   }
 

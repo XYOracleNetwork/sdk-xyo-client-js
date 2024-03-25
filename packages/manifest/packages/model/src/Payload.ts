@@ -8,6 +8,7 @@ export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 
 import { Address } from '@xylabs/hex'
+import { ModuleIdentifier, ModuleName } from '@xyo-network/modules'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export interface Manifest {
@@ -40,7 +41,7 @@ export interface ModuleManifest extends Manifest {
   lazyStart?: boolean
   status?: {
     address: Address
-    children?: Address[]
+    children?: Record<Address, ModuleName | null>
   }
 }
 

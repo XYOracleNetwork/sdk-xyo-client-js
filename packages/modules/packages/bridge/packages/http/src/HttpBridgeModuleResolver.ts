@@ -1,10 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xylabs/axios'
 import { Address, isAddress } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { asModuleInstance, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 

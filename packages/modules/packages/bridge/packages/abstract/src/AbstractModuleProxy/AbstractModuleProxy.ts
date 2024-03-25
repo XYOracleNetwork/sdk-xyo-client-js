@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { BaseParams } from '@xylabs/object'
@@ -174,7 +173,7 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     ) as ModuleManifestPayload
     const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.params.config = { ...manifest.config }
-    this.downResolver.addResolver(new ModuleProxyResolver({ childAddresses: await this.childAddress(), host: this.proxyParams.host }))
+    this.downResolver.addResolver(new ModuleProxyResolver({ childAddressMap: await this.childAddressMap(), host: this.proxyParams.host }))
     return true
   }
 
@@ -189,17 +188,23 @@ export abstract class AbstractModuleProxy<TParams extends ModuleProxyParams = Mo
     return this._state
   }
 
-  protected async childAddress(): Promise<Address[]> {
-    const state = await this.state()
-    const nodeManifests = state.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
-    const children = nodeManifests?.flatMap((nodeManifest) => nodeManifest.modules?.public).filter(exists)
-    return children?.map((child) => child.status?.address).filter(exists)
-  }
-
   protected childAddressByName(name: ModuleName): Address | undefined {
     const nodeManifests = this._state?.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
-    const children = nodeManifests?.flatMap((nodeManifest) => nodeManifest.modules?.public).filter(exists)
-    return asAddress(children?.find((child) => child.config.name === name)?.status?.address)
+    const childPairs = nodeManifests?.flatMap((nodeManifest) => Object.entries(nodeManifest.status?.children ?? {}) as [Address, ModuleName | null][])
+    return asAddress(childPairs?.find(([_, childName]) => childName === name)?.[0])
+  }
+
+  protected async childAddressMap(): Promise<Record<Address, ModuleName | null>> {
+    const state = await this.state()
+    const result: Record<Address, ModuleName | null> = {}
+    const nodeManifests = state.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
+    for (const manifest of nodeManifests) {
+      const children = manifest.status?.children ?? {}
+      for (const [address, name] of Object.entries(children) as [Address, ModuleName | null][]) {
+        result[address] = name
+      }
+    }
+    return result
   }
 
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {

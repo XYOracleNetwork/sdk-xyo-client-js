@@ -21,6 +21,14 @@
     "ethers": "6.11.1",
     "typescript": "^5.4.3"
   },
+  "peerDependencies": {
+    "ethers": "6.11.1"
+  },
+  "peerDependenciesMeta": {
+    "ethers": {
+      "optional": true
+    }
+  },
   "exports": {
     ".": {
       "browser": {
@@ -59,6 +67,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
-  "type": "module"
+  "version": "2.93.0-rc.1",
+  "type": "module",
+  "stableVersion": "2.92.11"
 }

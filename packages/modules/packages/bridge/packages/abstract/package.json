@@ -16,6 +16,7 @@
     "@xylabs/lodash": "^3.0.24",
     "@xylabs/object": "^3.0.24",
     "@xylabs/promise": "^3.0.24",
+    "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -28,16 +29,17 @@
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/module-wrapper": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/node-wrapper": "workspace:~",
+    "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "@xyo-network/witness-wrapper": "workspace:~",
-    "lru-cache": "^10.2.0"
+    "@xyo-network/witness-wrapper": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
@@ -83,6 +85,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
-  "type": "module"
+  "version": "2.93.0-rc.1",
+  "type": "module",
+  "stableVersion": "2.92.11"
 }

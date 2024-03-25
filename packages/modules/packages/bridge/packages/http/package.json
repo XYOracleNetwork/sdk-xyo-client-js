@@ -23,6 +23,7 @@
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
@@ -76,6 +77,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
-  "type": "module"
+  "version": "2.93.0-rc.1",
+  "type": "module",
+  "stableVersion": "2.92.11"
 }

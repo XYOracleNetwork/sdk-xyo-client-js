@@ -3094,6 +3094,7 @@ __metadata:
     "@xylabs/promise": "npm:^3.0.24"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/address-payload-plugin": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
@@ -3106,16 +3107,17 @@ __metadata:
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/node-wrapper": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/sentinel-model": "workspace:~"
     "@xyo-network/sentinel-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
-    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft
@@ -3151,6 +3153,11 @@ __metadata:
     "@xyo-network/previous-hash-store-model": "workspace:~"
     ethers: "npm:6.11.1"
     typescript: "npm:^5.4.3"
+  peerDependencies:
+    ethers: 6.11.1
+  peerDependenciesMeta:
+    ethers:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -3551,6 +3558,7 @@ __metadata:
     "@xylabs/array": "npm:^3.0.24"
     "@xylabs/assert": "npm:^3.0.24"
     "@xylabs/delay": "npm:^3.0.24"
+    "@xylabs/exists": "npm:^3.0.24"
     "@xylabs/forget": "npm:^3.0.24"
     "@xylabs/hex": "npm:^3.0.24"
     "@xylabs/object": "npm:^3.0.24"
@@ -4948,7 +4956,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.92.11, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.93.0-rc.1, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5035,6 +5043,7 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -5673,12 +5682,12 @@ __metadata:
     "@xylabs/error": "npm:^3.0.24"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig-dom": "npm:^3.5.2"
-    "@xyo-network/domain-payload-plugin": "npm:^2.92.11"
+    "@xyo-network/domain-payload-plugin": "npm:^2.93.0-rc.1"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.92.11"
+    "@xyo-network/schema-payload-plugin": "npm:^2.93.0-rc.1"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.3"
@@ -5696,7 +5705,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.92.11, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.93.0-rc.1, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:
@@ -5919,6 +5928,11 @@ __metadata:
     "@xyo-network/account-model": "workspace:~"
     ethers: "npm:6.11.1"
     typescript: "npm:^5.4.3"
+  peerDependencies:
+    ethers: 6.11.1
+  peerDependenciesMeta:
+    ethers:
+      optional: true
   languageName: unknown
   linkType: soft
 

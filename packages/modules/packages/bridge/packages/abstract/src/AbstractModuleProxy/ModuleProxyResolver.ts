@@ -20,12 +20,15 @@ import { wrapModuleWithType } from '../wrapModuleWithType'
 export interface ModuleProxyResolverOptions {
   childAddressMap: Record<Address, ModuleName | null>
   host: ModuleResolver
+  module: ModuleInstance
 }
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
   private downResolver = new CompositeModuleResolver()
 
-  constructor(protected options: T) {}
+  constructor(protected options: T) {
+    this.downResolver.add(options.module)
+  }
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')
@@ -49,11 +52,13 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
       //get all the child addresses.  if they have been resolved before, they should be in downResolver
-      return (await Promise.all(Object.keys(this.options.childAddressMap).flatMap((address) => this.resolve<T>(address, options)))).filter(exists)
+      const childAddresses = Object.keys(this.options.childAddressMap)
+      const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>((address) => this.resolve<T>(address, options)))
+      return resolvedChildren.filter(exists)
     } else if (typeof idOrFilter === 'string') {
       const idParts = idOrFilter.split(':')
-      const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
       const firstPart: ModuleIdentifier = assertEx(idParts.shift(), () => 'Invalid module identifier at first position')
+      const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
       if (direction === 'down' || direction === 'all') {
         const downResolverModule = await this.downResolver.resolve<T>(firstPart)
         if (downResolverModule) {

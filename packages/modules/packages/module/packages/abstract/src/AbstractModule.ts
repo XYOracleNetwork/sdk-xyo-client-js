@@ -368,15 +368,34 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
+    if (idOrFilter === '*') {
+      return await ResolveHelper.resolve(
+        { address: this.address, dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver },
+        idOrFilter,
+        options,
+      )
+    }
     switch (typeof idOrFilter) {
       case 'string': {
-        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
+        return await ResolveHelper.resolve(
+          { address: this.address, dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver },
+          idOrFilter,
+          options,
+        )
       }
       case 'object': {
-        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
+        return await ResolveHelper.resolve(
+          { address: this.address, dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver },
+          idOrFilter,
+          options,
+        )
       }
       default: {
-        return await ResolveHelper.resolve({ dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver }, idOrFilter, options)
+        return await ResolveHelper.resolve(
+          { address: this.address, dead: this.dead, downResolver: this.downResolver, upResolver: this.upResolver },
+          idOrFilter,
+          options,
+        )
       }
     }
   }
@@ -588,9 +607,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected async manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
+  protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth: 1 })
+    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
     const childAddressToName: Record<Address, ModuleName | null> = {}
     for (const child of children) {
       if (child.address !== this.address) {

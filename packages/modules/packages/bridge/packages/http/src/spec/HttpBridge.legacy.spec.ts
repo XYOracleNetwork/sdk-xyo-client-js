@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema } from '@xyo-network/node-model'
+import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 
 import { HttpBridge } from '../HttpBridge'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
@@ -27,13 +27,24 @@ describe('HttpBridge', () => {
     await memNode.register(bridge)
     await memNode.attach(bridge.address, true)
 
-    const bridgeModules = await bridge.resolve('*')
+    const publicNode = await bridge.resolve<NodeInstance>('XYOPublic')
+    expect(publicNode).toBeDefined()
+
+    if (publicNode) {
+      console.log(`publicNode[${publicNode.address}]: ${publicNode.config.name}`)
+      const publicNodeModules = await publicNode.resolve('*', { direction: 'down' })
+      expect(publicNodeModules).toBeArray()
+      expect(publicNodeModules.length).toBeGreaterThan(20)
+    }
+
+    const bridgeModules = await bridge.resolve('*', { direction: 'down' })
     expect(bridgeModules).toBeArray()
-    console.log(`moduleName: ${bridgeModules[0].config.name}`)
     expect(bridgeModules.length).toBeGreaterThan(20)
 
+    /*
     const modules = await memNode.resolve('*')
     expect(modules).toBeArray()
     expect(modules.length).toBeGreaterThan(20)
+    */
   })
 })

@@ -41,17 +41,13 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   async queriesArchivist() {
-    console.log(`queriesArchivist: ${this.resolver.constructor.name}`)
     const resolved = await this.resolver.resolve(this.config?.intersect?.queries?.archivist, { direction: 'up' })
-    console.log(`resolved: ${toJsonString(resolved)}`)
     const existingResolved = assertEx(resolved, () => `Unable to resolve queriesArchivist [${this.config?.intersect?.queries?.archivist}]`)
-    console.log('existingResolved', toJsonString(existingResolved))
     const result = asArchivistInstance(
       existingResolved,
       () =>
         `Unable to resolve queriesArchivist as correct type [${this.config?.intersect?.queries?.archivist}][${existingResolved?.constructor?.name}]: ${toJsonString(existingResolved)}`,
     )
-    console.log('result', toJsonString(result))
     return result
   }
 

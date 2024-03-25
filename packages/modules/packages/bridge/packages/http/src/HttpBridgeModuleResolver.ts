@@ -35,6 +35,9 @@ export class HttpBridgeModuleResolver<
     if (parentResult) {
       return parentResult
     }
+    if (id === '*') {
+      return []
+    }
     const idParts = id.split(':')
     const firstPart = idParts.shift()
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
@@ -42,10 +45,11 @@ export class HttpBridgeModuleResolver<
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
-      host: this.options.bridge,
+      host: this,
       moduleAddress: firstPart as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }
+
     const proxy = new HttpModuleProxy<T>(params)
     //calling state here to get the config
     const state = await proxy.state()
@@ -53,6 +57,8 @@ export class HttpBridgeModuleResolver<
     if (manifest) {
       proxy.setConfig(manifest.config)
     }
+
+    await proxy.start()
 
     if (remainderParts.length > 0) {
       const result = await proxy.resolve<T>(remainderParts, options)

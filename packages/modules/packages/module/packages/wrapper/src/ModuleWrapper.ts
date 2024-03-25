@@ -112,6 +112,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     super(mutatedParams)
     this.wrapperParams = mutatedWrapperParams
   }
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
+  start?: (() => Promisable<boolean>) | undefined
+  stop?: (() => Promisable<boolean>) | undefined
 
   get account() {
     return this.wrapperParams.account
@@ -328,16 +331,33 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  resolve(): Promisable<ModuleInstance[]>
-  resolve(all: '*', options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(filter: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(id: ModuleIdentifier, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance>
+  async resolve<T extends ModuleInstance = ModuleInstance>(): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<T> | undefined,
+  ): Promise<ModuleInstance>
   /** @deprecated use '*' if trying to resolve all */
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(
-    idOrFilter: ModuleIdentifier | ModuleFilter = '*',
-    _options?: unknown,
-  ): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleIdentifier | ModuleFilter<T> = '*',
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    const instance = asModuleInstance(this.module)
+    if (instance?.['resolve']) {
+      if (idOrFilter === '*') {
+        return await instance.resolve<T>('*', options)
+      }
+      switch (typeof idOrFilter) {
+        case 'string': {
+          return await instance.resolve<T>(idOrFilter, options)
+        }
+        default: {
+          return await instance.resolve<T>(idOrFilter, options)
+        }
+      }
+    }
     return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
   }
 

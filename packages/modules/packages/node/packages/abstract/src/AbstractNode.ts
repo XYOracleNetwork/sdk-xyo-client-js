@@ -66,7 +66,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await (this.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  override async manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
+  override async manifest(maxDepth = 1, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
@@ -134,8 +134,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [...(await super.discoverHandler(maxDepth)), ...childModAddresses]
   }
 
-  protected override async manifestHandler(maxDepth?: number, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
-    const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
+  protected override async manifestHandler(maxDepth = 1, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const manifest: NodeManifestPayload = { ...(await super.manifestHandler(maxDepth, ignoreAddresses)), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
     const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)

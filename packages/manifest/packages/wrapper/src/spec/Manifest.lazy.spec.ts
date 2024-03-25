@@ -1,3 +1,4 @@
+import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
@@ -14,6 +15,7 @@ describe('Manifest', () => {
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
       const discover = await node.discover()
+      console.log(`discover: ${toJsonString(discover)}`)
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBe(5)
       //expect((await node.resolve()).length).toBeGreaterThan(10)

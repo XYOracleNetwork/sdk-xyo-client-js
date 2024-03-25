@@ -1,4 +1,5 @@
-import { Address } from '@xylabs/hex'
+import { assertEx } from '@xylabs/assert'
+import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
@@ -20,6 +21,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     }
     const idParts = id.split(':')
     const firstPart = idParts.shift()
+    assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {

@@ -1,5 +1,6 @@
+import { assertEx } from '@xylabs/assert'
 import { AxiosJson } from '@xylabs/axios'
-import { Address } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
@@ -37,6 +38,7 @@ export class HttpBridgeModuleResolver<
     }
     const idParts = id.split(':')
     const firstPart = idParts.shift()
+    assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),

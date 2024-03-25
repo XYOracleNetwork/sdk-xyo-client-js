@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
-import { Base } from '@xylabs/object'
+import { Base, toJsonString } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -365,7 +365,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
-    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).query(query)
+    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
@@ -383,7 +383,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     const query = await this.bindQuery(queryPayload, payloads)
 
     // Send them off
-    const [, resultPayloads, errors] = await this.module.query(query[0], query[1])
+    const queryResults = await this.module.query(query[0], query[1])
+    const [, resultPayloads, errors] = queryResults
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
 

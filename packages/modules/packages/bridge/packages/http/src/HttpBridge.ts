@@ -108,14 +108,14 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
-    console.log(`rootNode: ${rootNode.config.name}`)
+    this.logger.debug(`rootNode: ${rootNode.config.name}`)
     this.downResolver.add(rootNode)
     const children: ModuleInstance[] = (
       await Promise.all(
         (nodeManifest.modules?.public ?? []).map(async (childManifest) => {
-          console.log(`childNodeLoad: ${childManifest.status?.address}`)
+          this.logger.debug(`childNodeLoad: ${childManifest.status?.address}`)
           const mod = await this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address'))
-          console.log(`childNodeFound: ${mod?.address}`)
+          this.logger.debug(`childNodeFound: ${mod?.address}`)
           if (mod) {
             console.log(`childNode: ${mod.config.name}`)
             rootNode.downResolver.addResolver(new CompositeModuleResolver().add(mod))

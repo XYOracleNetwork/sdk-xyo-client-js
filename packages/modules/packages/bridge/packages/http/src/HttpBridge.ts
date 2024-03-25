@@ -13,7 +13,6 @@ import {
   creatableModule,
   ModuleInstance,
   ModuleQueryResult,
-  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
@@ -48,7 +47,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._resolver
   }
 
-  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
 
@@ -65,7 +64,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return true
   }
 
-  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
 
@@ -110,30 +109,15 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
     this.logger.debug(`rootNode: ${rootNode.config.name}`)
     this.downResolver.add(rootNode)
-    const children: ModuleInstance[] = (
+    const childAddresses = Object.keys(nodeManifest.status?.children ?? {})
+    console.log(`resolveRootNode:childAddresses ${toJsonString(childAddresses)}`)
+    const children = (
       await Promise.all(
-        (nodeManifest.modules?.public ?? []).map(async (childManifest) => {
-          this.logger.debug(`childNodeLoad: ${childManifest.status?.address}`)
-          const mod = await this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address'))
-          this.logger.debug(`childNodeFound: ${mod?.address}`)
-          if (mod) {
-            console.log(`childNode: ${mod.config.name}`)
-            rootNode.downResolver.addResolver(new CompositeModuleResolver().add(mod))
-          }
-          return mod
+        childAddresses.map((address) => {
+          return rootNode.resolve(address)
         }),
       )
     ).filter(exists)
-    const childNodes = children.filter((mod) => isNodeInstance(mod))
-    const grandChildren = (
-      await Promise.all(
-        childNodes.map(async (node) => {
-          const state = await node.state()
-          const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-          return nodeManifest ? await this.resolveRootNode(nodeManifest) : []
-        }),
-      )
-    ).flat()
-    return [rootNode, ...children, ...grandChildren]
+    return [rootNode, ...children]
   }
 }

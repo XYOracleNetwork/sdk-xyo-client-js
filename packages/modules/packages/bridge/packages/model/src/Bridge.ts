@@ -18,8 +18,8 @@ export interface Bridge {
   connect?: () => Promisable<boolean>
   connected?: boolean
   disconnect?: () => Promisable<boolean>
-  expose: (id: ModuleIdentifier, options?: BridgeExposeOptions) => Promisable<Address[]>
-  unexpose?: (id: ModuleIdentifier, options?: BridgeUnexposeOptions) => Promisable<Address[]>
+  expose: (id: ModuleIdentifier, options?: BridgeExposeOptions) => Promisable<ModuleInstance[]>
+  unexpose?: (id: ModuleIdentifier, options?: BridgeUnexposeOptions) => Promisable<ModuleInstance[]>
 }
 
 export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>>

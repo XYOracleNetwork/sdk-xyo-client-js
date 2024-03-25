@@ -46,13 +46,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return assertEx(this.config.roots, () => 'roots not configured')
   }
 
-  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<Address[]> {
-    const filterOptions: ModuleFilterOptions = { direction: options?.direction }
+  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 1, direction } = options ?? {}
+    const filterOptions: ModuleFilterOptions = { direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {
       const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.expose(module.address)
-      return [module.address]
+      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
+      for (const child of children) {
+        host.expose(child.address)
+      }
+      return [module, ...children]
     }
     return []
   }
@@ -62,13 +67,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return await super.startHandler()
   }
 
-  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
-    const filterOptions: ModuleFilterOptions = { direction: options?.direction }
+  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 1, direction } = options ?? {}
+    const filterOptions: ModuleFilterOptions = { direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {
       const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.unexpose(module.address)
-      return [module.address]
+      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
+      for (const child of children) {
+        host.unexpose(child.address)
+      }
+      return [module, ...children]
     }
     return []
   }

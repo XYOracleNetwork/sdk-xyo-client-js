@@ -27,11 +27,10 @@ describe('HttpBridge', () => {
     await memNode.register(bridge)
     await memNode.attach(bridge.address, true)
 
-    /*const bridgeModules = await bridge.resolve('*')
+    const bridgeModules = await bridge.resolve('*')
     expect(bridgeModules).toBeArray()
     console.log(`moduleName: ${bridgeModules[0].config.name}`)
     expect(bridgeModules.length).toBeGreaterThan(20)
-    */
 
     const modules = await memNode.resolve('*')
     expect(modules).toBeArray()

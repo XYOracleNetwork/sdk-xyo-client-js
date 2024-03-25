@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -58,11 +57,12 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     throw new Error('Unsupported')
   }
 
-  async expose(id: string, options?: BridgeExposeOptions | undefined): Promise<Address[]> {
+  async expose(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('expose')
-    const address = await this.exposeHandler(id, options)
-    await this.emit('exposed', { address, module: this })
-    return address
+    assertEx(id !== '*', () => "Exposing '*' not supported")
+    const modules = await this.exposeHandler(id, options)
+    await this.emit('exposed', { module: this, modules })
+    return modules
   }
 
   override async startHandler() {
@@ -70,11 +70,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return await super.startHandler()
   }
 
-  async unexpose(id: string, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
+  async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('unexpose')
-    const address = this.unexposeHandler(id, options)
-    await this.emit('unexposed', { address, module: this })
-    return address
+    const modules = this.unexposeHandler(id, options)
+    await this.emit('unexposed', { module: this, modules })
+    return modules
   }
 
   protected discoverRoots(): Promisable<ModuleInstance[]> {
@@ -109,10 +109,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         await Promise.all(
           filterPayloads.map(async (filter) => {
             const { id, ...options } = filter
-            const addresses = await this.expose(id, options)
-            addresses.map((address) => {
+            const modules = await this.expose(id, options)
+            modules.map((module) => {
               const addressPayload: AddressPayload = {
-                address,
+                address: module.address,
                 schema: AddressSchema,
               }
               resultPayloads.push(addressPayload)
@@ -128,10 +128,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
         await Promise.all(
           filterPayloads.map(async (filter) => {
             const { id, ...options } = filter
-            const addresses = await this.unexpose(id, options)
-            addresses.map((address) => {
+            const modules = await this.unexpose(id, options)
+            modules.map((module) => {
               const addressPayload: AddressPayload = {
-                address,
+                address: module.address,
                 schema: AddressSchema,
               }
               resultPayloads.push(addressPayload)
@@ -147,7 +147,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return resultPayloads
   }
 
-  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<Address[]>
+  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>
 
-  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<Address[]>
+  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]>
 }

@@ -40,6 +40,7 @@ export interface ModuleManifest extends Manifest {
   lazyStart?: boolean
   status?: {
     address: Address
+    children?: Address[]
   }
 }
 

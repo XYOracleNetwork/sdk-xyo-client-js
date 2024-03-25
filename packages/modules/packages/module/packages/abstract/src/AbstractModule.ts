@@ -545,7 +545,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async discoverHandler(_maxDepth?: number): Promise<Payload[]> {
-    const config = this.config
+    const config = await PayloadBuilder.build(this.config)
     const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({ address: this.address, name: this.config?.name })
       .build()
@@ -554,10 +554,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
       }),
     )
-    const configSchema: ConfigPayload = {
+    const configSchema = await PayloadBuilder.build<ConfigPayload>({
       config: config.schema,
       schema: ConfigSchema,
-    }
+    })
     return compact([config, configSchema, address, ...queries])
   }
 
@@ -587,9 +587,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promisable<ModuleManifestPayload> {
+  protected async manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema, status: { address: this.address } }
+    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth: 1 })
+    return {
+      config: { name, ...this.config },
+      schema: ModuleManifestPayloadSchema,
+      status: { address: this.address, children: children.map((child) => child.address).filter((address) => address !== this.address) },
+    }
   }
 
   protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {

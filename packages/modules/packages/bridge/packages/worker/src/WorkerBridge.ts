@@ -5,7 +5,15 @@ import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
-import { AnyConfigSchema, CacheConfig, creatableModule, ModuleConfig, ModuleParams, ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  CacheConfig,
+  creatableModule,
+  ModuleConfig,
+  ModuleInstance,
+  ModuleParams,
+  ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
@@ -92,11 +100,15 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return bridge
   }
 
-  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     return []
   }
 
-  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override exposedHandler(): Promisable<Address[]> {
+    return []
+  }
+
+  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     return []
   }
 }

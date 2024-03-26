@@ -42,7 +42,7 @@
               "language": "javascript",
               "lazyStart": true,
               "name": "SimpleHttpBridge",
-              "nodeUrl": "https://beta.api.archivist.xyo.network",
+              "nodeUrl": "https://localhost:8080",
               "schema": "network.xyo.bridge.http.config"
             }
           }

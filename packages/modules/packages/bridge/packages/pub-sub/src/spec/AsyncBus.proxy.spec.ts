@@ -1,5 +1,6 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable max-statements */
+import { ConsoleLogger, LogLevel } from '@xylabs/logger'
 import { Account, HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
@@ -7,7 +8,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
-import { ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
 import {
@@ -34,7 +35,7 @@ interface Client {
   stateStoreBoundWitnessDiviner: DivinerInstance
 }
 
-const useDebugLogging = false
+const useDebugLogging = true
 const logger =
   useDebugLogging ?
     {
@@ -52,6 +53,8 @@ const clientNodePhrases = {
   A: 'drastic govern leisure pair merit property lava lab equal invest black beach dad glory action',
   B: 'recycle flower copper kiwi want plate hint shoot shift maze symptom scheme bless moon carry',
 }
+
+AsyncQueryBusHost.defaultLogger = new ConsoleLogger(LogLevel.debug)
 
 /**
  * @group module
@@ -150,7 +153,7 @@ describe('BusProxy', () => {
     }
 
     busClient = new AsyncQueryBusClient({
-      resolver: clientInfo.module,
+      resolver: clientInfo.module.upResolver as ModuleResolverInstance,
       logger,
       config: {
         pollFrequency,
@@ -203,11 +206,19 @@ describe('BusProxy', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
-      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, busClient, host: busClient.resolver })
+      const proxy = new AsyncQueryBusModuleProxy({
+        account,
+        config: { schema: ModuleConfigSchema },
+        moduleAddress: destination.module.address,
+        busClient,
+        host: busClient.resolver,
+      })
 
       host.start()
 
       host.expose(destination.module.address)
+
+      expect(proxy.address).toBe(destination.module.address)
 
       const m = await proxy.manifest()
       expect(m).toBeDefined()
@@ -236,7 +247,13 @@ describe('BusProxy', () => {
       expect(await destination.module.resolve(source.module.address)).toBeUndefined()
 
       const account = await HDWallet.fromPhrase('drastic govern leisure pair merit property lava lab equal invest black beach dad glory action')
-      const proxy = new AsyncQueryBusModuleProxy({ account, moduleAddress: destination.module.address, host: busClient.resolver, busClient })
+      const proxy = new AsyncQueryBusModuleProxy({
+        config: { schema: ModuleConfigSchema },
+        account,
+        moduleAddress: destination.module.address,
+        host: busClient.resolver,
+        busClient,
+      })
 
       host.start()
 

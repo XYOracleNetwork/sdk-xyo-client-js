@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.21",
-    "@xylabs/object": "^3.0.21"
+    "@xylabs/hex": "^3.0.24",
+    "@xylabs/object": "^3.0.24"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
@@ -57,6 +57,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
+  "version": "2.93.0",
   "type": "module"
 }

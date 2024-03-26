@@ -63,10 +63,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attachedModules(maxDepth = 2): Promise<ModuleInstance[]> {
-    return (await (this.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.downResolver.resolve('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  override async manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
+  override async manifest(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
@@ -86,10 +86,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     if (idOrFilter === '*') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate('*')
+          return await this.resolvePrivate('*', options)
         }
         case 'all': {
-          return await this.resolveAll('*')
+          return await this.resolveAll('*', options)
         }
         default: {
           return await super.resolve('*', options)
@@ -99,10 +99,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     if (typeof idOrFilter === 'string') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate(idOrFilter)
+          return await this.resolvePrivate(idOrFilter, options)
         }
         case 'all': {
-          return await this.resolveAll(idOrFilter)
+          return await this.resolveAll(idOrFilter, options)
         }
         default: {
           return await super.resolve(idOrFilter, options)
@@ -111,10 +111,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     } else {
       switch (options?.visibility) {
         case 'all': {
-          return await this.resolveAll(idOrFilter)
+          return await this.resolveAll(idOrFilter, options)
         }
         case 'private': {
-          return await this.resolvePrivate(idOrFilter)
+          return await this.resolvePrivate(idOrFilter, options)
         }
         default: {
           return await super.resolve(idOrFilter, options)
@@ -123,8 +123,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     }
   }
 
-  protected override async discoverHandler(maxDepth?: number): Promise<Payload[]> {
+  protected override async discoverHandler(maxDepth = 5): Promise<Payload[]> {
     const childMods = await this.attachedModules(maxDepth)
+    //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
       childMods.map((mod) =>
         new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
@@ -134,12 +135,12 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [...(await super.discoverHandler(maxDepth)), ...childModAddresses]
   }
 
-  protected override async manifestHandler(maxDepth?: number, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
-    const manifest: NodeManifestPayload = { ...(await super.manifestHandler()), schema: NodeManifestPayloadSchema }
+  protected override async manifestHandler(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const manifest: NodeManifestPayload = { ...(await super.manifestHandler(maxDepth, ignoreAddresses)), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
     const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
-    const toManifest = (module: ModuleInstance) => module.manifest(maxDepth, newIgnoreAddresses)
+    const toManifest = (module: ModuleInstance) => module.manifest(maxDepth - 1, newIgnoreAddresses)
 
     /*const privateModules = await Promise.all((await this.privateResolver.resolve()).filter(notThisModule).map(toManifest))
     if (privateModules.length > 0) {
@@ -147,7 +148,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       manifest.modules.private = privateModules
     }*/
 
-    const publicModules = await Promise.all((await this.resolve('*', { direction: 'down', maxDepth })).filter(notThisModule).map(toManifest))
+    const publicModules = await Promise.all((await this.resolve('*')).filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

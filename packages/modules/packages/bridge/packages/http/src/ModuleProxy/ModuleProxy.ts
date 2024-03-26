@@ -1,4 +1,5 @@
 import { Axios, AxiosError } from '@xylabs/axios'
+import { toJsonString } from '@xylabs/object'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -11,13 +12,19 @@ export type HttpModuleProxyParams = ModuleProxyParams & {
   moduleUrl: string
 }
 
-export class HttpModuleProxy<TWrappedModule extends ModuleInstance = ModuleInstance>
-  extends AbstractModuleProxy<HttpModuleProxyParams, TWrappedModule>
-  implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
+export class HttpModuleProxy<
+    TWrappedModule extends ModuleInstance = ModuleInstance,
+    TParams extends Omit<HttpModuleProxyParams, 'config'> & { config: TWrappedModule['config'] } = Omit<HttpModuleProxyParams, 'config'> & {
+      config: TWrappedModule['config']
+    },
+  >
+  extends AbstractModuleProxy<TWrappedModule, TParams>
+  implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
+  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     try {
-      const { axios, moduleUrl, maxPayloadSizeWarning } = this.proxyParams
+      const { axios, moduleUrl, maxPayloadSizeWarning } = this.params
       const payloadSize = JSON.stringify([query, payloads]).length
       if (maxPayloadSizeWarning && payloadSize > maxPayloadSizeWarning) {
         this.logger?.warn(
@@ -35,13 +42,8 @@ export class HttpModuleProxy<TWrappedModule extends ModuleInstance = ModuleInsta
       return result.data?.data
     } catch (ex) {
       const error = ex as AxiosError
-      this.logger?.error(`Error Status: ${error.status}`)
-      this.logger?.error(`Error Cause: ${JSON.stringify(error.cause, null, 2)}`)
+      this.logger?.error(`Error: ${toJsonString(error)}`)
       throw error
     }
-  }
-
-  setConfig(config: TWrappedModule['params']['config']) {
-    this.params.config = config
   }
 }

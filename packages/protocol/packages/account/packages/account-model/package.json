@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.0.21",
+    "@xylabs/hex": "^3.0.24",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },
@@ -20,6 +20,14 @@
     "@xylabs/tsconfig": "^3.5.2",
     "ethers": "6.11.1",
     "typescript": "^5.4.3"
+  },
+  "peerDependencies": {
+    "ethers": "6.11.1"
+  },
+  "peerDependenciesMeta": {
+    "ethers": {
+      "optional": true
+    }
   },
   "exports": {
     ".": {
@@ -59,6 +67,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
+  "version": "2.93.0",
   "type": "module"
 }

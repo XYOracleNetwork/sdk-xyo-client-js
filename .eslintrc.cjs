@@ -20,6 +20,7 @@ const finalConfig = {
     ".*"
   ],
   "rules": {
+    "unicorn/no-static-only-class": ["off"],
     "import/no-cycle": ["warn"],
     "deprecation/deprecation": ["warn"],
     "import/no-default-export": ["off"],

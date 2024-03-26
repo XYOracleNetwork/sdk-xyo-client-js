@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
@@ -39,19 +41,22 @@ describe('HttpBridge', () => {
     const resolvedBridge = memNode.resolve(bridge.id)
     expect(resolvedBridge).toBeDefined()
 
-    const remoteNode = asNodeInstance(await bridge.resolve('XYOPublic'), 'Failed to resolve [XYOPublic]')
+    const rootModule = await bridge.resolve('XYOPublic')
+    expect(rootModule).toBeDefined()
 
-    await memNode.register(remoteNode)
-    await memNode.attach(remoteNode?.address, true)
+    const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
+
     const description = await remoteNode.describe()
     expect(description.children).toBeArray()
     expect(description.children?.length).toBeGreaterThan(0)
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const archivistByName = await bridge.resolve('Archivist')
-    expect(archivistByName).toBeDefined()
-    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
+    const archivistByName1 = await rootModule?.resolve('Archivist')
+    expect(archivistByName1).toBeDefined()
+    const archivistByName2 = await bridge.resolve('XYOPublic:Archivist')
+    expect(archivistByName2).toBeDefined()
+    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload as Payload
     expect(knownPayload).toBeDefined()
@@ -98,12 +103,21 @@ describe('HttpBridge', () => {
     //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
     //expect(archivistByAddress).toBeDefined()
 
-    // Fails to resolve
-    const [archivistByName] = await bridge.resolve({ name: ['Archivist'] })
-    expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await bridge.resolve({ name: ['PayloadStatsDiviner'] })
+    /*const mods = await bridge.resolve('*')
+    for (const mod of mods) {
+      console.log(`module [${mod.address}]: ${mod.config.name}`)
+    }*/
+
+    const node = await bridge.resolve('XYOPublic')
+
+    const archivistByName1 = await node?.resolve('Archivist')
+    expect(archivistByName1).toBeDefined()
+
+    const [archivistByName2] = (await node?.resolve({ name: ['Archivist'] })) ?? []
+    expect(archivistByName2).toBeDefined()
+    const [payloadStatsDivinerByName] = (await node?.resolve({ name: ['PayloadStatsDiviner'] })) ?? []
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await bridge.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = (await node?.resolve({ name: ['BoundWitnessStatsDiviner'] })) ?? []
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

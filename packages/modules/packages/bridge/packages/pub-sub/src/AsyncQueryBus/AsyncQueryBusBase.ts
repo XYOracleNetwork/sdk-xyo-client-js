@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
-import { Base } from '@xylabs/object'
+import { Base, toJsonString } from '@xylabs/object'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
@@ -41,10 +41,14 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   async queriesArchivist() {
-    return assertEx(
-      asArchivistInstance(await this.resolver.resolve(this.config?.intersect?.queries?.archivist)),
-      () => `Unable to resolve queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    const resolved = await this.resolver.resolve(this.config?.intersect?.queries?.archivist, { direction: 'up' })
+    const existingResolved = assertEx(resolved, () => `Unable to resolve queriesArchivist [${this.config?.intersect?.queries?.archivist}]`)
+    const result = asArchivistInstance(
+      existingResolved,
+      () =>
+        `Unable to resolve queriesArchivist as correct type [${this.config?.intersect?.queries?.archivist}][${existingResolved?.constructor?.name}]: ${toJsonString(existingResolved)}`,
     )
+    return result
   }
 
   async queriesDiviner() {

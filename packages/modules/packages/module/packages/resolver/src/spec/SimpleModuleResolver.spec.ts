@@ -1,4 +1,4 @@
-import { ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleInstance, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { SimpleModuleResolver } from '../SimpleModuleResolver'
@@ -19,10 +19,14 @@ describe('SimpleModuleResolver', () => {
       moduleA = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
         config: { name: moduleAName, schema: ModuleConfigSchema },
+        queries: [ModuleStateQuerySchema],
+        query: jest.fn(),
       })
       moduleB = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
         config: { name: moduleBName, schema: ModuleConfigSchema },
+        queries: [ModuleStateQuerySchema],
+        query: jest.fn(),
       })
       sut = new SimpleModuleResolver()
       sut.add(moduleA)

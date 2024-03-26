@@ -122,7 +122,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get config() {
-    return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
+    return this.module.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
   get downResolver(): ModuleResolverInstance {
@@ -328,16 +328,33 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  resolve(): Promisable<ModuleInstance[]>
-  resolve(all: '*', options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(filter: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(id: ModuleIdentifier, options?: ModuleFilterOptions<ModuleInstance> | undefined): Promisable<ModuleInstance>
+  async resolve<T extends ModuleInstance = ModuleInstance>(): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    options?: ModuleFilterOptions<T> | undefined,
+  ): Promise<ModuleInstance>
   /** @deprecated use '*' if trying to resolve all */
-  resolve(filter?: ModuleFilter | undefined, options?: ModuleFilterOptions<ModuleInstance>): Promisable<ModuleInstance[]>
-  resolve(
-    idOrFilter: ModuleIdentifier | ModuleFilter = '*',
-    _options?: unknown,
-  ): Promisable<ModuleInstance | ModuleInstance[] | undefined> | undefined {
+  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T> | undefined, options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleIdentifier | ModuleFilter<T> = '*',
+    options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    const instance = asModuleInstance(this.module)
+    if (instance?.['resolve']) {
+      if (idOrFilter === '*') {
+        return await instance.resolve<T>('*', options)
+      }
+      switch (typeof idOrFilter) {
+        case 'string': {
+          return await instance.resolve<T>(idOrFilter, options)
+        }
+        default: {
+          return await instance.resolve<T>(idOrFilter, options)
+        }
+      }
+    }
     return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
   }
 
@@ -365,7 +382,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     payloads?: Payload[],
     account: AccountInstance | undefined = this.account,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
-    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).query(query)
+    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
@@ -383,7 +400,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     const query = await this.bindQuery(queryPayload, payloads)
 
     // Send them off
-    const [, resultPayloads, errors] = await this.module.query(query[0], query[1])
+    const queryResults = await this.module.query(query[0], query[1])
+    const [, resultPayloads, errors] = queryResults
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
 

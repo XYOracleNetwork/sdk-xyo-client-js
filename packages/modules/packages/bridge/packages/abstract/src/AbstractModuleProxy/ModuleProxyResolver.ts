@@ -1,4 +1,7 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { Address } from '@xylabs/hex'
+import { Account } from '@xyo-network/account'
 import {
   isAddressModuleFilter,
   isNameModuleFilter,
@@ -6,16 +9,26 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleName,
   ModuleResolver,
   ModuleResolverInstance,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+
+import { wrapModuleWithType } from '../wrapModuleWithType'
 
 export interface ModuleProxyResolverOptions {
+  childAddressMap: Record<Address, ModuleName | null>
   host: ModuleResolver
+  module: ModuleInstance
 }
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
-  constructor(protected options: T) {}
+  private downResolver = new CompositeModuleResolver()
+
+  constructor(protected options: T) {
+    this.downResolver.add(options.module)
+  }
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')
@@ -38,29 +51,41 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   ): Promise<T | T[] | undefined> {
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
-      const downModules = direction === 'down' || direction === 'all' ? await this.options.host.resolve('*', { ...options, direction: 'down' }) : []
-      const upModules = direction === 'up' || direction === 'all' ? await this.options.host.resolve('*', { ...options, direction: 'down' }) : []
-      //for '*', we never create a proxy
-      return [...downModules, ...upModules]
+      //get all the child addresses.  if they have been resolved before, they should be in downResolver
+      const childAddresses = Object.keys(this.options.childAddressMap)
+      const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>((address) => this.resolve<T>(address, options)))
+      return resolvedChildren.filter(exists)
     } else if (typeof idOrFilter === 'string') {
-      //check down
-      let module =
-        direction === 'down' || direction === 'all' ? await this.options.host.resolve(idOrFilter, { ...options, direction: 'down' }) : undefined
-      //if not found, check up
-      if (!module) {
-        module =
-          direction === 'up' || direction === 'all' ? await this.options.host.resolve(idOrFilter, { ...options, direction: 'down' }) : undefined
+      const idParts = idOrFilter.split(':')
+      const firstPart: ModuleIdentifier = assertEx(idParts.shift(), () => 'Invalid module identifier at first position')
+      const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
+      if (direction === 'down' || direction === 'all') {
+        const downResolverModule = await this.downResolver.resolve<T>(firstPart)
+        if (downResolverModule) {
+          return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
+        }
+        //if it is a known child, create a proxy
+        const addressToProxy =
+          Object.keys(this.options.childAddressMap).includes(firstPart as Address) ?
+            (firstPart as Address)
+          : (Object.entries(this.options.childAddressMap).find(([_, value]) => value === firstPart)?.[0] as Address | undefined)
+        if (addressToProxy) {
+          const proxy = await this.options.host.resolve(addressToProxy, { ...options, direction: 'down' })
+          if (proxy) {
+            const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+            this.downResolver.add(wrapped)
+            return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+          }
+          return
+        }
+      } else {
+        return
       }
-      //if not found, create proxy
-      if (!module) {
-        module =
-          direction === 'down' || direction === 'all' ? await this.options.host.resolve(idOrFilter, { ...options, direction: 'down' }) : undefined
-      }
-      return module
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
-        return (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        const results = (await Promise.all(filter.address.map((item) => this.resolve(item, options)))).filter(exists)
+        return results
       } else if (isNameModuleFilter(filter)) {
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }

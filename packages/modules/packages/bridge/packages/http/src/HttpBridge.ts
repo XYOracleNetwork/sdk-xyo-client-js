@@ -15,7 +15,7 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { isNodeInstance } from '@xyo-network/node-model'
+import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -36,15 +36,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._axios
   }
 
-  get legacyMode() {
-    // eslint-disable-next-line deprecation/deprecation
-    const result = !!this.config.legacyMode
-    if (result) {
-      console.warn(`Running in legacy bridge mode [${this.config.name ?? this.address}]`)
-    }
-    return result
-  }
-
   get nodeUrl() {
     return assertEx(this.config.nodeUrl, () => 'No Url Set')
   }
@@ -54,7 +45,24 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._resolver
   }
 
-  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<Lowercase<string>[]> {
+  override async discoverRoots(): Promise<ModuleInstance[]> {
+    const state = await this.getRootState()
+    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+    if (nodeManifest) {
+      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
+      for (const mod of modules) {
+        this.downResolver.add(mod)
+      }
+      return modules
+    }
+    return []
+  }
+
+  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
+    throw new Error('Unsupported')
+  }
+
+  override exposedHandler(): Promisable<Address[]> {
     throw new Error('Unsupported')
   }
 
@@ -62,15 +70,17 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return new URL(address, this.nodeUrl)
   }
 
-  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<Lowercase<string>[]> {
-    throw new Error('Unsupported')
-  }
-
-  protected override async startHandler(): Promise<boolean> {
-    if (this.legacyMode) {
-      await this.legacyDiscover()
+  override async startHandler(): Promise<boolean> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, deprecation/deprecation
+    const { discoverRoot = true, legacyMode } = this.config
+    if (discoverRoot || legacyMode) {
+      await this.discoverRoots()
     }
     return true
+  }
+
+  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
+    throw new Error('Unsupported')
   }
 
   private async getRootState() {
@@ -92,37 +102,14 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     }
   }
 
-  private async legacyDiscover() {
-    const state = await this.getRootState()
-    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-    if (nodeManifest) {
-      const modules = await this.legacyResolveNode(nodeManifest)
-      for (const mod of modules) {
-        this.downResolver.add(mod)
-      }
-      return modules
-    }
-    return []
-  }
-
-  private async legacyResolveNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
-    const children: ModuleInstance[] = (
-      await Promise.all(
-        (nodeManifest.modules?.public ?? []).map((childManifest) =>
-          this.resolve(assertEx(childManifest.status?.address, () => 'Child has no address')),
-        ),
-      )
-    ).filter(exists)
-    const childNodes = children.filter((mod) => isNodeInstance(mod))
-    const grandChildren = (
-      await Promise.all(
-        childNodes.map(async (node) => {
-          const state = await node.state()
-          const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-          return nodeManifest ? await this.legacyResolveNode(nodeManifest) : []
-        }),
-      )
-    ).flat()
-    return [...children, ...grandChildren]
+  private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
+    const rootModule = assertEx(
+      await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
+      () => `Root not found [${nodeManifest.status?.address}]`,
+    )
+    const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
+    this.logger.debug(`rootNode: ${rootNode.config.name}`)
+    this.downResolver.add(rootNode)
+    return [rootNode]
   }
 }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
-import { Base, BaseParams } from '@xylabs/object'
+import { BaseParams } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import {
   CacheConfig,
@@ -16,6 +16,7 @@ import {
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
+import { AbstractModuleResolver } from './AbstractModuleResolver'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 import { ModuleIdentifierTransformer } from './transformers'
 
@@ -30,10 +31,10 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
 }
 
-export class CompositeModuleResolver extends Base<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
+export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
   static defaultMaxDepth = 5
+  protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
-  private _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   private _localResolver: SimpleModuleResolver
 
   constructor({ cache, ...params }: ModuleResolverParams = {}) {
@@ -78,14 +79,8 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
     this.resolvers = this.resolvers.filter((item) => item !== resolver)
     return this
   }
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  async resolve(): Promise<ModuleInstance[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(
+
+  async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
@@ -166,7 +161,7 @@ export class CompositeModuleResolver extends Base<ModuleResolverParams> implemen
     const idParts = moduleIdentifierParts(moduleIdentifier)
     assertEx(idParts.length >= 2, () => 'Not a valid multipart identifier')
     const id = assertEx(idParts.shift())
-    const module = await this.resolve(id)
+    const module = await this.resolve<T>(id)
     return await module?.resolve<T>(idParts.join(':'))
   }
 

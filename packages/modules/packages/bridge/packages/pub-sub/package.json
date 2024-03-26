@@ -10,19 +10,21 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.0.21",
-    "@xylabs/assert": "^3.0.21",
-    "@xylabs/delay": "^3.0.21",
-    "@xylabs/forget": "^3.0.21",
-    "@xylabs/hex": "^3.0.21",
-    "@xylabs/object": "^3.0.21",
-    "@xylabs/promise": "^3.0.21",
-    "@xylabs/timer": "^3.0.21",
+    "@xylabs/array": "^3.0.24",
+    "@xylabs/assert": "^3.0.24",
+    "@xylabs/delay": "^3.0.24",
+    "@xylabs/exists": "^3.0.24",
+    "@xylabs/forget": "^3.0.24",
+    "@xylabs/hex": "^3.0.24",
+    "@xylabs/object": "^3.0.24",
+    "@xylabs/promise": "^3.0.24",
+    "@xylabs/timer": "^3.0.24",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
+    "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -31,13 +33,14 @@
     "lru-cache": "^10.2.0"
   },
   "devDependencies": {
+    "@xylabs/logger": "^3.0.24",
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
     "@xyo-network/archivist-memory": "workspace:~",
-    "@xyo-network/archivist-wrapper": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-wrapper": "workspace:~",
     "typescript": "^5.4.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -79,6 +82,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.92.11",
+  "version": "2.93.0",
   "type": "module"
 }

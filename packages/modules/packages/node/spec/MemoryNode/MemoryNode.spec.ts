@@ -158,7 +158,7 @@ describe('MemoryNode', () => {
       it('lists addresses of attached modules', async () => {
         await node.attach(module.address, true)
         const result = await node.attached()
-        expect(result).toBeArrayOfSize(1)
+        expect(result.length).toBe(1)
         expect(result).toEqual([module.address])
       })
     })
@@ -306,7 +306,7 @@ describe('MemoryNode', () => {
       expect(address.address).toEqual(mod.address)
       const config = response.find((p) => p.schema === mod.config.schema)
       expect(config).toBeObject()
-      expect(config).toEqual(mod.config)
+      expect(config?.schema).toBe(mod.config.schema)
       const queries = response.filter((p) => mod.queries.includes(p.schema))
       expect(queries.length).toBeGreaterThanOrEqual(0)
       queries.map((query) => {

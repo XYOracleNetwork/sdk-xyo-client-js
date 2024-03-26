@@ -1,8 +1,9 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleFilterOptions, ModuleIdentifier } from '@xyo-network/module-model'
+import { creatableModule, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -26,14 +27,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _busHost?: AsyncQueryBusHost
   private _resolver?: PubSubBridgeModuleResolver
 
-  override get resolver() {
+  override get resolver(): ModuleResolverInstance {
     this._resolver =
       this._resolver ??
       new PubSubBridgeModuleResolver({
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
-        downResolver: this.downResolver,
-        upResolver: this.upResolver,
         wrapperAccount: this.account,
       })
     return this._resolver
@@ -43,24 +42,56 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return `${this.config.name ?? moduleName}`
   }
 
-  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<Address[]> {
-    const filterOptions: ModuleFilterOptions = { direction: options?.direction }
-    const module = await super.resolve(id, filterOptions)
+  protected get roots() {
+    return assertEx(this.config.roots, () => 'roots not configured')
+  }
+
+  override async discoverRoots(): Promise<ModuleInstance[]> {
+    const rootInstances = (await Promise.all(this.roots.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
+    for (const instance of rootInstances) {
+      this.downResolver.add(instance)
+    }
+    return rootInstances
+  }
+
+  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 5, direction } = options ?? {}
+    const filterOptions: ModuleFilterOptions = { direction }
+    const module = assertEx(await super.resolve(id, filterOptions), () => `Expose failed to locate module [${id}]`)
     if (module) {
       const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.expose(module.address)
-      return [module.address]
+      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
+      for (const child of children) {
+        host.expose(child.address)
+      }
+      return [module, ...children]
     }
     return []
   }
 
-  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<Address[]> {
-    const filterOptions: ModuleFilterOptions = { direction: options?.direction }
+  exposedHandler(): Address[] {
+    const exposedSet = this.busHost()?.exposedAddresses
+    return exposedSet ? [...exposedSet] : []
+  }
+
+  override async startHandler(): Promise<boolean> {
+    this.busHost()?.start()
+    return await super.startHandler()
+  }
+
+  async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 1, direction } = options ?? {}
+    const filterOptions: ModuleFilterOptions = { direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {
       const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.unexpose(module.address)
-      return [module.address]
+      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
+      for (const child of children) {
+        host.unexpose(child.address)
+      }
+      return [module, ...children]
     }
     return []
   }
@@ -85,11 +116,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       })
     }
     return this._busHost
-  }
-
-  protected override startHandler(): Promise<boolean> {
-    this.busHost()?.start()
-    return Promise.resolve(true)
   }
 
   protected override stopHandler(_timeout?: number | undefined) {

@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/archivist/packages/view/src/spec/ViewArchivist.spec.ts"
+        "packages/modules/packages/bridge/packages/http/src/spec/HttpBridge.legacy.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

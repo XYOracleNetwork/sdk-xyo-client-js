@@ -21,10 +21,6 @@ describe('HttpBridge', () => {
     expect(httpBridge.axios).toBeDefined()
   })
 
-  it('should have legacyMode as false', () => {
-    expect(httpBridge.legacyMode).toBe(false)
-  })
-
   it('should have nodeUrl defined', () => {
     expect(httpBridge.nodeUrl).toBe('http://localhost:8080')
   })

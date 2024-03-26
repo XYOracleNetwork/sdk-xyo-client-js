@@ -10,12 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@scure/bip39": "^1.2.2",
-    "@xylabs/assert": "^3.0.21",
-    "@xylabs/hex": "^3.0.21",
-    "@xylabs/logger": "^3.0.21",
-    "@xylabs/object": "^3.0.21",
-    "@xylabs/promise": "^3.0.21",
+    "@scure/bip39": "^1.3.0",
+    "@xylabs/assert": "^3.0.24",
+    "@xylabs/hex": "^3.0.24",
+    "@xylabs/logger": "^3.0.24",
+    "@xylabs/object": "^3.0.24",
+    "@xylabs/promise": "^3.0.24",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -64,6 +64,6 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.92.11",
+  "version": "2.93.0",
   "type": "module"
 }

@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 import { BridgeConfig } from '@xyo-network/bridge-model'
 
@@ -14,6 +15,7 @@ export type PubSubBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchem
   {
     client?: AsyncQueryBusClientConfig
     host?: AsyncQueryBusHostConfig
+    roots?: Address[]
   } & TConfig,
   TSchema extends string ? TSchema : PubSubBridgeConfigSchema
 >

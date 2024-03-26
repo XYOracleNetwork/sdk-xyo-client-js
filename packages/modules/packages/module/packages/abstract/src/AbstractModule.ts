@@ -20,10 +20,10 @@ import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  ArchivingModuleConfig,
   CreatableModule,
   CreatableModuleFactory,
   DeadModuleError,
-  duplicateModules,
   isModuleName,
   Module,
   ModuleAddressQuerySchema,
@@ -35,11 +35,9 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleFactory,
-  ModuleFilter,
-  ModuleFilterOptions,
-  ModuleIdentifier,
   ModuleInstance,
   ModuleManifestQuerySchema,
+  ModuleName,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
@@ -67,7 +65,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 {
   static readonly allowRandomAccount: boolean = true
   static configSchemas: string[]
-  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.log)
+  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()
@@ -127,6 +125,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   get allowAnonymous() {
     return !!this.config.security?.allowAnonymous
+  }
+
+  get archiving(): ArchivingModuleConfig['archiving'] | undefined {
+    return this.config.archiving
   }
 
   get config(): TParams['config'] {
@@ -356,58 +358,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return validators.every((validator) => validator(query, payloads))
   }
 
-  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
-  async resolve(): Promise<ModuleInstance[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
-  /** @deprecated use '*' if trying to resolve all */
-  async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  async resolve<T extends ModuleInstance = ModuleInstance>(
-    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { required = 'log', ...options }: ModuleFilterOptions<T> = {},
-  ): Promise<T | T[] | undefined> {
-    const childOptions = { ...options, required: false }
-    const direction = options?.direction ?? 'all'
-    const up = direction === 'up' || direction === 'all'
-    const down = direction === 'down' || direction === 'all'
-    let result: T | T[] | undefined
-    if (idOrFilter === '*') {
-      if (this.dead) {
-        return []
-      }
-      return [
-        ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
-        ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>('*', childOptions) : []),
-      ].filter(duplicateModules)
-    } else {
-      switch (typeof idOrFilter) {
-        case 'string': {
-          if (this.dead) {
-            return undefined
-          }
-          result =
-            (down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
-            (up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
-          break
-        }
-        default: {
-          if (this.dead) {
-            return []
-          }
-          const filter: ModuleFilter<T> | undefined = idOrFilter
-          result = [
-            ...(down ? await (this.downResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-            ...(up ? await (this.upResolver as CompositeModuleResolver).resolve<T>(filter, childOptions) : []),
-          ].filter(duplicateModules)
-          break
-        }
-      }
-    }
-    this.validateRequiredResolve(required, result, idOrFilter)
-    return result
-  }
-
   start(_timeout?: number): Promisable<boolean> {
     //using promise as mutex
     this._startPromise = this._startPromise ?? this.startHandler()
@@ -544,7 +494,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),
       await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
     ]
-    if (this.config.archiving) {
+    if (this.archiving) {
       await this.storeToArchivists(result.flat())
     }
     return result
@@ -573,7 +523,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async discoverHandler(_maxDepth?: number): Promise<Payload[]> {
-    const config = this.config
+    const config = await PayloadBuilder.build(this.config)
     const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({ address: this.address, name: this.config?.name })
       .build()
@@ -582,10 +532,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
       }),
     )
-    const configSchema: ConfigPayload = {
+    const configSchema = await PayloadBuilder.build<ConfigPayload>({
       config: config.schema,
       schema: ConfigSchema,
-    }
+    })
     return compact([config, configSchema, address, ...queries])
   }
 
@@ -615,9 +565,20 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected manifestHandler(_depth?: number, _ignoreAddresses?: Address[]): Promisable<ModuleManifestPayload> {
+  protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    return { config: { name, ...this.config }, schema: ModuleManifestPayloadSchema, status: { address: this.address } }
+    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
+    const childAddressToName: Record<Address, ModuleName | null> = {}
+    for (const child of children) {
+      if (child.address !== this.address) {
+        childAddressToName[child.address] = child.config.name ?? null
+      }
+    }
+    return {
+      config: { name, ...this.config },
+      schema: ModuleManifestPayloadSchema,
+      status: { address: this.address, children: childAddressToName },
+    }
   }
 
   protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {
@@ -686,13 +647,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return resultPayloads
   }
 
-  protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
-    const archivists = this.config.archiving?.archivists
-    if (!archivists) return []
-    const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
-    return compact(resolved.map((mod) => asArchivistInstance(mod)))
-  }
-
   protected async startHandler(): Promise<boolean> {
     this.validateConfig()
     await this.initializeQueryAccounts()
@@ -707,17 +661,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected stopHandler(_timeout?: number): Promisable<boolean> {
     this._started = undefined
     return true
-  }
-
-  protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {
-    const archivists = await this.resolveArchivingArchivists()
-    return (
-      await Promise.all(
-        archivists.map((archivist) => {
-          return archivist.insert?.(payloads)
-        }),
-      )
-    ).map(([bw]) => bw)
   }
 
   protected subscribeHandler() {
@@ -755,26 +698,5 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }, true)
   }
 
-  private validateRequiredResolve(
-    required: boolean | 'warn' | 'log',
-    result: ModuleInstance[] | ModuleInstance | undefined,
-    idOrFilter: ModuleIdentifier | ModuleFilter,
-  ) {
-    if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
-      switch (required) {
-        case 'warn': {
-          this.logger.warn('resolve failed', idOrFilter)
-          break
-        }
-        case 'log': {
-          this.logger.log('resolve failed', idOrFilter)
-          break
-        }
-        default: {
-          this.logger.error('resolve failed', idOrFilter)
-          break
-        }
-      }
-    }
-  }
+  protected abstract storeToArchivists(payloads: Payload[]): Promise<Payload[]>
 }

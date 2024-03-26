@@ -1,4 +1,4 @@
-import { ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleInstance, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { CompositeModuleResolver } from '../CompositeModuleResolver'
@@ -24,14 +24,20 @@ describe('CompositeModuleResolver', () => {
       moduleA = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
         config: { name: moduleAName, schema: ModuleConfigSchema },
+        queries: [ModuleStateQuerySchema],
+        query: jest.fn(),
       })
       moduleB = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
         config: { name: moduleBName, schema: ModuleConfigSchema },
+        queries: [ModuleStateQuerySchema],
+        query: jest.fn(),
       })
       moduleC = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c',
         config: { name: moduleCName, schema: ModuleConfigSchema },
+        queries: [ModuleStateQuerySchema],
+        query: jest.fn(),
       })
       resolverA = new CompositeModuleResolver()
       resolverA.add(moduleA)
@@ -46,7 +52,12 @@ describe('CompositeModuleResolver', () => {
       it('adds module to resolvers', async () => {
         const address = 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381d'
         const name = 'mod'
-        const mod = mock<ModuleInstance>({ address, config: { name, schema: ModuleConfigSchema } })
+        const mod = mock<ModuleInstance>({
+          address,
+          config: { name, schema: ModuleConfigSchema },
+          queries: [ModuleStateQuerySchema],
+          query: jest.fn(),
+        })
         expect(sut.add(mod)).toEqual(sut)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)

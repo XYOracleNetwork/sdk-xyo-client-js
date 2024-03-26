@@ -66,6 +66,8 @@ export class HttpBridgeModuleResolver<
 
     await proxy.start()
 
+    this._cache.set(id, proxy)
+
     if (remainderParts.length > 0) {
       const result = await proxy.resolve<T>(remainderParts, options)
       return result

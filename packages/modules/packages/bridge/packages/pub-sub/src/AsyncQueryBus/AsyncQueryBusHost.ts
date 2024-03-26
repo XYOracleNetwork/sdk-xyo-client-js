@@ -183,7 +183,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       localModules.map(async (localModule) => {
         try {
           const localModuleName = localModule.config.name ?? localModule.address
-          this.logger?.debug(`Checking for inbound queries to ${localModuleName}`)
+          this.logger?.debug(`Checking for inbound queries to ${localModuleName} [${localModule.address}]`)
           const queries = await this.findQueriesToAddress(localModule.address)
           if (queries.length === 0) return
           this.logger?.debug(`Found queries addressed to local module: ${localModuleName}`)

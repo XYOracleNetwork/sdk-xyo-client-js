@@ -2,7 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
-import { ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
 
@@ -31,7 +32,18 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       host: this.options.bridge,
       moduleAddress: firstPart as Address,
     }
-    const proxy = new AsyncQueryBusModuleProxy<T>(params) as unknown as T
+    const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(params)
+    if (proxy) {
+      const state = await proxy.state()
+      if (state) {
+        const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+        const config = assertEx(
+          state.find((payload) => payload.schema === configSchema),
+          () => 'Unable to locate config',
+        ) as ModuleConfig
+        proxy.setConfig(config)
+      }
+    }
     await proxy.start?.()
     const wrappedProxy = wrapModuleWithType(proxy, account) as unknown as T
     this.add(wrappedProxy)

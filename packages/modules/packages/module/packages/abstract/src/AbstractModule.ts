@@ -65,7 +65,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 {
   static readonly allowRandomAccount: boolean = true
   static configSchemas: string[]
-  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.log)
+  static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
 
   protected static privateConstructorKey = Date.now().toString()

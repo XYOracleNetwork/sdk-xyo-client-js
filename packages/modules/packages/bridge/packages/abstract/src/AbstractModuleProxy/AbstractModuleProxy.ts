@@ -67,6 +67,10 @@ export abstract class AbstractModuleProxy<
     super(AbstractModuleProxy.privateConstructorKey, params, params.account)
   }
 
+  override get address() {
+    return this.params.moduleAddress
+  }
+
   override get archiving(): ArchivingModuleConfig['archiving'] | undefined {
     return
   }

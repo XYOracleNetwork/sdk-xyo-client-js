@@ -50,7 +50,9 @@ export class ResolveHelper {
       if (maxDepth === 0) {
         return modules
       }
-      const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*')))).flat().filter(duplicateModules)
+      const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*', childOptions))))
+        .flat()
+        .filter(duplicateModules)
       return [...modules, ...childModules].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {

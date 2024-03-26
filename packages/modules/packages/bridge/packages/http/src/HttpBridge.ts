@@ -46,6 +46,19 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._resolver
   }
 
+  override async discoverRoots(): Promise<ModuleInstance[]> {
+    const state = await this.getRootState()
+    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+    if (nodeManifest) {
+      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
+      for (const mod of modules) {
+        this.downResolver.add(mod)
+      }
+      return modules
+    }
+    return []
+  }
+
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
@@ -65,19 +78,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
-  }
-
-  protected override async discoverRoots(): Promise<ModuleInstance[]> {
-    const state = await this.getRootState()
-    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-    if (nodeManifest) {
-      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
-      for (const mod of modules) {
-        this.downResolver.add(mod)
-      }
-      return modules
-    }
-    return []
   }
 
   private childAddressMap(manifest: NodeManifestPayload): Record<Address, ModuleName | null> {

@@ -57,6 +57,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     throw new Error('Unsupported')
   }
 
+  discoverRoots(): Promisable<ModuleInstance[]> {
+    return []
+  }
+
   async expose(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('expose')
     assertEx(id !== '*', () => "Exposing '*' not supported")
@@ -66,7 +70,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   override async startHandler() {
-    await this.discoverRoots()
+    //await this.discoverRoots()
     return await super.startHandler()
   }
 
@@ -75,10 +79,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const modules = this.unexposeHandler(id, options)
     await this.emit('unexposed', { module: this, modules })
     return modules
-  }
-
-  protected discoverRoots(): Promisable<ModuleInstance[]> {
-    return []
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness>(

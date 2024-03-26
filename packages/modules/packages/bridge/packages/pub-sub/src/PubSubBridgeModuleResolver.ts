@@ -34,7 +34,6 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     await proxy.start?.()
     const wrappedProxy = wrapModuleWithType(proxy, account) as unknown as T
     this.add(wrappedProxy)
-    console.log('ding!')
     return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : wrappedProxy
   }
 }

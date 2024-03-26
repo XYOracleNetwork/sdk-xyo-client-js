@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { creatableModule, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -27,7 +27,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _busHost?: AsyncQueryBusHost
   private _resolver?: PubSubBridgeModuleResolver
 
-  override get resolver() {
+  override get resolver(): ModuleResolverInstance {
     this._resolver =
       this._resolver ??
       new PubSubBridgeModuleResolver({
@@ -44,6 +44,14 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   protected get roots() {
     return assertEx(this.config.roots, () => 'roots not configured')
+  }
+
+  override async discoverRoots(): Promise<ModuleInstance[]> {
+    const rootInstances = (await Promise.all(this.roots.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
+    for (const instance of rootInstances) {
+      this.downResolver.add(instance)
+    }
+    return rootInstances
   }
 
   async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -88,7 +96,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busClient = new AsyncQueryBusClient({
         config: this.config.client,
         logger: this.logger,
-        resolver: this.upResolver,
+        resolver: this,
       })
     }
     return this._busClient
@@ -99,18 +107,10 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
-        resolver: this.upResolver,
+        resolver: this,
       })
     }
     return this._busHost
-  }
-
-  protected override async discoverRoots(): Promise<ModuleInstance[]> {
-    const rootInstances = (await Promise.all(this.roots.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
-    for (const instance of rootInstances) {
-      this.downResolver.add(instance)
-    }
-    return rootInstances
   }
 
   protected override stopHandler(_timeout?: number | undefined) {

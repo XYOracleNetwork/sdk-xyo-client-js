@@ -27,10 +27,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
-  discover(): Promise<Payload[]> {
+  discover(maxDepth = 5): Promise<Payload[]> {
     this._checkDead()
     return this.busy(async () => {
-      return await this.discoverHandler()
+      return await this.discoverHandler(maxDepth)
     })
   }
 

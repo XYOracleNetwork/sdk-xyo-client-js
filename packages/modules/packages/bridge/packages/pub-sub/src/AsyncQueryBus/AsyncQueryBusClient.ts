@@ -45,13 +45,13 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
   }
 
   async send(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
-    console.log('send')
+    //console.log('send')
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
-    console.log('queryArchivist - calling')
+    //console.log('queryArchivist - calling')
     const queryArchivist = await this.queriesArchivist()
-    console.log('queryArchivist')
+    //console.log('queryArchivist')
 
     // TODO: Should we always re-hash to true up timestamps?  We can't
     // re-sign correctly so we would lose that information if we did and
@@ -79,7 +79,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           let response = this.queryCache.get(routedQueryHash)
           // Poll for response until cache key expires (response timed out)
           while (response !== undefined) {
-            console.log('polling...')
+            //console.log('polling...')
             // Wait a bit
             await delay(100)
             // Check the status of the response

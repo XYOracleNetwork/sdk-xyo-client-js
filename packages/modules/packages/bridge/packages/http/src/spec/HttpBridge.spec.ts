@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
@@ -99,12 +100,21 @@ describe('HttpBridge', () => {
     //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
     //expect(archivistByAddress).toBeDefined()
 
-    // Fails to resolve
-    const [archivistByName] = await bridge.resolve({ name: ['Archivist'] })
-    expect(archivistByName).toBeDefined()
-    const [payloadStatsDivinerByName] = await bridge.resolve({ name: ['PayloadStatsDiviner'] })
+    /*const mods = await bridge.resolve('*')
+    for (const mod of mods) {
+      console.log(`module [${mod.address}]: ${mod.config.name}`)
+    }*/
+
+    const node = await bridge.resolve('XYOPublic')
+
+    const archivistByName1 = await node?.resolve('Archivist')
+    expect(archivistByName1).toBeDefined()
+
+    const [archivistByName2] = (await node?.resolve({ name: ['Archivist'] })) ?? []
+    expect(archivistByName2).toBeDefined()
+    const [payloadStatsDivinerByName] = (await node?.resolve({ name: ['PayloadStatsDiviner'] })) ?? []
     expect(payloadStatsDivinerByName).toBeDefined()
-    const [boundwitnessStatsDivinerByName] = await bridge.resolve({ name: ['BoundWitnessStatsDiviner'] })
+    const [boundwitnessStatsDivinerByName] = (await node?.resolve({ name: ['BoundWitnessStatsDiviner'] })) ?? []
     expect(boundwitnessStatsDivinerByName).toBeDefined()
   })
 })

@@ -189,7 +189,7 @@ describe('PubSubBridge', () => {
               },
               stateStore,
             },
-            roots: [node.address],
+            roots: [client.module.address, client.subNode.address],
             schema: PubSubBridge.configSchema,
           },
           logger,
@@ -203,6 +203,7 @@ describe('PubSubBridge', () => {
         clientsWithBridges.push({ ...client, pubSubBridge } as any)
         await node.register(intermediateNode.node)
         await node.attach(intermediateNode.node.address, false)
+        await pubSubBridge.discoverRoots()
       }),
     )
   })

@@ -12,7 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
-    "json-joy": "^11.40.0",
+    "json-joy": "^11.41.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

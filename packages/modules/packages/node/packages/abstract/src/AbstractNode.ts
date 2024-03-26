@@ -1,6 +1,5 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'

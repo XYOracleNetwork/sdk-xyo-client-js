@@ -1,4 +1,3 @@
-import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'

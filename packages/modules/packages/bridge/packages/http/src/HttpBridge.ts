@@ -11,7 +11,6 @@ import {
   AnyConfigSchema,
   creatableModule,
   ModuleInstance,
-  ModuleName,
   ModuleQueryResult,
   ModuleStateQuery,
   ModuleStateQuerySchema,
@@ -72,7 +71,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   override async startHandler(): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, deprecation/deprecation
     const { discoverRoot = true, legacyMode } = this.config
     if (discoverRoot || legacyMode) {
       await this.discoverRoots()

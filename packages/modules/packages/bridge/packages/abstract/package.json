@@ -14,7 +14,6 @@
     "@xylabs/exists": "^3.0.24",
     "@xylabs/hex": "^3.0.24",
     "@xylabs/lodash": "^3.0.24",
-    "@xylabs/object": "^3.0.24",
     "@xylabs/promise": "^3.0.24",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",

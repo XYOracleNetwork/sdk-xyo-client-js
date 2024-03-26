@@ -1,5 +1,5 @@
 /* eslint-disable max-statements */
-import { toJsonString } from '@xylabs/object'
+
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'

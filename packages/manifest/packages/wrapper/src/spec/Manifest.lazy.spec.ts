@@ -1,4 +1,3 @@
-import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
@@ -22,7 +21,7 @@ describe('Manifest', () => {
       const roundTrip = (await node.manifest()) as NodeManifest
       //console.log(`roundTrip: ${toJsonString(roundTrip)}`)
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public?.length).toBe(4)
+      expect(roundTrip.modules?.public?.length).toBe(3)
     })
   })
 })

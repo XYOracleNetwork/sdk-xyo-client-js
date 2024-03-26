@@ -1,4 +1,5 @@
 /* eslint-disable max-statements */
+import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
@@ -51,9 +52,11 @@ describe('HttpBridge', () => {
     expect(description.queries).toBeArray()
     expect(description.queries?.length).toBeGreaterThan(0)
 
-    const archivistByName = await bridge.resolve('XYOPublic:Archivist')
-    expect(archivistByName).toBeDefined()
-    const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
+    const archivistByName1 = await rootModule?.resolve('Archivist')
+    expect(archivistByName1).toBeDefined()
+    const archivistByName2 = await bridge.resolve('XYOPublic:Archivist')
+    expect(archivistByName2).toBeDefined()
+    const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
     const knownPayload = PayloadWrapper.parse({ schema: 'network.xyo.test' })?.payload as Payload
     expect(knownPayload).toBeDefined()

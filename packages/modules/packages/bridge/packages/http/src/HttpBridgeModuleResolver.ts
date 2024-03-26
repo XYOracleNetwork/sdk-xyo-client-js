@@ -3,9 +3,8 @@ import { AxiosJson } from '@xylabs/axios'
 import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
-import { ModuleManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { asModuleInstance, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
+import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
 
@@ -39,23 +38,30 @@ export class HttpBridgeModuleResolver<
       return []
     }
     const idParts = id.split(':')
-    const firstPart = idParts.shift()
+    const firstPart = assertEx(idParts.shift(), () => 'Missing firstPart')
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
       axios: this.axios,
+      config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress: firstPart as Address,
       moduleUrl: this.moduleUrl(id as Address).href,
     }
 
-    const proxy = new HttpModuleProxy<T>(params)
+    const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(params)
     //calling state here to get the config
-    const state = await proxy.state()
-    const manifest = state.find((payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload)) as ModuleManifestPayload | undefined
-    if (manifest) {
-      proxy.setConfig(manifest.config)
+    if (proxy) {
+      const state = await proxy.state()
+      if (state) {
+        const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+        const config = assertEx(
+          state.find((payload) => payload.schema === configSchema),
+          () => 'Unable to locate config',
+        ) as ModuleConfig
+        proxy.setConfig(config)
+      }
     }
 
     await proxy.start()
@@ -64,8 +70,8 @@ export class HttpBridgeModuleResolver<
       const result = await proxy.resolve<T>(remainderParts, options)
       return result
     }
-    const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
-    const as = asModuleInstance<T>(wrapped)
+    const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
+    const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
     return as
   }
 }

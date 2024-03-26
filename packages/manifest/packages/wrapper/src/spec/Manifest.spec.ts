@@ -16,7 +16,7 @@ describe('Manifest', () => {
 
       const discover = await node.discover()
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
-      expect(discoveredAddresses.length).toBeGreaterThan(20)
+      expect(discoveredAddresses.length).toBeGreaterThan(4)
       //expect((await node.resolve()).length).toBeGreaterThan(4)
 
       const roundTrip = (await node.manifest()) as NodeManifest

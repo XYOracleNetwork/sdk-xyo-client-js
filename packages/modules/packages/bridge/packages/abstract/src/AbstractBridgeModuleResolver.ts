@@ -20,6 +20,10 @@ export abstract class AbstractBridgeModuleResolver<
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    return id === '*' ? [] : await super.resolveHandler(id, options)
+    if (id === '*') {
+      return []
+    }
+    const result = (await super.resolveHandler(id, options)) as T | undefined
+    return result
   }
 }

@@ -2,7 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
-import { ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
 
@@ -27,6 +27,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     const params: AsyncQueryBusModuleProxyParams = {
       account,
       busClient: this.options.busClient,
+      config: { schema: ModuleConfigSchema },
       host: this.options.bridge,
       moduleAddress: firstPart as Address,
     }

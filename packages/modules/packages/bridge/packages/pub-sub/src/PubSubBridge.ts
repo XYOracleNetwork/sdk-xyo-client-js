@@ -55,9 +55,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 1, direction } = options ?? {}
+    const { maxDepth = 5, direction } = options ?? {}
     const filterOptions: ModuleFilterOptions = { direction }
-    const module = await super.resolve(id, filterOptions)
+    const module = assertEx(await super.resolve(id, filterOptions), () => `Expose failed to locate module [${id}]`)
     if (module) {
       const host = assertEx(this.busHost(), () => 'Not configured as a host')
       host.expose(module.address)
@@ -68,6 +68,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       return [module, ...children]
     }
     return []
+  }
+
+  exposedHandler(): Address[] {
+    const exposedSet = this.busHost()?.exposedAddresses
+    return exposedSet ? [...exposedSet] : []
   }
 
   override async startHandler(): Promise<boolean> {

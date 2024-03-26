@@ -158,7 +158,7 @@ describe('MemoryNode', () => {
       it('lists addresses of attached modules', async () => {
         await node.attach(module.address, true)
         const result = await node.attached()
-        expect(result).toBeArrayOfSize(1)
+        expect(result.length).toBe(1)
         expect(result).toEqual([module.address])
       })
     })

@@ -104,6 +104,10 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return []
   }
 
+  override exposedHandler(): Promisable<Address[]> {
+    return []
+  }
+
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     return []
   }

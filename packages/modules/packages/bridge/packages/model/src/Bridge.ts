@@ -15,10 +15,8 @@ import { ExposedEventData, UnexposedEventData } from './EventModels'
 import { BridgeExposeOptions, BridgeUnexposeOptions } from './Queries'
 
 export interface Bridge {
-  connect?: () => Promisable<boolean>
-  connected?: boolean
-  disconnect?: () => Promisable<boolean>
   expose: (id: ModuleIdentifier, options?: BridgeExposeOptions) => Promisable<ModuleInstance[]>
+  exposed?: () => Promisable<Address[]>
   unexpose?: (id: ModuleIdentifier, options?: BridgeUnexposeOptions) => Promisable<ModuleInstance[]>
 }
 

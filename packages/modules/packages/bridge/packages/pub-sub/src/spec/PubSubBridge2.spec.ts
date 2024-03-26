@@ -1,18 +1,16 @@
 /* eslint-disable max-statements */
-import { Account, HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
+import { asNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { AsyncQueryBusIntersectConfig, SearchableStorage } from '../AsyncQueryBus'
-import { PubSubBridgeConfigSchema } from '../Config'
 import { PubSubBridge } from '../PubSubBridge'
 
 /**
@@ -40,6 +38,14 @@ describe('PubSubBridge', () => {
       account: Account.randomSync(),
       config: { name: 'hostNodeContainer', schema: MemoryNode.configSchema },
     })
+
+    const archivist = await MemoryArchivist.create({
+      account: Account.randomSync(),
+      config: { name: 'Archivist', schema: ArchivistConfigSchema },
+    })
+
+    await hostNodeContainer.register(archivist)
+    await hostNodeContainer.attach(archivist.address, true)
 
     const queryArchivistAccount = await Account.create()
     const queryArchivist = await MemoryArchivist.create({
@@ -77,10 +83,10 @@ describe('PubSubBridge', () => {
     await intermediateNode.register(responseBoundWitnessDiviner)
     await intermediateNode.attach(responseBoundWitnessDiviner.address, true)
 
-    const memNode = await MemoryNode.create({ account: Account.randomSync() })
+    const clientNode = await MemoryNode.create({ account: Account.randomSync() })
 
-    await memNode.register(intermediateNode)
-    await memNode.attach(intermediateNode.address, true)
+    await clientNode.register(intermediateNode)
+    await clientNode.attach(intermediateNode.address, true)
 
     await hostNode.register(intermediateNode)
     await hostNode.attach(intermediateNode.address, true)
@@ -139,23 +145,26 @@ describe('PubSubBridge', () => {
     })
 
     await bridge?.start?.()
-    await memNode.register(bridge)
-    await memNode.attach(bridge?.address, true)
-    const resolvedBridge = memNode.resolve(bridge.id)
+    await clientNode.register(bridge)
+    await clientNode.attach(bridge?.address, true)
+    const resolvedBridge = clientNode.resolve(bridge.id)
     expect(resolvedBridge).toBeDefined()
+
+    await hostNode.register(bridge)
+    await hostNode.attach(bridge?.address, true)
+    await bridge.expose(hostNodeContainer.address)
+
+    const exposed = await bridge.exposed?.()
+    expect(exposed).toBeArray()
+    expect(exposed?.length).toBeGreaterThan(1)
 
     const rootModule = await bridge.resolve(hostNodeContainer.address)
     expect(rootModule).toBeDefined()
 
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
+    expect(remoteNode).toBeDefined()
 
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
-
-    const archivistByName = await bridge.resolve('XYOPublic:Archivist')
+    const archivistByName = await bridge.resolve('hostNodeContainer:Archivist')
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()

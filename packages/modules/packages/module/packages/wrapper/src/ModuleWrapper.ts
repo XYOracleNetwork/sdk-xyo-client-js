@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
-import { Base, toJsonString } from '@xylabs/object'
+import { Base } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -112,9 +112,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     super(mutatedParams)
     this.wrapperParams = mutatedWrapperParams
   }
-  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
-  start?: (() => Promisable<boolean>) | undefined
-  stop?: (() => Promisable<boolean>) | undefined
 
   get account() {
     return this.wrapperParams.account
@@ -125,7 +122,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get config() {
-    return this.module.params.config as Exclude<TWrappedModule['params']['config'], undefined>
+    return this.module.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
   get downResolver(): ModuleResolverInstance {

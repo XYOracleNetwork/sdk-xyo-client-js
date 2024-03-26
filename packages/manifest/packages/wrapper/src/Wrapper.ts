@@ -58,11 +58,15 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     assertEx(!(await collision(node, manifest.config.name, external)), () => `Node name collision [${manifest.config.name}]`)
 
     if (!(await collision(node, manifest.config.name, external))) {
-      assertEx(
-        (manifest.config.name && (await node.attach(manifest.config.name, external))) ??
-          (await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external)),
-        () => `No module with config schema [${manifest.config.name}] registered`,
-      )
+      //is it already registered?
+      if (node.registeredModules().some((mod) => mod.config.name && mod.config.name === manifest.config.name)) {
+        assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
+      } else {
+        assertEx(
+          await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external),
+          () => `No module with config schema [${manifest.config.name}] registered`,
+        )
+      }
     }
   }
 

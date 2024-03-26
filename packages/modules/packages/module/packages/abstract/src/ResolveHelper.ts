@@ -1,15 +1,20 @@
+/* eslint-disable complexity */
 import { Address } from '@xylabs/hex'
-import { Logger } from '@xylabs/logger'
+import { IdLogger, Logger } from '@xylabs/logger'
+import { toJsonString } from '@xylabs/object'
 import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
 
 export interface ResolveHelperConfig {
   address: Address
   dead?: boolean
   downResolver?: ModuleResolver
+  logger?: Logger
+  module: ModuleInstance
   upResolver?: ModuleResolver
 }
 
 export class ResolveHelper {
+  static defaultLogger?: Logger
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     all: '*',
@@ -28,16 +33,19 @@ export class ResolveHelper {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { maxDepth = 5, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    { visibility, maxDepth = 5, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { dead = false, upResolver, downResolver } = config
-    const childOptions = { ...options, maxDepth: maxDepth - 1, required: false }
+    const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
+    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}][${visibility}]`) : undefined
+    const childOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth: maxDepth - 1, required: false, visibility }
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
     let result: T | T[] | undefined
+    log?.debug('start', idOrFilter, maxDepth)
     if (idOrFilter === '*') {
       if (dead) {
+        log?.warn('failed [dead]', idOrFilter)
         return []
       }
       const modules = [
@@ -47,13 +55,18 @@ export class ResolveHelper {
         .filter(duplicateModules)
         .filter((module) => module.address !== config.address)
 
+      if (modules.length > 0) {
+        log?.log('modules [count]', modules.length)
+        log?.debug('modules', toJsonString(modules, 4))
+      }
+
       if (maxDepth === 0) {
         return modules
       }
       const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*', childOptions))))
         .flat()
         .filter(duplicateModules)
-      return [...modules, ...childModules].filter(duplicateModules)
+      return [module as T, ...modules, ...childModules].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {
         case 'string': {
@@ -78,7 +91,7 @@ export class ResolveHelper {
         }
       }
     }
-    this.validateRequiredResolve(required, result, idOrFilter)
+    this.validateRequiredResolve(required, result, idOrFilter, logger)
     return result
   }
 
@@ -86,21 +99,21 @@ export class ResolveHelper {
     required: boolean | 'warn' | 'log',
     result: ModuleInstance[] | ModuleInstance | undefined,
     idOrFilter: ModuleIdentifier | ModuleFilter,
-    logger?: Logger,
+    logger = this.defaultLogger,
   ) {
+    const log = logger ? new IdLogger(logger, () => `validateRequiredResolve [${idOrFilter}][${result}]`) : undefined
     if (required && (result === undefined || (Array.isArray(result) && result.length > 0))) {
       switch (required) {
         case 'warn': {
-          logger?.warn('resolve failed', idOrFilter)
+          log?.warn('resolve failed', idOrFilter)
           break
         }
         case 'log': {
-          logger?.log('resolve failed', idOrFilter)
+          log?.log('resolve failed', idOrFilter)
           break
         }
         default: {
-          logger?.error('resolve failed', idOrFilter)
-          break
+          throw new Error(`resolve failed [${idOrFilter}]`)
         }
       }
     }

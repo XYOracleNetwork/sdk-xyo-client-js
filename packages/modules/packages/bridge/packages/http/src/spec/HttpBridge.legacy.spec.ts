@@ -1,3 +1,4 @@
+import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode } from '@xyo-network/node-memory'

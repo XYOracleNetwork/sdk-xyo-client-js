@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -67,6 +68,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const modules = await this.exposeHandler(id, options)
     await this.emit('exposed', { module: this, modules })
     return modules
+  }
+
+  async exposed(): Promise<Address[]> {
+    this._noOverride('exposed')
+    return await this.exposedHandler()
   }
 
   override async startHandler() {
@@ -148,6 +154,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>
+
+  abstract exposedHandler(): Promisable<Address[]>
 
   abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]>
 }

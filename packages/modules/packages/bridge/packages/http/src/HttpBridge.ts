@@ -63,6 +63,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     throw new Error('Unsupported')
   }
 
+  override exposedHandler(): Promisable<Address[]> {
+    throw new Error('Unsupported')
+  }
+
   moduleUrl(address: Address) {
     return new URL(address, this.nodeUrl)
   }
@@ -78,18 +82,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
-  }
-
-  private childAddressMap(manifest: NodeManifestPayload): Record<Address, ModuleName | null> {
-    const result: Record<Address, ModuleName | null> = {}
-    const children = manifest.modules?.public ?? []
-    for (const child of children) {
-      const address = child.status?.address
-      if (address) {
-        result[address] = child.config.name ?? null
-      }
-    }
-    return result
   }
 
   private async getRootState() {

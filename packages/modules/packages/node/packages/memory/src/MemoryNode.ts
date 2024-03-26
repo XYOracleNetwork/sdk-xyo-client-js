@@ -19,7 +19,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   override async attach(nameOrAddress: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
-    return (await this.attachUsingAddress(nameOrAddress as Address, external)) ?? (await this.attachUsingName(nameOrAddress, external))
+    const attachedModule = assertEx(
+      (await this.attachUsingAddress(nameOrAddress as Address, external)) ?? (await this.attachUsingName(nameOrAddress, external)),
+      () => `Unable to locate module [${nameOrAddress}]`,
+    )
+    return attachedModule
   }
 
   override async detach(nameOrAddress: ModuleIdentifier) {
@@ -140,7 +144,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   private async attachUsingName(name: string, external?: boolean) {
-    const address = this.moduleAddressFromName(name)
+    const address = this.registeredModuleAddressFromName(name)
     if (address) {
       return await this.attachUsingAddress(address, external)
     }
@@ -193,14 +197,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   private async detachUsingName(name: string) {
-    const address = this.moduleAddressFromName(name)
+    const address = this.registeredModuleAddressFromName(name)
     if (address) {
       return await this.detachUsingAddress(address)
     }
     return
   }
 
-  private moduleAddressFromName(name: string) {
+  private registeredModuleAddressFromName(name: string) {
     const address = Object.values(this.registeredModuleMap).find((value) => {
       return value.config.name === name
     })?.address

@@ -64,7 +64,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attachedModules(maxDepth = 2): Promise<ModuleInstance[]> {
-    return (await (this.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.downResolver.resolve('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 
   override async manifest(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
@@ -87,10 +87,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     if (idOrFilter === '*') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate('*')
+          return await this.resolvePrivate('*', options)
         }
         case 'all': {
-          return await this.resolveAll('*')
+          return await this.resolveAll('*', options)
         }
         default: {
           return await super.resolve('*', options)
@@ -100,10 +100,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     if (typeof idOrFilter === 'string') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate(idOrFilter)
+          return await this.resolvePrivate(idOrFilter, options)
         }
         case 'all': {
-          return await this.resolveAll(idOrFilter)
+          return await this.resolveAll(idOrFilter, options)
         }
         default: {
           return await super.resolve(idOrFilter, options)
@@ -112,10 +112,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     } else {
       switch (options?.visibility) {
         case 'all': {
-          return await this.resolveAll(idOrFilter)
+          return await this.resolveAll(idOrFilter, options)
         }
         case 'private': {
-          return await this.resolvePrivate(idOrFilter)
+          return await this.resolvePrivate(idOrFilter, options)
         }
         default: {
           return await super.resolve(idOrFilter, options)

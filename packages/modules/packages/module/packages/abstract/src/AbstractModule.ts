@@ -94,6 +94,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _startPromise: Promisable<boolean> | undefined = undefined
   protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
+  protected readonly privateResolver = new CompositeModuleResolver()
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
@@ -567,7 +568,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     const name = this.config.name ?? 'Anonymous'
-    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
+    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth, visibility: 'public' })
     const childAddressToName: Record<Address, ModuleName | null> = {}
     for (const child of children) {
       if (child.address !== this.address) {

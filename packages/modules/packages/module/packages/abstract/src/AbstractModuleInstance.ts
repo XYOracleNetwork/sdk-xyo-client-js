@@ -80,17 +80,17 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       upResolver: this.upResolver,
     }
     if (idOrFilter === '*') {
-      return await ResolveHelper.resolve(config, idOrFilter, options)
+      return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
     }
     switch (typeof idOrFilter) {
       case 'string': {
         return await ResolveHelper.resolve(config, idOrFilter, options)
       }
       case 'object': {
-        return await ResolveHelper.resolve(config, idOrFilter, options)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
       }
       default: {
-        return await ResolveHelper.resolve(config, idOrFilter, options)
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
       }
     }
   }

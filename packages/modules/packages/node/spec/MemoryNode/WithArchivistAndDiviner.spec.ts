@@ -25,6 +25,14 @@ describe('MemoryNode', () => {
     await node.register(archivist)
     await node.attach(archivist.address, true)
 
+    const privateArchivist = await MemoryArchivist.create({
+      account: Account.randomSync(),
+      config: { name: 'PrivateArchivist', schema: MemoryArchivistConfigSchema },
+    })
+
+    await node.register(privateArchivist)
+    await node.attach(privateArchivist.address, false)
+
     const diviner = (await ArchivistPayloadDiviner.create({
       account: Account.randomSync(),
       config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
@@ -33,8 +41,8 @@ describe('MemoryNode', () => {
     await node.register(diviner)
     await node.attach(diviner.address, true)
 
-    expect(node.registered()).toBeArrayOfSize(2)
-    expect(await node.attached()).toBeArrayOfSize(2)
+    expect(node.registered()).toBeArrayOfSize(3)
+    expect(await node.attached()).toBeArrayOfSize(3)
 
     const foundArchivist = asArchivistInstance(await node.resolve(archivist.address))
     expect(foundArchivist).toBeDefined()
@@ -66,14 +74,20 @@ describe('MemoryNode', () => {
       }
     }
 
-    expect((await node.resolve('*', { direction: 'up' })).length).toBe(1)
-    expect((await node.resolve('*', { direction: 'down' })).length).toBe(3)
-    expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(1)
+    expect((await node.resolve('*', { direction: 'up' })).length).toBe(0)
+    expect((await node.resolve('*', { direction: 'up', maxDepth: 0 })).length).toBe(0)
+    expect((await node.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(0)
+    expect((await node.resolve('*', { direction: 'down' })).length).toBe(2)
+    expect((await node.resolve('*', { direction: 'down', visibility: 'all' })).length).toBe(3)
+    expect((await node.resolve('*', { direction: 'down', visibility: 'private' })).length).toBe(1)
+    expect((await node.resolve('*', { direction: 'down', visibility: 'public' })).length).toBe(2)
+    expect((await node.resolve('*', { direction: 'down', maxDepth: 0 })).length).toBe(0)
+    expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(2)
     expect((await node.resolve('*', { direction: 'all' })).length).toBe(3)
 
     expect((await archivist.resolve('*', { direction: 'up' })).length).toBe(3)
     expect((await archivist.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(1)
-    expect((await archivist.resolve('*', { direction: 'down' })).length).toBe(1)
+    expect((await archivist.resolve('*', { direction: 'down' })).length).toBe(0)
     expect((await archivist.resolve('*', { direction: 'all' })).length).toBe(3)
   })
 })

@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
 import { Address } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
@@ -37,7 +38,12 @@ export class ResolveHelper {
   ): Promise<T | T[] | undefined> {
     const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
     const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}][${visibility}]`) : undefined
-    const childOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth: maxDepth - 1, required: false, visibility }
+
+    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth: maxDepth, required: false, visibility }
+    const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
+
+    const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false, visibility }
+
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
     const down = direction === 'down' || direction === 'all'
@@ -49,9 +55,8 @@ export class ResolveHelper {
         return []
       }
       const modules = [
-        module as T,
-        ...(down ? await (downResolver as ModuleResolver).resolve<T>('*', childOptions) : []),
-        ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', childOptions) : []),
+        ...(down ? await (downResolver as ModuleResolver).resolve<T>('*', downLocalOptions) : []),
+        ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', upLocalOptions) : []),
       ]
         .filter(duplicateModules)
         .filter((module) => module.address !== config.address)
@@ -67,7 +72,7 @@ export class ResolveHelper {
       const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*', childOptions))))
         .flat()
         .filter(duplicateModules)
-      return [module as T, ...modules, ...childModules].filter(duplicateModules)
+      return [...modules, ...childModules].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {
         case 'string': {
@@ -75,8 +80,8 @@ export class ResolveHelper {
             return undefined
           }
           result =
-            (down ? await (downResolver as ModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined) ??
-            (up ? await (upResolver as ModuleResolver).resolve<T>(idOrFilter, childOptions) : undefined)
+            (down ? await (downResolver as ModuleResolver).resolve<T>(idOrFilter, downLocalOptions) : undefined) ??
+            (up ? await (upResolver as ModuleResolver).resolve<T>(idOrFilter, upLocalOptions) : undefined)
           break
         }
         default: {
@@ -85,8 +90,8 @@ export class ResolveHelper {
           }
           const filter: ModuleFilter<T> | undefined = idOrFilter
           result = [
-            ...(down ? await (downResolver as ModuleResolver).resolve<T>(filter, childOptions) : []),
-            ...(up ? await (upResolver as ModuleResolver).resolve<T>(filter, childOptions) : []),
+            ...(down ? await (downResolver as ModuleResolver).resolve<T>(filter, downLocalOptions) : []),
+            ...(up ? await (upResolver as ModuleResolver).resolve<T>(filter, upLocalOptions) : []),
           ].filter(duplicateModules)
           break
         }

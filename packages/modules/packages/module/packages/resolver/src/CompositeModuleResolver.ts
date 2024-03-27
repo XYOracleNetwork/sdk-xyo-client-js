@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
@@ -82,19 +83,28 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
 
   async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    options?: ModuleFilterOptions<T>,
+    options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const mutatedOptions = { ...options, maxDepth: (options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth) - 1 }
+    const mutatedOptions = { ...options, maxDepth: options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth }
+    const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
     //resolve all
     if (idOrFilter === '*') {
       const all = idOrFilter
+
+      //wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
+
+      //identity resolve?
+      if (mutatedOptions.maxDepth === 0) {
+        return await this._localResolver.resolve(all, mutatedOptions)
+      }
+
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: T[] = await resolver.resolve<T>(all, mutatedOptions)
+          const result: T[] = await resolver.resolve<T>(all, childOptions)
           return result
         }),
       )
@@ -103,6 +113,11 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     }
 
     if (typeof idOrFilter === 'string') {
+      //wen't too far?
+      if (mutatedOptions.maxDepth < 0) {
+        return
+      }
+
       //resolve ModuleIdentifier
       const idParts = moduleIdentifierParts(idOrFilter)
       if (idParts.length > 1) {
@@ -120,9 +135,15 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
           return cachedResult as T
         }
       }
+
+      //identity resolve?
+      if (mutatedOptions.maxDepth === 0) {
+        return await this._localResolver.resolve(idOrFilter, mutatedOptions)
+      }
+
       const results = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: T | undefined = await resolver.resolve<T>(id, mutatedOptions)
+          const result: T | undefined = await resolver.resolve<T>(id, childOptions)
           return result
         }),
       )
@@ -132,14 +153,21 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
       }
       return result
     } else {
-      //resolve filter
-      const filter = idOrFilter
+      //wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
       }
+
+      const filter = idOrFilter
+
+      //identity resolve?
+      if (mutatedOptions.maxDepth === 0) {
+        return await this._localResolver.resolve(filter, mutatedOptions)
+      }
+
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
-          const result: T[] = await resolver.resolve<T>(filter, mutatedOptions)
+          const result: T[] = await resolver.resolve<T>(filter, childOptions)
           return result
         }),
       )

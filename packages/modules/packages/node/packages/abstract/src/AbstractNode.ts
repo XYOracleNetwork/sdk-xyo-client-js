@@ -16,7 +16,6 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import {
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
@@ -36,8 +35,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
-
-  protected readonly privateResolver = new CompositeModuleResolver()
 
   private readonly isNode = true
 
@@ -59,11 +56,10 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attached(): Promise<Address[]> {
-    return (await this.attachedModules()).map((module) => module.address)
-  }
-
-  async attachedModules(maxDepth = 3): Promise<ModuleInstance[]> {
-    return (await (this.downResolver.resolve('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return [
+      ...(await this.attachedPublicModules()).map((module) => module.address),
+      ...(await this.attachedPrivateModules()).map((module) => module.address),
+    ]
   }
 
   override async manifest(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
@@ -81,50 +77,60 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     idOrFilter: ModuleFilter | ModuleIdentifier = '*',
     options?: ModuleFilterOptions,
   ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
+    const { visibility = 'all' } = options ?? {}
+    const mutatedOptions = { ...options, visibility }
     //checking type of nameOrAddressOrFilter before calling other functions since TS seems
     //to need help here narrowing before the call
     if (idOrFilter === '*') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate('*', options)
+          return (await this.resolvePrivate('*', mutatedOptions)).filter((mod) => mod.address !== this.address)
         }
         case 'all': {
-          return await this.resolveAll('*', options)
+          return (await this.resolveAll('*', mutatedOptions)).filter((mod) => mod.address !== this.address)
         }
         default: {
-          return await super.resolve('*', options)
+          return (await super.resolve('*', mutatedOptions)).filter((mod) => mod.address !== this.address)
         }
       }
     }
     if (typeof idOrFilter === 'string') {
       switch (options?.visibility) {
         case 'private': {
-          return await this.resolvePrivate(idOrFilter, options)
+          return await this.resolvePrivate(idOrFilter, mutatedOptions)
         }
         case 'all': {
-          return await this.resolveAll(idOrFilter, options)
+          return await this.resolveAll(idOrFilter, mutatedOptions)
         }
         default: {
-          return await super.resolve(idOrFilter, options)
+          return await super.resolve(idOrFilter, mutatedOptions)
         }
       }
     } else {
       switch (options?.visibility) {
         case 'all': {
-          return await this.resolveAll(idOrFilter, options)
+          return await this.resolveAll(idOrFilter, mutatedOptions)
         }
         case 'private': {
-          return await this.resolvePrivate(idOrFilter, options)
+          return await this.resolvePrivate(idOrFilter, mutatedOptions)
         }
         default: {
-          return await super.resolve(idOrFilter, options)
+          return await super.resolve(idOrFilter, mutatedOptions)
         }
       }
     }
   }
 
+  protected async attachedPrivateModules(maxDepth = 1): Promise<ModuleInstance[]> {
+    return (await (this.privateResolver.resolve('*', { maxDepth, visibility: 'public' }) ?? [])).filter((module) => module.address !== this.address)
+  }
+
+  protected async attachedPublicModules(maxDepth = 1): Promise<ModuleInstance[]> {
+    return (await (this.downResolver.resolve('*', { maxDepth, visibility: 'public' }) ?? [])).filter((module) => module.address !== this.address)
+  }
+
   protected override async discoverHandler(maxDepth = 5): Promise<Payload[]> {
-    const childMods = await this.attachedModules(maxDepth)
+    const childMods = await this.attachedPublicModules(maxDepth)
     //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
       childMods.map((mod) =>
@@ -148,7 +154,9 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       manifest.modules.private = privateModules
     }*/
 
-    const publicModules = await Promise.all((await this.resolve('*')).filter(notThisModule).map(toManifest))
+    const publicModules = await Promise.all(
+      (await this.resolve('*', { direction: 'down', maxDepth: 1, visibility: 'public' })).filter(notThisModule).map(toManifest),
+    )
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

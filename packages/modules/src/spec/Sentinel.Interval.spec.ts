@@ -40,7 +40,7 @@ describe('Sentinel.Interval', () => {
 
     const publicModules = manifest.nodes[0].modules?.public ?? []
     const mods = await node.resolve('*')
-    expect(mods.length).toBe(publicModules.length + 1)
+    expect(mods.length).toBe(publicModules.length)
 
     // Add some test data
     const testPayloads = [

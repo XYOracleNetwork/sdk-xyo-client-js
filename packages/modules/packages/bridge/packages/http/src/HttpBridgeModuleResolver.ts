@@ -39,6 +39,7 @@ export class HttpBridgeModuleResolver<
     }
     const idParts = id.split(':')
     const firstPart = assertEx(idParts.shift(), () => 'Missing firstPart')
+    const moduleAddress = firstPart as Address
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
@@ -46,9 +47,11 @@ export class HttpBridgeModuleResolver<
       axios: this.axios,
       config: { schema: ModuleConfigSchema },
       host: this,
-      moduleAddress: firstPart as Address,
-      moduleUrl: this.moduleUrl(id as Address).href,
+      moduleAddress,
+      moduleUrl: this.moduleUrl(moduleAddress).href,
     }
+
+    console.log(`creating HttpProxy [${moduleAddress}] ${id}`)
 
     const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(params)
     //calling state here to get the config

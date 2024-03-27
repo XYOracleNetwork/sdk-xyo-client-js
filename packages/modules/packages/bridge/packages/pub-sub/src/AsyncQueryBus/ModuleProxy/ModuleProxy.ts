@@ -21,7 +21,6 @@ export class AsyncQueryBusModuleProxy<
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
-  pipeline?: 'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many' | undefined
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.params.busClient.send(this.address, query, payloads)
   }

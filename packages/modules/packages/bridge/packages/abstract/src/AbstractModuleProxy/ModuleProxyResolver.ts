@@ -49,6 +49,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
+    //console.log(`childAddressMap: ${toJsonString(this.options.childAddressMap, 10)}`)
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
       //get all the child addresses.  if they have been resolved before, they should be in downResolver

@@ -62,7 +62,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await this.attachedModules()).map((module) => module.address)
   }
 
-  async attachedModules(maxDepth = 2): Promise<ModuleInstance[]> {
+  async attachedModules(maxDepth = 3): Promise<ModuleInstance[]> {
     return (await (this.downResolver.resolve('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
 

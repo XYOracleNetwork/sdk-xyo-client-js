@@ -1,0 +1,18 @@
+releases:
+  "@xyo-network/archivist": patch
+  "@xyo-network/archivist-abstract": patch
+  "@xyo-network/archivist-cookie": patch
+  "@xyo-network/archivist-indexeddb": patch
+  "@xyo-network/archivist-memory": patch
+  "@xyo-network/filesystem-archivist": patch
+  "@xyo-network/manifest": patch
+  "@xyo-network/manifest-model": patch
+  "@xyo-network/manifest-wrapper": patch
+  "@xyo-network/modules": patch
+  "@xyo-network/sdk-xyo-client-js": patch
+
+undecided:
+  - "@xyo-network/bridge-pub-sub"
+  - "@xyo-network/module-abstract"
+  - "@xyo-network/module-resolver"
+  - "@xyo-network/node-abstract"

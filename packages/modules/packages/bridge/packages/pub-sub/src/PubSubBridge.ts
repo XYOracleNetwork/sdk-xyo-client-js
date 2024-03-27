@@ -81,7 +81,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 1, direction } = options ?? {}
+    const { maxDepth = 5, direction } = options ?? {}
     const filterOptions: ModuleFilterOptions = { direction }
     const module = await super.resolve(id, filterOptions)
     if (module) {

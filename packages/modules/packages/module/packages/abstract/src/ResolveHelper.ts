@@ -49,6 +49,7 @@ export class ResolveHelper {
         return []
       }
       const modules = [
+        module as T,
         ...(down ? await (downResolver as ModuleResolver).resolve<T>('*', childOptions) : []),
         ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', childOptions) : []),
       ]

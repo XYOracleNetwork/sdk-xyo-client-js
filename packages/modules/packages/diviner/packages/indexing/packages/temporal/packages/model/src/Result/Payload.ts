@@ -1,10 +1,11 @@
+import { Hash } from '@xylabs/hex'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 import { TemporalIndexingDivinerResultSchema } from './Schema'
 
 export type TemporalIndexingDivinerResult = Payload<
   {
-    sources: string[]
+    sources: Hash[]
     timestamp: string
   },
   TemporalIndexingDivinerResultSchema

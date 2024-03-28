@@ -2828,7 +2828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/hex@npm:^3.0.24":
+"@xylabs/hex@npm:^3.0.24, @xylabs/hex@npm:~3.0.24":
   version: 3.0.24
   resolution: "@xylabs/hex@npm:3.0.24"
   dependencies:
@@ -4855,6 +4855,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/model"
   dependencies:
+    "@xylabs/hex": "npm:~3.0.24"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"

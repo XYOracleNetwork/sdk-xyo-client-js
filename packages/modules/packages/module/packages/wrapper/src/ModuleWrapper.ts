@@ -13,7 +13,9 @@ import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  asAttachableModuleInstance,
   asModuleInstance,
+  AttachableModuleInstance,
   InstanceTypeCheck,
   isModule,
   isModuleInstance,
@@ -89,7 +91,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
+  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule
@@ -127,7 +129,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get downResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asModuleInstance(this.module)
+    const instance: AttachableModuleInstance | undefined = asAttachableModuleInstance(this.module)
     if (instance) {
       return instance.downResolver as ModuleResolverInstance
     }
@@ -152,7 +154,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asModuleInstance(this.module)
+    const instance = asAttachableModuleInstance(this.module)
     if (instance) {
       return instance.upResolver as ModuleResolverInstance
     }

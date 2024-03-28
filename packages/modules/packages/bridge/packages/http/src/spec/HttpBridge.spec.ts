@@ -2,10 +2,9 @@
 
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
+import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
@@ -30,7 +29,7 @@ describe('HttpBridge', () => {
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
-    const bridge: BridgeInstance = await HttpBridge.create({
+    const bridge = await HttpBridge.create({
       account: Account.randomSync(),
       config: { name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
@@ -44,7 +43,10 @@ describe('HttpBridge', () => {
     const rootModule = await bridge?.resolve('XYOPublic')
     expect(rootModule).toBeDefined()
 
-    const remoteNode = asNodeInstance(rootModule, () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      rootModule,
+      () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`,
+    )
 
     const description = await remoteNode.describe()
     expect(description.children).toBeArray()
@@ -86,7 +88,10 @@ describe('HttpBridge', () => {
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
-    const remoteNode = asNodeInstance(module, `Failed to resolve [XYOPublic] - ${module?.address} [${module?.id}] [${module?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      module,
+      `Failed to resolve [XYOPublic] - ${module?.address} [${module?.id}] [${module?.constructor.name}]`,
+    )
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()

@@ -72,13 +72,22 @@ describe('CompositeModuleResolver', () => {
       it('removes module from resolvers', async () => {
         const address = moduleC.address
         const name = moduleCName
-        expect(sut.remove(address)).toEqual(sut)
+
+        expect(resolverA.remove(address)).toEqual(resolverA)
         expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(1)
-        expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(1)
-        expect(await resolverA.resolve({ name: [name] })).toBeArrayOfSize(1)
+        expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverA.resolve({ name: [name] })).toBeArrayOfSize(0)
         expect(await resolverB.resolve({ address: [address] })).toBeArrayOfSize(1)
         expect(await resolverB.resolve({ name: [name] })).toBeArrayOfSize(1)
+
+        expect(resolverB.remove(address)).toEqual(resolverB)
+        expect(await sut.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await sut.resolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await resolverA.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverA.resolve({ name: [name] })).toBeArrayOfSize(0)
+        expect(await resolverB.resolve({ address: [address] })).toBeArrayOfSize(0)
+        expect(await resolverB.resolve({ name: [name] })).toBeArrayOfSize(0)
       })
     })
     describe('resolve', () => {

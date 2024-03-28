@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Base, BaseParams, toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
@@ -50,4 +51,6 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
     idOrFilter: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
   ): Promisable<T | T[] | undefined>
+
+  abstract resolveIdentifier(id: ModuleIdentifier): Promisable<Address | undefined>
 }

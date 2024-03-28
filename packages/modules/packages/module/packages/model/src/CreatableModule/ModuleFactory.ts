@@ -2,11 +2,11 @@ import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 
-import { ModuleInstance } from '../instance'
+import { AttachableModuleInstance } from '../instance'
 import { Labels, WithOptionalLabels } from '../Labels'
 import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
 
-export class ModuleFactory<TModule extends ModuleInstance> implements CreatableModuleFactory<TModule> {
+export class ModuleFactory<TModule extends AttachableModuleInstance> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']
 
   creatableModule: CreatableModule<TModule>
@@ -32,7 +32,7 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
     return this.configSchemas[0]
   }
 
-  static withParams<T extends ModuleInstance>(
+  static withParams<T extends AttachableModuleInstance>(
     creatableModule: CreatableModule<T>,
     params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
     labels: Labels = {},
@@ -57,7 +57,7 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  create<T extends ModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
+  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
     const schema = factory.creatableModule.configSchema
     const mergedParams: TModule['params'] = merge({}, factory.defaultParams, params, {
@@ -66,7 +66,7 @@ export class ModuleFactory<TModule extends ModuleInstance> implements CreatableM
     return factory.creatableModule.create<T>(mergedParams)
   }
 
-  factory<T extends ModuleInstance>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {
+  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {
     throw new Error('Method not implemented.')
   }
 }

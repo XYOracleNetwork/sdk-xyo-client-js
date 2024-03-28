@@ -16,7 +16,7 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { asNodeInstance } from '@xyo-network/node-model'
+import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -106,7 +106,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')
-    const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
+    const rootNode = asAttachableNodeInstance(rootModule, 'Root modules is not a node')
     this.logger.debug(`rootNode: ${rootNode.config.name}`)
     this.downResolver.addResolver(rootNode.downResolver as ModuleResolverInstance)
     return [rootNode]

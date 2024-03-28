@@ -73,14 +73,13 @@ export class HttpBridgeModuleResolver<
     const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
     proxy.upResolver.add(as)
     proxy.downResolver.add(as)
-    this.add(as)
 
     if (remainderParts.length > 0) {
       const result = await wrapped.resolve<T>(remainderParts, options)
       return result
     }
 
-    console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
+    //console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
     return as
   }
 }

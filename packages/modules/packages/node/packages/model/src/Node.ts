@@ -1,6 +1,6 @@
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
-import { Module, ModuleEventData, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { AttachableModuleInstance, Module, ModuleEventData, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
 import { NodeParams } from './Params'
@@ -26,7 +26,7 @@ export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventDat
   extends NodeModule<TParams, TEventData>,
     NodeQueryFunctions,
     ModuleInstance<TParams, TEventData> {
-  register?: (mod: ModuleInstance) => Promisable<void>
+  register?: (mod: AttachableModuleInstance) => Promisable<void>
   registeredModules?: () => Promisable<ModuleInstance[]>
   unregister?: (mod: ModuleInstance) => Promisable<ModuleInstance>
 }

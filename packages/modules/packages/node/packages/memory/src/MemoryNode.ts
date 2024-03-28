@@ -2,20 +2,27 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { EventListener } from '@xyo-network/module-events'
-import { AnyConfigSchema, Module, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  AttachableModuleInstance,
+  Module,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleResolverInstance,
+} from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
-import { isNodeModule, NodeConfig, NodeConfigSchema, NodeInstance, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import { AttachableNodeInstance, isNodeModule, NodeConfig, NodeConfigSchema, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
-  implements NodeInstance
+  implements AttachableNodeInstance
 {
   static override configSchemas = [NodeConfigSchema]
 
-  private registeredModuleMap: Record<Address, ModuleInstance> = {}
+  private registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 
   override async attach(nameOrAddress: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
@@ -31,7 +38,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return (await this.detachUsingAddress(nameOrAddress as Address)) ?? (await this.detachUsingName(nameOrAddress))
   }
 
-  async register(module: ModuleInstance) {
+  async register(module: AttachableModuleInstance) {
     await this.started('throw')
     assertEx(!this.registeredModuleMap[module.address], () => `Module already registered at that address[${module.address}][${module.config.schema}]`)
     this.registeredModuleMap[module.address] = module

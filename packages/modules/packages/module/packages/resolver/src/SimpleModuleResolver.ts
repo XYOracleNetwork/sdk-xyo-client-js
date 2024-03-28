@@ -20,8 +20,8 @@ import { AbstractModuleResolver } from './AbstractModuleResolver'
 
 //This class is now package private (not exported from index.ts)
 export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
-  private addressToName: Record<Address, ModuleName> = {}
   private modules: Record<Address, ModuleInstance> = {}
+  private nameToModule: Record<ModuleName, ModuleInstance> = {}
 
   constructor() {
     super({})
@@ -99,20 +99,40 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
     }
   }
 
+  resolveIdentifier(id: ModuleIdentifier): Promisable<Address | undefined> {
+    //check if id is a name of one of modules in the resolver
+    const moduleFromName = this.nameToModule[id]
+    if (moduleFromName) {
+      return moduleFromName.address
+    }
+
+    //check if any of the modules have the id as an address
+    for (const module of Object.values(this.modules)) {
+      if (module.address === id) {
+        return module.address
+      }
+    }
+  }
+
   private addSingleModule(module?: ModuleInstance) {
     if (module) {
+      const name = module.config.name
+      if (name) {
+        //check for collision
+        assertEx(this.nameToModule[name] === undefined, () => `Module with name ${name} already added`)
+        this.nameToModule[name] = module
+      }
       this.modules[module.address] = module
     }
   }
 
   private removeSingleModule(address: Address) {
     assertEx(isAddress(address), () => 'Invalid address')
-    if (address && this.modules[address]) {
-      delete this.modules[address]
-      const name = this.addressToName[address]
-      if (name) {
-        delete this.addressToName[address]
-      }
+    const module = assertEx(this.modules[address], () => 'Address not found in modules')
+    delete this.modules[address]
+    const name = module.config.name
+    if (name) {
+      delete this.nameToModule[name]
     }
   }
 

@@ -21,6 +21,7 @@ import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
   ArchivingModuleConfig,
+  AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
   DeadModuleError,
@@ -35,7 +36,6 @@ import {
   ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleFactory,
-  ModuleInstance,
   ModuleManifestQuerySchema,
   ModuleName,
   ModuleParams,
@@ -208,7 +208,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  static async create<TModule extends ModuleInstance>(
+  static async create<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
@@ -250,7 +250,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await determineAccount(params, this.allowRandomAccount)
   }
 
-  static factory<TModule extends ModuleInstance>(
+  static factory<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {

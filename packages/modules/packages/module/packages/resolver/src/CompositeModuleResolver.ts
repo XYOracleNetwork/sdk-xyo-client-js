@@ -176,6 +176,24 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     }
   }
 
+  async resolveIdentifier(id: ModuleIdentifier): Promise<Address | undefined> {
+    const results = (
+      await Promise.all(
+        this.resolvers.map(async (resolver) => {
+          const result = await resolver.resolveIdentifier(id)
+          return result
+        }),
+      )
+    ).filter(exists)
+    const result = results.shift()
+    if (results.length > 0) {
+      for (const altResult of results) {
+        assertEx(altResult === result, () => `Inconsistent results for ${id} [${result}][${altResult}]`)
+      }
+    }
+    return result
+  }
+
   private addSingleModule(module?: ModuleInstance) {
     if (module) {
       this._localResolver.add(module)

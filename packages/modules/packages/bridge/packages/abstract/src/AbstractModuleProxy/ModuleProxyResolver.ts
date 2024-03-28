@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   isAddressModuleFilter,
@@ -26,7 +27,19 @@ export interface ModuleProxyResolverOptions {
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
   private downResolver = new CompositeModuleResolver()
 
-  constructor(protected options: T) {}
+  constructor(private options: T) {}
+
+  protected get childAddressMap() {
+    return this.options.childAddressMap
+  }
+
+  protected get host() {
+    return this.options.host
+  }
+
+  protected get module() {
+    return this.options.module
+  }
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')
@@ -47,11 +60,11 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    //console.log(`childAddressMap: ${toJsonString(this.options.childAddressMap, 10)}`)
+    //console.log(`childAddressMap: ${toJsonString(this.childAddressMap, 10)}`)
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
       //get all the child addresses.  if they have been resolved before, they should be in downResolver
-      const childAddresses = Object.keys(this.options.childAddressMap)
+      const childAddresses = Object.keys(this.childAddressMap)
       const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>((address) => this.resolve<T>(address, options)))
       return resolvedChildren.filter(exists)
     } else if (typeof idOrFilter === 'string') {
@@ -65,14 +78,13 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
         }
         //if it is a known child, create a proxy
         const addressToProxy =
-          Object.keys(this.options.childAddressMap).includes(firstPart as Address) ?
+          Object.keys(this.childAddressMap).includes(firstPart as Address) ?
             (firstPart as Address)
-          : (Object.entries(this.options.childAddressMap).find(([_, value]) => value === firstPart)?.[0] as Address | undefined)
+          : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPart)?.[0] as Address | undefined)
         if (addressToProxy) {
-          const proxy = await this.options.host.resolve(addressToProxy, { ...options, direction: 'down' })
+          const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
           if (proxy) {
             const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
-            this.downResolver.add(wrapped)
             return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
           }
           return
@@ -89,5 +101,9 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }
     }
+  }
+
+  resolveIdentifier(id: ModuleIdentifier): Promisable<Address | undefined> {
+    return undefined
   }
 }

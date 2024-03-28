@@ -13,7 +13,7 @@ export class PayloadBuilder<
 > extends PayloadBuilderBase<T, O> {
   static async build<T extends Payload = Payload<AnyObject>>(payload: T, validate?: boolean): Promise<WithMeta<T>>
   static async build<T extends Payload = Payload<AnyObject>>(payload: T[], validate?: boolean): Promise<WithMeta<T>[]>
-  static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], validate = false) {
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], validate = true) {
     if (Array.isArray(payload)) {
       return await Promise.all(payload.map((payload) => this.build(payload)))
     } else {

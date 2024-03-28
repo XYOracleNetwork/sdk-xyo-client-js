@@ -149,6 +149,7 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   async derivePath(path: string): Promise<WalletInstance> {
+    assertEx(path[0] !== 'm', () => 'Path must be relative (not starting with "m")')
     return await HDWallet.createFromNode(this.node.derivePath(path))
     /*
     //console.log(`derivePath: ${path}`)

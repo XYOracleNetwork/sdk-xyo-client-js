@@ -167,3 +167,14 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
 test('HDWallet tests generator is defined', () => {
   expect(generateHDWalletTests).toBeFunction()
 })
+
+test('Same address, two paths', () => {
+  const sut = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase('later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'))
+  const accountRoot = sut.derivePath("44'/60'/0'/0/0")
+  const accountA = sut.derivePath("44'/60'/0'/0/0/0")
+  const accountB = accountRoot.derivePath('0')
+  const accountBPrime = accountRoot.derivePath("0'")
+  expect(accountA.address).toEqual(accountB.address)
+  expect(accountRoot.address === accountB.address).toBe(false)
+  expect(accountB.address === accountBPrime.address).toBe(false)
+})

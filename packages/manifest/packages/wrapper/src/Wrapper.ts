@@ -7,7 +7,9 @@ import {
   CreatableModuleRegistry,
   isModuleName,
   ModuleFactoryLocator,
+  ModuleIdentifierTransformer,
   ModuleInstance,
+  ModuleParams,
   toCreatableModuleRegistry,
 } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -25,6 +27,7 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
     protected readonly publicChildren: PackageManifestPayload[] = [],
     protected readonly privateChildren: PackageManifestPayload[] = [],
+    protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
   ) {
     super(payload)
   }
@@ -172,10 +175,14 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       .locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
     const account = path ? await this.wallet.derivePath(path) : 'random'
-    const module = await creatableModule.create({
+    const params: ModuleParams = {
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
-    })
+    }
+    if (this.moduleIdentifierTransformers) {
+      params.moduleIdentifierTransformers = this.moduleIdentifierTransformers
+    }
+    const module = await creatableModule.create(params)
     await node.register(module)
     return module
   }

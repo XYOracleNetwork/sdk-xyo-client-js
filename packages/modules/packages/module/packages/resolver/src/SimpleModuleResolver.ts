@@ -14,6 +14,7 @@ import {
   ModuleName,
   ModuleRepository,
   ModuleResolverInstance,
+  ObjectFilterOptions,
 } from '@xyo-network/module-model'
 
 import { AbstractModuleResolver } from './AbstractModuleResolver'
@@ -99,7 +100,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
     }
   }
 
-  resolveIdentifier(id: ModuleIdentifier): Promisable<Address | undefined> {
+  resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
     //check if id is a name of one of modules in the resolver
     const moduleFromName = this.nameToModule[id]
     if (moduleFromName) {

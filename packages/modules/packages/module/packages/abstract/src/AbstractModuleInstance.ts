@@ -12,7 +12,9 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleNameResolver,
   ModuleParams,
+  ObjectFilterOptions,
 } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -21,7 +23,7 @@ import { ResolveHelper, ResolveHelperConfig } from './ResolveHelper'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements ModuleInstance<TParams, TEventData>
+  implements ModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
@@ -94,6 +96,19 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       }
       default: {
         return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      }
+    }
+  }
+
+  resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promise<Address | undefined> {
+    const { direction = 'all' } = options ?? {}
+    switch (direction) {
+      case 'down': {
+        return this.downResolver.resolveIdentifier(id, options)
+      }
+      default: {
+        const mutatedOptions = { ...options, direction: 'all' } as ObjectFilterOptions
+        return this.upResolver.resolveIdentifier(id, mutatedOptions)
       }
     }
   }

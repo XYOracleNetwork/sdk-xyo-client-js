@@ -9,10 +9,12 @@ import {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
+  ModuleIdentifierTransformer,
   ModuleInstance,
   ModuleName,
   ModuleResolver,
   ModuleResolverInstance,
+  ObjectFilterOptions,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
@@ -22,12 +24,15 @@ export interface ModuleProxyResolverOptions {
   childAddressMap: Record<Address, ModuleName | null>
   host: ModuleResolver
   module: ModuleInstance
+  moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
-  private downResolver = new CompositeModuleResolver()
+  private downResolver: CompositeModuleResolver
 
-  constructor(private options: T) {}
+  constructor(private options: T) {
+    this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers })
+  }
 
   protected get childAddressMap() {
     return this.options.childAddressMap
@@ -103,7 +108,16 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     }
   }
 
-  resolveIdentifier(id: ModuleIdentifier): Promisable<Address | undefined> {
-    return undefined
+  resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
+    //check if any of the modules have the id as an address
+    if (this.childAddressMap[id as Address]) {
+      return id as Address
+    }
+
+    //check if id is a name of one of modules in the resolver
+    const addressFromName = Object.entries(this.childAddressMap).find(([, name]) => name === id)?.[0] as Address | undefined
+    if (addressFromName) {
+      return addressFromName
+    }
   }
 }

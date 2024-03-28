@@ -11,17 +11,16 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleIdentifierPart,
+  ModuleIdentifierTransformer,
   ModuleInstance,
   ModuleRepository,
   ModuleResolverInstance,
+  ObjectFilterOptions,
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 import { AbstractModuleResolver } from './AbstractModuleResolver'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
-import { ModuleIdentifierTransformer } from './transformers'
-
-export type ModuleIdentifierTransformerFunc = (id: ModuleIdentifier) => Promisable<ModuleIdentifier>
 
 export interface ModuleResolverParams extends BaseParams {
   cache?: CacheConfig
@@ -34,6 +33,7 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
 
 export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
   static defaultMaxDepth = 5
+  static transformers: ModuleIdentifierTransformer[] = []
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
   private _localResolver: SimpleModuleResolver
@@ -176,7 +176,11 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     }
   }
 
-  async resolveIdentifier(id: ModuleIdentifier): Promise<Address | undefined> {
+  async resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promise<Address | undefined> {
+    const idParts = id.split(':')
+    if (idParts.length > 1) {
+      return this.resolveComplexIdentifier(id)
+    }
     const results = (
       await Promise.all(
         this.resolvers.map(async (resolver) => {
@@ -192,6 +196,10 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
       }
     }
     return result
+  }
+
+  protected resolveComplexIdentifier(_id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
+    throw new Error('Method not implemented.')
   }
 
   private addSingleModule(module?: ModuleInstance) {
@@ -213,7 +221,7 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
 
   private async transformModuleIdentifier(identifier: ModuleIdentifier) {
     let id = identifier
-    for (const transformer of this.moduleIdentifierTransformers ?? []) {
+    for (const transformer of this.moduleIdentifierTransformers ?? CompositeModuleResolver.transformers) {
       id = await transformer.transform(id)
     }
     return id

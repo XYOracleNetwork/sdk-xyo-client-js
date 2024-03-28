@@ -70,9 +70,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected static privateConstructorKey = Date.now().toString()
 
-  readonly downResolver = new CompositeModuleResolver()
-  readonly upResolver = new CompositeModuleResolver()
-
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueries['schema'], string> = {
     [ModuleAddressQuerySchema]: '1',
@@ -98,7 +95,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
+  private _downResolver?: CompositeModuleResolver
   private _status: ModuleStatus = 'stopped'
+  private _upResolver?: CompositeModuleResolver
 
   protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
@@ -140,6 +139,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.status === 'dead'
   }
 
+  get downResolver() {
+    this._downResolver = this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers })
+    return this._downResolver
+  }
+
   get ephemeralQueryAccountEnabled(): boolean {
     return !!this.params.ephemeralQueryAccountEnabled
   }
@@ -173,6 +177,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   get timestamp() {
     return this.config.timestamp ?? false
+  }
+
+  get upResolver() {
+    this._upResolver = this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers })
+    return this._upResolver
   }
 
   protected get baseModuleQueryAccountPaths(): Record<ModuleQueries['schema'], string> {

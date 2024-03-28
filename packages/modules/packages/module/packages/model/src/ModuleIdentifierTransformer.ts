@@ -1,5 +1,6 @@
 import { Promisable } from '@xylabs/promise'
-import { ModuleIdentifier } from '@xyo-network/module-model'
+
+import { ModuleIdentifier } from './ModuleIdentifier'
 
 export type ModuleIdentifierTransformerFunc = (id: ModuleIdentifier) => Promisable<ModuleIdentifier>
 

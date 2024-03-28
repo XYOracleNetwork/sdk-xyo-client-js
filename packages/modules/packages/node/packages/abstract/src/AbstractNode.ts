@@ -154,9 +154,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       manifest.modules.private = privateModules
     }*/
 
-    const publicModules = await Promise.all(
-      (await this.resolve('*', { direction: 'down', maxDepth: 1, visibility: 'public' })).filter(notThisModule).map(toManifest),
-    )
+    const publicChildren = await this.resolve('*', { direction: 'down', maxDepth: 1, visibility: 'public' })
+    const publicModules = await Promise.all(publicChildren.filter(notThisModule).map(toManifest))
     if (publicModules.length > 0) {
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules

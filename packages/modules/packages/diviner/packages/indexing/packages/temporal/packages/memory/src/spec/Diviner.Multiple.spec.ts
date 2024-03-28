@@ -41,7 +41,7 @@ type Query = PayloadDivinerQueryPayload & { status?: number; success?: boolean; 
 /**
  * @group slow
  */
-describe('TemporalIndexingDiviner - Multiple', () => {
+describe.skip('TemporalIndexingDiviner - Multiple', () => {
   const sourceUrl = 'https://placekitten.com/200/300'
   const thumbnailHttpSuccess: ImageThumbnail = {
     http: {

@@ -109,6 +109,7 @@ describe('HttpBridge', () => {
     }*/
 
     const node = await bridge.resolve('XYOPublic')
+    expect(node).toBeDefined()
 
     const archivistByName1 = await node?.resolve('Archivist')
     expect(archivistByName1).toBeDefined()

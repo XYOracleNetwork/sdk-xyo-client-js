@@ -321,7 +321,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       } catch (ex) {
         await handleErrorAsync(ex, async (error) => {
           this._lastError = error
-          this.status = 'dead'
+          //this.status = 'dead'
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])

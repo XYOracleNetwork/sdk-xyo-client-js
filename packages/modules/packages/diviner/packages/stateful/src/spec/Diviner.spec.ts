@@ -47,7 +47,7 @@ describe('TestStatefulDiviner', () => {
     const privateModules = manifest.nodes[0].modules?.private ?? []
     const publicModules = manifest.nodes[0].modules?.public ?? []
     const mods = await node.resolve('*')
-    expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
+    expect(mods.length).toBe(privateModules.length + publicModules.length)
 
     sut = assertEx(asDivinerInstance<TestStatefulDiviner>(await node.resolve('Diviner')))
   })

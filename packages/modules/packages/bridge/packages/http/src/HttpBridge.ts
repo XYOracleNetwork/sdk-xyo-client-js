@@ -12,6 +12,7 @@ import {
   creatableModule,
   ModuleInstance,
   ModuleQueryResult,
+  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
@@ -50,9 +51,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
     if (nodeManifest) {
       const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
-      for (const mod of modules) {
-        this.downResolver.add(mod)
-      }
       return modules
     }
     return []
@@ -109,7 +107,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     )
     const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
     this.logger.debug(`rootNode: ${rootNode.config.name}`)
-    this.downResolver.add(rootNode)
+    this.downResolver.addResolver(rootNode.downResolver as ModuleResolverInstance)
     return [rootNode]
   }
 }

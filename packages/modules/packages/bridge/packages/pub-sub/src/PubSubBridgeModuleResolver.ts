@@ -3,7 +3,7 @@ import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
 
@@ -45,8 +45,11 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       }
     }
     await proxy.start?.()
-    const wrappedProxy = wrapModuleWithType(proxy, account) as unknown as T
-    this.add(wrappedProxy)
-    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : wrappedProxy
+    const wrapped = wrapModuleWithType(proxy, account) as unknown as T
+    const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+    proxy.upResolver.add(as)
+    proxy.downResolver.add(as)
+    this.add(as)
+    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : as
   }
 }

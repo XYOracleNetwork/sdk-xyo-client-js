@@ -9,6 +9,7 @@ export type ModuleParams<
 > = WithAdditional<
   BaseParams<{
     account?: AccountInstance | 'random'
+    addToResolvers?: boolean
     config: TConfig extends AnyConfigSchema<ModuleConfig> ? TConfig : AnyConfigSchema<ModuleConfig>
     ephemeralQueryAccountEnabled?: boolean
   }>,

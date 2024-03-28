@@ -69,14 +69,18 @@ export class HttpBridgeModuleResolver<
 
     await proxy.start()
 
-    this._cache.set(id, proxy)
-
-    if (remainderParts.length > 0) {
-      const result = await proxy.resolve<T>(remainderParts, options)
-      return result
-    }
     const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
     const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+    proxy.upResolver.add(as)
+    proxy.downResolver.add(as)
+    this.add(as)
+
+    if (remainderParts.length > 0) {
+      const result = await wrapped.resolve<T>(remainderParts, options)
+      return result
+    }
+
+    console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
     return as
   }
 }

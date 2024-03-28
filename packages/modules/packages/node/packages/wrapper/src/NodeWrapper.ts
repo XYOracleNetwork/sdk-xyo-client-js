@@ -26,7 +26,13 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
 {
   static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
-  static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
+  static override requiredQueries = [
+    NodeAttachedQuerySchema,
+    NodeAttachQuerySchema,
+    NodeDetachQuerySchema,
+    NodeRegisteredQuerySchema,
+    ...ModuleWrapper.requiredQueries,
+  ]
 
   async attach(nameOrAddress: ModuleIdentifier, external?: boolean): Promise<Address | undefined> {
     const queryPayload: NodeAttachQuery = { external, nameOrAddress, schema: NodeAttachQuerySchema }

@@ -26,9 +26,7 @@ export interface ModuleProxyResolverOptions {
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
   private downResolver = new CompositeModuleResolver()
 
-  constructor(protected options: T) {
-    this.downResolver.add(options.module)
-  }
+  constructor(protected options: T) {}
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')

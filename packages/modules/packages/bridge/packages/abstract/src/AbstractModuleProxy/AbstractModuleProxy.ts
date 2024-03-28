@@ -64,6 +64,7 @@ export abstract class AbstractModuleProxy<
   protected _stateInProcess = false
 
   constructor(params: TParams) {
+    params.addToResolvers = false
     super(AbstractModuleProxy.privateConstructorKey, params, params.account)
   }
 

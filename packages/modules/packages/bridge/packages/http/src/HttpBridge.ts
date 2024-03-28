@@ -105,6 +105,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
       await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
+    assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')
     const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
     this.logger.debug(`rootNode: ${rootNode.config.name}`)
     this.downResolver.addResolver(rootNode.downResolver as ModuleResolverInstance)

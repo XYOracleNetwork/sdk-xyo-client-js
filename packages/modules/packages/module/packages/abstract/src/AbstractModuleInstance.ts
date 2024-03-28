@@ -27,9 +27,12 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
+    const addToResolvers = mutatedParams.addToResolvers ?? true
     super(privateConstructorKey, mutatedParams, account)
-    this.upResolver.add(this)
-    this.downResolver.add(this)
+    if (addToResolvers) {
+      this.upResolver.add(this)
+      this.downResolver.add(this)
+    }
   }
 
   describe(): Promise<ModuleDescriptionPayload> {

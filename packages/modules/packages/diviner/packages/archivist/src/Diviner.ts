@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
-import { DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { Payload, WithMeta } from '@xyo-network/payload-model'
@@ -16,7 +16,12 @@ export class ArchivistPayloadDiviner<
   TParams extends ArchivistPayloadDivinerParams,
   TIn extends HuriPayload = HuriPayload,
   TOut extends Payload = Payload,
-> extends AbstractDiviner<TParams, TIn, TOut> {
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
 
   protected async divineHandler(payloads?: TIn[]): Promise<TOut[]> {

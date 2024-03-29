@@ -1,4 +1,5 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -11,7 +12,12 @@ export class HashLeaseEstimateDiviner<
   TParams extends HashLeaseEstimateDivinerParams = HashLeaseEstimateDivinerParams,
   TIn extends Payload = Payload,
   TOut extends HashLeaseEstimate | Payload = HashLeaseEstimate | Payload,
-> extends AbstractDiviner<TParams, TIn, TOut> {
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [HashLeaseEstimateDivinerConfigSchema]
   static override targetSchema = HashLeaseEstimateSchema
 

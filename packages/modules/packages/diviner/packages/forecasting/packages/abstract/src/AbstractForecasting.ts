@@ -11,7 +11,7 @@ import {
   isForecastingDivinerQueryPayload,
   PayloadValueTransformer,
 } from '@xyo-network/diviner-forecasting-model'
-import { DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithSources } from '@xyo-network/payload-model'
@@ -22,7 +22,12 @@ export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
   TIn extends ForecastingDivinerQueryPayload = ForecastingDivinerQueryPayload,
   TOut extends ForecastPayload = ForecastPayload,
-> extends AbstractDiviner<TParams, TIn, TOut> {
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [ForecastingDivinerConfigSchema]
 
   protected abstract get forecastingMethod(): ForecastingMethod

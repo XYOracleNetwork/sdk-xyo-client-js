@@ -1,5 +1,5 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import {
   PayloadTransformer,
   Transform,
@@ -16,7 +16,12 @@ export abstract class AbstractTransformDiviner<
   TParams extends TransformDivinerParams = TransformDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-> extends AbstractDiviner<TParams, TIn, TOut> {
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [TransformDivinerConfigSchema]
 
   protected override divineHandler(payloads?: TIn[]): TOut[] {

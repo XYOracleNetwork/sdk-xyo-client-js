@@ -3733,6 +3733,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-address-chain-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -3919,6 +3920,7 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft
@@ -3990,6 +3992,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -4059,6 +4062,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -4578,6 +4582,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-payload-stats-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"
@@ -4675,6 +4680,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-schema-list-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"
@@ -4732,6 +4738,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-abstract": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-schema-stats-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.3"

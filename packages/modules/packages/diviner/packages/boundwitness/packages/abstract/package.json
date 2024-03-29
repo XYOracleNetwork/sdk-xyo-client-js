@@ -12,7 +12,8 @@
   "dependencies": {
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-abstract": "workspace:~",
-    "@xyo-network/diviner-boundwitness-model": "workspace:~"
+    "@xyo-network/diviner-boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",

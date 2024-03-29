@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-coin-user-locations-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {

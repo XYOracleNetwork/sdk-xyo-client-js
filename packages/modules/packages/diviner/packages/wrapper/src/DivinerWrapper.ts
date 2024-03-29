@@ -11,11 +11,7 @@ import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-w
 import { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
-export class DivinerWrapper<
-    TWrappedModule extends DivinerModule<DivinerParams, TIn, TOut>,
-    TIn extends Payload = Payload,
-    TOut extends Payload = Payload,
-  >
+export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>, TIn extends Payload = Payload, TOut extends Payload = Payload>
   extends ModuleWrapper<TWrappedModule>
   implements DivinerInstance<TWrappedModule['params'], TIn, TOut>
 {

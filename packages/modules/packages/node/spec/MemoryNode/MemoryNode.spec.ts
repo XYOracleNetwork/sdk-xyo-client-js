@@ -4,8 +4,8 @@ import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module-model'
+import { ArchivistInstance, AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import { AttachableModuleInstance, Module, ModuleDescription, ModuleInstance } from '@xyo-network/module-model'
 import { ModuleAttachedEventArgs, NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 import { Payload } from '@xyo-network/payload'
 
@@ -90,7 +90,7 @@ describe('MemoryNode', () => {
       })
     })
     describe('with modules registered', () => {
-      let module: ModuleInstance
+      let module: AttachableModuleInstance
       beforeEach(async () => {
         module = await MemoryArchivist.create({ account: Account.randomSync() })
         await node.register(module)
@@ -103,7 +103,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('attach', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -143,7 +143,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('attached', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -164,7 +164,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('detach', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -178,7 +178,7 @@ describe('MemoryNode', () => {
     })*/
   })
   describe('registeredModules', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
     })
@@ -258,8 +258,8 @@ describe('MemoryNode', () => {
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
-        const nestedNode: NodeInstance = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
-        const nestedModules: ArchivistInstance[] = await Promise.all([
+        const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
+        const nestedModules: AttachableArchivistInstance[] = await Promise.all([
           await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         await Promise.all(
@@ -268,7 +268,9 @@ describe('MemoryNode', () => {
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: AttachableModuleInstance[] = await Promise.all([
+          await MemoryArchivist.create({ account: testAccount4, config: archivistConfig }),
+        ])
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {
@@ -356,7 +358,9 @@ describe('MemoryNode', () => {
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: AttachableModuleInstance[] = await Promise.all([
+          await MemoryArchivist.create({ account: testAccount4, config: archivistConfig }),
+        ])
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {

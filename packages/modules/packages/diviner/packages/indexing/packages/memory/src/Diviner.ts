@@ -13,7 +13,7 @@ import {
   IndexingDivinerStage,
   IndexingDivinerState,
 } from '@xyo-network/diviner-indexing-model'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -30,7 +30,11 @@ export class IndexingDiviner<
   TParams extends IndexingDivinerParams = IndexingDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly allowRandomAccount = false
   static override readonly configSchemas: string[] = [IndexingDivinerConfigSchema, DivinerConfigSchema]

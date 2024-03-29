@@ -17,6 +17,7 @@ import {
   ArchivistParams,
   ArchivistQueries,
   asArchivistInstance,
+  AttachableArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -45,7 +46,7 @@ export abstract class AbstractArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements ArchivistInstance<TParams, TEventData, Payload>
+  implements AttachableArchivistInstance<TParams, TEventData, Payload>
 {
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentInstances

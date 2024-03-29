@@ -1,8 +1,9 @@
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { Archivist, ArchivistInstance } from '@xyo-network/archivist-model'
+import { Archivist, AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessSchema } from '@xyo-network/boundwitness-model'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadSchema } from '@xyo-network/payload-model'
@@ -52,8 +53,8 @@ describe('Sentinel', () => {
   })
   describe('report', () => {
     describe('reports witnesses when supplied in', () => {
-      let archivistA: ArchivistInstance
-      let archivistB: ArchivistInstance
+      let archivistA: AttachableArchivistInstance
+      let archivistB: AttachableArchivistInstance
       let witnessA: AbstractWitness
       let witnessB: AbstractWitness
       const assertPanelReport = (panelReport: Payload[]) => {
@@ -88,15 +89,16 @@ describe('Sentinel', () => {
             targetSchema: PayloadSchema,
           },
         }
-        witnessA = (await AdhocWitness.create(paramsA)) as AdhocWitness
-        witnessB = (await AdhocWitness.create(paramsB)) as AdhocWitness
+        witnessA = await AdhocWitness.create(paramsA)
+        witnessB = await AdhocWitness.create(paramsB)
         archivistA = await MemoryArchivist.create({ account: Account.randomSync() })
         archivistB = await MemoryArchivist.create({ account: Account.randomSync() })
       })
       it('config', async () => {
         const node = await MemoryNode.create({ account: Account.randomSync() })
+        const modules: AttachableModuleInstance[] = [witnessA, witnessB, archivistA, archivistB]
         await Promise.all(
-          [witnessA, witnessB, archivistA, archivistB].map(async (module) => {
+          modules.map(async (module) => {
             await node.register(module)
             await node.attach(module.address, true)
           }),

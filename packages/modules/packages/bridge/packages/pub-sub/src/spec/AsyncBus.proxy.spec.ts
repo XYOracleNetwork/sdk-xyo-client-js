@@ -8,7 +8,7 @@ import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, DivinerParams } from '@xyo-network/diviner-model'
-import { ModuleConfigSchema, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import { AttachableModuleInstance, ModuleConfigSchema, ModuleResolverInstance } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
 import {
@@ -29,7 +29,7 @@ interface IntermediateNode {
 }
 
 interface Client {
-  module: ModuleInstance
+  module: AttachableModuleInstance
   node: MemoryNode
   stateStoreArchivist: ArchivistInstance
   stateStoreBoundWitnessDiviner: DivinerInstance

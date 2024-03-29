@@ -4,10 +4,10 @@ import { retry, RetryConfigWithComplete } from '@xylabs/retry'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
-  CustomDivinerModule,
+  AttachableDivinerInstance,
   DivinerConfigSchema,
   DivinerDivineQuerySchema,
-  DivinerModule,
+  DivinerInstance,
   DivinerModuleEventData,
   DivinerParams,
   DivinerQueries,
@@ -21,10 +21,14 @@ export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
     TIn extends Payload = Payload,
     TOut extends Payload = Payload,
-    TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+    TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+      DivinerInstance<TParams, TIn, TOut>,
+      TIn,
+      TOut
+    >,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomDivinerModule<TParams, TIn, TOut, TEventData>
+  implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
@@ -40,14 +44,15 @@ export abstract class AbstractDiviner<
   }
 
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
-  divine(payloads?: TIn[], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
+  divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, module: this })
-      const resultPayloads = (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-      await this.emit('divineEnd', { inPayloads: payloads, module: this, outPayloads: resultPayloads })
+      const resultPayloads: TOut[] =
+        (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
+      await this.emit('divineEnd', { errors: [], inPayloads: payloads, module: this, outPayloads: resultPayloads })
       return await Promise.all(resultPayloads.map((payload) => PayloadBuilder.build(payload)))
     })
   }

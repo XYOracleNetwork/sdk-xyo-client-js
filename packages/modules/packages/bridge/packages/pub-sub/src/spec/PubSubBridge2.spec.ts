@@ -125,7 +125,7 @@ describe('PubSubBridge', () => {
       },
     }
 
-    const bridge: BridgeInstance = await PubSubBridge.create({
+    const bridge = await PubSubBridge.create({
       account: Account.randomSync(),
       config: {
         client: {

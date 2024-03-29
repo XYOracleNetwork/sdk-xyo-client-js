@@ -6,7 +6,7 @@ import { Hash } from '@xylabs/hex'
 import { AnyObject } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
-import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -38,7 +38,11 @@ export class IndexedDbPayloadDiviner<
   TParams extends IndexedDbPayloadDivinerParams = IndexedDbPayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
   static override configSchemas = [IndexedDbPayloadDivinerConfigSchema]
 

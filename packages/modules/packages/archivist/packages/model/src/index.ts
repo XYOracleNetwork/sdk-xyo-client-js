@@ -1,5 +1,6 @@
 export * from './Archivist'
 export * from './ArchivistInstance'
+export * from './attachable'
 export * from './Config'
 export * from './IndexDescription'
 export * from './Params'

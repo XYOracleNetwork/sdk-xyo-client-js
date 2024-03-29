@@ -14,10 +14,10 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
-  ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
+  AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
@@ -46,7 +46,7 @@ export class MemoryArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractArchivist<TParams, TEventData>
-  implements ArchivistInstance, ModuleInstance
+  implements AttachableArchivistInstance, ModuleInstance
 {
   static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
 

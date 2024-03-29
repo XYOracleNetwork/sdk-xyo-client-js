@@ -6,7 +6,11 @@ import { WitnessModule } from './Module'
 import { WitnessParams } from './Params'
 import { WitnessQueryFunctions } from './QueryFunctions'
 
-export interface WitnessInstance<TParams extends WitnessParams = WitnessParams, TIn extends Payload = Payload, TOut extends Payload = Payload>
-  extends WitnessModule<TParams, TIn, TOut>,
-    WitnessQueryFunctions,
-    ModuleInstance<TParams, WitnessModuleEventData<WitnessModule<TParams, TIn, TOut>>> {}
+export interface WitnessInstance<
+  TParams extends WitnessParams = WitnessParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEvents extends WitnessModuleEventData = WitnessModuleEventData,
+> extends WitnessModule<TParams, TEvents>,
+    WitnessQueryFunctions<TIn, TOut>,
+    ModuleInstance<TParams, TEvents> {}

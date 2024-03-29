@@ -1,32 +1,32 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
-import { DivinerInstance } from '@xyo-network/diviner-model'
+import { AttachableDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
-import { WitnessInstance } from '@xyo-network/witness-model'
+import { AttachableWitnessInstance } from '@xyo-network/witness-model'
 
 /**
  * @group module
  */
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: ArchivistInstance
+  let primaryArchivist: AttachableArchivistInstance
   let primaryNode: MemoryNode
 
-  let leftInternalArchivist: ArchivistInstance
-  let leftInternalArchivist2: ArchivistInstance
-  let leftExternalArchivist: ArchivistInstance
-  let leftDiviner: DivinerInstance
+  let leftInternalArchivist: AttachableArchivistInstance
+  let leftInternalArchivist2: AttachableArchivistInstance
+  let leftExternalArchivist: AttachableArchivistInstance
+  let leftDiviner: AttachableDivinerInstance
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
-  let rightInternalArchivist: ArchivistInstance
-  let rightExternalArchivist: ArchivistInstance
-  let rightWitness: WitnessInstance
+  let rightInternalArchivist: AttachableArchivistInstance
+  let rightExternalArchivist: AttachableArchivistInstance
+  let rightWitness: AttachableWitnessInstance
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'primaryNode', schema: NodeConfigSchema } })

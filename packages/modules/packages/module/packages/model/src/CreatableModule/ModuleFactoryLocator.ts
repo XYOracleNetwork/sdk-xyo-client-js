@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 
-import { AttachableModuleInstance, ModuleInstance } from '../instance'
+import { AttachableModuleInstance } from '../instance'
 import { hasAllLabels, Labels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
 import { CreatableModuleRegistry } from './CreatableModuleRegistry'

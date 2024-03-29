@@ -1,4 +1,3 @@
-import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 
 import { HttpBridge } from '../HttpBridge'

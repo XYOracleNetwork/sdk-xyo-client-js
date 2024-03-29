@@ -24,6 +24,7 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
+    "@xylabs/object": "^3.0.24",
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
     "@xyo-network/address-payload-plugin": "workspace:~",
@@ -74,6 +75,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.93.5",
+  "version": "2.93.6",
   "type": "module"
 }

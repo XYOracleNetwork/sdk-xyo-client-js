@@ -2,7 +2,6 @@
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance } from '@xyo-network/node-model'

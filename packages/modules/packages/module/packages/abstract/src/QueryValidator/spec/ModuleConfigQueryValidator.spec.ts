@@ -1,13 +1,13 @@
 import { Address, Hex } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { CosigningAddressSet, ModuleConfig, ModuleConfigSchema, ModuleDiscoverQuerySchema } from '@xyo-network/module-model'
+import { CosigningAddressSet, ModuleConfig, ModuleConfigSchema, ModuleStateQuerySchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema } from '@xyo-network/payload-model'
 
 import { ModuleConfigQueryValidator } from '../ModuleConfigQueryValidator'
 
-const schema = ModuleDiscoverQuerySchema
+const schema = ModuleStateQuerySchema
 
 describe('ModuleConfigQueryValidator', () => {
   const allowed1 = Account.randomSync()
@@ -19,13 +19,9 @@ describe('ModuleConfigQueryValidator', () => {
   const other = Account.randomSync()
   const queryPayload = new PayloadBuilder({ schema }).build()
   const allowed: Record<Schema, (Address | CosigningAddressSet)[]> = {}
-  allowed[ModuleDiscoverQuerySchema] = [
-    allowed1.address.toUpperCase(),
-    allowed2.address,
-    [allowedCosigner1.address, allowedCosigner2.address],
-  ] as Hex[]
+  allowed[ModuleStateQuerySchema] = [allowed1.address.toUpperCase(), allowed2.address, [allowedCosigner1.address, allowedCosigner2.address]] as Hex[]
   const disallowed: Record<Schema, Address[]> = {}
-  disallowed[ModuleDiscoverQuerySchema] = [disallowed1.address.toUpperCase() as Hex, disallowed2.address]
+  disallowed[ModuleStateQuerySchema] = [disallowed1.address.toUpperCase() as Hex, disallowed2.address]
   describe('queryable', () => {
     describe('allowed', () => {
       const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed } }

@@ -129,7 +129,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await (this.downResolver.resolve('*', { maxDepth, visibility: 'public' }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  protected override async discoverHandler(maxDepth = 5): Promise<Payload[]> {
+  protected override async generateConfigAndAddress(maxDepth = 5): Promise<Payload[]> {
     const childMods = await this.attachedPublicModules(maxDepth)
     //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
@@ -138,7 +138,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       ),
     )
 
-    return [...(await super.discoverHandler(maxDepth)), ...childModAddresses]
+    return [...(await super.generateConfigAndAddress(maxDepth)), ...childModAddresses]
   }
 
   protected override async manifestHandler(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {

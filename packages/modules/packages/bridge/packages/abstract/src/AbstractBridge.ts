@@ -76,7 +76,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   override async startHandler() {
-    //await this.discoverRoots()
     return await super.startHandler()
   }
 

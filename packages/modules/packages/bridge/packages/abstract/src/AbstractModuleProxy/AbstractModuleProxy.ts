@@ -15,12 +15,8 @@ import {
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
   ModuleConfigSchema,
-  ModuleDescribeQuery,
-  ModuleDescribeQuerySchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
@@ -57,7 +53,7 @@ export abstract class AbstractModuleProxy<
   extends AbstractModuleInstance<TParams, TWrappedModule['eventData']>
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
-  static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
+  static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   protected _config?: ModuleInstance['config']
   protected _state: Payload[] | undefined = undefined
@@ -132,17 +128,6 @@ export abstract class AbstractModuleProxy<
       }
     }
     return result
-  }
-
-  override async describe(): Promise<ModuleDescriptionPayload> {
-    const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    const response = (await this.sendQuery(queryPayload)).at(0)
-    return assertEx(asPayload<ModuleDescriptionPayload>([ModuleDescriptionSchema])(response), () => `Invalid payload [${response?.schema}]`)
-  }
-
-  override async discover(): Promise<Payload[]> {
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
-    return await this.sendQuery(queryPayload)
   }
 
   override async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {

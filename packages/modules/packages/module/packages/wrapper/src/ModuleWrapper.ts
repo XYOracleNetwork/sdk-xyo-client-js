@@ -22,12 +22,6 @@ import {
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
-  ModuleDescribeQuery,
-  ModuleDescribeQuerySchema,
-  ModuleDescriptionPayload,
-  ModuleDescriptionSchema,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -41,7 +35,7 @@ import {
   ModuleStatus,
   ModuleTypeCheck,
 } from '@xyo-network/module-model'
-import { asPayload, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -95,7 +89,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule
-  static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
+  static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
 
@@ -255,17 +249,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
     return this.module.clearListeners(eventNames)
-  }
-
-  async describe(): Promise<ModuleDescriptionPayload> {
-    const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    const response = (await this.sendQuery(queryPayload)).at(0)
-    return assertEx(asPayload<ModuleDescriptionPayload>([ModuleDescriptionSchema])(response), () => `invalid describe payload [${response?.schema}]`)
-  }
-
-  async discover(): Promise<Payload[]> {
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
-    return await this.sendQuery(queryPayload)
   }
 
   emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {

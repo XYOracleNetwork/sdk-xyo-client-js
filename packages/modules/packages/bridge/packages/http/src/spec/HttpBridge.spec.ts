@@ -2,11 +2,11 @@
 
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
+import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridge } from '../HttpBridge'
@@ -48,11 +48,12 @@ describe('HttpBridge', () => {
       () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`,
     )
 
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
+    const state = await remoteNode.state()
+    const description = state.find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    expect(description?.children).toBeArray()
+    expect(description?.children?.length).toBeGreaterThan(0)
+    expect(description?.queries).toBeArray()
+    expect(description?.queries?.length).toBeGreaterThan(0)
 
     const archivistByName1 = await rootModule?.resolve('Archivist')
     expect(archivistByName1).toBeDefined()
@@ -98,11 +99,11 @@ describe('HttpBridge', () => {
 
     await memNode3.register(remoteNode)
     await memNode3.attach(remoteNode?.address, true)
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
+    const description = (await remoteNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    expect(description?.children).toBeArray()
+    expect(description?.children?.length).toBeGreaterThan(0)
+    expect(description?.queries).toBeArray()
+    expect(description?.queries?.length).toBeGreaterThan(0)
 
     // Works if you supply the known address for 'Archivist'
     //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })

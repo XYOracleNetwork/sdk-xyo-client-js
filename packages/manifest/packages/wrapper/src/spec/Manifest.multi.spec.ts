@@ -16,8 +16,8 @@ describe('Manifest', () => {
       ])
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
-      const discover = await node.discover()
-      const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
+      const state = await node.state()
+      const discoveredAddresses = state.filter((item) => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBeGreaterThan(8)
       //expect((await node.resolve()).length).toBeGreaterThan(10)
       const roundTrip = (await node.manifest()) as NodeManifest

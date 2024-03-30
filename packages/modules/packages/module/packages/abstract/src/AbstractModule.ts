@@ -30,10 +30,8 @@ import {
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
-  ModuleDescribeQuerySchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
-  ModuleDiscoverQuerySchema,
   ModuleEventData,
   ModuleFactory,
   ModuleManifestQuerySchema,
@@ -73,8 +71,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueries['schema'], string> = {
     [ModuleAddressQuerySchema]: '1',
-    [ModuleDescribeQuerySchema]: '4',
-    [ModuleDiscoverQuerySchema]: '2',
     [ModuleManifestQuerySchema]: '5',
     [ModuleStateQuerySchema]: '6',
     [ModuleSubscribeQuerySchema]: '3',
@@ -82,8 +78,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _lastError?: Error
   protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
-    [ModuleDescribeQuerySchema]: undefined,
-    [ModuleDiscoverQuerySchema]: undefined,
     [ModuleManifestQuerySchema]: undefined,
     [ModuleStateQuerySchema]: undefined,
     [ModuleSubscribeQuerySchema]: undefined,
@@ -153,14 +147,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get queries(): string[] {
-    return [
-      ModuleDiscoverQuerySchema,
-      ModuleAddressQuerySchema,
-      ModuleSubscribeQuerySchema,
-      ModuleDescribeQuerySchema,
-      ModuleManifestQuerySchema,
-      ModuleStateQuerySchema,
-    ]
+    return [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -510,29 +497,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return result
   }
 
-  protected async describeHandler(): Promise<ModuleDescriptionPayload> {
-    const description: ModuleDescriptionPayload = {
-      address: this.address,
-      queries: this.queries,
-      schema: ModuleDescriptionSchema,
-    }
-    if (this.config?.name) {
-      description.name = this.config.name
-    }
-
-    const discover = await this.discoverHandler()
-
-    description.children = compact(
-      discover?.map((payload) => {
-        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-        return address == this.address ? undefined : address
-      }) ?? [],
-    )
-
-    return description
-  }
-
-  protected async discoverHandler(_maxDepth?: number): Promise<Payload[]> {
+  protected async generateConfigAndAddress(_maxDepth?: number): Promise<Payload[]> {
     const config = await PayloadBuilder.build(this.config)
     const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({ address: this.address, name: this.config?.name })
@@ -547,6 +512,28 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       schema: ConfigSchema,
     })
     return compact([config, configSchema, address, ...queries])
+  }
+
+  protected async generateDescribe(): Promise<ModuleDescriptionPayload> {
+    const description: ModuleDescriptionPayload = {
+      address: this.address,
+      queries: this.queries,
+      schema: ModuleDescriptionSchema,
+    }
+    if (this.config?.name) {
+      description.name = this.config.name
+    }
+
+    const discover = await this.generateConfigAndAddress()
+
+    description.children = compact(
+      discover?.map((payload) => {
+        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+        return address == this.address ? undefined : address
+      }) ?? [],
+    )
+
+    return description
   }
 
   protected async getArchivist(): Promise<ArchivistInstance | undefined> {
@@ -629,15 +616,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         resultPayloads.push(await this.manifestHandler(queryPayload.maxDepth))
         break
       }
-      case ModuleDiscoverQuerySchema: {
-        const { maxDepth } = queryPayload
-        resultPayloads.push(...(await this.discoverHandler(maxDepth)))
-        break
-      }
-      case ModuleDescribeQuerySchema: {
-        resultPayloads.push(await this.describeHandler())
-        break
-      }
       case ModuleAddressQuerySchema: {
         resultPayloads.push(...(await this.moduleAddressHandler()))
         break
@@ -665,7 +643,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async stateHandler(): Promise<Payload[]> {
-    return [await this.manifestHandler(), ...(await this.discoverHandler()), await this.describeHandler()]
+    return [await this.manifestHandler(), ...(await this.generateConfigAndAddress()), await this.generateDescribe()]
   }
 
   protected stopHandler(_timeout?: number): Promisable<boolean> {

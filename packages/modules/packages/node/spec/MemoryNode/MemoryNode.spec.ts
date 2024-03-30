@@ -5,9 +5,9 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
-import { AttachableModuleInstance, Module, ModuleDescription } from '@xyo-network/module-model'
+import { AttachableModuleInstance, Module, ModuleDescription, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'
 
 import { MemoryNode } from '../../src'
 
@@ -207,22 +207,22 @@ describe('MemoryNode', () => {
     })
   })
   describe('description', () => {
-    const validateModuleDescription = (description: ModuleDescription) => {
+    const validateModuleDescription = (description?: ModuleDescription) => {
       expect(description).toBeObject()
-      expect(description.address).toBeString()
-      expect(description.queries).toBeArray()
-      description.queries.map((query) => {
+      expect(description?.address).toBeString()
+      expect(description?.queries).toBeArray()
+      description?.queries.map((query) => {
         expect(query).toBeString()
       })
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(0)
+        expect(description?.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -246,13 +246,13 @@ describe('MemoryNode', () => {
         )
       })
       it('describes node and child modules', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(2)
+        expect(description?.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
@@ -288,20 +288,20 @@ describe('MemoryNode', () => {
         await memoryNode.register(archivist2)
         await memoryNode.attach(archivist2.address, true)
         console.log('status:', memoryNode.status)
-        const description = await memoryNode.describe()
+        const description = (await memoryNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(2)
+        expect(description?.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
   })
   describe('discover', () => {
     const archivistConfig = { schema: MemoryArchivist.configSchema }
-    const validateDiscoveryResponse = (mod: Module, response: Payload[]) => {
+    const validateStateResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find((p) => p.schema === AddressSchema) as AddressPayload
       expect(address).toBeObject()
@@ -317,8 +317,8 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await node.discover()
-        validateDiscoveryResponse(node, description)
+        const state = await node.state()
+        validateStateResponse(node, state)
       })
     })
     describe('node with child modules', () => {
@@ -334,11 +334,11 @@ describe('MemoryNode', () => {
             await memoryNode.attach(mod.address, true)
           }),
         )
-        const discover = await memoryNode.discover()
+        const state = await memoryNode.state()
 
-        const address0 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
+        const address0 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
         expect(address0).toBeObject()
-        const address1 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
+        const address1 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
         expect(address1).toBeObject()
       })
     })
@@ -382,13 +382,13 @@ describe('MemoryNode', () => {
         expect(eventAddresses.length).toBe(3)
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const description = await node.discover()
-        validateDiscoveryResponse(node, description)
+        const state = await node.state()
+        validateStateResponse(node, state)
       })
     })
   })
 })
 
-const prettyPrintDescription = (description: ModuleDescription) => {
+const prettyPrintDescription = (description?: ModuleDescription) => {
   return JSON.stringify(description, null, 2)
 }

@@ -37,20 +37,6 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
-  describe(): Promise<ModuleDescriptionPayload> {
-    this._checkDead()
-    return this.busy(async () => {
-      return await this.describeHandler()
-    })
-  }
-
-  discover(maxDepth = 5): Promise<Payload[]> {
-    this._checkDead()
-    return this.busy(async () => {
-      return await this.discoverHandler(maxDepth)
-    })
-  }
-
   manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
     this._checkDead()
     return this.busy(async () => {

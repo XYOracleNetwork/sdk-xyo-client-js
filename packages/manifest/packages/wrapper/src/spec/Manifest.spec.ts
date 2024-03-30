@@ -15,7 +15,7 @@ describe('Manifest', () => {
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
 
-      const discover = await node.discover()
+      const discover = await node.state()
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBeGreaterThan(4)
       //expect((await node.resolve()).length).toBeGreaterThan(4)

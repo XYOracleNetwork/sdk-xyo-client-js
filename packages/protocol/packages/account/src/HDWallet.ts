@@ -10,14 +10,10 @@ import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
-//import { combineWalletPaths, isValidAbsoluteWalletPath, isValidRelativeWalletPath } from './lib'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
-  protected static override _addressMap: Record<string, WeakRef<HDWallet>> = {}
-  protected static _mnemonicMap: Record<string, WeakRef<HDWallet>> = {}
-  protected static _walletMap: Record<string, Record<string, WeakRef<HDWallet>>> = {}
-  protected _pathMap: Record<string, WeakRef<HDWallet>> = {}
+  protected static override _addressMap: Record<Address, WeakRef<HDWallet>> = {}
 
   constructor(
     key: unknown,
@@ -92,26 +88,9 @@ export class HDWallet extends Account implements WalletInstance {
   }
 
   static override async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<WalletInstance> {
-    let existing: HDWallet | undefined = HDWallet._mnemonicMap[mnemonic.phrase]?.deref()
-    if (existing) {
-      if (path) {
-        const existingDerivedNode = existing._pathMap[path]?.deref()
-        if (existingDerivedNode) {
-          console.log(`fromMnemonic1: [${path}][${existingDerivedNode.path}]`)
-          return existingDerivedNode
-        }
-      } else {
-        console.log(`fromMnemonic2: [${path}][${existing.path}]`)
-        return existing
-      }
-    }
-
     const node = HDNodeWallet.fromMnemonic(mnemonic, path)
-    existing = await HDWallet.createFromNodeInternal(node)
-    const ref = new WeakRef(existing)
-    HDWallet._mnemonicMap[mnemonic.phrase] = ref
-    if (existing.path) existing._pathMap[existing.path] = ref
-    return existing
+    const createdWallet = await this.createFromNodeInternal(node)
+    return this.getCachedWalletOrCacheNewWallet(createdWallet)
   }
 
   static override async fromPhrase(phrase: string, path: string = defaultPath): Promise<WalletInstance> {
@@ -120,7 +99,8 @@ export class HDWallet extends Account implements WalletInstance {
 
   static async fromSeed(seed: string | Uint8Array): Promise<WalletInstance> {
     const node = HDNodeWallet.fromSeed(seed)
-    return await HDWallet.createFromNodeInternal(node)
+    const createdWallet = await this.createFromNodeInternal(node)
+    return this.getCachedWalletOrCacheNewWallet(createdWallet)
   }
 
   static override is(value: unknown): HDWallet | undefined {
@@ -136,37 +116,27 @@ export class HDWallet extends Account implements WalletInstance {
     return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 
-  protected static getWallet(phrase?: string, path: string = ''): HDWallet | undefined {
-    if (!phrase || !path) return undefined
-    return HDWallet._walletMap[phrase]?.[path]?.deref()
-  }
-
-  protected static setWallet(wallet: HDWallet, path: string = '') {
-    const phrase = wallet.mnemonic?.phrase
-    if (!phrase) return
-    const mnemonicDict = HDWallet._walletMap[phrase] ?? (HDWallet._walletMap[phrase] = {})
-    mnemonicDict[path] = new WeakRef(wallet)
+  protected static getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): HDWallet {
+    const existingWallet = this._addressMap[createdWallet.address]?.deref()
+    if (existingWallet) {
+      return existingWallet
+    }
+    const ref = new WeakRef(createdWallet)
+    this._addressMap[createdWallet.address] = ref
+    return createdWallet
   }
 
   async derivePath(path: string): Promise<WalletInstance> {
-    assertEx(path[0] !== 'm', () => 'Path must be relative (not starting with "m")')
+    //if an absolute path, check if it matches the parent root and work with it
+    if (path.startsWith('m/')) {
+      const parentPath = this.path
+      if (parentPath !== null && path.startsWith(parentPath)) {
+        const childPath = path.slice(parentPath.length + 1)
+        return await HDWallet.createFromNode(this.node.derivePath(childPath))
+      }
+      throw new Error(`Invalid absolute path ${path} for wallet with path ${parentPath}`)
+    }
     return await HDWallet.createFromNode(this.node.derivePath(path))
-    /*
-    //console.log(`derivePath: ${path}`)
-    const absolutePath = isValidRelativeWalletPath(path) ? combineWalletPaths(this.path, path) : path
-    //console.log(`absolutePath: ${absolutePath}`)
-    assertEx(isValidAbsoluteWalletPath(absolutePath), `Invalid absolute path ${absolutePath}`)
-    const existing = HDWallet.getWallet(this.mnemonic?.phrase, absolutePath)
-    //if (existing) console.log(`existing: ${existing.path}`)
-    if (existing) return existing
-    //console.log(`this.node: ${this.node.path}`)
-    const created = await HDWallet.create(this.node.derivePath?.(path))
-    //console.log(`createdPath: ${created.path}`)
-    // If an extended key was used to create the wallet, the path will be null. Otherwise, it should equal the absolute path.
-    if (created.path !== null) assertEx(absolutePath === created.path, `Path mismatch ${absolutePath} !== ${created.path}`)
-    HDWallet.setWallet(created)
-    return created
-    */
   }
 
   neuter: () => HDWallet = () => {

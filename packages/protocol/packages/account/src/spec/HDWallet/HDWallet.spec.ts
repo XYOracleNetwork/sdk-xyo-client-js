@@ -1,11 +1,13 @@
 import { Address, Hex } from '@xylabs/hex'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
-import { HDNodeWallet, Mnemonic, SigningKey } from 'ethers'
+import { defaultPath, Mnemonic, SigningKey } from 'ethers'
+
+import { HDWallet } from '../../HDWallet'
 
 /**
  * The wallet types that can be tested
  */
-type Wallet = HDNodeWallet | WalletInstance
+type Wallet = HDWallet | WalletInstance
 
 /**
  * The serializable information of a wallet
@@ -92,11 +94,11 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
       })
       it.each(paths)('works repeatably & interoperably with Ethers', async (path: string) => {
         const sutA = await HDWallet.fromPhrase(phrase)
-        const sutB = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
+        const sutB = await HDWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
         expectWalletsAndPathsEqual(sutA, sutB)
         snapshotWalletInstances(sutA, sutB)
         const accountA = await sutA.derivePath(path)
-        const accountB = sutB.derivePath(path)
+        const accountB = await sutB.derivePath(path)
         expectWalletsAndPathsEqual(accountA, accountB)
         snapshotWalletInstances(accountA, accountB)
       })
@@ -107,13 +109,13 @@ export const generateHDWalletTests = (title: string, HDWallet: WalletStatic) => 
         const sutB = await HDWallet.fromExtendedKey(sutA.extendedKey)
         expectWalletsEqual(sutA, sutB)
         expect(sutA.path).not.toBeNull()
-        expect(sutB.path).toBeNull()
+        expect(sutB.path).not.toBeNull()
         snapshotWalletInstances(sutA, sutB)
         const accountA = await sutA.derivePath?.(path)
         const accountB = await sutB.derivePath?.(path)
         expectWalletsEqual(accountA, accountB)
         expect(accountA.path).not.toBeNull()
-        expect(accountB.path).toBeNull()
+        expect(accountB.path).not.toBeNull()
         snapshotWalletInstances(accountA, accountB)
       })
       it('works when paths provided incrementally', async () => {
@@ -168,13 +170,21 @@ test('HDWallet tests generator is defined', () => {
   expect(generateHDWalletTests).toBeFunction()
 })
 
-test('Same address, two paths', () => {
-  const sut = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase('later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'))
-  const accountRoot = sut.derivePath("44'/60'/0'/0/0")
-  const accountA = sut.derivePath("44'/60'/0'/0/0/0")
-  const accountB = accountRoot.derivePath('0')
-  const accountBPrime = accountRoot.derivePath("0'")
+test('Same address, two paths', async () => {
+  const sut = await HDWallet.fromMnemonic(Mnemonic.fromPhrase('later puppy sound rebuild rebuild noise ozone amazing hope broccoli crystal grief'))
+  const accountNode = await sut.derivePath('0')
+  expect(accountNode.path).toBe(`${defaultPath}/0`)
+  const accountA = await sut.derivePath('0/2')
+  const accountB = await accountNode.derivePath('2')
+  const accountAPrime = await accountNode.derivePath("0'/2")
+  const accountAPrime2 = await accountNode.derivePath("0/2'")
   expect(accountA.address).toEqual(accountB.address)
-  expect(accountRoot.address === accountB.address).toBe(false)
-  expect(accountB.address === accountBPrime.address).toBe(false)
+  expect(accountNode.address === accountB.address).toBe(false)
+  expect(accountA.address === accountAPrime.address).toBe(false)
+  expect(accountA.address === accountAPrime2.address).toBe(false)
+
+  expect(accountNode.address).toMatchSnapshot()
+  expect(accountA.address).toMatchSnapshot()
+  expect(accountB.address).toMatchSnapshot()
+  expect(accountAPrime.address).toMatchSnapshot()
 })

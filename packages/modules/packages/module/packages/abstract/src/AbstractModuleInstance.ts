@@ -6,7 +6,6 @@ import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-m
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
-  ModuleDescriptionPayload,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,

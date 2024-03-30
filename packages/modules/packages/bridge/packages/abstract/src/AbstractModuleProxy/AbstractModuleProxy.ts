@@ -15,8 +15,6 @@ import {
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
   ModuleConfigSchema,
-  ModuleDescriptionPayload,
-  ModuleDescriptionSchema,
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
@@ -30,7 +28,7 @@ import {
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { asPayload, isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver'

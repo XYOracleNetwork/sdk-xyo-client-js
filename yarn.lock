@@ -4336,7 +4336,7 @@ __metadata:
     "@xyo-network/diviner-jsonpatch-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    json-joy: "npm:^11.41.0"
+    json-joy: "npm:^11.42.0"
     tslib: "npm:^2.6.2"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -4350,7 +4350,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.5.2"
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
-    json-joy: "npm:^11.41.0"
+    json-joy: "npm:^11.42.0"
     tslib: "npm:^2.6.2"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -4992,7 +4992,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@npm:^2.94.0, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@npm:^2.94.1, @xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
   dependencies:
@@ -5718,12 +5718,12 @@ __metadata:
     "@xylabs/error": "npm:^3.0.24"
     "@xylabs/ts-scripts-yarn3": "npm:^3.5.2"
     "@xylabs/tsconfig-dom": "npm:^3.5.2"
-    "@xyo-network/domain-payload-plugin": "npm:^2.94.0"
+    "@xyo-network/domain-payload-plugin": "npm:^2.94.1"
     "@xyo-network/huri": "workspace:~"
     "@xyo-network/network": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/schema-payload-plugin": "npm:^2.94.0"
+    "@xyo-network/schema-payload-plugin": "npm:^2.94.1"
     ajv: "npm:^8.12.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.3"
@@ -5741,7 +5741,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@npm:^2.94.0, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@npm:^2.94.1, @xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
   dependencies:
@@ -5787,7 +5787,7 @@ __metadata:
     jest-runner: "npm:^29.7.0"
     jest-runner-groups: "npm:^2.2.0"
     jest-sorted: "npm:^1.0.15"
-    reflect-metadata: "npm:^0.2.1"
+    reflect-metadata: "npm:^0.2.2"
     supertest: "npm:^6.3.4"
     ts-jest: "npm:^29.1.2"
     ts-node: "npm:^10.9.2"
@@ -11821,9 +11821,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-joy@npm:^11.41.0":
-  version: 11.41.0
-  resolution: "json-joy@npm:11.41.0"
+"json-joy@npm:^11.42.0":
+  version: 11.42.0
+  resolution: "json-joy@npm:11.42.0"
   dependencies:
     arg: "npm:^5.0.2"
     hyperdyperid: "npm:^1.2.0"
@@ -11847,7 +11847,7 @@ __metadata:
     json-pointer: bin/json-pointer.js
     json-pointer-test: bin/json-pointer-test.js
     json-unpack: bin/json-unpack.js
-  checksum: 10/37278b5f05a4ddbb6a613b85ad03cf5133002c7f23d7af9f986b6b869b0db2861e1521da19b29aece69fe0acda1cdb6334bd303ac42c2d086a4f24127c3100b1
+  checksum: 10/9515984aefd7f52bd9ae34eebcd72c94dbb8faa54db0adcee4aff3778609414bb6470f6213c320d71fe6b0d7b5d5892b70780f2a27231725cc970a5c933b342e
   languageName: node
   linkType: hard
 
@@ -14695,10 +14695,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:*, reflect-metadata@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "reflect-metadata@npm:0.2.1"
-  checksum: 10/394b293bd4a538b644ed0e8730c5aeb1e08e78972c915b3d2cf3b302241952cfee8f8bd8a0fdf7d8c7fa78d31d0585489061624692e2577d767abd120cad968c
+"reflect-metadata@npm:*, reflect-metadata@npm:^0.2.1, reflect-metadata@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "reflect-metadata@npm:0.2.2"
+  checksum: 10/1c93f9ac790fea1c852fde80c91b2760420069f4862f28e6fae0c00c6937a56508716b0ed2419ab02869dd488d123c4ab92d062ae84e8739ea7417fae10c4745
   languageName: node
   linkType: hard
 

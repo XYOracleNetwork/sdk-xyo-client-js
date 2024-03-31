@@ -1,6 +1,6 @@
 import { generateMnemonic } from '@scure/bip39'
 // eslint-disable-next-line import/no-internal-modules
-import { wordlist } from '@scure/bip39/wordlists/english'
+import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hex, hexFromHexString } from '@xylabs/hex'
@@ -103,12 +103,16 @@ export class HDWallet extends Account implements WalletInstance {
     return this.getCachedWalletOrCacheNewWallet(createdWallet)
   }
 
+  static generateMnemonic(wordlist: string[] = englishWordlist, strength: number = 256): string {
+    return generateMnemonic(wordlist, strength)
+  }
+
   static override is(value: unknown): HDWallet | undefined {
     return value instanceof HDWallet ? value : undefined
   }
 
   static async random(): Promise<WalletInstance> {
-    return await this.fromMnemonic(Mnemonic.fromPhrase(generateMnemonic(wordlist, 256)))
+    return await this.fromMnemonic(Mnemonic.fromPhrase(HDWallet.generateMnemonic()))
   }
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {

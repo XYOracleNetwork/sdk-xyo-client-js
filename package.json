@@ -35,7 +35,7 @@
     "jest-runner": "^29.7.0",
     "jest-runner-groups": "^2.2.0",
     "jest-sorted": "^1.0.15",
-    "reflect-metadata": "^0.2.1",
+    "reflect-metadata": "^0.2.2",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
@@ -113,7 +113,7 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.94.0",
+  "version": "2.94.1",
   "packageManager": "yarn@4.1.1",
   "volta": {
     "node": "18.19.0",

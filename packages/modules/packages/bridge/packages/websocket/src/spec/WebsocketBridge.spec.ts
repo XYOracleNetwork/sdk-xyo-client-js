@@ -6,7 +6,6 @@ import { BridgeCommands, createServer } from '../socketServer'
  * @group module
  * @group bridge
  */
-
 describe('WebsocketBridge', () => {
   let ioServer: { start: () => void; stop: () => void }
   let moduleClientA: Socket
@@ -54,13 +53,13 @@ describe('WebsocketBridge', () => {
       reconnectionDelay: 0,
       transports: ['websocket'],
     })
-    const message = `Hello from ${moduleAddressB}`
+    const query = `Hello from ${moduleAddressB}`
     moduleClientB.on('connect', () => {
       moduleClientB.emit(BridgeCommands.bridge, moduleAddressA)
-      moduleClientA.emit(BridgeCommands.sendMessage, { address: moduleAddressA, message })
+      moduleClientA.emit(BridgeCommands.sendMessage, { address: moduleAddressA, query })
     })
-    moduleClientB.on('message', (message) => {
-      expect(message).toBe(message)
+    moduleClientB.on('message', (received) => {
+      expect(received).toBe(query)
       moduleClientB.disconnect()
       done()
     })

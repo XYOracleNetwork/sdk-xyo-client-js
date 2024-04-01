@@ -18,8 +18,8 @@ export const createServer = (port: number) => {
       console.log(`User ${socket.id} has connected to module ${address}`)
     })
 
-    socket.on(BridgeCommands.sendMessage, ({ address, message }: { address: Address; message: string }) => {
-      socket.to(address).emit('message', message)
+    socket.on(BridgeCommands.sendMessage, ({ address, query }: { address: Address; query: string }) => {
+      socket.to(address).emit('message', query)
     })
   })
 

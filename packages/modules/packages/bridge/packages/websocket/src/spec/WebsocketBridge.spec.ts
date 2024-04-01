@@ -1,6 +1,6 @@
 import { io as Client, Socket } from 'socket.io-client'
 
-import { createServer } from '../socketServer'
+import { BridgeCommands, createServer } from '../socketServer'
 
 /**
  * @group module
@@ -46,7 +46,7 @@ describe('WebsocketBridge', () => {
     done()
   })
 
-  test('should communicate between clients in the same room', (done) => {
+  test('should communicate between clients', (done) => {
     const moduleClientB = Client(serverUrl, {
       forceNew: true,
       reconnection: true,
@@ -55,14 +55,14 @@ describe('WebsocketBridge', () => {
       transports: ['websocket'],
     })
     moduleClientB.on('connect', () => {
-      moduleClientB.emit('join room', 'testRoom')
-      moduleClientA.emit('send message', { message: 'Hello room testRoom from client1', room: 'testRoom' })
+      moduleClientB.emit(BridgeCommands.bridge, 'testRoom')
+      moduleClientA.emit(BridgeCommands.sendMessage, { address: 'testRoom', message: 'Hello room testRoom from client1' })
     })
     moduleClientB.on('message', (message) => {
       expect(message).toBe('Hello room testRoom from client1')
       moduleClientB.disconnect()
       done()
     })
-    moduleClientA.emit('join room', 'testRoom')
+    moduleClientA.emit(BridgeCommands.bridge, 'testRoom')
   })
 })

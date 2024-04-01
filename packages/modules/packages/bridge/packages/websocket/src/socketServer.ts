@@ -1,19 +1,25 @@
 import { createServer as createHttpServer } from 'node:http'
 
+import { Address } from '@xylabs/hex'
 import { Server, Socket } from 'socket.io'
+
+export const BridgeCommands = {
+  bridge: 'bridge',
+  sendMessage: 'send message',
+}
 
 export const createServer = (port: number) => {
   const httpServer = createHttpServer()
   const io = new Server(httpServer)
 
   io.on('connection', (socket: Socket) => {
-    socket.on('join room', async (room: string) => {
-      await socket.join(room)
-      socket.to(room).emit('message', `User ${socket.id} has joined the room ${room}`)
+    socket.on(BridgeCommands.bridge, async (address: Address) => {
+      await socket.join(address)
+      console.log(`User ${socket.id} has connected to module ${address}`)
     })
 
-    socket.on('send message', ({ room, message }: { message: string; room: string }) => {
-      socket.to(room).emit('message', message)
+    socket.on(BridgeCommands.sendMessage, ({ address, message }: { address: Address; message: string }) => {
+      socket.to(address).emit('message', message)
     })
   })
 

@@ -3,7 +3,7 @@
 
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { StringKeyObject } from '@xylabs/object'
-import { Account, AddressValue } from '@xyo-network/account'
+import { AddressValue, HDWallet } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -43,7 +43,7 @@ describe('BoundWitnessBuilder', () => {
   describe('build', () => {
     describe('_hash', () => {
       it.each(payloads)('consistently hashes equivalent payloads independent of the order of the keys', async (payload) => {
-        const address = await Account.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
+        const address = await HDWallet.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
         let builder = new BoundWitnessBuilder()
         expect(builder).toBeDefined()
         builder = builder.witness(address)
@@ -65,8 +65,8 @@ describe('BoundWitnessBuilder', () => {
     })
     describe('with payloads', () => {
       it('omits the _payloads field', async () => {
-        const address = await Account.fromPhrase('canyon defense similar chalk good box quote miss decorate load amused gown')
-        const builder = await new BoundWitnessBuilder().witness(address).payload(payload1)
+        const address = await HDWallet.fromPhrase('canyon defense similar chalk good box quote miss decorate load amused gown')
+        const builder = new BoundWitnessBuilder().witness(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
       })

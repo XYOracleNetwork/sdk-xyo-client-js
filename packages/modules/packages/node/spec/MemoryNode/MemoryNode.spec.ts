@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { delay } from '@xylabs/delay'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -25,10 +25,10 @@ describe('MemoryNode', () => {
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(async () => {
-    testAccount1 = await Account.fromPhrase('cushion student broken thing poet mistake item dutch traffic gloom awful still')
-    testAccount2 = await Account.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
-    testAccount3 = await Account.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
-    testAccount4 = await Account.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
+    testAccount1 = await HDWallet.fromPhrase('cushion student broken thing poet mistake item dutch traffic gloom awful still')
+    testAccount2 = await HDWallet.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
+    testAccount3 = await HDWallet.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
+    testAccount4 = await HDWallet.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
     //jest.spyOn(console, 'log').mockImplementation(() => {
     // Stop expected logs from being generated during tests
     //})

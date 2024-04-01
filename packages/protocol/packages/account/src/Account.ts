@@ -78,14 +78,6 @@ export class Account extends KeyPair implements AccountInstance {
     return (await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress() as AccountInstance
   }
 
-  static async fromMnemonic(mnemonic: Mnemonic): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(typeof mnemonic === 'string' ? getPrivateKeyFromMnemonic(mnemonic) : getPrivateKeyFromMnemonic(mnemonic))
-  }
-
-  static async fromPhrase(phrase: string): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(phrase)))
-  }
-
   static async fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance> {
     const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
     return await Account.create({ privateKey })

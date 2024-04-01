@@ -16,11 +16,6 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
   const testVectorSignature =
     'b61dad551e910e2793b4f9f880125b5799086510ce102fad0222c1b093c60a6b38aa35ef56f97f86537269e8be95832aaa37d3b64d86b67f0cda467ac7cb5b3e'
 
-  const testPrivateKey = 'b9fe2b54ebd589210a80a8be7393a39bd88dde52bc170db5b4a06f410931e249'
-  const testPublicKey =
-    'cfa9567f6f819a2926314ecc05147a5dcb7af52f00fe1404a94b15462fa7a3532fb3f4ea2281b82552a3df4ff7cdc6cdcfa008f0672df42b886264772ac5191c'
-  const testAddress = 'c858fb09c333b3fa95ef8427e4e8a647f8ffa8ff'
-
   /*const testVectors = {
   d: 'ebb2c082fd7727890a28ac82f6bdf97bad8de9f5d7c9028692de1a255cad3e0f',
   k: '49a0d7b786ec9cde0d0721d72804befd06571c974b191efb42ecf322ba9ddd9a',
@@ -31,16 +26,6 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
 }*/
 
   describe(title, () => {
-    test('Address from Phrase', async () => {
-      const wallet = await Account.fromPhrase('fall fossil forward polar flash spot element ask outdoor rebuild ribbon bulk')
-      expect(wallet.private).toHaveLength(32)
-      expect(wallet.public).toHaveLength(64)
-      expect(wallet.addressBytes).toHaveLength(20)
-      expect(wallet.private.hex).toEqual(testPrivateKey)
-      expect(wallet.public.hex).toEqual(testPublicKey)
-      expect(wallet.address).toEqual(testAddress)
-    })
-
     test('Address from Key', async () => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       expect(wallet.private).toHaveLength(32)
@@ -55,14 +40,6 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       const wallet = await Account.fromPrivateKey(testVectorPrivateKey)
       expect(wallet.public).toBeDefined()
       expect(wallet.address).toBeDefined()
-      const previousHash = wallet.previousHash
-      const signature = await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash))
-      const valid = await wallet.verify(testVectorHash, signature)
-      expect(valid).toBeTrue()
-    })
-
-    test('Sign-fromPhrase', async () => {
-      const wallet = await Account.fromPhrase('fall fossil forward polar flash spot element ask outdoor rebuild ribbon bulk')
       const previousHash = wallet.previousHash
       const signature = await wallet.sign(toUint8Array(testVectorHash), toUint8Array(previousHash))
       const valid = await wallet.verify(testVectorHash, signature)
@@ -101,20 +78,6 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
       expect(valid).toBeTrue()
     })
 
-    describe('fromMnemonic', () => {
-      const mnemonics = [
-        'music snack noble scheme invest off disease pulp mountain sting present uncover steak visual bachelor wait please wreck dwarf lecture car excuse seminar educate',
-        'another royal picture transfer yard point lecture carpet tonight sister diesel body yard clarify cream mom current margin unit fan ladder wisdom exercise feed',
-        'quantum pumpkin robot candy doctor brass plate giggle squeeze vanish purpose depend',
-        'satoshi cake access cannon feed source art oblige turtle perfect turtle dolphin',
-        'food cream bacon divorce bring gravity employ taste hub fish tennis put',
-      ]
-      it.each(mnemonics)('generates account from mnemonic', async (mnemonic: string) => {
-        const account = await Account.fromPhrase(mnemonic)
-        expect(account).toBeObject()
-        expect(account.address).toBeString()
-      })
-    })
     describe('previousHash', () => {
       const hash = '3da33603417622f4cdad2becbca8c7889623d9045d0e8923e1702a99d2f3e47c'
       let account: AccountInstance

@@ -41,8 +41,6 @@ export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   previousHashStore?: PreviousHashStore
   new (key: unknown, params?: AccountConfig): T
   create(opts?: AccountConfig): Promise<T>
-  fromMnemonic(mnemonic: Mnemonic): Promise<T>
-  fromPhrase(phrase: string): Promise<AccountInstance>
   fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance>
   is(value: unknown): T | undefined
 }

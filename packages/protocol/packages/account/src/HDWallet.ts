@@ -87,13 +87,13 @@ export class HDWallet extends Account implements WalletInstance {
     return await HDWallet.createFromNode(node as HDNodeWallet)
   }
 
-  static override async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<WalletInstance> {
+  static async fromMnemonic(mnemonic: Mnemonic, path: string = defaultPath): Promise<WalletInstance> {
     const node = HDNodeWallet.fromMnemonic(mnemonic, path)
     const createdWallet = await this.createFromNodeInternal(node)
     return this.getCachedWalletOrCacheNewWallet(createdWallet)
   }
 
-  static override async fromPhrase(phrase: string, path: string = defaultPath): Promise<WalletInstance> {
+  static async fromPhrase(phrase: string, path: string = defaultPath): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(phrase), path)
   }
 

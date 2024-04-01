@@ -28,7 +28,7 @@ import {
 } from '@xyo-network/module-model'
 import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver'
@@ -100,10 +100,13 @@ export abstract class AbstractModuleProxy<
 
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
-    return assertEx(
-      (await this.sendQuery(queryPayload)).find((payload) => payload.schema === AddressPreviousHashSchema) as WithMeta<AddressPreviousHashPayload>,
+    const result: AddressPreviousHashPayload = assertEx(
+      (await this.sendQuery(queryPayload, undefined, this.account)).find(
+        isPayloadOfSchemaType<AddressPreviousHashPayload>(AddressPreviousHashSchema),
+      ) as WithMeta<AddressPreviousHashPayload>,
       () => 'Result did not include correct payload',
     )
+    return result
   }
 
   childAddressByName(name: ModuleName): Address | undefined {
@@ -220,26 +223,6 @@ export abstract class AbstractModuleProxy<
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
     const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
     return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
-  }
-
-  protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
-    queryPayload: T,
-    payloads?: P[],
-  ): Promise<WithMeta<R>[]> {
-    // Bind them
-    const query = await this.bindQuery(queryPayload, payloads)
-
-    // Send them off
-    const [, resultPayloads, errors] = await this.query(query[0], query[1])
-
-    /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
-
-    if (errors && errors.length > 0) {
-      /* TODO: Figure out how to rollup multiple Errors */
-      throw errors[0]
-    }
-
-    return resultPayloads as WithMeta<R>[]
   }
 
   abstract proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>

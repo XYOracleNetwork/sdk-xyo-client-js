@@ -21,7 +21,7 @@ import {
   ModuleStateQuerySchema,
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
-import { Payload, Query } from '@xyo-network/payload-model'
+import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
 import { ResolveHelper, ResolveHelperConfig } from './ResolveHelper'
@@ -52,7 +52,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
   async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
-    return await this.sendQuery<ModuleManifestQuery, Payload, ModuleManifestPayload>(account, queryPayload)
+    return await this.sendQueryRaw<ModuleManifestQuery, Payload, ModuleManifestPayload>(queryPayload, undefined, account)
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
@@ -119,7 +119,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
   async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
-    return (await this.sendQuery(account, queryPayload)) as ModuleQueryResult
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
   }
 
   subscribe(_queryAccount?: AccountInstance) {
@@ -135,9 +135,27 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
-    account: AccountInstance,
     queryPayload: T,
     payloads?: P[],
+    account?: AccountInstance,
+  ): Promise<WithMeta<R>[]> {
+    const queryResults = await this.sendQueryRaw(queryPayload, payloads, account)
+    const [, resultPayloads, errors] = queryResults
+
+    /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
+
+    if (errors && errors.length > 0) {
+      /* TODO: Figure out how to rollup multiple Errors */
+      throw errors[0]
+    }
+
+    return resultPayloads as WithMeta<R>[]
+  }
+
+  protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+    account?: AccountInstance,
   ): Promise<ModuleQueryResult<R>> {
     // Bind them
     const query = await this.bindQuery(queryPayload, payloads, account)

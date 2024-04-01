@@ -13,6 +13,7 @@
     "@xylabs/assert": "^3.0.24",
     "@xylabs/promise": "^3.0.24",
     "@xylabs/retry": "^3.0.24",
+    "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",

@@ -14,6 +14,7 @@ import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
+import { globallyUnique } from './globallyUnique'
 import { KeyPair } from './Key'
 
 const nameOf = <T>(name: keyof T) => name
@@ -33,6 +34,7 @@ function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
+  static readonly uniqueName = globallyUnique('Account', Account, 'xyo')
   protected static _addressMap: Record<string, WeakRef<Account>> = {}
   protected static _protectedConstructorKey = Symbol()
   protected _node: HDNodeWallet | undefined = undefined

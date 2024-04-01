@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
 import { retry, RetryConfigWithComplete } from '@xylabs/retry'
+import { globallyUnique } from '@xyo-network/account'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
@@ -32,6 +33,7 @@ export abstract class AbstractDiviner<
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
+  static override readonly uniqueName = globallyUnique('AbstractDiviner', AbstractDiviner, 'xyo')
 
   override get queries(): string[] {
     return [DivinerDivineQuerySchema, ...super.queries]

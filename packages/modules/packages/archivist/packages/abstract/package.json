@@ -15,6 +15,7 @@
     "@xylabs/lodash": "^3.0.24",
     "@xylabs/promise": "^3.0.24",
     "@xylabs/set": "^3.0.24",
+    "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",

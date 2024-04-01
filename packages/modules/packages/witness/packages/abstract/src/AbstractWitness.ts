@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Promisable } from '@xylabs/promise'
+import { globallyUnique } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -32,6 +33,7 @@ export abstract class AbstractWitness<
   implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
+  static override readonly uniqueName = globallyUnique('AbstractWitness', AbstractWitness, 'xyo')
 
   private _archivistInstance: ArchivistInstance | undefined
 

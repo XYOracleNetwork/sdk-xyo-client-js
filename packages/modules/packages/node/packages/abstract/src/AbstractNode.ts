@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
+import { globallyUnique } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -35,6 +36,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
+  static override readonly uniqueName = globallyUnique('AbstractNode', AbstractNode, 'xyo')
 
   private readonly isNode = true
 

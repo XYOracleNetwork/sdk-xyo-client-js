@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { globallyUnique } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
@@ -24,6 +25,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   extends AbstractModule<TParams, TEventData>
   implements ModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
+  static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object

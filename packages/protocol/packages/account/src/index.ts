@@ -1,4 +1,5 @@
 export * from './Account'
+export * from './globallyUnique'
 export * from './HDWallet'
 export * from './Key'
 export * from '@xyo-network/account-model'

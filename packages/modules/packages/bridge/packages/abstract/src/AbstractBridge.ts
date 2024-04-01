@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
+import { globallyUnique } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -29,6 +30,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   implements BridgeInstance<TParams, BridgeModuleEventData>
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
+  static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
 
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]

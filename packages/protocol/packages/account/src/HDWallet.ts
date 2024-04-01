@@ -10,9 +10,11 @@ import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
+import { globallyUnique } from './globallyUnique'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
+  static override readonly uniqueName = globallyUnique('HDWallet', HDWallet, 'xyo')
   protected static override _addressMap: Record<Address, WeakRef<HDWallet>> = {}
 
   constructor(

@@ -3,6 +3,7 @@ import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
+import { globallyUnique } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,
@@ -48,6 +49,7 @@ export abstract class AbstractArchivist<
   extends AbstractModuleInstance<TParams, TEventData>
   implements AttachableArchivistInstance<TParams, TEventData, Payload>
 {
+  static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentInstances
 

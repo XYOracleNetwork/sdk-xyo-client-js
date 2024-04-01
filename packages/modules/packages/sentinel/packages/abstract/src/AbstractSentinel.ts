@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
+import { globallyUnique } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -24,6 +25,7 @@ export abstract class AbstractSentinel<
   extends AbstractModuleInstance<TParams, TEventData>
   implements CustomSentinelInstance<TParams, TEventData>
 {
+  static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')
   history: BoundWitness[] = []
   private _jobPromise?: Promise<SentinelJob>
 

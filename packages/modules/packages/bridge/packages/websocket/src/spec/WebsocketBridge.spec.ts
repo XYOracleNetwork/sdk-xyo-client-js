@@ -54,15 +54,16 @@ describe('WebsocketBridge', () => {
       reconnectionDelay: 0,
       transports: ['websocket'],
     })
+    const message = `Hello from ${moduleAddressB}`
     moduleClientB.on('connect', () => {
-      moduleClientB.emit(BridgeCommands.bridge, 'testRoom')
-      moduleClientA.emit(BridgeCommands.sendMessage, { address: 'testRoom', message: 'Hello room testRoom from client1' })
+      moduleClientB.emit(BridgeCommands.bridge, moduleAddressA)
+      moduleClientA.emit(BridgeCommands.sendMessage, { address: moduleAddressA, message })
     })
     moduleClientB.on('message', (message) => {
-      expect(message).toBe('Hello room testRoom from client1')
+      expect(message).toBe(message)
       moduleClientB.disconnect()
       done()
     })
-    moduleClientA.emit(BridgeCommands.bridge, 'testRoom')
+    moduleClientA.emit(BridgeCommands.bridge, moduleAddressA)
   })
 })

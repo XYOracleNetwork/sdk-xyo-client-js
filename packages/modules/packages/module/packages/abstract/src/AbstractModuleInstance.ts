@@ -12,11 +12,16 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
   ModuleNameResolver,
   ModuleParams,
+  ModuleQueryResult,
+  ModuleStateQuery,
+  ModuleStateQuerySchema,
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Query } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
 import { ResolveHelper, ResolveHelperConfig } from './ResolveHelper'
@@ -38,11 +43,16 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
-  manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
+  manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     this._checkDead()
     return this.busy(async () => {
-      return await this.manifestHandler(maxDepth, ignoreAddresses)
+      return await this.manifestHandler(maxDepth)
     })
+  }
+
+  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
+    return await this.sendQuery<ModuleManifestQuery, Payload, ModuleManifestPayload>(account, queryPayload)
   }
 
   moduleAddress(): Promise<AddressPreviousHashPayload[]> {
@@ -107,6 +117,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
+  async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
+    return (await this.sendQuery(account, queryPayload)) as ModuleQueryResult
+  }
+
   subscribe(_queryAccount?: AccountInstance) {
     this._checkDead()
     return this.subscribeHandler()
@@ -117,6 +132,18 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     if (!archivists) return []
     const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
     return compact(resolved.map((mod) => asArchivistInstance(mod)))
+  }
+
+  protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    account: AccountInstance,
+    queryPayload: T,
+    payloads?: P[],
+  ): Promise<ModuleQueryResult<R>> {
+    // Bind them
+    const query = await this.bindQuery(queryPayload, payloads, account)
+
+    // Send them off
+    return (await this.query(query[0], query[1])) as ModuleQueryResult<R>
   }
 
   protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {

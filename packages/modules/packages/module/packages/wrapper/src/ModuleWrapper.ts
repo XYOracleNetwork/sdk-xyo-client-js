@@ -268,6 +268,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
   }
 
+  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
+    return (await this.sendQueryRaw(queryPayload)) as ModuleQueryResult<ModuleManifestPayload>
+  }
+
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return (await this.sendQuery(queryPayload)) as WithMeta<AddressPreviousHashPayload>[]
@@ -348,6 +354,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return await this.sendQuery(queryPayload)
   }
 
+  async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
+    const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
+    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+  }
+
   protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],
@@ -381,11 +393,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     queryPayload: T,
     payloads?: P[],
   ): Promise<WithMeta<R>[]> {
-    // Bind them
-    const query = await this.bindQuery(queryPayload, payloads)
-
-    // Send them off
-    const queryResults = await this.module.query(query[0], query[1])
+    const queryResults = await this.sendQueryRaw(queryPayload, payloads)
     const [, resultPayloads, errors] = queryResults
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
@@ -396,5 +404,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }
 
     return resultPayloads as WithMeta<R>[]
+  }
+
+  protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+  ): Promise<ModuleQueryResult<R>> {
+    // Bind them
+    const query = await this.bindQuery(queryPayload, payloads)
+
+    // Send them off
+    return (await this.query(query[0], query[1])) as ModuleQueryResult<R>
   }
 }

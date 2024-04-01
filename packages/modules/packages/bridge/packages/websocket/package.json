@@ -10,34 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.0.25",
-    "@xylabs/axios": "^3.0.25",
-    "@xylabs/exists": "^3.0.25",
     "@xylabs/hex": "^3.0.25",
-    "@xylabs/object": "^3.0.25",
-    "@xylabs/promise": "^3.0.25",
-    "@xyo-network/abstract-bridge": "workspace:~",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/api-models": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/bridge-model": "workspace:~",
-    "@xyo-network/config-payload-plugin": "workspace:~",
-    "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
-    "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/node-memory": "workspace:~",
-    "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-wrapper": "workspace:~",
+    "socket.io-client": "^4.7.5",
     "typescript": "^5.4.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

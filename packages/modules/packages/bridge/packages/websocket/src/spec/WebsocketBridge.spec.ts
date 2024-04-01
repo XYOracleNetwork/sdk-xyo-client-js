@@ -45,7 +45,7 @@ describe('WebsocketBridge', () => {
     done()
   })
 
-  test('should communicate between clients', (done) => {
+  test('should communicate between modules', (done) => {
     const moduleClientB = Client(serverUrl, {
       forceNew: true,
       reconnection: true,

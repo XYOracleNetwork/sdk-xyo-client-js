@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { retry, RetryConfigWithComplete } from '@xylabs/retry'
-import { globallyUnique } from '@xyo-network/account'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {

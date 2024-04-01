@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
+import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { globallyUnique } from '@xyo-network/account'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'

@@ -6,9 +6,9 @@ import { exists } from '@xylabs/exists'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
-import { Base } from '@xylabs/object'
+import { Base, globallyUnique } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
-import { Account, globallyUnique, HDWallet } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
@@ -65,7 +65,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   static configSchemas: string[]
   static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
-  static readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
+  static override readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
 
   protected static privateConstructorKey = Date.now().toString()
 

@@ -4,13 +4,13 @@ import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hex, hexFromHexString } from '@xylabs/hex'
+import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import { AccountConfig } from '@xyo-network/account-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
-import { globallyUnique } from './globallyUnique'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {

@@ -1,6 +1,7 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
+import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -14,7 +15,6 @@ import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
-import { globallyUnique } from './globallyUnique'
 import { KeyPair } from './Key'
 
 const nameOf = <T>(name: keyof T) => name

@@ -21,7 +21,7 @@
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
     "@xylabs/eslint-config": "^3.5.2",
-    "@xylabs/forget": "^3.0.24",
+    "@xylabs/forget": "^3.0.25",
     "@xylabs/ts-scripts-yarn3": "^3.5.2",
     "@xylabs/tsconfig": "^3.5.2",
     "@xylabs/tsconfig-dom-jest": "^3.5.2",

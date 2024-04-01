@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { globallyUnique } from '@xylabs/object'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
-import { globallyUnique } from '@xyo-network/account'
 import {
   ArchivistAllQuerySchema,
   ArchivistClearQuerySchema,

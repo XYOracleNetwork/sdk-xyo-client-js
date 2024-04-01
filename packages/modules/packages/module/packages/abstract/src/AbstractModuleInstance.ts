@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
-import { globallyUnique } from '@xyo-network/account'
+import { globallyUnique } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'

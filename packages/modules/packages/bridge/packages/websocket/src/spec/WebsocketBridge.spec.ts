@@ -9,9 +9,11 @@ import { createServer } from '../socketServer'
 
 describe('WebsocketBridge', () => {
   let ioServer: { start: () => void; stop: () => void }
-  let clientSocket: Socket
+  let moduleClientA: Socket
   const port = 3000
   const serverUrl = `http://localhost:${port}`
+  const moduleAddressA = 'f4f4fa193a3b785bcf3f9902d031d49f1cf01a11'
+  const moduleAddressB = '0d8cf1ea18281a34c166624ff9d4e5a473d05ae5'
 
   beforeAll((done) => {
     ioServer = createServer(port)
@@ -25,47 +27,42 @@ describe('WebsocketBridge', () => {
   })
 
   beforeEach((done) => {
-    clientSocket = Client(serverUrl, {
+    moduleClientA = Client(serverUrl, {
       forceNew: true,
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 0,
       transports: ['websocket'],
     })
-    clientSocket.on('connect', () => {
+    moduleClientA.on('connect', () => {
       done()
     })
   })
 
   afterEach((done) => {
-    if (clientSocket.connected) {
-      clientSocket.disconnect()
+    if (moduleClientA.connected) {
+      moduleClientA.disconnect()
     }
     done()
   })
 
   test('should communicate between clients in the same room', (done) => {
-    const clientSocket2 = Client(serverUrl, {
+    const moduleClientB = Client(serverUrl, {
       forceNew: true,
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 0,
       transports: ['websocket'],
     })
-
-    clientSocket2.on('connect', () => {
-      clientSocket2.emit('join room', 'testRoom')
+    moduleClientB.on('connect', () => {
+      moduleClientB.emit('join room', 'testRoom')
+      moduleClientA.emit('send message', { message: 'Hello room testRoom from client1', room: 'testRoom' })
     })
-
-    clientSocket.on('connect', () => {
-      clientSocket.emit('join room', 'testRoom')
-      clientSocket.emit('send message', { message: 'Hello room testRoom from client1', room: 'testRoom' })
-    })
-
-    clientSocket2.on('message', (message) => {
+    moduleClientB.on('message', (message) => {
       expect(message).toBe('Hello room testRoom from client1')
-      clientSocket2.disconnect()
+      moduleClientB.disconnect()
       done()
     })
+    moduleClientA.emit('join room', 'testRoom')
   })
 })

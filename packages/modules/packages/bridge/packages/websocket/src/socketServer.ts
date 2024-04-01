@@ -2,7 +2,7 @@ import { createServer as createHttpServer } from 'node:http'
 
 import { Server, Socket } from 'socket.io'
 
-export function createServer(port: number) {
+export const createServer = (port: number) => {
   const httpServer = createHttpServer()
   const io = new Server(httpServer)
 
@@ -12,7 +12,7 @@ export function createServer(port: number) {
       socket.to(room).emit('message', `User ${socket.id} has joined the room ${room}`)
     })
 
-    socket.on('send message', ({ room, message }: { room: string; message: string }) => {
+    socket.on('send message', ({ room, message }: { message: string; room: string }) => {
       socket.to(room).emit('message', message)
     })
   })

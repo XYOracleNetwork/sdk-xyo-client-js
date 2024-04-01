@@ -25,7 +25,9 @@
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.5.2",

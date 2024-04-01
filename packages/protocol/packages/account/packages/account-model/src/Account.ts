@@ -1,7 +1,6 @@
 import { Address, Hash } from '@xylabs/hex'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import type { Mnemonic } from 'ethers'
 
 export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
 

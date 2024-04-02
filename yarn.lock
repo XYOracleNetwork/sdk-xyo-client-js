@@ -3550,6 +3550,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xylabs/typeof": "npm:^3.0.25"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/boundwitness-builder": "workspace:~"
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/payload": "workspace:~"
     "@xyo-network/payload-validator": "workspace:~"

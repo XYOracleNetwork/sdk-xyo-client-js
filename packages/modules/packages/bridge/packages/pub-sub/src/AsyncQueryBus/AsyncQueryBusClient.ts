@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
@@ -50,7 +51,10 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
     //console.log('queryArchivist - calling')
-    const queryArchivist = await this.queriesArchivist()
+    const queryArchivist = assertEx(
+      await this.queriesArchivist(),
+      () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
     //console.log('queryArchivist')
 
     // TODO: Should we always re-hash to true up timestamps?  We can't
@@ -134,8 +138,14 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
    * Background process for processing incoming responses to previously issued queries
    */
   private processIncomingResponses = async () => {
-    const responseArchivist = await this.responsesArchivist()
-    const responseBoundWitnessDiviner = await this.responsesDiviner()
+    const responseArchivist = assertEx(
+      await this.responsesArchivist(),
+      () => `Unable to contact the responsesArchivist [${this.config?.intersect?.responses?.archivist}]`,
+    )
+    const responseBoundWitnessDiviner = assertEx(
+      await this.responsesDiviner(),
+      () => `Unable to contact responsesDiviner [${this.config?.intersect?.responses?.boundWitnessDiviner}]`,
+    )
     const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
     // TODO: Do in throttled batches
     await Promise.allSettled(

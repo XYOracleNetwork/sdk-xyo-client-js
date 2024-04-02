@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Base, toJsonString } from '@xylabs/object'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
@@ -14,6 +14,16 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   protected _lastState?: LRUCache<Address, number>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
+
+  private _lastQueriesArchivistAttempt?: number
+  private _lastQueriesDivinerAttempt?: number
+  private _lastResponseArchivistAttempt?: number
+  private _lastResponseDivinerAttempt?: number
+  private _queriesArchivist?: ArchivistInstance
+  private _queriesDiviner?: DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
+  private _reResolveDelay = 5000
+  private _responseArchivist?: ArchivistInstance
+  private _responseDiviner?: DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
 
   constructor(params: TParams) {
     super(params)
@@ -41,6 +51,12 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   async queriesArchivist() {
+    if (this._queriesArchivist) {
+      return this._queriesArchivist
+    }
+    if (this._lastQueriesArchivistAttempt && Date.now() - this._lastQueriesArchivistAttempt < this._reResolveDelay) {
+      return
+    }
     const resolved = await this.resolver.resolve(this.config?.intersect?.queries?.archivist, { direction: 'up' })
     const existingResolved = assertEx(resolved, () => `Unable to resolve queriesArchivist [${this.config?.intersect?.queries?.archivist}]`)
     const result = asArchivistInstance(
@@ -48,28 +64,52 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
       () =>
         `Unable to resolve queriesArchivist as correct type [${this.config?.intersect?.queries?.archivist}][${existingResolved?.constructor?.name}]: ${toJsonString(existingResolved)}`,
     )
+    this._queriesArchivist = result
     return result
   }
 
   async queriesDiviner() {
-    return assertEx(
+    if (this._queriesDiviner) {
+      return this._queriesDiviner
+    }
+    if (this._lastQueriesDivinerAttempt && Date.now() - this._lastQueriesDivinerAttempt < this._reResolveDelay) {
+      return
+    }
+    this._queriesDiviner = assertEx(
       asDivinerInstance(await this.resolver.resolve(this.config?.intersect?.queries?.boundWitnessDiviner)),
       () => `Unable to resolve queriesDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
+
+    return this._queriesDiviner
   }
 
   async responsesArchivist() {
-    return assertEx(
+    if (this._responseArchivist) {
+      return this._responseArchivist
+    }
+    if (this._lastResponseArchivistAttempt && Date.now() - this._lastResponseArchivistAttempt < this._reResolveDelay) {
+      return
+    }
+    this._responseArchivist = assertEx(
       asArchivistInstance(await this.resolver.resolve(this.config?.intersect?.responses?.archivist)),
       () => `Unable to resolve responsesArchivist [${this.config?.intersect?.responses?.archivist}]`,
     )
+    return this._responseArchivist
   }
 
   async responsesDiviner() {
-    return assertEx(
+    if (this._responseDiviner) {
+      return this._responseDiviner
+    }
+    if (this._lastResponseDivinerAttempt && Date.now() - this._lastResponseDivinerAttempt < this._reResolveDelay) {
+      return
+    }
+    this._responseDiviner = assertEx(
       asDivinerInstance(await this.resolver.resolve(this.config?.intersect?.responses?.boundWitnessDiviner)),
       () => `Unable to resolve responsesDiviner [${this.config?.intersect?.responses?.boundWitnessDiviner}]`,
     ) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>
+
+    return this._responseDiviner
   }
 
   /**

@@ -26,8 +26,8 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.5.2",
-    "@xylabs/tsconfig": "^3.5.2",
+    "@xylabs/ts-scripts-yarn3": "^3.9.0",
+    "@xylabs/tsconfig": "^3.9.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

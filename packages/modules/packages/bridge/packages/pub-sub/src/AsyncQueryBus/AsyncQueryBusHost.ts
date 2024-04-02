@@ -79,8 +79,14 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
 
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
     const localModuleName = localModule.config.name ?? localModule.address
-    const queryArchivist = await this.queriesArchivist()
-    const responseArchivist = await this.responsesArchivist()
+    const queryArchivist = assertEx(
+      await this.queriesArchivist(),
+      () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
+    const responsesArchivist = assertEx(
+      await this.responsesArchivist(),
+      () => `Unable to contact responsesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
     const queryDestination = (query.$meta as { destination?: string[] })?.destination
     if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
@@ -108,7 +114,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             })
             const [bw, payloads, errors] = response
             this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
-            const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
+            const insertResult = await responsesArchivist.insert([bw, ...payloads, ...errors])
             // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
             // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
             // should always be unique causing at least one insertion
@@ -135,7 +141,10 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * @param address The address to find commands for
    */
   protected findQueriesToAddress = async (address: Address) => {
-    const queryBoundWitnessDiviner = await this.queriesDiviner()
+    const queryBoundWitnessDiviner = assertEx(
+      await this.queriesDiviner(),
+      () => `Unable to resolve queriesDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`,
+    )
     // Retrieve last offset from state store
     const timestamp = await this.retrieveState(address)
     const destination = [address]

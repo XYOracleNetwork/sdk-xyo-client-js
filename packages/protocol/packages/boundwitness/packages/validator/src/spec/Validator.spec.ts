@@ -1,4 +1,3 @@
-import { toJsonString } from '@xylabs/object'
 import { HDWallet, WalletInstance } from '@xyo-network/account'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { Payload, PayloadBuilder } from '@xyo-network/payload'

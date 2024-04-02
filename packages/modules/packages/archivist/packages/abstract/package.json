@@ -13,9 +13,10 @@
     "@xylabs/assert": "^3.0.25",
     "@xylabs/hex": "^3.0.25",
     "@xylabs/lodash": "^3.0.25",
+    "@xylabs/object": "^3.0.25",
     "@xylabs/promise": "^3.0.25",
     "@xylabs/set": "^3.0.25",
-    "@xyo-network/account": "workspace:~",
+    "@xyo-network/account-model": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/boundwitness-wrapper": "workspace:~",
@@ -68,6 +69,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.94.4",
+  "version": "2.94.5",
   "type": "module"
 }

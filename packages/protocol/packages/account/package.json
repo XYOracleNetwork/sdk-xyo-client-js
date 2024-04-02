@@ -16,6 +16,7 @@
     "@xylabs/assert": "^3.0.25",
     "@xylabs/hex": "^3.0.25",
     "@xylabs/libauth": "^3.0.25",
+    "@xylabs/object": "^3.0.25",
     "@xylabs/static-implements": "^3.0.25",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/data": "workspace:~",
@@ -72,6 +73,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.94.4",
+  "version": "2.94.5",
   "type": "module"
 }

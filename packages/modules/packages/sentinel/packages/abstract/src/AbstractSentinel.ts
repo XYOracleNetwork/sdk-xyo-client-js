@@ -1,11 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { globallyUnique } from '@xylabs/object'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
@@ -15,6 +16,7 @@ import {
   SentinelModuleEventData,
   SentinelParams,
   SentinelQueries,
+  SentinelReportQuery,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
 
@@ -74,6 +76,11 @@ export abstract class AbstractSentinel<
       forget(reportPromise)
       return []
     }
+  }
+
+  async reportQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
+    const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
+    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult
   }
 
   protected async emitReportEnd(inPayloads?: Payload[], payloads?: Payload[]) {

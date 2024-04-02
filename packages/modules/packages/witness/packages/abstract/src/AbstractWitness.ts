@@ -1,11 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { creatableModule, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { creatableModule, ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import {
@@ -13,6 +14,7 @@ import {
   WitnessConfigSchema,
   WitnessInstance,
   WitnessModuleEventData,
+  WitnessObserveQuery,
   WitnessObserveQuerySchema,
   WitnessParams,
   WitnessQueries,
@@ -74,6 +76,11 @@ export abstract class AbstractWitness<
     await this.emit('observeEnd', { inPayloads, module: this, outPayloads } as TEventData['observeEnd'])
 
     return outPayloads
+  }
+
+  async observeQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
+    const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
+    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult<TOut>
   }
 
   /** @function queryHandler Calls observe for an observe query.  Override to support additional queries. */

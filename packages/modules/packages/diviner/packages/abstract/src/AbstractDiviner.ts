@@ -2,11 +2,13 @@ import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { retry, RetryConfigWithComplete } from '@xylabs/retry'
+import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   AttachableDivinerInstance,
   DivinerConfigSchema,
+  DivinerDivineQuery,
   DivinerDivineQuerySchema,
   DivinerInstance,
   DivinerModuleEventData,
@@ -14,7 +16,7 @@ import {
   DivinerQueries,
 } from '@xyo-network/diviner-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
 
@@ -57,6 +59,11 @@ export abstract class AbstractDiviner<
       await this.emit('divineEnd', { errors: [], inPayloads: payloads, module: this, outPayloads: resultPayloads })
       return await Promise.all(resultPayloads.map((payload) => PayloadBuilder.build(payload)))
     })
+  }
+
+  async divineQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
+    const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
+    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult<TOut>
   }
 
   /** @function queryHandler Calls divine for a divine query.  Override to support additional queries. */

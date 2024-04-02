@@ -1,4 +1,7 @@
+import { assertEx } from '@xylabs/assert'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import { Payload } from '@xyo-network/payload-model'
 import {
@@ -28,6 +31,12 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
     const result = await this.sendQuery(queryPayload, payloads)
     return result
+  }
+
+  async reportQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
+    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
+    const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
+    return (await this.sendQuery(queryPayload, payloads)) as ModuleQueryResult
   }
 
   witnesses(): Promise<WitnessInstance[]> {

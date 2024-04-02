@@ -4,17 +4,25 @@ import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
+import { AccountInstance } from '@xyo-network/account-model'
 import {
+  ArchivistAllQuery,
   ArchivistAllQuerySchema,
+  ArchivistClearQuery,
   ArchivistClearQuerySchema,
+  ArchivistCommitQuery,
   ArchivistCommitQuerySchema,
   ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
+  ArchivistGetQuery,
   ArchivistGetQuerySchema,
+  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
+  ArchivistNextQuery,
+  ArchivistNextQuerySchema,
   ArchivistParams,
   ArchivistQueries,
   asArchivistInstance,
@@ -24,7 +32,7 @@ import {
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
@@ -85,12 +93,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+  }
+
   clear(): Promisable<void> {
     this._noOverride('clear')
     return this.busy(async () => {
       await this.started('throw')
       return await this.clearHandler()
     })
+  }
+
+  async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
   }
 
   commit(): Promisable<WithMeta<BoundWitness>[]> {
@@ -101,6 +119,11 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+  }
+
   async delete(hashes: Hash[]): Promise<Hash[]> {
     this._noOverride('delete')
     return await this.busy(async () => {
@@ -109,12 +132,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async deleteQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+  }
+
   async get(hashes: Hash[]): Promise<WithMeta<Payload>[]> {
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
       return await PayloadBuilder.build(await this.getWithConfig(hashes))
     })
+  }
+
+  async getQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
   }
 
   async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
@@ -126,12 +159,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async insertQuery(account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
+    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult
+  }
+
   async next(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
     this._noOverride('next')
     return await this.busy(async () => {
       await this.started('throw')
       return await this.nextWithConfig(options)
     })
+  }
+
+  async nextQuery(account: AccountInstance, options?: ArchivistNextOptions): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
+    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
   }
 
   protected allHandler(): PromisableArray<Payload> {

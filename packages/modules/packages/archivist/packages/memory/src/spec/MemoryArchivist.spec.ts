@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { toJsonString } from '@xylabs/object'
 import { Account, HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
@@ -37,8 +34,8 @@ describe('MemoryArchivist', () => {
   })
 
   it('next', async () => {
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
-    const account = Account.randomSync()
+    const archivist = await MemoryArchivist.create({ account: await HDWallet.random(), config: { schema: MemoryArchivist.configSchema } })
+    const account = await HDWallet.random()
 
     const payloads1 = [
       await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),

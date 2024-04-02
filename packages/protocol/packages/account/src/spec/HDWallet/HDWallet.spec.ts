@@ -188,3 +188,14 @@ test('Same address, two paths', async () => {
   expect(accountB.address).toMatchSnapshot()
   expect(accountAPrime.address).toMatchSnapshot()
 })
+
+test('Random Wallet', async () => {
+  const sut = await HDWallet.random()
+  expect(sut).toBeDefined()
+  expect(sut.address).toBeDefined()
+  expect(sut.privateKey).toBeDefined()
+  expect(sut.publicKey).toBeDefined()
+  expect(sut.extendedKey).toBeDefined()
+  expect(sut.path).toBeDefined()
+  expect(sut.path).toBe(defaultPath)
+})

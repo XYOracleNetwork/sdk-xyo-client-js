@@ -8,6 +8,6 @@ import { generateHDWalletTests } from './HDWallet.spec'
 /**
  * @group jsdom
  */
-describe.skip('Node Wallet Test', () => {
+describe('Node Wallet Test', () => {
   generateHDWalletTests('HDWallet: Browser', HDWallet)
 })

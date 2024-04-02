@@ -1,0 +1,3 @@
+releases:
+  "@xyo-network/manifest": patch
+  "@xyo-network/sdk-xyo-client-js": patch

@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
 import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
@@ -15,13 +14,6 @@ export interface WebsocketBridgeModuleResolverOptions extends BridgeModuleResolv
 export class WebsocketBridgeModuleResolver<
   T extends WebsocketBridgeModuleResolverOptions = WebsocketBridgeModuleResolverOptions,
 > extends AbstractBridgeModuleResolver<T> {
-  private _axios?: AxiosJson
-
-  get axios() {
-    this._axios = this._axios ?? new AxiosJson()
-    return this._axios
-  }
-
   moduleUrl(address: Address) {
     return new URL(address, this.options.url)
   }

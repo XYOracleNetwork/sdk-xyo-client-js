@@ -119,7 +119,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
   async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   subscribe(_queryAccount?: AccountInstance) {

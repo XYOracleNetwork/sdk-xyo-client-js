@@ -30,6 +30,6 @@ export class DivinerWrapper<TWrappedModule extends DivinerModule<DivinerParams>,
   async divineQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads)) as ModuleQueryResult<TOut>
+    return await this.sendQueryRaw(queryPayload, payloads)
   }
 }

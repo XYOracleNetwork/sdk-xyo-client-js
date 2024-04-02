@@ -43,7 +43,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 
   async clear(): Promise<void> {
@@ -54,7 +54,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 
   async commit(): Promise<PayloadWithMeta[]> {
@@ -65,7 +65,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 
   async delete(hashes: Hash[]) {
@@ -77,7 +77,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async deleteQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 
   async get(hashes: Hash[]): Promise<PayloadWithMeta[]> {
@@ -88,7 +88,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async getQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 
   async insert(payloads: Payload[]): Promise<PayloadWithMeta[]> {
@@ -101,7 +101,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async insertQuery(account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, payloads)
   }
 
   async next(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
@@ -112,6 +112,6 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
   async nextQuery(account: AccountInstance, options?: ArchivistNextOptions): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
-    return (await this.sendQuery(queryPayload)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload)
   }
 }

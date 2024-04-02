@@ -63,7 +63,7 @@ export abstract class AbstractDiviner<
 
   async divineQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult<TOut>
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   /** @function queryHandler Calls divine for a divine query.  Override to support additional queries. */

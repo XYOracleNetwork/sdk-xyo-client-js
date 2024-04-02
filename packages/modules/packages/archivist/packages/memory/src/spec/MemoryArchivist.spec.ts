@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { Account } from '@xyo-network/account'
+import { toJsonString } from '@xylabs/object'
+import { Account, HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
@@ -37,6 +38,7 @@ describe('MemoryArchivist', () => {
 
   it('next', async () => {
     const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
+    const account = Account.randomSync()
 
     const payloads1 = [
       await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),
@@ -48,7 +50,12 @@ describe('MemoryArchivist', () => {
       await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
     ]
     await archivist.insert(payloads1)
-    await archivist.insert(payloads2)
+    const [bw, payloads, errors] = await archivist.insertQuery(account, payloads2)
+    expect(bw).toBeDefined()
+    expect(payloads).toBeDefined()
+    expect(errors).toBeDefined()
+
+    console.log(toJsonString([bw, payloads, errors]))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)

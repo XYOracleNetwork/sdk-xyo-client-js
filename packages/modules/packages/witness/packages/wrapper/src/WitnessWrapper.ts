@@ -29,6 +29,6 @@ export class WitnessWrapper<TModule extends WitnessModule = WitnessModule>
   async observeQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
     assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, payloads)
   }
 }

@@ -80,7 +80,7 @@ export abstract class AbstractWitness<
 
   async observeQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult<TOut>
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   /** @function queryHandler Calls observe for an observe query.  Override to support additional queries. */

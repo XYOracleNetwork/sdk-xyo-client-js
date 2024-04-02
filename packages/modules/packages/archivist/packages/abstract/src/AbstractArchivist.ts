@@ -95,7 +95,7 @@ export abstract class AbstractArchivist<
 
   async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   clear(): Promisable<void> {
@@ -108,7 +108,7 @@ export abstract class AbstractArchivist<
 
   async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   commit(): Promisable<WithMeta<BoundWitness>[]> {
@@ -121,7 +121,7 @@ export abstract class AbstractArchivist<
 
   async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async delete(hashes: Hash[]): Promise<Hash[]> {
@@ -134,7 +134,7 @@ export abstract class AbstractArchivist<
 
   async deleteQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async get(hashes: Hash[]): Promise<WithMeta<Payload>[]> {
@@ -147,7 +147,7 @@ export abstract class AbstractArchivist<
 
   async getQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
@@ -161,7 +161,7 @@ export abstract class AbstractArchivist<
 
   async insertQuery(account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
-    return (await this.sendQuery(queryPayload, payloads, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   async next(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
@@ -174,7 +174,7 @@ export abstract class AbstractArchivist<
 
   async nextQuery(account: AccountInstance, options?: ArchivistNextOptions): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
-    return (await this.sendQuery(queryPayload, undefined, account)) as ModuleQueryResult
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   protected allHandler(): PromisableArray<Payload> {

@@ -1,7 +1,6 @@
-import { WithSources } from '../types.browser.cjs'
 import { isAnyPayload } from './isPayload'
 import { WithMeta } from './Meta'
-import { Payload } from './Payload'
+import { Payload, WithSources } from './Payload'
 
 export const isPayloadOfSchemaType = <T extends Payload>(schema: string) => {
   return (x?: unknown | null): x is T => isAnyPayload(x) && x?.schema === schema

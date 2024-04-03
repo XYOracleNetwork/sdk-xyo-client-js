@@ -34,6 +34,7 @@ import {
   ModuleStateQuerySchema,
   ModuleStatus,
   ModuleTypeCheck,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
@@ -136,6 +137,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get module() {
     return this.wrapperParams.module
+  }
+
+  get priority() {
+    return ObjectResolverPriority.Low
   }
 
   get queries(): string[] {

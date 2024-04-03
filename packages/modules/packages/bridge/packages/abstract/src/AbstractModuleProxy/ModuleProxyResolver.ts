@@ -15,6 +15,7 @@ import {
   ModuleResolver,
   ModuleResolverInstance,
   ObjectFilterOptions,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
@@ -32,6 +33,10 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
 
   constructor(private options: T) {
     this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers })
+  }
+
+  get priority() {
+    return ObjectResolverPriority.VeryLow
   }
 
   protected get childAddressMap() {

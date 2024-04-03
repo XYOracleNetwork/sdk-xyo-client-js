@@ -9,7 +9,16 @@ export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unkn
   return typeof (value as Partial<ObjectResolver<T>>).resolve === 'function'
 }
 
+export enum ObjectResolverPriority {
+  VeryLow = 0,
+  Low = 1,
+  Normal = 2,
+  High = 3,
+  VeryHigh = 4,
+}
+
 export interface ObjectResolver<TResult extends EmptyObject> {
+  priority: ObjectResolverPriority
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
   resolve<T extends TResult = TResult>(): Promisable<T | undefined>
   resolve<T extends TResult = TResult>(all: '*', options?: ObjectFilterOptions<T>): Promisable<T[]>

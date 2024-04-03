@@ -16,6 +16,7 @@ import {
   ModuleRepository,
   ModuleResolverInstance,
   ObjectFilterOptions,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
@@ -144,17 +145,27 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
         return await this._localResolver.resolve(idOrFilter, mutatedOptions)
       }
 
-      const results = await Promise.all(
-        this.resolvers.map(async (resolver) => {
-          const result: T | undefined = await resolver.resolve<T>(id, childOptions)
+      //recursive function to resolve by priority
+      const resolvePriority = async (priority: ObjectResolverPriority): Promise<T | undefined> => {
+        const resolvers = this.resolvers.filter((resolver) => resolver.priority === priority)
+        const results: (T | undefined)[] = (
+          await Promise.all(
+            resolvers.map(async (resolver) => {
+              const result: T | undefined = await resolver.resolve<T>(id, childOptions)
+              return result
+            }),
+          )
+        ).filter(exists)
+
+        const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
+        if (result) {
+          this._cache.set(id, result)
           return result
-        }),
-      )
-      const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
-      if (result) {
-        this._cache.set(id, result)
+        }
+        return priority === ObjectResolverPriority.VeryLow ? undefined : await resolvePriority(priority - 1)
       }
-      return result
+
+      return resolvePriority(ObjectResolverPriority.VeryHigh)
     } else {
       //wen't too far?
       if (mutatedOptions.maxDepth < 0) {

@@ -10,9 +10,17 @@ import {
   ModuleInstance,
   ModuleResolver,
   ObjectFilterOptions,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
 
-export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> extends Base<T> implements ModuleResolver {
+export interface ModuleResolverParams extends BaseParams {
+  priority?: ObjectResolverPriority
+}
+
+export abstract class AbstractModuleResolver<T extends ModuleResolverParams = ModuleResolverParams> extends Base<T> implements ModuleResolver {
+  get priority() {
+    return this.params.priority ?? ObjectResolverPriority.Normal
+  }
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>

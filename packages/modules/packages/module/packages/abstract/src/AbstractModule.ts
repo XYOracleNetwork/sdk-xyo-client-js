@@ -44,6 +44,7 @@ import {
   ModuleStateQuerySchema,
   ModuleStatus,
   ModuleSubscribeQuerySchema,
+  ObjectResolverPriority,
   serializableField,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
@@ -145,6 +146,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   get id() {
     return this.config.name ?? this.address
+  }
+
+  get priority() {
+    return ObjectResolverPriority.Normal
   }
 
   get queries(): string[] {

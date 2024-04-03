@@ -39,8 +39,9 @@ export const isHashLeaseEstimate = isPayloadOfSchemaType<HashLeaseEstimate>(Hash
 /**
  * Identity function for HashLeaseEstimate payload with meta
  */
-export const isHashLeaseEstimateWithMeta = isPayloadOfSchemaTypeWithMeta<WithMeta<HashLeaseEstimate>>(HashLeaseEstimateSchema)
+export const isHashLeaseEstimateWithMeta = isPayloadOfSchemaTypeWithMeta<HashLeaseEstimate>(HashLeaseEstimateSchema)
+
 /**
  * Identity function for HashLeaseEstimate payload with sources
  */
-export const isHashLeaseEstimateWithSources = isPayloadOfSchemaTypeWithSources<WithSources<HashLeaseEstimate>>(HashLeaseEstimateSchema)
+export const isHashLeaseEstimateWithSources = isPayloadOfSchemaTypeWithSources<HashLeaseEstimate>(HashLeaseEstimateSchema)

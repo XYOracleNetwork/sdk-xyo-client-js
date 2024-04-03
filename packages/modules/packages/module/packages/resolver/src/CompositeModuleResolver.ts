@@ -36,7 +36,7 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
   extends AbstractModuleResolver<T>
   implements ModuleRepository, ModuleResolverInstance
 {
-  static defaultMaxDepth = 5
+  static defaultMaxDepth = 10
   static transformers: ModuleIdentifierTransformer[] = []
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []

@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
+import { AxiosError, AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
@@ -17,15 +19,16 @@ import {
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
+import { BridgeQuerySender } from './ModuleProxy'
 
 export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
+export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
   static override configSchemas = [HttpBridgeConfigSchema]
   static maxPayloadSizeWarning = 256 * 256
 
@@ -37,12 +40,17 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._axios
   }
 
+  get maxPayloadSizeWarning() {
+    return this.config.maxPayloadSizeWarning ?? 10_000
+  }
+
   get nodeUrl() {
     return assertEx(this.config.nodeUrl, () => 'No Url Set')
   }
 
   override get resolver() {
-    this._resolver = this._resolver ?? new HttpBridgeModuleResolver({ bridge: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
+    this._resolver =
+      this._resolver ?? new HttpBridgeModuleResolver({ bridge: this, querySender: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
     return this._resolver
   }
 
@@ -66,6 +74,35 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   moduleUrl(address: Address) {
     return new URL(address, this.nodeUrl)
+  }
+
+  async sendBridgeQuery<TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
+    targetAddress: Address,
+    query: TQuery,
+    payloads?: TIn[],
+  ): Promise<ModuleQueryResult<TOut>> {
+    try {
+      const payloadSize = JSON.stringify([query, payloads]).length
+      if (payloadSize > this.maxPayloadSizeWarning) {
+        this.logger?.warn(
+          `Large targetQuery being sent: ${payloadSize} bytes [${this.address}][${this.moduleAddress}] [${query.schema}] [${payloads?.length}]`,
+        )
+      }
+      const moduleUrl = this.moduleUrl(targetAddress).href
+      const result = await this.axios.post<ApiEnvelope<ModuleQueryResult<TOut>>>(moduleUrl, [query, payloads])
+      if (result.status === 404) {
+        throw `target module not found [${moduleUrl}] [${result.status}]`
+      }
+      if (result.status >= 400) {
+        this.logger?.error(`targetQuery failed [${moduleUrl}]`)
+        throw `targetQuery failed [${moduleUrl}] [${result.status}]`
+      }
+      return result.data?.data
+    } catch (ex) {
+      const error = ex as AxiosError
+      this.logger?.error(`Error: ${toJsonString(error)}`)
+      throw error
+    }
   }
 
   override async startHandler(): Promise<boolean> {

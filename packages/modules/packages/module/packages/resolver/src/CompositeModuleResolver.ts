@@ -31,19 +31,22 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
 }
 
-export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
+export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleResolverParams>
+  extends AbstractModuleResolver<T>
+  implements ModuleRepository, ModuleResolverInstance
+{
   static defaultMaxDepth = 5
   static transformers: ModuleIdentifierTransformer[] = []
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
   private _localResolver: SimpleModuleResolver
 
-  constructor({ cache, ...params }: ModuleResolverParams = {}) {
+  constructor(params: T) {
     super(params)
     const localResolver = new SimpleModuleResolver()
     this.addResolver(localResolver)
-    const { max = 100, ttl = 1000 * 5 /* five seconds */ } = cache ?? {}
-    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
+    const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
+    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })
     this._localResolver = localResolver
   }
 

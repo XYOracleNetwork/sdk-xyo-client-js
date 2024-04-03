@@ -1,21 +1,17 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { BridgeInstance } from '@xyo-network/bridge-model'
 import { CacheConfig, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/module-resolver'
 
-export interface BridgeModuleResolverOptions {
+export interface BridgeModuleResolverParams extends ModuleResolverParams {
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
   wrapperAccount: AccountInstance
 }
 
 export abstract class AbstractBridgeModuleResolver<
-  T extends BridgeModuleResolverOptions = BridgeModuleResolverOptions,
-> extends CompositeModuleResolver {
-  constructor(protected options: T) {
-    super()
-  }
-
+  T extends BridgeModuleResolverParams = BridgeModuleResolverParams,
+> extends CompositeModuleResolver<T> {
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,

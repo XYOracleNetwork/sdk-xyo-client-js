@@ -1,17 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, isAddress } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
 
-export interface PubSubBridgeModuleResolverOptions extends BridgeModuleResolverOptions {
+export interface PubSubBridgeModuleResolverParams extends BridgeModuleResolverParams {
   busClient: AsyncQueryBusClient
 }
 
-export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<PubSubBridgeModuleResolverOptions> {
+export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<PubSubBridgeModuleResolverParams> {
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
@@ -27,9 +27,9 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     const account = Account.randomSync()
     const params: AsyncQueryBusModuleProxyParams = {
       account,
-      busClient: this.options.busClient,
+      busClient: this.params.busClient,
       config: { schema: ModuleConfigSchema },
-      host: this.options.bridge,
+      host: this.params.bridge,
       moduleAddress: firstPart as Address,
     }
     const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(params)

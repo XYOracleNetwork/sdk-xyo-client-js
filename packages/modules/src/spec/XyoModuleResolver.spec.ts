@@ -19,7 +19,7 @@ describe('ModuleResolver', () => {
       config: { name: 'memory-archivist', schema: MemoryArchivist.configSchema },
     })
     witness = await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } })
-    resolver = new CompositeModuleResolver()
+    resolver = new CompositeModuleResolver({})
     resolver.add(archivist)
     resolver.add(witness)
   })

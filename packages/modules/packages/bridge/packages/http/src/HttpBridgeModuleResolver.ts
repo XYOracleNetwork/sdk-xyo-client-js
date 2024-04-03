@@ -1,29 +1,26 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
 import { Address, isAddress } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
-import { HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
+import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
 
-export interface HttpBridgeModuleResolverOptions extends BridgeModuleResolverOptions {
+export interface HttpBridgeModuleResolverParams extends BridgeModuleResolverParams {
+  querySender: BridgeQuerySender
   rootUrl: string
 }
 
 export class HttpBridgeModuleResolver<
-  T extends HttpBridgeModuleResolverOptions = HttpBridgeModuleResolverOptions,
+  T extends HttpBridgeModuleResolverParams = HttpBridgeModuleResolverParams,
 > extends AbstractBridgeModuleResolver<T> {
-  private _axios?: AxiosJson
-
-  get axios() {
-    this._axios = this._axios ?? new AxiosJson()
-    return this._axios
+  get querySender() {
+    return this.params.querySender
   }
 
   moduleUrl(address: Address) {
-    return new URL(address, this.options.rootUrl)
+    return new URL(address, this.params.rootUrl)
   }
 
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
@@ -44,11 +41,10 @@ export class HttpBridgeModuleResolver<
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
-      axios: this.axios,
       config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress,
-      moduleUrl: this.moduleUrl(moduleAddress).href,
+      querySender: this.querySender,
     }
 
     //console.log(`creating HttpProxy [${moduleAddress}] ${id}`)

@@ -1,13 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, isAddress } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
 import { WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy'
 
-export interface WebsocketBridgeModuleResolverOptions extends BridgeModuleResolverOptions {
+export interface WebsocketBridgeModuleResolverOptions extends BridgeModuleResolverParams {
   url: string
 }
 
@@ -15,7 +15,7 @@ export class WebsocketBridgeModuleResolver<
   T extends WebsocketBridgeModuleResolverOptions = WebsocketBridgeModuleResolverOptions,
 > extends AbstractBridgeModuleResolver<T> {
   moduleUrl(address: Address) {
-    return new URL(address, this.options.url)
+    return new URL(address, this.params.url)
   }
 
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(

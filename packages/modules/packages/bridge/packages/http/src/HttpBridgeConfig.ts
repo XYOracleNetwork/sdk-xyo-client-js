@@ -9,6 +9,7 @@ export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema 
     discoverRoot?: boolean
     /** @deprecated Do not use this for any new development */
     legacyMode?: boolean
+    maxPayloadSizeWarning?: number
     nodeUrl?: string
     schema: HttpBridgeConfigSchema
   } & TConfig,

@@ -43,8 +43,8 @@ describe('MemoryNode', () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
         // resolver and one module in the external resolver
-        const resolver = new CompositeModuleResolver()
-        const internalResolver = new CompositeModuleResolver()
+        const resolver = new CompositeModuleResolver({})
+        const internalResolver = new CompositeModuleResolver({})
         const params: MemoryNodeParams = {
           config: { schema: NodeConfigSchema },
           internalResolver,

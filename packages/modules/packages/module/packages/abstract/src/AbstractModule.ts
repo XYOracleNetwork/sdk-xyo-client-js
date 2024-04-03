@@ -86,7 +86,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _startPromise: Promisable<boolean> | undefined = undefined
   protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly privateResolver = new CompositeModuleResolver()
+  protected readonly privateResolver = new CompositeModuleResolver({})
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0

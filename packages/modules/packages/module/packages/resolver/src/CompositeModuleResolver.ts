@@ -90,7 +90,6 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const mutatedOptions = { ...options, maxDepth: options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth }
-    const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
     //resolve all
     if (idOrFilter === '*') {
@@ -105,6 +104,8 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
       if (mutatedOptions.maxDepth === 0) {
         return await this._localResolver.resolve(all, mutatedOptions)
       }
+
+      const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
@@ -151,7 +152,7 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
         const results: (T | undefined)[] = (
           await Promise.all(
             resolvers.map(async (resolver) => {
-              const result: T | undefined = await resolver.resolve<T>(id, childOptions)
+              const result: T | undefined = await resolver.resolve<T>(id, mutatedOptions)
               return result
             }),
           )
@@ -178,6 +179,8 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
       if (mutatedOptions.maxDepth === 0) {
         return await this._localResolver.resolve(filter, mutatedOptions)
       }
+
+      const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {

@@ -5160,6 +5160,8 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    async-mutex: "npm:^0.5.0"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft

@@ -20,19 +20,26 @@ import {
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import { Semaphore } from 'async-mutex'
+import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
 import { BridgeQuerySender } from './ModuleProxy'
 
-export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
+export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
 export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
   static override configSchemas = [HttpBridgeConfigSchema]
-  static maxPayloadSizeWarning = 256 * 256
+  static defaultFailureRetryTime = 1000 * 60
+  static defaultMaxConnections = 4
+  static defaultMaxPayloadSizeWarning = 256 * 256
+  static maxFailureCacheSize = 1000
 
   private _axios?: AxiosJson
+  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
+  private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
 
   get axios() {
@@ -40,12 +47,25 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._axios
   }
 
+  get failureRetryTime() {
+    return this.config.failureRetryTime ?? HttpBridge.defaultFailureRetryTime
+  }
+
+  get maxConnections() {
+    return this.config.maxConnections ?? HttpBridge.defaultMaxConnections
+  }
+
   get maxPayloadSizeWarning() {
-    return this.config.maxPayloadSizeWarning ?? 10_000
+    return this.config.maxPayloadSizeWarning ?? HttpBridge.defaultMaxPayloadSizeWarning
   }
 
   get nodeUrl() {
     return assertEx(this.config.nodeUrl, () => 'No Url Set')
+  }
+
+  get querySemaphore() {
+    this._querySemaphore = this._querySemaphore ?? new Semaphore(this.maxConnections)
+    return this._querySemaphore
   }
 
   override get resolver() {
@@ -81,7 +101,17 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     query: TQuery,
     payloads?: TIn[],
   ): Promise<ModuleQueryResult<TOut>> {
+    const lastFailureTime = this._failureTimeCache.get(targetAddress)
+    if (lastFailureTime !== undefined) {
+      const now = Date.now()
+      const timeSincePreviousFailure = now - lastFailureTime
+      if (timeSincePreviousFailure > this.failureRetryTime) {
+        throw new Error(`target module failed recently [${targetAddress}] [${timeSincePreviousFailure}ms ago]`)
+      }
+      this._failureTimeCache.delete(targetAddress)
+    }
     try {
+      await this.querySemaphore.acquire()
       const payloadSize = JSON.stringify([query, payloads]).length
       if (payloadSize > this.maxPayloadSizeWarning) {
         this.logger?.warn(
@@ -102,13 +132,15 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
       const error = ex as AxiosError
       this.logger?.error(`Error: ${toJsonString(error)}`)
       throw error
+    } finally {
+      this.querySemaphore.release()
     }
   }
 
   override async startHandler(): Promise<boolean> {
     // eslint-disable-next-line deprecation/deprecation
-    const { discoverRoot = true, legacyMode } = this.config
-    if (discoverRoot || legacyMode) {
+    const { discoverRoot = true } = this.config
+    if (discoverRoot) {
       await this.discoverRoots()
     }
     return true

@@ -34,7 +34,7 @@ export class ResolveHelper {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { visibility, maxDepth = 5, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    { visibility, maxDepth = 10, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
     const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}][${visibility}]`) : undefined

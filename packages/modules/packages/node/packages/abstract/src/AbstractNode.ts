@@ -64,7 +64,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     ]
   }
 
-  override async manifest(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+  override async manifest(maxDepth = 10, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
@@ -131,7 +131,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (await (this.downResolver.resolve('*', { maxDepth, visibility: 'public' }) ?? [])).filter((module) => module.address !== this.address)
   }
 
-  protected override async generateConfigAndAddress(maxDepth = 5): Promise<Payload[]> {
+  protected override async generateConfigAndAddress(maxDepth = 10): Promise<Payload[]> {
     const childMods = await this.attachedPublicModules(maxDepth)
     //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
@@ -143,7 +143,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return [...(await super.generateConfigAndAddress(maxDepth)), ...childModAddresses]
   }
 
-  protected override async manifestHandler(maxDepth = 5, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+  protected override async manifestHandler(maxDepth = 10, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler(maxDepth, ignoreAddresses)), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 

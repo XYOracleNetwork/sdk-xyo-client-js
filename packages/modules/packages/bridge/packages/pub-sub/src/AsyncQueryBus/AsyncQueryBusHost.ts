@@ -141,24 +141,25 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * @param address The address to find commands for
    */
   protected findQueriesToAddress = async (address: Address) => {
-    const queryBoundWitnessDiviner = assertEx(
-      await this.queriesDiviner(),
-      () => `Unable to resolve queriesDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`,
-    )
-    // Retrieve last offset from state store
-    const timestamp = await this.retrieveState(address)
-    const destination = [address]
-    const limit = this.perAddressBatchQueryLimit
-    // Filter for commands to us by destination address
-    const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
-    const result = await queryBoundWitnessDiviner.divine([divinerQuery])
-    const queries = result.filter(isQueryBoundWitnessWithMeta)
-    const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp
-    // TODO: This needs to be thought through as we can't use a distributed timestamp
-    // because of collisions. We need to use the timestamp of the store so there's no
-    // chance of multiple commands at the same time
-    await this.commitState(address, nextState)
-    return queries
+    const queryBoundWitnessDiviner = await this.queriesDiviner()
+    if (queryBoundWitnessDiviner) {
+      // Retrieve last offset from state store
+      const timestamp = await this.retrieveState(address)
+      const destination = [address]
+      const limit = this.perAddressBatchQueryLimit
+      // Filter for commands to us by destination address
+      const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
+      const result = await queryBoundWitnessDiviner.divine([divinerQuery])
+      const queries = result.filter(isQueryBoundWitnessWithMeta)
+      const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp
+      // TODO: This needs to be thought through as we can't use a distributed timestamp
+      // because of collisions. We need to use the timestamp of the store so there's no
+      // chance of multiple commands at the same time
+      await this.commitState(address, nextState)
+      return queries
+    } else {
+      this.logger?.warn(`Unable to resolve queryBoundWitnessDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`)
+    }
   }
 
   /**
@@ -193,7 +194,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         try {
           const localModuleName = localModule.config.name ?? localModule.address
           this.logger?.debug(`Checking for inbound queries to ${localModuleName} [${localModule.address}]`)
-          const queries = await this.findQueriesToAddress(localModule.address)
+          const queries = (await this.findQueriesToAddress(localModule.address)) ?? []
           if (queries.length === 0) return
           this.logger?.debug(`Found queries addressed to local module: ${localModuleName}`)
           for (const query of queries) {

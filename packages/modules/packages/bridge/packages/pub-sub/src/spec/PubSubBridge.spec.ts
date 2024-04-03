@@ -1,8 +1,10 @@
 /* eslint-disable max-statements */
+import { ConsoleLogger, LogLevel } from '@xylabs/logger'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
+import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -16,6 +18,8 @@ import { PubSubBridge } from '../PubSubBridge'
  * @group module
  * @group bridge
  */
+
+AbstractModule.defaultLogger = new ConsoleLogger(LogLevel.warn)
 
 const pollFrequency = 250
 const ttl = 1000 * 5
@@ -174,5 +178,7 @@ describe('PubSubBridge', () => {
     expect(insertResult).toBeDefined()
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
     expect(roundTripPayload).toBeDefined()
+
+    await bridge.unexpose(hostNodeContainer.address)
   })
 })

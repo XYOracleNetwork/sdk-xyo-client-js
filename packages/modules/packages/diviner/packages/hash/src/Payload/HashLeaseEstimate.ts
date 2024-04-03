@@ -1,11 +1,4 @@
-import {
-  isPayloadOfSchemaType,
-  isPayloadOfSchemaTypeWithMeta,
-  isPayloadOfSchemaTypeWithSources,
-  Payload,
-  WithMeta,
-  WithSources,
-} from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, isPayloadOfSchemaTypeWithMeta, isPayloadOfSchemaTypeWithSources, Payload } from '@xyo-network/payload-model'
 
 export const HashLeaseEstimateSchema = 'network.xyo.hash.lease.estimate'
 export type HashLeaseEstimateSchema = typeof HashLeaseEstimateSchema

@@ -38,6 +38,7 @@
     "@xylabs/tsconfig": "^3.9.0",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
+    "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",

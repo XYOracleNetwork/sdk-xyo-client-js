@@ -138,33 +138,31 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
    * Background process for processing incoming responses to previously issued queries
    */
   private processIncomingResponses = async () => {
-    const responseArchivist = assertEx(
-      await this.responsesArchivist(),
-      () => `Unable to contact the responsesArchivist [${this.config?.intersect?.responses?.archivist}]`,
-    )
-    const responseBoundWitnessDiviner = assertEx(
-      await this.responsesDiviner(),
-      () => `Unable to contact responsesDiviner [${this.config?.intersect?.responses?.boundWitnessDiviner}]`,
-    )
-    const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
-    // TODO: Do in throttled batches
-    await Promise.allSettled(
-      pendingCommands.map(async ([sourceQuery, status]) => {
-        if (status === Pending) {
-          const divinerQuery: BoundWitnessDivinerQueryPayload = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
-          const result = await responseBoundWitnessDiviner.divine([divinerQuery])
-          if (result && result.length > 0) {
-            const response = result.find(isBoundWitnessWithMeta)
-            if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
-              this.logger?.debug(`Found response to query: ${sourceQuery}`)
-              // Get any payloads associated with the response
-              const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
-              this.queryCache.set(sourceQuery, [response, payloads, []])
+    const responseArchivist = await this.responsesArchivist()
+    if (responseArchivist) {
+      const responseBoundWitnessDiviner = await this.responsesDiviner()
+      if (responseBoundWitnessDiviner) {
+        const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
+        // TODO: Do in throttled batches
+        await Promise.allSettled(
+          pendingCommands.map(async ([sourceQuery, status]) => {
+            if (status === Pending) {
+              const divinerQuery: BoundWitnessDivinerQueryPayload = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+              const result = await responseBoundWitnessDiviner.divine([divinerQuery])
+              if (result && result.length > 0) {
+                const response = result.find(isBoundWitnessWithMeta)
+                if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
+                  this.logger?.debug(`Found response to query: ${sourceQuery}`)
+                  // Get any payloads associated with the response
+                  const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
+                  this.queryCache.set(sourceQuery, [response, payloads, []])
+                }
+              }
             }
-          }
-        }
-      }),
-    )
+          }),
+        )
+      }
+    }
   }
 
   private start() {

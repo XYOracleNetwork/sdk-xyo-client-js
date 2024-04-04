@@ -16,7 +16,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
   protected _targetQueries: Record<Address, string[]> = {}
 
-  private _lastResolveAttempt: Record<ModuleIdentifier, number> = {}
+  private _lastResolveFailure: Record<ModuleIdentifier, number> = {}
   private _queriesArchivist?: ArchivistInstance
   private _queriesDiviner?: DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>
   private _reResolveDelay = 1000 * 5 //5 seconds
@@ -50,43 +50,51 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   async queriesArchivist() {
-    this._queriesArchivist =
-      this._queriesArchivist ??
-      (await this.resolve(
-        assertEx(this.config?.intersect?.queries?.archivist, () => 'No queries Archivist defined'),
-        isArchivistInstance,
-      ))
-    return this._queriesArchivist
+    return await this._resolveMutex.runExclusive(async () => {
+      this._queriesArchivist =
+        this._queriesArchivist ??
+        (await this.resolve(
+          assertEx(this.config?.intersect?.queries?.archivist, () => 'No queries Archivist defined'),
+          isArchivistInstance,
+        ))
+      return this._queriesArchivist
+    })
   }
 
   async queriesDiviner() {
-    this._queriesDiviner =
-      this._queriesDiviner ??
-      ((await this.resolve(
-        assertEx(this.config?.intersect?.queries?.boundWitnessDiviner, () => 'No queries Diviner defined'),
-        isDivinerInstance,
-      )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>)
-    return this._queriesDiviner
+    return await this._resolveMutex.runExclusive(async () => {
+      this._queriesDiviner =
+        this._queriesDiviner ??
+        ((await this.resolve(
+          assertEx(this.config?.intersect?.queries?.boundWitnessDiviner, () => 'No queries Diviner defined'),
+          isDivinerInstance,
+        )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, QueryBoundWitness>)
+      return this._queriesDiviner
+    })
   }
 
   async responsesArchivist() {
-    this._responsesArchivist =
-      this._responsesArchivist ??
-      (await this.resolve(
-        assertEx(this.config?.intersect?.responses?.archivist, () => 'No responses Archivist defined'),
-        isArchivistInstance,
-      ))
-    return this._responsesArchivist
+    return await this._resolveMutex.runExclusive(async () => {
+      this._responsesArchivist =
+        this._responsesArchivist ??
+        (await this.resolve(
+          assertEx(this.config?.intersect?.responses?.archivist, () => 'No responses Archivist defined'),
+          isArchivistInstance,
+        ))
+      return this._responsesArchivist
+    })
   }
 
   async responsesDiviner() {
-    this._responsesDiviner =
-      this._responsesDiviner ??
-      ((await this.resolve(
-        assertEx(this.config?.intersect?.responses?.boundWitnessDiviner, () => 'No responses Diviner defined'),
-        isDivinerInstance,
-      )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>)
-    return this._responsesDiviner
+    return await this._resolveMutex.runExclusive(async () => {
+      this._responsesDiviner =
+        this._responsesDiviner ??
+        ((await this.resolve(
+          assertEx(this.config?.intersect?.responses?.boundWitnessDiviner, () => 'No responses Diviner defined'),
+          isDivinerInstance,
+        )) as DivinerInstance<BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitness>)
+      return this._responsesDiviner
+    })
   }
 
   /**
@@ -124,24 +132,20 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   private async resolve<T extends ModuleInstance>(id: ModuleIdentifier, typeCheck: TypeCheck<T>): Promise<T | undefined> {
-    return (await this._resolveMutex.runExclusive(async () => {
-      if (this._queriesArchivist) {
-        return this._queriesArchivist
-      }
-      if (Date.now() - (this._lastResolveAttempt[id] ?? 0) < this._reResolveDelay) {
-        return
-      }
-      this._lastResolveAttempt[id] = Date.now()
-      const resolved = await resolveModuleIdentifier(this.resolver, id)
-      if (resolved) {
-        if (typeCheck(resolved)) {
-          return resolved
-        } else {
-          this.logger?.warn(`Unable to resolve responsesDiviner as correct type [${id}][${resolved?.constructor?.name}]: ${resolved.id}`)
-        }
+    if (Date.now() - (this._lastResolveFailure[id] ?? 0) < this._reResolveDelay) {
+      return
+    }
+    this._lastResolveFailure[id] = Date.now()
+    const resolved = await resolveModuleIdentifier(this.resolver, id)
+    if (resolved) {
+      if (typeCheck(resolved)) {
+        delete this._lastResolveFailure[id]
+        return resolved
       } else {
-        this.logger?.debug(`Unable to resolve queriesArchivist [${id}] [${await traceModuleIdentifier(this.resolver, id)}]`)
+        this.logger?.warn(`Unable to resolve responsesDiviner as correct type [${id}][${resolved?.constructor?.name}]: ${resolved.id}`)
       }
-    })) as T | undefined
+    } else {
+      this.logger?.debug(`Unable to resolve queriesArchivist [${id}] [${await traceModuleIdentifier(this.resolver, id)}]`)
+    }
   }
 }

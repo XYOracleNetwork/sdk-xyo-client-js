@@ -3619,7 +3619,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub":
+"@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub, @xyo-network/bridge-pub-sub@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub"
   dependencies:
@@ -3652,6 +3652,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/payload-wrapper": "workspace:~"
+    async-mutex: "npm:^0.3.0"
     lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.3"
   languageName: unknown
@@ -3707,10 +3708,14 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/abstract-bridge": "workspace:~"
+    "@xyo-network/account": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
+    "@xyo-network/bridge-pub-sub": "workspace:~"
     "@xyo-network/bridge-wrapper": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft
@@ -6756,6 +6761,15 @@ __metadata:
   version: 1.0.0
   resolution: "astral-regex@npm:1.0.0"
   checksum: 10/93417fc0879531cd95ace2560a54df865c9461a3ac0714c60cbbaa5f1f85d2bee85489e78d82f70b911b71ac25c5f05fc5a36017f44c9bb33c701bee229ff848
+  languageName: node
+  linkType: hard
+
+"async-mutex@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "async-mutex@npm:0.3.2"
+  dependencies:
+    tslib: "npm:^2.3.1"
+  checksum: 10/cf0b02f7f916d202a727e15a64d51110c3258a719588ca263875024172aa9368efa5dbec6dc4f4fd10e35744e238e1075306a93ce86549de642d5f7d0c06bc23
   languageName: node
   linkType: hard
 

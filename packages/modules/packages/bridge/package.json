@@ -19,6 +19,10 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.9.0",
     "@xylabs/tsconfig": "^3.9.0",
+    "@xyo-network/account": "workspace:~",
+    "@xyo-network/bridge-pub-sub": "workspace:~",
+    "@xyo-network/node-memory": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
     "typescript": "^5.4.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -60,6 +64,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.94.15",
+  "version": "2.94.16",
   "type": "module"
 }

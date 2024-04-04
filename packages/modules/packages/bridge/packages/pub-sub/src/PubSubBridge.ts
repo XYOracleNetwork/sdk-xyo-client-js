@@ -3,7 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import { creatableModule, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'

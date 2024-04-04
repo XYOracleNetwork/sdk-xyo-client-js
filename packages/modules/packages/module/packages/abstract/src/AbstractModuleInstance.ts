@@ -17,6 +17,7 @@ import {
   ModuleNameResolver,
   ModuleParams,
   ModuleQueryResult,
+  ModuleResolver,
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ObjectFilterOptions,
@@ -56,6 +57,12 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this._downResolver
   }
 
+  get privateResolver() {
+    this._privateResolver =
+      this._privateResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+    return this._privateResolver
+  }
+
   get root() {
     return this
   }
@@ -64,12 +71,6 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     this._upResolver =
       this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
     return this._upResolver
-  }
-
-  protected get privateResolver() {
-    this._privateResolver =
-      this._privateResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
-    return this._privateResolver
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -137,6 +138,19 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         return this.upResolver.resolveIdentifier(id, mutatedOptions)
       }
     }
+  }
+
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    return (
+      (await this.privateResolver.resolve(id, options)) ??
+      (await this.upResolver.resolve(id, options)) ??
+      (await this.downResolver.resolve(id, options))
+    )
   }
 
   state() {

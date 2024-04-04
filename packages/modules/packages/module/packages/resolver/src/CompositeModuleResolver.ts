@@ -232,8 +232,8 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const idParts = moduleIdentifierParts(moduleIdentifier)
     assertEx(idParts.length >= 2, () => 'Not a valid multipart identifier')
     const id = assertEx(idParts.shift())
-    const module = await this.resolve<T>(id)
-    return await module?.resolve<T>(idParts.join(':'))
+    const module = (await this.resolve<T>(id)) ?? (await this.resolvePrivate<T>(id))
+    return (await module?.resolve<T>(idParts.join(':'))) ?? (await module?.resolvePrivate<T>(idParts.join(':')))
   }
 
   private async transformModuleIdentifier(identifier: ModuleIdentifier) {

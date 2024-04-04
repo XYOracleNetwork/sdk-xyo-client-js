@@ -15,7 +15,7 @@ const moduleCName = 'moduleC'
  * @group module
  */
 
-describe('SimpleModuleResolverDeep', () => {
+describe('UpDown', () => {
   test('two archivists same name, different nodes', async () => {
     const rootNode = await MemoryNode.create({ account: 'random', config: { name: rootNodeName, schema: NodeConfigSchema } })
     const nodeA = await MemoryNode.create({ account: 'random', config: { name: nodeAName, schema: NodeConfigSchema } })
@@ -27,36 +27,20 @@ describe('SimpleModuleResolverDeep', () => {
     await nodeA.register(moduleA)
     await nodeA.attach(moduleA.address, true)
 
-    const resolvedModuleAFromNodeA = await nodeA.resolve(moduleAName)
-    expect(resolvedModuleAFromNodeA?.address).toBe(moduleA.address)
-
     await nodeB.register(moduleB)
     await nodeB.register(moduleC)
     await nodeB.attach(moduleB.address, true)
     await nodeB.attach(moduleC.address)
-
-    const resolvedModuleBFromNodeB = await nodeB.resolve(moduleBName)
-    expect(resolvedModuleBFromNodeB?.address).toBe(moduleB.address)
 
     await rootNode.register(nodeA)
     await rootNode.attach(nodeA.address, true)
     await rootNode.register(nodeB)
     await rootNode.attach(nodeB.address, true)
 
-    const rootNodeResolve = await rootNode.resolve(`${rootNodeName}`)
-    expect(rootNodeResolve?.address).toBe(rootNode.address)
+    const upAndDownResolve = await moduleA.resolve(`${nodeAName}:${moduleAName}`)
+    expect(upAndDownResolve?.address).toBe(moduleA.address)
 
-    const resolvedModuleA = await rootNode.resolve(moduleAName)
-    expect([moduleA.address, moduleB.address]).toInclude(resolvedModuleA?.address ?? '')
-    const resolvedModuleB = await rootNode.resolve(moduleBName)
-    expect([moduleA.address, moduleB.address]).toInclude(resolvedModuleB?.address ?? '')
-
-    const resolvedModuleAMulti = await rootNode.resolve(`${nodeAName}:${moduleAName}`)
-    expect(resolvedModuleAMulti?.address).toBe(moduleA.address)
-    const resolvedModuleBMulti = await rootNode.resolve(`${nodeBName}:${moduleBName}`)
-    expect(resolvedModuleBMulti?.address).toBe(moduleB.address)
-
-    const resolvedModuleAMultiTooFar = await rootNode.resolve(`${rootNodeName}:${moduleAName}`)
-    expect(resolvedModuleAMultiTooFar).toBeUndefined
+    const upAndDownResolvePrivate = await moduleA.resolvePrivate(`${nodeBName}:${moduleCName}`)
+    expect(upAndDownResolvePrivate?.address).toBe(moduleC.address)
   })
 })

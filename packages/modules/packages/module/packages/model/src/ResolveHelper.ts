@@ -1,6 +1,7 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address, isAddress } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
@@ -55,6 +56,7 @@ export interface ResolveHelperConfig {
   downResolver?: ModuleResolver
   logger?: Logger
   module: ModuleInstance
+  privateResolver?: ModuleResolver
   upResolver?: ModuleResolver
 }
 
@@ -78,15 +80,15 @@ export class ResolveHelper {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { visibility, maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    { maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
-    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}][${visibility}]`) : undefined
+    const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
+    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}]`) : undefined
 
-    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false, visibility }
+    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false }
     const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
 
-    const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false, visibility }
+    const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false }
 
     const direction = options?.direction ?? 'all'
     const up = direction === 'up' || direction === 'all'
@@ -123,9 +125,20 @@ export class ResolveHelper {
           if (dead) {
             return undefined
           }
-          result =
-            (down && downResolver ? await this.resolveModuleIdentifier<T>(downResolver, idOrFilter) : undefined) ??
-            (up && upResolver ? await this.resolveModuleIdentifier<T>(upResolver, idOrFilter) : undefined)
+
+          const resolvers = [
+            [downResolver, downLocalOptions],
+            [up ? upResolver : undefined, upLocalOptions],
+            [up ? privateResolver : undefined, upLocalOptions],
+          ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
+
+          for (const resolver of resolvers) {
+            const [resolverInstance] = resolver
+            if (!result) {
+              result = await this.resolveModuleIdentifier<T>(resolverInstance, idOrFilter)
+            }
+          }
+
           break
         }
         default: {
@@ -154,7 +167,9 @@ export class ResolveHelper {
     const parts = path.split(':')
     const first = parts.shift()
     const firstIsAddress = isAddress(first)
-    const resolvedModule = await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 })
+    const resolvedModule =
+      (await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 })) ??
+      (first ? await resolver.resolvePrivate(first, { maxDepth: firstIsAddress ? 10 : 1 }) : undefined)
     const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
     const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
     if (firstModule) {

@@ -30,6 +30,10 @@ export interface ObjectResolver<TResult extends EmptyObject> {
     idOrFilter?: ObjectFilter<T> | ModuleIdentifier,
     options?: ObjectFilterOptions<T>,
   ): Promisable<T | T[] | undefined>
+
+  resolvePrivate<T extends TResult = TResult>(all: '*', options?: ObjectFilterOptions<T>): Promise<T[]>
+  resolvePrivate<T extends TResult = TResult>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promise<T | undefined>
+  resolvePrivate<T extends TResult = TResult>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promise<T | T[] | undefined>
 }
 
 export interface ObjectResolverInstance<TResult extends EmptyObject> extends ObjectResolver<TResult> {

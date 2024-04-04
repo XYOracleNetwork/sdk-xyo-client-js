@@ -143,6 +143,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return ObjectResolverPriority.Low
   }
 
+  get privateResolver(): ModuleResolverInstance {
+    //Should we be allowing this?
+    const instance = asAttachableModuleInstance(this.module)
+    if (instance) {
+      return instance.privateResolver as ModuleResolverInstance
+    }
+    throw new Error('Unsupported')
+  }
+
   get queries(): string[] {
     return this.module.queries
   }
@@ -351,6 +360,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
       }
     }
     return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
+  }
+
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    _options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (id === '*') return await Promise.resolve([])
   }
 
   async state(): Promise<Payload[]> {

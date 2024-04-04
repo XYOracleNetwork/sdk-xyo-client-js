@@ -60,7 +60,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     const module = await host.expose(id, { required })
     if (module) {
-      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth, visibility: 'public' }) : []
+      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth }) : []
       const exposedChildren = (
         await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )
@@ -86,7 +86,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     const module = await host.unexpose(id, required)
     if (module) {
-      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth, visibility: 'public' }) : []
+      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth }) : []
       const exposedChildren = (
         await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )

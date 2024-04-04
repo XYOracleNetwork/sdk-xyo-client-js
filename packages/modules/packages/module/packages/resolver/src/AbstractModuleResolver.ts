@@ -72,6 +72,15 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     }
   }
 
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ObjectFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    _options?: ObjectFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (id === '*') return await Promise.resolve([])
+  }
+
   abstract addResolver(resolver: ModuleResolverInstance): this
   abstract removeResolver(resolver: ModuleResolverInstance): this
 

@@ -39,7 +39,7 @@ describe('MemoryNode', () => {
         await memoryNode.attach(witness.address, false)
       }),
     )
-    const publicModules = await memoryNode.resolve('*', { visibility: 'public' })
+    const publicModules = await memoryNode.resolve('*')
     expect(publicModules).toBeArrayOfSize(7)
     /*const privateModules = await memoryNode.resolve('*', { visibility: 'private' })
     expect(privateModules).toBeArrayOfSize(3)

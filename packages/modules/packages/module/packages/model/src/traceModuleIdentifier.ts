@@ -9,11 +9,11 @@ export const traceModuleIdentifier = async (resolver: ModuleResolver, path: Modu
   const parts = path.split(':')
   const first = parts.shift()
   const firstModule = asModuleInstance(
-    assertEx(await resolver.resolve(first), () => `Failed to resolve [${first}]`),
+    assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
     () => `Resolved invalid module instance [${first}]`,
   )
-  if (parts.length > 0) {
-    return [firstModule.address, ...(await traceModuleIdentifier(firstModule, parts.join(':')))]
+  if (firstModule) {
+    return parts.length > 0 ? [firstModule.address, ...(await traceModuleIdentifier(firstModule, parts.join(':')))] : [firstModule.address]
   }
-  return [firstModule.address]
+  return []
 }

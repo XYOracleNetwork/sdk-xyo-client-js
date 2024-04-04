@@ -5,7 +5,7 @@ import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-m
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { DivinerInstance, isDivinerInstance } from '@xyo-network/diviner-model'
-import { ModuleConfig, ModuleIdentifier, ModuleInstance, traceModuleIdentifier } from '@xyo-network/module-model'
+import { ModuleConfig, ModuleIdentifier, ModuleInstance, resolveModuleIdentifier, traceModuleIdentifier } from '@xyo-network/module-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -132,7 +132,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
         return
       }
       this._lastResolveAttempt[id] = Date.now()
-      const resolved = await this.resolver.resolve(id)
+      const resolved = await resolveModuleIdentifier(this.resolver, id)
       if (resolved) {
         if (typeCheck(resolved)) {
           return resolved
@@ -140,7 +140,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
           this.logger?.warn(`Unable to resolve responsesDiviner as correct type [${id}][${resolved?.constructor?.name}]: ${resolved.id}`)
         }
       } else {
-        this.logger?.log(`Unable to resolve queriesArchivist [${id}] [${await traceModuleIdentifier(this.resolver, id)}]`)
+        this.logger?.debug(`Unable to resolve queriesArchivist [${id}] [${await traceModuleIdentifier(this.resolver, id)}]`)
       }
     })) as T | undefined
   }

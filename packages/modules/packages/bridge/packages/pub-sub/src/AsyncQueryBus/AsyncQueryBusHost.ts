@@ -4,7 +4,7 @@ import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, traceModuleIdentifier } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -156,15 +156,16 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * @param address The address to find commands for
    */
   protected findQueriesToAddress = async (address: Address) => {
-    const queryBoundWitnessDiviner = await this.queriesDiviner()
-    if (queryBoundWitnessDiviner) {
+    const queriesDivinerId = assertEx(this.config?.intersect?.queries?.boundWitnessDiviner, () => 'No queries Diviner defined')
+    const queriesBoundWitnessDiviner = await this.queriesDiviner()
+    if (queriesBoundWitnessDiviner) {
       // Retrieve last offset from state store
       const timestamp = await this.retrieveState(address)
       const destination = [address]
       const limit = this.perAddressBatchQueryLimit
       // Filter for commands to us by destination address
       const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
-      const result = await queryBoundWitnessDiviner.divine([divinerQuery])
+      const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitnessWithMeta)
       const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp
       // TODO: This needs to be thought through as we can't use a distributed timestamp
@@ -173,7 +174,9 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       await this.commitState(address, nextState)
       return queries
     } else {
-      this.logger?.warn(`Unable to resolve queryBoundWitnessDiviner [${this.config?.intersect?.queries?.boundWitnessDiviner}]`)
+      this.logger?.warn(
+        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await traceModuleIdentifier(this.resolver, queriesDivinerId)}]`,
+      )
     }
   }
 

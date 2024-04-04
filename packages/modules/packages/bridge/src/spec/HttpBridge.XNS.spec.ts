@@ -27,8 +27,11 @@ describe('HttpBridge with PubSubBridge', () => {
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'MemNodeArie', schema: NodeConfigSchema } })
     const intersect: AsyncQueryBusIntersectConfig = {
-      queries: { archivist: 'XNS:Intersect:QueryArchivist', boundWitnessDiviner: 'XNS:Intersect:QueryBoundWitnessDiviner' },
-      responses: { archivist: 'XNS:Intersect:ResponseArchivist', boundWitnessDiviner: 'XNS:Intersect:ResponseBoundWitnessDiviner' },
+      queries: { archivist: 'MemNodeArie:XNS:Intersect:QueryArchivist', boundWitnessDiviner: 'MemNodeArie:XNS:Intersect:QueryBoundWitnessDiviner' },
+      responses: {
+        archivist: 'MemNodeArie:XNS:Intersect:ResponseArchivist',
+        boundWitnessDiviner: 'MemNodeArie:XNS:Intersect:ResponseBoundWitnessDiviner',
+      },
     }
 
     const bridge = await HttpBridge.create({
@@ -50,22 +53,20 @@ describe('HttpBridge with PubSubBridge', () => {
     console.log(`Exposing: ${memNode.address}`)
     await psBridge.expose(memNode.address)
 
-    /*
-    const subNodeInstance = await memNode?.resolve('SubNode')
+    const subNodeInstance = await memNode?.resolve('PubSubBridgeArie')
     expect(subNodeInstance).toBeDefined()
 
-    const testBridgeInstance = await memNode?.resolve('SubNode:TestBridge')
+    const testBridgeInstance = await memNode?.resolve('PubSubBridgeArie:TestBridge')
     expect(testBridgeInstance).toBeDefined()
 
     const xns1 = await testBridgeInstance?.resolve('XNS')
     expect(xns1).toBeDefined()
 
-    const xns = await memNode?.resolve('SubNode:TestBridge:XNS')
+    const xns = await memNode?.resolve('PubSubBridgeArie:TestBridge:XNS')
     expect(xns).toBeDefined()
 
-    const intersect = await memNode?.resolve('SubNode:TestBridge:XNS:Intersect')
-    expect(intersect).toBeDefined()
-    */
+    const intersectNode = await memNode?.resolve('PubSubBridgeArie:TestBridge:XNS:Intersect')
+    expect(intersectNode).toBeDefined()
 
     const queryArchivist = await memNode?.resolve('XNS:Intersect:QueryArchivist')
     expect(queryArchivist?.id).toBe('QueryArchivist')

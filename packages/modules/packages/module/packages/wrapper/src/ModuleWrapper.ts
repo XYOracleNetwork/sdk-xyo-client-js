@@ -274,7 +274,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
-    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -360,7 +359,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
-    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }

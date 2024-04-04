@@ -34,7 +34,6 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
   }
 
   async reportQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    assertEx(account.address === this.account.address, () => 'Account does not match wrapper account')
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads)
   }

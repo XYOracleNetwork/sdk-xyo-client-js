@@ -9,6 +9,44 @@ import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, Mo
 import { duplicateModules } from './lib'
 import { ModuleIdentifier } from './ModuleIdentifier'
 
+/*
+
+Resolution rules
+
+1. Resolution is always done from the perspective of the module whose resolve function was called.
+
+2. Requesting '*' will return all the modules that the resolver can see.
+
+3. Requesting a simple ModuleName (string w/o ':' separator) will return an immediate child that has that name.
+
+4. Requesting a complex ModuleName (string w/ ':' separator) will resolve the first part and then recursively resolve
+   the remaining name by calling the first part's resolved module's resolve with the remainder of the name.
+
+5. Requesting an Address (string) will return the module with that address, regardless of how distant it is from the module. [limited by maxDepth]
+
+6. Requesting a ModuleFilter will first request all the modules '*' and then filter them based on the filter settings. [Do we need this mode?]
+
+7. When a string is passed as the ModuleIdentifier, do the following:
+    Check if id is complex (contains a ':')
+      a)  If it is complex, go to #4 above
+      b)  Call isAddress in the id to see if it is a valid address.
+        i)  If it is a valid address, go to #5 above
+        ii) If it is not a valid address, go to # 3 above
+
+    Note 1: If someone were to name a module with a valid address, that name will not be resolvable.
+    Note 2: If someone were to name a module with a string containing a ':', that name will not be resolvable.
+
+8. Modules have two resolvers, up and down.
+    a) Up Traversal
+      i)    Every module's upResolver also can call it's parent's upResolver
+      ii)   An upResolver also can see the parent's children's downResolvers
+      iii)  This means that when traversing upResolvers, you can traverse all the way up.
+      iv)   At any point of the up traversal, it can start traversing down to any immediate child, public or private.
+    b) Down Traversal
+      i)    A down traversal is limited to the public children of the module. [The same as scope as calling the 'resolve' function]
+
+*/
+
 export interface ResolveHelperConfig {
   address: Address
   dead?: boolean
@@ -84,8 +122,8 @@ export class ResolveHelper {
             return undefined
           }
           result =
-            (down ? await (downResolver as ModuleResolver).resolve<T>(idOrFilter, downLocalOptions) : undefined) ??
-            (up ? await (upResolver as ModuleResolver).resolve<T>(idOrFilter, upLocalOptions) : undefined)
+            (down && downResolver ? await this.resolveModuleIdentifier<T>(downResolver, idOrFilter) : undefined) ??
+            (up && upResolver ? await this.resolveModuleIdentifier<T>(upResolver, idOrFilter) : undefined)
           break
         }
         default: {
@@ -106,15 +144,18 @@ export class ResolveHelper {
   }
 
   //resolves a complex module path to addresses
-  static async resolveModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier): Promise<ModuleInstance | undefined> {
+  static async resolveModuleIdentifier<T extends ModuleInstance = ModuleInstance>(
+    resolver: ModuleResolver,
+    path: ModuleIdentifier,
+  ): Promise<T | undefined> {
     const parts = path.split(':')
     const first = parts.shift()
     const firstModule = asModuleInstance(
       assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
       () => `Resolved invalid module instance [${first}]`,
-    )
+    ) as T
     if (firstModule) {
-      return parts.length > 0 ? await this.resolveModuleIdentifier(firstModule, parts.join(':')) : firstModule
+      return parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule
     }
   }
 

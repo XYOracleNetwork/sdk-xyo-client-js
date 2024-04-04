@@ -1,4 +1,3 @@
-import { Address } from '@xylabs/hex'
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 
 import { ModuleEventData } from '../EventsModels'

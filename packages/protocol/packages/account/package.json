@@ -33,7 +33,7 @@
     "@types/elliptic": "^6.4.18",
     "@xylabs/ts-scripts-yarn3": "^3.9.0",
     "@xylabs/tsconfig": "^3.9.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   },
   "exports": {
     ".": {

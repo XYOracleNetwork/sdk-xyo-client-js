@@ -20,10 +20,10 @@ import {
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { AbstractModuleResolver } from './AbstractModuleResolver'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
-export interface ModuleResolverParams extends BaseParams {
+export interface CompositeModuleResolverParams extends ModuleResolverParams {
   cache?: CacheConfig
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
@@ -32,7 +32,7 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
 }
 
-export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleResolverParams>
+export class CompositeModuleResolver<T extends CompositeModuleResolverParams = CompositeModuleResolverParams>
   extends AbstractModuleResolver<T>
   implements ModuleRepository, ModuleResolverInstance
 {
@@ -44,7 +44,7 @@ export class CompositeModuleResolver<T extends ModuleResolverParams = ModuleReso
 
   constructor(params: T) {
     super(params)
-    const localResolver = new SimpleModuleResolver()
+    const localResolver = new SimpleModuleResolver({ root: params.root })
     this.addResolver(localResolver)
     const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
     this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })

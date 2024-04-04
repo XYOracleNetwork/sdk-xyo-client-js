@@ -39,14 +39,14 @@ describe('CompositeModuleResolver', () => {
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
-      resolverA = new CompositeModuleResolver({})
+      resolverA = new CompositeModuleResolver({ root: moduleB })
       resolverA.add(moduleA)
       resolverA.add(moduleC)
-      resolverB = new CompositeModuleResolver({})
+      resolverB = new CompositeModuleResolver({ root: moduleA })
       resolverB.add(moduleB)
       resolverB.add(moduleC)
 
-      sut = new CompositeModuleResolver({}).addResolver(resolverA).addResolver(resolverB)
+      sut = new CompositeModuleResolver({ root: moduleC }).addResolver(resolverA).addResolver(resolverB)
     })
     describe('add', () => {
       it('adds module to resolvers', async () => {

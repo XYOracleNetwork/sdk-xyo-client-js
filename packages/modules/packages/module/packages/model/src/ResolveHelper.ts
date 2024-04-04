@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
-import { Address } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
@@ -15,7 +15,7 @@ Resolution rules
 
 1. Resolution is always done from the perspective of the module whose resolve function was called.
 
-2. Requesting '*' will return all the modules that the resolver can see.
+2. Requesting '*' will return all the modules that the resolver can see. [limited by maxDepth]
 
 3. Requesting a simple ModuleName (string w/o ':' separator) will return an immediate child that has that name.
 
@@ -40,10 +40,12 @@ Resolution rules
     a) Up Traversal
       i)    Every module's upResolver also can call it's parent's upResolver
       ii)   An upResolver also can see the parent's children's downResolvers
-      iii)  This means that when traversing upResolvers, you can traverse all the way up.
+      iii)  This means that when traversing upResolvers, you can traverse all the way up. [limited by maxDepth]
       iv)   At any point of the up traversal, it can start traversing down to any immediate child, public or private.
     b) Down Traversal
       i)    A down traversal is limited to the public children of the module. [The same as scope as calling the 'resolve' function]
+
+9. An up or a down traversal counts against the maxDepth
 
 */
 
@@ -147,13 +149,14 @@ export class ResolveHelper {
   static async resolveModuleIdentifier<T extends ModuleInstance = ModuleInstance>(
     resolver: ModuleResolver,
     path: ModuleIdentifier,
+    required?: boolean,
   ): Promise<T | undefined> {
     const parts = path.split(':')
     const first = parts.shift()
-    const firstModule = asModuleInstance(
-      assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
-      () => `Resolved invalid module instance [${first}]`,
-    ) as T
+    const firstIsAddress = isAddress(first)
+    const resolvedModule = await resolver.resolve(first, { maxDepth: firstIsAddress ? 10 : 1 })
+    const finalModule = required ? assertEx(resolvedModule, () => `Failed to resolve [${first}] [${firstIsAddress}]`) : resolvedModule
+    const firstModule = asModuleInstance(finalModule, () => `Resolved invalid module instance [${first}]`) as T
     if (firstModule) {
       return parts.length > 0 ? await this.resolveModuleIdentifier<T>(firstModule, parts.join(':')) : firstModule
     }

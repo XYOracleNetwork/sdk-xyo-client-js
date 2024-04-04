@@ -28,7 +28,7 @@ describe('SimpleModuleResolver', () => {
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
-      sut = new SimpleModuleResolver()
+      sut = new SimpleModuleResolver({ root: moduleA })
       sut.add(moduleA)
     })
     describe('add', () => {

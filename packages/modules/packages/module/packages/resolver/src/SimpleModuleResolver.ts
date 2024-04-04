@@ -17,15 +17,15 @@ import {
   ObjectFilterOptions,
 } from '@xyo-network/module-model'
 
-import { AbstractModuleResolver } from './AbstractModuleResolver'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 
 //This class is now package private (not exported from index.ts)
 export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
   private modules: Record<Address, ModuleInstance> = {}
   private nameToModule: Record<ModuleName, ModuleInstance> = {}
 
-  constructor() {
-    super({})
+  constructor(params: ModuleResolverParams) {
+    super(params)
   }
 
   add(module: ModuleInstance): this

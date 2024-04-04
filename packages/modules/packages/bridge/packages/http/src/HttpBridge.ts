@@ -70,7 +70,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   override get resolver() {
     this._resolver =
-      this._resolver ?? new HttpBridgeModuleResolver({ bridge: this, querySender: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
+      this._resolver ??
+      new HttpBridgeModuleResolver({ bridge: this, querySender: this, root: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
     return this._resolver
   }
 

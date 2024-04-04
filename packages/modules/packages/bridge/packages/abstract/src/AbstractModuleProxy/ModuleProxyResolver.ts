@@ -32,11 +32,15 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   private downResolver: CompositeModuleResolver
 
   constructor(private options: T) {
-    this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers })
+    this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers, root: this.root })
   }
 
   get priority() {
     return ObjectResolverPriority.VeryLow
+  }
+
+  get root() {
+    return this.options.module
   }
 
   protected get childAddressMap() {

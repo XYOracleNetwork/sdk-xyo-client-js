@@ -41,13 +41,13 @@ import {
   ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
+  ModuleResolverInstance,
   ModuleStateQuerySchema,
   ModuleStatus,
   ModuleSubscribeQuerySchema,
   ObjectResolverPriority,
   serializableField,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
@@ -87,13 +87,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _startPromise: Promisable<boolean> | undefined = undefined
   protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly privateResolver = new CompositeModuleResolver({})
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
-  private _downResolver?: CompositeModuleResolver
   private _status: ModuleStatus = 'stopped'
-  private _upResolver?: CompositeModuleResolver
 
   protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
@@ -135,11 +132,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.status === 'dead'
   }
 
-  get downResolver() {
-    this._downResolver = this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers })
-    return this._downResolver
-  }
-
   get ephemeralQueryAccountEnabled(): boolean {
     return !!this.params.ephemeralQueryAccountEnabled
   }
@@ -172,11 +164,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.timestamp ?? false
   }
 
-  get upResolver() {
-    this._upResolver = this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers })
-    return this._upResolver
-  }
-
   protected get baseModuleQueryAccountPaths(): Record<ModuleQueries['schema'], string> {
     return this._baseModuleQueryAccountPaths
   }
@@ -190,6 +177,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       this._status = value
     }
   }
+
+  abstract get downResolver(): ModuleResolverInstance
+
+  abstract get upResolver(): ModuleResolverInstance
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 

@@ -33,6 +33,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       new PubSubBridgeModuleResolver({
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
+        root: this,
         wrapperAccount: this.account,
       })
     return this._resolver

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-deprecated */
-
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'

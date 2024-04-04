@@ -11,6 +11,7 @@ export const isModuleResolver = isObjectResolver<ModuleInstance>
 export interface ModuleResolver<TResult extends ModuleInstance = ModuleInstance> extends ObjectResolver<TResult> {}
 
 export interface ModuleNameResolver {
+  readonly root: ModuleInstance
   resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promisable<Address | undefined>
 }
 

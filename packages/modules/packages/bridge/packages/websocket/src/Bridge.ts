@@ -19,7 +19,7 @@ export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends Abst
   private _resolver?: WebsocketBridgeModuleResolver
 
   override get resolver() {
-    this._resolver = this._resolver ?? new WebsocketBridgeModuleResolver({ bridge: this, url: this.url, wrapperAccount: this.account })
+    this._resolver = this._resolver ?? new WebsocketBridgeModuleResolver({ bridge: this, root: this, url: this.url, wrapperAccount: this.account })
     return this._resolver
   }
 

@@ -23,6 +23,7 @@ import {
   ResolveHelper,
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
@@ -32,6 +33,11 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   implements ModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
+
+  private _downResolver?: CompositeModuleResolver
+  private _privateResolver?: CompositeModuleResolver
+  private _upResolver?: CompositeModuleResolver
+
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
@@ -42,6 +48,28 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       this.upResolver.add(this)
       this.downResolver.add(this)
     }
+  }
+
+  get downResolver() {
+    this._downResolver =
+      this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+    return this._downResolver
+  }
+
+  get root() {
+    return this
+  }
+
+  get upResolver() {
+    this._upResolver =
+      this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+    return this._upResolver
+  }
+
+  protected get privateResolver() {
+    this._privateResolver =
+      this._privateResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+    return this._privateResolver
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {

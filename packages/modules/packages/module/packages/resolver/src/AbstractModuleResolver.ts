@@ -8,19 +8,28 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
-  ModuleResolver,
+  ModuleResolverInstance,
   ObjectFilterOptions,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 
 export interface ModuleResolverParams extends BaseParams {
   priority?: ObjectResolverPriority
+  root: ModuleInstance
 }
 
-export abstract class AbstractModuleResolver<T extends ModuleResolverParams = ModuleResolverParams> extends Base<T> implements ModuleResolver {
+export abstract class AbstractModuleResolver<TParams extends ModuleResolverParams = ModuleResolverParams>
+  extends Base<TParams>
+  implements ModuleResolverInstance
+{
   get priority() {
     return this.params.priority ?? ObjectResolverPriority.Normal
   }
+
+  get root() {
+    return assertEx(this.params.root, () => 'root is not set')
+  }
+
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
@@ -62,6 +71,9 @@ export abstract class AbstractModuleResolver<T extends ModuleResolverParams = Mo
       }
     }
   }
+
+  abstract addResolver(resolver: ModuleResolverInstance): this
+  abstract removeResolver(resolver: ModuleResolverInstance): this
 
   abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier,

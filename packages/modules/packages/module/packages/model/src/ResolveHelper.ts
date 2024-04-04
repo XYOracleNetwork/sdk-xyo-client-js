@@ -1,9 +1,13 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
+import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
-import { duplicateModules, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
+
+import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from './instance'
+import { duplicateModules } from './lib'
+import { ModuleIdentifier } from './ModuleIdentifier'
 
 export interface ResolveHelperConfig {
   address: Address
@@ -99,6 +103,33 @@ export class ResolveHelper {
     }
     this.validateRequiredResolve(required, result, idOrFilter, logger)
     return result
+  }
+
+  //resolves a complex module path to addresses
+  static async resolveModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier): Promise<ModuleInstance | undefined> {
+    const parts = path.split(':')
+    const first = parts.shift()
+    const firstModule = asModuleInstance(
+      assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
+      () => `Resolved invalid module instance [${first}]`,
+    )
+    if (firstModule) {
+      return parts.length > 0 ? await this.resolveModuleIdentifier(firstModule, parts.join(':')) : firstModule
+    }
+  }
+
+  //translates a complex module path to addresses
+  static async traceModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier): Promise<Address[]> {
+    const parts = path.split(':')
+    const first = parts.shift()
+    const firstModule = asModuleInstance(
+      assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
+      () => `Resolved invalid module instance [${first}]`,
+    )
+    if (firstModule) {
+      return parts.length > 0 ? [firstModule.address, ...(await this.traceModuleIdentifier(firstModule, parts.join(':')))] : [firstModule.address]
+    }
+    return []
   }
 
   static validateRequiredResolve(

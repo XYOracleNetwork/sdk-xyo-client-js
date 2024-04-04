@@ -4,7 +4,7 @@ import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, traceModuleIdentifier } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -175,7 +175,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       return queries
     } else {
       this.logger?.warn(
-        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await traceModuleIdentifier(this.resolver, queriesDivinerId)}]`,
+        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await ResolveHelper.traceModuleIdentifier(this.resolver, queriesDivinerId)}]`,
       )
     }
   }

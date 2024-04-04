@@ -20,11 +20,12 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ObjectFilterOptions,
+  ResolveHelper,
+  ResolveHelperConfig,
 } from '@xyo-network/module-model'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
-import { ResolveHelper, ResolveHelperConfig } from './ResolveHelper'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>

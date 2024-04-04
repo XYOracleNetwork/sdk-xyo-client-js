@@ -3619,7 +3619,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub":
+"@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub, @xyo-network/bridge-pub-sub@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-pub-sub@workspace:packages/modules/packages/bridge/packages/pub-sub"
   dependencies:
@@ -3709,6 +3709,7 @@ __metadata:
     "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
+    "@xyo-network/bridge-pub-sub": "workspace:~"
     "@xyo-network/bridge-wrapper": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
     typescript: "npm:^5.4.3"

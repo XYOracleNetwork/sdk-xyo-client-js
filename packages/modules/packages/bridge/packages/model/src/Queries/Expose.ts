@@ -7,6 +7,7 @@ export type BridgeExposeQuerySchema = typeof BridgeExposeQuerySchema
 export interface BridgeExposeOptions {
   direction?: Direction
   maxDepth?: number
+  required?: boolean
 }
 
 export const ModuleFilterPayloadSchema = 'network.xyo.module.filter'

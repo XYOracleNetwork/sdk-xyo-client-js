@@ -180,5 +180,8 @@ describe('PubSubBridge', () => {
     expect(roundTripPayload).toBeDefined()
 
     await bridge.unexpose(hostNodeContainer.address)
+    const exposedAfter = await bridge.exposed?.()
+    expect(exposedAfter).toBeArray()
+    expect(exposedAfter?.length).toBe(0)
   })
 })

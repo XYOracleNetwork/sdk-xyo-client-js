@@ -34,12 +34,12 @@ export class ResolveHelper {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { visibility, maxDepth = 10, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    { visibility, maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
     const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}][${visibility}]`) : undefined
 
-    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth: maxDepth, required: false, visibility }
+    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false, visibility }
     const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
 
     const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false, visibility }

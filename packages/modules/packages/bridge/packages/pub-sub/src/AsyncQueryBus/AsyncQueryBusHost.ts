@@ -4,7 +4,7 @@ import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
+import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -14,6 +14,7 @@ import { AsyncQueryBusHostParams } from './model'
 export interface ExposeOptions {
   allowedQueries?: Schema[]
   failOnAlreadyExposed?: boolean
+  required?: boolean
 }
 
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
@@ -37,19 +38,29 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
-  expose(address: Address, options: ExposeOptions = {}) {
-    const { failOnAlreadyExposed } = options
-    assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
-    this._exposedAddresses.add(address)
-    this._exposeOptions[address] = { ...options }
-    this.logger?.debug(`${address} exposed`)
+  async expose(id: ModuleIdentifier, options?: ExposeOptions) {
+    const { failOnAlreadyExposed, required = true } = options ?? {}
+    const module = asModuleInstance(await this.resolver.resolve(id, { maxDepth: 10 }))
+    if (!module && required) {
+      throw new Error(`Unable to resolve module to expose [${id}]`)
+    }
+    if (module) {
+      assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(module.address), () => `Address already exposed: ${id} [${module.address}]`)
+      this._exposedAddresses.add(module.address)
+      this._exposeOptions[module.address] = { ...options }
+      this.logger?.debug(`${id} exposed [${module.address}]`)
+      return module
+    }
   }
 
   async listeningModules(): Promise<ModuleInstance[]> {
     const exposedModules = [...(this.config?.listeningModules ?? []), ...this.exposedAddresses.values()]
     const mods = await Promise.all(
-      exposedModules.map(async (listeningModule) =>
-        assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
+      exposedModules.map(async (exposedModule) =>
+        assertEx(
+          asModuleInstance(await this.resolver.resolve(exposedModule, { maxDepth: 10 })),
+          () => `Unable to resolve listeningModule [${exposedModule}]`,
+        ),
       ),
     )
     return mods
@@ -70,11 +81,15 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     this._pollId = undefined
   }
 
-  unexpose(address: Address, validate = true) {
-    assertEx(!validate || this._exposedAddresses.has(address), () => `Address not exposed [${address}]`)
-    this._exposedAddresses.delete(address)
-    delete this._exposeOptions[address]
-    this.logger?.debug(`${address} unexposed`)
+  async unexpose(id: ModuleIdentifier, validate = true) {
+    const module = asModuleInstance(await this.resolver.resolve(id, { maxDepth: 10 }))
+    if (module) {
+      assertEx(!validate || this._exposedAddresses.has(module.address), () => `Address not exposed [${module.address}][${module.id}]`)
+      this._exposedAddresses.delete(module.address)
+      delete this._exposeOptions[module.address]
+      this.logger?.debug(`${module.address} [${module.id}] unexposed`)
+    }
+    return module
   }
 
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {

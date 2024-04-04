@@ -55,16 +55,17 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 2, direction = 'all' } = options ?? {}
-    const module = assertEx(await super.resolve(id), () => `Expose failed to locate module [${id}]`)
+    const { maxDepth = 2, direction = 'all', required = true } = options ?? {}
+    const host = assertEx(this.busHost(), () => 'Not configured as a host')
+    const module = await host.expose(id, { required })
     if (module) {
-      const host = assertEx(this.busHost(), () => 'Not configured as a host')
-      host.expose(module.address)
-      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
-      for (const child of children) {
-        host.expose(child.address)
-      }
-      return [module, ...children]
+      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth, visibility: 'public' }) : []
+      const exposedChildren = (
+        await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+      )
+        .flat()
+        .filter(exists)
+      return [module, ...exposedChildren]
     }
     return []
   }
@@ -80,17 +81,17 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 10, direction } = options ?? {}
-    const filterOptions: ModuleFilterOptions = { direction }
-    const module = await super.resolve(id, filterOptions)
+    const { maxDepth = 2, direction = 'all', required = true } = options ?? {}
+    const host = assertEx(this.busHost(), () => 'Not configured as a host')
+    const module = await host.unexpose(id, required)
     if (module) {
-      const host = assertEx(this.busHost(), () => 'Not configured as a host')
-      host.unexpose(module.address)
-      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
-      for (const child of children) {
-        host.unexpose(child.address)
-      }
-      return [module, ...children]
+      const children = maxDepth > 0 ? await module.resolve('*', { direction, maxDepth, visibility: 'public' }) : []
+      const exposedChildren = (
+        await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+      )
+        .flat()
+        .filter(exists)
+      return [module, ...exposedChildren]
     }
     return []
   }

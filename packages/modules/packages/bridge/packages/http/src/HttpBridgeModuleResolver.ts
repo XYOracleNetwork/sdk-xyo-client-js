@@ -47,7 +47,7 @@ export class HttpBridgeModuleResolver<
       querySender: this.querySender,
     }
 
-    //console.log(`creating HttpProxy [${moduleAddress}] ${id}`)
+    this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
     const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(params)
     //calling state here to get the config

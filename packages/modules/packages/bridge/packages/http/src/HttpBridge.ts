@@ -76,9 +76,11 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   override async discoverRoots(): Promise<ModuleInstance[]> {
     const state = await this.getRootState()
+    this.logger?.debug(`HttpBridge:discoverRoots.state [${state?.length}]`)
     const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
     if (nodeManifest) {
       const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
+      this.logger?.debug(`HttpBridge:discoverRoots [${modules.length}]`)
       return modules
     }
     return []

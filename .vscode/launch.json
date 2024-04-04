@@ -15,7 +15,7 @@
         "--forceExit",
         "--runInBand",
         "--testTimeout=120000",
-        "packages/modules/packages/bridge/packages/pub-sub/src/spec/AsyncBus.proxy.spec.ts"
+        "packages/modules/packages/bridge/src/spec/HttpBridge.XNS.spec.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

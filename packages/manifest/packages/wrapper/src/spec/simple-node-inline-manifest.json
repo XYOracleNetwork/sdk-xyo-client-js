@@ -40,6 +40,16 @@
               "nodeUrl": "http://localhost:8080",
               "schema": "network.xyo.bridge.http.config"
             }
+          },
+          {
+            "config": {
+              "ids": [
+                "SimpleArchivist"
+              ],
+              "name": "ViewNode",
+              "schema": "network.xyo.node.view.config",
+              "source": "SimpleMemoryDapp"
+            }
           }
         ]
       }

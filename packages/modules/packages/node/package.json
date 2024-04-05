@@ -13,6 +13,7 @@
     "@xyo-network/node-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/node-view": "workspace:~",
     "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {

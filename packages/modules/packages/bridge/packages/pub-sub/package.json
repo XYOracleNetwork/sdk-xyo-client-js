@@ -30,7 +30,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "async-mutex": "^0.3.2",
+    "async-mutex": "^0.5.0",
     "lru-cache": "^10.2.0"
   },
   "devDependencies": {

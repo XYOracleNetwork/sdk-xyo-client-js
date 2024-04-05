@@ -2,6 +2,8 @@ import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { asNodeInstance } from '@xyo-network/node-model'
+import { ViewNode } from '@xyo-network/node-view'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeInlineManifest from './simple-node-inline-manifest.json'
@@ -23,8 +25,11 @@ describe('Manifest', () => {
       const roundTrip = (await node.manifest()) as NodeManifest
       console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public).toBeArrayOfSize(3)
-      expect(roundTrip.modules?.public?.length).toBe(3)
+      expect(roundTrip.modules?.public).toBeArrayOfSize(4)
+
+      const viewNode = asNodeInstance(await node.resolve('ViewNode'))
+      const sharedMod = await viewNode?.resolve('SimpleArchivist')
+      expect(sharedMod).toBeDefined()
     })
   })
 })

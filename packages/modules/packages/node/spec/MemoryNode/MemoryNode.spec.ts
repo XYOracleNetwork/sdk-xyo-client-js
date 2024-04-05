@@ -6,10 +6,9 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { AttachableModuleInstance, Module, ModuleDescription, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
+import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'
-
-import { MemoryNode } from '../../src'
 
 /**
  * @group node
@@ -296,6 +295,38 @@ describe('MemoryNode', () => {
       it('serializes to JSON consistently', async () => {
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
+      })
+      it('clone-all', async () => {
+        const newNode = await NodeHelper.attachToNewNode(node, '*')
+        const newNodeChildren = await newNode.resolve('*', { maxDepth: 1 })
+        const nodeChildren = await node.resolve('*', { maxDepth: 1 })
+        expect(newNodeChildren.length).toEqual(nodeChildren.length)
+        expect(newNodeChildren.includes(nodeChildren[0])).toBe(true)
+      })
+      it('clone-one (public)', async () => {
+        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModule' } })
+        await node.register(module)
+        await node.attach(module.address, true)
+
+        const newNode = await NodeHelper.attachToNewNode(node, 'CloneModule')
+        const newNodeChild = await newNode.resolve('CloneModule')
+        const nodeChild = await node.resolve('CloneModule', { maxDepth: 1 })
+        expect(newNodeChild?.id).toEqual(nodeChild?.id)
+        expect(newNodeChild?.address).toEqual(nodeChild?.address)
+        expect(newNodeChild).toEqual(nodeChild)
+      })
+      it('clone-one (private)', async () => {
+        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModulePrivate' } })
+        await node.register(module)
+        await node.attach(module.address)
+
+        try {
+          //this should except
+          await NodeHelper.attachToNewNode(node, 'CloneModulePrivate')
+          expect(false).toBeTrue()
+        } catch (e) {
+          expect(e).toBeInstanceOf(Error)
+        }
       })
     })
   })

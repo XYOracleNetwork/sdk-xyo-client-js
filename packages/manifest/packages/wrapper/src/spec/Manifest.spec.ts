@@ -3,7 +3,6 @@ import { HDWallet } from '@xyo-network/account'
 import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { asNodeInstance } from '@xyo-network/node-model'
-import { ViewNode } from '@xyo-network/node-view'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeInlineManifest from './simple-node-inline-manifest.json'

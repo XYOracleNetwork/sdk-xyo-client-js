@@ -17,7 +17,6 @@ import {
   ModuleNameResolver,
   ModuleParams,
   ModuleQueryResult,
-  ModuleResolver,
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ObjectFilterOptions,

@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
   DivinerDivineQuery,

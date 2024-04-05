@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
 import {
@@ -40,7 +39,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+  async allQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -50,7 +49,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     await this.sendQuery(queryPayload)
   }
 
-  async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+  async clearQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -60,7 +59,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+  async commitQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -71,7 +70,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return hashes
   }
 
-  async deleteQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+  async deleteQuery(_account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -81,7 +80,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async getQuery(account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+  async getQuery(_account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -93,7 +92,7 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload, payloads)
   }
 
-  async insertQuery(account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
+  async insertQuery(_account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads)
   }

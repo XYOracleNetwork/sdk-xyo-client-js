@@ -1,4 +1,3 @@
-import { assertEx } from '@xylabs/assert'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleQueryResult } from '@xyo-network/module-model'

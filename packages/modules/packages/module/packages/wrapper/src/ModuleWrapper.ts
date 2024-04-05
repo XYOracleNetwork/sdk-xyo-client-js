@@ -282,7 +282,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
   }
 
-  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+  async manifestQuery(_account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return await this.sendQueryRaw(queryPayload)
   }
@@ -376,7 +376,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return await this.sendQuery(queryPayload)
   }
 
-  async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+  async stateQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
     return await this.sendQueryRaw(queryPayload)
   }

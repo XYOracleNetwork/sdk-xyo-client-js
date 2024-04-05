@@ -2,7 +2,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
-import { BaseParams } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import {
   CacheConfig,

@@ -55,17 +55,17 @@ describe('JsonPathDiviner', () => {
       [{ c: 1, schema: 'network.xyo.test.destination' }],
     ],
     [
-      'transforms array (last position)',
+      'transforms array (last position via subscript)',
       [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
       [{ destinationField: 'c', sourcePathExpression: '$.a[(@.length-1)]' }],
       [{ c: 2, schema: 'network.xyo.test.destination' }],
     ],
-    // [
-    //   'transforms array (all elements)',
-    //   [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
-    //   [{ destinationField: 'c', sourcePathExpression: '$.a[*]' }],
-    //   [{ c: 0, schema: 'network.xyo.test.destination' }],
-    // ],
+    [
+      'transforms array (last position via slice)',
+      [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+      [{ destinationField: 'c', sourcePathExpression: '$.a[-1:]' }],
+      [{ c: 2, schema: 'network.xyo.test.destination' }],
+    ],
     [
       'does not transform with default value if source property is null',
       [{ a: null, schema: 'network.xyo.test.source.a' }],

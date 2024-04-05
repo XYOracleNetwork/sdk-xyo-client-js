@@ -1,12 +1,18 @@
-import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { HttpBridge } from '@xyo-network/http-bridge'
+import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
+import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
+import { ViewArchivist, ViewArchivistConfigSchema } from '@xyo-network/archivist-view'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { CreatableModuleDictionary, ModuleFactory } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
+import { NodeConfigSchema } from '@xyo-network/node-model'
 import { MemorySentinel } from '@xyo-network/sentinel-memory'
+import { SentinelConfigSchema } from '@xyo-network/sentinel-model'
 
 export const standardCreatableModules: CreatableModuleDictionary = {
-  'network.xyo.archivist.config': MemoryArchivist,
-  'network.xyo.bridge.http.config': ModuleFactory.withParams(HttpBridge, { config: { schema: HttpBridge.configSchema } }),
-  'network.xyo.node.config': MemoryNode,
-  'network.xyo.sentinel.config': MemorySentinel,
+  [ArchivistConfigSchema]: MemoryArchivist,
+  [HttpBridgeConfigSchema]: ModuleFactory.withParams(HttpBridge, { config: { schema: HttpBridgeConfigSchema } }),
+  [MemoryArchivistConfigSchema]: MemoryArchivist,
+  [NodeConfigSchema]: MemoryNode,
+  [SentinelConfigSchema]: MemorySentinel,
+  [ViewArchivistConfigSchema]: ViewArchivist,
 }

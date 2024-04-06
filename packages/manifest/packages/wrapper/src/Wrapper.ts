@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { BaseParams } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
 import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
@@ -19,17 +20,22 @@ import { WalletInstance } from '@xyo-network/wallet-model'
 
 import { standardCreatableModules } from './standardCreatableModules'
 
+export interface ManifestWrapperParams extends BaseParams {
+  readonly locator?: ModuleFactoryLocator
+  readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
+  readonly privateChildren?: PackageManifestPayload[]
+  readonly publicChildren?: PackageManifestPayload[]
+  readonly wallet: WalletInstance
+}
+
 /** Provides functionality that can be performed on a PackageManifest */
-export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
-  constructor(
-    payload: PackageManifestPayload,
-    protected readonly wallet: WalletInstance,
-    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
-    protected readonly publicChildren: PackageManifestPayload[] = [],
-    protected readonly privateChildren: PackageManifestPayload[] = [],
-    protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
-  ) {
-    super(payload)
+export class ManifestWrapperBase extends PayloadWrapper<PackageManifestPayload> {
+  constructor(payload: PackageManifestPayload, params?: ManifestWrapperParams) {
+    super(payload, params)
+  }
+
+  get wallet() {
+    return this.params?.wallet
   }
 
   async loadModule(
@@ -216,5 +222,19 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     const module = await creatableModule.create(params)
     await node.register(module)
     return module
+  }
+}
+
+export class ManifestWrapper extends ManifestWrapperBase {
+  constructor(
+    payload: PackageManifestPayload,
+    protected readonly wallet: WalletInstance,
+    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
+    protected readonly publicChildren: PackageManifestPayload[] = [],
+    protected readonly privateChildren: PackageManifestPayload[] = [],
+    protected readonly moduleIdentifierTransformers: ModuleIdentifierTransformer[],
+  ) {
+    const params: ManifestWrapperParams = { locator, moduleIdentifierTransformers, privateChildren, publicChildren, wallet }
+    super(payload, params)
   }
 }

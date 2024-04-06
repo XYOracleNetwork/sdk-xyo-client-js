@@ -85,33 +85,19 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
-  extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
+  extends Base<ModuleWrapperParams<TWrappedModule>>
+  implements AttachableModuleInstance<Exclude<TWrappedModule['config'], undefined>, TWrappedModule['eventData']>
 {
-  static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
-  static moduleIdentityCheck: ModuleTypeCheck = isModule
-  static requiredQueries: string[] = [ModuleStateQuerySchema]
+  static instanceIdentityCheck = isModuleInstance
+  static moduleIdentityCheck = isModule
+  static requiredQueries = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
 
-  protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
-
   private _status: ModuleStatus = 'wrapped'
 
-  constructor(params: ModuleWrapperParams<TWrappedModule>) {
-    const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TWrappedModule>
-    const mutatedParams = { ...params.module.params, config: { ...params.module.params.config } } as Exclude<
-      Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> },
-      undefined
-    >
-
-    //set the root params to the wrapped module params
-    super(mutatedParams)
-    this.wrapperParams = mutatedWrapperParams
-  }
-
   get account() {
-    return this.wrapperParams.account
+    return super.params?.account
   }
 
   get address() {
@@ -119,7 +105,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get config() {
-    return this.module.config as Exclude<TWrappedModule['params']['config'], undefined>
+    return this.module.config
   }
 
   get downResolver(): ModuleResolverInstance {
@@ -136,7 +122,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get module() {
-    return this.wrapperParams.module
+    return assertEx(super.params?.module, () => 'Missing module in wrapper')
   }
 
   get priority() {

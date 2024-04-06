@@ -97,7 +97,7 @@ export class Events<TEventData extends EventData = EventData> extends Base<Event
   }
 
   get debug() {
-    return this.params.debug
+    return this.params?.debug
   }
 
   clearListeners(eventNames: keyof TEventData | (keyof TEventData)[]) {

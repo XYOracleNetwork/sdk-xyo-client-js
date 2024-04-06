@@ -22,7 +22,7 @@ export class AsyncQueryBusModuleProxy<
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    return await this.params.busClient.send(this.address, query, payloads)
+    return await this.params?.busClient.send(this.address, query, payloads)
   }
 
   override async startHandler(): Promise<boolean> {

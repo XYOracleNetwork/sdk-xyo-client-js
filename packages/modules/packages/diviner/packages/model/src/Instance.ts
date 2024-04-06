@@ -1,16 +1,16 @@
-import { ModuleInstance } from '@xyo-network/module-model'
+import { AnyConfigSchema, ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { DivinerConfig } from './Config'
 import { DivinerQueryFunctions } from './DivinerQueryFunctions'
 import { DivinerModuleEventData } from './EventData'
 import { DivinerModule } from './Module'
-import { DivinerParams } from './Params'
 
 export interface DivinerInstance<
-  TParams extends DivinerParams = DivinerParams,
+  TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
   TEvents extends DivinerModuleEventData = DivinerModuleEventData,
-> extends DivinerModule<TParams, TEvents>,
+> extends DivinerModule<TConfig, TEvents>,
     DivinerQueryFunctions<TIn, TOut>,
-    ModuleInstance<TParams, TEvents> {}
+    ModuleInstance<TConfig, TEvents> {}

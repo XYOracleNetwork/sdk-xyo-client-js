@@ -16,11 +16,11 @@ export class HttpBridgeModuleResolver<
   T extends HttpBridgeModuleResolverParams = HttpBridgeModuleResolverParams,
 > extends AbstractBridgeModuleResolver<T> {
   get querySender() {
-    return this.params.querySender
+    return this.params?.querySender
   }
 
   moduleUrl(address: Address) {
-    return new URL(address, this.params.rootUrl)
+    return new URL(address, this.params?.rootUrl)
   }
 
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(

@@ -1,8 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 
-import { AttachableModuleInstance } from '../instance'
 import { hasAllLabels, Labels } from '../Labels'
-import { CreatableModuleFactory } from './CreatableModule'
+import { CreatableModuleFactory, CreatableModuleInstance } from './CreatableModule'
 import { CreatableModuleRegistry } from './CreatableModuleRegistry'
 import { hasLabels, LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory'
 
@@ -37,7 +36,7 @@ export class ModuleFactoryLocator {
    * Registers a single module factory (with optional tags) with the locator
    * @param additional Additional module factories to register
    */
-  register<TModule extends AttachableModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
+  register<TModule extends CreatableModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
     mod.configSchemas.map((schema) => {
       const existingFactories = this._registry[schema]
       const factory: LabeledCreatableModuleFactory<TModule> = {

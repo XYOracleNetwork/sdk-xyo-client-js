@@ -37,7 +37,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   get resolver(): ModuleResolverInstance {
-    return assertEx(this.params.resolver, () => 'No resolver provided')
+    return assertEx(this.params?.resolver, () => 'No resolver provided')
   }
 
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {

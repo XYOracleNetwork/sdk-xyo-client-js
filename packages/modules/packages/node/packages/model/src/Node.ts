@@ -2,8 +2,8 @@ import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AttachableModuleInstance, Module, ModuleEventData, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 
+import { NodeConfig } from './Config'
 import { ModuleAttachedEventData, ModuleDetachedEventData, ModuleRegisteredEventData, ModuleUnregisteredEventData } from './EventsModels'
-import { NodeParams } from './Params'
 
 export interface NodeQueryFunctions {
   attach: (nameOrAddress: ModuleIdentifier, external?: boolean) => Promisable<Address | undefined>
@@ -19,13 +19,13 @@ export interface NodeModuleEventData
     ModuleUnregisteredEventData,
     ModuleEventData {}
 
-export interface NodeModule<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends Module<TParams, TEventData> {}
+export interface NodeModule<TConfig extends NodeConfig = NodeConfig, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends Module<TConfig, TEventData> {}
 
-export interface NodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends NodeModule<TParams, TEventData>,
+export interface NodeInstance<TConfig extends NodeConfig = NodeConfig, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends NodeModule<TConfig, TEventData>,
     NodeQueryFunctions,
-    ModuleInstance<TParams, TEventData> {
+    ModuleInstance<TConfig, TEventData> {
   register?: (mod: AttachableModuleInstance) => Promisable<void>
   registeredModules?: () => Promisable<ModuleInstance[]>
   unregister?: (mod: ModuleInstance) => Promisable<ModuleInstance>

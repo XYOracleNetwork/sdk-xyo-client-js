@@ -2,24 +2,23 @@ import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 
-import { AttachableModuleInstance } from '../instance'
 import { Labels, WithOptionalLabels } from '../Labels'
-import { CreatableModule, CreatableModuleFactory } from './CreatableModule'
+import { CreatableModule, CreatableModuleFactory, CreatableModuleInstance } from './CreatableModule'
 
-export class ModuleFactory<TModule extends AttachableModuleInstance> implements CreatableModuleFactory<TModule> {
+export class ModuleFactory<TModule extends CreatableModuleInstance> implements CreatableModuleFactory<TModule> {
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']
 
   creatableModule: CreatableModule<TModule>
 
   defaultLogger?: Logger | undefined
 
-  defaultParams?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> }
+  defaultParams?: Omit<TModule['params'], 'config'> & { config?: Partial<Exclude<TModule['params'], undefined>['config']> }
 
   labels?: Labels
 
   constructor(
     creatableModule: CreatableModule<TModule>,
-    params?: Omit<TModule['params'], 'config'> & { config?: Partial<TModule['params']['config']> },
+    params?: Omit<TModule['params'], 'config'> & { config?: Partial<Exclude<TModule['params'], undefined>['config']> },
     labels: Labels = {},
   ) {
     this.creatableModule = creatableModule
@@ -32,9 +31,9 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     return this.configSchemas[0]
   }
 
-  static withParams<T extends AttachableModuleInstance>(
+  static withParams<T extends CreatableModuleInstance>(
     creatableModule: CreatableModule<T>,
-    params?: Omit<T['params'], 'config'> & { config?: T['params']['config'] },
+    params?: Omit<T['params'], 'config'> & { config?: Exclude<T['params'], undefined>['config'] },
     labels: Labels = {},
   ) {
     return new ModuleFactory(creatableModule, params, labels)
@@ -57,7 +56,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
+  create<T extends CreatableModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
     const schema = factory.creatableModule.configSchema
     const mergedParams: TModule['params'] = merge({}, factory.defaultParams, params, {
@@ -66,7 +65,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     return factory.creatableModule.create<T>(mergedParams)
   }
 
-  factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {
+  factory<T extends CreatableModuleInstance>(this: CreatableModule<T>, _params?: T['params'] | undefined): CreatableModuleFactory<T> {
     throw new Error('Method not implemented.')
   }
 }

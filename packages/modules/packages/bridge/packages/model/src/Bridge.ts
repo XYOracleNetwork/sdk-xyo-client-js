@@ -28,10 +28,14 @@ export interface BridgeParams<TConfig extends AnyConfigSchema<BridgeConfig> = An
 
 export interface BridgeModuleEventData extends ExposedEventData, UnexposedEventData, ModuleEventData {}
 
-export interface BridgeModule<TParams extends BridgeParams = BridgeParams, TEventData extends BridgeModuleEventData = BridgeModuleEventData>
-  extends Module<TParams, TEventData> {}
+export interface BridgeModule<
+  TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>,
+  TEventData extends BridgeModuleEventData = BridgeModuleEventData,
+> extends Module<TConfig, TEventData> {}
 
-export interface BridgeInstance<TParams extends BridgeParams = BridgeParams, TEventData extends BridgeModuleEventData = BridgeModuleEventData>
-  extends BridgeModule<TParams, TEventData>,
+export interface BridgeInstance<
+  TConfig extends AnyConfigSchema<BridgeConfig> = AnyConfigSchema<BridgeConfig>,
+  TEventData extends BridgeModuleEventData = BridgeModuleEventData,
+> extends BridgeModule<TConfig, TEventData>,
     Bridge,
-    ModuleInstance<TParams, TEventData> {}
+    ModuleInstance<TConfig, TEventData> {}

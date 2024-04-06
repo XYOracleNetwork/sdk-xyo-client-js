@@ -1,18 +1,18 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
-import { AttachableModuleInstance } from '@xyo-network/module-model'
+import { AnyConfigSchema, AttachableModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { ArchivistModule, ArchivistModuleEventData } from '../Archivist'
 import { ArchivistInstance } from '../ArchivistInstance'
-import { ArchivistParams } from '../Params'
+import { ArchivistConfig } from '../Config'
 
 export interface AttachableArchivistInstance<
-  TParams extends ArchivistParams = ArchivistParams,
+  TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   TPayload extends Payload = Payload,
-> extends ArchivistModule<TParams, TEventData>,
-    AttachableModuleInstance<TParams, TEventData>,
-    ArchivistInstance<TParams, TEventData, TPayload> {}
+> extends ArchivistModule<TConfig, TEventData>,
+    AttachableModuleInstance<TConfig, TEventData>,
+    ArchivistInstance<TConfig, TEventData, TPayload> {}
 
 export type AttachableArchivistInstanceTypeCheck<T extends AttachableArchivistInstance = AttachableArchivistInstance> = TypeCheck<T>
 

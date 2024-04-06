@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.0.25",
-    "@xylabs/assert": "^3.0.25",
-    "@xylabs/delay": "^3.0.25",
-    "@xylabs/exists": "^3.0.25",
-    "@xylabs/forget": "^3.0.25",
-    "@xylabs/hex": "^3.0.25",
-    "@xylabs/object": "^3.0.25",
-    "@xylabs/promise": "^3.0.25",
-    "@xylabs/timer": "^3.0.25",
+    "@xylabs/array": "^3.1.2",
+    "@xylabs/assert": "^3.1.2",
+    "@xylabs/delay": "^3.1.2",
+    "@xylabs/exists": "^3.1.2",
+    "@xylabs/forget": "^3.1.2",
+    "@xylabs/hex": "^3.1.2",
+    "@xylabs/object": "^3.1.2",
+    "@xylabs/promise": "^3.1.2",
+    "@xylabs/timer": "^3.1.2",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
@@ -34,7 +34,7 @@
     "lru-cache": "^10.2.0"
   },
   "devDependencies": {
-    "@xylabs/logger": "^3.0.25",
+    "@xylabs/logger": "^3.1.2",
     "@xylabs/ts-scripts-yarn3": "^3.9.0",
     "@xylabs/tsconfig": "^3.9.0",
     "@xyo-network/archivist-memory": "workspace:~",

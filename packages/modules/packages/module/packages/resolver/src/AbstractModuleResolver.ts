@@ -23,11 +23,11 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
   implements ModuleResolverInstance
 {
   get priority() {
-    return this.params.priority ?? ObjectResolverPriority.Normal
+    return this.params?.priority ?? ObjectResolverPriority.Normal
   }
 
   get root() {
-    return assertEx(this.params.root, () => 'root is not set')
+    return assertEx(this.params?.root, () => 'root is not set')
   }
 
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>

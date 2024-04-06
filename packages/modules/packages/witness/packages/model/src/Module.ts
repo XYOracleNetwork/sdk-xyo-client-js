@@ -1,7 +1,9 @@
-import { Module } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module } from '@xyo-network/module-model'
 
+import { WitnessConfig } from './Config'
 import { WitnessModuleEventData } from './EventData'
-import { WitnessParams } from './Params'
 
-export interface WitnessModule<TParams extends WitnessParams = WitnessParams, TEvents extends WitnessModuleEventData = WitnessModuleEventData>
-  extends Module<TParams, TEvents> {}
+export interface WitnessModule<
+  TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,
+  TEvents extends WitnessModuleEventData = WitnessModuleEventData,
+> extends Module<TConfig, TEvents> {}

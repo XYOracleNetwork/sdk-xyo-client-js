@@ -1,9 +1,9 @@
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 
+import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleIdentifier } from '../ModuleIdentifier'
-import { ModuleParams } from '../ModuleParams'
 import { ObjectResolver } from './ObjectResolver'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
@@ -23,8 +23,10 @@ export class DeadModuleError extends Error {
   }
 }
 
-export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends Module<TParams, TEventData>,
+export interface ModuleInstance<
+  TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> extends Module<TConfig, TEventData>,
     ObjectResolver<ModuleInstance>,
     ModuleQueryFunctions {
   readonly pipeline?: ModulePipeLine

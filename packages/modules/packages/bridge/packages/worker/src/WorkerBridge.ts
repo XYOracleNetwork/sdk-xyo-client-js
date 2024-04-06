@@ -64,7 +64,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   get worker(): Worker {
-    return assertEx(this.params.worker)
+    return assertEx(this.params?.worker)
   }
 
   static async createWorkerNode(manifest: PackageManifestPayload = defaultPackageManifest as PackageManifestPayload) {

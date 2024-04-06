@@ -50,6 +50,6 @@ export interface ArchivistQueryFunctions<
     ModuleQueryFunctions {}
 
 export interface ArchivistModule<
-  TParams extends ModuleParams<AnyConfigSchema<ArchivistConfig>> = ModuleParams<AnyConfigSchema<ArchivistConfig>>,
+  TConfig extends AnyConfigSchema<ArchivistConfig> = AnyConfigSchema<ArchivistConfig>,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
-> extends Module<TParams, TEventData> {}
+> extends Module<TConfig, TEventData> {}

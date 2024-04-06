@@ -52,13 +52,13 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
   get downResolver() {
     this._downResolver =
-      this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+      this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params?.moduleIdentifierTransformers, root: this })
     return this._downResolver
   }
 
   get privateResolver() {
     this._privateResolver =
-      this._privateResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+      this._privateResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params?.moduleIdentifierTransformers, root: this })
     return this._privateResolver
   }
 
@@ -68,7 +68,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 
   get upResolver() {
     this._upResolver =
-      this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params.moduleIdentifierTransformers, root: this })
+      this._upResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params?.moduleIdentifierTransformers, root: this })
     return this._upResolver
   }
 

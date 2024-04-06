@@ -1,12 +1,14 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 
+import { AnyConfigSchema, ModuleConfig } from '../../Config'
 import { ModuleEventData } from '../../EventsModels'
-import { ModuleParams } from '../../ModuleParams'
 import { ModuleInstance } from '../Instance'
 import { ModuleResolverInstance } from '../ModuleResolver'
 
-export interface AttachableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
-  extends ModuleInstance<TParams, TEventData> {
+export interface AttachableModuleInstance<
+  TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
+  TEventData extends ModuleEventData = ModuleEventData,
+> extends ModuleInstance<TConfig, TEventData> {
   /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
   readonly downResolver: ModuleResolverInstance
 

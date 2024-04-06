@@ -26,6 +26,6 @@ export class HttpModuleProxy<
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
+    return await this.params?.querySender.sendBridgeQuery(this.params?.moduleAddress, query, payloads)
   }
 }

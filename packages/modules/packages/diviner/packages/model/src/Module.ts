@@ -1,7 +1,9 @@
-import { Module } from '@xyo-network/module-model'
+import { AnyConfigSchema, Module } from '@xyo-network/module-model'
 
+import { DivinerConfig } from './Config'
 import { DivinerModuleEventData } from './EventData'
-import { DivinerParams } from './Params'
 
-export interface DivinerModule<TParams extends DivinerParams = DivinerParams, TEvents extends DivinerModuleEventData = DivinerModuleEventData>
-  extends Module<TParams, TEvents> {}
+export interface DivinerModule<
+  TConfig extends AnyConfigSchema<DivinerConfig> = AnyConfigSchema<DivinerConfig>,
+  TEvents extends DivinerModuleEventData = DivinerModuleEventData,
+> extends Module<TConfig, TEvents> {}

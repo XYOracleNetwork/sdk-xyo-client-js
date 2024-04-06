@@ -1,13 +1,13 @@
 import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 
+import { NodeConfig } from '../Config'
 import { NodeInstance, NodeModule, NodeModuleEventData } from '../Node'
-import { NodeParams } from '../Params'
 
-export interface AttachableNodeInstance<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
-  extends NodeModule<TParams, TEventData>,
-    AttachableModuleInstance<TParams, TEventData>,
-    NodeInstance<TParams, TEventData> {}
+export interface AttachableNodeInstance<TConfig extends NodeConfig = NodeConfig, TEventData extends NodeModuleEventData = NodeModuleEventData>
+  extends NodeModule<TConfig, TEventData>,
+    AttachableModuleInstance<TConfig, TEventData>,
+    NodeInstance<TConfig, TEventData> {}
 
 export type AttachableNodeInstanceTypeCheck<T extends AttachableNodeInstance = AttachableNodeInstance> = TypeCheck<T>
 

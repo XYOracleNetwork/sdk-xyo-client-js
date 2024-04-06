@@ -3,18 +3,15 @@ import { Promisable } from '@xylabs/promise'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ModuleConfig } from '../Config'
-import { ModuleParams } from '../ModuleParams'
+import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
-export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
+export interface ModuleFields<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> {
   address: Address
-  config: TParams['config']
+  config?: TConfig
 
   /** The name (if specified) or address of the module */
   id: string
-
-  params: TParams
 
   previousHash: () => Promisable<string | undefined>
 

@@ -21,15 +21,16 @@ import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
   ArchivingModuleConfig,
-  AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
+  CreatableModuleInstance,
   DeadModuleError,
   isModuleName,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
   ModuleEventData,
@@ -60,7 +61,7 @@ import { ModuleConfigQueryValidator, Queryable, SupportedQueryValidator } from '
 
 export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends BaseEmitter<TParams, TEventData>
-  implements Module<TParams, TEventData>
+  implements Module<TParams['config'], TEventData>
 {
   static readonly allowRandomAccount: boolean = true
   static configSchemas: string[]
@@ -117,15 +118,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get allowAnonymous() {
-    return !!this.config.security?.allowAnonymous
+    return !!this.config?.security?.allowAnonymous
   }
 
   get archiving(): ArchivingModuleConfig['archiving'] | undefined {
-    return this.config.archiving
+    return this.config?.archiving
   }
 
-  get config(): TParams['config'] {
-    return this.params.config
+  get config() {
+    return this.params?.config
   }
 
   get dead() {
@@ -133,11 +134,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get ephemeralQueryAccountEnabled(): boolean {
-    return !!this.params.ephemeralQueryAccountEnabled
+    return !!this.params?.ephemeralQueryAccountEnabled
   }
 
   get id() {
-    return this.config.name ?? this.address
+    return this.config?.name ?? this.address
   }
 
   get priority() {
@@ -161,7 +162,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get timestamp() {
-    return this.config.timestamp ?? false
+    return this.config?.timestamp ?? false
   }
 
   protected get baseModuleQueryAccountPaths(): Record<ModuleQueries['schema'], string> {
@@ -201,7 +202,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  static async create<TModule extends AttachableModuleInstance>(
+  static async create<TModule extends CreatableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
@@ -243,7 +244,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await determineAccount(params, this.allowRandomAccount)
   }
 
-  static factory<TModule extends AttachableModuleInstance>(
+  static factory<TModule extends CreatableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {
@@ -305,7 +306,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       try {
         await this.started('throw')
         if (!this.allowAnonymous && query.addresses.length === 0) {
-          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config?.name}], [${this.address}]`)
         }
         if (queryConfig?.allowedQueries) {
           assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
@@ -318,7 +319,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])
-              .name(this.config.name ?? '<Unknown>')
+              .name(this.config?.name ?? '<Unknown>')
               .query(sourceQuery.schema)
               .message(error.message)
               .build(),
@@ -495,7 +496,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async generateConfigAndAddress(_maxDepth?: number): Promise<Payload[]> {
-    const config = await PayloadBuilder.build(this.config)
+    const config = this.config ? await PayloadBuilder.build(this.config) : undefined
     const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
       .fields({ address: this.address, name: this.config?.name })
       .build()
@@ -504,10 +505,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
       }),
     )
-    const configSchema = await PayloadBuilder.build<ConfigPayload>({
-      config: config.schema,
-      schema: ConfigSchema,
-    })
+    const configSchema =
+      config ?
+        await PayloadBuilder.build<ConfigPayload>({
+          config: config.schema,
+          schema: ConfigSchema,
+        })
+      : undefined
     return compact([config, configSchema, address, ...queries])
   }
 
@@ -534,7 +538,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async getArchivist(): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
+    if (!this.config?.archivist) return undefined
     const resolved = await this.upResolver.resolve(this.config.archivist)
     return asArchivistInstance(resolved)
   }
@@ -560,16 +564,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
-    const name = this.config.name ?? 'Anonymous'
+    const name = this.config?.name ?? 'Anonymous'
     const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
     const childAddressToName: Record<Address, ModuleName | null> = {}
     for (const child of children) {
       if (child.address !== this.address) {
-        childAddressToName[child.address] = child.config.name ?? null
+        childAddressToName[child.address] = child.config?.name ?? null
       }
     }
     return {
-      config: { name, ...this.config },
+      config: { name, schema: ModuleConfigSchema, ...this.config },
       schema: ModuleManifestPayloadSchema,
       status: { address: this.address, children: childAddressToName },
     }
@@ -590,7 +594,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         ]
       })
     const address = this.address
-    const name = this.config.name
+    const name = this.config?.name
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
     const moduleAccountPreviousHash =

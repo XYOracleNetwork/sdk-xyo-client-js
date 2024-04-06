@@ -15,7 +15,7 @@ export class WebsocketBridgeModuleResolver<
   T extends WebsocketBridgeModuleResolverOptions = WebsocketBridgeModuleResolverOptions,
 > extends AbstractBridgeModuleResolver<T> {
   moduleUrl(address: Address) {
-    return new URL(address, this.params.url)
+    return new URL(address, this.params?.url)
   }
 
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(

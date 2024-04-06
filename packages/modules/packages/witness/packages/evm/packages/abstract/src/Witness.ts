@@ -67,7 +67,7 @@ export abstract class AbstractEvmWitness<
 
   async getProviders(cache = false): Promise<Provider[]> {
     const cachedProviders = cache ? this._providers : undefined
-    this._providers = cachedProviders ?? (await this.params.providers())
+    this._providers = cachedProviders ?? (await this.params?.providers())
     return this._providers
   }
 

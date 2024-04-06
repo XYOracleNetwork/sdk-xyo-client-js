@@ -117,7 +117,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
 
   private addSingleModule(module?: ModuleInstance) {
     if (module) {
-      const name = module.config.name
+      const name = module.config?.name
       if (name) {
         //check for collision
         assertEx(this.nameToModule[name] === undefined, () => `Module with name ${name} already added`)
@@ -131,7 +131,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
     assertEx(isAddress(address), () => 'Invalid address')
     const module = assertEx(this.modules[address], () => 'Address not found in modules')
     delete this.modules[address]
-    const name = module.config.name
+    const name = module.config?.name
     if (name) {
       delete this.nameToModule[name]
     }
@@ -148,7 +148,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
     return compact(
       name.map((name) => {
-        return modules.find((module) => module.config.name === name)
+        return modules.find((module) => module.config?.name === name)
       }),
     ) as T[]
   }

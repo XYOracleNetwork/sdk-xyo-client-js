@@ -51,7 +51,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   }
 
   private get moduleIdentifierTransformers() {
-    return this.params.moduleIdentifierTransformers
+    return this.params?.moduleIdentifierTransformers
   }
 
   add(module: ModuleInstance): this

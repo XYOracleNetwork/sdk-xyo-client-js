@@ -29,7 +29,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   get config(): TParams['config'] {
-    return this.params.config
+    return this.params?.config
   }
 
   get pollFrequencyConfig(): number {
@@ -37,7 +37,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
   }
 
   get resolver() {
-    return this.params.resolver
+    return this.params?.resolver
   }
 
   /**

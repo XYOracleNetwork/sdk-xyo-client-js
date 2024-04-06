@@ -1,19 +1,19 @@
-import { ModuleInstance } from '@xyo-network/module-model'
+import { AnyConfigSchema, ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
+import { WitnessConfig } from './Config'
 import { CustomWitnessModule } from './CustomModule'
 import { WitnessModuleEventData } from './EventData'
 import { WitnessInstance } from './Instance'
-import { WitnessParams } from './Params'
 import { WitnessQueryFunctions } from './QueryFunctions'
 
 export type CustomWitnessInstance<
-  TParams extends WitnessParams = WitnessParams,
+  TConfig extends AnyConfigSchema<WitnessConfig> = AnyConfigSchema<WitnessConfig>,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEvents extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
-    WitnessInstance<TParams, TIn, TOut>,
+  TEvents extends WitnessModuleEventData<WitnessInstance<TConfig, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+    WitnessInstance<TConfig, TIn, TOut>,
     TIn,
     TOut
   >,
-> = CustomWitnessModule<TParams, TIn, TOut, TEvents> & WitnessQueryFunctions<TIn, TOut> & ModuleInstance
+> = CustomWitnessModule<TConfig, TIn, TOut, TEvents> & WitnessQueryFunctions<TIn, TOut> & ModuleInstance

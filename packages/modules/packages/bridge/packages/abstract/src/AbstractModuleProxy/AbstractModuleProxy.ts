@@ -63,7 +63,7 @@ export abstract class AbstractModuleProxy<
   }
 
   override get address() {
-    return this.params.moduleAddress
+    return this.params?.moduleAddress
   }
 
   override get archiving(): ArchivingModuleConfig['archiving'] | undefined {
@@ -200,9 +200,9 @@ export abstract class AbstractModuleProxy<
     this.downResolver.addResolver(
       new ModuleProxyResolver({
         childAddressMap: await this.childAddressMap(),
-        host: this.params.host,
+        host: this.params?.host,
         module: this,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+        moduleIdentifierTransformers: this.params?.moduleIdentifierTransformers,
       }),
     )
     return await super.startHandler()

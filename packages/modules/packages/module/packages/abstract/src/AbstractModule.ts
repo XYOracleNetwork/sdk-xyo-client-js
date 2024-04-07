@@ -140,6 +140,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.name ?? this.address
   }
 
+  override get logger() {
+    return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+  }
+
   get priority() {
     return ObjectResolverPriority.Normal
   }
@@ -166,10 +170,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected get baseModuleQueryAccountPaths(): Record<ModuleQueries['schema'], string> {
     return this._baseModuleQueryAccountPaths
-  }
-
-  protected override get logger() {
-    return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
   }
 
   protected set status(value: ModuleStatus) {

@@ -22,8 +22,8 @@ export abstract class AbstractForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
   TIn extends ForecastingDivinerQueryPayload = ForecastingDivinerQueryPayload,
   TOut extends ForecastPayload = ForecastPayload,
-  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-    DivinerInstance<TParams, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams['config'], TIn, TOut>,
     TIn,
     TOut
   >,

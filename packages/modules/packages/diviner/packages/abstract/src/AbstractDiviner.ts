@@ -24,14 +24,14 @@ export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
     TIn extends Payload = Payload,
     TOut extends Payload = Payload,
-    TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-      DivinerInstance<TParams, TIn, TOut>,
+    TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+      DivinerInstance<TParams['config'], TIn, TOut>,
       TIn,
       TOut
     >,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData>
+  implements AttachableDivinerInstance<TParams['config'], TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [DivinerConfigSchema]
   static targetSchema: string
@@ -51,7 +51,7 @@ export abstract class AbstractDiviner<
   divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
     this._noOverride('divine')
     return this.busy(async () => {
-      const retryConfig = retryConfigIn ?? this.config.retry
+      const retryConfig = retryConfigIn ?? this.config?.retry
       await this.started('throw')
       await this.emit('divineStart', { inPayloads: payloads, module: this })
       const resultPayloads: TOut[] =

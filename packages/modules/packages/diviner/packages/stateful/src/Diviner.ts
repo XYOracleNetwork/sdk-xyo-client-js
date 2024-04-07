@@ -23,8 +23,8 @@ export abstract class StatefulDiviner<
   TParams extends StatefulDivinerParams = StatefulDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-    DivinerInstance<TParams, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams['config'], TIn, TOut>,
     TIn,
     TOut
   >,

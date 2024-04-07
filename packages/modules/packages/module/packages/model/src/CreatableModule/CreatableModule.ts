@@ -6,7 +6,7 @@ import { AttachableModuleInstance } from '../instance'
 import { ModuleParams } from '../ModuleParams'
 export interface CreatableModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AttachableModuleInstance<TParams['config'], TEventData> {
-  params: TParams
+  params?: TParams
 }
 
 export type CreatableModuleFactory<T extends CreatableModuleInstance = CreatableModuleInstance> = Omit<Omit<CreatableModule<T>, 'new'>, 'create'> & {

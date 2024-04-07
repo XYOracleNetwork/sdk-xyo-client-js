@@ -18,10 +18,7 @@ import { ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 
 constructableModuleWrapper()
-export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule>
-  extends ModuleWrapper<TWrappedModule>
-  implements BridgeInstance<TWrappedModule['params']>
-{
+export class BridgeWrapper<TWrappedModule extends BridgeModule = BridgeModule> extends ModuleWrapper<TWrappedModule> implements BridgeInstance {
   static override instanceIdentityCheck = isBridgeInstance
   static override moduleIdentityCheck = isBridgeModule
 

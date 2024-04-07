@@ -30,7 +30,7 @@ import { AbstractModule } from './AbstractModule'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements ModuleInstance<TParams, TEventData>, ModuleNameResolver
+  implements ModuleInstance<TParams['config'], TEventData>, ModuleNameResolver
 {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
@@ -54,6 +54,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     this._downResolver =
       this._downResolver ?? new CompositeModuleResolver({ moduleIdentifierTransformers: this.params?.moduleIdentifierTransformers, root: this })
     return this._downResolver
+  }
+
+  override get params() {
+    return super.params
   }
 
   get privateResolver() {
@@ -170,7 +174,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
-    const archivists = this.config.archiving?.archivists
+    const archivists = this.config?.archiving?.archivists
     if (!archivists) return []
     const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
     return compact(resolved.map((mod) => asArchivistInstance(mod)))

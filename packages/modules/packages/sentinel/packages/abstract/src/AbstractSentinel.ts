@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { globallyUnique } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
@@ -22,14 +23,18 @@ import {
 
 export abstract class AbstractSentinel<
     TParams extends SentinelParams = SentinelParams,
-    TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
+    TEventData extends SentinelModuleEventData<SentinelInstance<TParams['config']>> = SentinelModuleEventData<SentinelInstance<TParams['config']>>,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomSentinelInstance<TParams, TEventData>
+  implements CustomSentinelInstance<TParams['config'], TEventData>
 {
   static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')
   history: BoundWitness[] = []
   private _jobPromise?: Promise<SentinelJob>
+
+  override get config() {
+    return this.params?.config
+  }
 
   get jobPromise() {
     this._jobPromise = this._jobPromise ?? this.generateJob()
@@ -41,11 +46,11 @@ export abstract class AbstractSentinel<
   }
 
   get synchronous(): boolean {
-    return this.config.synchronous ?? false
+    return this.config?.synchronous ?? false
   }
 
   get throwErrors(): boolean {
-    return this.config.throwErrors ?? true
+    return this.config?.throwErrors ?? true
   }
 
   protected override get _queryAccountPaths(): Record<SentinelQueries['schema'], string> {
@@ -63,7 +68,7 @@ export abstract class AbstractSentinel<
       //create boundwitness
       const result = (await (await new BoundWitnessBuilder().payloads(payloads)).witness(this.account).build()).flat()
 
-      if (this.config.archiving) {
+      if (this.config?.archiving) {
         await this.storeToArchivists(result)
       }
 
@@ -92,17 +97,23 @@ export abstract class AbstractSentinel<
 
   protected async generateJob() {
     const job: SentinelJob = { tasks: [] }
-    let tasks: ResolvedTask[] = await Promise.all(
-      this.config.tasks.map(async (task) => ({
-        input: task.input ?? false,
-        module: assertEx(await this.resolve(task.module), () => `Unable to resolve task module [${task.module}]`),
-      })),
-    )
-    while (tasks.length > 0) {
+    const configTasks = this.config?.tasks
+    let resolvedTasks: ResolvedTask[] =
+      configTasks ?
+        await Promise.all(
+          this.config?.tasks
+            .map(async (task) => ({
+              input: task.input ?? false,
+              module: assertEx(await this.resolve(task.module), () => `Unable to resolve task module [${task.module}]`),
+            }))
+            .filter(exists),
+        )
+      : []
+    while (resolvedTasks.length > 0) {
       const previousTasks = job.tasks.at(-1) ?? []
       const newListCandidates =
         //add all tasks that either require no previous input or have the previous input module already added
-        tasks.filter((task) => {
+        resolvedTasks.filter((task) => {
           const input = task.input
           if (input === undefined) {
             return true
@@ -111,11 +122,11 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.config.name === input)
+            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.config?.name === input)
           }
           if (Array.isArray(input)) {
             return previousTasks.find(
-              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.config.name ?? prevTask.module.address),
+              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.config?.name ?? prevTask.module.address),
             )
           }
         })
@@ -124,19 +135,19 @@ export abstract class AbstractSentinel<
         const input = taskCandidate.input
         if (
           Array.isArray(input) &&
-          tasks.some(
+          resolvedTasks.some(
             (remainingTask) =>
-              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
+              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config?.name ?? remainingTask.module.address),
           )
         ) {
           return false
         }
         return true
       })
-      assertEx(newList.length > 0, () => `Unable to generateJob [${tasks.length}]`)
+      assertEx(newList.length > 0, () => `Unable to generateJob [${resolvedTasks.length}]`)
       job.tasks.push(newList)
       //remove the tasks we just added
-      tasks = tasks.filter((task) => !newList.includes(task))
+      resolvedTasks = resolvedTasks.filter((task) => !newList.includes(task))
     }
     return job
   }

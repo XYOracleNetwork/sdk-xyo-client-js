@@ -11,8 +11,8 @@ export type IdentityDivinerParams<TConfig extends AnyConfigSchema<DivinerConfig>
 export class IdentityDiviner<
   TParams extends IdentityDivinerParams = IdentityDivinerParams,
   TIn extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TIn>, TIn, TIn> = DivinerModuleEventData<
-    DivinerInstance<TParams, TIn, TIn>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TIn>, TIn, TIn> = DivinerModuleEventData<
+    DivinerInstance<TParams['config'], TIn, TIn>,
     TIn,
     TIn
   >,

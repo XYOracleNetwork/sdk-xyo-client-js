@@ -25,14 +25,14 @@ export abstract class AbstractWitness<
     TParams extends WitnessParams = WitnessParams,
     TIn extends Payload = Payload,
     TOut extends Payload = Payload,
-    TEventData extends WitnessModuleEventData<WitnessInstance<TParams, TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
-      WitnessInstance<TParams, TIn, TOut>,
+    TEventData extends WitnessModuleEventData<WitnessInstance<TParams['config'], TIn, TOut>, TIn, TOut> = WitnessModuleEventData<
+      WitnessInstance<TParams['config'], TIn, TOut>,
       TIn,
       TOut
     >,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
+  implements CustomWitnessInstance<TParams['config'], TIn, TOut, TEventData>
 {
   static override readonly configSchemas: string[] = [WitnessConfigSchema]
   static override readonly uniqueName = globallyUnique('AbstractWitness', AbstractWitness, 'xyo')
@@ -40,7 +40,7 @@ export abstract class AbstractWitness<
   private _archivistInstance: ArchivistInstance | undefined
 
   get archivist() {
-    return this.config.archivist
+    return this.config?.archivist
   }
 
   override get queries(): string[] {

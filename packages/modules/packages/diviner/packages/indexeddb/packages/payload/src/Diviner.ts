@@ -38,8 +38,8 @@ export class IndexedDbPayloadDiviner<
   TParams extends IndexedDbPayloadDivinerParams = IndexedDbPayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-    DivinerInstance<TParams, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams['config'], TIn, TOut>,
     TIn,
     TOut
   >,

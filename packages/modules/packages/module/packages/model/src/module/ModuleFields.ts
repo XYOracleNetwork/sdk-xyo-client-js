@@ -6,7 +6,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { AnyConfigSchema, ModuleConfig } from '../Config'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
-export interface ModuleFields<TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>> {
+export interface ModuleFields<TConfig extends AnyConfigSchema<ModuleConfig> | undefined = AnyConfigSchema<ModuleConfig> | undefined> {
   address: Address
   config?: TConfig
 

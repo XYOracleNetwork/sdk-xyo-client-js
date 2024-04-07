@@ -5,7 +5,7 @@ import { ModuleEventData } from '../EventsModels'
 import { ModuleFields } from './ModuleFields'
 
 export interface Module<
-  TConfig extends AnyConfigSchema<ModuleConfig> = AnyConfigSchema<ModuleConfig>,
+  TConfig extends AnyConfigSchema<ModuleConfig> | undefined = AnyConfigSchema<ModuleConfig> | undefined,
   TEventData extends ModuleEventData<object> = ModuleEventData<object>,
 > extends ModuleFields<TConfig>,
     EventFunctions<TEventData> {}

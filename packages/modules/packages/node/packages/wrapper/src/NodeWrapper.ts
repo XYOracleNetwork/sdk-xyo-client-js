@@ -20,10 +20,7 @@ import {
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
 
 constructableModuleWrapper()
-export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
-  extends ModuleWrapper<TWrappedModule>
-  implements NodeInstance<TWrappedModule['params']>
-{
+export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule> extends ModuleWrapper<TWrappedModule> implements NodeInstance {
   static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
   static override requiredQueries = [

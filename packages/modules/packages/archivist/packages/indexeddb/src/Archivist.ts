@@ -41,6 +41,10 @@ export class IndexedDbArchivist<
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
 
+  override get config() {
+    return this.params?.config
+  }
+
   /**
    * The database name. If not supplied via config, it defaults
    * to the module name (not guaranteed to be unique) and if module

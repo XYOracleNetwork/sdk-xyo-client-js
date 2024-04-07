@@ -9,7 +9,6 @@ import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema }
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
   duplicateModules,
-  Module,
   ModuleConfig,
   ModuleFilter,
   ModuleFilterOptions,
@@ -33,7 +32,7 @@ import { Payload } from '@xyo-network/payload-model'
 
 export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
+  implements NodeModule<TParams['config'], TEventData>
 {
   static override readonly configSchemas: string[] = [NodeConfigSchema]
   static override readonly uniqueName = globallyUnique('AbstractNode', AbstractNode, 'xyo')
@@ -81,7 +80,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
       childMods.map((mod) =>
-        new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
+        new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config?.name }).build(),
       ),
     )
 

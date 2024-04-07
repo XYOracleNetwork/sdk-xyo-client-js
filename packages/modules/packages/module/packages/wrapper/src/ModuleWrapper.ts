@@ -84,10 +84,7 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 }
 
 @constructableModuleWrapper()
-export class ModuleWrapper<TWrappedModule extends Module = Module>
-  extends Base<ModuleWrapperParams<TWrappedModule>>
-  implements AttachableModuleInstance<Exclude<TWrappedModule['config'], undefined>, TWrappedModule['eventData']>
-{
+export class ModuleWrapper<TWrappedModule extends Module = Module> extends Base<ModuleWrapperParams<TWrappedModule>> implements ModuleInstance {
   static instanceIdentityCheck = isModuleInstance
   static moduleIdentityCheck = isModule
   static requiredQueries = [ModuleStateQuerySchema]
@@ -121,7 +118,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.id
   }
 
-  get module() {
+  get module(): TWrappedModule {
     return assertEx(super.params?.module, () => 'Missing module in wrapper')
   }
 

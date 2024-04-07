@@ -55,18 +55,22 @@ export abstract class AbstractArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements AttachableArchivistInstance<TParams, TEventData, Payload>
+  implements AttachableArchivistInstance<TParams['config'], TEventData, Payload>
 {
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
   private _lastInsertedPayload: Payload | undefined
   private _parents?: ArchivistParentInstances
+
+  override get config() {
+    return this.params?.config
+  }
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
   }
 
   get requireAllParents() {
-    return this.config.requireAllParents ?? false
+    return this.config?.requireAllParents ?? false
   }
 
   protected override get _queryAccountPaths(): Record<ArchivistQueries['schema'], string> {
@@ -398,13 +402,13 @@ export abstract class AbstractArchivist<
       }
       default: {
         const result = await super.queryHandler(query, payloads)
-        if (this.config.storeQueries) {
+        if (this.config?.storeQueries) {
           await this.insertHandler([builtQuery])
         }
         return result
       }
     }
-    if (this.config.storeQueries) {
+    if (this.config?.storeQueries) {
       await this.insertHandler([builtQuery])
     }
     return resultPayloads
@@ -435,7 +439,7 @@ export abstract class AbstractArchivist<
       !this.requireAllParents || archivistModules.length === archivists.length,
       () =>
         `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-          archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+          archivistModules.map((module) => !(module.address === archivist || module.config?.name === archivist)),
         )}]`,
     )
 
@@ -443,7 +447,7 @@ export abstract class AbstractArchivist<
     return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
       prev[module.address] = asArchivistInstance(module, () => {
         isArchivistInstance(module, { log: console })
-        return `Unable to cast resolved module to an archivist: [${module.address}, ${module.config.name}, ${module.config.schema})}]`
+        return `Unable to cast resolved module to an archivist: [${module.address}, ${module.config?.name}, ${module.config?.schema})}]`
       })
 
       return prev

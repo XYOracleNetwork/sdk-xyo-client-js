@@ -12,8 +12,8 @@ export class HashLeaseEstimateDiviner<
   TParams extends HashLeaseEstimateDivinerParams = HashLeaseEstimateDivinerParams,
   TIn extends Payload = Payload,
   TOut extends HashLeaseEstimate | Payload = HashLeaseEstimate | Payload,
-  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
-    DivinerInstance<TParams, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams['config'], TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams['config'], TIn, TOut>,
     TIn,
     TOut
   >,

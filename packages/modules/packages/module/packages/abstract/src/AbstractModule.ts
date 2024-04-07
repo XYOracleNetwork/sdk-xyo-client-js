@@ -204,7 +204,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   static async create<TModule extends CreatableModuleInstance>(
     this: CreatableModule<TModule>,
-    params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
+    params?: Omit<TModule['params'], 'config'> & { config?: TModule['config'] },
   ) {
     this._noOverride('create')
     if (!this.configSchemas || this.configSchemas.length === 0) {

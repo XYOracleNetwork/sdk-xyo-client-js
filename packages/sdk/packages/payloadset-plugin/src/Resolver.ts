@@ -2,10 +2,10 @@ import { forget } from '@xylabs/forget'
 import { Validator } from '@xylabs/object'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
-import { DivinerModule, DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerConfig, DivinerModule } from '@xyo-network/diviner-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadSetPayload } from '@xyo-network/payload-model'
-import { WitnessModule, WitnessParams } from '@xyo-network/witness-model'
+import { WitnessConfig, WitnessModule } from '@xyo-network/witness-model'
 
 import {
   isPayloadSetDivinerPlugin,
@@ -18,7 +18,7 @@ import {
 } from './Plugin'
 
 export class PayloadSetPluginResolver {
-  protected _params: Record<string, PayloadSetPlugin['params'] | undefined> = {}
+  protected _configs: Record<string, PayloadSetPlugin['config'] | undefined> = {}
   protected _plugins: Record<string, PayloadSetPlugin> = {}
 
   constructor(
@@ -28,29 +28,29 @@ export class PayloadSetPluginResolver {
     for (const plugin of plugins ?? []) forget(this.register(plugin))
   }
 
+  config(): (PayloadSetPlugin['config'] | undefined)[] {
+    return Object.values(this._configs)
+  }
+
   async diviner(set: PayloadSetPayload): Promise<DivinerModule | undefined>
   async diviner(set: string): Promise<DivinerModule | undefined>
   async diviner(set: string | PayloadSetPayload): Promise<DivinerModule | undefined> {
     const setHash = typeof set === 'string' ? set : await PayloadBuilder.dataHash(set)
-    return await tryAsPayloadSetDivinerPlugin(this._plugins[setHash])?.diviner?.(this._params[setHash] as DivinerParams)
+    return await tryAsPayloadSetDivinerPlugin(this._plugins[setHash])?.diviner?.(this._configs[setHash] as DivinerConfig)
   }
 
   diviners(): PayloadSetDivinerPlugin[] {
     return Object.values(this._plugins).filter(isPayloadSetDivinerPlugin)
   }
 
-  params(): (PayloadSetPlugin['params'] | undefined)[] {
-    return Object.values(this._params)
-  }
-
   plugins(): PayloadSetPlugin[] {
     return Object.values(this._plugins)
   }
 
-  async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, params?: TModule['params']) {
+  async register<TModule extends WitnessModule | DivinerModule>(plugin: PayloadSetPlugin<TModule>, config?: TModule['config']) {
     const setHash = await PayloadBuilder.dataHash(plugin.set)
     this._plugins[setHash] = plugin
-    this._params[setHash] = params
+    this._configs[setHash] = config
     return this
   }
 
@@ -77,7 +77,7 @@ export class PayloadSetPluginResolver {
   async witness(set: string): Promise<WitnessModule | undefined>
   async witness(set: string | PayloadSetPayload): Promise<WitnessModule | undefined> {
     const setHash = typeof set === 'string' ? set : await PayloadBuilder.dataHash(set)
-    return await tryAsPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this._params[setHash] as WitnessParams)
+    return await tryAsPayloadSetWitnessPlugin(this._plugins[setHash])?.witness?.(this._configs[setHash] as WitnessConfig)
   }
 
   witnesses(): PayloadSetWitnessPlugin[] {

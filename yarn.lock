@@ -2776,7 +2776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/assert@npm:3.1.6, @xylabs/assert@npm:^3.1.6, @xylabs/assert@npm:~3.1.6":
+"@xylabs/assert@npm:^3.1.6, @xylabs/assert@npm:~3.1.6":
   version: 3.1.6
   resolution: "@xylabs/assert@npm:3.1.6"
   checksum: 10/b93ae96c9fb04394f828f604b9bef85f28773525594b9d3362c65e0a31891c5b5fdad3fbf180da9942a6b5cf7b20e0ad22fb6772f6b95223a5c7cb7ec6fee103
@@ -3460,7 +3460,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-wrapper@workspace:packages/modules/packages/archivist/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:3.1.6"
     "@xylabs/hex": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
@@ -5025,7 +5024,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xylabs/tsconfig-jest": "npm:^3.9.0"
@@ -5158,8 +5156,10 @@ __metadata:
     "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/config-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -5307,6 +5307,7 @@ __metadata:
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/query-payload-plugin": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.4"
   languageName: unknown
   linkType: soft
@@ -5364,7 +5365,11 @@ __metadata:
     "@xylabs/promise": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
+    "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-payload-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     jest: "npm:^29.7.0"
     jest-mock-extended: "npm:^3.0.5"
     lru-cache: "npm:^10.2.0"
@@ -5525,6 +5530,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-view@workspace:packages/modules/packages/node/packages/view"
   dependencies:
+    "@xylabs/assert": "npm:^3.1.6"
+    "@xylabs/hex": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/module-model": "workspace:~"
@@ -5994,7 +6001,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/abstract-witness": "workspace:~"
@@ -6225,7 +6231,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/witness-wrapper@workspace:packages/modules/packages/witness/packages/wrapper"
   dependencies:
-    "@xylabs/assert": "npm:^3.1.6"
     "@xylabs/promise": "npm:^3.1.6"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"

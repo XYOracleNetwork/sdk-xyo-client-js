@@ -3,6 +3,7 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { isBridgeInstance } from '@xyo-network/bridge-model'
 import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -45,11 +46,15 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       throw new Error(`Unable to resolve module to expose [${id}]`)
     }
     if (module) {
-      assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(module.address), () => `Address already exposed: ${id} [${module.address}]`)
-      this._exposedAddresses.add(module.address)
-      this._exposeOptions[module.address] = { ...options }
-      this.logger?.debug(`${id} exposed [${module.address}]`)
-      return module
+      if (!required && isBridgeInstance(module)) {
+        this.logger?.warn(`Attempted to expose a BridgeModule without required = true [${id}] - Not exposing`)
+      } else {
+        assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(module.address), () => `Address already exposed: ${id} [${module.address}]`)
+        this._exposedAddresses.add(module.address)
+        this._exposeOptions[module.address] = { ...options }
+        this.logger?.debug(`${id} exposed [${module.address}]`)
+        return module
+      }
     }
   }
 

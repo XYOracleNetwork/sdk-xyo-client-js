@@ -22,7 +22,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 {
   static override configSchemas = [NodeConfigSchema]
 
-  private registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
+  protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 
   override async attach(nameOrAddress: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
@@ -67,11 +67,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return this
   }
 
-  protected override startHandler() {
-    return super.startHandler()
-  }
-
-  private async attachUsingAddress(address: Address, external?: boolean) {
+  protected async attachUsingAddress(address: Address, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
     assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
@@ -150,14 +146,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return address
   }
 
-  private async attachUsingName(name: string, external?: boolean) {
-    const address = this.registeredModuleAddressFromName(name)
-    if (address) {
-      return await this.attachUsingAddress(address, external)
-    }
-  }
-
-  private async detachUsingAddress(address: Address) {
+  protected async detachUsingAddress(address: Address) {
     const module = this.registeredModuleMap[address]
 
     if (!module) {
@@ -201,6 +190,17 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       await notifyOfExistingModules(module)
     }
     return address
+  }
+
+  protected override startHandler() {
+    return super.startHandler()
+  }
+
+  private async attachUsingName(name: string, external?: boolean) {
+    const address = this.registeredModuleAddressFromName(name)
+    if (address) {
+      return await this.attachUsingAddress(address, external)
+    }
   }
 
   private async detachUsingName(name: string) {

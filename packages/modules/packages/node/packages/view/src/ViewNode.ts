@@ -1,3 +1,5 @@
+import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { asNodeInstance, AttachableNodeInstance, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
@@ -37,6 +39,28 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
           await NodeHelper.attachToExistingNode(source, id, this)
         }),
       )
+    }
+  }
+
+  protected override async attachUsingAddress(address: Address) {
+    const existingModule = (await this.resolve({ address: [address] })).pop()
+    assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
+    const module = this.registeredModuleMap[address]
+
+    if (!module) {
+      return
+    }
+
+    this.downResolver.add(module)
+
+    return address
+  }
+
+  protected override async detachUsingAddress(address: Address) {
+    const module = await this.downResolver.resolve(address)
+    if (module) {
+      this.downResolver.remove(address)
+      return address
     }
   }
 

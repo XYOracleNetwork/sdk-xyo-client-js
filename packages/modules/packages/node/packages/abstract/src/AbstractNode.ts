@@ -89,6 +89,11 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   protected override async manifestHandler(maxDepth = 10, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const cachedResult = this._cachedManifests.get(maxDepth)
+    if (cachedResult) {
+      return cachedResult
+    }
+
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler(maxDepth, ignoreAddresses)), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
@@ -101,6 +106,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       manifest.modules = manifest.modules ?? {}
       manifest.modules.public = publicModules
     }
+
+    this._cachedManifests.set(maxDepth, manifest)
 
     return manifest
   }

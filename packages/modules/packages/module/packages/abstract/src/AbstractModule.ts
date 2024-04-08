@@ -52,6 +52,7 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { WalletInstance } from '@xyo-network/wallet-model'
+import { LRUCache } from 'lru-cache'
 
 import { BaseEmitter } from './BaseEmitter'
 import { determineAccount } from './determineAccount'
@@ -77,6 +78,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     [ModuleStateQuerySchema]: '6',
     [ModuleSubscribeQuerySchema]: '3',
   }
+
+  //cache manifest based on maxDepth
+  protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
+
   protected _lastError?: Error
   protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
@@ -560,6 +565,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const cachedResult = this._cachedManifests.get(maxDepth)
+    if (cachedResult) {
+      return cachedResult
+    }
     const name = this.config.name ?? 'Anonymous'
     const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
     const childAddressToName: Record<Address, ModuleName | null> = {}
@@ -568,11 +577,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         childAddressToName[child.address] = child.config.name ?? null
       }
     }
-    return {
+    const result = {
       config: { name, ...this.config },
       schema: ModuleManifestPayloadSchema,
       status: { address: this.address, children: childAddressToName },
     }
+    this._cachedManifests.set(maxDepth, result)
+    return result
   }
 
   protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {

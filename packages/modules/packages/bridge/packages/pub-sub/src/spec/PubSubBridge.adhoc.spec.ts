@@ -3,6 +3,7 @@ import { ConsoleLogger, LogLevel } from '@xylabs/logger'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema, asArchivistInstance } from '@xyo-network/archivist-model'
+import { isBridgeInstance } from '@xyo-network/bridge-model'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { AbstractModule } from '@xyo-network/module-abstract'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -128,7 +129,17 @@ describe('PubSubBridge', () => {
       },
     }
 
-    const bridge = await PubSubBridge.create({
+    const hostBridge = await PubSubBridge.create({
+      account: Account.randomSync(),
+      config: {
+        host: { intersect, pollFrequency, stateStore },
+        name: 'hostPubSubBridge',
+        schema: PubSubBridge.configSchema,
+        security: { allowAnonymous: true },
+      },
+    })
+
+    const clientBridge = await PubSubBridge.create({
       account: Account.randomSync(),
       config: {
         client: {
@@ -139,24 +150,24 @@ describe('PubSubBridge', () => {
           },
           stateStore,
         },
-        host: { intersect, pollFrequency, stateStore },
-        name: 'pubSubBridge',
+        name: 'clientPubSubBridge',
         schema: PubSubBridge.configSchema,
         security: { allowAnonymous: true },
       },
     })
 
-    await bridge?.start?.()
-    await clientNode.register(bridge)
-    await clientNode.attach(bridge?.address, true)
-    const resolvedBridge = clientNode.resolve(bridge.id)
+    await clientBridge?.start?.()
+    await hostBridge?.start?.()
+    await clientNode.register(clientBridge)
+    await clientNode.attach(clientBridge?.address, true)
+    const resolvedBridge = clientNode.resolve(clientBridge.id)
     expect(resolvedBridge).toBeDefined()
 
-    await hostNode.register(bridge)
-    await hostNode.attach(bridge?.address, true)
-    await bridge.expose(hostNodeContainer.address, { maxDepth: 5 })
+    await hostNode.register(hostBridge)
+    await hostNode.attach(hostBridge?.address, true)
+    await hostBridge.expose(hostNodeContainer.address, { maxDepth: 5 })
 
-    const exposed = await bridge.exposed?.()
+    const exposed = await hostBridge.exposed?.()
     expect(exposed).toBeArray()
     expect(exposed?.length).toBeGreaterThan(1)
 
@@ -164,22 +175,22 @@ describe('PubSubBridge', () => {
     const rootModuleNoExist = await clientNode.resolve(hostNodeContainer.address)
     expect(rootModuleNoExist).toBeUndefined()
 
-    const connectedAddress = await bridge.connect(hostNodeContainer.address)
+    const connectedAddress = await clientBridge.connect(hostNodeContainer.address)
     expect(connectedAddress).toBe(hostNodeContainer.address)
 
-    const rootModule = await bridge.resolve(hostNodeContainer.address)
+    const rootModule = await clientBridge.resolve(hostNodeContainer.address)
     expect(rootModule).toBeDefined()
 
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type')
     expect(remoteNode).toBeDefined()
 
-    const hostNodeContainerByName = await bridge.resolve('hostNodeContainer')
+    const hostNodeContainerByName = await clientBridge.resolve('hostNodeContainer')
     expect(hostNodeContainerByName).toBeDefined()
 
     const archivistViaHostNodeContainer = await hostNodeContainerByName?.resolve('Archivist')
     expect(archivistViaHostNodeContainer).toBeDefined()
 
-    const archivistByName = await bridge.resolve('hostNodeContainer:Archivist')
+    const archivistByName = await clientBridge.resolve('hostNodeContainer:Archivist')
     expect(archivistByName).toBeDefined()
 
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
@@ -192,8 +203,8 @@ describe('PubSubBridge', () => {
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
     expect(roundTripPayload).toBeDefined()
 
-    await bridge.unexpose(hostNodeContainer.address)
-    const exposedAfter = await bridge.exposed?.()
+    await hostBridge.unexpose(hostNodeContainer.address)
+    const exposedAfter = await hostBridge.exposed?.()
     expect(exposedAfter).toBeArray()
     expect(exposedAfter?.length).toBe(0)
   })

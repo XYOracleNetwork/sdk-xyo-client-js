@@ -95,7 +95,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
               return
             }
             //back off the polling frequency
-            nextDelay = nextDelay * 2
+            nextDelay = Math.floor(nextDelay * 1.2)
             //cap it at 1000ms
             if (nextDelay > 1000) nextDelay = 1000
           }

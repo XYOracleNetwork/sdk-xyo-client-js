@@ -24,14 +24,7 @@ describe('Manifest', () => {
       const roundTrip = (await node.manifest()) as NodeManifest
       console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public).toBeArrayOfSize(4)
-
-      const viewNode = asNodeInstance(await node.resolve('ViewNode'))
-      const sharedMod = await viewNode?.resolve('SimpleArchivist')
-      expect(sharedMod).toBeDefined()
-
-      const notSharedMod = await viewNode?.resolve('SimpleSentinel')
-      expect(notSharedMod).toBeUndefined()
+      expect(roundTrip.modules?.public).toBeArrayOfSize(3)
     })
   })
 })

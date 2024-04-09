@@ -29,6 +29,9 @@ describe('Manifest', () => {
       const viewNode = asNodeInstance(await node.resolve('ViewNode'))
       const sharedMod = await viewNode?.resolve('SimpleArchivist')
       expect(sharedMod).toBeDefined()
+
+      const notSharedMod = await viewNode?.resolve('SimpleSentinel')
+      expect(notSharedMod).toBeUndefined()
     })
   })
 })

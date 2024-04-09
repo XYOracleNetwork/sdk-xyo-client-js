@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AnyConfigSchema, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { CompositeModuleResolver, SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { asNodeInstance, AttachableNodeInstance, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import { Mutex } from 'async-mutex'
 
 export const ViewNodeConfigSchema = 'network.xyo.node.view.config'
 export type ViewNodeConfigSchema = typeof ViewNodeConfigSchema
@@ -24,6 +25,10 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 {
   static override configSchemas = [ViewNodeConfigSchema]
 
+  private _buildMutex = new Mutex()
+  private _built = false
+  private _limitedResolver = new SimpleModuleResolver({ root: this })
+
   get ids() {
     return this.config.ids
   }
@@ -33,14 +38,17 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   }
 
   async build() {
-    const source = asNodeInstance(await this.resolve(this.source))
-    if (source) {
-      await Promise.all(
-        this.ids.map(async (id) => {
-          await NodeHelper.attachToExistingNode(source, id, this)
-        }),
-      )
-    }
+    return await this._buildMutex.runExclusive(async () => {
+      const source = asNodeInstance(await super.resolve(this.source))
+      if (source) {
+        await Promise.all(
+          this.ids.map(async (id) => {
+            await NodeHelper.attachToExistingNode(source, id, this)
+          }),
+        )
+        this._built = true
+      }
+    })
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -52,14 +60,16 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     _options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const attached = await this.attached()
-    const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
+    if (!this._built) {
+      await this.build()
+    }
+    const mods = await this._limitedResolver.resolve('*')
     if (idOrFilter === '*') {
       return mods as unknown as T[]
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        const mod = mods.find((mod) => mod.config.name === idOrFilter && mod.address === idOrFilter)
+        const mod = mods.find((mod) => mod.config.name === idOrFilter || mod.address === idOrFilter)
         return mod as unknown as T
       }
       case 'object': {
@@ -69,7 +79,9 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   }
 
   protected override async attachUsingAddress(address: Address) {
-    const existingModule = (await this.resolve({ address: [address] })).pop()
+    const attached = await this.attached()
+    const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
+    const existingModule = mods.find((mod) => mod.address === address)
     assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
 
@@ -77,7 +89,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
       return
     }
 
-    this.downResolver.add(module)
+    this._limitedResolver.add(module)
 
     return address
   }
@@ -85,17 +97,13 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   protected override async detachUsingAddress(address: Address) {
     const module = await this.downResolver.resolve(address)
     if (module) {
-      this.downResolver.remove(address)
+      this._limitedResolver.remove(address)
       return address
     }
   }
 
   protected override async startHandler(): Promise<boolean> {
-    this.downResolver.allowAddResolver = false
-    this.upResolver.allowAddResolver = false
     await super.startHandler()
-    this.upResolver.priority = -1
-    this.downResolver.priority = -1
     await this.build()
     return true
   }

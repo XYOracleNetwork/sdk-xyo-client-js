@@ -1,6 +1,7 @@
 import { generateMnemonic } from '@scure/bip39'
 // eslint-disable-next-line import/no-internal-modules
 import { wordlist } from '@scure/bip39/wordlists/english'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { HDWallet } from '@xyo-network/account'
@@ -37,8 +38,7 @@ export class WorkerNodeHost {
   }
 
   static start(logger?: Logger) {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    self.addEventListener('message', async (event: MessageEvent) => {
+    const listener = async (event: MessageEvent) => {
       switch (event.data.type) {
         case 'createNode': {
           const message: CreateNodeMessage = event.data
@@ -54,12 +54,15 @@ export class WorkerNodeHost {
           break
         }
       }
+    }
+
+    self.addEventListener('message', (event: MessageEvent) => {
+      forget(listener(event))
     })
   }
 
   private attachNode(node: NodeInstance) {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    self.addEventListener('message', async (event: MessageEvent) => {
+    const listener = async (event: MessageEvent) => {
       const message = event.data as Message
       switch (message.type) {
         case 'xyoQuery': {
@@ -78,6 +81,10 @@ export class WorkerNodeHost {
           break
         }
       }
+    }
+
+    self.addEventListener('message', (event: MessageEvent) => {
+      forget(listener(event))
     })
   }
 }

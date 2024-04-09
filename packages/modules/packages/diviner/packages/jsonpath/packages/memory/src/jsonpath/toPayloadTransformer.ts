@@ -10,10 +10,8 @@ import jsonpath from 'jsonpath'
 export const toPayloadTransformer = (transformExpression: JsonPathTransformExpression) => {
   const { defaultValue, destinationField, sourcePathExpression } = transformExpression
   const transformer: PayloadTransformer = (x: Payload) => {
-    // eslint-disable-next-line import/no-named-as-default-member
     const source = jsonpath.value(x, sourcePathExpression)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const transformed = {} as { [key: string]: any }
+    const transformed: Record<string, unknown> = {}
     // Assign the source value to the destination field or the default value if the source is undefined
     const destinationValue = source === undefined ? defaultValue : source
     if (destinationValue !== undefined) transformed[destinationField] = destinationValue

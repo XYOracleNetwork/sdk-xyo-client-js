@@ -19,7 +19,6 @@ export type SupportedForecastingType = typeof arimaForecastingName | typeof seas
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {
-    // eslint-disable-next-line import/no-named-as-default-member
     const ret = jsonpath.value(x, pathExpression)
     if (typeof ret === 'number') return ret
     throw new Error('Parsed invalid payload value')

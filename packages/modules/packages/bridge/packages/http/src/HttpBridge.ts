@@ -141,7 +141,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   override async startHandler(): Promise<boolean> {
-    // eslint-disable-next-line deprecation/deprecation
     const { discoverRoot = true } = this.config
     if (discoverRoot) {
       await this.discoverRoots()

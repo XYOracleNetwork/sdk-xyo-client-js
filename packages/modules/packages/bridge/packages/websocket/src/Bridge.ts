@@ -40,9 +40,8 @@ export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends Abst
   }
 
   override async startHandler(): Promise<boolean> {
-    // eslint-disable-next-line deprecation/deprecation
-    const { discoverRoot = true, legacyMode } = this.config
-    if (discoverRoot || legacyMode) {
+    const { discoverRoot = true } = this.config
+    if (discoverRoot) {
       await this.discoverRoots()
     }
     return true

@@ -20,8 +20,7 @@ export class WebsocketModuleProxy<
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { client, moduleUrl, maxPayloadSizeWarning } = this.params
+    const { maxPayloadSizeWarning } = this.params
     const payloadSize = JSON.stringify([query, payloads]).length
     if (maxPayloadSizeWarning && payloadSize > maxPayloadSizeWarning) {
       this.logger?.warn(

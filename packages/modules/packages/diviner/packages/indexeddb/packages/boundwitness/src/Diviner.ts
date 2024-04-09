@@ -65,7 +65,6 @@ export class IndexedDbBoundWitnessDiviner<
     if (!query) return []
 
     const result = await this.tryUseDb(async (db) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)

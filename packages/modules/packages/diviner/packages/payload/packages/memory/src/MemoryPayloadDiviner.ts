@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { removeFields } from '@xylabs/object'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import {
@@ -26,8 +27,7 @@ export class MemoryPayloadDiviner<
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schemas, limit, offset, hash, order, schema, $meta, $hash, ...props } = filter as WithMeta<TIn>
+    const { schemas, limit, offset, hash, order, ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()

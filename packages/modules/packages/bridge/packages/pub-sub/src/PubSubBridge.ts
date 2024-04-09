@@ -52,6 +52,13 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
+    //check if already connected
+    const existingInstance = await this.resolve<ModuleInstance>(id)
+    if (existingInstance) {
+      return existingInstance.address
+    }
+
+    //use the resolver to create the proxy instance
     const instance = await this.resolver.resolve<ModuleInstance>(id)
     return await this.connectInstance(instance, maxDepth)
   }

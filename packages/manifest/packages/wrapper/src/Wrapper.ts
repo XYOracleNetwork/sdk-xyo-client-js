@@ -114,12 +114,16 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     // Load Private Modules
     const privateModules =
       manifest.modules?.private?.map(async (moduleManifest) => {
-        await this.loadModule(derivedWallet, node, moduleManifest, false, registry)
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, false, registry)
+        }
       }) ?? []
     // Load Public Modules
     const publicModules =
       manifest.modules?.public?.map(async (moduleManifest) => {
-        await this.loadModule(derivedWallet, node, moduleManifest, true, registry)
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, true, registry)
+        }
       }) ?? []
     await Promise.all([...privateModules, ...publicModules])
 

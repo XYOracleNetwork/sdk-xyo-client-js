@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { AnyConfigSchema, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
-import { CompositeModuleResolver, SimpleModuleResolver } from '@xyo-network/module-resolver'
+import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { asNodeInstance, AttachableNodeInstance, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
 import { Mutex } from 'async-mutex'

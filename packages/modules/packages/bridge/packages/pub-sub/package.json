@@ -21,6 +21,7 @@
     "@xylabs/timer": "^3.1.7",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
@@ -28,6 +29,7 @@
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "^0.5.0",
@@ -84,6 +86,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.94.25",
+  "version": "2.94.26",
   "type": "module"
 }

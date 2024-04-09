@@ -2876,15 +2876,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/libauth@npm:^3.1.7":
-  version: 3.1.7
-  resolution: "@xylabs/libauth@npm:3.1.7"
-  dependencies:
-    "@bitauth/libauth": "npm:^1.19.1"
-  checksum: 10/0e624273fd42af72763dd39f168de92d650ff3fc82e21e81d901bc301b5ea341e6cb7fbd0c093725d853b6355c65d159740c24e09ad981090223211e79fc574c
-  languageName: node
-  linkType: hard
-
 "@xylabs/lodash@npm:^3.1.7":
   version: 3.1.7
   resolution: "@xylabs/lodash@npm:3.1.7"
@@ -3225,13 +3216,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/account@workspace:packages/protocol/packages/account"
   dependencies:
+    "@bitauth/libauth": "npm:^1.19.1"
     "@scure/bip39": "npm:^1.3.0"
     "@types/elliptic": "npm:^6.4.18"
     "@xylabs/array": "npm:^3.1.7"
     "@xylabs/arraybuffer": "npm:^3.1.7"
     "@xylabs/assert": "npm:^3.1.7"
     "@xylabs/hex": "npm:^3.1.7"
-    "@xylabs/libauth": "npm:^3.1.7"
     "@xylabs/object": "npm:^3.1.7"
     "@xylabs/static-implements": "npm:^3.1.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"

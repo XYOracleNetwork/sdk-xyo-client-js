@@ -1,5 +1,5 @@
+import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { equalArrayBuffers, toUint8Array } from '@xylabs/arraybuffer'
-import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { Data } from '@xyo-network/data'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'

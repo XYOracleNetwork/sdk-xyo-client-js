@@ -26,6 +26,10 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     return this.params.priority ?? ObjectResolverPriority.Normal
   }
 
+  set priority(value: ObjectResolverPriority) {
+    this.params.priority = value
+  }
+
   get root() {
     return assertEx(this.params.root, () => 'root is not set')
   }

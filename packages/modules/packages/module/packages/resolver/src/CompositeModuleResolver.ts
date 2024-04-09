@@ -37,8 +37,10 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 {
   static defaultMaxDepth = 3
   static transformers: ModuleIdentifierTransformer[] = []
+
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
+  private _allowAddResolver = true
   private _localResolver: SimpleModuleResolver
 
   constructor(params: T) {
@@ -48,6 +50,15 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
     this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })
     this._localResolver = localResolver
+  }
+
+  get allowAddResolver() {
+    return this._allowAddResolver
+  }
+
+  set allowAddResolver(value: boolean) {
+    this.resolvers = [this._localResolver]
+    this._allowAddResolver = value
   }
 
   private get moduleIdentifierTransformers() {
@@ -66,7 +77,9 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   }
 
   addResolver(resolver: ModuleResolverInstance): this {
-    this.resolvers.push(resolver)
+    if (this.allowAddResolver) {
+      this.resolvers.push(resolver)
+    }
     return this
   }
 

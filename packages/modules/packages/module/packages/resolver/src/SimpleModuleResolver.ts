@@ -19,7 +19,6 @@ import {
 
 import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 
-//This class is now package private (not exported from index.ts)
 export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
   private modules: Record<Address, ModuleInstance> = {}
   private nameToModule: Record<ModuleName, ModuleInstance> = {}

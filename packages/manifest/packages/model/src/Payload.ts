@@ -47,6 +47,7 @@ export interface ModuleManifest extends Manifest {
 export type ModuleManifestPayload = Payload<ModuleManifest, ModuleManifestPayloadSchema | NodeManifestPayloadSchema>
 
 export interface PackageManifest extends Manifest {
+  modules?: Record<string, ModuleManifest>
   nodes: NodeManifest[]
   schema: PackageManifestPayloadSchema
 }

@@ -7,16 +7,7 @@ import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import {
-  duplicateModules,
-  Module,
-  ModuleConfig,
-  ModuleFilter,
-  ModuleFilterOptions,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleQueryHandlerResult,
-} from '@xyo-network/module-model'
+import { Module, ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
 import {
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
@@ -159,26 +150,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
       }
     }
     return resultPayloads
-  }
-
-  private async resolveAll(all: '*', options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolveAll(filter: ModuleFilter, options?: ModuleFilterOptions): Promise<ModuleInstance[]>
-  private async resolveAll(id: ModuleIdentifier, options?: ModuleFilterOptions): Promise<ModuleInstance | undefined>
-  private async resolveAll(
-    idOrFilter: ModuleFilter | ModuleIdentifier,
-    options?: ModuleFilterOptions,
-  ): Promise<ModuleInstance | ModuleInstance[] | undefined> {
-    if (idOrFilter === '*') {
-      return [...(await this.resolvePrivate('*', options)), ...(await super.resolve(idOrFilter, options))].filter(duplicateModules)
-    }
-    switch (typeof idOrFilter) {
-      case 'string': {
-        return (await this.resolvePrivate(idOrFilter, options)) ?? (await super.resolve(idOrFilter, options))
-      }
-      default: {
-        return [...(await super.resolve(idOrFilter, options))].filter(duplicateModules)
-      }
-    }
   }
 
   abstract attach(id: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>

@@ -10,6 +10,7 @@ export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unkn
 }
 
 export enum ObjectResolverPriority {
+  Disabled = -1,
   VeryLow = 0,
   Low = 1,
   Normal = 2,

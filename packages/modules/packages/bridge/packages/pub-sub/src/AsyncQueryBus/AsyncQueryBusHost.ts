@@ -149,7 +149,6 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             }
           } catch (error) {
             this.logger?.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
-            console.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
           }
         }
       }

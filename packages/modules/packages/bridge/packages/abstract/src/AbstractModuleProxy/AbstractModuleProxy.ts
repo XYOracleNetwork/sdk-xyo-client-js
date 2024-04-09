@@ -122,9 +122,11 @@ export abstract class AbstractModuleProxy<
     for (const manifest of nodeManifests) {
       const children = manifest.modules?.public ?? []
       for (const child of children) {
-        const address = child.status?.address
-        if (address) {
-          result[address] = child.config.name ?? null
+        if (typeof child === 'object') {
+          const address = child.status?.address
+          if (address) {
+            result[address] = child.config.name ?? null
+          }
         }
       }
     }

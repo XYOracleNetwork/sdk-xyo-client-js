@@ -46,7 +46,6 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
   }
 
   async send(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
-    //console.log('send')
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
@@ -77,6 +76,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     if (!insertResult) throw new Error('Unable to issue query to queryArchivist')
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
       this.logger?.debug(`Polling for response to query: ${routedQueryHash}`)
+      let nextDelay = 100
       const pollForResponse = async () => {
         try {
           this.start()
@@ -85,15 +85,19 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           while (response !== undefined) {
             //console.log('polling...')
             // Wait a bit
-            await delay(100)
+            await delay(nextDelay)
             // Check the status of the response
             response = this.queryCache.get(routedQueryHash)
             // If status is no longer pending that means we received a response
             if (response && response !== Pending) {
-              this.logger?.debug(`Returning response to query: ${routedQueryHash}`)
+              this.logger?.log(`Returning response to query: ${routedQueryHash}`)
               resolve(response)
               return
             }
+            //back off the polling frequency
+            nextDelay = nextDelay * 2
+            //cap it at 1000ms
+            if (nextDelay > 1000) nextDelay = 1000
           }
           // If we got here waiting for a response timed out
           this.logger?.error('Timeout waiting for query response')

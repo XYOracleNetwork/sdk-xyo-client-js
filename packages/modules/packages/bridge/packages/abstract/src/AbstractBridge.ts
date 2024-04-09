@@ -7,7 +7,6 @@ import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
   BridgeConfigSchema,
-  BridgeConnectedQuerySchema,
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,
   BridgeExposeOptions,
@@ -43,21 +42,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
     return {
       'network.xyo.query.bridge.connect': '1/1',
-      'network.xyo.query.bridge.connected': '1/3',
       'network.xyo.query.bridge.disconnect': '1/2',
       'network.xyo.query.bridge.expose': '1/4',
       'network.xyo.query.bridge.unexpose': '1/5',
     }
-  }
-
-  connect(): Promisable<boolean> {
-    this._noOverride('connect')
-    throw new Error('Unsupported')
-  }
-
-  disconnect(): Promisable<boolean> {
-    this._noOverride('disconnect')
-    throw new Error('Unsupported')
   }
 
   discoverRoots(): Promisable<ModuleInstance[]> {
@@ -97,18 +85,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     const resultPayloads: Payload[] = []
 
     switch (queryPayload.schema) {
-      case BridgeConnectQuerySchema: {
-        await this.connect()
-        break
-      }
-      case BridgeConnectedQuerySchema: {
-        resultPayloads.push({ connected: await this.connect(), schema: 'network.xyo.bridge.connected' } as Payload)
-        break
-      }
-      case BridgeDisconnectQuerySchema: {
-        await this.disconnect()
-        break
-      }
       case BridgeExposeQuerySchema: {
         const filterPayloads = (payloads ?? []).filter(isPayloadOfSchemaType<ModuleFilterPayload>(ModuleFilterPayloadSchema))
         assertEx(filterPayloads, () => 'At least one filter is required')

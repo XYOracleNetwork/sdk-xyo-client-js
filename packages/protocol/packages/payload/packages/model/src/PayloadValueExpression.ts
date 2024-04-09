@@ -40,4 +40,4 @@ export type PayloadValueExpression<
    * The type of the selected property's value
    */
   TValue = PayloadValue<T, Key>,
-> = (payload: Payload) => TValue
+> = (payload: T) => TValue

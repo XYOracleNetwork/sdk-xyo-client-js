@@ -21,6 +21,13 @@ export class AsyncQueryBusModuleProxy<
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
+  static createCount = 0
+
+  constructor(params: TParams) {
+    AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1
+    super(params)
+  }
+
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.params.busClient.send(this.address, query, payloads)
   }

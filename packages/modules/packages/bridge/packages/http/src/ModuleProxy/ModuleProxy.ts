@@ -25,6 +25,16 @@ export class HttpModuleProxy<
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
+  static createCount = 0
+
+  constructor(params: TParams) {
+    HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1
+    if (Math.floor(HttpModuleProxy.createCount / 10) === HttpModuleProxy.createCount / 10) {
+      console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
+    }
+    super(params)
+  }
+
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
   }

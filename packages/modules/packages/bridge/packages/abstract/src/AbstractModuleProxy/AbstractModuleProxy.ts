@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { toJsonString } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -30,6 +31,7 @@ import { ModuleWrapper } from '@xyo-network/module-wrapper'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, ModuleError, ModuleErrorSchema, Payload, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
+import { LRUCache } from 'lru-cache'
 
 import { ModuleProxyResolver } from './ModuleProxyResolver'
 
@@ -56,6 +58,8 @@ export abstract class AbstractModuleProxy<
   protected _config?: ModuleInstance['config']
   protected _state: Payload[] | undefined = undefined
   protected _stateInProcess = false
+
+  private _spamTrap = new LRUCache<string, number>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
 
   constructor(params: TParams) {
     params.addToResolvers = false
@@ -152,6 +156,7 @@ export abstract class AbstractModuleProxy<
     this._checkDead()
     return await this.busy(async () => {
       try {
+        await this.checkSpam(query)
         const result = await this.proxyQueryHandler<T>(query, payloads)
         const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
         await this.emit('moduleQueried', args)
@@ -225,6 +230,16 @@ export abstract class AbstractModuleProxy<
   protected async filterErrors(result: ModuleQueryResult): Promise<ModuleError[]> {
     const wrapper = await BoundWitnessWrapper.wrap(result[0], result[1])
     return wrapper.payloadsBySchema<WithMeta<ModuleError>>(ModuleErrorSchema)
+  }
+
+  //this checks and warns if we are getting spammed by the same query
+  private async checkSpam(query: QueryBoundWitness) {
+    const hash = await PayloadBuilder.hash(query)
+    const previousCount = this._spamTrap.get(hash) ?? 0
+    if (previousCount > 0) {
+      this.logger?.warn(`Spam trap triggered for query: ${hash} from ${toJsonString(query.addresses)}`)
+    }
+    this._spamTrap.set(hash, previousCount + 1)
   }
 
   abstract proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult>

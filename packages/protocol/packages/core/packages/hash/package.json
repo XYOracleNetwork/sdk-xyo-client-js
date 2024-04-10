@@ -28,7 +28,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.9.0",
     "@xylabs/tsconfig": "^3.9.0",
     "esbuild": "^0.20.2",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "exports": {
     ".": {

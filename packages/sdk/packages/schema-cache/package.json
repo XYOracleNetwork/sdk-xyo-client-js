@@ -26,7 +26,7 @@
     "@xylabs/tsconfig-dom": "^3.9.0",
     "@xyo-network/network": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "exports": {
     ".": {

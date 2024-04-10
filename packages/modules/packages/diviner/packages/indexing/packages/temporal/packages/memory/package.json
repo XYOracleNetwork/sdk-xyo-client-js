@@ -45,7 +45,7 @@
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

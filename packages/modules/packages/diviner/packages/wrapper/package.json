@@ -23,7 +23,7 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/diviner-identity": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

@@ -25,7 +25,7 @@
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "jest": "^29.7.0",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "uuid": "^9.0.1"
   },
   "exports": {

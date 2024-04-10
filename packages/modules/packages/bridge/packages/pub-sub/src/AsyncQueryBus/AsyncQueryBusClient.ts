@@ -151,7 +151,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
         await Promise.allSettled(
           pendingCommands.map(async ([sourceQuery, status]) => {
             if (status === Pending) {
-              const divinerQuery: BoundWitnessDivinerQueryPayload = { limit: 1, schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+              const divinerQuery: BoundWitnessDivinerQueryPayload = { limit: 1, order: 'desc', schema: BoundWitnessDivinerQuerySchema, sourceQuery }
               const result = await responseBoundWitnessDiviner.divine([divinerQuery])
               if (result && result.length > 0) {
                 const response = result.find(isBoundWitnessWithMeta)

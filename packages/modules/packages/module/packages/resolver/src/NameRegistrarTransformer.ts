@@ -26,13 +26,14 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
       const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema }
       const result = (await this.registrarDiviner?.divine([query]))?.shift()
       if (!result) {
-        throw new Error(`Unable to resolve registrar name [${first}]`)
+        throw new Error(`Unable to resolve registrar name (failed) [${first}]`)
       }
       if (result && isPayloadOfSchemaTypeWithMeta(AddressSchema)(result)) {
         const address = (result as unknown as AddressPayload).address
         this._cache.set(identifier, address)
         return address
       }
+      throw new Error(`Unable to resolve registrar name (not found) [${first}]`)
     }
     return identifier
   }

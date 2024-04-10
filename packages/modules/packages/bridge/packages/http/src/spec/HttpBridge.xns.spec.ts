@@ -18,7 +18,7 @@ describe('HttpBridge - Xns', () => {
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { name: 'TestBridge', nodeUrl: 'http://localhost:80', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { name: 'TestBridge', nodeUrl: 'https://beta.xns.xyo.network', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
@@ -37,8 +37,11 @@ describe('HttpBridge - Xns', () => {
     if (registrarDiviner) {
       const transformer = new NameRegistrarTransformer(registrarDiviner, 'xyo')
       CompositeModuleResolver.transformers = [transformer]
+      const address = await transformer.transform('nippyflight.xyo')
+      expect(address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
     }
-    const namedResolve = await remoteNode.resolve('archivist.xyo')
+    const namedResolve = await remoteNode.resolve('nippyflight.xyo')
     expect(namedResolve).toBeDefined()
+    expect(namedResolve?.address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
   })
 })

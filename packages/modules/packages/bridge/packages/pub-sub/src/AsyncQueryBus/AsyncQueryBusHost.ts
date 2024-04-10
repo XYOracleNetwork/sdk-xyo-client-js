@@ -4,7 +4,8 @@ import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBridgeInstance } from '@xyo-network/bridge-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import { DivinerDivineQuery, DivinerQueries } from '@xyo-network/diviner-model'
 import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
@@ -168,7 +169,13 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       const destination = [address]
       const limit = this.perAddressBatchQueryLimit
       // Filter for commands to us by destination address
-      const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
+      const divinerQuery: BoundWitnessDivinerQueryPayload = {
+        destination,
+        limit,
+        order: 'asc',
+        schema: BoundWitnessDivinerQuerySchema,
+        timestamp,
+      }
       const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
       const queries = result.filter(isQueryBoundWitnessWithMeta)
       const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp

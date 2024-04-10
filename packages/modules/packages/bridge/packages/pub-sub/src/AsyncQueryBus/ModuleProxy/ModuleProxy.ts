@@ -25,6 +25,9 @@ export class AsyncQueryBusModuleProxy<
 
   constructor(params: TParams) {
     AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1
+    if (Math.floor(AsyncQueryBusModuleProxy.createCount / 10) === AsyncQueryBusModuleProxy.createCount / 10) {
+      console.log(`AsyncQueryBusModuleProxy.createCount: ${AsyncQueryBusModuleProxy.createCount}`)
+    }
     super(params)
   }
 

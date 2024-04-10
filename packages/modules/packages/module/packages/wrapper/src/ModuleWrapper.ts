@@ -37,6 +37,7 @@ import {
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { LRUCache } from 'lru-cache'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -93,6 +94,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
+
+  protected readonly cachedCalls = new LRUCache<string, Payload[]>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
 
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
@@ -372,8 +375,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async state(): Promise<Payload[]> {
+    const cachedResult = this.cachedCalls.get('state')
+    if (cachedResult) {
+      return cachedResult
+    }
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
-    return await this.sendQuery(queryPayload)
+    const result = await this.sendQuery(queryPayload)
+    this.cachedCalls.set('state', result)
+    return result
   }
 
   async stateQuery(_account: AccountInstance): Promise<ModuleQueryResult> {

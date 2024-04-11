@@ -11,6 +11,10 @@ import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusParams } from './model'
 
+const POLLING_FREQUENCY_MIN = 100 as const
+const POLLING_FREQUENCY_MAX = 60_000 as const
+const POLLING_FREQUENCY_DEFAULT = 1000 as const
+
 export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryBusParams> extends Base<TParams> {
   protected _lastState?: LRUCache<Address, number>
   protected _targetConfigs: Record<Address, ModuleConfig> = {}
@@ -32,8 +36,12 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return this.params.config
   }
 
-  get pollFrequencyConfig(): number {
-    return this.config?.pollFrequency ?? 1000
+  get pollFrequency(): number {
+    const frequency = this.config?.pollFrequency ?? POLLING_FREQUENCY_DEFAULT
+    if (frequency < POLLING_FREQUENCY_MIN || frequency > POLLING_FREQUENCY_MAX) {
+      return POLLING_FREQUENCY_DEFAULT
+    }
+    return frequency
   }
 
   get resolver() {

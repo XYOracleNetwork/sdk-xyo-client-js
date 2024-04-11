@@ -61,6 +61,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this._downResolver
   }
 
+  get moduleIdentifierTransformers() {
+    return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
+  }
+
   get privateResolver() {
     this._privateResolver =
       this._privateResolver ??
@@ -123,6 +127,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       downResolver: this.downResolver,
       logger: this.logger,
       module: this,
+      transformers: this.moduleIdentifierTransformers,
       upResolver: this.upResolver,
     }
     if (idOrFilter === '*') {

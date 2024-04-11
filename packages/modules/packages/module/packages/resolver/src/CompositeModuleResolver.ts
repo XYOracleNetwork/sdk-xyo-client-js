@@ -16,6 +16,7 @@ import {
   ModuleResolverInstance,
   ObjectFilterOptions,
   ObjectResolverPriority,
+  ResolveHelper,
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
@@ -37,7 +38,6 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   implements ModuleRepository, ModuleResolverInstance
 {
   static defaultMaxDepth = 3
-  static transformers: ModuleIdentifierTransformer[] = []
 
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
@@ -67,7 +67,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   }
 
   private get moduleIdentifierTransformers() {
-    return this.params.moduleIdentifierTransformers
+    return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
   }
 
   add(module: ModuleInstance): this
@@ -145,7 +145,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
       if (idParts.length > 1) {
         return await this.resolveMultipartIdentifier<T>(idOrFilter)
       }
-      const id = await this.transformModuleIdentifier(idOrFilter)
+      const id = await ResolveHelper.transformModuleIdentifier(idOrFilter, this.moduleIdentifierTransformers)
       if (mutatedOptions.maxDepth < 0) {
         return undefined
       }
@@ -251,13 +251,5 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const id = assertEx(idParts.shift())
     const module = (await this.resolve<T>(id)) ?? (await this.resolvePrivate<T>(id))
     return (await module?.resolve<T>(idParts.join(':'))) ?? (await module?.resolvePrivate<T>(idParts.join(':')))
-  }
-
-  private async transformModuleIdentifier(identifier: ModuleIdentifier) {
-    let id = identifier
-    for (const transformer of this.moduleIdentifierTransformers ?? CompositeModuleResolver.transformers) {
-      id = await transformer.transform(id)
-    }
-    return id
   }
 }

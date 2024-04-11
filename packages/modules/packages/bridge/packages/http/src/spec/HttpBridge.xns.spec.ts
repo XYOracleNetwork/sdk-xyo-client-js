@@ -1,5 +1,6 @@
 import { Account } from '@xyo-network/account'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
+import { ResolveHelper } from '@xyo-network/module-model'
 import { CompositeModuleResolver, NameRegistrarTransformer } from '@xyo-network/module-resolver'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
@@ -36,9 +37,12 @@ describe('HttpBridge - Xns', () => {
     expect(registrarDiviner).toBeDefined()
     if (registrarDiviner) {
       const transformer = new NameRegistrarTransformer(registrarDiviner, 'xyo')
-      CompositeModuleResolver.transformers = [transformer]
+      ResolveHelper.transformers = [transformer]
       const address = await transformer.transform('nippyflight.xyo')
       expect(address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
     }
+    const namedResolve = await remoteNode.resolve('nippyflight.xyo')
+    expect(namedResolve).toBeDefined()
+    expect(namedResolve?.address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
   })
 })

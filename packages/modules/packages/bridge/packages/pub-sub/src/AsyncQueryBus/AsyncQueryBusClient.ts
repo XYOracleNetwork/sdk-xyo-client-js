@@ -135,7 +135,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
         this._pollId = undefined
         this.poll()
       }
-    }, this.pollFrequencyConfig)
+    }, this.pollFrequency)
   }
 
   /**

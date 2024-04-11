@@ -18,9 +18,19 @@ export interface ExposeOptions {
   required?: boolean
 }
 
+const IDLE_POLLING_FREQUENCY_RATIO_MIN = 4 as const
+const IDLE_POLLING_FREQUENCY_RATIO_MAX = 64 as const
+const IDLE_POLLING_FREQUENCY_RATIO_DEFAULT = 16 as const
+
+const IDLE_THRESHOLD_RATIO_MIN = 4 as const
+const IDLE_THRESHOLD_RATIO_MAX = 64 as const
+const IDLE_THRESHOLD_RATIO_DEFAULT = 16 as const
+
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   protected _exposedAddresses = new Set<Address>()
   private _exposeOptions: Record<Address, ExposeOptions> = {}
+  private _idle = false
+  private _lastQueryTime?: number
   private _pollId?: string
 
   constructor(params: TParams) {
@@ -29,6 +39,28 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
 
   get exposedAddresses() {
     return this._exposedAddresses
+  }
+
+  get idlePollFrequency() {
+    const frequency = this.config?.idlePollFrequency ?? IDLE_POLLING_FREQUENCY_RATIO_DEFAULT * this.pollFrequency
+    if (frequency < this.pollFrequency * IDLE_POLLING_FREQUENCY_RATIO_MIN) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MIN * this.pollFrequency
+    }
+    if (frequency > this.pollFrequency * IDLE_POLLING_FREQUENCY_RATIO_MAX) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MAX * this.pollFrequency
+    }
+    return frequency
+  }
+
+  get idleThreshold() {
+    const threshold = this.config?.idleThreshold ?? IDLE_THRESHOLD_RATIO_DEFAULT * this.idlePollFrequency
+    if (threshold < this.idlePollFrequency * IDLE_THRESHOLD_RATIO_MIN) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MIN * this.pollFrequency
+    }
+    if (threshold > this.idlePollFrequency * IDLE_THRESHOLD_RATIO_MAX) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MAX * this.pollFrequency
+    }
+    return threshold
   }
 
   get perAddressBatchQueryLimit(): number {
@@ -98,6 +130,8 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
+    this._idle = false
+    this._lastQueryTime = Date.now()
     const localModuleName = localModule.config.name ?? localModule.address
     const queryArchivist = assertEx(
       await this.queriesArchivist(),
@@ -195,17 +229,24 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * specified by the `config.pollFrequency`
    */
   private poll() {
-    this._pollId = setTimeoutEx(async () => {
-      try {
-        await this.processIncomingQueries()
-      } catch (e) {
-        this.logger?.error?.(`Error in main loop: ${e}`)
-      } finally {
-        if (this._pollId) clearTimeoutEx(this._pollId)
-        this._pollId = undefined
-        this.poll()
-      }
-    }, this.pollFrequencyConfig)
+    this._pollId = setTimeoutEx(
+      async () => {
+        try {
+          await this.processIncomingQueries()
+        } catch (e) {
+          this.logger?.error?.(`Error in main loop: ${e}`)
+        } finally {
+          if (this._pollId) clearTimeoutEx(this._pollId)
+          this._pollId = undefined
+          this.poll()
+        }
+        const now = Date.now()
+        if (this.idleThreshold < now - (this._lastQueryTime ?? now)) {
+          this._idle = true
+        }
+      },
+      this._idle ? this.idlePollFrequency : this.pollFrequency,
+    )
   }
 
   /**

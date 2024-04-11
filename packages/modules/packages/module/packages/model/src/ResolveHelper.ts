@@ -9,6 +9,7 @@ import { toJsonString } from '@xylabs/object'
 import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from './instance'
 import { duplicateModules } from './lib'
 import { ModuleIdentifier } from './ModuleIdentifier'
+import { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer'
 
 /*
 
@@ -57,11 +58,13 @@ export interface ResolveHelperConfig {
   logger?: Logger
   module: ModuleInstance
   privateResolver?: ModuleResolver
+  transformers: ModuleIdentifierTransformer[]
   upResolver?: ModuleResolver
 }
 
 export class ResolveHelper {
   static defaultLogger?: Logger
+  static transformers: ModuleIdentifierTransformer[] = []
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     all: '*',
@@ -82,7 +85,7 @@ export class ResolveHelper {
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     { maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { module, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
+    const { transformers, module, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
     const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}]`) : undefined
 
     const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false }
@@ -126,6 +129,8 @@ export class ResolveHelper {
             return undefined
           }
 
+          const id = await this.transformModuleIdentifier(idOrFilter, transformers)
+
           const resolvers = [
             [downResolver, downLocalOptions],
             [up ? upResolver : undefined, upLocalOptions],
@@ -135,7 +140,7 @@ export class ResolveHelper {
           for (const resolver of resolvers) {
             const [resolverInstance] = resolver
             if (!result) {
-              result = await this.resolveModuleIdentifier<T>(resolverInstance, idOrFilter)
+              result = await this.resolveModuleIdentifier<T>(resolverInstance, id)
             }
           }
 
@@ -189,6 +194,17 @@ export class ResolveHelper {
       return parts.length > 0 ? [firstModule.address, ...(await this.traceModuleIdentifier(firstModule, parts.join(':')))] : [firstModule.address]
     }
     return []
+  }
+
+  static async transformModuleIdentifier(
+    identifier: ModuleIdentifier,
+    transformers: ModuleIdentifierTransformer[] = ResolveHelper.transformers,
+  ): Promise<ModuleIdentifier> {
+    let id = identifier
+    for (const transformer of transformers) {
+      id = await transformer.transform(id)
+    }
+    return id
   }
 
   static validateRequiredResolve(

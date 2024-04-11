@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ResolveHelper } from '@xyo-network/module-model'
-import { CompositeModuleResolver, NameRegistrarTransformer } from '@xyo-network/module-resolver'
+import { NameRegistrarTransformer } from '@xyo-network/module-resolver'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 

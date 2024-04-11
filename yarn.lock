@@ -3167,6 +3167,7 @@ __metadata:
     "@xyo-network/sentinel-wrapper": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
     "@xyo-network/witness-wrapper": "workspace:~"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -5390,6 +5391,7 @@ __metadata:
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    lru-cache: "npm:^10.2.0"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft

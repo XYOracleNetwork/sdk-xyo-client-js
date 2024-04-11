@@ -31,6 +31,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
 
+  override get allowNameResolution() {
+    //we default to false here to prevent name collisions
+    return this.params.allowNameResolution ?? false
+  }
+
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
   }

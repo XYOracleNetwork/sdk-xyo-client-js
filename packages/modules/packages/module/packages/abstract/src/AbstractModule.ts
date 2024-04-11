@@ -477,7 +477,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     payloads?: Payload[],
     account?: AccountInstance,
   ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
-    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).witness(this.account).query(query)
+    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
     const result = await (account ? builder.witness(account) : builder).build()
     return result
   }
@@ -488,7 +488,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = (await (await new BoundWitnessBuilder().payloads(payloads)).errors(errors)).sourceQuery(query.$hash)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueries['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
     builder.witnesses(witnesses)
@@ -497,7 +497,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),
       await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
     ]
-    if (this.archiving) {
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
       await this.storeToArchivists(result.flat())
     }
     return result
@@ -696,6 +696,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
       }
     }, true)
+  }
+
+  private isAllowedArchivingQuery(schema: Schema): boolean {
+    const queries = this.archiving?.queries
+    if (queries) {
+      return queries.includes(schema)
+    }
+    return true
   }
 
   protected abstract storeToArchivists(payloads: Payload[]): Promise<Payload[]>

@@ -31,6 +31,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _busHost?: AsyncQueryBusHost
   private _resolver?: PubSubBridgeModuleResolver
 
+  override get allowNameResolution() {
+    //we default to false here to prevent name collisions
+    return this.params.allowNameResolution ?? false
+  }
+
   override get resolver(): ModuleResolverInstance {
     this._resolver =
       this._resolver ??

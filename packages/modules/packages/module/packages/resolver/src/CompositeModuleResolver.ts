@@ -23,6 +23,7 @@ import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleRe
 import { SimpleModuleResolver } from './SimpleModuleResolver'
 
 export interface CompositeModuleResolverParams extends ModuleResolverParams {
+  allowNameResolution?: boolean
   cache?: CacheConfig
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
@@ -45,7 +46,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
 
   constructor(params: T) {
     super(params)
-    const localResolver = new SimpleModuleResolver({ root: params.root })
+    const localResolver = new SimpleModuleResolver({ allowNameResolution: params.allowNameResolution, root: params.root })
     this.addResolver(localResolver)
     const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
     this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })
@@ -59,6 +60,10 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
   set allowAddResolver(value: boolean) {
     this.resolvers = [this._localResolver]
     this._allowAddResolver = value
+  }
+
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
   }
 
   private get moduleIdentifierTransformers() {

@@ -11,6 +11,7 @@ export type ModuleParams<
   BaseParams<{
     account?: AccountInstance | 'random'
     addToResolvers?: boolean
+    allowNameResolution?: boolean
     config: TConfig extends AnyConfigSchema<ModuleConfig> ? TConfig : AnyConfigSchema<ModuleConfig>
     ephemeralQueryAccountEnabled?: boolean
     moduleIdentifierTransformers?: ModuleIdentifierTransformer[]

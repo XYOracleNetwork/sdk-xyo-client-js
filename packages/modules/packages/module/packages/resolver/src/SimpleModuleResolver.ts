@@ -19,12 +19,20 @@ import {
 
 import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 
-export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
+export type SimpleModuleResolverParams = ModuleResolverParams & {
+  allowNameResolution?: boolean
+}
+
+export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleResolverParams> implements ModuleRepository {
   private modules: Record<Address, ModuleInstance> = {}
   private nameToModule: Record<ModuleName, ModuleInstance> = {}
 
-  constructor(params: ModuleResolverParams) {
+  constructor(params: SimpleModuleResolverParams) {
     super(params)
+  }
+
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
   }
 
   add(module: ModuleInstance): this
@@ -117,7 +125,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
   private addSingleModule(module?: ModuleInstance) {
     if (module) {
       const name = module.config.name
-      if (name) {
+      if (name && this.allowNameResolution) {
         //check for collision
         assertEx(this.nameToModule[name] === undefined, () => `Module with name ${name} already added`)
         this.nameToModule[name] = module

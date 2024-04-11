@@ -125,6 +125,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return !!this.config.security?.allowAnonymous
   }
 
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
+  }
+
   get archiving(): ArchivingModuleConfig['archiving'] | undefined {
     return this.config.archiving
   }

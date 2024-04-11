@@ -1,8 +1,8 @@
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'
-import { isPayloadOfSchemaTypeWithMeta } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
@@ -23,15 +23,22 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
       if (cachedResult) return cachedResult
 
       //not cached, so check registrar
-      const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema }
-      const result = (await this.registrarDiviner?.divine([query]))?.shift()
-      if (!result) {
+      const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema, tld: nameParts[1] }
+      console.log('query:', toJsonString(query))
+      const result = await this.registrarDiviner?.divine([query])
+      console.log('result:', toJsonString(result))
+      const resultPayload = result?.shift()
+      if (!resultPayload) {
         throw new Error(`Unable to resolve registrar name (failed) [${first}]`)
       }
-      if (result && isPayloadOfSchemaTypeWithMeta(AddressSchema)(result)) {
-        const address = (result as unknown as AddressPayload).address
-        this._cache.set(identifier, address)
-        return address
+      //TODO: Use proper types for this check
+      if (resultPayload) {
+        const address = (resultPayload as unknown as { address: Address[] }).address?.shift()
+        console.log('address:', toJsonString(address))
+        if (address) {
+          this._cache.set(identifier, address)
+          return address
+        }
       }
       throw new Error(`Unable to resolve registrar name (not found) [${first}]`)
     }

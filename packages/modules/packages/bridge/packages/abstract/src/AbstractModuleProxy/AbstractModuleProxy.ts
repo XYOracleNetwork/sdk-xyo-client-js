@@ -164,7 +164,7 @@ export abstract class AbstractModuleProxy<
       } catch (ex) {
         const error = ex as Error
         this._lastError = error
-        this.status = 'dead'
+        //this.status = 'dead'
         const deadError = new DeadModuleError(this.address, error)
         const errorPayload: ModuleError = {
           message: deadError.message,

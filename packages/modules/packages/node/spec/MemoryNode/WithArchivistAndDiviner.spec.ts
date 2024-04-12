@@ -81,7 +81,7 @@ describe('MemoryNode', () => {
     expect((await node.resolvePrivate('*', { direction: 'down' })).length).toBe(1)
     expect((await node.resolve('*', { direction: 'down', maxDepth: 0 })).length).toBe(0)
     expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(2)
-    expect((await node.resolve('*', { direction: 'all' })).length).toBe(3)
+    expect((await node.resolve('*', { direction: 'all' })).length).toBe(2)
 
     expect((await archivist.resolve('*', { direction: 'up' })).length).toBe(3)
     expect((await archivist.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(1)

@@ -85,7 +85,9 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     if (id === '*') return await Promise.resolve([])
   }
 
+  abstract add(module: ModuleInstance): this
   abstract addResolver(resolver: ModuleResolverInstance): this
+  abstract remove(address: Address): this
   abstract removeResolver(resolver: ModuleResolverInstance): this
 
   abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(

@@ -16,6 +16,8 @@ export interface ModuleNameResolver {
 }
 
 export interface ModuleResolverInstance<TResult extends ModuleInstance = ModuleInstance> extends ModuleResolver<TResult>, ModuleNameResolver {
+  add: (module: TResult) => this
   addResolver: (resolver: ModuleResolverInstance<TResult>) => this
+  remove: (address: Address) => this
   removeResolver: (resolver: ModuleResolverInstance<TResult>) => this
 }

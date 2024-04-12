@@ -29,7 +29,7 @@ export class HttpModuleProxy<
 
   constructor(params: TParams) {
     HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1
-    if (Math.floor(HttpModuleProxy.createCount / 10) === HttpModuleProxy.createCount / 10) {
+    if (Math.floor(HttpModuleProxy.createCount / 100) === HttpModuleProxy.createCount / 100) {
       console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
     }
     super(params)

@@ -35,10 +35,10 @@ describe('AddressHistoryDiviner', () => {
       const all = await wrapper.all()
       expect(all).toBeArrayOfSize(6)
       await node.register(archivist)
-      await node.attach(archivist.address)
+      await node.attach(archivist.address, false)
       diviner = await AddressHistoryDiviner.create({
         account: divinerAccount,
-        config: { address: wrapperAccount.address, schema: AddressHistoryDivinerConfigSchema },
+        config: { address: wrapperAccount.address, archivist: archivist.address, schema: AddressHistoryDivinerConfigSchema },
       })
       await node.register(diviner)
       await node.attach(diviner.address)

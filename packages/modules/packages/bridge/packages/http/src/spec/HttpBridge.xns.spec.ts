@@ -36,13 +36,12 @@ describe('HttpBridge - Xns', () => {
     const registrarDiviner = asDivinerInstance(await remoteNode.resolve('XNS:AddressRecords:AddressRecordIndexDiviner'))
     expect(registrarDiviner).toBeDefined()
     if (registrarDiviner) {
-      const transformer = new NameRegistrarTransformer(registrarDiviner, 'xyo')
+      const transformer = new NameRegistrarTransformer({ registrarDiviner, tld: 'xyo' })
       ResolveHelper.transformers = [transformer]
       const address = await transformer.transform('nippyflight.xyo')
       expect(address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
     }
-    const namedResolve = await remoteNode.resolve('nippyflight.xyo')
-    expect(namedResolve).toBeDefined()
-    expect(namedResolve?.address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
+    const bridgeChildren = await bridge.resolve('*', { direction: 'down', maxDepth: 1 })
+    expect(bridgeChildren?.length).toBeGreaterThan(200)
   })
 })

@@ -2,15 +2,8 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { EventListener } from '@xyo-network/module-events'
-import {
-  AnyConfigSchema,
-  AttachableModuleInstance,
-  Module,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleResolverInstance,
-} from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { AnyConfigSchema, AttachableModuleInstance, Module, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { AttachableNodeInstance, isNodeModule, NodeConfig, NodeConfigSchema, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
 
@@ -68,7 +61,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   protected async attachUsingAddress(address: Address, external?: boolean) {
-    const existingModule = (await this.resolve({ address: [address] })).pop()
+    const existingModule = await this.resolve(address, { maxDepth: 1 })
     assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
 
@@ -103,19 +96,19 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const notificationList = await getModulesToNotifyAbout(module)
 
     //give it private access
-    module.upResolver.addResolver?.(this.privateResolver)
+    ;(module.upResolver as SimpleModuleResolver).add(this)
 
     //give it public access
-    module.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
+    // module.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
 
     //give it outside access
-    module.upResolver.addResolver?.(this.upResolver)
+    // module.upResolver.addResolver?.(this.upResolver)
 
     if (external) {
       //expose it externally
-      this.downResolver.addResolver(module.downResolver as ModuleResolverInstance)
+      ;(this.downResolver as SimpleModuleResolver).add(module)
     } else {
-      this.privateResolver.addResolver(module.downResolver as ModuleResolverInstance)
+      this.privateResolver.add(module)
     }
 
     const args = { module, name: module.config.name }
@@ -154,13 +147,13 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     }
 
     //remove inside access
-    module.upResolver?.removeResolver?.(this.privateResolver)
+    ;(module.upResolver as SimpleModuleResolver | undefined)?.remove?.(this.address)
 
     //remove outside access
-    module.upResolver?.removeResolver?.(this.upResolver)
+    //module.upResolver?.removeResolver?.(this.upResolver)
 
     //remove external exposure
-    this.downResolver.removeResolver(module.downResolver as ModuleResolverInstance)
+    ;(this.downResolver as SimpleModuleResolver).remove(module.address)
 
     const args = { module, name: module.config.name }
     await this.emit('moduleDetached', args)

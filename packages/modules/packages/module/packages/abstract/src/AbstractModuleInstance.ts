@@ -17,13 +17,14 @@ import {
   ModuleNameResolver,
   ModuleParams,
   ModuleQueryResult,
+  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ObjectFilterOptions,
   ResolveHelper,
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
@@ -34,31 +35,34 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
 {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
-  private _downResolver?: CompositeModuleResolver
-  private _privateResolver?: CompositeModuleResolver
-  private _upResolver?: CompositeModuleResolver
+  private _downResolver?: SimpleModuleResolver
+  private _privateResolver?: SimpleModuleResolver
+  private _upResolver?: SimpleModuleResolver
 
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
-    const addToResolvers = mutatedParams.addToResolvers ?? true
+    //const addToResolvers = mutatedParams.addToResolvers ?? true
     super(privateConstructorKey, mutatedParams, account)
-    if (addToResolvers) {
+    /*if (addToResolvers) {
       this.upResolver.add(this)
       this.downResolver.add(this)
-    }
+    }*/
   }
 
   get downResolver() {
     this._downResolver =
       this._downResolver ??
-      new CompositeModuleResolver({
+      new SimpleModuleResolver({
         allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
       })
     return this._downResolver
+  }
+
+  set downResolver(value: ModuleResolverInstance) {
+    this._downResolver
   }
 
   get moduleIdentifierTransformers() {
@@ -68,9 +72,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   get privateResolver() {
     this._privateResolver =
       this._privateResolver ??
-      new CompositeModuleResolver({
+      new SimpleModuleResolver({
         allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
       })
     return this._privateResolver
@@ -83,9 +86,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   get upResolver() {
     this._upResolver =
       this._upResolver ??
-      new CompositeModuleResolver({
+      new SimpleModuleResolver({
         allowNameResolution: this.allowNameResolution,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
         root: this,
       })
     return this._upResolver
@@ -127,6 +129,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       downResolver: this.downResolver,
       logger: this.logger,
       module: this,
+      privateResolver: this.privateResolver,
       transformers: this.moduleIdentifierTransformers,
       upResolver: this.upResolver,
     }
@@ -146,15 +149,15 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
-  resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promise<Address | undefined> {
+  async resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promise<Address | undefined> {
     const { direction = 'all' } = options ?? {}
     switch (direction) {
       case 'down': {
-        return this.downResolver.resolveIdentifier(id, options)
+        return await this.downResolver.resolveIdentifier(id, options)
       }
       default: {
         const mutatedOptions = { ...options, direction: 'all' } as ObjectFilterOptions
-        return this.upResolver.resolveIdentifier(id, mutatedOptions)
+        return await this.upResolver.resolveIdentifier(id, mutatedOptions)
       }
     }
   }
@@ -187,6 +190,12 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   subscribe(_queryAccount?: AccountInstance) {
     this._checkDead()
     return this.subscribeHandler()
+  }
+
+  protected async getArchivist(): Promise<ArchivistInstance | undefined> {
+    if (!this.config.archivist) return undefined
+    const resolved = await this.resolve(this.config.archivist)
+    return asArchivistInstance(resolved)
   }
 
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {

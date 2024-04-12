@@ -14,7 +14,6 @@ import {
   creatableModule,
   ModuleInstance,
   ModuleQueryResult,
-  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
@@ -180,7 +179,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     const rootNode = asAttachableNodeInstance(rootModule, 'Root modules is not a node')
     if (rootNode) {
       this.logger.debug(`rootNode: ${rootNode.config.name}`)
-      this.downResolver.addResolver(rootNode as unknown as ModuleResolverInstance)
+      this.downResolver.add(rootNode)
       return [rootNode]
     }
     return []

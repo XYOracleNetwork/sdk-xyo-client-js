@@ -68,31 +68,27 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     options?: ModuleFilterOptions<T>,
   ): Promisable<T[] | T | undefined> {
     const unfiltered = (() => {
-      if (idOrFilter) {
-        if (typeof idOrFilter === 'string') {
-          if (idOrFilter === '*') {
-            return Object.values(this.modules) as T[]
-          }
-          const id = idOrFilter as ModuleIdentifier
-          const name = isModuleName(id) ? id : undefined
-          const address = isAddress(id) ? id : undefined
-          assertEx(name || address, () => 'module identifier must be a ModuleName or Address')
-          return (
-            (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined) ??
-            (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
-          )
-        } else {
-          const filter = idOrFilter
-          if (isAddressModuleFilter(filter)) {
-            return this.resolveByAddress<T>(this.modules, filter.address)
-          } else if (isNameModuleFilter(filter)) {
-            return this.resolveByName<T>(Object.values(this.modules), filter.name)
-          } else if (isQueryModuleFilter(filter)) {
-            return this.resolveByQuery<T>(Object.values(this.modules), filter.query)
-          }
+      if (typeof idOrFilter === 'string') {
+        if (idOrFilter === '*') {
+          return Object.values(this.modules) as T[]
         }
+        const id = idOrFilter as ModuleIdentifier
+        const name = isModuleName(id) ? id : undefined
+        const address = isAddress(id) ? id : undefined
+        assertEx(name || address, () => 'module identifier must be a ModuleName or Address')
+        return (
+          (name ? this.resolveByName<T>(Object.values(this.modules), [name]).pop() : undefined) ??
+          (address ? this.resolveByAddress<T>(this.modules, [address]).pop() : undefined)
+        )
       } else {
-        return Object.values(this.modules) as T[]
+        const filter = idOrFilter
+        if (isAddressModuleFilter(filter)) {
+          return this.resolveByAddress<T>(this.modules, filter.address)
+        } else if (isNameModuleFilter(filter)) {
+          return this.resolveByName<T>(Object.values(this.modules), filter.name)
+        } else if (isQueryModuleFilter(filter)) {
+          return this.resolveByQuery<T>(Object.values(this.modules), filter.query)
+        }
       }
     })()
     const identity = options?.identity
@@ -136,11 +132,13 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
 
   private removeSingleModule(address: Address) {
     assertEx(isAddress(address), () => 'Invalid address')
-    const module = assertEx(this.modules[address], () => 'Address not found in modules')
-    delete this.modules[address]
-    const name = module.config.name
-    if (name) {
-      delete this.nameToModule[name]
+    const module = this.modules[address]
+    if (module) {
+      delete this.modules[address]
+      const name = module.config.name
+      if (name) {
+        delete this.nameToModule[name]
+      }
     }
   }
 

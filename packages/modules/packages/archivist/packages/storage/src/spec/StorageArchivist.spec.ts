@@ -136,6 +136,9 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.register(storage)
   await memoryNode.attach(storage.address, true)
 
+  const resolved = await parent.resolve(storage.address)
+  expect(resolved).toBeDefined()
+
   const wrapper = PayloadWrapper.wrap({ schema: 'network.xyo.test' })
 
   expect(wrapper).toBeDefined()

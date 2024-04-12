@@ -204,14 +204,12 @@ export abstract class AbstractModuleProxy<
     ) as ModuleManifestPayload
     const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
     this.setConfig({ ...manifest.config })
-    this.downResolver.addResolver(
-      new ModuleProxyResolver({
-        childAddressMap: await this.childAddressMap(),
-        host: this.params.host,
-        module: this,
-        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
-      }),
-    )
+    this.downResolver = new ModuleProxyResolver({
+      childAddressMap: await this.childAddressMap(),
+      host: this.params.host,
+      module: this,
+      moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+    })
     return await super.startHandler()
   }
 

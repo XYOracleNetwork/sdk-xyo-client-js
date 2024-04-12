@@ -1,12 +1,20 @@
-/* eslint-disable max-statements */
-/* eslint-disable complexity */
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address, isAddress } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
-import { toJsonString } from '@xylabs/object'
+import { Schema } from '@xyo-network/payload-model'
 
-import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from './instance'
+import {
+  AddressModuleFilter,
+  asModuleInstance,
+  isQueryModuleFilter,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleInstance,
+  ModuleResolver,
+  NameModuleFilter,
+  QueryModuleFilter,
+} from './instance'
 import { duplicateModules } from './lib'
 import { ModuleIdentifier } from './ModuleIdentifier'
 import { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer'
@@ -83,83 +91,154 @@ export class ResolveHelper {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    { maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
+    options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { transformers, module, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
-    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}]`) : undefined
+    const { logger = this.defaultLogger } = config
 
-    const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false }
-    const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
-
-    const childOptions: ModuleFilterOptions<T> = { ...options, maxDepth: maxDepth - 1, required: false }
-
-    const direction = options?.direction ?? 'all'
-    const up = direction === 'up' || direction === 'all'
-    const down = direction === 'down' || direction === 'all'
-    let result: T | T[] | undefined
-    log?.debug('start', idOrFilter, maxDepth)
+    logger?.debug('start', idOrFilter, options.maxDepth)
     if (idOrFilter === '*') {
-      if (dead) {
-        log?.warn('failed [dead]', idOrFilter)
-        return []
-      }
-      const modules = [
-        ...(down ? await (downResolver as ModuleResolver).resolve<T>('*', downLocalOptions) : []),
-        ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', upLocalOptions) : []),
-      ]
-        .filter(duplicateModules)
-        .filter((module) => module.address !== config.address)
-
-      if (modules.length > 0) {
-        log?.log('modules [count]', modules.length)
-        log?.debug('modules', toJsonString(modules, 4))
-      }
-
-      if (maxDepth === 0) {
-        return modules
-      }
-      const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*', childOptions))))
-        .flat()
-        .filter(duplicateModules)
-      return [...modules, ...childModules].filter(duplicateModules)
+      return this.resolveAll(config, options)
     } else {
       switch (typeof idOrFilter) {
         case 'string': {
-          if (dead) {
-            return undefined
-          }
-
-          const id = await this.transformModuleIdentifier(idOrFilter, transformers)
-
-          const resolvers = [
-            [downResolver, downLocalOptions],
-            [up ? upResolver : undefined, upLocalOptions],
-            [up ? privateResolver : undefined, upLocalOptions],
-          ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
-
-          for (const resolver of resolvers) {
-            const [resolverInstance] = resolver
-            if (!result) {
-              result = await this.resolveModuleIdentifier<T>(resolverInstance, id)
-            }
-          }
-
-          break
+          return await this.resolveId(config, idOrFilter, options)
         }
         default: {
-          if (dead) {
-            return []
-          }
-          const filter: ModuleFilter<T> | undefined = idOrFilter
-          result = [
-            ...(down ? await (downResolver as ModuleResolver).resolve<T>(filter, downLocalOptions) : []),
-            ...(up ? await (upResolver as ModuleResolver).resolve<T>(filter, upLocalOptions) : []),
-          ].filter(duplicateModules)
-          break
+          return await this.resolveFilter(config, idOrFilter, options)
         }
       }
     }
-    this.validateRequiredResolve(required, result, idOrFilter, logger)
+  }
+
+  static async resolveAll<T extends ModuleInstance = ModuleInstance>(
+    config: ResolveHelperConfig,
+    { maxDepth = 3, ...options }: ModuleFilterOptions<T> = {},
+  ) {
+    if (maxDepth === 0) {
+      return []
+    }
+
+    const { childOptions, parentOptions, direction, down, exclude, oneLevelUpOptions, requiredLogger, up, oneLevelDownOptions, module } =
+      this.parseConfig(config, {
+        ...options,
+        maxDepth,
+      })
+    const { logger = this.defaultLogger, dead = false, privateResolver, upResolver, downResolver } = config
+
+    // if the module is dead, return an empty array
+    if (dead) {
+      logger?.warn('failed [dead]', '*')
+      return []
+    }
+
+    const children = down ? await (downResolver as ModuleResolver).resolve<T>('*', oneLevelDownOptions) : []
+    const parents = up ? await (upResolver as ModuleResolver).resolve<T>('*', oneLevelUpOptions) : []
+
+    //if we are going up, we can check the siblings of the module
+    const siblings = direction === 'up' ? (await (privateResolver as ModuleResolver | undefined)?.resolve<T>('*', oneLevelDownOptions)) ?? [] : []
+
+    const levelOneDownModules = [...children, ...siblings].filter(duplicateModules).filter((module) => !exclude.includes(module.address))
+    const levelOneUpModules = [...parents].filter(duplicateModules).filter((module) => !exclude.includes(module.address))
+    const levelOneModules = [...levelOneDownModules, ...levelOneUpModules].filter(duplicateModules)
+
+    //console.log('levelOneDownModules:', toJsonString(levelOneDownModules.map((module) => module.address)))
+    //console.log('levelOneUpModules:', toJsonString(levelOneUpModules.map((module) => module.address)))
+    //console.log('siblings:', toJsonString(siblings.map((module) => module.address)))
+
+    if (levelOneModules.length === 0) {
+      requiredLogger?.log('Failed to find required module: ', '*')
+    }
+
+    if (maxDepth === 1) {
+      return levelOneModules
+    }
+
+    //for children, always exclude the module itself
+    const levelTwoExclude = [...exclude, ...levelOneModules.map((module) => module.address), module.address]
+    const levelTwoDownModules = (
+      await Promise.all(levelOneDownModules.map(async (module) => await module.resolve<T>('*', { ...childOptions, exclude: levelTwoExclude })))
+    )
+      .flat()
+      .filter(duplicateModules)
+    const levelTwoUpModules = (
+      await Promise.all(levelOneUpModules.map(async (module) => await module.resolve<T>('*', { ...parentOptions, exclude: levelTwoExclude })))
+    )
+      .flat()
+      .filter(duplicateModules)
+    const levelTwoModules = [...levelTwoDownModules, ...levelTwoUpModules]
+    //console.log('levelTwoModules:', toJsonString(levelTwoModules.map((module) => module.address)))
+    const allModules = [module as T, ...levelOneModules, ...levelTwoModules].filter(duplicateModules)
+    //console.log('allModules:', toJsonString(allModules.map((module) => module.address)))
+    return allModules
+  }
+
+  static async resolveFilter<T extends ModuleInstance = ModuleInstance>(
+    config: ResolveHelperConfig,
+    filter: ModuleFilter<T>,
+    options: ModuleFilterOptions<T> = {},
+  ) {
+    if (isQueryModuleFilter(filter)) {
+      const isMatch = (module: ModuleInstance, querySet: Schema[]) => {
+        for (const querySchema of querySet) {
+          if (module.queries.includes(querySchema)) {
+            continue
+          }
+          return false
+        }
+        return true
+      }
+
+      const { query } = filter as QueryModuleFilter
+      const modules = await this.resolveAll(config, options)
+      const result = modules.filter((module) => {
+        for (const querySet of query) {
+          if (isMatch(module, querySet)) {
+            return true
+          }
+        }
+        return false
+      })
+      return result
+    } else {
+      const ids = [...((filter as AddressModuleFilter).address ?? []), ...((filter as NameModuleFilter).name ?? [])]
+      return (await Promise.all(ids.map(async (id) => await this.resolveId(config, id, options)))).filter(exists)
+    }
+  }
+
+  static async resolveId<T extends ModuleInstance = ModuleInstance>(
+    config: ResolveHelperConfig,
+    id: ModuleIdentifier,
+    options: ModuleFilterOptions<T> = {},
+  ) {
+    const { oneLevelDownOptions, up, oneLevelUpOptions } = this.parseConfig(config, options)
+    const { privateResolver, transformers, logger = this.defaultLogger, dead = false, upResolver, downResolver } = config
+
+    if (dead) {
+      logger?.warn('failed [dead]', '*')
+      return
+    }
+
+    const finalId = await this.transformModuleIdentifier(id, transformers)
+
+    if (isAddress(finalId)) {
+      const modules = await this.resolveAll(config, options)
+      return modules.find((module) => module.address === finalId)
+    }
+
+    const resolvers = [
+      [downResolver, oneLevelDownOptions],
+      [up ? upResolver : undefined, oneLevelUpOptions],
+      [up ? privateResolver : undefined, oneLevelDownOptions],
+    ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
+
+    let result: T | undefined
+
+    for (const resolver of resolvers) {
+      const [resolverInstance] = resolver
+      if (!result) {
+        result = await this.resolveModuleIdentifier<T>(resolverInstance, finalId)
+      }
+    }
     return result
   }
 
@@ -229,5 +308,29 @@ export class ResolveHelper {
         }
       }
     }
+  }
+
+  private static parseConfig<T extends ModuleInstance = ModuleInstance>(
+    config: ResolveHelperConfig,
+    { maxDepth = 3, required = 'log', exclude = [], ...options }: ModuleFilterOptions<T> = {},
+  ) {
+    const { module, logger = this.defaultLogger } = config
+    const oneLevelOptions: ModuleFilterOptions<T> = { ...options, maxDepth: 1, required: false }
+    const oneLevelDownOptions: ModuleFilterOptions<T> = { ...oneLevelOptions, direction: 'down', maxDepth: 1 }
+    const oneLevelUpOptions: ModuleFilterOptions<T> = { ...oneLevelOptions, direction: 'up', maxDepth: 1 }
+
+    const childOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth: maxDepth - 1, required: false }
+    const parentOptions: ModuleFilterOptions<T> = { ...options, direction: 'up', maxDepth: maxDepth - 1, required: false }
+    const requiredLogger =
+      logger ?
+        required === 'log' ?
+          new IdLogger(logger, () => `ResolveHelper [${module.id}][*]`)
+        : undefined
+      : undefined
+
+    const direction = options?.direction ?? 'all'
+    const up = direction === 'up' || direction === 'all'
+    const down = direction === 'down' || direction === 'all'
+    return { childOptions, direction, down, exclude, module, oneLevelDownOptions, oneLevelUpOptions, parentOptions, requiredLogger, up }
   }
 }

@@ -158,6 +158,7 @@ describe('MultiNodeConfiguration', () => {
     expect((await primaryNode.resolve({ address: [rightWitness.address] })).length).toBe(1)
     expect((await primaryNode.resolve({ address: [leftDiviner.address] })).length).toBe(0)
     expect((await primaryNode.resolve({ name: ['archivist'] })).length).toBe(1)
+    expect((await primaryNode.resolve('archivist'))?.address).toBe(rightExternalArchivist.address)
     expect((await primaryNode.resolve({ name: ['archivist'] }))[0].address).toBe(rightExternalArchivist.address)
   })
 

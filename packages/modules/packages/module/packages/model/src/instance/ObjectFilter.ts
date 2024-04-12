@@ -15,6 +15,7 @@ export interface ResolveStrategy {
 
 export interface ObjectFilterOptions<T extends EmptyObject = AnyObject> extends ResolveStrategy {
   direction?: Direction
+  exclude?: Address[]
   identity?: TypeCheck<T>
 }
 

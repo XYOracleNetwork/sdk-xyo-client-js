@@ -17,7 +17,7 @@ import {
   ObjectFilterOptions,
   ObjectResolverPriority,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 
 import { wrapModuleWithType } from '../wrapModuleWithType'
 
@@ -29,10 +29,10 @@ export interface ModuleProxyResolverOptions {
 }
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
-  private downResolver: CompositeModuleResolver
+  private downResolver: SimpleModuleResolver
 
   constructor(private options: T) {
-    this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers, root: this.root })
+    this.downResolver = new SimpleModuleResolver({ root: this.root })
   }
 
   get priority() {
@@ -55,7 +55,15 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     return this.options.module
   }
 
+  add(_module: ModuleInstance): this {
+    throw new Error('Not supported')
+  }
+
   addResolver(_resolver: ModuleResolver): this {
+    throw new Error('Not supported')
+  }
+
+  remove(_address: Address): this {
     throw new Error('Not supported')
   }
 

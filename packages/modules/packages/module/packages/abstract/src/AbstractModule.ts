@@ -11,7 +11,6 @@ import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -540,12 +539,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     )
 
     return description
-  }
-
-  protected async getArchivist(): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
-    const resolved = await this.upResolver.resolve(this.config.archivist)
-    return asArchivistInstance(resolved)
   }
 
   protected async initializeQueryAccounts() {

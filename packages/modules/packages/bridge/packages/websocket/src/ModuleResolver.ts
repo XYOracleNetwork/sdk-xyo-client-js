@@ -4,6 +4,7 @@ import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWit
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 
 import { WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy'
 
@@ -63,7 +64,7 @@ export class WebsocketBridgeModuleResolver<
     const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
     const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
     proxy.upResolver.add(as)
-    proxy.downResolver.add(as)
+    ;(proxy.downResolver as SimpleModuleResolver).add(as)
 
     if (remainderParts.length > 0) {
       const result = await wrapped.resolve<T>(remainderParts, options)

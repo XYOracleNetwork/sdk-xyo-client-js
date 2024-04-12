@@ -3,7 +3,15 @@ import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleConfig,
+  ModuleConfigSchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 
 import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
 
@@ -35,7 +43,8 @@ export class HttpBridgeModuleResolver<
       return []
     }
     const idParts = id.split(':')
-    const firstPart = assertEx(idParts.shift(), () => 'Missing firstPart')
+    const untransformedFirstPart = assertEx(idParts.shift(), () => `Invalid module identifier: ${id}`)
+    const firstPart = await ResolveHelper.transformModuleIdentifier(untransformedFirstPart)
     const moduleAddress = firstPart as Address
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')

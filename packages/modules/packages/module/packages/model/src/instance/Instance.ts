@@ -1,8 +1,9 @@
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
-import { ModuleIdentifier } from '../ModuleIdentifier'
+import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier'
 import { ModuleParams } from '../ModuleParams'
 import { ObjectResolver } from './ObjectResolver'
 
@@ -23,10 +24,19 @@ export class DeadModuleError extends Error {
   }
 }
 
+export interface ModuleFamilyFunctions {
+  localName?: ModuleName
+  parents?: () => Promisable<ModuleInstance[]>
+  privateChildren?: () => Promisable<ModuleInstance[]>
+  publicChildren?: () => Promisable<ModuleInstance[]>
+  siblings?: () => Promisable<ModuleInstance[]>
+}
+
 export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends Module<TParams, TEventData>,
     ObjectResolver<ModuleInstance>,
-    ModuleQueryFunctions {
+    ModuleQueryFunctions,
+    ModuleFamilyFunctions {
   readonly pipeline?: ModulePipeLine
 
   //if the module has become non-functional, such as a broken bridge connection, this will be 'dead'

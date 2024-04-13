@@ -6,10 +6,12 @@ import { Address, isAddress } from '@xylabs/hex'
 import { IdLogger, Logger } from '@xylabs/logger'
 import { toJsonString } from '@xylabs/object'
 
-import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from './instance'
-import { duplicateModules } from './lib'
-import { ModuleIdentifier } from './ModuleIdentifier'
-import { ModuleIdentifierTransformer } from './ModuleIdentifierTransformer'
+import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, ModuleResolver } from '../instance'
+import { duplicateModules } from '../lib'
+import { ModuleIdentifier } from '../ModuleIdentifier'
+import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
+import { traceModuleIdentifier } from './traceModuleIdentifier'
+import { transformModuleIdentifier } from './transformModuleIdentifier'
 
 /*
 
@@ -183,28 +185,12 @@ export class ResolveHelper {
   }
 
   //translates a complex module path to addresses
-  static async traceModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier): Promise<Address[]> {
-    const parts = path.split(':')
-    const first = parts.shift()
-    const firstModule = asModuleInstance(
-      assertEx(await resolver.resolve(first, { maxDepth: 1 }), () => `Failed to resolve [${first}]`),
-      () => `Resolved invalid module instance [${first}]`,
-    )
-    if (firstModule) {
-      return parts.length > 0 ? [firstModule.address, ...(await this.traceModuleIdentifier(firstModule, parts.join(':')))] : [firstModule.address]
-    }
-    return []
+  static traceModuleIdentifier(resolver: ModuleResolver, path: ModuleIdentifier) {
+    return traceModuleIdentifier(resolver, path)
   }
 
-  static async transformModuleIdentifier(
-    identifier: ModuleIdentifier,
-    transformers: ModuleIdentifierTransformer[] = ResolveHelper.transformers,
-  ): Promise<ModuleIdentifier> {
-    let id = identifier
-    for (const transformer of transformers) {
-      id = await transformer.transform(id)
-    }
-    return id
+  static transformModuleIdentifier(identifier: ModuleIdentifier, transformers: ModuleIdentifierTransformer[] = ResolveHelper.transformers) {
+    return transformModuleIdentifier(identifier, transformers)
   }
 
   static validateRequiredResolve(

@@ -29,6 +29,7 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
   ModuleResolverInstance,
+  resolvePathToAddress,
 } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
@@ -74,7 +75,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   async expose(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('expose')
     assertEx(id !== '*', () => "Exposing '*' not supported")
-    const modules = await this.exposeHandler(id, options)
+    const addressToExpose = assertEx(await resolvePathToAddress(this, id), () => `Module to expose not found [${id}]`)
+    console.log(`expose: ${addressToExpose}`)
+    const modules = await this.exposeHandler(addressToExpose, options)
     await this.emit('exposed', { module: this, modules })
     return modules
   }
@@ -117,7 +120,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('unexpose')
-    const modules = this.unexposeHandler(id, options)
+    const addressToUnexpose = assertEx(await resolvePathToAddress(this, id), () => `Module to unexpose not found [${id}]`)
+    const modules = this.unexposeHandler(addressToUnexpose, options)
     await this.emit('unexposed', { module: this, modules })
     return modules
   }
@@ -176,9 +180,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return resultPayloads
   }
 
-  abstract exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>
+  abstract exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>
 
   abstract exposedHandler(): Promisable<Address[]>
 
-  abstract unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]>
+  abstract unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]>
 }

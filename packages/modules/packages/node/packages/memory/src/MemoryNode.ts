@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { Promisable } from '@xylabs/promise'
 import { EventListener } from '@xyo-network/module-events'
 import {
   AnyConfigSchema,
@@ -36,6 +37,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   override async detach(nameOrAddress: ModuleIdentifier) {
     await this.started('throw')
     return (await this.detachUsingAddress(nameOrAddress as Address)) ?? (await this.detachUsingName(nameOrAddress))
+  }
+
+  override privateChildren(): Promisable<ModuleInstance[]> {
+    return this.attachedPrivateModules()
+  }
+
+  override publicChildren(): Promisable<ModuleInstance[]> {
+    return this.attachedPublicModules()
   }
 
   async register(module: AttachableModuleInstance) {

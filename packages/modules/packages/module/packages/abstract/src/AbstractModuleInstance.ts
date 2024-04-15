@@ -2,6 +2,7 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
@@ -108,6 +109,14 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this.busy(async () => {
       return await this.moduleAddressHandler()
     })
+  }
+
+  privateChildren(): Promisable<ModuleInstance[]> {
+    return []
+  }
+
+  publicChildren(): Promisable<ModuleInstance[]> {
+    return []
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */

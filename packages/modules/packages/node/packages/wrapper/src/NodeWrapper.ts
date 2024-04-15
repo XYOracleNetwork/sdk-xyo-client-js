@@ -1,7 +1,8 @@
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { InstanceTypeCheck, ModuleIdentifier, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
+import { InstanceTypeCheck, ModuleIdentifier, ModuleInstance, ModuleManifestQuery, ModuleManifestQuerySchema } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   isNodeInstance,
@@ -56,6 +57,11 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth ? { maxDepth } : {}) }
     const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
     return payloads.pop() as NodeManifestPayload
+  }
+
+  override async publicChildren(): Promise<ModuleInstance[]> {
+    const attached = await this.attached()
+    return (await Promise.all(attached.map((address) => this.resolve(address)))).filter(exists)
   }
 
   async registered(): Promise<Address[]> {

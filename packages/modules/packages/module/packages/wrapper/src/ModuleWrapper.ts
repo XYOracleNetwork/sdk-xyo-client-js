@@ -326,6 +326,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
   }
 
+  publicChildren(): Promisable<ModuleInstance[]> {
+    return []
+  }
+
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.module.query(query, payloads)
   }

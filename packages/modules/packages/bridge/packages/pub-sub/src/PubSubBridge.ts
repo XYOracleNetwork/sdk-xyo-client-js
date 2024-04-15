@@ -81,10 +81,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     const { maxDepth = 2, required = true } = options ?? {}
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     const transformedId = await ResolveHelper.transformModuleIdentifier(id)
+    console.log(`transformedId: ${transformedId}`)
     if (transformedId) {
       const module = await host.expose(transformedId, { required })
       if (module) {
         const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
+        console.log(`children: ${toJsonString(children)}`)
         const exposedChildren = (
           await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
         )

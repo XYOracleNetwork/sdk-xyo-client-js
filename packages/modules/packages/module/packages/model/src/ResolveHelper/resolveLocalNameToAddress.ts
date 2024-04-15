@@ -20,6 +20,10 @@ export const resolveLocalNameToAddressDown = async (
   return children.find((child) => child.localName === localName)?.address
 }
 
-export const resolveLocalNameToAddress = async (root: ModuleInstance, localName: ModuleName): Promise<Address | undefined> => {
-  return (await resolveLocalNameToAddressDown(root, localName)) ?? (await resolveLocalNameToAddressUp(root, localName))
+export const resolveLocalNameToAddress = async (
+  root: ModuleInstance,
+  localName: ModuleName,
+  includePrivate = false,
+): Promise<Address | undefined> => {
+  return (await resolveLocalNameToAddressDown(root, localName, includePrivate)) ?? (await resolveLocalNameToAddressUp(root, localName))
 }

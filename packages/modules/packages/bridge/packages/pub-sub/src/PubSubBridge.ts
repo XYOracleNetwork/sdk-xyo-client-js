@@ -5,7 +5,7 @@ import { toJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import { creatableModule, ModuleIdentifier, ModuleInstance, ModuleResolverInstance, ResolveHelper } from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -47,10 +47,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return `${this.config.name ?? moduleName}`
   }
 
-  protected get roots() {
-    return assertEx(this.config.roots, () => 'roots not configured')
-  }
-
   async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
     //check if already connected
     const existingInstance = await this.resolve<ModuleInstance>(id)
@@ -72,10 +68,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   override async discoverRoots(): Promise<ModuleInstance[]> {
-    const rootInstances = (await Promise.all(this.roots.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
+    const rootAddresses = (await Promise.all((this.config.roots ?? []).map((id) => ResolveHelper.transformModuleIdentifier(id)))).filter(exists)
+    const rootInstances = (await Promise.all(rootAddresses.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
     for (const instance of rootInstances) {
       this.downResolver.add(instance)
     }
+    this._roots = rootInstances
     return rootInstances
   }
 

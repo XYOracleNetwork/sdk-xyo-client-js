@@ -82,6 +82,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     if (nodeManifest) {
       const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
       this.logger?.debug(`HttpBridge:discoverRoots [${modules.length}]`)
+      this._roots = modules
       return modules
     }
     return []

@@ -134,7 +134,7 @@ export class StorageArchivist<
     assertEx(payloads.length > 0, () => 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
-        Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+        Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
           const queryPayload: ArchivistInsertQuery = {
             schema: ArchivistInsertQuerySchema,
           }

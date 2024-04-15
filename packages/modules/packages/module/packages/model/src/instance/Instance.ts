@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 
@@ -5,6 +6,7 @@ import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
 import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier'
 import { ModuleParams } from '../ModuleParams'
+import { Direction } from './ObjectFilter'
 import { ObjectResolver } from './ObjectResolver'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
@@ -24,7 +26,13 @@ export class DeadModuleError extends Error {
   }
 }
 
+export interface AddressToWeakInstanceCache {
+  get: (address: Address) => WeakRef<ModuleInstance> | null
+  set: (address: Address, instance: WeakRef<ModuleInstance> | null) => void
+}
+
 export interface ModuleFamilyFunctions {
+  addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
   localName?: ModuleName
   parents?: () => Promisable<ModuleInstance[]>
   privateChildren?: () => Promisable<ModuleInstance[]>

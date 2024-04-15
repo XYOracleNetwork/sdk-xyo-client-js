@@ -2,12 +2,12 @@ import { ModuleIdentifier } from '../ModuleIdentifier'
 import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
 
 export const transformModuleIdentifier = async (
-  identifier: ModuleIdentifier,
+  id: ModuleIdentifier,
   transformers: ModuleIdentifierTransformer[],
-): Promise<ModuleIdentifier> => {
-  let id = identifier
+): Promise<ModuleIdentifier | undefined> => {
+  let result: ModuleIdentifier | undefined = id
   for (const transformer of transformers) {
-    id = await transformer.transform(id)
+    result = await transformer.transform(id)
   }
-  return id
+  return result
 }

@@ -21,7 +21,15 @@ import {
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult, ModuleResolverInstance } from '@xyo-network/module-model'
+import {
+  duplicateModules,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleQueryHandlerResult,
+  ModuleResolverInstance,
+} from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
@@ -30,6 +38,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 {
   static override readonly configSchemas: string[] = [BridgeConfigSchema]
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
+
+  protected _roots: ModuleInstance[] = []
 
   override get allowNameResolution() {
     //we default to false here to prevent name collisions
@@ -42,6 +52,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
 
   get resolver(): ModuleResolverInstance {
     return assertEx(this.params.resolver, () => 'No resolver provided')
+  }
+
+  get roots(): ModuleInstance[] {
+    return this._roots
   }
 
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
@@ -68,6 +82,33 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   async exposed(): Promise<Address[]> {
     this._noOverride('exposed')
     return await this.exposedHandler()
+  }
+
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    if (idOrFilter === '*') {
+      return (await Promise.all(this.roots.map((root) => root.resolve('*', options)))).flat().filter(duplicateModules)
+    }
+    switch (typeof idOrFilter) {
+      case 'string': {
+        return await super.resolve(idOrFilter, options)
+      }
+      case 'object': {
+        return (await super.resolve(idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      }
+      default: {
+        return (await super.resolve(idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      }
+    }
   }
 
   override async startHandler() {

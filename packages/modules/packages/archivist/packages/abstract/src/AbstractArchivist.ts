@@ -223,7 +223,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParents(hashes: Hash[]): Promise<[WithMeta<Payload>[], Hash[]]> {
-    const parents = Object.values((await this.parents())?.read ?? {})
+    const parents = Object.values((await this.parentArchivists())?.read ?? {})
     let remainingHashes = [...hashes]
     let parentIndex = 0
     let result: WithMeta<Payload>[] = []
@@ -342,7 +342,7 @@ export abstract class AbstractArchivist<
     return await PayloadBuilder.build(foundPayloads)
   }
 
-  protected async parents() {
+  protected async parentArchivists() {
     this._parents = this._parents ?? {
       commit: await this.resolveArchivists(this.config?.parents?.commit),
       read: await this.resolveArchivists(this.config?.parents?.read),
@@ -415,7 +415,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const parents = await this.parents()
+    const parents = await this.parentArchivists()
     return compact(
       await Promise.all(
         Object.values(parents.write ?? {}).map(async (parent) => {

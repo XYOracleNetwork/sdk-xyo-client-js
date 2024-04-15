@@ -133,16 +133,18 @@ export class ResolveHelper {
 
           const id = await this.transformModuleIdentifier(idOrFilter, transformers)
 
-          const resolvers = [
-            [downResolver, downLocalOptions],
-            [up ? upResolver : undefined, upLocalOptions],
-            [up ? privateResolver : undefined, upLocalOptions],
-          ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
+          if (id) {
+            const resolvers = [
+              [downResolver, downLocalOptions],
+              [up ? upResolver : undefined, upLocalOptions],
+              [up ? privateResolver : undefined, upLocalOptions],
+            ].filter(([resolver]) => exists(resolver)) as [ModuleResolver, ModuleFilterOptions<T>][]
 
-          for (const resolver of resolvers) {
-            const [resolverInstance] = resolver
-            if (!result) {
-              result = await this.resolveModuleIdentifier<T>(resolverInstance, id)
+            for (const resolver of resolvers) {
+              const [resolverInstance] = resolver
+              if (!result) {
+                result = await this.resolveModuleIdentifier<T>(resolverInstance, id)
+              }
             }
           }
 

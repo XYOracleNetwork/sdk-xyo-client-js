@@ -59,7 +59,7 @@ export abstract class AbstractArchivist<
 {
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
   private _lastInsertedPayload: Payload | undefined
-  private _parents?: ArchivistParentInstances
+  private _parentArchivists?: ArchivistParentInstances
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
@@ -343,12 +343,12 @@ export abstract class AbstractArchivist<
   }
 
   protected async parentArchivists() {
-    this._parents = this._parents ?? {
+    this._parentArchivists = this._parentArchivists ?? {
       commit: await this.resolveArchivists(this.config?.parents?.commit),
       read: await this.resolveArchivists(this.config?.parents?.read),
       write: await this.resolveArchivists(this.config?.parents?.write),
     }
-    return assertEx(this._parents)
+    return assertEx(this._parentArchivists)
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

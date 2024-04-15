@@ -127,6 +127,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
       this.privateResolver.addResolver(module.downResolver as ModuleResolverInstance)
     }
 
+    module.addParent(this)
+
     const args = { module, name: module.config.name }
     await this.emit('moduleAttached', args)
 
@@ -170,6 +172,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     //remove external exposure
     this.downResolver.removeResolver(module.downResolver as ModuleResolverInstance)
+
+    module.removeParent(this.address)
 
     const args = { module, name: module.config.name }
     await this.emit('moduleDetached', args)

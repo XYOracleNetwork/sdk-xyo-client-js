@@ -8,6 +8,7 @@ import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-m
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
+  duplicateModules,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
@@ -36,6 +37,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
   private _downResolver?: CompositeModuleResolver
+  private _parents: ModuleInstance[] = []
   private _privateResolver?: CompositeModuleResolver
   private _upResolver?: CompositeModuleResolver
 
@@ -60,6 +62,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         root: this,
       })
     return this._downResolver
+  }
+
+  get localName() {
+    return this.config.name
   }
 
   get moduleIdentifierTransformers() {
@@ -92,6 +98,13 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this._upResolver
   }
 
+  addParent(module: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+    if (!existingEntry) {
+      this._parents.push(module)
+    }
+  }
+
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     this._checkDead()
     return this.busy(async () => {
@@ -111,12 +124,20 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
+  parents(): Promisable<ModuleInstance[]> {
+    return this._parents
+  }
+
   privateChildren(): Promisable<ModuleInstance[]> {
     return []
   }
 
   publicChildren(): Promisable<ModuleInstance[]> {
     return []
+  }
+
+  removeParent(address: Address) {
+    this._parents = this._parents.filter((item) => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -179,6 +200,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       (await this.upResolver.resolve(id, options)) ??
       (await this.downResolver.resolve(id, options))
     )
+  }
+
+  async siblings(): Promise<ModuleInstance[]> {
+    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
   state() {

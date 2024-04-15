@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 import { Base } from '@xylabs/object'
@@ -16,6 +17,7 @@ import {
   asAttachableModuleInstance,
   asModuleInstance,
   AttachableModuleInstance,
+  duplicateModules,
   InstanceTypeCheck,
   isModule,
   isModuleInstance,
@@ -99,6 +101,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
+  private _parents: ModuleInstance[] = []
   private _status: ModuleStatus = 'wrapped'
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
@@ -136,6 +139,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get id() {
     return this.module.id
+  }
+
+  get localName() {
+    return this.config.name
   }
 
   get module() {
@@ -256,6 +263,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap module as ModuleWrapper')
   }
 
+  addParent(module: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+    if (!existingEntry) {
+      this._parents.push(module)
+    }
+  }
+
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
@@ -321,9 +335,17 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.once(eventName, listener)
   }
 
+  parents(): Promisable<ModuleInstance[]> {
+    return this._parents
+  }
+
   async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
+  }
+
+  privateChildren(): Promisable<ModuleInstance[]> {
+    return []
   }
 
   publicChildren(): Promisable<ModuleInstance[]> {
@@ -336,6 +358,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]) {
     return this.module.queryable(query, payloads)
+  }
+
+  removeParent(address: Address) {
+    this._parents = this._parents.filter((item) => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -376,6 +402,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     _options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
     if (id === '*') return await Promise.resolve([])
+  }
+
+  async siblings(): Promise<ModuleInstance[]> {
+    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
   async state(): Promise<Payload[]> {

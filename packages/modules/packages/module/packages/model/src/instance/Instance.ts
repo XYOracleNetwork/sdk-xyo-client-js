@@ -32,12 +32,14 @@ export interface AddressToWeakInstanceCache {
 }
 
 export interface ModuleFamilyFunctions {
+  addParent: (module: ModuleInstance) => void
   addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
-  localName?: ModuleName
-  parents?: () => Promisable<ModuleInstance[]>
-  privateChildren?: () => Promisable<ModuleInstance[]>
-  publicChildren?: () => Promisable<ModuleInstance[]>
-  siblings?: () => Promisable<ModuleInstance[]>
+  localName: ModuleName | undefined
+  parents: () => Promisable<ModuleInstance[]>
+  privateChildren: () => Promisable<ModuleInstance[]>
+  publicChildren: () => Promisable<ModuleInstance[]>
+  removeParent: (address: Address) => void
+  siblings: () => Promisable<ModuleInstance[]>
 }
 
 export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>

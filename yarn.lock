@@ -5493,6 +5493,7 @@ __metadata:
     "@xylabs/exists": "npm:^3.1.7"
     "@xylabs/hex": "npm:^3.1.7"
     "@xylabs/lodash": "npm:^3.1.7"
+    "@xylabs/promise": "npm:^3.1.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/module-events": "workspace:~"
@@ -5541,8 +5542,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-wrapper@workspace:packages/modules/packages/node/packages/wrapper"
   dependencies:
+    "@xylabs/exists": "npm:^3.1.7"
     "@xylabs/hex": "npm:^3.1.7"
-    "@xylabs/promise": "npm:^3.1.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/address-payload-plugin": "workspace:~"
@@ -5560,7 +5561,6 @@ __metadata:
   resolution: "@xyo-network/node@workspace:packages/modules/packages/node"
   dependencies:
     "@xylabs/delay": "npm:^3.1.7"
-    "@xylabs/promise": "npm:^3.1.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"
     "@xyo-network/account": "workspace:~"

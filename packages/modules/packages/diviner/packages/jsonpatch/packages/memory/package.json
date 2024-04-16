@@ -16,7 +16,7 @@
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "json-joy": "^12.2.0",
+    "json-joy": "^12.3.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
@@ -64,6 +64,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.95.1",
+  "version": "2.95.2",
   "type": "module"
 }

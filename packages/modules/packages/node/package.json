@@ -10,6 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
+    "@xylabs/promise": "^3.1.7",
     "@xyo-network/node-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
@@ -73,6 +74,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.95.1",
+  "version": "2.95.2",
   "type": "module"
 }

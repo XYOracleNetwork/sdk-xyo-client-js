@@ -94,6 +94,10 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     return address
   }
 
+  protected override async attachedPublicModules(maxDepth = 1): Promise<ModuleInstance[]> {
+    return (await (this._limitedResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+  }
+
   protected override async detachUsingAddress(address: Address) {
     const module = await this.downResolver.resolve(address)
     if (module) {

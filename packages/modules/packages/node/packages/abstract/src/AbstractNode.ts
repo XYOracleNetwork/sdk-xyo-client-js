@@ -59,6 +59,14 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return await this.manifestHandler(maxDepth, ignoreAddresses)
   }
 
+  override async privateChildren(): Promise<ModuleInstance[]> {
+    return await this.attachedPrivateModules()
+  }
+
+  override async publicChildren(): Promise<ModuleInstance[]> {
+    return await this.attachedPublicModules()
+  }
+
   protected async attachedPrivateModules(maxDepth = 1): Promise<ModuleInstance[]> {
     return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
@@ -91,11 +99,11 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
     const toManifest = (module: ModuleInstance) => module.manifest(maxDepth - 1, newIgnoreAddresses)
 
-    const publicChildren = await this.resolve('*', { direction: 'down', maxDepth: 1 })
-    const publicModules = await Promise.all(publicChildren.filter(notThisModule).map(toManifest))
-    if (publicModules.length > 0) {
+    const publicChildren = await this.publicChildren()
+    const publicModuleManifests = await Promise.all(publicChildren.filter(notThisModule).map(toManifest))
+    if (publicModuleManifests.length > 0) {
       manifest.modules = manifest.modules ?? {}
-      manifest.modules.public = publicModules
+      manifest.modules.public = publicModuleManifests
     }
 
     this._cachedManifests.set(maxDepth, manifest)

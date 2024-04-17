@@ -5,7 +5,14 @@ import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { isBridgeInstance } from '@xyo-network/bridge-model'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleConfigSchema, ModuleIdentifier, ModuleInstance, ResolveHelper } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleConfigSchema,
+  ModuleIdentifier,
+  ModuleInstance,
+  resolveAddressToInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -91,7 +98,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     const mods = await Promise.all(
       exposedModules.map(async (exposedModule) =>
         assertEx(
-          asModuleInstance(await this.resolver.resolve(exposedModule, { maxDepth: 10 })),
+          asModuleInstance(await resolveAddressToInstance(this.rootModule, exposedModule)),
           () => `Unable to resolve listeningModule [${exposedModule}]`,
         ),
       ),
@@ -115,7 +122,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   async unexpose(id: ModuleIdentifier, validate = true) {
-    const module = asModuleInstance(await this.resolver.resolve(id, { maxDepth: 10 }))
+    const module = asModuleInstance(await this.rootModule.resolve(id, { maxDepth: 10 }))
     if (module) {
       assertEx(!validate || this._exposedAddresses.has(module.address), () => `Address not exposed [${module.address}][${module.id}]`)
       this._exposedAddresses.delete(module.address)
@@ -215,7 +222,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       return queries
     } else {
       this.logger?.warn(
-        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await ResolveHelper.traceModuleIdentifier(this.resolver, queriesDivinerId)}]`,
+        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await ResolveHelper.traceModuleIdentifier(this.rootModule, queriesDivinerId)}]`,
       )
     }
   }

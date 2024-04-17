@@ -44,8 +44,8 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
     return frequency
   }
 
-  get resolver() {
-    return this.params.resolver
+  get rootModule() {
+    return this.params.rootModule
   }
 
   /**
@@ -144,7 +144,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
       return
     }
     this._lastResolveFailure[id] = Date.now()
-    const resolved = await ResolveHelper.resolveModuleIdentifier(this.resolver, id)
+    const resolved = await ResolveHelper.resolveModuleIdentifier(this.rootModule, id)
     if (resolved) {
       if (typeCheck(resolved)) {
         delete this._lastResolveFailure[id]
@@ -153,7 +153,7 @@ export class AsyncQueryBusBase<TParams extends AsyncQueryBusParams = AsyncQueryB
         this.logger?.warn(`Unable to resolve responsesDiviner as correct type [${id}][${resolved?.constructor?.name}]: ${resolved.id}`)
       }
     } else {
-      this.logger?.debug(`Unable to resolve queriesArchivist [${id}] [${await ResolveHelper.traceModuleIdentifier(this.resolver, id)}]`)
+      this.logger?.debug(`Unable to resolve queriesArchivist [${id}] [${await ResolveHelper.traceModuleIdentifier(this.rootModule, id)}]`)
     }
   }
 }

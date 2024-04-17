@@ -140,7 +140,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busClient = new AsyncQueryBusClient({
         config: this.config.client,
         logger: this.logger,
-        resolver: this,
+        rootModule: this,
       })
     }
     return this._busClient
@@ -151,7 +151,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
-        resolver: this,
+        rootModule: this,
       })
     }
     return this._busHost

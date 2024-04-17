@@ -1,3 +1,5 @@
+import { Address } from '@xylabs/hex'
+
 import { AsyncQueryBusBaseConfig } from './BaseConfig'
 
 export interface AsyncQueryBusHostConfig extends AsyncQueryBusBaseConfig {
@@ -17,7 +19,7 @@ export interface AsyncQueryBusHostConfig extends AsyncQueryBusBaseConfig {
    * Modules that should be exposed via this host
    */
 
-  listeningModules?: string[]
+  listeningModules?: Address[]
 
   /**
    * How many queries to process at once when retrieving queries

@@ -5,7 +5,14 @@ import { toJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleIdentifier, ModuleInstance, ModuleResolverInstance, ResolveHelper } from '@xyo-network/module-model'
+import {
+  creatableModule,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleResolverInstance,
+  resolveAddressToInstanceUp,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -78,9 +85,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 2, required = true } = options ?? {}
+    const { maxDepth = 5, required = true } = options ?? {}
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
-    const module = await this.upResolver.resolve(address)
+    const module = await resolveAddressToInstanceUp(this, address)
     if (required && !module) {
       throw new Error(`Unable to find required module: ${address}`)
     }

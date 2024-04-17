@@ -14,7 +14,6 @@
     "@xylabs/exists": "^3.1.7",
     "@xylabs/hex": "^3.1.7",
     "@xylabs/lodash": "^3.1.7",
-    "@xylabs/promise": "^3.1.7",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-resolver": "workspace:~",

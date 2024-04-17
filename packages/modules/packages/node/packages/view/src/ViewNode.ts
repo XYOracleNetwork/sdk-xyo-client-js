@@ -1,9 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
+import { EventListener } from '@xyo-network/module-events'
 import { AnyConfigSchema, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
-import { asNodeInstance, AttachableNodeInstance, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import { asNodeInstance, AttachableNodeInstance, isNodeModule, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
 import { Mutex } from 'async-mutex'
 
 export const ViewNodeConfigSchema = 'network.xyo.node.view.config'
@@ -89,7 +90,23 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
       return
     }
 
+    module.addParent(this)
+
+    const args = { module, name: module.config.name }
+    await this.emit('moduleAttached', args)
+
     this._limitedResolver.add(module)
+
+    if (isNodeModule(module)) {
+      const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
+        await this.emit('moduleAttached', args)
+
+      const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
+        await this.emit('moduleDetached', args)
+
+      module.on('moduleAttached', attachedListener)
+      module.on('moduleDetached', detachedListener)
+    }
 
     return address
   }

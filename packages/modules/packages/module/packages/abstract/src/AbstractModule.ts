@@ -16,7 +16,7 @@ import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boun
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
@@ -35,7 +35,6 @@ import {
   ModuleEventData,
   ModuleFactory,
   ModuleManifestQuerySchema,
-  ModuleName,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
@@ -568,26 +567,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
-    const cachedResult = this._cachedManifests.get(maxDepth)
-    if (cachedResult) {
-      return cachedResult
-    }
-    const name = this.config.name ?? 'Anonymous'
-    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth })
-    const childAddressToName: Record<Address, ModuleName | null> = {}
-    for (const child of children) {
-      if (child.address !== this.address) {
-        childAddressToName[child.address] = child.config.name ?? null
-      }
-    }
-    const result = {
-      config: { name, ...this.config },
-      schema: ModuleManifestPayloadSchema,
-      status: { address: this.address, children: childAddressToName },
-    }
-    this._cachedManifests.set(maxDepth, result)
-    return result
+  protected manifestHandler(_maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promisable<ModuleManifestPayload> {
+    throw new Error('Not supported')
   }
 
   protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {

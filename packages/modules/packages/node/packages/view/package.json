@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^3.1.7",
     "@xylabs/hex": "^3.1.7",
+    "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

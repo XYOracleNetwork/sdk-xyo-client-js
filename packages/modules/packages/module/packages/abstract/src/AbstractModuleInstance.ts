@@ -5,7 +5,7 @@ import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
   duplicateModules,
@@ -16,6 +16,7 @@ import {
   ModuleInstance,
   ModuleManifestQuery,
   ModuleManifestQuerySchema,
+  ModuleName,
   ModuleNameResolver,
   ModuleParams,
   ModuleQueryResult,
@@ -221,6 +222,28 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   subscribe(_queryAccount?: AccountInstance) {
     this._checkDead()
     return this.subscribeHandler()
+  }
+
+  protected override async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const cachedResult = this._cachedManifests.get(maxDepth)
+    if (cachedResult) {
+      return cachedResult
+    }
+    const name = this.config.name ?? 'Anonymous'
+    const children = await this.publicChildren()
+    const childAddressToName: Record<Address, ModuleName | null> = {}
+    for (const child of children) {
+      if (child.address !== this.address) {
+        childAddressToName[child.address] = child.config.name ?? null
+      }
+    }
+    const result = {
+      config: { name, ...this.config },
+      schema: ModuleManifestPayloadSchema,
+      status: { address: this.address, children: childAddressToName },
+    }
+    this._cachedManifests.set(maxDepth, result)
+    return result
   }
 
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {

@@ -39,10 +39,6 @@ export abstract class AbstractWitness<
 
   private _archivistInstance: ArchivistInstance | undefined
 
-  get archivist() {
-    return this.config.archivist
-  }
-
   override get queries(): string[] {
     return [WitnessObserveQuerySchema, ...super.queries]
   }

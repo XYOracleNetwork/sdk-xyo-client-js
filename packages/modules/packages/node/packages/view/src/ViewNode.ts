@@ -1,7 +1,16 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { EventListener } from '@xyo-network/module-events'
-import { AnyConfigSchema, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  isAddressModuleFilter,
+  isNameModuleFilter,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+} from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { asNodeInstance, AttachableNodeInstance, isNodeModule, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
@@ -59,7 +68,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   override async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
-    _options: ModuleFilterOptions<T> = {},
+    options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     if (!this._built) {
       await this.build()
@@ -74,6 +83,11 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
         return mod as unknown as T
       }
       case 'object': {
+        if (isAddressModuleFilter(idOrFilter)) {
+          return (await Promise.all(idOrFilter.address.map(async (address) => await this.resolve(address, options)))).filter(exists)
+        } else if (isNameModuleFilter(idOrFilter)) {
+          return (await Promise.all(idOrFilter.name.map(async (name) => await this.resolve(name, options)))).filter(exists)
+        }
         return []
       }
     }
@@ -111,8 +125,8 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     return address
   }
 
-  protected override async attachedPublicModules(maxDepth = 1): Promise<ModuleInstance[]> {
-    return (await (this._limitedResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+  protected override async attachedPublicModules(): Promise<ModuleInstance[]> {
+    return (await this._limitedResolver.resolve('*')).filter((module) => module.address !== this.address)
   }
 
   protected override async detachUsingAddress(address: Address) {

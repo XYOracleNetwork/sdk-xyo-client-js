@@ -1,4 +1,5 @@
 export * from './Config'
+export * from './Order'
 export * from './Params'
 export * from './Predicate'
 export * from './Query'

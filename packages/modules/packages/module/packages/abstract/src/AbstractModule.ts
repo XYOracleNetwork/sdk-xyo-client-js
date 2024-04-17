@@ -132,6 +132,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.config.archiving
   }
 
+  get archivist() {
+    return this.config.archivist
+  }
+
   get config(): TParams['config'] {
     return this.params.config
   }
@@ -440,6 +444,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
+  protected async archivistInstance(): Promise<ArchivistInstance | undefined>
+  protected async archivistInstance(required: true): Promise<ArchivistInstance>
+  protected async archivistInstance(required = false): Promise<ArchivistInstance | undefined> {
+    const archivist = this.archivist
+    if (!archivist) {
+      if (required) {
+        throw new Error('No archivist specified')
+      }
+      return undefined
+    }
+    const resolved = (await this.upResolver.resolve(archivist)) ?? (await this.downResolver.resolve(archivist))
+    if (required) {
+      assertEx(resolved, () => `Unable to resolve archivist [${archivist}]`)
+    }
+    return resolved ? asArchivistInstance(resolved, () => `Specified archivist is not an Archivist [${archivist}]`) : undefined
+  }
+
   protected bindHashes(hashes: Hash[], schema: Schema[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
@@ -541,10 +562,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return description
   }
 
+  /** @deprecated use archivistInstance() instead */
   protected async getArchivist(): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
-    const resolved = await this.upResolver.resolve(this.config.archivist)
-    return asArchivistInstance(resolved)
+    return await this.archivistInstance()
   }
 
   protected async initializeQueryAccounts() {

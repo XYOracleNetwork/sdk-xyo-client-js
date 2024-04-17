@@ -75,7 +75,7 @@ export class MemoryBoundWitnessDiviner<
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination, timestamp } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
     if (order === 'desc') bws = bws.reverse()

@@ -77,24 +77,27 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return rootInstances
   }
 
-  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+  async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     const { maxDepth = 2, required = true } = options ?? {}
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
-    const transformedId = await ResolveHelper.transformModuleIdentifier(id)
-    console.log(`transformedId: ${transformedId}`)
-    if (transformedId) {
-      const module = await host.expose(transformedId, { required })
-      if (module) {
-        const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
-        console.log(`children: ${toJsonString(children)}`)
-        const exposedChildren = (
-          await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
-        )
-          .flat()
-          .filter(exists)
-        this.logger?.log(`exposed: ${toJsonString([module, ...exposedChildren].map((m) => `${m.address} [${m.config.name}]`))}`)
-        return [module, ...exposedChildren]
-      }
+    const module = await this.upResolver.resolve(address)
+    if (required && !module) {
+      throw new Error(`Unable to find required module: ${address}`)
+    }
+    if (module) {
+      host.expose(module)
+      const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
+      console.log(`childrenToExpose [${module.id}]: ${toJsonString(children.map((child) => child.id))}`)
+      const exposedChildren = (
+        await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+      )
+        .flat()
+        .filter(exists)
+      const allExposed = [module, ...exposedChildren]
+
+      for (const mod of allExposed) this.logger?.log(`exposed: ${mod.address} [${mod.id}]`)
+
+      return [module, ...exposedChildren]
     }
     return []
   }

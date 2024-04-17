@@ -26,7 +26,7 @@ export class MemoryPayloadDiviner<
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const { schemas, limit, offset, hash, order, ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {

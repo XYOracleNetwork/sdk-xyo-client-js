@@ -20,7 +20,7 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
 
   protected override async divineHandler(payloads?: Payload[]) {
     assertEx(!payloads?.length, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')
-    const archivistMod = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivistMod = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const archivist = ArchivistWrapper.wrap(archivistMod, this.account)
     const all = await archivist.all?.()
     const bwLists = all?.filter(isBoundWitnessWithMeta) ?? []

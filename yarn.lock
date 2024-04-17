@@ -4583,6 +4583,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic"
+  dependencies:
+    "@xylabs/assert": "npm:^3.1.7"
+    "@xylabs/forget": "npm:^3.1.7"
+    "@xylabs/hex": "npm:^3.1.7"
+    "@xylabs/object": "npm:^3.1.7"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
+    "@xylabs/tsconfig": "npm:^3.9.0"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-memory": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-payload-abstract": "workspace:~"
+    "@xyo-network/diviner-payload-model": "workspace:~"
+    "@xyo-network/module-events": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    async-mutex: "npm:^0.5.0"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/diviner-payload-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/payload, @xyo-network/diviner-payload-indexeddb@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb/packages/payload"
@@ -5525,6 +5550,7 @@ __metadata:
   resolution: "@xyo-network/node-view@workspace:packages/modules/packages/node/packages/view"
   dependencies:
     "@xylabs/assert": "npm:^3.1.7"
+    "@xylabs/exists": "npm:^3.1.7"
     "@xylabs/hex": "npm:^3.1.7"
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.0"
     "@xylabs/tsconfig": "npm:^3.9.0"

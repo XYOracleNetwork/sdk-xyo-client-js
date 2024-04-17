@@ -7,8 +7,8 @@ import { PayloadDivinerSchema } from './Schema'
 export type PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`
 export const PayloadDivinerQuerySchema: PayloadDivinerQuerySchema = `${PayloadDivinerSchema}.query`
 
-export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject> = Query<
-  { schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate<T>
+export type PayloadDivinerQueryPayload<T extends EmptyObject = EmptyObject, O = number> = Query<
+  { schema: PayloadDivinerQuerySchema } & PayloadDivinerPredicate<T, O>
 >
 export const isPayloadDivinerQueryPayload = <T extends EmptyObject = EmptyObject>(x?: Payload | null): x is PayloadDivinerQueryPayload<T> =>
   x?.schema === PayloadDivinerQuerySchema

@@ -15,7 +15,6 @@ import { AsyncQueryBusHostParams } from './model'
 export interface ExposeOptions {
   allowedQueries?: Schema[]
   failOnAlreadyExposed?: boolean
-  required?: boolean
 }
 
 const IDLE_POLLING_FREQUENCY_RATIO_MIN = 4 as const
@@ -71,22 +70,19 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
-  async expose(id: ModuleIdentifier, options?: ExposeOptions) {
-    const { failOnAlreadyExposed, required = true } = options ?? {}
-    const module = asModuleInstance(await this.resolver.resolve(id, { maxDepth: 10 }))
-    if (!module && required) {
-      throw new Error(`Unable to resolve module to expose [${id}]`)
-    }
-    if (module) {
-      if (!required && isBridgeInstance(module)) {
-        this.logger?.warn(`Attempted to expose a BridgeModule without required = true [${id}] - Not exposing`)
-      } else {
-        assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(module.address), () => `Address already exposed: ${id} [${module.address}]`)
-        this._exposedAddresses.add(module.address)
-        this._exposeOptions[module.address] = { ...options }
-        this.logger?.debug(`${id} exposed [${module.address}]`)
-        return module
-      }
+  expose(module: ModuleInstance, options?: ExposeOptions) {
+    const { failOnAlreadyExposed } = options ?? {}
+    if (isBridgeInstance(module)) {
+      this.logger?.warn(`Attempted to expose a BridgeModule [${module.id}] - Not exposing`)
+    } else {
+      assertEx(
+        !failOnAlreadyExposed || !this._exposedAddresses.has(module.address),
+        () => `Address already exposed: ${module.id} [${module.address}]`,
+      )
+      this._exposedAddresses.add(module.address)
+      this._exposeOptions[module.address] = { ...options }
+      this.logger?.debug(`${module.id} exposed [${module.address}]`)
+      return module
     }
   }
 

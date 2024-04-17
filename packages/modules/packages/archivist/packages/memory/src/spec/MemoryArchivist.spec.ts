@@ -47,19 +47,29 @@ describe('MemoryArchivist', () => {
       await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
     ]
     await archivist.insert(payloads1)
+    console.log(toJsonString(payloads1, 10))
     const [bw, payloads, errors] = await archivist.insertQuery(account, payloads2)
     expect(bw).toBeDefined()
     expect(payloads).toBeDefined()
     expect(errors).toBeDefined()
 
-    console.log(toJsonString([bw, payloads, errors]))
+    console.log(toJsonString([bw, payloads, errors], 10))
 
     const batch1 = await archivist.next?.({ limit: 2 })
     expect(batch1).toBeArrayOfSize(2)
     expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
 
-    const batch2 = await archivist.next?.({ limit: 2, previous: batch1?.[0].$hash })
+    const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[0]) })
     expect(batch2).toBeArrayOfSize(2)
     expect(batch2?.[1].$hash).toEqual(payloads2[0].$hash)
+
+    //desc
+    const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
+    expect(batch1Desc).toBeArrayOfSize(2)
+    expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
+
+    const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc' })
+    expect(batch2Desc).toBeArrayOfSize(2)
+    expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
   })
 })

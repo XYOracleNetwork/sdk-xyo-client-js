@@ -7,9 +7,9 @@ import { ArchivistConfig } from './Config'
 import { ClearedEventData, DeletedEventData, InsertedEventData } from './EventModels'
 
 export interface NextOptions<TId = string> {
-  direction?: 'asc' | 'desc'
   limit?: number
-  previous?: TId
+  offset?: TId
+  order?: 'asc' | 'desc'
 }
 
 export interface ReadArchivist<TReadResponse, TId = string> {

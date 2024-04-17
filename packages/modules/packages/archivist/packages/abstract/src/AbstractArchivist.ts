@@ -296,7 +296,7 @@ export abstract class AbstractArchivist<
     return this._lastInsertedPayload
   }
 
-  protected insertHandler(_payloads: Payload[]): Promise<WithMeta<Payload>[]> {
+  protected insertHandler(_payloads: WithMeta<Payload>[]): Promise<WithMeta<Payload>[]> {
     throw new Error('Not implemented')
   }
 
@@ -321,7 +321,8 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const insertedPayloads = await PayloadBuilder.build(await this.insertHandler(payloads), true)
+    const payloadsWithMeta = await PayloadBuilder.build(payloads, true)
+    const insertedPayloads = await this.insertHandler(payloadsWithMeta)
 
     if (writeToParents) {
       await this.writeToParents(insertedPayloads)

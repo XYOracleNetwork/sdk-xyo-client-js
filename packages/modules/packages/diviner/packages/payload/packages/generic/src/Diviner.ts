@@ -35,6 +35,7 @@ export class GenericPayloadDiviner<
   protected payloadPairs: [WithMeta<TOut>, Hash][] = []
 
   private _archivistInstance?: ArchivistInstance
+  private _indexOffset?: Hash
   private _updatePayloadPairsMutex = new Mutex()
 
   protected get indexBatchSize() {
@@ -43,10 +44,6 @@ export class GenericPayloadDiviner<
 
   protected get maxIndexSize() {
     return this.config.maxIndexSize ?? DEFAULT_MAX_INDEX_SIZE
-  }
-
-  protected get payloadPairsOffset() {
-    return this.payloadPairs.at(-1)?.[1]
   }
 
   protected all(order: Order = 'asc', offset?: Hash) {
@@ -115,8 +112,9 @@ export class GenericPayloadDiviner<
     }
   }
 
-  protected onArchivistInsert: EventListener<ArchivistModuleEventData['inserted']> = ({ payloads }) => {
-    forget(this.indexPayloads(payloads as WithMeta<TOut>[]))
+  protected onArchivistInsert: EventListener<ArchivistModuleEventData['inserted']> = () => {
+    //forget(this.indexPayloads(payloads as WithMeta<TOut>[]))
+    forget(this.updateIndex())
   }
 
   protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
@@ -129,11 +127,12 @@ export class GenericPayloadDiviner<
   protected async updateIndex() {
     await this._updatePayloadPairsMutex.runExclusive(async () => {
       const archivist = await this.archivistInstance(true)
-      let newPayloads = (await archivist.next({ limit: 100, offset: this.payloadPairsOffset })) as WithMeta<TOut>[]
+      let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
       while (newPayloads.length > 0) {
+        this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
         assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
-        newPayloads = (await archivist.next({ limit: 100, offset: this.payloadPairsOffset })) as WithMeta<TOut>[]
+        newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
       }
     })
   }

@@ -76,7 +76,7 @@ describe('GenericPayloadDiviner', () => {
           expect(results.length).toBeGreaterThan(0)
           expect(results.every((result) => result.schema === schema)).toBe(true)
         })
-        it('only returns payloads of that schema', async () => {
+        it('only return single payload of that schema', async () => {
           const schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({ limit: 1, schemas })
@@ -86,7 +86,7 @@ describe('GenericPayloadDiviner', () => {
           expect(results[0].$hash).toBe(payloadB.$hash)
           expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
         })
-        it('only returns payloads of that schema (desc)', async () => {
+        it('only return single payload of that schema (desc)', async () => {
           const schemas = ['network.xyo.debug']
           const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
             .fields({ limit: 1, order: 'desc', schemas })

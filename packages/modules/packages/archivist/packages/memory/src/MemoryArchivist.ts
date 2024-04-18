@@ -136,25 +136,22 @@ export class MemoryArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-    const insertedPayloads = pairs.map(([payload, hash]) => {
-      return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash)
+    const insertedPayloads = pairs.map(([payload, hash], index) => {
+      return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash, index)
     })
 
     return removeStorageMeta(insertedPayloads)
   }
 
-  protected override nextHandler(options?: ArchivistNextOptions): Promisable<PayloadWithMeta[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
     const { limit, offset, order } = options ?? {}
-    let all: [bigint, Hash, WithStorageMeta<PayloadWithMeta>][] = compact(this.cache.dump()).map((entry) => [
-      entry[1].value._sequence,
-      entry[0],
-      entry[1].value,
-    ])
+    let all = await this.allHandler()
     if (order === 'desc') {
       all = all.reverse()
     }
-    const startIndex = offset ? all.findIndex(([, hash]) => hash === offset) + 1 : 0
-    return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined).map((item) => item[2]))
+    const allPairs = await PayloadBuilder.hashPairs(all)
+    const startIndex = offset ? allPairs.findIndex(([, hash]) => hash === offset) + 1 : 0
+    return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
   }
 
   private insertPayloadIntoCache(payload: PayloadWithMeta, hash: Hash, index = 0): WithStorageMeta<PayloadWithMeta> {

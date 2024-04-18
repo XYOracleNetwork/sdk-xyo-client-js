@@ -52,13 +52,13 @@ export class GenericPayloadDiviner<
 
   protected allAsc(offset?: Hash) {
     const pairs = this.payloadPairs
-    const startIndex = offset ? pairs.findIndex(([, hash]) => hash === offset) ?? 0 : 0
+    const startIndex = (offset ? pairs.findIndex(([, hash]) => hash === offset) ?? -1 : -1) + 1
     return this.payloadPairs.slice(startIndex).map(([payload]) => payload)
   }
 
   protected allDesc(offset?: Hash) {
     const pairs = this.payloadPairs.reverse()
-    const startIndex = offset ? pairs.findIndex(([, hash]) => hash === offset) ?? 0 : 0
+    const startIndex = (offset ? pairs.findIndex(([, hash]) => hash === offset) ?? -1 : -1) + 1
     return this.payloadPairs.slice(startIndex).map(([payload]) => payload)
   }
 
@@ -129,6 +129,7 @@ export class GenericPayloadDiviner<
       const archivist = await this.archivistInstance(true)
       let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
       while (newPayloads.length > 0) {
+        console.log('newPayloads', newPayloads)
         this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
         assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
@@ -137,8 +138,9 @@ export class GenericPayloadDiviner<
     })
   }
 
-  private async indexPayloads(payloads: WithMeta<TOut>[]) {
+  private async indexPayloads(payloads: WithMeta<TOut>[]): Promise<Hash> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     this.payloadPairs.push(...pairs)
+    return assertEx(pairs.at(-1))[1]
   }
 }

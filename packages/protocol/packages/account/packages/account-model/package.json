@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.1.7",
+    "@xylabs/hex": "^3.1.8",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.0",
-    "@xylabs/tsconfig": "^3.9.0",
-    "ethers": "6.11.1",
+    "@xylabs/ts-scripts-yarn3": "^3.9.1",
+    "@xylabs/tsconfig": "^3.9.1",
+    "ethers": "6.12.0",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {

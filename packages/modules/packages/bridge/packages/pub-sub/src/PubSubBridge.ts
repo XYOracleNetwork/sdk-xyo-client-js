@@ -55,8 +55,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
     //check if already connected
-    const existingInstance = await this.resolve<ModuleInstance>(id)
+    const existingInstance = await this.resolve<ModuleInstance>(transformedId)
     if (existingInstance) {
       return existingInstance.address
     }
@@ -67,7 +68,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   async disconnect(id: ModuleIdentifier): Promise<Address | undefined> {
-    const instance = await this.resolve<ModuleInstance>(id)
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    const instance = await this.resolve<ModuleInstance>(transformedId)
     if (instance) {
       this.downResolver.remove(instance.address)
       return instance.address

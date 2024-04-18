@@ -11,11 +11,11 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/axios": "^3.1.7"
+    "@xylabs/axios": "^3.1.8"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.0",
-    "@xylabs/tsconfig": "^3.9.0",
+    "@xylabs/ts-scripts-yarn3": "^3.9.1",
+    "@xylabs/tsconfig": "^3.9.1",
     "typescript": "^5.4.5"
   },
   "exports": {

@@ -15,8 +15,8 @@
     "@xyo-network/diviner-address-chain-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.0",
-    "@xylabs/tsconfig": "^3.9.0",
+    "@xylabs/ts-scripts-yarn3": "^3.9.1",
+    "@xylabs/tsconfig": "^3.9.1",
     "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

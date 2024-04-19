@@ -33,7 +33,7 @@ export class GenericPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [PayloadDivinerConfigSchema]
+  static override configSchemas = [...PayloadDiviner.configSchemas, GenericPayloadDivinerConfigSchema]
 
   protected payloadPairs: [WithMeta<TOut>, Hash][] = []
 
@@ -132,8 +132,11 @@ export class GenericPayloadDiviner<
       const archivist = await this.archivistInstance(true)
       let newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]
       while (newPayloads.length > 0) {
-        console.log('newPayloads', newPayloads)
+        const prevOffset = this._indexOffset
         this._indexOffset = await PayloadBuilder.hash(assertEx(newPayloads.at(-1)))
+        if (this._indexOffset === prevOffset) {
+          this.logger.warn('next offset not found', prevOffset)
+        }
         assertEx(this.payloadPairs.length + newPayloads.length <= this.maxIndexSize, () => 'maxIndexSize exceeded')
         await this.indexPayloads(newPayloads)
         newPayloads = (await archivist.next({ limit: 100, offset: this._indexOffset })) as WithMeta<TOut>[]

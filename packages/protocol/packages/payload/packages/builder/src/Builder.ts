@@ -86,7 +86,7 @@ export class PayloadBuilder<
   }
 
   static async hash<T extends Payload>(payload: T, options?: BuildOptions): Promise<Hash> {
-    return await PayloadHasher.hash(await PayloadBuilder.build(payload, options))
+    return await PayloadHasher.hash(await PayloadBuilder.build(payload, { stamp: false, ...options }))
   }
 
   /**
@@ -94,10 +94,10 @@ export class PayloadBuilder<
    * @param objs Any array of payloads
    * @returns An array of payload/hash tuples
    */
-  static async hashPairs<T extends Payload>(payloads: T[], stamp = true): Promise<[WithMeta<T>, Hash][]> {
+  static async hashPairs<T extends Payload>(payloads: T[], options?: BuildOptions): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map<Promise<[WithMeta<T>, Hash]>>(async (payload) => {
-        const built = await PayloadBuilder.build(payload, { stamp })
+        const built = await PayloadBuilder.build(payload, { stamp: false, ...options })
         return [built, await PayloadBuilder.hash(built)]
       }),
     )

@@ -6,6 +6,7 @@ import { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
+import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -45,7 +46,7 @@ const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name:
     const archivist = await archivistPromise
     await archivist.clear?.()
     for (let x = 0; x < 10; x++) {
-      await archivist.insert([idPayload])
+      await archivist.insert([await PayloadBuilder.build(idPayload)])
       await delay(10)
     }
     const getResult = await archivist.all?.()

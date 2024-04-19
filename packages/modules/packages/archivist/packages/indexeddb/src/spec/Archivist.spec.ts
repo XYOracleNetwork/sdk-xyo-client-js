@@ -250,7 +250,7 @@ describe('IndexedDbArchivist', () => {
         // First insertion should succeed and return the inserted payload
         expect(await archivistModule.insert([source])).toEqual([source])
         // First insertion should succeed but return empty array since no new data was inserted
-        expect(await archivistModule.insert([source])).toEqual([source])
+        expect(await archivistModule.insert([source])).toEqual([])
         // Ensure we can get the inserted payload
         const sourceHash = await PayloadBuilder.dataHash(source)
         const getResult = await archivistModule.get([sourceHash])

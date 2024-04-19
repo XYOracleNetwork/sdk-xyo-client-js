@@ -151,7 +151,6 @@ export abstract class AbstractArchivist<
   }
 
   async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
-    console.log('insert - payloads', payloads)
     this._noOverride('insert')
     return await this.busy(async () => {
       await this.started('throw')

@@ -187,6 +187,10 @@ export class IndexedDbArchivist<
       // Only return the payloads that were successfully inserted
       const inserted = await Promise.all(
         pairs.map(async ([payload, _hash]) => {
+          const existing = (await this.getHandler([_hash])).shift()
+          if (existing) {
+            return
+          }
           // Perform each insert via a transaction to ensure it is atomic
           // with respect to checking for the pre-existence of the hash.
           // This is done to preserve iteration via insertion order.

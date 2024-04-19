@@ -1,5 +1,4 @@
 import { Address } from '@xylabs/hex'
-import { toJsonString } from '@xylabs/object'
 import { DivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { ModuleIdentifier, ModuleIdentifierTransformer } from '@xyo-network/module-model'

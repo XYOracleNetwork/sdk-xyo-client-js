@@ -5,13 +5,7 @@ import { EmptyObject } from '@xylabs/object'
 import { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import {
-  isPayloadDivinerQueryPayload,
-  Order,
-  PayloadDivinerConfigSchema,
-  PayloadDivinerParams,
-  PayloadDivinerQueryPayload,
-} from '@xyo-network/diviner-payload-model'
+import { isPayloadDivinerQueryPayload, Order, PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, WithMeta } from '@xyo-network/payload-model'

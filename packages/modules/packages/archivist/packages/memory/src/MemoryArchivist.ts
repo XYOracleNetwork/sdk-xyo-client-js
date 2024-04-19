@@ -135,7 +135,7 @@ export class MemoryArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const pairs = await PayloadBuilder.hashPairs(payloads, false)
+    const pairs = await PayloadBuilder.hashPairs(payloads, { stamp: false })
     const insertedPayloads = pairs.map(([payload, hash], index) => {
       return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash, index)
     })

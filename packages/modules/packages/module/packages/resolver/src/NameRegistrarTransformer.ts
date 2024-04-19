@@ -24,9 +24,7 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
 
       //not cached, so check registrar
       const query = { domain: nameParts[0], order: 'desc' as const, schema: PayloadDivinerQuerySchema, tld: nameParts[1] }
-      console.log('query:', toJsonString(query))
       const result = await this.registrarDiviner?.divine([query])
-      console.log('result:', toJsonString(result))
       const resultPayload = result?.shift()
       if (!resultPayload) {
         throw new Error(`Unable to resolve registrar name (failed) [${first}]`)
@@ -34,7 +32,6 @@ export class NameRegistrarTransformer implements ModuleIdentifierTransformer {
       //TODO: Use proper types for this check
       if (resultPayload) {
         const address = (resultPayload as unknown as { address: Address[] }).address?.shift()
-        console.log('address:', toJsonString(address))
         if (address) {
           this._cache.set(identifier, address)
           return address

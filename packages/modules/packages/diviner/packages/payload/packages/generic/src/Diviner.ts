@@ -20,6 +20,9 @@ import { Mutex } from 'async-mutex'
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
 const DEFAULT_MAX_INDEX_SIZE = 8000 as const
 
+export const GenericPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.generic.config' as const
+export type GenericPayloadDivinerConfigSchema = typeof GenericPayloadDivinerConfigSchema
+
 export class GenericPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,

@@ -45,10 +45,12 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...cleanFields }, '$'), '_') as T
   }
 
-  protected static metaFields(dataHash: Hash, otherMeta?: JsonObject): Promisable<JsonObject> {
+  protected static metaFields(dataHash: Hash, otherMeta?: JsonObject, stamp = true): Promisable<JsonObject> {
     const meta: JsonObject = { ...otherMeta }
 
-    meta.timestamp = meta.timestamp ?? Date.now()
+    if (!meta.timestamp && stamp) {
+      meta.timestamp = meta.timestamp ?? Date.now()
+    }
 
     return meta
   }
@@ -85,7 +87,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
     this._schema = value
   }
 
-  protected async metaFields(dataHash: Hash): Promise<JsonObject> {
-    return await PayloadBuilderBase.metaFields(dataHash, this._$meta)
+  protected async metaFields(dataHash: Hash, stamp = true): Promise<JsonObject> {
+    return await PayloadBuilderBase.metaFields(dataHash, this._$meta, stamp)
   }
 }

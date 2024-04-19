@@ -7,47 +7,60 @@ import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase'
 import { PayloadBuilderOptions } from './Options'
 
+export interface BuildOptions {
+  stamp?: boolean
+  validate?: boolean
+}
+
 export class PayloadBuilder<
   T extends Payload = Payload<AnyObject>,
   O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>,
 > extends PayloadBuilderBase<T, O> {
-  static async build<T extends Payload = Payload<AnyObject>>(payload: T, validate?: boolean): Promise<WithMeta<T>>
-  static async build<T extends Payload = Payload<AnyObject>>(payload: T[], validate?: boolean): Promise<WithMeta<T>[]>
-  static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], validate = true) {
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T, options?: BuildOptions): Promise<WithMeta<T>>
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T[], options?: BuildOptions): Promise<WithMeta<T>[]>
+  static async build<T extends Payload = Payload<AnyObject>>(payload: T | T[], options: BuildOptions = {}) {
     if (Array.isArray(payload)) {
-      return await Promise.all(payload.map((payload) => this.build(payload)))
+      return await Promise.all(payload.map((payload) => this.build(payload, options)))
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { schema, $hash: incomingDataHash, $meta } = payload as WithMeta<T>
+      const { stamp = true, validate = true } = options
+      const { schema, $hash: incomingDataHash, $meta: incomingMeta } = payload as WithMeta<T>
       const fields = removeMetaAndSchema(payload)
       const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
       const $hash = validate || incomingDataHash === undefined ? await PayloadHasher.hash(dataHashableFields) : incomingDataHash
-      const hashableFields = { ...dataHashableFields, $hash, $meta: { ...$meta, timestamp: $meta?.timestamp ?? Date.now() } as JsonObject }
+      const $meta: JsonObject = { ...incomingMeta }
+      if ($meta.timestamp === undefined && stamp) {
+        $meta.timestamp = Date.now()
+      }
+      const hashableFields: WithMeta<Payload> = { ...dataHashableFields, $hash, schema }
+
+      if (Object.keys($meta).length > 0) {
+        hashableFields.$meta = $meta
+      }
 
       return hashableFields as WithMeta<T>
     }
   }
 
-  static async dataHash<T extends Payload>(payload: T, validate = true): Promise<Hash> {
-    return (await this.build(payload, validate)).$hash
+  static async dataHash<T extends Payload>(payload: T, options?: BuildOptions): Promise<Hash> {
+    return (await this.build(payload, options)).$hash
   }
 
-  static async dataHashPairs<T extends Payload>(payloads: T[], validate = true): Promise<[WithMeta<T>, Hash][]> {
+  static async dataHashPairs<T extends Payload>(payloads: T[], options?: BuildOptions): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map(async (payload) => {
-        const built = await PayloadBuilder.build(payload, validate)
+        const built = await PayloadBuilder.build(payload, options)
         return [built, built.$hash]
       }),
     )
   }
 
-  static async dataHashes(payloads: undefined, validate?: boolean): Promise<undefined>
-  static async dataHashes<T extends Payload>(payloads: T[], validate?: boolean): Promise<Hash[]>
-  static async dataHashes<T extends Payload>(payloads?: T[], validate = true): Promise<Hash[] | undefined> {
+  static async dataHashes(payloads: undefined, options?: BuildOptions): Promise<undefined>
+  static async dataHashes<T extends Payload>(payloads: T[], options?: BuildOptions): Promise<Hash[]>
+  static async dataHashes<T extends Payload>(payloads?: T[], options?: BuildOptions): Promise<Hash[] | undefined> {
     return payloads ?
         await Promise.all(
           payloads.map(async (payload) => {
-            const built = await PayloadBuilder.build(payload, validate)
+            const built = await PayloadBuilder.build(payload, options)
             return built.$hash
           }),
         )
@@ -72,8 +85,8 @@ export class PayloadBuilder<
     return (await this.dataHashPairs(payloads)).find(([_, objHash]) => objHash === hash)?.[0]
   }
 
-  static async hash<T extends Payload>(payload: T, validate = false): Promise<Hash> {
-    return await PayloadHasher.hash(await PayloadBuilder.build(payload, validate))
+  static async hash<T extends Payload>(payload: T, options?: BuildOptions): Promise<Hash> {
+    return await PayloadHasher.hash(await PayloadBuilder.build(payload, options))
   }
 
   /**
@@ -81,10 +94,10 @@ export class PayloadBuilder<
    * @param objs Any array of payloads
    * @returns An array of payload/hash tuples
    */
-  static async hashPairs<T extends Payload>(payloads: T[]): Promise<[WithMeta<T>, Hash][]> {
+  static async hashPairs<T extends Payload>(payloads: T[], stamp = true): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map<Promise<[WithMeta<T>, Hash]>>(async (payload) => {
-        const built = await PayloadBuilder.build(payload)
+        const built = await PayloadBuilder.build(payload, { stamp })
         return [built, await PayloadBuilder.hash(built)]
       }),
     )
@@ -96,18 +109,34 @@ export class PayloadBuilder<
     $meta?: JsonObject,
     $hash?: Hash,
     timestamp?: number,
+    stamp = true,
   ): Promise<WithMeta<T>> {
     const dataFields = await this.dataHashableFields<T>(schema, fields)
     assertEx($meta === undefined || isJsonObject($meta), () => '$meta must be JsonObject')
-    return deepOmitPrefixedFields<WithMeta<T>>(
+    const result: WithMeta<T> = deepOmitPrefixedFields<WithMeta<T>>(
       {
         ...dataFields,
         $hash: $hash ?? (await PayloadBuilder.dataHash(dataFields)),
-        $meta: { ...$meta, timestamp: timestamp ?? $meta?.timestamp ?? Date.now() } as JsonObject,
         schema,
       } as WithMeta<T>,
       '_',
     )
+
+    const clonedMeta = { ...$meta }
+
+    if (timestamp) {
+      clonedMeta.timestamp = timestamp
+    }
+
+    if (clonedMeta.timestamp === undefined && stamp) {
+      clonedMeta.timestamp = Date.now()
+    }
+
+    if (Object.keys(clonedMeta).length > 0) {
+      result.$meta = clonedMeta
+    }
+
+    return result
   }
 
   static async hashes(payloads: undefined): Promise<undefined>
@@ -161,13 +190,9 @@ export class PayloadBuilder<
     }
   }
 
-  async build(): Promise<WithMeta<T>> {
+  async build(options?: BuildOptions): Promise<WithMeta<T>> {
     const dataHashableFields = await this.dataHashableFields()
-    const $hash = await PayloadHasher.hash(dataHashableFields)
-    const $meta = await this.metaFields($hash)
-    const hashableFields: PayloadWithMeta = { ...dataHashableFields, $hash, $meta }
-
-    return hashableFields as WithMeta<T>
+    return await PayloadBuilder.build<T>({ ...dataHashableFields, $meta: this._$meta, schema: this._schema } as Payload as T, options)
   }
 
   async hashableFields() {

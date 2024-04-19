@@ -26,11 +26,13 @@ describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
     const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
 
-    const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]
+    const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' }, { stamp: false })]
+    expect(payloads[0].$meta?.timestamp).toBeUndefined()
     const result = await archivist.insert(payloads)
 
     expect(result.length).toEqual(payloads.length)
     expect(result[0].schema).toEqual(payloads[0].schema)
+    expect(result[0].$meta?.timestamp).toBeUndefined()
   })
 
   it('next', async () => {

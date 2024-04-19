@@ -151,6 +151,7 @@ export abstract class AbstractArchivist<
   }
 
   async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
+    console.log('insert - payloads', payloads)
     this._noOverride('insert')
     return await this.busy(async () => {
       await this.started('throw')
@@ -321,7 +322,7 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const payloadsWithMeta = await PayloadBuilder.build(payloads, true)
+    const payloadsWithMeta = await PayloadBuilder.build(payloads, { stamp: false, validate: true })
     const insertedPayloads = await this.insertHandler(payloadsWithMeta)
 
     if (writeToParents) {
@@ -358,7 +359,7 @@ export abstract class AbstractArchivist<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQueries>(query, payloads)
-    const builtQuery = await PayloadBuilder.build(query, true)
+    const builtQuery = await PayloadBuilder.build(query, { stamp: false, validate: true })
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []

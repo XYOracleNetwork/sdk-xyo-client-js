@@ -22,7 +22,7 @@ export class PayloadBuilder<
     if (Array.isArray(payload)) {
       return await Promise.all(payload.map((payload) => this.build(payload, options)))
     } else {
-      const { stamp = true, validate = true } = options
+      const { stamp = false, validate = true } = options
       const { schema, $hash: incomingDataHash, $meta: incomingMeta } = payload as WithMeta<T>
       const fields = removeMetaAndSchema(payload)
       const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
@@ -86,7 +86,7 @@ export class PayloadBuilder<
   }
 
   static async hash<T extends Payload>(payload: T, options?: BuildOptions): Promise<Hash> {
-    return await PayloadHasher.hash(await PayloadBuilder.build(payload, { stamp: false, ...options }))
+    return await PayloadHasher.hash(await PayloadBuilder.build(payload, options))
   }
 
   /**
@@ -97,7 +97,7 @@ export class PayloadBuilder<
   static async hashPairs<T extends Payload>(payloads: T[], options?: BuildOptions): Promise<[WithMeta<T>, Hash][]> {
     return await Promise.all(
       payloads.map<Promise<[WithMeta<T>, Hash]>>(async (payload) => {
-        const built = await PayloadBuilder.build(payload, { stamp: false, ...options })
+        const built = await PayloadBuilder.build(payload, options)
         return [built, await PayloadBuilder.hash(built)]
       }),
     )
@@ -109,7 +109,7 @@ export class PayloadBuilder<
     $meta?: JsonObject,
     $hash?: Hash,
     timestamp?: number,
-    stamp = true,
+    stamp = false,
   ): Promise<WithMeta<T>> {
     const dataFields = await this.dataHashableFields<T>(schema, fields)
     assertEx($meta === undefined || isJsonObject($meta), () => '$meta must be JsonObject')

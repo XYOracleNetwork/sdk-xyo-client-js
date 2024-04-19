@@ -52,7 +52,7 @@ const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name:
     const getResult = await archivist.all?.()
     expect(getResult).toBeDefined()
     //this is 11 here since we double store all these and every one has the same dataHash
-    expect(getResult?.length).toBe(11)
+    expect(getResult?.length).toBe(2)
   })
 }
 

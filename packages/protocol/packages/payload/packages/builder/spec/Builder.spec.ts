@@ -21,7 +21,7 @@ describe('BoundWitnessBuilder', () => {
     })
     expect(builder).toBeDefined()
 
-    const actual = await builder.build()
+    const actual = await builder.build({ stamp: true })
 
     expect(actual).toBeDefined()
     expect(actual._timestamp).toBeUndefined()

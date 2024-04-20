@@ -9,6 +9,7 @@ import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network
 import {
   AddressPreviousHashPayload,
   duplicateModules,
+  ModuleConfigSchema,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,

@@ -1,10 +1,11 @@
 import { Account } from '@xyo-network/account'
 import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
+import { Schema } from '@xyo-network/payload-model'
 
 import { AbstractModuleInstance } from '../AbstractModuleInstance'
 export class TestAbstractModule extends AbstractModuleInstance {
-  static override readonly configSchemas: string[] = [ModuleConfigSchema]
+  static override readonly configSchemas: Schema[] = [ModuleConfigSchema]
   protected override get _queryAccountPaths() {
     return super.baseModuleQueryAccountPaths
   }

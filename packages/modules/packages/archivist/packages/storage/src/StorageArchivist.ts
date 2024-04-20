@@ -18,7 +18,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 import store, { StoreBase } from 'store2'
 
 export type StorageArchivistConfigSchema = 'network.xyo.archivist.storage.config'
@@ -41,7 +41,8 @@ export class StorageArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance
 {
-  static override configSchemas = [StorageArchivistConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, StorageArchivistConfigSchema]
+  static override defaultConfigSchema: Schema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined

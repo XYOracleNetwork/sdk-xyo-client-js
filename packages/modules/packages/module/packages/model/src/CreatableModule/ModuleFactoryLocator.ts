@@ -48,7 +48,7 @@ export class ModuleFactoryLocator {
         // Merge module & supplied labels
         labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
       }
-      this._registry[schema] = existingFactories ? [...existingFactories, factory] : [factory]
+      this._registry[schema] = [...(existingFactories ?? []), factory]
     })
     return this
   }

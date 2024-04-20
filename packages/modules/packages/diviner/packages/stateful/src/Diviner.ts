@@ -9,7 +9,7 @@ import { DivinerConfigSchema, DivinerInstance, DivinerModuleEventData } from '@x
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config'
 import { StatefulDivinerParams } from './Params'
@@ -30,7 +30,8 @@ export abstract class StatefulDiviner<
   >,
   TState extends StateDictionary = StateDictionary,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly configSchemas: string[] = [DivinerConfigSchema, StatefulDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, StatefulDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = StatefulDivinerConfigSchema
 
   /**
    * The last state

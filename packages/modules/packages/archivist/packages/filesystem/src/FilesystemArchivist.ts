@@ -17,7 +17,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export interface FileSystemArchivistData {
   payloads: Payload[]
@@ -41,7 +41,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   extends AbstractArchivist<TParams>
   implements ArchivistInstance
 {
-  static override configSchemas = [FilesystemArchivistConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, FilesystemArchivistConfigSchema]
+  static override defaultConfigSchema: Schema = FilesystemArchivistConfigSchema
 
   private _memoryArchivist?: MemoryArchivist
 

@@ -4,7 +4,7 @@ import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
 import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config'
 
@@ -22,7 +22,8 @@ export class ArchivistPayloadDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, ArchivistPayloadDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = ArchivistPayloadDivinerConfigSchema
 
   protected async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const huriPayloads = assertEx(

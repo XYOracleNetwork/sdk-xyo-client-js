@@ -8,7 +8,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { creatableModule, ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import {
   CustomWitnessInstance,
   WitnessConfigSchema,
@@ -34,7 +34,8 @@ export abstract class AbstractWitness<
   extends AbstractModuleInstance<TParams, TEventData>
   implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
 {
-  static override readonly configSchemas: string[] = [WitnessConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, WitnessConfigSchema]
+  static override readonly defaultConfigSchema: Schema = WitnessConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractWitness', AbstractWitness, 'xyo')
 
   private _archivistInstance: ArchivistInstance | undefined

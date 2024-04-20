@@ -9,7 +9,7 @@ import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-mo
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config'
@@ -43,7 +43,8 @@ export class IndexedDbPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [IndexedDbPayloadDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbPayloadDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = IndexedDbPayloadDivinerConfigSchema
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 

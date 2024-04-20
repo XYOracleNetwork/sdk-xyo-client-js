@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
@@ -29,7 +29,8 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
 export class MemoryForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
 > extends AbstractForecastingDiviner<TParams> {
-  static override configSchemas = [ForecastingDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
 
   protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
     arimaForecasting: arimaForecastingMethod,

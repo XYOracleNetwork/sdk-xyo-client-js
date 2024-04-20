@@ -14,7 +14,7 @@ import {
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { defaultPackageManifest } from './defaultNodeManifest'
@@ -46,7 +46,8 @@ export interface QueryResultMessage {
 
 @creatableModule()
 export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [WorkerBridgeConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, WorkerBridgeConfigSchema]
+  static override defaultConfigSchema: Schema = WorkerBridgeConfigSchema
 
   private _discoverCache?: LRUCache<string, Payload[]>
   private _targetConfigs: Record<string, ModuleConfig> = {}

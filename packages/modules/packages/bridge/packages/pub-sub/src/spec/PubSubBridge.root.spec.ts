@@ -29,17 +29,17 @@ describe('PubSubBridge', () => {
     const intermediateNodeAccount = await Account.create()
     const intermediateNode = await MemoryNode.create({
       account: intermediateNodeAccount,
-      config: { name: 'intermediateNode', schema: MemoryNode.configSchema },
+      config: { name: 'intermediateNode', schema: MemoryNode.defaultConfigSchema },
     })
 
     const hostNode = await MemoryNode.create({
       account: Account.randomSync(),
-      config: { name: 'hostNode', schema: MemoryNode.configSchema },
+      config: { name: 'hostNode', schema: MemoryNode.defaultConfigSchema },
     })
 
     const hostNodeContainer = await MemoryNode.create({
       account: Account.randomSync(),
-      config: { name: 'hostNodeContainer', schema: MemoryNode.configSchema },
+      config: { name: 'hostNodeContainer', schema: MemoryNode.defaultConfigSchema },
     })
 
     const archivist = await MemoryArchivist.create({
@@ -53,7 +53,7 @@ describe('PubSubBridge', () => {
     const queryArchivistAccount = await Account.create()
     const queryArchivist = await MemoryArchivist.create({
       account: queryArchivistAccount,
-      config: { name: 'queryArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'queryArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
 
     await intermediateNode.register(queryArchivist)
@@ -62,7 +62,7 @@ describe('PubSubBridge', () => {
     const queryBoundWitnessDivinerAccount = await Account.create()
     const queryBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: queryBoundWitnessDivinerAccount,
-      config: { archivist: queryArchivist.address, name: 'queryBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.configSchema },
+      config: { archivist: queryArchivist.address, name: 'queryBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema },
     })
 
     await intermediateNode.register(queryBoundWitnessDiviner)
@@ -71,7 +71,7 @@ describe('PubSubBridge', () => {
     const responseArchivistAccount = await Account.create()
     const responseArchivist = await MemoryArchivist.create({
       account: responseArchivistAccount,
-      config: { name: 'responseArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'responseArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
 
     await intermediateNode.register(responseArchivist)
@@ -80,7 +80,7 @@ describe('PubSubBridge', () => {
     const responseBoundWitnessDivinerAccount = await Account.create()
     const responseBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: responseBoundWitnessDivinerAccount,
-      config: { archivist: responseArchivist.address, name: 'responseBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.configSchema },
+      config: { archivist: responseArchivist.address, name: 'responseBoundWitnessDiviner', schema: MemoryBoundWitnessDiviner.defaultConfigSchema },
     })
 
     await intermediateNode.register(responseBoundWitnessDiviner)
@@ -100,7 +100,7 @@ describe('PubSubBridge', () => {
     const stateStoreArchivistAccount = Account.randomSync()
     const stateStoreArchivist = await MemoryArchivist.create({
       account: stateStoreArchivistAccount,
-      config: { name: 'stateStoreArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'stateStoreArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
 
     const stateStoreBoundWitnessDivinerAccount = Account.randomSync()
@@ -109,7 +109,7 @@ describe('PubSubBridge', () => {
       config: {
         archivist: stateStoreArchivist.address,
         name: 'stateStoreBoundWitnessDiviner',
-        schema: MemoryBoundWitnessDiviner.configSchema,
+        schema: MemoryBoundWitnessDiviner.defaultConfigSchema,
       },
     })
 
@@ -142,7 +142,7 @@ describe('PubSubBridge', () => {
         host: { intersect, pollFrequency, stateStore },
         name: 'pubSubBridge',
         roots: [hostNodeContainer.address],
-        schema: PubSubBridge.configSchema,
+        schema: PubSubBridge.defaultConfigSchema,
         security: { allowAnonymous: true },
       },
     })

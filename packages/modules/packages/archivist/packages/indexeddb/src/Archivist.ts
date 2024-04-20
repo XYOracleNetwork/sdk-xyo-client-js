@@ -12,7 +12,7 @@ import {
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
@@ -27,7 +27,8 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas = [IndexedDbArchivistConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbArchivistConfigSchema]
+  static override defaultConfigSchema: Schema = IndexedDbArchivistConfigSchema
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'

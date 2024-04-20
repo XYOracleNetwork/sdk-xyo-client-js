@@ -12,6 +12,7 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuery,
   ArchivistCommitQuerySchema,
+  ArchivistConfigSchema,
   ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
   ArchivistGetQuery,
@@ -34,7 +35,7 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export interface ActionConfig {
   emitEvents?: boolean
@@ -57,6 +58,8 @@ export abstract class AbstractArchivist<
   extends AbstractModuleInstance<TParams, TEventData>
   implements AttachableArchivistInstance<TParams, TEventData, Payload>
 {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ArchivistConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
   private _lastInsertedPayload: Payload | undefined
   private _parentArchivists?: ArchivistParentInstances

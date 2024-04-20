@@ -8,7 +8,7 @@ import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, Order, PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 const DEFAULT_INDEX_BATCH_SIZE = 100 as const
@@ -27,7 +27,8 @@ export class GenericPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [...PayloadDiviner.configSchemas, GenericPayloadDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
   protected payloadPairs: [WithMeta<TOut>, Hash][] = []
 

@@ -31,13 +31,14 @@ import {
   ModuleResolverInstance,
   resolvePathToAddress,
 } from '@xyo-network/module-model'
-import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-model'
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
   extends AbstractModuleInstance<TParams, BridgeModuleEventData>
   implements BridgeInstance<TParams, BridgeModuleEventData>
 {
-  static override readonly configSchemas: string[] = [BridgeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, BridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = BridgeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
 
   protected _roots: ModuleInstance[] = []

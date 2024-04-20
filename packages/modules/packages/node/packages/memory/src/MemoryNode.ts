@@ -13,6 +13,7 @@ import {
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { AttachableNodeInstance, isNodeModule, NodeConfig, NodeConfigSchema, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import { Schema } from '@xyo-network/payload-model'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 
@@ -20,7 +21,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   extends AbstractNode<TParams, TEventData>
   implements AttachableNodeInstance
 {
-  static override configSchemas = [NodeConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
+  static override defaultConfigSchema: Schema = NodeConfigSchema
 
   protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 

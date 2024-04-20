@@ -11,7 +11,7 @@ import {
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { AnyConfigSchema, creatableModule, ModuleIdentifier, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
-import { PayloadWithMeta } from '@xyo-network/payload-model'
+import { PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 
 export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config'
 export type ViewArchivistConfigSchema = typeof ViewArchivistConfigSchema
@@ -33,7 +33,8 @@ export class ViewArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance, ModuleInstance
 {
-  static override configSchemas = [ViewArchivistConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
+  static override defaultConfigSchema: Schema = ViewArchivistConfigSchema
 
   private _originArchivistInstance?: ArchivistInstance
 

@@ -2,7 +2,6 @@ import { Hash } from '@xylabs/hex'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary, reducePayloads } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import {
   TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema,
@@ -19,8 +18,8 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
   TParams extends TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override readonly configSchema = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
-  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema]
+  static override readonly configSchemas = [...super.configSchemas, TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema]
+  static override readonly defaultConfigSchema = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
   static labels: Labels = {
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
   }

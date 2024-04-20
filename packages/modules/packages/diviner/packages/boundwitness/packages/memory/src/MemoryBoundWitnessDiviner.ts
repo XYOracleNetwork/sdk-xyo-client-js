@@ -10,7 +10,7 @@ import {
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { WithMeta } from '@xyo-network/payload-model'
+import { Schema, WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
   /**
@@ -70,7 +70,8 @@ export class MemoryBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas = [BoundWitnessDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
 
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')

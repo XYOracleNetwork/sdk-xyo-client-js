@@ -5,6 +5,7 @@ import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/b
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Schema } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
@@ -32,7 +33,8 @@ export class IndexedDbBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas = [IndexedDbBoundWitnessDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbBoundWitnessDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = IndexedDbBoundWitnessDivinerConfigSchema
 
   /**
    * The database name. If not supplied via config, it defaults

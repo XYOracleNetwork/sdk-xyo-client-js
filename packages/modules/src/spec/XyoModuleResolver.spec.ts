@@ -16,7 +16,7 @@ describe('ModuleResolver', () => {
   beforeAll(async () => {
     archivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'memory-archivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'memory-archivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     witness = await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } })
     resolver = new CompositeModuleResolver({ root: archivist })

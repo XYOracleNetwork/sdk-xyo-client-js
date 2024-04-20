@@ -18,7 +18,7 @@ import {
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta, WithSources } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta, WithSources } from '@xyo-network/payload-model'
 
 export abstract class AbstractDiviner<
     TParams extends DivinerParams = DivinerParams,
@@ -33,7 +33,8 @@ export abstract class AbstractDiviner<
   extends AbstractModuleInstance<TParams, TEventData>
   implements AttachableDivinerInstance<TParams, TIn, TOut, TEventData>
 {
-  static override readonly configSchemas: string[] = [DivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, DivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = DivinerConfigSchema
   static targetSchema: string
   static override readonly uniqueName = globallyUnique('AbstractDiviner', AbstractDiviner, 'xyo')
 

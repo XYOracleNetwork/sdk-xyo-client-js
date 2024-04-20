@@ -6,7 +6,7 @@ import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { AddressSpaceDiviner } from '@xyo-network/diviner-address-space-abstract'
 import { AddressSpaceDivinerConfigSchema, AddressSpaceDivinerParams } from '@xyo-network/diviner-address-space-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 /**
  * This Diviner returns the list of all addresses encountered for the reachable archivists
@@ -16,7 +16,8 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
   Payload,
   AddressPayload
 > {
-  static override configSchemas = [AddressSpaceDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, AddressSpaceDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = AddressSpaceDivinerConfigSchema
 
   protected override async divineHandler(payloads?: Payload[]) {
     assertEx(!payloads?.length, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')

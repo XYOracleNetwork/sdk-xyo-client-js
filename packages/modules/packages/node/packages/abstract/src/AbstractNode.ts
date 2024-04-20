@@ -20,13 +20,14 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
   implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
 {
-  static override readonly configSchemas: string[] = [NodeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = NodeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractNode', AbstractNode, 'xyo')
 
   private readonly isNode = true

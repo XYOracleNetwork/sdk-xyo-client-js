@@ -11,7 +11,7 @@ import { MemoryArchivist } from '../MemoryArchivist'
  */
 describe('MemoryArchivist', () => {
   it('should listen to cleared events', async () => {
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
+    const archivist = await MemoryArchivist.create({ account: Account.randomSync() })
 
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
@@ -24,7 +24,7 @@ describe('MemoryArchivist', () => {
   })
 
   it('should return same items inserted', async () => {
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.configSchema } })
+    const archivist = await MemoryArchivist.create({ account: Account.randomSync() })
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' }, { stamp: false })]
     expect(payloads[0].$meta?.timestamp).toBeUndefined()
@@ -36,7 +36,7 @@ describe('MemoryArchivist', () => {
   })
 
   it('next', async () => {
-    const archivist = await MemoryArchivist.create({ account: await HDWallet.random(), config: { schema: MemoryArchivist.configSchema } })
+    const archivist = await MemoryArchivist.create({ account: await HDWallet.random() })
     const account = await HDWallet.random()
 
     const payloads1 = [

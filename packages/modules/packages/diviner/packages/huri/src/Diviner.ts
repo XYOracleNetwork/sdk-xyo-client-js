@@ -5,7 +5,7 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 import { HuriPayloadDivinerConfig, HuriPayloadDivinerConfigSchema } from './Config'
 import { HuriPayload, HuriSchema } from './HuriPayload'
@@ -23,7 +23,8 @@ export class HuriPayloadDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [HuriPayloadDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, HuriPayloadDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = HuriPayloadDivinerConfigSchema
 
   protected get options() {
     return this.config?.options

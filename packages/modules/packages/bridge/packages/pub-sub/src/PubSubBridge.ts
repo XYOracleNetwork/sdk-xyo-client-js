@@ -14,7 +14,7 @@ import {
   ResolveHelper,
 } from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -26,7 +26,8 @@ const moduleName = 'PubSubBridge'
 
 @creatableModule()
 export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [PubSubBridgeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, PubSubBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = PubSubBridgeConfigSchema
 
   protected _configRootAddress: Address = ''
   protected _configStateStoreArchivist: string = ''

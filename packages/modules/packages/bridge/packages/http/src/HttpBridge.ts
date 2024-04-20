@@ -19,7 +19,7 @@ import {
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, Payload, WithMeta } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -31,7 +31,8 @@ export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridg
 
 @creatableModule()
 export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
-  static override configSchemas = [HttpBridgeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
   static defaultFailureRetryTime = 1000 * 60
   static defaultMaxConnections = 4
   static defaultMaxPayloadSizeWarning = 256 * 256

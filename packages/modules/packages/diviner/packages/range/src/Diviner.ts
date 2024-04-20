@@ -16,6 +16,7 @@ import {
   RangePayload,
 } from '@xyo-network/diviner-range-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
+import { Schema } from '@xyo-network/payload-model'
 
 export type RangeDivinerParams = DivinerParams<AnyConfigSchema<RangeDivinerConfig>>
 
@@ -24,7 +25,8 @@ export class RangeDiviner<TParams extends RangeDivinerParams = RangeDivinerParam
   RangePayload,
   NumberPayload | BigIntPayload
 > {
-  static override configSchemas = [RangeDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, RangeDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = RangeDivinerConfigSchema
 
   get ranges() {
     return this.config.ranges

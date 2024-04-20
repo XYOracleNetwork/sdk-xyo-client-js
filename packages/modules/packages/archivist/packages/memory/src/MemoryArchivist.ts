@@ -10,7 +10,6 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistConfig,
-  ArchivistConfigSchema,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
@@ -48,7 +47,8 @@ export class MemoryArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements AttachableArchivistInstance, ModuleInstance
 {
-  static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, MemoryArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = MemoryArchivistConfigSchema
 
   private _cache?: LRUCache<Hash, WithStorageMeta<PayloadWithMeta>>
   private _dataHashIndex?: LRUCache<Hash, Hash>

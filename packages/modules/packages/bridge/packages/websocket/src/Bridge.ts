@@ -4,6 +4,7 @@ import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance } from '@xyo-network/module-model'
+import { Schema } from '@xyo-network/payload-model'
 
 import { WebsocketBridgeConfig, WebsocketBridgeConfigSchema } from './Config'
 import { WebsocketBridgeModuleResolver } from './ModuleResolver'
@@ -13,7 +14,8 @@ export type WebsocketBridgeParams<TConfig extends AnyConfigSchema<WebsocketBridg
 
 @creatableModule()
 export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [WebsocketBridgeConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
+  static override defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
   static maxPayloadSizeWarning = 256 * 256
 
   private _resolver?: WebsocketBridgeModuleResolver

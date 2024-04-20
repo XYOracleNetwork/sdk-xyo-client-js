@@ -7,10 +7,11 @@ import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
   ResolvedTask,
+  SentinelConfigSchema,
   SentinelInstance,
   SentinelJob,
   SentinelModuleEventData,
@@ -27,6 +28,8 @@ export abstract class AbstractSentinel<
   extends AbstractModuleInstance<TParams, TEventData>
   implements CustomSentinelInstance<TParams, TEventData>
 {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')
   history: BoundWitness[] = []
   private _jobPromise?: Promise<SentinelJob>

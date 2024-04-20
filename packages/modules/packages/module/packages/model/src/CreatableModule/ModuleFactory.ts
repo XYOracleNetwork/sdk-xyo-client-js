@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { merge } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
+import { Schema } from '@xyo-network/payload-model'
 
 import { AttachableModuleInstance } from '../instance'
 import { Labels, WithOptionalLabels } from '../Labels'
@@ -10,6 +11,8 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
   configSchemas: CreatableModuleFactory<TModule>['configSchemas']
 
   creatableModule: CreatableModule<TModule>
+
+  defaultConfigSchema: Schema
 
   defaultLogger?: Logger | undefined
 
@@ -25,11 +28,9 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
     this.creatableModule = creatableModule
     this.defaultParams = params
     this.configSchemas = creatableModule.configSchemas
+    this.defaultConfigSchema = creatableModule.defaultConfigSchema
+    assertEx(this.configSchemas.includes(this.defaultConfigSchema), () => 'defaultConfigSchema must be in configSchemas')
     this.labels = Object.assign({}, (creatableModule as WithOptionalLabels).labels ?? {}, labels ?? {})
-  }
-
-  get configSchema(): string {
-    return this.configSchemas[0]
   }
 
   static withParams<T extends AttachableModuleInstance>(
@@ -59,7 +60,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
 
   create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: TModule['params'] | undefined): Promise<T> {
     const factory = this as ModuleFactory<T>
-    const schema = factory.creatableModule.configSchema
+    const schema = factory.creatableModule.defaultConfigSchema
     const mergedParams: TModule['params'] = merge({}, factory.defaultParams, params, {
       config: merge({}, factory.defaultParams?.config, params?.config, { schema }),
     })

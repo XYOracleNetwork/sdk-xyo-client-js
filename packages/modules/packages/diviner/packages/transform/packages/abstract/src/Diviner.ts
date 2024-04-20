@@ -8,7 +8,7 @@ import {
   TransformDivinerSchema,
 } from '@xyo-network/diviner-transform-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export type TransformDivinerParams = DivinerParams<AnyConfigSchema<TransformDivinerConfig>>
 
@@ -22,7 +22,8 @@ export abstract class AbstractTransformDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [TransformDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, TransformDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = TransformDivinerConfigSchema
 
   protected override divineHandler(payloads?: TIn[]): TOut[] {
     const transforms: Transform[] = []

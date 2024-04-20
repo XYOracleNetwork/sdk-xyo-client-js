@@ -1,8 +1,7 @@
 import { IndexingDiviner } from '@xyo-network/diviner-indexing-memory'
-import { IndexingDivinerConfigSchema } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfigSchema, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { TemporalIndexingDivinerConfigSchema, TemporalIndexingDivinerParams } from '@xyo-network/diviner-temporal-indexing-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class TemporalIndexingDiviner<
   TParams extends TemporalIndexingDivinerParams = TemporalIndexingDivinerParams,
@@ -14,8 +13,8 @@ export class TemporalIndexingDiviner<
     TOut
   >,
 > extends IndexingDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly configSchema = TemporalIndexingDivinerConfigSchema
-  static override readonly configSchemas: string[] = [TemporalIndexingDivinerConfigSchema, IndexingDivinerConfigSchema, DivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerConfigSchema
 
   protected override async startHandler(): Promise<boolean> {
     await super.startHandler()

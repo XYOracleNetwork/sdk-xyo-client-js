@@ -14,6 +14,7 @@ import {
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { asNodeInstance, AttachableNodeInstance, isNodeModule, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import { Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
 export const ViewNodeConfigSchema = 'network.xyo.node.view.config'
@@ -33,7 +34,8 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   extends MemoryNode<TParams, TEventData>
   implements AttachableNodeInstance
 {
-  static override configSchemas = [ViewNodeConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, ViewNodeConfigSchema]
+  static override defaultConfigSchema: Schema = ViewNodeConfigSchema
 
   private _buildMutex = new Mutex()
   private _built = false

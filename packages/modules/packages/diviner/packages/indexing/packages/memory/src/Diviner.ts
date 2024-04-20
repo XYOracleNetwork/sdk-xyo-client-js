@@ -17,7 +17,7 @@ import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModuleE
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export type ConfigStoreKey = 'indexStore' | 'stateStore'
 
@@ -37,7 +37,8 @@ export class IndexingDiviner<
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly allowRandomAccount = false
-  static override readonly configSchemas: string[] = [IndexingDivinerConfigSchema, DivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexingDivinerConfigSchema
 
   private _lastState?: ModuleState<IndexingDivinerState>
   private _pollId?: string

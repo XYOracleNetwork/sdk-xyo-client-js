@@ -20,7 +20,7 @@ describe('MemoryNode', () => {
   let testAccount2: AccountInstance
   let testAccount3: AccountInstance
   let testAccount4: AccountInstance
-  const archivistConfig = { schema: MemoryArchivist.configSchema }
+  const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(async () => {
@@ -331,7 +331,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('discover', () => {
-    const archivistConfig = { schema: MemoryArchivist.configSchema }
+    const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
     const validateStateResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find((p) => p.schema === AddressSchema) as AddressPayload

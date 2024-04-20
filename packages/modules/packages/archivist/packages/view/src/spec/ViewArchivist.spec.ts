@@ -14,14 +14,14 @@ import { ViewArchivist } from '../ViewArchivist'
  */
 describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync(), config: { schema: MemoryNode.configSchema } })
+    const node = await MemoryNode.create({ account: Account.randomSync() })
     const originArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'origin', schema: MemoryArchivist.configSchema },
+      config: { name: 'origin', schema: MemoryArchivist.defaultConfigSchema },
     })
     const viewArchivist = await ViewArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.configSchema },
+      config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
     })
 
     await node.register(originArchivist)

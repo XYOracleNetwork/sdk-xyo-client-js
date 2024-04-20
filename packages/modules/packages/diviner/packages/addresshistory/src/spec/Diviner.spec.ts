@@ -24,7 +24,10 @@ describe('AddressHistoryDiviner', () => {
     let diviner: AddressHistoryDiviner
     beforeAll(async () => {
       node = await MemoryNode.create({ account: Account.randomSync() })
-      archivist = await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } })
+      archivist = await MemoryArchivist.create({
+        account: archivistAccount,
+        config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true },
+      })
       const wrapper = ArchivistWrapper.wrap(archivist, wrapperAccount)
       const payload1 = await PayloadBuilder.build({ index: 1, schema: 'network.xyo.test' })
       const payload2 = await PayloadBuilder.build({ index: 2, schema: 'network.xyo.test' })

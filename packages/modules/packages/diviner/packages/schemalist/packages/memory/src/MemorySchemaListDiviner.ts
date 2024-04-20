@@ -12,10 +12,11 @@ import {
   SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
-  static override configSchemas = [SchemaListDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = SchemaListDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<string[]> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')

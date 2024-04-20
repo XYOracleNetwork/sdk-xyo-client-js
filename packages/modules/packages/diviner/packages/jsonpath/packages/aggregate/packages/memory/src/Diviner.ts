@@ -9,7 +9,7 @@ import {
   SchemaToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { Payload, PayloadSchema, WithOptionalMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
 import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath'
@@ -26,7 +26,8 @@ export class JsonPathAggregateDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [JsonPathAggregateDivinerConfigSchema]
+  static override configSchemas: Schema[] = [...super.configSchemas, JsonPathAggregateDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = JsonPathAggregateDivinerConfigSchema
 
   protected _transforms: PayloadTransformer[] | undefined
 

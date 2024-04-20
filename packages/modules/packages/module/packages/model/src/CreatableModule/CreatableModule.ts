@@ -1,5 +1,6 @@
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
+import { Schema } from '@xyo-network/payload-model'
 
 import { AttachableModuleInstance } from '../instance'
 
@@ -11,8 +12,8 @@ export type CreatableModuleFactory<T extends AttachableModuleInstance = Attachab
 }
 
 export interface CreatableModule<T extends AttachableModuleInstance = AttachableModuleInstance> {
-  configSchema: string
-  configSchemas: string[]
+  configSchemas: Schema[]
+  defaultConfigSchema: Schema
   defaultLogger?: Logger
   new (privateConstructorKey: string, params: T['params'], account: AccountInstance): T
   _noOverride(functionName: string): void

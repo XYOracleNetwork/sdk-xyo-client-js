@@ -31,19 +31,19 @@ describe('MemoryPayloadDiviner', () => {
 
     archivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'test', schema: MemoryArchivist.configSchema },
+      config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
     await archivist.insert([payloadA, payloadB])
     sut = await MemoryPayloadDiviner.create({
       account: Account.randomSync(),
       config: {
         archivist: archivist.address,
-        schema: MemoryPayloadDiviner.configSchema,
+        schema: MemoryPayloadDiviner.defaultConfigSchema,
       },
     })
     node = await MemoryNode.create({
       account: Account.randomSync(),
-      config: { schema: MemoryNode.configSchema },
+      config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]
     await node.start()

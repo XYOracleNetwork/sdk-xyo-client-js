@@ -21,7 +21,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       const divinerAccount = Account.randomSync()
       const wrapperAccount = Account.randomSync()
       const archivist = ArchivistWrapper.wrap(
-        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
+        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true } }),
         wrapperAccount,
       )
 

@@ -30,6 +30,7 @@ import {
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
+  ModuleConfigSchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
   ModuleEventData,
@@ -63,7 +64,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   implements Module<TParams, TEventData>
 {
   static readonly allowRandomAccount: boolean = true
-  static configSchemas: string[]
+  static readonly configSchemas: Schema[] = [ModuleConfigSchema]
+  static readonly defaultConfigSchema: Schema = ModuleConfigSchema
   static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
   static override readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
@@ -106,10 +108,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
-  }
-
-  static get configSchema(): string {
-    return this.configSchemas[0]
   }
 
   get account() {
@@ -222,12 +220,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
+    if (!this.defaultConfigSchema) {
+      throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
+    }
+
     assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
 
     const { account } = params ?? {}
 
-    const schema: string = params?.config?.schema ?? this.configSchema
-    const allowedSchemas: string[] = this.configSchemas
+    const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
+    const allowedSchemas: Schema[] = this.configSchemas
 
     assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
     const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']

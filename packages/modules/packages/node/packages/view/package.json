@@ -18,6 +18,7 @@
     "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
@@ -64,6 +65,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.96.2",
+  "version": "2.97.0",
   "type": "module"
 }

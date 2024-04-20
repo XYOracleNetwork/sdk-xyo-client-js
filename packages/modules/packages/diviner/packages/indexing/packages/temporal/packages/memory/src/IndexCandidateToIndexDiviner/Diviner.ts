@@ -6,7 +6,6 @@ import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,

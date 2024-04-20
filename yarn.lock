@@ -4772,6 +4772,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/diviner-range-model": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -5533,6 +5534,7 @@ __metadata:
     "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node-abstract": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -5567,6 +5569,7 @@ __metadata:
     "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
     async-mutex: "npm:^0.5.0"
     typescript: "npm:^5.4.5"
   languageName: unknown

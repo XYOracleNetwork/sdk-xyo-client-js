@@ -13,7 +13,7 @@ import {
   IndexingDivinerStage,
   IndexingDivinerState,
 } from '@xyo-network/diviner-indexing-model'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

@@ -7,7 +7,6 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
   TemporalIndexingDivinerStateToIndexCandidateDivinerParams,

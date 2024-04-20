@@ -14,7 +14,8 @@
     "@xyo-network/diviner-abstract": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-range-model": "workspace:~",
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.9.1",
@@ -60,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.96.2",
+  "version": "2.97.0",
   "type": "module"
 }

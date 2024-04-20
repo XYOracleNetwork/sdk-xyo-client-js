@@ -1,4 +1,5 @@
 import { Address, Hash } from '@xylabs/hex'
+import { isArrayBuffer } from '@xylabs/lodash'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
@@ -21,6 +22,33 @@ export interface AccountOptions {
 export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitializationConfig | MnemonicInitializationConfig
 
 export type AccountConfig = InitializationConfig & AccountOptions
+
+export const isPhraseInitializationConfig = (value: unknown): value is PhraseInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return typeof (value as PhraseInitializationConfig).phrase === 'string'
+  }
+  return false
+}
+
+export const isPrivateKeyInitializationConfig = (value: unknown): value is PrivateKeyInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return isArrayBuffer((value as PrivateKeyInitializationConfig).privateKey)
+  }
+  return false
+}
+
+export const isMnemonicInitializationConfig = (value: unknown): value is MnemonicInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return (
+      typeof (value as MnemonicInitializationConfig).mnemonic === 'string' && typeof ((value as MnemonicInitializationConfig).path ?? '') === 'string'
+    )
+  }
+  return false
+}
+
+export const isInitializationConfig = (value: unknown): value is InitializationConfig => {
+  return isPhraseInitializationConfig(value) || isPrivateKeyInitializationConfig(value) || isMnemonicInitializationConfig(value)
+}
 
 export interface AccountInstance extends KeyPairInstance {
   readonly address: Address

@@ -6,7 +6,12 @@ import { assertEx } from '@xylabs/assert'
 import { Address, Hex, hexFromHexString } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
-import { AccountConfig } from '@xyo-network/account-model'
+import {
+  AccountConfig,
+  isMnemonicInitializationConfig,
+  isPhraseInitializationConfig,
+  isPrivateKeyInitializationConfig,
+} from '@xyo-network/account-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
@@ -74,9 +79,17 @@ export class HDWallet extends Account implements WalletInstance {
     return this.node.publicKey.toLowerCase() as Hex
   }
 
-  static override async create(_opts?: AccountConfig): Promise<WalletInstance> {
-    await Promise.resolve()
-    throw new Error('Not implemented')
+  static override async create(opts?: AccountConfig): Promise<WalletInstance> {
+    if (isPhraseInitializationConfig(opts)) {
+      return await this.fromPhrase(opts.phrase)
+    }
+    if (isMnemonicInitializationConfig(opts)) {
+      return await this.fromPhrase(opts.mnemonic, opts.path)
+    }
+    if (isPrivateKeyInitializationConfig(opts)) {
+      throw new Error('Invalid initialization config. from privateKey not supported.  Use Account.fromPrivateKey instead.')
+    }
+    throw new Error('Invalid initialization config')
   }
 
   static async createFromNode(node: HDNodeWallet, previousHash?: string): Promise<WalletInstance> {

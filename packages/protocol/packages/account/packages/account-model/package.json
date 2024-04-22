@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@xylabs/hex": "^3.1.10",
+    "@xylabs/lodash": "^3.1.10",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },

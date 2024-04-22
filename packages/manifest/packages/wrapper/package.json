@@ -79,6 +79,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.97.2",
+  "version": "2.97.3",
   "type": "module"
 }

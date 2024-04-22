@@ -51,13 +51,13 @@ export class GenericPayloadDiviner<
   protected allAsc(offset?: Hash) {
     const pairs = this.payloadPairs
     const startIndex = (offset ? pairs.findIndex(([, hash]) => hash === offset) ?? -1 : -1) + 1
-    return this.payloadPairs.slice(startIndex).map(([payload]) => payload)
+    return pairs.slice(startIndex).map(([payload]) => payload)
   }
 
   protected allDesc(offset?: Hash) {
-    const pairs = this.payloadPairs.reverse()
+    const pairs = [...this.payloadPairs].reverse()
     const startIndex = (offset ? pairs.findIndex(([, hash]) => hash === offset) ?? -1 : -1) + 1
-    return this.payloadPairs.slice(startIndex).map(([payload]) => payload)
+    return pairs.slice(startIndex).map(([payload]) => payload)
   }
 
   protected override async archivistInstance(): Promise<ArchivistInstance | undefined>

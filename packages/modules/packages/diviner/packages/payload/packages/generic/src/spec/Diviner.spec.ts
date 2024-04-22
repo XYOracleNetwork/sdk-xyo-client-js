@@ -45,6 +45,8 @@ describe('GenericPayloadDiviner', () => {
     })
     await archivist.insert([payloadA, payloadB])
     await archivist.insert([payloadC, payloadD])
+    const all = await archivist.all()
+    console.log(all)
     sut = await GenericPayloadDiviner.create({
       account: Account.randomSync(),
       config: {
@@ -83,7 +85,7 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
-          expect(results[0].$hash).toBe(payloadB.$hash)
+          expect(results[0].$hash).toBe(payloadD.$hash)
           expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
         })
         it('only return single payload of that schema (desc)', async () => {
@@ -94,6 +96,16 @@ describe('GenericPayloadDiviner', () => {
           const results = await sut.divine([query])
           expect(results.length).toBe(1)
           expect(results[0].$hash).toBe(payloadD.$hash)
+          expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
+        })
+        it('only return single payload of that schema (asc)', async () => {
+          const schemas = ['network.xyo.debug']
+          const query = await new PayloadBuilder<PayloadDivinerQueryPayload>({ schema: PayloadDivinerQuerySchema })
+            .fields({ limit: 1, order: 'asc', schemas })
+            .build()
+          const results = await sut.divine([query])
+          expect(results.length).toBe(1)
+          expect(results[0].$hash).toBe(payloadB.$hash)
           expect(results.every((result) => result.schema === 'network.xyo.debug')).toBe(true)
         })
       })

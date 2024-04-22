@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { Schema } from '@xyo-network/payload-model'
 
 import { AttachableModuleInstance } from '../instance'
 import { hasAllLabels, Labels } from '../Labels'
@@ -38,17 +39,9 @@ export class ModuleFactoryLocator {
    * @param additional Additional module factories to register
    */
   register<TModule extends AttachableModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
+    this.registerOne(mod, mod.defaultConfigSchema, true, labels)
     mod.configSchemas.map((schema) => {
-      const existingFactories = this._registry[schema]
-      const factory: LabeledCreatableModuleFactory<TModule> = {
-        // Destructure instance properties
-        ...mod,
-        // Copy static methods
-        create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
-        // Merge module & supplied labels
-        labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
-      }
-      this._registry[schema] = [...(existingFactories ?? []), factory]
+      this.registerOne(mod, schema, false, labels)
     })
     return this
   }
@@ -64,6 +57,40 @@ export class ModuleFactoryLocator {
         this._registry[schema] = existingFactories ? [...existingFactories, ...factories] : factories
       }
     })
+    return this
+  }
+
+  /**
+   * Registers a single module factory (with optional tags) with the locator & a specific schema
+   * @param additional Additional module factories to register
+   */
+  registerOne<TModule extends AttachableModuleInstance>(
+    mod: CreatableModuleFactory<TModule>,
+    schema: Schema,
+    overwrite = false,
+    labels?: Labels,
+  ): this {
+    //if we don't want to overwrite and the factory already exists, return
+    if (!overwrite) {
+      const existingFactories = this._registry[schema]
+      if (existingFactories) {
+        const existing = existingFactories.find((factory) => (factory as LabeledCreatableModuleFactory).labels === labels)
+        if (existing) {
+          return this
+        }
+      }
+    }
+
+    const existingFactories = this._registry[schema]
+    const factory: LabeledCreatableModuleFactory<TModule> = {
+      // Destructure instance properties
+      ...mod,
+      // Copy static methods
+      create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
+      // Merge module & supplied labels
+      labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
+    }
+    this._registry[schema] = [...(existingFactories ?? []), factory]
     return this
   }
 

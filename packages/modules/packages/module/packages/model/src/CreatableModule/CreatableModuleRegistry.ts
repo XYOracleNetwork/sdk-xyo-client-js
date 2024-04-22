@@ -1,19 +1,42 @@
+import { Schema } from '@xyo-network/payload-model'
+
 import { CreatableModuleFactory } from './CreatableModule'
-import { CreatableModuleDictionary } from './CreatableModuleDictionary'
 import { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory'
 
 export interface CreatableModuleRegistry {
   [key: string]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined
 }
 
-export const toCreatableModuleRegistry = (dict: CreatableModuleDictionary | CreatableModuleRegistry): CreatableModuleRegistry => {
-  // eslint-disable-next-line unicorn/no-array-reduce
-  return Object.entries(dict).reduce((registry, [schema, factory]) => {
-    registry[schema] = Array.isArray(factory) ? factory : [factory]
-    return registry
-  }, {} as CreatableModuleRegistry)
+export const registerCreatableModuleFactory = (
+  registry: CreatableModuleRegistry,
+  factory: CreatableModuleFactory | LabeledCreatableModuleFactory,
+) => {
+  //add the defaultConfigSchema as the first key in the registry
+  registry[factory.defaultConfigSchema] = [factory, ...(registry[factory.defaultConfigSchema] ?? [])]
+  for (const schema of factory.configSchemas) {
+    registry[schema] = [...(registry[schema] ?? []), factory]
+  }
 }
 
+export const registerPrimaryCreatableModuleFactory = (
+  registry: CreatableModuleRegistry,
+  factory: CreatableModuleFactory | LabeledCreatableModuleFactory,
+  configSchema: Schema,
+) => {
+  registry[configSchema] = [factory, ...(registry[configSchema] ?? [])]
+}
+
+export const registerCreatableModuleFactories = (
+  factories: (CreatableModuleFactory | LabeledCreatableModuleFactory)[],
+  registry: CreatableModuleRegistry = {},
+) => {
+  for (const factory of factories) {
+    registerCreatableModuleFactory(registry, factory)
+  }
+  return registry
+}
+
+/** @deprecated use registerCreatableModuleFactory instead */
 export const assignCreatableModuleRegistry = (
   target: CreatableModuleRegistry = {},
   ...sources: CreatableModuleRegistry[]

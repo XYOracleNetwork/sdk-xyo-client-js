@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.1.8",
+    "@xylabs/hex": "^3.1.10",
     "@xyo-network/previous-hash-store-model": "workspace:~",
     "idb": "^8.0.0"
   },

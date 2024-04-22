@@ -7,7 +7,7 @@ import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregat
 import { JsonPathDiviner } from '@xyo-network/diviner-jsonpath-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { WithMeta } from '@xyo-network/payload-model'
@@ -26,7 +26,7 @@ describe('Sentinel.Interval', () => {
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator()
+    const locator = new ModuleFactoryLocator(standardCreatableFactories())
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)
     locator.register(JsonPatchDiviner)

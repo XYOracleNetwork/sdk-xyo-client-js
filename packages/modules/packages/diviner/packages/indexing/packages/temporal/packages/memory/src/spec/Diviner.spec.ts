@@ -10,7 +10,7 @@ import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
 import { isModuleStateWithMeta, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -87,7 +87,7 @@ describe.skip('TemporalIndexingDiviner', () => {
       'network.xyo.image.thumbnail': 'diviner',
     }
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator()
+    const locator = new ModuleFactoryLocator(standardCreatableFactories())
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)

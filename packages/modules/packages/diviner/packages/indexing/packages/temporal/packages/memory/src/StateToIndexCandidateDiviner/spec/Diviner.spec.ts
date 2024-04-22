@@ -7,7 +7,7 @@ import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-mem
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
 import { isModuleStateWithMeta, ModuleFactoryLocator, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
@@ -61,7 +61,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator()
+    const locator = new ModuleFactoryLocator(standardCreatableFactories())
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)

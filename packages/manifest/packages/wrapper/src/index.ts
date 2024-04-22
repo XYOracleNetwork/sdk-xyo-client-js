@@ -1,2 +1,2 @@
-export * from './standardCreatableModules'
+export * from './standardCreatableFactories'
 export * from './Wrapper'

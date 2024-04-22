@@ -4,7 +4,7 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
 import { ModuleFactoryLocator, ModuleState } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -34,7 +34,7 @@ describe('TestStatefulDiviner', () => {
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator()
+    const locator = new ModuleFactoryLocator(standardCreatableFactories())
     locator.register(MemoryArchivist)
     locator.register(MemoryBoundWitnessDiviner)
     locator.register(MemoryPayloadDiviner)

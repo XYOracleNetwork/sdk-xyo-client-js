@@ -27,21 +27,20 @@ export class ModuleFactoryLocator {
    * @returns A module factory that matches the supplied schema and labels or throws if one is not found
    */
   locate(schema: string, labels?: Labels): CreatableModuleFactory | LabeledCreatableModuleFactory {
-    return assertEx(this.tryLocate(schema, labels), () => {
-      const configString = `config schema [${schema}]`
-      const labelsString = labels ? ` & labels [${JSON.stringify(labels)}]` : ''
-      return `No module factory for the supplied ${configString}${labelsString} registered`
-    })
+    return assertEx(
+      this.tryLocate(schema, labels),
+      () => `No module factory for the supplied ${`config schema [${schema}]`}${labels ? ` & labels [${JSON.stringify(labels)}]` : ''} registered`,
+    )
   }
 
   /**
    * Registers a single module factory (with optional tags) with the locator
    * @param additional Additional module factories to register
    */
-  register<TModule extends AttachableModuleInstance>(mod: CreatableModuleFactory<TModule>, labels?: Labels): this {
-    this.registerOne(mod, mod.defaultConfigSchema, true, labels)
+  register(mod: CreatableModuleFactory, labels?: Labels): this {
+    this.registerOne(mod, mod.defaultConfigSchema, labels, true)
     mod.configSchemas.map((schema) => {
-      this.registerOne(mod, schema, false, labels)
+      this.registerOne(mod, schema, labels, false)
     })
     return this
   }
@@ -50,13 +49,10 @@ export class ModuleFactoryLocator {
    * Registers multiple module factories with the locator
    * @param additional Additional module factories to register
    */
-  registerMany(additional: CreatableModuleRegistry): this {
-    Object.entries(additional).map(([schema, factories]) => {
-      if (factories) {
-        const existingFactories = this._registry[schema]
-        this._registry[schema] = existingFactories ? [...existingFactories, ...factories] : factories
-      }
-    })
+  registerMany(mods: CreatableModuleFactory[]): this {
+    for (const mod of mods) {
+      this.register(mod)
+    }
     return this
   }
 
@@ -67,20 +63,9 @@ export class ModuleFactoryLocator {
   registerOne<TModule extends AttachableModuleInstance>(
     mod: CreatableModuleFactory<TModule>,
     schema: Schema,
-    overwrite = false,
     labels?: Labels,
+    primary = false,
   ): this {
-    //if we don't want to overwrite and the factory already exists, return
-    if (!overwrite) {
-      const existingFactories = this._registry[schema]
-      if (existingFactories) {
-        const existing = existingFactories.find((factory) => (factory as LabeledCreatableModuleFactory).labels === labels)
-        if (existing) {
-          return this
-        }
-      }
-    }
-
     const existingFactories = this._registry[schema]
     const factory: LabeledCreatableModuleFactory<TModule> = {
       // Destructure instance properties
@@ -90,7 +75,7 @@ export class ModuleFactoryLocator {
       // Merge module & supplied labels
       labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
     }
-    this._registry[schema] = [...(existingFactories ?? []), factory]
+    this._registry[schema] = primary ? [factory, ...(existingFactories ?? [])] : [...(existingFactories ?? []), factory]
     return this
   }
 

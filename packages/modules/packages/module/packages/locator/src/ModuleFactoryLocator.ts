@@ -1,17 +1,22 @@
 import { assertEx } from '@xylabs/assert'
+import {
+  AttachableModuleInstance,
+  CreatableModuleFactory,
+  CreatableModuleRegistry,
+  hasAllLabels,
+  hasLabels,
+  LabeledCreatableModuleFactory,
+  Labels,
+} from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
 
-import { AttachableModuleInstance } from '../instance'
-import { hasAllLabels, Labels } from '../Labels'
-import { CreatableModuleFactory } from './CreatableModule'
-import { CreatableModuleRegistry } from './CreatableModuleRegistry'
-import { hasLabels, LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory'
+import { standardCreatableFactories } from './standardCreatableFactories'
 
 /**
  * A class which encapsulates the Service Locator Pattern for Module Factories
  */
 export class ModuleFactoryLocator {
-  constructor(protected readonly _registry: CreatableModuleRegistry = {}) {}
+  constructor(protected readonly _registry: CreatableModuleRegistry = standardCreatableFactories()) {}
 
   /**
    * The current registry for the module factory

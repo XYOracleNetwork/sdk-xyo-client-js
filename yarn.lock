@@ -4919,6 +4919,7 @@ __metadata:
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/module-factory-locator": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -4958,6 +4959,7 @@ __metadata:
     "@xyo-network/diviner-temporal-indexing-model": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/module-factory-locator": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/payload-builder": "workspace:~"
@@ -5275,6 +5277,7 @@ __metadata:
     "@xyo-network/diviner-model": "workspace:~"
     "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/manifest-model": "workspace:~"
+    "@xyo-network/module-factory-locator": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
@@ -5364,6 +5367,33 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.9.1"
     "@xylabs/tsconfig": "npm:^3.9.1"
     "@xylabs/tsconfig-jest": "npm:^3.9.1"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/module-factory-locator@workspace:packages/modules/packages/module/packages/locator, @xyo-network/module-factory-locator@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/module-factory-locator@workspace:packages/modules/packages/module/packages/locator"
+  dependencies:
+    "@xylabs/assert": "npm:^3.1.10"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.9.1"
+    "@xylabs/tsconfig": "npm:^3.9.1"
+    "@xyo-network/archivist-memory": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-view": "workspace:~"
+    "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/diviner-identity": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/http-bridge": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/node-view": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/sentinel-memory": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/witness-adhoc": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -5478,7 +5508,7 @@ __metadata:
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/manifest": "workspace:~"
     "@xyo-network/module": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-factory-locator": "workspace:~"
     "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/node": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"

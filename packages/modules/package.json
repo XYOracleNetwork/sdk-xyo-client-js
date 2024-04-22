@@ -34,7 +34,7 @@
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
-    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/module-factory-locator": "workspace:~",
     "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
@@ -82,6 +82,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.98.2",
+  "version": "2.98.3",
   "type": "module"
 }

@@ -32,6 +32,7 @@
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
+    "@xyo-network/module-factory-locator": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "typescript": "^5.4.5"
   },
@@ -74,6 +75,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.98.2",
+  "version": "2.98.3",
   "type": "module"
 }

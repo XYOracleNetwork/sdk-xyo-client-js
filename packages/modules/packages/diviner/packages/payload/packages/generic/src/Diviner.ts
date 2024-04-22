@@ -44,7 +44,7 @@ export class GenericPayloadDiviner<
     return this.config.maxIndexSize ?? DEFAULT_MAX_INDEX_SIZE
   }
 
-  protected all(order: Order = 'asc', offset?: Hash) {
+  protected all(order: Order = 'desc', offset?: Hash) {
     return order === 'asc' ? this.allAsc(offset) : this.allDesc(offset)
   }
 

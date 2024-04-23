@@ -1,7 +1,7 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { PayloadDivinerParams } from '@xyo-network/diviner-payload-model'
-import { Payload } from '@xyo-network/payload-model'
+import { PayloadDivinerConfigSchema, PayloadDivinerParams } from '@xyo-network/diviner-payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export abstract class PayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
@@ -12,4 +12,7 @@ export abstract class PayloadDiviner<
     TIn,
     TOut
   >,
-> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {}
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
+  static override configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
+  static override defaultConfigSchema: Schema = PayloadDivinerConfigSchema
+}

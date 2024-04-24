@@ -21,8 +21,8 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   extends AbstractNode<TParams, TEventData>
   implements AttachableNodeInstance
 {
-  static override configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
-  static override defaultConfigSchema: Schema = NodeConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = NodeConfigSchema
 
   protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 

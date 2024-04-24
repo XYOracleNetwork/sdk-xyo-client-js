@@ -70,8 +70,8 @@ export class MemoryBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
 
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')

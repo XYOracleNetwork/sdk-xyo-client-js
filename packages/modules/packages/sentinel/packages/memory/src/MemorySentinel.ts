@@ -23,8 +23,8 @@ export class MemorySentinel<
   TParams extends MemorySentinelParams = MemorySentinelParams,
   TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
 > extends AbstractSentinel<TParams, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
-  static override defaultConfigSchema: Schema = SentinelConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
 
   private runner?: SentinelRunner
 

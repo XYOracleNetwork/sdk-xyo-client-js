@@ -13,6 +13,6 @@ export abstract class PayloadDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = PayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = PayloadDivinerConfigSchema
 }

@@ -27,8 +27,8 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbArchivistConfigSchema]
-  static override defaultConfigSchema: Schema = IndexedDbArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbArchivistConfigSchema
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'

@@ -22,8 +22,8 @@ export class ArchivistPayloadDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, ArchivistPayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = ArchivistPayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ArchivistPayloadDivinerConfigSchema
 
   protected async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const huriPayloads = assertEx(

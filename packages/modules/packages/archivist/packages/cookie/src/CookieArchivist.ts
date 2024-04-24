@@ -37,8 +37,8 @@ export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, CookieArchivistConfigSchema]
-  static override defaultConfigSchema: Schema = CookieArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, CookieArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = CookieArchivistConfigSchema
 
   get domain() {
     return this.config?.domain

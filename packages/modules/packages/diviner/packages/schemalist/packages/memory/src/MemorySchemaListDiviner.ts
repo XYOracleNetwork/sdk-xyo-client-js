@@ -15,8 +15,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = SchemaListDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SchemaListDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<string[]> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')

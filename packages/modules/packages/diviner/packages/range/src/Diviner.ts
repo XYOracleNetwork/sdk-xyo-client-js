@@ -25,8 +25,8 @@ export class RangeDiviner<TParams extends RangeDivinerParams = RangeDivinerParam
   RangePayload,
   NumberPayload | BigIntPayload
 > {
-  static override configSchemas: Schema[] = [...super.configSchemas, RangeDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = RangeDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, RangeDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = RangeDivinerConfigSchema
 
   get ranges() {
     return this.config.ranges

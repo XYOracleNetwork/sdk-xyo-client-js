@@ -43,8 +43,8 @@ export class IndexedDbPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbPayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = IndexedDbPayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbPayloadDivinerConfigSchema
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 

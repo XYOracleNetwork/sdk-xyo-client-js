@@ -29,9 +29,10 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
-  static labels: Labels = {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 

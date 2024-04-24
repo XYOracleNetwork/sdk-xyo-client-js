@@ -4,8 +4,8 @@ import { Schema } from '@xyo-network/payload-model'
 
 import { AttachableModuleInstance } from '../instance'
 
-export type CreatableModuleFactory<T extends AttachableModuleInstance = AttachableModuleInstance> = Omit<
-  Omit<CreatableModule<T>, 'new'>,
+export type CreatableModuleFactory<T extends AttachableModuleInstance | void = void> = Omit<
+  Omit<CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>, 'new'>,
   'create'
 > & {
   create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
@@ -29,6 +29,18 @@ export interface CreatableModule<T extends AttachableModuleInstance = Attachable
  */
 export function creatableModule<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
   return <U extends CreatableModule<TModule>>(constructor: U) => {
+    constructor
+  }
+}
+
+/**
+ * Class annotation to be used to decorate Modules which support
+ * an asynchronous creation factory pattern
+ * @returns The decorated Module requiring it implement the members
+ * of the CreatableModule as statics properties/methods
+ */
+export function creatableModuleFactory<TModule extends AttachableModuleInstance = AttachableModuleInstance>() {
+  return <U extends CreatableModuleFactory<TModule>>(constructor: U) => {
     constructor
   }
 }

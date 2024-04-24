@@ -41,8 +41,8 @@ export class FilesystemArchivist<TParams extends FilesystemArchivistParams = Fil
   extends AbstractArchivist<TParams>
   implements ArchivistInstance
 {
-  static override configSchemas: Schema[] = [...super.configSchemas, FilesystemArchivistConfigSchema]
-  static override defaultConfigSchema: Schema = FilesystemArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, FilesystemArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = FilesystemArchivistConfigSchema
 
   private _memoryArchivist?: MemoryArchivist
 

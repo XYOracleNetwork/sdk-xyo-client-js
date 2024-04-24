@@ -18,8 +18,8 @@ export class HashLeaseEstimateDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, HashLeaseEstimateDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = HashLeaseEstimateDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, HashLeaseEstimateDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = HashLeaseEstimateDivinerConfigSchema
   static override targetSchema = HashLeaseEstimateSchema
 
   protected override async divineHandler(_payloads: TIn[] = []): Promise<TOut[]> {

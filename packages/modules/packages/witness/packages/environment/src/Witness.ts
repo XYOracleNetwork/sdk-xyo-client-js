@@ -10,8 +10,8 @@ import { EnvironmentSubset, isEnvironmentSubsetPayload } from './Payload'
 const schema = ValueSchema
 
 export class EnvironmentWitness<P extends EnvironmentWitnessParams = EnvironmentWitnessParams> extends AbstractWitness<P> {
-  static override configSchemas: Schema[] = [...super.configSchemas, EnvironmentWitnessConfigSchema]
-  static override defaultConfigSchema: Schema = EnvironmentWitnessConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, EnvironmentWitnessConfigSchema]
+  static override readonly defaultConfigSchema: Schema = EnvironmentWitnessConfigSchema
   protected override observeHandler(payloads?: Payload[]): Payload[] {
     const subsets = payloads?.filter(isEnvironmentSubsetPayload) ?? [undefined]
     return subsets.map(getEnv)

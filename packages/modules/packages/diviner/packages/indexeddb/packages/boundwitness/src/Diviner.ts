@@ -33,8 +33,8 @@ export class IndexedDbBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas: Schema[] = [...super.configSchemas, IndexedDbBoundWitnessDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = IndexedDbBoundWitnessDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbBoundWitnessDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbBoundWitnessDivinerConfigSchema
 
   /**
    * The database name. If not supplied via config, it defaults

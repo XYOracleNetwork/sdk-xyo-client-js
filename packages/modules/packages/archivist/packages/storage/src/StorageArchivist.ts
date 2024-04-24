@@ -41,8 +41,8 @@ export class StorageArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance
 {
-  static override configSchemas: Schema[] = [...super.configSchemas, StorageArchivistConfigSchema]
-  static override defaultConfigSchema: Schema = StorageArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, StorageArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = StorageArchivistConfigSchema
 
   private _privateStorage: StoreBase | undefined
   private _storage: StoreBase | undefined

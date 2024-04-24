@@ -21,8 +21,8 @@ export class MemoryPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = PayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = PayloadDivinerConfigSchema
 
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')

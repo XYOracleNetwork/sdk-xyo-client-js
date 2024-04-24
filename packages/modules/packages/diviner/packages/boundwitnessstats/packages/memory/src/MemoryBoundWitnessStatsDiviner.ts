@@ -16,8 +16,8 @@ import { Payload, Schema } from '@xyo-network/payload-model'
 export class MemoryBoundWitnessStatsDiviner<
   TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,
 > extends BoundWitnessStatsDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, BoundWitnessStatsDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = BoundWitnessStatsDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessStatsDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = BoundWitnessStatsDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<number> {
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')

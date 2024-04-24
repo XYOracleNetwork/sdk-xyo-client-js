@@ -10,7 +10,14 @@ import {
   ArchivistNextQuerySchema,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { AnyConfigSchema, creatableModule, ModuleIdentifier, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
+import {
+  AnyConfigSchema,
+  labeledCreatableModuleFactory,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleLimitationViewLabel,
+  ModuleParams,
+} from '@xyo-network/module-model'
 import { PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 
 export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config'
@@ -25,7 +32,7 @@ export type ViewArchivistConfig = ArchivistConfig<
 
 export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistConfig> = AnyConfigSchema<ViewArchivistConfig>> = ModuleParams<TConfig>
 
-@creatableModule()
+@labeledCreatableModuleFactory()
 export class ViewArchivist<
     TParams extends ViewArchivistParams<AnyConfigSchema<ViewArchivistConfig>> = ViewArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
@@ -33,8 +40,9 @@ export class ViewArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance, ModuleInstance
 {
-  static override configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
-  static override defaultConfigSchema: Schema = ViewArchivistConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ViewArchivistConfigSchema
+  static override readonly labels = { ...ModuleLimitationViewLabel }
 
   private _originArchivistInstance?: ArchivistInstance
 

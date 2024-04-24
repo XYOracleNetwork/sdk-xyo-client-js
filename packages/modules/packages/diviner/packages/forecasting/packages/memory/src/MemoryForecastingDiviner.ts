@@ -29,8 +29,8 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
 export class MemoryForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
 > extends AbstractForecastingDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
 
   protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
     arimaForecasting: arimaForecastingMethod,

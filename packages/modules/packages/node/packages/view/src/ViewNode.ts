@@ -10,6 +10,7 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleLimitationViewLabel,
 } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
@@ -34,8 +35,9 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   extends MemoryNode<TParams, TEventData>
   implements AttachableNodeInstance
 {
-  static override configSchemas: Schema[] = [...super.configSchemas, ViewNodeConfigSchema]
-  static override defaultConfigSchema: Schema = ViewNodeConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewNodeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ViewNodeConfigSchema
+  static override readonly labels = { ...ModuleLimitationViewLabel }
 
   private _buildMutex = new Mutex()
   private _built = false

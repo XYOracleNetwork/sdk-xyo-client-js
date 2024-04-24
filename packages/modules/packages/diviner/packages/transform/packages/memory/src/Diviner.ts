@@ -26,8 +26,8 @@ export class MemoryTransformDiviner<
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
 > extends AbstractTransformDiviner<TParams, TIn, TOut> {
-  static override configSchemas: Schema[] = [...super.configSchemas, TransformDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = TransformDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TransformDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TransformDivinerConfigSchema
 
   protected override transformer(transform: Transform) {
     return getJsonPathTransformer<TIn, TOut>(transform)

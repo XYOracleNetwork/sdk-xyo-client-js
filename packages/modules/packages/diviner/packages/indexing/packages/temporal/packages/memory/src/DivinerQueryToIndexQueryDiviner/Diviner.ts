@@ -20,7 +20,8 @@ export class TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner<
 > extends AbstractDiviner<TParams> {
   static override readonly configSchemas = [...super.configSchemas, TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema]
   static override readonly defaultConfigSchema = TemporalIndexingDivinerDivinerQueryToIndexQueryDivinerConfigSchema
-  static labels: Labels = {
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'divinerQueryToIndexQueryDiviner',
   }
 

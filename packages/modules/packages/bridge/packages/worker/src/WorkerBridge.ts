@@ -46,8 +46,8 @@ export interface QueryResultMessage {
 
 @creatableModule()
 export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, WorkerBridgeConfigSchema]
-  static override defaultConfigSchema: Schema = WorkerBridgeConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, WorkerBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = WorkerBridgeConfigSchema
 
   private _discoverCache?: LRUCache<string, Payload[]>
   private _targetConfigs: Record<string, ModuleConfig> = {}

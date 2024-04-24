@@ -23,8 +23,8 @@ export class HuriPayloadDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, HuriPayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = HuriPayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, HuriPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = HuriPayloadDivinerConfigSchema
 
   protected get options() {
     return this.config?.options

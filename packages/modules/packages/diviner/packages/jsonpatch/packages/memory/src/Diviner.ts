@@ -17,8 +17,8 @@ export class JsonPatchDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, JsonPatchDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = JsonPatchDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, JsonPatchDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = JsonPatchDivinerConfigSchema
 
   protected get operations(): readonly Operation[] {
     return assertEx(this.config?.operations, () => 'JsonPatchDiviner: invalid operations')

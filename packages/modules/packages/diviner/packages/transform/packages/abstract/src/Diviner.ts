@@ -22,8 +22,8 @@ export abstract class AbstractTransformDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, TransformDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = TransformDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TransformDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TransformDivinerConfigSchema
 
   protected override divineHandler(payloads?: TIn[]): TOut[] {
     const transforms: Transform[] = []

@@ -8,6 +8,7 @@ import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-m
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AddressPreviousHashPayload,
+  AttachableModuleInstance,
   duplicateModules,
   ModuleEventData,
   ModuleFilter,
@@ -33,7 +34,7 @@ import { AbstractModule } from './AbstractModule'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements ModuleInstance<TParams, TEventData>, ModuleNameResolver
+  implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 

@@ -8,12 +8,13 @@ import { Payload, Schema } from '@xyo-network/payload-model'
  * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response
  */
 export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner extends AbstractDiviner {
-  static override configSchemas: Schema[] = [
+  static override readonly configSchemas: Schema[] = [
     ...super.configSchemas,
     TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema,
   ]
-  static override defaultConfigSchema: Schema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
-  static labels: Labels = {
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',
   }
 

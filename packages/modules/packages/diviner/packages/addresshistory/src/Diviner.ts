@@ -14,8 +14,8 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 // if multiple broken chains are found, all the heads are returned
 
 export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, AddressHistoryDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = AddressHistoryDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressHistoryDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = AddressHistoryDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, () => 'Missing address')

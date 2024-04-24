@@ -16,8 +16,8 @@ export class MemoryAddressSpaceDiviner<TParams extends AddressSpaceDivinerParams
   Payload,
   AddressPayload
 > {
-  static override configSchemas: Schema[] = [...super.configSchemas, AddressSpaceDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = AddressSpaceDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressSpaceDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = AddressSpaceDivinerConfigSchema
 
   protected override async divineHandler(payloads?: Payload[]) {
     assertEx(!payloads?.length, () => 'MemoryAddressSpaceDiviner.divine does not allow payloads to be sent')

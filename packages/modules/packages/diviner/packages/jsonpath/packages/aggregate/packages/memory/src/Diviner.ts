@@ -26,8 +26,8 @@ export class JsonPathAggregateDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, JsonPathAggregateDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = JsonPathAggregateDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, JsonPathAggregateDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = JsonPathAggregateDivinerConfigSchema
 
   protected _transforms: PayloadTransformer[] | undefined
 

@@ -1,9 +1,12 @@
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { ViewArchivist } from '@xyo-network/archivist-view'
-import { BridgeConfigSchema } from '@xyo-network/bridge-model'
+import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
+import { BoundWitnessDivinerConfigSchema } from '@xyo-network/diviner-boundwitness-model'
 import { IdentityDiviner } from '@xyo-network/diviner-identity'
 import { DivinerConfigSchema } from '@xyo-network/diviner-model'
+import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
+import { PayloadDivinerConfigSchema } from '@xyo-network/diviner-payload-model'
 import { HttpBridge } from '@xyo-network/http-bridge'
 import {
   CreatableModuleFactory,
@@ -21,13 +24,15 @@ import { WitnessConfigSchema } from '@xyo-network/witness-model'
 
 export const standardCreatableFactoriesList: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] = [
   MemoryArchivist,
-  HttpBridge,
-  MemoryArchivist,
   MemoryNode,
   MemorySentinel,
+  MemoryPayloadDiviner,
+  MemoryBoundWitnessDiviner,
   ViewArchivist,
   ViewNode,
+  HttpBridge,
   AdhocWitness,
+  IdentityDiviner,
 ]
 
 export const standardCreatableFactories = () => {
@@ -35,8 +40,9 @@ export const standardCreatableFactories = () => {
   registerPrimaryCreatableModuleFactory(registry, MemoryNode, NodeConfigSchema)
   registerPrimaryCreatableModuleFactory(registry, MemoryArchivist, ArchivistConfigSchema)
   registerPrimaryCreatableModuleFactory(registry, MemorySentinel, SentinelConfigSchema)
+  registerPrimaryCreatableModuleFactory(registry, MemoryPayloadDiviner, PayloadDivinerConfigSchema)
+  registerPrimaryCreatableModuleFactory(registry, MemoryBoundWitnessDiviner, BoundWitnessDivinerConfigSchema)
   registerPrimaryCreatableModuleFactory(registry, AdhocWitness, WitnessConfigSchema)
   registerPrimaryCreatableModuleFactory(registry, IdentityDiviner, DivinerConfigSchema)
-  registerPrimaryCreatableModuleFactory(registry, HttpBridge, BridgeConfigSchema)
   return registry
 }

@@ -28,8 +28,8 @@ export abstract class AbstractForecastingDiviner<
     TOut
   >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
 
   protected abstract get forecastingMethod(): ForecastingMethod
   protected abstract get transformer(): PayloadValueTransformer

@@ -14,8 +14,8 @@ export type WebsocketBridgeParams<TConfig extends AnyConfigSchema<WebsocketBridg
 
 @creatableModule()
 export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
-  static override defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
   static maxPayloadSizeWarning = 256 * 256
 
   private _resolver?: WebsocketBridgeModuleResolver

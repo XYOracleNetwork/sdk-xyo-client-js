@@ -16,8 +16,8 @@ export type MemoryAddressChainDivinerParams = DivinerParams<AnyConfigSchema<Addr
 export class MemoryAddressChainDiviner<
   TParams extends MemoryAddressChainDivinerParams = MemoryAddressChainDivinerParams,
 > extends AddressChainDiviner<TParams> {
-  static override configSchemas: Schema[] = [...super.configSchemas, AddressChainDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = AddressChainDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressChainDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = AddressChainDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, () => 'Missing address')

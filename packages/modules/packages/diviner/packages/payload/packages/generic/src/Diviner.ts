@@ -27,8 +27,8 @@ export class GenericPayloadDiviner<
     TOut
   >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
-  static override defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
   protected payloadPairs: [WithMeta<TOut>, Hash][] = []
 

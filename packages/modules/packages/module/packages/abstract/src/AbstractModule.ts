@@ -26,6 +26,8 @@ import {
   CreatableModuleFactory,
   DeadModuleError,
   isModuleName,
+  LabeledCreatableModuleFactory,
+  Labels,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
@@ -68,6 +70,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   static readonly defaultConfigSchema: Schema = ModuleConfigSchema
   static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
+  static readonly labels: Labels = {}
   static override readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
 
   protected static privateConstructorKey = Date.now().toString()

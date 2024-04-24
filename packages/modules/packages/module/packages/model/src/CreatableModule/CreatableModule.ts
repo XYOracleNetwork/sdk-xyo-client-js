@@ -5,8 +5,8 @@ import { Schema } from '@xyo-network/payload-model'
 import { AttachableModuleInstance } from '../instance'
 
 export type CreatableModuleFactory<T extends AttachableModuleInstance | void = void> = Omit<
-  Omit<CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>, 'new'>,
-  'create'
+  CreatableModule<T extends AttachableModuleInstance ? T : AttachableModuleInstance>,
+  'new' | 'create'
 > & {
   create<T extends AttachableModuleInstance>(this: CreatableModuleFactory<T>, params?: T['params']): Promise<T>
 }

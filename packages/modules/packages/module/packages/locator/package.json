@@ -22,7 +22,6 @@
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/node-view": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/sentinel-memory": "workspace:~",
     "@xyo-network/sentinel-model": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",

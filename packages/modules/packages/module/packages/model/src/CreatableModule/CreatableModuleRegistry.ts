@@ -1,20 +1,43 @@
 import { Schema } from '@xyo-network/payload-model'
 
+import { AttachableModuleInstance } from '../instance'
+import { Labels } from '../Labels'
 import { CreatableModuleFactory } from './CreatableModule'
 import { LabeledCreatableModuleFactory } from './LabeledCreatableModuleFactory'
 
 export interface CreatableModuleRegistry {
-  [key: string]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined
+  [key: Schema]: (CreatableModuleFactory | LabeledCreatableModuleFactory)[] | undefined
 }
 
-export const registerCreatableModuleFactory = (
+const buildModuleFactory = <TModule extends AttachableModuleInstance>(
+  mod: CreatableModuleFactory<TModule>,
+  labels?: Labels,
+): LabeledCreatableModuleFactory<TModule> => {
+  const factory: LabeledCreatableModuleFactory<TModule> = {
+    // Destructure instance properties
+    ...mod,
+
+    configSchemas: mod.configSchemas,
+    // Copy static methods
+    create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
+
+    defaultConfigSchema: mod.defaultConfigSchema,
+    // Merge module & supplied labels
+    labels: { ...(mod as LabeledCreatableModuleFactory).labels, ...labels },
+  }
+  return factory
+}
+
+export const registerCreatableModuleFactory = <TModule extends AttachableModuleInstance>(
   registry: CreatableModuleRegistry,
-  factory: CreatableModuleFactory | LabeledCreatableModuleFactory,
+  factory: CreatableModuleFactory<TModule> | LabeledCreatableModuleFactory<TModule>,
+  labels?: Labels,
 ) => {
+  const factoryClone: LabeledCreatableModuleFactory<TModule> = buildModuleFactory(factory, labels)
   //add the defaultConfigSchema as the first key in the registry
-  registry[factory.defaultConfigSchema] = [factory, ...(registry[factory.defaultConfigSchema] ?? [])]
-  for (const schema of factory.configSchemas) {
-    registry[schema] = [...(registry[schema] ?? []), factory]
+  registry[factory.defaultConfigSchema] = [factoryClone, ...(registry[factoryClone.defaultConfigSchema] ?? [])]
+  for (const schema of factoryClone.configSchemas) {
+    registry[schema] = [...(registry[schema] ?? []), factoryClone]
   }
 }
 
@@ -22,8 +45,10 @@ export const registerPrimaryCreatableModuleFactory = (
   registry: CreatableModuleRegistry,
   factory: CreatableModuleFactory | LabeledCreatableModuleFactory,
   configSchema: Schema,
+  labels?: Labels,
 ) => {
-  registry[configSchema] = [factory, ...(registry[configSchema] ?? [])]
+  const factoryClone = buildModuleFactory(factory, labels)
+  registry[configSchema] = [factoryClone, ...(registry[configSchema] ?? [])]
 }
 
 export const registerCreatableModuleFactories = (

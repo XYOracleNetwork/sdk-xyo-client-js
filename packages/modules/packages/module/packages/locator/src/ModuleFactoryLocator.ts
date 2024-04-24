@@ -1,12 +1,13 @@
 import { assertEx } from '@xylabs/assert'
 import {
-  AttachableModuleInstance,
   CreatableModuleFactory,
   CreatableModuleRegistry,
   hasAllLabels,
   hasLabels,
   LabeledCreatableModuleFactory,
   Labels,
+  registerCreatableModuleFactory,
+  registerPrimaryCreatableModuleFactory,
 } from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
 
@@ -40,47 +41,34 @@ export class ModuleFactoryLocator {
 
   /**
    * Registers a single module factory (with optional tags) with the locator
-   * @param additional Additional module factories to register
+   * @param factory The factory to register
+   * @param labels The labels for the module factory
    */
-  register(mod: CreatableModuleFactory, labels?: Labels): this {
-    this.registerOne(mod, mod.defaultConfigSchema, labels, true)
-    mod.configSchemas.map((schema) => {
-      this.registerOne(mod, schema, labels, false)
-    })
+  register(factory: CreatableModuleFactory, labels?: Labels): this {
+    registerCreatableModuleFactory(this._registry, factory, labels)
+    registerPrimaryCreatableModuleFactory(this._registry, factory, factory.defaultConfigSchema, labels)
     return this
   }
 
   /**
    * Registers multiple module factories with the locator
-   * @param additional Additional module factories to register
+   * @param factories The factories to register
    */
-  registerMany(mods: CreatableModuleFactory[]): this {
-    for (const mod of mods) {
-      this.register(mod)
+  registerMany(factories: CreatableModuleFactory[]): this {
+    for (const factory of factories) {
+      this.register(factory)
     }
     return this
   }
 
   /**
-   * Registers a single module factory (with optional tags) with the locator & a specific schema
-   * @param additional Additional module factories to register
+   * Registers a single module factory as the primary (default) factory for a config schema
+   * @param factory The factory to register
+   * @param schema The config schema to make the factory the primary of
+   * @param labels The labels for the module factory
    */
-  registerOne<TModule extends AttachableModuleInstance>(
-    mod: CreatableModuleFactory<TModule>,
-    schema: Schema,
-    labels?: Labels,
-    primary = false,
-  ): this {
-    const existingFactories = this._registry[schema]
-    const factory: LabeledCreatableModuleFactory<TModule> = {
-      // Destructure instance properties
-      ...mod,
-      // Copy static methods
-      create: mod.create.bind(mod) as LabeledCreatableModuleFactory<TModule>['create'],
-      // Merge module & supplied labels
-      labels: Object.assign({}, (mod as LabeledCreatableModuleFactory).labels ?? {}, labels ?? {}),
-    }
-    this._registry[schema] = primary ? [factory, ...(existingFactories ?? [])] : [...(existingFactories ?? []), factory]
+  registerPrimary(factory: CreatableModuleFactory, schema: Schema, labels?: Labels): this {
+    registerPrimaryCreatableModuleFactory(this._registry, factory, schema, labels)
     return this
   }
 

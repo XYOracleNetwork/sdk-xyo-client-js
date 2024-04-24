@@ -26,7 +26,6 @@ import {
   CreatableModuleFactory,
   DeadModuleError,
   isModuleName,
-  LabeledCreatableModuleFactory,
   Labels,
   Module,
   ModuleAddressQuerySchema,

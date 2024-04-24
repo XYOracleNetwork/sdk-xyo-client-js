@@ -41,8 +41,6 @@
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/diviner-boundwitness-memory": "workspace:~",
-    "@xyo-network/diviner-payload-memory": "workspace:~",
     "@xyo-network/manifest": "workspace:~",
     "@xyo-network/module-factory-locator": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",

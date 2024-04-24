@@ -8,14 +8,12 @@ import { NodeInstance } from '@xyo-network/node-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { standardCreatableFactories } from './standardCreatableFactories'
-
 /** Provides functionality that can be performed on a PackageManifest */
 export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   constructor(
     payload: PackageManifestPayload,
     protected readonly wallet: WalletInstance,
-    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(standardCreatableFactories()),
+    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
     protected readonly publicChildren: PackageManifestPayload[] = [],
     protected readonly privateChildren: PackageManifestPayload[] = [],
     protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],

@@ -32,31 +32,41 @@ export const registerCreatableModuleFactory = <TModule extends AttachableModuleI
   registry: CreatableModuleRegistry,
   factory: CreatableModuleFactory<TModule> | LabeledCreatableModuleFactory<TModule>,
   labels?: Labels,
+  /** register this as the primary factory for every schema it supports */
+  primary: boolean | Schema | Schema[] = false,
 ) => {
+  const isPrimaryForSchema = (schema: Schema) => {
+    switch (typeof primary) {
+      case 'boolean': {
+        return primary
+      }
+      case 'string': {
+        return schema === primary
+      }
+      case 'object': {
+        if (Array.isArray(primary)) {
+          return primary.includes(schema)
+        }
+      }
+    }
+    throw new Error(`Invalid primary value: ${primary}`)
+  }
+
   const factoryClone: LabeledCreatableModuleFactory<TModule> = buildModuleFactory(factory, labels)
   //add the defaultConfigSchema as the first key in the registry
   registry[factory.defaultConfigSchema] = [factoryClone, ...(registry[factoryClone.defaultConfigSchema] ?? [])]
   for (const schema of factoryClone.configSchemas) {
-    registry[schema] = [...(registry[schema] ?? []), factoryClone]
+    registry[schema] = isPrimaryForSchema(schema) ? [factoryClone, ...(registry[schema] ?? [])] : [...(registry[schema] ?? []), factoryClone]
   }
-}
-
-export const registerPrimaryCreatableModuleFactory = (
-  registry: CreatableModuleRegistry,
-  factory: CreatableModuleFactory | LabeledCreatableModuleFactory,
-  configSchema: Schema,
-  labels?: Labels,
-) => {
-  const factoryClone = buildModuleFactory(factory, labels)
-  registry[configSchema] = [factoryClone, ...(registry[configSchema] ?? [])]
 }
 
 export const registerCreatableModuleFactories = (
   factories: (CreatableModuleFactory | LabeledCreatableModuleFactory)[],
   registry: CreatableModuleRegistry = {},
+  primary = false,
 ) => {
   for (const factory of factories) {
-    registerCreatableModuleFactory(registry, factory)
+    registerCreatableModuleFactory(registry, factory, undefined, primary)
   }
   return registry
 }

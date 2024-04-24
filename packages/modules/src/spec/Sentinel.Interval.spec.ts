@@ -1,17 +1,14 @@
 import { delay } from '@xylabs/delay'
 import { HDWallet } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { JsonPatchDiviner } from '@xyo-network/diviner-jsonpatch-memory'
 import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { JsonPathDiviner } from '@xyo-network/diviner-jsonpath-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { WithMeta } from '@xyo-network/payload-model'
-import { AdhocWitness } from '@xyo-network/witness-adhoc'
 
 import SentinelManifest from './Sentinel.Interval.spec.json'
 
@@ -26,13 +23,10 @@ describe('Sentinel.Interval', () => {
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator(standardCreatableFactories())
-    locator.register(MemoryBoundWitnessDiviner)
-    locator.register(MemoryPayloadDiviner)
+    const locator = new ModuleFactoryLocator()
     locator.register(JsonPatchDiviner)
     locator.register(JsonPathDiviner)
     locator.register(JsonPathAggregateDiviner)
-    locator.register(AdhocWitness)
     const manifest = SentinelManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)

@@ -7,7 +7,6 @@ import {
   LabeledCreatableModuleFactory,
   Labels,
   registerCreatableModuleFactory,
-  registerPrimaryCreatableModuleFactory,
 } from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
 
@@ -44,9 +43,8 @@ export class ModuleFactoryLocator {
    * @param factory The factory to register
    * @param labels The labels for the module factory
    */
-  register(factory: CreatableModuleFactory, labels?: Labels): this {
-    registerCreatableModuleFactory(this._registry, factory, labels)
-    registerPrimaryCreatableModuleFactory(this._registry, factory, factory.defaultConfigSchema, labels)
+  register(factory: CreatableModuleFactory, labels?: Labels, primary: boolean | Schema | Schema[] = false): this {
+    registerCreatableModuleFactory(this._registry, factory, labels, primary)
     return this
   }
 
@@ -58,17 +56,6 @@ export class ModuleFactoryLocator {
     for (const factory of factories) {
       this.register(factory)
     }
-    return this
-  }
-
-  /**
-   * Registers a single module factory as the primary (default) factory for a config schema
-   * @param factory The factory to register
-   * @param schema The config schema to make the factory the primary of
-   * @param labels The labels for the module factory
-   */
-  registerPrimary(factory: CreatableModuleFactory, schema: Schema, labels?: Labels): this {
-    registerPrimaryCreatableModuleFactory(this._registry, factory, schema, labels)
     return this
   }
 

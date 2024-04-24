@@ -3,11 +3,9 @@ import { HDWallet } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
-import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
-import { ManifestWrapper, PackageManifest, standardCreatableFactories } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -62,10 +60,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
 
   beforeAll(async () => {
     const wallet = await HDWallet.random()
-    const locator = new ModuleFactoryLocator(standardCreatableFactories())
-    locator.register(MemoryArchivist)
-    locator.register(MemoryBoundWitnessDiviner)
-    locator.register(MemoryPayloadDiviner)
+    const locator = new ModuleFactoryLocator()
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
     const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifest
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)

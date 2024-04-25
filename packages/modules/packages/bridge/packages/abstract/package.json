@@ -10,12 +10,12 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.1.10",
-    "@xylabs/exists": "^3.1.10",
-    "@xylabs/hex": "^3.1.10",
-    "@xylabs/lodash": "^3.1.10",
-    "@xylabs/object": "^3.1.10",
-    "@xylabs/promise": "^3.1.10",
+    "@xylabs/assert": "^3.1.11",
+    "@xylabs/exists": "^3.1.11",
+    "@xylabs/hex": "^3.1.11",
+    "@xylabs/lodash": "^3.1.11",
+    "@xylabs/object": "^3.1.11",
+    "@xylabs/promise": "^3.1.11",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
@@ -40,7 +40,7 @@
     "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
     "@xyo-network/witness-wrapper": "workspace:~",
-    "lru-cache": "^10.2.0"
+    "lru-cache": "^10.2.1"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.9.1",
@@ -86,6 +86,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.0",
+  "version": "2.99.1",
   "type": "module"
 }

@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.1.10",
+    "@xylabs/assert": "^3.1.11",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-view": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
@@ -69,6 +69,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.0",
+  "version": "2.99.1",
   "type": "module"
 }

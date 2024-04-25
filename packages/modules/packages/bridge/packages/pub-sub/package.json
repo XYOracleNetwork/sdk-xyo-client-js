@@ -10,15 +10,15 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/array": "^3.1.10",
-    "@xylabs/assert": "^3.1.10",
-    "@xylabs/delay": "^3.1.10",
-    "@xylabs/exists": "^3.1.10",
-    "@xylabs/forget": "^3.1.10",
-    "@xylabs/hex": "^3.1.10",
-    "@xylabs/object": "^3.1.10",
-    "@xylabs/promise": "^3.1.10",
-    "@xylabs/timer": "^3.1.10",
+    "@xylabs/array": "^3.1.11",
+    "@xylabs/assert": "^3.1.11",
+    "@xylabs/delay": "^3.1.11",
+    "@xylabs/exists": "^3.1.11",
+    "@xylabs/forget": "^3.1.11",
+    "@xylabs/hex": "^3.1.11",
+    "@xylabs/object": "^3.1.11",
+    "@xylabs/promise": "^3.1.11",
+    "@xylabs/timer": "^3.1.11",
     "@xyo-network/abstract-bridge": "workspace:~",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
@@ -33,10 +33,10 @@
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "async-mutex": "^0.5.0",
-    "lru-cache": "^10.2.0"
+    "lru-cache": "^10.2.1"
   },
   "devDependencies": {
-    "@xylabs/logger": "^3.1.10",
+    "@xylabs/logger": "^3.1.11",
     "@xylabs/ts-scripts-yarn3": "^3.9.1",
     "@xylabs/tsconfig": "^3.9.1",
     "@xyo-network/archivist-memory": "workspace:~",
@@ -86,6 +86,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.0",
+  "version": "2.99.1",
   "type": "module"
 }

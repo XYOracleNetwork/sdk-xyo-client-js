@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.1.10",
-    "@xylabs/lodash": "^3.1.10",
+    "@xylabs/hex": "^3.1.11",
+    "@xylabs/lodash": "^3.1.11",
     "@xyo-network/key-model": "workspace:~",
     "@xyo-network/previous-hash-store-model": "workspace:~"
   },
@@ -68,6 +68,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.0",
+  "version": "2.99.1",
   "type": "module"
 }

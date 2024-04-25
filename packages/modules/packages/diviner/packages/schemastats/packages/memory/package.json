@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.1.10",
-    "@xylabs/hex": "^3.1.10",
+    "@xylabs/assert": "^3.1.11",
+    "@xylabs/hex": "^3.1.11",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/diviner-schema-stats-abstract": "workspace:~",
     "@xyo-network/diviner-schema-stats-model": "workspace:~",
@@ -62,6 +62,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.0",
+  "version": "2.99.1",
   "type": "module"
 }

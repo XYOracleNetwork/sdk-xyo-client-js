@@ -1,3 +1,6 @@
+export const DappPackageManifestPayloadSchema = 'network.xyo.dapp.manifest.package'
+export type DappPackageManifestPayloadSchema = typeof DappPackageManifestPayloadSchema
+
 export type PackageManifestPayloadSchema = 'network.xyo.manifest.package'
 export const PackageManifestPayloadSchema: PackageManifestPayloadSchema = 'network.xyo.manifest.package'
 

@@ -28,7 +28,7 @@ export class MemoryPayloadDiviner<
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
     const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
-    const { schemas, limit, offset, hash, order, ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
+    const { schemas, limit, offset, hash, order = 'desc', ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()
@@ -64,9 +64,9 @@ export class MemoryPayloadDiviner<
                 allPairs.shift()
               }
             }
-            return allPairs.map(([payload]) => payload)
+            return allPairs.map(([payload]) => payload).slice(parsedOffset, parsedOffset + parsedLimit)
           })()
-        : all.slice(parsedOffset, parsedLimit)
+        : all.slice(parsedOffset, parsedOffset + parsedLimit)
     } else {
       throw new Error('Archivist does not support "all"')
     }

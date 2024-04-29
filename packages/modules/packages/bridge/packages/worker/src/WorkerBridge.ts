@@ -60,7 +60,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
-    const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
+    const discoverCacheConfig: CacheConfig | undefined = {}
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 

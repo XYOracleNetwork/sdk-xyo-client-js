@@ -16,7 +16,7 @@
     "@xyo-network/diviner-jsonpatch-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
-    "json-joy": "^12.6.0",
+    "json-joy": "^15.8.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

@@ -1,13 +1,19 @@
+import { Address } from '@xylabs/hex'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
-import { io as Client } from 'socket.io-client'
+
+export interface WebsocketBridgeQuerySender {
+  sendBridgeQuery: <TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
+    targetAddress: Address,
+    query: TQuery,
+    payloads?: TIn[],
+  ) => Promise<ModuleQueryResult<TOut>>
+}
 
 export type WebsocketModuleProxyParams = ModuleProxyParams & {
-  client?: typeof Client
-  maxPayloadSizeWarning?: number
-  moduleUrl: string
+  querySender: WebsocketBridgeQuerySender
 }
 
 export class WebsocketModuleProxy<
@@ -19,15 +25,17 @@ export class WebsocketModuleProxy<
   extends AbstractModuleProxy<TWrappedModule, TParams>
   implements ModuleInstance<TParams, TWrappedModule['eventData']>
 {
-  async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    const { maxPayloadSizeWarning } = this.params
-    const payloadSize = JSON.stringify([query, payloads]).length
-    if (maxPayloadSizeWarning && payloadSize > maxPayloadSizeWarning) {
-      this.logger?.warn(
-        `Large targetQuery being sent: ${payloadSize} bytes [${this.address}][${this.moduleAddress}] [${query.schema}] [${payloads?.length}]`,
-      )
+  static createCount = 0
+
+  constructor(params: TParams) {
+    WebsocketModuleProxy.createCount = WebsocketModuleProxy.createCount + 1
+    if (Math.floor(WebsocketModuleProxy.createCount / 10) === WebsocketModuleProxy.createCount / 10) {
+      console.log(`WebsocketModuleProxy.createCount: ${WebsocketModuleProxy.createCount}`)
     }
-    await Promise.resolve()
-    throw new Error('Unsupported')
+    super(params)
+  }
+
+  async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
+    return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
   }
 }

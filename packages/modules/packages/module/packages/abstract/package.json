@@ -34,7 +34,7 @@
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~",
-    "lru-cache": "^10.2.1"
+    "lru-cache": "^10.2.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.9.1",

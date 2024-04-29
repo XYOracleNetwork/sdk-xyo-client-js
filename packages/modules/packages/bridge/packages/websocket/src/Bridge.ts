@@ -1,36 +1,36 @@
+import { createServer as createHttpServer, Server as HttpServer } from 'node:http'
+
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
-import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
+import { BridgeExposeOptions, BridgeModule } from '@xyo-network/bridge-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance } from '@xyo-network/module-model'
-import { Schema } from '@xyo-network/payload-model'
+import { Payload } from '@xyo-network/payload-model'
+import { Server, Socket } from 'socket.io'
 
-import { WebsocketBridgeConfig, WebsocketBridgeConfigSchema } from './Config'
-import { WebsocketBridgeModuleResolver } from './ModuleResolver'
+import { WebsocketClientBridge } from './ClientBridge'
+import { WebsocketBridgeConfig } from './Config'
+import { WebsocketBridgeParams } from './Params'
 
-export type WebsocketBridgeParams<TConfig extends AnyConfigSchema<WebsocketBridgeConfig> = AnyConfigSchema<WebsocketBridgeConfig>> =
-  BridgeParams<TConfig>
+export const BridgeCommands = {
+  join: 'join',
+  query: 'query',
+}
+
+const DEFAULT_HOST_PORT = 8080
 
 @creatableModule()
-export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override readonly configSchemas: Schema[] = [...super.configSchemas, WebsocketBridgeConfigSchema]
-  static override readonly defaultConfigSchema: Schema = WebsocketBridgeConfigSchema
-  static maxPayloadSizeWarning = 256 * 256
+export class WebsocketBridge<
+    TParams extends WebsocketBridgeParams<AnyConfigSchema<WebsocketBridgeConfig>> = WebsocketBridgeParams<WebsocketBridgeConfig>,
+  >
+  extends WebsocketClientBridge<TParams>
+  implements BridgeModule<TParams>
+{
+  httpServer?: HttpServer
+  server?: Server
 
-  private _resolver?: WebsocketBridgeModuleResolver
-
-  override get resolver() {
-    this._resolver = this._resolver ?? new WebsocketBridgeModuleResolver({ bridge: this, root: this, url: this.url, wrapperAccount: this.account })
-    return this._resolver
-  }
-
-  get url() {
-    return assertEx(this.config.url, () => 'No Url Set')
-  }
-
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    return await Promise.resolve([])
+  get host() {
+    return this.config.host
   }
 
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
@@ -42,14 +42,47 @@ export class WebsocketBridge<TParams extends WebsocketBridgeParams> extends Abst
   }
 
   override async startHandler(): Promise<boolean> {
-    const { discoverRoot = true } = this.config
-    if (discoverRoot) {
-      await this.discoverRoots()
+    if (this.host) {
+      this.startServer()
     }
-    return true
+    return await super.startHandler()
   }
 
-  override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
-    throw new Error('Unsupported')
+  override async stopHandler(): Promise<boolean> {
+    if (this.host) {
+      this.stopServer()
+    }
+    return await super.stopHandler()
+  }
+
+  private startServer() {
+    if (this.httpServer) {
+      throw new Error('Http Server already started')
+    }
+    if (this.server) {
+      throw new Error('Socket Server already started')
+    }
+    const host = assertEx(this.host, () => 'No Host Configured')
+    this.httpServer = createHttpServer()
+    this.server = new Server(this.httpServer)
+
+    this.server.on('connection', (socket: Socket) => {
+      socket.on(BridgeCommands.join, async (address: Address) => {
+        await socket.join(address)
+        console.log(`User ${socket.id} has connected to module ${address}`)
+      })
+
+      socket.on(BridgeCommands.query, ({ address, query }: { address: Address; query: Payload[] }) => {
+        socket.to(address).emit('message', query)
+      })
+    })
+    this.httpServer.listen(host.port ?? DEFAULT_HOST_PORT)
+  }
+
+  private stopServer() {
+    this.server?.close()
+    this.server = undefined
+    this.httpServer?.close()
+    this.httpServer = undefined
   }
 }

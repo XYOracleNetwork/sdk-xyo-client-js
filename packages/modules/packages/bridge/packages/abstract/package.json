@@ -40,7 +40,7 @@
     "@xyo-network/sentinel-wrapper": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
     "@xyo-network/witness-wrapper": "workspace:~",
-    "lru-cache": "^10.2.1"
+    "lru-cache": "^10.2.2"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.9.1",

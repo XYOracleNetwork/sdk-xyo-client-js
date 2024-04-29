@@ -42,12 +42,12 @@
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.cts",
-          "default": "./dist/browser/index.cjs"
+          "types": "./dist/browser/index-browser.d.cts",
+          "default": "./dist/browser/index-browser.cjs"
         },
         "import": {
-          "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "types": "./dist/browser/index-browser.d.mts",
+          "default": "./dist/browser/index-browser.js"
         }
       },
       "node": {

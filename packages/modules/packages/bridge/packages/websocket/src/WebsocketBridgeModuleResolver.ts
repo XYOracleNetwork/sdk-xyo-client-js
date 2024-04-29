@@ -3,19 +3,27 @@ import { Address, isAddress } from '@xylabs/hex'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleConfig,
+  ModuleConfigSchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 
-import { WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy'
+import { WebsocketBridgeQuerySender, WebsocketModuleProxy, WebsocketModuleProxyParams } from './ModuleProxy'
 
-export interface WebsocketBridgeModuleResolverOptions extends BridgeModuleResolverParams {
-  url: string
+export interface WebsocketBridgeModuleResolverParams extends BridgeModuleResolverParams {
+  querySender: WebsocketBridgeQuerySender
 }
 
 export class WebsocketBridgeModuleResolver<
-  T extends WebsocketBridgeModuleResolverOptions = WebsocketBridgeModuleResolverOptions,
+  T extends WebsocketBridgeModuleResolverParams = WebsocketBridgeModuleResolverParams,
 > extends AbstractBridgeModuleResolver<T> {
-  moduleUrl(address: Address) {
-    return new URL(address, this.params.url)
+  get querySender() {
+    return this.params.querySender
   }
 
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
@@ -30,7 +38,8 @@ export class WebsocketBridgeModuleResolver<
       return []
     }
     const idParts = id.split(':')
-    const firstPart = assertEx(idParts.shift(), () => 'Missing firstPart')
+    const untransformedFirstPart = assertEx(idParts.shift(), () => `Invalid module identifier: ${id}`)
+    const firstPart = await ResolveHelper.transformModuleIdentifier(untransformedFirstPart)
     const moduleAddress = firstPart as Address
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
@@ -39,10 +48,10 @@ export class WebsocketBridgeModuleResolver<
       config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress,
-      moduleUrl: this.moduleUrl(moduleAddress).href,
+      querySender: this.querySender,
     }
 
-    //console.log(`creating WebsocketProxy [${moduleAddress}] ${id}`)
+    this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
     const proxy = new WebsocketModuleProxy<T, WebsocketModuleProxyParams>(params)
     //calling state here to get the config
@@ -61,9 +70,9 @@ export class WebsocketBridgeModuleResolver<
     await proxy.start()
 
     const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
-    const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
-    proxy.upResolver.add(as)
-    proxy.downResolver.add(as)
+    const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+    proxy.upResolver.add(instance)
+    proxy.downResolver.add(instance)
 
     if (remainderParts.length > 0) {
       const result = await wrapped.resolve<T>(remainderParts, options)
@@ -71,6 +80,6 @@ export class WebsocketBridgeModuleResolver<
     }
 
     //console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
-    return as
+    return instance
   }
 }

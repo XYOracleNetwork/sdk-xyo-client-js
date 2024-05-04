@@ -6,12 +6,12 @@ import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plug
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
+  AttachableBridgeInstance,
   BridgeConfigSchema,
   BridgeConnectQuerySchema,
   BridgeDisconnectQuerySchema,
   BridgeExposeOptions,
   BridgeExposeQuerySchema,
-  BridgeInstance,
   BridgeModuleEventData,
   BridgeParams,
   BridgeQueries,
@@ -35,7 +35,7 @@ import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-mod
 
 export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams>
   extends AbstractModuleInstance<TParams, BridgeModuleEventData>
-  implements BridgeInstance<TParams, BridgeModuleEventData>
+  implements AttachableBridgeInstance<TParams, BridgeModuleEventData>
 {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, BridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = BridgeConfigSchema

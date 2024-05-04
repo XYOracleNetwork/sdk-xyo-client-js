@@ -28,7 +28,6 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
     }
 
     assertEx(isModuleName(manifest.config.name), () => `Invalid Module Name: ${manifest.config.name}`)
-
     assertEx(!(await collision(node, manifest.config.name, external)), () => `Node name collision [${manifest.config.name}]`)
 
     if (!(await collision(node, manifest.config.name, external))) {

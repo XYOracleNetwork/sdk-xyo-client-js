@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/assert": "^3.1.11",
+    "@xylabs/assert": "^3.3.2",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-factory-locator": "workspace:~",
@@ -22,9 +22,9 @@
     "@xyo-network/wallet-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/object": "^3.1.11",
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
+    "@xylabs/object": "^3.3.2",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "typescript": "^5.4.5",
     "typescript-json-schema": "^0.63.0"
@@ -73,6 +73,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

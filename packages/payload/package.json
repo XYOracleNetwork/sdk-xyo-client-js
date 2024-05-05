@@ -20,8 +20,8 @@
     "@xyo-network/value-payload-plugin": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
     "typescript": "^5.4.5"
   },
   "description": "Typescript/Javascript Plugins for XYO Platform",
@@ -63,6 +63,6 @@
     "url": "https://github.com/XYOracleNetwork/plugins.git"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

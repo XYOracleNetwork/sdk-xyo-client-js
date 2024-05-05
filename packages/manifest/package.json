@@ -14,9 +14,9 @@
     "@xyo-network/manifest-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
-    "ajv": "^8.12.0",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
+    "ajv": "^8.13.0",
     "typescript": "^5.4.5"
   },
   "types": "dist/node/index.d.ts",
@@ -61,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

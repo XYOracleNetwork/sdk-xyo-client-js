@@ -12,14 +12,14 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
     "@scure/base": "^1.1.6",
-    "@xylabs/arraybuffer": "^3.1.11",
-    "@xylabs/assert": "^3.1.11",
-    "@xylabs/hex": "^3.1.11",
-    "ethers": "6.12.0"
+    "@xylabs/arraybuffer": "^3.3.2",
+    "@xylabs/assert": "^3.3.2",
+    "@xylabs/hex": "^3.3.2",
+    "ethers": "6.12.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
     "typescript": "^5.4.5"
   },
   "exports": {
@@ -60,6 +60,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

@@ -28,6 +28,7 @@ const finalConfig = {
       "warn",
       {
         "paths": [
+          "@types/node",
           "@xyo-network/archivist",
           "@xyo-network/bridge",
           "@xyo-network/core",

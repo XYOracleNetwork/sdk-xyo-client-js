@@ -13,4 +13,7 @@ declare global {
  * Jest global setup method runs before any tests are run
  * https://jestjs.io/docs/configuration#globalsetup-string
  */
-module.exports = async (_globalConfig: Config, _projectConfig: Config) => {}
+
+const setup = async (_globalConfig: Config, _projectConfig: Config) => {}
+
+module.exports = setup

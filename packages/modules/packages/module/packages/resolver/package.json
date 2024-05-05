@@ -10,22 +10,22 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.1.11",
-    "@xylabs/exists": "^3.1.11",
-    "@xylabs/hex": "^3.1.11",
-    "@xylabs/lodash": "^3.1.11",
-    "@xylabs/object": "^3.1.11",
-    "@xylabs/promise": "^3.1.11",
+    "@xylabs/assert": "^3.3.2",
+    "@xylabs/exists": "^3.3.2",
+    "@xylabs/hex": "^3.3.2",
+    "@xylabs/lodash": "^3.3.2",
+    "@xylabs/object": "^3.3.2",
+    "@xylabs/promise": "^3.3.2",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/diviner-payload-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "lru-cache": "^10.2.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
     "jest": "^29.7.0",
-    "jest-mock-extended": "^3.0.6",
+    "jest-mock-extended": "^3.0.7",
     "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -67,6 +67,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

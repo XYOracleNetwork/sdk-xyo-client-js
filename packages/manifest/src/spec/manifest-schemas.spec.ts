@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import Ajv, { ValidateFunction } from 'ajv'
 
 // eslint-disable-next-line import/no-internal-modules

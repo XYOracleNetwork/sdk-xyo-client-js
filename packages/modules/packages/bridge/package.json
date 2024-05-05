@@ -17,8 +17,8 @@
     "@xyo-network/http-bridge": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.9.1",
-    "@xylabs/tsconfig": "^3.9.1",
+    "@xylabs/ts-scripts-yarn3": "^3.10.0",
+    "@xylabs/tsconfig": "^3.10.0",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/bridge-pub-sub": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
@@ -64,6 +64,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.99.2",
+  "version": "2.99.3",
   "type": "module"
 }

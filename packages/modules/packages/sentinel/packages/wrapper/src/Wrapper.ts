@@ -32,9 +32,9 @@ export class SentinelWrapper<TModule extends SentinelModule = SentinelModule>
     return result
   }
 
-  async reportQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
-    return await this.sendQueryRaw(queryPayload, payloads)
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   witnesses(): Promise<WitnessInstance[]> {

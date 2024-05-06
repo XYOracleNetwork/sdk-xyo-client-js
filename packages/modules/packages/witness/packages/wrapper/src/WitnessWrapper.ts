@@ -25,8 +25,8 @@ export class WitnessWrapper<TModule extends WitnessModule = WitnessModule>
     return await this.sendQuery(queryPayload, [queryPayload, ...(payloads ?? [])])
   }
 
-  async observeQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  async observeQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
-    return await this.sendQueryRaw(queryPayload, payloads)
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 }

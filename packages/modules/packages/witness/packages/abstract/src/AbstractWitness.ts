@@ -75,7 +75,7 @@ export abstract class AbstractWitness<
     return outPayloads
   }
 
-  async observeQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
+  async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {
     const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

@@ -5,5 +5,5 @@ import { Payload } from '@xyo-network/payload-model'
 
 export interface WitnessQueryFunctions<TIn extends Payload = Payload, TOut extends Payload = Payload> {
   observe: (payloads?: TIn[]) => Promisable<TOut[]>
-  observeQuery: (account: AccountInstance, payloads?: TIn[]) => Promisable<ModuleQueryResult<TOut>>
+  observeQuery: (payloads?: TIn[], account?: AccountInstance) => Promisable<ModuleQueryResult<TOut>>
 }

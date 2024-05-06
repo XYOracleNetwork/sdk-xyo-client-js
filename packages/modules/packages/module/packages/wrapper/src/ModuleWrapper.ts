@@ -299,9 +299,9 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
   }
 
-  async manifestQuery(_account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
@@ -342,6 +342,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
+  }
+
+  async previousHashQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPreviousHashPayload>> {
+    const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   privateChildren(): Promisable<ModuleInstance[]> {
@@ -473,9 +478,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
     queryPayload: T,
     payloads?: P[],
+    account?: AccountInstance,
   ): Promise<ModuleQueryResult<R>> {
     // Bind them
-    const query = await this.bindQuery(queryPayload, payloads)
+    const query = await this.bindQuery(queryPayload, payloads, account)
 
     // Send them off
     return (await this.query(query[0], query[1])) as ModuleQueryResult<R>

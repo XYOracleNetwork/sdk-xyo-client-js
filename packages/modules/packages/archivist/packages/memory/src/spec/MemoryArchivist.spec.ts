@@ -50,7 +50,7 @@ describe('MemoryArchivist', () => {
     ]
     await archivist.insert(payloads1)
     console.log(toJsonString(payloads1, 10))
-    const [bw, payloads, errors] = await archivist.insertQuery(account, payloads2)
+    const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
     expect(bw).toBeDefined()
     expect(payloads).toBeDefined()
     expect(errors).toBeDefined()

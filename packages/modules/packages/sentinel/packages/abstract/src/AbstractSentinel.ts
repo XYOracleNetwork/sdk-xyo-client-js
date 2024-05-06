@@ -81,7 +81,7 @@ export abstract class AbstractSentinel<
     }
   }
 
-  async reportQuery(account: AccountInstance, payloads?: Payload[]): Promise<ModuleQueryResult> {
+  async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

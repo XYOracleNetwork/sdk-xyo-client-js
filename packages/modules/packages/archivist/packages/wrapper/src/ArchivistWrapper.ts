@@ -39,9 +39,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async allQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
+  async allQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async clear(): Promise<void> {
@@ -49,9 +49,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     await this.sendQuery(queryPayload)
   }
 
-  async clearQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
+  async clearQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async commit(): Promise<PayloadWithMeta[]> {
@@ -59,9 +59,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async commitQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
+  async commitQuery(account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async delete(hashes: Hash[]) {
@@ -70,9 +70,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return hashes
   }
 
-  async deleteQuery(_account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+  async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async get(hashes: Hash[]): Promise<PayloadWithMeta[]> {
@@ -80,9 +80,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async getQuery(_account: AccountInstance, hashes: Hash[]): Promise<ModuleQueryResult> {
+  async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async insert(payloads: Payload[]): Promise<PayloadWithMeta[]> {
@@ -92,9 +92,9 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload, payloads)
   }
 
-  async insertQuery(_account: AccountInstance, payloads: Payload[]): Promise<ModuleQueryResult> {
+  async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
-    return await this.sendQueryRaw(queryPayload, payloads)
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   async next(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
@@ -102,8 +102,8 @@ export class ArchivistWrapper<TWrappedModule extends ArchivistModule = Archivist
     return await this.sendQuery(queryPayload)
   }
 
-  async nextQuery(account: AccountInstance, options?: ArchivistNextOptions): Promise<ModuleQueryResult> {
+  async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
     const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
-    return await this.sendQueryRaw(queryPayload)
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 }

@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { retry, RetryConfigWithComplete } from '@xylabs/retry'
+import { retry, RetryConfig, RetryConfigWithComplete } from '@xylabs/retry'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -62,7 +62,7 @@ export abstract class AbstractDiviner<
     })
   }
 
-  async divineQuery(account: AccountInstance, payloads?: TIn[]): Promise<ModuleQueryResult<TOut>> {
+  async divineQuery(payloads?: TIn[], account?: AccountInstance, _retry?: RetryConfig): Promise<ModuleQueryResult<TOut>> {
     const queryPayload: DivinerDivineQuery = { schema: DivinerDivineQuerySchema }
     return await this.sendQueryRaw(queryPayload, payloads, account)
   }

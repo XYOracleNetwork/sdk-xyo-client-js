@@ -5,5 +5,5 @@ import { Payload } from '@xyo-network/payload-model'
 
 export interface Sentinel<TIn extends Payload = Payload, TOut extends Payload = Payload> {
   report: (payloads?: TIn[]) => Promisable<TOut[]>
-  reportQuery: (account: AccountInstance, payloads?: TIn[]) => Promisable<ModuleQueryResult<TOut>>
+  reportQuery: (payloads?: TIn[], account?: AccountInstance) => Promisable<ModuleQueryResult<TOut>>
 }

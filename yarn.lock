@@ -5379,6 +5379,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-wrapper@workspace:packages/modules/packages/diviner/packages/wrapper"
   dependencies:
+    "@xylabs/retry": "npm:^3.3.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.0"
     "@xylabs/tsconfig": "npm:^3.10.0"
     "@xylabs/tsconfig-jest": "npm:^3.10.0"

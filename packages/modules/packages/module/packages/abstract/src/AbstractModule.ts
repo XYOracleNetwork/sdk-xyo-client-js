@@ -34,6 +34,7 @@ import {
   ModuleConfigSchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
+  ModuleDetailsError,
   ModuleEventData,
   ModuleFactory,
   ModuleManifestQuerySchema,
@@ -85,7 +86,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   //cache manifest based on maxDepth
   protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
 
-  protected _lastError?: Error
+  protected _lastError?: ModuleDetailsError
   protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
     [ModuleManifestQuerySchema]: undefined,
@@ -328,7 +329,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
         resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
       } catch (ex) {
-        await handleErrorAsync(ex, async (error) => {
+        await handleErrorAsync(ex, async (err) => {
+          const error = err as ModuleDetailsError
           this._lastError = error
           //this.status = 'dead'
           errorPayloads.push(
@@ -336,6 +338,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
               .sources([sourceQuery.$hash])
               .name(this.config.name ?? '<Unknown>')
               .query(sourceQuery.schema)
+              .details(error.details)
               .message(error.message)
               .build(),
           )

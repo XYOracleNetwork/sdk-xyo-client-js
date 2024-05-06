@@ -1,6 +1,7 @@
 export * from './cache'
 export * from './Config'
 export * from './CreatableModule'
+export * from './DetailsError'
 export * from './EventsModels'
 export * from './instance'
 export * from './Labels'

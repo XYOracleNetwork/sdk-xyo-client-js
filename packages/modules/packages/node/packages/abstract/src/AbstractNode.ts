@@ -2,21 +2,33 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { Module, ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { Module, ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import {
+  AttachableNodeInstance,
+  ChildCertification,
+  ChildCertificationFields,
+  ChildCertificationSchema,
+  NodeAttachedQuery,
   NodeAttachedQuerySchema,
+  NodeAttachQuery,
   NodeAttachQuerySchema,
+  NodeCertifyQuery,
+  NodeCertifyQuerySchema,
   NodeConfigSchema,
+  NodeDetachQuery,
   NodeDetachQuerySchema,
+  NodeInstance,
   NodeModule,
   NodeModuleEventData,
   NodeParams,
   NodeQueries,
+  NodeRegisteredQuery,
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -24,7 +36,12 @@ import { Payload, Schema } from '@xyo-network/payload-model'
 
 export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractModuleInstance<TParams, TEventData>
-  implements NodeModule<TParams, TEventData>, Module<TParams, TEventData>
+  implements
+    AttachableNodeInstance<TParams, TEventData>,
+    Module<TParams, TEventData>,
+    NodeInstance<TParams, TEventData>,
+    ModuleInstance<TParams, TEventData>,
+    NodeModule<TParams, TEventData>
 {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
   static override readonly defaultConfigSchema: Schema = NodeConfigSchema
@@ -32,16 +49,24 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
 
   private readonly isNode = true
 
-  override get queries(): string[] {
-    return [NodeAttachQuerySchema, NodeDetachQuerySchema, NodeAttachedQuerySchema, NodeRegisteredQuerySchema, ...super.queries]
+  override get queries(): Schema[] {
+    return [
+      NodeAttachQuerySchema,
+      NodeCertifyQuerySchema,
+      NodeDetachQuerySchema,
+      NodeAttachedQuerySchema,
+      NodeRegisteredQuerySchema,
+      ...super.queries,
+    ]
   }
 
   protected override get _queryAccountPaths(): Record<NodeQueries['schema'], string> {
     return {
-      'network.xyo.query.node.attach': '1/1',
-      'network.xyo.query.node.attached': '1/2',
-      'network.xyo.query.node.detach': '1/3',
-      'network.xyo.query.node.registered': '1/4',
+      [NodeAttachQuerySchema]: '1/1',
+      [NodeAttachedQuerySchema]: '1/2',
+      [NodeCertifyQuerySchema]: '1/5',
+      [NodeDetachQuerySchema]: '1/3',
+      [NodeRegisteredQuerySchema]: '1/4',
     }
   }
 
@@ -49,11 +74,54 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return (module as AbstractNode).isNode
   }
 
+  async attach(id: ModuleIdentifier, external?: boolean): Promise<Address | undefined> {
+    this._noOverride('attach')
+    return await this.attachHandler(id, external)
+  }
+
+  async attachQuery(id: ModuleIdentifier, external?: boolean, account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
+    this._noOverride('attachQuery')
+    const queryPayload: NodeAttachQuery = { external, id, schema: NodeAttachQuerySchema }
+    return await this.sendQueryRaw(queryPayload, [], account)
+  }
+
   async attached(): Promise<Address[]> {
+    this._noOverride('attached')
+    return await this.attachedHandler()
+  }
+
+  async attachedHandler(): Promise<Address[]> {
     return [
       ...(await this.attachedPublicModules()).map((module) => module.address),
       ...(await this.attachedPrivateModules()).map((module) => module.address),
     ]
+  }
+
+  async attachedQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
+    this._noOverride('attachedQuery')
+    const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
+    return await this.sendQueryRaw(queryPayload, [], account)
+  }
+
+  async certify(id: ModuleIdentifier): Promise<ChildCertificationFields | undefined> {
+    this._noOverride('certify')
+    return await this.certifyHandler(id)
+  }
+
+  async certifyQuery(id: ModuleIdentifier, account?: AccountInstance): Promise<ModuleQueryResult<ChildCertification>> {
+    const queryPayload: NodeCertifyQuery = { id, schema: NodeCertifyQuerySchema }
+    return await this.sendQueryRaw(queryPayload, [], account)
+  }
+
+  async detach(id: ModuleIdentifier): Promise<Address | undefined> {
+    this._noOverride('detach')
+    return await this.detachHandler(id)
+  }
+
+  async detachQuery(id: ModuleIdentifier, account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
+    this._noOverride('detachQuery')
+    const queryPayload: NodeDetachQuery = { id, schema: NodeDetachQuerySchema }
+    return await this.sendQueryRaw(queryPayload, [], account)
   }
 
   override async manifest(maxDepth = 10, ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
@@ -68,6 +136,17 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return await this.attachedPublicModules()
   }
 
+  async registered(): Promise<Address[]> {
+    this._noOverride('registered')
+    return await this.registeredHandler()
+  }
+
+  async registeredQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
+    this._noOverride('registeredQuery')
+    const queryPayload: NodeRegisteredQuery = { schema: NodeRegisteredQuerySchema }
+    return await this.sendQueryRaw(queryPayload, [], account)
+  }
+
   protected async attachedPrivateModules(maxDepth = 1): Promise<ModuleInstance[]> {
     return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
   }
@@ -80,9 +159,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const childMods = await this.attachedPublicModules(maxDepth)
     //console.log(`childMods: ${toJsonString(childMods)}`)
     const childModAddresses = await Promise.all(
-      childMods.map((mod) =>
-        new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address, name: mod.config.name }).build(),
-      ),
+      childMods.map((mod) => new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: mod.address }).build()),
     )
 
     return [...(await super.generateConfigAndAddress(maxDepth)), ...childModAddresses]
@@ -123,15 +200,23 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const resultPayloads: Payload[] = []
     switch (queryPayload.schema) {
       case NodeAttachQuerySchema: {
-        const address = await this.attach(queryPayload.nameOrAddress, queryPayload.external)
+        const address = await this.attachHandler(queryPayload.id, queryPayload.external)
         if (address) {
           const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
         }
         break
       }
+      case NodeCertifyQuerySchema: {
+        const fields = await this.certifyHandler(queryPayload.id)
+        if (fields) {
+          const payload = await new PayloadBuilder<ChildCertification>({ schema: ChildCertificationSchema }).fields(fields).build()
+          resultPayloads.push(payload)
+        }
+        break
+      }
       case NodeDetachQuerySchema: {
-        const address = await this.detach(queryPayload.nameOrAddress)
+        const address = await this.detachHandler(queryPayload.id)
         if (address) {
           const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
@@ -139,7 +224,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         break
       }
       case NodeAttachedQuerySchema: {
-        const addresses = await this.attached()
+        const addresses = await this.attachedHandler()
         for (const address of addresses) {
           const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
@@ -147,7 +232,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
         break
       }
       case NodeRegisteredQuerySchema: {
-        const addresses = await this.registered()
+        const addresses = await this.registeredHandler()
         for (const address of addresses) {
           const payload = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address }).build()
           resultPayloads.push(payload)
@@ -161,7 +246,11 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     return resultPayloads
   }
 
-  abstract attach(id: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>
-  abstract detach(id: ModuleIdentifier): Promisable<Address | undefined>
-  abstract registered(): Promisable<Address[]>
+  abstract attachHandler(id: ModuleIdentifier, external?: boolean): Promisable<Address | undefined>
+
+  abstract certifyHandler(id: ModuleIdentifier): Promisable<ChildCertificationFields | undefined>
+
+  abstract detachHandler(id: ModuleIdentifier): Promisable<Address | undefined>
+
+  abstract registeredHandler(): Promisable<Address[]>
 }

@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { Promisable } from '@xylabs/promise'
 import { EventListener } from '@xyo-network/module-events'
 import {
   AnyConfigSchema,
@@ -12,32 +13,45 @@ import {
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
-import { AttachableNodeInstance, isNodeModule, NodeConfig, NodeConfigSchema, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import {
+  AttachableNodeInstance,
+  ChildCertificationFields,
+  isNodeModule,
+  NodeConfig,
+  NodeConfigSchema,
+  NodeModuleEventData,
+  NodeParams,
+} from '@xyo-network/node-model'
 import { Schema } from '@xyo-network/payload-model'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
 
 export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEventData extends NodeModuleEventData = NodeModuleEventData>
   extends AbstractNode<TParams, TEventData>
-  implements AttachableNodeInstance
+  implements AttachableNodeInstance<TParams, TEventData>
 {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, NodeConfigSchema]
   static override readonly defaultConfigSchema: Schema = NodeConfigSchema
 
   protected registeredModuleMap: Record<Address, AttachableModuleInstance> = {}
 
-  override async attach(nameOrAddress: ModuleIdentifier, external?: boolean) {
+  async attachHandler(id: ModuleIdentifier, external?: boolean) {
     await this.started('throw')
     const attachedModule = assertEx(
-      (await this.attachUsingAddress(nameOrAddress as Address, external)) ?? (await this.attachUsingName(nameOrAddress, external)),
-      () => `Unable to locate module [${nameOrAddress}]`,
+      (await this.attachUsingAddress(id as Address, external)) ?? (await this.attachUsingName(id, external)),
+      () => `Unable to locate module [${id}]`,
     )
     return attachedModule
   }
 
-  override async detach(nameOrAddress: ModuleIdentifier) {
+  async certifyHandler(_id: ModuleIdentifier): Promise<ChildCertificationFields> {
     await this.started('throw')
-    return (await this.detachUsingAddress(nameOrAddress as Address)) ?? (await this.detachUsingName(nameOrAddress))
+    throw new Error('Method not implemented.')
+  }
+
+  async detachHandler(id: ModuleIdentifier) {
+    await this.started('throw')
+    return (await this.detachUsingAddress(id as Address)) ?? (await this.detachUsingName(id))
   }
 
   override privateChildren(): Promise<ModuleInstance[]> {
@@ -56,13 +70,15 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     await this.emit('moduleRegistered', args)
   }
 
-  override registered() {
-    return (Object.keys(this.registeredModuleMap) as Address[]).map((key) => {
-      return key
-    })
+  registeredHandler(): Promisable<Address[]> {
+    return Promise.resolve(
+      (Object.keys(this.registeredModuleMap) as Address[]).map((key) => {
+        return key
+      }),
+    )
   }
 
-  registeredModules() {
+  registeredModules(): AttachableModuleInstance[] {
     return Object.values(this.registeredModuleMap).map((value) => {
       return value
     })

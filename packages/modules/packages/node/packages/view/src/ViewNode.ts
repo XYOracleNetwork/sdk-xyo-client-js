@@ -14,7 +14,18 @@ import {
 } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
-import { asNodeInstance, AttachableNodeInstance, isNodeModule, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
+import {
+  asNodeInstance,
+  AttachableNodeInstance,
+  isNodeModule,
+  NodeAttachedQuerySchema,
+  NodeAttachQuerySchema,
+  NodeConfig,
+  NodeDetachQuerySchema,
+  NodeModuleEventData,
+  NodeParams,
+  NodeRegisteredQuerySchema,
+} from '@xyo-network/node-model'
 import { Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
@@ -45,6 +56,12 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 
   get ids() {
     return this.config.ids
+  }
+
+  override get queries(): Schema[] {
+    const disallowedQueries = new Set<Schema>([NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema, NodeAttachedQuerySchema])
+    const queries: Schema[] = [...super.queries]
+    return queries.filter((query) => !disallowedQueries.has(query))
   }
 
   get source() {

@@ -1,3 +1,4 @@
+import { ModuleIdentifier } from '@xyo-network/module-model'
 import { Query } from '@xyo-network/payload-model'
 
 export type NodeAttachQuerySchema = 'network.xyo.query.node.attach'
@@ -5,6 +6,6 @@ export const NodeAttachQuerySchema: NodeAttachQuerySchema = 'network.xyo.query.n
 
 export type NodeAttachQuery = Query<{
   external?: boolean
-  nameOrAddress: string
+  id: ModuleIdentifier
   schema: NodeAttachQuerySchema
 }>

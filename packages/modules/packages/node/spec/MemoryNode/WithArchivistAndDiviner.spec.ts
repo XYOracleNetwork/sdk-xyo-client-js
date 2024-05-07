@@ -41,7 +41,7 @@ describe('MemoryNode', () => {
     await node.register(diviner)
     await node.attach(diviner.address, true)
 
-    expect(node.registered()).toBeArrayOfSize(3)
+    expect(await node.registered()).toBeArrayOfSize(3)
     expect(await node.attached()).toBeArrayOfSize(3)
 
     const foundArchivist = asArchivistInstance(await node.resolve(archivist.address))

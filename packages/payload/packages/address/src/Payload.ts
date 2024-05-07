@@ -3,8 +3,8 @@ import { Payload } from '@xyo-network/payload-model'
 
 import { AddressSchema } from './Schema'
 
-export type AddressPayload = Payload<{
+export interface AddressFields {
   address: Address
-  name?: string
-  schema: AddressSchema
-}>
+}
+
+export type AddressPayload = Payload<AddressFields, AddressSchema>

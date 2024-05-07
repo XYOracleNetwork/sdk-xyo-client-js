@@ -83,8 +83,8 @@ describe('MemoryNode', () => {
   })
   describe('registered', () => {
     describe('with no modules registered', () => {
-      it('returns empty array', () => {
-        const result = node.registered()
+      it('returns empty array', async () => {
+        const result = await node.registered()
         expect(result).toBeArrayOfSize(0)
       })
     })
@@ -94,8 +94,8 @@ describe('MemoryNode', () => {
         module = await MemoryArchivist.create({ account: Account.randomSync() })
         await node.register(module)
       })
-      it('lists addresses of registered modules', () => {
-        const result = node.registered()
+      it('lists addresses of registered modules', async () => {
+        const result = await node.registered()
         expect(result).toBeArrayOfSize(1)
         expect(result).toEqual([module.address])
       })

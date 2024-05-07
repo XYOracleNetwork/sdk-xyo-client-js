@@ -161,7 +161,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return ObjectResolverPriority.Normal
   }
 
-  get queries(): string[] {
+  get queries(): Schema[] {
     return [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
   }
 
@@ -532,9 +532,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected async generateConfigAndAddress(_maxDepth?: number): Promise<Payload[]> {
     const config = await PayloadBuilder.build(this.config)
-    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
-      .fields({ address: this.address, name: this.config?.name })
-      .build()
+    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
     const queries = await Promise.all(
       this.queries.map(async (query) => {
         return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()

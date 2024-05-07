@@ -68,10 +68,19 @@ export class GenericPayloadDiviner<
       if (required && !archivist) {
         throw new Error('Failed to find archivist')
       }
-      archivist?.on('inserted', this.onArchivistInsert)
+      archivist?.on('inserted', this.onArchivistInserted)
+      archivist?.on('cleared', this.onArchivistCleared)
+      archivist?.on('deleted', this.onArchivistDeleted)
       this._archivistInstance = archivist
     }
     return this._archivistInstance
+  }
+
+  protected async clearIndex() {
+    await this._updatePayloadPairsMutex.runExclusive(() => {
+      this._indexOffset = undefined
+      this.payloadPairs = []
+    })
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
@@ -110,14 +119,34 @@ export class GenericPayloadDiviner<
     }
   }
 
-  protected onArchivistInsert: EventListener<ArchivistModuleEventData['inserted']> = () => {
-    //forget(this.indexPayloads(payloads as WithMeta<TOut>[]))
+  protected onArchivistCleared: EventListener<ArchivistModuleEventData['cleared']> = () => {
+    forget(
+      (async () => {
+        await this.clearIndex()
+        await this.updateIndex()
+      })(),
+    )
+  }
+
+  // we are just rebuilding the entire index at this point on delete since large archivists do not support delete
+  protected onArchivistDeleted: EventListener<ArchivistModuleEventData['deleted']> = () => {
+    forget(
+      (async () => {
+        await this.clearIndex()
+        await this.updateIndex()
+      })(),
+    )
+  }
+
+  protected onArchivistInserted: EventListener<ArchivistModuleEventData['inserted']> = () => {
     forget(this.updateIndex())
   }
 
   protected override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
     const archivist = await this.archivistInstance(true)
-    archivist.off('inserted', this.onArchivistInsert)
+    archivist.off('inserted', this.onArchivistInserted)
+    archivist.off('deleted', this.onArchivistDeleted)
+    archivist.off('cleared', this.onArchivistCleared)
     return await super.stopHandler()
   }
 

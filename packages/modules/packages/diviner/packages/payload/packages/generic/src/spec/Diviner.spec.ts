@@ -6,7 +6,7 @@ import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
 
-import { GenericPayloadDiviner } from '../Diviner'
+import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner'
 
 /**
  * @group module
@@ -51,7 +51,7 @@ describe('GenericPayloadDiviner', () => {
       account: Account.randomSync(),
       config: {
         archivist: archivist.address,
-        schema: GenericPayloadDiviner.defaultConfigSchema,
+        schema: GenericPayloadDivinerConfigSchema,
       },
     })
     node = await MemoryNode.create({

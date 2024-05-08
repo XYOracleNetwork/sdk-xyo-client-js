@@ -1,11 +1,17 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
 import { Hash } from '@xylabs/hex'
-import { EmptyObject } from '@xylabs/object'
+import { EmptyObject, JsonObject } from '@xylabs/object'
 import { ArchivistInstance, ArchivistModuleEventData } from '@xyo-network/archivist-model'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
-import { isPayloadDivinerQueryPayload, Order, PayloadDivinerParams, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
+import {
+  isPayloadDivinerQueryPayload,
+  Order,
+  PayloadDivinerConfig,
+  PayloadDivinerParams,
+  PayloadDivinerQueryPayload,
+} from '@xyo-network/diviner-payload-model'
 import { EventListener } from '@xyo-network/module-events'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
@@ -17,8 +23,15 @@ const DEFAULT_MAX_INDEX_SIZE = 8000 as const
 export const GenericPayloadDivinerConfigSchema = 'network.xyo.diviner.payload.generic.config' as const
 export type GenericPayloadDivinerConfigSchema = typeof GenericPayloadDivinerConfigSchema
 
+export type GenericPayloadDivinerConfig = PayloadDivinerConfig<
+  {
+    indexes?: string[]
+  },
+  GenericPayloadDivinerConfigSchema
+>
+
 export class GenericPayloadDiviner<
-  TParams extends PayloadDivinerParams = PayloadDivinerParams,
+  TParams extends PayloadDivinerParams<GenericPayloadDivinerConfig> = PayloadDivinerParams<GenericPayloadDivinerConfig>,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
@@ -30,6 +43,7 @@ export class GenericPayloadDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, GenericPayloadDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = GenericPayloadDivinerConfigSchema
 
+  protected indexMaps: Record<string, WithMeta<TOut>[]> = {}
   protected payloadPairs: [WithMeta<TOut>, Hash][] = []
 
   private _archivistInstance?: ArchivistInstance
@@ -38,6 +52,10 @@ export class GenericPayloadDiviner<
 
   protected get indexBatchSize() {
     return this.config.indexBatchSize ?? DEFAULT_INDEX_BATCH_SIZE
+  }
+
+  protected get indexes(): string[] {
+    return ['schema', ...(this.config.indexes ?? [])]
   }
 
   protected get maxIndexSize() {
@@ -80,6 +98,7 @@ export class GenericPayloadDiviner<
     await this._updatePayloadPairsMutex.runExclusive(() => {
       this._indexOffset = undefined
       this.payloadPairs = []
+      this.indexMaps = {}
     })
   }
 
@@ -168,9 +187,17 @@ export class GenericPayloadDiviner<
     })
   }
 
-  private async indexPayloads(payloads: WithMeta<TOut>[]): Promise<Hash> {
+  private async indexPayloads(payloads: TOut[]): Promise<Hash> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     this.payloadPairs.push(...pairs)
+
+    //update the custom indexes
+    for (const index of this.indexes ?? []) {
+      this.indexMaps[index] = this.indexMaps[index] ?? []
+      for (const [payload] of pairs) {
+        if ((payload as unknown as JsonObject)[index] !== undefined) this.indexMaps[index].push(payload)
+      }
+    }
     return assertEx(pairs.at(-1))[1]
   }
 }

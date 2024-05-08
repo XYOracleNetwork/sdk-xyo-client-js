@@ -509,7 +509,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     let additional: WithMeta<Payload>[] = []
     if (this.config.certify) {
       additional = await this.certifyParents()
-      builder.additional(additional)
+      await builder.additional(additional)
     }
     const [bw, payloadsOut, errors] = await (account ? builder.witness(account) : builder).build()
     return [bw, [...payloadsOut, ...additional], errors]

@@ -3,7 +3,7 @@ import { EventData } from '@xyo-network/module-events'
 import { Module, ModuleEventArgs } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-export type QueryStartedEventArgs<T extends Module = Module> = ModuleEventArgs<
+export type QueryFulfillStartedEventArgs<T extends Module = Module> = ModuleEventArgs<
   T,
   {
     payloads?: Payload[]
@@ -11,6 +11,6 @@ export type QueryStartedEventArgs<T extends Module = Module> = ModuleEventArgs<
   }
 >
 
-export interface QueryStartedEventData<T extends Module = Module> extends EventData {
-  queryStarted: QueryStartedEventArgs<T>
+export interface QueryFulfillStartedEventData<T extends Module = Module> extends EventData {
+  queryFulfillStarted: QueryFulfillStartedEventArgs<T>
 }

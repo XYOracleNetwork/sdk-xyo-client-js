@@ -1,4 +1,5 @@
 import { BaseParams } from '@xylabs/object'
+import { QueryFulfillFinishedEventArgs, QueryFulfillStartedEventArgs } from '@xyo-network/bridge-model'
 import { ModuleInstance } from '@xyo-network/module-model'
 
 import { AsyncQueryBusBaseConfig } from './BaseConfig'
@@ -11,4 +12,7 @@ export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQ
 }>
 
 export type AsyncQueryBusClientParams = AsyncQueryBusParams<AsyncQueryBusClientConfig>
-export type AsyncQueryBusHostParams = AsyncQueryBusParams<AsyncQueryBusHostConfig>
+export type AsyncQueryBusHostParams = AsyncQueryBusParams<AsyncQueryBusHostConfig> & {
+  onQueryFulfillFinished?: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => void
+  onQueryFulfillStarted?: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => void
+}

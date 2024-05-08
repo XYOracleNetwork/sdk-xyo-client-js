@@ -1,5 +1,6 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -154,6 +155,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         if (localModule.queries.includes(querySchema)) {
           // Get the associated payloads
           const queryPayloads = await queryArchivist.get(query.payload_hashes)
+          this.params.onQueryFulfillStarted?.({ payloads: queryPayloads, query })
           const queryPayloadsDict = await PayloadBuilder.toAllHashMap(queryPayloads)
           const queryHash = (await PayloadBuilder.build(query)).$hash
           // Check that we have all the arguments for the command
@@ -165,11 +167,11 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             // Issue the query against module
             const querySchema = queryPayloadsDict[query.query].schema
             this.logger?.debug(`Issuing query ${querySchema} (${queryHash}) addressed to module: ${localModuleName}`)
-            const response = await localModule.query(query, queryPayloads, {
+            const result = await localModule.query(query, queryPayloads, {
               allowedQueries: this._exposeOptions[localModule.address]?.allowedQueries,
               schema: ModuleConfigSchema,
             })
-            const [bw, payloads, errors] = response
+            const [bw, payloads, errors] = result
             this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
             const insertResult = await responsesArchivist.insert([bw, ...payloads, ...errors])
             // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
@@ -184,7 +186,9 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
               // so there's no chance of multiple commands at the same time
               await this.commitState(localModule.address, query.timestamp)
             }
+            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, result, status: 'success' })
           } catch (error) {
+            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, status: 'failure' })
             this.logger?.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
           }
         }

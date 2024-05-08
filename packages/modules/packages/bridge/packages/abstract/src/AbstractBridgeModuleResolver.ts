@@ -1,5 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
-import { BridgeInstance, QueryFinishedEventArgs, QueryStartedEventArgs } from '@xyo-network/bridge-model'
+import { BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
 import { CacheConfig, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ObjectResolverPriority } from '@xyo-network/module-model'
 import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/module-resolver'
 
@@ -8,8 +8,8 @@ import { ModuleProxyParams } from './AbstractModuleProxy'
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
-  onQueryFinished?: (args: Exclude<QueryFinishedEventArgs, 'module'>) => void
-  onQueryStarted?: (args: Exclude<QueryStartedEventArgs, 'module'>) => void
+  onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
+  onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'module'>) => void
   wrapperAccount: AccountInstance
 }
 

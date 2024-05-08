@@ -31,8 +31,8 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       config: { schema: ModuleConfigSchema },
       host: this.params.bridge,
       moduleAddress: firstPart as Address,
-      onQueryFinished: this.params.onQueryFinished,
-      onQueryStarted: this.params.onQueryStarted,
+      onQuerySendFinished: this.params.onQuerySendFinished,
+      onQuerySendStarted: this.params.onQuerySendStarted,
     }
     const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(finalParams)
     if (proxy) {

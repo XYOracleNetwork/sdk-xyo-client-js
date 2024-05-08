@@ -155,6 +155,12 @@ describe('PubSubBridge', () => {
       },
     })
 
+    clientBridge.on('querySendStarted', ({ query }) => console.log(`Query send started: ${query}`))
+    clientBridge.on('querySendFinished', ({ query }) => console.log(`Query send finished: ${query}`))
+
+    hostBridge.on('queryFulfillStarted', ({ query }) => console.log(`Query fulfill started: ${query}`))
+    hostBridge.on('queryFulfillFinished', ({ query }) => console.log(`Query fulfill finished: ${query}`))
+
     await clientBridge?.start?.()
     await hostBridge?.start?.()
     await clientNode.register(clientBridge)

@@ -5,7 +5,15 @@ import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions, QueryFinishedEventArgs, QueryStartedEventArgs } from '@xyo-network/bridge-model'
+import {
+  BridgeExposeOptions,
+  BridgeModule,
+  BridgeUnexposeOptions,
+  QueryFulfillFinishedEventArgs,
+  QueryFulfillStartedEventArgs,
+  QuerySendFinishedEventArgs,
+  QuerySendStartedEventArgs,
+} from '@xyo-network/bridge-model'
 import { creatableModule, ModuleIdentifier, ModuleInstance, resolveAddressToInstanceUp, ResolveHelper } from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
@@ -39,11 +47,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       new PubSubBridgeModuleResolver({
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
-        onQueryFinished: (args: QueryFinishedEventArgs) => {
-          forget(this.emit('queryFinished', args))
+        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
+          forget(this.emit('querySendFinished', { module: this, ...args }))
         },
-        onQueryStarted: (args: QueryStartedEventArgs) => {
-          forget(this.emit('queryStarted', args))
+        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
+          forget(this.emit('querySendStarted', { module: this, ...args }))
         },
         root: this,
         wrapperAccount: this.account,
@@ -155,6 +163,12 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
+        onQueryFulfillFinished: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => {
+          forget(this.emit('queryFulfillFinished', { module: this, ...args }))
+        },
+        onQueryFulfillStarted: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => {
+          forget(this.emit('queryFulfillStarted', { module: this, ...args }))
+        },
         rootModule: this,
       })
     }

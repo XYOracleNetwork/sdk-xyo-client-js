@@ -3455,6 +3455,7 @@ __metadata:
   dependencies:
     "@xylabs/assert": "npm:^3.3.2"
     "@xylabs/exists": "npm:^3.3.2"
+    "@xylabs/forget": "npm:^3.3.2"
     "@xylabs/hex": "npm:^3.3.2"
     "@xylabs/lodash": "npm:^3.3.2"
     "@xylabs/object": "npm:^3.3.2"
@@ -3912,6 +3913,7 @@ __metadata:
     "@xylabs/promise": "npm:^3.3.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.0"
     "@xylabs/tsconfig": "npm:^3.10.0"
+    "@xyo-network/boundwitness-model": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
@@ -5882,7 +5884,6 @@ __metadata:
   dependencies:
     "@xylabs/hex": "npm:^3.3.2"
     "@xylabs/object": "npm:^3.3.2"
-    "@xylabs/promise": "npm:^3.3.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.0"
     "@xylabs/tsconfig": "npm:^3.10.0"
     "@xyo-network/account-model": "workspace:~"

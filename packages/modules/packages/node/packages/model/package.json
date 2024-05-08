@@ -12,7 +12,6 @@
   "dependencies": {
     "@xylabs/hex": "^3.3.2",
     "@xylabs/object": "^3.3.2",
-    "@xylabs/promise": "^3.3.2",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
@@ -63,6 +62,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.100.3",
+  "version": "2.100.4",
   "type": "module"
 }

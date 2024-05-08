@@ -122,7 +122,7 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('unexpose')
     const addressToUnexpose = assertEx(await resolvePathToAddress(this, id), () => `Module to unexpose not found [${id}]`)
-    const modules = this.unexposeHandler(addressToUnexpose, options)
+    const modules = await this.unexposeHandler(addressToUnexpose, options)
     await this.emit('unexposed', { module: this, modules })
     return modules
   }

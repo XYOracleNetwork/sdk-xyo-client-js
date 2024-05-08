@@ -2,8 +2,9 @@ import { IsObjectFactory, TypeCheck } from '@xylabs/object'
 import { AttachableModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ArchivistModule, ArchivistModuleEventData } from '../Archivist'
-import { ArchivistInstance } from '../ArchivistInstance'
+import { ArchivistModuleEventData } from '../EventData'
+import { ArchivistInstance } from '../Instance'
+import { ArchivistModule } from '../Module'
 import { ArchivistParams } from '../Params'
 
 export interface AttachableArchivistInstance<

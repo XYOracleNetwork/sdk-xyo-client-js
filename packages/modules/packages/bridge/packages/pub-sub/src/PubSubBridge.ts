@@ -1,18 +1,12 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import {
-  creatableModule,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleResolverInstance,
-  resolveAddressToInstanceUp,
-  ResolveHelper,
-} from '@xyo-network/module-model'
+import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions, QueryFinishedEventArgs, QueryStartedEventArgs } from '@xyo-network/bridge-model'
+import { creatableModule, ModuleIdentifier, ModuleInstance, resolveAddressToInstanceUp, ResolveHelper } from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
@@ -39,12 +33,18 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _busHost?: AsyncQueryBusHost
   private _resolver?: PubSubBridgeModuleResolver
 
-  override get resolver(): ModuleResolverInstance {
+  override get resolver(): PubSubBridgeModuleResolver {
     this._resolver =
       this._resolver ??
       new PubSubBridgeModuleResolver({
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
+        onQueryFinished: (args: QueryFinishedEventArgs) => {
+          forget(this.emit('queryFinished', args))
+        },
+        onQueryStarted: (args: QueryStartedEventArgs) => {
+          forget(this.emit('queryStarted', args))
+        },
         root: this,
         wrapperAccount: this.account,
       })
@@ -64,7 +64,8 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
 
     //use the resolver to create the proxy instance
-    const instance = await this.resolver.resolve<ModuleInstance>(id)
+    const result = await this.resolver.resolveHandler<ModuleInstance>(id)
+    const instance = Array.isArray(result) ? result[0] : result
     return await this.connectInstance(instance, maxDepth)
   }
 

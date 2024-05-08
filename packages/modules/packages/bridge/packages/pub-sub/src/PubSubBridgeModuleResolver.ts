@@ -25,14 +25,16 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const account = Account.randomSync()
-    const params: AsyncQueryBusModuleProxyParams = {
+    const finalParams: AsyncQueryBusModuleProxyParams = {
       account,
       busClient: this.params.busClient,
       config: { schema: ModuleConfigSchema },
       host: this.params.bridge,
       moduleAddress: firstPart as Address,
+      onQueryFinished: this.params.onQueryFinished,
+      onQueryStarted: this.params.onQueryStarted,
     }
-    const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(params)
+    const proxy = new AsyncQueryBusModuleProxy<T, AsyncQueryBusModuleProxyParams>(finalParams)
     if (proxy) {
       const state = await proxy.state()
       if (state) {

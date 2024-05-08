@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { toJsonString } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
+import { QueryFinishedEventArgs, QueryStartedEventArgs } from '@xyo-network/bridge-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
@@ -21,7 +23,6 @@ import {
   ModuleManifestQuerySchema,
   ModuleName,
   ModuleParams,
-  ModuleQueriedEventArgs,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
   ModuleResolver,
@@ -41,6 +42,8 @@ export type ModuleProxyParams = ModuleParams<
     account: AccountInstance
     host: ModuleResolver
     moduleAddress: Address
+    onQueryFinished?: (args: Exclude<QueryFinishedEventArgs, 'module'>) => void
+    onQueryStarted?: (args: Exclude<QueryStartedEventArgs, 'module'>) => void
   }
 >
 
@@ -157,11 +160,13 @@ export abstract class AbstractModuleProxy<
     return await this.busy(async () => {
       try {
         await this.checkSpam(query)
+        this.params.onQueryStarted?.({ module: this, payloads, query })
         const result = await this.proxyQueryHandler<T>(query, payloads)
-        const args: ModuleQueriedEventArgs = { module: this, payloads, query, result }
-        await this.emit('moduleQueried', args)
+        this.params.onQueryFinished?.({ module: this, payloads, query, result, status: 'success' })
+        forget(this.emit('moduleQueried', { module: this, payloads, query, result }))
         return result
       } catch (ex) {
+        this.params.onQueryFinished?.({ module: this, payloads, query, status: 'failure' })
         const error = ex as Error
         this._lastError = error
         //this.status = 'dead'

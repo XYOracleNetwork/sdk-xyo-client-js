@@ -44,9 +44,12 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return attachedModule
   }
 
-  async certifyHandler(_id: ModuleIdentifier): Promise<ChildCertificationFields> {
-    await this.started('throw')
-    throw new Error('Method not implemented.')
+  async certifyHandler(id: ModuleIdentifier): Promise<ChildCertificationFields> {
+    const child = (await this.publicChildren()).find((child) => child.localName === id || child.address === id)
+    if (child) {
+      return { address: child.address, expiration: Date.now() + 1000 * 60 * 10 /* 10 minutes */ }
+    }
+    throw new Error(`Unable to certify child module [${id}]`)
   }
 
   async detachHandler(id: ModuleIdentifier) {

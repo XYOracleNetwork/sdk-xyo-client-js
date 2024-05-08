@@ -12,6 +12,9 @@ export interface ModuleConfigFields {
   /** @field The name/address of the Archivist to use for this module */
   readonly archivist?: ModuleIdentifier
 
+  /** @field Enable certifying parent node identity in each query */
+  readonly certify?: boolean
+
   /**
    * @field The labels used for this module. If a label is specified, then the
    * ModuleFactoryLocator will attempt to find a ModuleFactory with the corresponding

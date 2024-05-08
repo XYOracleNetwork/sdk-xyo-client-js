@@ -319,6 +319,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
       const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
+
       try {
         await this.started('throw')
         if (!this.allowAnonymous && query.addresses.length === 0) {
@@ -505,8 +506,13 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     account?: AccountInstance,
   ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
-    const result = await (account ? builder.witness(account) : builder).build()
-    return result
+    let additional: WithMeta<Payload>[] = []
+    if (this.config.certify) {
+      additional = await this.certifyParents()
+      builder.additional(additional)
+    }
+    const [bw, payloadsOut, errors] = await (account ? builder.witness(account) : builder).build()
+    return [bw, [...payloadsOut, ...additional], errors]
   }
 
   protected async bindQueryResult<T extends Query>(
@@ -712,5 +718,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return true
   }
 
+  protected abstract certifyParents(): Promise<WithMeta<Payload>[]>
   protected abstract storeToArchivists(payloads: Payload[]): Promise<Payload[]>
 }

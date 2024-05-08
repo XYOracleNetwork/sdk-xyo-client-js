@@ -8,6 +8,7 @@ export type QueryBoundWitnessSchema = BoundWitnessSchema
 export const QueryBoundWitnessSchema: QueryBoundWitnessSchema = BoundWitnessSchema
 
 export type QueryBoundWitness = BoundWitness<{
+  additional?: Hash[]
   query: Hash
   resultSet?: string
   schema: QueryBoundWitnessSchema

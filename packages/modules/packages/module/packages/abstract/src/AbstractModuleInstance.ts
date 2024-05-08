@@ -28,6 +28,7 @@ import {
   ResolveHelperConfig,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
 import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
@@ -39,7 +40,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
 
   private _downResolver?: CompositeModuleResolver
-  private _parents: ModuleInstance[] = []
+  private _parents: NodeInstance[] = []
   private _privateResolver?: CompositeModuleResolver
   private _upResolver?: CompositeModuleResolver
 
@@ -103,8 +104,20 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   addParent(module: ModuleInstance) {
     const existingEntry = this._parents.find((parent) => parent.address === module.address)
     if (!existingEntry) {
-      this._parents.push(module)
+      this._parents.push(asNodeInstance(module, 'Only NodeInstances can be parents'))
     }
+  }
+
+  async certifyParents(): Promise<WithMeta<Payload>[]> {
+    const parents = await this.parents()
+    return (
+      await Promise.all(
+        parents.map(async (parent) => {
+          const [bw, payloads, errors] = await parent.certifyQuery(this.address)
+          return errors.length === 0 ? [bw, ...payloads] : []
+        }),
+      )
+    ).flat()
   }
 
   manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -126,7 +139,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
-  parents(): Promisable<ModuleInstance[]> {
+  parents(): Promisable<NodeInstance[]> {
     return this._parents
   }
 

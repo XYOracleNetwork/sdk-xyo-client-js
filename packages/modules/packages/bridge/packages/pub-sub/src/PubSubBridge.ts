@@ -96,27 +96,30 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return rootInstances
   }
 
-  async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 5, required = true } = options ?? {}
+  async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 5 } = options ?? {}
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
-    const module = await resolveAddressToInstanceUp(this, address)
-    if (required && !module) {
+    host.expose(mod)
+    const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
+    const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
+      .flat()
+      .filter(exists)
+    const allExposed = [mod, ...exposedChildren]
+
+    for (const exposedMod of allExposed) this.logger?.log(`exposed: ${exposedMod.address} [${mod.id}]`)
+
+    return allExposed
+  }
+
+  async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { required = true } = options ?? {}
+    const mod = await resolveAddressToInstanceUp(this, address)
+    if (required && !mod) {
       throw new Error(`Unable to find required module: ${address}`)
     }
-    if (module) {
-      host.expose(module)
-      const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
-      this.logger.log(`childrenToExpose [${module.id}][${module.address}]: ${toJsonString(children.map((child) => child.id))}`)
-      const exposedChildren = (
-        await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
-      )
-        .flat()
-        .filter(exists)
-      const allExposed = [module, ...exposedChildren]
-
-      for (const mod of allExposed) this.logger?.log(`exposed: ${mod.address} [${mod.id}]`)
-
-      return [module, ...exposedChildren]
+    if (mod) {
+      return this.exposeChild(mod, options)
     }
     return []
   }

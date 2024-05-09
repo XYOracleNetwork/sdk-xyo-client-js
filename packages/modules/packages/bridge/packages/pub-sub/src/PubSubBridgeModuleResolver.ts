@@ -12,12 +12,9 @@ export interface PubSubBridgeModuleResolverParams extends BridgeModuleResolverPa
 }
 
 export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<PubSubBridgeModuleResolverParams> {
-  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    id: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<T | T[] | undefined> {
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T[]> {
     const parentResult = await super.resolveHandler(id, options)
-    if (parentResult) {
+    if (parentResult.length > 0) {
       return parentResult
     }
     const idParts = id.split(':')
@@ -48,10 +45,11 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     }
     await proxy.start?.()
     const wrapped = wrapModuleWithType(proxy, account) as unknown as T
-    const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
-    proxy.upResolver.add(as)
-    proxy.downResolver.add(as)
-    this.add(as)
-    return remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : as
+    const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+    proxy.upResolver.add(instance)
+    proxy.downResolver.add(instance)
+    this.add(instance)
+    const result = remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : instance
+    return result ? [result] : []
   }
 }

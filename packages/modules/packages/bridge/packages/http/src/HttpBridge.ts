@@ -20,7 +20,7 @@ import {
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
-import { Semaphore } from 'async-mutex'
+import { Mutex, Semaphore } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
@@ -39,9 +39,11 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   static maxFailureCacheSize = 1000
 
   private _axios?: AxiosJson
+  private _discoverRootsMutex = new Mutex()
   private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
   private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
+  private _roots?: ModuleInstance[]
 
   get axios() {
     this._axios = this._axios ?? new AxiosJson()
@@ -76,25 +78,30 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._resolver
   }
 
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    const state = await this.getRootState()
-    this.logger?.debug(`HttpBridge:discoverRoots.state [${state?.length}]`)
-    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-    if (nodeManifest) {
-      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
-      this.logger?.debug(`HttpBridge:discoverRoots [${modules.length}]`)
-      this._roots = modules
-      return modules
-    }
-    return []
-  }
-
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
 
   override exposedHandler(): Promisable<Address[]> {
     throw new Error('Unsupported')
+  }
+
+  async getRoots(force?: boolean): Promise<ModuleInstance[]> {
+    return await this._discoverRootsMutex.runExclusive(async () => {
+      if (this._roots === undefined || force) {
+        const state = await this.getRootState()
+        this.logger?.debug(`HttpBridge:discoverRoots.state [${state?.length}]`)
+        const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+        if (nodeManifest) {
+          const mods = (await this.resolveRootNode(nodeManifest)).filter(exists)
+          this.logger?.debug(`HttpBridge:discoverRoots [${mods.length}]`)
+          this._roots = mods
+        } else {
+          this._roots = []
+        }
+      }
+      return this._roots
+    })
   }
 
   moduleUrl(address: Address) {
@@ -142,14 +149,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     }
   }
 
-  override async startHandler(): Promise<boolean> {
-    const { discoverRoot = true } = this.config
-    if (discoverRoot) {
-      await this.discoverRoots()
-    }
-    return true
-  }
-
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
@@ -175,7 +174,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
     const rootModule = assertEx(
-      await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
+      (await this.resolver.resolveHandler(assertEx(nodeManifest.status?.address, () => 'Root has no address'))).at(0),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')

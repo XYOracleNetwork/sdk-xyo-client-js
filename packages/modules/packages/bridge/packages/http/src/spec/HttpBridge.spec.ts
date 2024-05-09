@@ -88,6 +88,7 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
+    await bridge.getRoots()
     const module = await bridge.resolve('XYOPublic')
 
     expect(isModule(module)).toBeTrue()

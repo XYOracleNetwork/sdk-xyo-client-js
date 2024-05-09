@@ -20,7 +20,7 @@ describe('HttpBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { discoverRoot: true, name: 'HttpBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { discoverRoots: 'start', name: 'HttpBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await memNode.register(bridge)

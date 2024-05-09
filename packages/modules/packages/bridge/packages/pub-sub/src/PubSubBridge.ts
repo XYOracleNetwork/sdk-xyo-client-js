@@ -17,6 +17,7 @@ import {
 import { creatableModule, ModuleIdentifier, ModuleInstance, resolveAddressToInstanceUp, ResolveHelper } from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
+import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -39,7 +40,9 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   private _busClient?: AsyncQueryBusClient
   private _busHost?: AsyncQueryBusHost
+  private _discoverRootsMutex = new Mutex()
   private _resolver?: PubSubBridgeModuleResolver
+  private _roots?: ModuleInstance[]
 
   override get resolver(): PubSubBridgeModuleResolver {
     this._resolver =
@@ -72,8 +75,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
 
     //use the resolver to create the proxy instance
-    const result = await this.resolver.resolveHandler<ModuleInstance>(id)
-    const instance = Array.isArray(result) ? result[0] : result
+    const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
     return await this.connectInstance(instance, maxDepth)
   }
 
@@ -84,16 +86,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this.downResolver.remove(instance.address)
       return instance.address
     }
-  }
-
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    const rootAddresses = (await Promise.all((this.config.roots ?? []).map((id) => ResolveHelper.transformModuleIdentifier(id)))).filter(exists)
-    const rootInstances = (await Promise.all(rootAddresses.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
-    for (const instance of rootInstances) {
-      this.downResolver.add(instance)
-    }
-    this._roots = rootInstances
-    return rootInstances
   }
 
   async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -129,6 +121,44 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   exposedHandler(): Address[] {
     const exposedSet = this.busHost()?.exposedAddresses
     return exposedSet ? [...exposedSet] : []
+  }
+
+  async getRoots(force?: boolean): Promise<ModuleInstance[]> {
+    return await this._discoverRootsMutex.runExclusive(async () => {
+      if (this._roots === undefined || force) {
+        const rootAddresses = (
+          await Promise.all(
+            (this.config.roots ?? []).map((id) => {
+              try {
+                return ResolveHelper.transformModuleIdentifier(id)
+              } catch (ex) {
+                this.logger?.warn('Unable to transform module identifier:', id, ex)
+                return
+              }
+            }),
+          )
+        ).filter(exists)
+        const rootInstances = (
+          await Promise.all(
+            rootAddresses.map(async (root) => {
+              try {
+                return await this.resolver.resolveHandler<ModuleInstance>(root)
+              } catch (ex) {
+                this.logger?.warn('Unable to resolve root:', root, ex)
+                return
+              }
+            }),
+          )
+        )
+          .flat()
+          .filter(exists)
+        for (const instance of rootInstances) {
+          this.downResolver.add(instance)
+        }
+        this._roots = rootInstances
+      }
+      return this._roots
+    })
   }
 
   override async startHandler(): Promise<boolean> {

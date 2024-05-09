@@ -26,10 +26,7 @@ export class WebsocketBridgeModuleResolver<
     return this.params.querySender
   }
 
-  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    id: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<T | T[] | undefined> {
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T[]> {
     const parentResult = await super.resolveHandler(id, options)
     if (parentResult) {
       return parentResult
@@ -76,10 +73,10 @@ export class WebsocketBridgeModuleResolver<
 
     if (remainderParts.length > 0) {
       const result = await wrapped.resolve<T>(remainderParts, options)
-      return result
+      return result ? [result] : []
     }
 
     //console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
-    return instance
+    return [instance]
   }
 }

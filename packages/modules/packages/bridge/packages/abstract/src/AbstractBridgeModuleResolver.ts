@@ -24,11 +24,10 @@ export abstract class AbstractBridgeModuleResolver<
     id: ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
     _params?: Partial<TProxyParams>,
-  ): Promise<T | T[] | undefined> {
+  ): Promise<T[]> {
     if (id === '*') {
       return []
     }
-    const result = (await super.resolveHandler(id, options)) as T | undefined
-    return result
+    return await super.resolveHandler(id, options)
   }
 }

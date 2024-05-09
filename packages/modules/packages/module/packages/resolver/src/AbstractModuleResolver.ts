@@ -44,7 +44,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     options?: ModuleFilterOptions<T>,
   ): Promise<T[] | T | undefined> {
     if (idOrFilter === '*') {
-      const values = (await this.resolveHandler(idOrFilter, options)) as []
+      const values = await this.resolveHandler(idOrFilter, options)
       assertEx(Array.isArray(values), () => 'resolveHandler returned a non-array')
       return values.map((value) =>
         asModuleInstance<T>(value, () => {
@@ -55,7 +55,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        const value = await this.resolveHandler(idOrFilter, options)
+        const [value] = await this.resolveHandler(idOrFilter, options)
         return asModuleInstance<T>(
           value,
           () =>
@@ -91,7 +91,7 @@ export abstract class AbstractModuleResolver<TParams extends ModuleResolverParam
   abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
-  ): Promisable<T | T[] | undefined>
+  ): Promisable<T[]>
 
   abstract resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promisable<Address | undefined>
 }

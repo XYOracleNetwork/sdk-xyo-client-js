@@ -66,7 +66,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | string = '*',
     options?: ModuleFilterOptions<T>,
-  ): Promisable<T[] | T | undefined> {
+  ): Promisable<T[]> {
     const unfiltered = (() => {
       if (idOrFilter) {
         if (typeof idOrFilter === 'string') {
@@ -99,11 +99,17 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     if (identity) {
       return (
         Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module))
-        : identity(unfiltered) ? unfiltered
-        : undefined
+        : identity(unfiltered) ? [unfiltered]
+        : []
       )
     } else {
-      return unfiltered
+      return (
+        unfiltered ?
+          Array.isArray(unfiltered) ?
+            unfiltered
+          : [unfiltered]
+        : []
+      )
     }
   }
 

@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
@@ -62,16 +63,16 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
     return assertEx(this.config.client?.url, () => 'No Url Set')
   }
 
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    return await Promise.resolve([])
-  }
-
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
 
   override exposedHandler(): Promisable<Address[]> {
     throw new Error('Unsupported')
+  }
+
+  async getRoots(): Promise<ModuleInstance[]> {
+    return await Promise.resolve([])
   }
 
   async sendBridgeQuery<TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
@@ -97,14 +98,6 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
     } finally {
       this.querySemaphore.release()
     }
-  }
-
-  override async startHandler(): Promise<boolean> {
-    const { discoverRoot = true } = this.config
-    if (discoverRoot) {
-      await this.discoverRoots()
-    }
-    return true
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {

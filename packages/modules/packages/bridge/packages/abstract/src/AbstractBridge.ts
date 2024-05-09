@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
@@ -41,8 +42,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   static override readonly defaultConfigSchema: Schema = BridgeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
 
-  protected _roots: ModuleInstance[] = []
-
   override get allowNameResolution() {
     //we default to false here to prevent name collisions
     return this.params.allowNameResolution ?? false
@@ -56,10 +55,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return assertEx(this.params.resolver, () => 'No resolver provided')
   }
 
-  get roots(): ModuleInstance[] {
-    return this._roots
-  }
-
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
     return {
       'network.xyo.query.bridge.connect': '1/1',
@@ -67,10 +62,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       'network.xyo.query.bridge.expose': '1/4',
       'network.xyo.query.bridge.unexpose': '1/5',
     }
-  }
-
-  discoverRoots(): Promisable<ModuleInstance[]> {
-    return []
   }
 
   async expose(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -100,7 +91,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
     if (idOrFilter === '*') {
-      return (await Promise.all(this.roots.map((root) => root.resolve('*', options)))).flat().filter(duplicateModules)
+      await this.getRoots()
+      return (await Promise.all((await this.getRoots()).map((root) => root.resolve('*', options)))).flat().filter(duplicateModules)
     }
     switch (typeof idOrFilter) {
       case 'string': {
@@ -115,8 +107,14 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     }
   }
 
-  override async startHandler() {
-    return await super.startHandler()
+  override async startHandler(): Promise<boolean> {
+    const { discoverRoots } = this.config
+    if (discoverRoots === 'start') {
+      await this.getRoots()
+    } else {
+      forget(this.getRoots())
+    }
+    return true
   }
 
   async unexpose(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -184,6 +182,8 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   abstract exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>
 
   abstract exposedHandler(): Promisable<Address[]>
+
+  abstract getRoots(force?: boolean): Promise<ModuleInstance[]>
 
   abstract unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]>
 }

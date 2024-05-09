@@ -6,7 +6,6 @@ export type WebsocketBridgeConfigSchema = typeof WebsocketBridgeConfigSchema
 
 export type WebsocketBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
-    discoverRoot?: boolean
     schema: WebsocketBridgeConfigSchema
   } & TConfig,
   TSchema extends string ? TSchema : WebsocketBridgeConfigSchema,

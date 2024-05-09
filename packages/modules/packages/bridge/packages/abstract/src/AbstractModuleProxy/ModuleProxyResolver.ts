@@ -84,28 +84,30 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     } else if (typeof idOrFilter === 'string') {
       const idParts = idOrFilter.split(':')
       const firstPart: ModuleIdentifier = assertEx(idParts.shift(), () => 'Invalid module identifier at first position')
-      const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
-      if (direction === 'down' || direction === 'all') {
-        const downResolverModule = await this.downResolver.resolve<T>(firstPart)
-        if (downResolverModule) {
-          return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
-        }
-        //if it is a known child, create a proxy
-        const addressToProxy =
-          Object.keys(this.childAddressMap).includes(firstPart as Address) ?
-            (firstPart as Address)
-          : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPart)?.[0] as Address | undefined)
-        if (addressToProxy) {
-          const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
-          if (proxy) {
-            const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
-            return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+      const firstPartAddress = await this.resolveIdentifier(firstPart)
+      if (firstPartAddress) {
+        const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
+        if (direction === 'down' || direction === 'all') {
+          const downResolverModule = await this.downResolver.resolve<T>(firstPartAddress)
+          if (downResolverModule) {
+            return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
           }
-          return
+          //if it is a known child, create a proxy
+          const addressToProxy =
+            Object.keys(this.childAddressMap).includes(firstPartAddress as Address) ?
+              (firstPartAddress as Address)
+            : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPartAddress)?.[0] as Address | undefined)
+          if (addressToProxy) {
+            const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
+            if (proxy) {
+              const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+              return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+            }
+            return
+          }
         }
-      } else {
-        return
       }
+      return
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {

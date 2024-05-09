@@ -109,6 +109,10 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
     return []
   }
 
+  override getRoots(_force?: boolean | undefined): Promise<ModuleInstance[]> {
+    return Promise.resolve([])
+  }
+
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
     return []
   }

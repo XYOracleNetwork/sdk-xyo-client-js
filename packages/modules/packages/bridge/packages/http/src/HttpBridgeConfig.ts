@@ -6,7 +6,6 @@ export const HttpBridgeConfigSchema: HttpBridgeConfigSchema = 'network.xyo.bridg
 
 export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<
   {
-    discoverRoot?: boolean
     failureRetryTime?: number
     failureTimeCacheMax?: number
     maxConnections?: number

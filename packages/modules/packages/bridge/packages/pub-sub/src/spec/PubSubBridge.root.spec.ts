@@ -128,7 +128,7 @@ describe('PubSubBridge', () => {
       },
     }
 
-    const bridge = await PubSubBridge.create({
+    const pubSubBridge = await PubSubBridge.create({
       account: Account.randomSync(),
       config: {
         client: {
@@ -139,6 +139,7 @@ describe('PubSubBridge', () => {
           },
           stateStore,
         },
+        discoverRoots: 'adhoc',
         host: { intersect, pollFrequency, stateStore },
         name: 'pubSubBridge',
         roots: [hostNodeContainer.address],
@@ -147,27 +148,26 @@ describe('PubSubBridge', () => {
       },
     })
 
-    await bridge?.start?.()
-    await clientNode.register(bridge)
-    await clientNode.attach(bridge?.address, true)
-    const resolvedBridge = clientNode.resolve(bridge.id)
+    await clientNode.register(pubSubBridge)
+    await clientNode.attach(pubSubBridge?.address, true)
+    const resolvedBridge = clientNode.resolve(pubSubBridge.id)
     expect(resolvedBridge).toBeDefined()
 
-    await hostNode.register(bridge)
-    await hostNode.attach(bridge?.address, true)
-    await bridge.expose(hostNodeContainer.address)
+    await hostNode.register(pubSubBridge)
+    await hostNode.attach(pubSubBridge?.address, true)
+    await pubSubBridge.expose(hostNodeContainer.address)
 
-    const exposed = await bridge.exposed?.()
+    const exposed = await pubSubBridge.exposed?.()
     expect(exposed).toBeArray()
     expect(exposed?.length).toBeGreaterThan(1)
 
-    const rootModule = await bridge.resolve(hostNodeContainer.address)
+    const rootModule = await pubSubBridge.resolve(hostNodeContainer.address)
     expect(rootModule).toBeDefined()
 
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
     expect(remoteNode).toBeDefined()
 
-    const archivistByName = await bridge.resolve('hostNodeContainer:Archivist')
+    const archivistByName = await pubSubBridge.resolve('hostNodeContainer:Archivist')
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
@@ -179,8 +179,8 @@ describe('PubSubBridge', () => {
     const roundTripPayload = (await archivistInstance.get([knownHash]))[0]
     expect(roundTripPayload).toBeDefined()
 
-    await bridge.unexpose(hostNodeContainer.address)
-    const exposedAfter = await bridge.exposed?.()
+    await pubSubBridge.unexpose(hostNodeContainer.address)
+    const exposedAfter = await pubSubBridge.exposed?.()
     expect(exposedAfter).toBeArray()
     expect(exposedAfter?.length).toBe(0)
   })

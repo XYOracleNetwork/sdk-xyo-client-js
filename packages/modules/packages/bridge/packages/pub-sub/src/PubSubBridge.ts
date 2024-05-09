@@ -98,6 +98,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     const { maxDepth = 5 } = options ?? {}
+    console.log(`exposeChild: ${mod.address} ${mod?.id} ${maxDepth}`)
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
     host.expose(mod)
     const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
@@ -115,6 +116,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     const { required = true } = options ?? {}
     const mod = await resolveAddressToInstanceUp(this, address)
+    console.log(`exposeHandler: ${address} ${mod?.id}`)
     if (required && !mod) {
       throw new Error(`Unable to find required module: ${address}`)
     }

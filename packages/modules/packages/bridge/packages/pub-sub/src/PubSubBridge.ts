@@ -106,7 +106,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     if (module) {
       host.expose(module)
       const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
-      console.log(`childrenToExpose [${module.id}]: ${toJsonString(children.map((child) => child.id))}`)
+      this.logger.log(`childrenToExpose [${module.id}][${module.address}]: ${toJsonString(children.map((child) => child.id))}`)
       const exposedChildren = (
         await Promise.all(children.map((child) => this.exposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )

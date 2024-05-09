@@ -1,6 +1,5 @@
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
-import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'

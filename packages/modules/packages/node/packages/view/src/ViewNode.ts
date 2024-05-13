@@ -20,7 +20,6 @@ import {
   isNodeModule,
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
-  NodeCertifyQuerySchema,
   NodeConfig,
   NodeDetachQuerySchema,
   NodeModuleEventData,
@@ -60,7 +59,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   }
 
   override get queries(): Schema[] {
-    const disallowedQueries = new Set<Schema>([NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema, NodeAttachedQuerySchema])
+    const disallowedQueries = new Set<Schema>([NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema])
     const queries: Schema[] = [...super.queries]
     return queries.filter((query) => !disallowedQueries.has(query))
   }

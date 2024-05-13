@@ -4,6 +4,7 @@ import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistConfig,
+  ArchivistGetQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
@@ -51,7 +52,7 @@ export class ViewArchivist<
   }
 
   override get queries() {
-    return [ArchivistAllQuerySchema, ArchivistNextQuerySchema, ...super.queries]
+    return [ArchivistGetQuerySchema, ArchivistAllQuerySchema, ArchivistNextQuerySchema, ...super.queries]
   }
 
   async originArchivistInstance() {

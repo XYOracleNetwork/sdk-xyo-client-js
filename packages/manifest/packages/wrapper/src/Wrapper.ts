@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifest, NodeManifest, PackageManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleName, ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -17,8 +17,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
-    protected readonly publicChildren: PackageManifestPayload[] = [],
-    protected readonly privateChildren: PackageManifestPayload[] = [],
+    protected readonly publicChildren: PackageManifest[] = [],
+    protected readonly privateChildren: PackageManifest[] = [],
     protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
   ) {
     super(payload)

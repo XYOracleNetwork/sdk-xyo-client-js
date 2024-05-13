@@ -1,4 +1,4 @@
-export const DappPackageManifestPayloadSchema = 'network.xyo.dapp.manifest.package'
+export const DappPackageManifestPayloadSchema = 'network.xyo.manifest.package.dapp'
 export type DappPackageManifestPayloadSchema = typeof DappPackageManifestPayloadSchema
 
 export type PackageManifestPayloadSchema = 'network.xyo.manifest.package'
@@ -54,7 +54,6 @@ export type ModuleManifestPayload = Payload<ModuleManifest, ModuleManifestPayloa
 export interface PackageManifest extends Manifest {
   modules?: Record<ModuleAlias, ModuleManifest>
   nodes: NodeManifest[]
-  schema: PackageManifestPayloadSchema
 }
 
 export type PackageManifestPayload = Payload<PackageManifest, PackageManifestPayloadSchema>

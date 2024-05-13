@@ -20,6 +20,7 @@ import {
   isNodeModule,
   NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
+  NodeCertifyQuerySchema,
   NodeConfig,
   NodeDetachQuerySchema,
   NodeModuleEventData,

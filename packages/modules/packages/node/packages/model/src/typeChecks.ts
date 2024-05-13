@@ -3,7 +3,7 @@ import { IsInstanceFactory, IsModuleFactory, isModuleInstance, WithFactory } fro
 
 import { NodeInstance } from './instance'
 import { NodeModule } from './Node'
-import { NodeAttachedQuerySchema, NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema } from './Queries'
+import { NodeCertifyQuerySchema } from './Queries'
 
 const instanceFactory = new IsInstanceFactory<NodeInstance>()
 
@@ -19,7 +19,7 @@ export const isNodeInstance = instanceFactory.create(
 
 const moduleFactory = new IsModuleFactory<NodeModule>()
 
-export const isNodeModule = moduleFactory.create([NodeAttachedQuerySchema, NodeAttachQuerySchema, NodeDetachQuerySchema, NodeRegisteredQuerySchema])
+export const isNodeModule = moduleFactory.create([NodeCertifyQuerySchema])
 
 export const asNodeModule = AsObjectFactory.create(isNodeModule)
 export const asNodeInstance = AsObjectFactory.create(isNodeInstance)

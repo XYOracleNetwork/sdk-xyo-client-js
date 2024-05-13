@@ -5,13 +5,16 @@ import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleName, ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeInstance } from '@xyo-network/node-model'
+import { WithAnySchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
 /** Provides functionality that can be performed on a PackageManifest */
-export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
+export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void> extends PayloadWrapper<
+  TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>
+> {
   constructor(
-    payload: PackageManifestPayload,
+    payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
     protected readonly publicChildren: PackageManifestPayload[] = [],

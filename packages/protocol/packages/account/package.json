@@ -31,8 +31,8 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
-    "@xylabs/ts-scripts-yarn3": "^3.10.0",
-    "@xylabs/tsconfig": "^3.10.0",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
     "typescript": "^5.4.5"
   },
   "exports": {

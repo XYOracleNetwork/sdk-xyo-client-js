@@ -14,8 +14,8 @@
     "@xyo-network/manifest-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.10.0",
-    "@xylabs/tsconfig": "^3.10.0",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
     "ajv": "^8.13.0",
     "typescript": "^5.4.5"
   },

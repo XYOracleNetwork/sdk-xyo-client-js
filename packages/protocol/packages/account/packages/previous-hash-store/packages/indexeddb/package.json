@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "@types/uuid": "9.0.8",
-    "@xylabs/ts-scripts-yarn3": "^3.10.0",
-    "@xylabs/tsconfig": "^3.10.0",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
     "fake-indexeddb": "^5.0.2",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1"

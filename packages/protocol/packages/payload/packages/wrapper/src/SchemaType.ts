@@ -1,7 +1,7 @@
 import { Payload } from '@xyo-network/payload-model'
 import { JSONSchemaType } from 'ajv'
 
-const SchemaRegEx = '^((?!-)[a-z0-9-]{1, 63}(?<!-)\\.)+$'
+const SchemaRegEx = String.raw`^((?!-)[a-z0-9-]{1, 63}(?<!-)\.)+$`
 
 export const payloadJsonSchema: JSONSchemaType<Payload> = {
   additionalProperties: true,

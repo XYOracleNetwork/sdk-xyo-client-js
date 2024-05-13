@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'

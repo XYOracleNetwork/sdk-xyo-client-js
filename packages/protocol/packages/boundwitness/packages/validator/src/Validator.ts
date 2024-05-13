@@ -7,7 +7,7 @@ import { PayloadBuilder } from '@xyo-network/payload'
 import { PayloadValidator } from '@xyo-network/payload-validator'
 
 const validateArraysSameLength = (a: unknown[], b: unknown[], message = 'Array length mismatch') => {
-  return a.length == b.length ? [] : [Error(`${message} []`)]
+  return a.length == b.length ? [] : [new Error(`${message} []`)]
 }
 
 export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = BoundWitness> extends PayloadValidator<T> {
@@ -17,10 +17,10 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
 
   static validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Error[] {
     if (!signature) {
-      return [Error(`Missing signature [${address}]`)]
+      return [new Error(`Missing signature [${address}]`)]
     }
     if (!new AddressValue(toUint8Array(address)).verify(hash, signature)) {
-      return [Error(`Invalid signature [${address}] [${signature}]`)]
+      return [new Error(`Invalid signature [${address}] [${signature}]`)]
     }
     return []
   }
@@ -37,7 +37,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     const errors: Error[] = []
     const { addresses } = this.obj
     const uniqAddresses = uniq(addresses)
-    if (addresses?.length !== uniqAddresses?.length) errors.push(Error('addresses must be unique'))
+    if (addresses?.length !== uniqAddresses?.length) errors.push(new Error('addresses must be unique'))
     return errors
   }
 
@@ -49,7 +49,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
   schema(): Error[] {
     const errors: Error[] = []
     if (this.obj.schema !== this.expectedSchema) {
-      errors.push(Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
+      errors.push(new Error(`invalid schema [${this.expectedSchema} !== ${this.obj.schema}]`))
     }
     return errors
   }

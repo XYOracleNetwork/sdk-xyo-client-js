@@ -37,7 +37,7 @@ export class PayloadValidator<T extends Payload = Payload> extends ValidatorBase
   schemaName(): Error[] {
     const errors: Error[] = []
     if (this.obj.schema === undefined) {
-      errors.push(Error('schema missing'))
+      errors.push(new Error('schema missing'))
     } else {
       errors.push(...(this.schemaValidator?.all() ?? []))
     }

@@ -5,7 +5,7 @@ import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
 import { AttachableDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema } from '@xyo-network/node-model'
+import { isNodeInstance, isNodeModule, NodeConfigSchema } from '@xyo-network/node-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
 import { AttachableWitnessInstance } from '@xyo-network/witness-model'
 
@@ -30,6 +30,8 @@ describe('MultiNodeConfiguration', () => {
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'primaryNode', schema: NodeConfigSchema } })
+    expect(isNodeModule(primaryNode)).toBe(true)
+    expect(isNodeInstance(primaryNode)).toBe(true)
     primaryArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
       config: { name: 'primaryArchivist', schema: MemoryArchivist.defaultConfigSchema },

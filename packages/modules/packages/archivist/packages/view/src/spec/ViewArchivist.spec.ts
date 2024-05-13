@@ -3,6 +3,7 @@
  */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
@@ -23,6 +24,9 @@ describe('MemoryArchivist', () => {
       account: Account.randomSync(),
       config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
     })
+
+    expect(isArchivistInstance(viewArchivist)).toBeTruthy()
+    expect(isArchivistModule(viewArchivist)).toBeTruthy()
 
     await node.register(originArchivist)
     await node.attach(originArchivist.config.name ?? originArchivist.address, false)

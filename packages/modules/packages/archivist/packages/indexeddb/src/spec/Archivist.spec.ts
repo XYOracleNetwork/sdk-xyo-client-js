@@ -3,7 +3,7 @@
  */
 
 import { Account } from '@xyo-network/account'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
@@ -118,6 +118,10 @@ describe('IndexedDbArchivist', () => {
           account,
           config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2 },
         })
+
+        expect(isArchivistInstance(archivist1)).toBeTruthy()
+        expect(isArchivistModule(archivist1)).toBeTruthy()
+
         // TODO: This test is not testing the end state of indexedDB, but rather the
         // state of the Archivist instance and therefore isn't valid.  We'd want to actually
         // open indexedDB and check the state of the stores matches what we want (which it doesn't).

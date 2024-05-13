@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
-import { asNodeInstance } from '@xyo-network/node-model'
+import { asNodeInstance, isNodeInstance, isNodeModule } from '@xyo-network/node-model'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeViewManifest from './simple-node-view-manifest.json'
@@ -15,6 +15,8 @@ describe('Manifest', () => {
       expect(node).toBeDefined()
 
       const viewNode = asNodeInstance(await node.resolve('ViewNode'))
+      expect(isNodeModule(viewNode)).toBe(true)
+      expect(isNodeInstance(viewNode)).toBe(true)
       const sharedMod = await viewNode?.resolve('SimpleArchivist')
       expect(sharedMod).toBeDefined()
 

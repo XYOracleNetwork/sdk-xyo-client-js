@@ -5,7 +5,7 @@ import { JsonPatchDiviner } from '@xyo-network/diviner-jsonpatch-memory'
 import { JsonPathAggregateDiviner } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { JsonPathDiviner } from '@xyo-network/diviner-jsonpath-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { WithMeta } from '@xyo-network/payload-model'
@@ -27,7 +27,7 @@ describe('Sentinel.Interval', () => {
     locator.register(JsonPatchDiviner)
     locator.register(JsonPathDiviner)
     locator.register(JsonPathAggregateDiviner)
-    const manifest = SentinelManifest as PackageManifest
+    const manifest = SentinelManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()

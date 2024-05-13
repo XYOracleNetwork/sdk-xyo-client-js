@@ -5,7 +5,7 @@ import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -62,7 +62,7 @@ describe('TemporalStateToIndexCandidateDiviner', () => {
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner)
-    const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifest
+    const manifest = TemporalStateToIndexCandidateDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()

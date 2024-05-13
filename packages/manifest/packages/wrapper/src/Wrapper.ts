@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { HDWallet } from '@xyo-network/account'
-import { ModuleManifest, NodeManifest, PackageManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleName, ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -17,8 +17,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
     protected readonly wallet: WalletInstance,
     protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
-    protected readonly publicChildren: PackageManifest[] = [],
-    protected readonly privateChildren: PackageManifest[] = [],
+    protected readonly publicChildren: ModuleManifest[] = [],
+    protected readonly privateChildren: ModuleManifest[] = [],
     protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
   ) {
     super(payload)
@@ -72,26 +72,18 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     await Promise.all([...privateModules, ...publicModules])
 
     await Promise.all(
-      this.privateChildren.map(async (child) => {
-        const wrapper = new ManifestWrapper(child, derivedWallet, this.locator)
-        const subNodes = await wrapper.loadNodes(node)
-        await Promise.all(
-          subNodes.map((subNode) => {
-            return node.attach(subNode.address, false)
-          }),
-        )
+      this.privateChildren.map(async (moduleManifest) => {
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, false)
+        }
       }),
     )
 
     await Promise.all(
-      this.publicChildren.map(async (child) => {
-        const wrapper = new ManifestWrapper(child, derivedWallet, this.locator)
-        const subNodes = await wrapper.loadNodes(node)
-        await Promise.all(
-          subNodes.map((subNode) => {
-            return node.attach(subNode.address, true)
-          }),
-        )
+      this.publicChildren.map(async (moduleManifest) => {
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, true)
+        }
       }),
     )
 

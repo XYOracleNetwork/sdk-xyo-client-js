@@ -8,7 +8,7 @@ import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
 import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
 import { isModuleStateWithMeta, Labels } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -92,7 +92,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner, labels)
     locator.register(TemporalIndexingDiviner, labels)
-    const manifest = imageThumbnailDivinerManifest as PackageManifest
+    const manifest = imageThumbnailDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()

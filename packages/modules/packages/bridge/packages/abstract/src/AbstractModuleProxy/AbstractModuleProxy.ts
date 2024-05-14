@@ -77,7 +77,9 @@ export abstract class AbstractModuleProxy<
   }
 
   override get archiving(): ArchivingModuleConfig['archiving'] | undefined {
-    return this.params.config.archiving
+    //we are checking the config existence here because it is required to get the id which has not been set yet
+    //when the first query for state is made
+    return this._config ? this.params.config.archiving : undefined
   }
 
   override get config() {

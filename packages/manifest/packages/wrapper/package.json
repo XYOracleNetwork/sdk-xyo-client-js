@@ -18,6 +18,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
     "@xyo-network/wallet-model": "workspace:~"
   },
@@ -73,6 +74,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.100.17",
+  "version": "2.100.18",
   "type": "module"
 }

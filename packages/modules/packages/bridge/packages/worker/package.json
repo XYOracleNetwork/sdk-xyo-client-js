@@ -65,6 +65,6 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.100.17",
+  "version": "2.100.18",
   "type": "module"
 }

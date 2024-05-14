@@ -261,7 +261,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
-    const archivists = this.config.archiving?.archivists
+    const archivists = this.archiving?.archivists
     if (!archivists) return []
     const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
     return compact(resolved.map((mod) => asArchivistInstance(mod)))

@@ -77,7 +77,7 @@ export abstract class AbstractModuleProxy<
   }
 
   override get archiving(): ArchivingModuleConfig['archiving'] | undefined {
-    return
+    return this.params.config.archiving
   }
 
   override get config() {

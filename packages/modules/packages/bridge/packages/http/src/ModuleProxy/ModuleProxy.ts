@@ -36,12 +36,6 @@ export class HttpModuleProxy<
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    this.params.onQuerySendStarted?.({ payloads, query })
-    const result = await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
-    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
-      await this.storeToArchivists(result.flat())
-    }
-    this.params.onQuerySendFinished?.({ payloads, query, result, status: 'success' })
-    return result
+    return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
   }
 }

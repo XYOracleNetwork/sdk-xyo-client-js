@@ -1,6 +1,7 @@
 import { Address } from '@xylabs/hex'
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
@@ -32,6 +33,7 @@ export interface AddressToWeakInstanceCache {
 }
 
 export interface ModuleFamilyFunctions {
+  account?: AccountInstance | undefined
   addParent: (module: ModuleInstance) => void
   addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
   localName: ModuleName | undefined

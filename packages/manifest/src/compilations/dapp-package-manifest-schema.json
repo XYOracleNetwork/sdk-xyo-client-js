@@ -245,7 +245,7 @@
       "description": "The list of Nodes that are defined in the manifest"
     },
     "schema": {
-      "pattern": "^network.xyo.dapp.manifest.package$",
+      "pattern": "^network.xyo.manifest.package.dapp$",
       "type": "string"
     }
   },

@@ -34,6 +34,9 @@ export class AsyncQueryBusModuleProxy<
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     this.params.onQuerySendStarted?.({ payloads, query })
     const result = await this.params.busClient.send(this.address, query, payloads)
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      await this.storeToArchivists(result.flat())
+    }
     this.params.onQuerySendFinished?.({ payloads, query, result, status: 'success' })
     return result
   }

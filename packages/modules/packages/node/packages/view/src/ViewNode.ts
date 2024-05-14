@@ -18,7 +18,6 @@ import {
   asNodeInstance,
   AttachableNodeInstance,
   isNodeModule,
-  NodeAttachedQuerySchema,
   NodeAttachQuerySchema,
   NodeConfig,
   NodeDetachQuerySchema,

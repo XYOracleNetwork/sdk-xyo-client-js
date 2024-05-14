@@ -1,11 +1,19 @@
 import { AccountInstance } from '@xyo-network/account-model'
 import { BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
-import { CacheConfig, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ObjectResolverPriority } from '@xyo-network/module-model'
+import {
+  ArchivingModuleConfig,
+  CacheConfig,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ObjectResolverPriority,
+} from '@xyo-network/module-model'
 import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/module-resolver'
 
 import { ModuleProxyParams } from './AbstractModuleProxy'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
+  archiving?: ArchivingModuleConfig['archiving']
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
   onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void

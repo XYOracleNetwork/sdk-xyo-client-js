@@ -48,6 +48,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     this._resolver =
       this._resolver ??
       new PubSubBridgeModuleResolver({
+        archiving: this.config.archiving,
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
         onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {

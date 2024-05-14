@@ -37,7 +37,10 @@ import { LRUCache } from 'lru-cache'
 import { ModuleProxyResolver } from './ModuleProxyResolver'
 
 export type ModuleProxyParams = ModuleParams<
-  { schema: ModuleConfigSchema },
+  {
+    archiving?: ArchivingModuleConfig['archiving']
+    schema: ModuleConfigSchema
+  },
   {
     account: AccountInstance
     host: ModuleResolver

@@ -166,6 +166,9 @@ export abstract class AbstractModuleProxy<
         this.params.onQuerySendStarted?.({ payloads, query })
         const result = await this.proxyQueryHandler<T>(query, payloads)
         this.params.onQuerySendFinished?.({ payloads, query, result, status: 'success' })
+        if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+          await this.storeToArchivists(result.flat())
+        }
         forget(this.emit('moduleQueried', { module: this, payloads, query, result }))
         return result
       } catch (ex) {

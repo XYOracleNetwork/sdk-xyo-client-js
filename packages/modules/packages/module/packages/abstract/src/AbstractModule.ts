@@ -598,6 +598,14 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
+  protected isAllowedArchivingQuery(schema: Schema): boolean {
+    const queries = this.archiving?.queries
+    if (queries) {
+      return queries.includes(schema)
+    }
+    return true
+  }
+
   protected manifestHandler(_maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promisable<ModuleManifestPayload> {
     throw new Error('Not supported')
   }
@@ -708,14 +716,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         }
       }
     }, true)
-  }
-
-  private isAllowedArchivingQuery(schema: Schema): boolean {
-    const queries = this.archiving?.queries
-    if (queries) {
-      return queries.includes(schema)
-    }
-    return true
   }
 
   protected abstract certifyParents(): Promise<WithMeta<Payload>[]>

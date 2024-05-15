@@ -221,6 +221,13 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
   }
 
+  /*override start(_timeout?: number): Promisable<boolean> {
+    if (this.parents.length === 0) {
+      this.logger.warn(`Module is being started without being attached to a parent: ${this.id} [${this.address}]`)
+    }
+    return super.start()
+  }*/
+
   state() {
     this._checkDead()
     return this.busy(async () => {

@@ -1,5 +1,4 @@
 import { assertEx } from '@xylabs/assert'
-import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
@@ -44,7 +43,7 @@ export type ModuleProxyParams = ModuleParams<
   },
   {
     account: AccountInstance
-    archiving?: Omit<ArchivingModuleConfig['archiving'], 'archivists'> & { archivists: WeakRef<ArchivistInstance>[] }
+    archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
     host: ModuleResolver
     moduleAddress: Address
     onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
@@ -79,11 +78,7 @@ export abstract class AbstractModuleProxy<
   }
 
   override get archiving(): ArchivingModuleConfig['archiving'] | undefined {
-    //we are checking the config existence here because it is required to get the id which has not been set yet
-    //when the first query for state is made
-    return this.params?.archiving ?
-        { ...this.params.archiving, archivists: this.params.archiving.archivists.map((archivist) => archivist.deref()?.address).filter(exists) }
-      : undefined
+    return this.params?.archiving
   }
 
   override get config() {
@@ -211,7 +206,7 @@ export abstract class AbstractModuleProxy<
   }
 
   override async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
-    return await Promise.resolve((this.params.archiving?.archivists ?? []).map((archivist) => archivist.deref()).filter(exists))
+    return (await this.params.archiving?.resolveArchivists()) ?? []
   }
 
   setConfig(config: TWrappedModule['params']['config']) {

@@ -44,6 +44,25 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _resolver?: PubSubBridgeModuleResolver
   private _roots?: ModuleInstance[]
 
+  override get resolver(): PubSubBridgeModuleResolver {
+    this._resolver =
+      this._resolver ??
+      new PubSubBridgeModuleResolver({
+        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+        bridge: this,
+        busClient: assertEx(this.busClient(), () => 'busClient not configured'),
+        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
+          forget(this.emit('querySendFinished', { module: this, ...args }))
+        },
+        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
+          forget(this.emit('querySendStarted', { module: this, ...args }))
+        },
+        root: this,
+        wrapperAccount: this.account,
+      })
+    return this._resolver
+  }
+
   protected get moduleName() {
     return `${this.config.name ?? moduleName}`
   }
@@ -57,7 +76,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     }
 
     //use the resolver to create the proxy instance
-    const [instance] = await (await this.getResolver()).resolveHandler<ModuleInstance>(id)
+    const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
     return await this.connectInstance(instance, maxDepth)
   }
 
@@ -105,25 +124,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return exposedSet ? [...exposedSet] : []
   }
 
-  override async getResolver(): Promise<PubSubBridgeModuleResolver> {
-    this._resolver =
-      this._resolver ??
-      new PubSubBridgeModuleResolver({
-        archiving: { ...this.archiving, archivists: (await this.resolveArchivingArchivists()).map((archivist) => new WeakRef(archivist)) },
-        bridge: this,
-        busClient: assertEx(this.busClient(), () => 'busClient not configured'),
-        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
-          forget(this.emit('querySendFinished', { module: this, ...args }))
-        },
-        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
-          forget(this.emit('querySendStarted', { module: this, ...args }))
-        },
-        root: this,
-        wrapperAccount: this.account,
-      })
-    return this._resolver
-  }
-
   async getRoots(force?: boolean): Promise<ModuleInstance[]> {
     return await this._discoverRootsMutex.runExclusive(async () => {
       if (this._roots === undefined || force) {
@@ -143,7 +143,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
           await Promise.all(
             rootAddresses.map(async (root) => {
               try {
-                return await (await this.getResolver()).resolveHandler<ModuleInstance>(root)
+                return await this.resolver.resolveHandler<ModuleInstance>(root)
               } catch (ex) {
                 this.logger?.warn('Unable to resolve root:', root, ex)
                 return

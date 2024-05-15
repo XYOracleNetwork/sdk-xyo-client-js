@@ -25,8 +25,8 @@ describe('HttpBridge', () => {
     expect(httpBridge.nodeUrl).toBe('http://localhost:8080')
   })
 
-  it('should have resolver defined', async () => {
-    expect(await httpBridge.getResolver()).toBeDefined()
+  it('should have resolver defined', () => {
+    expect(httpBridge.resolver).toBeDefined()
   })
 
   it('should return correct moduleUrl', () => {

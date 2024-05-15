@@ -14,7 +14,7 @@ import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/modu
 import { ModuleProxyParams } from './AbstractModuleProxy'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
-  archiving?: Omit<ArchivingModuleConfig['archiving'], 'archivists'> & { archivists: WeakRef<ArchivistInstance>[] }
+  archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
   onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void

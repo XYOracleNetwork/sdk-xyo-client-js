@@ -71,19 +71,11 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._querySemaphore
   }
 
-  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
-    throw new Error('Unsupported')
-  }
-
-  override exposedHandler(): Promisable<Address[]> {
-    throw new Error('Unsupported')
-  }
-
-  override async getResolver() {
+  override get resolver() {
     this._resolver =
       this._resolver ??
       new HttpBridgeModuleResolver({
-        archiving: { ...this.archiving, archivists: (await this.resolveArchivingArchivists()).map((archivist) => new WeakRef(archivist)) },
+        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
         querySender: this,
         root: this,
@@ -91,6 +83,14 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
         wrapperAccount: this.account,
       })
     return this._resolver
+  }
+
+  override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
+    throw new Error('Unsupported')
+  }
+
+  override exposedHandler(): Promisable<Address[]> {
+    throw new Error('Unsupported')
   }
 
   async getRoots(force?: boolean): Promise<ModuleInstance[]> {
@@ -181,7 +181,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
     const rootModule = assertEx(
-      (await (await this.getResolver()).resolveHandler(assertEx(nodeManifest.status?.address, () => 'Root has no address'))).at(0),
+      (await this.resolver.resolveHandler(assertEx(nodeManifest.status?.address, () => 'Root has no address'))).at(0),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')

@@ -52,6 +52,19 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
     return this._querySemaphore
   }
 
+  override get resolver() {
+    this._resolver =
+      this._resolver ??
+      new WebsocketBridgeModuleResolver({
+        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+        bridge: this,
+        querySender: this,
+        root: this,
+        wrapperAccount: this.account,
+      })
+    return this._resolver
+  }
+
   get url() {
     return assertEx(this.config.client?.url, () => 'No Url Set')
   }
@@ -62,19 +75,6 @@ export class WebsocketClientBridge<TParams extends WebsocketBridgeParams = Webso
 
   override exposedHandler(): Promisable<Address[]> {
     throw new Error('Unsupported')
-  }
-
-  override async getResolver() {
-    this._resolver =
-      this._resolver ??
-      new WebsocketBridgeModuleResolver({
-        archiving: { ...this.archiving, archivists: (await this.resolveArchivingArchivists()).map((archivist) => new WeakRef(archivist)) },
-        bridge: this,
-        querySender: this,
-        root: this,
-        wrapperAccount: this.account,
-      })
-    return this._resolver
   }
 
   async getRoots(): Promise<ModuleInstance[]> {

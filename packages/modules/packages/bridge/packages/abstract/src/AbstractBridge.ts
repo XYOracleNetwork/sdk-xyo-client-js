@@ -54,6 +54,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
   }
 
+  get resolver(): Promisable<ModuleResolverInstance> {
+    return assertEx(this.params.resolver, () => 'No resolver provided')
+  }
+
   protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
     return {
       'network.xyo.query.bridge.connect': '1/1',
@@ -76,10 +80,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   async exposed(): Promise<Address[]> {
     this._noOverride('exposed')
     return await this.exposedHandler()
-  }
-
-  getResolver(): Promisable<ModuleResolverInstance> {
-    return assertEx(this.params.resolver, () => 'No resolver provided')
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */

@@ -24,8 +24,9 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     const account = Account.randomSync()
     const finalParams: AsyncQueryBusModuleProxyParams = {
       account,
+      archiving: this.params.archiving,
       busClient: this.params.busClient,
-      config: { archiving: this.params.archiving, schema: ModuleConfigSchema },
+      config: { schema: ModuleConfigSchema },
       host: this.params.bridge,
       moduleAddress: firstPart as Address,
       onQuerySendFinished: this.params.onQuerySendFinished,

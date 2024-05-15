@@ -1,9 +1,11 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address, asAddress } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { toJsonString } from '@xylabs/object'
 import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BoundWitnessWrapper, QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
@@ -38,11 +40,11 @@ import { ModuleProxyResolver } from './ModuleProxyResolver'
 
 export type ModuleProxyParams = ModuleParams<
   {
-    archiving?: ArchivingModuleConfig['archiving']
     schema: ModuleConfigSchema
   },
   {
     account: AccountInstance
+    archiving?: Omit<ArchivingModuleConfig['archiving'], 'archivists'> & { archivists: WeakRef<ArchivistInstance>[] }
     host: ModuleResolver
     moduleAddress: Address
     onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
@@ -204,6 +206,10 @@ export abstract class AbstractModuleProxy<
     _queryConfig?: TWrappedModule['params']['config'],
   ): Promise<boolean> {
     return await Promise.resolve(true)
+  }
+
+  override async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
+    return await Promise.resolve((this.params.archiving?.archivists ?? []).map((archivist) => archivist.deref()).filter(exists))
   }
 
   setConfig(config: TWrappedModule['params']['config']) {

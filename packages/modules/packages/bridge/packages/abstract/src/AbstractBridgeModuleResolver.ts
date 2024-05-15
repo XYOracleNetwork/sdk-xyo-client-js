@@ -1,4 +1,5 @@
 import { AccountInstance } from '@xyo-network/account-model'
+import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { BridgeInstance, QuerySendFinishedEventArgs, QuerySendStartedEventArgs } from '@xyo-network/bridge-model'
 import {
   ArchivingModuleConfig,
@@ -13,7 +14,7 @@ import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/modu
 import { ModuleProxyParams } from './AbstractModuleProxy'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
-  archiving?: ArchivingModuleConfig['archiving']
+  archiving?: Omit<ArchivingModuleConfig['archiving'], 'archivists'> & { archivists: WeakRef<ArchivistInstance>[] }
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
   onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void

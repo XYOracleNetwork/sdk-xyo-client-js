@@ -1,9 +1,12 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
+import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import {
@@ -177,6 +180,19 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
       }
     }
     return resultPayloads
+  }
+
+  protected override async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
+    const archivists = this.archiving?.archivists
+    if (!archivists) return []
+    const resolved = (
+      await Promise.all(
+        archivists.map(async (archivist) => (await Promise.all((await this.parents()).map((parent) => parent.resolve(archivist)))).filter(exists)),
+      )
+    )
+      .flat()
+      .filter(exists)
+    return compact(resolved.map((mod) => asArchivistInstance(mod)))
   }
 
   abstract exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>

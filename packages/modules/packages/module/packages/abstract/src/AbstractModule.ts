@@ -150,7 +150,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get id() {
-    return this.config.name ?? this.address
+    return this.modName ?? this.address
+  }
+
+  get modName() {
+    return this.config.name
   }
 
   override get logger() {
@@ -323,7 +327,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       try {
         await this.started('throw')
         if (!this.allowAnonymous && query.addresses.length === 0) {
-          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.modName}], [${this.address}]`)
         }
         if (queryConfig?.allowedQueries) {
           assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
@@ -337,7 +341,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])
-              .name(this.config.name ?? '<Unknown>')
+              .name(this.modName ?? '<Unknown>')
               .query(sourceQuery.schema)
               .details(error.details)
               .message(error.message)
@@ -558,7 +562,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       schema: ModuleDescriptionSchema,
     }
     if (this.config?.name) {
-      description.name = this.config.name
+      description.name = this.modName
     }
 
     const discover = await this.generateConfigAndAddress()
@@ -582,7 +586,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
     const distinctPaths = new Set<string>(paths)
-    assertEx(distinctPaths.size === paths.length, () => `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
+    assertEx(distinctPaths.size === paths.length, () => `${this.modName ? this.modName + ': ' : ''}Duplicate query account paths`)
     // Create an account for query this module supports
     const wallet = this.account as unknown as HDWallet
     if (wallet?.derivePath) {
@@ -625,7 +629,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         ]
       })
     const address = this.address
-    const name = this.config.name
+    const name = this.modName
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
     const moduleAccountPreviousHash =

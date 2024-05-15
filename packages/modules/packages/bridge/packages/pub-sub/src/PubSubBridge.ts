@@ -64,7 +64,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   }
 
   protected get moduleName() {
-    return `${this.config.name ?? moduleName}`
+    return this.modName ?? moduleName
   }
 
   async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
@@ -224,7 +224,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
           await Promise.all(children.map((child) => this.connect(child, maxDepth - 1)))
         }
       }
-      this.logger?.log(`Connect: ${instance.config.name ?? instance.address}`)
+      this.logger?.log(`Connect: ${instance.id}`)
       return instance.address
     }
   }

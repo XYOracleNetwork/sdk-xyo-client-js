@@ -29,9 +29,9 @@ describe('MemoryArchivist', () => {
     expect(isArchivistModule(viewArchivist)).toBeTruthy()
 
     await node.register(originArchivist)
-    await node.attach(originArchivist.config.name ?? originArchivist.address, false)
+    await node.attach(originArchivist.modName ?? originArchivist.address, false)
     await node.register(viewArchivist)
-    await node.attach(viewArchivist.config.name ?? viewArchivist.address, true)
+    await node.attach(viewArchivist.modName ?? viewArchivist.address, true)
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]
     const payloadHashes = payloads.map((payload) => payload.$hash)

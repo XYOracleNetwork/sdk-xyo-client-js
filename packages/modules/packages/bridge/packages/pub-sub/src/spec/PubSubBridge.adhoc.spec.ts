@@ -189,13 +189,13 @@ describe('PubSubBridge', () => {
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type')
     expect(remoteNode).toBeDefined()
 
-    const hostNodeContainerByName = await clientBridge.resolve('hostNodeContainer')
-    expect(hostNodeContainerByName).toBeDefined()
+    const hostNodeContainerByAddress = await clientBridge.resolve(hostNodeContainer.address)
+    expect(hostNodeContainerByAddress).toBeDefined()
 
-    const archivistViaHostNodeContainer = await hostNodeContainerByName?.resolve('Archivist')
+    const archivistViaHostNodeContainer = await hostNodeContainerByAddress?.resolve('Archivist')
     expect(archivistViaHostNodeContainer).toBeDefined()
 
-    const archivistByName = await clientBridge.resolve('hostNodeContainer:Archivist')
+    const archivistByName = await hostNodeContainerByAddress?.resolve('Archivist')
     expect(archivistByName).toBeDefined()
 
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')

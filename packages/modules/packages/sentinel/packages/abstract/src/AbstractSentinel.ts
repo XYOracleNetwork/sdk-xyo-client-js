@@ -114,11 +114,11 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.config.name === input)
+            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.modName === input)
           }
           if (Array.isArray(input)) {
             return previousTasks.find(
-              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.config.name ?? prevTask.module.address),
+              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.modName ?? prevTask.module.address),
             )
           }
         })
@@ -129,7 +129,7 @@ export abstract class AbstractSentinel<
           Array.isArray(input) &&
           tasks.some(
             (remainingTask) =>
-              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
+              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.modName ?? remainingTask.module.address),
           )
         ) {
           return false

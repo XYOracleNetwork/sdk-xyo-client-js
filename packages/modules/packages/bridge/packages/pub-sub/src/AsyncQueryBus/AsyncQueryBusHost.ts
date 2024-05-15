@@ -135,7 +135,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
     this._idle = false
     this._lastQueryTime = Date.now()
-    const localModuleName = localModule.config.name ?? localModule.address
+    const localModuleName = localModule.id
     const queryArchivist = assertEx(
       await this.queriesArchivist(),
       () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
@@ -267,7 +267,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     await Promise.allSettled(
       localModules.map(async (localModule) => {
         try {
-          const localModuleName = localModule.config.name ?? localModule.address
+          const localModuleName = localModule.id
           this.logger?.debug(`Checking for inbound queries to ${localModuleName} [${localModule.address}]`)
           const queries = (await this.findQueriesToAddress(localModule.address)) ?? []
           if (queries.length === 0) return

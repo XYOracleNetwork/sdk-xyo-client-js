@@ -30,7 +30,7 @@ describe('HttpBridge', () => {
     expect(publicNode).toBeDefined()
 
     if (publicNode) {
-      console.log(`publicNode[${publicNode.address}]: ${publicNode.config.name}`)
+      console.log(`publicNode[${publicNode.address}]: ${publicNode.modName}`)
       const publicNodeModules = await publicNode.resolve('*', { direction: 'down' })
       expect(publicNodeModules).toBeArray()
       expect(publicNodeModules.length).toBeGreaterThan(20)

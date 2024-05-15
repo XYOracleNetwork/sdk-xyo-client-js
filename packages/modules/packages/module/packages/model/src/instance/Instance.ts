@@ -36,7 +36,7 @@ export interface ModuleFamilyFunctions {
   account?: AccountInstance | undefined
   addParent: (module: ModuleInstance) => void
   addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
-  localName: ModuleName | undefined
+  modName?: ModuleName
   parents: () => Promisable<ModuleInstance[]>
   privateChildren: () => Promisable<ModuleInstance[]>
   publicChildren: () => Promisable<ModuleInstance[]>

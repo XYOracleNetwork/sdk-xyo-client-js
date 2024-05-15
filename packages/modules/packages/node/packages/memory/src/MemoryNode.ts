@@ -45,7 +45,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   async certifyHandler(id: ModuleIdentifier): Promise<ChildCertificationFields> {
-    const child = (await this.publicChildren()).find((child) => child.localName === id || child.address === id)
+    const child = (await this.publicChildren()).find((child) => child.modName === id || child.address === id)
     if (child) {
       return { address: child.address, expiration: Date.now() + 1000 * 60 * 10 /* 10 minutes */ }
     }
@@ -69,7 +69,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     await this.started('throw')
     assertEx(!this.registeredModuleMap[module.address], () => `Module already registered at that address[${module.address}][${module.config.schema}]`)
     this.registeredModuleMap[module.address] = module
-    const args = { module, name: module.config.name }
+    const args = { module, name: module.modName }
     await this.emit('moduleRegistered', args)
   }
 
@@ -91,14 +91,14 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     await this.started('throw')
     await this.detach(module.address)
     delete this.registeredModuleMap[module.address]
-    const args = { module, name: module.config.name }
+    const args = { module, name: module.modName }
     await this.emit('moduleUnregistered', args)
     return this
   }
 
   protected async attachUsingAddress(address: Address, external?: boolean) {
     const existingModule = (await this.resolve({ address: [address] })).pop()
-    assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
+    assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
 
     if (!module) {
@@ -149,7 +149,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     module.addParent(this)
 
-    const args = { module, name: module.config.name }
+    const args = { module, name: module.modName }
     await this.emit('moduleAttached', args)
 
     if (isNodeModule(module) && external) {
@@ -166,7 +166,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     const notifyOfExistingModules = async (childModules: Module[]) => {
       await Promise.all(
         childModules.map(async (child) => {
-          const args = { module: child, name: child.config.name }
+          const args = { module: child, name: child.modName }
           await this.emit('moduleAttached', args)
         }),
       )
@@ -195,7 +195,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
     module.removeParent(this.address)
 
-    const args = { module, name: module.config.name }
+    const args = { module, name: module.modName }
     await this.emit('moduleDetached', args)
 
     //notify of all sub node children detach
@@ -246,7 +246,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
 
   private registeredModuleAddressFromName(name: string) {
     const address = Object.values(this.registeredModuleMap).find((value) => {
-      return value.config.name === name
+      return value.modName === name
     })?.address
     return address
   }

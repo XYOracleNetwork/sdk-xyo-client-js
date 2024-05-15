@@ -35,13 +35,13 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     return this.params.allowNameResolution ?? true
   }
 
-  add(module: ModuleInstance): this
-  add(module: ModuleInstance[]): this
-  add(module: ModuleInstance | ModuleInstance[]): this {
-    if (Array.isArray(module)) {
-      for (const mod of module) this.addSingleModule(mod)
+  add(mods: ModuleInstance): this
+  add(mods: ModuleInstance[]): this
+  add(mods: ModuleInstance | ModuleInstance[]): this {
+    if (Array.isArray(mods)) {
+      for (const mod of mods) this.addSingleModule(mod)
     } else {
-      this.addSingleModule(module)
+      this.addSingleModule(mods)
     }
     return this
   }
@@ -128,25 +128,25 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     }
   }
 
-  private addSingleModule(module?: ModuleInstance) {
-    if (module) {
-      const name = module.config.name
-      if (name && this.allowNameResolution) {
+  private addSingleModule(mod?: ModuleInstance) {
+    if (mod) {
+      const modName = mod.modName
+      if (modName && this.allowNameResolution) {
         //check for collision
-        assertEx(this.nameToModule[name] === undefined, () => `Module with name ${name} already added`)
-        this.nameToModule[name] = module
+        assertEx(this.nameToModule[modName] === undefined, () => `Module with name ${modName} already added`)
+        this.nameToModule[modName] = mod
       }
-      this.modules[module.address] = module
+      this.modules[mod.address] = mod
     }
   }
 
   private removeSingleModule(address: Address) {
     assertEx(isAddress(address), () => 'Invalid address')
-    const module = assertEx(this.modules[address], () => 'Address not found in modules')
+    const mod = assertEx(this.modules[address], () => 'Address not found in modules')
     delete this.modules[address]
-    const name = module.config.name
-    if (name) {
-      delete this.nameToModule[name]
+    const modName = mod.modName
+    if (modName) {
+      delete this.nameToModule[modName]
     }
   }
 
@@ -161,7 +161,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
     return compact(
       name.map((name) => {
-        return modules.find((module) => module.config.name === name)
+        return modules.find((module) => module.modName === name)
       }),
     ) as T[]
   }

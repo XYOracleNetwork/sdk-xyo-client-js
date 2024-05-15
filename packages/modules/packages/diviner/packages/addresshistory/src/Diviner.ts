@@ -35,7 +35,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   private async allBoundWitnesses() {
     const archivists =
       (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((module) =>
-        asArchivistInstance(module, `Failed to cast module to Archivist [${module.config.name}]`),
+        asArchivistInstance(module, `Failed to cast module to Archivist [${module.id}]`),
       ) ?? []
     assertEx(archivists.length > 0, () => 'Did not find any archivists')
     return (

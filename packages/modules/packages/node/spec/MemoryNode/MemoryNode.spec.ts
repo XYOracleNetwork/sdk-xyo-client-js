@@ -236,9 +236,9 @@ describe('MemoryNode', () => {
             await node.register(mod)
             expect(await node.attach(mod.address, true)).toEqual(mod.address)
             expect(await node.detach(mod.address)).toEqual(mod.address)
-            if (mod.config.name) {
-              expect(await node.attach(mod.config.name, true)).toEqual(mod.address)
-              expect(await node.detach(mod.config.name)).toEqual(mod.address)
+            if (mod.modName) {
+              expect(await node.attach(mod.modName, true)).toEqual(mod.address)
+              expect(await node.detach(mod.modName)).toEqual(mod.address)
             }
             expect(await node.attach(mod.address, true)).toEqual(mod.address)
           }),

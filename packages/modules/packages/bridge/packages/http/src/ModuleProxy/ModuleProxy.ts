@@ -1,7 +1,7 @@
 import { Address } from '@xylabs/hex'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import { AttachableModuleInstance, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface BridgeQuerySender {
@@ -23,7 +23,7 @@ export class HttpModuleProxy<
     },
   >
   extends AbstractModuleProxy<TWrappedModule, TParams>
-  implements ModuleInstance<TParams, TWrappedModule['eventData']>
+  implements AttachableModuleInstance<TParams, TWrappedModule['eventData']>
 {
   static createCount = 0
 
@@ -33,6 +33,10 @@ export class HttpModuleProxy<
       console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
     }
     super(params)
+  }
+
+  override get modName() {
+    return this.config.name
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {

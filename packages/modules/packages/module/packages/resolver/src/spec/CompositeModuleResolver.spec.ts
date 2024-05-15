@@ -24,18 +24,21 @@ describe('CompositeModuleResolver', () => {
       moduleA = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
         config: { name: moduleAName, schema: ModuleConfigSchema },
+        modName: moduleAName,
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
       moduleB = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
         config: { name: moduleBName, schema: ModuleConfigSchema },
+        modName: moduleBName,
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
       moduleC = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381c',
         config: { name: moduleCName, schema: ModuleConfigSchema },
+        modName: moduleCName,
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
@@ -55,6 +58,7 @@ describe('CompositeModuleResolver', () => {
         const mod = mock<ModuleInstance>({
           address,
           config: { name, schema: ModuleConfigSchema },
+          modName: name,
           queries: [ModuleStateQuerySchema],
           query: jest.fn(),
         })

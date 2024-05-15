@@ -99,7 +99,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        const mod = mods.find((mod) => mod.config.name === idOrFilter || mod.address === idOrFilter)
+        const mod = mods.find((mod) => mod.modName === idOrFilter || mod.address === idOrFilter)
         return mod as unknown as T
       }
       case 'object': {
@@ -117,7 +117,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     const attached = await this.attached()
     const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
     const existingModule = mods.find((mod) => mod.address === address)
-    assertEx(!existingModule, () => `Module [${existingModule?.config.name ?? existingModule?.address}] already attached at address [${address}]`)
+    assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
     const module = this.registeredModuleMap[address]
 
     if (!module) {
@@ -126,7 +126,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
 
     module.addParent(this)
 
-    const args = { module, name: module.config.name }
+    const args = { module, name: module.modName }
     await this.emit('moduleAttached', args)
 
     this._limitedResolver.add(module)

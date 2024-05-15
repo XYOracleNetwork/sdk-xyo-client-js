@@ -85,6 +85,10 @@ export abstract class AbstractModuleProxy<
     return assertEx(this._config, () => 'Config not set')
   }
 
+  override get modName(): string | undefined {
+    return undefined
+  }
+
   override get queries(): string[] {
     const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter((item) =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),

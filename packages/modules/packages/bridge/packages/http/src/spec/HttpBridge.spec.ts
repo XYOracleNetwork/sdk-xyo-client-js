@@ -91,6 +91,7 @@ describe('HttpBridge', () => {
     await bridge.getRoots()
     const module = await bridge.resolve('XYOPublic')
 
+    expect(module).toBeDefined()
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
@@ -116,7 +117,7 @@ describe('HttpBridge', () => {
 
     /*const mods = await bridge.resolve('*')
     for (const mod of mods) {
-      console.log(`module [${mod.address}]: ${mod.config.name}`)
+      console.log(`module [${mod.address}]: ${mod.modName}`)
     }*/
 
     const node = await bridge.resolve('XYOPublic')

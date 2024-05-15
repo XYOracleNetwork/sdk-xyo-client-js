@@ -67,8 +67,8 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this._downResolver
   }
 
-  get localName() {
-    return this.config.name
+  override get modName() {
+    return super.modName
   }
 
   get moduleIdentifierTransformers() {
@@ -250,16 +250,16 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     if (cachedResult) {
       return cachedResult
     }
-    const name = this.config.name ?? 'Anonymous'
+    const modName = this.modName ?? '<Anonymous>'
     const children = await this.publicChildren()
     const childAddressToName: Record<Address, ModuleName | null> = {}
     for (const child of children) {
       if (child.address !== this.address) {
-        childAddressToName[child.address] = child.config.name ?? null
+        childAddressToName[child.address] = child.modName ?? null
       }
     }
     const result = {
-      config: { name, ...this.config },
+      config: { name: modName, ...this.config },
       schema: ModuleManifestPayloadSchema,
       status: { address: this.address, children: childAddressToName },
     }

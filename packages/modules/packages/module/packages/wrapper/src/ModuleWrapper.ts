@@ -141,8 +141,8 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.id
   }
 
-  get localName() {
-    return this.config.name
+  get modName() {
+    return this.module.modName
   }
 
   get module() {

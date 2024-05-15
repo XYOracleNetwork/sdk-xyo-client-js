@@ -439,15 +439,15 @@ export abstract class AbstractArchivist<
       !this.requireAllParents || archivistModules.length === archivists.length,
       () =>
         `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-          archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+          archivistModules.map((mod) => !(mod.address === archivist || mod.modName === archivist)),
         )}]`,
     )
 
     // eslint-disable-next-line unicorn/no-array-reduce
-    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
-      prev[module.address] = asArchivistInstance(module, () => {
-        isArchivistInstance(module, { log: console })
-        return `Unable to cast resolved module to an archivist: [${module.address}, ${module.config.name}, ${module.config.schema})}]`
+    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, mod) => {
+      prev[mod.address] = asArchivistInstance(mod, () => {
+        isArchivistInstance(mod, { log: console })
+        return `Unable to cast resolved module to an archivist: [${mod.address}, ${mod.modName}, ${mod.config.schema})}]`
       })
 
       return prev

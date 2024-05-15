@@ -187,7 +187,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')
     const rootNode = asAttachableNodeInstance(rootModule, 'Root modules is not a node')
     if (rootNode) {
-      this.logger.debug(`rootNode: ${rootNode.config.name}`)
+      this.logger.debug(`rootNode: ${rootNode.id}`)
       this.downResolver.addResolver(rootNode as unknown as ModuleResolverInstance)
       return [rootNode]
     }

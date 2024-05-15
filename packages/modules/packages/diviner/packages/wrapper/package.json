@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/retry": "^3.3.2",
+    "@xylabs/retry": "^3.3.3",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/diviner-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
@@ -65,6 +65,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.100.26",
+  "version": "2.100.27",
   "type": "module"
 }

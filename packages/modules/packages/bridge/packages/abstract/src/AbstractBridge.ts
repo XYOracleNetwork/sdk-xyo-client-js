@@ -2,7 +2,6 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
-import { compact } from '@xylabs/lodash'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -33,6 +32,7 @@ import {
   ModuleInstance,
   ModuleQueryHandlerResult,
   ModuleResolverInstance,
+  resolveAddressToInstance,
   resolvePathToAddress,
 } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-model'
@@ -185,14 +185,17 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   protected override async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
     const archivists = this.archiving?.archivists
     if (!archivists) return []
-    const resolved = (
+    const resolvedAddresses = (
       await Promise.all(
-        archivists.map(async (archivist) => (await Promise.all((await this.parents()).map((parent) => parent.resolve(archivist)))).filter(exists)),
+        archivists.map(async (archivist) =>
+          (await Promise.all((await this.parents()).map((parent) => resolvePathToAddress(parent, archivist)))).filter(exists),
+        ),
       )
     )
       .flat()
       .filter(exists)
-    return compact(resolved.map((mod) => asArchivistInstance(mod)))
+    const resolved = (await Promise.all(resolvedAddresses.map((address) => resolveAddressToInstance(this, address)))).filter(exists)
+    return resolved.map((mod) => asArchivistInstance(mod)).filter(exists)
   }
 
   abstract exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]>

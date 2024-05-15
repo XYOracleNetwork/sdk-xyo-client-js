@@ -11,7 +11,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xylabs/hex": "^3.3.2",
+    "@xylabs/hex": "^3.3.3",
     "@xyo-network/payload-model": "workspace:~"
   },
   "devDependencies": {
@@ -64,6 +64,6 @@
     "gen-schema": "yarn typescript-json-schema src/Payload.ts PackageManifest --required --out dist/PackageManifest.schema.json"
   },
   "sideEffects": false,
-  "version": "2.100.26",
+  "version": "2.100.27",
   "type": "module"
 }

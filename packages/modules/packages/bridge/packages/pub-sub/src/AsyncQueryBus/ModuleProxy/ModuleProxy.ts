@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { isAddress } from '@xylabs/hex'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -7,6 +8,7 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleName,
   ModuleQueryResult,
   ResolveHelper,
   ResolveHelperConfig,
@@ -41,8 +43,26 @@ export class AsyncQueryBusModuleProxy<
     super(params)
   }
 
+  override get id(): ModuleIdentifier {
+    return this.address
+  }
+
+  override get modName(): ModuleName | undefined {
+    return undefined
+  }
+
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
     return await this.params.busClient.send(this.address, query, payloads)
+  }
+
+  override async publicChildren(): Promise<ModuleInstance[]> {
+    return (
+      await Promise.all(
+        Object.values(await this.childAddressMap())
+          .filter(exists)
+          .map((address) => this.resolve(address)),
+      )
+    ).filter(exists)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -66,7 +86,7 @@ export class AsyncQueryBusModuleProxy<
       upResolver: this.upResolver,
     }
     if (idOrFilter === '*') {
-      return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      return (await this.publicChildren()) as T[]
     }
     switch (typeof idOrFilter) {
       case 'string': {

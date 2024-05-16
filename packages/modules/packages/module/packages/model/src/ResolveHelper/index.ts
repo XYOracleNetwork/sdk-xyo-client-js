@@ -1,3 +1,4 @@
+export * from './model'
 export * from './resolveAddressToInstance'
 export * from './ResolveHelper'
 export * from './resolveLocalNameToAddress'

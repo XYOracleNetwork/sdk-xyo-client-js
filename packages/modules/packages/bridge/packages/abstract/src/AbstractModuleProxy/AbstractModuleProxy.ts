@@ -85,12 +85,6 @@ export abstract class AbstractModuleProxy<
     return assertEx(this._config, () => 'Config not set')
   }
 
-  override get modName(): string | undefined {
-    //we return undefined here since all the modules that the bridge provides are flattened into children of the bridge
-    //if we allowed names, then there would be collisions.
-    return undefined
-  }
-
   override get queries(): string[] {
     const queryPayloads = assertEx(this._state, () => 'Module state not found.  Make sure proxy has been started').filter((item) =>
       isPayloadOfSchemaType<QueryPayload>(QuerySchema)(item),

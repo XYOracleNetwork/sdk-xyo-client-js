@@ -139,7 +139,7 @@ describe('PubSubBridge', () => {
           },
           stateStore,
         },
-        discoverRoots: 'adhoc',
+        discoverRoots: 'lazy',
         host: { intersect, pollFrequency, stateStore },
         name: 'pubSubBridge',
         roots: [hostNodeContainer.address],
@@ -167,7 +167,7 @@ describe('PubSubBridge', () => {
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
     expect(remoteNode).toBeDefined()
 
-    const archivistByName = await pubSubBridge.resolve('hostNodeContainer:Archivist')
+    const archivistByName = await pubSubBridge.resolve(`${hostNodeContainer.address}:Archivist`)
     expect(archivistByName).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()

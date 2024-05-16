@@ -1,6 +1,7 @@
 import { Address } from '@xylabs/hex'
 
 import { ModuleInstance } from '../instance'
+import { ModuleResolveDirection } from './model'
 
 export const resolveAddressToInstanceDown = async (
   root: ModuleInstance,
@@ -58,7 +59,7 @@ export const resolveAddressToInstanceUp = async (
   cache?.set(address, null)
 }
 
-export const resolveAddressToInstance = async (
+export const resolveAddressToInstanceAll = async (
   root: ModuleInstance,
   address: Address,
   includePrivate = false,
@@ -66,8 +67,28 @@ export const resolveAddressToInstance = async (
 ): Promise<ModuleInstance | undefined> => {
   const cache = root.addressCache?.('all', includePrivate)
   const result =
-    (await resolveAddressToInstanceDown(root, address, includePrivate, ignore)) ??
-    (await resolveAddressToInstanceUp(root, address, includePrivate, ignore))
+    (await resolveAddressToInstanceDown(root, address, includePrivate ?? false, ignore)) ??
+    (await resolveAddressToInstanceUp(root, address, includePrivate ?? true, ignore))
   cache?.set(address, result ? new WeakRef(result) : null)
   return result
+}
+
+export const resolveAddressToInstance = async (
+  root: ModuleInstance,
+  address: Address,
+  includePrivate = false,
+  ignore: Address[] = [],
+  direction: ModuleResolveDirection = 'all',
+): Promise<ModuleInstance | undefined> => {
+  switch (direction) {
+    case 'all': {
+      return await resolveAddressToInstanceAll(root, address, includePrivate, ignore)
+    }
+    case 'up': {
+      return await resolveAddressToInstanceUp(root, address, includePrivate ?? true, ignore)
+    }
+    case 'down': {
+      return await resolveAddressToInstanceDown(root, address, includePrivate ?? false, ignore)
+    }
+  }
 }

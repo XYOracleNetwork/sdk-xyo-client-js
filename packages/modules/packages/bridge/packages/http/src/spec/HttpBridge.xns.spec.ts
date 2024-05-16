@@ -19,7 +19,13 @@ describe('HttpBridge - Xns', () => {
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { name: 'TestBridge', nodeUrl: 'https://beta.xns.xyo.network', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: {
+        discoverRoots: 'start',
+        name: 'TestBridge',
+        nodeUrl: 'https://beta.xns.xyo.network',
+        schema: HttpBridgeConfigSchema,
+        security: { allowAnonymous: true },
+      },
     })
 
     await bridge?.start?.()

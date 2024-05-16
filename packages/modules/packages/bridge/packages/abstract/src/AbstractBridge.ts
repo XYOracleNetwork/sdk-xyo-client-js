@@ -25,7 +25,8 @@ import {
 } from '@xyo-network/bridge-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
-  duplicateModules,
+  isAddressModuleFilter,
+  isNameModuleFilter,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -45,9 +46,11 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   static override readonly defaultConfigSchema: Schema = BridgeConfigSchema
   static override readonly uniqueName = globallyUnique('AbstractBridge', AbstractBridge, 'xyo')
 
+  protected _roots?: ModuleInstance[]
+
   override get allowNameResolution() {
     //we default to false here to prevent name collisions
-    return this.params.allowNameResolution ?? false
+    return this.params.allowNameResolution ?? true
   }
 
   override get queries(): string[] {
@@ -89,33 +92,54 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   /** @deprecated use '*' if trying to resolve all */
   override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  // eslint-disable-next-line complexity
   override async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
+    const roots = (this._roots ?? []) as T[]
+    const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
     if (idOrFilter === '*') {
-      await this.getRoots()
-      return (await Promise.all((await this.getRoots()).map((root) => root.resolve('*', options)))).flat().filter(duplicateModules)
+      const remainingDepth = (options.maxDepth ?? 5) - 1
+      return remainingDepth <= 0 ? workingSet : (
+          [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+        )
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        return await super.resolve(idOrFilter, options)
+        const parts = idOrFilter.split(':')
+        const first = parts.shift()
+        const result = workingSet.find((mod) => {
+          return first === mod.address || first === mod.modName
+        })
+        return parts.length === 0 ? result : result?.resolve(parts.join(':'), options)
       }
       case 'object': {
-        return (await super.resolve(idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        const results: T[] = []
+        if (isNameModuleFilter(idOrFilter)) {
+          for (const mod of workingSet) {
+            if (mod.modName && idOrFilter.name.includes(mod.modName)) results.push(mod as T)
+          }
+        }
+        if (isAddressModuleFilter(idOrFilter)) {
+          for (const mod of workingSet) {
+            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
+          }
+        }
+        return results
       }
       default: {
-        return (await super.resolve(idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        return
       }
     }
   }
 
   override async startHandler(): Promise<boolean> {
     const { discoverRoots } = this.config
-    if (discoverRoots === 'start') {
-      await this.getRoots()
-    } else {
+    if (discoverRoots === 'lazy') {
       forget(this.getRoots())
+    } else {
+      await this.getRoots()
     }
     return true
   }

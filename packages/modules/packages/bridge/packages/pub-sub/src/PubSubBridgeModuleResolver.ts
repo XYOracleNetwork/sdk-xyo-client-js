@@ -27,7 +27,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       archiving: this.params.archiving,
       busClient: this.params.busClient,
       config: { schema: ModuleConfigSchema },
-      host: this.params.bridge,
+      host: this,
       moduleAddress: firstPart as Address,
       onQuerySendFinished: this.params.onQuerySendFinished,
       onQuerySendStarted: this.params.onQuerySendStarted,

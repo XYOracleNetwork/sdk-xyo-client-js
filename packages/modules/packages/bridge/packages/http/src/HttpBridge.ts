@@ -43,7 +43,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
   private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
-  private _roots?: ModuleInstance[]
 
   get axios() {
     this._axios = this._axios ?? new AxiosJson()

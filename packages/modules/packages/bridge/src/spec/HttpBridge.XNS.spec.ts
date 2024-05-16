@@ -36,7 +36,7 @@ describe('HttpBridge with PubSubBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
@@ -59,7 +59,7 @@ describe('HttpBridge with PubSubBridge', () => {
     const testBridgeInstance = await memNode?.resolve('PubSubBridgeArie:TestBridge')
     expect(testBridgeInstance).toBeDefined()
 
-    /*const xns1 = await testBridgeInstance?.resolve('XNS')
+    const xns1 = await testBridgeInstance?.resolve('XNS')
     expect(xns1).toBeDefined()
 
     const xns = await memNode?.resolve('PubSubBridgeArie:TestBridge:XNS')
@@ -67,7 +67,6 @@ describe('HttpBridge with PubSubBridge', () => {
 
     const intersectNode = await memNode?.resolve('PubSubBridgeArie:TestBridge:XNS:Intersect')
     expect(intersectNode).toBeDefined()
-    */
 
     const queryArchivist = await memNode?.resolve('XNS:Intersect:QueryArchivist')
     expect(queryArchivist?.id).toBe('QueryArchivist')

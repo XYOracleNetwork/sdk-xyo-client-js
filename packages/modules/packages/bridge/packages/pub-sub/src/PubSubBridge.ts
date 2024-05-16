@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
@@ -14,7 +14,17 @@ import {
   QuerySendFinishedEventArgs,
   QuerySendStartedEventArgs,
 } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleIdentifier, ModuleInstance, resolveAddressToInstanceUp, ResolveHelper } from '@xyo-network/module-model'
+import {
+  creatableModule,
+  isAddressModuleFilter,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  resolveAddressToInstance,
+  resolveAddressToInstanceUp,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 import { asNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
@@ -42,7 +52,6 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   private _busHost?: AsyncQueryBusHost
   private _discoverRootsMutex = new Mutex()
   private _resolver?: PubSubBridgeModuleResolver
-  private _roots?: ModuleInstance[]
 
   override get resolver(): PubSubBridgeModuleResolver {
     this._resolver =
@@ -160,6 +169,51 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       }
       return this._roots
     })
+  }
+
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  // eslint-disable-next-line complexity
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    const roots = (this._roots ?? []) as T[]
+    const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
+    if (idOrFilter === '*') {
+      const remainingDepth = (options.maxDepth ?? 1) - 1
+      return remainingDepth <= 0 ? workingSet : (
+          [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+        )
+    }
+    switch (typeof idOrFilter) {
+      case 'string': {
+        const parts = idOrFilter.split(':')
+        const first = assertEx(parts.shift(), () => 'Missing first part')
+        const firstInstance: ModuleInstance | undefined =
+          isAddress(first) ?
+            ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
+          : this._roots?.find((mod) => mod.id === first)
+        return (parts.length === 0 ? firstInstance : firstInstance?.resolve(parts.join(':'), options)) as T | undefined
+      }
+      case 'object': {
+        const results: T[] = []
+        if (isAddressModuleFilter(idOrFilter)) {
+          for (const mod of workingSet) {
+            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
+          }
+        }
+        return results
+      }
+      default: {
+        return
+      }
+    }
   }
 
   override async startHandler(): Promise<boolean> {

@@ -31,7 +31,7 @@ describe('HttpBridge', () => {
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
@@ -58,8 +58,11 @@ describe('HttpBridge', () => {
     const archivistByName1 = await rootModule?.resolve('Archivist')
     expect(archivistByName1).toBeDefined()
     const archivistByName2 = await bridge.resolve('XYOPublic:Archivist')
+    expect(archivistByName2).toBeDefined()
     const publicXyo = await bridge.resolve('XYOPublic')
+    expect(publicXyo).toBeDefined()
     const archivistByName3 = await publicXyo?.resolve('Archivist')
+    expect(archivistByName3).toBeDefined()
     expect(archivistByName3).toEqual(archivistByName1)
     expect(archivistByName3).toEqual(archivistByName2)
     expect(archivistByName2).toBeDefined()

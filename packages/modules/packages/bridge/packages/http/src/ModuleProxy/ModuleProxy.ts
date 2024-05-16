@@ -35,10 +35,6 @@ export class HttpModuleProxy<
     super(params)
   }
 
-  override get modName() {
-    return this.config.name
-  }
-
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
     return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
   }

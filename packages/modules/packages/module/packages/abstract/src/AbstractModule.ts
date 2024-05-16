@@ -153,12 +153,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this.modName ?? this.address
   }
 
-  get modName() {
-    return this.config.name
-  }
-
   override get logger() {
     return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+  }
+
+  get modName() {
+    return this.config.name
   }
 
   get priority() {

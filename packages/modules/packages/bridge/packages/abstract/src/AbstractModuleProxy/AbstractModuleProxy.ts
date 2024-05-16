@@ -86,6 +86,8 @@ export abstract class AbstractModuleProxy<
   }
 
   override get modName(): string | undefined {
+    //we return undefined here since all the modules that the bridge provides are flattened into children of the bridge
+    //if we allowed names, then there would be collisions.
     return undefined
   }
 

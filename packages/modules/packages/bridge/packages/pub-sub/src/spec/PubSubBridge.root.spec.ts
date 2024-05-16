@@ -164,6 +164,9 @@ describe('PubSubBridge', () => {
     const rootModule = await pubSubBridge.resolve(hostNodeContainer.address)
     expect(rootModule).toBeDefined()
 
+    const rootModuleViaHostNode = await hostNode.resolve(hostNodeContainer.address)
+    expect(rootModuleViaHostNode).toBeDefined()
+
     const remoteNode = asNodeInstance(rootModule, 'Failed to resolve correct object type [XYOPublic]')
     expect(remoteNode).toBeDefined()
 

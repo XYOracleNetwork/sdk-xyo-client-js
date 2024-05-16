@@ -55,8 +55,8 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     await proxy.start?.()
     const wrapped = wrapModuleWithType(proxy, account) as unknown as T
     const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
-    proxy.upResolver.add(instance)
-    proxy.downResolver.add(instance)
+    //proxy.upResolver.add(instance)
+    //proxy.downResolver.add(instance)
     this._resolvedCache.set(instance.address, instance)
     const result = remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : instance
     return result ? [result] : []

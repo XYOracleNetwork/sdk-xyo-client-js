@@ -1,4 +1,6 @@
 export * from './resolveAddressToInstance'
 export * from './ResolveHelper'
 export * from './resolveLocalNameToAddress'
+export * from './resolveLocalNameToInstance'
 export * from './resolvePathToAddress'
+export * from './resolvePathToInstance'

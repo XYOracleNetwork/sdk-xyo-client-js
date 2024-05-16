@@ -4,6 +4,7 @@ import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWit
 import { Account } from '@xyo-network/account'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusModuleProxy, AsyncQueryBusModuleProxyParams } from './AsyncQueryBus'
 
@@ -12,6 +13,8 @@ export interface PubSubBridgeModuleResolverParams extends BridgeModuleResolverPa
 }
 
 export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<PubSubBridgeModuleResolverParams> {
+  protected _resolvedCache = new LRUCache<Address, ModuleInstance>({ max: 1000 })
+
   override async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T[]> {
     const parentResult = await super.resolveHandler(id, options)
     if (parentResult.length > 0) {
@@ -21,6 +24,11 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     const firstPart = idParts.shift()
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
+    const cachedMod = this._resolvedCache.get(firstPart as Address)
+    if (cachedMod) {
+      const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
+      return (result ? [result] : []) as T[]
+    }
     const account = Account.randomSync()
     const finalParams: AsyncQueryBusModuleProxyParams = {
       account,
@@ -49,7 +57,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
     const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
     proxy.upResolver.add(instance)
     proxy.downResolver.add(instance)
-    this.add(instance)
+    this._resolvedCache.set(instance.address, instance)
     const result = remainderParts.length > 0 ? await proxy.resolve(remainderParts, options) : instance
     return result ? [result] : []
   }

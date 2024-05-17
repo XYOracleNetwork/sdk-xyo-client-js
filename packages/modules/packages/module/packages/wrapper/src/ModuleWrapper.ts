@@ -349,11 +349,17 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
-  privateChildren(): Promisable<ModuleInstance[]> {
+  async privateChildren(): Promise<ModuleInstance[]> {
+    if (isModuleInstance(this.module)) {
+      return await this.module.privateChildren()
+    }
     return []
   }
 
-  publicChildren(): Promisable<ModuleInstance[]> {
+  async publicChildren(): Promise<ModuleInstance[]> {
+    if (isModuleInstance(this.module)) {
+      return await this.module.publicChildren()
+    }
     return []
   }
 

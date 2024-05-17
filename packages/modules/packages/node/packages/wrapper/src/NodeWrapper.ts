@@ -93,6 +93,9 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   }
 
   override async publicChildren(): Promise<ModuleInstance[]> {
+    if (isNodeInstance(this.module)) {
+      return await this.module.publicChildren()
+    }
     const attached = await this.attached()
     return (await Promise.all(attached.map((address) => this.resolve(address)))).filter(exists)
   }

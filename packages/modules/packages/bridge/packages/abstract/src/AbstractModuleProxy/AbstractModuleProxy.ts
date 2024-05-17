@@ -63,6 +63,7 @@ export abstract class AbstractModuleProxy<
   static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   protected _config?: ModuleInstance['config']
+  protected _publicChildren?: ModuleInstance[]
   protected _state: Payload[] | undefined = undefined
   protected _stateInProcess = false
 
@@ -157,6 +158,11 @@ export abstract class AbstractModuleProxy<
   override async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
+  }
+
+  override async publicChildren() {
+    this._publicChildren = this._publicChildren ?? (await super.publicChildren())
+    return this._publicChildren
   }
 
   override async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {

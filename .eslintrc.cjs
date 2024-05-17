@@ -9,6 +9,9 @@ const finalConfig = {
   "ignorePatterns": [
     "dist",
     "node_modules",
+    "**/dist",
+    "**/node_modules",
+    "**/docs",
     "docs",
     "coverage",
     "docker",

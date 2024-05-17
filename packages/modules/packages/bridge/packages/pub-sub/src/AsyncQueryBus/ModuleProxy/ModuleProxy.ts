@@ -92,8 +92,10 @@ export class AsyncQueryBusModuleProxy<
       case 'string': {
         const parts = idOrFilter.split(':')
         const first = assertEx(parts.shift(), () => 'Missing first')
+        const remainingPath = parts.join(':')
         const address = isAddress(first) ? first : this.childAddressByName(first)
-        return this.params.host.resolve(address)
+        const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
+        return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
       }
       case 'object': {
         return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)

@@ -25,6 +25,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   }
 
   async loadModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest, external = true): Promise<void> {
+    console.log('loadModule', manifest.config.name)
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
       const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length > 0 : false
       return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length > 0
@@ -42,11 +43,12 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
           const childNode = await this.loadNodeFromManifest(wallet, manifest as NodeManifest, manifest.config.accountPath)
           await node.register(childNode)
           await node.attach(childNode.address, external)
+        } else {
+          assertEx(
+            await node.attach((await this.registerModule(wallet, node, manifest)).address, external),
+            () => `No module with config schema [${manifest.config.name}] registered`,
+          )
         }
-        assertEx(
-          await node.attach((await this.registerModule(wallet, node, manifest)).address, external),
-          () => `No module with config schema [${manifest.config.name}] registered`,
-        )
       }
     }
   }
@@ -57,7 +59,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     return await this.loadNodeFromManifest(this.wallet, manifest, manifest.config.accountPath ?? `${index}'`)
   }
 
-  async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string): Promise<MemoryNode> {
+  async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string, loadConfigChildren = false): Promise<MemoryNode> {
+    console.log('loadNodeFromManifest', manifest.config.name)
     const derivedWallet = path ? await wallet.derivePath(path) : await HDWallet.random()
     const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules
@@ -76,21 +79,23 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
       }) ?? []
     await Promise.all([...privateModules, ...publicModules])
 
-    await Promise.all(
-      this.privateChildren.map(async (moduleManifest) => {
-        if (typeof moduleManifest === 'object') {
-          await this.loadModule(derivedWallet, node, moduleManifest, false)
-        }
-      }),
-    )
+    if (loadConfigChildren) {
+      await Promise.all(
+        this.privateChildren.map(async (moduleManifest) => {
+          if (typeof moduleManifest === 'object') {
+            await this.loadModule(derivedWallet, node, moduleManifest, false)
+          }
+        }),
+      )
 
-    await Promise.all(
-      this.publicChildren.map(async (moduleManifest) => {
-        if (typeof moduleManifest === 'object') {
-          await this.loadModule(derivedWallet, node, moduleManifest, true)
-        }
-      }),
-    )
+      await Promise.all(
+        this.publicChildren.map(async (moduleManifest) => {
+          if (typeof moduleManifest === 'object') {
+            await this.loadModule(derivedWallet, node, moduleManifest, true)
+          }
+        }),
+      )
+    }
 
     return node
   }
@@ -101,7 +106,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
   async loadNodes(node?: MemoryNode): Promise<MemoryNode[]> {
     const result = await Promise.all(
       this.payload.nodes?.map(async (nodeManifest, index) => {
-        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`)
+        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, index === 0)
         await node?.register(subNode)
         return subNode
       }),

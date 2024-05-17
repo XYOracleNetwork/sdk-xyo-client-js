@@ -40,7 +40,7 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
         assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
       } else {
         if ((manifest as NodeManifest).modules) {
-          const childNode = await this.loadNodeFromManifest(wallet, manifest as NodeManifest, manifest.config.accountPath)
+          const childNode = await this.loadNodeFromManifest(wallet, manifest as NodeManifest, manifest.config.accountPath, false)
           await node.register(childNode)
           await node.attach(childNode.address, external)
         } else {

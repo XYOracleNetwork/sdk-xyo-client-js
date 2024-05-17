@@ -7,6 +7,8 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
+  ArchivistNextOptions,
+  ArchivistNextQuerySchema,
   buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
@@ -61,7 +63,14 @@ export class IndexedDbArchivist<
   }
 
   override get queries() {
-    return [ArchivistAllQuerySchema, ArchivistClearQuerySchema, ArchivistDeleteQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+    return [
+      ArchivistNextQuerySchema,
+      ArchivistAllQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistInsertQuerySchema,
+      ...super.queries,
+    ]
   }
 
   /**
@@ -220,6 +229,17 @@ export class IndexedDbArchivist<
     } finally {
       db.close()
     }
+  }
+
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+    const { limit, offset, order } = options ?? {}
+    let all = await this.allHandler()
+    if (order === 'desc') {
+      all = all.reverse()
+    }
+    const allPairs = await PayloadBuilder.hashPairs(all)
+    const startIndex = offset ? allPairs.findIndex(([, hash]) => hash === offset) + 1 : 0
+    return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
   }
 
   protected override async startHandler() {

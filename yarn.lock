@@ -5895,7 +5895,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-wrapper@workspace:packages/modules/packages/node/packages/wrapper"
   dependencies:
-    "@xylabs/exists": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -5906,6 +5905,7 @@ __metadata:
     "@xyo-network/module-wrapper": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
+    async-mutex: "npm:^0.5.0"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft

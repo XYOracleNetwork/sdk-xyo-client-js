@@ -1,16 +1,8 @@
-import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import {
-  InstanceTypeCheck,
-  ModuleIdentifier,
-  ModuleInstance,
-  ModuleManifestQuery,
-  ModuleManifestQuerySchema,
-  ModuleQueryResult,
-} from '@xyo-network/module-model'
+import { InstanceTypeCheck, ModuleIdentifier, ModuleManifestQuery, ModuleManifestQuerySchema, ModuleQueryResult } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   ChildCertification,
@@ -32,6 +24,7 @@ import {
   NodeRegisteredQuerySchema,
 } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
+import { Mutex } from 'async-mutex'
 
 constructableModuleWrapper()
 export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
@@ -41,6 +34,9 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   static override instanceIdentityCheck: InstanceTypeCheck<NodeInstance> = isNodeInstance
   static override moduleIdentityCheck = isNodeModule
   static override requiredQueries = [NodeAttachQuerySchema, ...ModuleWrapper.requiredQueries]
+
+  protected _attached?: Address[]
+  protected _attachedMutex = new Mutex()
 
   async attach(id: ModuleIdentifier, external?: boolean): Promise<Address | undefined> {
     const queryPayload: NodeAttachQuery = { external, id, schema: NodeAttachQuerySchema }
@@ -54,9 +50,14 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
   }
 
   async attached(): Promise<Address[]> {
-    const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
-    const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
-    return payloads.map((p) => p.address)
+    return await this._attachedMutex.runExclusive(async () => {
+      if (this._attached === undefined) {
+        const queryPayload: NodeAttachedQuery = { schema: NodeAttachedQuerySchema }
+        const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<AddressPayload>>(AddressSchema))
+        this._attached = payloads.map((p) => p.address)
+      }
+      return this._attached
+    })
   }
 
   async attachedQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
@@ -90,14 +91,6 @@ export class NodeWrapper<TWrappedModule extends NodeModule = NodeModule>
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth ? { maxDepth } : {}) }
     const payloads = (await this.sendQuery(queryPayload)).filter(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
     return payloads.pop() as NodeManifestPayload
-  }
-
-  override async publicChildren(): Promise<ModuleInstance[]> {
-    if (isNodeInstance(this.module)) {
-      return await this.module.publicChildren()
-    }
-    const attached = await this.attached()
-    return (await Promise.all(attached.map((address) => this.resolve(address)))).filter(exists)
   }
 
   async registered(): Promise<Address[]> {

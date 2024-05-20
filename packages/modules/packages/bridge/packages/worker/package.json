@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/worker-bridge",
+  "name": "@xyo-network/bridge-worker",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -65,6 +65,6 @@
     "test": "node --experimental-vm-modules ../../../../../../node_modules/.bin/jest ."
   },
   "sideEffects": false,
-  "version": "2.101.18",
+  "version": "2.102.0",
   "type": "module"
 }

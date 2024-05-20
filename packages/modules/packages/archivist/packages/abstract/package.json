@@ -69,6 +69,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.101.18",
+  "version": "2.102.0",
   "type": "module"
 }

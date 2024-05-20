@@ -3424,44 +3424,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract, @xyo-network/abstract-bridge@workspace:~":
+"@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract-deprecated, @xyo-network/abstract-bridge@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract"
+  resolution: "@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract-deprecated"
   dependencies:
-    "@xylabs/assert": "npm:^3.3.3"
-    "@xylabs/exists": "npm:^3.3.3"
-    "@xylabs/forget": "npm:^3.3.3"
-    "@xylabs/hex": "npm:^3.3.3"
-    "@xylabs/lodash": "npm:^3.3.3"
-    "@xylabs/object": "npm:^3.3.3"
-    "@xylabs/promise": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/account-model": "workspace:~"
-    "@xyo-network/address-payload-plugin": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/archivist-wrapper": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/boundwitness-wrapper": "workspace:~"
-    "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/diviner-wrapper": "workspace:~"
-    "@xyo-network/manifest-model": "workspace:~"
-    "@xyo-network/module-abstract": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/module-resolver": "workspace:~"
-    "@xyo-network/module-wrapper": "workspace:~"
-    "@xyo-network/node-model": "workspace:~"
-    "@xyo-network/node-wrapper": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/query-payload-plugin": "workspace:~"
-    "@xyo-network/sentinel-model": "workspace:~"
-    "@xyo-network/sentinel-wrapper": "workspace:~"
-    "@xyo-network/witness-model": "workspace:~"
-    "@xyo-network/witness-wrapper": "workspace:~"
-    lru-cache: "npm:^10.2.2"
+    "@xyo-network/bridge-abstract": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -3880,6 +3849,82 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bridge-abstract@workspace:packages/modules/packages/bridge/packages/abstract, @xyo-network/bridge-abstract@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge-abstract@workspace:packages/modules/packages/bridge/packages/abstract"
+  dependencies:
+    "@xylabs/assert": "npm:^3.3.3"
+    "@xylabs/exists": "npm:^3.3.3"
+    "@xylabs/forget": "npm:^3.3.3"
+    "@xylabs/hex": "npm:^3.3.3"
+    "@xylabs/lodash": "npm:^3.3.3"
+    "@xylabs/object": "npm:^3.3.3"
+    "@xylabs/promise": "npm:^3.3.3"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
+    "@xylabs/tsconfig": "npm:^3.10.4"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/account-model": "workspace:~"
+    "@xyo-network/address-payload-plugin": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/boundwitness-wrapper": "workspace:~"
+    "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-wrapper": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
+    "@xyo-network/module-abstract": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
+    "@xyo-network/module-wrapper": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/node-wrapper": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/query-payload-plugin": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    "@xyo-network/sentinel-wrapper": "workspace:~"
+    "@xyo-network/witness-model": "workspace:~"
+    "@xyo-network/witness-wrapper": "workspace:~"
+    lru-cache: "npm:^10.2.2"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http, @xyo-network/bridge-http@workspace:~":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge-http@workspace:packages/modules/packages/bridge/packages/http"
+  dependencies:
+    "@xylabs/assert": "npm:^3.3.3"
+    "@xylabs/axios": "npm:^3.3.3"
+    "@xylabs/exists": "npm:^3.3.3"
+    "@xylabs/hex": "npm:^3.3.3"
+    "@xylabs/object": "npm:^3.3.3"
+    "@xylabs/promise": "npm:^3.3.3"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
+    "@xylabs/tsconfig": "npm:^3.10.4"
+    "@xyo-network/abstract-bridge": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/api-models": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/config-payload-plugin": "workspace:~"
+    "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/module-resolver": "workspace:~"
+    "@xyo-network/node-memory": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/payload-builder": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-wrapper": "workspace:~"
+    async-mutex: "npm:^0.5.0"
+    lru-cache: "npm:^10.2.2"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model, @xyo-network/bridge-model@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-model@workspace:packages/modules/packages/bridge/packages/model"
@@ -3977,6 +4022,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/bridge-worker@workspace:packages/modules/packages/bridge/packages/worker":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/bridge-worker@workspace:packages/modules/packages/bridge/packages/worker"
+  dependencies:
+    "@scure/bip39": "npm:^1.3.0"
+    "@xylabs/assert": "npm:^3.3.3"
+    "@xylabs/forget": "npm:^3.3.3"
+    "@xylabs/hex": "npm:^3.3.3"
+    "@xylabs/logger": "npm:^3.3.3"
+    "@xylabs/object": "npm:^3.3.3"
+    "@xylabs/promise": "npm:^3.3.3"
+    "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
+    "@xylabs/tsconfig": "npm:^3.10.4"
+    "@xyo-network/abstract-bridge": "workspace:~"
+    "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:~"
+    "@xyo-network/bridge-model": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:~"
+    "@xyo-network/module-model": "workspace:~"
+    "@xyo-network/node-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/sentinel-model": "workspace:~"
+    lru-cache: "npm:^10.2.2"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "@xyo-network/bridge-wrapper@workspace:packages/modules/packages/bridge/packages/wrapper, @xyo-network/bridge-wrapper@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/bridge-wrapper@workspace:packages/modules/packages/bridge/packages/wrapper"
@@ -3998,13 +4072,13 @@ __metadata:
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
-    "@xyo-network/abstract-bridge": "workspace:~"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/bridge-abstract": "workspace:~"
+    "@xyo-network/bridge-http": "workspace:~"
     "@xyo-network/bridge-model": "workspace:~"
     "@xyo-network/bridge-module-resolver": "workspace:~"
     "@xyo-network/bridge-pub-sub": "workspace:~"
     "@xyo-network/bridge-wrapper": "workspace:~"
-    "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-model": "workspace:~"
     typescript: "npm:^5.4.5"
@@ -5462,36 +5536,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http, @xyo-network/http-bridge@workspace:~":
+"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated, @xyo-network/http-bridge@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http"
+  resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated"
   dependencies:
-    "@xylabs/assert": "npm:^3.3.3"
-    "@xylabs/axios": "npm:^3.3.3"
-    "@xylabs/exists": "npm:^3.3.3"
-    "@xylabs/hex": "npm:^3.3.3"
-    "@xylabs/object": "npm:^3.3.3"
-    "@xylabs/promise": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
-    "@xyo-network/abstract-bridge": "workspace:~"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/api-models": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/config-payload-plugin": "workspace:~"
-    "@xyo-network/diviner-model": "workspace:~"
-    "@xyo-network/manifest-model": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/module-resolver": "workspace:~"
-    "@xyo-network/node-memory": "workspace:~"
-    "@xyo-network/node-model": "workspace:~"
-    "@xyo-network/payload-builder": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/payload-wrapper": "workspace:~"
-    async-mutex: "npm:^0.5.0"
-    lru-cache: "npm:^10.2.2"
+    "@xyo-network/bridge-http": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -6625,35 +6676,6 @@ __metadata:
     "@xyo-network/abstract-witness": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     "@xyo-network/witness-model": "workspace:~"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/worker-bridge@workspace:packages/modules/packages/bridge/packages/worker":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/worker-bridge@workspace:packages/modules/packages/bridge/packages/worker"
-  dependencies:
-    "@scure/bip39": "npm:^1.3.0"
-    "@xylabs/assert": "npm:^3.3.3"
-    "@xylabs/forget": "npm:^3.3.3"
-    "@xylabs/hex": "npm:^3.3.3"
-    "@xylabs/logger": "npm:^3.3.3"
-    "@xylabs/object": "npm:^3.3.3"
-    "@xylabs/promise": "npm:^3.3.3"
-    "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
-    "@xylabs/tsconfig": "npm:^3.10.4"
-    "@xyo-network/abstract-bridge": "workspace:~"
-    "@xyo-network/account": "workspace:~"
-    "@xyo-network/archivist-model": "workspace:~"
-    "@xyo-network/boundwitness-model": "workspace:~"
-    "@xyo-network/bridge-model": "workspace:~"
-    "@xyo-network/manifest": "workspace:~"
-    "@xyo-network/manifest-model": "workspace:~"
-    "@xyo-network/module-model": "workspace:~"
-    "@xyo-network/node-model": "workspace:~"
-    "@xyo-network/payload-model": "workspace:~"
-    "@xyo-network/sentinel-model": "workspace:~"
-    lru-cache: "npm:^10.2.2"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft

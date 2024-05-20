@@ -1,4 +1,5 @@
 import { Account } from '@xyo-network/account'
+import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import {
   AsyncQueryBusIntersectConfig,
   PubSubBridge,
@@ -6,7 +7,6 @@ import {
   PubSubBridgeConfigSchema,
   PubSubBridgeParams,
 } from '@xyo-network/bridge-pub-sub'
-import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/http-bridge'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema } from '@xyo-network/node-model'
 

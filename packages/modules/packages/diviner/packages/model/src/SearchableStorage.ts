@@ -1,11 +1,19 @@
 import { ModuleIdentifier } from '@xyo-network/module-model'
 
 /**
- * Describes an Archivist/Diviner combination
- * that enables searching signed payloads
+ * Configuration for searchable storage of local state
  */
 export interface SearchableStorage {
+  /**
+   * Name/Address of the archivist where intermediate communications are stored
+   */
   archivist: ModuleIdentifier
-  boundWitnessDiviner: ModuleIdentifier
-  payloadDiviner: ModuleIdentifier
+  /**
+   * Name/Address of the diviner where intermediate communications are filtered
+   */
+  boundWitnessDiviner?: ModuleIdentifier
+  /**
+   * Name/Address of the diviner where intermediate communications are filtered
+   */
+  payloadDiviner?: ModuleIdentifier
 }

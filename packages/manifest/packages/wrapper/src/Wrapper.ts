@@ -10,7 +10,7 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
 /** Provides functionality that can be performed on a PackageManifest */
-export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void> extends PayloadWrapper<
+export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void = void> extends PayloadWrapper<
   TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>
 > {
   constructor(

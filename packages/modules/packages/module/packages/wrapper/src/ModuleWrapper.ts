@@ -1,4 +1,5 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
@@ -118,6 +119,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get account() {
     return this.wrapperParams.account
+  }
+
+  get additionalSigners() {
+    return this.wrapperParams.additionalSigners ?? []
   }
 
   get address() {
@@ -438,11 +443,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
+    account = this.account,
+    additionalSigners = this.additionalSigners,
   ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
-      const result = await this.bindQueryInternal(query, payloads, account)
+      const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
@@ -452,10 +458,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   protected async bindQueryInternal<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
+    account = this.account,
+    additionalSigners = this.additionalSigners,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
-    const result = await (account ? builder.witness(account) : builder).build()
+    const accounts = [account, ...additionalSigners].filter(exists)
+    const result = await (account ? builder.witnesses(accounts) : builder).build()
     return result
   }
 

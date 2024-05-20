@@ -222,7 +222,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
       // because of collisions. We need to use the timestamp of the store so there's no
       // chance of multiple commands at the same time
       await this.commitState(address, nextState)
-      console.log('findQueriesToAddress', address, prevState, nextState)
+      this.logger?.debug('findQueriesToAddress', address, prevState, nextState)
       return queries
     } else {
       this.logger?.warn(

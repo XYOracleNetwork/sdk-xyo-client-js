@@ -3,8 +3,8 @@ import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
+import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {
   BridgeExposeOptions,
   BridgeModule,

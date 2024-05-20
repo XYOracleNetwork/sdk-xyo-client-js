@@ -1,6 +1,6 @@
 import { Address } from '@xylabs/hex'
-import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import { AttachableModuleInstance, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 

@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { isAddress } from '@xylabs/hex'
-import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import {
   ModuleFilter,
   ModuleFilterOptions,

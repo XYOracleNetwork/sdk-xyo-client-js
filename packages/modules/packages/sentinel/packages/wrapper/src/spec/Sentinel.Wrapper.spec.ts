@@ -1,3 +1,4 @@
+import { delay } from '@xylabs/delay'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
@@ -61,6 +62,8 @@ describe('Sentinel', () => {
         expect(panelReport).toBeArrayOfSize(3)
       }
       const assertArchivistStateMatchesPanelReport = async (payloads: Payload[], archivists: Archivist[]) => {
+        //delay to wait for archiving to happen
+        await delay(1000)
         for (const archivist of archivists) {
           const archivistPayloads = await archivist.all?.()
           expect(archivistPayloads).toBeArrayOfSize(payloads.length + 1)

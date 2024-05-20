@@ -3,6 +3,7 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
+import { forget } from '@xylabs/forget'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
@@ -99,6 +100,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
+  private _logger: Logger | undefined = undefined
   private _status: ModuleStatus = 'stopped'
 
   protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
@@ -154,7 +156,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   override get logger() {
-    return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+    const consoleLogger = this.config.consoleLogger
+    this._logger =
+      this._logger ?? consoleLogger ? new ConsoleLogger(consoleLogger) : this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+    return this._logger
   }
 
   get modName() {
@@ -535,7 +540,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
     ]
     if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
-      await this.storeToArchivists(result.flat())
+      forget(this.storeToArchivists(result.flat()))
     }
     return result
   }

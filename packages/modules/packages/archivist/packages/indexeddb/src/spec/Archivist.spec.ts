@@ -3,7 +3,7 @@
  */
 
 import { toJsonString } from '@xylabs/object'
-import { Account, HDWallet } from '@xyo-network/account'
+import { Account } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'

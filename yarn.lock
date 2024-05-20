@@ -3638,6 +3638,7 @@ __metadata:
   dependencies:
     "@xylabs/exists": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
+    "@xylabs/object": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/account": "workspace:~"
@@ -5603,6 +5604,7 @@ __metadata:
     "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/error": "npm:^3.3.3"
     "@xylabs/exists": "npm:^3.3.3"
+    "@xylabs/forget": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/lodash": "npm:^3.3.3"
     "@xylabs/logger": "npm:^3.3.3"
@@ -5723,6 +5725,7 @@ __metadata:
   resolution: "@xyo-network/module-wrapper@workspace:packages/modules/packages/module/packages/wrapper"
   dependencies:
     "@xylabs/assert": "npm:^3.3.3"
+    "@xylabs/exists": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/lodash": "npm:^3.3.3"
     "@xylabs/logger": "npm:^3.3.3"
@@ -6353,6 +6356,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/sentinel-wrapper@workspace:packages/modules/packages/sentinel/packages/wrapper"
   dependencies:
+    "@xylabs/delay": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/abstract-witness": "workspace:~"

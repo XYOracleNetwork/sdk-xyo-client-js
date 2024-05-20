@@ -305,13 +305,19 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   }
 
   protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {
-    const archivists = await this.resolveArchivingArchivists()
-    return (
-      await Promise.all(
-        archivists.map((archivist) => {
-          return archivist.insert?.(payloads)
-        }),
-      )
-    ).map(([bw]) => bw)
+    try {
+      const archivists = await this.resolveArchivingArchivists()
+      return (
+        await Promise.all(
+          archivists.map((archivist) => {
+            return archivist.insert?.(payloads)
+          }),
+        )
+      ).map(([bw]) => bw)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger.error(`Error storing to archivists: ${error.message}`)
+      return []
+    }
   }
 }

@@ -114,7 +114,7 @@
   },
   "sideEffects": false,
   "version": "2.101.17",
-  "packageManager": "yarn@4.2.1",
+  "packageManager": "yarn@4.2.2",
   "volta": {
     "node": "20.12.0",
     "yarn": "1.22.19"

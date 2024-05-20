@@ -1,12 +1,29 @@
-/* eslint-disable max-nested-callbacks */
+/**
+ * @jest-environment jsdom
+ */
+
 import { Hash } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
-import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { PayloadWithMeta } from '@xyo-network/payload-model'
+import {
+  IDBCursor,
+  IDBCursorWithValue,
+  IDBDatabase,
+  IDBFactory,
+  IDBIndex,
+  IDBKeyRange,
+  IDBObjectStore,
+  IDBOpenDBRequest,
+  IDBRequest,
+  IDBTransaction,
+  IDBVersionChangeEvent,
+  indexedDB,
+} from 'fake-indexeddb'
 
 import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Diviner'
 
@@ -16,13 +33,28 @@ import { GenericPayloadDiviner, GenericPayloadDivinerConfigSchema } from '../Div
  */
 
 describe('GenericPayloadDiviner', () => {
-  let archivist: MemoryArchivist
+  let archivist: IndexedDbArchivist
   let sut: GenericPayloadDiviner
   let node: MemoryNode
   let payloadA: PayloadWithMeta<{ schema: string; url: string }>
   let payloadB: PayloadWithMeta<{ foo: string[]; schema: string }>
   let payloadC: PayloadWithMeta<{ foo: string[]; schema: string }>
   let payloadD: PayloadWithMeta<{ foo: string[]; schema: string }>
+
+  // Augment window with prototypes to ensure instance of comparisons work
+  window.IDBCursor = IDBCursor
+  window.IDBCursorWithValue = IDBCursorWithValue
+  window.IDBDatabase = IDBDatabase
+  window.IDBFactory = IDBFactory
+  window.IDBIndex = IDBIndex
+  window.IDBKeyRange = IDBKeyRange
+  window.IDBObjectStore = IDBObjectStore
+  window.IDBOpenDBRequest = IDBOpenDBRequest
+  window.IDBRequest = IDBRequest
+  window.IDBTransaction = IDBTransaction
+  window.IDBVersionChangeEvent = IDBVersionChangeEvent
+  window.indexedDB = indexedDB
+
   beforeAll(async () => {
     payloadA = await PayloadBuilder.build({
       schema: 'network.xyo.test',
@@ -41,9 +73,9 @@ describe('GenericPayloadDiviner', () => {
       schema: 'network.xyo.debug',
     })
 
-    archivist = await MemoryArchivist.create({
+    archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
+      config: { name: 'test', schema: IndexedDbArchivist.defaultConfigSchema },
     })
     await archivist.insert([payloadA, payloadB])
     await archivist.insert([payloadC, payloadD])
@@ -205,6 +237,7 @@ describe('GenericPayloadDiviner', () => {
             .build()
           const results = await sut.divine([query])
           expect(results.length).toBeGreaterThan(0)
+          // eslint-disable-next-line max-nested-callbacks
           expect(results.every((result) => foo.every((v) => (result as unknown as WithFoo)?.foo?.includes(v)))).toBe(true)
         })
       })

@@ -32,7 +32,7 @@ export type GenericPayloadDivinerConfig = PayloadDivinerConfig<
 
 export class GenericPayloadDiviner<
   TParams extends PayloadDivinerParams<GenericPayloadDivinerConfig> = PayloadDivinerParams<GenericPayloadDivinerConfig>,
-  TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
+  TIn extends PayloadDivinerQueryPayload<EmptyObject, Hash> = PayloadDivinerQueryPayload<EmptyObject, Hash>,
   TOut extends Payload = Payload,
   TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
     DivinerInstance<TParams, TIn, TOut>,

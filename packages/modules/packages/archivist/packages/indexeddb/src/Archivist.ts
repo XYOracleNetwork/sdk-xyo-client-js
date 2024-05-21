@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -15,7 +16,7 @@ import {
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
-import { IDBPDatabase, openDB } from 'idb'
+import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
@@ -154,6 +155,41 @@ export class IndexedDbArchivist<
     }
   }
 
+  protected async getFromOffset(
+    db: IDBPDatabase<PayloadStore>,
+    storeName: string,
+    order: 'asc' | 'desc' = 'asc',
+    limit: number = 10,
+    offset?: Hash,
+  ): Promise<PayloadWithMeta[]> {
+    const transaction = db.transaction(storeName, 'readonly')
+    const store = transaction.objectStore(storeName)
+    const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
+    let primaryCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
+    if (offset) {
+      const hashCursor = assertEx(await hashIndex.openCursor(offset), () => 'Failed to get cursor')
+      const startPrimaryKey = (hashCursor?.primaryKey ?? 0) as number //we know the primary key is a number and starts at 1
+      primaryCursor = await (order === 'desc' ?
+        store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
+      : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
+      await primaryCursor?.advance(1) //advance to skip the offset value
+    } else {
+      primaryCursor = await store.openCursor(null, order === 'desc' ? 'prev' : 'next')
+    }
+
+    let remaining = limit
+    const result: PayloadWithMeta[] = []
+    while (remaining) {
+      const value = primaryCursor?.value
+      if (value) {
+        result.push(value)
+        await primaryCursor?.advance(1)
+      }
+      remaining--
+    }
+    return result
+  }
+
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
@@ -233,13 +269,9 @@ export class IndexedDbArchivist<
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
     const { limit, offset, order } = options ?? {}
-    let all = await this.allHandler()
-    if (order === 'desc') {
-      all = all.reverse()
-    }
-    const allPairs = await PayloadBuilder.hashPairs(all)
-    const startIndex = offset ? allPairs.findIndex(([, hash]) => hash === offset) + 1 : 0
-    return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
+    return await this.useDb(async (db) => {
+      return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)
+    })
   }
 
   protected override async startHandler() {

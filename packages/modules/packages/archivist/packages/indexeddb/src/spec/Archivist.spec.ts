@@ -286,10 +286,15 @@ describe('IndexedDbArchivist', () => {
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
       ]
 
+      console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
+
       const payloads2 = [
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
       ]
+
+      console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
+
       await archivist.insert(payloads1)
       console.log(toJsonString(payloads1, 10))
       const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
@@ -312,7 +317,7 @@ describe('IndexedDbArchivist', () => {
       expect(batch1Desc).toBeArrayOfSize(2)
       expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
 
-      const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch2?.[1]), order: 'desc' })
+      const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
       expect(batch2Desc).toBeArrayOfSize(2)
       expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
     })

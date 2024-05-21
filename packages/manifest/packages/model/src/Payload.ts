@@ -1,4 +1,4 @@
-export const DappPackageManifestPayloadSchema = 'network.xyo.manifest.package.dapp'
+export const DappPackageManifestPayloadSchema = 'network.xyo.manifest.package.dapp' as const
 export type DappPackageManifestPayloadSchema = typeof DappPackageManifestPayloadSchema
 
 export type PackageManifestPayloadSchema = 'network.xyo.manifest.package'

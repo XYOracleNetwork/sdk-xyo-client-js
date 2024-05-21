@@ -21,7 +21,7 @@ import {
 } from '@xyo-network/module-model'
 import { PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 
-export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config'
+export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config' as const
 export type ViewArchivistConfigSchema = typeof ViewArchivistConfigSchema
 
 export type ViewArchivistConfig = ArchivistConfig<

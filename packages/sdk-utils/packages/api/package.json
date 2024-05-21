@@ -22,7 +22,6 @@
     "@xylabs/jest-helpers": "^3.3.3",
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
-    "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/query-payload-plugin": "workspace:~",
     "jest": "^29.7.0",
     "typescript": "^5.4.5",
@@ -67,6 +66,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.102.7",
+  "version": "2.103.0",
   "type": "module"
 }

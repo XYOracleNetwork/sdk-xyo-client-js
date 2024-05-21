@@ -3,7 +3,6 @@ import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
 import { Address, isAddress } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import {
   BridgeExposeOptions,
@@ -15,6 +14,8 @@ import {
   QuerySendStartedEventArgs,
 } from '@xyo-network/bridge-model'
 import {
+  AddressPayload,
+  AddressSchema,
   creatableModule,
   isAddressModuleFilter,
   ModuleFilter,

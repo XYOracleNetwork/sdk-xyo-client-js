@@ -3,7 +3,7 @@ import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { IndexedDbBoundWitnessDivinerSchema } from './Schema'
 
-export const IndexedDbBoundWitnessDivinerConfigSchema = `${IndexedDbBoundWitnessDivinerSchema}.config`
+export const IndexedDbBoundWitnessDivinerConfigSchema = `${IndexedDbBoundWitnessDivinerSchema}.config` as const
 export type IndexedDbBoundWitnessDivinerConfigSchema = typeof IndexedDbBoundWitnessDivinerConfigSchema
 
 export type IndexedDbBoundWitnessDivinerConfig = DivinerConfig<{

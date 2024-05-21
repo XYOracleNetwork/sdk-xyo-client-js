@@ -1,5 +1,4 @@
 import { Address } from '@xylabs/hex'
-import { AddressPayload } from '@xyo-network/address-payload-plugin'
 import {
   BridgeExposeOptions,
   BridgeExposeQuery,
@@ -14,7 +13,7 @@ import {
   ModuleFilterPayload,
   ModuleFilterPayloadSchema,
 } from '@xyo-network/bridge-model'
-import { ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import { AddressPayload, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 
 constructableModuleWrapper()

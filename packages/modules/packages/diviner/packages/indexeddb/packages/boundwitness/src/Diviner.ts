@@ -107,7 +107,11 @@ export class IndexedDbBoundWitnessDiviner<
             results.push(value)
           }
         }
-        cursor = await cursor.continue()
+        try {
+          cursor = await cursor.continue()
+        } catch {
+          break
+        }
       }
       await tx.done
       // Remove any metadata before returning to the client

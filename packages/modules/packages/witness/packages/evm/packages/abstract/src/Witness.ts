@@ -6,7 +6,7 @@ import { Payload, Schema } from '@xyo-network/payload-model'
 import { CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
 
-export const EvmWitnessConfigSchema = 'network.xyo.evm.witness'
+export const EvmWitnessConfigSchema = 'network.xyo.evm.witness' as const
 export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema
 
 export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<

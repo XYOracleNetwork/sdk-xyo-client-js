@@ -5,7 +5,7 @@ import { BridgeConfig } from '@xyo-network/bridge-model'
 import { AsyncQueryBusClientConfig, AsyncQueryBusHostConfig } from './AsyncQueryBus'
 import { PubSubBridgeSchema } from './Schema'
 
-export const PubSubBridgeConfigSchema = `${PubSubBridgeSchema}.config`
+export const PubSubBridgeConfigSchema = `${PubSubBridgeSchema}.config` as const
 export type PubSubBridgeConfigSchema = typeof PubSubBridgeConfigSchema
 
 /**

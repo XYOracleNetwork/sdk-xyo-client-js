@@ -3,12 +3,20 @@ import { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { Module, ModuleConfig, ModuleIdentifier, ModuleInstance, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  AddressPayload,
+  AddressSchema,
+  Module,
+  ModuleConfig,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleQueryHandlerResult,
+  ModuleQueryResult,
+} from '@xyo-network/module-model'
 import {
   AttachableNodeInstance,
   ChildCertification,

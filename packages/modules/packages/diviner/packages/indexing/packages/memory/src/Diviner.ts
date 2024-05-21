@@ -88,7 +88,7 @@ export class IndexingDiviner<
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
-    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).signer(this.account).build()
+    const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
     await archivist.insert([bw, nextState])
   }
 

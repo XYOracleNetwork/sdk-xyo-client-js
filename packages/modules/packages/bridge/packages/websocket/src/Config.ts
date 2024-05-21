@@ -1,7 +1,7 @@
 import { EmptyObject } from '@xylabs/object'
 import { BridgeConfig } from '@xyo-network/bridge-model'
 
-export const WebsocketBridgeConfigSchema = 'network.xyo.bridge.websocket.config'
+export const WebsocketBridgeConfigSchema = 'network.xyo.bridge.websocket.config' as const
 export type WebsocketBridgeConfigSchema = typeof WebsocketBridgeConfigSchema
 
 export type WebsocketBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema extends string | void = void> = BridgeConfig<

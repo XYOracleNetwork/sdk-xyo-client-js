@@ -4,7 +4,6 @@ import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -25,6 +24,8 @@ import {
 } from '@xyo-network/bridge-model'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
 import {
+  AddressPayload,
+  AddressSchema,
   isAddressModuleFilter,
   isNameModuleFilter,
   ModuleFilter,

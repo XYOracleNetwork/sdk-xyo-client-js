@@ -1,8 +1,15 @@
 import { Address } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
-import { InstanceTypeCheck, ModuleIdentifier, ModuleManifestQuery, ModuleManifestQuerySchema, ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  AddressPayload,
+  AddressSchema,
+  InstanceTypeCheck,
+  ModuleIdentifier,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
+  ModuleQueryResult,
+} from '@xyo-network/module-model'
 import { constructableModuleWrapper, ModuleWrapper } from '@xyo-network/module-wrapper'
 import {
   ChildCertification,

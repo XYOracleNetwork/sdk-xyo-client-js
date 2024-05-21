@@ -20,7 +20,6 @@
     "@xylabs/promise": "^3.3.3",
     "@xylabs/timer": "^3.3.3",
     "@xyo-network/account": "workspace:~",
-    "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/bridge-abstract": "workspace:~",
@@ -86,6 +85,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.102.7",
+  "version": "2.103.0",
   "type": "module"
 }

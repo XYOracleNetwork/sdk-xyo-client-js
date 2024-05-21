@@ -1,7 +1,11 @@
 import { Address } from '@xylabs/hex'
 import { Payload } from '@xyo-network/payload-model'
 
-import { AddressChildSchema, AddressSchema } from './Schema'
+export const AddressSchema = 'network.xyo.address' as const
+export type AddressSchema = typeof AddressSchema
+
+export const AddressChildSchema = 'network.xyo.address.child' as const
+export type AddressChildSchema = typeof AddressChildSchema
 
 export interface AddressFields {
   address: Address

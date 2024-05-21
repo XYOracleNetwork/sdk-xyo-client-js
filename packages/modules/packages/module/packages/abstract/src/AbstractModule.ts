@@ -11,7 +11,6 @@ import { Base, globallyUnique } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -19,8 +18,10 @@ import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
+  AddressPayload,
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  AddressSchema,
   ArchivingModuleConfig,
   AttachableModuleInstance,
   CreatableModule,
@@ -492,9 +493,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account?: AccountInstance): Promise<BoundWitness> {
-    const builder = new BoundWitnessBuilder().hashes(hashes, schema).signer(this.account)
-    const result = (await (account ? builder.signer(account) : builder).build())[0]
+  protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account: AccountInstance = this.account): Promise<BoundWitness> {
+    const builder = new BoundWitnessBuilder().hashes(hashes, schema).signer(account)
+    const result = (await builder.build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
@@ -522,6 +523,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
     const accounts = [account, ...additionalSigners].filter(exists)
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
+
     let additional: WithMeta<Payload>[] = []
     if (this.config.certify) {
       additional = await this.certifyParents()
@@ -626,7 +628,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     throw new Error('Not supported')
   }
 
-  protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {
+  protected moduleAddressHandler(): Promisable<(AddressPreviousHashPayload | AddressPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -644,9 +646,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const name = this.modName
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash =
-      previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressPreviousHashSchema }
-    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
+    const moduleAccountPreviousHash = previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressSchema }
+    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts.flat()]
   }
 
   protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(

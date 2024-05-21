@@ -2,10 +2,17 @@
 import { delay } from '@xylabs/delay'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
-import { AttachableModuleInstance, Module, ModuleDescription, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
+import {
+  AddressPayload,
+  AddressSchema,
+  AttachableModuleInstance,
+  Module,
+  ModuleDescription,
+  ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
+} from '@xyo-network/module-model'
 import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'

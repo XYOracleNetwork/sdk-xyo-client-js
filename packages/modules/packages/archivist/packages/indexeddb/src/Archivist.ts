@@ -192,9 +192,7 @@ export class IndexedDbArchivist<
         try {
           primaryCursor = await primaryCursor?.advance(1)
         } catch {
-          if (primaryCursor === null) {
-            break
-          }
+          break
         }
         if (primaryCursor === null) {
           break

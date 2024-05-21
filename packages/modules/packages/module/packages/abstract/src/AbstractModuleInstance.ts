@@ -7,6 +7,7 @@ import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
+  AddressPayload,
   AddressPreviousHashPayload,
   AttachableModuleInstance,
   duplicateModules,
@@ -132,7 +133,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return await this.sendQueryRaw<ModuleManifestQuery, Payload, ModuleManifestPayload>(queryPayload, undefined, account)
   }
 
-  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+  moduleAddress(): Promise<(AddressPayload | AddressPreviousHashPayload)[]> {
     this._checkDead()
     return this.busy(async () => {
       return await this.moduleAddressHandler()

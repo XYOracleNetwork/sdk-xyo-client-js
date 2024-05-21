@@ -1,7 +1,6 @@
 import { Address } from '@xylabs/hex'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload } from '@xyo-network/address-payload-plugin'
-import { AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import { AddressPayload, AttachableModuleInstance, ModuleIdentifier, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
 
 import { ChildCertification, ChildCertificationFields } from './ChildCertification'
 import { NodeModule, NodeModuleEventData } from './Node'

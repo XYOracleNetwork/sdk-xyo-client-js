@@ -9,7 +9,7 @@ export interface ArchivistParents {
   write?: Address[]
 }
 
-export const ArchivistConfigSchema = 'network.xyo.archivist.config'
+export const ArchivistConfigSchema = 'network.xyo.archivist.config' as const
 export type ArchivistConfigSchema = typeof ArchivistConfigSchema
 
 export type ArchivistConfig<TConfig extends Payload | EmptyObject | void = void, TSchema extends string | void = void> = ModuleConfig<

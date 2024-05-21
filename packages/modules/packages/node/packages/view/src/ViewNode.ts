@@ -28,7 +28,7 @@ import {
 import { Schema } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 
-export const ViewNodeConfigSchema = 'network.xyo.node.view.config'
+export const ViewNodeConfigSchema = 'network.xyo.node.view.config' as const
 export type ViewNodeConfigSchema = typeof ViewNodeConfigSchema
 
 export type ViewNodeConfig = NodeConfig<

@@ -172,9 +172,11 @@ export class IndexedDbArchivist<
       primaryCursor = await (order === 'desc' ?
         store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
       : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
+      if (!primaryCursor?.value) return []
       await primaryCursor?.advance(1) //advance to skip the offset value
     } else {
       primaryCursor = await store.openCursor(null, order === 'desc' ? 'prev' : 'next')
+      if (!primaryCursor?.value) return []
     }
 
     let remaining = limit

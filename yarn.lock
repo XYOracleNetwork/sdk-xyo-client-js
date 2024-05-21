@@ -3505,9 +3505,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/address-payload-plugin@workspace:packages/payload/packages/address, @xyo-network/address-payload-plugin@workspace:~":
+"@xyo-network/address-payload-plugin@workspace:packages/core-payload-plugins/packages/address, @xyo-network/address-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/address-payload-plugin@workspace:packages/payload/packages/address"
+  resolution: "@xyo-network/address-payload-plugin@workspace:packages/core-payload-plugins/packages/address"
   dependencies:
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
@@ -3518,9 +3518,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api-models@workspace:packages/sdk/packages/api-models, @xyo-network/api-models@workspace:~":
+"@xyo-network/api-models@workspace:packages/sdk-utils/packages/api-models, @xyo-network/api-models@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/api-models@workspace:packages/sdk/packages/api-models"
+  resolution: "@xyo-network/api-models@workspace:packages/sdk-utils/packages/api-models"
   dependencies:
     "@xylabs/axios": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
@@ -3529,9 +3529,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/api@workspace:packages/sdk/packages/api":
+"@xyo-network/api@workspace:packages/sdk-utils/packages/api":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/api@workspace:packages/sdk/packages/api"
+  resolution: "@xyo-network/api@workspace:packages/sdk-utils/packages/api"
   dependencies:
     "@xylabs/axios": "npm:^3.3.3"
     "@xylabs/jest-helpers": "npm:^3.3.3"
@@ -4086,9 +4086,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/config-payload-plugin@workspace:packages/payload/packages/config, @xyo-network/config-payload-plugin@workspace:~":
+"@xyo-network/config-payload-plugin@workspace:packages/core-payload-plugins/packages/config, @xyo-network/config-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/config-payload-plugin@workspace:packages/payload/packages/config"
+  resolution: "@xyo-network/config-payload-plugin@workspace:packages/core-payload-plugins/packages/config"
   dependencies:
     "@xylabs/object": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
@@ -4099,9 +4099,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/core-payload-plugins@workspace:packages/payload":
+"@xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins, @xyo-network/core-payload-plugins@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/core-payload-plugins@workspace:packages/payload"
+  resolution: "@xyo-network/core-payload-plugins@workspace:packages/core-payload-plugins"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -5461,9 +5461,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/dns@workspace:packages/sdk/packages/dns, @xyo-network/dns@workspace:~":
+"@xyo-network/dns@workspace:packages/sdk-utils/packages/dns, @xyo-network/dns@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/dns@workspace:packages/sdk/packages/dns"
+  resolution: "@xyo-network/dns@workspace:packages/sdk-utils/packages/dns"
   dependencies:
     "@xylabs/axios": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
@@ -5472,9 +5472,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
+"@xyo-network/domain-payload-plugin@workspace:packages/core-payload-plugins/packages/domain, @xyo-network/domain-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/domain-payload-plugin@workspace:packages/payload/packages/domain"
+  resolution: "@xyo-network/domain-payload-plugin@workspace:packages/core-payload-plugins/packages/domain"
   dependencies:
     "@xylabs/axios": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
@@ -5566,9 +5566,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/id-payload-plugin@workspace:packages/payload/packages/id, @xyo-network/id-payload-plugin@workspace:~":
+"@xyo-network/id-payload-plugin@workspace:packages/core-payload-plugins/packages/id, @xyo-network/id-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/id-payload-plugin@workspace:packages/payload/packages/id"
+  resolution: "@xyo-network/id-payload-plugin@workspace:packages/core-payload-plugins/packages/id"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -5638,9 +5638,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/metamask-connector@workspace:packages/sdk/packages/metamask-connector, @xyo-network/metamask-connector@workspace:~":
+"@xyo-network/metamask-connector@workspace:packages/sdk-utils/packages/metamask-connector, @xyo-network/metamask-connector@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/metamask-connector@workspace:packages/sdk/packages/metamask-connector"
+  resolution: "@xyo-network/metamask-connector@workspace:packages/sdk-utils/packages/metamask-connector"
   dependencies:
     "@metamask/providers": "npm:^16.1.0"
     "@xylabs/forget": "npm:^3.3.3"
@@ -5851,9 +5851,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/network@workspace:packages/sdk/packages/network, @xyo-network/network@workspace:~":
+"@xyo-network/network@workspace:packages/sdk-utils/packages/network, @xyo-network/network@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/network@workspace:packages/sdk/packages/network"
+  resolution: "@xyo-network/network@workspace:packages/sdk-utils/packages/network"
   dependencies:
     "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
@@ -6035,9 +6035,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payload-plugin@workspace:packages/sdk/packages/payload-plugin, @xyo-network/payload-plugin@workspace:~":
+"@xyo-network/payload-plugin@workspace:packages/sdk-utils/packages/payload-plugin, @xyo-network/payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/payload-plugin@workspace:packages/sdk/packages/payload-plugin"
+  resolution: "@xyo-network/payload-plugin@workspace:packages/sdk-utils/packages/payload-plugin"
   dependencies:
     "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/object": "npm:^3.3.3"
@@ -6115,9 +6115,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/payloadset-plugin@workspace:packages/sdk/packages/payloadset-plugin, @xyo-network/payloadset-plugin@workspace:~":
+"@xyo-network/payloadset-plugin@workspace:packages/sdk-utils/packages/payloadset-plugin, @xyo-network/payloadset-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/payloadset-plugin@workspace:packages/sdk/packages/payloadset-plugin"
+  resolution: "@xyo-network/payloadset-plugin@workspace:packages/sdk-utils/packages/payloadset-plugin"
   dependencies:
     "@xylabs/forget": "npm:^3.3.3"
     "@xylabs/object": "npm:^3.3.3"
@@ -6200,9 +6200,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey":
+"@xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/quadkey@workspace:packages/sdk/packages/quadkey"
+  resolution: "@xyo-network/quadkey@workspace:packages/sdk-utils/packages/quadkey"
   dependencies:
     "@types/mapbox-gl": "npm:^3.1.0"
     "@xylabs/assert": "npm:^3.3.3"
@@ -6215,9 +6215,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/query-payload-plugin@workspace:packages/payload/packages/query, @xyo-network/query-payload-plugin@workspace:~":
+"@xyo-network/query-payload-plugin@workspace:packages/core-payload-plugins/packages/query, @xyo-network/query-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/query-payload-plugin@workspace:packages/payload/packages/query"
+  resolution: "@xyo-network/query-payload-plugin@workspace:packages/core-payload-plugins/packages/query"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -6227,9 +6227,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-cache@workspace:packages/sdk/packages/schema-cache, @xyo-network/schema-cache@workspace:~":
+"@xyo-network/schema-cache@workspace:packages/sdk-utils/packages/schema-cache, @xyo-network/schema-cache@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-cache@workspace:packages/sdk/packages/schema-cache"
+  resolution: "@xyo-network/schema-cache@workspace:packages/sdk-utils/packages/schema-cache"
   dependencies:
     "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/axios": "npm:^3.3.3"
@@ -6249,9 +6249,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-name-validator@workspace:packages/sdk/packages/schema-name-validator, @xyo-network/schema-name-validator@workspace:~":
+"@xyo-network/schema-name-validator@workspace:packages/sdk-utils/packages/schema-name-validator, @xyo-network/schema-name-validator@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-name-validator@workspace:packages/sdk/packages/schema-name-validator"
+  resolution: "@xyo-network/schema-name-validator@workspace:packages/sdk-utils/packages/schema-name-validator"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -6260,9 +6260,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
+"@xyo-network/schema-payload-plugin@workspace:packages/core-payload-plugins/packages/schema, @xyo-network/schema-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/payload/packages/schema"
+  resolution: "@xyo-network/schema-payload-plugin@workspace:packages/core-payload-plugins/packages/schema"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -6282,9 +6282,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/sdk-xyo-client-js@workspace:.":
+"@xyo-network/sdk-js@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/sdk-xyo-client-js@workspace:."
+  resolution: "@xyo-network/sdk-js@workspace:."
   dependencies:
     "@types/jest": "npm:^29.5.12"
     "@types/supertest": "npm:^6.0.2"
@@ -6293,9 +6293,12 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xylabs/tsconfig-dom-jest": "npm:^3.10.4"
+    "@xyo-network/core-payload-plugins": "workspace:~"
+    "@xyo-network/manifest": "workspace:~"
     "@xyo-network/modules": "workspace:~"
     "@xyo-network/protocol": "workspace:~"
-    "@xyo-network/sdk": "workspace:~"
+    "@xyo-network/sdk-utils": "workspace:~"
+    "@xyo-network/shared": "workspace:~"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"
     eslint-plugin-deprecation: "npm:^2.0.0"
@@ -6316,9 +6319,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/sdk@workspace:packages/sdk, @xyo-network/sdk@workspace:~":
+"@xyo-network/sdk-utils@workspace:packages/sdk-utils, @xyo-network/sdk-utils@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/sdk@workspace:packages/sdk"
+  resolution: "@xyo-network/sdk-utils@workspace:packages/sdk-utils"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
@@ -6331,6 +6334,19 @@ __metadata:
     "@xyo-network/schema-cache": "workspace:~"
     "@xyo-network/schema-name-validator": "workspace:~"
     "@xyo-network/witnesses": "workspace:~"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
+"@xyo-network/sdk-xyo-client-js@workspace:packages/sdk-deprecated":
+  version: 0.0.0-use.local
+  resolution: "@xyo-network/sdk-xyo-client-js@workspace:packages/sdk-deprecated"
+  dependencies:
+    "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
+    "@xylabs/tsconfig": "npm:^3.10.4"
+    "@xyo-network/modules": "workspace:~"
+    "@xyo-network/protocol": "workspace:~"
+    "@xyo-network/sdk-utils": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -6445,7 +6461,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/shared@workspace:packages/shared":
+"@xyo-network/shared@workspace:packages/shared, @xyo-network/shared@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/shared@workspace:packages/shared"
   dependencies:
@@ -6466,9 +6482,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/value-payload-plugin@workspace:packages/payload/packages/value, @xyo-network/value-payload-plugin@workspace:~":
+"@xyo-network/value-payload-plugin@workspace:packages/core-payload-plugins/packages/value, @xyo-network/value-payload-plugin@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/value-payload-plugin@workspace:packages/payload/packages/value"
+  resolution: "@xyo-network/value-payload-plugin@workspace:packages/core-payload-plugins/packages/value"
   dependencies:
     "@xylabs/object": "npm:^3.3.3"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
@@ -6670,9 +6686,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/witnesses@workspace:packages/sdk/packages/witnesses, @xyo-network/witnesses@workspace:~":
+"@xyo-network/witnesses@workspace:packages/sdk-utils/packages/witnesses, @xyo-network/witnesses@workspace:~":
   version: 0.0.0-use.local
-  resolution: "@xyo-network/witnesses@workspace:packages/sdk/packages/witnesses"
+  resolution: "@xyo-network/witnesses@workspace:packages/sdk-utils/packages/witnesses"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"

@@ -1,31 +1,25 @@
 {
-  "name": "@xyo-network/sdk",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
     "url": "https://xyo.network"
   },
+  "name": "@xyo-network/sdk-xyo-client-js",
   "bugs": {
     "email": "support@xyo.network",
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
+  "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xyo-network/api-models": "workspace:~",
-    "@xyo-network/dns": "workspace:~",
-    "@xyo-network/metamask-connector": "workspace:~",
-    "@xyo-network/network": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~",
-    "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/schema-cache": "workspace:~",
-    "@xyo-network/schema-name-validator": "workspace:~",
-    "@xyo-network/witnesses": "workspace:~"
+    "@xyo-network/modules": "workspace:~",
+    "@xyo-network/protocol": "workspace:~",
+    "@xyo-network/sdk-utils": "workspace:~"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
     "typescript": "^5.4.5"
   },
-  "description": "Primary SDK for using XYO Protocol 2.0",
   "exports": {
     ".": {
       "browser": {

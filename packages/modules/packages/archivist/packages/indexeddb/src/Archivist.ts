@@ -185,7 +185,10 @@ export class IndexedDbArchivist<
       const value = primaryCursor?.value
       if (value) {
         result.push(value)
-        await primaryCursor?.advance(1)
+        primaryCursor = await primaryCursor?.advance(1)
+        if (primaryCursor === null) {
+          break
+        }
       }
       remaining--
     }

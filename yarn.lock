@@ -3741,6 +3741,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/archivist-abstract": "workspace:~"
     "@xyo-network/archivist-cookie": "workspace:~"
+    "@xyo-network/archivist-indexeddb": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/archivist-storage": "workspace:~"
@@ -4647,7 +4648,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting, @xyo-network/diviner-forecasting@workspace:~":
+"@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting"
   dependencies:
@@ -5456,7 +5457,6 @@ __metadata:
     "@xyo-network/diviner-boundwitness": "workspace:~"
     "@xyo-network/diviner-boundwitness-stats": "workspace:~"
     "@xyo-network/diviner-distinct": "workspace:~"
-    "@xyo-network/diviner-forecasting": "workspace:~"
     "@xyo-network/diviner-hash-lease": "workspace:~"
     "@xyo-network/diviner-huri": "workspace:~"
     "@xyo-network/diviner-identity": "workspace:~"
@@ -5820,6 +5820,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/module-abstract": "workspace:~"
     "@xyo-network/module-events": "workspace:~"
+    "@xyo-network/module-factory-locator": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/module-resolver": "workspace:~"
     "@xyo-network/module-wrapper": "workspace:~"

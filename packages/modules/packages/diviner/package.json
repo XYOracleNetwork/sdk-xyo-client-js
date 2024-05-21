@@ -18,7 +18,6 @@
     "@xyo-network/diviner-boundwitness": "workspace:~",
     "@xyo-network/diviner-boundwitness-stats": "workspace:~",
     "@xyo-network/diviner-distinct": "workspace:~",
-    "@xyo-network/diviner-forecasting": "workspace:~",
     "@xyo-network/diviner-hash-lease": "workspace:~",
     "@xyo-network/diviner-huri": "workspace:~",
     "@xyo-network/diviner-identity": "workspace:~",
@@ -75,6 +74,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.102.6",
+  "version": "2.102.7",
   "type": "module"
 }

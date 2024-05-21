@@ -12,6 +12,7 @@
   "dependencies": {
     "@xyo-network/archivist-abstract": "workspace:~",
     "@xyo-network/archivist-cookie": "workspace:~",
+    "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/archivist-storage": "workspace:~",
@@ -62,6 +63,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.102.6",
+  "version": "2.102.7",
   "type": "module"
 }

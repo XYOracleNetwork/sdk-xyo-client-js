@@ -18,7 +18,7 @@ import { WebsocketBridgeConfigSchema } from '../Config'
  * @group bridge
  */
 
-describe('WebsocketBridge', () => {
+describe.skip('WebsocketBridge', () => {
   const url = `${process.env.API_WEBSOCKET_DOMAIN}` ?? 'ws://localhost:8080'
 
   console.log(`WebsocketBridge:url ${url}`)

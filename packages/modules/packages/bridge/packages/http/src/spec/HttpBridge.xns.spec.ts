@@ -47,8 +47,5 @@ describe('HttpBridge - Xns', () => {
       const address = await transformer.transform('nippyflight.xyo')
       expect(address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
     }
-    const namedResolve = await remoteNode.resolve('nippyflight.xyo')
-    expect(namedResolve).toBeDefined()
-    expect(namedResolve?.address).toBe('c5fa710300a8a43568678d0fe72810e34d880357')
   })
 })

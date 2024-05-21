@@ -3,7 +3,15 @@ import { Address, isAddress } from '@xylabs/hex'
 import { Account } from '@xyo-network/account'
 import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/bridge-abstract'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleConfig,
+  ModuleConfigSchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -23,7 +31,8 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
       return parentResult
     }
     const idParts = id.split(':')
-    const firstPart = idParts.shift()
+    const untransformedFirstPart = assertEx(idParts.shift(), () => 'Missing module identifier')
+    const firstPart = await ResolveHelper.transformModuleIdentifier(untransformedFirstPart)
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const instance: T = await this._resolvedCacheMutex.runExclusive(async () => {

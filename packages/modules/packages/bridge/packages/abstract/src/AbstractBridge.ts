@@ -36,6 +36,7 @@ import {
   ModuleResolverInstance,
   resolveAddressToInstance,
   resolvePathToAddress,
+  transformModuleIdentifier,
 } from '@xyo-network/module-model'
 import { isPayloadOfSchemaType, Payload, Schema } from '@xyo-network/payload-model'
 
@@ -109,9 +110,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     switch (typeof idOrFilter) {
       case 'string': {
         const parts = idOrFilter.split(':')
-        const first = parts.shift()
+        const first = assertEx(parts.shift(), () => 'Missing module identifier')
+        const firstId = await transformModuleIdentifier(first, this.moduleIdentifierTransformers)
         const result = workingSet.find((mod) => {
-          return first === mod.address || first === mod.modName
+          return firstId === mod.address || firstId === mod.modName
         })
         return parts.length === 0 ? result : result?.resolve(parts.join(':'), options)
       }

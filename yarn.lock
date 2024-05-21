@@ -3605,6 +3605,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/archivist-indexeddb@workspace:packages/modules/packages/archivist/packages/indexeddb"
   dependencies:
+    "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/exists": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/object": "npm:^3.3.3"
@@ -4972,6 +4973,7 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/account": "workspace:~"
+    "@xyo-network/archivist-indexeddb": "workspace:~"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-model": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
@@ -4982,6 +4984,7 @@ __metadata:
     "@xyo-network/payload-builder": "workspace:~"
     "@xyo-network/payload-model": "workspace:~"
     async-mutex: "npm:^0.5.0"
+    fake-indexeddb: "npm:^6.0.0"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft
@@ -5536,7 +5539,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated, @xyo-network/http-bridge@workspace:~":
+"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated":
   version: 0.0.0-use.local
   resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated"
   dependencies:
@@ -5711,10 +5714,10 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/archivist-memory": "workspace:~"
     "@xyo-network/archivist-view": "workspace:~"
+    "@xyo-network/bridge-http": "workspace:~"
     "@xyo-network/diviner-boundwitness-memory": "workspace:~"
     "@xyo-network/diviner-identity": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
-    "@xyo-network/http-bridge": "workspace:~"
     "@xyo-network/module-model": "workspace:~"
     "@xyo-network/node-memory": "workspace:~"
     "@xyo-network/node-view": "workspace:~"

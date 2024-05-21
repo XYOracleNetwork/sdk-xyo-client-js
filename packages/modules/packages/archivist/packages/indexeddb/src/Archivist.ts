@@ -173,7 +173,11 @@ export class IndexedDbArchivist<
         store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
       : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
       if (!primaryCursor?.value) return []
-      await primaryCursor?.advance(1) //advance to skip the offset value
+      try {
+        primaryCursor = await primaryCursor?.advance(1) //advance to skip the offset value
+      } catch {
+        return []
+      }
     } else {
       primaryCursor = await store.openCursor(null, order === 'desc' ? 'prev' : 'next')
       if (!primaryCursor?.value) return []
@@ -185,7 +189,13 @@ export class IndexedDbArchivist<
       const value = primaryCursor?.value
       if (value) {
         result.push(value)
-        primaryCursor = await primaryCursor?.advance(1)
+        try {
+          primaryCursor = await primaryCursor?.advance(1)
+        } catch {
+          if (primaryCursor === null) {
+            break
+          }
+        }
         if (primaryCursor === null) {
           break
         }

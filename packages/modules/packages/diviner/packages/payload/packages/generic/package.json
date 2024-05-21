@@ -27,9 +27,11 @@
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
     "@xyo-network/account": "workspace:~",
+    "@xyo-network/archivist-indexeddb": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
+    "fake-indexeddb": "^6.0.0",
     "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -71,6 +73,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.102.3",
+  "version": "2.102.4",
   "type": "module"
 }

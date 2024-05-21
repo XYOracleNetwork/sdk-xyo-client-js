@@ -308,9 +308,13 @@ describe('IndexedDbArchivist', () => {
       expect(batch1).toBeArrayOfSize(2)
       expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
 
-      const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[0]) })
+      const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[1]) })
       expect(batch2).toBeArrayOfSize(2)
-      expect(batch2?.[1].$hash).toEqual(payloads2[0].$hash)
+      expect(batch2?.[0].$hash).toEqual(payloads2[0].$hash)
+
+      const batch3 = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1?.[1]) })
+      expect(batch3).toBeArrayOfSize(2)
+      expect(batch3?.[0].$hash).toEqual(payloads2[0].$hash)
 
       //desc
       const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
@@ -320,6 +324,10 @@ describe('IndexedDbArchivist', () => {
       const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
       expect(batch2Desc).toBeArrayOfSize(2)
       expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
+
+      const batch3Desc = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
+      expect(batch3Desc).toBeArrayOfSize(2)
+      expect(batch3Desc?.[1].$hash).toEqual(payloads1[0].$hash)
     })
   })
 })

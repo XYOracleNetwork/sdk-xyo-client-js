@@ -224,16 +224,28 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
+  signer(account: AccountInstance) {
+    this._accounts?.push(account)
+    return this
+  }
+
+  signers(accounts: AccountInstance[]) {
+    this._accounts?.push(...accounts)
+    return this
+  }
+
   sourceQuery(query?: Hash) {
     this._sourceQuery = query?.toLowerCase() as Hash
     return this
   }
 
+  /** @deprecated use signer instead */
   witness(account: AccountInstance) {
     this._accounts?.push(account)
     return this
   }
 
+  /** @deprecated use signers instead */
   witnesses(accounts: AccountInstance[]) {
     this._accounts?.push(...accounts)
     return this

@@ -112,7 +112,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async sign(hash: ArrayBuffer, previousHash: ArrayBuffer | undefined): Promise<ArrayBuffer> {
-    await KeyPair.wasmInitialized
+    await KeyPair.wasmInitialized()
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
       const passedCurrentHash =
@@ -135,7 +135,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
-    await KeyPair.wasmInitialized
+    await KeyPair.wasmInitialized()
     return this.public.address.verify(msg, signature)
   }
 

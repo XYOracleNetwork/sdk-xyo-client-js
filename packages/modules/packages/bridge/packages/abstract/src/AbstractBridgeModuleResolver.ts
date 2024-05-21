@@ -14,6 +14,7 @@ import { CompositeModuleResolver, ModuleResolverParams } from '@xyo-network/modu
 import { ModuleProxyParams } from './AbstractModuleProxy'
 
 export interface BridgeModuleResolverParams extends ModuleResolverParams {
+  additionalSigners?: AccountInstance[]
   archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
   bridge: BridgeInstance
   cacheConfig?: CacheConfig

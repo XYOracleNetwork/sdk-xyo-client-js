@@ -463,7 +463,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
     const accounts = [account, ...additionalSigners].filter(exists)
-    const result = await (account ? builder.witnesses(accounts) : builder).build()
+    const result = await (account ? builder.signers(accounts) : builder).build()
     return result
   }
 

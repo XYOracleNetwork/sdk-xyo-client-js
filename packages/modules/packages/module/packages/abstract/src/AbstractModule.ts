@@ -119,6 +119,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return assertEx(this._account, () => 'Missing account')
   }
 
+  get additionalSigners(): AccountInstance[] {
+    return this.params.additionalSigners ?? []
+  }
+
   get address() {
     return this.account.address
   }
@@ -489,8 +493,8 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account?: AccountInstance): Promise<BoundWitness> {
-    const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    const result = (await (account ? builder.witness(account) : builder).build())[0]
+    const builder = new BoundWitnessBuilder().hashes(hashes, schema).signer(this.account)
+    const result = (await (account ? builder.signer(account) : builder).build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
@@ -499,10 +503,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
+    additionalSigners?: AccountInstance[],
   ): PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
-      const result = await this.bindQueryInternal(query, payloads, account)
+      const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
@@ -512,15 +517,17 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async bindQueryInternal<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account?: AccountInstance,
+    account: AccountInstance = this.account,
+    additionalSigners: AccountInstance[] = [],
   ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
-    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).witness(this.account).query(query)
+    const accounts = [account, ...additionalSigners].filter(exists)
+    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
     let additional: WithMeta<Payload>[] = []
     if (this.config.certify) {
       additional = await this.certifyParents()
       await builder.additional(additional)
     }
-    const [bw, payloadsOut, errors] = await (account ? builder.witness(account) : builder).build()
+    const [bw, payloadsOut, errors] = await builder.build()
     return [bw, [...payloadsOut, ...additional], errors]
   }
 
@@ -533,7 +540,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueries['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
-    builder.witnesses(witnesses)
+    builder.signers(witnesses)
     const result: ModuleQueryResult = [
       (await builder.build())[0],
       await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),

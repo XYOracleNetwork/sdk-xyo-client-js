@@ -50,7 +50,7 @@ export abstract class StatefulDiviner<
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStateStore()
-    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).witness(this.account).build()
+    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).signer(this.account).build()
     await archivist.insert([bw, nextState])
   }
 

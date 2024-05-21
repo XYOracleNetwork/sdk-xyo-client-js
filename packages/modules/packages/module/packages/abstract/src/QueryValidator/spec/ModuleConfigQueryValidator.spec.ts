@@ -27,14 +27,14 @@ describe('ModuleConfigQueryValidator', () => {
       const config: ModuleConfig = { schema: ModuleConfigSchema, security: { allowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from allowed address', async () => {
-        const query = await (await new QueryBoundWitnessBuilder().witness(allowed1).query(await queryPayload)).build()
+        const query = await (await new QueryBoundWitnessBuilder().signer(allowed1).query(await queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('allows schema from allowed addresses', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowed1)
-            .witness(allowed2)
+            .signer(allowed1)
+            .signer(allowed2)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeTrue()
@@ -42,21 +42,21 @@ describe('ModuleConfigQueryValidator', () => {
       it('allows schema from allowed addresses set', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowedCosigner1)
-            .witness(allowedCosigner2)
+            .signer(allowedCosigner1)
+            .signer(allowedCosigner2)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('disallows schema from non-allowed address', async () => {
-        const query = await (await new QueryBoundWitnessBuilder().witness(other).query(await queryPayload)).build()
+        const query = await (await new QueryBoundWitnessBuilder().signer(other).query(await queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
       })
       it('disallows schema from non-allowed addresses', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowed1)
-            .witness(other)
+            .signer(allowed1)
+            .signer(other)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
@@ -67,7 +67,7 @@ describe('ModuleConfigQueryValidator', () => {
       })
       it('disallows non-allowed schema from allowed address', async () => {
         const queryPayload = new PayloadBuilder({ schema: 'foo.bar.baz' }).build()
-        const query = await (await new QueryBoundWitnessBuilder().witness(allowed1).query(await queryPayload)).build()
+        const query = await (await new QueryBoundWitnessBuilder().signer(allowed1).query(await queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
       })
     })
@@ -75,27 +75,27 @@ describe('ModuleConfigQueryValidator', () => {
       const config: ModuleConfig = { schema: ModuleConfigSchema, security: { disallowed } }
       const sut = new ModuleConfigQueryValidator(config)
       it('allows schema from non-disallowed address', async () => {
-        const query = await (await new QueryBoundWitnessBuilder().witness(allowed1).query(await queryPayload)).build()
+        const query = await (await new QueryBoundWitnessBuilder().signer(allowed1).query(await queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('allows schema from non-disallowed addresses', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowed1)
-            .witness(allowed2)
+            .signer(allowed1)
+            .signer(allowed2)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeTrue()
       })
       it('disallows schema from disallowed address', async () => {
-        const query = await (await new QueryBoundWitnessBuilder().witness(disallowed1).query(await queryPayload)).build()
+        const query = await (await new QueryBoundWitnessBuilder().signer(disallowed1).query(await queryPayload)).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
       })
       it('disallows schema from disallowed addresses', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(disallowed1)
-            .witness(disallowed2)
+            .signer(disallowed1)
+            .signer(disallowed2)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
@@ -103,8 +103,8 @@ describe('ModuleConfigQueryValidator', () => {
       it('disallows schema from allowed & disallowed addresses', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowed1)
-            .witness(disallowed1)
+            .signer(allowed1)
+            .signer(disallowed1)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()
@@ -116,8 +116,8 @@ describe('ModuleConfigQueryValidator', () => {
       it('disallowed takes precedence', async () => {
         const query = await (
           await new QueryBoundWitnessBuilder()
-            .witness(allowed1)
-            .witness(disallowed1)
+            .signer(allowed1)
+            .signer(disallowed1)
             .query(await queryPayload)
         ).build()
         expect(await sut.queryable(query[0], query[1])).toBeFalse()

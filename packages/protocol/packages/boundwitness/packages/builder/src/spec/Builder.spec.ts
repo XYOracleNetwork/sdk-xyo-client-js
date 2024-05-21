@@ -46,9 +46,9 @@ describe('BoundWitnessBuilder', () => {
         const address = await HDWallet.fromPhrase('swarm luggage creek win urban boil tray crumble voice scrap yellow live')
         let builder = new BoundWitnessBuilder()
         expect(builder).toBeDefined()
-        builder = builder.witness(address)
+        builder = builder.signer(address)
         expect(builder).toBeDefined()
-        builder = await builder.payload(payload)
+        builder = builder.payload(payload)
         expect(builder).toBeDefined()
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
@@ -66,7 +66,7 @@ describe('BoundWitnessBuilder', () => {
     describe('with payloads', () => {
       it('omits the _payloads field', async () => {
         const address = await HDWallet.fromPhrase('canyon defense similar chalk good box quote miss decorate load amused gown')
-        const builder = new BoundWitnessBuilder().witness(address).payload(payload1)
+        const builder = new BoundWitnessBuilder().signer(address).payload(payload1)
         const [actual] = await builder.build()
         expect(actual).toBeDefined()
       })

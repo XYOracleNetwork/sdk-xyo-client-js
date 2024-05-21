@@ -4222,7 +4222,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain":
+"@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain, @xyo-network/diviner-address-chain@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-chain@workspace:packages/modules/packages/diviner/packages/addresschain"
   dependencies:
@@ -4323,7 +4323,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace":
+"@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace, @xyo-network/diviner-address-space@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-address-space@workspace:packages/modules/packages/diviner/packages/addressspace"
   dependencies:
@@ -4475,7 +4475,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats":
+"@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats, @xyo-network/diviner-boundwitness-stats@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness-stats@workspace:packages/modules/packages/diviner/packages/boundwitnessstats"
   dependencies:
@@ -4488,7 +4488,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness":
+"@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness, @xyo-network/diviner-boundwitness@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-boundwitness@workspace:packages/modules/packages/diviner/packages/boundwitness"
   dependencies:
@@ -4647,7 +4647,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting":
+"@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting, @xyo-network/diviner-forecasting@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-forecasting@workspace:packages/modules/packages/diviner/packages/forecasting"
   dependencies:
@@ -4660,7 +4660,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash":
+"@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash, @xyo-network/diviner-hash-lease@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-hash-lease@workspace:packages/modules/packages/diviner/packages/hash"
   dependencies:
@@ -4708,7 +4708,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb":
+"@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb, @xyo-network/diviner-indexeddb@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexeddb@workspace:packages/modules/packages/diviner/packages/indexeddb"
   dependencies:
@@ -4758,7 +4758,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing":
+"@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing, @xyo-network/diviner-indexing@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-indexing@workspace:packages/modules/packages/diviner/packages/indexing"
   dependencies:
@@ -4962,7 +4962,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic":
+"@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic, @xyo-network/diviner-payload-generic@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload-generic@workspace:packages/modules/packages/diviner/packages/payload/packages/generic"
   dependencies:
@@ -5108,13 +5108,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload":
+"@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload, @xyo-network/diviner-payload@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-payload@workspace:packages/modules/packages/diviner/packages/payload"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/diviner-payload-abstract": "workspace:~"
+    "@xyo-network/diviner-payload-generic": "workspace:~"
     "@xyo-network/diviner-payload-memory": "workspace:~"
     "@xyo-network/diviner-payload-model": "workspace:~"
     typescript: "npm:^5.4.5"
@@ -5448,13 +5449,23 @@ __metadata:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/diviner-abstract": "workspace:~"
+    "@xyo-network/diviner-address-chain": "workspace:~"
+    "@xyo-network/diviner-address-history": "workspace:~"
+    "@xyo-network/diviner-address-space": "workspace:~"
     "@xyo-network/diviner-archivist": "workspace:~"
+    "@xyo-network/diviner-boundwitness": "workspace:~"
+    "@xyo-network/diviner-boundwitness-stats": "workspace:~"
     "@xyo-network/diviner-distinct": "workspace:~"
+    "@xyo-network/diviner-forecasting": "workspace:~"
+    "@xyo-network/diviner-hash-lease": "workspace:~"
     "@xyo-network/diviner-huri": "workspace:~"
     "@xyo-network/diviner-identity": "workspace:~"
+    "@xyo-network/diviner-indexeddb": "workspace:~"
+    "@xyo-network/diviner-indexing": "workspace:~"
     "@xyo-network/diviner-jsonpatch": "workspace:~"
     "@xyo-network/diviner-jsonpath": "workspace:~"
     "@xyo-network/diviner-model": "workspace:~"
+    "@xyo-network/diviner-payload": "workspace:~"
     "@xyo-network/diviner-range": "workspace:~"
     "@xyo-network/diviner-wrapper": "workspace:~"
     typescript: "npm:^5.4.5"

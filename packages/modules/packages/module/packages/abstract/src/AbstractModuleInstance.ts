@@ -298,7 +298,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     account?: AccountInstance,
   ): Promise<ModuleQueryResult<R>> {
     // Bind them
-    const query = await this.bindQuery(queryPayload, payloads, account)
+    const query = await this.bindQuery(queryPayload, payloads, account, this.additionalSigners)
 
     // Send them off
     return (await this.query(query[0], query[1])) as ModuleQueryResult<R>

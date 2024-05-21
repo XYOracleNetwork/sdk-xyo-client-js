@@ -47,6 +47,7 @@ export class HttpBridgeModuleResolver<
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
+      additionalSigners: this.params.additionalSigners,
       archiving: this.params.archiving,
       config: { schema: ModuleConfigSchema },
       host: this,

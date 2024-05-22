@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
+import { forget } from '@xylabs/forget'
 import { isAddress } from '@xylabs/hex'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
@@ -52,7 +53,14 @@ export class AsyncQueryBusModuleProxy<
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    return await this.params.busClient.send(this.address, query, payloads)
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      forget(this.storeToArchivists([query, ...(payloads ?? [])]))
+    }
+    const result = await this.params.busClient.send(this.address, query, payloads)
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      forget(this.storeToArchivists(result.flat()))
+    }
+    return result
   }
 
   override async publicChildren(): Promise<ModuleInstance[]> {

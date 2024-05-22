@@ -1,3 +1,4 @@
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
@@ -36,6 +37,13 @@ export class HttpModuleProxy<
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {
-    return await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      forget(this.storeToArchivists([query, ...(payloads ?? [])]))
+    }
+    const result = await this.params.querySender.sendBridgeQuery(this.params.moduleAddress, query, payloads)
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      forget(this.storeToArchivists(result.flat()))
+    }
+    return result
   }
 }

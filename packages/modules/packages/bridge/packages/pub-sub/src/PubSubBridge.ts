@@ -256,9 +256,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         config: this.config.host,
         logger: this.logger,
         onQueryFulfillFinished: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => {
+          if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
+            forget(this.storeToArchivists(args.result?.flat() ?? []))
+          }
           forget(this.emit('queryFulfillFinished', { module: this, ...args }))
         },
         onQueryFulfillStarted: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => {
+          if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
+            forget(this.storeToArchivists([args.query, ...(args.payloads ?? [])]))
+          }
           forget(this.emit('queryFulfillStarted', { module: this, ...args }))
         },
         rootModule: this,

@@ -3898,6 +3898,7 @@ __metadata:
     "@xylabs/assert": "npm:^3.3.3"
     "@xylabs/axios": "npm:^3.3.3"
     "@xylabs/exists": "npm:^3.3.3"
+    "@xylabs/forget": "npm:^3.3.3"
     "@xylabs/hex": "npm:^3.3.3"
     "@xylabs/object": "npm:^3.3.3"
     "@xylabs/promise": "npm:^3.3.3"

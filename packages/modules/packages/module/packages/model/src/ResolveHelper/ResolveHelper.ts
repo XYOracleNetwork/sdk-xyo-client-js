@@ -10,6 +10,7 @@ import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, Mo
 import { duplicateModules } from '../lib'
 import { ModuleIdentifier } from '../ModuleIdentifier'
 import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
+import { resolvePathToAddress } from './resolvePathToAddress'
 import { traceModuleIdentifier } from './traceModuleIdentifier'
 import { transformModuleIdentifier } from './transformModuleIdentifier'
 
@@ -131,7 +132,7 @@ export class ResolveHelper {
             return undefined
           }
 
-          const id = await this.transformModuleIdentifier(idOrFilter, transformers)
+          const id = (await resolvePathToAddress(module, idOrFilter, false, transformers)) ?? idOrFilter
 
           if (id) {
             const resolvers = [

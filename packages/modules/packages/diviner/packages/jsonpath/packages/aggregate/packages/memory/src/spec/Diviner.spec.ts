@@ -72,7 +72,7 @@ describe('JsonPathAggregateDiviner', () => {
         expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
+        const config = { destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms }
         diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {
@@ -150,7 +150,7 @@ describe('JsonPathAggregateDiviner', () => {
         expect(index?.status).toBe(thumbnail.http?.status)
       }
       beforeAll(async () => {
-        const config = { destinationSchema, schema: JsonPathAggregateDiviner.configSchema, schemaTransforms }
+        const config = { destinationSchema, schema: JsonPathAggregateDiviner.defaultConfigSchema, schemaTransforms }
         diviner = await JsonPathAggregateDiviner.create({ account, config })
       })
       const schemaTransforms: SchemaToJsonPathTransformExpressionsDictionary = {

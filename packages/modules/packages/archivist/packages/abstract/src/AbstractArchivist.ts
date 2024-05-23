@@ -1,30 +1,41 @@
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { globallyUnique } from '@xylabs/object'
 import { Promisable, PromisableArray } from '@xylabs/promise'
 import { difference } from '@xylabs/set'
+import { AccountInstance } from '@xyo-network/account-model'
 import {
+  ArchivistAllQuery,
   ArchivistAllQuerySchema,
+  ArchivistClearQuery,
   ArchivistClearQuerySchema,
+  ArchivistCommitQuery,
   ArchivistCommitQuerySchema,
+  ArchivistConfigSchema,
   ArchivistDeleteQuery,
   ArchivistDeleteQuerySchema,
+  ArchivistGetQuery,
   ArchivistGetQuerySchema,
+  ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
+  ArchivistNextQuery,
+  ArchivistNextQuerySchema,
   ArchivistParams,
   ArchivistQueries,
   asArchivistInstance,
+  AttachableArchivistInstance,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { duplicateModules, ModuleConfig, ModuleIdentifier, ModuleName, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export interface ActionConfig {
   emitEvents?: boolean
@@ -45,10 +56,13 @@ export abstract class AbstractArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractModuleInstance<TParams, TEventData>
-  implements ArchivistInstance<TParams, TEventData, Payload>
+  implements AttachableArchivistInstance<TParams, TEventData, Payload>
 {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ArchivistConfigSchema
+  static override readonly uniqueName = globallyUnique('AbstractArchivist', AbstractArchivist, 'xyo')
   private _lastInsertedPayload: Payload | undefined
-  private _parents?: ArchivistParentInstances
+  private _parentArchivists?: ArchivistParentInstances
 
   override get queries(): string[] {
     return [ArchivistGetQuerySchema, ...super.queries]
@@ -82,12 +96,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async allQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistAllQuery = { schema: ArchivistAllQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
   clear(): Promisable<void> {
     this._noOverride('clear')
     return this.busy(async () => {
       await this.started('throw')
       return await this.clearHandler()
     })
+  }
+
+  async clearQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistClearQuery = { schema: ArchivistClearQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   commit(): Promisable<WithMeta<BoundWitness>[]> {
@@ -98,6 +122,11 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async commitQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistCommitQuery = { schema: ArchivistCommitQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
   async delete(hashes: Hash[]): Promise<Hash[]> {
     this._noOverride('delete')
     return await this.busy(async () => {
@@ -106,12 +135,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async deleteQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistDeleteQuery = { hashes, schema: ArchivistDeleteQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
   async get(hashes: Hash[]): Promise<WithMeta<Payload>[]> {
     this._noOverride('get')
     return await this.busy(async () => {
       await this.started('throw')
       return await PayloadBuilder.build(await this.getWithConfig(hashes))
     })
+  }
+
+  async getQuery(hashes: Hash[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistGetQuery = { hashes, schema: ArchivistGetQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async insert(payloads: Payload[]): Promise<WithMeta<Payload>[]> {
@@ -123,12 +162,22 @@ export abstract class AbstractArchivist<
     })
   }
 
+  async insertQuery(payloads: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistInsertQuery = { schema: ArchivistInsertQuerySchema }
+    return await this.sendQueryRaw(queryPayload, payloads, account)
+  }
+
   async next(options?: ArchivistNextOptions): Promise<WithMeta<Payload>[]> {
     this._noOverride('next')
     return await this.busy(async () => {
       await this.started('throw')
       return await this.nextWithConfig(options)
     })
+  }
+
+  async nextQuery(options?: ArchivistNextOptions, account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ArchivistNextQuery = { schema: ArchivistNextQuerySchema, ...options }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   protected allHandler(): PromisableArray<Payload> {
@@ -177,7 +226,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async getFromParents(hashes: Hash[]): Promise<[WithMeta<Payload>[], Hash[]]> {
-    const parents = Object.values((await this.parents())?.read ?? {})
+    const parents = Object.values((await this.parentArchivists())?.read ?? {})
     let remainingHashes = [...hashes]
     let parentIndex = 0
     let result: WithMeta<Payload>[] = []
@@ -250,7 +299,7 @@ export abstract class AbstractArchivist<
     return this._lastInsertedPayload
   }
 
-  protected insertHandler(_payloads: Payload[]): Promise<WithMeta<Payload>[]> {
+  protected insertHandler(_payloads: WithMeta<Payload>[]): Promise<WithMeta<Payload>[]> {
     throw new Error('Not implemented')
   }
 
@@ -275,7 +324,8 @@ export abstract class AbstractArchivist<
     const emitEvents = config?.emitEvents ?? true
     const writeToParents = config?.writeToParents ?? true
 
-    const insertedPayloads = await PayloadBuilder.build(await this.insertHandler(payloads), true)
+    const payloadsWithMeta = await PayloadBuilder.build(payloads, { stamp: false, validate: true })
+    const insertedPayloads = await this.insertHandler(payloadsWithMeta)
 
     if (writeToParents) {
       await this.writeToParents(insertedPayloads)
@@ -296,13 +346,13 @@ export abstract class AbstractArchivist<
     return await PayloadBuilder.build(foundPayloads)
   }
 
-  protected async parents() {
-    this._parents = this._parents ?? {
+  protected async parentArchivists() {
+    this._parentArchivists = this._parentArchivists ?? {
       commit: await this.resolveArchivists(this.config?.parents?.commit),
       read: await this.resolveArchivists(this.config?.parents?.read),
       write: await this.resolveArchivists(this.config?.parents?.write),
     }
-    return assertEx(this._parents)
+    return assertEx(this._parentArchivists)
   }
 
   protected override async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -311,7 +361,7 @@ export abstract class AbstractArchivist<
     queryConfig?: TConfig,
   ): Promise<ModuleQueryHandlerResult> {
     const wrappedQuery = await QueryBoundWitnessWrapper.parseQuery<ArchivistQueries>(query, payloads)
-    const builtQuery = await PayloadBuilder.build(query, true)
+    const builtQuery = await PayloadBuilder.build(query, { stamp: false, validate: true })
     const queryPayload = await wrappedQuery.getQuery()
     assertEx(await this.queryable(query, payloads, queryConfig))
     const resultPayloads: Payload[] = []
@@ -369,7 +419,7 @@ export abstract class AbstractArchivist<
   }
 
   protected async writeToParents(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const parents = await this.parents()
+    const parents = await this.parentArchivists()
     return compact(
       await Promise.all(
         Object.values(parents.write ?? {}).map(async (parent) => {
@@ -389,15 +439,15 @@ export abstract class AbstractArchivist<
       !this.requireAllParents || archivistModules.length === archivists.length,
       () =>
         `Failed to find some archivists (set allRequired to false if ok): [${archivists.filter((archivist) =>
-          archivistModules.map((module) => !(module.address === archivist || module.config.name === archivist)),
+          archivistModules.map((mod) => !(mod.address === archivist || mod.modName === archivist)),
         )}]`,
     )
 
     // eslint-disable-next-line unicorn/no-array-reduce
-    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, module) => {
-      prev[module.address] = asArchivistInstance(module, () => {
-        isArchivistInstance(module, { log: console })
-        return `Unable to cast resolved module to an archivist: [${module.address}, ${module.config.name}, ${module.config.schema})}]`
+    return archivistModules.reduce<Record<string, ArchivistInstance>>((prev, mod) => {
+      prev[mod.address] = asArchivistInstance(mod, () => {
+        isArchivistInstance(mod, { log: console })
+        return `Unable to cast resolved module to an archivist: [${mod.address}, ${mod.modName}, ${mod.config.schema})}]`
       })
 
       return prev

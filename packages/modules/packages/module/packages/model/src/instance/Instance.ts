@@ -1,10 +1,14 @@
+import { Address } from '@xylabs/hex'
 import { IsObjectFactory, toJsonString, TypeCheck } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 
 import { ModuleEventData } from '../EventsModels'
 import { Module, ModuleQueryFunctions } from '../module'
-import { ModuleIdentifier } from '../ModuleIdentifier'
+import { ModuleIdentifier, ModuleName } from '../ModuleIdentifier'
 import { ModuleParams } from '../ModuleParams'
-import { ObjectResolver, ObjectResolverInstance } from './ObjectResolver'
+import { Direction } from './ObjectFilter'
+import { ObjectResolver } from './ObjectResolver'
 
 export type ModulePipeLine = Lowercase<'one-to-one' | 'one-to-many' | 'many-to-one' | 'many-to-many'>
 
@@ -23,21 +27,32 @@ export class DeadModuleError extends Error {
   }
 }
 
+export interface AddressToWeakInstanceCache {
+  get: (address: Address) => WeakRef<ModuleInstance> | null
+  set: (address: Address, instance: WeakRef<ModuleInstance> | null) => void
+}
+
+export interface ModuleFamilyFunctions {
+  account?: AccountInstance | undefined
+  addParent: (module: ModuleInstance) => void
+  addressCache?: (direction: Direction, includePrivate: boolean) => AddressToWeakInstanceCache | undefined
+  modName?: ModuleName
+  parents: () => Promisable<ModuleInstance[]>
+  privateChildren: () => Promisable<ModuleInstance[]>
+  publicChildren: () => Promisable<ModuleInstance[]>
+  removeParent: (address: Address) => void
+  siblings: () => Promisable<ModuleInstance[]>
+}
+
 export interface ModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends Module<TParams, TEventData>,
     ObjectResolver<ModuleInstance>,
-    ModuleQueryFunctions {
-  /* The resolver is a 'down' resolver.  It can resolve the module or any children (if it is a node for example), that are in the module*/
-  readonly downResolver: Omit<ObjectResolverInstance<ModuleInstance>, 'resolve'>
-
+    ModuleQueryFunctions,
+    ModuleFamilyFunctions {
   readonly pipeline?: ModulePipeLine
 
   //if the module has become non-functional, such as a broken bridge connection, this will be 'dead'
   readonly status: ModuleStatus
-
-  /* The resolver is a 'up' resolver.  It can resolve the parent or any children of the parent*/
-  /* This is set by a NodeModule when attaching to the module */
-  readonly upResolver: Omit<ObjectResolverInstance<ModuleInstance>, 'resolve'>
 }
 
 export type InstanceTypeCheck<T extends ModuleInstance = ModuleInstance> = TypeCheck<T>

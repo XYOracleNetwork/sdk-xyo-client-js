@@ -2,11 +2,11 @@ import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'
 import { AnyConfigSchema, creatableModule } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { CustomWitnessInstance, WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams } from '@xyo-network/witness-model'
 import { Provider } from 'ethers'
 
-export const EvmWitnessConfigSchema = 'network.xyo.evm.witness'
+export const EvmWitnessConfigSchema = 'network.xyo.evm.witness' as const
 export type EvmWitnessConfigSchema = typeof EvmWitnessConfigSchema
 
 export type EvmWitnessConfig<TAdditional extends EmptyObject | Payload | void = void, TSchema extends string | void = void> = WitnessConfig<
@@ -49,7 +49,8 @@ export abstract class AbstractEvmWitness<
   extends AbstractWitness<TParams, TIn, TOut, TEventData>
   implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
 {
-  static override readonly configSchemas: string[] = [EvmWitnessConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, EvmWitnessConfigSchema]
+  static override readonly defaultConfigSchema: Schema = EvmWitnessConfigSchema
   private _providers: Provider[] | undefined = undefined
 
   async getProvider(cache?: boolean): Promise<Provider | undefined>

@@ -1,4 +1,4 @@
-const word = '[a-fA-F\\d:]'
+const word = String.raw`[a-fA-F\d:]`
 
 export interface Options {
   readonly exact?: boolean
@@ -7,9 +7,9 @@ export interface Options {
 
 const boundary = (options: Options) => (options && options.includeBoundaries ? `(?:(?<=\\s|^)(?=${word})|(?<=${word})(?=\\s|$))` : '')
 
-const v4 = '(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}'
+const v4 = String.raw`(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}`
 
-const v6segment = '[a-fA-F\\d]{1,4}'
+const v6segment = String.raw`[a-fA-F\d]{1,4}`
 
 const v6 = `
 (?:

@@ -1,7 +1,7 @@
 import { Address, Hash } from '@xylabs/hex'
+import { isArrayBuffer } from '@xylabs/lodash'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
-import type { Mnemonic } from 'ethers'
 
 export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
 
@@ -23,6 +23,33 @@ export type InitializationConfig = PhraseInitializationConfig | PrivateKeyInitia
 
 export type AccountConfig = InitializationConfig & AccountOptions
 
+export const isPhraseInitializationConfig = (value: unknown): value is PhraseInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return typeof (value as PhraseInitializationConfig).phrase === 'string'
+  }
+  return false
+}
+
+export const isPrivateKeyInitializationConfig = (value: unknown): value is PrivateKeyInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return isArrayBuffer((value as PrivateKeyInitializationConfig).privateKey)
+  }
+  return false
+}
+
+export const isMnemonicInitializationConfig = (value: unknown): value is MnemonicInitializationConfig => {
+  if (typeof value === 'object' && value !== null) {
+    return (
+      typeof (value as MnemonicInitializationConfig).mnemonic === 'string' && typeof ((value as MnemonicInitializationConfig).path ?? '') === 'string'
+    )
+  }
+  return false
+}
+
+export const isInitializationConfig = (value: unknown): value is InitializationConfig => {
+  return isPhraseInitializationConfig(value) || isPrivateKeyInitializationConfig(value) || isMnemonicInitializationConfig(value)
+}
+
 export interface AccountInstance extends KeyPairInstance {
   readonly address: Address
   readonly addressBytes: ArrayBuffer
@@ -41,8 +68,6 @@ export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   previousHashStore?: PreviousHashStore
   new (key: unknown, params?: AccountConfig): T
   create(opts?: AccountConfig): Promise<T>
-  fromMnemonic(mnemonic: Mnemonic): Promise<T>
-  fromPhrase(phrase: string): Promise<AccountInstance>
   fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance>
   is(value: unknown): T | undefined
 }

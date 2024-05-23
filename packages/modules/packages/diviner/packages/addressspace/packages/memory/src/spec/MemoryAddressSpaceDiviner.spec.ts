@@ -1,8 +1,8 @@
 import { Account } from '@xyo-network/account'
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { AddressSpaceDivinerConfigSchema } from '@xyo-network/diviner-address-space-model'
+import { AddressSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
@@ -21,7 +21,7 @@ describe('MemoryAddressSpaceDiviner', () => {
       const divinerAccount = Account.randomSync()
       const wrapperAccount = Account.randomSync()
       const archivist = ArchivistWrapper.wrap(
-        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.configSchema, storeQueries: true } }),
+        await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true } }),
         wrapperAccount,
       )
 

@@ -1,9 +1,39 @@
 import { assertEx } from '@xylabs/assert'
+import { Address } from '@xylabs/hex'
 import { Base, BaseParams, toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolver } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleResolverInstance,
+  ObjectFilterOptions,
+  ObjectResolverPriority,
+} from '@xyo-network/module-model'
 
-export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> extends Base<T> implements ModuleResolver {
+export interface ModuleResolverParams extends BaseParams {
+  priority?: ObjectResolverPriority
+  root: ModuleInstance
+}
+
+export abstract class AbstractModuleResolver<TParams extends ModuleResolverParams = ModuleResolverParams>
+  extends Base<TParams>
+  implements ModuleResolverInstance
+{
+  get priority() {
+    return this.params.priority ?? ObjectResolverPriority.Normal
+  }
+
+  set priority(value: ObjectResolverPriority) {
+    this.params.priority = value
+  }
+
+  get root() {
+    return assertEx(this.params.root, () => 'root is not set')
+  }
+
   async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
@@ -14,7 +44,7 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
     options?: ModuleFilterOptions<T>,
   ): Promise<T[] | T | undefined> {
     if (idOrFilter === '*') {
-      const values = (await this.resolveHandler(idOrFilter, options)) as []
+      const values = await this.resolveHandler(idOrFilter, options)
       assertEx(Array.isArray(values), () => 'resolveHandler returned a non-array')
       return values.map((value) =>
         asModuleInstance<T>(value, () => {
@@ -25,7 +55,7 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
     }
     switch (typeof idOrFilter) {
       case 'string': {
-        const value = await this.resolveHandler(idOrFilter, options)
+        const [value] = await this.resolveHandler(idOrFilter, options)
         return asModuleInstance<T>(
           value,
           () =>
@@ -46,8 +76,22 @@ export abstract class AbstractModuleResolver<T extends BaseParams = BaseParams> 
     }
   }
 
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ObjectFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    _options?: ObjectFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (id === '*') return await Promise.resolve([])
+  }
+
+  abstract addResolver(resolver: ModuleResolverInstance): this
+  abstract removeResolver(resolver: ModuleResolverInstance): this
+
   abstract resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier,
     options?: ModuleFilterOptions<T>,
-  ): Promisable<T | T[] | undefined>
+  ): Promisable<T[]>
+
+  abstract resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promisable<Address | undefined>
 }

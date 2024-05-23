@@ -19,7 +19,7 @@ export class AsyncQueryBusModuleHost extends AbstractModuleHost<AsyncQueryBusMod
     this._busHost = new AsyncQueryBusHost({
       config: { ...this.params.config, listeningModules },
       logger: this.params.logger,
-      resolver: this.params.module,
+      rootModule: this.params.module,
     })
     this._busHost?.start()
   }

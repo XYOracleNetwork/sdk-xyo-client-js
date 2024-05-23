@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
+import { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
 import {
   isAddressModuleFilter,
@@ -8,10 +9,13 @@ import {
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
+  ModuleIdentifierTransformer,
   ModuleInstance,
   ModuleName,
   ModuleResolver,
   ModuleResolverInstance,
+  ObjectFilterOptions,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 
@@ -21,12 +25,35 @@ export interface ModuleProxyResolverOptions {
   childAddressMap: Record<Address, ModuleName | null>
   host: ModuleResolver
   module: ModuleInstance
+  moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
 
 export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModuleProxyResolverOptions> implements ModuleResolverInstance {
-  private downResolver = new CompositeModuleResolver()
+  private downResolver: CompositeModuleResolver
 
-  constructor(protected options: T) {}
+  constructor(private options: T) {
+    this.downResolver = new CompositeModuleResolver({ moduleIdentifierTransformers: options.moduleIdentifierTransformers, root: this.root })
+  }
+
+  get priority() {
+    return ObjectResolverPriority.VeryLow
+  }
+
+  get root() {
+    return this.options.module
+  }
+
+  protected get childAddressMap() {
+    return this.options.childAddressMap
+  }
+
+  protected get host() {
+    return this.options.host
+  }
+
+  protected get module() {
+    return this.options.module
+  }
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')
@@ -47,39 +74,40 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    //console.log(`childAddressMap: ${toJsonString(this.options.childAddressMap, 10)}`)
+    //console.log(`childAddressMap: ${toJsonString(this.childAddressMap, 10)}`)
     const direction = options?.direction ?? 'all'
     if (idOrFilter === '*') {
       //get all the child addresses.  if they have been resolved before, they should be in downResolver
-      const childAddresses = Object.keys(this.options.childAddressMap)
+      const childAddresses = Object.keys(this.childAddressMap)
       const resolvedChildren = await Promise.all(childAddresses.map<Promise<T | undefined>>((address) => this.resolve<T>(address, options)))
       return resolvedChildren.filter(exists)
     } else if (typeof idOrFilter === 'string') {
       const idParts = idOrFilter.split(':')
       const firstPart: ModuleIdentifier = assertEx(idParts.shift(), () => 'Invalid module identifier at first position')
-      const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
-      if (direction === 'down' || direction === 'all') {
-        const downResolverModule = await this.downResolver.resolve<T>(firstPart)
-        if (downResolverModule) {
-          return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
-        }
-        //if it is a known child, create a proxy
-        const addressToProxy =
-          Object.keys(this.options.childAddressMap).includes(firstPart as Address) ?
-            (firstPart as Address)
-          : (Object.entries(this.options.childAddressMap).find(([_, value]) => value === firstPart)?.[0] as Address | undefined)
-        if (addressToProxy) {
-          const proxy = await this.options.host.resolve(addressToProxy, { ...options, direction: 'down' })
-          if (proxy) {
-            const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
-            this.downResolver.add(wrapped)
-            return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+      const firstPartAddress = await this.resolveIdentifier(firstPart)
+      if (firstPartAddress) {
+        const remainingParts = idParts.length > 0 ? idParts.join(':') : undefined
+        if (direction === 'down' || direction === 'all') {
+          const downResolverModule = await this.downResolver.resolve<T>(firstPartAddress)
+          if (downResolverModule) {
+            return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
           }
-          return
+          //if it is a known child, create a proxy
+          const addressToProxy =
+            Object.keys(this.childAddressMap).includes(firstPartAddress as Address) ?
+              (firstPartAddress as Address)
+            : (Object.entries(this.childAddressMap).find(([_, value]) => value === firstPartAddress)?.[0] as Address | undefined)
+          if (addressToProxy) {
+            const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
+            if (proxy) {
+              const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+              return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+            }
+            return
+          }
         }
-      } else {
-        return
       }
+      return
     } else {
       const filter = idOrFilter
       if (isAddressModuleFilter(filter)) {
@@ -89,5 +117,27 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
         return (await Promise.all(filter.name.map((item) => this.resolve(item, options)))).filter(exists)
       }
     }
+  }
+
+  resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
+    //check if any of the modules have the id as an address
+    if (this.childAddressMap[id as Address]) {
+      return id as Address
+    }
+
+    //check if id is a name of one of modules in the resolver
+    const addressFromName = Object.entries(this.childAddressMap).find(([, name]) => name === id)?.[0] as Address | undefined
+    if (addressFromName) {
+      return addressFromName
+    }
+  }
+
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ObjectFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ObjectFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    _options?: ObjectFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (id === '*') return await Promise.resolve([])
   }
 }

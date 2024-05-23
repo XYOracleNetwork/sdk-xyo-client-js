@@ -5,7 +5,7 @@ import { Payload } from '@xyo-network/payload-model'
 import { SentinelAutomationPayload } from './Automation'
 import { Task } from './Task'
 
-export const SentinelConfigSchema = 'network.xyo.sentinel.config'
+export const SentinelConfigSchema = 'network.xyo.sentinel.config' as const
 export type SentinelConfigSchema = typeof SentinelConfigSchema
 
 export type SentinelConfig<TConfig extends Payload | void = void, TSchema extends string | void = void> = ModuleConfig<

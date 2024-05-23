@@ -13,11 +13,11 @@ import {
   IndexingDivinerStage,
   IndexingDivinerState,
 } from '@xyo-network/diviner-indexing-model'
-import { asDivinerInstance, DivinerConfigSchema, DivinerInstance, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { asDivinerInstance, DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { creatableModule, isModuleState, isModuleStateWithMeta, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export type ConfigStoreKey = 'indexStore' | 'stateStore'
 
@@ -30,10 +30,15 @@ export class IndexingDiviner<
   TParams extends IndexingDivinerParams = IndexingDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
   static override readonly allowRandomAccount = false
-  static override readonly configSchemas: string[] = [IndexingDivinerConfigSchema, DivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexingDivinerConfigSchema
 
   private _lastState?: ModuleState<IndexingDivinerState>
   private _pollId?: string
@@ -83,7 +88,7 @@ export class IndexingDiviner<
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStore('stateStore')
-    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).witness(this.account).build()
+    const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
     await archivist.insert([bw, nextState])
   }
 

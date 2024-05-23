@@ -14,26 +14,34 @@ import {
   ModuleName,
   ModuleRepository,
   ModuleResolverInstance,
+  ObjectFilterOptions,
 } from '@xyo-network/module-model'
 
-import { AbstractModuleResolver } from './AbstractModuleResolver'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 
-//This class is now package private (not exported from index.ts)
-export class SimpleModuleResolver extends AbstractModuleResolver implements ModuleRepository {
-  private addressToName: Record<Address, ModuleName> = {}
+export type SimpleModuleResolverParams = ModuleResolverParams & {
+  allowNameResolution?: boolean
+}
+
+export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleResolverParams> implements ModuleRepository {
   private modules: Record<Address, ModuleInstance> = {}
+  private nameToModule: Record<ModuleName, ModuleInstance> = {}
 
-  constructor() {
-    super({})
+  constructor(params: SimpleModuleResolverParams) {
+    super(params)
   }
 
-  add(module: ModuleInstance): this
-  add(module: ModuleInstance[]): this
-  add(module: ModuleInstance | ModuleInstance[]): this {
-    if (Array.isArray(module)) {
-      for (const mod of module) this.addSingleModule(mod)
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
+  }
+
+  add(mods: ModuleInstance): this
+  add(mods: ModuleInstance[]): this
+  add(mods: ModuleInstance | ModuleInstance[]): this {
+    if (Array.isArray(mods)) {
+      for (const mod of mods) this.addSingleModule(mod)
     } else {
-      this.addSingleModule(module)
+      this.addSingleModule(mods)
     }
     return this
   }
@@ -58,7 +66,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
   resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | string = '*',
     options?: ModuleFilterOptions<T>,
-  ): Promisable<T[] | T | undefined> {
+  ): Promisable<T[]> {
     const unfiltered = (() => {
       if (idOrFilter) {
         if (typeof idOrFilter === 'string') {
@@ -91,28 +99,54 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
     if (identity) {
       return (
         Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module))
-        : identity(unfiltered) ? unfiltered
-        : undefined
+        : identity(unfiltered) ? [unfiltered]
+        : []
       )
     } else {
-      return unfiltered
+      return (
+        unfiltered ?
+          Array.isArray(unfiltered) ?
+            unfiltered
+          : [unfiltered]
+        : []
+      )
     }
   }
 
-  private addSingleModule(module?: ModuleInstance) {
-    if (module) {
-      this.modules[module.address] = module
+  resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
+    //check if id is a name of one of modules in the resolver
+    const moduleFromName = this.nameToModule[id]
+    if (moduleFromName) {
+      return moduleFromName.address
+    }
+
+    //check if any of the modules have the id as an address
+    for (const module of Object.values(this.modules)) {
+      if (module.address === id) {
+        return module.address
+      }
+    }
+  }
+
+  private addSingleModule(mod?: ModuleInstance) {
+    if (mod) {
+      const modName = mod.modName
+      if (modName && this.allowNameResolution) {
+        //check for collision
+        assertEx(this.nameToModule[modName] === undefined, () => `Module with name ${modName} already added`)
+        this.nameToModule[modName] = mod
+      }
+      this.modules[mod.address] = mod
     }
   }
 
   private removeSingleModule(address: Address) {
     assertEx(isAddress(address), () => 'Invalid address')
-    if (address && this.modules[address]) {
-      delete this.modules[address]
-      const name = this.addressToName[address]
-      if (name) {
-        delete this.addressToName[address]
-      }
+    const mod = assertEx(this.modules[address], () => 'Address not found in modules')
+    delete this.modules[address]
+    const modName = mod.modName
+    if (modName) {
+      delete this.nameToModule[modName]
     }
   }
 
@@ -127,7 +161,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver implements Modu
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
     return compact(
       name.map((name) => {
-        return modules.find((module) => module.config.name === name)
+        return modules.find((module) => module.modName === name)
       }),
     ) as T[]
   }

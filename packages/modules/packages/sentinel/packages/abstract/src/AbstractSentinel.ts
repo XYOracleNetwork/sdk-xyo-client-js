@@ -1,19 +1,23 @@
 import { assertEx } from '@xylabs/assert'
 import { forget } from '@xylabs/forget'
+import { globallyUnique } from '@xylabs/object'
+import { AccountInstance } from '@xyo-network/account-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitness, notBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import {
   CustomSentinelInstance,
   ResolvedTask,
+  SentinelConfigSchema,
   SentinelInstance,
   SentinelJob,
   SentinelModuleEventData,
   SentinelParams,
   SentinelQueries,
+  SentinelReportQuery,
   SentinelReportQuerySchema,
 } from '@xyo-network/sentinel-model'
 
@@ -24,6 +28,9 @@ export abstract class AbstractSentinel<
   extends AbstractModuleInstance<TParams, TEventData>
   implements CustomSentinelInstance<TParams, TEventData>
 {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
+  static override readonly uniqueName = globallyUnique('AbstractSentinel', AbstractSentinel, 'xyo')
   history: BoundWitness[] = []
   private _jobPromise?: Promise<SentinelJob>
 
@@ -57,10 +64,10 @@ export abstract class AbstractSentinel<
       const payloads = await this.reportHandler(inPayloads)
 
       //create boundwitness
-      const result = (await (await new BoundWitnessBuilder().payloads(payloads)).witness(this.account).build()).flat()
+      const result = (await new BoundWitnessBuilder().payloads(payloads).signer(this.account).build()).flat()
 
       if (this.config.archiving) {
-        await this.storeToArchivists(result)
+        forget(this.storeToArchivists(result))
       }
 
       await this.emitReportEnd(inPayloads, result)
@@ -72,6 +79,11 @@ export abstract class AbstractSentinel<
       forget(reportPromise)
       return []
     }
+  }
+
+  async reportQuery(payloads?: Payload[], account?: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: SentinelReportQuery = { schema: SentinelReportQuerySchema }
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   protected async emitReportEnd(inPayloads?: Payload[], payloads?: Payload[]) {
@@ -102,11 +114,11 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.config.name === input)
+            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.modName === input)
           }
           if (Array.isArray(input)) {
             return previousTasks.find(
-              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.config.name ?? prevTask.module.address),
+              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.modName ?? prevTask.module.address),
             )
           }
         })
@@ -117,7 +129,7 @@ export abstract class AbstractSentinel<
           Array.isArray(input) &&
           tasks.some(
             (remainingTask) =>
-              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.config.name ?? remainingTask.module.address),
+              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.modName ?? remainingTask.module.address),
           )
         ) {
           return false

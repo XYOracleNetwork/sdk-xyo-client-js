@@ -2,12 +2,11 @@
 
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
-import { BridgeInstance } from '@xyo-network/bridge-model'
-import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
+import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { asNodeInstance, isNodeInstance } from '@xyo-network/node-model'
+import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridge } from '../HttpBridge'
@@ -30,9 +29,9 @@ describe('HttpBridge', () => {
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: Account.randomSync() })
 
-    const bridge: BridgeInstance = await HttpBridge.create({
+    const bridge = await HttpBridge.create({
       account: Account.randomSync(),
-      config: { name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
+      config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
     await bridge?.start?.()
@@ -44,17 +43,28 @@ describe('HttpBridge', () => {
     const rootModule = await bridge?.resolve('XYOPublic')
     expect(rootModule).toBeDefined()
 
-    const remoteNode = asNodeInstance(rootModule, () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      rootModule,
+      () => `Failed to resolve correct object type [XYOPublic] [${rootModule?.constructor.name}]`,
+    )
 
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
+    const state = await remoteNode.state()
+    const description = state.find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    expect(description?.children).toBeArray()
+    expect(description?.children?.length).toBeGreaterThan(0)
+    expect(description?.queries).toBeArray()
+    expect(description?.queries?.length).toBeGreaterThan(0)
 
     const archivistByName1 = await rootModule?.resolve('Archivist')
     expect(archivistByName1).toBeDefined()
     const archivistByName2 = await bridge.resolve('XYOPublic:Archivist')
+    expect(archivistByName2).toBeDefined()
+    const publicXyo = await bridge.resolve('XYOPublic')
+    expect(publicXyo).toBeDefined()
+    const archivistByName3 = await publicXyo?.resolve('Archivist')
+    expect(archivistByName3).toBeDefined()
+    expect(archivistByName3).toEqual(archivistByName1)
+    expect(archivistByName3).toEqual(archivistByName2)
     expect(archivistByName2).toBeDefined()
     const archivistInstance = asArchivistInstance(archivistByName2, 'Failed to cast archivist')
     expect(archivistInstance).toBeDefined()
@@ -81,23 +91,28 @@ describe('HttpBridge', () => {
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
+    await bridge.getRoots()
     const module = await bridge.resolve('XYOPublic')
 
+    expect(module).toBeDefined()
     expect(isModule(module)).toBeTrue()
     expect(isModuleObject(module)).toBeTrue()
 
-    const remoteNode = asNodeInstance(module, `Failed to resolve [XYOPublic] - ${module?.address} [${module?.id}] [${module?.constructor.name}]`)
+    const remoteNode = asAttachableNodeInstance(
+      module,
+      `Failed to resolve [XYOPublic] - ${module?.address} [${module?.id}] [${module?.constructor.name}]`,
+    )
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()
 
     await memNode3.register(remoteNode)
     await memNode3.attach(remoteNode?.address, true)
-    const description = await remoteNode.describe()
-    expect(description.children).toBeArray()
-    expect(description.children?.length).toBeGreaterThan(0)
-    expect(description.queries).toBeArray()
-    expect(description.queries?.length).toBeGreaterThan(0)
+    const description = (await remoteNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
+    expect(description?.children).toBeArray()
+    expect(description?.children?.length).toBeGreaterThan(0)
+    expect(description?.queries).toBeArray()
+    expect(description?.queries?.length).toBeGreaterThan(0)
 
     // Works if you supply the known address for 'Archivist'
     //const [archivistByAddress] = await memNode.resolve({ address: ['461fd6970770e97d9f66c71658f4b96212581f0b'] })
@@ -105,7 +120,7 @@ describe('HttpBridge', () => {
 
     /*const mods = await bridge.resolve('*')
     for (const mod of mods) {
-      console.log(`module [${mod.address}]: ${mod.config.name}`)
+      console.log(`module [${mod.address}]: ${mod.modName}`)
     }*/
 
     const node = await bridge.resolve('XYOPublic')

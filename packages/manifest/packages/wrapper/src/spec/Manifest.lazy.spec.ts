@@ -1,6 +1,6 @@
 import { HDWallet } from '@xyo-network/account'
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { AddressSchema } from '@xyo-network/module-model'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeInlineLazyManifest from './simple-node-inline-lazy-manifest.json'
@@ -13,7 +13,7 @@ describe('Manifest', () => {
       const manifest = new ManifestWrapper(simpleNodeInlineLazyManifest as PackageManifestPayload, wallet)
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
-      const discover = await node.discover()
+      const discover = await node.state()
       //console.log(`discover: ${toJsonString(discover)}`)
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBe(4)

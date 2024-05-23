@@ -19,16 +19,18 @@ describe('SimpleModuleResolver', () => {
       moduleA = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381a',
         config: { name: moduleAName, schema: ModuleConfigSchema },
+        modName: moduleAName,
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
       moduleB = mock<ModuleInstance>({
         address: 'b0e75b722e6cb03bbae3f488ed1e5a82bd7c381b',
         config: { name: moduleBName, schema: ModuleConfigSchema },
+        modName: moduleBName,
         queries: [ModuleStateQuerySchema],
         query: jest.fn(),
       })
-      sut = new SimpleModuleResolver()
+      sut = new SimpleModuleResolver({ root: moduleA })
       sut.add(moduleA)
     })
     describe('add', () => {
@@ -57,7 +59,7 @@ describe('SimpleModuleResolver', () => {
       })
     })
     describe('tryResolve', () => {
-      it('resolves module]', async () => {
+      it('resolves module', async () => {
         const result = await sut.resolve({ name: [moduleAName] })
         expect(result).toBeArrayOfSize(1)
       })

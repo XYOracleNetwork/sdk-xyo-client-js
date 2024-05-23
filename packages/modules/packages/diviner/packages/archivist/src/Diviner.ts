@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
-import { DivinerParams } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData, DivinerParams } from '@xyo-network/diviner-model'
 import { Huri } from '@xyo-network/huri'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 import { ArchivistPayloadDivinerConfig, ArchivistPayloadDivinerConfigSchema } from './Config'
 
@@ -16,8 +16,14 @@ export class ArchivistPayloadDiviner<
   TParams extends ArchivistPayloadDivinerParams,
   TIn extends HuriPayload = HuriPayload,
   TOut extends Payload = Payload,
-> extends AbstractDiviner<TParams, TIn, TOut> {
-  static override configSchemas = [ArchivistPayloadDivinerConfigSchema]
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
+> extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ArchivistPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ArchivistPayloadDivinerConfigSchema
 
   protected async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
     const huriPayloads = assertEx(
@@ -25,7 +31,7 @@ export class ArchivistPayloadDiviner<
       () => `no huri payloads provided: ${JSON.stringify(payloads, null, 2)}`,
     )
     const hashes = huriPayloads.flatMap((huriPayload) => huriPayload.huri.map((huri) => new Huri(huri).hash))
-    const activeArchivist = await this.getArchivist()
+    const activeArchivist = await this.archivistInstance()
     return ((await activeArchivist?.get(hashes)) as WithMeta<TOut>[]) ?? []
   }
 }

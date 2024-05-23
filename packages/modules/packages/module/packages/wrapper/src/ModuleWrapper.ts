@@ -1,4 +1,6 @@
 import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
+import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 import { Base } from '@xylabs/object'
@@ -13,19 +15,16 @@ import { EventAnyListener, EventListener } from '@xyo-network/module-events'
 import {
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  asAttachableModuleInstance,
   asModuleInstance,
+  AttachableModuleInstance,
+  duplicateModules,
   InstanceTypeCheck,
   isModule,
   isModuleInstance,
   Module,
   ModuleAddressQuery,
   ModuleAddressQuerySchema,
-  ModuleDescribeQuery,
-  ModuleDescribeQuerySchema,
-  ModuleDescriptionPayload,
-  ModuleDescriptionSchema,
-  ModuleDiscoverQuery,
-  ModuleDiscoverQuerySchema,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
@@ -38,8 +37,10 @@ import {
   ModuleStateQuerySchema,
   ModuleStatus,
   ModuleTypeCheck,
+  ObjectResolverPriority,
 } from '@xyo-network/module-model'
-import { asPayload, ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { ModuleError, ModuleErrorSchema, Payload, Query, WithMeta } from '@xyo-network/payload-model'
+import { LRUCache } from 'lru-cache'
 
 import type { ModuleWrapperParams } from './models'
 
@@ -89,16 +90,19 @@ export function constructableModuleWrapper<TWrapper extends ModuleWrapper>() {
 @constructableModuleWrapper()
 export class ModuleWrapper<TWrappedModule extends Module = Module>
   extends Base<Exclude<Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> }, undefined>>
-  implements ModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
+  implements AttachableModuleInstance<TWrappedModule['params'], TWrappedModule['eventData']>
 {
   static instanceIdentityCheck: InstanceTypeCheck = isModuleInstance
   static moduleIdentityCheck: ModuleTypeCheck = isModule
-  static requiredQueries: string[] = [ModuleDiscoverQuerySchema]
+  static requiredQueries: string[] = [ModuleStateQuerySchema]
 
   eventData = {} as TWrappedModule['eventData']
 
+  protected readonly cachedCalls = new LRUCache<string, Payload[]>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
+
   protected readonly wrapperParams: ModuleWrapperParams<TWrappedModule>
 
+  private _parents: ModuleInstance[] = []
   private _status: ModuleStatus = 'wrapped'
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
@@ -117,6 +121,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.wrapperParams.account
   }
 
+  get additionalSigners() {
+    return this.wrapperParams.additionalSigners ?? []
+  }
+
   get address() {
     return this.module.address
   }
@@ -127,7 +135,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get downResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asModuleInstance(this.module)
+    const instance: AttachableModuleInstance | undefined = asAttachableModuleInstance(this.module)
     if (instance) {
       return instance.downResolver as ModuleResolverInstance
     }
@@ -138,8 +146,25 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.id
   }
 
+  get modName() {
+    return this.module.modName
+  }
+
   get module() {
     return this.wrapperParams.module
+  }
+
+  get priority() {
+    return ObjectResolverPriority.Low
+  }
+
+  get privateResolver(): ModuleResolverInstance {
+    //Should we be allowing this?
+    const instance = asAttachableModuleInstance(this.module)
+    if (instance) {
+      return instance.privateResolver as ModuleResolverInstance
+    }
+    throw new Error('Unsupported')
   }
 
   get queries(): string[] {
@@ -152,7 +177,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asModuleInstance(this.module)
+    const instance = asAttachableModuleInstance(this.module)
     if (instance) {
       return instance.upResolver as ModuleResolverInstance
     }
@@ -243,6 +268,13 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap module as ModuleWrapper')
   }
 
+  addParent(module: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+    if (!existingEntry) {
+      this._parents.push(module)
+    }
+  }
+
   async addressPreviousHash(): Promise<AddressPreviousHashPayload> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return assertEx(
@@ -253,17 +285,6 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
     return this.module.clearListeners(eventNames)
-  }
-
-  async describe(): Promise<ModuleDescriptionPayload> {
-    const queryPayload: ModuleDescribeQuery = { schema: ModuleDescribeQuerySchema }
-    const response = (await this.sendQuery(queryPayload)).at(0)
-    return assertEx(asPayload<ModuleDescriptionPayload>([ModuleDescriptionSchema])(response), () => `invalid describe payload [${response?.schema}]`)
-  }
-
-  async discover(): Promise<Payload[]> {
-    const queryPayload: ModuleDiscoverQuery = { schema: ModuleDiscoverQuerySchema }
-    return await this.sendQuery(queryPayload)
   }
 
   emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {
@@ -281,6 +302,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
     return (await this.sendQuery(queryPayload))[0] as WithMeta<ModuleManifestPayload>
+  }
+
+  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
   }
 
   async moduleAddress(): Promise<AddressPreviousHashPayload[]> {
@@ -314,9 +340,32 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.module.once(eventName, listener)
   }
 
+  parents(): Promisable<ModuleInstance[]> {
+    return this._parents
+  }
+
   async previousHash(): Promise<string | undefined> {
     const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
     return ((await this.sendQuery(queryPayload)).pop() as WithMeta<AddressPreviousHashPayload>).previousHash
+  }
+
+  async previousHashQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPreviousHashPayload>> {
+    const queryPayload: ModuleAddressQuery = { schema: ModuleAddressQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
+  async privateChildren(): Promise<ModuleInstance[]> {
+    if (isModuleInstance(this.module)) {
+      return await this.module.privateChildren()
+    }
+    return []
+  }
+
+  async publicChildren(): Promise<ModuleInstance[]> {
+    if (isModuleInstance(this.module)) {
+      return await this.module.publicChildren()
+    }
+    return []
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
@@ -325,6 +374,10 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]) {
     return this.module.queryable(query, payloads)
+  }
+
+  removeParent(address: Address) {
+    this._parents = this._parents.filter((item) => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -358,19 +411,44 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return typeof idOrFilter === 'string' && idOrFilter !== '*' ? undefined : []
   }
 
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier,
+    _options?: ModuleFilterOptions<T>,
+  ): Promise<T | T[] | undefined> {
+    if (id === '*') return await Promise.resolve([])
+  }
+
+  async siblings(): Promise<ModuleInstance[]> {
+    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
+  }
+
   async state(): Promise<Payload[]> {
+    const cachedResult = this.cachedCalls.get('state')
+    if (cachedResult) {
+      return cachedResult
+    }
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
-    return await this.sendQuery(queryPayload)
+    const result = await this.sendQuery(queryPayload)
+    this.cachedCalls.set('state', result)
+    return result
+  }
+
+  async stateQuery(_account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
+    return await this.sendQueryRaw(queryPayload)
   }
 
   protected bindQuery<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
+    account = this.account,
+    additionalSigners = this.additionalSigners,
   ): PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[QueryBoundWitness, Payload[], ModuleError[]], AccountInstance>(async (resolve) => {
-      const result = await this.bindQueryInternal(query, payloads, account)
+      const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
@@ -380,10 +458,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   protected async bindQueryInternal<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account: AccountInstance | undefined = this.account,
+    account = this.account,
+    additionalSigners = this.additionalSigners,
   ): Promise<[QueryBoundWitness, Payload[], ModuleError[]]> {
     const builder = await new QueryBoundWitnessBuilder().payloads(payloads).query(query)
-    const result = await (account ? builder.witness(account) : builder).build()
+    const accounts = [account, ...additionalSigners].filter(exists)
+    const result = await (account ? builder.signers(accounts) : builder).build()
     return result
   }
 
@@ -396,11 +476,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     queryPayload: T,
     payloads?: P[],
   ): Promise<WithMeta<R>[]> {
-    // Bind them
-    const query = await this.bindQuery(queryPayload, payloads)
-
-    // Send them off
-    const queryResults = await this.module.query(query[0], query[1])
+    const queryResults = await this.sendQueryRaw(queryPayload, payloads)
     const [, resultPayloads, errors] = queryResults
 
     /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
@@ -411,5 +487,17 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }
 
     return resultPayloads as WithMeta<R>[]
+  }
+
+  protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+    account?: AccountInstance,
+  ): Promise<ModuleQueryResult<R>> {
+    // Bind them
+    const query = await this.bindQuery(queryPayload, payloads, account)
+
+    // Send them off
+    return (await this.query(query[0], query[1])) as ModuleQueryResult<R>
   }
 }

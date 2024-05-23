@@ -7,7 +7,6 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerParams, BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
 import { IndexingDivinerState } from '@xyo-network/diviner-indexing-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema,
   TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
@@ -15,7 +14,7 @@ import {
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, Labels, ModuleIdentifier, ModuleState, ModuleStateSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 import { TimeStamp, TimestampSchema } from '@xyo-network/witness-timestamp'
 
@@ -54,9 +53,10 @@ const moduleName = 'TemporalIndexingDivinerStateToIndexCandidateDiviner'
 export class TemporalIndexingDivinerStateToIndexCandidateDiviner<
   TParams extends TemporalIndexingDivinerStateToIndexCandidateDivinerParams = TemporalIndexingDivinerStateToIndexCandidateDivinerParams,
 > extends AbstractDiviner<TParams, Payload, ModuleState | IndexCandidate> {
-  static override readonly configSchema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
-  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
-  static labels: Labels = {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerStateToIndexCandidateDivinerConfigSchema
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'stateToIndexCandidateDiviner',
   }
 

@@ -4,7 +4,7 @@ import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archi
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
 import { HuriPayload, HuriSchema } from '@xyo-network/diviner-huri'
-import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
+import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { Payload, PayloadBuilder, PayloadSchema } from '@xyo-network/payload'
 
 import { MemoryNode } from '../../src'
@@ -33,15 +33,15 @@ describe('MemoryNode', () => {
     await node.register(privateArchivist)
     await node.attach(privateArchivist.address, false)
 
-    const diviner = (await ArchivistPayloadDiviner.create({
+    const diviner = await ArchivistPayloadDiviner.create({
       account: Account.randomSync(),
       config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
-    })) as DivinerInstance
+    })
 
     await node.register(diviner)
     await node.attach(diviner.address, true)
 
-    expect(node.registered()).toBeArrayOfSize(3)
+    expect(await node.registered()).toBeArrayOfSize(3)
     expect(await node.attached()).toBeArrayOfSize(3)
 
     const foundArchivist = asArchivistInstance(await node.resolve(archivist.address))
@@ -78,9 +78,7 @@ describe('MemoryNode', () => {
     expect((await node.resolve('*', { direction: 'up', maxDepth: 0 })).length).toBe(0)
     expect((await node.resolve('*', { direction: 'up', maxDepth: 1 })).length).toBe(0)
     expect((await node.resolve('*', { direction: 'down' })).length).toBe(2)
-    expect((await node.resolve('*', { direction: 'down', visibility: 'all' })).length).toBe(3)
-    expect((await node.resolve('*', { direction: 'down', visibility: 'private' })).length).toBe(1)
-    expect((await node.resolve('*', { direction: 'down', visibility: 'public' })).length).toBe(2)
+    expect((await node.resolvePrivate('*', { direction: 'down' })).length).toBe(1)
     expect((await node.resolve('*', { direction: 'down', maxDepth: 0 })).length).toBe(0)
     expect((await node.resolve('*', { direction: 'down', maxDepth: 1 })).length).toBe(2)
     expect((await node.resolve('*', { direction: 'all' })).length).toBe(3)

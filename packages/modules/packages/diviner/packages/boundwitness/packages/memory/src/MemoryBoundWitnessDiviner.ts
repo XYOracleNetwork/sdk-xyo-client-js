@@ -10,7 +10,7 @@ import {
   BoundWitnessDivinerQueryPayload,
   isBoundWitnessDivinerQueryPayload,
 } from '@xyo-network/diviner-boundwitness-model'
-import { WithMeta } from '@xyo-network/payload-model'
+import { Schema, WithMeta } from '@xyo-network/payload-model'
 
 export interface EqualityComparisonOperators {
   /**
@@ -70,13 +70,14 @@ export class MemoryBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas = [BoundWitnessDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
 
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
-    const { addresses, payload_hashes, payload_schemas, limit, offset, order, sourceQuery, destination, timestamp } = filter
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
+    const { addresses, payload_hashes, payload_schemas, limit, offset, order = 'desc', sourceQuery, destination, timestamp } = filter
     let bws = ((await archivist?.all?.()) ?? []).filter(isBoundWitness) as WithMeta<BoundWitness>[]
     if (order === 'desc') bws = bws.reverse()
     const allAddresses = addresses?.map((address) => hexFromHexString(address)).filter(exists)

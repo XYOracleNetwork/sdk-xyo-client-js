@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { containsAll } from '@xylabs/array'
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { AnyObject } from '@xylabs/object'
+import { AnyObject, removeFields } from '@xylabs/object'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexSeparator } from '@xyo-network/archivist-model'
-import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import { isPayloadDivinerQueryPayload, PayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb'
 
 import { IndexedDbPayloadDivinerConfigSchema } from './Config'
@@ -38,9 +37,14 @@ export class IndexedDbPayloadDiviner<
   TParams extends IndexedDbPayloadDivinerParams = IndexedDbPayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [IndexedDbPayloadDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbPayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbPayloadDivinerConfigSchema
 
   private _db: IDBPDatabase<PayloadStore> | undefined
 
@@ -71,22 +75,15 @@ export class IndexedDbPayloadDiviner<
   }
 
   protected override async divineHandler(payloads?: TIn[]): Promise<TOut[]> {
-    const query = payloads?.filter(isPayloadDivinerQueryPayload)?.pop()
+    const query = payloads?.find(isPayloadDivinerQueryPayload) as TIn
     if (!query) return []
     const result = await this.tryUseDb(async (db) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const {
-        schemas,
-        limit,
-        offset,
-        hash,
-        order,
-        schema: _schema,
-        sources,
-        $meta,
-        $hash,
-        ...props
-      } = query as unknown as WithMeta<TIn> & { sources?: Hash[] }
+      const { schemas, limit, offset, order, ...props } = removeFields(query as unknown as WithMeta<TIn> & { sources?: Hash[] }, [
+        'hash',
+        'schema',
+        '$meta',
+        '$hash',
+      ])
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
       const results: TOut[] = []
@@ -132,7 +129,11 @@ export class IndexedDbPayloadDiviner<
             results.push(value)
           }
         }
-        cursor = await cursor.continue()
+        try {
+          cursor = await cursor.continue()
+        } catch {
+          break
+        }
       }
       await tx.done
       // Remove any metadata before returning to the client

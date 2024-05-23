@@ -2,11 +2,11 @@ import { Address, Hash } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
 import { Schema } from '@xyo-network/payload-model'
 
-import { SortDirection } from './SortDirection'
+import { Order } from './Order'
 
 /* Note: Added Omit to PayloadFindDiviner for offset until we support hash based offsets */
 
-export type PayloadDivinerPredicate<T extends EmptyObject = EmptyObject> = Partial<
+export type PayloadDivinerPredicate<T extends EmptyObject = EmptyObject, TOffset = number> = Partial<
   {
     /**
      * @deprecated Use BW Diviner to find signed Payloads matching desired
@@ -15,8 +15,8 @@ export type PayloadDivinerPredicate<T extends EmptyObject = EmptyObject> = Parti
     address: Address | Address[]
     hash: Hash
     limit: number
-    offset: number
-    order: SortDirection
+    offset: TOffset
+    order: Order
     schemas: Schema[]
     timestamp?: number
   } & T

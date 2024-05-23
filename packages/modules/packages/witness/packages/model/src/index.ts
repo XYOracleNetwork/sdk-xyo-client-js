@@ -1,3 +1,4 @@
+export * from './attachable'
 export * from './Config'
 export * from './CustomInstance'
 export * from './CustomModule'

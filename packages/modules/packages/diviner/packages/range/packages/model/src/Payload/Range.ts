@@ -3,7 +3,7 @@ import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
 /* Note: We decorate these names with Payload since Range is a system type */
 
-export const RangeSchema = 'network.xyo.range'
+export const RangeSchema = 'network.xyo.range' as const
 export type RangeSchema = typeof RangeSchema
 
 export type RangePayloadBase<T> = Payload<

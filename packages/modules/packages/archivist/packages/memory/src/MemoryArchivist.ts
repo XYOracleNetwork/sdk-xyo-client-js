@@ -10,14 +10,13 @@ import {
   ArchivistClearQuerySchema,
   ArchivistCommitQuerySchema,
   ArchivistConfig,
-  ArchivistConfigSchema,
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuery,
   ArchivistInsertQuerySchema,
-  ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
+  AttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
@@ -46,9 +45,10 @@ export class MemoryArchivist<
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
   >
   extends AbstractArchivist<TParams, TEventData>
-  implements ArchivistInstance, ModuleInstance
+  implements AttachableArchivistInstance, ModuleInstance
 {
-  static override configSchemas = [MemoryArchivistConfigSchema, ArchivistConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, MemoryArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = MemoryArchivistConfigSchema
 
   private _cache?: LRUCache<Hash, WithStorageMeta<PayloadWithMeta>>
   private _dataHashIndex?: LRUCache<Hash, Hash>
@@ -94,7 +94,7 @@ export class MemoryArchivist<
     const payloads = assertEx(await this.allHandler(), () => 'Nothing to commit')
     const settled = await Promise.allSettled(
       compact(
-        Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+        Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
           const queryPayload: ArchivistInsertQuery = {
             schema: ArchivistInsertQuerySchema,
           }
@@ -135,19 +135,23 @@ export class MemoryArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const pairs = await PayloadBuilder.hashPairs(payloads)
-    const insertedPayloads = pairs.map(([payload, hash]) => {
-      return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash)
+    const pairs = await PayloadBuilder.hashPairs(payloads, { stamp: false })
+    const insertedPayloads = pairs.map(([payload, hash], index) => {
+      return this.cache.get(hash) ?? this.insertPayloadIntoCache(payload, hash, index)
     })
 
     return removeStorageMeta(insertedPayloads)
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
-    const { limit, previous } = options ?? {}
-    const all = sortByStorageMeta(compact(await Promise.all(this.cache.dump().map((value) => value[1].value))))
-    const startIndex = previous ? all.findIndex((value) => value.$hash === previous) + 1 : 0
-    return removeStorageMeta(all.slice(startIndex, limit ? startIndex + limit : undefined))
+    const { limit, offset, order } = options ?? {}
+    let all = await this.allHandler()
+    if (order === 'desc') {
+      all = all.reverse()
+    }
+    const allPairs = await PayloadBuilder.hashPairs(all)
+    const startIndex = offset ? allPairs.findIndex(([, hash]) => hash === offset) + 1 : 0
+    return allPairs.slice(startIndex, limit ? startIndex + limit : undefined).map(([payload]) => payload)
   }
 
   private insertPayloadIntoCache(payload: PayloadWithMeta, hash: Hash, index = 0): WithStorageMeta<PayloadWithMeta> {

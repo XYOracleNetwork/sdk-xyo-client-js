@@ -56,7 +56,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
       const archivist = await IndexedDbArchivist.create({
         account: Account.randomSync(),
-        config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
+        config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
       })
       await archivist.clear?.()
       await archivist.insert(values)
@@ -65,13 +65,13 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
         config: {
           archivist: archivist.address,
           dbName: testDbName,
-          schema: IndexedDbPayloadDiviner.configSchema,
+          schema: IndexedDbPayloadDiviner.defaultConfigSchema,
           storeName: testStoreName,
         },
       })
       const node = await MemoryNode.create({
         account: Account.randomSync(),
-        config: { schema: MemoryNode.configSchema },
+        config: { schema: MemoryNode.defaultConfigSchema },
       })
       const modules = [archivist, sut]
       await node.start()

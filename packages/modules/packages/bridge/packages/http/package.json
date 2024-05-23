@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/http-bridge",
+  "name": "@xyo-network/bridge-http",
   "author": {
     "email": "support@xyo.network",
     "name": "XYO Development Team",
@@ -10,33 +10,38 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.0.24",
-    "@xylabs/axios": "^3.0.24",
-    "@xylabs/exists": "^3.0.24",
-    "@xylabs/hex": "^3.0.24",
-    "@xylabs/object": "^3.0.24",
-    "@xylabs/promise": "^3.0.24",
-    "@xyo-network/abstract-bridge": "workspace:~",
+    "@xylabs/assert": "^3.3.3",
+    "@xylabs/axios": "^3.3.3",
+    "@xylabs/exists": "^3.3.3",
+    "@xylabs/forget": "^3.3.3",
+    "@xylabs/hex": "^3.3.3",
+    "@xylabs/object": "^3.3.3",
+    "@xylabs/promise": "^3.3.3",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/api-models": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/bridge-abstract": "workspace:~",
     "@xyo-network/bridge-model": "workspace:~",
     "@xyo-network/config-payload-plugin": "workspace:~",
     "@xyo-network/manifest-model": "workspace:~",
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/payload-model": "workspace:~",
+    "async-mutex": "^0.5.0",
+    "lru-cache": "^10.2.2"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.5.2",
-    "@xylabs/tsconfig": "^3.5.2",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/module-resolver": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",
@@ -77,6 +82,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.93.4",
+  "version": "2.103.3",
   "type": "module"
 }

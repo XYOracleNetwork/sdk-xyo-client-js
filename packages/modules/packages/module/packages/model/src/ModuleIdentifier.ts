@@ -1,5 +1,7 @@
 import { Address, isAddress } from '@xylabs/hex'
 
+export const MODULE_PATH_SEPARATOR = ':' as const
+
 export const DisallowedModuleIdentifierCharacters = {
   ' ': true,
   '!': true,

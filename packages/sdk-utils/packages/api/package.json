@@ -1,0 +1,72 @@
+{
+  "author": {
+    "email": "support@xyo.network",
+    "name": "XYO Development Team",
+    "url": "https://xyo.network"
+  },
+  "bugs": {
+    "email": "support@xyo.network",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
+  },
+  "dependencies": {
+    "@xylabs/axios": "^3.3.3",
+    "@xylabs/object": "^3.3.3",
+    "@xyo-network/api-models": "workspace:~",
+    "@xyo-network/boundwitness-model": "workspace:~",
+    "@xyo-network/diviner-model": "workspace:~",
+    "@xyo-network/huri": "workspace:~",
+    "@xyo-network/payload-model": "workspace:~"
+  },
+  "description": "Primary SDK for using XYO Protocol 2.0",
+  "devDependencies": {
+    "@xylabs/jest-helpers": "^3.3.3",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
+    "@xyo-network/module-model": "workspace:~",
+    "@xyo-network/query-payload-plugin": "workspace:~",
+    "jest": "^29.7.0",
+    "typescript": "^5.4.5",
+    "uuid": "^9.0.1"
+  },
+  "exports": {
+    ".": {
+      "browser": {
+        "require": {
+          "types": "./dist/browser/index.d.cts",
+          "default": "./dist/browser/index.cjs"
+        },
+        "import": {
+          "types": "./dist/browser/index.d.mts",
+          "default": "./dist/browser/index.js"
+        }
+      },
+      "node": {
+        "require": {
+          "types": "./dist/node/index.d.cts",
+          "default": "./dist/node/index.cjs"
+        },
+        "import": {
+          "types": "./dist/node/index.d.mts",
+          "default": "./dist/node/index.js"
+        }
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "types": "dist/node/index.d.mts",
+  "homepage": "https://xyo.network",
+  "license": "LGPL-3.0-only",
+  "name": "@xyo-network/api",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
+  },
+  "sideEffects": false,
+  "version": "2.103.3",
+  "type": "module"
+}

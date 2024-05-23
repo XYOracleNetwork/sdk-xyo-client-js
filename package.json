@@ -12,19 +12,22 @@
     "packages/**/*"
   ],
   "dependencies": {
+    "@xyo-network/core-payload-plugins": "workspace:~",
+    "@xyo-network/manifest": "workspace:~",
     "@xyo-network/modules": "workspace:~",
     "@xyo-network/protocol": "workspace:~",
-    "@xyo-network/sdk": "workspace:~"
+    "@xyo-network/sdk-utils": "workspace:~",
+    "@xyo-network/shared": "workspace:~"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
-    "@xylabs/eslint-config": "^3.5.2",
-    "@xylabs/forget": "^3.0.24",
-    "@xylabs/ts-scripts-yarn3": "^3.5.2",
-    "@xylabs/tsconfig": "^3.5.2",
-    "@xylabs/tsconfig-dom-jest": "^3.5.2",
+    "@xylabs/eslint-config": "^3.10.4",
+    "@xylabs/forget": "^3.3.3",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
+    "@xylabs/tsconfig-dom-jest": "^3.10.4",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-plugin-deprecation": "^2.0.0",
@@ -35,13 +38,13 @@
     "jest-runner": "^29.7.0",
     "jest-runner-groups": "^2.2.0",
     "jest-sorted": "^1.0.15",
-    "reflect-metadata": "^0.2.1",
-    "supertest": "^6.3.4",
-    "ts-jest": "^29.1.2",
+    "reflect-metadata": "^0.2.2",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.3",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.25.12",
+    "typedoc": "^0.25.13",
     "typedoc-material-theme": "^1.0.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5"
   },
   "resolutions": {
     "axios": "^1",
@@ -81,7 +84,7 @@
   "types": "./dist/node/index.d.cts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
-  "name": "@xyo-network/sdk-xyo-client-js",
+  "name": "@xyo-network/sdk-js",
   "publishConfig": {
     "access": "public"
   },
@@ -113,10 +116,10 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.93.4",
-  "packageManager": "yarn@4.1.1",
+  "version": "2.103.3",
+  "packageManager": "yarn@4.2.2",
   "volta": {
-    "node": "18.19.0",
+    "node": "20.12.0",
     "yarn": "1.22.19"
   },
   "type": "module"

@@ -1,15 +1,21 @@
 /* eslint-disable max-statements */
 import { delay } from '@xylabs/delay'
-import { Account } from '@xyo-network/account'
+import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
-import { Module, ModuleDescription, ModuleInstance } from '@xyo-network/module-model'
-import { ModuleAttachedEventArgs, NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
-import { Payload } from '@xyo-network/payload'
-
-import { MemoryNode } from '../../src'
+import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
+import {
+  AddressPayload,
+  AddressSchema,
+  AttachableModuleInstance,
+  Module,
+  ModuleDescription,
+  ModuleDescriptionPayload,
+  ModuleDescriptionSchema,
+} from '@xyo-network/module-model'
+import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
+import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
+import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'
 
 /**
  * @group node
@@ -21,14 +27,14 @@ describe('MemoryNode', () => {
   let testAccount2: AccountInstance
   let testAccount3: AccountInstance
   let testAccount4: AccountInstance
-  const archivistConfig = { schema: MemoryArchivist.configSchema }
+  const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
   const nodeConfig = { schema: NodeConfigSchema }
   let node: MemoryNode
   beforeAll(async () => {
-    testAccount1 = await Account.fromPhrase('cushion student broken thing poet mistake item dutch traffic gloom awful still')
-    testAccount2 = await Account.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
-    testAccount3 = await Account.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
-    testAccount4 = await Account.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
+    testAccount1 = await HDWallet.fromPhrase('cushion student broken thing poet mistake item dutch traffic gloom awful still')
+    testAccount2 = await HDWallet.fromPhrase('siren tenant achieve enough tone roof album champion tiny civil lottery hundred')
+    testAccount3 = await HDWallet.fromPhrase('person wheat floor tumble pond develop sauce attract neither toilet build enrich')
+    testAccount4 = await HDWallet.fromPhrase('kit sound script century margin into guilt region engine garment lab rifle')
     //jest.spyOn(console, 'log').mockImplementation(() => {
     // Stop expected logs from being generated during tests
     //})
@@ -43,8 +49,8 @@ describe('MemoryNode', () => {
         // Arrange
         // Create a MemoryNode with no modules in the internal
         // resolver and one module in the external resolver
-        const resolver = new CompositeModuleResolver()
-        const internalResolver = new CompositeModuleResolver()
+        const resolver = new CompositeModuleResolver({})
+        const internalResolver = new CompositeModuleResolver({})
         const params: MemoryNodeParams = {
           config: { schema: NodeConfigSchema },
           internalResolver,
@@ -84,26 +90,26 @@ describe('MemoryNode', () => {
   })
   describe('registered', () => {
     describe('with no modules registered', () => {
-      it('returns empty array', () => {
-        const result = node.registered()
+      it('returns empty array', async () => {
+        const result = await node.registered()
         expect(result).toBeArrayOfSize(0)
       })
     })
     describe('with modules registered', () => {
-      let module: ModuleInstance
+      let module: AttachableModuleInstance
       beforeEach(async () => {
         module = await MemoryArchivist.create({ account: Account.randomSync() })
         await node.register(module)
       })
-      it('lists addresses of registered modules', () => {
-        const result = node.registered()
+      it('lists addresses of registered modules', async () => {
+        const result = await node.registered()
         expect(result).toBeArrayOfSize(1)
         expect(result).toEqual([module.address])
       })
     })
   })
   describe('attach', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -143,7 +149,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('attached', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -164,7 +170,7 @@ describe('MemoryNode', () => {
     })
   })
   describe('detach', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
       await node.register(module)
@@ -178,7 +184,7 @@ describe('MemoryNode', () => {
     })*/
   })
   describe('registeredModules', () => {
-    let module: ModuleInstance
+    let module: AttachableModuleInstance
     beforeEach(async () => {
       module = await MemoryArchivist.create({ account: Account.randomSync() })
     })
@@ -207,68 +213,66 @@ describe('MemoryNode', () => {
     })
   })
   describe('description', () => {
-    const validateModuleDescription = (description: ModuleDescription) => {
+    const validateModuleDescription = (description?: ModuleDescription) => {
       expect(description).toBeObject()
-      expect(description.address).toBeString()
-      expect(description.queries).toBeArray()
-      description.queries.map((query) => {
+      expect(description?.address).toBeString()
+      expect(description?.queries).toBeArray()
+      description?.queries.map((query) => {
         expect(query).toBeString()
       })
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(0)
+        expect(description?.children).toBeArrayOfSize(0)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
     describe('node with child modules', () => {
       beforeEach(async () => {
         const modules = await Promise.all([
-          await MemoryArchivist.create({ account: testAccount2, config: { ...archivistConfig, name: 'testAccount2' } }),
-          await MemoryArchivist.create({ account: testAccount3, config: { ...archivistConfig, name: 'testAccount3' } }),
+          MemoryArchivist.create({ account: testAccount2, config: { ...archivistConfig, name: 'testAccount2' } }),
+          MemoryArchivist.create({ account: testAccount3, config: { ...archivistConfig, name: 'testAccount3' } }),
         ])
         await Promise.all(
           modules.map(async (mod) => {
             await node.register(mod)
             expect(await node.attach(mod.address, true)).toEqual(mod.address)
             expect(await node.detach(mod.address)).toEqual(mod.address)
-            if (mod.config.name) {
-              expect(await node.attach(mod.config.name, true)).toEqual(mod.address)
-              expect(await node.detach(mod.config.name)).toEqual(mod.address)
+            if (mod.modName) {
+              expect(await node.attach(mod.modName, true)).toEqual(mod.address)
+              expect(await node.detach(mod.modName)).toEqual(mod.address)
             }
             expect(await node.attach(mod.address, true)).toEqual(mod.address)
           }),
         )
       })
       it('describes node and child modules', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(2)
+        expect(description?.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
-        const nestedNode: NodeInstance = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
-        const nestedModules: ArchivistInstance[] = await Promise.all([
-          await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
-        ])
+        const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
+        const nestedModules: AttachableArchivistInstance[] = [await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })]
         await Promise.all(
           nestedModules.map(async (mod) => {
             await nestedNode.register?.(mod)
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })]
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {
@@ -286,20 +290,52 @@ describe('MemoryNode', () => {
         await memoryNode.register(archivist2)
         await memoryNode.attach(archivist2.address, true)
         console.log('status:', memoryNode.status)
-        const description = await memoryNode.describe()
+        const description = (await memoryNode.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
-        expect(description.children).toBeArrayOfSize(2)
+        expect(description?.children).toBeArrayOfSize(2)
         //description.children?.map(validateModuleDescription)
       })
       it('serializes to JSON consistently', async () => {
-        const description = await node.describe()
+        const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         expect(prettyPrintDescription(description)).toMatchSnapshot()
+      })
+      it('clone-all', async () => {
+        const newNode = await NodeHelper.attachToNewNode(node, '*')
+        const newNodeChildren = await newNode.resolve('*', { maxDepth: 1 })
+        const nodeChildren = await node.resolve('*', { maxDepth: 1 })
+        expect(newNodeChildren.length).toEqual(nodeChildren.length)
+        expect(newNodeChildren.includes(nodeChildren[0])).toBe(true)
+      })
+      it('clone-one (public)', async () => {
+        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModule' } })
+        await node.register(module)
+        await node.attach(module.address, true)
+
+        const newNode = await NodeHelper.attachToNewNode(node, 'CloneModule')
+        const newNodeChild = await newNode.resolve('CloneModule')
+        const nodeChild = await node.resolve('CloneModule', { maxDepth: 1 })
+        expect(newNodeChild?.id).toEqual(nodeChild?.id)
+        expect(newNodeChild?.address).toEqual(nodeChild?.address)
+        expect(newNodeChild).toEqual(nodeChild)
+      })
+      it('clone-one (private)', async () => {
+        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModulePrivate' } })
+        await node.register(module)
+        await node.attach(module.address)
+
+        try {
+          //this should except
+          await NodeHelper.attachToNewNode(node, 'CloneModulePrivate')
+          expect(false).toBeTrue()
+        } catch (e) {
+          expect(e).toBeInstanceOf(Error)
+        }
       })
     })
   })
   describe('discover', () => {
-    const archivistConfig = { schema: MemoryArchivist.configSchema }
-    const validateDiscoveryResponse = (mod: Module, response: Payload[]) => {
+    const archivistConfig = { schema: MemoryArchivist.defaultConfigSchema }
+    const validateStateResponse = (mod: Module, response: Payload[]) => {
       expect(response).toBeArray()
       const address = response.find((p) => p.schema === AddressSchema) as AddressPayload
       expect(address).toBeObject()
@@ -315,16 +351,16 @@ describe('MemoryNode', () => {
     }
     describe('node without child modules', () => {
       it('describes node alone', async () => {
-        const description = await node.discover()
-        validateDiscoveryResponse(node, description)
+        const state = await node.state()
+        validateStateResponse(node, state)
       })
     })
     describe('node with child modules', () => {
       it('describes node and child modules', async () => {
         const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
         const modules = await Promise.all([
-          await MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
-          await MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
+          MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
+          MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
         ])
         await Promise.all(
           modules.map(async (mod) => {
@@ -332,11 +368,11 @@ describe('MemoryNode', () => {
             await memoryNode.attach(mod.address, true)
           }),
         )
-        const discover = await memoryNode.discover()
+        const state = await memoryNode.state()
 
-        const address0 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
+        const address0 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[0].address) as AddressPayload
         expect(address0).toBeObject()
-        const address1 = discover.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
+        const address1 = state.find((p) => p.schema === AddressSchema && (p as AddressPayload).address === modules[1].address) as AddressPayload
         expect(address1).toBeObject()
       })
     })
@@ -349,14 +385,14 @@ describe('MemoryNode', () => {
           attachEvents.push(module)
         })
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
-        const nestedModules = await Promise.all([await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })])
+        const nestedModules = [await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })]
         await Promise.all(
           nestedModules.map(async (mod) => {
             await nestedNode.register(mod)
             await nestedNode.attach(mod.address, true)
           }),
         )
-        const rootModules: ModuleInstance[] = await Promise.all([await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })])
+        const rootModules: AttachableModuleInstance[] = [await MemoryArchivist.create({ account: testAccount4, config: archivistConfig })]
         rootModules.push(nestedNode)
         await Promise.all(
           rootModules.map(async (mod) => {
@@ -378,13 +414,13 @@ describe('MemoryNode', () => {
         expect(eventAddresses.length).toBe(3)
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const description = await node.discover()
-        validateDiscoveryResponse(node, description)
+        const state = await node.state()
+        validateStateResponse(node, state)
       })
     })
   })
 })
 
-const prettyPrintDescription = (description: ModuleDescription) => {
+const prettyPrintDescription = (description?: ModuleDescription) => {
   return JSON.stringify(description, null, 2)
 }

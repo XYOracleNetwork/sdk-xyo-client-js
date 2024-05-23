@@ -5,7 +5,7 @@
 import { delay } from '@xylabs/delay'
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance, isArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { isModule, isModuleInstance, isModuleObject } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -49,6 +49,8 @@ describe('Various StorageArchivist types', () => {
   ]
   it.each(archivistTests)('Archivist All', async (_name, archivistPromise) => {
     const archivist = await archivistPromise
+    expect(isArchivistInstance(archivist)).toBeTruthy()
+    expect(isArchivistModule(archivist)).toBeTruthy()
     const idPayload = {
       salt: Date.now().toString(),
       schema: IdSchema,

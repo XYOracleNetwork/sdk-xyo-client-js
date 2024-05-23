@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
+import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
@@ -118,6 +119,10 @@ describe('IndexedDbArchivist', () => {
           account,
           config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName: storeName2 },
         })
+
+        expect(isArchivistInstance(archivist1)).toBeTruthy()
+        expect(isArchivistModule(archivist1)).toBeTruthy()
+
         // TODO: This test is not testing the end state of indexedDB, but rather the
         // state of the Archivist instance and therefore isn't valid.  We'd want to actually
         // open indexedDB and check the state of the stores matches what we want (which it doesn't).
@@ -250,7 +255,7 @@ describe('IndexedDbArchivist', () => {
         // First insertion should succeed and return the inserted payload
         expect(await archivistModule.insert([source])).toEqual([source])
         // First insertion should succeed but return empty array since no new data was inserted
-        expect(await archivistModule.insert([source])).toEqual([source])
+        expect(await archivistModule.insert([source])).toEqual([])
         // Ensure we can get the inserted payload
         const sourceHash = await PayloadBuilder.dataHash(source)
         const getResult = await archivistModule.get([sourceHash])
@@ -263,6 +268,66 @@ describe('IndexedDbArchivist', () => {
         expect(allResult).toBeDefined()
         expect(allResult).toBeArrayOfSize(1)
       })
+    })
+  })
+
+  describe('next', () => {
+    const dbName = 'bd86d2dd-dc48-4621-8c1f-105ba2e90288'
+    const storeName = 'f8d14049-2966-4198-a2ab-1c096a949316'
+    it('next', async () => {
+      const archivist = await IndexedDbArchivist.create({
+        account: Account.randomSync(),
+        config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
+      })
+      const account = Account.randomSync()
+
+      const payloads1 = [
+        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),
+        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
+      ]
+
+      console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
+
+      const payloads2 = [
+        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
+        await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
+      ]
+
+      console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
+
+      await archivist.insert(payloads1)
+      console.log(toJsonString(payloads1, 10))
+      const [bw, payloads, errors] = await archivist.insertQuery(payloads2, account)
+      expect(bw).toBeDefined()
+      expect(payloads).toBeDefined()
+      expect(errors).toBeDefined()
+
+      console.log(toJsonString([bw, payloads, errors], 10))
+
+      const batch1 = await archivist.next?.({ limit: 2 })
+      expect(batch1).toBeArrayOfSize(2)
+      expect(batch1?.[0].$hash).toEqual(payloads1[0].$hash)
+
+      const batch2 = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1?.[1]) })
+      expect(batch2).toBeArrayOfSize(2)
+      expect(batch2?.[0].$hash).toEqual(payloads2[0].$hash)
+
+      const batch3 = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1?.[1]) })
+      expect(batch3).toBeArrayOfSize(2)
+      expect(batch3?.[0].$hash).toEqual(payloads2[0].$hash)
+
+      //desc
+      const batch1Desc = await archivist.next?.({ limit: 2, order: 'desc' })
+      expect(batch1Desc).toBeArrayOfSize(2)
+      expect(batch1Desc?.[0].$hash).toEqual(payloads2[1].$hash)
+
+      const batch2Desc = await archivist.next?.({ limit: 2, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
+      expect(batch2Desc).toBeArrayOfSize(2)
+      expect(batch2Desc?.[1].$hash).toEqual(payloads1[0].$hash)
+
+      const batch3Desc = await archivist.next?.({ limit: 20, offset: await PayloadBuilder.hash(batch1Desc?.[1]), order: 'desc' })
+      expect(batch3Desc).toBeArrayOfSize(2)
+      expect(batch3Desc?.[1].$hash).toEqual(payloads1[0].$hash)
     })
   })
 })

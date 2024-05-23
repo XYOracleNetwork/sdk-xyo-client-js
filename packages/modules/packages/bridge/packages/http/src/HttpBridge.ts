@@ -1,10 +1,12 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
+import { AxiosError, AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { ApiEnvelope } from '@xyo-network/api-models'
+import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
@@ -16,20 +18,30 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
 } from '@xyo-network/module-model'
-import { asNodeInstance } from '@xyo-network/node-model'
-import { isPayloadOfSchemaType, WithMeta } from '@xyo-network/payload-model'
+import { asAttachableNodeInstance } from '@xyo-network/node-model'
+import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
+import { Mutex, Semaphore } from 'async-mutex'
+import { LRUCache } from 'lru-cache'
 
 import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
+import { BridgeQuerySender } from './ModuleProxy'
 
-export type HttpBridgeParams<TConfig extends AnyConfigSchema<HttpBridgeConfig> = AnyConfigSchema<HttpBridgeConfig>> = BridgeParams<TConfig>
+export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [HttpBridgeConfigSchema]
-  static maxPayloadSizeWarning = 256 * 256
+export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
+  static defaultFailureRetryTime = 1000 * 60
+  static defaultMaxConnections = 4
+  static defaultMaxPayloadSizeWarning = 256 * 256
+  static maxFailureCacheSize = 1000
 
   private _axios?: AxiosJson
+  private _discoverRootsMutex = new Mutex()
+  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
+  private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
 
   get axios() {
@@ -37,23 +49,40 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     return this._axios
   }
 
+  get failureRetryTime() {
+    return this.config.failureRetryTime ?? HttpBridge.defaultFailureRetryTime
+  }
+
+  get maxConnections() {
+    return this.config.maxConnections ?? HttpBridge.defaultMaxConnections
+  }
+
+  get maxPayloadSizeWarning() {
+    return this.config.maxPayloadSizeWarning ?? HttpBridge.defaultMaxPayloadSizeWarning
+  }
+
   get nodeUrl() {
     return assertEx(this.config.nodeUrl, () => 'No Url Set')
   }
 
-  override get resolver() {
-    this._resolver = this._resolver ?? new HttpBridgeModuleResolver({ bridge: this, rootUrl: this.nodeUrl, wrapperAccount: this.account })
-    return this._resolver
+  get querySemaphore() {
+    this._querySemaphore = this._querySemaphore ?? new Semaphore(this.maxConnections)
+    return this._querySemaphore
   }
 
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    const state = await this.getRootState()
-    const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
-    if (nodeManifest) {
-      const modules = (await this.resolveRootNode(nodeManifest)).filter(exists)
-      return modules
-    }
-    return []
+  override get resolver() {
+    this._resolver =
+      this._resolver ??
+      new HttpBridgeModuleResolver({
+        additionalSigners: this.additionalSigners,
+        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
+        bridge: this,
+        querySender: this,
+        root: this,
+        rootUrl: this.nodeUrl,
+        wrapperAccount: this.account,
+      })
+    return this._resolver
   }
 
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
@@ -64,17 +93,67 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
     throw new Error('Unsupported')
   }
 
+  async getRoots(force?: boolean): Promise<ModuleInstance[]> {
+    return await this._discoverRootsMutex.runExclusive(async () => {
+      if (this._roots === undefined || force) {
+        const state = await this.getRootState()
+        this.logger?.debug(`HttpBridge:discoverRoots.state [${state?.length}]`)
+        const nodeManifest = state?.find(isPayloadOfSchemaType<WithMeta<NodeManifestPayload>>(NodeManifestPayloadSchema))
+        if (nodeManifest) {
+          const mods = (await this.resolveRootNode(nodeManifest)).filter(exists)
+          this.logger?.debug(`HttpBridge:discoverRoots [${mods.length}]`)
+          this._roots = mods
+        } else {
+          this._roots = []
+        }
+      }
+      return this._roots
+    })
+  }
+
   moduleUrl(address: Address) {
     return new URL(address, this.nodeUrl)
   }
 
-  override async startHandler(): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, deprecation/deprecation
-    const { discoverRoot = true, legacyMode } = this.config
-    if (discoverRoot || legacyMode) {
-      await this.discoverRoots()
+  async sendBridgeQuery<TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
+    targetAddress: Address,
+    query: TQuery,
+    payloads?: TIn[],
+  ): Promise<ModuleQueryResult<TOut>> {
+    const lastFailureTime = this._failureTimeCache.get(targetAddress)
+    if (lastFailureTime !== undefined) {
+      const now = Date.now()
+      const timeSincePreviousFailure = now - lastFailureTime
+      if (timeSincePreviousFailure > this.failureRetryTime) {
+        throw new Error(`target module failed recently [${targetAddress}] [${timeSincePreviousFailure}ms ago]`)
+      }
+      this._failureTimeCache.delete(targetAddress)
     }
-    return true
+    try {
+      await this.querySemaphore.acquire()
+      const payloadSize = JSON.stringify([query, payloads]).length
+      if (payloadSize > this.maxPayloadSizeWarning) {
+        this.logger?.warn(
+          `Large targetQuery being sent: ${payloadSize} bytes [${this.address}][${this.moduleAddress}] [${query.schema}] [${payloads?.length}]`,
+        )
+      }
+      const moduleUrl = this.moduleUrl(targetAddress).href
+      const result = await this.axios.post<ApiEnvelope<ModuleQueryResult<TOut>>>(moduleUrl, [query, payloads])
+      if (result.status === 404) {
+        throw `target module not found [${moduleUrl}] [${result.status}]`
+      }
+      if (result.status >= 400) {
+        this.logger?.error(`targetQuery failed [${moduleUrl}]`)
+        throw `targetQuery failed [${moduleUrl}] [${result.status}]`
+      }
+      return result.data?.data
+    } catch (ex) {
+      const error = ex as AxiosError
+      this.logger?.error(`Error: ${toJsonString(error)}`)
+      throw error
+    } finally {
+      this.querySemaphore.release()
+    }
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {
@@ -102,13 +181,16 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
     const rootModule = assertEx(
-      await this.resolver.resolve(assertEx(nodeManifest.status?.address, () => 'Root has no address')),
+      (await this.resolver.resolveHandler(assertEx(nodeManifest.status?.address, () => 'Root has no address'))).at(0),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')
-    const rootNode = asNodeInstance(rootModule, 'Root modules is not a node')
-    this.logger.debug(`rootNode: ${rootNode.config.name}`)
-    this.downResolver.addResolver(rootNode.downResolver as ModuleResolverInstance)
-    return [rootNode]
+    const rootNode = asAttachableNodeInstance(rootModule, 'Root modules is not a node')
+    if (rootNode) {
+      this.logger.debug(`rootNode: ${rootNode.id}`)
+      this.downResolver.addResolver(rootNode as unknown as ModuleResolverInstance)
+      return [rootNode]
+    }
+    return []
   }
 }

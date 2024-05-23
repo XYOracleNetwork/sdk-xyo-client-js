@@ -19,7 +19,7 @@ const payloadsPromise = (async () =>
 describe('BoundWitnessBuilder-Perf', () => {
   it('build', async () => {
     const startTime = Date.now()
-    const bw = (await new BoundWitnessBuilder().payloads(await payloadsPromise)).witness(Account.randomSync()).build()
+    const bw = (await new BoundWitnessBuilder().payloads(await payloadsPromise)).signer(Account.randomSync()).build()
     const duration = Date.now() - startTime
     expect(bw).toBeDefined()
     expect(duration).toBeLessThan(10_000)

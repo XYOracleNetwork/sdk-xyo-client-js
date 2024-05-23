@@ -17,7 +17,7 @@ import {
 import { BoundWitness } from '@xyo-network/boundwitness-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
+import { Payload, PayloadWithMeta, Schema, WithMeta } from '@xyo-network/payload-model'
 import Cookies from 'js-cookie'
 
 export type CookieArchivistConfigSchema = 'network.xyo.archivist.cookie.config'
@@ -37,7 +37,8 @@ export class CookieArchivist<
   TParams extends CookieArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas = [CookieArchivistConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, CookieArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = CookieArchivistConfigSchema
 
   get domain() {
     return this.config?.domain
@@ -98,7 +99,7 @@ export class CookieArchivist<
       assertEx(payloads.length > 0, () => 'Nothing to commit')
       const settled = await Promise.allSettled(
         compact(
-          Object.values((await this.parents()).commit ?? [])?.map(async (parent) => {
+          Object.values((await this.parentArchivists()).commit ?? [])?.map(async (parent) => {
             const queryPayload: WithMeta<ArchivistInsertQuery> = await PayloadBuilder.build({
               schema: ArchivistInsertQuerySchema,
             })

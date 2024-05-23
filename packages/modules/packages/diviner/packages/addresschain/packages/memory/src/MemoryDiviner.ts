@@ -7,7 +7,7 @@ import { AddressChainDiviner } from '@xyo-network/diviner-address-chain-abstract
 import { AddressChainDivinerConfig, AddressChainDivinerConfigSchema } from '@xyo-network/diviner-address-chain-model'
 import { DivinerParams } from '@xyo-network/diviner-model'
 import { AnyConfigSchema } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
@@ -16,7 +16,8 @@ export type MemoryAddressChainDivinerParams = DivinerParams<AnyConfigSchema<Addr
 export class MemoryAddressChainDiviner<
   TParams extends MemoryAddressChainDivinerParams = MemoryAddressChainDivinerParams,
 > extends AddressChainDiviner<TParams> {
-  static override configSchemas = [AddressChainDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressChainDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = AddressChainDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, () => 'Missing address')
@@ -26,7 +27,7 @@ export class MemoryAddressChainDiviner<
     const result: Payload[] = []
     assertEx(!payloads?.length, () => 'MemoryAddressChainDiviner.divine does not allow payloads to be sent')
     try {
-      const archivistIn = await this.getArchivist()
+      const archivistIn = await this.archivistInstance()
       const archivist = assertEx(archivistIn, () => 'Unable to resolve archivist')
       let currentHash: Hash | null = assertEx(this.config.startHash, () => 'Missing startHash')
       while (currentHash && result.length < (this.config.maxResults ?? 1000)) {

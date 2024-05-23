@@ -16,7 +16,6 @@ export interface ResolveStrategy {
 export interface ObjectFilterOptions<T extends EmptyObject = AnyObject> extends ResolveStrategy {
   direction?: Direction
   identity?: TypeCheck<T>
-  visibility?: Visibility
 }
 
 export interface AddressObjectFilter<T extends EmptyObject = AnyObject> extends ObjectFilterOptions<T> {

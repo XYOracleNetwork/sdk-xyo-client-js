@@ -1,0 +1,19 @@
+import { IsObjectFactory, TypeCheck } from '@xylabs/object'
+import { AttachableModuleInstance } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
+
+import { DivinerModuleEventData } from '../EventData'
+import { DivinerInstance } from '../Instance'
+import { DivinerParams } from '../Params'
+
+export interface AttachableDivinerInstance<
+  TParams extends DivinerParams = DivinerParams,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+  TEventData extends DivinerModuleEventData = DivinerModuleEventData,
+> extends DivinerInstance<TParams, TIn, TOut, TEventData>,
+    AttachableModuleInstance<TParams, TEventData> {}
+
+export type AttachableDivinerInstanceTypeCheck<T extends AttachableDivinerInstance = AttachableDivinerInstance> = TypeCheck<T>
+
+export class IsAttachableDivinerInstanceFactory<T extends AttachableDivinerInstance = AttachableDivinerInstance> extends IsObjectFactory<T> {}

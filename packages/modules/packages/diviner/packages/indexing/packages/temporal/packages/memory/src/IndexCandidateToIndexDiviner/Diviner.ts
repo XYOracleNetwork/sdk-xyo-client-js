@@ -6,7 +6,6 @@ import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { jsonPathToTransformersDictionary } from '@xyo-network/diviner-jsonpath-aggregate-memory'
 import { SchemaToJsonPathTransformExpressionsDictionary, SchemaToPayloadTransformersDictionary } from '@xyo-network/diviner-jsonpath-model'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import {
   TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema,
   TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
@@ -15,7 +14,7 @@ import {
 } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { isAnyPayload, Payload } from '@xyo-network/payload-model'
+import { isAnyPayload, Payload, Schema } from '@xyo-network/payload-model'
 import { intraBoundwitnessSchemaCombinations } from '@xyo-network/payload-utils'
 
 type IndexableHashes = [Hash, ...Hash[]]
@@ -30,9 +29,10 @@ const moduleName = 'TemporalIndexingDivinerIndexCandidateToIndexDiviner'
 export class TemporalIndexingDivinerIndexCandidateToIndexDiviner<
   TParams extends TemporalIndexingDivinerIndexCandidateToIndexDivinerParams = TemporalIndexingDivinerIndexCandidateToIndexDivinerParams,
 > extends AbstractDiviner<TParams> {
-  static override configSchema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
-  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
-  static labels: Labels = {
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexCandidateToIndexDivinerConfigSchema
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'indexCandidateToIndexDiviner',
   }
 

@@ -13,7 +13,7 @@ const moduleAName = 'module'
  */
 
 describe('ParentsPrivates', () => {
-  test("children should not be able to see parent's privates", async () => {
+  test("children should be able to see parent's privates", async () => {
     const rootNode = await MemoryNode.create({ account: 'random' })
     const rootPrivateNode = await MemoryNode.create({ account: 'random', config: { name: rootPrivateNodeName, schema: NodeConfigSchema } })
     const rootPrivate = await MemoryArchivist.create({ account: 'random', config: { name: rootPrivateName, schema: ArchivistConfigSchema } })

@@ -9,6 +9,9 @@ const finalConfig = {
   "ignorePatterns": [
     "dist",
     "node_modules",
+    "**/dist",
+    "**/node_modules",
+    "**/docs",
     "docs",
     "coverage",
     "docker",
@@ -28,6 +31,7 @@ const finalConfig = {
       "warn",
       {
         "paths": [
+          "@types/node",
           "@xyo-network/archivist",
           "@xyo-network/bridge",
           "@xyo-network/core",

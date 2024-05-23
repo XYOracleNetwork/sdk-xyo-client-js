@@ -1,9 +1,9 @@
 import { assertEx } from '@xylabs/assert'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { JsonPathDivinerConfigSchema, JsonPathDivinerParams, PayloadTransformer } from '@xyo-network/diviner-jsonpath-model'
-import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadBuilder, WithoutSchema } from '@xyo-network/payload-builder'
-import { Payload, PayloadSchema } from '@xyo-network/payload-model'
+import { Payload, PayloadSchema, Schema } from '@xyo-network/payload-model'
 
 import { toPayloadTransformer } from './jsonpath'
 
@@ -11,9 +11,14 @@ export class JsonPathDiviner<
   TParams extends JsonPathDivinerParams = JsonPathDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [JsonPathDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, JsonPathDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = JsonPathDivinerConfigSchema
 
   protected _transforms: PayloadTransformer[] | undefined
 

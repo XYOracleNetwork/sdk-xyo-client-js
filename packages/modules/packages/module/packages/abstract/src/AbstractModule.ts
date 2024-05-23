@@ -3,56 +3,60 @@
 import { assertEx } from '@xylabs/assert'
 import { handleError, handleErrorAsync } from '@xylabs/error'
 import { exists } from '@xylabs/exists'
+import { forget } from '@xylabs/forget'
 import { Address, Hash } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
 import { ConsoleLogger, IdLogger, Logger, LogLevel } from '@xylabs/logger'
-import { Base } from '@xylabs/object'
+import { Base, globallyUnique } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
-import { AddressPayload, AddressSchema } from '@xyo-network/address-payload-plugin'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder, QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
+  AddressPayload,
   AddressPreviousHashPayload,
   AddressPreviousHashSchema,
+  AddressSchema,
   ArchivingModuleConfig,
+  AttachableModuleInstance,
   CreatableModule,
   CreatableModuleFactory,
   DeadModuleError,
   isModuleName,
+  Labels,
   Module,
   ModuleAddressQuerySchema,
   ModuleBusyEventArgs,
   ModuleConfig,
-  ModuleDescribeQuerySchema,
+  ModuleConfigSchema,
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
-  ModuleDiscoverQuerySchema,
+  ModuleDetailsError,
   ModuleEventData,
   ModuleFactory,
-  ModuleInstance,
   ModuleManifestQuerySchema,
-  ModuleName,
   ModuleParams,
   ModuleQueriedEventArgs,
   ModuleQueries,
   ModuleQueryHandlerResult,
   ModuleQueryResult,
+  ModuleResolverInstance,
   ModuleStateQuerySchema,
   ModuleStatus,
   ModuleSubscribeQuerySchema,
+  ObjectResolverPriority,
   serializableField,
 } from '@xyo-network/module-model'
-import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { ModuleError, Payload, Query, Schema, WithMeta } from '@xyo-network/payload-model'
 import { QueryPayload, QuerySchema } from '@xyo-network/query-payload-plugin'
 import { WalletInstance } from '@xyo-network/wallet-model'
+import { LRUCache } from 'lru-cache'
 
 import { BaseEmitter } from './BaseEmitter'
 import { determineAccount } from './determineAccount'
@@ -64,29 +68,29 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   implements Module<TParams, TEventData>
 {
   static readonly allowRandomAccount: boolean = true
-  static configSchemas: string[]
+  static readonly configSchemas: Schema[] = [ModuleConfigSchema]
+  static readonly defaultConfigSchema: Schema = ModuleConfigSchema
   static override defaultLogger: Logger = new ConsoleLogger(LogLevel.warn)
   static enableLazyLoad = false
+  static readonly labels: Labels = {}
+  static override readonly uniqueName = globallyUnique('AbstractModule', AbstractModule, 'xyo')
 
   protected static privateConstructorKey = Date.now().toString()
-
-  readonly downResolver = new CompositeModuleResolver()
-  readonly upResolver = new CompositeModuleResolver()
 
   protected _account: AccountInstance | undefined = undefined
   protected readonly _baseModuleQueryAccountPaths: Record<ModuleQueries['schema'], string> = {
     [ModuleAddressQuerySchema]: '1',
-    [ModuleDescribeQuerySchema]: '4',
-    [ModuleDiscoverQuerySchema]: '2',
     [ModuleManifestQuerySchema]: '5',
     [ModuleStateQuerySchema]: '6',
     [ModuleSubscribeQuerySchema]: '3',
   }
-  protected _lastError?: Error
+
+  //cache manifest based on maxDepth
+  protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
+
+  protected _lastError?: ModuleDetailsError
   protected readonly _queryAccounts: Record<ModuleQueries['schema'], AccountInstance | undefined> = {
     [ModuleAddressQuerySchema]: undefined,
-    [ModuleDescribeQuerySchema]: undefined,
-    [ModuleDiscoverQuerySchema]: undefined,
     [ModuleManifestQuerySchema]: undefined,
     [ModuleStateQuerySchema]: undefined,
     [ModuleSubscribeQuerySchema]: undefined,
@@ -94,10 +98,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _startPromise: Promisable<boolean> | undefined = undefined
   protected _started: Promisable<boolean> | undefined = undefined
   protected readonly moduleConfigQueryValidator: Queryable
-  protected readonly privateResolver = new CompositeModuleResolver()
   protected readonly supportedQueryValidator: Queryable
 
   private _busyCount = 0
+  private _logger: Logger | undefined = undefined
   private _status: ModuleStatus = 'stopped'
 
   protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
@@ -112,12 +116,12 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
   }
 
-  static get configSchema(): string {
-    return this.configSchemas[0]
-  }
-
   get account() {
     return assertEx(this._account, () => 'Missing account')
+  }
+
+  get additionalSigners(): AccountInstance[] {
+    return this.params.additionalSigners ?? []
   }
 
   get address() {
@@ -128,8 +132,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return !!this.config.security?.allowAnonymous
   }
 
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
+  }
+
   get archiving(): ArchivingModuleConfig['archiving'] | undefined {
     return this.config.archiving
+  }
+
+  get archivist() {
+    return this.config.archivist
   }
 
   get config(): TParams['config'] {
@@ -145,18 +157,26 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get id() {
-    return this.config.name ?? this.address
+    return this.modName ?? this.address
   }
 
-  get queries(): string[] {
-    return [
-      ModuleDiscoverQuerySchema,
-      ModuleAddressQuerySchema,
-      ModuleSubscribeQuerySchema,
-      ModuleDescribeQuerySchema,
-      ModuleManifestQuerySchema,
-      ModuleStateQuerySchema,
-    ]
+  override get logger() {
+    const consoleLogger = this.config.consoleLogger
+    this._logger =
+      this._logger ?? consoleLogger ? new ConsoleLogger(consoleLogger) : this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
+    return this._logger
+  }
+
+  get modName() {
+    return this.config.name
+  }
+
+  get priority() {
+    return ObjectResolverPriority.Normal
+  }
+
+  get queries(): Schema[] {
+    return [ModuleAddressQuerySchema, ModuleSubscribeQuerySchema, ModuleManifestQuerySchema, ModuleStateQuerySchema]
   }
 
   get queryAccountPaths(): Readonly<Record<Query['schema'], string | undefined>> {
@@ -179,15 +199,15 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return this._baseModuleQueryAccountPaths
   }
 
-  protected override get logger() {
-    return this.params?.logger ?? AbstractModule.defaultLogger ?? Base.defaultLogger
-  }
-
   protected set status(value: ModuleStatus) {
     if (this._status !== 'dead') {
       this._status = value
     }
   }
+
+  abstract get downResolver(): ModuleResolverInstance
+
+  abstract get upResolver(): ModuleResolverInstance
 
   protected abstract get _queryAccountPaths(): Record<Query['schema'], string>
 
@@ -208,7 +228,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
-  static async create<TModule extends ModuleInstance>(
+  static async create<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ) {
@@ -217,12 +237,16 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       throw new Error(`Missing configSchema [${params?.config?.schema}][${this.name}]`)
     }
 
+    if (!this.defaultConfigSchema) {
+      throw new Error(`Missing defaultConfigSchema [${params?.config?.schema}][${this.name}]`)
+    }
+
     assertEx(params?.config?.name === undefined || isModuleName(params.config.name), () => `Invalid module name: ${params?.config?.name}`)
 
     const { account } = params ?? {}
 
-    const schema: string = params?.config?.schema ?? this.configSchema
-    const allowedSchemas: string[] = this.configSchemas
+    const schema: Schema = params?.config?.schema ?? this.defaultConfigSchema
+    const allowedSchemas: Schema[] = this.configSchemas
 
     assertEx(allowedSchemas.includes(schema), () => `Bad Config Schema [Received ${schema}] [Expected ${JSON.stringify(allowedSchemas)}]`)
     const mutatedConfig: TModule['params']['config'] = { ...params?.config, schema } as TModule['params']['config']
@@ -250,7 +274,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await determineAccount(params, this.allowRandomAccount)
   }
 
-  static factory<TModule extends ModuleInstance>(
+  static factory<TModule extends AttachableModuleInstance>(
     this: CreatableModule<TModule>,
     params?: Omit<TModule['params'], 'config'> & { config?: TModule['params']['config'] },
   ): CreatableModuleFactory<TModule> {
@@ -309,24 +333,27 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
       const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
+
       try {
         await this.started('throw')
         if (!this.allowAnonymous && query.addresses.length === 0) {
-          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.config.name}], [${this.address}]`)
+          throw new Error(`Anonymous Queries not allowed, but running anyway [${this.modName}], [${this.address}]`)
         }
         if (queryConfig?.allowedQueries) {
           assertEx(queryConfig?.allowedQueries.includes(sourceQuery.schema), () => `Query not allowed [${sourceQuery.schema}]`)
         }
         resultPayloads.push(...(await this.queryHandler(sourceQuery, payloads, queryConfig)))
       } catch (ex) {
-        await handleErrorAsync(ex, async (error) => {
+        await handleErrorAsync(ex, async (err) => {
+          const error = err as ModuleDetailsError
           this._lastError = error
           //this.status = 'dead'
           errorPayloads.push(
             await new ModuleErrorBuilder()
               .sources([sourceQuery.$hash])
-              .name(this.config.name ?? '<Unknown>')
+              .name(this.modName ?? '<Unknown>')
               .query(sourceQuery.schema)
+              .details(error.details)
               .message(error.message)
               .build(),
           )
@@ -439,6 +466,23 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
 
+  protected async archivistInstance(): Promise<ArchivistInstance | undefined>
+  protected async archivistInstance(required: true): Promise<ArchivistInstance>
+  protected async archivistInstance(required = false): Promise<ArchivistInstance | undefined> {
+    const archivist = this.archivist
+    if (!archivist) {
+      if (required) {
+        throw new Error('No archivist specified')
+      }
+      return undefined
+    }
+    const resolved = (await this.upResolver.resolve(archivist)) ?? (await this.downResolver.resolve(archivist))
+    if (required) {
+      assertEx(resolved, () => `Unable to resolve archivist [${archivist}]`)
+    }
+    return resolved ? asArchivistInstance(resolved, () => `Specified archivist is not an Archivist [${archivist}]`) : undefined
+  }
+
   protected bindHashes(hashes: Hash[], schema: Schema[], account?: AccountInstance) {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx((resolve) => {
@@ -449,9 +493,9 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return promise
   }
 
-  protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account?: AccountInstance): Promise<BoundWitness> {
-    const builder = new BoundWitnessBuilder().hashes(hashes, schema).witness(this.account)
-    const result = (await (account ? builder.witness(account) : builder).build())[0]
+  protected async bindHashesInternal(hashes: Hash[], schema: Schema[], account: AccountInstance = this.account): Promise<BoundWitness> {
+    const builder = new BoundWitnessBuilder().hashes(hashes, schema).signer(account)
+    const result = (await builder.build())[0]
     this.logger?.debug(`result: ${JSON.stringify(result, null, 2)}`)
     return result
   }
@@ -460,10 +504,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     query: T,
     payloads?: Payload[],
     account?: AccountInstance,
+    additionalSigners?: AccountInstance[],
   ): PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance> {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const promise = new PromiseEx<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]], AccountInstance>(async (resolve) => {
-      const result = await this.bindQueryInternal(query, payloads, account)
+      const result = await this.bindQueryInternal(query, payloads, account, additionalSigners)
       resolve?.(result)
       return result
     }, account)
@@ -473,11 +518,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected async bindQueryInternal<T extends Query>(
     query: T,
     payloads?: Payload[],
-    account?: AccountInstance,
+    account: AccountInstance = this.account,
+    additionalSigners: AccountInstance[] = [],
   ): Promise<[WithMeta<QueryBoundWitness>, WithMeta<Payload>[], WithMeta<Payload>[]]> {
-    const builder = await (await new QueryBoundWitnessBuilder().payloads(payloads)).witness(this.account).query(query)
-    const result = await (account ? builder.witness(account) : builder).build()
-    return result
+    const accounts = [account, ...additionalSigners].filter(exists)
+    const builder = await new QueryBoundWitnessBuilder().payloads(payloads).signers(accounts).query(query)
+
+    let additional: WithMeta<Payload>[] = []
+    if (this.config.certify) {
+      additional = await this.certifyParents()
+      await builder.additional(additional)
+    }
+    const [bw, payloadsOut, errors] = await builder.build()
+    return [bw, [...payloadsOut, ...additional], errors]
   }
 
   protected async bindQueryResult<T extends Query>(
@@ -486,48 +539,24 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     additionalWitnesses: AccountInstance[] = [],
     errors?: ModuleError[],
   ): Promise<ModuleQueryResult> {
-    const builder = (await (await new BoundWitnessBuilder().payloads(payloads)).errors(errors)).sourceQuery(query.$hash)
+    const builder = new BoundWitnessBuilder().payloads(payloads).errors(errors).sourceQuery(query.$hash)
     const queryWitnessAccount = this.queryAccounts[query.schema as ModuleQueries['schema']]
     const witnesses = [this.account, queryWitnessAccount, ...additionalWitnesses].filter(exists)
-    builder.witnesses(witnesses)
+    builder.signers(witnesses)
     const result: ModuleQueryResult = [
       (await builder.build())[0],
       await Promise.all(payloads.map((payload) => PayloadBuilder.build(payload))),
       await Promise.all((errors ?? [])?.map((error) => PayloadBuilder.build(error))),
     ]
-    if (this.archiving) {
-      await this.storeToArchivists(result.flat())
+    if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
+      forget(this.storeToArchivists(result.flat()))
     }
     return result
   }
 
-  protected async describeHandler(): Promise<ModuleDescriptionPayload> {
-    const description: ModuleDescriptionPayload = {
-      address: this.address,
-      queries: this.queries,
-      schema: ModuleDescriptionSchema,
-    }
-    if (this.config?.name) {
-      description.name = this.config.name
-    }
-
-    const discover = await this.discoverHandler()
-
-    description.children = compact(
-      discover?.map((payload) => {
-        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
-        return address == this.address ? undefined : address
-      }) ?? [],
-    )
-
-    return description
-  }
-
-  protected async discoverHandler(_maxDepth?: number): Promise<Payload[]> {
+  protected async generateConfigAndAddress(_maxDepth?: number): Promise<Payload[]> {
     const config = await PayloadBuilder.build(this.config)
-    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema })
-      .fields({ address: this.address, name: this.config?.name })
-      .build()
+    const address = await new PayloadBuilder<AddressPayload>({ schema: AddressSchema }).fields({ address: this.address }).build()
     const queries = await Promise.all(
       this.queries.map(async (query) => {
         return await new PayloadBuilder<QueryPayload>({ schema: QuerySchema }).fields({ query }).build()
@@ -540,17 +569,38 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return compact([config, configSchema, address, ...queries])
   }
 
+  protected async generateDescribe(): Promise<ModuleDescriptionPayload> {
+    const description: ModuleDescriptionPayload = {
+      address: this.address,
+      queries: this.queries,
+      schema: ModuleDescriptionSchema,
+    }
+    if (this.config?.name) {
+      description.name = this.modName
+    }
+
+    const discover = await this.generateConfigAndAddress()
+
+    description.children = compact(
+      discover?.map((payload) => {
+        const address = payload.schema === AddressSchema ? (payload as AddressPayload).address : undefined
+        return address == this.address ? undefined : address
+      }) ?? [],
+    )
+
+    return description
+  }
+
+  /** @deprecated use archivistInstance() instead */
   protected async getArchivist(): Promise<ArchivistInstance | undefined> {
-    if (!this.config.archivist) return undefined
-    const resolved = await this.upResolver.resolve(this.config.archivist)
-    return asArchivistInstance(resolved)
+    return await this.archivistInstance()
   }
 
   protected async initializeQueryAccounts() {
     // Ensure distinct/unique wallet paths
     const paths = Object.values(this.queryAccountPaths).filter(exists)
     const distinctPaths = new Set<string>(paths)
-    assertEx(distinctPaths.size === paths.length, () => `${this.config?.name ? this.config.name + ': ' : ''}Duplicate query account paths`)
+    assertEx(distinctPaths.size === paths.length, () => `${this.modName ? this.modName + ': ' : ''}Duplicate query account paths`)
     // Create an account for query this module supports
     const wallet = this.account as unknown as HDWallet
     if (wallet?.derivePath) {
@@ -566,23 +616,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }
   }
 
-  protected async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
-    const name = this.config.name ?? 'Anonymous'
-    const children = await this.downResolver.resolve('*', { direction: 'down', maxDepth, visibility: 'public' })
-    const childAddressToName: Record<Address, ModuleName | null> = {}
-    for (const child of children) {
-      if (child.address !== this.address) {
-        childAddressToName[child.address] = child.config.name ?? null
-      }
+  protected isAllowedArchivingQuery(schema: Schema): boolean {
+    const queries = this.archiving?.queries
+    if (queries) {
+      return queries.includes(schema)
     }
-    return {
-      config: { name, ...this.config },
-      schema: ModuleManifestPayloadSchema,
-      status: { address: this.address, children: childAddressToName },
-    }
+    return true
   }
 
-  protected moduleAddressHandler(): Promisable<AddressPreviousHashPayload[]> {
+  protected manifestHandler(_maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promisable<ModuleManifestPayload> {
+    throw new Error('Not supported')
+  }
+
+  protected moduleAddressHandler(): Promisable<(AddressPreviousHashPayload | AddressPayload)[]> {
     // Return array of all addresses and their previous hash
     const queryAccounts = Object.entries(this.queryAccounts)
       .filter((value): value is [string, AccountInstance] => {
@@ -597,12 +643,11 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         ]
       })
     const address = this.address
-    const name = this.config.name
+    const name = this.modName
     const previousHash = this.address
     const moduleAccount = name ? { address, name, schema: AddressSchema } : { address, schema: AddressSchema }
-    const moduleAccountPreviousHash =
-      previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressPreviousHashSchema }
-    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts].flat()
+    const moduleAccountPreviousHash = previousHash ? { address, previousHash, schema: AddressPreviousHashSchema } : { address, schema: AddressSchema }
+    return [moduleAccount, moduleAccountPreviousHash, ...queryAccounts.flat()]
   }
 
   protected async queryHandler<T extends QueryBoundWitness = QueryBoundWitness, TConfig extends ModuleConfig = ModuleConfig>(
@@ -618,15 +663,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     switch (queryPayload.schema) {
       case ModuleManifestQuerySchema: {
         resultPayloads.push(await this.manifestHandler(queryPayload.maxDepth))
-        break
-      }
-      case ModuleDiscoverQuerySchema: {
-        const { maxDepth } = queryPayload
-        resultPayloads.push(...(await this.discoverHandler(maxDepth)))
-        break
-      }
-      case ModuleDescribeQuerySchema: {
-        resultPayloads.push(await this.describeHandler())
         break
       }
       case ModuleAddressQuerySchema: {
@@ -656,7 +692,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   protected async stateHandler(): Promise<Payload[]> {
-    return [await this.manifestHandler(), ...(await this.discoverHandler()), await this.describeHandler()]
+    return [await this.manifestHandler(), ...(await this.generateConfigAndAddress()), await this.generateDescribe()]
   }
 
   protected stopHandler(_timeout?: number): Promisable<boolean> {
@@ -699,5 +735,6 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     }, true)
   }
 
+  protected abstract certifyParents(): Promise<WithMeta<Payload>[]>
   protected abstract storeToArchivists(payloads: Payload[]): Promise<Payload[]>
 }

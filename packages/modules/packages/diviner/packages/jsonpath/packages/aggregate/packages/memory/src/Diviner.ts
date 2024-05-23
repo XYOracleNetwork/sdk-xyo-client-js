@@ -8,8 +8,8 @@ import {
   SchemaToJsonPathTransformExpressionsDictionary,
   SchemaToPayloadTransformersDictionary,
 } from '@xyo-network/diviner-jsonpath-aggregate-model'
-import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
-import { Payload, PayloadSchema, WithOptionalMeta } from '@xyo-network/payload-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { Payload, PayloadSchema, Schema, WithOptionalMeta } from '@xyo-network/payload-model'
 import { combinationsByBoundwitness, combinationsBySchema } from '@xyo-network/payload-utils'
 
 import { jsonPathToTransformersDictionary, reducePayloads } from './jsonpath'
@@ -20,9 +20,14 @@ export class JsonPathAggregateDiviner<
   TParams extends JsonPathAggregateDivinerParams = JsonPathAggregateDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [JsonPathAggregateDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, JsonPathAggregateDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = JsonPathAggregateDivinerConfigSchema
 
   protected _transforms: PayloadTransformer[] | undefined
 

@@ -1,9 +1,34 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
-import { Address } from '@xylabs/hex'
-import { AbstractBridge } from '@xyo-network/abstract-bridge'
-import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { creatableModule, ModuleFilterOptions, ModuleIdentifier, ModuleInstance, ModuleResolverInstance } from '@xyo-network/module-model'
+import { forget } from '@xylabs/forget'
+import { Address, isAddress } from '@xylabs/hex'
+import { toJsonString } from '@xylabs/object'
+import { AbstractBridge } from '@xyo-network/bridge-abstract'
+import {
+  BridgeExposeOptions,
+  BridgeModule,
+  BridgeUnexposeOptions,
+  QueryFulfillFinishedEventArgs,
+  QueryFulfillStartedEventArgs,
+  QuerySendFinishedEventArgs,
+  QuerySendStartedEventArgs,
+} from '@xyo-network/bridge-model'
+import {
+  AddressPayload,
+  AddressSchema,
+  creatableModule,
+  isAddressModuleFilter,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  resolveAddressToInstance,
+  resolveAddressToInstanceUp,
+  ResolveHelper,
+} from '@xyo-network/module-model'
+import { asNodeInstance } from '@xyo-network/node-model'
+import { isPayloadOfSchemaType, Schema } from '@xyo-network/payload-model'
+import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
 import { AsyncQueryBusClient, AsyncQueryBusHost } from './AsyncQueryBus'
@@ -15,7 +40,8 @@ const moduleName = 'PubSubBridge'
 
 @creatableModule()
 export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [PubSubBridgeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, PubSubBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = PubSubBridgeConfigSchema
 
   protected _configRootAddress: Address = ''
   protected _configStateStoreArchivist: string = ''
@@ -25,47 +51,81 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
 
   private _busClient?: AsyncQueryBusClient
   private _busHost?: AsyncQueryBusHost
+  private _discoverRootsMutex = new Mutex()
   private _resolver?: PubSubBridgeModuleResolver
 
-  override get resolver(): ModuleResolverInstance {
+  override get resolver(): PubSubBridgeModuleResolver {
     this._resolver =
       this._resolver ??
       new PubSubBridgeModuleResolver({
+        additionalSigners: this.additionalSigners,
+        archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
+        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
+          forget(this.emit('querySendFinished', { module: this, ...args }))
+        },
+        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
+          forget(this.emit('querySendStarted', { module: this, ...args }))
+        },
+        root: this,
         wrapperAccount: this.account,
       })
     return this._resolver
   }
 
   protected get moduleName() {
-    return `${this.config.name ?? moduleName}`
+    return this.modName ?? moduleName
   }
 
-  protected get roots() {
-    return assertEx(this.config.roots, () => 'roots not configured')
-  }
-
-  override async discoverRoots(): Promise<ModuleInstance[]> {
-    const rootInstances = (await Promise.all(this.roots.map(async (root) => await this.resolver.resolve<ModuleInstance>(root)))).filter(exists)
-    for (const instance of rootInstances) {
-      this.downResolver.add(instance)
+  async connect(id: ModuleIdentifier, maxDepth = 5): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    //check if already connected
+    const existingInstance = await this.resolve<ModuleInstance>(transformedId)
+    if (existingInstance) {
+      return existingInstance.address
     }
-    return rootInstances
+
+    //use the resolver to create the proxy instance
+    const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
+    return await this.connectInstance(instance, maxDepth)
   }
 
-  async exposeHandler(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 5, direction } = options ?? {}
-    const filterOptions: ModuleFilterOptions = { direction }
-    const module = assertEx(await super.resolve(id, filterOptions), () => `Expose failed to locate module [${id}]`)
-    if (module) {
-      const host = assertEx(this.busHost(), () => 'Not configured as a host')
-      host.expose(module.address)
-      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
-      for (const child of children) {
-        host.expose(child.address)
-      }
-      return [module, ...children]
+  async disconnect(id: ModuleIdentifier): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    const instance = await this.resolve<ModuleInstance>(transformedId)
+    if (instance) {
+      this.downResolver.remove(instance.address)
+      return instance.address
+    }
+  }
+
+  async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { maxDepth = 5 } = options ?? {}
+    console.log(`exposeChild: ${mod.address} ${mod?.id} ${maxDepth}`)
+    const host = assertEx(this.busHost(), () => 'Not configured as a host')
+    host.expose(mod)
+    const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
+    this.logger.log(`childrenToExpose [${mod.id}][${mod.address}]: ${toJsonString(children.map((child) => child.id))}`)
+    const exposedChildren = (await Promise.all(children.map((child) => this.exposeChild(child, { maxDepth: maxDepth - 1, required: false }))))
+      .flat()
+      .filter(exists)
+    const allExposed = [mod, ...exposedChildren]
+
+    for (const exposedMod of allExposed) this.logger?.log(`exposed: ${exposedMod.address} [${mod.id}]`)
+
+    return allExposed
+  }
+
+  async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
+    const { required = true } = options ?? {}
+    const mod = await resolveAddressToInstanceUp(this, address)
+    console.log(`exposeHandler: ${address} ${mod?.id}`)
+    if (required && !mod) {
+      throw new Error(`Unable to find required module: ${address}`)
+    }
+    if (mod) {
+      return this.exposeChild(mod, options)
     }
     return []
   }
@@ -75,23 +135,106 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
     return exposedSet ? [...exposedSet] : []
   }
 
+  async getRoots(force?: boolean): Promise<ModuleInstance[]> {
+    return await this._discoverRootsMutex.runExclusive(async () => {
+      if (this._roots === undefined || force) {
+        const rootAddresses = (
+          await Promise.all(
+            (this.config.roots ?? []).map((id) => {
+              try {
+                return ResolveHelper.transformModuleIdentifier(id)
+              } catch (ex) {
+                this.logger?.warn('Unable to transform module identifier:', id, ex)
+                return
+              }
+            }),
+          )
+        ).filter(exists)
+        const rootInstances = (
+          await Promise.all(
+            rootAddresses.map(async (root) => {
+              try {
+                return await this.resolver.resolveHandler<ModuleInstance>(root)
+              } catch (ex) {
+                this.logger?.warn('Unable to resolve root:', root, ex)
+                return
+              }
+            }),
+          )
+        )
+          .flat()
+          .filter(exists)
+        for (const instance of rootInstances) {
+          this.downResolver.add(instance)
+        }
+        this._roots = rootInstances
+      }
+      return this._roots
+    })
+  }
+
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  // eslint-disable-next-line complexity
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    const roots = (this._roots ?? []) as T[]
+    const workingSet = (options.direction === 'up' ? [this as ModuleInstance] : [...roots, this]) as T[]
+    if (idOrFilter === '*') {
+      const remainingDepth = (options.maxDepth ?? 1) - 1
+      return remainingDepth <= 0 ? workingSet : (
+          [...workingSet, ...(await Promise.all(roots.map((mod) => mod.resolve('*', { ...options, maxDepth: remainingDepth })))).flat()]
+        )
+    }
+    switch (typeof idOrFilter) {
+      case 'string': {
+        const parts = idOrFilter.split(':')
+        const first = assertEx(parts.shift(), () => 'Missing first part')
+        const firstInstance: ModuleInstance | undefined =
+          isAddress(first) ?
+            ((await resolveAddressToInstance(this, first, undefined, [], options.direction)) as T)
+          : this._roots?.find((mod) => mod.id === first)
+        return (parts.length === 0 ? firstInstance : firstInstance?.resolve(parts.join(':'), options)) as T | undefined
+      }
+      case 'object': {
+        const results: T[] = []
+        if (isAddressModuleFilter(idOrFilter)) {
+          for (const mod of workingSet) {
+            if (mod.modName && idOrFilter.address.includes(mod.address)) results.push(mod as T)
+          }
+        }
+        return results
+      }
+      default: {
+        return
+      }
+    }
+  }
+
   override async startHandler(): Promise<boolean> {
     this.busHost()?.start()
     return await super.startHandler()
   }
 
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
-    const { maxDepth = 5, direction } = options ?? {}
-    const filterOptions: ModuleFilterOptions = { direction }
-    const module = await super.resolve(id, filterOptions)
+    const { maxDepth = 2, required = true } = options ?? {}
+    const host = assertEx(this.busHost(), () => 'Not configured as a host')
+    const module = await host.unexpose(id, required)
     if (module) {
-      const host = assertEx(this.busHost(), () => 'Not configured as a host')
-      host.unexpose(module.address)
-      const children = await module.resolve('*', { direction, maxDepth, visibility: 'public' })
-      for (const child of children) {
-        host.unexpose(child.address)
-      }
-      return [module, ...children]
+      const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
+      const exposedChildren = (
+        await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
+      )
+        .flat()
+        .filter(exists)
+      return [module, ...exposedChildren]
     }
     return []
   }
@@ -101,7 +244,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busClient = new AsyncQueryBusClient({
         config: this.config.client,
         logger: this.logger,
-        resolver: this,
+        rootModule: this,
       })
     }
     return this._busClient
@@ -112,10 +255,40 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
-        resolver: this,
+        onQueryFulfillFinished: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => {
+          if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
+            forget(this.storeToArchivists(args.result?.flat() ?? []))
+          }
+          forget(this.emit('queryFulfillFinished', { module: this, ...args }))
+        },
+        onQueryFulfillStarted: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => {
+          if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
+            forget(this.storeToArchivists([args.query, ...(args.payloads ?? [])]))
+          }
+          forget(this.emit('queryFulfillStarted', { module: this, ...args }))
+        },
+        rootModule: this,
       })
     }
     return this._busHost
+  }
+
+  protected async connectInstance(instance?: ModuleInstance, maxDepth = 5): Promise<Address | undefined> {
+    if (instance) {
+      this.downResolver.add(instance)
+      if (maxDepth > 0) {
+        const node = asNodeInstance(instance)
+        if (node) {
+          const state = await node.state()
+          const children = (state?.filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema)).map((s) => s.address) ?? []).filter(
+            (a) => a !== instance.address,
+          )
+          await Promise.all(children.map((child) => this.connect(child, maxDepth - 1)))
+        }
+      }
+      this.logger?.log(`Connect: ${instance.id}`)
+      return instance.address
+    }
   }
 
   protected override stopHandler(_timeout?: number | undefined) {

@@ -1,4 +1,4 @@
-import { SearchableStorage } from './SearchableStorage'
+import { SearchableStorage } from '@xyo-network/diviner-model'
 
 export interface AsyncQueryBusIntersectConfig {
   /**

@@ -2,7 +2,6 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
-import { BaseParams } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import {
   CacheConfig,
@@ -11,19 +10,21 @@ import {
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleIdentifierPart,
+  ModuleIdentifierTransformer,
   ModuleInstance,
   ModuleRepository,
   ModuleResolverInstance,
+  ObjectFilterOptions,
+  ObjectResolverPriority,
+  ResolveHelper,
 } from '@xyo-network/module-model'
 import { LRUCache } from 'lru-cache'
 
-import { AbstractModuleResolver } from './AbstractModuleResolver'
+import { AbstractModuleResolver, ModuleResolverParams } from './AbstractModuleResolver'
 import { SimpleModuleResolver } from './SimpleModuleResolver'
-import { ModuleIdentifierTransformer } from './transformers'
 
-export type ModuleIdentifierTransformerFunc = (id: ModuleIdentifier) => Promisable<ModuleIdentifier>
-
-export interface ModuleResolverParams extends BaseParams {
+export interface CompositeModuleResolverParams extends ModuleResolverParams {
+  allowNameResolution?: boolean
   cache?: CacheConfig
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
@@ -32,23 +33,41 @@ const moduleIdentifierParts = (moduleIdentifier: ModuleIdentifier): ModuleIdenti
   return moduleIdentifier?.split(':') as ModuleIdentifierPart[]
 }
 
-export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolverParams> implements ModuleRepository, ModuleResolverInstance {
-  static defaultMaxDepth = 5
+export class CompositeModuleResolver<T extends CompositeModuleResolverParams = CompositeModuleResolverParams>
+  extends AbstractModuleResolver<T>
+  implements ModuleRepository, ModuleResolverInstance
+{
+  static defaultMaxDepth = 3
+
   protected _cache: LRUCache<ModuleIdentifier, ModuleInstance>
   protected resolvers: ModuleResolverInstance[] = []
+  private _allowAddResolver = true
   private _localResolver: SimpleModuleResolver
 
-  constructor({ cache, ...params }: ModuleResolverParams = {}) {
+  constructor(params: T) {
     super(params)
-    const localResolver = new SimpleModuleResolver()
+    const localResolver = new SimpleModuleResolver({ allowNameResolution: params.allowNameResolution, root: params.root })
     this.addResolver(localResolver)
-    const { max = 100, ttl = 1000 * 5 /* five seconds */ } = cache ?? {}
-    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...cache })
+    const { max = 100, ttl = 1000 * 5 /* five seconds */ } = params.cache ?? {}
+    this._cache = new LRUCache<ModuleIdentifier, ModuleInstance>({ max, ttl, ...params.cache })
     this._localResolver = localResolver
   }
 
+  get allowAddResolver() {
+    return this._allowAddResolver
+  }
+
+  set allowAddResolver(value: boolean) {
+    this.resolvers = [this._localResolver]
+    this._allowAddResolver = value
+  }
+
+  get allowNameResolution() {
+    return this.params.allowNameResolution ?? true
+  }
+
   private get moduleIdentifierTransformers() {
-    return this.params.moduleIdentifierTransformers
+    return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
   }
 
   add(module: ModuleInstance): this
@@ -63,7 +82,9 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
   }
 
   addResolver(resolver: ModuleResolverInstance): this {
-    this.resolvers.push(resolver)
+    if (this.allowAddResolver) {
+      this.resolvers.push(resolver)
+    }
     return this
   }
 
@@ -81,12 +102,12 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     return this
   }
 
+  // eslint-disable-next-line complexity
   async resolveHandler<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
-  ): Promise<T | T[] | undefined> {
+  ): Promise<T[]> {
     const mutatedOptions = { ...options, maxDepth: options?.maxDepth ?? CompositeModuleResolver.defaultMaxDepth }
-    const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
     //resolve all
     if (idOrFilter === '*') {
@@ -99,8 +120,10 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
 
       //identity resolve?
       if (mutatedOptions.maxDepth === 0) {
-        return await this._localResolver.resolve(all, mutatedOptions)
+        return (await this._localResolver.resolve(all, mutatedOptions)) ?? []
       }
+
+      const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
 
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
@@ -115,44 +138,76 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     if (typeof idOrFilter === 'string') {
       //wen't too far?
       if (mutatedOptions.maxDepth < 0) {
-        return
+        return []
       }
 
       //resolve ModuleIdentifier
       const idParts = moduleIdentifierParts(idOrFilter)
       if (idParts.length > 1) {
-        return await this.resolveMultipartIdentifier<T>(idOrFilter)
+        const mod = await this.resolveMultipartIdentifier<T>(idOrFilter)
+        return (
+          mod ?
+            Array.isArray(mod) ?
+              mod
+            : [mod]
+          : []
+        )
       }
-      const id = await this.transformModuleIdentifier(idOrFilter)
-      if (mutatedOptions.maxDepth < 0) {
-        return undefined
-      }
-      const cachedResult = this._cache.get(id)
-      if (cachedResult) {
-        if (cachedResult.status === 'dead') {
-          this._cache.delete(id)
-        } else {
-          return cachedResult as T
+      const id = await ResolveHelper.transformModuleIdentifier(idOrFilter, this.moduleIdentifierTransformers)
+      if (id) {
+        if (mutatedOptions.maxDepth < 0) {
+          return []
         }
-      }
+        const cachedResult = this._cache.get(id)
+        if (cachedResult) {
+          if (cachedResult.status === 'dead') {
+            this._cache.delete(id)
+          } else {
+            return [cachedResult] as T[]
+          }
+        }
 
-      //identity resolve?
-      if (mutatedOptions.maxDepth === 0) {
-        return await this._localResolver.resolve(idOrFilter, mutatedOptions)
-      }
+        //identity resolve?
+        if (mutatedOptions.maxDepth === 0) {
+          const mod = await this._localResolver.resolve(idOrFilter, mutatedOptions)
+          return (
+            mod ?
+              Array.isArray(mod) ?
+                mod
+              : [mod]
+            : []
+          )
+        }
 
-      const results = await Promise.all(
-        this.resolvers.map(async (resolver) => {
-          const result: T | undefined = await resolver.resolve<T>(id, childOptions)
-          return result
-        }),
-      )
-      const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
-      if (result) {
-        this._cache.set(id, result)
+        //recursive function to resolve by priority
+        const resolvePriority = async (priority: ObjectResolverPriority): Promise<T | undefined> => {
+          const resolvers = this.resolvers.filter((resolver) => resolver.priority === priority)
+          const results: T[] = (
+            await Promise.all(
+              resolvers.map(async (resolver) => {
+                const result: T | undefined = await resolver.resolve<T>(id, mutatedOptions)
+                return result
+              }),
+            )
+          ).filter(exists)
+
+          const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
+          if (result) {
+            this._cache.set(id, result)
+            return result
+          }
+          return priority === ObjectResolverPriority.VeryLow ? undefined : await resolvePriority(priority - 1)
+        }
+        const mod = await resolvePriority(ObjectResolverPriority.VeryHigh)
+        return (
+          mod ?
+            Array.isArray(mod) ?
+              mod
+            : [mod]
+          : []
+        )
       }
-      return result
-    } else {
+    } else if (typeof idOrFilter === 'object') {
       //wen't too far?
       if (mutatedOptions.maxDepth < 0) {
         return []
@@ -165,6 +220,8 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
         return await this._localResolver.resolve(filter, mutatedOptions)
       }
 
+      const childOptions = { ...mutatedOptions, maxDepth: mutatedOptions?.maxDepth - 1 }
+
       const result = await Promise.all(
         this.resolvers.map(async (resolver) => {
           const result: T[] = await resolver.resolve<T>(filter, childOptions)
@@ -174,6 +231,33 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
       const flatResult: T[] = result.flat().filter(exists)
       return flatResult.filter(duplicateModules)
     }
+    return []
+  }
+
+  async resolveIdentifier(id: ModuleIdentifier, _options?: ObjectFilterOptions): Promise<Address | undefined> {
+    const idParts = id.split(':')
+    if (idParts.length > 1) {
+      return this.resolveComplexIdentifier(id)
+    }
+    const results = (
+      await Promise.all(
+        this.resolvers.map(async (resolver) => {
+          const result = await resolver.resolveIdentifier(id)
+          return result
+        }),
+      )
+    ).filter(exists)
+    const result = results.shift()
+    if (results.length > 0) {
+      for (const altResult of results) {
+        assertEx(altResult === result, () => `Inconsistent results for ${id} [${result}][${altResult}]`)
+      }
+    }
+    return result
+  }
+
+  protected resolveComplexIdentifier(_id: ModuleIdentifier, _options?: ObjectFilterOptions): Promisable<Address | undefined> {
+    throw new Error('Method not implemented.')
   }
 
   private addSingleModule(module?: ModuleInstance) {
@@ -189,15 +273,7 @@ export class CompositeModuleResolver extends AbstractModuleResolver<ModuleResolv
     const idParts = moduleIdentifierParts(moduleIdentifier)
     assertEx(idParts.length >= 2, () => 'Not a valid multipart identifier')
     const id = assertEx(idParts.shift())
-    const module = await this.resolve<T>(id)
-    return await module?.resolve<T>(idParts.join(':'))
-  }
-
-  private async transformModuleIdentifier(identifier: ModuleIdentifier) {
-    let id = identifier
-    for (const transformer of this.moduleIdentifierTransformers ?? []) {
-      id = await transformer.transform(id)
-    }
-    return id
+    const module = (await this.resolve<T>(id)) ?? (await this.resolvePrivate<T>(id))
+    return (await module?.resolve<T>(idParts.join(':'))) ?? (await module?.resolvePrivate<T>(idParts.join(':')))
   }
 }

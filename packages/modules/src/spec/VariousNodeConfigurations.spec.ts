@@ -1,38 +1,40 @@
 /* eslint-disable max-statements */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
-import { ArchivistInstance } from '@xyo-network/archivist-model'
+import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { AddressHistoryDiviner, AddressHistoryDivinerConfigSchema } from '@xyo-network/diviner-address-history'
-import { DivinerInstance } from '@xyo-network/diviner-model'
+import { AttachableDivinerInstance } from '@xyo-network/diviner-model'
 import { MemoryNode } from '@xyo-network/node-memory'
-import { NodeConfigSchema } from '@xyo-network/node-model'
+import { isNodeInstance, isNodeModule, NodeConfigSchema } from '@xyo-network/node-model'
 import { AdhocWitness, AdhocWitnessConfigSchema } from '@xyo-network/witness-adhoc'
-import { WitnessInstance } from '@xyo-network/witness-model'
+import { AttachableWitnessInstance } from '@xyo-network/witness-model'
 
 /**
  * @group module
  */
 
 describe('MultiNodeConfiguration', () => {
-  let primaryArchivist: ArchivistInstance
+  let primaryArchivist: AttachableArchivistInstance
   let primaryNode: MemoryNode
 
-  let leftInternalArchivist: ArchivistInstance
-  let leftInternalArchivist2: ArchivistInstance
-  let leftExternalArchivist: ArchivistInstance
-  let leftDiviner: DivinerInstance
+  let leftInternalArchivist: AttachableArchivistInstance
+  let leftInternalArchivist2: AttachableArchivistInstance
+  let leftExternalArchivist: AttachableArchivistInstance
+  let leftDiviner: AttachableDivinerInstance
   let leftNode: MemoryNode
 
   let rightNode: MemoryNode
-  let rightInternalArchivist: ArchivistInstance
-  let rightExternalArchivist: ArchivistInstance
-  let rightWitness: WitnessInstance
+  let rightInternalArchivist: AttachableArchivistInstance
+  let rightExternalArchivist: AttachableArchivistInstance
+  let rightWitness: AttachableWitnessInstance
 
   beforeAll(async () => {
     primaryNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'primaryNode', schema: NodeConfigSchema } })
+    expect(isNodeModule(primaryNode)).toBe(true)
+    expect(isNodeInstance(primaryNode)).toBe(true)
     primaryArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'primaryArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'primaryArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     await primaryNode.register(primaryArchivist)
     await primaryNode.attach(primaryArchivist.address, true)
@@ -40,11 +42,11 @@ describe('MultiNodeConfiguration', () => {
     rightNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'rightNode', schema: NodeConfigSchema } })
     rightInternalArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'rightInternalArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'rightInternalArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     rightExternalArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'archivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'archivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     rightWitness = await AdhocWitness.create({
       account: Account.randomSync(),
@@ -60,15 +62,15 @@ describe('MultiNodeConfiguration', () => {
     leftNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'leftNode', schema: NodeConfigSchema } })
     leftInternalArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'leftInternalArchivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'leftInternalArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     leftInternalArchivist2 = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.configSchema },
+      config: { name: 'leftInternalArchivist2', schema: MemoryArchivist.defaultConfigSchema },
     })
     leftExternalArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'archivist', schema: MemoryArchivist.configSchema },
+      config: { name: 'archivist', schema: MemoryArchivist.defaultConfigSchema },
     })
     leftDiviner = await AddressHistoryDiviner.create({
       account: Account.randomSync(),

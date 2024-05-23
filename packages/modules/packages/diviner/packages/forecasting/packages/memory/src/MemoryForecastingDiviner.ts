@@ -12,14 +12,13 @@ import {
 } from '@xyo-network/diviner-forecasting-method-arima'
 import { ForecastingDivinerConfigSchema, ForecastingMethod, PayloadValueTransformer } from '@xyo-network/diviner-forecasting-model'
 import { asDivinerInstance, DivinerInstance } from '@xyo-network/diviner-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import jsonpath from 'jsonpath'
 
 export type SupportedForecastingType = typeof arimaForecastingName | typeof seasonalArimaForecastingName
 
 const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer => {
   const transformer = (x: Payload): number => {
-    // eslint-disable-next-line import/no-named-as-default-member
     const ret = jsonpath.value(x, pathExpression)
     if (typeof ret === 'number') return ret
     throw new Error('Parsed invalid payload value')
@@ -30,7 +29,8 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
 export class MemoryForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
 > extends AbstractForecastingDiviner<TParams> {
-  static override configSchemas = [ForecastingDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ForecastingDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ForecastingDivinerConfigSchema
 
   protected static readonly forecastingMethodDict: Record<SupportedForecastingType, ForecastingMethod> = {
     arimaForecasting: arimaForecastingMethod,
@@ -65,7 +65,7 @@ export class MemoryForecastingDiviner<
     const addresses = this.config.witnessAddresses
     const payload_schemas = [assertEx(this.config.witnessSchema, () => 'Missing witnessSchema in config')]
     const payloads: Payload[] = []
-    const archivist = asArchivistInstance(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = asArchivistInstance(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const bwDiviner = asDivinerInstance(
       (await this.resolve(this.boundWitnessDiviner)).pop(),
       'Unable to resolve boundWitnessDiviner',

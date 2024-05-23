@@ -1,5 +1,5 @@
+import { instantiateSecp256k1, Secp256k1 } from '@bitauth/libauth'
 import { equalArrayBuffers, toUint8Array } from '@xylabs/arraybuffer'
-import { instantiateSecp256k1, Secp256k1 } from '@xylabs/libauth'
 import { staticImplements } from '@xylabs/static-implements'
 import { Data } from '@xyo-network/data'
 import { AddressValueInstance, AddressValueStatic } from '@xyo-network/key-model'
@@ -51,10 +51,8 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
         const recoveredAddress = AddressValue.addressFromPublicKey(publicKey)
         valid = valid || equalArrayBuffers(recoveredAddress, expectedAddress)
         if (valid) break
-      } catch (ex) {
-        const error = ex as Error
-        console.log(error.message)
-        console.log(error.stack)
+      } catch {
+        //this catch is because the pub key it recovered is not an actual address, thus they throw
         continue
       }
     }

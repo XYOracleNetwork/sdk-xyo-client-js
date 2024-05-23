@@ -1,8 +1,12 @@
 import { EventData } from '@xyo-network/module-events'
-import { Module, ModuleEventArgs } from '@xyo-network/module-model'
+import { ModuleEventArgs, ModuleInstance } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
-export type ObserveEndEventArgs<T extends Module = Module, TIn extends Payload = Payload, TOut extends Payload = Payload> = ModuleEventArgs<
+export type ObserveEndEventArgs<
+  T extends ModuleInstance = ModuleInstance,
+  TIn extends Payload = Payload,
+  TOut extends Payload = Payload,
+> = ModuleEventArgs<
   T,
   {
     errors?: Error[]
@@ -11,6 +15,7 @@ export type ObserveEndEventArgs<T extends Module = Module, TIn extends Payload =
   }
 >
 
-export interface ObserveEndEventData<T extends Module = Module, TIn extends Payload = Payload, TOut extends Payload = Payload> extends EventData {
+export interface ObserveEndEventData<T extends ModuleInstance = ModuleInstance, TIn extends Payload = Payload, TOut extends Payload = Payload>
+  extends EventData {
   observeEnd: ObserveEndEventArgs<T, TIn, TOut>
 }

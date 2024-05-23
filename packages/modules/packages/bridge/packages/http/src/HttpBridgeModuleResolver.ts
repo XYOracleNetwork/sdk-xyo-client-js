@@ -1,57 +1,61 @@
 import { assertEx } from '@xylabs/assert'
-import { AxiosJson } from '@xylabs/axios'
 import { Address, isAddress } from '@xylabs/hex'
-import { AbstractBridgeModuleResolver, BridgeModuleResolverOptions, wrapModuleWithType } from '@xyo-network/abstract-bridge'
 import { Account } from '@xyo-network/account'
+import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWithType } from '@xyo-network/bridge-abstract'
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
-import { asModuleInstance, ModuleConfig, ModuleConfigSchema, ModuleFilterOptions, ModuleIdentifier, ModuleInstance } from '@xyo-network/module-model'
+import {
+  asModuleInstance,
+  ModuleConfig,
+  ModuleConfigSchema,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 
-import { HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
+import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
 
-export interface HttpBridgeModuleResolverOptions extends BridgeModuleResolverOptions {
+export interface HttpBridgeModuleResolverParams extends BridgeModuleResolverParams {
+  querySender: BridgeQuerySender
   rootUrl: string
 }
 
 export class HttpBridgeModuleResolver<
-  T extends HttpBridgeModuleResolverOptions = HttpBridgeModuleResolverOptions,
+  T extends HttpBridgeModuleResolverParams = HttpBridgeModuleResolverParams,
 > extends AbstractBridgeModuleResolver<T> {
-  private _axios?: AxiosJson
-
-  get axios() {
-    this._axios = this._axios ?? new AxiosJson()
-    return this._axios
+  get querySender() {
+    return this.params.querySender
   }
 
   moduleUrl(address: Address) {
-    return new URL(address, this.options.rootUrl)
+    return new URL(address, this.params.rootUrl)
   }
 
-  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(
-    id: ModuleIdentifier,
-    options?: ModuleFilterOptions<T>,
-  ): Promise<T | T[] | undefined> {
+  override async resolveHandler<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T[]> {
     const parentResult = await super.resolveHandler(id, options)
-    if (parentResult) {
+    if (parentResult.length > 0) {
       return parentResult
     }
     if (id === '*') {
       return []
     }
     const idParts = id.split(':')
-    const firstPart = assertEx(idParts.shift(), () => 'Missing firstPart')
+    const untransformedFirstPart = assertEx(idParts.shift(), () => `Invalid module identifier: ${id}`)
+    const firstPart = await ResolveHelper.transformModuleIdentifier(untransformedFirstPart)
     const moduleAddress = firstPart as Address
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: HttpModuleProxyParams = {
       account: Account.randomSync(),
-      axios: this.axios,
+      additionalSigners: this.params.additionalSigners,
+      archiving: this.params.archiving,
       config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress,
-      moduleUrl: this.moduleUrl(moduleAddress).href,
+      querySender: this.querySender,
     }
 
-    //console.log(`creating HttpProxy [${moduleAddress}] ${id}`)
+    this.logger?.debug(`creating HttpProxy [${moduleAddress}] ${id}`)
 
     const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(params)
     //calling state here to get the config
@@ -70,17 +74,16 @@ export class HttpBridgeModuleResolver<
     await proxy.start()
 
     const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
-    const as = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
-    proxy.upResolver.add(as)
-    proxy.downResolver.add(as)
-    this.add(as)
+    const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
+    proxy.upResolver.add(instance)
+    proxy.downResolver.add(instance)
 
     if (remainderParts.length > 0) {
       const result = await wrapped.resolve<T>(remainderParts, options)
-      return result
+      return result ? [result] : []
     }
 
-    console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
-    return as
+    //console.log(`resolved: ${proxy.address} [${wrapped.constructor.name}] [${as.constructor.name}]`)
+    return [instance]
   }
 }

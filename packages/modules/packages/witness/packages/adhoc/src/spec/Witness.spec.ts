@@ -36,6 +36,18 @@ describe('AdhocWitness', () => {
         expect(manifest.config.schema).toBe(AdhocWitnessConfigSchema)
         expect(manifest.config.name).toBe('AdhocWitness')
       })
+      it('additionalSigners', async () => {
+        const payload = await new PayloadBuilder({ schema: 'network.xyo.debug' }).build()
+        const config: AdhocWitnessConfig = { name: 'AdhocWitness', payload, schema: AdhocWitnessConfigSchema }
+        const observed = await new PayloadBuilder({ schema: 'network.xyo.test' }).build()
+        const additionalSigners = [Account.randomSync()]
+        const witness = await AdhocWitness.create({ account: Account.randomSync(), additionalSigners, config })
+        const [, payloads, errors] = await witness.observeQuery([observed])
+        expect(payloads).toBeArrayOfSize(2)
+        expect(payloads?.[0]?.schema).toBe(payload.schema)
+        expect(payloads?.[1]?.schema).toBe(observed.schema)
+        expect(errors.length).toBe(0)
+      })
     })
   })
 })

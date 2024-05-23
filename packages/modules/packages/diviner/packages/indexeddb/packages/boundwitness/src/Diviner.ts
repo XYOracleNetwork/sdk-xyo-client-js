@@ -5,6 +5,7 @@ import { BoundWitness, BoundWitnessSchema, isBoundWitness } from '@xyo-network/b
 import { BoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-abstract'
 import { BoundWitnessDivinerQueryPayload, isBoundWitnessDivinerQueryPayload } from '@xyo-network/diviner-boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
+import { Schema } from '@xyo-network/payload-model'
 import { IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbBoundWitnessDivinerConfigSchema } from './Config'
@@ -32,7 +33,8 @@ export class IndexedDbBoundWitnessDiviner<
   TIn extends BoundWitnessDivinerQueryPayload = BoundWitnessDivinerQueryPayload,
   TOut extends BoundWitness = BoundWitness,
 > extends BoundWitnessDiviner<TParams, TIn, TOut> {
-  static override configSchemas = [IndexedDbBoundWitnessDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbBoundWitnessDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbBoundWitnessDivinerConfigSchema
 
   /**
    * The database name. If not supplied via config, it defaults
@@ -65,7 +67,6 @@ export class IndexedDbBoundWitnessDiviner<
     if (!query) return []
 
     const result = await this.tryUseDb(async (db) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { addresses, payload_hashes, payload_schemas, limit, offset, order } = query
       const tx = db.transaction(this.storeName, 'readonly')
       const store = tx.objectStore(this.storeName)
@@ -106,7 +107,11 @@ export class IndexedDbBoundWitnessDiviner<
             results.push(value)
           }
         }
-        cursor = await cursor.continue()
+        try {
+          cursor = await cursor.continue()
+        } catch {
+          break
+        }
       }
       await tx.done
       // Remove any metadata before returning to the client

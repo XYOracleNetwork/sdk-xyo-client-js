@@ -7,14 +7,15 @@ import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { AddressHistoryDivinerConfigSchema, AddressHistoryDivinerParams } from '@xyo-network/diviner-address-history-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 // This diviner returns the most recent boundwitness signed by the address that can be found
 // if multiple broken chains are found, all the heads are returned
 
 export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams = AddressHistoryDivinerParams> extends AbstractDiviner<TParams> {
-  static override configSchemas = [AddressHistoryDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, AddressHistoryDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = AddressHistoryDivinerConfigSchema
 
   get queryAddress() {
     return assertEx(this.config.address, () => 'Missing address')
@@ -34,7 +35,7 @@ export class AddressHistoryDiviner<TParams extends AddressHistoryDivinerParams =
   private async allBoundWitnesses() {
     const archivists =
       (await Promise.all(await this.resolve({ query: [[ArchivistGetQuerySchema]] }))).map((module) =>
-        asArchivistInstance(module, `Failed to cast module to Archivist [${module.config.name}]`),
+        asArchivistInstance(module, `Failed to cast module to Archivist [${module.id}]`),
       ) ?? []
     assertEx(archivists.length > 0, () => 'Did not find any archivists')
     return (

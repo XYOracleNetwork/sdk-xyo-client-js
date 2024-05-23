@@ -1,3 +1,4 @@
+export * from './attachable'
 export * from './Config'
 export * from './DivinerQueryFunctions'
 export * from './EventData'

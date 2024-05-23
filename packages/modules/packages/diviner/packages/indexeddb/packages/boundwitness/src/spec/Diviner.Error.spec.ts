@@ -52,7 +52,7 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
       const archivist = await IndexedDbArchivist.create({
         account: Account.randomSync(),
-        config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
+        config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
       })
       const [bw] = await new BoundWitnessBuilder().build()
       values.push(bw)
@@ -62,13 +62,13 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
         config: {
           archivist: archivist.address,
           dbName: testDbName,
-          schema: IndexedDbBoundWitnessDiviner.configSchema,
+          schema: IndexedDbBoundWitnessDiviner.defaultConfigSchema,
           storeName: testStoreName,
         },
       })
       const node = await MemoryNode.create({
         account: Account.randomSync(),
-        config: { schema: MemoryNode.configSchema },
+        config: { schema: MemoryNode.defaultConfigSchema },
       })
       const modules = [archivist, sut]
       await node.start()

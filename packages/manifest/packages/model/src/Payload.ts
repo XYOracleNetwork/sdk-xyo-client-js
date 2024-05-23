@@ -1,3 +1,6 @@
+export const DappPackageManifestPayloadSchema = 'network.xyo.manifest.package.dapp' as const
+export type DappPackageManifestPayloadSchema = typeof DappPackageManifestPayloadSchema
+
 export type PackageManifestPayloadSchema = 'network.xyo.manifest.package'
 export const PackageManifestPayloadSchema: PackageManifestPayloadSchema = 'network.xyo.manifest.package'
 
@@ -9,6 +12,8 @@ export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo
 
 import { Address } from '@xylabs/hex'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
+
+export type ModuleAlias = Exclude<string, 'reserved-alias-value-8346534876'>
 
 export interface Manifest {
   description?: string
@@ -26,8 +31,8 @@ export interface ConfigManifest {
 
 export interface NodeManifest extends ModuleManifest {
   modules?: {
-    private?: ModuleManifest[]
-    public?: ModuleManifest[]
+    private?: (ModuleManifest | ModuleAlias)[]
+    public?: (ModuleManifest | ModuleAlias)[]
   }
 }
 
@@ -47,8 +52,8 @@ export interface ModuleManifest extends Manifest {
 export type ModuleManifestPayload = Payload<ModuleManifest, ModuleManifestPayloadSchema | NodeManifestPayloadSchema>
 
 export interface PackageManifest extends Manifest {
+  modules?: Record<ModuleAlias, ModuleManifest>
   nodes: NodeManifest[]
-  schema: PackageManifestPayloadSchema
 }
 
 export type PackageManifestPayload = Payload<PackageManifest, PackageManifestPayloadSchema>

@@ -1,17 +1,20 @@
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
-import { DivinerConfigSchema } from '@xyo-network/diviner-model'
 import { isPayloadDivinerQueryPayload } from '@xyo-network/diviner-payload-model'
 import { TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema } from '@xyo-network/diviner-temporal-indexing-model'
 import { Labels } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 /**
  * Transforms an ImageThumbnailIndex response into an ImageThumbnailResponse response
  */
 export class TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner extends AbstractDiviner {
-  static override readonly configSchema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
-  static override configSchemas = [DivinerConfigSchema, TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema]
-  static labels: Labels = {
+  static override readonly configSchemas: Schema[] = [
+    ...super.configSchemas,
+    TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema,
+  ]
+  static override readonly defaultConfigSchema: Schema = TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDivinerConfigSchema
+  static override labels: Labels = {
+    ...super.labels,
     'network.xyo.diviner.stage': 'indexQueryResponseToDivinerQueryResponseDiviner',
   }
 

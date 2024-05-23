@@ -4,9 +4,8 @@ import { isModule } from '../module'
 import { ModuleInstance } from './Instance'
 
 export const requiredModuleInstanceFunctions: ObjectTypeShape = {
-  describe: 'function',
-  discover: 'function',
   manifest: 'function',
+  state: 'function',
 }
 
 //we do not use IsInstanceFactory here to prevent a cycle

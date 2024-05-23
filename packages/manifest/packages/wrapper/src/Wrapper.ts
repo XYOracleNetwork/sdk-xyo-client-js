@@ -1,60 +1,37 @@
 import { assertEx } from '@xylabs/assert'
-import { Account } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { ModuleManifest, NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
-import {
-  assignCreatableModuleRegistry,
-  CreatableModuleDictionary,
-  CreatableModuleRegistry,
-  isModuleName,
-  ModuleFactoryLocator,
-  ModuleInstance,
-  toCreatableModuleRegistry,
-} from '@xyo-network/module-model'
+import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
+import { isModuleName, ModuleIdentifierTransformer, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeInstance } from '@xyo-network/node-model'
+import { WithAnySchema } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 import { WalletInstance } from '@xyo-network/wallet-model'
 
-import { standardCreatableModules } from './standardCreatableModules'
-
 /** Provides functionality that can be performed on a PackageManifest */
-export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
+export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayload> | void = void> extends PayloadWrapper<
+  TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>
+> {
   constructor(
-    payload: PackageManifestPayload,
+    payload: TManifest extends WithAnySchema<PackageManifestPayload> ? TManifest : WithAnySchema<PackageManifestPayload>,
     protected readonly wallet: WalletInstance,
-    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator({}),
-    protected readonly publicChildren: PackageManifestPayload[] = [],
-    protected readonly privateChildren: PackageManifestPayload[] = [],
+    protected readonly locator: ModuleFactoryLocator = new ModuleFactoryLocator(),
+    protected readonly publicChildren: ModuleManifest[] = [],
+    protected readonly privateChildren: ModuleManifest[] = [],
+    protected readonly moduleIdentifierTransformers?: ModuleIdentifierTransformer[],
   ) {
     super(payload)
   }
 
-  async loadModule(node: MemoryNode, manifest: ModuleManifest, external: boolean, additionalCreatableModules?: CreatableModuleRegistry): Promise<void>
-  async loadModule(
-    node: MemoryNode,
-    manifest: ModuleManifest,
-    external: boolean,
-    additionalCreatableModules?: CreatableModuleDictionary,
-  ): Promise<void>
-  async loadModule(
-    node: MemoryNode,
-    manifest: ModuleManifest,
-    external = true,
-    additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
-  ): Promise<void> {
+  async loadModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest, external = true): Promise<void> {
+    console.log('loadModule', manifest.config.name)
     const collision = async (node: NodeInstance, name: string, external: boolean) => {
       const externalConflict = external ? (await node.resolve({ name: [name] }, { direction: external ? 'all' : 'down' })).length > 0 : false
       return externalConflict || (await node.resolve({ name: [name] }, { direction: 'down' })).length > 0
     }
 
-    const creatableModules = assignCreatableModuleRegistry(
-      {},
-      toCreatableModuleRegistry(standardCreatableModules),
-      toCreatableModuleRegistry(additionalCreatableModules ?? {}),
-    )
-
     assertEx(isModuleName(manifest.config.name), () => `Invalid Module Name: ${manifest.config.name}`)
-
     assertEx(!(await collision(node, manifest.config.name, external)), () => `Node name collision [${manifest.config.name}]`)
 
     if (!(await collision(node, manifest.config.name, external))) {
@@ -62,67 +39,63 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
       if (node.registeredModules().some((mod) => mod.config.name && mod.config.name === manifest.config.name)) {
         assertEx(await node.attach(manifest.config.name, external), () => `Failed to attach module [${manifest.config.name}]`)
       } else {
-        assertEx(
-          await node.attach((await this.registerModule(node, manifest, creatableModules)).address, external),
-          () => `No module with config schema [${manifest.config.name}] registered`,
-        )
+        if ((manifest as NodeManifest).modules) {
+          const childNode = await this.loadNodeFromManifest(wallet, manifest as NodeManifest, manifest.config.accountPath, false)
+          await node.register(childNode)
+          await node.attach(childNode.address, external)
+        } else {
+          assertEx(
+            await node.attach((await this.registerModule(wallet, node, manifest)).address, external),
+            () => `No module with config schema [${manifest.config.name}] registered`,
+          )
+        }
       }
     }
   }
 
-  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode>
-  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
-  async loadNodeFromIndex(index: number, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode> {
+  //These are top level, so they can use this.wallet as their
+  async loadNodeFromIndex(index: number): Promise<MemoryNode> {
     const manifest = assertEx(this.nodeManifest(index), () => 'Failed to find Node Manifest')
-    const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
-    return await this.loadNodeFromManifest(manifest, manifest.config.accountPath ?? `${index}'`, registry)
+    return await this.loadNodeFromManifest(this.wallet, manifest, manifest.config.accountPath ?? `${index}'`)
   }
 
-  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleRegistry): Promise<MemoryNode>
-  async loadNodeFromManifest(manifest: NodeManifest, path: string, additionalCreatableModules?: CreatableModuleDictionary): Promise<MemoryNode>
-  async loadNodeFromManifest(
-    manifest: NodeManifest,
-    path?: string,
-    additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
-  ): Promise<MemoryNode> {
-    const account = path ? await this.wallet.derivePath(path) : Account.randomSync()
-    const node = await MemoryNode.create({ account, config: manifest.config })
-    const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
+  async loadNodeFromManifest(wallet: WalletInstance, manifest: NodeManifest, path?: string, loadConfigChildren = false): Promise<MemoryNode> {
+    console.log('loadNodeFromManifest', manifest.config.name)
+    const derivedWallet = path ? await wallet.derivePath(path) : await HDWallet.random()
+    const node = await MemoryNode.create({ account: derivedWallet, config: manifest.config })
     // Load Private Modules
     const privateModules =
       manifest.modules?.private?.map(async (moduleManifest) => {
-        await this.loadModule(node, moduleManifest, false, registry)
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, false)
+        }
       }) ?? []
     // Load Public Modules
     const publicModules =
       manifest.modules?.public?.map(async (moduleManifest) => {
-        await this.loadModule(node, moduleManifest, true, registry)
+        if (typeof moduleManifest === 'object') {
+          await this.loadModule(derivedWallet, node, moduleManifest, true)
+        }
       }) ?? []
     await Promise.all([...privateModules, ...publicModules])
 
-    await Promise.all(
-      this.privateChildren.map(async (child) => {
-        const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
-        const subNodes = await wrapper.loadNodes(node)
-        await Promise.all(
-          subNodes.map((subNode) => {
-            return node.attach(subNode.address, false)
-          }),
-        )
-      }),
-    )
+    if (loadConfigChildren) {
+      await Promise.all(
+        this.privateChildren.map(async (moduleManifest) => {
+          if (typeof moduleManifest === 'object') {
+            await this.loadModule(derivedWallet, node, moduleManifest, false)
+          }
+        }),
+      )
 
-    await Promise.all(
-      this.publicChildren.map(async (child) => {
-        const wrapper = new ManifestWrapper(child, this.wallet, this.locator)
-        const subNodes = await wrapper.loadNodes(node)
-        await Promise.all(
-          subNodes.map((subNode) => {
-            return node.attach(subNode.address, true)
-          }),
-        )
-      }),
-    )
+      await Promise.all(
+        this.publicChildren.map(async (moduleManifest) => {
+          if (typeof moduleManifest === 'object') {
+            await this.loadModule(derivedWallet, node, moduleManifest, true)
+          }
+        }),
+      )
+    }
 
     return node
   }
@@ -130,23 +103,10 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   /**
    * Load the nodes that are defined in the wrapped manifest and optionally attach them to a node
    */
-  async loadNodes(
-    /** Node to optionally attach the loaded nodes to */
-    node?: MemoryNode,
-    /** Additional creatable modules */
-    additionalCreatableModules?: CreatableModuleRegistry,
-  ): Promise<MemoryNode[]>
-  async loadNodes(
-    /** Node to optionally attach the loaded nodes to */
-    node?: MemoryNode,
-    /** Additional creatable modules */
-    additionalCreatableModules?: CreatableModuleDictionary,
-  ): Promise<MemoryNode[]>
-  async loadNodes(node?: MemoryNode, additionalCreatableModules?: CreatableModuleDictionary | CreatableModuleRegistry): Promise<MemoryNode[]> {
-    const registry = toCreatableModuleRegistry(additionalCreatableModules ?? {})
+  async loadNodes(node?: MemoryNode): Promise<MemoryNode[]> {
     const result = await Promise.all(
       this.payload.nodes?.map(async (nodeManifest, index) => {
-        const subNode = await this.loadNodeFromManifest(nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, registry)
+        const subNode = await this.loadNodeFromManifest(this.wallet, nodeManifest, nodeManifest.config.accountPath ?? `${index}'`, index === 0)
         await node?.register(subNode)
         return subNode
       }),
@@ -159,23 +119,18 @@ export class ManifestWrapper extends PayloadWrapper<PackageManifestPayload> {
   }
 
   /** Register a module on a node based on a manifest */
-  private async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleRegistry): Promise<ModuleInstance>
-  private async registerModule(node: MemoryNode, manifest: ModuleManifest, creatableModules?: CreatableModuleDictionary): Promise<ModuleInstance>
-  private async registerModule(
-    node: MemoryNode,
-    manifest: ModuleManifest,
-    creatableModules?: CreatableModuleDictionary | CreatableModuleRegistry,
-  ): Promise<ModuleInstance> {
-    const registry = toCreatableModuleRegistry(creatableModules ?? {})
-    const creatableModule = new ModuleFactoryLocator(this.locator.registry)
-      .registerMany(registry)
-      .locate(manifest.config.schema, manifest.config.labels)
+  private async registerModule(wallet: WalletInstance, node: MemoryNode, manifest: ModuleManifest): Promise<ModuleInstance> {
+    const creatableModule = this.locator.locate(manifest.config.schema, manifest.config.labels)
     const path = manifest.config.accountPath
-    const account = path ? await this.wallet.derivePath(path) : 'random'
-    const module = await creatableModule.create({
+    const account = path ? await wallet.derivePath(path) : 'random'
+    const params: ModuleParams = {
       account,
       config: assertEx(manifest.config, () => 'Missing config'),
-    })
+    }
+    if (this.moduleIdentifierTransformers) {
+      params.moduleIdentifierTransformers = this.moduleIdentifierTransformers
+    }
+    const module = await creatableModule.create(params)
     await node.register(module)
     return module
   }

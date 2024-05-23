@@ -2,7 +2,7 @@ import { Address } from '@xylabs/hex'
 import { fulfilled, rejected } from '@xylabs/promise'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { AnyConfigSchema, ModuleIdentifier } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { AbstractSentinel } from '@xyo-network/sentinel-abstract'
 import {
   asSentinelInstance,
@@ -23,7 +23,8 @@ export class MemorySentinel<
   TParams extends MemorySentinelParams = MemorySentinelParams,
   TEventData extends SentinelModuleEventData<SentinelInstance<TParams>> = SentinelModuleEventData<SentinelInstance<TParams>>,
 > extends AbstractSentinel<TParams, TEventData> {
-  static override configSchemas = [SentinelConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SentinelConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SentinelConfigSchema
 
   private runner?: SentinelRunner
 

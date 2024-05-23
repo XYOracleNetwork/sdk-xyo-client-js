@@ -5,7 +5,7 @@ import { Payload } from '@xyo-network/payload-model'
 export type DivineStartEventArgs<T extends Module = Module, TIn extends Payload = Payload> = ModuleEventArgs<
   T,
   {
-    inPayloads?: TIn[]
+    inPayloads: TIn[]
   }
 >
 

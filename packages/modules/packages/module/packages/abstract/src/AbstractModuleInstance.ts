@@ -1,28 +1,50 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { compact } from '@xylabs/lodash'
+import { globallyUnique } from '@xylabs/object'
+import { Promisable } from '@xylabs/promise'
 import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance, asArchivistInstance } from '@xyo-network/archivist-model'
-import { ModuleManifestPayload } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
+  AddressPayload,
   AddressPreviousHashPayload,
-  ModuleDescriptionPayload,
+  AttachableModuleInstance,
+  duplicateModules,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
   ModuleIdentifier,
   ModuleInstance,
+  ModuleManifestQuery,
+  ModuleManifestQuerySchema,
+  ModuleName,
+  ModuleNameResolver,
   ModuleParams,
+  ModuleQueryResult,
+  ModuleStateQuery,
+  ModuleStateQuerySchema,
+  ObjectFilterOptions,
+  ResolveHelper,
+  ResolveHelperConfig,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { CompositeModuleResolver } from '@xyo-network/module-resolver'
+import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
+import { Payload, Query, WithMeta } from '@xyo-network/payload-model'
 
 import { AbstractModule } from './AbstractModule'
-import { ResolveHelper, ResolveHelperConfig } from './ResolveHelper'
 
 export abstract class AbstractModuleInstance<TParams extends ModuleParams = ModuleParams, TEventData extends ModuleEventData = ModuleEventData>
   extends AbstractModule<TParams, TEventData>
-  implements ModuleInstance<TParams, TEventData>
+  implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
+  static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
+
+  private _downResolver?: CompositeModuleResolver
+  private _parents: NodeInstance[] = []
+  private _privateResolver?: CompositeModuleResolver
+  private _upResolver?: CompositeModuleResolver
+
   constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
@@ -35,32 +57,103 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
-  describe(): Promise<ModuleDescriptionPayload> {
+  get downResolver() {
+    this._downResolver =
+      this._downResolver ??
+      new CompositeModuleResolver({
+        allowNameResolution: this.allowNameResolution,
+        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+        root: this,
+      })
+    return this._downResolver
+  }
+
+  override get modName() {
+    return super.modName
+  }
+
+  get moduleIdentifierTransformers() {
+    return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
+  }
+
+  get privateResolver() {
+    this._privateResolver =
+      this._privateResolver ??
+      new CompositeModuleResolver({
+        allowNameResolution: this.allowNameResolution,
+        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+        root: this,
+      })
+    return this._privateResolver
+  }
+
+  get root() {
+    return this
+  }
+
+  get upResolver() {
+    this._upResolver =
+      this._upResolver ??
+      new CompositeModuleResolver({
+        allowNameResolution: this.allowNameResolution,
+        moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
+        root: this,
+      })
+    return this._upResolver
+  }
+
+  addParent(module: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+    if (!existingEntry) {
+      this._parents.push(asNodeInstance(module, 'Only NodeInstances can be parents'))
+    }
+  }
+
+  async certifyParents(): Promise<WithMeta<Payload>[]> {
+    const parents = await this.parents()
+    return (
+      await Promise.all(
+        parents.map(async (parent) => {
+          const [bw, payloads, errors] = await parent.certifyQuery(this.address)
+          return errors.length === 0 ? [bw, ...payloads] : []
+        }),
+      )
+    ).flat()
+  }
+
+  manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
     this._checkDead()
     return this.busy(async () => {
-      return await this.describeHandler()
+      return await this.manifestHandler(maxDepth)
     })
   }
 
-  discover(maxDepth = 5): Promise<Payload[]> {
-    this._checkDead()
-    return this.busy(async () => {
-      return await this.discoverHandler(maxDepth)
-    })
+  async manifestQuery(account: AccountInstance, maxDepth?: number): Promise<ModuleQueryResult<ModuleManifestPayload>> {
+    const queryPayload: ModuleManifestQuery = { schema: ModuleManifestQuerySchema, ...(maxDepth === undefined ? {} : { maxDepth }) }
+    return await this.sendQueryRaw<ModuleManifestQuery, Payload, ModuleManifestPayload>(queryPayload, undefined, account)
   }
 
-  manifest(maxDepth?: number, ignoreAddresses?: Address[]): Promise<ModuleManifestPayload> {
-    this._checkDead()
-    return this.busy(async () => {
-      return await this.manifestHandler(maxDepth, ignoreAddresses)
-    })
-  }
-
-  moduleAddress(): Promise<AddressPreviousHashPayload[]> {
+  moduleAddress(): Promise<(AddressPayload | AddressPreviousHashPayload)[]> {
     this._checkDead()
     return this.busy(async () => {
       return await this.moduleAddressHandler()
     })
+  }
+
+  parents(): Promisable<NodeInstance[]> {
+    return this._parents
+  }
+
+  privateChildren(): Promisable<ModuleInstance[]> {
+    return []
+  }
+
+  publicChildren(): Promisable<ModuleInstance[]> {
+    return []
+  }
+
+  removeParent(address: Address) {
+    this._parents = this._parents.filter((item) => item.address !== address)
   }
 
   /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
@@ -80,6 +173,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       downResolver: this.downResolver,
       logger: this.logger,
       module: this,
+      transformers: this.moduleIdentifierTransformers,
       upResolver: this.upResolver,
     }
     if (idOrFilter === '*') {
@@ -98,6 +192,43 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     }
   }
 
+  resolveIdentifier(id: ModuleIdentifier, options?: ObjectFilterOptions): Promise<Address | undefined> {
+    const { direction = 'all' } = options ?? {}
+    switch (direction) {
+      case 'down': {
+        return this.downResolver.resolveIdentifier(id, options)
+      }
+      default: {
+        const mutatedOptions = { ...options, direction: 'all' } as ObjectFilterOptions
+        return this.upResolver.resolveIdentifier(id, mutatedOptions)
+      }
+    }
+  }
+
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  async resolvePrivate<T extends ModuleInstance = ModuleInstance>(
+    id: ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    return (
+      (await this.privateResolver.resolve(id, options)) ??
+      (await this.upResolver.resolve(id, options)) ??
+      (await this.downResolver.resolve(id, options))
+    )
+  }
+
+  async siblings(): Promise<ModuleInstance[]> {
+    return (await Promise.all((await this.parents()).map((parent) => parent.publicChildren()))).flat().filter(duplicateModules)
+  }
+
+  /*override start(_timeout?: number): Promisable<boolean> {
+    if (this.parents.length === 0) {
+      this.logger.warn(`Module is being started without being attached to a parent: ${this.id} [${this.address}]`)
+    }
+    return super.start()
+  }*/
+
   state() {
     this._checkDead()
     return this.busy(async () => {
@@ -105,26 +236,89 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     })
   }
 
+  async stateQuery(account: AccountInstance): Promise<ModuleQueryResult> {
+    const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
+    return await this.sendQueryRaw(queryPayload, undefined, account)
+  }
+
   subscribe(_queryAccount?: AccountInstance) {
     this._checkDead()
     return this.subscribeHandler()
   }
 
+  protected override async manifestHandler(maxDepth: number = 1, _ignoreAddresses: Address[] = []): Promise<ModuleManifestPayload> {
+    const cachedResult = this._cachedManifests.get(maxDepth)
+    if (cachedResult) {
+      return cachedResult
+    }
+    const modName = this.modName ?? '<Anonymous>'
+    const children = await this.publicChildren()
+    const childAddressToName: Record<Address, ModuleName | null> = {}
+    for (const child of children) {
+      if (child.address !== this.address) {
+        childAddressToName[child.address] = child.modName ?? null
+      }
+    }
+    const result = {
+      config: { name: modName, ...this.config },
+      schema: ModuleManifestPayloadSchema,
+      status: { address: this.address, children: childAddressToName },
+    }
+    this._cachedManifests.set(maxDepth, result)
+    return result
+  }
+
   protected async resolveArchivingArchivists(): Promise<ArchivistInstance[]> {
-    const archivists = this.config.archiving?.archivists
+    const archivists = this.archiving?.archivists
     if (!archivists) return []
     const resolved = await Promise.all(archivists.map((archivist) => this.resolve(archivist)))
     return compact(resolved.map((mod) => asArchivistInstance(mod)))
   }
 
+  protected async sendQuery<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+    account?: AccountInstance,
+  ): Promise<WithMeta<R>[]> {
+    const queryResults = await this.sendQueryRaw(queryPayload, payloads, account)
+    const [, resultPayloads, errors] = queryResults
+
+    /* TODO: Figure out what to do with the returning BW.  Should we store them in a queue in case the caller wants to see them? */
+
+    if (errors && errors.length > 0) {
+      /* TODO: Figure out how to rollup multiple Errors */
+      throw errors[0]
+    }
+
+    return resultPayloads as WithMeta<R>[]
+  }
+
+  protected async sendQueryRaw<T extends Query, P extends Payload = Payload, R extends Payload = Payload>(
+    queryPayload: T,
+    payloads?: P[],
+    account?: AccountInstance,
+  ): Promise<ModuleQueryResult<R>> {
+    // Bind them
+    const query = await this.bindQuery(queryPayload, payloads, account, this.additionalSigners)
+
+    // Send them off
+    return (await this.query(query[0], query[1])) as ModuleQueryResult<R>
+  }
+
   protected async storeToArchivists(payloads: Payload[]): Promise<Payload[]> {
-    const archivists = await this.resolveArchivingArchivists()
-    return (
-      await Promise.all(
-        archivists.map((archivist) => {
-          return archivist.insert?.(payloads)
-        }),
-      )
-    ).map(([bw]) => bw)
+    try {
+      const archivists = await this.resolveArchivingArchivists()
+      return (
+        await Promise.all(
+          archivists.map((archivist) => {
+            return archivist.insert?.(payloads)
+          }),
+        )
+      ).map(([bw]) => bw)
+    } catch (ex) {
+      const error = ex as Error
+      this.logger.error(`Error storing to archivists: ${error.message}`)
+      return []
+    }
   }
 }

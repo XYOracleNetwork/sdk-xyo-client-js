@@ -12,13 +12,14 @@ import {
   SchemaListQueryPayload,
 } from '@xyo-network/diviner-schema-list-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = SchemaListDivinerParams> extends SchemaListDiviner<TParams> {
-  static override configSchemas = [SchemaListDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaListDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SchemaListDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<string[]> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     const filtered = all
       .filter(isBoundWitness)
@@ -28,7 +29,7 @@ export class MemorySchemaListDiviner<TParams extends SchemaListDivinerParams = S
   }
 
   protected async divineAllAddresses(): Promise<string[]> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     return all.map((payload) => payload.schema).filter(distinct)
   }

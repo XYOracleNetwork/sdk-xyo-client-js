@@ -8,7 +8,7 @@ import { WitnessConfig, WitnessInstance, WitnessModuleEventData, WitnessParams }
 import { Provider } from 'ethers'
 
 /** @deprecated use EvmWitnessConfigSchema version instead */
-export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness'
+export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness' as const
 /** @deprecated use EvmWitnessConfigSchema version instead */
 export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
 

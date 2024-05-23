@@ -1,15 +1,16 @@
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import { Payload } from '@xyo-network/payload-model'
 
-import { ModuleDescription } from '../ModuleDescription'
-import { AddressPreviousHashPayload } from '../Queries'
+import { ModuleQueryResult } from '../ModuleQueryResult'
+import { AddressPayload, AddressPreviousHashPayload } from '../Payload'
 
 export interface ModuleQueryFunctions {
-  describe: () => Promise<ModuleDescription>
-  discover: () => Promisable<Payload[]>
   manifest: (maxDepth?: number, ignoreAddresses?: Address[]) => Promisable<ModuleManifestPayload>
-  moduleAddress: () => Promisable<AddressPreviousHashPayload[]>
+  manifestQuery: (account: AccountInstance, maxDepth?: number, ignoreAddresses?: Address[]) => Promisable<ModuleQueryResult<ModuleManifestPayload>>
+  moduleAddress: () => Promisable<(AddressPreviousHashPayload | AddressPayload)[]>
   state: () => Promisable<Payload[]>
+  stateQuery: (account: AccountInstance) => Promisable<ModuleQueryResult>
 }

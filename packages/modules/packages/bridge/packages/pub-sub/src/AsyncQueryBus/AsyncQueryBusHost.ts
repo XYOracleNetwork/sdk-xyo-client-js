@@ -3,8 +3,16 @@ import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { clearTimeoutEx, setTimeoutEx } from '@xylabs/timer'
 import { isQueryBoundWitnessWithMeta, QueryBoundWitness } from '@xyo-network/boundwitness-model'
-import { BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { asModuleInstance, ModuleConfigSchema, ModuleInstance } from '@xyo-network/module-model'
+import { isBridgeInstance } from '@xyo-network/bridge-model'
+import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
+import {
+  asModuleInstance,
+  ModuleConfigSchema,
+  ModuleIdentifier,
+  ModuleInstance,
+  resolveAddressToInstance,
+  ResolveHelper,
+} from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Schema, WithMeta } from '@xyo-network/payload-model'
 
@@ -16,9 +24,19 @@ export interface ExposeOptions {
   failOnAlreadyExposed?: boolean
 }
 
+const IDLE_POLLING_FREQUENCY_RATIO_MIN = 4 as const
+const IDLE_POLLING_FREQUENCY_RATIO_MAX = 64 as const
+const IDLE_POLLING_FREQUENCY_RATIO_DEFAULT = 16 as const
+
+const IDLE_THRESHOLD_RATIO_MIN = 4 as const
+const IDLE_THRESHOLD_RATIO_MAX = 64 as const
+const IDLE_THRESHOLD_RATIO_DEFAULT = 16 as const
+
 export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQueryBusHostParams> extends AsyncQueryBusBase<TParams> {
   protected _exposedAddresses = new Set<Address>()
   private _exposeOptions: Record<Address, ExposeOptions> = {}
+  private _idle = false
+  private _lastQueryTime?: number
   private _pollId?: string
 
   constructor(params: TParams) {
@@ -29,6 +47,28 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return this._exposedAddresses
   }
 
+  get idlePollFrequency() {
+    const frequency = this.config?.idlePollFrequency ?? IDLE_POLLING_FREQUENCY_RATIO_DEFAULT * this.pollFrequency
+    if (frequency < this.pollFrequency * IDLE_POLLING_FREQUENCY_RATIO_MIN) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MIN * this.pollFrequency
+    }
+    if (frequency > this.pollFrequency * IDLE_POLLING_FREQUENCY_RATIO_MAX) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MAX * this.pollFrequency
+    }
+    return frequency
+  }
+
+  get idleThreshold() {
+    const threshold = this.config?.idleThreshold ?? IDLE_THRESHOLD_RATIO_DEFAULT * this.idlePollFrequency
+    if (threshold < this.idlePollFrequency * IDLE_THRESHOLD_RATIO_MIN) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MIN * this.pollFrequency
+    }
+    if (threshold > this.idlePollFrequency * IDLE_THRESHOLD_RATIO_MAX) {
+      return IDLE_POLLING_FREQUENCY_RATIO_MAX * this.pollFrequency
+    }
+    return threshold
+  }
+
   get perAddressBatchQueryLimit(): number {
     return this.config?.perAddressBatchQueryLimit ?? 10
   }
@@ -37,19 +77,30 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
-  expose(address: Address, options: ExposeOptions = {}) {
-    const { failOnAlreadyExposed } = options
-    assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(address), () => `Address already exposed [${address}]`)
-    this._exposedAddresses.add(address)
-    this._exposeOptions[address] = { ...options }
-    this.logger?.debug(`${address} exposed`)
+  expose(module: ModuleInstance, options?: ExposeOptions) {
+    const { failOnAlreadyExposed } = options ?? {}
+    if (isBridgeInstance(module)) {
+      this.logger?.warn(`Attempted to expose a BridgeModule [${module.id}] - Not exposing`)
+    } else {
+      assertEx(
+        !failOnAlreadyExposed || !this._exposedAddresses.has(module.address),
+        () => `Address already exposed: ${module.id} [${module.address}]`,
+      )
+      this._exposedAddresses.add(module.address)
+      this._exposeOptions[module.address] = { ...options }
+      this.logger?.debug(`${module.id} exposed [${module.address}]`)
+      return module
+    }
   }
 
   async listeningModules(): Promise<ModuleInstance[]> {
     const exposedModules = [...(this.config?.listeningModules ?? []), ...this.exposedAddresses.values()]
     const mods = await Promise.all(
-      exposedModules.map(async (listeningModule) =>
-        assertEx(asModuleInstance(await this.resolver.resolve(listeningModule)), () => `Unable to resolve listeningModule [${listeningModule}]`),
+      exposedModules.map(async (exposedModule) =>
+        assertEx(
+          asModuleInstance(await resolveAddressToInstance(this.rootModule, exposedModule)),
+          () => `Unable to resolve listeningModule [${exposedModule}]`,
+        ),
       ),
     )
     return mods
@@ -70,17 +121,30 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     this._pollId = undefined
   }
 
-  unexpose(address: Address, validate = true) {
-    assertEx(!validate || this._exposedAddresses.has(address), () => `Address not exposed [${address}]`)
-    this._exposedAddresses.delete(address)
-    delete this._exposeOptions[address]
-    this.logger?.debug(`${address} unexposed`)
+  async unexpose(id: ModuleIdentifier, validate = true) {
+    const module = asModuleInstance(await this.rootModule.resolve(id, { maxDepth: 10 }))
+    if (module) {
+      assertEx(!validate || this._exposedAddresses.has(module.address), () => `Address not exposed [${module.address}][${module.id}]`)
+      this._exposedAddresses.delete(module.address)
+      delete this._exposeOptions[module.address]
+      this.logger?.debug(`${module.address} [${module.id}] unexposed`)
+    }
+    return module
   }
 
+  // eslint-disable-next-line max-statements
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
-    const localModuleName = localModule.config.name ?? localModule.address
-    const queryArchivist = await this.queriesArchivist()
-    const responseArchivist = await this.responsesArchivist()
+    this._idle = false
+    this._lastQueryTime = Date.now()
+    const localModuleName = localModule.id
+    const queryArchivist = assertEx(
+      await this.queriesArchivist(),
+      () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
+    const responsesArchivist = assertEx(
+      await this.responsesArchivist(),
+      () => `Unable to contact responsesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
     const queryDestination = (query.$meta as { destination?: string[] })?.destination
     if (queryDestination && queryDestination?.includes(localModule.address)) {
       // Find the query
@@ -91,6 +155,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
         if (localModule.queries.includes(querySchema)) {
           // Get the associated payloads
           const queryPayloads = await queryArchivist.get(query.payload_hashes)
+          this.params.onQueryFulfillStarted?.({ payloads: queryPayloads, query })
           const queryPayloadsDict = await PayloadBuilder.toAllHashMap(queryPayloads)
           const queryHash = (await PayloadBuilder.build(query)).$hash
           // Check that we have all the arguments for the command
@@ -102,13 +167,13 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
             // Issue the query against module
             const querySchema = queryPayloadsDict[query.query].schema
             this.logger?.debug(`Issuing query ${querySchema} (${queryHash}) addressed to module: ${localModuleName}`)
-            const response = await localModule.query(query, queryPayloads, {
+            const result = await localModule.query(query, queryPayloads, {
               allowedQueries: this._exposeOptions[localModule.address]?.allowedQueries,
               schema: ModuleConfigSchema,
             })
-            const [bw, payloads, errors] = response
+            const [bw, payloads, errors] = result
             this.logger?.debug(`Replying to query ${queryHash} addressed to module: ${localModuleName}`)
-            const insertResult = await responseArchivist.insert([bw, ...payloads, ...errors])
+            const insertResult = await responsesArchivist.insert([bw, ...payloads, ...errors])
             // NOTE: If all archivists support the contract that numPayloads inserted === numPayloads returned we can
             // do some deeper assertions here like lenIn === lenOut, but for now this should be good enough since BWs
             // should always be unique causing at least one insertion
@@ -121,9 +186,10 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
               // so there's no chance of multiple commands at the same time
               await this.commitState(localModule.address, query.timestamp)
             }
+            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, result, status: 'success' })
           } catch (error) {
+            this.params.onQueryFulfillFinished?.({ payloads: queryPayloads, query, status: 'failure' })
             this.logger?.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
-            console.error(`Error processing query ${queryHash} for module ${localModuleName}: ${error}`)
           }
         }
       }
@@ -135,21 +201,35 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * @param address The address to find commands for
    */
   protected findQueriesToAddress = async (address: Address) => {
-    const queryBoundWitnessDiviner = await this.queriesDiviner()
-    // Retrieve last offset from state store
-    const timestamp = await this.retrieveState(address)
-    const destination = [address]
-    const limit = this.perAddressBatchQueryLimit
-    // Filter for commands to us by destination address
-    const divinerQuery = { destination, limit, schema: BoundWitnessDivinerQuerySchema, sort: 'asc', timestamp }
-    const result = await queryBoundWitnessDiviner.divine([divinerQuery])
-    const queries = result.filter(isQueryBoundWitnessWithMeta)
-    const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? 0)) + 1 : timestamp
-    // TODO: This needs to be thought through as we can't use a distributed timestamp
-    // because of collisions. We need to use the timestamp of the store so there's no
-    // chance of multiple commands at the same time
-    await this.commitState(address, nextState)
-    return queries
+    const queriesDivinerId = assertEx(this.config?.intersect?.queries?.boundWitnessDiviner, () => 'No queries Diviner defined')
+    const queriesBoundWitnessDiviner = await this.queriesDiviner()
+    if (queriesBoundWitnessDiviner) {
+      // Retrieve last offset from state store
+      const prevState = await this.retrieveState(address)
+      const destination = [address]
+      const limit = this.perAddressBatchQueryLimit
+      // Filter for commands to us by destination address
+      const divinerQuery: BoundWitnessDivinerQueryPayload = {
+        destination,
+        limit,
+        order: 'asc',
+        schema: BoundWitnessDivinerQuerySchema,
+        timestamp: prevState + 1,
+      }
+      const result = await queriesBoundWitnessDiviner.divine([divinerQuery])
+      const queries = result.filter(isQueryBoundWitnessWithMeta)
+      const nextState = queries.length > 0 ? Math.max(...queries.map((c) => c.timestamp ?? prevState)) + 1 : Date.now()
+      // TODO: This needs to be thought through as we can't use a distributed timestamp
+      // because of collisions. We need to use the timestamp of the store so there's no
+      // chance of multiple commands at the same time
+      await this.commitState(address, nextState)
+      this.logger?.debug('findQueriesToAddress', address, prevState, nextState)
+      return queries
+    } else {
+      this.logger?.warn(
+        `Unable to resolve queriesBoundWitnessDiviner [${queriesDivinerId}] [${await ResolveHelper.traceModuleIdentifier(this.rootModule, queriesDivinerId)}]`,
+      )
+    }
   }
 
   /**
@@ -157,17 +237,24 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
    * specified by the `config.pollFrequency`
    */
   private poll() {
-    this._pollId = setTimeoutEx(async () => {
-      try {
-        await this.processIncomingQueries()
-      } catch (e) {
-        this.logger?.error?.(`Error in main loop: ${e}`)
-      } finally {
-        if (this._pollId) clearTimeoutEx(this._pollId)
-        this._pollId = undefined
-        this.poll()
-      }
-    }, this.pollFrequencyConfig)
+    this._pollId = setTimeoutEx(
+      async () => {
+        try {
+          await this.processIncomingQueries()
+        } catch (e) {
+          this.logger?.error?.(`Error in main loop: ${e}`)
+        } finally {
+          if (this._pollId) clearTimeoutEx(this._pollId)
+          this._pollId = undefined
+          this.poll()
+        }
+        const now = Date.now()
+        if (this.idleThreshold < now - (this._lastQueryTime ?? now)) {
+          this._idle = true
+        }
+      },
+      this._idle ? this.idlePollFrequency : this.pollFrequency,
+    )
   }
 
   /**
@@ -182,9 +269,9 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     await Promise.allSettled(
       localModules.map(async (localModule) => {
         try {
-          const localModuleName = localModule.config.name ?? localModule.address
+          const localModuleName = localModule.id
           this.logger?.debug(`Checking for inbound queries to ${localModuleName} [${localModule.address}]`)
-          const queries = await this.findQueriesToAddress(localModule.address)
+          const queries = (await this.findQueriesToAddress(localModule.address)) ?? []
           if (queries.length === 0) return
           this.logger?.debug(`Found queries addressed to local module: ${localModuleName}`)
           for (const query of queries) {

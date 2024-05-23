@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { delay } from '@xylabs/delay'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
@@ -45,12 +46,14 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
   }
 
   async send(address: Address, query: QueryBoundWitness, payloads?: Payload[] | undefined): Promise<ModuleQueryResult> {
-    //console.log('send')
     this.logger?.debug(`Begin issuing query to: ${address}`)
     const $meta = { ...query?.$meta, destination: [address] }
     const routedQuery = await PayloadBuilder.build({ ...query, $meta })
     //console.log('queryArchivist - calling')
-    const queryArchivist = await this.queriesArchivist()
+    const queryArchivist = assertEx(
+      await this.queriesArchivist(),
+      () => `Unable to contact queriesArchivist [${this.config?.intersect?.queries?.archivist}]`,
+    )
     //console.log('queryArchivist')
 
     // TODO: Should we always re-hash to true up timestamps?  We can't
@@ -73,6 +76,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     if (!insertResult) throw new Error('Unable to issue query to queryArchivist')
     const context = new Promise<ModuleQueryResult>((resolve, reject) => {
       this.logger?.debug(`Polling for response to query: ${routedQueryHash}`)
+      let nextDelay = 100
       const pollForResponse = async () => {
         try {
           this.start()
@@ -81,15 +85,19 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
           while (response !== undefined) {
             //console.log('polling...')
             // Wait a bit
-            await delay(100)
+            await delay(nextDelay)
             // Check the status of the response
             response = this.queryCache.get(routedQueryHash)
             // If status is no longer pending that means we received a response
             if (response && response !== Pending) {
-              this.logger?.debug(`Returning response to query: ${routedQueryHash}`)
+              this.logger?.log(`Returning response to query: ${routedQueryHash}`)
               resolve(response)
               return
             }
+            //back off the polling frequency
+            nextDelay = Math.floor(nextDelay * 1.2)
+            //cap it at 1000ms
+            if (nextDelay > 1000) nextDelay = 1000
           }
           // If we got here waiting for a response timed out
           this.logger?.error('Timeout waiting for query response')
@@ -127,7 +135,7 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
         this._pollId = undefined
         this.poll()
       }
-    }, this.pollFrequencyConfig)
+    }, this.pollFrequency)
   }
 
   /**
@@ -135,26 +143,30 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
    */
   private processIncomingResponses = async () => {
     const responseArchivist = await this.responsesArchivist()
-    const responseBoundWitnessDiviner = await this.responsesDiviner()
-    const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
-    // TODO: Do in throttled batches
-    await Promise.allSettled(
-      pendingCommands.map(async ([sourceQuery, status]) => {
-        if (status === Pending) {
-          const divinerQuery: BoundWitnessDivinerQueryPayload = { schema: BoundWitnessDivinerQuerySchema, sourceQuery }
-          const result = await responseBoundWitnessDiviner.divine([divinerQuery])
-          if (result && result.length > 0) {
-            const response = result.find(isBoundWitnessWithMeta)
-            if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
-              this.logger?.debug(`Found response to query: ${sourceQuery}`)
-              // Get any payloads associated with the response
-              const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
-              this.queryCache.set(sourceQuery, [response, payloads, []])
+    if (responseArchivist) {
+      const responseBoundWitnessDiviner = await this.responsesDiviner()
+      if (responseBoundWitnessDiviner) {
+        const pendingCommands = [...this.queryCache.entries()].filter(([_, status]) => status === Pending)
+        // TODO: Do in throttled batches
+        await Promise.allSettled(
+          pendingCommands.map(async ([sourceQuery, status]) => {
+            if (status === Pending) {
+              const divinerQuery: BoundWitnessDivinerQueryPayload = { limit: 1, order: 'desc', schema: BoundWitnessDivinerQuerySchema, sourceQuery }
+              const result = await responseBoundWitnessDiviner.divine([divinerQuery])
+              if (result && result.length > 0) {
+                const response = result.find(isBoundWitnessWithMeta)
+                if (response && (response?.$meta as unknown as { sourceQuery: string })?.sourceQuery === sourceQuery) {
+                  this.logger?.debug(`Found response to query: ${sourceQuery}`)
+                  // Get any payloads associated with the response
+                  const payloads: PayloadWithMeta[] = response.payload_hashes?.length > 0 ? await responseArchivist.get(response.payload_hashes) : []
+                  this.queryCache.set(sourceQuery, [response, payloads, []])
+                }
+              }
             }
-          }
-        }
-      }),
-    )
+          }),
+        )
+      }
+    }
   }
 
   private start() {

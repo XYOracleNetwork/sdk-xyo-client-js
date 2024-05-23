@@ -1,6 +1,7 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
 import { Address, Hash, hexFromArrayBuffer } from '@xylabs/hex'
+import { globallyUnique } from '@xylabs/object'
 import { staticImplements } from '@xylabs/static-implements'
 import {
   AccountConfig,
@@ -33,6 +34,7 @@ function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
 @staticImplements<AccountStatic>()
 export class Account extends KeyPair implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
+  static readonly uniqueName = globallyUnique('Account', Account, 'xyo')
   protected static _addressMap: Record<string, WeakRef<Account>> = {}
   protected static _protectedConstructorKey = Symbol()
   protected _node: HDNodeWallet | undefined = undefined
@@ -78,14 +80,6 @@ export class Account extends KeyPair implements AccountInstance {
     return (await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress() as AccountInstance
   }
 
-  static async fromMnemonic(mnemonic: Mnemonic): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(typeof mnemonic === 'string' ? getPrivateKeyFromMnemonic(mnemonic) : getPrivateKeyFromMnemonic(mnemonic))
-  }
-
-  static async fromPhrase(phrase: string): Promise<AccountInstance> {
-    return await Account.fromPrivateKey(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(phrase)))
-  }
-
   static async fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance> {
     const privateKey = typeof key === 'string' ? toUint8Array(key.padStart(64, '0')) : key
     return await Account.create({ privateKey })
@@ -118,7 +112,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async sign(hash: ArrayBuffer, previousHash: ArrayBuffer | undefined): Promise<ArrayBuffer> {
-    await KeyPair.wasmInitialized
+    await KeyPair.wasmInitialized()
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
       const passedCurrentHash =
@@ -141,7 +135,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
-    await KeyPair.wasmInitialized
+    await KeyPair.wasmInitialized()
     return this.public.address.verify(msg, signature)
   }
 

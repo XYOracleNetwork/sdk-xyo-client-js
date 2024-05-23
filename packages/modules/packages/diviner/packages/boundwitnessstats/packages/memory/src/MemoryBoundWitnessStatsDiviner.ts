@@ -11,15 +11,16 @@ import {
   isBoundWitnessStatsQueryPayload,
 } from '@xyo-network/diviner-boundwitness-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemoryBoundWitnessStatsDiviner<
   TParams extends BoundWitnessStatsDivinerParams = BoundWitnessStatsDivinerParams,
 > extends BoundWitnessStatsDiviner<TParams> {
-  static override configSchemas = [BoundWitnessStatsDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessStatsDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = BoundWitnessStatsDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<number> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), () => 'Archivist does not support "all"')
     return all
       .filter(isBoundWitness)
@@ -28,7 +29,7 @@ export class MemoryBoundWitnessStatsDiviner<
   }
 
   protected async divineAllAddresses(): Promise<number> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = assertEx(await archivist.all?.(), () => 'Archivist does not support "all"')
     return all.filter(isBoundWitness).length
   }

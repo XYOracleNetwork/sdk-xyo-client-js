@@ -1,7 +1,7 @@
 import { toJsonString } from '@xylabs/object'
 import { HDWallet } from '@xyo-network/account'
-import { AddressSchema } from '@xyo-network/address-payload-plugin'
 import { NodeManifest, PackageManifestPayload } from '@xyo-network/manifest-model'
+import { AddressSchema } from '@xyo-network/module-model'
 
 import { ManifestWrapper } from '../Wrapper'
 import simpleNodeInlineManifest from './simple-node-inline-manifest.json'
@@ -15,7 +15,7 @@ describe('Manifest', () => {
       const [node] = await manifest.loadNodes()
       expect(node).toBeDefined()
 
-      const discover = await node.discover()
+      const discover = await node.state()
       const discoveredAddresses = discover.filter((item) => item.schema === AddressSchema)
       expect(discoveredAddresses.length).toBeGreaterThan(4)
       //expect((await node.resolve()).length).toBeGreaterThan(4)
@@ -24,7 +24,6 @@ describe('Manifest', () => {
       console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
       expect(roundTrip.modules?.public).toBeArrayOfSize(3)
-      expect(roundTrip.modules?.public?.length).toBe(3)
     })
   })
 })

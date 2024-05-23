@@ -5,13 +5,12 @@ import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
-import { MemoryBoundWitnessDiviner } from '@xyo-network/diviner-boundwitness-memory'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
-import { MemoryPayloadDiviner } from '@xyo-network/diviner-payload-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { isTemporalIndexingDivinerResultIndex, isTemporalIndexingDivinerResultIndexWithMeta } from '@xyo-network/diviner-temporal-indexing-model'
-import { ManifestWrapper, PackageManifest } from '@xyo-network/manifest'
-import { isModuleStateWithMeta, Labels, ModuleFactoryLocator } from '@xyo-network/module-model'
+import { ManifestWrapper, PackageManifestPayload } from '@xyo-network/manifest'
+import { ModuleFactoryLocator } from '@xyo-network/module-factory-locator'
+import { isModuleStateWithMeta, Labels } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { Payload } from '@xyo-network/payload-model'
@@ -88,15 +87,12 @@ describe.skip('TemporalIndexingDiviner', () => {
     }
     const wallet = await HDWallet.random()
     const locator = new ModuleFactoryLocator()
-    locator.register(MemoryArchivist)
-    locator.register(MemoryBoundWitnessDiviner)
-    locator.register(MemoryPayloadDiviner)
     locator.register(TemporalIndexingDivinerDivinerQueryToIndexQueryDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexCandidateToIndexDiviner, labels)
     locator.register(TemporalIndexingDivinerIndexQueryResponseToDivinerQueryResponseDiviner, labels)
     locator.register(TemporalIndexingDivinerStateToIndexCandidateDiviner, labels)
     locator.register(TemporalIndexingDiviner, labels)
-    const manifest = imageThumbnailDivinerManifest as PackageManifest
+    const manifest = imageThumbnailDivinerManifest as PackageManifestPayload
     const manifestWrapper = new ManifestWrapper(manifest, wallet, locator)
     node = await manifestWrapper.loadNodeFromIndex(0)
     await node.start()
@@ -104,7 +100,7 @@ describe.skip('TemporalIndexingDiviner', () => {
     const privateModules = manifest.nodes[0].modules?.private ?? []
     const publicModules = manifest.nodes[0].modules?.public ?? []
     const mods = await node.resolve('*')
-    expect(mods.length).toBe(privateModules.length + publicModules.length + 1)
+    expect(mods.length).toBe(privateModules.length + publicModules.length)
 
     // Insert previously witnessed payloads into thumbnail archivist
     const httpSuccessTimestamp: TimeStamp = { schema: TimestampSchema, timestamp: Date.now() }

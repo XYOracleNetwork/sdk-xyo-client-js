@@ -112,12 +112,13 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   protected static override async metaFields(
     dataHash: Hash,
     otherMeta?: JsonObject,
+    stamp = true,
     accounts?: AccountInstance[],
     previousHashes?: (Hash | null)[],
     destination?: Address[],
     sourceQuery?: Hash,
   ): Promise<JsonObject> {
-    const meta: JsonObject = { ...(await PayloadBuilderBase.metaFields(dataHash, otherMeta)) }
+    const meta = await super.metaFields(dataHash, otherMeta, stamp)
 
     if (accounts?.length && previousHashes?.length) {
       assertEx(accounts.length === previousHashes.length, () => 'accounts and previousHashes must have same length')
@@ -223,23 +224,43 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     return this
   }
 
+  signer(account: AccountInstance) {
+    this._accounts?.push(account)
+    return this
+  }
+
+  signers(accounts: AccountInstance[]) {
+    this._accounts?.push(...accounts)
+    return this
+  }
+
   sourceQuery(query?: Hash) {
     this._sourceQuery = query?.toLowerCase() as Hash
     return this
   }
 
+  /** @deprecated use signer instead */
   witness(account: AccountInstance) {
     this._accounts?.push(account)
     return this
   }
 
+  /** @deprecated use signers instead */
   witnesses(accounts: AccountInstance[]) {
     this._accounts?.push(...accounts)
     return this
   }
 
-  protected override async metaFields(dataHash: Hash): Promise<JsonObject> {
-    return await BoundWitnessBuilder.metaFields(dataHash, this._$meta, this._accounts, this.previousHashes, this._destination, this._sourceQuery)
+  protected override async metaFields(dataHash: Hash, stamp = true): Promise<JsonObject> {
+    return await BoundWitnessBuilder.metaFields(
+      dataHash,
+      this._$meta,
+      stamp,
+      this._accounts,
+      this.previousHashes,
+      this._destination,
+      this._sourceQuery,
+    )
   }
 
   protected async signatures(_hash: Hash, previousHashes: (Hash | ArrayBuffer | null)[]): Promise<string[]> {

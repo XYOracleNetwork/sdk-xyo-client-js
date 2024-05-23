@@ -3,7 +3,7 @@ import { DivinerConfig } from '@xyo-network/diviner-model'
 
 import { IndexedDbPayloadDivinerSchema } from './Schema'
 
-export const IndexedDbPayloadDivinerConfigSchema = `${IndexedDbPayloadDivinerSchema}.config`
+export const IndexedDbPayloadDivinerConfigSchema = `${IndexedDbPayloadDivinerSchema}.config` as const
 export type IndexedDbPayloadDivinerConfigSchema = typeof IndexedDbPayloadDivinerConfigSchema
 
 export type IndexedDbPayloadDivinerConfig = DivinerConfig<{

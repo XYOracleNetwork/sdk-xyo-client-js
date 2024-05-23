@@ -5,11 +5,11 @@ import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { isBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { BoundWitnessDivinerQueryPayload, BoundWitnessDivinerQuerySchema } from '@xyo-network/diviner-boundwitness-model'
-import { DivinerConfigSchema, DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { DivinerWrapper } from '@xyo-network/diviner-wrapper'
 import { isModuleState, ModuleState, ModuleStateSchema, StateDictionary } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 import { StatefulDivinerConfigSchema } from './Config'
 import { StatefulDivinerParams } from './Params'
@@ -23,10 +23,15 @@ export abstract class StatefulDiviner<
   TParams extends StatefulDivinerParams = StatefulDivinerParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
   TState extends StateDictionary = StateDictionary,
 > extends AbstractDiviner<TParams, TIn, TOut, TEventData> {
-  static override readonly configSchemas: string[] = [DivinerConfigSchema, StatefulDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, StatefulDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = StatefulDivinerConfigSchema
 
   /**
    * The last state
@@ -45,7 +50,7 @@ export abstract class StatefulDiviner<
     if (nextState.state.offset === this._lastState?.state.offset) return
     this._lastState = nextState
     const archivist = await this.getArchivistForStateStore()
-    const [bw] = await (await new BoundWitnessBuilder().payload(nextState)).witness(this.account).build()
+    const [bw] = await new BoundWitnessBuilder().payload(nextState).signer(this.account).build()
     await archivist.insert([bw, nextState])
   }
 

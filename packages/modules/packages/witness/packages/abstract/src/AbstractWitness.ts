@@ -1,17 +1,20 @@
 import { assertEx } from '@xylabs/assert'
+import { globallyUnique } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
+import { AccountInstance } from '@xyo-network/account-model'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
 import { AbstractModuleInstance } from '@xyo-network/module-abstract'
-import { creatableModule, ModuleConfig, ModuleQueryHandlerResult } from '@xyo-network/module-model'
+import { creatableModule, ModuleConfig, ModuleQueryHandlerResult, ModuleQueryResult } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import {
   CustomWitnessInstance,
   WitnessConfigSchema,
   WitnessInstance,
   WitnessModuleEventData,
+  WitnessObserveQuery,
   WitnessObserveQuerySchema,
   WitnessParams,
   WitnessQueries,
@@ -31,13 +34,11 @@ export abstract class AbstractWitness<
   extends AbstractModuleInstance<TParams, TEventData>
   implements CustomWitnessInstance<TParams, TIn, TOut, TEventData>
 {
-  static override readonly configSchemas: string[] = [WitnessConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, WitnessConfigSchema]
+  static override readonly defaultConfigSchema: Schema = WitnessConfigSchema
+  static override readonly uniqueName = globallyUnique('AbstractWitness', AbstractWitness, 'xyo')
 
   private _archivistInstance: ArchivistInstance | undefined
-
-  get archivist() {
-    return this.config.archivist
-  }
 
   override get queries(): string[] {
     return [WitnessObserveQuerySchema, ...super.queries]
@@ -72,6 +73,11 @@ export abstract class AbstractWitness<
     await this.emit('observeEnd', { inPayloads, module: this, outPayloads } as TEventData['observeEnd'])
 
     return outPayloads
+  }
+
+  async observeQuery(payloads?: TIn[], account?: AccountInstance): Promise<ModuleQueryResult<TOut>> {
+    const queryPayload: WitnessObserveQuery = { schema: WitnessObserveQuerySchema }
+    return await this.sendQueryRaw(queryPayload, payloads, account)
   }
 
   /** @function queryHandler Calls observe for an observe query.  Override to support additional queries. */

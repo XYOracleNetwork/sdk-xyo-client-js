@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
@@ -7,13 +8,15 @@ import {
   ArchivistDeleteQuerySchema,
   ArchivistInsertQuerySchema,
   ArchivistModuleEventData,
+  ArchivistNextOptions,
+  ArchivistNextQuerySchema,
   buildStandardIndexName,
   IndexDescription,
 } from '@xyo-network/archivist-model'
 import { creatableModule } from '@xyo-network/module-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, PayloadWithMeta } from '@xyo-network/payload-model'
-import { IDBPDatabase, openDB } from 'idb'
+import { Payload, PayloadWithMeta, Schema } from '@xyo-network/payload-model'
+import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
 
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
@@ -27,7 +30,8 @@ export class IndexedDbArchivist<
   TParams extends IndexedDbArchivistParams = IndexedDbArchivistParams,
   TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
 > extends AbstractArchivist<TParams, TEventData> {
-  static override configSchemas = [IndexedDbArchivistConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, IndexedDbArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = IndexedDbArchivistConfigSchema
   static readonly defaultDbName = 'archivist'
   static readonly defaultDbVersion = 1
   static readonly defaultStoreName = 'payloads'
@@ -60,7 +64,14 @@ export class IndexedDbArchivist<
   }
 
   override get queries() {
-    return [ArchivistAllQuerySchema, ArchivistClearQuerySchema, ArchivistDeleteQuerySchema, ArchivistInsertQuerySchema, ...super.queries]
+    return [
+      ArchivistNextQuerySchema,
+      ArchivistAllQuerySchema,
+      ArchivistClearQuerySchema,
+      ArchivistDeleteQuerySchema,
+      ArchivistInsertQuerySchema,
+      ...super.queries,
+    ]
   }
 
   /**
@@ -144,6 +155,54 @@ export class IndexedDbArchivist<
     }
   }
 
+  protected async getFromOffset(
+    db: IDBPDatabase<PayloadStore>,
+    storeName: string,
+    order: 'asc' | 'desc' = 'asc',
+    limit: number = 10,
+    offset?: Hash,
+  ): Promise<PayloadWithMeta[]> {
+    const transaction = db.transaction(storeName, 'readonly')
+    const store = transaction.objectStore(storeName)
+    const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
+    let primaryCursor: IDBPCursorWithValue<PayloadStore, [string]> | null | undefined = undefined
+    if (offset) {
+      const hashCursor = assertEx(await hashIndex.openCursor(offset), () => 'Failed to get cursor')
+      const startPrimaryKey = (hashCursor?.primaryKey ?? 0) as number //we know the primary key is a number and starts at 1
+      primaryCursor = await (order === 'desc' ?
+        store.openCursor(IDBKeyRange.upperBound(startPrimaryKey), 'prev')
+      : store.openCursor(IDBKeyRange.lowerBound(startPrimaryKey), 'next'))
+      if (!primaryCursor?.value) return []
+      try {
+        primaryCursor = await primaryCursor?.advance(1) //advance to skip the offset value
+      } catch {
+        return []
+      }
+    } else {
+      primaryCursor = await store.openCursor(null, order === 'desc' ? 'prev' : 'next')
+      if (!primaryCursor?.value) return []
+    }
+
+    let remaining = limit
+    const result: PayloadWithMeta[] = []
+    while (remaining) {
+      const value = primaryCursor?.value
+      if (value) {
+        result.push(value)
+        try {
+          primaryCursor = await primaryCursor?.advance(1)
+        } catch {
+          break
+        }
+        if (primaryCursor === null) {
+          break
+        }
+      }
+      remaining--
+    }
+    return result
+  }
+
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
       Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
@@ -187,6 +246,10 @@ export class IndexedDbArchivist<
       // Only return the payloads that were successfully inserted
       const inserted = await Promise.all(
         pairs.map(async ([payload, _hash]) => {
+          const existing = (await this.getHandler([_hash])).shift()
+          if (existing) {
+            return
+          }
           // Perform each insert via a transaction to ensure it is atomic
           // with respect to checking for the pre-existence of the hash.
           // This is done to preserve iteration via insertion order.
@@ -215,6 +278,13 @@ export class IndexedDbArchivist<
     } finally {
       db.close()
     }
+  }
+
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+    const { limit, offset, order } = options ?? {}
+    return await this.useDb(async (db) => {
+      return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)
+    })
   }
 
   protected override async startHandler() {

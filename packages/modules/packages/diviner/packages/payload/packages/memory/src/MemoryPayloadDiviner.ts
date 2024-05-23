@@ -1,5 +1,6 @@
 import { assertEx } from '@xylabs/assert'
-import { DivinerModule, DivinerModuleEventData } from '@xyo-network/diviner-model'
+import { removeFields } from '@xylabs/object'
+import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { PayloadDiviner } from '@xyo-network/diviner-payload-abstract'
 import {
   isPayloadDivinerQueryPayload,
@@ -8,22 +9,26 @@ import {
   PayloadDivinerQueryPayload,
 } from '@xyo-network/diviner-payload-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload, WithMeta } from '@xyo-network/payload-model'
+import { Payload, Schema, WithMeta } from '@xyo-network/payload-model'
 
 export class MemoryPayloadDiviner<
   TParams extends PayloadDivinerParams = PayloadDivinerParams,
   TIn extends PayloadDivinerQueryPayload = PayloadDivinerQueryPayload,
   TOut extends Payload = Payload,
-  TEventData extends DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut> = DivinerModuleEventData<DivinerModule<TParams>, TIn, TOut>,
+  TEventData extends DivinerModuleEventData<DivinerInstance<TParams, TIn, TOut>, TIn, TOut> = DivinerModuleEventData<
+    DivinerInstance<TParams, TIn, TOut>,
+    TIn,
+    TOut
+  >,
 > extends PayloadDiviner<TParams, TIn, TOut, TEventData> {
-  static override configSchemas = [PayloadDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, PayloadDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = PayloadDivinerConfigSchema
 
   protected override async divineHandler(payloads?: TIn[]): Promise<WithMeta<TOut>[]> {
     const filter = assertEx(payloads?.filter(isPayloadDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { schemas, limit, offset, hash, order, schema, $meta, $hash, ...props } = filter as WithMeta<TIn>
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
+    const { schemas, limit, offset, hash, order = 'desc', ...props } = removeFields(filter as WithMeta<TIn>, ['schema', '$meta', '$hash'])
     let all = (await archivist.all?.()) as WithMeta<TOut>[]
     if (all) {
       if (order === 'desc') all = all.reverse()
@@ -59,9 +64,9 @@ export class MemoryPayloadDiviner<
                 allPairs.shift()
               }
             }
-            return allPairs.map(([payload]) => payload)
+            return allPairs.map(([payload]) => payload).slice(parsedOffset, parsedOffset + parsedLimit)
           })()
-        : all.slice(parsedOffset, parsedLimit)
+        : all.slice(parsedOffset, parsedOffset + parsedLimit)
     } else {
       throw new Error('Archivist does not support "all"')
     }

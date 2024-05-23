@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "incremental": false,
+    "typeRoots": []
+  },
+
+  "extends": "@xylabs/tsconfig"
+}

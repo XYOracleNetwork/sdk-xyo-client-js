@@ -27,5 +27,5 @@ export const validDappPackageManifestSchema = {
       },
     },
   ],
-  schema: 'network.xyo.dapp.manifest',
+  schema: 'network.xyo.manifest.package.dapp',
 }

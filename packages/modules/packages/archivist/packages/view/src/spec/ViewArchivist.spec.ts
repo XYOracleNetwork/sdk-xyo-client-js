@@ -3,6 +3,7 @@
  */
 import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
+import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
@@ -14,20 +15,23 @@ import { ViewArchivist } from '../ViewArchivist'
  */
 describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync(), config: { schema: MemoryNode.configSchema } })
+    const node = await MemoryNode.create({ account: Account.randomSync() })
     const originArchivist = await MemoryArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'origin', schema: MemoryArchivist.configSchema },
+      config: { name: 'origin', schema: MemoryArchivist.defaultConfigSchema },
     })
     const viewArchivist = await ViewArchivist.create({
       account: Account.randomSync(),
-      config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.configSchema },
+      config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
     })
 
+    expect(isArchivistInstance(viewArchivist)).toBeTruthy()
+    expect(isArchivistModule(viewArchivist)).toBeTruthy()
+
     await node.register(originArchivist)
-    await node.attach(originArchivist.config.name ?? originArchivist.address, false)
+    await node.attach(originArchivist.modName ?? originArchivist.address, false)
     await node.register(viewArchivist)
-    await node.attach(viewArchivist.config.name ?? viewArchivist.address, true)
+    await node.attach(viewArchivist.modName ?? viewArchivist.address, true)
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]
     const payloadHashes = payloads.map((payload) => payload.$hash)

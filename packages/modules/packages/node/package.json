@@ -13,15 +13,15 @@
     "@xyo-network/node-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
+    "@xyo-network/node-view": "workspace:~",
     "@xyo-network/node-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/delay": "^3.0.24",
-    "@xylabs/ts-scripts-yarn3": "^3.5.2",
-    "@xylabs/tsconfig": "^3.5.2",
+    "@xylabs/delay": "^3.3.3",
+    "@xylabs/ts-scripts-yarn3": "^3.10.4",
+    "@xylabs/tsconfig": "^3.10.4",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/account-model": "workspace:~",
-    "@xyo-network/address-payload-plugin": "workspace:~",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/diviner-archivist": "workspace:~",
@@ -31,7 +31,7 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload": "workspace:~",
     "@xyo-network/witness-adhoc": "workspace:~",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",
@@ -72,6 +72,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.93.4",
+  "version": "2.103.3",
   "type": "module"
 }

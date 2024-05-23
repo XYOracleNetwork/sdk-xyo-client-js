@@ -39,3 +39,5 @@ export type OverridablePayload<T extends Payload> = Omit<T, 'schema'> & { schema
 
 export type WithSources<T extends EmptyObject> = T & { sources?: Hash[] }
 export type PayloadWithSources<T extends void | EmptyObject | WithSchema = void, S extends Schema | void = void> = WithSources<Payload<T, S>>
+
+export type WithAnySchema<T extends Payload> = Omit<T, 'schema'> & { schema: string }

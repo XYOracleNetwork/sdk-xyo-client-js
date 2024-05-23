@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
-import { AbstractBridge } from '@xyo-network/abstract-bridge'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
+import { AbstractBridge } from '@xyo-network/bridge-abstract'
 import { BridgeExposeOptions, BridgeModule, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { PackageManifestPayload } from '@xyo-network/manifest-model'
 import {
@@ -14,7 +14,7 @@ import {
   ModuleParams,
   ModuleQueryResult,
 } from '@xyo-network/module-model'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 import { LRUCache } from 'lru-cache'
 
 import { defaultPackageManifest } from './defaultNodeManifest'
@@ -46,7 +46,8 @@ export interface QueryResultMessage {
 
 @creatableModule()
 export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams> {
-  static override configSchemas = [WorkerBridgeConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, WorkerBridgeConfigSchema]
+  static override readonly defaultConfigSchema: Schema = WorkerBridgeConfigSchema
 
   private _discoverCache?: LRUCache<string, Payload[]>
   private _targetConfigs: Record<string, ModuleConfig> = {}
@@ -59,7 +60,7 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
   }
 
   get discoverCacheConfig(): LRUCache.Options<string, Payload[], unknown> {
-    const discoverCacheConfig: CacheConfig | undefined = this.config.discoverCache === true ? {} : this.config.discoverCache
+    const discoverCacheConfig: CacheConfig | undefined = {}
     return { max: 100, ttl: 1000 * 60 * 5, ...discoverCacheConfig }
   }
 
@@ -106,6 +107,10 @@ export class WorkerBridge<TParams extends WorkerBridgeParams = WorkerBridgeParam
 
   override exposedHandler(): Promisable<Address[]> {
     return []
+  }
+
+  override getRoots(_force?: boolean | undefined): Promise<ModuleInstance[]> {
+    return Promise.resolve([])
   }
 
   override unexposeHandler(_id: string, _options?: BridgeUnexposeOptions | undefined): Promisable<ModuleInstance[]> {

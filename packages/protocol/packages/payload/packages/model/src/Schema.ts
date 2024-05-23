@@ -3,7 +3,7 @@ import { AsTypeFactory, EmptyObject } from '@xylabs/object'
 /** Schema type in Javascript is a string */
 export type Schema = string
 
-export const PayloadSchema = 'network.xyo.payload'
+export const PayloadSchema = 'network.xyo.payload' as const
 export type PayloadSchema = typeof PayloadSchema
 
 export const isSchema = (value: unknown): value is Schema => {

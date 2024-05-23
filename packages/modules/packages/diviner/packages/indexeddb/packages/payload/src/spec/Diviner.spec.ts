@@ -69,7 +69,7 @@ describe('IndexedDbPayloadDiviner', () => {
 
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
-      config: { dbName, schema: IndexedDbArchivist.configSchema, storage: { indexes: [urlIndex] }, storeName },
+      config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName },
     })
     await archivist.insert(payloads)
     sut = await IndexedDbPayloadDiviner.create({
@@ -77,13 +77,13 @@ describe('IndexedDbPayloadDiviner', () => {
       config: {
         archivist: archivist.address,
         dbName,
-        schema: IndexedDbPayloadDiviner.configSchema,
+        schema: IndexedDbPayloadDiviner.defaultConfigSchema,
         storeName,
       },
     })
     node = await MemoryNode.create({
       account: Account.randomSync(),
-      config: { schema: MemoryNode.configSchema },
+      config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]
     await node.start()

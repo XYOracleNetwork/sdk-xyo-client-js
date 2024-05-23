@@ -11,13 +11,14 @@ import {
   SchemaStatsQueryPayload,
 } from '@xyo-network/diviner-schema-stats-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
-import { Payload } from '@xyo-network/payload-model'
+import { Payload, Schema } from '@xyo-network/payload-model'
 
 export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams = SchemaStatsDivinerParams> extends SchemaStatsDiviner<TParams> {
-  static override configSchemas = [SchemaStatsDivinerConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, SchemaStatsDivinerConfigSchema]
+  static override readonly defaultConfigSchema: Schema = SchemaStatsDivinerConfigSchema
 
   protected async divineAddress(address: Address): Promise<Record<string, number>> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     const filtered = all
       .filter(isBoundWitness)
@@ -35,7 +36,7 @@ export class MemorySchemaStatsDiviner<TParams extends SchemaStatsDivinerParams =
   }
 
   protected async divineAllAddresses(): Promise<Record<string, number>> {
-    const archivist = assertEx(await this.getArchivist(), () => 'Unable to resolve archivist')
+    const archivist = assertEx(await this.archivistInstance(), () => 'Unable to resolve archivist')
     const all = await assertEx(archivist.all, () => 'Archivist does not support "all"')()
     // eslint-disable-next-line unicorn/no-array-reduce
     const counts: Record<string, number> = all.reduce(

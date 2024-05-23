@@ -4,16 +4,24 @@ import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
   ArchivistConfig,
+  ArchivistGetQuerySchema,
   ArchivistInstance,
   ArchivistModuleEventData,
   ArchivistNextOptions,
   ArchivistNextQuerySchema,
   isArchivistInstance,
 } from '@xyo-network/archivist-model'
-import { AnyConfigSchema, creatableModule, ModuleIdentifier, ModuleInstance, ModuleParams } from '@xyo-network/module-model'
-import { PayloadWithMeta } from '@xyo-network/payload-model'
+import {
+  AnyConfigSchema,
+  labeledCreatableModuleFactory,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleLimitationViewLabel,
+  ModuleParams,
+} from '@xyo-network/module-model'
+import { PayloadWithMeta, Schema } from '@xyo-network/payload-model'
 
-export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config'
+export const ViewArchivistConfigSchema = 'network.xyo.archivist.view.config' as const
 export type ViewArchivistConfigSchema = typeof ViewArchivistConfigSchema
 
 export type ViewArchivistConfig = ArchivistConfig<
@@ -25,7 +33,7 @@ export type ViewArchivistConfig = ArchivistConfig<
 
 export type ViewArchivistParams<TConfig extends AnyConfigSchema<ViewArchivistConfig> = AnyConfigSchema<ViewArchivistConfig>> = ModuleParams<TConfig>
 
-@creatableModule()
+@labeledCreatableModuleFactory()
 export class ViewArchivist<
     TParams extends ViewArchivistParams<AnyConfigSchema<ViewArchivistConfig>> = ViewArchivistParams,
     TEventData extends ArchivistModuleEventData = ArchivistModuleEventData,
@@ -33,7 +41,9 @@ export class ViewArchivist<
   extends AbstractArchivist<TParams, TEventData>
   implements ArchivistInstance, ModuleInstance
 {
-  static override configSchemas = [ViewArchivistConfigSchema]
+  static override readonly configSchemas: Schema[] = [...super.configSchemas, ViewArchivistConfigSchema]
+  static override readonly defaultConfigSchema: Schema = ViewArchivistConfigSchema
+  static override readonly labels = { ...ModuleLimitationViewLabel }
 
   private _originArchivistInstance?: ArchivistInstance
 
@@ -42,7 +52,7 @@ export class ViewArchivist<
   }
 
   override get queries() {
-    return [ArchivistAllQuerySchema, ArchivistNextQuerySchema, ...super.queries]
+    return [ArchivistGetQuerySchema, ArchivistAllQuerySchema, ArchivistNextQuerySchema, ...super.queries]
   }
 
   async originArchivistInstance() {

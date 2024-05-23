@@ -4,6 +4,7 @@ import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { Payload } from '@xyo-network/payload-model'
 
 import { ModuleConfig } from '../Config'
+import { ModuleName } from '../ModuleIdentifier'
 import { ModuleParams } from '../ModuleParams'
 import { ModuleQueryResult } from '../ModuleQueryResult'
 
@@ -13,6 +14,8 @@ export interface ModuleFields<TParams extends ModuleParams = ModuleParams> {
 
   /** The name (if specified) or address of the module */
   id: string
+
+  modName?: ModuleName
 
   params: TParams
 

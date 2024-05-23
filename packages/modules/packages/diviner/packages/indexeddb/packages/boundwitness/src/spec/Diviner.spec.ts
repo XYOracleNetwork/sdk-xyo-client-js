@@ -67,7 +67,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
       account: Account.randomSync(),
-      config: { dbName, schema: IndexedDbArchivist.configSchema, storeName },
+      config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
     })
     await archivist.insert(boundWitnesses)
     sut = await IndexedDbBoundWitnessDiviner.create({
@@ -75,13 +75,13 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       config: {
         archivist: archivist.address,
         dbName,
-        schema: IndexedDbBoundWitnessDiviner.configSchema,
+        schema: IndexedDbBoundWitnessDiviner.defaultConfigSchema,
         storeName,
       },
     })
     node = await MemoryNode.create({
       account: Account.randomSync(),
-      config: { schema: MemoryNode.configSchema },
+      config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]
     await node.start()

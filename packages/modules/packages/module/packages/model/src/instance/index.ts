@@ -1,4 +1,5 @@
 export * from './asModuleInstance'
+export * from './attachable'
 export * from './Instance'
 export * from './isModuleInstance'
 export * from './ModuleFilter'

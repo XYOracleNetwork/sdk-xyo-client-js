@@ -10,7 +10,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "~3.0.24",
+    "@xylabs/hex": "~3.3.3",
     "@xyo-network/diviner-boundwitness-model": "workspace:~",
     "@xyo-network/diviner-indexing-model": "workspace:~",
     "@xyo-network/diviner-jsonpath-model": "workspace:~",

@@ -162,6 +162,8 @@ describe('PubSubBridge', () => {
     hostBridge.on('queryFulfillStarted', ({ query }) => console.log(`Query fulfill started: ${query}`))
     hostBridge.on('queryFulfillFinished', ({ query }) => console.log(`Query fulfill finished: ${query}`))
 
+    clientBridge.onAny((event) => console.log(`onAny: ${String(event)}`))
+
     await clientBridge?.start?.()
     await hostBridge?.start?.()
     await clientNode.register(clientBridge)

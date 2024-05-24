@@ -30,7 +30,6 @@
     "typescript": "^5.4.5"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
       "browser": {
@@ -56,8 +55,9 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.cjs",
-  "module": "dist/node/index.js",
+  "main": "dist/neutral/index.cjs",
+  "module": "dist/neutral/index.js",
+  "types": "dist/neutral/index.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

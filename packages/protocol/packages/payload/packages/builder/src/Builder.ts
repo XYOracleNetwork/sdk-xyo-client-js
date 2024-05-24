@@ -1,6 +1,6 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
-import { AnyObject, isJsonObject, JsonObject } from '@xylabs/object'
+import { AnyObject, isJsonObject, JsonArray, JsonObject } from '@xylabs/object'
 import { deepOmitPrefixedFields, PayloadHasher } from '@xyo-network/hash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
@@ -23,7 +23,14 @@ export class PayloadBuilder<
       return await Promise.all(payload.map((payload) => this.build(payload, options)))
     } else {
       const { stamp = false, validate = true } = options
-      const { schema, $hash: incomingDataHash, $meta: incomingMeta } = payload as WithMeta<T>
+      const { schema, $hash: incomingDataHash, $meta: incomingMeta = {} } = payload as WithMeta<T>
+
+      //check for legacy signatures
+      const { _signatures } = payload as { _signatures?: JsonArray }
+      if (_signatures && !incomingMeta.signatures) {
+        incomingMeta.signatures = _signatures
+      }
+
       const fields = removeMetaAndSchema(payload)
       const dataHashableFields = await PayloadBuilder.dataHashableFields(schema, fields)
       const $hash = validate || incomingDataHash === undefined ? await PayloadHasher.hash(dataHashableFields) : incomingDataHash

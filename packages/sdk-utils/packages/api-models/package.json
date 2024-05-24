@@ -9,7 +9,7 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/axios": "^3.4.1"
+    "@xylabs/axios": "^3.5.0"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.10.4",

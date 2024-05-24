@@ -10,8 +10,8 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.4.1",
-    "@xylabs/object": "^3.4.1",
+    "@xylabs/hex": "^3.5.0",
+    "@xylabs/object": "^3.5.0",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/module-events": "workspace:~",
     "@xyo-network/module-model": "workspace:~",

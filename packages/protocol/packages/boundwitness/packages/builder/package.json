@@ -10,10 +10,10 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/arraybuffer": "^3.4.1",
-    "@xylabs/assert": "^3.4.1",
-    "@xylabs/hex": "^3.4.1",
-    "@xylabs/object": "^3.4.1",
+    "@xylabs/arraybuffer": "^3.5.0",
+    "@xylabs/assert": "^3.5.0",
+    "@xylabs/hex": "^3.5.0",
+    "@xylabs/object": "^3.5.0",
     "@xyo-network/account-model": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/hash": "workspace:~",
@@ -24,7 +24,7 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/object": "^3.4.1",
+    "@xylabs/object": "^3.5.0",
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
     "@xyo-network/account": "workspace:~",

@@ -10,51 +10,15 @@ export const ModuleManifestPayloadSchema: ModuleManifestPayloadSchema = 'network
 export type NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 export const NodeManifestPayloadSchema: NodeManifestPayloadSchema = 'network.xyo.node.manifest'
 
-import { Address } from '@xylabs/hex'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 
-export type ModuleAlias = Exclude<string, 'reserved-alias-value-8346534876'>
-
-export interface Manifest {
-  description?: string
-}
-
-export interface ConfigManifest {
-  accountPath?: string
-  features?: string[]
-  labels?: Record<string, string | undefined>
-  language?: string
-  name: string
-  os?: string
-  schema: string
-}
-
-export interface NodeManifest extends ModuleManifest {
-  modules?: {
-    private?: (ModuleManifest | ModuleAlias)[]
-    public?: (ModuleManifest | ModuleAlias)[]
-  }
-}
+import { ModuleManifest, NodeManifest, PackageManifest } from './Manifest'
 
 export interface NodeManifestPayload extends NodeManifest {
   schema: NodeManifestPayloadSchema
 }
 
-export interface ModuleManifest extends Manifest {
-  config: ConfigManifest
-  lazyStart?: boolean
-  status?: {
-    address: Address
-    children?: Record<Address, string | null>
-  }
-}
-
 export type ModuleManifestPayload = Payload<ModuleManifest, ModuleManifestPayloadSchema | NodeManifestPayloadSchema>
-
-export interface PackageManifest extends Manifest {
-  modules?: Record<ModuleAlias, ModuleManifest>
-  nodes: NodeManifest[]
-}
 
 export type PackageManifestPayload = Payload<PackageManifest, PackageManifestPayloadSchema>
 

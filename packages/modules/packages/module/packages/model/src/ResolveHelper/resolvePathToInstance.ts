@@ -5,7 +5,7 @@ import { ModuleInstance } from '../instance'
 import { MODULE_PATH_SEPARATOR } from '../ModuleIdentifier'
 import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
 import { resolveAddressToInstance } from './resolveAddressToInstance'
-import { ResolveHelper } from './ResolveHelper'
+import { ResolveHelperStatic } from './ResolveHelperStatic'
 import { resolveLocalNameToAddress } from './resolveLocalNameToAddress'
 import { transformModuleIdentifier } from './transformModuleIdentifier'
 
@@ -13,7 +13,7 @@ export const resolvePathToInstance = async (
   root: ModuleInstance,
   path: string,
   includePrivate = false,
-  transformers: ModuleIdentifierTransformer[] = ResolveHelper.transformers,
+  transformers: ModuleIdentifierTransformer[] = ResolveHelperStatic.transformers,
 ): Promise<ModuleInstance | undefined> => {
   const parts = path.split(MODULE_PATH_SEPARATOR)
   const first = await transformModuleIdentifier(

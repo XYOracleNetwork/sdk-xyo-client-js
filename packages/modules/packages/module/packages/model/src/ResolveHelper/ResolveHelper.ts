@@ -10,6 +10,7 @@ import { asModuleInstance, ModuleFilter, ModuleFilterOptions, ModuleInstance, Mo
 import { duplicateModules } from '../lib'
 import { ModuleIdentifier } from '../ModuleIdentifier'
 import { ModuleIdentifierTransformer } from '../ModuleIdentifierTransformer'
+import { ResolveHelperStatic } from './ResolveHelperStatic'
 import { resolvePathToAddress } from './resolvePathToAddress'
 import { traceModuleIdentifier } from './traceModuleIdentifier'
 import { transformModuleIdentifier } from './transformModuleIdentifier'
@@ -65,9 +66,7 @@ export interface ResolveHelperConfig {
   upResolver?: ModuleResolver
 }
 
-export class ResolveHelper {
-  static defaultLogger?: Logger
-  static transformers: ModuleIdentifierTransformer[] = []
+export class ResolveHelper extends ResolveHelperStatic {
   static async resolve<T extends ModuleInstance = ModuleInstance>(
     config: ResolveHelperConfig,
     all: '*',

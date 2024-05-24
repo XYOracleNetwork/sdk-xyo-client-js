@@ -1,13 +1,21 @@
 import { assertEx } from '@xylabs/assert'
 import { AxiosError, AxiosJson } from '@xylabs/axios'
 import { exists } from '@xylabs/exists'
+import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { ApiEnvelope } from '@xyo-network/api-models'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractBridge } from '@xyo-network/bridge-abstract'
-import { BridgeExposeOptions, BridgeModule, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
+import {
+  BridgeExposeOptions,
+  BridgeModule,
+  BridgeParams,
+  BridgeUnexposeOptions,
+  QuerySendFinishedEventArgs,
+  QuerySendStartedEventArgs,
+} from '@xyo-network/bridge-model'
 import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
@@ -77,6 +85,12 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
         additionalSigners: this.additionalSigners,
         archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
+        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
+          forget(this.emit('querySendFinished', { module: this, ...args }))
+        },
+        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
+          forget(this.emit('querySendStarted', { module: this, ...args }))
+        },
         querySender: this,
         root: this,
         rootUrl: this.nodeUrl,

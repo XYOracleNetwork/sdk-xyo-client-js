@@ -3067,10 +3067,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/arraybuffer@npm:~3.0.25":
+  version: 3.0.25
+  resolution: "@xylabs/arraybuffer@npm:3.0.25"
+  dependencies:
+    "@scure/base": "npm:^1.1.6"
+    "@xylabs/assert": "npm:~3.0.25"
+    "@xylabs/lodash": "npm:^3.0.25"
+    "@xylabs/typeof": "npm:~3.0.25"
+  checksum: 10/91b032a6a63dc8304c64cf77e81df216fdc024f8f1d7e50738df926c3579e94ca3475a4f6b0b9ff5ddf93ac42789f7f3f805e0b9672b46c0898fa67f3eb2e69e
+  languageName: node
+  linkType: hard
+
 "@xylabs/assert@npm:^3.3.3, @xylabs/assert@npm:~3.3.3":
   version: 3.3.3
   resolution: "@xylabs/assert@npm:3.3.3"
   checksum: 10/f51afeb394d76941e8219a34b1a610c44667e395a31773bc425cc00f5fda52b6c1ee0eca9ac92e7ae04c38e9300533856ab8a4582b93fd764e160477ae164cab
+  languageName: node
+  linkType: hard
+
+"@xylabs/assert@npm:~3.0.25":
+  version: 3.0.25
+  resolution: "@xylabs/assert@npm:3.0.25"
+  checksum: 10/a4e5aa46d83ec7478cf5d784f4a9e9d709fe7aab86af9da737122e4b617ba077ad13ab884ead282ec06eabc70cdcc4de4dd1f28f7636824e9225284c93465424
   languageName: node
   linkType: hard
 
@@ -3159,6 +3178,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xylabs/hex@npm:~3.0.24":
+  version: 3.0.25
+  resolution: "@xylabs/hex@npm:3.0.25"
+  dependencies:
+    "@xylabs/arraybuffer": "npm:~3.0.25"
+  checksum: 10/1a2fb12a7f64add3869bee8aff0ac52d545a0d38f6ac97471c2ce9eae9c3efee7422869d3ecd7df1620a5f8a2d45f1afc8b6e54a48295cae4356a6f3c616d9bc
+  languageName: node
+  linkType: hard
+
 "@xylabs/jest-helpers@npm:^3.3.3":
   version: 3.3.3
   resolution: "@xylabs/jest-helpers@npm:3.3.3"
@@ -3168,7 +3196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xylabs/lodash@npm:^3.3.3":
+"@xylabs/lodash@npm:^3.0.25, @xylabs/lodash@npm:^3.3.3":
   version: 3.3.3
   resolution: "@xylabs/lodash@npm:3.3.3"
   dependencies:
@@ -3421,6 +3449,13 @@ __metadata:
   version: 3.3.3
   resolution: "@xylabs/typeof@npm:3.3.3"
   checksum: 10/d53d642d2be33b0858a1855ed2d0b24c2ab789f128c12a5e835cf45604eeea0c29c4277e5e4aa557f9c25f3fe488f0ab4c0ebb35c79178f7a31e80dc6858d0a9
+  languageName: node
+  linkType: hard
+
+"@xylabs/typeof@npm:~3.0.25":
+  version: 3.0.25
+  resolution: "@xylabs/typeof@npm:3.0.25"
+  checksum: 10/fa89437ff5de2b8635df06029fce56be8f21a90d67482083a64c7dbf14b2d9b9460ed9ba7e22ccc4c4033c2155b5f84809ca669e7d9764f0953bf4c85217f51b
   languageName: node
   linkType: hard
 
@@ -5339,6 +5374,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing-model@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal/packages/model"
   dependencies:
+    "@xylabs/hex": "npm:~3.0.24"
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
     "@xyo-network/diviner-boundwitness-model": "workspace:~"

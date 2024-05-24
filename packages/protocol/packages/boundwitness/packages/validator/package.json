@@ -10,9 +10,9 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/arraybuffer": "^3.3.3",
-    "@xylabs/lodash": "^3.3.3",
-    "@xylabs/typeof": "^3.3.3",
+    "@xylabs/arraybuffer": "^3.4.1",
+    "@xylabs/lodash": "^3.4.1",
+    "@xylabs/typeof": "^3.4.1",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/boundwitness-model": "workspace:~",
     "@xyo-network/payload": "workspace:~",
@@ -64,6 +64,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.103.4",
+  "version": "2.103.5",
   "type": "module"
 }

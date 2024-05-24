@@ -16,8 +16,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@xylabs/hex": "^3.3.3",
-    "@xylabs/object": "^3.3.3",
+    "@xylabs/hex": "^3.4.1",
+    "@xylabs/object": "^3.4.1",
     "@xyo-network/payload-model": "workspace:~"
   },
   "exports": {
@@ -58,6 +58,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.103.4",
+  "version": "2.103.5",
   "type": "module"
 }

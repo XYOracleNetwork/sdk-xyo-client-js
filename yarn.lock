@@ -3495,6 +3495,7 @@ __metadata:
     "@xyo-network/account-model": "workspace:~"
     "@xyo-network/data": "workspace:~"
     "@xyo-network/key-model": "workspace:~"
+    "@xyo-network/previous-hash-store": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     "@xyo-network/wasm": "workspace:~"
@@ -6136,7 +6137,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb":
+"@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb, @xyo-network/previous-hash-store-indexeddb@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-indexeddb@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/indexeddb"
   dependencies:
@@ -6163,7 +6164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage":
+"@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage, @xyo-network/previous-hash-store-storage@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store-storage@workspace:packages/protocol/packages/account/packages/previous-hash-store/packages/storage"
   dependencies:
@@ -6177,13 +6178,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store":
+"@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store, @xyo-network/previous-hash-store@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/previous-hash-store@workspace:packages/protocol/packages/account/packages/previous-hash-store"
   dependencies:
     "@xylabs/ts-scripts-yarn3": "npm:^3.10.4"
     "@xylabs/tsconfig": "npm:^3.10.4"
+    "@xyo-network/previous-hash-store-indexeddb": "workspace:~"
     "@xyo-network/previous-hash-store-model": "workspace:~"
+    "@xyo-network/previous-hash-store-storage": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft

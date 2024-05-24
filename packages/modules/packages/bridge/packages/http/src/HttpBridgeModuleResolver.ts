@@ -52,6 +52,8 @@ export class HttpBridgeModuleResolver<
       config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress,
+      onQuerySendFinished: this.params.onQuerySendFinished,
+      onQuerySendStarted: this.params.onQuerySendStarted,
       querySender: this.querySender,
     }
 

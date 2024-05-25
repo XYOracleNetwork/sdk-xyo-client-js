@@ -1,7 +1,7 @@
 import { Account } from '@xyo-network/account'
 
-import { HttpBridge, HttpBridgeParams } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
+import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
 
 describe('HttpBridge', () => {
   let httpBridge: HttpBridge<HttpBridgeParams>

@@ -91,12 +91,14 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   protected startHttpServer() {
-    assertEx(!this._server, () => 'Server already started')
-    this.app.get('/', (_req, res) => {
-      //TODO: Handle The request
-      res.json({ schema: 'network.xyo.test' })
-    })
-    this._server = this.app.listen(this.config.host?.port ?? 3030)
+    if (this.config.host) {
+      assertEx(!this._server, () => 'Server already started')
+      this.app.get('/', (_req, res) => {
+        //TODO: Handle The request
+        res.json({ schema: 'network.xyo.test' })
+      })
+      this._server = this.app.listen(this.config.host?.port ?? 3030)
+    }
     return true
   }
 

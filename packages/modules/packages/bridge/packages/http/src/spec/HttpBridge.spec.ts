@@ -9,8 +9,8 @@ import { PayloadBuilder } from '@xyo-network/payload-builder'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload-model'
 import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
-import { HttpBridge } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
+import { HttpBridge } from '../HttpBridgeFull'
 
 /**
  * @group module

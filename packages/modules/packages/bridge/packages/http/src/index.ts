@@ -1,2 +1,2 @@
-export * from './HttpBridgeBase'
 export * from './HttpBridgeConfig'
+export * from './HttpBridgeFull'

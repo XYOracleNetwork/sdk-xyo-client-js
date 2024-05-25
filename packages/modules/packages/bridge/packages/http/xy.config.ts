@@ -4,6 +4,9 @@ const config: XyTsupConfig = {
     browser: {
       src: { entry: ['./src/index-browser.ts'] },
     },
+    neutral: {
+      src: { entry: ['./src/index-browser.ts'] },
+    },
     node: {
       src: { entry: ['./src/index.ts'] },
     },

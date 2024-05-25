@@ -4,9 +4,12 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
+import { ApiEnvelopeSuccess } from '@xyo-network/api-models'
+import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
-import { AnyConfigSchema, creatableModule, ModuleInstance, resolveAddressToInstanceUp } from '@xyo-network/module-model'
-import express, { Application } from 'express'
+import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
+import express, { Application, Request, Response } from 'express'
 
 import { HttpBridgeBase } from './HttpBridgeBase'
 import { HttpBridgeConfig } from './HttpBridgeConfig'
@@ -25,6 +28,11 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       (() => {
         const app = express()
         app.use(express.json())
+
+        this.app.post<Payload[]>('/', (req, res) => {
+          this.handlePost(req, res)
+        })
+
         return app
       })()
     return this._app
@@ -90,13 +98,37 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return []
   }
 
+  protected async callLocalModule(address: Address, query: QueryBoundWitness, payloads: Payload[]): Promise<ModuleQueryResult | null> {
+    const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+    if (mod) {
+      return await mod.query(query, payloads)
+    }
+    return null
+  }
+
+  protected handlePost(req: Request<Payload[]>, res: Response) {
+    const allPayloads = req.body as Payload[]
+    const query = allPayloads.find(isQueryBoundWitness) as QueryBoundWitness
+    const payloads = allPayloads.filter((payload) => !isQueryBoundWitness(payload))
+    this.callLocalModule(req.route, query, payloads)
+      .then((result) => {
+        if (result === null) {
+          res.status(404).json({ error: 'Module not found' })
+        } else {
+          const envelope = {
+            data: result,
+          } as ApiEnvelopeSuccess<ModuleQueryResult>
+          res.json(envelope)
+        }
+      })
+      .catch((ex) => {
+        res.status(500).json({ error: (ex as Error).message })
+      })
+  }
+
   protected startHttpServer() {
     if (this.config.host) {
       assertEx(!this._server, () => 'Server already started')
-      this.app.get('/', (_req, res) => {
-        //TODO: Handle The request
-        res.json({ schema: 'network.xyo.test' })
-      })
       this._server = this.app.listen(this.config.host?.port ?? 3030)
     }
     return true

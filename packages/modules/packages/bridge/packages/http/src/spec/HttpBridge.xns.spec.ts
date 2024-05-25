@@ -5,7 +5,7 @@ import { NameRegistrarTransformer } from '@xyo-network/module-resolver'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 
-import { HttpBridge } from '../HttpBridge'
+import { HttpBridge } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 /**

@@ -1,6 +1,6 @@
 import { Account } from '@xyo-network/account'
 
-import { HttpBridge, HttpBridgeParams } from '../HttpBridge'
+import { HttpBridge, HttpBridgeParams } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 describe('HttpBridge', () => {

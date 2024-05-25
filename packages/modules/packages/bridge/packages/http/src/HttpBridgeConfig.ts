@@ -8,6 +8,9 @@ export type HttpBridgeConfig<TConfig extends EmptyObject = EmptyObject, TSchema 
   {
     failureRetryTime?: number
     failureTimeCacheMax?: number
+    host?: {
+      port?: number
+    }
     maxConnections?: number
     maxPayloadSizeWarning?: number
     nodeUrl?: string

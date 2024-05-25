@@ -38,7 +38,7 @@ import { BridgeQuerySender } from './ModuleProxy'
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
-export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
+export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
   static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
   static defaultFailureRetryTime = 1000 * 60
@@ -48,7 +48,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
 
   private _axios?: AxiosJson
   private _discoverRootsMutex = new Mutex()
-  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridge.maxFailureCacheSize })
+  private _failureTimeCache = new LRUCache<Address, number>({ max: HttpBridgeBase.maxFailureCacheSize })
   private _querySemaphore?: Semaphore
   private _resolver?: HttpBridgeModuleResolver
 
@@ -58,15 +58,15 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends AbstractBridge
   }
 
   get failureRetryTime() {
-    return this.config.failureRetryTime ?? HttpBridge.defaultFailureRetryTime
+    return this.config.failureRetryTime ?? HttpBridgeBase.defaultFailureRetryTime
   }
 
   get maxConnections() {
-    return this.config.maxConnections ?? HttpBridge.defaultMaxConnections
+    return this.config.maxConnections ?? HttpBridgeBase.defaultMaxConnections
   }
 
   get maxPayloadSizeWarning() {
-    return this.config.maxPayloadSizeWarning ?? HttpBridge.defaultMaxPayloadSizeWarning
+    return this.config.maxPayloadSizeWarning ?? HttpBridgeBase.defaultMaxPayloadSizeWarning
   }
 
   get nodeUrl() {

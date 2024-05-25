@@ -2,7 +2,7 @@ import { Account } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 
-import { HttpBridge } from '../HttpBridge'
+import { HttpBridge } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 /**

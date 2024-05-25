@@ -1,6 +1,6 @@
 import { MemoryNode } from '@xyo-network/node-memory'
 
-import { HttpBridge } from '../HttpBridge'
+import { HttpBridge } from '../HttpBridgeBase'
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 
 /**

@@ -31,6 +31,7 @@
     "lru-cache": "^10.2.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
     "@xyo-network/account": "workspace:~",
@@ -41,20 +42,23 @@
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
+    "express": "^4.19.2",
     "typescript": "^5.4.5"
   },
+  "optionalDependencies": {
+    "express": "^4"
+  },
   "description": "Primary SDK for using XYO Protocol 2.0",
-  "types": "dist/node/index.d.ts",
   "exports": {
     ".": {
       "browser": {
         "require": {
-          "types": "./dist/browser/index.d.cts",
-          "default": "./dist/browser/index.cjs"
+          "types": "./dist/browser/index-browser.d.cts",
+          "default": "./dist/browser/index-browser.cjs"
         },
         "import": {
-          "types": "./dist/browser/index.d.mts",
-          "default": "./dist/browser/index.js"
+          "types": "./dist/browser/index-browser.d.mts",
+          "default": "./dist/browser/index-browser.js"
         }
       },
       "node": {
@@ -70,8 +74,9 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/node/index.cjs",
-  "module": "dist/node/index.js",
+  "main": "dist/neutral/index-browser.cjs",
+  "module": "dist/neutral/index-browser.js",
+  "types": "dist/neutral/index-browser.d.ts",
   "homepage": "https://xyo.network",
   "license": "LGPL-3.0-only",
   "publishConfig": {

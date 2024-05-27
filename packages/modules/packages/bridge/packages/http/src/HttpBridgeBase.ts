@@ -57,6 +57,11 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     return this._axios
   }
 
+  get clientUrl() {
+    // eslint-disable-next-line deprecation/deprecation
+    return assertEx(this.config.client?.url ?? this.config.nodeUrl, () => 'No Url Set')
+  }
+
   get failureRetryTime() {
     return this.config.failureRetryTime ?? HttpBridgeBase.defaultFailureRetryTime
   }
@@ -67,10 +72,6 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
 
   get maxPayloadSizeWarning() {
     return this.config.maxPayloadSizeWarning ?? HttpBridgeBase.defaultMaxPayloadSizeWarning
-  }
-
-  get nodeUrl() {
-    return assertEx(this.config.nodeUrl, () => 'No Url Set')
   }
 
   get querySemaphore() {
@@ -93,7 +94,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
         },
         querySender: this,
         root: this,
-        rootUrl: this.nodeUrl,
+        rootUrl: this.clientUrl,
         wrapperAccount: this.account,
       })
     return this._resolver
@@ -126,7 +127,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   }
 
   moduleUrl(address: Address) {
-    return new URL(address, this.nodeUrl)
+    return new URL(address, this.clientUrl)
   }
 
   async sendBridgeQuery<TOut extends Payload = Payload, TQuery extends QueryBoundWitness = QueryBoundWitness, TIn extends Payload = Payload>(
@@ -178,7 +179,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
     try {
-      const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.nodeUrl.toString(), boundQuery)
+      const response = await this.axios.post<ApiEnvelope<ModuleQueryResult>>(this.clientUrl.toString(), boundQuery)
       if (response.status === 404) {
         return []
       }
@@ -189,7 +190,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
       return payloads
     } catch (ex) {
       const error = ex as Error
-      this.logger?.warn(`Unable to connect to remote node: ${error.message} [${this.nodeUrl}]`)
+      this.logger?.warn(`Unable to connect to remote node: ${error.message} [${this.clientUrl}]`)
     }
   }
 

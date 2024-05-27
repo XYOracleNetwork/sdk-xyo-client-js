@@ -55,6 +55,10 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return this.params.allowNameResolution ?? true
   }
 
+  get discoverRoots() {
+    return this.config.client?.discoverRoots ?? this.config.discoverRoots ?? (this.config.client === undefined ? false : 'start')
+  }
+
   override get queries(): string[] {
     return [BridgeConnectQuerySchema, BridgeDisconnectQuerySchema, BridgeExposeQuerySchema, BridgeUnexposeQuerySchema, ...super.queries]
   }
@@ -138,10 +142,9 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   override async startHandler(): Promise<boolean> {
-    const { discoverRoots } = this.config
-    if (discoverRoots === 'lazy') {
+    if (this.discoverRoots === 'lazy') {
       forget(this.getRoots())
-    } else {
+    } else if (this.discoverRoots === 'start') {
       await this.getRoots()
     }
     return true

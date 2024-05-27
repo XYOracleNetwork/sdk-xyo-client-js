@@ -7,6 +7,7 @@ export type BridgeConfigSchema = typeof BridgeConfigSchema
 
 export type BridgeClientConfig = {
   cache?: CacheConfig | true
+  discoverRoots?: 'start' | 'lazy'
   maxDepth?: number
 }
 
@@ -24,6 +25,7 @@ export type BridgeConfig<
   WithAdditional<
     {
       client?: WithAdditional<BridgeClientConfig, TClient>
+      /** @deprecated use client.discoverRoots instead */
       discoverRoots?: 'start' | 'lazy'
       host?: WithAdditional<BridgeHostConfig, THost>
       schema: TConfig extends Payload ? TConfig['schema'] : BridgeConfigSchema

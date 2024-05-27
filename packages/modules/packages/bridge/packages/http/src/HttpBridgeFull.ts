@@ -29,7 +29,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
         const app = express()
         app.use(express.json())
 
-        this.app.post<Payload[]>('/', (req, res) => {
+        app.post<Payload[]>('/', (req, res) => {
           this.handlePost(req, res)
         })
 

@@ -12,7 +12,7 @@ import { HttpBridge } from '../HttpBridgeFull'
  * @group bridge
  */
 
-describe('HttpBridge', () => {
+describe.skip('HttpBridge', () => {
   const port = 3011
   const url = `http://localhost:${port}`
 

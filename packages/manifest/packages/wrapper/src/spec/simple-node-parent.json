@@ -36,6 +36,7 @@
           {
             "config": {
               "client": {
+                "discoverRoots": "start",
                 "url": "http://localhost:8080"
               },
               "language": "javascript",

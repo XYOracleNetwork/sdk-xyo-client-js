@@ -22,7 +22,7 @@ describe('HttpBridge', () => {
   })
 
   it('should have nodeUrl defined', () => {
-    expect(httpBridge.nodeUrl).toBe('http://localhost:8080')
+    expect(httpBridge.clientUrl).toBe('http://localhost:8080')
   })
 
   it('should have resolver defined', () => {

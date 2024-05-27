@@ -35,9 +35,11 @@
           },
           {
             "config": {
+              "client": {
+                "url": "http://localhost:8080"
+              },
               "language": "javascript",
               "name": "SimpleHttpBridge",
-              "nodeUrl": "http://localhost:8080",
               "schema": "network.xyo.bridge.http.config"
             }
           }

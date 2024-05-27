@@ -10,13 +10,13 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xylabs/assert": "^3.5.0",
-    "@xylabs/hex": "^3.5.0",
-    "@xylabs/lodash": "^3.5.0",
-    "@xylabs/object": "^3.5.0",
-    "@xylabs/platform": "^3.5.0",
-    "@xylabs/threads": "^3.5.0",
-    "@xylabs/typeof": "^3.5.0",
+    "@xylabs/assert": "^3.5.1",
+    "@xylabs/hex": "^3.5.1",
+    "@xylabs/lodash": "^3.5.1",
+    "@xylabs/object": "^3.5.1",
+    "@xylabs/platform": "^3.5.1",
+    "@xylabs/threads": "^3.5.1",
+    "@xylabs/typeof": "^3.5.1",
     "@xyo-network/wasm": "workspace:~",
     "hash-wasm": "^4.11.0",
     "sha.js": "^2.4.11"
@@ -24,10 +24,10 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@types/sha.js": "^2.4.4",
-    "@xylabs/delay": "^3.5.0",
+    "@xylabs/delay": "^3.5.1",
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
-    "esbuild": "^0.21.3",
+    "esbuild": "^0.21.4",
     "typescript": "^5.4.5"
   },
   "exports": {
@@ -75,6 +75,6 @@
     "package-compile": "package-compile-only && yarn bundle"
   },
   "sideEffects": false,
-  "version": "2.103.9",
+  "version": "2.104.0",
   "type": "module"
 }

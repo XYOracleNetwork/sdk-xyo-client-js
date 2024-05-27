@@ -16,7 +16,7 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.10.4",
     "@xylabs/tsconfig": "^3.10.4",
-    "ajv": "^8.13.0",
+    "ajv": "^8.14.0",
     "typescript": "^5.4.5"
   },
   "types": "dist/node/index.d.ts",
@@ -61,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.103.9",
+  "version": "2.104.0",
   "type": "module"
 }

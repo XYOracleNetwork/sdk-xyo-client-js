@@ -35,6 +35,9 @@
           },
           {
             "config": {
+              "client": {
+                "url": "http://localhost:8080"
+              },
               "language": "javascript",
               "name": "SimpleHttpBridgeChild",
               "nodeUrl": "http://localhost:8080",

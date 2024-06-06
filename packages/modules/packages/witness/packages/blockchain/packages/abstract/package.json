@@ -17,13 +17,13 @@
     "@xyo-network/module-model": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/witness-model": "workspace:~",
-    "ethers": "6.12.1"
+    "ethers": "6.13.0"
   },
   "devDependencies": {
     "@xylabs/jest-helpers": "^3.5.1",
-    "@xylabs/ts-scripts-yarn3": "^3.10.4",
-    "@xylabs/tsconfig": "^3.10.4",
-    "ethers": "6.12.1",
+    "@xylabs/ts-scripts-yarn3": "^3.11.2",
+    "@xylabs/tsconfig": "^3.11.2",
+    "ethers": "6.13.0",
     "jest": "^29.7.0",
     "typescript": "^5.4.5"
   },

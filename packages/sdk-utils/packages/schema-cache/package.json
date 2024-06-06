@@ -16,14 +16,14 @@
     "@xyo-network/huri": "workspace:~",
     "@xyo-network/payload-model": "workspace:~",
     "@xyo-network/schema-payload-plugin": "workspace:~",
-    "ajv": "^8.14.0",
+    "ajv": "^8.16.0",
     "lru-cache": "^10.2.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/assert": "^3.5.1",
-    "@xylabs/ts-scripts-yarn3": "^3.10.4",
-    "@xylabs/tsconfig-dom": "^3.10.4",
+    "@xylabs/ts-scripts-yarn3": "^3.11.2",
+    "@xylabs/tsconfig-dom": "^3.11.2",
     "@xyo-network/network": "workspace:~",
     "@xyo-network/payload-builder": "workspace:~",
     "typescript": "^5.4.5"

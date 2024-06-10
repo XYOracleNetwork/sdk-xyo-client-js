@@ -72,18 +72,6 @@ export abstract class AbstractArchivist<
     return this.config.requireAllParents ?? false
   }
 
-  protected override get _queryAccountPaths(): Record<ArchivistQueries['schema'], string> {
-    return {
-      'network.xyo.query.archivist.all': '1/1',
-      'network.xyo.query.archivist.clear': '1/2',
-      'network.xyo.query.archivist.commit': '1/3',
-      'network.xyo.query.archivist.delete': '1/4',
-      'network.xyo.query.archivist.get': '1/5',
-      'network.xyo.query.archivist.insert': '1/6',
-      'network.xyo.query.archivist.next': '1/7',
-    }
-  }
-
   protected get storeParentReads() {
     return !!this.config?.storeParentReads
   }

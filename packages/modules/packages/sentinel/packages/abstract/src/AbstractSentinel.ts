@@ -51,12 +51,6 @@ export abstract class AbstractSentinel<
     return this.config.throwErrors ?? true
   }
 
-  protected override get _queryAccountPaths(): Record<SentinelQueries['schema'], string> {
-    return {
-      'network.xyo.query.sentinel.report': '1/1',
-    }
-  }
-
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')
     const reportPromise = (async () => {

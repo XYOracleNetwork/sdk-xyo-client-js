@@ -67,15 +67,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
     return assertEx(this.params.resolver, () => 'No resolver provided')
   }
 
-  protected override get _queryAccountPaths(): Record<BridgeQueries['schema'], string> {
-    return {
-      'network.xyo.query.bridge.connect': '1/1',
-      'network.xyo.query.bridge.disconnect': '1/2',
-      'network.xyo.query.bridge.expose': '1/4',
-      'network.xyo.query.bridge.unexpose': '1/5',
-    }
-  }
-
   async expose(id: ModuleIdentifier, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     this._noOverride('expose')
     assertEx(id !== '*', () => "Exposing '*' not supported")

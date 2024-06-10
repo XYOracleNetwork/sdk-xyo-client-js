@@ -93,10 +93,6 @@ export abstract class AbstractModuleProxy<
     return queryPayloads.map((payload) => payload.query)
   }
 
-  protected override get _queryAccountPaths() {
-    return this._baseModuleQueryAccountPaths
-  }
-
   static hasRequiredQueries(module: Module) {
     return this.missingRequiredQueries(module).length === 0
   }

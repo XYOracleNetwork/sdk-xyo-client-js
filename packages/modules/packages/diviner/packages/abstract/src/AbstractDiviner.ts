@@ -42,12 +42,6 @@ export abstract class AbstractDiviner<
     return [DivinerDivineQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<DivinerQueries['schema'], string> {
-    return {
-      'network.xyo.query.diviner.divine': '1/1',
-    }
-  }
-
   /** @function divine The main entry point for a diviner.  Do not override this function.  Implement/override divineHandler for custom functionality */
   divine(payloads: TIn[] = [], retryConfigIn?: RetryConfigWithComplete): Promise<WithSources<WithMeta<TOut>>[]> {
     this._noOverride('divine')

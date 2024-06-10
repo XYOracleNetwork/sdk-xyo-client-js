@@ -44,12 +44,6 @@ export abstract class AbstractWitness<
     return [WitnessObserveQuerySchema, ...super.queries]
   }
 
-  protected override get _queryAccountPaths(): Record<WitnessQueries['schema'], string> {
-    return {
-      'network.xyo.query.witness.observe': '1/1',
-    }
-  }
-
   async getArchivistInstance() {
     const archivistAddress = this.archivist
     this._archivistInstance = this._archivistInstance ?? (archivistAddress ? await this.resolve(archivistAddress) : undefined)

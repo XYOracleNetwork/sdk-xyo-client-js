@@ -204,12 +204,14 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
-    // TODO: First check hash, then data hash in one promise
     const payloads = await this.useDb((db) =>
       Promise.all(
         hashes.map(async (hash) => {
+          // Find by hash
           const payload = await this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          // If found, return
           if (payload) return payload
+          // Otherwise, find by data hash
           return this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash)
         }),
       ),
@@ -217,14 +219,18 @@ export class IndexedDbArchivist<
 
     // Filter out duplicates
     const found = new Set<string>()
-    const payloadsFromHash = payloads.filter(exists).filter(([_key, payload]) => {
-      if (found.has(payload.$hash)) {
-        return false
-      } else {
-        found.add(payload.$hash)
-        return true
-      }
-    })
+    const payloadsFromHash = payloads
+      // Filter out not found
+      .filter(exists)
+      // Filter out duplicates
+      .filter(([_key, payload]) => {
+        if (found.has(payload.$hash)) {
+          return false
+        } else {
+          found.add(payload.$hash)
+          return true
+        }
+      })
 
     return (
       // Merge what we found from the hash and data hash indexes

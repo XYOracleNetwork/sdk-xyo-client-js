@@ -68,16 +68,6 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     ]
   }
 
-  protected override get _queryAccountPaths(): Record<NodeQueries['schema'], string> {
-    return {
-      [NodeAttachQuerySchema]: '1/1',
-      [NodeAttachedQuerySchema]: '1/2',
-      [NodeCertifyQuerySchema]: '1/5',
-      [NodeDetachQuerySchema]: '1/3',
-      [NodeRegisteredQuerySchema]: '1/4',
-    }
-  }
-
   static isNode(module: unknown) {
     return (module as AbstractNode).isNode
   }

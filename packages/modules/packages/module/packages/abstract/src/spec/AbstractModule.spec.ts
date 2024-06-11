@@ -6,9 +6,6 @@ import { Schema } from '@xyo-network/payload-model'
 import { AbstractModuleInstance } from '../AbstractModuleInstance'
 export class TestAbstractModule extends AbstractModuleInstance {
   static override readonly configSchemas: Schema[] = [ModuleConfigSchema]
-  protected override get _queryAccountPaths() {
-    return super.baseModuleQueryAccountPaths
-  }
 }
 
 /**

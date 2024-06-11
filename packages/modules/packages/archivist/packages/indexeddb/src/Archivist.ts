@@ -204,13 +204,18 @@ export class IndexedDbArchivist<
   }
 
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
+    // TODO: First check hash, then data hash in one promise
     const payloads = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+      Promise.all(
+        hashes.map(async (hash) => {
+          const payload = await this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          if (payload) return payload
+          return this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash)
+        }),
+      ),
     )
-    const payloadsFromDataHashes = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
-    )
-    //filter out duplicates
+
+    // Filter out duplicates
     const found = new Set<string>()
     const payloadsFromHash = payloads.filter(exists).filter(([_key, payload]) => {
       if (found.has(payload.$hash)) {
@@ -220,17 +225,10 @@ export class IndexedDbArchivist<
         return true
       }
     })
-    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter(([_key, payload]) => {
-      if (found.has(payload.$hash)) {
-        return false
-      } else {
-        found.add(payload.$hash)
-        return true
-      }
-    })
+
     return (
       // Merge what we found from the hash and data hash indexes
-      [...payloadsFromHash, ...payloadsFromDataHash]
+      payloadsFromHash
         // Sort in ascending order by primary key (for semi-predictable ordering in terms of insertion order)
         .sort((a, b) => a[0] - b[0])
         // Return just the payloads

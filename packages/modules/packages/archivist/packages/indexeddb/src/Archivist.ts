@@ -217,29 +217,25 @@ export class IndexedDbArchivist<
       ),
     )
 
+    // Filter out not found
+    const filteredPayloads = payloads.filter(exists)
+
+    // Sort in ascending order by primary key (for predictable ordering in terms of insertion order)
+    filteredPayloads.sort((a, b) => a![0] - b![0])
+
     // Filter out duplicates
     const found = new Set<string>()
-    const payloadsFromHash = payloads
-      // Filter out not found
-      .filter(exists)
-      // Filter out duplicates
-      .filter(([_key, payload]) => {
-        if (found.has(payload.$hash)) {
-          return false
-        } else {
-          found.add(payload.$hash)
-          return true
-        }
-      })
+    const uniquePayloads = filteredPayloads.filter(([_key, payload]) => {
+      if (found.has(payload.$hash)) {
+        return false
+      } else {
+        found.add(payload.$hash)
+        return true
+      }
+    })
 
-    return (
-      // Merge what we found from the hash and data hash indexes
-      payloadsFromHash
-        // Sort in ascending order by primary key (for semi-predictable ordering in terms of insertion order)
-        .sort((a, b) => a[0] - b[0])
-        // Return just the payloads
-        .map(([_key, payload]) => payload)
-    )
+    // Return just the payloads
+    return uniquePayloads.map(([_key, payload]) => payload)
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {

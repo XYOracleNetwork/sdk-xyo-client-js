@@ -244,16 +244,14 @@ export class IndexedDbArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-
-    const db = await this.getInitializedDb()
-    try {
+    return await this.useDb(async (db) => {
       // Only return the payloads that were successfully inserted
       const inserted = await Promise.all(
         pairs.map(async ([payload, _hash]) => {
+          // Check if the hash already exists
           const existing = (await this.getHandler([_hash])).shift()
-          if (existing) {
-            return
-          }
+          // If it does exist, return undefined to indicate nothing was inserted
+          if (existing) return
           // Perform each insert via a transaction to ensure it is atomic
           // with respect to checking for the pre-existence of the hash.
           // This is done to preserve iteration via insertion order.
@@ -279,9 +277,7 @@ export class IndexedDbArchivist<
         }),
       )
       return inserted.filter(exists)
-    } finally {
-      db.close()
-    }
+    })
   }
 
   protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {

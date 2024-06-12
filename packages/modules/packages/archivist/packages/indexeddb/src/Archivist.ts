@@ -102,7 +102,8 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    const pairs = await PayloadBuilder.hashPairs(await this.getHandler(hashes))
+    const uniqueHashes = uniq(hashes)
+    const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
     const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
@@ -123,7 +124,7 @@ export class IndexedDbArchivist<
           }
         }),
       )
-      return found.filter(exists).filter((hash) => hashes.includes(hash))
+      return found.filter(exists).filter((hash) => uniqueHashes.includes(hash))
     })
   }
 

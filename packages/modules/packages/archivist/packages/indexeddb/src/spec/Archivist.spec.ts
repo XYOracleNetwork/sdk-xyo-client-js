@@ -212,7 +212,7 @@ describe('IndexedDbArchivist', () => {
       expect(getResult).toBeDefined()
       expect(getResult).toBeArrayOfSize(0)
     })
-    describe.only('by root/data hash', () => {
+    describe('by root/data hash', () => {
       let dataHash1: Hash
       let dataHash2: Hash
       let rootHash1: Hash

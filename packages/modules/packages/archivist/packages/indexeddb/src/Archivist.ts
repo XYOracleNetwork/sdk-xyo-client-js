@@ -102,6 +102,7 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
+    // Filter duplicates to prevent unnecessary DB queries
     const uniqueHashes = uniq(hashes)
     const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
     const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])

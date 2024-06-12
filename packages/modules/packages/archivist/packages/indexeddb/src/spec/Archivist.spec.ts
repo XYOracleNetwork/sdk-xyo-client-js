@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
@@ -210,6 +211,35 @@ describe('IndexedDbArchivist', () => {
       const getResult = await archivistModule.get([hashThatDoesNotExist])
       expect(getResult).toBeDefined()
       expect(getResult).toBeArrayOfSize(0)
+    })
+    describe.only('by root/data hash', () => {
+      let dataHash1: Hash
+      let dataHash2: Hash
+      let rootHash1: Hash
+      let rootHash2: Hash
+      beforeAll(async () => {
+        const payload1: PayloadWithMeta = await PayloadBuilder.build({ $meta: { timestamp: 1 }, salt: '1', schema: IdSchema })
+        const payload2: PayloadWithMeta = await PayloadBuilder.build({ $meta: { timestamp: 2 }, salt: '1', schema: IdSchema })
+        dataHash1 = await PayloadBuilder.dataHash(payload1)
+        dataHash2 = await PayloadBuilder.dataHash(payload2)
+        rootHash1 = await PayloadBuilder.hash(payload1)
+        rootHash2 = await PayloadBuilder.hash(payload2)
+        expect(dataHash1).toBe(dataHash2)
+        expect(rootHash1).not.toBe(rootHash2)
+        await archivistModule.insert([payload1, payload2])
+      })
+      it('returns unique data hashes', async () => {
+        // Get by data hash
+        const getDataHashResults = await archivistModule.get([dataHash1, dataHash2])
+        expect(getDataHashResults).toBeDefined()
+        expect(getDataHashResults).toBeArrayOfSize(1)
+      })
+      it('returns unique root hashes', async () => {
+        // Get by root hash
+        const getRootHashResults = await archivistModule.get([rootHash1, rootHash2])
+        expect(getRootHashResults).toBeDefined()
+        expect(getRootHashResults).toBeArrayOfSize(2)
+      })
     })
   })
   describe('insert', () => {

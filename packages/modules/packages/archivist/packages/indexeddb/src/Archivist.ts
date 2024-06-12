@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
+import { uniq } from '@xylabs/lodash'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -206,7 +207,8 @@ export class IndexedDbArchivist<
   protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
     const payloads = await this.useDb((db) =>
       Promise.all(
-        hashes.map(async (hash) => {
+        // Filter duplicates to prevent unnecessary DB queries
+        uniq(hashes).map(async (hash) => {
           // Find by hash
           const payload = await this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash)
           // If found, return

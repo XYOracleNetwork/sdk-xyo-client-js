@@ -212,33 +212,62 @@ describe('IndexedDbArchivist', () => {
       expect(getResult).toBeDefined()
       expect(getResult).toBeArrayOfSize(0)
     })
-    describe('by root/data hash', () => {
+    describe('by hash', () => {
+      let payload1: PayloadWithMeta
+      let payload2: PayloadWithMeta
       let dataHash1: Hash
       let dataHash2: Hash
       let rootHash1: Hash
       let rootHash2: Hash
       beforeAll(async () => {
-        const payload1: PayloadWithMeta = await PayloadBuilder.build({ $meta: { timestamp: 1 }, salt: '1', schema: IdSchema })
-        const payload2: PayloadWithMeta = await PayloadBuilder.build({ $meta: { timestamp: 2 }, salt: '1', schema: IdSchema })
+        const salt = '650123f6-191e-4cc4-a813-f7a29dcbfb0e'
+        payload1 = await PayloadBuilder.build({
+          _signatures: [
+            '12bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
+          ],
+          salt,
+          schema: IdSchema,
+        })
+        payload2 = await PayloadBuilder.build({
+          _signatures: [
+            '22bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
+          ],
+          salt,
+          schema: IdSchema,
+        })
         dataHash1 = await PayloadBuilder.dataHash(payload1)
         dataHash2 = await PayloadBuilder.dataHash(payload2)
         rootHash1 = await PayloadBuilder.hash(payload1)
         rootHash2 = await PayloadBuilder.hash(payload2)
         expect(dataHash1).toBe(dataHash2)
         expect(rootHash1).not.toBe(rootHash2)
-        await archivistModule.insert([payload1, payload2])
+        await archivistModule.insert([payload1])
+        await archivistModule.insert([payload2])
       })
-      it('returns unique data hashes', async () => {
-        // Get by data hash
-        const getDataHashResults = await archivistModule.get([dataHash1, dataHash2])
-        expect(getDataHashResults).toBeDefined()
-        expect(getDataHashResults).toBeArrayOfSize(1)
+      describe('data hash', () => {
+        it('returns value using data hash', async () => {
+          const getDataHashResults = await archivistModule.get([dataHash1])
+          expect(getDataHashResults).toBeDefined()
+          expect(getDataHashResults).toBeArrayOfSize(1)
+        })
+        it('deduplicates multiple data hashes', async () => {
+          const getDataHashResults = await archivistModule.get([dataHash1, dataHash2])
+          expect(getDataHashResults).toBeDefined()
+          expect(getDataHashResults).toBeArrayOfSize(1)
+        })
+        it('returns the first occurrence of the hash', async () => {
+          const getDataHashResults = await archivistModule.get([dataHash2])
+          expect(getDataHashResults).toBeDefined()
+          expect(getDataHashResults).toBeArrayOfSize(1)
+          expect(getDataHashResults[0]).toEqual(payload1)
+        })
       })
-      it('returns unique root hashes', async () => {
-        // Get by root hash
-        const getRootHashResults = await archivistModule.get([rootHash1, rootHash2])
-        expect(getRootHashResults).toBeDefined()
-        expect(getRootHashResults).toBeArrayOfSize(2)
+      describe('root hash', () => {
+        it('returns unique root hashes if data hash is the same', async () => {
+          const getRootHashResults = await archivistModule.get([rootHash1, rootHash2])
+          expect(getRootHashResults).toBeDefined()
+          expect(getRootHashResults).toBeArrayOfSize(2)
+        })
       })
     })
   })

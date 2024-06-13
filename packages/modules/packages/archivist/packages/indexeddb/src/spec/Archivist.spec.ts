@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
@@ -211,6 +212,71 @@ describe('IndexedDbArchivist', () => {
       expect(getResult).toBeDefined()
       expect(getResult).toBeArrayOfSize(0)
     })
+    describe('by hash', () => {
+      let payload1: PayloadWithMeta
+      let payload2: PayloadWithMeta
+      let dataHash1: Hash
+      let dataHash2: Hash
+      let rootHash1: Hash
+      let rootHash2: Hash
+      beforeAll(async () => {
+        const salt = '650123f6-191e-4cc4-a813-f7a29dcbfb0e'
+        payload1 = await PayloadBuilder.build({
+          _signatures: [
+            '12bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
+          ],
+          salt,
+          schema: IdSchema,
+        })
+        payload2 = await PayloadBuilder.build({
+          _signatures: [
+            '22bed6aa884f5b7ffc08e19790b5db0da724b8b7471138dcbec090a0798861db0da8255f0d9297ba981b2cbbea65d9eadabac6632124f10f22c709d333a1f285',
+          ],
+          salt,
+          schema: IdSchema,
+        })
+        dataHash1 = await PayloadBuilder.dataHash(payload1)
+        dataHash2 = await PayloadBuilder.dataHash(payload2)
+        rootHash1 = await PayloadBuilder.hash(payload1)
+        rootHash2 = await PayloadBuilder.hash(payload2)
+        expect(dataHash1).toBe(dataHash2)
+        expect(rootHash1).not.toBe(rootHash2)
+        await archivistModule.insert([payload1])
+        await archivistModule.insert([payload2])
+      })
+      describe('data hash', () => {
+        it('returns value using hash', async () => {
+          const result = await archivistModule.get([dataHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+        })
+        it('deduplicates multiple hashes', async () => {
+          const result = await archivistModule.get([dataHash1, dataHash2])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+        })
+        it('returns the first occurrence of the hash', async () => {
+          // Same data hash contained by multiple root hashes
+          const result = await archivistModule.get([dataHash2])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+          // Returns the first occurrence of the data hash
+          expect(result[0]).toEqual(payload1)
+        })
+      })
+      describe('root hash', () => {
+        it('returns value using hash', async () => {
+          const result = await archivistModule.get([rootHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+        })
+        it('deduplicates multiple hashes', async () => {
+          const result = await archivistModule.get([rootHash1, rootHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+        })
+      })
+    })
   })
   describe('insert', () => {
     describe('with unique data', () => {
@@ -225,18 +291,33 @@ describe('IndexedDbArchivist', () => {
         })
         sources = await fillDb(archivistModule)
       })
-      it('can round trip data', async () => {
-        sources = await fillDb(archivistModule)
-        for (const source of sources) {
-          const sourceHash = await PayloadBuilder.dataHash(source)
-          const getResult = await archivistModule.get([sourceHash])
-          expect(getResult).toBeDefined()
-          expect(getResult.length).toBe(1)
-          const [result] = getResult
-          expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
-          const resultHash = await PayloadBuilder.dataHash(result)
-          expect(resultHash).toBe(sourceHash)
-        }
+      it('can round trip data using data hash', async () => {
+        await Promise.all(
+          sources.map(async (source) => {
+            const sourceHash = await PayloadBuilder.dataHash(source)
+            const getResult = await archivistModule.get([sourceHash])
+            expect(getResult).toBeDefined()
+            expect(getResult.length).toBe(1)
+            const [result] = getResult
+            expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
+            const resultHash = await PayloadBuilder.dataHash(result)
+            expect(resultHash).toBe(sourceHash)
+          }),
+        )
+      })
+      it('can round trip data using root hash', async () => {
+        await Promise.all(
+          sources.map(async (source) => {
+            const sourceHash = await PayloadBuilder.hash(source)
+            const getResult = await archivistModule.get([sourceHash])
+            expect(getResult).toBeDefined()
+            expect(getResult.length).toBe(1)
+            const [result] = getResult
+            expect(PayloadBuilder.withoutMeta(result)).toEqual(PayloadBuilder.withoutMeta(source))
+            const resultHash = await PayloadBuilder.hash(result)
+            expect(resultHash).toBe(sourceHash)
+          }),
+        )
       })
     })
     describe('with duplicate data', () => {
@@ -254,7 +335,7 @@ describe('IndexedDbArchivist', () => {
         const source = await PayloadBuilder.build({ salt: '2d515e1d-d82c-4545-9903-3eded7fefa7c', schema: IdSchema })
         // First insertion should succeed and return the inserted payload
         expect(await archivistModule.insert([source])).toEqual([source])
-        // First insertion should succeed but return empty array since no new data was inserted
+        // Second insertion should succeed but return empty array since no new data was inserted
         expect(await archivistModule.insert([source])).toEqual([])
         // Ensure we can get the inserted payload
         const sourceHash = await PayloadBuilder.dataHash(source)
@@ -263,7 +344,7 @@ describe('IndexedDbArchivist', () => {
         expect(getResult.length).toBe(1)
         const resultHash = await PayloadBuilder.dataHash(getResult[0])
         expect(resultHash).toBe(sourceHash)
-        // Ensure the DB has all the payloads written to it
+        // Ensure the DB has only one instance of the payload written to it
         const allResult = await archivistModule.all?.()
         expect(allResult).toBeDefined()
         expect(allResult).toBeArrayOfSize(1)

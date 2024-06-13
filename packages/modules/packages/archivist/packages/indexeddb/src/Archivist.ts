@@ -1,6 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
+import { uniq } from '@xylabs/lodash'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -21,8 +22,10 @@ import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
 
+type StoredPayload = PayloadWithMeta & { _hash: string }
+
 export interface PayloadStore {
-  [s: string]: Payload
+  [s: string]: StoredPayload
 }
 
 @creatableModule()
@@ -89,7 +92,7 @@ export class IndexedDbArchivist<
     return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
-  protected override async allHandler(): Promise<PayloadWithMeta[]> {
+  protected override async allHandler(): Promise<StoredPayload[]> {
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
@@ -101,7 +104,9 @@ export class IndexedDbArchivist<
   }
 
   protected override async deleteHandler(hashes: Hash[]): Promise<Hash[]> {
-    const pairs = await PayloadBuilder.hashPairs(await this.getHandler(hashes))
+    // Filter duplicates to prevent unnecessary DB queries
+    const uniqueHashes = uniq(hashes)
+    const pairs = await PayloadBuilder.hashPairs(await this.getHandler(uniqueHashes))
     const hashesToDelete = pairs.flatMap<Hash>((pair) => [pair[0].$hash, pair[1]])
     // Remove any duplicates
     const distinctHashes = [...new Set(hashesToDelete)]
@@ -122,7 +127,7 @@ export class IndexedDbArchivist<
           }
         }),
       )
-      return found.filter(exists).filter((hash) => hashes.includes(hash))
+      return found.filter(exists).filter((hash) => uniqueHashes.includes(hash))
     })
   }
 
@@ -139,7 +144,7 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[number, PayloadWithMeta] | undefined> {
+  ): Promise<[number, StoredPayload] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
@@ -161,7 +166,7 @@ export class IndexedDbArchivist<
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
     offset?: Hash,
-  ): Promise<PayloadWithMeta[]> {
+  ): Promise<StoredPayload[]> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
@@ -184,7 +189,7 @@ export class IndexedDbArchivist<
     }
 
     let remaining = limit
-    const result: PayloadWithMeta[] = []
+    const result: StoredPayload[] = []
     while (remaining) {
       const value = primaryCursor?.value
       if (value) {
@@ -203,36 +208,37 @@ export class IndexedDbArchivist<
     return result
   }
 
-  protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
+  protected override async getHandler(hashes: string[]): Promise<StoredPayload[]> {
     const payloads = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash))),
+      Promise.all(
+        // Filter duplicates to prevent unnecessary DB queries
+        uniq(hashes).map(async (hash) => {
+          // Find by hash
+          const payload = await this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.hashIndexName, hash)
+          // If found, return
+          if (payload) return payload
+          // Otherwise, find by data hash
+          return this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash)
+        }),
+      ),
     )
-    const payloadsFromDataHashes = await this.useDb((db) =>
-      Promise.all(hashes.map((hash) => this.getFromIndexWithPrimaryKey(db, this.storeName, IndexedDbArchivist.dataHashIndexName, hash))),
-    )
-    //filter out duplicates
+
     const found = new Set<string>()
-    const payloadsFromHash = payloads.filter(exists).filter(([_key, payload]) => {
-      if (found.has(payload.$hash)) {
-        return false
-      } else {
-        found.add(payload.$hash)
-        return true
-      }
-    })
-    const payloadsFromDataHash = payloadsFromDataHashes.filter(exists).filter(([_key, payload]) => {
-      if (found.has(payload.$hash)) {
-        return false
-      } else {
-        found.add(payload.$hash)
-        return true
-      }
-    })
     return (
-      // Merge what we found from the hash and data hash indexes
-      [...payloadsFromHash, ...payloadsFromDataHash]
-        // Sort in ascending order by primary key (for semi-predictable ordering in terms of insertion order)
-        .sort((a, b) => a[0] - b[0])
+      payloads
+        // Filter out not found
+        .filter(exists)
+        // Sort by primary key
+        .sort((a, b) => a![0] - b![0])
+        // Filter out duplicates by hash
+        .filter(([_key, payload]) => {
+          if (found.has(payload._hash)) {
+            return false
+          } else {
+            found.add(payload._hash)
+            return true
+          }
+        })
         // Return just the payloads
         .map(([_key, payload]) => payload)
     )
@@ -240,47 +246,39 @@ export class IndexedDbArchivist<
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
-
-    const db = await this.getInitializedDb()
-    try {
-      // Only return the payloads that were successfully inserted
-      const inserted = await Promise.all(
-        pairs.map(async ([payload, _hash]) => {
-          const existing = (await this.getHandler([_hash])).shift()
-          if (existing) {
-            return
-          }
-          // Perform each insert via a transaction to ensure it is atomic
-          // with respect to checking for the pre-existence of the hash.
-          // This is done to preserve iteration via insertion order.
-          const tx = db.transaction(this.storeName, 'readwrite')
-          try {
-            // Get the object store
-            const store = tx.objectStore(this.storeName)
-
-            // Check if the hash already exists
-            const existingTopHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+    return await this.useDb(async (db) => {
+      // Perform all inserts via a single transaction to ensure atomicity
+      // with respect to checking for the pre-existence of the hash.
+      // This is done to prevent duplicate root hashes due to race
+      // conditions between checking vs insertion.
+      const tx = db.transaction(this.storeName, 'readwrite')
+      // Get the object store
+      const store = tx.objectStore(this.storeName)
+      // Return only the payloads that were successfully inserted
+      const inserted: PayloadWithMeta[] = []
+      try {
+        await Promise.all(
+          pairs.map(async ([payload, _hash]) => {
+            // Check if the root hash already exists
+            const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist
-            if (!existingTopHash) {
+            if (!existingRootHash) {
               // Insert the payload
               await store.put({ ...payload, _hash })
+              // Add it to the inserted list
+              inserted.push(payload)
             }
-
-            // Return it so it gets added to the list of inserted payloads
-            return payload
-          } finally {
-            // Close the transaction
-            await tx.done
-          }
-        }),
-      )
-      return inserted.filter(exists)
-    } finally {
-      db.close()
-    }
+          }),
+        )
+      } finally {
+        // Ensure the transaction is closed
+        await tx.done
+      }
+      return inserted
+    })
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<StoredPayload[]> {
     const { limit, offset, order } = options ?? {}
     return await this.useDb(async (db) => {
       return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)

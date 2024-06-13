@@ -22,8 +22,10 @@ import { IDBPCursorWithValue, IDBPDatabase, openDB } from 'idb'
 import { IndexedDbArchivistConfigSchema } from './Config'
 import { IndexedDbArchivistParams } from './Params'
 
+type StoredPayload = PayloadWithMeta & { _hash: string }
+
 export interface PayloadStore {
-  [s: string]: Payload
+  [s: string]: StoredPayload
 }
 
 @creatableModule()
@@ -90,7 +92,7 @@ export class IndexedDbArchivist<
     return [IndexedDbArchivist.dataHashIndex, IndexedDbArchivist.hashIndex, IndexedDbArchivist.schemaIndex, ...(this.config?.storage?.indexes ?? [])]
   }
 
-  protected override async allHandler(): Promise<PayloadWithMeta[]> {
+  protected override async allHandler(): Promise<StoredPayload[]> {
     // Get all payloads from the store
     const payloads = await this.useDb((db) => db.getAll(this.storeName))
     // Remove any metadata before returning to the client
@@ -142,7 +144,7 @@ export class IndexedDbArchivist<
     storeName: string,
     indexName: string,
     key: IDBValidKey,
-  ): Promise<[number, PayloadWithMeta] | undefined> {
+  ): Promise<[number, StoredPayload] | undefined> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const index = store.index(indexName)
@@ -164,7 +166,7 @@ export class IndexedDbArchivist<
     order: 'asc' | 'desc' = 'asc',
     limit: number = 10,
     offset?: Hash,
-  ): Promise<PayloadWithMeta[]> {
+  ): Promise<StoredPayload[]> {
     const transaction = db.transaction(storeName, 'readonly')
     const store = transaction.objectStore(storeName)
     const hashIndex = store.index(IndexedDbArchivist.hashIndexName)
@@ -187,7 +189,7 @@ export class IndexedDbArchivist<
     }
 
     let remaining = limit
-    const result: PayloadWithMeta[] = []
+    const result: StoredPayload[] = []
     while (remaining) {
       const value = primaryCursor?.value
       if (value) {
@@ -206,7 +208,7 @@ export class IndexedDbArchivist<
     return result
   }
 
-  protected override async getHandler(hashes: string[]): Promise<PayloadWithMeta[]> {
+  protected override async getHandler(hashes: string[]): Promise<StoredPayload[]> {
     const payloads = await this.useDb((db) =>
       Promise.all(
         // Filter duplicates to prevent unnecessary DB queries
@@ -230,10 +232,10 @@ export class IndexedDbArchivist<
         .sort((a, b) => a![0] - b![0])
         // Filter out duplicates by hash
         .filter(([_key, payload]) => {
-          if (found.has(payload.$hash)) {
+          if (found.has(payload._hash)) {
             return false
           } else {
-            found.add(payload.$hash)
+            found.add(payload._hash)
             return true
           }
         })
@@ -280,7 +282,7 @@ export class IndexedDbArchivist<
     })
   }
 
-  protected override async nextHandler(options?: ArchivistNextOptions): Promise<PayloadWithMeta[]> {
+  protected override async nextHandler(options?: ArchivistNextOptions): Promise<StoredPayload[]> {
     const { limit, offset, order } = options ?? {}
     return await this.useDb(async (db) => {
       return await this.getFromOffset(db, this.storeName, order, limit ?? 10, offset)

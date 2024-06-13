@@ -245,28 +245,35 @@ describe('IndexedDbArchivist', () => {
         await archivistModule.insert([payload2])
       })
       describe('data hash', () => {
-        it('returns value using data hash', async () => {
-          const getDataHashResults = await archivistModule.get([dataHash1])
-          expect(getDataHashResults).toBeDefined()
-          expect(getDataHashResults).toBeArrayOfSize(1)
+        it('returns value using hash', async () => {
+          const result = await archivistModule.get([dataHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
         })
-        it('deduplicates multiple data hashes', async () => {
-          const getDataHashResults = await archivistModule.get([dataHash1, dataHash2])
-          expect(getDataHashResults).toBeDefined()
-          expect(getDataHashResults).toBeArrayOfSize(1)
+        it('deduplicates multiple hashes', async () => {
+          const result = await archivistModule.get([dataHash1, dataHash2])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
         })
         it('returns the first occurrence of the hash', async () => {
-          const getDataHashResults = await archivistModule.get([dataHash2])
-          expect(getDataHashResults).toBeDefined()
-          expect(getDataHashResults).toBeArrayOfSize(1)
-          expect(getDataHashResults[0]).toEqual(payload1)
+          // Same data hash contained by multiple root hashes
+          const result = await archivistModule.get([dataHash2])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+          // Returns the first occurrence of the data hash
+          expect(result[0]).toEqual(payload1)
         })
       })
       describe('root hash', () => {
-        it('returns unique root hashes if data hash is the same', async () => {
-          const getRootHashResults = await archivistModule.get([rootHash1, rootHash2])
-          expect(getRootHashResults).toBeDefined()
-          expect(getRootHashResults).toBeArrayOfSize(2)
+        it('returns value using hash', async () => {
+          const result = await archivistModule.get([rootHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
+        })
+        it('deduplicates multiple hashes', async () => {
+          const result = await archivistModule.get([rootHash1, rootHash1])
+          expect(result).toBeDefined()
+          expect(result).toBeArrayOfSize(1)
         })
       })
     })

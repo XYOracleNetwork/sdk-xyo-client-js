@@ -247,34 +247,34 @@ export class IndexedDbArchivist<
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
     const pairs = await PayloadBuilder.hashPairs(payloads)
     return await this.useDb(async (db) => {
-      // Only return the payloads that were successfully inserted
-      const inserted = await Promise.all(
-        pairs.map(async ([payload, _hash]) => {
-          // Perform each insert via a transaction to ensure it is atomic
-          // with respect to checking for the pre-existence of the hash.
-          // This is done to prevent duplicate root hashes due to race
-          // conditions between checking vs insertion.
-          const tx = db.transaction(this.storeName, 'readwrite')
-          try {
-            // Get the object store
-            const store = tx.objectStore(this.storeName)
+      // Perform all inserts via a single transaction to ensure atomicity
+      // with respect to checking for the pre-existence of the hash.
+      // This is done to prevent duplicate root hashes due to race
+      // conditions between checking vs insertion.
+      const tx = db.transaction(this.storeName, 'readwrite')
+      // Get the object store
+      const store = tx.objectStore(this.storeName)
+      // Return only the payloads that were successfully inserted
+      const inserted: PayloadWithMeta[] = []
+      try {
+        await Promise.all(
+          pairs.map(async ([payload, _hash]) => {
             // Check if the root hash already exists
             const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist
             if (!existingRootHash) {
               // Insert the payload
               await store.put({ ...payload, _hash })
-              // Return it so it gets added to the list of inserted payloads
-              return payload
+              // Add it to the inserted list
+              inserted.push(payload)
             }
-            return
-          } finally {
-            // Close the transaction
-            await tx.done
-          }
-        }),
-      )
-      return inserted.filter(exists)
+          }),
+        )
+      } finally {
+        // Ensure the transaction is closed
+        await tx.done
+      }
+      return inserted
     })
   }
 

@@ -252,7 +252,8 @@ export class IndexedDbArchivist<
         pairs.map(async ([payload, _hash]) => {
           // Perform each insert via a transaction to ensure it is atomic
           // with respect to checking for the pre-existence of the hash.
-          // This is done to preserve iteration via insertion order.
+          // This is done to prevent duplicate root hashes due to race
+          // conditions between checking vs insertion.
           const tx = db.transaction(this.storeName, 'readwrite')
           try {
             // Get the object store

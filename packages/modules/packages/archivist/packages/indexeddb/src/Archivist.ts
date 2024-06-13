@@ -250,10 +250,6 @@ export class IndexedDbArchivist<
       // Only return the payloads that were successfully inserted
       const inserted = await Promise.all(
         pairs.map(async ([payload, _hash]) => {
-          // Check if the hash already exists
-          const existing = (await this.getHandler([_hash])).shift()
-          // If it does exist, return undefined to indicate nothing was inserted
-          if (existing) return
           // Perform each insert via a transaction to ensure it is atomic
           // with respect to checking for the pre-existence of the hash.
           // This is done to preserve iteration via insertion order.
@@ -261,17 +257,16 @@ export class IndexedDbArchivist<
           try {
             // Get the object store
             const store = tx.objectStore(this.storeName)
-
-            // Check if the hash already exists
-            const existingTopHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
+            // Check if the root hash already exists
+            const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist
-            if (!existingTopHash) {
+            if (!existingRootHash) {
               // Insert the payload
               await store.put({ ...payload, _hash })
+              // Return it so it gets added to the list of inserted payloads
+              return payload
             }
-
-            // Return it so it gets added to the list of inserted payloads
-            return payload
+            return
           } finally {
             // Close the transaction
             await tx.done

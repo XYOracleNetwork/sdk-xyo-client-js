@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Hash } from '@xylabs/hex'
-import { uniq } from '@xylabs/lodash'
+import { uniq, uniqBy } from '@xylabs/lodash'
 import { AbstractArchivist } from '@xyo-network/archivist-abstract'
 import {
   ArchivistAllQuerySchema,
@@ -245,7 +245,8 @@ export class IndexedDbArchivist<
   }
 
   protected override async insertHandler(payloads: Payload[]): Promise<PayloadWithMeta[]> {
-    const pairs = await PayloadBuilder.hashPairs(payloads)
+    // Get the unique pairs of payloads and their hashes
+    const uniquePayloadHashPairs = uniqBy(await PayloadBuilder.hashPairs(payloads), ([, _hash]) => _hash)
     return await this.useDb(async (db) => {
       // Perform all inserts via a single transaction to ensure atomicity
       // with respect to checking for the pre-existence of the hash.
@@ -258,7 +259,7 @@ export class IndexedDbArchivist<
       const inserted: PayloadWithMeta[] = []
       try {
         await Promise.all(
-          pairs.map(async ([payload, _hash]) => {
+          uniquePayloadHashPairs.map(async ([payload, _hash]) => {
             // Check if the root hash already exists
             const existingRootHash = await store.index(IndexedDbArchivist.hashIndexName).get(_hash)
             // If it does not already exist

@@ -45,6 +45,7 @@ export type ModuleProxyParams = ModuleParams<
     account: AccountInstance
     archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
     host: ModuleResolver
+    manifest?: ModuleManifestPayload
     moduleAddress: Address
     onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
     onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'module'>) => void
@@ -219,11 +220,14 @@ export abstract class AbstractModuleProxy<
   }
 
   override async startHandler(): Promise<boolean> {
-    const state = await this.state()
-    const manifestPayload = state.find(
-      (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
-    ) as ModuleManifestPayload
-    const manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
+    let manifest: ModuleManifestPayload | undefined = this.params.manifest
+    if (!manifest) {
+      const state = await this.state()
+      const manifestPayload = state.find(
+        (payload) => isPayloadOfSchemaType(NodeManifestPayloadSchema)(payload) || isPayloadOfSchemaType(ModuleManifestPayloadSchema)(payload),
+      ) as ModuleManifestPayload
+      manifest = assertEx(manifestPayload, () => "Can't find manifest payload")
+    }
     this.setConfig({ ...manifest.config })
     this.downResolver.addResolver(
       new ModuleProxyResolver({

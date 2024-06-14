@@ -26,8 +26,7 @@
     "@xylabs/object": "^3.5.1",
     "@xylabs/ts-scripts-yarn3": "^3.11.2",
     "@xylabs/tsconfig": "^3.11.2",
-    "typescript": "^5.4.5",
-    "typescript-json-schema": "^0.64.0"
+    "typescript": "^5.4.5"
   },
   "types": "dist/node/index.d.ts",
   "exports": {

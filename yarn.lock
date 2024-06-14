@@ -3595,6 +3595,8 @@ __metadata:
     express: "npm:^4.19.2"
     lru-cache: "npm:^10.2.2"
     typescript: "npm:^5.4.5"
+  peerDependencies:
+    express: ^4.19.2
   dependenciesMeta:
     express:
       optional: true
@@ -5304,7 +5306,6 @@ __metadata:
     "@xyo-network/payload-wrapper": "workspace:~"
     "@xyo-network/wallet-model": "workspace:~"
     typescript: "npm:^5.4.5"
-    typescript-json-schema: "npm:^0.64.0"
   languageName: unknown
   linkType: soft
 

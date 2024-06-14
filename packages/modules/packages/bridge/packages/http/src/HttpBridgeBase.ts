@@ -35,10 +35,13 @@ import { HttpBridgeConfig, HttpBridgeConfigSchema } from './HttpBridgeConfig'
 import { HttpBridgeModuleResolver } from './HttpBridgeModuleResolver'
 import { BridgeQuerySender } from './ModuleProxy'
 
-export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
+export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {
+  axios?: AxiosJson
+}
 
 @creatableModule()
 export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBridge<TParams> implements BridgeModule<TParams>, BridgeQuerySender {
+  static axios = new AxiosJson()
   static override readonly configSchemas: Schema[] = [...super.configSchemas, HttpBridgeConfigSchema]
   static override readonly defaultConfigSchema: Schema = HttpBridgeConfigSchema
   static defaultFailureRetryTime = 1000 * 60
@@ -53,7 +56,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   private _resolver?: HttpBridgeModuleResolver
 
   get axios() {
-    this._axios = this._axios ?? new AxiosJson()
+    this._axios = this._axios ?? this.params.axios ?? HttpBridgeBase.axios
     return this._axios
   }
 

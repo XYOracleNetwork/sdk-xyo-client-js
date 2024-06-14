@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@noble/hashes": "~1.4.0",
-    "@scure/base": "~1.1.6"
+    "@scure/base": "~1.1.7"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

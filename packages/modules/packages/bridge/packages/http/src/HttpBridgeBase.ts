@@ -16,7 +16,7 @@ import {
   QuerySendFinishedEventArgs,
   QuerySendStartedEventArgs,
 } from '@xyo-network/bridge-model'
-import { NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
+import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema } from '@xyo-network/manifest-model'
 import {
   AnyConfigSchema,
   creatableModule,
@@ -197,9 +197,15 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     }
   }
 
-  private async resolveRootNode(nodeManifest: NodeManifestPayload): Promise<ModuleInstance[]> {
+  private async resolveRootNode(nodeManifest: ModuleManifestPayload): Promise<ModuleInstance[]> {
     const rootModule = assertEx(
-      (await this.resolver.resolveHandler(assertEx(nodeManifest.status?.address, () => 'Root has no address'))).at(0),
+      (
+        await this.resolver.resolveHandler(
+          assertEx(nodeManifest.status?.address, () => 'Root has no address'),
+          undefined,
+          { manifest: nodeManifest },
+        )
+      ).at(0),
       () => `Root not found [${nodeManifest.status?.address}]`,
     )
     assertEx(rootModule.constructor.name !== 'HttpModuleProxy', () => 'rootModule is not a Wrapper')

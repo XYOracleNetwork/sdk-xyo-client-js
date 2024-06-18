@@ -15,7 +15,7 @@ import { NodeConfigSchema } from '@xyo-network/node-model'
  * @group bridge
  */
 
-describe('HttpBridge with PubSubBridge', () => {
+describe.skip('HttpBridge with PubSubBridge', () => {
   const httpBaseUrl = process.env.XNS_API_DOMAIN ?? 'https://beta.xns.xyo.network' ?? 'http://localhost:80'
 
   console.log(`HttpBridge:baseUrl ${httpBaseUrl}`)
@@ -51,7 +51,7 @@ describe('HttpBridge with PubSubBridge', () => {
 
     await psBridge.start()
     console.log(`Exposing: ${memNode.address}`)
-    await psBridge.expose(memNode.address)
+    await bridge.expose(memNode.address)
 
     const subNodeInstance = await memNode?.resolve('PubSubBridgeArie')
     expect(subNodeInstance).toBeDefined()

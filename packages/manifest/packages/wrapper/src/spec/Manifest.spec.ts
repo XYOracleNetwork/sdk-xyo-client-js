@@ -23,7 +23,7 @@ describe('Manifest', () => {
       const roundTrip = (await node.manifest()) as NodeManifest
       console.log(`manifest: ${toJsonString(roundTrip, 20)}`)
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public).toBeArrayOfSize(3)
+      expect(roundTrip.modules?.public).toBeArrayOfSize(4)
     })
   })
 })

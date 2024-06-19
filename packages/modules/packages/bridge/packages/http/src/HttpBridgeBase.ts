@@ -20,11 +20,12 @@ import { ModuleManifestPayload, NodeManifestPayload, NodeManifestPayloadSchema }
 import {
   AnyConfigSchema,
   creatableModule,
+  ModuleIdentifier,
   ModuleInstance,
   ModuleQueryResult,
-  ModuleResolverInstance,
   ModuleStateQuery,
   ModuleStateQuerySchema,
+  ResolveHelper,
 } from '@xyo-network/module-model'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload, Schema, WithMeta } from '@xyo-network/payload-model'
@@ -103,6 +104,28 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     return this._resolver
   }
 
+  async connect(id: ModuleIdentifier): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    //check if already connected
+    const existingInstance = await this.resolve<ModuleInstance>(transformedId)
+    if (existingInstance) {
+      return existingInstance.address
+    }
+
+    //use the resolver to create the proxy instance
+    const [instance] = await this.resolver.resolveHandler<ModuleInstance>(id)
+    return this.connectInstance(instance)
+  }
+
+  async disconnect(id: ModuleIdentifier): Promise<Address | undefined> {
+    const transformedId = assertEx(await ResolveHelper.transformModuleIdentifier(id), () => `Unable to transform module identifier: ${id}`)
+    const instance = await this.resolve<ModuleInstance>(transformedId)
+    if (instance) {
+      this.downResolver.remove(instance.address)
+      return instance.address
+    }
+  }
+
   override exposeHandler(_id: string, _options?: BridgeExposeOptions | undefined): Promisable<ModuleInstance[]> {
     throw new Error('Unsupported')
   }
@@ -178,6 +201,24 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     throw new Error('Unsupported')
   }
 
+  protected connectInstance(instance?: ModuleInstance): Address | undefined {
+    if (instance) {
+      this.downResolver.add(instance)
+      /*if (maxDepth > 0) {
+        const node = asNodeInstance(instance)
+        if (node) {
+          const state = await node.state()
+          const children = (state?.filter(isPayloadOfSchemaType<AddressPayload>(AddressSchema)).map((s) => s.address) ?? []).filter(
+            (a) => a !== instance.address,
+          )
+          await Promise.all(children.map((child) => this.connect(child, maxDepth - 1)))
+        }
+      }*/
+      this.logger?.log(`Connect: ${instance.id}`)
+      return instance.address
+    }
+  }
+
   private async getRootState() {
     const queryPayload: ModuleStateQuery = { schema: ModuleStateQuerySchema }
     const boundQuery = await this.bindQuery(queryPayload)
@@ -212,7 +253,7 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
     const rootNode = asAttachableNodeInstance(rootModule, 'Root modules is not a node')
     if (rootNode) {
       this.logger.debug(`rootNode: ${rootNode.id}`)
-      this.downResolver.addResolver(rootNode as unknown as ModuleResolverInstance)
+      this.connectInstance(rootNode)
       return [rootNode]
     }
     return []

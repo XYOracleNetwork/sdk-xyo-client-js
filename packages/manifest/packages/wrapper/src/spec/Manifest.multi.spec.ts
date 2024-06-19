@@ -25,7 +25,7 @@ describe('Manifest', () => {
       //expect((await node.resolve()).length).toBeGreaterThan(10)
       const roundTrip = (await node.manifest()) as NodeManifest
       //expect(roundTrip.modules?.private).toBeArrayOfSize(1)
-      expect(roundTrip.modules?.public).toBeArrayOfSize(6)
+      expect(roundTrip.modules?.public).toBeArrayOfSize(7)
     })
   })
 })

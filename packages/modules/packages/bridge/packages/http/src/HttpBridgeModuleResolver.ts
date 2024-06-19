@@ -12,6 +12,7 @@ import {
   ModuleInstance,
   ResolveHelper,
 } from '@xyo-network/module-model'
+import { Payload } from '@xyo-network/payload-model'
 import { Mutex } from 'async-mutex'
 import { LRUCache } from 'lru-cache'
 
@@ -50,7 +51,7 @@ export class HttpBridgeModuleResolver<
     const firstPart = await ResolveHelper.transformModuleIdentifier(untransformedFirstPart)
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
-    const instance: T = await this._resolvedCacheMutex.runExclusive(async () => {
+    const instance: T | undefined = await this._resolvedCacheMutex.runExclusive(async () => {
       const cachedMod = this._resolvedCache.get(firstPart as Address)
       if (cachedMod) {
         const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
@@ -74,15 +75,25 @@ export class HttpBridgeModuleResolver<
 
       const proxy = new HttpModuleProxy<T, HttpModuleProxyParams>(finalParams)
 
-      const state = await proxy.state()
-      if (state) {
-        const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
-        const config = assertEx(
-          state.find((payload) => payload.schema === configSchema),
-          () => 'Unable to locate config',
-        ) as ModuleConfig
-        proxy.setConfig(config)
+      let state: Payload[] | undefined
+
+      try {
+        state = await proxy.state()
+      } catch (ex) {
+        const error = ex as Error
+        this.logger?.log(error.message)
       }
+
+      if (!state) {
+        return
+      }
+
+      const configSchema = (state.find((payload) => payload.schema === ConfigSchema) as ConfigPayload | undefined)?.config
+      const config = assertEx(
+        state.find((payload) => payload.schema === configSchema),
+        () => 'Unable to locate config',
+      ) as ModuleConfig
+      proxy.setConfig(config)
 
       console.log(`created HttpProxy [${firstPart}] ${proxy.id}`)
 
@@ -92,7 +103,7 @@ export class HttpBridgeModuleResolver<
       this._resolvedCache.set(wrapped.address, wrapped)
       return wrapped as ModuleInstance as T
     })
-    const result = remainderParts.length > 0 ? await instance.resolve(remainderParts, options) : instance
+    const result = remainderParts.length > 0 ? await instance?.resolve(remainderParts, options) : instance
     return result ? [result] : []
   }
 }

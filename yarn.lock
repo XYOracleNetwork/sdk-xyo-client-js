@@ -3092,17 +3092,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract-deprecated":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/abstract-bridge@workspace:packages/modules/packages/bridge/packages/abstract-deprecated"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.11.2"
-    "@xylabs/tsconfig": "npm:^3.11.2"
-    "@xyo-network/bridge-abstract": "workspace:~"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
-
 "@xyo-network/abstract-witness@workspace:^, @xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract, @xyo-network/abstract-witness@workspace:~":
   version: 0.0.0-use.local
   resolution: "@xyo-network/abstract-witness@workspace:packages/modules/packages/witness/packages/abstract"
@@ -5221,17 +5210,6 @@ __metadata:
     esbuild: "npm:^0.21.5"
     hash-wasm: "npm:^4.11.0"
     sha.js: "npm:^2.4.11"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
-
-"@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated":
-  version: 0.0.0-use.local
-  resolution: "@xyo-network/http-bridge@workspace:packages/modules/packages/bridge/packages/http-deprecated"
-  dependencies:
-    "@xylabs/ts-scripts-yarn3": "npm:^3.11.2"
-    "@xylabs/tsconfig": "npm:^3.11.2"
-    "@xyo-network/bridge-http": "workspace:~"
     typescript: "npm:^5.4.5"
   languageName: unknown
   linkType: soft

@@ -3,6 +3,7 @@ import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { Promisable } from '@xylabs/promise'
 import { Account } from '@xyo-network/account'
+import { ModuleManifestPayload } from '@xyo-network/manifest-model'
 import {
   isAddressModuleFilter,
   isNameModuleFilter,
@@ -23,6 +24,8 @@ import { wrapModuleWithType } from '../wrapModuleWithType'
 
 export interface ModuleProxyResolverOptions {
   childAddressMap: Record<Address, ModuleName | null>
+  childManifests?: Record<Address, ModuleManifestPayload>
+  childStates?: Record<Address, ModuleManifestPayload>
   host: ModuleResolver
   module: ModuleInstance
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
@@ -57,6 +60,14 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
 
   addResolver(_resolver: ModuleResolver): this {
     throw new Error('Not supported')
+  }
+
+  childManifest(address: Address) {
+    return this.options.childManifests?.[address]
+  }
+
+  childState(address: Address) {
+    return this.options.childStates?.[address]
   }
 
   removeResolver(_resolver: ModuleResolver): this {

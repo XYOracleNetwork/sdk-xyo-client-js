@@ -116,11 +116,12 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.105.1",
+  "version": "2.106.0-rc.5",
   "packageManager": "yarn@4.3.0",
   "volta": {
-    "node": "20.12.0",
-    "yarn": "1.22.19"
+    "node": "22.3.0",
+    "yarn": "1.22.22"
   },
-  "type": "module"
+  "type": "module",
+  "stableVersion": "2.105.1"
 }

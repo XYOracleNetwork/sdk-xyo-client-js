@@ -49,6 +49,7 @@ export type ModuleProxyParams = ModuleParams<
     moduleAddress: Address
     onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
     onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'module'>) => void
+    state?: Payload[]
   }
 >
 
@@ -125,10 +126,14 @@ export abstract class AbstractModuleProxy<
   }
 
   async childAddressMap(): Promise<Record<Address, ModuleName | null>> {
-    const state = await this.state()
+    let nodeManifests: NodeManifestPayload[] | undefined =
+      isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema)(this.params.manifest) ? [this.params.manifest] : undefined
     const result: Record<Address, ModuleName | null> = {}
-    const nodeManifests = state.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
-    for (const manifest of nodeManifests) {
+    if (nodeManifests === undefined) {
+      const state = await this.state()
+      nodeManifests = state.filter(isPayloadOfSchemaType<NodeManifestPayload>(NodeManifestPayloadSchema))
+    }
+    for (const manifest of nodeManifests ?? []) {
       const children = manifest.modules?.public ?? []
       for (const child of children) {
         if (typeof child === 'object') {
@@ -217,6 +222,10 @@ export abstract class AbstractModuleProxy<
 
   setConfig(config: TWrappedModule['params']['config']) {
     this._config = config
+  }
+
+  setState(state: Payload[]) {
+    this._state = state
   }
 
   override async startHandler(): Promise<boolean> {

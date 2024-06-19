@@ -1,8 +1,19 @@
+import { assertEx } from '@xylabs/assert'
+import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
-import { AttachableModuleInstance, ModuleInstance, ModuleQueryResult } from '@xyo-network/module-model'
+import {
+  AttachableModuleInstance,
+  ModuleFilter,
+  ModuleFilterOptions,
+  ModuleIdentifier,
+  ModuleInstance,
+  ModuleQueryResult,
+  ResolveHelper,
+  ResolveHelperConfig,
+} from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 
 export interface BridgeQuerySender {
@@ -45,5 +56,60 @@ export class HttpModuleProxy<
       forget(this.storeToArchivists(result.flat()))
     }
     return result
+  }
+
+  override async publicChildren(): Promise<ModuleInstance[]> {
+    return (
+      await Promise.all(
+        Object.values(await this.childAddressMap())
+          .filter(exists)
+          .map((address) => this.resolve(address)),
+      )
+    ).filter(exists)
+  }
+
+  /** @deprecated do not pass undefined.  If trying to get all, pass '*' */
+  override async resolve(): Promise<ModuleInstance[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(all: '*', options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
+  /** @deprecated use '*' if trying to resolve all */
+  override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
+  override async resolve<T extends ModuleInstance = ModuleInstance>(
+    idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
+    options: ModuleFilterOptions<T> = {},
+  ): Promise<T | T[] | undefined> {
+    const config: ResolveHelperConfig = {
+      address: this.address,
+      dead: this.dead,
+      downResolver: this.downResolver,
+      logger: this.logger,
+      module: this,
+      transformers: this.moduleIdentifierTransformers,
+      upResolver: this.upResolver,
+    }
+    if (idOrFilter === '*') {
+      return (await this.publicChildren()) as T[]
+    }
+    switch (typeof idOrFilter) {
+      case 'string': {
+        const parts = idOrFilter.split(':')
+        const first = assertEx(parts.shift(), () => 'Missing first')
+        const remainingPath = parts.join(':')
+        const address =
+          isAddress(first) ? first
+          : this.id === first ? this.address
+          : this.childAddressByName(first)
+        if (!address) return undefined
+        const firstInstance = (await this.params.host.resolve(address)) as ModuleInstance | undefined
+        return (remainingPath ? await firstInstance?.resolve(remainingPath) : firstInstance) as T | undefined
+      }
+      case 'object': {
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      }
+      default: {
+        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      }
+    }
   }
 }

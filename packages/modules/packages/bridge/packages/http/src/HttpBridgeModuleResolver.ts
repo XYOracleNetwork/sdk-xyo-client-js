@@ -5,6 +5,7 @@ import { AbstractBridgeModuleResolver, BridgeModuleResolverParams, wrapModuleWit
 import { ConfigPayload, ConfigSchema } from '@xyo-network/config-payload-plugin'
 import {
   asModuleInstance,
+  isModuleInstance,
   ModuleConfig,
   ModuleConfigSchema,
   ModuleFilterOptions,
@@ -18,6 +19,8 @@ import { LRUCache } from 'lru-cache'
 
 import { BridgeQuerySender, HttpModuleProxy, HttpModuleProxyParams } from './ModuleProxy'
 
+const NotFoundModule = { notFound: true }
+
 export interface HttpBridgeModuleResolverParams extends BridgeModuleResolverParams {
   querySender: BridgeQuerySender
   rootUrl: string
@@ -26,7 +29,7 @@ export interface HttpBridgeModuleResolverParams extends BridgeModuleResolverPara
 export class HttpBridgeModuleResolver<
   T extends HttpBridgeModuleResolverParams = HttpBridgeModuleResolverParams,
 > extends AbstractBridgeModuleResolver<T> {
-  protected _resolvedCache = new LRUCache<Address, ModuleInstance>({ max: 1000 })
+  protected _resolvedCache = new LRUCache<Address, ModuleInstance | typeof NotFoundModule>({ max: 1000 })
   protected _resolvedCacheMutex = new Mutex()
 
   get querySender() {
@@ -54,8 +57,13 @@ export class HttpBridgeModuleResolver<
     const instance: T | undefined = await this._resolvedCacheMutex.runExclusive(async () => {
       const cachedMod = this._resolvedCache.get(firstPart as Address)
       if (cachedMod) {
-        const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
-        return result as T
+        if (isModuleInstance(cachedMod)) {
+          const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
+          return result as T
+        } else {
+          //return cached 404
+          return
+        }
       }
       const account = Account.randomSync()
       const finalParams: HttpModuleProxyParams = {
@@ -85,6 +93,8 @@ export class HttpBridgeModuleResolver<
       }
 
       if (!state) {
+        //cache the fact that it was not found
+        this._resolvedCache.set(firstPart as Address, NotFoundModule)
         return
       }
 

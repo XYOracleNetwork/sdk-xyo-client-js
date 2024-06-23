@@ -56,7 +56,6 @@ export abstract class AbstractBridge<TParams extends BridgeParams = BridgeParams
   }
 
   get discoverRoots() {
-    // eslint-disable-next-line deprecation/deprecation
     return this.config.client?.discoverRoots ?? this.config.discoverRoots ?? (this.config.client === undefined ? false : 'start')
   }
 

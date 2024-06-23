@@ -1,4 +1,3 @@
-/* eslint-disable import/no-deprecated */
 import { base16, base58 } from '@scure/base'
 import { toArrayBuffer, toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'

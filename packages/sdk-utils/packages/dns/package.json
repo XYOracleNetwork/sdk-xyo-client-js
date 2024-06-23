@@ -14,9 +14,9 @@
     "@xylabs/axios": "^3.5.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.2",
-    "@xylabs/tsconfig": "^3.11.2",
-    "typescript": "^5.4.5"
+    "@xylabs/ts-scripts-yarn3": "^3.11.7",
+    "@xylabs/tsconfig": "^3.11.7",
+    "typescript": "^5.5.2"
   },
   "exports": {
     ".": {

@@ -1,6 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable sort-keys */
-
 import { AnyObject } from '@xylabs/object'
 import { Account } from '@xyo-network/account'
 import { Payload, PayloadBuilder } from '@xyo-network/payload'

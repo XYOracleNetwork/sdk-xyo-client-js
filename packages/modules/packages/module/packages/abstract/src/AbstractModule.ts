@@ -198,7 +198,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   static _noOverride(functionName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const thisFunc = (this as any)[functionName]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const rootFunc = this._getRootFunction(functionName)
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }
@@ -436,7 +436,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected _noOverride(functionName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const thisFunc = (this as any)[functionName]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const rootFunc = this._getRootFunction(functionName)
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }

@@ -10,7 +10,6 @@ const getJsonPathTransformer = <TSource extends Payload = Payload, TDestination 
   const transformer: PayloadTransformer<TSource, TDestination> = (source: TSource) => {
     const value = Object.fromEntries(
       Object.entries(transform.transform).map(([key, pathExpression]) => {
-        // eslint-disable-next-line import/no-named-as-default-member
         const value = jsonpath.value(source, pathExpression)
         return [key, value]
       }),

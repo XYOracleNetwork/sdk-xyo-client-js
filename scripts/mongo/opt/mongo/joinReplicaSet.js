@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const config = {
   _id: 'dbrs',
   members: [

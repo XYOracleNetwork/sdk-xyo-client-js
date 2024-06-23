@@ -1,13 +1,11 @@
-// eslint-disable-next-line import/no-named-as-default
 import Ajv, { ValidateFunction } from 'ajv'
 
-// eslint-disable-next-line import/no-internal-modules
 import dappPackageManifestSchemaCompiled from '../compilations/dapp-package-manifest-schema.json'
-// eslint-disable-next-line import/no-internal-modules
+
 import packageManifestSchemaCompiled from '../compilations/schema.json'
 import dappPackageManifestSchema from '../dapp-package-manifest-schema.json'
 import packageManifestSchema from '../schema.json'
-// eslint-disable-next-line import/no-internal-modules
+
 import sharedDefinitions from '../shared/definitions-schema.json'
 import { invalidDappPackageManifestSchema, invalidPackageManifestSchema, validDappPackageManifestSchema, validPackageManifestSchema } from './cases'
 

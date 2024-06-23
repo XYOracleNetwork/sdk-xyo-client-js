@@ -73,6 +73,7 @@ export class MemoryBoundWitnessDiviner<
   static override readonly configSchemas: Schema[] = [...super.configSchemas, BoundWitnessDivinerConfigSchema]
   static override readonly defaultConfigSchema: Schema = BoundWitnessDivinerConfigSchema
 
+  // eslint-disable-next-line complexity
   protected override async divineHandler(payloads?: TIn[]) {
     const filter = assertEx(payloads?.filter(isBoundWitnessDivinerQueryPayload)?.pop(), () => 'Missing query payload')
     if (!filter) return []

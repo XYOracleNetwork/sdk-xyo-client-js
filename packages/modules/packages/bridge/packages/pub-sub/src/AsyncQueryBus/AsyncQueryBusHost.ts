@@ -132,7 +132,7 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return module
   }
 
-  // eslint-disable-next-line max-statements
+  // eslint-disable-next-line complexity
   protected callLocalModule = async (localModule: ModuleInstance, query: WithMeta<QueryBoundWitness>) => {
     this._idle = false
     this._lastQueryTime = Date.now()

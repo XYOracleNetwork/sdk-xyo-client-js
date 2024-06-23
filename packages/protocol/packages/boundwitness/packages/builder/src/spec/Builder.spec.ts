@@ -1,6 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable sort-keys */
-
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { StringKeyObject } from '@xylabs/object'
 import { AddressValue, HDWallet } from '@xyo-network/account'

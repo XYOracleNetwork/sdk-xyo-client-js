@@ -1,5 +1,3 @@
-/* eslint-disable max-statements */
-
 import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'

@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { delay } from '@xylabs/delay'
 import { Account, HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'

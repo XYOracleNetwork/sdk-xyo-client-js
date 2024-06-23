@@ -81,6 +81,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   /** @deprecated use '*' if trying to resolve all */
   async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter<T>, options?: ModuleFilterOptions<T>): Promise<T[]>
+  // eslint-disable-next-line complexity
   async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options?: ModuleFilterOptions<T>,

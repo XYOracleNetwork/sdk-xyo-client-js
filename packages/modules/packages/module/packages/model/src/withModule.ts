@@ -8,7 +8,7 @@ export const WithFactory = {
     return <R>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       module: any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       closure: (module: T) => R,
     ): R | undefined => {
       return typeCheck(module) ? closure(module) : undefined

@@ -1,5 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
-// eslint-disable-next-line import/no-internal-modules
+
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'

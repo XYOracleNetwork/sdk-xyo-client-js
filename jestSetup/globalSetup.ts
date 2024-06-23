@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 import { config } from 'dotenv'
 config()
 import { Config } from 'jest'

@@ -191,7 +191,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
             )
           ).filter(exists)
 
-          const result: T | undefined = results.filter(exists).filter(duplicateModules).pop()
+          const result: T | undefined = results.filter(exists).findLast(duplicateModules)
           if (result) {
             this._cache.set(id, result)
             return result

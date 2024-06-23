@@ -53,7 +53,7 @@ export class MemoryAddressChainDiviner<
     console.log('archivistFindHash')
     let index = 0
     if (archivists[index]) {
-      const result = (await archivists[index].get([hash])).filter(isBoundWitnessWithMeta).pop()
+      const result = (await archivists[index].get([hash])).findLast(isBoundWitnessWithMeta)
       if (result) {
         return result
       }

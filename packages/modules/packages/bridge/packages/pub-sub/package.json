@@ -36,15 +36,15 @@
   },
   "devDependencies": {
     "@xylabs/logger": "^3.5.1",
-    "@xylabs/ts-scripts-yarn3": "^3.11.2",
-    "@xylabs/tsconfig": "^3.11.2",
+    "@xylabs/ts-scripts-yarn3": "^3.11.7",
+    "@xylabs/tsconfig": "^3.11.7",
     "@xyo-network/archivist-memory": "workspace:~",
     "@xyo-network/diviner-boundwitness-memory": "workspace:~",
     "@xyo-network/module-abstract": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
     "@xyo-network/node-model": "workspace:~",
     "@xyo-network/payload-wrapper": "workspace:~",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

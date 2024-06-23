@@ -96,7 +96,6 @@ export class DomainPayloadWrapper<T extends DomainPayload = DomainPayload> exten
   }
 
   private async getNetwork(hash?: Hash): Promise<NetworkPayload | undefined> {
-    // eslint-disable-next-line unicorn/no-array-method-this-argument
     return hash ? await PayloadBuilder.findByDataHash(this.payload.networks, hash) : this.payload.networks?.[0]
   }
 }

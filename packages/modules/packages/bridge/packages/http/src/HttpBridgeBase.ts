@@ -61,7 +61,6 @@ export class HttpBridgeBase<TParams extends HttpBridgeParams> extends AbstractBr
   }
 
   get clientUrl() {
-    // eslint-disable-next-line deprecation/deprecation
     return assertEx(this.config.client?.url ?? this.config.nodeUrl, () => 'No Url Set')
   }
 

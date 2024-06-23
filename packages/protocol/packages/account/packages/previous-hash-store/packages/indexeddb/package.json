@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@types/uuid": "9.0.8",
-    "@xylabs/ts-scripts-yarn3": "^3.11.2",
-    "@xylabs/tsconfig": "^3.11.2",
+    "@xylabs/ts-scripts-yarn3": "^3.11.7",
+    "@xylabs/tsconfig": "^3.11.7",
     "fake-indexeddb": "^5.0.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "uuid": "^9.0.1"
   },
   "exports": {

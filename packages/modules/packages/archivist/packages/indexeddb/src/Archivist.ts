@@ -160,6 +160,7 @@ export class IndexedDbArchivist<
     }
   }
 
+  // eslint-disable-next-line complexity
   protected async getFromOffset(
     db: IDBPDatabase<PayloadStore>,
     storeName: string,

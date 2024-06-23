@@ -36,7 +36,7 @@ export function removeStorageMeta<T extends Payload>(payload?: WithOptionalStora
   if (Array.isArray(payload)) {
     return payload.map((p) => removeStorageMeta(p))
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const { ...noMeta } = payload
   delete noMeta._sequence
   return noMeta

@@ -53,7 +53,7 @@ export class ModuleFactory<TModule extends AttachableModuleInstance> implements 
   _noOverride(functionName: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const thisFunc = (this as any)[functionName]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const rootFunc = this._getRootFunction(functionName)
     assertEx(thisFunc === rootFunc, () => `Override not allowed for [${functionName}] - override ${functionName}Handler instead`)
   }

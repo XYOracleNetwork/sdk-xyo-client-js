@@ -1,4 +1,3 @@
-/* eslint-disable deprecation/deprecation */
 import { Payload } from '@xyo-network/payload-model'
 
 /** @deprecated use EvmAddressSchema version instead */

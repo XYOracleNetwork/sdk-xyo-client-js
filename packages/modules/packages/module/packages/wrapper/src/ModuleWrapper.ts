@@ -244,7 +244,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     this: ConstructableModuleWrapper<TModuleWrapper>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     module: any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     closure: (module: TModuleWrapper) => R,
   ): R | undefined {
     return this.is(module) ? closure(module) : undefined

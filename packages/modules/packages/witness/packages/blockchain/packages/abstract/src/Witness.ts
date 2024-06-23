@@ -1,4 +1,3 @@
-/* eslint-disable deprecation/deprecation */
 import { EmptyObject, WithAdditional } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { AbstractWitness } from '@xyo-network/abstract-witness'

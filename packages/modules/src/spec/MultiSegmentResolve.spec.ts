@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistConfigSchema } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'

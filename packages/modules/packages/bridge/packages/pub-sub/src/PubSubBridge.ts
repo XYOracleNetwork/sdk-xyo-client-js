@@ -180,7 +180,7 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   override async resolve<T extends ModuleInstance = ModuleInstance>(id: ModuleIdentifier, options?: ModuleFilterOptions<T>): Promise<T | undefined>
   /** @deprecated use '*' if trying to resolve all */
   override async resolve<T extends ModuleInstance = ModuleInstance>(filter?: ModuleFilter, options?: ModuleFilterOptions<T>): Promise<T[]>
-  // eslint-disable-next-line complexity
+
   override async resolve<T extends ModuleInstance = ModuleInstance>(
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},

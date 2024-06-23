@@ -1,6 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable sort-keys */
-
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
 

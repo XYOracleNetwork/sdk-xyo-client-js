@@ -129,7 +129,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           )
           const results = await diviner.divine(data.flat())
           expect(results).toBeArrayOfSize(cases.length)
-          // eslint-disable-next-line unicorn/no-array-for-each
+
           await Promise.all(
             data.map(async (input, i) => {
               const result = results[i]
@@ -221,7 +221,7 @@ describe('TemporalIndexCandidateToImageThumbnailIndexDiviner', () => {
           )
           const results = await diviner.divine(data.flat())
           expect(results).toBeArrayOfSize(cases.length)
-          // eslint-disable-next-line unicorn/no-array-for-each
+
           await Promise.all(
             data.map(async (input, i) => {
               const result = results[i]

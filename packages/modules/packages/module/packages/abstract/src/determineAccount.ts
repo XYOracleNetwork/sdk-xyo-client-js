@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { assertEx } from '@xylabs/assert'
 import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'

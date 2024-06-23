@@ -5,7 +5,6 @@ import { ModuleIdentifier } from '../ModuleIdentifier'
 import { ObjectFilter, ObjectFilterOptions } from './ObjectFilter'
 
 export const isObjectResolver = <T extends EmptyObject = AnyObject>(value?: unknown): value is ObjectResolver<T> => {
-  // eslint-disable-next-line deprecation/deprecation
   return typeof (value as Partial<ObjectResolver<T>>).resolve === 'function'
 }
 

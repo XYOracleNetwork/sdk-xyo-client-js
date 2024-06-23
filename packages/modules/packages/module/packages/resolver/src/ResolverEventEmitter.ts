@@ -22,7 +22,7 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     const args = { filter, module }
     emit('moduleResolved', args)
   }
-  // eslint-disable-next-line deprecation/deprecation
+
   const { resolve } = resolver
   function originalResolve(filter?: ModuleFilter) {
     return resolve.bind(resolver)(filter)

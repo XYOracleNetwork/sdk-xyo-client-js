@@ -18,8 +18,8 @@
     "@xyo-network/witness-model": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.7",
-    "@xylabs/tsconfig": "^3.11.7",
+    "@xylabs/ts-scripts-yarn3": "^3.11.8",
+    "@xylabs/tsconfig": "^3.11.8",
     "@xyo-network/account": "workspace:~",
     "typescript": "^5.5.2"
   },
@@ -62,6 +62,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.106.0",
+  "version": "2.107.0",
   "type": "module"
 }

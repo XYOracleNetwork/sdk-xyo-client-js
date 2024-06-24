@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "2.107.0",
+  "version": "2.107.1",
   "description": "XYO Archivist",
   "sideeffects": false,
   "engines": {
@@ -46,8 +46,8 @@
     "arima": "^0.2.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.8",
-    "@xylabs/tsconfig": "^3.11.8",
+    "@xylabs/ts-scripts-yarn3": "^3.11.9",
+    "@xylabs/tsconfig": "^3.11.9",
     "typescript": "^5.5.2"
   },
   "type": "module"

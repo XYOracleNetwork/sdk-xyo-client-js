@@ -25,8 +25,8 @@
   "devDependencies": {
     "@types/sha.js": "^2.4.4",
     "@xylabs/delay": "^3.5.1",
-    "@xylabs/ts-scripts-yarn3": "^3.11.8",
-    "@xylabs/tsconfig": "^3.11.8",
+    "@xylabs/ts-scripts-yarn3": "^3.11.9",
+    "@xylabs/tsconfig": "^3.11.9",
     "esbuild": "^0.21.5",
     "typescript": "^5.5.2"
   },
@@ -75,6 +75,6 @@
     "package-compile": "package-compile-only && yarn bundle"
   },
   "sideEffects": false,
-  "version": "2.107.0",
+  "version": "2.107.1",
   "type": "module"
 }

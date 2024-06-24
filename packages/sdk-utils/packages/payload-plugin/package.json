@@ -18,8 +18,8 @@
     "@xyo-network/payload-wrapper": "workspace:~"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.8",
-    "@xylabs/tsconfig": "^3.11.8",
+    "@xylabs/ts-scripts-yarn3": "^3.11.9",
+    "@xylabs/tsconfig": "^3.11.9",
     "typescript": "^5.5.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
@@ -61,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.107.0",
+  "version": "2.107.1",
   "type": "module"
 }

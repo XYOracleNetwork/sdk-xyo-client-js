@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 
 import { Account } from '@xyo-network/account'
-import { asArchivistInstance } from '@xyo-network/archivist-model'
+import { asArchivistInstance, asAttachableArchivistInstance } from '@xyo-network/archivist-model'
 import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
@@ -28,6 +28,7 @@ describe('HttpBridge', () => {
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
     const memNode = await MemoryNode.create({ account: Account.randomSync() })
+    const extraMemNode = await MemoryNode.create({ account: Account.randomSync() })
 
     const bridge = await HttpBridge.create({
       account: Account.randomSync(),
@@ -37,6 +38,7 @@ describe('HttpBridge', () => {
     await bridge?.start?.()
     await memNode.register(bridge)
     await memNode.attach(bridge?.address, true)
+
     const resolvedBridge = await memNode.resolve(bridge.id)
     expect(resolvedBridge).toBeDefined()
 
@@ -61,6 +63,18 @@ describe('HttpBridge', () => {
     expect(archivistByName2).toBeDefined()
     const publicXyo = await bridge.resolve('XYOPublic')
     expect(publicXyo).toBeDefined()
+    const publicXyoSelfResolve = publicXyo?.resolve('XYOPublic')
+    expect(publicXyoSelfResolve).toBeDefined()
+    if (publicXyo) {
+      const attachablePublicXyo = asAttachableArchivistInstance(archivistByName2, 'Failed to cast publicXyo')
+      expect(attachablePublicXyo).toBeDefined()
+      await extraMemNode.register(attachablePublicXyo)
+      await extraMemNode.attach(attachablePublicXyo.address, true)
+      const publicXyoNodeResolveAddress = extraMemNode?.resolve(attachablePublicXyo.address)
+      expect(publicXyoNodeResolveAddress).toBeDefined()
+      const publicXyoNodeResolve = extraMemNode?.resolve('Archivist')
+      expect(publicXyoNodeResolve).toBeDefined()
+    }
     const archivistByName3 = await publicXyo?.resolve('Archivist')
     expect(archivistByName3).toBeDefined()
     expect(archivistByName3).toEqual(archivistByName1)

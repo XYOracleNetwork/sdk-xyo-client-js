@@ -26,8 +26,8 @@
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.8",
-    "@xylabs/tsconfig": "^3.11.8",
+    "@xylabs/ts-scripts-yarn3": "^3.11.9",
+    "@xylabs/tsconfig": "^3.11.9",
     "@xyo-network/account": "workspace:~",
     "@xyo-network/archivist-model": "workspace:~",
     "@xyo-network/node-memory": "workspace:~",
@@ -76,6 +76,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.107.0",
+  "version": "2.107.1",
   "type": "module"
 }

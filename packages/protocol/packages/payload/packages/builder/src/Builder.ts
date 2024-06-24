@@ -1,7 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { AnyObject, isJsonObject, JsonArray, JsonObject } from '@xylabs/object'
-import { deepOmitPrefixedFields, PayloadHasher } from '@xyo-network/hash'
+import { PayloadHasher } from '@xyo-network/hash'
+import { omitBy } from '@xylabs/lodash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase'
@@ -10,6 +11,11 @@ import { PayloadBuilderOptions } from './Options'
 export interface BuildOptions {
   stamp?: boolean
   validate?: boolean
+}
+
+const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
+  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
+  return key.startsWith(prefix)
 }
 
 export class PayloadBuilder<
@@ -120,14 +126,14 @@ export class PayloadBuilder<
   ): Promise<WithMeta<T>> {
     const dataFields = await this.dataHashableFields<T>(schema, fields)
     assertEx($meta === undefined || isJsonObject($meta), () => '$meta must be JsonObject')
-    const result: WithMeta<T> = deepOmitPrefixedFields<WithMeta<T>>(
+    const result: WithMeta<T> = omitBy(
       {
         ...dataFields,
         $hash: $hash ?? (await PayloadBuilder.dataHash(dataFields)),
         schema,
       } as WithMeta<T>,
-      '_',
-    )
+      omitByPredicate('_'),
+    ) as WithMeta<T>
 
     const clonedMeta = { ...$meta }
 

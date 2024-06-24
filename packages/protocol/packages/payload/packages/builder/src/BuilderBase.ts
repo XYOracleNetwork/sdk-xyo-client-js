@@ -2,8 +2,9 @@ import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
 import { AnyObject, isJsonObject, JsonObject, toJson } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
-import { deepOmitPrefixedFields, removeEmptyFields } from '@xyo-network/hash'
+import { removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
+import { omitBy } from '@xylabs/lodash'
 
 import { PayloadBuilderOptions } from './Options'
 
@@ -19,6 +20,11 @@ export const removeMetaAndSchema = <T extends Payload>(payload: WithOptionalSche
   delete result.$meta
   delete result.schema
   return result as Omit<T, 'schema'>
+}
+
+const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
+  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
+  return key.startsWith(prefix)
 }
 
 export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extends PayloadBuilderOptions<T> = PayloadBuilderOptions<T>> {
@@ -42,7 +48,7 @@ export class PayloadBuilderBase<T extends Payload = Payload<AnyObject>, O extend
       cleanFields === undefined || isJsonObject(cleanFields),
       () => `Fields must be JsonObject: ${JSON.stringify(toJson(cleanFields), null, 2)}`,
     )
-    return deepOmitPrefixedFields(deepOmitPrefixedFields({ schema, ...cleanFields }, '$'), '_') as T
+    return omitBy(omitBy({ schema, ...cleanFields }, omitByPredicate('$')), omitByPredicate('_')) as unknown as T
   }
 
   protected static metaFields(dataHash: Hash, otherMeta?: JsonObject, stamp = true): Promisable<JsonObject> {

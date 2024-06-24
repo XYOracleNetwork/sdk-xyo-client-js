@@ -10,11 +10,16 @@ import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields'
-import { deepOmitPrefixedFields } from './removeFields'
+import { omitBy } from '@xylabs/lodash'
 import { sortFields } from './sortFields'
 import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 
 const wasmSupportStatic = new WasmSupport(['bigInt'])
+
+const omitByPredicate = (prefix: string) => (_: unknown, key: string) => {
+  assertEx(typeof key === 'string', () => `Invalid key type [${key}, ${typeof key}]`)
+  return key.startsWith(prefix)
+}
 
 export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWrapper<T> {
   static allowHashPooling = true
@@ -140,7 +145,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
   }
 
   static hashFields<T extends EmptyObject>(obj: T): T {
-    return sortFields(removeEmptyFields(deepOmitPrefixedFields(obj, '_')))
+    return sortFields(removeEmptyFields(omitBy(obj, omitByPredicate('_')))) as T
   }
 
   /**
@@ -187,7 +192,7 @@ export class PayloadHasher<T extends EmptyObject = EmptyObject> extends ObjectWr
    * @returns Returns a clone of the payload that is JSON safe
    */
   static json<T extends EmptyObject>(payload: T, meta = false): T {
-    return sortFields(removeEmptyFields(meta ? payload : deepOmitPrefixedFields(payload, '_')))
+    return sortFields(removeEmptyFields(meta ? payload : omitBy(payload, omitByPredicate('_')))) as T
   }
 
   /** @deprecated us json instead */

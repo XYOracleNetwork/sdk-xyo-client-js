@@ -4,7 +4,7 @@ import { PayloadBuilder } from '../src'
 
 const schema = 'network.xyo.temp'
 
-describe('BoundWitnessBuilder', () => {
+describe('PayloadBuilder', () => {
   test('build', async () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
@@ -18,6 +18,12 @@ describe('BoundWitnessBuilder', () => {
       testSomeNullObject: { s: 1, t: null, x: undefined },
       testString: 'hi',
       testUndefined: undefined,
+      testUnderscoreObject: { _test: 1 },
+      _testUnderscore: 1,
+      $testDollar: 1,
+      testUnderscoreObjectInArray: [{ _test: 1 }],
+      testDollarObject: { $test: 1 },
+      testDollarObjectInArray: [{ $test: 1 }],
     })
     expect(builder).toBeDefined()
 
@@ -27,10 +33,24 @@ describe('BoundWitnessBuilder', () => {
     expect(actual._timestamp).toBeUndefined()
     expect(actual._client).toBeUndefined()
     expect(actual._hash).toBeUndefined()
+    expect(actual._testUnderscore).toBeUndefined()
+    expect(actual.$testDollar).toBeUndefined()
     expect(actual.schema).toBeDefined()
     expect(actual.$meta?.timestamp).toBeNumber()
     expect(Object.keys(actual).length).toBeGreaterThan(1)
     expect(Object.keys(actual.testSomeNullObject as object).length).toBe(2)
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((actual as any).testUnderscoreObject._test).toBeDefined()
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((actual as any).testUnderscoreObjectInArray[0]._test).toBeDefined()
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((actual as any).testDollarObject.$test).toBeDefined()
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((actual as any).testDollarObjectInArray[0].$test).toBeDefined()
 
     let builderNoStamp = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builderNoStamp).toBeDefined()

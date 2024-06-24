@@ -12,6 +12,7 @@
   "dependencies": {
     "@xylabs/assert": "^3.5.1",
     "@xylabs/hex": "^3.5.1",
+    "@xylabs/lodash": "^3.5.1",
     "@xylabs/logger": "^3.5.1",
     "@xylabs/object": "^3.5.1",
     "@xylabs/promise": "^3.5.1",

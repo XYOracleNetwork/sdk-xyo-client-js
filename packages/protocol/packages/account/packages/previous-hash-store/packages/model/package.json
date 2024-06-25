@@ -14,8 +14,8 @@
     "@xylabs/hex": "^3.5.1"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.9",
-    "@xylabs/tsconfig": "^3.11.9",
+    "@xylabs/ts-scripts-yarn3": "^3.11.10",
+    "@xylabs/tsconfig": "^3.11.10",
     "typescript": "^5.5.2"
   },
   "exports": {
@@ -56,6 +56,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.107.3",
+  "version": "2.107.4",
   "type": "module"
 }

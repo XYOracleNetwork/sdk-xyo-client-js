@@ -20,8 +20,8 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.9",
-    "@xylabs/tsconfig": "^3.11.9",
+    "@xylabs/ts-scripts-yarn3": "^3.11.10",
+    "@xylabs/tsconfig": "^3.11.10",
     "@xyo-network/boundwitness-builder": "workspace:~",
     "@xyo-network/schema-name-validator": "workspace:~",
     "typescript": "^5.5.2"
@@ -64,6 +64,6 @@
   },
   "sideEffects": false,
   "types": "dist/node/index.d.ts",
-  "version": "2.107.3",
+  "version": "2.107.4",
   "type": "module"
 }

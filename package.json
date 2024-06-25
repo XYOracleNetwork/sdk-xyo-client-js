@@ -23,11 +23,11 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
-    "@xylabs/eslint-config-flat": "^3.11.9",
+    "@xylabs/eslint-config-flat": "^3.11.10",
     "@xylabs/forget": "^3.5.1",
-    "@xylabs/ts-scripts-yarn3": "^3.11.9",
-    "@xylabs/tsconfig": "^3.11.9",
-    "@xylabs/tsconfig-dom-jest": "^3.11.9",
+    "@xylabs/ts-scripts-yarn3": "^3.11.10",
+    "@xylabs/tsconfig": "^3.11.10",
+    "@xylabs/tsconfig-dom-jest": "^3.11.10",
     "dotenv": "^16.4.5",
     "eslint": "^9.5.0",
     "eslint-plugin-deprecation": "^3.0.0",
@@ -116,7 +116,7 @@
     "build-typedoc-site": "typedoc"
   },
   "sideEffects": false,
-  "version": "2.107.3",
+  "version": "2.107.4",
   "packageManager": "yarn@4.3.1",
   "volta": {
     "node": "22.3.0",

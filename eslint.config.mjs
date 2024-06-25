@@ -1,39 +1,27 @@
 // eslint.config.mjs
 
-import { typescriptConfig, unicornConfig, prettierConfig, rulesConfig, workspacesConfig } from '@xylabs/eslint-config-flat'
+import { typescriptConfig, importConfig, unicornConfig, prettierConfig, rulesConfig, workspacesConfig } from '@xylabs/eslint-config-flat'
 import tsParser from '@typescript-eslint/parser'
 
-// eslint-disable-next-line import/no-default-export
 export default [
   {
     ignores: ['.yarn', '.yarn/**', '**/dist/**', 'dist/**', 'build/**', 'node_modules/**'],
   },
-  prettierConfig,
-  typescriptConfig,
-  rulesConfig,
   workspacesConfig,
+  typescriptConfig,
+  unicornConfig,
+  prettierConfig,
+  rulesConfig,
   {
-    files: ['**/*.ts', '**/*.js', '**/*.cjs', '**/*.mjs'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: './tsconfig-eslint.json',
-      },
-    },
-    plugins: { ...typescriptConfig.plugins, ...unicornConfig.plugins, ...prettierConfig.plugins },
-    settings: {
-      'import/resolver': {
-        typescript: {
-          project: './tsconfig-eslint.json',
-        },
-      },
-    },
+    ...importConfig,
     rules: {
-      ...typescriptConfig.rules,
-      ...unicornConfig.rules,
-      ...prettierConfig.rules,
+      ...importConfig.rules,
+      'import/no-deprecated': ['off'],
+      'import/no-internal-modules': ['off'],
+    },
+  },
+  {
+    rules: {
       'no-unused-disable-directive': ['off'],
       complexity: ['error', 18],
       'max-depth': ['error', 6],
@@ -73,9 +61,6 @@ export default [
       quotes: [2, 'single', 'avoid-escape'],
       'require-await': 'error',
       semi: ['warn', 'never'],
-      'no-unused-disable-directive': ['off'],
-      'import/no-internal-modules': ['off'],
-      'import/no-deprecated': ['off'],
       'no-restricted-imports': [
         'warn',
         {

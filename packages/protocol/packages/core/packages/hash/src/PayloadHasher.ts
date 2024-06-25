@@ -3,6 +3,7 @@ import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
+
 // eslint-disable-next-line import/no-unresolved
 import { WorkerModule } from '@xylabs/threads/dist/types/worker'
 import { WasmSupport } from '@xyo-network/wasm'

@@ -89,7 +89,7 @@ export class HttpModuleProxy<
       upResolver: this.upResolver,
     }
     if (idOrFilter === '*') {
-      return (await this.publicChildren()) as T[]
+      return [...(await this.publicChildren()), await this.params.host.resolve(this.address)] as T[]
     }
     switch (typeof idOrFilter) {
       case 'string': {

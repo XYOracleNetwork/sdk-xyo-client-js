@@ -1,7 +1,13 @@
+/* eslint-disable complexity */
 /* eslint-disable max-statements */
 
-import { Account } from '@xyo-network/account'
-import { asArchivistInstance, asAttachableArchivistInstance } from '@xyo-network/archivist-model'
+import { Account, HDWallet } from '@xyo-network/account'
+import {
+  AttachableArchivistInstance,
+  asArchivistInstance,
+  asAttachableArchivistInstance,
+  isAttachableArchivistInstance,
+} from '@xyo-network/archivist-model'
 import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance, isNodeInstance } from '@xyo-network/node-model'
@@ -11,6 +17,32 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge } from '../HttpBridgeFull'
+import { ApiConfig } from '@xyo-network/api-models'
+import { assertEx } from '@xylabs/assert'
+
+const archivistName = 'XYOPublic:Archivist' // TODO: This should be configurable
+const discoverRoots = 'start'
+const schema = HttpBridgeConfigSchema
+const security = { allowAnonymous: true }
+
+export const getApiConfig = (): ApiConfig => {
+  return {
+    apiDomain: process.env.ARCHIVIST_API_DOMAIN || 'https://beta.api.archivist.xyo.network',
+  }
+}
+
+export const getArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance> => {
+  return assertEx(await tryGetArchivist(config), () => 'Archivist not found')
+}
+
+export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promise<AttachableArchivistInstance | undefined> => {
+  const url = config.root ? `${config.apiDomain}/${config.root}` : config.apiDomain
+  const account = await HDWallet.random()
+  const bridge = await HttpBridge.create({ account, config: { client: { discoverRoots, url }, schema, security } })
+  await bridge.start()
+  const module = await bridge.resolve(archivistName)
+  return isAttachableArchivistInstance(module) ? module : undefined
+}
 
 /**
  * @group module
@@ -66,14 +98,18 @@ describe('HttpBridge', () => {
     const publicXyoSelfResolve = publicXyo?.resolve('XYOPublic')
     expect(publicXyoSelfResolve).toBeDefined()
     if (publicXyo) {
-      const attachablePublicXyo = asAttachableArchivistInstance(archivistByName2, 'Failed to cast publicXyo')
-      expect(attachablePublicXyo).toBeDefined()
-      await extraMemNode.register(attachablePublicXyo)
-      await extraMemNode.attach(attachablePublicXyo.address, true)
-      const publicXyoNodeResolveAddress = extraMemNode?.resolve(attachablePublicXyo.address)
-      expect(publicXyoNodeResolveAddress).toBeDefined()
-      const publicXyoNodeResolve = extraMemNode?.resolve('Archivist')
-      expect(publicXyoNodeResolve).toBeDefined()
+      const bridgedArchivist = await getArchivist()
+      expect(bridgedArchivist).toBeDefined()
+      if (bridgedArchivist) {
+        const attachablePublicXyo = asAttachableArchivistInstance(archivistByName2, 'Failed to cast publicXyo')
+        expect(attachablePublicXyo).toBeDefined()
+        await extraMemNode.register(bridgedArchivist)
+        await extraMemNode.attach(bridgedArchivist.address, true)
+        const publicXyoNodeResolveAddress = await extraMemNode?.resolve(bridgedArchivist.address)
+        expect(publicXyoNodeResolveAddress).toBeDefined()
+        const publicXyoNodeResolve = await extraMemNode?.resolve('Archivist')
+        expect(publicXyoNodeResolve).toBeDefined()
+      }
     }
     const archivistByName3 = await publicXyo?.resolve('Archivist')
     expect(archivistByName3).toBeDefined()

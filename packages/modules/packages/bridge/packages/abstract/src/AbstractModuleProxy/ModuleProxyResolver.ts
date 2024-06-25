@@ -104,6 +104,13 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
           if (downResolverModule) {
             return remainingParts ? downResolverModule.resolve(remainingParts, options) : downResolverModule
           }
+
+          console.log(`ModuleProxyResolver: ${firstPartAddress} | ${this.root.address}`)
+          if (firstPartAddress === this.root.address) {
+            const wrapped = wrapModuleWithType(this.root, Account.randomSync()) as unknown as T
+            return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
+          }
+
           //if it is a known child, create a proxy
           const addressToProxy =
             Object.keys(this.childAddressMap).includes(firstPartAddress as Address) ?
@@ -135,6 +142,14 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     //check if any of the modules have the id as an address
     if (this.childAddressMap[id as Address]) {
       return id as Address
+    }
+
+    if (this.root.address === id) {
+      return this.root.address
+    }
+
+    if (this.root.modName === id) {
+      return this.root.address
     }
 
     //check if id is a name of one of modules in the resolver

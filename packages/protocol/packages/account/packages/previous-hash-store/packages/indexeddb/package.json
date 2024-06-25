@@ -21,7 +21,7 @@
     "@xylabs/tsconfig": "^3.11.9",
     "fake-indexeddb": "^5.0.2",
     "typescript": "^5.5.2",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "exports": {
     ".": {
@@ -61,6 +61,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.107.1",
+  "version": "2.107.3",
   "type": "module"
 }

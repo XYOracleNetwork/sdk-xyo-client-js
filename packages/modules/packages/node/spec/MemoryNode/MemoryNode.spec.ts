@@ -12,7 +12,7 @@ import {
   ModuleDescriptionPayload,
   ModuleDescriptionSchema,
 } from '@xyo-network/module-model'
-import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
+import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
 import { ModuleAttachedEventArgs, NodeConfigSchema } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType, Payload } from '@xyo-network/payload'
 
@@ -299,7 +299,7 @@ describe('MemoryNode', () => {
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
       it('clone-all', async () => {
-        const newNode = await NodeHelper.attachToNewNode(node, '*')
+        const newNode = await MemoryNodeHelper.attachToNewNode(node, '*')
         const newNodeChildren = await newNode.resolve('*', { maxDepth: 1 })
         const nodeChildren = await node.resolve('*', { maxDepth: 1 })
         expect(newNodeChildren.length).toEqual(nodeChildren.length)
@@ -310,7 +310,7 @@ describe('MemoryNode', () => {
         await node.register(module)
         await node.attach(module.address, true)
 
-        const newNode = await NodeHelper.attachToNewNode(node, 'CloneModule')
+        const newNode = await MemoryNodeHelper.attachToNewNode(node, 'CloneModule')
         const newNodeChild = await newNode.resolve('CloneModule')
         const nodeChild = await node.resolve('CloneModule', { maxDepth: 1 })
         expect(newNodeChild?.id).toEqual(nodeChild?.id)
@@ -324,7 +324,7 @@ describe('MemoryNode', () => {
 
         try {
           //this should except
-          await NodeHelper.attachToNewNode(node, 'CloneModulePrivate')
+          await MemoryNodeHelper.attachToNewNode(node, 'CloneModulePrivate')
           expect(false).toBeTrue()
         } catch (e) {
           expect(e).toBeInstanceOf(Error)

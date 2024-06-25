@@ -13,7 +13,7 @@ import {
   ModuleLimitationViewLabel,
 } from '@xyo-network/module-model'
 import { SimpleModuleResolver } from '@xyo-network/module-resolver'
-import { MemoryNode, NodeHelper } from '@xyo-network/node-memory'
+import { MemoryNode, MemoryNodeHelper } from '@xyo-network/node-memory'
 import {
   asNodeInstance,
   AttachableNodeInstance,
@@ -73,7 +73,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
       if (source) {
         await Promise.all(
           this.ids.map(async (id) => {
-            await NodeHelper.attachToExistingNode(source, id, this)
+            await MemoryNodeHelper.attachToExistingNode(source, id, this)
           }),
         )
         this._built = true
@@ -118,11 +118,7 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
     const existingModule = mods.find((mod) => mod.address === address)
     assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
-    const module = this.registeredModuleMap[address]
-
-    if (!module) {
-      return
-    }
+    const module = assertEx(this.registeredModuleMap[address], () => `Module [${address}] not found in registered modules`)
 
     module.addParent(this)
 
@@ -150,11 +146,9 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
   }
 
   protected override async detachUsingAddress(address: Address) {
-    const module = await this.downResolver.resolve(address)
-    if (module) {
-      this._limitedResolver.remove(address)
-      return address
-    }
+    const module = assertEx(await this.downResolver.resolve(address), () => `Module [${address}] not found in down resolver`)
+    this._limitedResolver.remove(module.address)
+    return address
   }
 
   protected override async startHandler(): Promise<boolean> {

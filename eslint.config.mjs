@@ -5,13 +5,15 @@ import tsParser from '@typescript-eslint/parser'
 
 // eslint-disable-next-line import/no-default-export
 export default [
+  {
+    ignores: ['.yarn', '.yarn/**', '**/dist/**', 'dist/**', 'build/**', 'node_modules/**'],
+  },
   prettierConfig,
   typescriptConfig,
   rulesConfig,
   workspacesConfig,
   {
     files: ['**/*.ts', '**/*.js', '**/*.cjs', '**/*.mjs'],
-    ignores: ['.yarn', '.yarn/**', 'jest.config.cjs', '**/dist/**', 'dist', 'build/**', 'node_modules/**'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

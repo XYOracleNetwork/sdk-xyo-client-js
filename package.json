@@ -17,7 +17,7 @@
     "@xyo-network/modules": "workspace:~",
     "@xyo-network/protocol": "workspace:~",
     "@xyo-network/sdk-utils": "workspace:~",
-    "@xyo-network/shared": "workspace:~"
+    "@xyo-network/shared": "2.33.0"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {

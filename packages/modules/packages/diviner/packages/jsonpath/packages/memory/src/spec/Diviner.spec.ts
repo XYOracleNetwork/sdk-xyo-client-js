@@ -42,6 +42,12 @@ describe('JsonPathDiviner', () => {
       [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
+    // [
+    //   'transforms array with * (all elements)',
+    //   [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
+    //   [{ destinationField: 'c', sourcePathExpression: '$.a[*]' }],
+    //   [{ c: 0, schema: 'network.xyo.test.destination' }],
+    // ],
     [
       'transforms array (first position)',
       [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],

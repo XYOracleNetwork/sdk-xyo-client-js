@@ -9379,9 +9379,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:6.11.1":
-  version: 6.11.1
-  resolution: "ethers@npm:6.11.1"
+"ethers@npm:^6":
+  version: 6.13.1
+  resolution: "ethers@npm:6.13.1"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.1"
     "@noble/curves": "npm:1.2.0"
@@ -9389,8 +9389,8 @@ __metadata:
     "@types/node": "npm:18.15.13"
     aes-js: "npm:4.0.0-beta.5"
     tslib: "npm:2.4.0"
-    ws: "npm:8.5.0"
-  checksum: 10/bfeba2670dbfdac3951a66ab2d5bbc18dd7e1be69da9142ad4fe3859a30891e7bb048ecbb6ab542b67df777ada1860445bb3dd83536219c0d3639fe05e74df8e
+    ws: "npm:8.17.1"
+  checksum: 10/efc3e8d4d13101cad01823ba524dad797a23f60088ca9f8677bd6dbfad5087e4187ede121e43aa0758d704525976f935860c5d5d27183a4247deaccf7cf19950
   languageName: node
   linkType: hard
 
@@ -19677,22 +19677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.5.0":
-  version: 8.5.0
-  resolution: "ws@npm:8.5.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10/f0ee700970a0bf925b1ec213ca3691e84fb8b435a91461fe3caf52f58c6cec57c99ed5890fbf6978824c932641932019aafc55d864cad38ac32577496efd5d3a
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.11.0, ws@npm:~8.17.1":
+"ws@npm:8.17.1, ws@npm:^8.11.0, ws@npm:~8.17.1":
   version: 8.17.1
   resolution: "ws@npm:8.17.1"
   peerDependencies:

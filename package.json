@@ -48,10 +48,11 @@
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
-    "ethers": "6.11.1",
+    "ethers": "^6",
     "fake-indexeddb": "^4",
     "quick-lru": "^5"
   },
+  "resolutions_comment": "We set the above resolutions to make sure we pull in the latest versions of these packages even if some sub packages request earlier versions",
   "exports": {
     ".": {
       "browser": {

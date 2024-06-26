@@ -48,7 +48,7 @@
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
-    "ethers": "6.11.0",
+    "ethers": "6.11.1",
     "fake-indexeddb": "^4",
     "quick-lru": "^5"
   },

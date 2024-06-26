@@ -11,6 +11,8 @@ import {
   AddressPreviousHashPayload,
   AttachableModuleInstance,
   duplicateModules,
+  isAddressModuleFilter,
+  isNameModuleFilter,
   ModuleEventData,
   ModuleFilter,
   ModuleFilterOptions,
@@ -28,7 +30,8 @@ import {
   resolveAddressToInstance,
   ResolveHelper,
   ResolveHelperConfig,
-  resolvePathToAddress,
+  resolveLocalNameToInstance,
+  resolvePathToInstance,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
@@ -178,13 +181,16 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
       }
       switch (typeof idOrFilter) {
         case 'string': {
-          const address = await resolvePathToAddress(this, idOrFilter, false)
-          if (address) {
-            return (await resolveAddressToInstance(this, address, false)) as T
-          }
+          return (await resolvePathToInstance(this, idOrFilter)) as T | undefined
         }
         case 'object': {
-          throw new Error('Filtering not supported')
+          if (isNameModuleFilter(idOrFilter)) {
+            return (await Promise.all(idOrFilter.name.map(async (name) => await resolveLocalNameToInstance(this, name)))) as T[]
+          }
+          if (isAddressModuleFilter(idOrFilter)) {
+            return (await Promise.all(idOrFilter.address.map(async (address) => await resolveAddressToInstance(this, address)))) as T[]
+          }
+          throw new Error('Invalid filter type')
         }
         default: {
           return (await this.publicChildren()) as T[]

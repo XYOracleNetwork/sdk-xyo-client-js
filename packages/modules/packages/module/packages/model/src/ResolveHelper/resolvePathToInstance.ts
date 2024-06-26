@@ -12,7 +12,7 @@ import { transformModuleIdentifier } from './transformModuleIdentifier'
 export const resolvePathToInstance = async (
   root: ModuleInstance,
   path: string,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   transformers: ModuleIdentifierTransformer[] = ResolveHelperStatic.transformers,
 ): Promise<ModuleInstance | undefined> => {
   const parts = path.split(MODULE_PATH_SEPARATOR)

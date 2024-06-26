@@ -6,13 +6,13 @@ import { ModuleResolveDirection } from './model'
 export const resolveAddressToInstanceDown = async (
   root: ModuleInstance,
   address: Address,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   ignore: Address[] = [],
 ): Promise<ModuleInstance | undefined> => {
   if (root.address === address) {
     return root
   }
-  const cache = root.addressCache?.('up', includePrivate)
+  const cache = root.addressCache?.('up', !!includePrivate)
   const privateChildren = (includePrivate ? await root.privateChildren?.() : []) ?? []
   const publicChildren = (await root.publicChildren?.()) ?? []
   const children = [...privateChildren, ...publicChildren]
@@ -29,7 +29,7 @@ export const resolveAddressToInstanceDown = async (
 export const resolveAddressToInstanceSiblings = async (
   root: ModuleInstance,
   address: Address,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   ignore: Address[] = [],
 ): Promise<ModuleInstance | undefined> => {
   const siblings = (await root.siblings?.()) ?? []
@@ -44,10 +44,10 @@ export const resolveAddressToInstanceSiblings = async (
 export const resolveAddressToInstanceUp = async (
   root: ModuleInstance,
   address: Address,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   ignore: Address[] = [],
 ): Promise<ModuleInstance | undefined> => {
-  const cache = root.addressCache?.('up', includePrivate)
+  const cache = root.addressCache?.('up', includePrivate ?? true)
   const parents = (await root.parents?.()) ?? []
   for (const parent of parents) {
     const found = await resolveAddressToInstance(parent, address, includePrivate, ignore)
@@ -62,10 +62,10 @@ export const resolveAddressToInstanceUp = async (
 export const resolveAddressToInstanceAll = async (
   root: ModuleInstance,
   address: Address,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   ignore: Address[] = [],
 ): Promise<ModuleInstance | undefined> => {
-  const cache = root.addressCache?.('all', includePrivate)
+  const cache = root.addressCache?.('all', !!includePrivate)
   const result =
     (await resolveAddressToInstanceDown(root, address, includePrivate ?? false, ignore)) ??
     (await resolveAddressToInstanceUp(root, address, includePrivate ?? true, ignore))
@@ -76,7 +76,7 @@ export const resolveAddressToInstanceAll = async (
 export const resolveAddressToInstance = async (
   root: ModuleInstance,
   address: Address,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   ignore: Address[] = [],
   direction: ModuleResolveDirection = 'all',
 ): Promise<ModuleInstance | undefined> => {

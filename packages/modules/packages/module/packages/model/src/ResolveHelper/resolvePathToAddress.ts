@@ -8,7 +8,7 @@ import { resolvePathToInstance } from './resolvePathToInstance'
 export const resolvePathToAddress = async (
   root: ModuleInstance,
   path: string,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
   transformers: ModuleIdentifierTransformer[] = ResolveHelperStatic.transformers,
 ): Promise<Address | undefined> => {
   return (await resolvePathToInstance(root, path, includePrivate, transformers))?.address

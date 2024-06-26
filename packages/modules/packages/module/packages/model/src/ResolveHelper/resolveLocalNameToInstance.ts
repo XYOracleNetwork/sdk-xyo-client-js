@@ -11,7 +11,7 @@ export const resolveLocalNameToInstanceUp = async (root: ModuleInstance, modName
 export const resolveLocalNameToInstanceDown = async (
   root: ModuleInstance,
   modName: ModuleName,
-  includePrivate = false,
+  includePrivate: boolean | undefined = undefined,
 ): Promise<ModuleInstance | undefined> => {
   const privateChildren = (includePrivate ? await root.privateChildren?.() : []) ?? []
   const publicChildren = (await root.publicChildren?.()) ?? []

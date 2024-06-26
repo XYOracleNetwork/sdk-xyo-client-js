@@ -25,8 +25,10 @@ import {
   ModuleStateQuery,
   ModuleStateQuerySchema,
   ObjectFilterOptions,
+  resolveAddressToInstance,
   ResolveHelper,
   ResolveHelperConfig,
+  resolvePathToAddress,
 } from '@xyo-network/module-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { asNodeInstance, NodeInstance } from '@xyo-network/node-model'
@@ -39,6 +41,9 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   implements AttachableModuleInstance<TParams, TEventData>, ModuleNameResolver
 {
   static override readonly uniqueName = globallyUnique('AbstractModuleInstance', AbstractModuleInstance, 'xyo')
+
+  //switches between old and new resolution system
+  static readonly useNewResolver = false
 
   private _downResolver?: CompositeModuleResolver
   private _parents: NodeInstance[] = []
@@ -167,27 +172,47 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     options: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const config: ResolveHelperConfig = {
-      address: this.address,
-      dead: this.dead,
-      downResolver: this.downResolver,
-      logger: this.logger,
-      module: this,
-      transformers: this.moduleIdentifierTransformers,
-      upResolver: this.upResolver,
-    }
-    if (idOrFilter === '*') {
-      return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
-    }
-    switch (typeof idOrFilter) {
-      case 'string': {
-        return await ResolveHelper.resolve(config, idOrFilter, options)
+    if (AbstractModuleInstance.useNewResolver) {
+      if (idOrFilter === '*') {
+        return (await this.publicChildren()) as T[]
       }
-      case 'object': {
+      switch (typeof idOrFilter) {
+        case 'string': {
+          const address = await resolvePathToAddress(this, idOrFilter, false)
+          if (address) {
+            return (await resolveAddressToInstance(this, address, false)) as T
+          }
+        }
+        case 'object': {
+          throw new Error('Filtering not supported')
+        }
+        default: {
+          return (await this.publicChildren()) as T[]
+        }
+      }
+    } else {
+      const config: ResolveHelperConfig = {
+        address: this.address,
+        dead: this.dead,
+        downResolver: this.downResolver,
+        logger: this.logger,
+        module: this,
+        transformers: this.moduleIdentifierTransformers,
+        upResolver: this.upResolver,
+      }
+      if (idOrFilter === '*') {
         return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
       }
-      default: {
-        return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+      switch (typeof idOrFilter) {
+        case 'string': {
+          return await ResolveHelper.resolve(config, idOrFilter, options)
+        }
+        case 'object': {
+          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        }
+        default: {
+          return (await ResolveHelper.resolve(config, idOrFilter, options)).filter((mod) => mod.address !== this.address)
+        }
       }
     }
   }

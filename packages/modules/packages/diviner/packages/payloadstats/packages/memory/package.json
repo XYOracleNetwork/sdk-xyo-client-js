@@ -12,15 +12,15 @@
   "dependencies": {
     "@xylabs/assert": "^3.5.2",
     "@xylabs/hex": "^3.5.2",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-payload-stats-abstract": "workspace:~",
-    "@xyo-network/diviner-payload-stats-model": "workspace:~",
-    "@xyo-network/payload-builder": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-payload-stats-abstract": "workspace:^",
+    "@xyo-network/diviner-payload-stats-model": "workspace:^",
+    "@xyo-network/payload-builder": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "typescript": "^5.5.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

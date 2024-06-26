@@ -12,13 +12,13 @@
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
     "@xylabs/hex": "^3.5.2",
-    "@xyo-network/previous-hash-store-model": "workspace:~",
+    "@xyo-network/previous-hash-store-model": "workspace:^",
     "idb": "^8.0.0"
   },
   "devDependencies": {
     "@types/uuid": "10.0.0",
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "fake-indexeddb": "^6.0.0",
     "typescript": "^5.5.2",
     "uuid": "^10.0.0"

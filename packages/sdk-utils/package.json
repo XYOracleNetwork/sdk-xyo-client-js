@@ -10,19 +10,19 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/api-models": "workspace:~",
-    "@xyo-network/dns": "workspace:~",
-    "@xyo-network/metamask-connector": "workspace:~",
-    "@xyo-network/network": "workspace:~",
-    "@xyo-network/payload-plugin": "workspace:~",
-    "@xyo-network/payloadset-plugin": "workspace:~",
-    "@xyo-network/schema-cache": "workspace:~",
-    "@xyo-network/schema-name-validator": "workspace:~",
-    "@xyo-network/witnesses": "workspace:~"
+    "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/dns": "workspace:^",
+    "@xyo-network/metamask-connector": "workspace:^",
+    "@xyo-network/network": "workspace:^",
+    "@xyo-network/payload-plugin": "workspace:^",
+    "@xyo-network/payloadset-plugin": "workspace:^",
+    "@xyo-network/schema-cache": "workspace:^",
+    "@xyo-network/schema-name-validator": "workspace:^",
+    "@xyo-network/witnesses": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "typescript": "^5.5.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

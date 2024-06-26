@@ -41,13 +41,13 @@
   "author": "Arie Trouw",
   "license": "LGPL-3.0-only",
   "dependencies": {
-    "@xyo-network/diviner-forecasting-model": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~",
+    "@xyo-network/diviner-forecasting-model": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^",
     "arima": "^0.2.5"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "typescript": "^5.5.2"
   },
   "type": "module"

@@ -11,19 +11,19 @@
   "dependencies": {
     "@xylabs/axios": "^3.5.2",
     "@xylabs/object": "^3.5.2",
-    "@xyo-network/api-models": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/diviner-model": "workspace:~",
-    "@xyo-network/huri": "workspace:~",
-    "@xyo-network/payload-model": "workspace:~"
+    "@xyo-network/api-models": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/diviner-model": "workspace:^",
+    "@xyo-network/huri": "workspace:^",
+    "@xyo-network/payload-model": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
     "@xylabs/jest-helpers": "^3.5.2",
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
-    "@xyo-network/module-model": "workspace:~",
-    "@xyo-network/query-payload-plugin": "workspace:~",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
+    "@xyo-network/module-model": "workspace:^",
+    "@xyo-network/query-payload-plugin": "workspace:^",
     "jest": "^29.7.0",
     "typescript": "^5.5.2",
     "uuid": "^10.0.0"

@@ -10,12 +10,12 @@
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "dependencies": {
-    "@xyo-network/manifest-model": "workspace:~",
-    "@xyo-network/manifest-wrapper": "workspace:~"
+    "@xyo-network/manifest-model": "workspace:^",
+    "@xyo-network/manifest-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "ajv": "^8.16.0",
     "typescript": "^5.5.2"
   },

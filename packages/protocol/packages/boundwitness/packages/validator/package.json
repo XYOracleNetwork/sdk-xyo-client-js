@@ -13,17 +13,17 @@
     "@xylabs/arraybuffer": "^3.5.2",
     "@xylabs/lodash": "^3.5.2",
     "@xylabs/typeof": "^3.5.2",
-    "@xyo-network/account": "workspace:~",
-    "@xyo-network/boundwitness-model": "workspace:~",
-    "@xyo-network/payload": "workspace:~",
-    "@xyo-network/payload-validator": "workspace:~"
+    "@xyo-network/account": "workspace:^",
+    "@xyo-network/boundwitness-model": "workspace:^",
+    "@xyo-network/payload": "workspace:^",
+    "@xyo-network/payload-validator": "workspace:^"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
-    "@xyo-network/boundwitness-builder": "workspace:~",
-    "@xyo-network/schema-name-validator": "workspace:~",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
+    "@xyo-network/boundwitness-builder": "workspace:^",
+    "@xyo-network/schema-name-validator": "workspace:^",
     "typescript": "^5.5.2"
   },
   "exports": {

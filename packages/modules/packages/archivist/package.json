@@ -10,18 +10,18 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js/issues"
   },
   "dependencies": {
-    "@xyo-network/archivist-abstract": "workspace:~",
-    "@xyo-network/archivist-cookie": "workspace:~",
-    "@xyo-network/archivist-indexeddb": "workspace:~",
-    "@xyo-network/archivist-memory": "workspace:~",
-    "@xyo-network/archivist-model": "workspace:~",
-    "@xyo-network/archivist-storage": "workspace:~",
-    "@xyo-network/archivist-view": "workspace:~",
-    "@xyo-network/archivist-wrapper": "workspace:~"
+    "@xyo-network/archivist-abstract": "workspace:^",
+    "@xyo-network/archivist-cookie": "workspace:^",
+    "@xyo-network/archivist-indexeddb": "workspace:^",
+    "@xyo-network/archivist-memory": "workspace:^",
+    "@xyo-network/archivist-model": "workspace:^",
+    "@xyo-network/archivist-storage": "workspace:^",
+    "@xyo-network/archivist-view": "workspace:^",
+    "@xyo-network/archivist-wrapper": "workspace:^"
   },
   "devDependencies": {
-    "@xylabs/ts-scripts-yarn3": "^3.11.11",
-    "@xylabs/tsconfig": "^3.11.11",
+    "@xylabs/ts-scripts-yarn3": "^3.11.12",
+    "@xylabs/tsconfig": "^3.11.12",
     "typescript": "^5.5.2"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",

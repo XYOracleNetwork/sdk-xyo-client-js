@@ -1132,26 +1132,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/json-rpc-engine@npm:^8.0.1, @metamask/json-rpc-engine@npm:^8.0.2":
-  version: 8.0.2
-  resolution: "@metamask/json-rpc-engine@npm:8.0.2"
+"@metamask/json-rpc-engine@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@metamask/json-rpc-engine@npm:9.0.0"
   dependencies:
     "@metamask/rpc-errors": "npm:^6.2.1"
     "@metamask/safe-event-emitter": "npm:^3.0.0"
     "@metamask/utils": "npm:^8.3.0"
-  checksum: 10/f088f4b648b9b55875b56e8237853e7282f13302a9db6a1f9bba06314dfd6cd0a23b3d27f8fde05a157b97ebb03b67bc2699ba455c99553dfb2ecccd73ab3474
+  checksum: 10/9ddde2ca81e3b3a70e0cc752b5e22e436723cafa1948cbb45d63a42796a1260ff0f9356ebda0d375d9aae81232e77e487a8d0e1273aed3aa83ca0fe3e2f2763f
   languageName: node
   linkType: hard
 
-"@metamask/json-rpc-middleware-stream@npm:^7.0.1":
-  version: 7.0.2
-  resolution: "@metamask/json-rpc-middleware-stream@npm:7.0.2"
+"@metamask/json-rpc-middleware-stream@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@metamask/json-rpc-middleware-stream@npm:8.0.0"
   dependencies:
-    "@metamask/json-rpc-engine": "npm:^8.0.2"
+    "@metamask/json-rpc-engine": "npm:^9.0.0"
     "@metamask/safe-event-emitter": "npm:^3.0.0"
     "@metamask/utils": "npm:^8.3.0"
     readable-stream: "npm:^3.6.2"
-  checksum: 10/850a857418fc6b8c73fb4f978b76d2cdc0372ccb2f0f7e6f0229117882a4687d716fc37638483c9ac1338f7957b3f8207bc6be8a3d4c0708339fe9dfc3510fe0
+  checksum: 10/0b32021714032093311f72ede6671d14eb4faf39a379ce12ea98b4621f24e0e41332bca966329f308159eb5884c8d376297c45bbe8ea9c0b7b09f7ce0810bef9
   languageName: node
   linkType: hard
 
@@ -1165,24 +1165,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@metamask/providers@npm:17.0.0"
+"@metamask/providers@npm:^17.1.0":
+  version: 17.1.0
+  resolution: "@metamask/providers@npm:17.1.0"
   dependencies:
-    "@metamask/json-rpc-engine": "npm:^8.0.1"
-    "@metamask/json-rpc-middleware-stream": "npm:^7.0.1"
+    "@metamask/json-rpc-engine": "npm:^9.0.0"
+    "@metamask/json-rpc-middleware-stream": "npm:^8.0.0"
     "@metamask/object-multiplex": "npm:^2.0.0"
     "@metamask/rpc-errors": "npm:^6.2.1"
     "@metamask/safe-event-emitter": "npm:^3.1.1"
     "@metamask/utils": "npm:^8.3.0"
     detect-browser: "npm:^5.2.0"
-    extension-port-stream: "npm:^3.0.0"
+    extension-port-stream: "npm:^4.1.0"
     fast-deep-equal: "npm:^3.1.3"
     is-stream: "npm:^2.0.0"
     readable-stream: "npm:^3.6.2"
   peerDependencies:
     webextension-polyfill: ^0.10.0 || ^0.11.0 || ^0.12.0
-  checksum: 10/9e6b84120276035c9d7e776da4f7e18243116c53fd0c33efca17034971981164720e808dff055e871d08b9ed9d78dc9ebd0d974238baa599d7d91e1560fc1abb
+  checksum: 10/12c24b1c81aff0e60ec69eb878e069a8ea3a61025213e825c074117f2f4dd7779ac1a0be23ab7016d24c5ad1be0bbebf1e4f4f082551bb63d17a0be7e19235e3
   languageName: node
   linkType: hard
 
@@ -5232,7 +5232,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xyo-network/metamask-connector@workspace:packages/sdk-utils/packages/metamask-connector"
   dependencies:
-    "@metamask/providers": "npm:^17.0.0"
+    "@metamask/providers": "npm:^17.1.0"
     "@xylabs/forget": "npm:^3.5.2"
     "@xylabs/ts-scripts-yarn3": "npm:^3.11.12"
     "@xylabs/tsconfig-dom": "npm:^3.11.12"
@@ -9541,13 +9541,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extension-port-stream@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "extension-port-stream@npm:3.0.0"
+"extension-port-stream@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "extension-port-stream@npm:4.1.0"
   dependencies:
     readable-stream: "npm:^3.6.2 || ^4.4.2"
-    webextension-polyfill: "npm:>=0.10.0 <1.0"
-  checksum: 10/4f51d2258a96154c2d916a8a5425636a2b0817763e9277f7dc378d08b6f050c90d185dbde4313d27cf66ad99d4b3116479f9f699c40358c64cccfa524d2b55bf
+  peerDependencies:
+    webextension-polyfill: ^0.10.0 || ^0.11.0 || ^0.12.0
+  checksum: 10/e349277cf65a89c2a6c4f3611f52e0a97497bd2870a4c25aa4ab11b300c48e3013fd95208e3ff6c8494dfb849eed725e7506e59118b1a69e555fa4b67afdbd83
   languageName: node
   linkType: hard
 
@@ -19433,13 +19434,6 @@ __metadata:
   version: 1.6.2
   resolution: "wasm-feature-detect@npm:1.6.2"
   checksum: 10/55f4119026ec11e76bee9141a49c97918a4218466649ba15d697ebbaa165110463c569a7d947d465c038119c9b5b187ac97b7ff9476a9334fc870d1da9d29687
-  languageName: node
-  linkType: hard
-
-"webextension-polyfill@npm:>=0.10.0 <1.0":
-  version: 0.12.0
-  resolution: "webextension-polyfill@npm:0.12.0"
-  checksum: 10/77e648b958b573ef075e75a0c180e2bbd74dee17b3145e86d21fcbb168c4999e4a311654fe634b8178997bee9b35ea5808d8d3d3e5ff2ad138f197f4f0ea75d9
   languageName: node
   linkType: hard
 

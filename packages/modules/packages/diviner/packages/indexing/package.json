@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@xyo-network/diviner-indexing-memory": "workspace:^",
-    "@xyo-network/diviner-indexing-model": "workspace:^"
+    "@xyo-network/diviner-indexing-model": "workspace:^",
+    "@xyo-network/diviner-temporal-indexing": "workspace:^"
   },
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
@@ -57,6 +58,6 @@
     "url": "https://github.com/XYOracleNetwork/sdk-xyo-client-js.git"
   },
   "sideEffects": false,
-  "version": "2.107.5",
+  "version": "2.107.6",
   "type": "module"
 }

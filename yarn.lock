@@ -4358,6 +4358,7 @@ __metadata:
     "@xylabs/tsconfig": "npm:^3.11.12"
     "@xyo-network/diviner-indexing-memory": "workspace:^"
     "@xyo-network/diviner-indexing-model": "workspace:^"
+    "@xyo-network/diviner-temporal-indexing": "workspace:^"
     typescript: "npm:^5.5.2"
   languageName: unknown
   linkType: soft
@@ -4945,7 +4946,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/diviner-temporal-indexing@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal":
+"@xyo-network/diviner-temporal-indexing@workspace:^, @xyo-network/diviner-temporal-indexing@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal":
   version: 0.0.0-use.local
   resolution: "@xyo-network/diviner-temporal-indexing@workspace:packages/modules/packages/diviner/packages/indexing/packages/temporal"
   dependencies:

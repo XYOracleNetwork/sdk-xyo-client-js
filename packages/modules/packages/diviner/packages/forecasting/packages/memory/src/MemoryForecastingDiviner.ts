@@ -26,6 +26,9 @@ const getJsonPathTransformer = (pathExpression: string): PayloadValueTransformer
   return transformer
 }
 
+const defaultBatchLimit = 1000
+const defaultMaxTrainingLength = 10_000
+
 export class MemoryForecastingDiviner<
   TParams extends ForecastingDivinerParams = ForecastingDivinerParams,
 > extends AbstractForecastingDiviner<TParams> {
@@ -37,16 +40,15 @@ export class MemoryForecastingDiviner<
     seasonalArimaForecasting: seasonalArimaForecastingMethod,
   }
 
+  get boundWitnessDiviner() {
+    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured')
+  }
+
   /**
    * The max number of records to search during the batch query
    */
-  protected readonly batchLimit = 1000
-
-  // TODO: Inject via config
-  protected readonly maxTrainingLength = 10_000
-
-  get boundWitnessDiviner() {
-    return assertEx(this.config.boundWitnessDiviner, () => 'No boundWitnessDiviner configured')
+  protected get batchLimit() {
+    return this.config.batchLimit ?? defaultBatchLimit
   }
 
   protected override get forecastingMethod(): ForecastingMethod {
@@ -54,6 +56,10 @@ export class MemoryForecastingDiviner<
     const forecastingMethod = MemoryForecastingDiviner.forecastingMethodDict[forecastingMethodName]
     if (forecastingMethod) return forecastingMethod
     throw new Error(`Unsupported forecasting method: ${forecastingMethodName}`)
+  }
+
+  protected get maxTrainingLength() {
+    return this.config.maxTrainingLength ?? defaultMaxTrainingLength
   }
 
   protected override get transformer(): PayloadValueTransformer {

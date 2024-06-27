@@ -65,8 +65,8 @@ export class AsyncQueryBusClient<TParams extends AsyncQueryBusClientParams = Asy
     const routedQueryHash =
       // Trust the signed hash if it's there
       (routedQuery as WithMeta<QueryBoundWitness>)?.$hash ??
-      // TODO: What is the right way to find the dataHash
-      Object.keys(await PayloadBuilder.toDataHashMap([routedQuery]))[0]
+      // Calculate the hash otherwise
+      Object.keys(await PayloadBuilder.dataHash(routedQuery))
     this.logger?.debug(`Issuing query: ${routedQueryHash} to: ${address}`)
     // If there was data associated with the query, add it to the insert
     const data = payloads ? [routedQuery, ...payloads] : [routedQuery]

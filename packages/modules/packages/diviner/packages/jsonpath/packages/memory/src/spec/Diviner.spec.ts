@@ -42,6 +42,8 @@ describe('JsonPathDiviner', () => {
       [{ defaultValue: 0, destinationField: 'c', sourcePathExpression: '$.a' }],
       [{ c: 0, schema: 'network.xyo.test.destination' }],
     ],
+    // TODO: Since this returns an array, it will not work with the current
+    // implementation. Uncomment when arrayed transformer values are supported.
     // [
     //   'transforms array with * (all elements)',
     //   [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],
@@ -66,6 +68,8 @@ describe('JsonPathDiviner', () => {
       [{ destinationField: 'c', sourcePathExpression: '$.a[(@.length-1)]' }],
       [{ c: 2, schema: 'network.xyo.test.destination' }],
     ],
+    // NOTE: Since this can return an array, it should stop passing when
+    // the arrayed transformer values are supported.
     [
       'transforms array (last position via slice)',
       [{ a: [0, 1, 2], schema: 'network.xyo.test.source.a' }],

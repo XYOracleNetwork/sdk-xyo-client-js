@@ -11,6 +11,12 @@ export const toPayloadTransformer = (transformExpression: JsonPathTransformExpre
   const { defaultValue, destinationField, sourcePathExpression } = transformExpression
   const transformer: PayloadTransformer = (x: Payload) => {
     const source = jsonpath.value(x, sourcePathExpression)
+    // TODO: If the expression should return multiple values, use jsonpath.query
+    // instead of jsonpath.value
+    // const source =
+    //   isScalarJsonPathExpression(transformExpression.sourcePathExpression) ?
+    //     jsonpath.value(x, sourcePathExpression)
+    //   : jsonpath.query(x, sourcePathExpression)
     const transformed: Record<string, unknown> = {}
     // Assign the source value to the destination field or the default value if the source is undefined
     const destinationValue = source === undefined ? defaultValue : source

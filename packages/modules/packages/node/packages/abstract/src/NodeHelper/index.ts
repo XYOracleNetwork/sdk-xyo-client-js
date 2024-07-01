@@ -1,7 +1,7 @@
-import { attachedPublicModules } from './attachedPublicModules'
 import { attachedPrivateModules } from './attachedPrivateModules'
+import { attachedPublicModules } from './attachedPublicModules'
 
 export const NodeHelper = {
-  attachedPublicModules,
   attachedPrivateModules,
+  attachedPublicModules,
 }

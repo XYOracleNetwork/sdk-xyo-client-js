@@ -126,7 +126,7 @@ export class StorageArchivist<
   protected override clearHandler(): void | Promise<void> {
     this.logger?.log(`this.storage.length: ${this.storage.length}`)
     this.storage.clear()
-    return this.emit('cleared', { module: this })
+    return this.emit('cleared', { mod: this })
   }
 
   protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {

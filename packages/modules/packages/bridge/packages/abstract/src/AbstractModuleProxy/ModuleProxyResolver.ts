@@ -27,7 +27,7 @@ export interface ModuleProxyResolverOptions {
   childManifests?: Record<Address, ModuleManifestPayload>
   childStates?: Record<Address, ModuleManifestPayload>
   host: ModuleResolver
-  module: ModuleInstance
+  mod: ModuleInstance
   moduleIdentifierTransformers?: ModuleIdentifierTransformer[]
 }
 
@@ -43,7 +43,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
   }
 
   get root() {
-    return this.options.module
+    return this.options.mod
   }
 
   protected get childAddressMap() {
@@ -54,8 +54,8 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
     return this.options.host
   }
 
-  protected get module() {
-    return this.options.module
+  protected get mod() {
+    return this.options.mod
   }
 
   addResolver(_resolver: ModuleResolver): this {

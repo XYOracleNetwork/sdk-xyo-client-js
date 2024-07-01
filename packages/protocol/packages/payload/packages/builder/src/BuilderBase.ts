@@ -1,10 +1,10 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
+import { omitBy } from '@xylabs/lodash'
 import { AnyObject, isJsonObject, JsonObject, toJson } from '@xylabs/object'
 import { Promisable } from '@xylabs/promise'
 import { removeEmptyFields } from '@xyo-network/hash'
 import { Payload, Schema, WithMeta, WithOptionalMeta } from '@xyo-network/payload-model'
-import { omitBy } from '@xylabs/lodash'
 
 import { PayloadBuilderOptions } from './Options'
 

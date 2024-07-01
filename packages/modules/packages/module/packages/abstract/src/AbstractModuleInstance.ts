@@ -110,10 +110,10 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
     return this._upResolver
   }
 
-  addParent(module: ModuleInstance) {
-    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+  addParent(mod: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === mod.address)
     if (!existingEntry) {
-      this._parents.push(asNodeInstance(module, 'Only NodeInstances can be parents'))
+      this._parents.push(asNodeInstance(mod, 'Only NodeInstances can be parents'))
     }
   }
 
@@ -202,7 +202,7 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
         dead: this.dead,
         downResolver: this.downResolver,
         logger: this.logger,
-        module: this,
+        mod: this,
         transformers: this.moduleIdentifierTransformers,
         upResolver: this.upResolver,
       }

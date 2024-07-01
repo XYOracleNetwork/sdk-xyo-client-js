@@ -5,9 +5,9 @@ import { WitnessInstance } from '@xyo-network/witness-model'
 
 import { ArchivistTask, DivinerTask, ModuleTask, WitnessTask } from './Task'
 
-export type ResolvedModuleTask<TTask extends ModuleTask = ModuleTask, TInstance extends ModuleInstance = ModuleInstance> = Omit<TTask, 'module'> & {
+export type ResolvedModuleTask<TTask extends ModuleTask = ModuleTask, TInstance extends ModuleInstance = ModuleInstance> = Omit<TTask, 'mod'> & {
   /** @field the modules that performs the task */
-  module: TInstance
+  mod: TInstance
 }
 
 export type ResolvedArchivistTask = ResolvedModuleTask<ArchivistTask, ArchivistInstance>

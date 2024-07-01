@@ -4,6 +4,6 @@
     "experimentalDecorators": true,
     "typeRoots": []
   },
-  "exclude": ["dist", "node_modules", "./node_modules", "./**/node_modules", "./dist", "./**/dist", "./**/docs", ".*"],
+  "exclude": ["dist", "./dist", "./**/dist", "./**/docs", ".*"],
   "extends": "@xylabs/tsconfig"
 }

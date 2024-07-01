@@ -7,11 +7,11 @@ export const WithFactory = {
   create: <T extends object>(typeCheck: TypeCheck<T>) => {
     return <R>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      module: any,
+      mod: any,
 
-      closure: (module: T) => R,
+      closure: (mod: T) => R,
     ): R | undefined => {
-      return typeCheck(module) ? closure(module) : undefined
+      return typeCheck(mod) ? closure(mod) : undefined
     }
   },
 }

@@ -93,8 +93,19 @@ export class Account extends KeyPair implements AccountInstance {
     return address.length === 40
   }
 
+  static async random(): Promise<AccountInstance> {
+    const instance = new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
+    return await instance.initialize()
+  }
+
+  /** @deprecated use random instead */
   static randomSync(): AccountInstance {
     return new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
+  }
+
+  async initialize(): Promise<this> {
+    //TODO: Add initialization of public key and address
+    return await Promise.resolve(this)
   }
 
   async loadPreviousHash(previousHash?: ArrayBuffer | string): Promise<this> {

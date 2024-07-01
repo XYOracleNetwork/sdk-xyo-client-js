@@ -12,21 +12,21 @@ import { SentinelWrapper } from '@xyo-network/sentinel-wrapper'
 import { isWitnessModule } from '@xyo-network/witness-model'
 import { WitnessWrapper } from '@xyo-network/witness-wrapper'
 
-export const wrapModuleWithType = (module: Module, account: AccountInstance): ModuleWrapper => {
-  if (isArchivistModule(module)) {
-    return ArchivistWrapper.wrap(module, account)
+export const wrapModuleWithType = (mod: Module, account: AccountInstance): ModuleWrapper => {
+  if (isArchivistModule(mod)) {
+    return ArchivistWrapper.wrap(mod, account)
   }
-  if (isDivinerModule(module)) {
-    return DivinerWrapper.wrap(module, account)
+  if (isDivinerModule(mod)) {
+    return DivinerWrapper.wrap(mod, account)
   }
-  if (isNodeModule(module)) {
-    return NodeWrapper.wrap(module, account)
+  if (isNodeModule(mod)) {
+    return NodeWrapper.wrap(mod, account)
   }
-  if (isSentinelModule(module)) {
-    return SentinelWrapper.wrap(module, account)
+  if (isSentinelModule(mod)) {
+    return SentinelWrapper.wrap(mod, account)
   }
-  if (isWitnessModule(module)) {
-    return WitnessWrapper.wrap(module, account)
+  if (isWitnessModule(mod)) {
+    return WitnessWrapper.wrap(mod, account)
   }
   throw 'Failed to wrap'
 }

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-internal-modules */
 /*! scure-bip39 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
 import assert from '@noble/hashes/_assert'
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2'

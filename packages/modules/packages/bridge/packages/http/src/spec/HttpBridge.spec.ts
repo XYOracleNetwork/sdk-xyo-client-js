@@ -1,11 +1,13 @@
 /* eslint-disable complexity */
 /* eslint-disable max-statements */
 
+import { assertEx } from '@xylabs/assert'
 import { Account, HDWallet } from '@xyo-network/account'
+import { ApiConfig } from '@xyo-network/api-models'
 import {
-  AttachableArchivistInstance,
   asArchivistInstance,
   asAttachableArchivistInstance,
+  AttachableArchivistInstance,
   isAttachableArchivistInstance,
 } from '@xyo-network/archivist-model'
 import { isModule, isModuleInstance, isModuleObject, ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
@@ -17,8 +19,6 @@ import { PayloadWrapper } from '@xyo-network/payload-wrapper'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge } from '../HttpBridgeFull'
-import { ApiConfig } from '@xyo-network/api-models'
-import { assertEx } from '@xylabs/assert'
 
 const archivistName = 'XYOPublic:Archivist' // TODO: This should be configurable
 const discoverRoots = 'start'
@@ -40,8 +40,8 @@ export const tryGetArchivist = async (config: ApiConfig = getApiConfig()): Promi
   const account = await HDWallet.random()
   const bridge = await HttpBridge.create({ account, config: { client: { discoverRoots, url }, schema, security } })
   await bridge.start()
-  const module = await bridge.resolve(archivistName)
-  return isAttachableArchivistInstance(module) ? module : undefined
+  const mod = await bridge.resolve(archivistName)
+  return isAttachableArchivistInstance(mod) ? mod : undefined
 }
 
 /**
@@ -142,16 +142,13 @@ describe('HttpBridge', () => {
     })
 
     await bridge.getRoots()
-    const module = await bridge.resolve('XYOPublic')
+    const mod = await bridge.resolve('XYOPublic')
 
-    expect(module).toBeDefined()
-    expect(isModule(module)).toBeTrue()
-    expect(isModuleObject(module)).toBeTrue()
+    expect(mod).toBeDefined()
+    expect(isModule(mod)).toBeTrue()
+    expect(isModuleObject(mod)).toBeTrue()
 
-    const remoteNode = asAttachableNodeInstance(
-      module,
-      `Failed to resolve [XYOPublic] - ${module?.address} [${module?.id}] [${module?.constructor.name}]`,
-    )
+    const remoteNode = asAttachableNodeInstance(mod, `Failed to resolve [XYOPublic] - ${mod?.address} [${mod?.id}] [${mod?.constructor.name}]`)
 
     expect(isNodeInstance(remoteNode)).toBeTrue()
     expect(isModuleInstance(remoteNode)).toBeTrue()

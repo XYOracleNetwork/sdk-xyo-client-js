@@ -41,7 +41,7 @@ describe('Sentinel', () => {
       },
       schema: SentinelConfigSchema,
       synchronous: true,
-      tasks: witnesses.map((witness) => ({ module: witness.address })),
+      tasks: witnesses.map((witness) => ({ mod: witness.address })),
     }
 
     const sentinel = (await MemorySentinel.create({ account: Account.randomSync(), config })) as MemorySentinel
@@ -101,9 +101,9 @@ describe('Sentinel', () => {
         const node = await MemoryNode.create({ account: Account.randomSync() })
         const modules: AttachableModuleInstance[] = [witnessA, witnessB, archivistA, archivistB]
         await Promise.all(
-          modules.map(async (module) => {
-            await node.register(module)
-            await node.attach(module.address, true)
+          modules.map(async (mod) => {
+            await node.register(mod)
+            await node.attach(mod.address, true)
           }),
         )
         const params: MemorySentinelParams<SentinelConfig> = {
@@ -114,7 +114,7 @@ describe('Sentinel', () => {
             },
             schema: SentinelConfigSchema,
             synchronous: true,
-            tasks: [{ module: witnessA.address }, { module: witnessB.address }],
+            tasks: [{ mod: witnessA.address }, { mod: witnessB.address }],
           },
         }
         const sentinel = await MemorySentinel.create(params)

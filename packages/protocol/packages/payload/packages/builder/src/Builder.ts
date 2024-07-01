@@ -1,8 +1,8 @@
 import { assertEx } from '@xylabs/assert'
 import { Hash } from '@xylabs/hex'
+import { omitBy } from '@xylabs/lodash'
 import { AnyObject, isJsonObject, JsonArray, JsonObject } from '@xylabs/object'
 import { PayloadHasher } from '@xyo-network/hash'
-import { omitBy } from '@xylabs/lodash'
 import { Payload, PayloadWithMeta, WithMeta } from '@xyo-network/payload-model'
 
 import { PayloadBuilderBase, removeMetaAndSchema, WithoutMeta, WithoutSchema } from './BuilderBase'

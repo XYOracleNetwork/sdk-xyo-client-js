@@ -18,14 +18,14 @@ const payload1: Payload<StringKeyObject & { schema: string }> = {
   timestamp: 1_618_603_439_107,
 }
 const payload2: Payload<StringKeyObject & { schema: string }> = {
-  timestamp: 1_618_603_439_107,
-  string_field: 'there',
-  schema,
-  object_field: {
-    string_value: 'yo',
-    number_value: 2,
-  },
   number_field: 1,
+  object_field: {
+    number_value: 2,
+    string_value: 'yo',
+  },
+  schema,
+  string_field: 'there',
+  timestamp: 1_618_603_439_107,
 }
 const payloads = [payload1, payload2]
 const payloadHash = '3c817871cbf24708703e907dbc344b1b2aefcc3603d14d59c3a35a5c446410d1'

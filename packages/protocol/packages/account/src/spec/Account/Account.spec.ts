@@ -97,7 +97,7 @@ export const generateAccountTests = (title: string, Account: AccountStatic) => {
         const privateKey = accountA.private.hex
         const previousHash = accountA.previousHash
         expect(previousHash).toBeDefined()
-        const accountB = await Account.create({ privateKey: toUint8Array(privateKey), previousHash: toUint8Array(previousHash) })
+        const accountB = await Account.create({ previousHash: toUint8Array(previousHash), privateKey: toUint8Array(privateKey) })
         expect(accountB.previousHash).toEqual(accountA.previousHash)
         expect(accountB.previousHash).toEqual(accountA.previousHash)
       })

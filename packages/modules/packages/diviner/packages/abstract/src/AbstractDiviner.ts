@@ -48,10 +48,10 @@ export abstract class AbstractDiviner<
     return this.busy(async () => {
       const retryConfig = retryConfigIn ?? this.config.retry
       await this.started('throw')
-      await this.emit('divineStart', { inPayloads: payloads, module: this })
+      await this.emit('divineStart', { inPayloads: payloads, mod: this })
       const resultPayloads: TOut[] =
         (retryConfig ? await retry(() => this.divineHandler(payloads), retryConfig) : await this.divineHandler(payloads)) ?? []
-      await this.emit('divineEnd', { errors: [], inPayloads: payloads, module: this, outPayloads: resultPayloads })
+      await this.emit('divineEnd', { errors: [], inPayloads: payloads, mod: this, outPayloads: resultPayloads })
       return await Promise.all(resultPayloads.map((payload) => PayloadBuilder.build(payload)))
     })
   }

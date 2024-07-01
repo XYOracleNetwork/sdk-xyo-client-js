@@ -1,17 +1,16 @@
 import { assertEx } from '@xylabs/assert'
 import { asHash, Hash, hexFromArrayBuffer } from '@xylabs/hex'
+import { omitBy } from '@xylabs/lodash'
 import { EmptyObject, ObjectWrapper } from '@xylabs/object'
 import { subtle } from '@xylabs/platform'
 import { ModuleThread, Pool, spawn, Worker } from '@xylabs/threads'
-
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved, import/no-internal-modules
 import { WorkerModule } from '@xylabs/threads/dist/types/worker'
 import { WasmSupport } from '@xyo-network/wasm'
 import { sha256 } from 'hash-wasm'
 import shajs from 'sha.js'
 
 import { removeEmptyFields } from './removeEmptyFields'
-import { omitBy } from '@xylabs/lodash'
 import { sortFields } from './sortFields'
 import { jsHashFunc, subtleHashFunc, wasmHashFunc } from './worker'
 

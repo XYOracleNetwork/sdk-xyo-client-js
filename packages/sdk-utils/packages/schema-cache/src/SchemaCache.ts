@@ -3,7 +3,7 @@ import { handleError } from '@xylabs/error'
 import { DomainPayloadWrapper } from '@xyo-network/domain-payload-plugin'
 import { FetchedPayload } from '@xyo-network/huri'
 import { SchemaPayload, SchemaSchema } from '@xyo-network/schema-payload-plugin'
-import Ajv, { SchemaObject } from 'ajv'
+import { Ajv, SchemaObject } from 'ajv'
 import { LRUCache } from 'lru-cache'
 
 import { Debounce } from './Debounce'

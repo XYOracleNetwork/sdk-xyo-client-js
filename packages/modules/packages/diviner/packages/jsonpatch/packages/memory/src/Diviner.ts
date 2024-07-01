@@ -4,7 +4,7 @@ import { AbstractDiviner } from '@xyo-network/diviner-abstract'
 import { JsonPatchDivinerConfigSchema, JsonPatchDivinerParams } from '@xyo-network/diviner-jsonpatch-model'
 import { DivinerInstance, DivinerModuleEventData } from '@xyo-network/diviner-model'
 import { Payload, Schema } from '@xyo-network/payload-model'
-
+// eslint-disable-next-line import/no-internal-modules
 import { applyPatch, Operation } from 'json-joy/lib/json-patch/index.js'
 
 export class JsonPatchDiviner<

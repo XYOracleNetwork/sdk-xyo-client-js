@@ -18,8 +18,8 @@ export interface BridgeModuleResolverParams extends ModuleResolverParams {
   archiving?: ArchivingModuleConfig['archiving'] & { resolveArchivists: () => Promise<ArchivistInstance[]> }
   bridge: BridgeInstance
   cacheConfig?: CacheConfig
-  onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
-  onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'module'>) => void
+  onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
+  onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
   wrapperAccount: AccountInstance
 }
 

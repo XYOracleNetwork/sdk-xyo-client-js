@@ -68,8 +68,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     ]
   }
 
-  static isNode(module: unknown) {
-    return (module as AbstractNode).isNode
+  static isNode(mod: unknown) {
+    return (mod as AbstractNode).isNode
   }
 
   async attach(id: ModuleIdentifier, external?: boolean): Promise<Address | undefined> {
@@ -89,10 +89,7 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   async attachedHandler(): Promise<Address[]> {
-    return [
-      ...(await this.attachedPublicModules()).map((module) => module.address),
-      ...(await this.attachedPrivateModules()).map((module) => module.address),
-    ]
+    return [...(await this.attachedPublicModules()).map((mod) => mod.address), ...(await this.attachedPrivateModules()).map((mod) => mod.address)]
   }
 
   async attachedQuery(account?: AccountInstance): Promise<ModuleQueryResult<AddressPayload>> {
@@ -146,11 +143,11 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
   }
 
   protected async attachedPrivateModules(maxDepth = 1): Promise<ModuleInstance[]> {
-    return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.resolvePrivate('*', { maxDepth }) ?? [])).filter((mod) => mod.address !== this.address)
   }
 
   protected async attachedPublicModules(maxDepth = 1): Promise<ModuleInstance[]> {
-    return (await (this.downResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((module) => module.address !== this.address)
+    return (await (this.downResolver.resolve('*', { direction: 'down', maxDepth }) ?? [])).filter((mod) => mod.address !== this.address)
   }
 
   protected override async generateConfigAndAddress(maxDepth = 10): Promise<Payload[]> {
@@ -172,8 +169,8 @@ export abstract class AbstractNode<TParams extends NodeParams = NodeParams, TEve
     const manifest: NodeManifestPayload = { ...(await super.manifestHandler(maxDepth, ignoreAddresses)), schema: NodeManifestPayloadSchema }
     const newIgnoreAddresses = [...ignoreAddresses, this.address]
 
-    const notThisModule = (module: ModuleInstance) => module.address !== this.address && !ignoreAddresses.includes(module.address)
-    const toManifest = (module: ModuleInstance) => module.manifest(maxDepth - 1, newIgnoreAddresses)
+    const notThisModule = (mod: ModuleInstance) => mod.address !== this.address && !ignoreAddresses.includes(mod.address)
+    const toManifest = (mod: ModuleInstance) => mod.manifest(maxDepth - 1, newIgnoreAddresses)
 
     const publicChildren = await this.publicChildren()
     const publicModuleManifests = await Promise.all(publicChildren.filter(notThisModule).map(toManifest))

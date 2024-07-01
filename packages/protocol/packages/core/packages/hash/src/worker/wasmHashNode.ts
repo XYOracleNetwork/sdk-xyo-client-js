@@ -2,6 +2,7 @@
 export const wasmHashFunc = () => {
   const { sha256 } = require('hash-wasm')
   const { asHash } = require('@xylabs/hex')
+  // eslint-disable-next-line import/no-internal-modules
   const { expose } = require('@xylabs/threads/worker')
 
   expose({

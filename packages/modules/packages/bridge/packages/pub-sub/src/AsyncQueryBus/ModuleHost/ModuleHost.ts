@@ -14,12 +14,11 @@ export class AsyncQueryBusModuleHost extends AbstractModuleHost<AsyncQueryBusMod
   }
 
   override async start(): Promise<void> {
-    const listeningModules =
-      this.params.config.listeningModules ?? (await this.params.module.resolve('*', { direction: 'down' })).map((m) => m.address)
+    const listeningModules = this.params.config.listeningModules ?? (await this.params.mod.resolve('*', { direction: 'down' })).map((m) => m.address)
     this._busHost = new AsyncQueryBusHost({
       config: { ...this.params.config, listeningModules },
       logger: this.params.logger,
-      rootModule: this.params.module,
+      rootModule: this.params.mod,
     })
     this._busHost?.start()
   }

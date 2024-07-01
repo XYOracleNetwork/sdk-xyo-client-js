@@ -34,7 +34,7 @@
     "@xyo-network/manifest": "workspace:^",
     "@xyo-network/module-factory-locator": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

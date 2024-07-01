@@ -9,6 +9,7 @@ import { Provider } from 'ethers'
 /** @deprecated use EvmWitnessConfigSchema version instead */
 export const BlockchainWitnessConfigSchema = 'network.xyo.blockchain.witness' as const
 /** @deprecated use EvmWitnessConfigSchema version instead */
+// eslint-disable-next-line deprecation/deprecation
 export type BlockchainWitnessConfigSchema = typeof BlockchainWitnessConfigSchema
 
 /** @deprecated use EvmWitnessConfig version instead */
@@ -17,7 +18,8 @@ export type BlockchainWitnessConfig<TAdditional extends EmptyObject | Payload | 
   TSchema extends void ?
     TAdditional extends Payload ?
       TAdditional['schema']
-    : BlockchainWitnessConfigSchema
+    : // eslint-disable-next-line deprecation/deprecation
+      BlockchainWitnessConfigSchema
   : TSchema
 >
 
@@ -28,6 +30,7 @@ export type AdditionalBlockchainWitnessParams = {
 
 /** @deprecated use EvmWitnessParams version instead */
 export type BlockchainWitnessParams<
+  // eslint-disable-next-line deprecation/deprecation
   TConfig extends AnyConfigSchema<BlockchainWitnessConfig> = BlockchainWitnessConfig,
   TAdditionalParams extends EmptyObject | void = void,
 > = WitnessParams<
@@ -42,6 +45,7 @@ export type BlockchainWitnessParams<
 
 /** @deprecated use AbstractEvmWitness version instead */
 export abstract class AbstractBlockchainWitness<
+  // eslint-disable-next-line deprecation/deprecation
   TParams extends BlockchainWitnessParams<AnyConfigSchema<BlockchainWitnessConfig>> = BlockchainWitnessParams,
   TIn extends Payload = Payload,
   TOut extends Payload = Payload,

@@ -57,7 +57,7 @@ describe.skip('Huri', () => {
   describe('Invalid Items', () => {
     invalid.map((item) => {
       test(`invalid [${item}]`, () => {
-        expect(() => new Huri(item)).toThrowError()
+        expect(() => new Huri(item)).toThrow()
       })
     })
   })

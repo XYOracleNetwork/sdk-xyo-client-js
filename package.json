@@ -29,7 +29,8 @@
     "@xylabs/tsconfig": "^3.11.12",
     "@xylabs/tsconfig-dom-jest": "^3.11.12",
     "dotenv": "^16.4.5",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
+    "eslint-plugin-deprecation": "^3.0.0",
     "jest": "^29.7.0",
     "jest-docblock": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -41,13 +42,14 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.2",
+    "typedoc": "^0.26.3",
     "typedoc-material-theme": "^1.0.3",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "resolutions": {
     "axios": "^1",
     "bn.js": "^5",
+    "eslint": "^8",
     "ethers": "^6",
     "fake-indexeddb": "^4",
     "quick-lru": "^5"

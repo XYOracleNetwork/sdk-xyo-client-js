@@ -27,8 +27,8 @@
     "@xylabs/delay": "^3.5.2",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
-    "esbuild": "^0.21.5",
-    "typescript": "^5.5.2"
+    "esbuild": "^0.22.0",
+    "typescript": "^5.5.3"
   },
   "exports": {
     ".": {

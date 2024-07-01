@@ -29,7 +29,7 @@
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/payload-wrapper": "workspace:^",
     "fake-indexeddb": "^6.0.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

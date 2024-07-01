@@ -19,7 +19,7 @@
     "@xyo-network/witness": "workspace:^"
   },
   "devDependencies": {
-    "@swc/core": "^1.6.5",
+    "@swc/core": "^1.6.6",
     "@xylabs/delay": "^3.5.2",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
@@ -39,7 +39,7 @@
     "@xyo-network/payload-model": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
     "@xyo-network/witness-model": "workspace:^",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

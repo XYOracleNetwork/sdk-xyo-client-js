@@ -2,6 +2,7 @@
 
 import { typescriptConfig, importConfig, unicornConfig, prettierConfig, rulesConfig, workspacesConfig } from '@xylabs/eslint-config-flat'
 import tsParser from '@typescript-eslint/parser'
+import deprecation from 'eslint-plugin-deprecation'
 
 export default [
   {
@@ -12,6 +13,20 @@ export default [
   unicornConfig,
   prettierConfig,
   rulesConfig,
+  {
+    plugins: { deprecation },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { modules: true },
+        ecmaVersion: 'latest',
+        project: './tsconfig-eslint.json',
+      },
+    },
+    rules: {
+      'deprecation/deprecation': ['warn'],
+    },
+  },
   {
     ...importConfig,
     rules: {

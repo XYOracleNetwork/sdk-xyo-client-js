@@ -3,7 +3,6 @@ import assert from '@noble/hashes/_assert'
 import { pbkdf2, pbkdf2Async } from '@noble/hashes/pbkdf2'
 import { sha256 } from '@noble/hashes/sha256'
 import { sha512 } from '@noble/hashes/sha512'
-import { randomBytes } from '@noble/hashes/utils'
 import { utils as baseUtils } from '@scure/base'
 
 export * from './wordlists'
@@ -28,22 +27,6 @@ function normalize(str: string) {
 
 function assertEntropy(entropy: Uint8Array) {
   assert.bytes(entropy, 16, 20, 24, 28, 32)
-}
-
-/**
- * Generate x random words. Uses Cryptographically-Secure Random Number Generator.
- * @param wordlist imported wordlist for specific language
- * @param strength mnemonic strength 128-256 bits
- * @example
- * generateMnemonic(wordlist, 128)
- * // 'legal winner thank year wave sausage worth useful legal winner thank yellow'
- */
-/** @deprecated use @scure/bip39 instead */
-export function generateMnemonic(wordlist: string[], strength = 128): string {
-  assert.number(strength)
-  if (strength % 32 !== 0 || strength > 256) throw new TypeError('Invalid entropy')
-
-  return entropyToMnemonic(randomBytes(strength / 8), wordlist)
 }
 
 const calcChecksum = (entropy: Uint8Array) => {
@@ -104,20 +87,6 @@ export function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): stri
   assertEntropy(entropy)
   const words = getCoder(wordlist).encode(entropy)
   return words.join(isJapanese(wordlist) ? '\u3000' : ' ')
-}
-
-/**
- * Validates mnemonic for being 12-24 words contained in `wordlist`.
- */
-
-/** @deprecated use @scure/bip39 instead */
-export function validateMnemonic(mnemonic: string, wordlist: string[]): boolean {
-  try {
-    mnemonicToEntropy(mnemonic, wordlist)
-  } catch {
-    return false
-  }
-  return true
 }
 
 const salt = (passphrase: string) => nfkd(`mnemonic${passphrase}`)

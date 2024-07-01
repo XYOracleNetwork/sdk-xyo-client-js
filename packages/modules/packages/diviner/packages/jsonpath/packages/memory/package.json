@@ -23,7 +23,7 @@
     "@xylabs/tsconfig": "^3.11.12",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/wallet-model": "workspace:^",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "description": "Primary SDK for using XYO Protocol 2.0",
   "types": "dist/node/index.d.ts",

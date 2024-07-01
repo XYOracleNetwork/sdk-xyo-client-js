@@ -4,6 +4,7 @@ import { Payload } from '@xyo-network/payload-model'
 export const BlockchainAddressSchema = 'network.xyo.blockchain.address' as const
 
 /** @deprecated use EvmAddressSchema version instead */
+// eslint-disable-next-line deprecation/deprecation
 export type BlockchainAddressSchema = typeof BlockchainAddressSchema
 
 /** @deprecated use EvmAddress version instead */
@@ -13,5 +14,6 @@ export type BlockchainAddress = Payload<
     blockTag?: string | number
     chainId?: number
   },
+  // eslint-disable-next-line deprecation/deprecation
   BlockchainAddressSchema
 >

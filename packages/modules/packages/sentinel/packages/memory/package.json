@@ -34,7 +34,7 @@
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",
     "@xyo-network/witness-adhoc": "workspace:^",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "types": "dist/node/index.d.ts",
   "exports": {

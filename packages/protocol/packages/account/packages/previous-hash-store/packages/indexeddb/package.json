@@ -20,7 +20,7 @@
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "fake-indexeddb": "^6.0.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "uuid": "^10.0.0"
   },
   "exports": {

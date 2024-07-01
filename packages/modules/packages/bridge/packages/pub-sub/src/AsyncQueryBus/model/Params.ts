@@ -13,6 +13,6 @@ export type AsyncQueryBusParams<TConfig extends AsyncQueryBusBaseConfig = AsyncQ
 
 export type AsyncQueryBusClientParams = AsyncQueryBusParams<AsyncQueryBusClientConfig>
 export type AsyncQueryBusHostParams = AsyncQueryBusParams<AsyncQueryBusHostConfig> & {
-  onQueryFulfillFinished?: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => void
-  onQueryFulfillStarted?: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => void
+  onQueryFulfillFinished?: (args: Omit<QueryFulfillFinishedEventArgs, 'mod'>) => void
+  onQueryFulfillStarted?: (args: Omit<QueryFulfillStartedEventArgs, 'mod'>) => void
 }

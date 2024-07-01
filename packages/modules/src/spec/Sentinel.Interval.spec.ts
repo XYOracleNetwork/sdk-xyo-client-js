@@ -52,7 +52,7 @@ describe('Sentinel.Interval', () => {
   })
 
   it('sentinel query', async () => {
-    await delay(2000)
+    await delay(5000)
     const archivist = asArchivistInstance(await node.resolve('Results'))
     expect(archivist).toBeDefined()
     const payloads = (await archivist?.all?.()) ?? []
@@ -72,6 +72,7 @@ describe('Sentinel.Interval', () => {
       },
     ]
     const archivist = asArchivistInstance(await node.resolve('Archivist'))
+    expect(archivist).toBeDefined()
     await archivist?.insert(testPayloads)
     // const addressStateArchivist = asArchivistInstance(await node.resolve('AddressStateArchivist'))
     // const addressStateBoundWitnessDiviner = asDivinerInstance(await node.resolve('AddressStateBoundWitnessDiviner'))

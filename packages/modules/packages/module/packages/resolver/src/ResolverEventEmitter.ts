@@ -2,7 +2,7 @@ import { Module, ModuleFilter, ModuleResolver } from '@xyo-network/module-model'
 
 export interface ModuleResolvedEventArgs {
   filter?: ModuleFilter
-  module: Module
+  mod: Module
 }
 
 export interface ResolverEventEmitter {
@@ -18,8 +18,8 @@ const getMixin = <T extends ModuleResolver = ModuleResolver>(resolver: T) => {
     listeners.map((listener) => listener(args))
     return true
   }
-  const onModuleResolved = (module: Module, filter?: ModuleFilter) => {
-    const args = { filter, module }
+  const onModuleResolved = (mod: Module, filter?: ModuleFilter) => {
+    const args = { filter, mod }
     emit('moduleResolved', args)
   }
 

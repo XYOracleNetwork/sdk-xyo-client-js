@@ -47,8 +47,8 @@ export type ModuleProxyParams = ModuleParams<
     host: ModuleResolver
     manifest?: ModuleManifestPayload
     moduleAddress: Address
-    onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => void
-    onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'module'>) => void
+    onQuerySendFinished?: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => void
+    onQuerySendStarted?: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => void
     state?: Payload[]
   }
 >
@@ -95,12 +95,12 @@ export abstract class AbstractModuleProxy<
     return queryPayloads.map((payload) => payload.query)
   }
 
-  static hasRequiredQueries(module: Module) {
-    return this.missingRequiredQueries(module).length === 0
+  static hasRequiredQueries(mod: Module) {
+    return this.missingRequiredQueries(mod).length === 0
   }
 
-  static missingRequiredQueries(module: Module): string[] {
-    const moduleQueries = module.queries
+  static missingRequiredQueries(mod: Module): string[] {
+    const moduleQueries = mod.queries
     return compact(
       this.requiredQueries.map((query) => {
         return moduleQueries.includes(query) ? null : query
@@ -181,7 +181,7 @@ export abstract class AbstractModuleProxy<
         if (this.archiving && this.isAllowedArchivingQuery(query.schema)) {
           forget(this.storeToArchivists(result.flat()))
         }
-        forget(this.emit('moduleQueried', { module: this, payloads, query, result }))
+        forget(this.emit('moduleQueried', { mod: this, payloads, query, result }))
         return result
       } catch (ex) {
         this.params.onQuerySendFinished?.({ payloads, query, status: 'failure' })
@@ -242,7 +242,7 @@ export abstract class AbstractModuleProxy<
       new ModuleProxyResolver({
         childAddressMap: await this.childAddressMap(),
         host: this.params.host,
-        module: this,
+        mod: this,
         moduleIdentifierTransformers: this.params.moduleIdentifierTransformers,
       }),
     )

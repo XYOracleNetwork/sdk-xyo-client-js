@@ -1,20 +1,28 @@
 // eslint.config.mjs
 
-import { typescriptConfig, importConfig, unicornConfig, prettierConfig, rulesConfig, workspacesConfig } from '@xylabs/eslint-config-flat'
 import tsParser from '@typescript-eslint/parser'
+import { importConfig, prettierConfig, rulesConfig, typescriptConfig, unicornConfig, workspacesConfig } from '@xylabs/eslint-config-flat'
 import deprecation from 'eslint-plugin-deprecation'
 
+// eslint-disable-next-line import/no-default-export
 export default [
   {
     ignores: ['.yarn', '.yarn/**', '**/dist/**', 'dist/**', 'build/**', 'node_modules/**'],
   },
   workspacesConfig,
-  typescriptConfig,
   unicornConfig,
   prettierConfig,
   rulesConfig,
   {
-    plugins: { deprecation },
+    ...typescriptConfig,
+    plugins: { deprecation, ...typescriptConfig.plugins },
+    rules: {
+      ...typescriptConfig.rules,
+      'deprecation/deprecation': ['warn'],
+    },
+  },
+  {
+    ...importConfig,
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -24,20 +32,13 @@ export default [
       },
     },
     rules: {
-      'deprecation/deprecation': ['warn'],
-    },
-  },
-  {
-    ...importConfig,
-    rules: {
       ...importConfig.rules,
-      'import/no-deprecated': ['off'],
+      'import/no-deprecated': ['warn'],
       'import/no-internal-modules': ['off'],
     },
   },
   {
     rules: {
-      'no-unused-disable-directive': ['off'],
       complexity: ['error', 18],
       'max-depth': ['error', 6],
       'max-lines': [
@@ -49,33 +50,6 @@ export default [
       ],
       'max-nested-callbacks': ['error', 6],
       'max-statements': ['error', 32],
-      'no-restricted-imports': [
-        'warn',
-        {
-          paths: [
-            'lodash',
-            'react-player',
-            'filepond',
-            'aos',
-            'react-icons',
-            '.',
-            '..',
-            '../..',
-            '../../..',
-            '../../../..',
-            '../../../../..',
-            '../../../../../..',
-            '../../../../../../..',
-          ],
-        },
-      ],
-      //'no-secrets/no-secrets': ['off'],
-      'no-tabs': ['error'],
-      'no-unused-vars': 'off',
-      'no-useless-escape': 'off',
-      quotes: [2, 'single', 'avoid-escape'],
-      'require-await': 'error',
-      semi: ['warn', 'never'],
       'no-restricted-imports': [
         'warn',
         {
@@ -109,6 +83,16 @@ export default [
           ],
         },
       ],
+
+      //'no-secrets/no-secrets': ['off'],
+      'no-tabs': ['error'],
+
+      'no-unused-disable-directive': ['off'],
+      'no-unused-vars': 'off',
+      'no-useless-escape': 'off',
+      quotes: [2, 'single', 'avoid-escape'],
+      'require-await': 'error',
+      semi: ['warn', 'never'],
     },
   },
 ]

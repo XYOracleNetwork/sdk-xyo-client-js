@@ -120,19 +120,19 @@
               "tasks": [
                 {
                   "input": true,
-                  "module": "PayloadDivinerQueryTemplateWitness"
+                  "mod": "PayloadDivinerQueryTemplateWitness"
                 },
                 {
                   "input": [
                     "PayloadDivinerQueryTemplateWitness"
                   ],
-                  "module": "PayloadDivinerQueryBuilder"
+                  "mod": "PayloadDivinerQueryBuilder"
                 },
                 {
                   "input": [
                     "PayloadDivinerQueryBuilder"
                   ],
-                  "module": "PayloadDiviner"
+                  "mod": "PayloadDiviner"
                 }
               ]
             }

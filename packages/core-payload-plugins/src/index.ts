@@ -23,4 +23,5 @@ export const PayloadPlugins: PayloadPluginFunc[] = [
   QueryPayloadPlugin,
 ]
 
+// eslint-disable-next-line import/no-default-export
 export default PayloadPlugins

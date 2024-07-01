@@ -37,6 +37,7 @@ declare type PredictionResult = [predictions: number[], meanSquareErrors: number
 declare module 'arima' {
   export { ARIMAMethod, ARIMAOptions, OptimizationMethod, PredictionResult }
 
+  // eslint-disable-next-line import/no-default-export
   export default class ARIMA {
     constructor(options: ARIMAOptions)
     predict(steps: number): PredictionResult

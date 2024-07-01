@@ -54,7 +54,7 @@ export abstract class AbstractSentinel<
   async report(inPayloads?: Payload[]): Promise<Payload[]> {
     this._noOverride('report')
     const reportPromise = (async () => {
-      await this.emit('reportStart', { inPayloads, module: this })
+      await this.emit('reportStart', { inPayloads, mod: this })
       const payloads = await this.reportHandler(inPayloads)
 
       //create boundwitness
@@ -84,7 +84,7 @@ export abstract class AbstractSentinel<
     const boundwitnesses = payloads?.filter(isBoundWitness) ?? []
     const outPayloads = payloads?.filter(notBoundWitness) ?? []
     const boundwitness = boundwitnesses.find((bw) => bw.addresses.includes(this.address))
-    await this.emit('reportEnd', { boundwitness, inPayloads, module: this, outPayloads })
+    await this.emit('reportEnd', { boundwitness, inPayloads, mod: this, outPayloads })
   }
 
   protected async generateJob() {
@@ -92,7 +92,7 @@ export abstract class AbstractSentinel<
     let tasks: ResolvedTask[] = await Promise.all(
       this.config.tasks.map(async (task) => ({
         input: task.input ?? false,
-        module: assertEx(await this.resolve(task.module), () => `Unable to resolve task module [${task.module}]`),
+        mod: assertEx(await this.resolve(task.mod), () => `Unable to resolve task module [${task.mod}]`),
       })),
     )
     while (tasks.length > 0) {
@@ -108,11 +108,11 @@ export abstract class AbstractSentinel<
             return true
           }
           if (typeof input === 'string') {
-            return previousTasks.find((prevTask) => prevTask.module.address === input || prevTask.module.modName === input)
+            return previousTasks.find((prevTask) => prevTask.mod.address === input || prevTask.mod.modName === input)
           }
           if (Array.isArray(input)) {
             return previousTasks.find(
-              (prevTask) => input.includes(prevTask.module.address) || input.includes(prevTask.module.modName ?? prevTask.module.address),
+              (prevTask) => input.includes(prevTask.mod.address) || input.includes(prevTask.mod.modName ?? prevTask.mod.address),
             )
           }
         })
@@ -122,8 +122,7 @@ export abstract class AbstractSentinel<
         if (
           Array.isArray(input) &&
           tasks.some(
-            (remainingTask) =>
-              input.includes(remainingTask.module.address) || input.includes(remainingTask.module.modName ?? remainingTask.module.address),
+            (remainingTask) => input.includes(remainingTask.mod.address) || input.includes(remainingTask.mod.modName ?? remainingTask.mod.address),
           )
         ) {
           return false

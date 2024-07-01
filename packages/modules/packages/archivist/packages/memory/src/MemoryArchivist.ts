@@ -87,7 +87,7 @@ export class MemoryArchivist<
   protected override clearHandler(): void | Promise<void> {
     this.cache.clear()
     this.dataHashIndex.clear()
-    return this.emit('cleared', { module: this })
+    return this.emit('cleared', { mod: this })
   }
 
   protected override async commitHandler(): Promise<WithMeta<BoundWitness>[]> {

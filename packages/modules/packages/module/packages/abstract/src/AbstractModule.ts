@@ -268,7 +268,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   async busy<R>(closure: () => Promise<R>) {
     if (this._busyCount <= 0) {
       this._busyCount = 0
-      const args: ModuleBusyEventArgs = { busy: true, module: this }
+      const args: ModuleBusyEventArgs = { busy: true, mod: this }
       await this.emit('moduleBusy', args)
     }
     this._busyCount++
@@ -278,7 +278,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
       this._busyCount--
       if (this._busyCount <= 0) {
         this._busyCount = 0
-        const args: ModuleBusyEventArgs = { busy: false, module: this }
+        const args: ModuleBusyEventArgs = { busy: false, mod: this }
         await this.emit('moduleBusy', args)
       }
     }
@@ -339,7 +339,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
         resultPayloads.push(timestamp)
       }
       const result = await this.bindQueryResult(sourceQuery, resultPayloads, queryAccount ? [queryAccount] : [], errorPayloads)
-      const args: ModuleQueriedEventArgs = { module: this, payloads, query: sourceQuery, result }
+      const args: ModuleQueriedEventArgs = { mod: this, payloads, query: sourceQuery, result }
       await this.emit('moduleQueried', args)
       return result
     })

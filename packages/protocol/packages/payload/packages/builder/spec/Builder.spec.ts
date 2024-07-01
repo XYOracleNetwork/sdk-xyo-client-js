@@ -9,8 +9,12 @@ describe('PayloadBuilder', () => {
     let builder = new PayloadBuilder<Payload<Record<string, unknown>>>({ schema })
     expect(builder).toBeDefined()
     builder = builder.fields({
+      $testDollar: 1,
+      _testUnderscore: 1,
       testArray: [1, 2, 3],
       testBoolean: true,
+      testDollarObject: { $test: 1 },
+      testDollarObjectInArray: [{ $test: 1 }],
       testNull: null,
       testNullObject: { t: null, x: undefined },
       testNumber: 5,
@@ -19,11 +23,7 @@ describe('PayloadBuilder', () => {
       testString: 'hi',
       testUndefined: undefined,
       testUnderscoreObject: { _test: 1 },
-      _testUnderscore: 1,
-      $testDollar: 1,
       testUnderscoreObjectInArray: [{ _test: 1 }],
-      testDollarObject: { $test: 1 },
-      testDollarObjectInArray: [{ $test: 1 }],
     })
     expect(builder).toBeDefined()
 

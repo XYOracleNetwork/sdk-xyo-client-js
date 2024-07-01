@@ -14,7 +14,6 @@ import {
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
 import { AbstractNode } from '@xyo-network/node-abstract'
 import { AttachableNodeInstance, ChildCertificationFields, isNodeModule, NodeConfig, NodeModuleEventData, NodeParams } from '@xyo-network/node-model'
-
 import { Mutex } from 'async-mutex'
 
 export type MemoryNodeParams = NodeParams<AnyConfigSchema<NodeConfig>>
@@ -60,11 +59,11 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return this.attachedPublicModules()
   }
 
-  async register(module: AttachableModuleInstance) {
+  async register(mod: AttachableModuleInstance) {
     await this.started('throw')
-    assertEx(!this.registeredModuleMap[module.address], () => `Module already registered at that address[${module.address}][${module.config.schema}]`)
-    this.registeredModuleMap[module.address] = module
-    const args = { module, name: module.modName }
+    assertEx(!this.registeredModuleMap[mod.address], () => `Module already registered at that address[${mod.address}][${mod.config.schema}]`)
+    this.registeredModuleMap[mod.address] = mod
+    const args = { mod, name: mod.modName }
     await this.emit('moduleRegistered', args)
   }
 
@@ -82,14 +81,16 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     })
   }
 
-  async unregister(module: ModuleInstance): Promise<ModuleInstance> {
+  async unregister(mod: ModuleInstance): Promise<ModuleInstance> {
     await this.started('throw')
     //try to detach if it is attached
     try {
-      await this.detach(module.address)
-    } catch {}
-    delete this.registeredModuleMap[module.address]
-    const args = { module, name: module.modName }
+      await this.detach(mod.address)
+    } catch {
+      null
+    }
+    delete this.registeredModuleMap[mod.address]
+    const args = { mod, name: mod.modName }
     await this.emit('moduleUnregistered', args)
     return this
   }
@@ -98,45 +99,45 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
     return await this._attachMutex.runExclusive(async () => {
       const existingModule = (await this.resolve({ address: [address] })).pop()
       assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
-      const module = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
+      const mod = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
 
-      assertEx(!this._attachedPublicModules.has(module.address), () => `Module [${module.modName}] already attached at [${address}] (public)`)
-      assertEx(!this._attachedPrivateModules.has(module.address), () => `Module [${module.modName}] already attached at [${address}] (private)`)
+      assertEx(!this._attachedPublicModules.has(mod.address), () => `Module [${mod.modName}] already attached at [${address}] (public)`)
+      assertEx(!this._attachedPrivateModules.has(mod.address), () => `Module [${mod.modName}] already attached at [${address}] (private)`)
 
-      const notificationList = await this.getModulesToNotifyAbout(module)
+      const notificationList = await this.getModulesToNotifyAbout(mod)
 
       //give it private access
-      module.upResolver.addResolver?.(this.privateResolver)
+      mod.upResolver.addResolver?.(this.privateResolver)
 
       //give it public access
-      module.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
+      mod.upResolver.addResolver?.(this.downResolver as CompositeModuleResolver)
 
       //give it outside access
-      module.upResolver.addResolver?.(this.upResolver)
+      mod.upResolver.addResolver?.(this.upResolver)
 
       if (external) {
         //expose it externally
-        this._attachedPublicModules.add(module.address)
-        this.downResolver.addResolver(module.downResolver as ModuleResolverInstance)
+        this._attachedPublicModules.add(mod.address)
+        this.downResolver.addResolver(mod.downResolver as ModuleResolverInstance)
       } else {
-        this._attachedPrivateModules.add(module.address)
-        this.privateResolver.addResolver(module.downResolver as ModuleResolverInstance)
+        this._attachedPrivateModules.add(mod.address)
+        this.privateResolver.addResolver(mod.downResolver as ModuleResolverInstance)
       }
 
-      module.addParent(this)
+      mod.addParent(this)
 
-      const args = { module, name: module.modName }
+      const args = { mod, name: mod.modName }
       await this.emit('moduleAttached', args)
 
-      if (isNodeModule(module) && external) {
+      if (isNodeModule(mod) && external) {
         const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
           await this.emit('moduleAttached', args)
 
         const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
           await this.emit('moduleDetached', args)
 
-        module.on('moduleAttached', attachedListener)
-        module.on('moduleDetached', detachedListener)
+        mod.on('moduleAttached', attachedListener as EventListener)
+        mod.on('moduleDetached', detachedListener as EventListener)
       }
 
       await this.notifyOfExistingModulesAttached(notificationList)
@@ -146,38 +147,38 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   }
 
   protected async detachUsingAddress(address: Address) {
-    const module = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
+    const mod = assertEx(this.registeredModuleMap[address], () => `No Module Registered at address [${address}]`)
 
-    const isAttachedPublic = this._attachedPublicModules.has(module.address)
-    const isAttachedPrivate = this._attachedPrivateModules.has(module.address)
+    const isAttachedPublic = this._attachedPublicModules.has(mod.address)
+    const isAttachedPrivate = this._attachedPrivateModules.has(mod.address)
 
-    assertEx(isAttachedPublic || isAttachedPrivate, () => `Module [${module.modName}] not attached at [${address}]`)
+    assertEx(isAttachedPublic || isAttachedPrivate, () => `Module [${mod.modName}] not attached at [${address}]`)
 
     //remove inside access
-    module.upResolver?.removeResolver?.(this.privateResolver)
+    mod.upResolver?.removeResolver?.(this.privateResolver)
 
     //remove outside access
-    module.upResolver?.removeResolver?.(this.upResolver)
+    mod.upResolver?.removeResolver?.(this.upResolver)
 
     //remove external exposure
-    this.downResolver.removeResolver(module.downResolver as ModuleResolverInstance)
+    this.downResolver.removeResolver(mod.downResolver as ModuleResolverInstance)
 
-    module.removeParent(this.address)
+    mod.removeParent(this.address)
 
     if (isAttachedPublic) {
-      this._attachedPublicModules.delete(module.address)
+      this._attachedPublicModules.delete(mod.address)
     }
 
     if (isAttachedPrivate) {
-      this._attachedPrivateModules.delete(module.address)
+      this._attachedPrivateModules.delete(mod.address)
     }
 
-    const args = { module, name: module.modName }
+    const args = { mod, name: mod.modName }
     await this.emit('moduleDetached', args)
 
     //notify of all sub node children detach
-    if (isNodeModule(module)) {
-      const notificationList = await this.getModulesToNotifyAbout(module)
+    if (isNodeModule(mod)) {
+      const notificationList = await this.getModulesToNotifyAbout(mod)
       await this.notifyOfExistingModulesDetached(notificationList)
     }
     return address
@@ -228,7 +229,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private async notifyOfExistingModulesAttached(childModules: Module[]) {
     await Promise.all(
       childModules.map(async (child) => {
-        const args = { module: child, name: child.modName }
+        const args = { mod: child, name: child.modName }
         await this.emit('moduleAttached', args)
       }),
     )
@@ -237,7 +238,7 @@ export class MemoryNode<TParams extends MemoryNodeParams = MemoryNodeParams, TEv
   private async notifyOfExistingModulesDetached(childModules: Module[]) {
     await Promise.all(
       childModules.map(async (child) => {
-        const args = { module: child, name: child.modName }
+        const args = { mod: child, name: child.modName }
         await this.emit('moduleDetached', args)
       }),
     )

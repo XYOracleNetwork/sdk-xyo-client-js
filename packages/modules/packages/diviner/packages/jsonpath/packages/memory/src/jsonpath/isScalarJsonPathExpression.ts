@@ -6,7 +6,7 @@
  */
 export const isScalarJsonPathExpression = (jsonPath: string) => {
   const multipleValueIndicators = ['*', '..', ',', ':']
-  for (let indicator of multipleValueIndicators) {
+  for (const indicator of multipleValueIndicators) {
     if (jsonPath.includes(indicator)) {
       return false
     }

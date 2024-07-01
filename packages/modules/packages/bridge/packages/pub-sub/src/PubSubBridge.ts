@@ -62,11 +62,11 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
         archiving: { ...this.archiving, resolveArchivists: this.resolveArchivingArchivists.bind(this) },
         bridge: this,
         busClient: assertEx(this.busClient(), () => 'busClient not configured'),
-        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'module'>) => {
-          forget(this.emit('querySendFinished', { module: this, ...args }))
+        onQuerySendFinished: (args: Omit<QuerySendFinishedEventArgs, 'mod'>) => {
+          forget(this.emit('querySendFinished', { mod: this, ...args }))
         },
-        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'module'>) => {
-          forget(this.emit('querySendStarted', { module: this, ...args }))
+        onQuerySendStarted: (args: Omit<QuerySendStartedEventArgs, 'mod'>) => {
+          forget(this.emit('querySendStarted', { mod: this, ...args }))
         },
         root: this,
         wrapperAccount: this.account,
@@ -226,15 +226,15 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
   async unexposeHandler(id: ModuleIdentifier, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
     const { maxDepth = 2, required = true } = options ?? {}
     const host = assertEx(this.busHost(), () => 'Not configured as a host')
-    const module = await host.unexpose(id, required)
-    if (module) {
-      const children = maxDepth > 0 ? (await module.publicChildren?.()) ?? [] : []
+    const mod = await host.unexpose(id, required)
+    if (mod) {
+      const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
       const exposedChildren = (
         await Promise.all(children.map((child) => this.unexposeHandler(child.address, { maxDepth: maxDepth - 1, required: false })))
       )
         .flat()
         .filter(exists)
-      return [module, ...exposedChildren]
+      return [mod, ...exposedChildren]
     }
     return []
   }
@@ -255,17 +255,17 @@ export class PubSubBridge<TParams extends PubSubBridgeParams = PubSubBridgeParam
       this._busHost = new AsyncQueryBusHost({
         config: this.config.host,
         logger: this.logger,
-        onQueryFulfillFinished: (args: Omit<QueryFulfillFinishedEventArgs, 'module'>) => {
+        onQueryFulfillFinished: (args: Omit<QueryFulfillFinishedEventArgs, 'mod'>) => {
           if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
             forget(this.storeToArchivists(args.result?.flat() ?? []))
           }
-          forget(this.emit('queryFulfillFinished', { module: this, ...args }))
+          forget(this.emit('queryFulfillFinished', { mod: this, ...args }))
         },
-        onQueryFulfillStarted: (args: Omit<QueryFulfillStartedEventArgs, 'module'>) => {
+        onQueryFulfillStarted: (args: Omit<QueryFulfillStartedEventArgs, 'mod'>) => {
           if (this.archiving && this.isAllowedArchivingQuery(args.query.schema)) {
             forget(this.storeToArchivists([args.query, ...(args.payloads ?? [])]))
           }
-          forget(this.emit('queryFulfillStarted', { module: this, ...args }))
+          forget(this.emit('queryFulfillStarted', { mod: this, ...args }))
         },
         rootModule: this,
       })

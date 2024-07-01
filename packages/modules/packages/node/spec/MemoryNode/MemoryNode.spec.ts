@@ -83,8 +83,8 @@ describe('MemoryNode', () => {
   })
   describe('register', () => {
     it('registers module', async () => {
-      const module = await MemoryArchivist.create({ account: Account.randomSync() })
-      await node.register(module)
+      const mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      await node.register(mod)
     })
   })
   describe('registered', () => {
@@ -95,39 +95,39 @@ describe('MemoryNode', () => {
       })
     })
     describe('with modules registered', () => {
-      let module: AttachableModuleInstance
+      let mod: AttachableModuleInstance
       beforeEach(async () => {
-        module = await MemoryArchivist.create({ account: Account.randomSync() })
-        await node.register(module)
+        mod = await MemoryArchivist.create({ account: Account.randomSync() })
+        await node.register(mod)
       })
       it('lists addresses of registered modules', async () => {
         const result = await node.registered()
         expect(result).toBeArrayOfSize(1)
-        expect(result).toEqual([module.address])
+        expect(result).toEqual([mod.address])
       })
     })
   })
   describe('attach', () => {
-    let module: AttachableModuleInstance
+    let mod: AttachableModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: Account.randomSync() })
-      await node.register(module)
+      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      await node.register(mod)
     })
     it('attaches module', async () => {
-      await node.attach(module.address, true)
+      await node.attach(mod.address, true)
     })
     it('emits event on module attach', async () => {
       let eventDone = false
       return await new Promise<void>((resolve, reject) => {
         node.on('moduleAttached', (args) => {
-          const { module } = args as ModuleAttachedEventArgs
-          expect(module).toBeObject()
-          expect(module.address).toBe(module.address)
-          expect(module).toBe(module)
+          const { mod } = args as ModuleAttachedEventArgs
+          expect(mod).toBeObject()
+          expect(mod.address).toBe(mod.address)
+          expect(mod).toBe(mod)
           eventDone = true
         })
         node
-          .attach(module.address, true)
+          .attach(mod.address, true)
           .then(async () => {
             //wait for up to 5 seconds
             let waitFrames = 50
@@ -148,10 +148,10 @@ describe('MemoryNode', () => {
     })
   })
   describe('attached', () => {
-    let module: AttachableModuleInstance
+    let mod: AttachableModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: Account.randomSync() })
-      await node.register(module)
+      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      await node.register(mod)
     })
     describe('with no modules attached', () => {
       it('returns empty array', async () => {
@@ -161,54 +161,54 @@ describe('MemoryNode', () => {
     })
     describe('with modules attached', () => {
       it('lists addresses of attached modules', async () => {
-        await node.attach(module.address, true)
+        await node.attach(mod.address, true)
         const result = await node.attached()
         expect(result.length).toBe(1)
-        expect(result).toEqual([module.address])
+        expect(result).toEqual([mod.address])
       })
     })
   })
   describe('detach', () => {
-    let module: AttachableModuleInstance
+    let mod: AttachableModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: Account.randomSync() })
-      await node.register(module)
-      await node.attach(module.address, true)
+      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      await node.register(mod)
+      await node.attach(mod.address, true)
     })
     it('deregisters existing module', async () => {
-      await node.detach(module.address)
+      await node.detach(mod.address)
     })
-    /*it('allows deregistering non-existent module', () => {
+    /*it('allows deregistering non-existent mod', () => {
       node.detach('4a15a6c96665931b76c1d2a587ea1132dbfdc266')
     })*/
   })
   describe('registeredModules', () => {
-    let module: AttachableModuleInstance
+    let mod: AttachableModuleInstance
     beforeEach(async () => {
-      module = await MemoryArchivist.create({ account: Account.randomSync() })
+      mod = await MemoryArchivist.create({ account: Account.randomSync() })
     })
-    describe('with no modules registered', () => {
+    describe('with no mods registered', () => {
       it('returns empty array', () => {
-        const modules = node.registeredModules()
-        expect(modules).toBeArrayOfSize(0)
+        const mods = node.registeredModules()
+        expect(mods).toBeArrayOfSize(0)
       })
     })
     describe('with modules registered', () => {
       it('returns registered modules', async () => {
-        await node.register(module)
-        const modules = node.registeredModules()
-        expect(modules).toBeArrayOfSize(1)
-        expect(modules).toContain(module)
+        await node.register(mod)
+        const mods = node.registeredModules()
+        expect(mods).toBeArrayOfSize(1)
+        expect(mods).toContain(mod)
       })
     })
   })
   describe('unregister', () => {
     it('un-registers module', async () => {
-      const module = await MemoryArchivist.create({ account: Account.randomSync() })
-      await node.register(module)
-      expect(node.registeredModules()).toContain(module)
-      await node.unregister(module)
-      expect(node.registeredModules()).not.toContain(module)
+      const mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      await node.register(mod)
+      expect(node.registeredModules()).toContain(mod)
+      await node.unregister(mod)
+      expect(node.registeredModules()).not.toContain(mod)
     })
   })
   describe('description', () => {
@@ -233,12 +233,12 @@ describe('MemoryNode', () => {
     })
     describe('node with child modules', () => {
       beforeEach(async () => {
-        const modules = await Promise.all([
+        const mods = await Promise.all([
           MemoryArchivist.create({ account: testAccount2, config: { ...archivistConfig, name: 'testAccount2' } }),
           MemoryArchivist.create({ account: testAccount3, config: { ...archivistConfig, name: 'testAccount3' } }),
         ])
         await Promise.all(
-          modules.map(async (mod) => {
+          mods.map(async (mod) => {
             await node.register(mod)
             expect(await node.attach(mod.address, true)).toEqual(mod.address)
             expect(await node.detach(mod.address)).toEqual(mod.address)
@@ -250,7 +250,7 @@ describe('MemoryNode', () => {
           }),
         )
       })
-      it('describes node and child modules', async () => {
+      it('describes node and child mods', async () => {
         const description = (await node.state()).find<ModuleDescriptionPayload>(isPayloadOfSchemaType(ModuleDescriptionSchema))
         validateModuleDescription(description)
         expect(description?.children).toBeArrayOfSize(2)
@@ -261,7 +261,7 @@ describe('MemoryNode', () => {
         expect(prettyPrintDescription(description)).toMatchSnapshot()
       })
     })
-    describe('node with nested nodes and modules', () => {
+    describe('node with nested nodes and mods', () => {
       beforeEach(async () => {
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
         const nestedModules: AttachableArchivistInstance[] = [await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })]
@@ -306,9 +306,9 @@ describe('MemoryNode', () => {
         expect(newNodeChildren.includes(nodeChildren[0])).toBe(true)
       })
       it('clone-one (public)', async () => {
-        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModule' } })
-        await node.register(module)
-        await node.attach(module.address, true)
+        const mod = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModule' } })
+        await node.register(mod)
+        await node.attach(mod.address, true)
 
         const newNode = await MemoryNodeHelper.attachToNewNode(node, 'CloneModule')
         const newNodeChild = await newNode.resolve('CloneModule')
@@ -318,9 +318,9 @@ describe('MemoryNode', () => {
         expect(newNodeChild).toEqual(nodeChild)
       })
       it('clone-one (private)', async () => {
-        const module = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModulePrivate' } })
-        await node.register(module)
-        await node.attach(module.address)
+        const mod = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModulePrivate' } })
+        await node.register(mod)
+        await node.attach(mod.address)
 
         try {
           //this should except
@@ -380,8 +380,8 @@ describe('MemoryNode', () => {
         node = await MemoryNode.create({ account: Account.randomSync() })
         const attachEvents: Module[] = []
         node.on('moduleAttached', (args) => {
-          const { module } = args as ModuleAttachedEventArgs
-          attachEvents.push(module)
+          const { mod } = args as ModuleAttachedEventArgs
+          attachEvents.push(mod)
         })
         const nestedNode = await MemoryNode.create({ account: testAccount2, config: nodeConfig })
         const nestedModules = [await MemoryArchivist.create({ account: testAccount3, config: archivistConfig })]
@@ -409,7 +409,7 @@ describe('MemoryNode', () => {
         for (const rootModule of rootModules) {
           expect(attachEvents.includes(rootModule)).toBeTrue()
         }
-        const eventAddresses = attachEvents.map((module) => module.address)
+        const eventAddresses = attachEvents.map((mod) => mod.address)
         expect(eventAddresses.length).toBe(3)
       })
       it('describes node and all nested nodes and child modules', async () => {

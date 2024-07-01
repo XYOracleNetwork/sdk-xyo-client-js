@@ -130,8 +130,8 @@ export class ManifestWrapper<TManifest extends WithAnySchema<PackageManifestPayl
     if (this.moduleIdentifierTransformers) {
       params.moduleIdentifierTransformers = this.moduleIdentifierTransformers
     }
-    const module = await creatableModule.create(params)
-    await node.register(module)
-    return module
+    const mod = await creatableModule.create(params)
+    await node.register(mod)
+    return mod
   }
 }

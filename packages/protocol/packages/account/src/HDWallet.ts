@@ -1,5 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
-
+// eslint-disable-next-line import/no-internal-modules
 import { wordlist as englishWordlist } from '@scure/bip39/wordlists/english'
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { assertEx } from '@xylabs/assert'
@@ -126,7 +126,7 @@ export class HDWallet extends Account implements WalletInstance {
     return value instanceof HDWallet ? value : undefined
   }
 
-  static async random(): Promise<WalletInstance> {
+  static override async random(): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(HDWallet.generateMnemonic()))
   }
 

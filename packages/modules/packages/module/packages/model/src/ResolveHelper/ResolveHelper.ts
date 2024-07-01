@@ -60,7 +60,7 @@ export interface ResolveHelperConfig {
   dead?: boolean
   downResolver?: ModuleResolver
   logger?: Logger
-  module: ModuleInstance
+  mod: ModuleInstance
   privateResolver?: ModuleResolver
   transformers: ModuleIdentifierTransformer[]
   upResolver?: ModuleResolver
@@ -87,8 +87,8 @@ export class ResolveHelper extends ResolveHelperStatic {
     idOrFilter: ModuleFilter<T> | ModuleIdentifier = '*',
     { maxDepth = 3, required = 'log', ...options }: ModuleFilterOptions<T> = {},
   ): Promise<T | T[] | undefined> {
-    const { transformers, module, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
-    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${module.id}][${idOrFilter}]`) : undefined
+    const { transformers, mod, logger = this.defaultLogger, dead = false, upResolver, downResolver, privateResolver } = config
+    const log = logger ? new IdLogger(logger, () => `ResolveHelper [${mod.id}][${idOrFilter}]`) : undefined
 
     const downLocalOptions: ModuleFilterOptions<T> = { ...options, direction: 'down', maxDepth, required: false }
     const upLocalOptions: ModuleFilterOptions<T> = { ...downLocalOptions, direction: 'up' }
@@ -110,7 +110,7 @@ export class ResolveHelper extends ResolveHelperStatic {
         ...(up ? await (upResolver as ModuleResolver).resolve<T>('*', upLocalOptions) : []),
       ]
         .filter(duplicateModules)
-        .filter((module) => module.address !== config.address)
+        .filter((mod) => mod.address !== config.address)
 
       if (modules.length > 0) {
         log?.log('modules [count]', modules.length)
@@ -120,9 +120,7 @@ export class ResolveHelper extends ResolveHelperStatic {
       if (maxDepth === 0) {
         return modules
       }
-      const childModules = (await Promise.all(modules.map(async (module) => await module.resolve<T>('*', childOptions))))
-        .flat()
-        .filter(duplicateModules)
+      const childModules = (await Promise.all(modules.map(async (mod) => await mod.resolve<T>('*', childOptions)))).flat().filter(duplicateModules)
       return [...modules, ...childModules].filter(duplicateModules)
     } else {
       switch (typeof idOrFilter) {
@@ -131,7 +129,7 @@ export class ResolveHelper extends ResolveHelperStatic {
             return undefined
           }
 
-          const id = (await resolvePathToAddress(module, idOrFilter, false, transformers)) ?? idOrFilter
+          const id = (await resolvePathToAddress(mod, idOrFilter, false, transformers)) ?? idOrFilter
 
           if (id) {
             const resolvers = [

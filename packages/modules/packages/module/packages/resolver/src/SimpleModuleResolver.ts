@@ -98,7 +98,7 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     const identity = options?.identity
     if (identity) {
       return (
-        Array.isArray(unfiltered) ? unfiltered?.filter((module) => identity(module))
+        Array.isArray(unfiltered) ? unfiltered?.filter((mod) => identity(mod))
         : identity(unfiltered) ? [unfiltered]
         : []
       )
@@ -121,9 +121,9 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
     }
 
     //check if any of the modules have the id as an address
-    for (const module of Object.values(this.modules)) {
-      if (module.address === id) {
-        return module.address
+    for (const mod of Object.values(this.modules)) {
+      if (mod.address === id) {
+        return mod.address
       }
     }
   }
@@ -161,19 +161,19 @@ export class SimpleModuleResolver extends AbstractModuleResolver<SimpleModuleRes
   private resolveByName<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], name: ModuleName[]): T[] {
     return compact(
       name.map((name) => {
-        return modules.find((module) => module.modName === name)
+        return modules.find((mod) => mod.modName === name)
       }),
     ) as T[]
   }
 
   private resolveByQuery<T extends ModuleInstance = ModuleInstance>(modules: ModuleInstance[], query: string[][]): T[] {
     return compact(
-      modules.filter((module) =>
+      modules.filter((mod) =>
         query?.reduce((supported, queryList) => {
           return (
             // eslint-disable-next-line unicorn/no-array-reduce
             queryList.reduce((supported, query) => {
-              const queryable = module.queries.includes(query)
+              const queryable = mod.queries.includes(query)
               return supported && queryable
             }, true) || supported
           )

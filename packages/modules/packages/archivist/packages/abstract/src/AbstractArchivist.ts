@@ -190,7 +190,7 @@ export abstract class AbstractArchivist<
     const deletedHashes = await this.deleteHandler(hashes)
 
     if (emitEvents) {
-      await this.emit('deleted', { hashes: deletedHashes, module: this })
+      await this.emit('deleted', { hashes: deletedHashes, mod: this })
     }
 
     return deletedHashes
@@ -319,7 +319,7 @@ export abstract class AbstractArchivist<
       await this.writeToParents(insertedPayloads)
     }
     if (emitEvents) {
-      await this.emit('inserted', { module: this, payloads: insertedPayloads })
+      await this.emit('inserted', { mod: this, payloads: insertedPayloads })
     }
 
     return insertedPayloads

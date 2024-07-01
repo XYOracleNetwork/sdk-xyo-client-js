@@ -77,19 +77,16 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
     return !!this._pollId
   }
 
-  expose(module: ModuleInstance, options?: ExposeOptions) {
+  expose(mod: ModuleInstance, options?: ExposeOptions) {
     const { failOnAlreadyExposed } = options ?? {}
-    if (isBridgeInstance(module)) {
-      this.logger?.warn(`Attempted to expose a BridgeModule [${module.id}] - Not exposing`)
+    if (isBridgeInstance(mod)) {
+      this.logger?.warn(`Attempted to expose a BridgeModule [${mod.id}] - Not exposing`)
     } else {
-      assertEx(
-        !failOnAlreadyExposed || !this._exposedAddresses.has(module.address),
-        () => `Address already exposed: ${module.id} [${module.address}]`,
-      )
-      this._exposedAddresses.add(module.address)
-      this._exposeOptions[module.address] = { ...options }
-      this.logger?.debug(`${module.id} exposed [${module.address}]`)
-      return module
+      assertEx(!failOnAlreadyExposed || !this._exposedAddresses.has(mod.address), () => `Address already exposed: ${mod.id} [${mod.address}]`)
+      this._exposedAddresses.add(mod.address)
+      this._exposeOptions[mod.address] = { ...options }
+      this.logger?.debug(`${mod.id} exposed [${mod.address}]`)
+      return mod
     }
   }
 
@@ -122,14 +119,14 @@ export class AsyncQueryBusHost<TParams extends AsyncQueryBusHostParams = AsyncQu
   }
 
   async unexpose(id: ModuleIdentifier, validate = true) {
-    const module = asModuleInstance(await this.rootModule.resolve(id, { maxDepth: 10 }))
-    if (module) {
-      assertEx(!validate || this._exposedAddresses.has(module.address), () => `Address not exposed [${module.address}][${module.id}]`)
-      this._exposedAddresses.delete(module.address)
-      delete this._exposeOptions[module.address]
-      this.logger?.debug(`${module.address} [${module.id}] unexposed`)
+    const mod = asModuleInstance(await this.rootModule.resolve(id, { maxDepth: 10 }))
+    if (mod) {
+      assertEx(!validate || this._exposedAddresses.has(mod.address), () => `Address not exposed [${mod.address}][${mod.id}]`)
+      this._exposedAddresses.delete(mod.address)
+      delete this._exposeOptions[mod.address]
+      this.logger?.debug(`${mod.address} [${mod.id}] unexposed`)
     }
-    return module
+    return mod
   }
 
   // eslint-disable-next-line complexity

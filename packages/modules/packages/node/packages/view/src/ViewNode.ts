@@ -118,36 +118,36 @@ export class ViewNode<TParams extends ViewNodeParams = ViewNodeParams, TEventDat
     const mods = this.registeredModules().filter((mod) => attached.includes(mod.address))
     const existingModule = mods.find((mod) => mod.address === address)
     assertEx(!existingModule, () => `Module [${existingModule?.modName ?? existingModule?.address}] already attached at address [${address}]`)
-    const module = assertEx(this.registeredModuleMap[address], () => `Module [${address}] not found in registered modules`)
+    const mod = assertEx(this.registeredModuleMap[address], () => `Module [${address}] not found in registered mods`)
 
-    module.addParent(this)
+    mod.addParent(this)
 
-    const args = { module, name: module.modName }
+    const args = { mod, name: mod.modName }
     await this.emit('moduleAttached', args)
 
-    this._limitedResolver.add(module)
+    this._limitedResolver.add(mod)
 
-    if (isNodeModule(module)) {
+    if (isNodeModule(mod)) {
       const attachedListener: EventListener<TEventData['moduleAttached']> = async (args: TEventData['moduleAttached']) =>
         await this.emit('moduleAttached', args)
 
       const detachedListener: EventListener<TEventData['moduleDetached']> = async (args: TEventData['moduleDetached']) =>
         await this.emit('moduleDetached', args)
 
-      module.on('moduleAttached', attachedListener)
-      module.on('moduleDetached', detachedListener)
+      mod.on('moduleAttached', attachedListener)
+      mod.on('moduleDetached', detachedListener)
     }
 
     return address
   }
 
   protected override async attachedPublicModules(): Promise<ModuleInstance[]> {
-    return (await this._limitedResolver.resolve('*')).filter((module) => module.address !== this.address)
+    return (await this._limitedResolver.resolve('*')).filter((mod) => mod.address !== this.address)
   }
 
   protected override async detachUsingAddress(address: Address) {
-    const module = assertEx(await this.downResolver.resolve(address), () => `Module [${address}] not found in down resolver`)
-    this._limitedResolver.remove(module.address)
+    const mod = assertEx(await this.downResolver.resolve(address), () => `Module [${address}] not found in down resolver`)
+    this._limitedResolver.remove(mod.address)
     return address
   }
 

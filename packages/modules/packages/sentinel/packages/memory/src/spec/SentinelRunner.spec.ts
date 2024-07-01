@@ -42,7 +42,7 @@ describe('SentinelRunner', () => {
     config = {
       schema: SentinelConfigSchema,
       synchronous: true,
-      tasks: witnesses.map((module) => ({ module })),
+      tasks: witnesses.map((mod) => ({ mod })),
     }
 
     sentinel = (await MemorySentinel.create({ account: Account.randomSync(), config })) as MemorySentinel

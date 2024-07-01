@@ -82,7 +82,7 @@ export class MemorySentinel<
     previousResults: Record<Address, Payload[]>,
     inPayloads?: Payload[],
   ): Promise<Record<Address, Payload[]>> {
-    await this.emit('jobStart', { inPayloads, module: this })
+    await this.emit('jobStart', { inPayloads, mod: this })
     this.logger?.debug(`runJob:tasks: ${JSON.stringify(tasks.length)}`)
     this.logger?.debug(`runJob:previous: ${JSON.stringify(previousResults)}`)
     this.logger?.debug(`runJob:in: ${JSON.stringify(inPayloads)}`)
@@ -93,28 +93,28 @@ export class MemorySentinel<
           input === true ? inPayloads
           : input === false ? []
           : this.processPreviousResults(previousResults, await this.inputAddresses(input))
-        const witness = asWitnessInstance(task.module)
+        const witness = asWitnessInstance(task.mod)
         if (witness) {
-          await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, module: this })
+          await this.emit('taskStart', { address: witness.address, inPayloads: inPayloadsFound, mod: this })
           const observed = await witness.observe(inPayloadsFound)
           this.logger?.debug(`observed [${witness.id}]: ${JSON.stringify(observed)}`)
-          await this.emit('taskEnd', { address: witness.address, inPayloads: inPayloadsFound, module: this, outPayloads: observed })
+          await this.emit('taskEnd', { address: witness.address, inPayloads: inPayloadsFound, mod: this, outPayloads: observed })
           return [witness.address, observed]
         }
-        const diviner = asDivinerInstance(task.module)
+        const diviner = asDivinerInstance(task.mod)
         if (diviner) {
-          await this.emit('taskStart', { address: diviner.address, inPayloads: inPayloadsFound, module: this })
+          await this.emit('taskStart', { address: diviner.address, inPayloads: inPayloadsFound, mod: this })
           const divined = await diviner.divine(inPayloadsFound)
           this.logger?.debug(`divined [${diviner.id}]: ${JSON.stringify(divined)}`)
-          await this.emit('taskEnd', { address: diviner.address, inPayloads: inPayloadsFound, module: this, outPayloads: divined })
+          await this.emit('taskEnd', { address: diviner.address, inPayloads: inPayloadsFound, mod: this, outPayloads: divined })
           return [diviner.address, divined]
         }
-        const sentinel = asSentinelInstance(task.module)
+        const sentinel = asSentinelInstance(task.mod)
         if (sentinel) {
-          await this.emit('taskStart', { address: sentinel.address, inPayloads: inPayloadsFound, module: this })
+          await this.emit('taskStart', { address: sentinel.address, inPayloads: inPayloadsFound, mod: this })
           const reported = await sentinel.report(inPayloadsFound)
           this.logger?.debug(`reported [${sentinel.id}]: ${JSON.stringify(reported)}`)
-          await this.emit('taskEnd', { address: sentinel.address, inPayloads: inPayloadsFound, module: this, outPayloads: reported })
+          await this.emit('taskEnd', { address: sentinel.address, inPayloads: inPayloadsFound, mod: this, outPayloads: reported })
           return [sentinel.address, reported]
         }
         throw new Error('Unsupported module type')
@@ -133,7 +133,7 @@ export class MemorySentinel<
       }
     }
     this.logger?.debug(`generateResults:out: ${JSON.stringify(finalResult)}`)
-    await this.emit('jobEnd', { finalResult, inPayloads, module: this })
+    await this.emit('jobEnd', { finalResult, inPayloads, mod: this })
     return finalResult
   }
 }

@@ -70,13 +70,13 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     return this.params.moduleIdentifierTransformers ?? ResolveHelper.transformers
   }
 
-  add(module: ModuleInstance): this
-  add(module: ModuleInstance[]): this
-  add(module: ModuleInstance | ModuleInstance[]): this {
-    if (Array.isArray(module)) {
-      for (const mod of module) this.addSingleModule(mod)
+  add(mod: ModuleInstance): this
+  add(mod: ModuleInstance[]): this
+  add(mod: ModuleInstance | ModuleInstance[]): this {
+    if (Array.isArray(mod)) {
+      for (const modItem of mod) this.addSingleModule(modItem)
     } else {
-      this.addSingleModule(module)
+      this.addSingleModule(mod)
     }
     return this
   }
@@ -260,9 +260,9 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     throw new Error('Method not implemented.')
   }
 
-  private addSingleModule(module?: ModuleInstance) {
-    if (module) {
-      this._localResolver.add(module)
+  private addSingleModule(mod?: ModuleInstance) {
+    if (mod) {
+      this._localResolver.add(mod)
     }
   }
   private removeSingleModule(address: Address) {
@@ -273,7 +273,7 @@ export class CompositeModuleResolver<T extends CompositeModuleResolverParams = C
     const idParts = moduleIdentifierParts(moduleIdentifier)
     assertEx(idParts.length >= 2, () => 'Not a valid multipart identifier')
     const id = assertEx(idParts.shift())
-    const module = (await this.resolve<T>(id)) ?? (await this.resolvePrivate<T>(id))
-    return (await module?.resolve<T>(idParts.join(':'))) ?? (await module?.resolvePrivate<T>(idParts.join(':')))
+    const mod = (await this.resolve<T>(id)) ?? (await this.resolvePrivate<T>(id))
+    return (await mod?.resolve<T>(idParts.join(':'))) ?? (await mod?.resolvePrivate<T>(idParts.join(':')))
   }
 }

@@ -4,6 +4,6 @@
     "declarationMap": true,
     "moduleResolution": "node"
   },
-  "exclude": [".yarn", "node_modules", "**/node_modules", "dist", "**/dist", "./**/docs"],
+  "exclude": [".yarn", "dist", "**/dist", "./**/docs"],
   "extends": "@xylabs/tsconfig"
 }

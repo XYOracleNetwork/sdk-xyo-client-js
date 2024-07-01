@@ -61,8 +61,8 @@ describe('MemoryNode', () => {
     if (payloads && payloads[0]) {
       const huri = await PayloadBuilder.dataHash(payloads[0])
       const huriPayload: HuriPayload = { huri: [huri], schema: HuriSchema }
-      const module = await node.resolve(diviner.address)
-      const foundDiviner = asDivinerInstance(module)
+      const mod = await node.resolve(diviner.address)
+      const foundDiviner = asDivinerInstance(mod)
       expect(foundDiviner).toBeDefined()
       if (foundDiviner) {
         const payloads = await foundDiviner.divine([huriPayload])

@@ -1,5 +1,5 @@
 import { generateMnemonic } from '@scure/bip39'
-
+// eslint-disable-next-line import/no-internal-modules
 import { wordlist } from '@scure/bip39/wordlists/english'
 import { forget } from '@xylabs/forget'
 import { Address } from '@xylabs/hex'
@@ -68,9 +68,9 @@ export class WorkerNodeHost {
         case 'xyoQuery': {
           const message: QueryMessage = event.data
           const { address, msgId, query, payloads } = message
-          const module = address ? await node.resolve(address, { direction: 'down' }) : node
-          if (module) {
-            const result: QueryResultMessage = { address, msgId, result: await module.query(query, payloads) }
+          const mod = address ? await node.resolve(address, { direction: 'down' }) : node
+          if (mod) {
+            const result: QueryResultMessage = { address, msgId, result: await mod.query(query, payloads) }
             self.postMessage(result)
           }
           break

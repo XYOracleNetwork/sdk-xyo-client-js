@@ -49,9 +49,9 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   instanceIdentityCheck: InstanceTypeCheck
   moduleIdentityCheck: ModuleTypeCheck
   requiredQueries: string[]
-  new (params: ModuleWrapperParams<TWrapper['module']>): TWrapper
+  new (params: ModuleWrapperParams<TWrapper['mod']>): TWrapper
 
-  canWrap(module: Module | undefined): boolean
+  canWrap(mod: Module | undefined): boolean
 
   is<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
@@ -60,22 +60,19 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
   ): wrapper is TModuleWrapper
 
   /** @deprecated pass an account for second parameter */
+  tryWrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper | undefined
   tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
-  ): TModuleWrapper | undefined
-  tryWrap<TModuleWrapper extends ModuleWrapper>(
-    this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper | undefined
 
   /** @deprecated pass an account for second parameter */
-  wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, module: Module | undefined): TModuleWrapper
+  wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper
   wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper
@@ -107,12 +104,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   constructor(params: ModuleWrapperParams<TWrappedModule>) {
     const mutatedWrapperParams = { ...params } as ModuleWrapperParams<TWrappedModule>
-    const mutatedParams = { ...params.module.params, config: { ...params.module.params.config } } as Exclude<
+    const mutatedParams = { ...params.mod.params, config: { ...params.mod.params.config } } as Exclude<
       Omit<TWrappedModule['params'], 'config'> & { config: Exclude<TWrappedModule['params']['config'], undefined> },
       undefined
     >
 
-    //set the root params to the wrapped module params
+    //set the root params to the wrapped mod params
     super(mutatedParams)
     this.wrapperParams = mutatedWrapperParams
   }
@@ -126,16 +123,16 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get address() {
-    return this.module.address
+    return this.mod.address
   }
 
   get config() {
-    return this.module.config as Exclude<TWrappedModule['params']['config'], undefined>
+    return this.mod.config as Exclude<TWrappedModule['params']['config'], undefined>
   }
 
   get downResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance: AttachableModuleInstance | undefined = asAttachableModuleInstance(this.module)
+    const instance: AttachableModuleInstance | undefined = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.downResolver as ModuleResolverInstance
     }
@@ -143,15 +140,15 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get id() {
-    return this.module.id
+    return this.mod.id
+  }
+
+  get mod() {
+    return this.wrapperParams.mod
   }
 
   get modName() {
-    return this.module.modName
-  }
-
-  get module() {
-    return this.wrapperParams.module
+    return this.mod.modName
   }
 
   get priority() {
@@ -160,7 +157,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get privateResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asAttachableModuleInstance(this.module)
+    const instance = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.privateResolver as ModuleResolverInstance
     }
@@ -168,7 +165,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   get queries(): string[] {
-    return this.module.queries
+    return this.mod.queries
   }
 
   get status() {
@@ -177,7 +174,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
 
   get upResolver(): ModuleResolverInstance {
     //Should we be allowing this?
-    const instance = asAttachableModuleInstance(this.module)
+    const instance = asAttachableModuleInstance(this.mod)
     if (instance) {
       return instance.upResolver as ModuleResolverInstance
     }
@@ -190,12 +187,12 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     }
   }
 
-  static canWrap(module?: Module) {
-    return !!module && this.moduleIdentityCheck(module)
+  static canWrap(mod?: Module) {
+    return !!mod && this.moduleIdentityCheck(mod)
   }
 
-  static hasRequiredQueries(module: Module) {
-    return this.missingRequiredQueries(module).length === 0
+  static hasRequiredQueries(mod: Module) {
+    return this.missingRequiredQueries(mod).length === 0
   }
 
   static is<TModuleWrapper extends ModuleWrapper>(
@@ -206,11 +203,11 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return wrapper instanceof this
   }
 
-  static missingRequiredQueries(module: Module): string[] {
-    const moduleQueries = module.queries
+  static missingRequiredQueries(mod: Module): string[] {
+    const modQueries = mod.queries
     return compact(
       this.requiredQueries.map((query) => {
-        return moduleQueries.includes(query) ? null : query
+        return modQueries.includes(query) ? null : query
       }),
     )
   }
@@ -218,60 +215,60 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   /** @deprecated pass an account for second parameter */
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
   ): TModuleWrapper | undefined
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper | undefined
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account?: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper | undefined {
-    if (!checkIdentity || this.canWrap(module)) {
+    if (!checkIdentity || this.canWrap(mod)) {
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
-      return new this({ account: account ?? Account.randomSync(), module: module as TModuleWrapper['module'] })
+      return new this({ account: account ?? Account.randomSync(), mod: mod as TModuleWrapper['mod'] })
     }
   }
 
   static with<TModuleWrapper extends ModuleWrapper, R extends Promisable<void> = void>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    module: any,
+    mod: any,
 
-    closure: (module: TModuleWrapper) => R,
+    closure: (mod: TModuleWrapper) => R,
   ): R | undefined {
-    return this.is(module) ? closure(module) : undefined
+    return this.is(mod) ? closure(mod) : undefined
   }
 
   /** @deprecated pass an account for second parameter */
-  static wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, module: Module | undefined): TModuleWrapper
+  static wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account: AccountInstance,
     checkIdentity?: boolean,
   ): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
-    module: Module | undefined,
+    mod: Module | undefined,
     account?: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper {
-    assertEx(!checkIdentity || (module && this.moduleIdentityCheck(module)), () => `Passed module failed identity check: ${module?.config?.schema}`)
-    return assertEx(this.tryWrap(module, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap module as ModuleWrapper')
+    assertEx(!checkIdentity || (mod && this.moduleIdentityCheck(mod)), () => `Passed mod failed identity check: ${mod?.config?.schema}`)
+    return assertEx(this.tryWrap(mod, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap mod as ModuleWrapper')
   }
 
-  addParent(module: ModuleInstance) {
-    const existingEntry = this._parents.find((parent) => parent.address === module.address)
+  addParent(mod: ModuleInstance) {
+    const existingEntry = this._parents.find((parent) => parent.address === mod.address)
     if (!existingEntry) {
-      this._parents.push(module)
+      this._parents.push(mod)
     }
   }
 
@@ -284,19 +281,19 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   clearListeners(eventNames: Parameters<TWrappedModule['clearListeners']>[0]) {
-    return this.module.clearListeners(eventNames)
+    return this.mod.clearListeners(eventNames)
   }
 
   emit(eventName: Parameters<TWrappedModule['emit']>[0], eventArgs: Parameters<TWrappedModule['emit']>[1]) {
-    return this.module.emit(eventName, eventArgs)
+    return this.mod.emit(eventName, eventArgs)
   }
 
   emitSerial(eventName: Parameters<TWrappedModule['emitSerial']>[0], eventArgs: Parameters<TWrappedModule['emitSerial']>[1]) {
-    return this.module.emitSerial(eventName, eventArgs)
+    return this.mod.emitSerial(eventName, eventArgs)
   }
 
   listenerCount(eventNames: Parameters<TWrappedModule['listenerCount']>[0]) {
-    return this.module.listenerCount(eventNames)
+    return this.mod.listenerCount(eventNames)
   }
 
   async manifest(maxDepth?: number): Promise<ModuleManifestPayload> {
@@ -318,26 +315,26 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     eventNames: TEventName,
     listener: EventListener<TWrappedModule['eventData'][TEventName]>,
   ) {
-    return this.module.off(eventNames, listener)
+    return this.mod.off(eventNames, listener)
   }
 
   offAny(listener: EventAnyListener) {
-    return this.module.offAny(listener)
+    return this.mod.offAny(listener)
   }
 
   on<TEventName extends keyof TWrappedModule['eventData']>(eventNames: TEventName, listener: EventListener<TWrappedModule['eventData'][TEventName]>) {
-    return this.module.on(eventNames, listener)
+    return this.mod.on(eventNames, listener)
   }
 
   onAny(listener: EventAnyListener) {
-    return this.module.onAny(listener)
+    return this.mod.onAny(listener)
   }
 
   once<TEventName extends keyof TWrappedModule['eventData']>(
     eventName: TEventName,
     listener: EventListener<TWrappedModule['eventData'][TEventName]>,
   ) {
-    return this.module.once(eventName, listener)
+    return this.mod.once(eventName, listener)
   }
 
   parents(): Promisable<ModuleInstance[]> {
@@ -355,25 +352,25 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
   }
 
   async privateChildren(): Promise<ModuleInstance[]> {
-    if (isModuleInstance(this.module)) {
-      return await this.module.privateChildren()
+    if (isModuleInstance(this.mod)) {
+      return await this.mod.privateChildren()
     }
     return []
   }
 
   async publicChildren(): Promise<ModuleInstance[]> {
-    if (isModuleInstance(this.module)) {
-      return await this.module.publicChildren()
+    if (isModuleInstance(this.mod)) {
+      return await this.mod.publicChildren()
     }
     return []
   }
 
   async query<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]): Promise<ModuleQueryResult> {
-    return await this.module.query(query, payloads)
+    return await this.mod.query(query, payloads)
   }
 
   queryable<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads?: Payload[]) {
-    return this.module.queryable(query, payloads)
+    return this.mod.queryable(query, payloads)
   }
 
   removeParent(address: Address) {
@@ -394,7 +391,7 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     idOrFilter: ModuleIdentifier | ModuleFilter<T> = '*',
     options?: ModuleFilterOptions<T>,
   ): Promise<T | T[] | undefined> {
-    const instance = asModuleInstance(this.module)
+    const instance = asModuleInstance(this.mod)
     if (instance?.['resolve']) {
       if (idOrFilter === '*') {
         return await instance.resolve<T>('*', options)

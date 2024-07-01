@@ -89,7 +89,7 @@ export class AsyncQueryBusModuleProxy<
       dead: this.dead,
       downResolver: this.downResolver,
       logger: this.logger,
-      module: this,
+      mod: this,
       transformers: this.moduleIdentifierTransformers,
       upResolver: this.upResolver,
     }

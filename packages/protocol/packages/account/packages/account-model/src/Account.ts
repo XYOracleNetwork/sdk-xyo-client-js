@@ -70,4 +70,5 @@ export interface AccountStatic<T extends AccountInstance = AccountInstance> {
   create(opts?: AccountConfig): Promise<T>
   fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance>
   is(value: unknown): T | undefined
+  random(): Promise<AccountInstance>
 }

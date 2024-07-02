@@ -52,7 +52,7 @@ describe('BoundWitnessBuilder', () => {
         if (actual.$meta?.signatures) {
           const addr = new AddressValue(toUint8Array(actual.addresses[0]))
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = new AddressValue(toUint8Array(actual.addresses[0])).verify(
+          const verify = await new AddressValue(toUint8Array(actual.addresses[0])).verify(
             toUint8Array(actual.$hash),
             toUint8Array(actual.$meta.signatures[0]),
           )

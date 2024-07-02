@@ -22,7 +22,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return (value as PublicKey)._isPublicKey
   }
 
-  verify(msg: ArrayBuffer, signature: ArrayBuffer): boolean | Promise<boolean> {
-    return this.address.verify(msg, signature)
+  async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
+    return await this.address.verify(msg, signature)
   }
 }

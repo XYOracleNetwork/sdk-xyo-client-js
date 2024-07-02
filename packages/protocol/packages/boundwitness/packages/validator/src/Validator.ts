@@ -15,11 +15,11 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     return BoundWitnessSchema
   }
 
-  static validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Error[] {
+  static async validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Promise<Error[]> {
     if (!signature) {
       return [new Error(`Missing signature [${address}]`)]
     }
-    if (!new AddressValue(toUint8Array(address)).verify(hash, signature)) {
+    if (!(await new AddressValue(toUint8Array(address)).verify(hash, signature))) {
       return [new Error(`Invalid signature [${address}] [${signature}]`)]
     }
     return []

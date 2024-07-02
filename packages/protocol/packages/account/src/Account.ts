@@ -98,7 +98,6 @@ export class Account extends KeyPair implements AccountInstance {
     return await instance.initialize()
   }
 
-  /** @deprecated use random instead */
   static randomSync(): AccountInstance {
     return new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
   }
@@ -147,7 +146,7 @@ export class Account extends KeyPair implements AccountInstance {
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
     await KeyPair.wasmInitialized()
-    return this.public.address.verify(msg, signature)
+    return await this.public.address.verify(msg, signature)
   }
 
   verifyUniqueAddress() {

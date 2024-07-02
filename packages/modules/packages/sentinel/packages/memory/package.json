@@ -29,7 +29,6 @@
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "@xyo-network/abstract-witness": "workspace:^",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/id-payload-plugin": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

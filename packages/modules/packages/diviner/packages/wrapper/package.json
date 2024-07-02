@@ -21,7 +21,6 @@
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
     "@xylabs/tsconfig-jest": "^3.11.12",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/diviner-identity": "workspace:^",
     "@xyo-network/payload-builder": "workspace:^",
     "typescript": "^5.5.3"

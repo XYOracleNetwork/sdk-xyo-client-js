@@ -4,10 +4,19 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
+import {
+  asyncHandler,
+  customPoweredByHeader,
+  disableCaseSensitiveRouting,
+  disableExpressDefaultPoweredByHeader,
+  jsonBodyParser,
+  responseProfiler,
+  useRequestCounters,
+} from '@xylabs/sdk-api-express-ecs'
 import { ApiEnvelopeSuccess } from '@xyo-network/api-models'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
+import { standardResponses } from '@xyo-network/express-node-middleware'
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import express, { Application, Request, Response } from 'express'
@@ -133,8 +142,16 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
   protected initializeApp() {
     const app = express()
-    app.use(express.json())
+    // Add middleware
+    app.use(responseProfiler)
+    app.use(jsonBodyParser)
+    app.use(standardResponses)
+    disableExpressDefaultPoweredByHeader(app)
+    app.use(customPoweredByHeader)
+    disableCaseSensitiveRouting(app)
+    useRequestCounters(app)
 
+    // Add routes
     // Redirect all requests to the root to this module's address
     app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
     app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))

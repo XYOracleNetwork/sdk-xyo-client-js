@@ -4800,6 +4800,7 @@ __metadata:
     "@xyo-network/bridge-model": "workspace:^"
     "@xyo-network/config-payload-plugin": "workspace:^"
     "@xyo-network/diviner-model": "workspace:^"
+    "@xyo-network/express-node-middleware": "npm:^2.88.9"
     "@xyo-network/manifest-model": "workspace:^"
     "@xyo-network/module-model": "workspace:^"
     "@xyo-network/module-resolver": "workspace:^"
@@ -6399,6 +6400,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xyo-network/express-node-middleware@npm:^2.88.9":
+  version: 2.88.9
+  resolution: "@xyo-network/express-node-middleware@npm:2.88.9"
+  dependencies:
+    "@xylabs/logger": "npm:^3.5.2"
+    "@xylabs/sdk-api-express-ecs": "npm:^2.0.4"
+    "@xyo-network/node-model": "npm:^2.107.6"
+    express: "npm:^4.19.2"
+    express-mung: "npm:^0.5.1"
+    swagger-autogen: "npm:^2.23.7"
+    swagger-ui-express: "npm:^5.0.1"
+  checksum: 10/2ed89d980d34ba5f92f7e1db3afddaa9dd737d80b7673b245ea78cf78f2ce8d40d072cbb886b0fe7397f667f87e185337c18ecb41a301ecfff169a02734023b6
+  languageName: node
+  linkType: hard
+
 "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem":
   version: 0.0.0-use.local
   resolution: "@xyo-network/filesystem-archivist@workspace:packages/modules/packages/archivist/packages/filesystem"
@@ -6801,7 +6817,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xyo-network/node-model@workspace:^, @xyo-network/node-model@workspace:packages/modules/packages/node/packages/model":
+"@xyo-network/node-model@npm:^2.107.6, @xyo-network/node-model@workspace:^, @xyo-network/node-model@workspace:packages/modules/packages/node/packages/model":
   version: 0.0.0-use.local
   resolution: "@xyo-network/node-model@workspace:packages/modules/packages/node/packages/model"
   dependencies:
@@ -7657,7 +7673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^7.1.1":
+"acorn@npm:^7.1.1, acorn@npm:^7.4.1":
   version: 7.4.1
   resolution: "acorn@npm:7.4.1"
   bin:
@@ -19384,6 +19400,36 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 10/a9dc19ae2220c952bd2231d08ddeecb1b0328b61e72071ff4000c8384e145cc07c1c0bdb3b5a1cb06e186a7b2790f1dee793418b332f6ddf320de25d9125be7e
+  languageName: node
+  linkType: hard
+
+"swagger-autogen@npm:^2.23.7":
+  version: 2.23.7
+  resolution: "swagger-autogen@npm:2.23.7"
+  dependencies:
+    acorn: "npm:^7.4.1"
+    deepmerge: "npm:^4.2.2"
+    glob: "npm:^7.1.7"
+    json5: "npm:^2.2.3"
+  checksum: 10/f3bb28dcf87a2fe48ee27f14be90adccf73f103ef81592b192cf176dbe752799746d62f3adeb0109e56ca19b52a25e563bacda38f6d15b546aa5446731faff6b
+  languageName: node
+  linkType: hard
+
+"swagger-ui-dist@npm:>=5.0.0":
+  version: 5.17.14
+  resolution: "swagger-ui-dist@npm:5.17.14"
+  checksum: 10/b9e62d7ecb64e837849252c9f82af654b26cae60ebd551cff96495d826166d3ed866ebae40f22a2c61d307330151945d79d995e50659ae17eea6cf4ece788f9d
+  languageName: node
+  linkType: hard
+
+"swagger-ui-express@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "swagger-ui-express@npm:5.0.1"
+  dependencies:
+    swagger-ui-dist: "npm:>=5.0.0"
+  peerDependencies:
+    express: ">=4.0.0 || >=5.0.0-beta"
+  checksum: 10/13d95e6683214717f98dd53063bf398751ea798e971c43ece949b67a45102cc48995da319547002b2acc262d39f1994bd4af39828d99e95658966d6b332b585e
   languageName: node
   linkType: hard
 

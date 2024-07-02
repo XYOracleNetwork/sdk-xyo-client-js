@@ -29,7 +29,7 @@ import { HttpBridgeConfig } from './HttpBridgeConfig'
  * The type of the path parameters for the address path.
  */
 type AddressPathParams = {
-  address: string
+  address: Address
 }
 
 /**
@@ -116,6 +116,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   protected async handlePost(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
+    const { address } = req.params
     const [bw, payloads = []] = Array.isArray(req.body) ? req.body : []
     const query = isQueryBoundWitness(bw) ? bw : undefined
     if (!query) {
@@ -124,7 +125,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       return
     }
     try {
-      const result = await this.callLocalModule(req.route, query, payloads)
+      const result = await this.callLocalModule(address, query, payloads)
       // TODO: Use standard errors middleware
       if (result === null) {
         res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
@@ -141,7 +142,9 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   protected initializeApp() {
+    // Create the express app
     const app = express()
+
     // Add middleware
     app.use(responseProfiler)
     app.use(jsonBodyParser)
@@ -158,7 +161,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
     // TODO: Handle GET requests
     app.post<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>(
-      '/',
+      '/:address',
       asyncHandler(async (req, res) => await this.handlePost(req, res)),
     )
     return app

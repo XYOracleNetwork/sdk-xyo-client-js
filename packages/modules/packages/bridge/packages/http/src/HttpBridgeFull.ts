@@ -63,15 +63,11 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   override async startHandler(): Promise<boolean> {
-    const startHandlerResult = await super.startHandler()
-    const startHttpServerResult = await this.startHttpServer()
-    return startHandlerResult && startHttpServerResult
+    return (await super.startHandler()) && (await this.startHttpServer())
   }
 
   override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
-    const stopHandlerResult = await super.stopHandler()
-    const stopHttpServerResult = await this.stopHttpServer()
-    return stopHandlerResult && stopHttpServerResult
+    return (await super.stopHandler()) && (await this.stopHttpServer())
   }
 
   override async unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {

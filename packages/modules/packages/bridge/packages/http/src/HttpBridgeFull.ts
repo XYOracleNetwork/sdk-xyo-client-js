@@ -115,6 +115,26 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return mod ? await mod.query(query, payloads) : null
   }
 
+  protected async handleGet(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
+    const { address } = req.params
+    try {
+      const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+      // TODO: Use standard errors middleware
+      if (mod) {
+        const result = await mod?.state()
+        const envelope = {
+          data: result,
+        } as ApiEnvelopeSuccess<ModuleQueryResult>
+        res.json(envelope)
+      } else {
+        res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
+      }
+    } catch (ex) {
+      // TODO: Sanitize message
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: (ex as Error).message })
+    }
+  }
+
   protected async handlePost(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
     const { address } = req.params
     const [bw, payloads = []] = Array.isArray(req.body) ? req.body : []
@@ -159,7 +179,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
     app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
 
-    // TODO: Handle GET requests
+    app.get<AddressPathParams, ModuleQueryResult>(
+      '/:address',
+      asyncHandler(async (req, res) => await this.handleGet(req, res)),
+    )
     app.post<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>(
       '/:address',
       asyncHandler(async (req, res) => await this.handlePost(req, res)),

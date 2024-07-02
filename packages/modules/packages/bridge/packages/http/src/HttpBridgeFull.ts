@@ -23,23 +23,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   protected _exposedModules: WeakRef<ModuleInstance>[] = []
   protected _server?: Server
 
-  get app() {
-    this._app =
-      this._app ??
-      (() => {
-        const app = express()
-        app.use(express.json())
-
-        // Redirect all requests to the root to this module's address
-        app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
-        app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
-
-        app.post<Payload[]>('/', (req, res) => {
-          this.handlePost(req, res)
-        })
-
-        return app
-      })()
+  protected get app() {
+    if (!this._app) this._app ?? this.initializeApp()
     return this._app
   }
 
@@ -78,7 +63,9 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   override async startHandler(): Promise<boolean> {
-    return (await super.startHandler()) && this.startHttpServer()
+    const startHandlerResult = await super.startHandler()
+    const startHttpServerResult = await this.startHttpServer()
+    return startHandlerResult && startHttpServerResult
   }
 
   override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
@@ -131,12 +118,26 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       })
   }
 
-  protected startHttpServer() {
+  protected initializeApp() {
+    const app = express()
+    app.use(express.json())
+
+    // Redirect all requests to the root to this module's address
+    app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
+    app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
+
+    app.post<Payload[]>('/', (req, res) => {
+      this.handlePost(req, res)
+    })
+    return app
+  }
+
+  protected startHttpServer(): Promise<boolean> {
     if (this.config.host) {
       assertEx(!this._server, () => 'Server already started')
       this._server = this.app.listen(this.config.host?.port ?? 3030)
     }
-    return true
+    return Promise.resolve(true)
   }
 
   protected stopHttpServer() {

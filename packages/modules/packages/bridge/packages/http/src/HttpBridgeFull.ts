@@ -13,7 +13,6 @@ import {
   responseProfiler,
   useRequestCounters,
 } from '@xylabs/sdk-api-express-ecs'
-import { ApiEnvelopeSuccess } from '@xyo-network/api-models'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
 import { standardResponses } from '@xyo-network/express-node-middleware'
@@ -118,12 +117,16 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   protected async handleGet(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
     const { address } = req.params
     try {
-      const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
-      // TODO: Use standard errors middleware
-      if (mod) {
-        res.json(await mod?.state())
+      if (address == this.address) {
+        res.json(await this.stateQuery(this.account))
       } else {
-        res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
+        const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
+        // TODO: Use standard errors middleware
+        if (mod) {
+          res.json(await mod.stateQuery(this.account))
+        } else {
+          res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
+        }
       }
     } catch (ex) {
       // TODO: Sanitize message
@@ -141,12 +144,17 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       return
     }
     try {
-      const result = await this.callLocalModule(address, query, payloads)
-      // TODO: Use standard errors middleware
-      if (result === null) {
-        res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
+      if (address == this.address) {
+        const result = await this.query(query, payloads)
+        return res.json(result)
       } else {
-        res.json(result)
+        const result = await this.callLocalModule(address, query, payloads)
+        // TODO: Use standard errors middleware
+        if (result === null) {
+          res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
+        } else {
+          res.json(result)
+        }
       }
     } catch (ex) {
       // TODO: Sanitize message

@@ -30,18 +30,8 @@ describe('HttpBridge', () => {
     await hostNode.register(hostedNode)
     await hostNode.attach(hostedNode.address, true)
 
-    const clientBridge = await HttpBridge.create({
-      account: Account.randomSync(),
-      config: {
-        client: { discoverRoots: 'start', url },
-        name: 'TestBridgeClient',
-        schema: HttpBridgeConfigSchema,
-        security: { allowAnonymous: true },
-      },
-    })
-
     const hostBridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         host: {
           port,
@@ -54,6 +44,16 @@ describe('HttpBridge', () => {
 
     await hostNode.register(hostBridge)
     await hostNode.attach(hostBridge?.address, true)
+
+    const clientBridge = await HttpBridge.create({
+      account: 'random',
+      config: {
+        client: { discoverRoots: 'start', url },
+        name: 'TestBridgeClient',
+        schema: HttpBridgeConfigSchema,
+        security: { allowAnonymous: true },
+      },
+    })
 
     await clientNode.register(clientBridge)
     await clientNode.attach(clientBridge?.address, true)

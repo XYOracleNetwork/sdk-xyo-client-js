@@ -16,11 +16,17 @@ import { StatusCodes } from 'http-status-codes'
 import { HttpBridgeBase } from './HttpBridgeBase'
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
-export type AddressPathParams = {
+/**
+ * The type of the path parameters for the address path.
+ */
+type AddressPathParams = {
   address: string
 }
 
-export type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
+/**
+ * The type of the request body for the address path.
+ */
+type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
 
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 

@@ -17,11 +17,11 @@ describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
     const node = await MemoryNode.create({ account: Account.randomSync() })
     const originArchivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'origin', schema: MemoryArchivist.defaultConfigSchema },
     })
     const viewArchivist = await ViewArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
     })
 

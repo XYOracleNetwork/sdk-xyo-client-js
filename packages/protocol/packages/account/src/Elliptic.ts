@@ -5,7 +5,7 @@ import { Data } from '@xyo-network/data'
 import { WasmSupport } from '@xyo-network/wasm'
 import { Mutex } from 'async-mutex'
 
-const wasmSupportStatic = new WasmSupport(['bigInt'])
+const wasmSupportStatic = new WasmSupport(['bigInt', 'mutableGlobals', 'referenceTypes', 'saturatedFloatToInt', 'signExtensions', 'simd'])
 const recoveryIds = [0, 1, 2, 3] as const
 
 function compareArrayBuffers(b1: ArrayBuffer, b2: ArrayBuffer) {
@@ -34,6 +34,10 @@ export class Elliptic {
     return new Data(64, key).keccak256.slice(12)
   }
 
+  static initialize() {
+    return this.secp256k1()
+  }
+
   static ready() {
     return !!this._secp256k1
   }
@@ -47,6 +51,11 @@ export class Elliptic {
       this._secp256k1 = secp256k1
       return secp256k1
     })
+  }
+
+  static async sign(hash: ArrayBuffer, key: ArrayBuffer) {
+    const { signMessageHashCompact } = await this.secp256k1()
+    return signMessageHashCompact(new Uint8Array(key), toUint8Array(hash))
   }
 
   static async verify(msg: ArrayBuffer, signature: ArrayBuffer, address: ArrayBuffer) {

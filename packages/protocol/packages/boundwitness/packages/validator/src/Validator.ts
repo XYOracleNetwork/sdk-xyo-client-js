@@ -20,7 +20,7 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
       return [new Error(`Missing signature [${address}]`)]
     }
     if (!(await Elliptic.verify(hash, signature, address))) {
-      return [new Error(`Invalid signature [${address}] [${signature}]`)]
+      return [new Error(`Invalid signature [${address}]`)]
     }
     return []
   }

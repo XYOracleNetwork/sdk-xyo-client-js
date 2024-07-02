@@ -43,7 +43,7 @@ describe('HttpBridge', () => {
     })
 
     await hostNode.register(hostBridge)
-    await hostNode.attach(hostBridge?.address, true)
+    await hostNode.attach(hostBridge.address, true)
 
     const clientBridge = await HttpBridge.create({
       account: 'random',
@@ -56,14 +56,14 @@ describe('HttpBridge', () => {
     })
 
     await clientNode.register(clientBridge)
-    await clientNode.attach(clientBridge?.address, true)
+    await clientNode.attach(clientBridge.address, true)
 
     const resolvedHostBridge = await hostNode.resolve(hostBridge.id)
     expect(resolvedHostBridge).toBeDefined()
 
     await hostBridge.expose(hostedNode.address)
 
-    const bridgedHostedModule = await hostBridge?.resolve(hostedNode.address)
+    const bridgedHostedModule = await hostBridge.resolve(hostedNode.address)
     expect(bridgedHostedModule).toBeDefined()
 
     const bridgedHostedNode = asAttachableNodeInstance(

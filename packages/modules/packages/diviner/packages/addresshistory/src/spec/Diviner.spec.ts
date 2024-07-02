@@ -1,4 +1,4 @@
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistWrapper } from '@xyo-network/archivist-wrapper'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -16,14 +16,17 @@ import { AddressHistoryDiviner } from '../Diviner'
 
 describe('AddressHistoryDiviner', () => {
   describe('divine', () => {
-    const archivistAccount = Account.randomSync()
-    const wrapperAccount = Account.randomSync()
-    const divinerAccount = Account.randomSync()
+    let archivistAccount: AccountInstance
+    let wrapperAccount: AccountInstance
+    let divinerAccount: AccountInstance
     let node: MemoryNode
     let archivist: MemoryArchivist
     let diviner: AddressHistoryDiviner
     beforeAll(async () => {
-      node = await MemoryNode.create({ account: Account.randomSync() })
+      archivistAccount = await Account.random()
+      wrapperAccount = await Account.random()
+      divinerAccount = await Account.random()
+      node = await MemoryNode.create({ account: 'random' })
       archivist = await MemoryArchivist.create({
         account: archivistAccount,
         config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true },

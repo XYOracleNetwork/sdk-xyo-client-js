@@ -41,7 +41,7 @@ export class PubSubBridgeModuleResolver extends AbstractBridgeModuleResolver<Pub
         const result = idParts.length <= 0 ? cachedMod : cachedMod.resolve(remainderParts, { ...options, maxDepth: (options?.maxDepth ?? 5) - 1 })
         return result as T
       }
-      const account = Account.randomSync()
+      const account = await Account.random()
       const finalParams: AsyncQueryBusModuleProxyParams = {
         account,
         archiving: this.params.archiving,

@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { HttpBridge, HttpBridgeConfigSchema } from '@xyo-network/bridge-http'
 import {
   AsyncQueryBusIntersectConfig,
@@ -25,7 +24,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'MemNodeArie', schema: NodeConfigSchema } })
+    const memNode = await MemoryNode.create({ account: 'random', config: { name: 'MemNodeArie', schema: NodeConfigSchema } })
     const intersect: AsyncQueryBusIntersectConfig = {
       queries: { archivist: 'MemNodeArie:XNS:Intersect:QueryArchivist', boundWitnessDiviner: 'MemNodeArie:XNS:Intersect:QueryBoundWitnessDiviner' },
       responses: {
@@ -35,7 +34,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
     }
 
     const bridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
@@ -44,7 +43,7 @@ describe.skip('HttpBridge with PubSubBridge', () => {
     await memNode.attach(bridge?.address, true)
 
     const config: PubSubBridgeConfig = { client: { intersect }, host: { intersect }, name: 'PubSubBridgeArie', schema: PubSubBridgeConfigSchema }
-    const psParams: PubSubBridgeParams = { account: Account.randomSync(), config }
+    const psParams: PubSubBridgeParams = { account: 'random', config }
     const psBridge = await PubSubBridge.create(psParams)
     await memNode.register(psBridge)
     await memNode.attach(psBridge?.address, true)

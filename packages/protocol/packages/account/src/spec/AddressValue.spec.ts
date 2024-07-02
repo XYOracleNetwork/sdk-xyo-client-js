@@ -1,7 +1,6 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 
 import { Elliptic } from '../Elliptic'
-import { AddressValue } from '../Key'
 
 describe('AddressValue', () => {
   const valid: [string, string, string][] = [

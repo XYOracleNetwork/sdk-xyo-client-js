@@ -1,5 +1,5 @@
 import { toJsonString } from '@xylabs/object'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
 
@@ -11,7 +11,7 @@ import { MemoryArchivist } from '../MemoryArchivist'
  */
 describe('MemoryArchivist', () => {
   it('should listen to cleared events', async () => {
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync() })
+    const archivist = await MemoryArchivist.create({ account: 'random' })
 
     expect(isArchivistInstance(archivist)).toBe(true)
     expect(isArchivistModule(archivist)).toBe(true)
@@ -24,7 +24,7 @@ describe('MemoryArchivist', () => {
   })
 
   it('should return same items inserted', async () => {
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync() })
+    const archivist = await MemoryArchivist.create({ account: 'random' })
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' }, { stamp: false })]
     expect(payloads[0].$meta?.timestamp).toBeUndefined()

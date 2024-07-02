@@ -41,7 +41,7 @@ describe('MemoryBoundWitnessDiviner', () => {
       schema: 'network.xyo.debug',
     })
 
-    const account = Account.randomSync()
+    const account = await Account.random()
 
     const [bwA] = await BoundWitnessBuilder.build({ accounts: [account], payloads: [payloadA] })
     bws.push(bwA)
@@ -55,21 +55,21 @@ describe('MemoryBoundWitnessDiviner', () => {
     bws.push(bwAB)
 
     archivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
     await archivist.insert([payloadA, payloadB])
     await archivist.insert([payloadC, payloadD])
     await archivist.insert([bwA, bwB, bwC, bwD, bwAB])
     sut = await MemoryBoundWitnessDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archivist: archivist.address,
         schema: MemoryBoundWitnessDiviner.defaultConfigSchema,
       },
     })
     node = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]

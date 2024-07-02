@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { PayloadSchema } from '@xyo-network/payload-model'
@@ -15,7 +14,6 @@ import { MemorySentinel, MemorySentinelParams } from '../MemorySentinel'
 describe('Sentinel', () => {
   test('report [resolve]', async () => {
     const paramsA = {
-      account: Account.randomSync(),
       config: {
         payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
         schema: AdhocWitnessConfigSchema,
@@ -23,19 +21,18 @@ describe('Sentinel', () => {
       },
     }
     const paramsB = {
-      account: Account.randomSync(),
       config: {
         payload: { nonce: Math.floor(Math.random() * 9_999_999), schema: 'network.xyo.test' },
         schema: AdhocWitnessConfigSchema,
         targetSchema: PayloadSchema,
       },
     }
-    const witnessA = (await AdhocWitness.create(paramsA)) as AdhocWitness
-    const witnessB = (await AdhocWitness.create(paramsB)) as AdhocWitness
-    const archivistA = await MemoryArchivist.create({ account: Account.randomSync() })
-    const archivistB = await MemoryArchivist.create({ account: Account.randomSync() })
+    const witnessA = (await AdhocWitness.create({ ...paramsA, account: 'random' })) as AdhocWitness
+    const witnessB = (await AdhocWitness.create({ ...paramsB, account: 'random' })) as AdhocWitness
+    const archivistA = await MemoryArchivist.create({ account: 'random' })
+    const archivistB = await MemoryArchivist.create({ account: 'random' })
 
-    const node = await MemoryNode.create({ account: Account.randomSync() })
+    const node = await MemoryNode.create({ account: 'random' })
     await Promise.all(
       [witnessA, witnessB, archivistA, archivistB].map(async (mod) => {
         await node.register(mod)
@@ -43,7 +40,7 @@ describe('Sentinel', () => {
       }),
     )
     const params: MemorySentinelParams<SentinelConfig> = {
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archiving: {
           archivists: [archivistA.address, archivistB.address],

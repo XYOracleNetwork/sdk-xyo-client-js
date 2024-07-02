@@ -26,7 +26,7 @@ describe('Various StorageArchivist types', () => {
       'local',
       (async () =>
         await StorageArchivist.create({
-          account: Account.randomSync(),
+          account: 'random',
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'local' },
         }))(),
     ],
@@ -34,7 +34,7 @@ describe('Various StorageArchivist types', () => {
       'session',
       (async () =>
         await StorageArchivist.create({
-          account: Account.randomSync(),
+          account: 'random',
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'session' },
         }))(),
     ],
@@ -42,7 +42,7 @@ describe('Various StorageArchivist types', () => {
       'page',
       (async () =>
         await StorageArchivist.create({
-          account: Account.randomSync(),
+          account: 'random',
           config: { namespace: 'test', schema: StorageArchivistConfigSchema, type: 'page' },
         }))(),
     ],
@@ -86,7 +86,7 @@ describe('Various StorageArchivist types', () => {
 })
 
 test('Archivist Private Key Save', async () => {
-  const account = Account.randomSync()
+  const account = await Account.random()
   const storage = await StorageArchivist.create({
     account,
     config: { namespace: 'test', persistAccount: true, schema: StorageArchivistConfigSchema, type: 'local' },
@@ -100,7 +100,7 @@ test('Archivist Private Key Save', async () => {
 })
 
 test('Archivist passed account', async () => {
-  const account = Account.randomSync()
+  const account = await Account.random()
 
   const storage = (await StorageArchivist.create({
     account,
@@ -111,8 +111,8 @@ test('Archivist passed account', async () => {
 })
 
 test('Archivist Parent Reads', async () => {
-  const parent = await MemoryArchivist.create({ account: Account.randomSync() })
-  const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
+  const parent = await MemoryArchivist.create({ account: 'random' })
+  const memoryNode = await MemoryNode.create({ account: 'random' })
 
   expect(isModuleObject(parent)).toBeTrue()
 
@@ -126,7 +126,7 @@ test('Archivist Parent Reads', async () => {
   await memoryNode.attach(parent.address, true)
 
   const storage = await StorageArchivist.create({
-    account: Account.randomSync(),
+    account: 'random',
     config: {
       namespace: 'test',
       parents: { read: [parent.address] },

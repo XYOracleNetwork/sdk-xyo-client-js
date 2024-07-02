@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -23,13 +22,13 @@ describe.skip('WebsocketBridge', () => {
 
   it('WebsocketBridge: %s', async () => {
     const memClientNode = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'TestClientNode', schema: 'network.xyo.node.config' },
     })
-    const memHostNode = await MemoryNode.create({ account: Account.randomSync() })
+    const memHostNode = await MemoryNode.create({ account: 'random' })
 
     const host = await WebsocketBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { host: {}, name: 'TestHostBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
@@ -37,7 +36,7 @@ describe.skip('WebsocketBridge', () => {
     await memHostNode.attach(host?.address, true)
 
     const bridge = await WebsocketClientBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { client: { url }, name: 'TestClientBridge', schema: WebsocketBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

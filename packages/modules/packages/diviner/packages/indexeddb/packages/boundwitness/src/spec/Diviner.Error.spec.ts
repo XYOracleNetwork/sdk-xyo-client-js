@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness } from '@xyo-network/boundwitness-model'
@@ -51,14 +50,14 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
   describe('divine', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
       const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
       })
       const [bw] = await new BoundWitnessBuilder().build()
       values.push(bw)
       await archivist.insert(values)
       const sut = await IndexedDbBoundWitnessDiviner.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: {
           archivist: archivist.address,
           dbName: testDbName,
@@ -67,7 +66,7 @@ describe('IndexedDbBoundWitnessDiviner.Errors', () => {
         },
       })
       const node = await MemoryNode.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { schema: MemoryNode.defaultConfigSchema },
       })
       const modules = [archivist, sut]

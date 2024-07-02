@@ -19,13 +19,11 @@ import { MemoryAddressChainDiviner } from '../MemoryDiviner'
 describe('MemoryAddressHistoryDiviner', () => {
   describe('divine', () => {
     it('returns divined result', async () => {
-      const nodeAccount = Account.randomSync()
-      const node = await MemoryNode.create({ account: nodeAccount, config: { schema: NodeConfigSchema } })
-      const wrapperAccount = Account.randomSync()
-      const divinerAccount = Account.randomSync()
-      const archivistAccount = Account.randomSync()
+      const node = await MemoryNode.create({ account: 'random', config: { schema: NodeConfigSchema } })
+      const wrapperAccount = await Account.random()
+      const divinerAccount = await Account.random()
       const archivist = await MemoryArchivist.create({
-        account: archivistAccount,
+        account: 'random',
         config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true },
       })
 

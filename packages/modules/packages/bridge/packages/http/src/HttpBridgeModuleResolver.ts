@@ -65,7 +65,7 @@ export class HttpBridgeModuleResolver<
           return
         }
       }
-      const account = Account.randomSync()
+      const account = await Account.random()
       const finalParams: HttpModuleProxyParams = {
         account,
         archiving: this.params.archiving,

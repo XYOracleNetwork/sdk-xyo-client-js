@@ -16,10 +16,10 @@ import { MemoryAddressSpaceDiviner } from '../MemoryAddressSpaceDiviner'
 describe('MemoryAddressSpaceDiviner', () => {
   describe('divine (listed archivists)', () => {
     it('returns divined result', async () => {
-      const node = await MemoryNode.create({ account: Account.randomSync() })
-      const archivistAccount = Account.randomSync()
-      const divinerAccount = Account.randomSync()
-      const wrapperAccount = Account.randomSync()
+      const node = await MemoryNode.create({ account: 'random' })
+      const archivistAccount = await Account.random()
+      const divinerAccount = await Account.random()
+      const wrapperAccount = await Account.random()
       const archivist = ArchivistWrapper.wrap(
         await MemoryArchivist.create({ account: archivistAccount, config: { schema: MemoryArchivist.defaultConfigSchema, storeQueries: true } }),
         wrapperAccount,

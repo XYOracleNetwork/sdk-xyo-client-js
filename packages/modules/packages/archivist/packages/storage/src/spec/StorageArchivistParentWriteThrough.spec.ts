@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { QueryBoundWitnessWrapper } from '@xyo-network/boundwitness-wrapper'
@@ -14,11 +13,11 @@ import { StorageArchivist, StorageArchivistConfigSchema } from '../StorageArchiv
  */
 
 test('Archivist Parent Write Through', async () => {
-  const node = await MemoryNode.create({ account: Account.randomSync() })
-  const memory = await MemoryArchivist.create({ account: Account.randomSync() })
+  const node = await MemoryNode.create({ account: 'random' })
+  const memory = await MemoryArchivist.create({ account: 'random' })
 
   const storage = (await StorageArchivist.create({
-    account: Account.randomSync(),
+    account: 'random',
     config: {
       namespace: 'test',
       parents: { write: [memory.address] },

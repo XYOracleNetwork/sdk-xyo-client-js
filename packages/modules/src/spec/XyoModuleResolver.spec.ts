@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { ArchivistGetQuerySchema, ArchivistInstance } from '@xyo-network/archivist-model'
 import { CompositeModuleResolver } from '@xyo-network/module-resolver'
@@ -15,10 +14,10 @@ describe('ModuleResolver', () => {
   let resolver: CompositeModuleResolver
   beforeAll(async () => {
     archivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'memory-archivist', schema: MemoryArchivist.defaultConfigSchema },
     })
-    witness = await AdhocWitness.create({ account: Account.randomSync(), config: { schema: AdhocWitnessConfigSchema } })
+    witness = await AdhocWitness.create({ account: 'random', config: { schema: AdhocWitnessConfigSchema } })
     resolver = new CompositeModuleResolver({ root: archivist })
     resolver.add(archivist)
     resolver.add(witness)

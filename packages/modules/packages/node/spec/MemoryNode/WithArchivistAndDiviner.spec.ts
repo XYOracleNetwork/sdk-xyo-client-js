@@ -1,5 +1,4 @@
 /* eslint-disable max-statements */
-import { Account } from '@xyo-network/account'
 import { MemoryArchivist, MemoryArchivistConfigSchema } from '@xyo-network/archivist-memory'
 import { asArchivistInstance } from '@xyo-network/archivist-model'
 import { ArchivistPayloadDiviner, ArchivistPayloadDivinerConfigSchema } from '@xyo-network/diviner-archivist'
@@ -16,9 +15,9 @@ import { MemoryNode } from '../../src'
 
 describe('MemoryNode', () => {
   it('WithArchivistAndDiviner', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync() })
+    const node = await MemoryNode.create({ account: 'random' })
     const archivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'Archivist', schema: MemoryArchivistConfigSchema },
     })
 
@@ -26,7 +25,7 @@ describe('MemoryNode', () => {
     await node.attach(archivist.address, true)
 
     const privateArchivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'PrivateArchivist', schema: MemoryArchivistConfigSchema },
     })
 
@@ -34,7 +33,7 @@ describe('MemoryNode', () => {
     await node.attach(privateArchivist.address, false)
 
     const diviner = await ArchivistPayloadDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { archivist: archivist.address, schema: ArchivistPayloadDivinerConfigSchema },
     })
 

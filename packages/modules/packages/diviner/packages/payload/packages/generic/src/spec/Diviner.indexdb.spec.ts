@@ -4,7 +4,6 @@
 
 import { Hash } from '@xylabs/hex'
 import { EmptyObject } from '@xylabs/object'
-import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -74,7 +73,7 @@ describe('GenericPayloadDiviner', () => {
     })
 
     archivist = await IndexedDbArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'test', schema: IndexedDbArchivist.defaultConfigSchema },
     })
     await archivist.insert([payloadA, payloadB])
@@ -82,14 +81,14 @@ describe('GenericPayloadDiviner', () => {
     const all = await archivist.all()
     console.log(all)
     sut = await GenericPayloadDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archivist: archivist.address,
         schema: GenericPayloadDivinerConfigSchema,
       },
     })
     node = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]

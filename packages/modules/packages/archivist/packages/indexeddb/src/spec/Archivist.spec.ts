@@ -4,7 +4,7 @@
 
 import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -71,7 +71,10 @@ describe('IndexedDbArchivist', () => {
     }
     return shuffled
   }
-  const account = Account.randomSync()
+  let account: AccountInstance
+  beforeAll(async () => {
+    account = await Account.random()
+  })
   describe('config', () => {
     describe('dbName', () => {
       it('supplied via config uses config value', async () => {
@@ -357,10 +360,10 @@ describe('IndexedDbArchivist', () => {
     const storeName = 'f8d14049-2966-4198-a2ab-1c096a949316'
     it('next', async () => {
       const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
-      const account = Account.randomSync()
+      const account = await Account.random()
 
       const payloads1 = [
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),

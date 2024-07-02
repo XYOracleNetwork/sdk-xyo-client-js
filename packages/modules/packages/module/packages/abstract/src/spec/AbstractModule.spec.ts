@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { ModuleManifestPayloadSchema } from '@xyo-network/manifest-model'
 import { ModuleConfigSchema } from '@xyo-network/module-model'
 import { Schema } from '@xyo-network/payload-model'
@@ -15,7 +14,7 @@ export class TestAbstractModule extends AbstractModuleInstance {
 describe('AbstractModule', () => {
   let sut: TestAbstractModule
   beforeAll(async () => {
-    sut = await TestAbstractModule.create({ account: Account.randomSync() })
+    sut = await TestAbstractModule.create({ account: 'random' })
   })
   it('should instantiate', () => {
     expect(sut).toBeTruthy()

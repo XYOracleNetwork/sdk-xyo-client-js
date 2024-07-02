@@ -99,10 +99,6 @@ export class Account extends KeyPair implements AccountInstance {
     return await instance.initialize()
   }
 
-  static randomSync(): AccountInstance {
-    return new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
-  }
-
   async initialize(): Promise<this> {
     //TODO: Add initialization of public key and address
     return await Promise.resolve(this)

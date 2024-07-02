@@ -11,9 +11,8 @@ import { ArchivistWrapper } from '../ArchivistWrapper'
 
 describe('ArchivistWrapper', () => {
   it('check is type check', async () => {
-    const wallet = Account.randomSync()
-    const archivist = await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.defaultConfigSchema } })
-    const wrapper = ArchivistWrapper.wrap(archivist, wallet)
+    const archivist = await MemoryArchivist.create({ account: 'random', config: { schema: MemoryArchivist.defaultConfigSchema } })
+    const wrapper = ArchivistWrapper.wrap(archivist, await Account.random())
     expect(isArchivistInstance(wrapper)).toBeTruthy()
     expect(isArchivistModule(wrapper)).toBeTruthy()
     expect(ArchivistWrapper.is(wrapper)).toBe(true)

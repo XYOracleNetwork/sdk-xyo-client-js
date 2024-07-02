@@ -34,17 +34,17 @@ describe('PubSubBridge', () => {
     })
 
     const hostNode = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'hostNode', schema: MemoryNode.defaultConfigSchema },
     })
 
     const hostNodeContainer = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'hostNodeContainer', schema: MemoryNode.defaultConfigSchema },
     })
 
     const archivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'Archivist', schema: ArchivistConfigSchema },
     })
 
@@ -87,7 +87,7 @@ describe('PubSubBridge', () => {
     await intermediateNode.register(responseBoundWitnessDiviner)
     await intermediateNode.attach(responseBoundWitnessDiviner.address, true)
 
-    const clientNode = await MemoryNode.create({ account: Account.randomSync() })
+    const clientNode = await MemoryNode.create({ account: 'random' })
 
     await clientNode.register(intermediateNode)
     await clientNode.attach(intermediateNode.address, true)
@@ -98,13 +98,13 @@ describe('PubSubBridge', () => {
     await hostNode.register(hostNodeContainer)
     await hostNode.attach(hostNodeContainer.address, true)
 
-    const stateStoreArchivistAccount = Account.randomSync()
+    const stateStoreArchivistAccount = await Account.random()
     const stateStoreArchivist = await MemoryArchivist.create({
       account: stateStoreArchivistAccount,
       config: { name: 'stateStoreArchivist', schema: MemoryArchivist.defaultConfigSchema },
     })
 
-    const stateStoreBoundWitnessDivinerAccount = Account.randomSync()
+    const stateStoreBoundWitnessDivinerAccount = await Account.random()
     const stateStoreBoundWitnessDiviner = await MemoryBoundWitnessDiviner.create({
       account: stateStoreBoundWitnessDivinerAccount,
       config: {
@@ -130,7 +130,7 @@ describe('PubSubBridge', () => {
     }
 
     const pubSubBridge = await PubSubBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         client: {
           intersect,

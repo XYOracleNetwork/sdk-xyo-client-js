@@ -3,7 +3,6 @@
  */
 import { delay } from '@xylabs/delay'
 import { Promisable } from '@xylabs/promise'
-import { Account } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -61,10 +60,10 @@ const testArchivistAll = (archivistPromise: Promisable<ArchivistInstance>, name:
  * @group archivist
  */
 testArchivistRoundTrip(
-  (async () => await CookieArchivist.create({ account: Account.randomSync(), config: { namespace: 'test', schema: CookieArchivistConfigSchema } }))(),
+  (async () => await CookieArchivist.create({ account: 'random', config: { namespace: 'test', schema: CookieArchivistConfigSchema } }))(),
   'cookie',
 )
 testArchivistAll(
-  (async () => await CookieArchivist.create({ account: Account.randomSync(), config: { namespace: 'test', schema: CookieArchivistConfigSchema } }))(),
+  (async () => await CookieArchivist.create({ account: 'random', config: { namespace: 'test', schema: CookieArchivistConfigSchema } }))(),
   'cookie',
 )

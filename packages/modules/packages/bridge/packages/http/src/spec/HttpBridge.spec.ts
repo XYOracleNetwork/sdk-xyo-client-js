@@ -2,7 +2,7 @@
 /* eslint-disable max-statements */
 
 import { assertEx } from '@xylabs/assert'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { ApiConfig } from '@xyo-network/api-models'
 import {
   asArchivistInstance,
@@ -59,11 +59,11 @@ describe('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, nodeUrl) => {
-    const memNode = await MemoryNode.create({ account: Account.randomSync() })
-    const extraMemNode = await MemoryNode.create({ account: Account.randomSync() })
+    const memNode = await MemoryNode.create({ account: 'random' })
+    const extraMemNode = await MemoryNode.create({ account: 'random' })
 
     const bridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { discoverRoots: 'start', name: 'TestBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 
@@ -127,9 +127,9 @@ describe('HttpBridge', () => {
     expect(roundTripPayload).toBeDefined()
   })
   it.each(cases)('HttpBridge - Nested: %s', async (_, nodeUrl) => {
-    const memNode1 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
-    const memNode2 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
-    const memNode3 = await MemoryNode.create({ account: Account.randomSync(), config: { schema: 'network.xyo.node.config' } })
+    const memNode1 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
+    const memNode2 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
+    const memNode3 = await MemoryNode.create({ account: 'random', config: { schema: 'network.xyo.node.config' } })
 
     await memNode1.register(memNode2)
     await memNode1.attach(memNode2.address, true)
@@ -137,7 +137,7 @@ describe('HttpBridge', () => {
     await memNode2.attach(memNode3.address, true)
 
     const bridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

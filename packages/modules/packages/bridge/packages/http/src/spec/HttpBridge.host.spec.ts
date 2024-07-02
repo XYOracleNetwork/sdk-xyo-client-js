@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
@@ -23,15 +22,15 @@ describe.skip('HttpBridge', () => {
   ]
 
   it.each(cases)('HttpBridge: %s', async (_, url, port) => {
-    const hostNode = await MemoryNode.create({ account: Account.randomSync() })
-    const clientNode = await MemoryNode.create({ account: Account.randomSync() })
-    const hostedNode = await MemoryNode.create({ account: Account.randomSync() })
+    const hostNode = await MemoryNode.create({ account: 'random' })
+    const clientNode = await MemoryNode.create({ account: 'random' })
+    const hostedNode = await MemoryNode.create({ account: 'random' })
 
     await hostNode.register(hostedNode)
     await hostNode.attach(hostedNode.address, true)
 
     const clientBridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         client: { discoverRoots: 'start', url },
         name: 'TestBridgeClient',
@@ -41,7 +40,7 @@ describe.skip('HttpBridge', () => {
     })
 
     const hostBridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         host: {
           port,

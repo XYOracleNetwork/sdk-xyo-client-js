@@ -14,7 +14,7 @@ describe('EnvironmentWitness', () => {
   let sut: EnvironmentWitness
   beforeAll(async () => {
     const config = { schema: EnvironmentWitnessConfigSchema }
-    const account = Account.randomSync()
+    const account = await Account.random()
     sut = await EnvironmentWitness.create({ account, config })
   })
   describe('witness', () => {

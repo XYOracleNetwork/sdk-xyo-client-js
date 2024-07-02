@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { BoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { BoundWitness, isBoundWitnessWithMeta } from '@xyo-network/boundwitness-model'
@@ -66,12 +65,12 @@ describe('IndexedDbBoundWitnessDiviner', () => {
     const [boundWitnessC] = await (await new BoundWitnessBuilder().payloads([payloadA, payloadB])).build()
     boundWitnesses.push(boundWitnessA, boundWitnessB, boundWitnessC)
     archivist = await IndexedDbArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
     })
     await archivist.insert(boundWitnesses)
     sut = await IndexedDbBoundWitnessDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archivist: archivist.address,
         dbName,
@@ -80,7 +79,7 @@ describe('IndexedDbBoundWitnessDiviner', () => {
       },
     })
     node = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]

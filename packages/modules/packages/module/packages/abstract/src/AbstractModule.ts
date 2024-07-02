@@ -307,7 +307,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     return await this.busy(async () => {
       const resultPayloads: Payload[] = []
       const errorPayloads: ModuleError[] = []
-      const queryAccount = this.ephemeralQueryAccountEnabled ? Account.randomSync() : undefined
+      const queryAccount = this.ephemeralQueryAccountEnabled ? await Account.random() : undefined
 
       try {
         await this.started('throw')

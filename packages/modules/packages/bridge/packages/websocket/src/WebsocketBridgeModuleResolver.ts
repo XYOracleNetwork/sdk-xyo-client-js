@@ -41,7 +41,7 @@ export class WebsocketBridgeModuleResolver<
     assertEx(isAddress(firstPart), () => `Invalid module address: ${firstPart}`)
     const remainderParts = idParts.join(':')
     const params: WebsocketModuleProxyParams = {
-      account: Account.randomSync(),
+      account: await Account.random(),
       config: { schema: ModuleConfigSchema },
       host: this,
       moduleAddress,
@@ -66,7 +66,7 @@ export class WebsocketBridgeModuleResolver<
 
     await proxy.start()
 
-    const wrapped = assertEx(wrapModuleWithType(proxy, Account.randomSync()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
+    const wrapped = assertEx(wrapModuleWithType(proxy, await Account.random()) as unknown as T, () => `Failed to wrapModuleWithType [${id}]`)
     const instance = assertEx(asModuleInstance<T>(wrapped, {}), () => `Failed to asModuleInstance [${id}]`)
     proxy.upResolver.add(instance)
     proxy.downResolver.add(instance)

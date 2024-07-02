@@ -1,5 +1,3 @@
-import { Account } from '@xyo-network/account'
-
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
 
@@ -8,7 +6,7 @@ describe('HttpBridge', () => {
 
   beforeEach(async () => {
     httpBridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'TestBridge', nodeUrl: 'http://localhost:8080', schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
   })

@@ -94,10 +94,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
   protected async callLocalModule(address: Address, query: QueryBoundWitness, payloads: Payload[]): Promise<ModuleQueryResult | null> {
     const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
-    if (mod) {
-      return await mod.query(query, payloads)
-    }
-    return null
+    return mod ? await mod.query(query, payloads) : null
   }
 
   protected handlePost(req: Request<Payload[]>, res: Response) {
@@ -143,9 +140,20 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   protected stopHttpServer(): Promise<boolean> {
-    const server = assertEx(this._server, () => 'Server not started')
-    server.close()
-    this._server = undefined
+    if (this.config.host) {
+      return new Promise((resolve, reject) => {
+        if (this._server) {
+          this._server.close((err) => {
+            if (err) {
+              reject(err)
+            } else {
+              this._server = undefined
+              resolve(true)
+            }
+          })
+        }
+      })
+    }
     return Promise.resolve(true)
   }
 }

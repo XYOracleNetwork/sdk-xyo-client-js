@@ -4,6 +4,7 @@ import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { Address } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
+import { asyncHandler } from '@xylabs/sdk-api-express-ecs'
 import { ApiEnvelopeSuccess } from '@xyo-network/api-models'
 import { isQueryBoundWitness, QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-network/bridge-model'
@@ -24,7 +25,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   protected _server?: Server
 
   protected get app() {
-    if (!this._app) this._app ?? this.initializeApp()
+    if (!this._app) this._app = this.initializeApp()
     return assertEx(this._app, () => 'App not initialized')
   }
 
@@ -93,24 +94,24 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return mod ? await mod.query(query, payloads) : null
   }
 
-  protected handlePost(req: Request<Payload[]>, res: Response) {
+  protected async handlePost(req: Request<Payload[]>, res: Response) {
     const allPayloads = req.body as Payload[]
     const query = allPayloads.find(isQueryBoundWitness) as QueryBoundWitness
     const payloads = allPayloads.filter((payload) => !isQueryBoundWitness(payload))
-    this.callLocalModule(req.route, query, payloads)
-      .then((result) => {
-        if (result === null) {
-          res.status(404).json({ error: 'Module not found' })
-        } else {
-          const envelope = {
-            data: result,
-          } as ApiEnvelopeSuccess<ModuleQueryResult>
-          res.json(envelope)
-        }
-      })
-      .catch((ex) => {
-        res.status(500).json({ error: (ex as Error).message })
-      })
+    try {
+      const result = await this.callLocalModule(req.route, query, payloads)
+      // TODO: Use standard errors middleware
+      if (result === null) {
+        res.status(404).json({ error: 'Module not found' })
+      } else {
+        const envelope = {
+          data: result,
+        } as ApiEnvelopeSuccess<ModuleQueryResult>
+        res.json(envelope)
+      }
+    } catch (ex) {
+      res.status(500).json({ error: (ex as Error).message })
+    }
   }
 
   protected initializeApp() {
@@ -122,8 +123,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
 
     // TODO: Handle GET requests
-    // TODO: Use async helper wrapper and await the result
-    app.post<Payload[]>('/', (req, res) => this.handlePost(req, res))
+    app.post<Payload[]>(
+      '/',
+      asyncHandler(async (req, res) => await this.handlePost(req, res)),
+    )
     return app
   }
 

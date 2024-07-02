@@ -17,6 +17,7 @@
     "@xylabs/hex": "^3.5.2",
     "@xylabs/object": "^3.5.2",
     "@xylabs/promise": "^3.5.2",
+    "@xylabs/sdk-api-express-ecs": "^2.0.4",
     "@xyo-network/account": "workspace:^",
     "@xyo-network/api-models": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

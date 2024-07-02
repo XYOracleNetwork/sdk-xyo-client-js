@@ -16,6 +16,12 @@ import { StatusCodes } from 'http-status-codes'
 import { HttpBridgeBase } from './HttpBridgeBase'
 import { HttpBridgeConfig } from './HttpBridgeConfig'
 
+export type AddressPathParams = {
+  address: string
+}
+
+export type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
+
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
@@ -94,15 +100,19 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return mod ? await mod.query(query, payloads) : null
   }
 
-  protected async handlePost(req: Request<Payload[]>, res: Response) {
-    const allPayloads = req.body as Payload[]
-    const query = allPayloads.find(isQueryBoundWitness) as QueryBoundWitness
-    const payloads = allPayloads.filter((payload) => !isQueryBoundWitness(payload))
+  protected async handlePost(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
+    const [bw, payloads = []] = Array.isArray(req.body) ? req.body : []
+    const query = isQueryBoundWitness(bw) ? bw : undefined
+    if (!query) {
+      // TODO: Use standard errors middleware
+      res.status(StatusCodes.BAD_REQUEST).json({ error: 'No query provided' })
+      return
+    }
     try {
       const result = await this.callLocalModule(req.route, query, payloads)
       // TODO: Use standard errors middleware
       if (result === null) {
-        res.status(404).json({ error: 'Module not found' })
+        res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
       } else {
         const envelope = {
           data: result,
@@ -110,7 +120,8 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
         res.json(envelope)
       }
     } catch (ex) {
-      res.status(500).json({ error: (ex as Error).message })
+      // TODO: Sanitize message
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: (ex as Error).message })
     }
   }
 

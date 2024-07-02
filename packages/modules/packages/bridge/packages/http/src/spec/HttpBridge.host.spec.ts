@@ -12,7 +12,7 @@ import { HttpBridge } from '../HttpBridgeFull'
  * @group bridge
  */
 
-describe.skip('HttpBridge', () => {
+describe('HttpBridge', () => {
   const port = 3011
   const url = `http://localhost:${port}`
 
@@ -30,18 +30,8 @@ describe.skip('HttpBridge', () => {
     await hostNode.register(hostedNode)
     await hostNode.attach(hostedNode.address, true)
 
-    const clientBridge = await HttpBridge.create({
-      account: Account.randomSync(),
-      config: {
-        client: { discoverRoots: 'start', url },
-        name: 'TestBridgeClient',
-        schema: HttpBridgeConfigSchema,
-        security: { allowAnonymous: true },
-      },
-    })
-
     const hostBridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         host: {
           port,
@@ -53,17 +43,27 @@ describe.skip('HttpBridge', () => {
     })
 
     await hostNode.register(hostBridge)
-    await hostNode.attach(hostBridge?.address, true)
+    await hostNode.attach(hostBridge.address, true)
+
+    const clientBridge = await HttpBridge.create({
+      account: 'random',
+      config: {
+        client: { discoverRoots: 'start', url },
+        name: 'TestBridgeClient',
+        schema: HttpBridgeConfigSchema,
+        security: { allowAnonymous: true },
+      },
+    })
 
     await clientNode.register(clientBridge)
-    await clientNode.attach(clientBridge?.address, true)
+    await clientNode.attach(clientBridge.address, true)
 
     const resolvedHostBridge = await hostNode.resolve(hostBridge.id)
     expect(resolvedHostBridge).toBeDefined()
 
     await hostBridge.expose(hostedNode.address)
 
-    const bridgedHostedModule = await hostBridge?.resolve(hostedNode.address)
+    const bridgedHostedModule = await hostBridge.resolve(hostedNode.address)
     expect(bridgedHostedModule).toBeDefined()
 
     const bridgedHostedNode = asAttachableNodeInstance(

@@ -121,11 +121,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       const mod = this._exposedModules.find((ref) => ref.deref()?.address === address)?.deref()
       // TODO: Use standard errors middleware
       if (mod) {
-        const result = await mod?.state()
-        const envelope = {
-          data: result,
-        } as ApiEnvelopeSuccess<ModuleQueryResult>
-        res.json(envelope)
+        res.json(await mod?.state())
       } else {
         res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
       }
@@ -150,10 +146,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       if (result === null) {
         res.status(StatusCodes.NOT_FOUND).json({ error: 'Module not found' })
       } else {
-        const envelope = {
-          data: result,
-        } as ApiEnvelopeSuccess<ModuleQueryResult>
-        res.json(envelope)
+        res.json(result)
       }
     } catch (ex) {
       // TODO: Sanitize message

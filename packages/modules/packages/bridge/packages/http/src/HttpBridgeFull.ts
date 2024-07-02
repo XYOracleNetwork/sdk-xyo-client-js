@@ -69,7 +69,9 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   }
 
   override async stopHandler(_timeout?: number | undefined): Promise<boolean> {
-    return (await super.stopHandler()) && this.stopHttpServer()
+    const stopHandlerResult = await super.stopHandler()
+    const stopHttpServerResult = await this.stopHttpServer()
+    return stopHandlerResult && stopHttpServerResult
   }
 
   override async unexposeHandler(address: Address, options?: BridgeUnexposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -140,10 +142,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return Promise.resolve(true)
   }
 
-  protected stopHttpServer() {
+  protected stopHttpServer(): Promise<boolean> {
     const server = assertEx(this._server, () => 'Server not started')
     server.close()
     this._server = undefined
-    return true
+    return Promise.resolve(true)
   }
 }

@@ -134,7 +134,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
 
     // TODO: Handle GET requests
-    app.post<Payload[]>(
+    app.post<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>(
       '/',
       asyncHandler(async (req, res) => await this.handlePost(req, res)),
     )

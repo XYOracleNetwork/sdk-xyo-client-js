@@ -25,7 +25,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
   protected get app() {
     if (!this._app) this._app ?? this.initializeApp()
-    return this._app
+    return assertEx(this._app, () => 'App not initialized')
   }
 
   async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
@@ -126,9 +126,9 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
     app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
 
-    app.post<Payload[]>('/', (req, res) => {
-      this.handlePost(req, res)
-    })
+    // TODO: Handle GET requests
+    // TODO: Use async helper wrapper and await the result
+    app.post<Payload[]>('/', (req, res) => this.handlePost(req, res))
     return app
   }
 

@@ -15,6 +15,7 @@ import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
+import { Elliptic } from './Elliptic'
 import { KeyPair } from './Key'
 
 const nameOf = <T>(name: keyof T) => name
@@ -146,7 +147,7 @@ export class Account extends KeyPair implements AccountInstance {
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
     await KeyPair.wasmInitialized()
-    return await this.public.address.verify(msg, signature)
+    return await Elliptic.verify(msg, signature, this.addressBytes)
   }
 
   verifyUniqueAddress() {

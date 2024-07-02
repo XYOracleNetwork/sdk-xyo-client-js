@@ -28,8 +28,4 @@ export class AddressValue extends EllipticKey implements AddressValueInstance {
   static isAddress(value: unknown) {
     return (value as AddressValue)._isAddress
   }
-
-  async verify(msg: ArrayBuffer, signature: ArrayBuffer) {
-    return await Elliptic.verify(msg, signature, this.bytes)
-  }
 }

@@ -3,6 +3,7 @@ import { staticImplements } from '@xylabs/static-implements'
 import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 import EC from 'elliptic'
 
+import { Elliptic } from '../Elliptic'
 import { EllipticKey } from './EllipticKey'
 import { PublicKey } from './PublicKey'
 
@@ -44,6 +45,6 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   }
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
-    return await this.public.address.verify(msg, signature)
+    return await Elliptic.verify(msg, signature, this.public.address.bytes)
   }
 }

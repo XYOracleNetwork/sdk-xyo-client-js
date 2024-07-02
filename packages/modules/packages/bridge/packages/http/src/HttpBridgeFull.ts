@@ -10,6 +10,7 @@ import { BridgeExposeOptions, BridgeParams, BridgeUnexposeOptions } from '@xyo-n
 import { AnyConfigSchema, creatableModule, ModuleInstance, ModuleQueryResult, resolveAddressToInstanceUp } from '@xyo-network/module-model'
 import { Payload } from '@xyo-network/payload-model'
 import express, { Application, Request, Response } from 'express'
+import { StatusCodes } from 'http-status-codes'
 
 import { HttpBridgeBase } from './HttpBridgeBase'
 import { HttpBridgeConfig } from './HttpBridgeConfig'
@@ -28,6 +29,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
       (() => {
         const app = express()
         app.use(express.json())
+
+        // Redirect all requests to the root to this module's address
+        app.get('/', (_req, res) => res.redirect(StatusCodes.MOVED_TEMPORARILY, `/${this.address}`))
+        app.post('/', (_req, res) => res.redirect(StatusCodes.TEMPORARY_REDIRECT, `/${this.address}`))
 
         app.post<Payload[]>('/', (req, res) => {
           this.handlePost(req, res)

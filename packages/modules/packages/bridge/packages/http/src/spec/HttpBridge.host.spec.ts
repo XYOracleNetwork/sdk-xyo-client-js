@@ -97,7 +97,7 @@ describe('HttpBridge', () => {
   let clientBridge: HttpBridge<HttpBridgeParams>
   let hostNode: MemoryNode
   let clientNode: MemoryNode
-  let hostSibling: MemoryNode
+  let mod: MemoryNode
   let clientSibling: MemoryNode
   let hostDescendent: MemoryNode
   let clientDescendent: MemoryNode
@@ -122,12 +122,12 @@ describe('HttpBridge', () => {
     await clientNode.attach(clientBridge.address, true)
 
     // Create Host/Client Sibling Nodes
-    hostSibling = await MemoryNode.create({ account })
+    mod = await MemoryNode.create({ account })
     clientSibling = await MemoryNode.create({ account })
 
     // Register Host/Client Siblings
-    await hostNode.register(hostSibling)
-    await hostNode.attach(hostSibling.address, true)
+    await hostNode.register(mod)
+    await hostNode.attach(mod.address, true)
     await clientNode.register(clientSibling)
     await clientNode.attach(clientSibling.address, true)
 
@@ -136,56 +136,59 @@ describe('HttpBridge', () => {
     clientDescendent = await MemoryNode.create({ account })
 
     // Register Host/Client Siblings
-    await hostSibling.register(hostDescendent)
-    await hostSibling.attach(hostDescendent.address, true)
+    await mod.register(hostDescendent)
+    await mod.attach(hostDescendent.address, true)
     await clientSibling.register(clientDescendent)
     await clientSibling.attach(clientDescendent.address, true)
   })
 
-  describe('HttpBridge', () => {
+  describe('exposed module behavior', () => {
     const cases: [string, () => MemoryNode][] = [
       ['parent', () => hostNode],
-      ['sibling', () => hostSibling],
+      ['sibling', () => mod],
       ['descendent', () => hostDescendent],
     ]
-    describe.each(cases)('%s module', (_, getModuleMethod) => {
-      hostSibling = getModuleMethod()
+    describe.each(cases)('with %s module', (_, getSutModule) => {
+      mod = getSutModule()
       describe('before expose', () => {
         it('should not be exposed', async () => {
           expect(await hostBridge.exposed()).toBeEmpty()
         })
         it('should not be resolvable', async () => {
-          expect(await clientBridge.resolve(hostSibling.address)).toBeUndefined()
+          expect(await clientBridge.resolve(mod.address)).toBeUndefined()
         })
       })
       describe('after expose', () => {
         beforeEach(async () => {
-          await hostBridge.expose(hostSibling.address)
+          await hostBridge.expose(mod.address)
         })
         it('should be exposed', async () => {
           const address = hostBridge.address
           const exposed = (await hostBridge.exposed()).toSorted()
           const parents = (await hostBridge.parents()).map((mod) => mod.address).toSorted()
           const sibblings = (await hostBridge.siblings()).map((mod) => mod.address).toSorted()
-          expect(await hostBridge.exposed()).toContain(hostSibling.address)
+          expect(await hostBridge.exposed()).toEqual([mod.address])
         })
         it('should be resolvable', async () => {
-          const result = await clientBridge.resolve(hostSibling.address)
+          const result = await clientBridge.resolve(mod.address)
           const foo = await clientBridge.resolve('*')
           expect(result).toBeDefined()
           expect(asAttachableNodeInstance(result, () => `Failed to resolve correct object type [${result?.constructor.name}]`)).toBeDefined()
         })
+        it.skip('should be queryable', async () => {
+          await Promise.reject('TODO: Query module via proxy')
+        })
       })
       describe('after unexpose', () => {
         beforeEach(async () => {
-          await hostBridge.expose(hostSibling.address)
-          await hostBridge.unexpose(hostSibling.address)
+          await hostBridge.expose(mod.address)
+          await hostBridge.unexpose(mod.address)
         })
         it('should not be exposed', async () => {
           expect(await hostBridge.exposed()).toBeEmpty()
         })
         it('should not be resolvable', async () => {
-          expect(await clientBridge.resolve(hostSibling.address)).toBeUndefined()
+          expect(await clientBridge.resolve(mod.address)).toBeUndefined()
         })
       })
     })

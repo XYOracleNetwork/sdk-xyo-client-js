@@ -101,7 +101,7 @@ describe('HttpBridge', () => {
           expect(asAttachableNodeInstance(result, () => `Failed to resolve correct object type [${result?.constructor.name}]`)).toBeDefined()
         })
         it.skip('should be queryable from client', async () => {
-          const bridgedHostedModule = await hostBridge.resolve(exposedMod.address)
+          const bridgedHostedModule = await clientBridge.resolve(exposedMod.address)
           expect(bridgedHostedModule).toBeDefined()
 
           const bridgedHostedNode = asAttachableNodeInstance(

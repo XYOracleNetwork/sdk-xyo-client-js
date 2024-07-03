@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { Address, isAddress } from '@xylabs/hex'
+import { isAddress } from '@xylabs/hex'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import {

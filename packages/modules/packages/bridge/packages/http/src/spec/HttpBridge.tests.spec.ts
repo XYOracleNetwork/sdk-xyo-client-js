@@ -3,7 +3,7 @@ import { AbstractBridge } from '@xyo-network/bridge-abstract'
 
 // TODO: Implement standard test suite for all Bridges here and then run
 // against specific bridges
-export const generateBridgeTests = (title: string, bridge: AbstractBridge) => {
+export const generateBridgeTests = (title: string, _bridge: AbstractBridge) => {
   describe(title, () => {
     describe('HttpBridge', () => {
       describe('By name', () => {

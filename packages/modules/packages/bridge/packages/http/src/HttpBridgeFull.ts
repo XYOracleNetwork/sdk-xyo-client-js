@@ -121,10 +121,7 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return mod ? await mod.query(query, payloads) : null
   }
 
-  protected async handleGet(
-    req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>,
-    res: Response<ModuleQueryResult | ErrorResponseBody>,
-  ) {
+  protected async handleGet(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
     const { address } = req.params
     try {
       if (address == this.address) {

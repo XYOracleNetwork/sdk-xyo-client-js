@@ -4,6 +4,7 @@ import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/
 import { MemoryNode } from '@xyo-network/node-memory'
 import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
+import { getPort } from 'get-port-please'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
@@ -87,11 +88,13 @@ describe.skip('HttpBridge', () => {
  * @group bridge
  */
 describe('HttpBridge', () => {
-  const port = 3011
-  const url = `http://localhost:${port}`
+  let port: number
+  let url: string
   let hostBridge: HttpBridge<HttpBridgeParams>
   let clientBridge: HttpBridge<HttpBridgeParams>
-  beforeAll(async () => {
+  beforeEach(async () => {
+    port = await getPort()
+    url = `http://localhost:${port}`
     hostBridge = await HttpBridge.create({
       account: 'random',
       config: {

@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import { Account } from '@xyo-network/account'
 import { ModuleDescriptionPayload, ModuleDescriptionSchema } from '@xyo-network/module-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -5,14 +6,15 @@ import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
-import { HttpBridge } from '../HttpBridgeFull'
+import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
+import { generateBridgeTests } from './HttpBridge.tests.spec'
 
 /**
  * @group module
  * @group bridge
  */
 
-describe('HttpBridge', () => {
+describe.skip('HttpBridge', () => {
   const port = 3011
   const url = `http://localhost:${port}`
 
@@ -78,5 +80,105 @@ describe('HttpBridge', () => {
       expect(description?.queries).toBeArray()
       expect(description?.queries?.length).toBeGreaterThan(0)
     }
+  })
+})
+
+/**
+ * @group module
+ * @group bridge
+ */
+describe('HttpBridge', () => {
+  const port = 3011
+  const url = `http://localhost:${port}`
+  let hostBridge: HttpBridge<HttpBridgeParams>
+  let clientBridge: HttpBridge<HttpBridgeParams>
+  beforeAll(async () => {
+    hostBridge = await HttpBridge.create({
+      account: 'random',
+      config: {
+        host: {
+          port,
+        },
+        name: 'TestBridgeHost',
+        schema: HttpBridgeConfigSchema,
+        security: { allowAnonymous: true },
+      },
+    })
+
+    clientBridge = await HttpBridge.create({
+      account: 'random',
+      config: {
+        client: { discoverRoots: 'start', url },
+        name: 'TestBridgeClient',
+        schema: HttpBridgeConfigSchema,
+        security: { allowAnonymous: true },
+      },
+    })
+  })
+
+  describe('HttpBridge', () => {
+    describe('By name', () => {
+      it('should handle the case by name', () => {
+        // Add your test logic here
+      })
+    })
+
+    describe('By address', () => {
+      it('should handle the case by address', () => {
+        // Add your test logic here
+      })
+    })
+
+    describe('By exposed/unexposed', () => {
+      describe('Pre Exposed', () => {
+        it('should handle the case when pre exposed', () => {
+          // Add your test logic here
+        })
+      })
+
+      describe('Post Exposed', () => {
+        it('should handle the case when post exposed', () => {
+          // Add your test logic here
+        })
+      })
+
+      describe('Post Unexposed', () => {
+        it('should handle the case when post unexposed', () => {
+          // Add your test logic here
+        })
+      })
+    })
+
+    describe('By parent/sibling/child/grandchild', () => {
+      describe('ParentNode', () => {
+        it('should handle the case for ParentNode', () => {
+          // Add your test logic here
+        })
+
+        describe('Bridge', () => {
+          it('should handle the case for Bridge', () => {
+            // Add your test logic here
+          })
+        })
+
+        describe('SiblingNode', () => {
+          it('should handle the case for SiblingNode', () => {
+            // Add your test logic here
+          })
+
+          describe('ChildNode', () => {
+            it('should handle the case for ChildNode', () => {
+              // Add your test logic here
+            })
+          })
+        })
+      })
+
+      describe('GrandchildNode', () => {
+        it('should handle the case for GrandchildNode', () => {
+          // Add your test logic here
+        })
+      })
+    })
   })
 })

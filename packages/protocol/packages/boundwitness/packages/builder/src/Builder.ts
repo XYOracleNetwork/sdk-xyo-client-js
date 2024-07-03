@@ -49,6 +49,10 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     this._timestamp = timestamp ?? true
   }
 
+  protected get addresses(): Address[] {
+    return this._accounts.map((account) => account.address.toLowerCase()) as Address[]
+  }
+
   protected get payloadSchemas(): string[] {
     return (
       this._payloadSchemas ??
@@ -98,7 +102,7 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
     payloads?: Payload[],
     timestamp = Date.now(),
   ) {
-    const addresses = await Promise.all(accounts.map(async (account) => hexFromArrayBuffer(await account.getAddressBytes(), { prefix: false })))
+    const addresses = accounts.map((account) => hexFromArrayBuffer(account.addressBytes, { prefix: false }))
     const previous_hashes = accounts.map((account) => account.previousHash ?? null)
     const payload_hashes = payloads ? await PayloadBuilder.dataHashes(payloads) : []
     const payload_schemas = payloads?.map(({ schema }) => schema)
@@ -245,10 +249,6 @@ export class BoundWitnessBuilder<TBoundWitness extends BoundWitness = BoundWitne
   witnesses(accounts: AccountInstance[]) {
     this._accounts?.push(...accounts)
     return this
-  }
-
-  protected async getAddresses(): Promise<Address[]> {
-    return (await Promise.all(this._accounts.map(async (account) => (await account.getAddress()).toLowerCase()))) as Address[]
   }
 
   protected override async metaFields(dataHash: Hash, stamp = true): Promise<JsonObject> {

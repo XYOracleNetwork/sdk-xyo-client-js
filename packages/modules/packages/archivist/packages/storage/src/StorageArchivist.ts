@@ -192,8 +192,8 @@ export class StorageArchivist<
   protected async saveAccount() {
     if (this.persistAccount) {
       const account = this.account
-      this.logger?.log(await account.getAddress())
-      this.privateStorage.set('privateKey', (await account.getPrivate()).hex)
+      this.logger?.log(account.address)
+      this.privateStorage.set('privateKey', account.private.hex)
     }
   }
 

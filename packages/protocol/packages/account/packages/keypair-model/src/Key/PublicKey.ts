@@ -7,6 +7,6 @@ export interface PublicKeyInstance extends EllipticKeyInstance {
 }
 
 export interface PublicKeyStatic {
-  new (bytes: ArrayBuffer): PublicKeyInstance
+  create(bytes: ArrayBuffer): Promise<PublicKeyInstance>
   isPublicKey(value: unknown): boolean
 }

@@ -38,9 +38,10 @@ export class Elliptic {
     return this.secp256k1()
   }
 
-  static async publicKeyFromPrivateKey(privateKey: ArrayBuffer): Promise<ArrayBuffer> {
+  static async publicKeyFromPrivateKey(privateKey: ArrayBuffer, prefix = false): Promise<ArrayBuffer> {
     const { derivePublicKeyUncompressed } = await this.secp256k1()
-    return derivePublicKeyUncompressed(new Uint8Array(privateKey))
+    const fullPublicKey = derivePublicKeyUncompressed(new Uint8Array(privateKey))
+    return prefix ? fullPublicKey : fullPublicKey.slice(1)
   }
 
   static ready() {

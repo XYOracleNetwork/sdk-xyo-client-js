@@ -1,3 +1,4 @@
+import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
 import { PrivateKeyInstance, PrivateKeyStatic, PublicKeyInstance } from '@xyo-network/key-model'
 
@@ -7,20 +8,26 @@ import { PublicKey } from './PublicKey'
 
 @staticImplements<PrivateKeyStatic>()
 export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
+  protected static privateConstructorKey = Date.now().toString()
   protected _isPrivateKey = true
-  protected _public?: PublicKeyInstance
+  protected _public: PublicKeyInstance
 
-  constructor(value: ArrayBuffer) {
+  protected constructor(privateConstructorKey: string, value: ArrayBuffer, publicKey: PublicKeyInstance) {
+    assertEx(PrivateKey.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     super(32, value)
+    this._public = publicKey
+  }
+
+  get public(): PublicKeyInstance {
+    return this._public
+  }
+
+  static async create(value: ArrayBuffer) {
+    return new PrivateKey(this.privateConstructorKey, value, await PublicKey.fromPrivate(value))
   }
 
   static isPrivateKey(value: unknown) {
     return (value as PrivateKey)._isPrivateKey
-  }
-
-  async getPublic(): Promise<PublicKeyInstance> {
-    this._public = this._public ?? new PublicKey(await Elliptic.publicKeyFromPrivateKey(this.bytes))
-    return this._public
   }
 
   async sign(hash: ArrayBuffer): Promise<ArrayBuffer> {
@@ -28,6 +35,6 @@ export class PrivateKey extends EllipticKey implements PrivateKeyInstance {
   }
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
-    return await Elliptic.verify(msg, signature, (await this.getPublic()).address.bytes)
+    return await Elliptic.verify(msg, signature, this.public.address.bytes)
   }
 }

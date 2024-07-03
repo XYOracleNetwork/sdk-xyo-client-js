@@ -39,12 +39,12 @@ export class HttpModuleProxy<
 {
   static createCount = 0
 
-  constructor(params: TParams, address: Address) {
+  constructor(params: TParams) {
     HttpModuleProxy.createCount = HttpModuleProxy.createCount + 1
     if (Math.floor(HttpModuleProxy.createCount / 10) === HttpModuleProxy.createCount / 10) {
       console.log(`HttpModuleProxy.createCount: ${HttpModuleProxy.createCount}`)
     }
-    super(params, address)
+    super(params)
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {

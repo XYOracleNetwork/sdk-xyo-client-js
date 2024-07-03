@@ -12,10 +12,12 @@ import {
   isPhraseInitializationConfig,
   isPrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
+import { PrivateKeyInstance } from '@xyo-network/key-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
+import { PrivateKey } from './Key'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
@@ -25,10 +27,17 @@ export class HDWallet extends Account implements WalletInstance {
   constructor(
     key: unknown,
     protected readonly node: HDNodeWallet,
+    privateKey: PrivateKeyInstance,
   ) {
-    const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
-    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
-    super(key, privateKey ? { privateKey } : undefined)
+    super(Account._protectedConstructorKey, privateKey)
+  }
+
+  override get address(): Address {
+    return hexFromHexString(this.node.address, { prefix: false })
+  }
+
+  override get addressBytes(): ArrayBuffer {
+    return toUint8Array(this.address, undefined, 16)
   }
 
   get chainCode(): string {
@@ -114,26 +123,24 @@ export class HDWallet extends Account implements WalletInstance {
     return generateMnemonic(wordlist, strength)
   }
 
-  static override is(value: unknown): HDWallet | undefined {
-    return value instanceof HDWallet ? value : undefined
-  }
-
   static override async random(): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(HDWallet.generateMnemonic()))
   }
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
-    const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
-    return HDWallet._addressMap[await newWallet.getAddress()]?.deref() ?? newWallet
+    const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
+    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
+    const newWallet = await new HDWallet(Account._protectedConstructorKey, node, await PrivateKey.create(privateKey)).loadPreviousHash(previousHash)
+    return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 
-  protected static async getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): Promise<HDWallet> {
-    const existingWallet = this._addressMap[await createdWallet.getAddress()]?.deref()
+  protected static getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): HDWallet {
+    const existingWallet = this._addressMap[createdWallet.address]?.deref()
     if (existingWallet) {
       return existingWallet
     }
     const ref = new WeakRef(createdWallet)
-    this._addressMap[await createdWallet.getAddress()] = ref
+    this._addressMap[createdWallet.address] = ref
     return createdWallet
   }
 
@@ -148,14 +155,6 @@ export class HDWallet extends Account implements WalletInstance {
       throw new Error(`Invalid absolute path ${path} for wallet with path ${parentPath}`)
     }
     return await HDWallet.createFromNode(this.node.derivePath(path))
-  }
-
-  override async getAddress(): Promise<Address> {
-    return await Promise.resolve(hexFromHexString(this.node.address, { prefix: false }))
-  }
-
-  override async getAddressBytes(): Promise<ArrayBuffer> {
-    return toUint8Array(await this.getAddress(), undefined, 16)
   }
 
   neuter: () => HDWallet = () => {

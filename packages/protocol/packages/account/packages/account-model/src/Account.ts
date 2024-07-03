@@ -1,7 +1,6 @@
 import { Address, Hash } from '@xylabs/hex'
 import { isArrayBuffer } from '@xylabs/lodash'
-import { Promisable } from '@xylabs/promise'
-import { KeyPairInstance } from '@xyo-network/key-model'
+import { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
 export const ethMessagePrefix = '\u0019Ethereum Signed Message:\n'
@@ -51,11 +50,13 @@ export const isInitializationConfig = (value: unknown): value is InitializationC
   return isPhraseInitializationConfig(value) || isPrivateKeyInitializationConfig(value) || isMnemonicInitializationConfig(value)
 }
 
-export interface AccountInstance extends KeyPairInstance {
-  getAddress: () => Promisable<Address>
-  getAddressBytes: () => Promisable<ArrayBuffer>
+export interface AccountInstance {
+  readonly address: Address
+  readonly addressBytes: ArrayBuffer
   previousHash: Hash | undefined
   previousHashBytes: ArrayBuffer | undefined
+  readonly private: PrivateKeyInstance
+  readonly public: PublicKeyInstance
   sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => ArrayBuffer | Promise<ArrayBuffer>
   verify: (msg: ArrayBuffer, signature: ArrayBuffer) => boolean | Promise<boolean>
 }
@@ -65,11 +66,9 @@ export const isAccountInstance = (account: any): account is AccountInstance => {
   return typeof account === 'object' && typeof account['address'] === 'string'
 }
 
-export interface AccountStatic<T extends AccountInstance = AccountInstance> {
+export interface AccountStatic<T extends AccountInstance = AccountInstance, C extends AccountConfig = AccountConfig> {
   previousHashStore?: PreviousHashStore
-  new (key: unknown, params?: AccountConfig): T
-  create(opts?: AccountConfig): Promise<T>
+  create(options?: C): Promise<T>
   fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance>
-  is(value: unknown): T | undefined
   random(): Promise<AccountInstance>
 }

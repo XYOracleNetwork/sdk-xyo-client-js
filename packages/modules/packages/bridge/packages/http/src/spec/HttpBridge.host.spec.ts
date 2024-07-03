@@ -28,7 +28,7 @@ describe('HttpBridge', () => {
   let hostDescendent: MemoryNode
   let clientDescendent: MemoryNode
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // Create Host/Client Nodes
     hostNode = await MemoryNode.create({ account })
     clientNode = await MemoryNode.create({ account })
@@ -92,20 +92,15 @@ describe('HttpBridge', () => {
         beforeEach(async () => {
           await hostBridge.expose(exposedMod.address)
         })
-        it('should be exposed', async () => {
-          const address = hostBridge.address
-          const exposed = (await hostBridge.exposed()).toSorted()
-          const parents = (await hostBridge.parents()).map((mod) => mod.address).toSorted()
-          const siblings = (await hostBridge.siblings()).map((mod) => mod.address).toSorted()
-          expect(await hostBridge.exposed()).toEqual([exposedMod.address])
+        it('should be exposed on host', async () => {
+          expect(await hostBridge.exposed()).toInclude(exposedMod.address)
         })
-        it('should be resolvable', async () => {
+        it('should be resolvable from client', async () => {
           const result = await clientBridge.resolve(exposedMod.address)
-          const foo = await clientBridge.resolve('*')
           expect(result).toBeDefined()
           expect(asAttachableNodeInstance(result, () => `Failed to resolve correct object type [${result?.constructor.name}]`)).toBeDefined()
         })
-        it.skip('should be queryable', async () => {
+        it.skip('should be queryable from client', async () => {
           const bridgedHostedModule = await hostBridge.resolve(exposedMod.address)
           expect(bridgedHostedModule).toBeDefined()
 

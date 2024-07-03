@@ -3160,15 +3160,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bn.js@npm:*":
-  version: 5.1.5
-  resolution: "@types/bn.js@npm:5.1.5"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10/9719330c86aeae0a6a447c974cf0f853ba3660ede20de61f435b03d699e30e6d8b35bf71a8dc9fdc8317784438e83177644ba068ed653d0ae0106e1ecbfe289e
-  languageName: node
-  linkType: hard
-
 "@types/body-parser@npm:*":
   version: 1.19.5
   resolution: "@types/body-parser@npm:1.19.5"
@@ -3217,15 +3208,6 @@ __metadata:
   dependencies:
     "@types/ms": "npm:*"
   checksum: 10/47876a852de8240bfdaf7481357af2b88cb660d30c72e73789abf00c499d6bc7cd5e52f41c915d1b9cd8ec9fef5b05688d7b7aef17f7f272c2d04679508d1053
-  languageName: node
-  linkType: hard
-
-"@types/elliptic@npm:^6.4.18":
-  version: 6.4.18
-  resolution: "@types/elliptic@npm:6.4.18"
-  dependencies:
-    "@types/bn.js": "npm:*"
-  checksum: 10/06493e18167a581fa48d3c0f7034b9ad107993610767d5251ae2788be4bc5bdeda292d9ae18bbf366faa4a492eb669fc31060392f79bd5fdccb4efbd729ae66a
   languageName: node
   linkType: hard
 
@@ -4374,7 +4356,6 @@ __metadata:
   dependencies:
     "@bitauth/libauth": "npm:^1.19.1"
     "@scure/bip39": "npm:^1.3.0"
-    "@types/elliptic": "npm:^6.4.18"
     "@xylabs/arraybuffer": "npm:^3.5.2"
     "@xylabs/assert": "npm:^3.5.2"
     "@xylabs/hex": "npm:^3.5.2"
@@ -4390,7 +4371,6 @@ __metadata:
     "@xyo-network/wallet-model": "workspace:^"
     "@xyo-network/wasm": "workspace:^"
     async-mutex: "npm:^0.5.0"
-    elliptic: "npm:^6.5.5"
     ethers: "npm:6.13.1"
     typescript: "npm:^5.5.3"
   languageName: unknown
@@ -8278,14 +8258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5":
-  version: 5.2.1
-  resolution: "bn.js@npm:5.2.1"
-  checksum: 10/7a7e8764d7a6e9708b8b9841b2b3d6019cc154d2fc23716d0efecfe1e16921b7533c6f7361fb05471eab47986c4aa310c270f88e3507172104632ac8df2cfd84
-  languageName: node
-  linkType: hard
-
-"body-parser@npm:1.20.2, body-parser@npm:^1.20.1":
+"body-parser@npm:1.20.2":
   version: 1.20.2
   resolution: "body-parser@npm:1.20.2"
   dependencies:
@@ -8371,13 +8344,6 @@ __metadata:
   dependencies:
     fill-range: "npm:^7.1.1"
   checksum: 10/fad11a0d4697a27162840b02b1fad249c1683cbc510cd5bf1a471f2f8085c046d41094308c577a50a03a579dd99d5a6b3724c4b5e8b14df2c4443844cfcda2c6
-  languageName: node
-  linkType: hard
-
-"brorand@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "brorand@npm:1.1.0"
-  checksum: 10/8a05c9f3c4b46572dec6ef71012b1946db6cae8c7bb60ccd4b7dd5a84655db49fe043ecc6272e7ef1f69dc53d6730b9e2a3a03a8310509a3d797a618cbee52be
   languageName: node
   linkType: hard
 
@@ -9808,21 +9774,6 @@ __metadata:
   version: 1.4.812
   resolution: "electron-to-chromium@npm:1.4.812"
   checksum: 10/317b1d4469ae7cd87da0dcdf52cb6f6319a5833545f95be7fcb619f3274d9ba4af86270a94fe082bba9cc4e1063ce6806cedff0440bdf37d313dd4ba8a90becb
-  languageName: node
-  linkType: hard
-
-"elliptic@npm:^6.5.5":
-  version: 6.5.5
-  resolution: "elliptic@npm:6.5.5"
-  dependencies:
-    bn.js: "npm:^4.11.9"
-    brorand: "npm:^1.1.0"
-    hash.js: "npm:^1.0.0"
-    hmac-drbg: "npm:^1.0.1"
-    inherits: "npm:^2.0.4"
-    minimalistic-assert: "npm:^1.0.1"
-    minimalistic-crypto-utils: "npm:^1.0.1"
-  checksum: 10/5444b4f18e0c0fdfa14de26f69f7dbc44c78a211e91825823d698dcc91071ef1a3954d87730f364183fc83b0a86d8affed864e347da2e549bdcead3b46de126f
   languageName: node
   linkType: hard
 
@@ -11887,16 +11838,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hash.js@npm:^1.0.0, hash.js@npm:^1.0.3":
-  version: 1.1.7
-  resolution: "hash.js@npm:1.1.7"
-  dependencies:
-    inherits: "npm:^2.0.3"
-    minimalistic-assert: "npm:^1.0.1"
-  checksum: 10/0c89ee4006606a40f92df5cc3c263342e7fea68110f3e9ef032bd2083650430505db01b6b7926953489517d4027535e4fdc7f970412893d3031c361d3ec8f4b3
-  languageName: node
-  linkType: hard
-
 "hasown@npm:^2.0.0, hasown@npm:^2.0.1, hasown@npm:^2.0.2":
   version: 2.0.2
   resolution: "hasown@npm:2.0.2"
@@ -11910,17 +11851,6 @@ __metadata:
   version: 1.0.0
   resolution: "hexoid@npm:1.0.0"
   checksum: 10/f2271b8b6b0e13fb5a1eccf740f53ce8bae689c80b9498b854c447f9dc94f75f44e0de064c0e4660ecdbfa8942bb2b69973fdcb080187b45bbb409a3c71f19d4
-  languageName: node
-  linkType: hard
-
-"hmac-drbg@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "hmac-drbg@npm:1.0.1"
-  dependencies:
-    hash.js: "npm:^1.0.3"
-    minimalistic-assert: "npm:^1.0.0"
-    minimalistic-crypto-utils: "npm:^1.0.1"
-  checksum: 10/0298a1445b8029a69b713d918ecaa84a1d9f614f5857e0c6e1ca517abfa1357216987b2ee08cc6cc73ba82a6c6ddf2ff11b9717a653530ef03be599d4699b836
   languageName: node
   linkType: hard
 
@@ -12208,7 +12138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inherits@npm:2, inherits@npm:2.0.4, inherits@npm:^2.0.0, inherits@npm:^2.0.1, inherits@npm:^2.0.3, inherits@npm:^2.0.4":
+"inherits@npm:2, inherits@npm:2.0.4, inherits@npm:^2.0.0, inherits@npm:^2.0.1, inherits@npm:^2.0.3":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 10/cd45e923bee15186c07fa4c89db0aace24824c482fb887b528304694b2aa6ff8a898da8657046a5dcf3e46cd6db6c61629551f9215f208d7c3f157cf9b290521
@@ -14812,20 +14742,6 @@ __metadata:
   version: 1.0.1
   resolution: "min-indent@npm:1.0.1"
   checksum: 10/bfc6dd03c5eaf623a4963ebd94d087f6f4bbbfd8c41329a7f09706b0cb66969c4ddd336abeb587bc44bc6f08e13bf90f0b374f9d71f9f01e04adc2cd6f083ef1
-  languageName: node
-  linkType: hard
-
-"minimalistic-assert@npm:^1.0.0, minimalistic-assert@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "minimalistic-assert@npm:1.0.1"
-  checksum: 10/cc7974a9268fbf130fb055aff76700d7e2d8be5f761fb5c60318d0ed010d839ab3661a533ad29a5d37653133385204c503bfac995aaa4236f4e847461ea32ba7
-  languageName: node
-  linkType: hard
-
-"minimalistic-crypto-utils@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "minimalistic-crypto-utils@npm:1.0.1"
-  checksum: 10/6e8a0422b30039406efd4c440829ea8f988845db02a3299f372fceba56ffa94994a9c0f2fd70c17f9969eedfbd72f34b5070ead9656a34d3f71c0bd72583a0ed
   languageName: node
   linkType: hard
 

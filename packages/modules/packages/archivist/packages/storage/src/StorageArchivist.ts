@@ -189,7 +189,7 @@ export class StorageArchivist<
     return resultPayloads
   }
 
-  protected saveAccount() {
+  protected async saveAccount() {
     if (this.persistAccount) {
       const account = this.account
       this.logger?.log(account.address)
@@ -199,7 +199,7 @@ export class StorageArchivist<
 
   protected override async startHandler() {
     await super.startHandler()
-    this.saveAccount()
+    await this.saveAccount()
     return true
   }
 }

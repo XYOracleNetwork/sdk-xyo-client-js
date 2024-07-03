@@ -1,6 +1,10 @@
 import { EllipticKeyInstance } from './EllipticKey'
 import { PublicKeyInstance } from './PublicKey'
 
+export interface PrivateKeyConfig {
+  privateKeyData?: ArrayBuffer
+}
+
 export interface PrivateKeyInstance extends EllipticKeyInstance {
   public: PublicKeyInstance
   sign: (hash: ArrayBuffer) => ArrayBuffer | Promise<ArrayBuffer>
@@ -8,6 +12,6 @@ export interface PrivateKeyInstance extends EllipticKeyInstance {
 }
 
 export interface PrivateKeyStatic {
-  new (value: ArrayBuffer): PrivateKeyInstance
+  create(value: ArrayBuffer): Promise<PrivateKeyInstance>
   isPrivateKey(value: unknown): boolean
 }

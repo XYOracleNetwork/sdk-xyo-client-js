@@ -1,6 +1,6 @@
-import { toUint8Array } from '@xylabs/arraybuffer'
+import { assertEx } from '@xylabs/assert'
 import { staticImplements } from '@xylabs/static-implements'
-import { PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
+import { AddressValueInstance, PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
 
 import { Elliptic } from '../Elliptic'
 import { AddressValue } from './AddressValue'
@@ -8,15 +8,29 @@ import { EllipticKey } from './EllipticKey'
 
 @staticImplements<PublicKeyStatic>()
 export class PublicKey extends EllipticKey implements PublicKeyInstance {
-  private _address?: AddressValue
+  protected static privateConstructorKey = Date.now().toString()
+  private _address: AddressValueInstance
   private _isPublicKey = true
-  constructor(bytes: ArrayBuffer) {
+
+  protected constructor(privateConstructorKey: string, bytes: ArrayBuffer) {
+    assertEx(PublicKey.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     super(64, bytes)
+    const address = Elliptic.addressFromPublicKey(bytes)
+    const addressValue = new AddressValue(address)
+    this._address = addressValue
   }
 
   get address() {
-    if (!this._address) this._address = new AddressValue(toUint8Array(this.keccak256.slice(12)))
     return this._address
+  }
+
+  static async create(bytes: ArrayBuffer) {
+    return await Promise.resolve(new PublicKey(this.privateConstructorKey, bytes))
+  }
+
+  static async fromPrivate(bytes: ArrayBuffer): Promise<PublicKeyInstance> {
+    const publicKey = await Elliptic.publicKeyFromPrivateKey(bytes)
+    return new PublicKey(this.privateConstructorKey, publicKey)
   }
 
   static isPublicKey(value: unknown) {

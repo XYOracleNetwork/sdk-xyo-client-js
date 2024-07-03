@@ -11,12 +11,13 @@ import {
   PhraseInitializationConfig,
   PrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
+import { PrivateKeyInstance, PublicKeyInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
 import { Elliptic } from './Elliptic'
-import { KeyPair } from './Key'
+import { EllipticKey, PrivateKey } from './Key'
 
 const nameOf = <T>(name: keyof T) => name
 
@@ -32,37 +33,27 @@ function getPrivateKeyFromPhrase(phrase: string, path?: string): string {
   return wallet.privateKey.padStart(64, '0').toLowerCase()
 }
 
-@staticImplements<AccountStatic>()
-export class Account extends KeyPair implements AccountInstance {
+@staticImplements<AccountStatic<AccountInstance, AccountConfig>>()
+export class Account extends EllipticKey implements AccountInstance {
   static previousHashStore: PreviousHashStore | undefined = undefined
   static readonly uniqueName = globallyUnique('Account', Account, 'xyo')
   protected static _addressMap: Record<string, WeakRef<Account>> = {}
   protected static _protectedConstructorKey = Symbol()
   protected _node: HDNodeWallet | undefined = undefined
   protected _previousHash?: ArrayBuffer
+
+  private readonly _privateKey: PrivateKeyInstance
   private readonly _signingMutex = new Mutex()
 
-  constructor(key: unknown, params?: AccountConfig) {
+  protected constructor(key: unknown, privateKey: PrivateKeyInstance, node?: HDNodeWallet) {
     assertEx(key === Account._protectedConstructorKey, () => 'Do not call this protected constructor')
-    let privateKeyToUse: ArrayBuffer | undefined
-    let node: HDNodeWallet | undefined
-    if (params) {
-      if (nameOf<PhraseInitializationConfig>('phrase') in params) {
-        privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(params.phrase))
-      } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in params) {
-        privateKeyToUse = toUint8Array(params.privateKey)
-      } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in params) {
-        privateKeyToUse = toUint8Array(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(params.mnemonic), params?.path))
-        node = params?.path ? HDNodeWallet.fromPhrase(params.mnemonic).derivePath?.(params.path) : HDNodeWallet.fromPhrase(params.mnemonic)
-      }
-    }
-    assertEx(!privateKeyToUse || privateKeyToUse?.byteLength === 32, () => `Private key must be 32 bytes [${privateKeyToUse?.byteLength}]`)
-    super(privateKeyToUse)
+    super(32, privateKey.bytes)
+    this._privateKey = privateKey
     this._node = node
   }
 
   get address() {
-    return hexFromArrayBuffer(this.addressBytes, { prefix: false }).toLowerCase() as Address
+    return this.public.address.hex
   }
 
   get addressBytes() {
@@ -77,8 +68,33 @@ export class Account extends KeyPair implements AccountInstance {
     return this._previousHash
   }
 
+  get private(): PrivateKeyInstance {
+    return this._privateKey
+  }
+
+  get public(): PublicKeyInstance {
+    return this.private.public
+  }
+
   static async create(opts?: AccountConfig): Promise<AccountInstance> {
-    return (await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress() as AccountInstance
+    let privateKeyToUse: ArrayBuffer | undefined
+    let node: HDNodeWallet | undefined
+    if (opts) {
+      if (nameOf<PhraseInitializationConfig>('phrase') in opts) {
+        privateKeyToUse = toUint8Array(getPrivateKeyFromPhrase(opts.phrase))
+      } else if (nameOf<PrivateKeyInitializationConfig>('privateKey') in opts) {
+        privateKeyToUse = toUint8Array(opts.privateKey)
+      } else if (nameOf<MnemonicInitializationConfig>('mnemonic') in opts) {
+        privateKeyToUse = toUint8Array(getPrivateKeyFromMnemonic(Mnemonic.fromPhrase(opts.mnemonic), opts?.path))
+        node = opts?.path ? HDNodeWallet.fromPhrase(opts.mnemonic).derivePath?.(opts.path) : HDNodeWallet.fromPhrase(opts.mnemonic)
+      }
+    }
+
+    privateKeyToUse = privateKeyToUse ?? randomBytes(32)
+
+    return (
+      await new Account(Account._protectedConstructorKey, await PrivateKey.create(privateKeyToUse), node).loadPreviousHash(opts?.previousHash)
+    ).verifyUniqueAddress()
   }
 
   static async fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance> {
@@ -86,17 +102,12 @@ export class Account extends KeyPair implements AccountInstance {
     return await Account.create({ privateKey })
   }
 
-  static is(value: unknown): Account | undefined {
-    return value instanceof Account ? value : undefined
-  }
-
   static isAddress(address: Address) {
     return address.length === 40
   }
 
   static async random(): Promise<AccountInstance> {
-    const instance = new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
-    return await instance.initialize()
+    return await this.create()
   }
 
   async initialize(): Promise<this> {

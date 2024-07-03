@@ -1,6 +1,6 @@
 import { Hex } from '@xylabs/hex'
-import { AccountInstance, AccountStatic } from '@xyo-network/account-model'
-import type { HDNodeWallet, Mnemonic } from 'ethers'
+import { AccountConfig, AccountInstance, AccountStatic } from '@xyo-network/account-model'
+import type { Mnemonic } from 'ethers'
 
 export interface WalletInstance extends AccountInstance {
   readonly chainCode: string
@@ -17,8 +17,8 @@ export interface WalletInstance extends AccountInstance {
   readonly publicKey: Hex
 }
 
-export interface WalletStatic<T extends WalletInstance = WalletInstance> extends Omit<AccountStatic<T>, 'new'> {
-  new (key: unknown, node: HDNodeWallet): T
+export interface WalletStatic<T extends WalletInstance = WalletInstance> extends Omit<AccountStatic<T>, 'create'> {
+  create(config: AccountConfig): Promise<T>
   fromExtendedKey(key: string): Promise<T>
   fromMnemonic(mnemonic: Mnemonic): Promise<T>
   fromPhrase(mnemonic: string, path?: string): Promise<T>

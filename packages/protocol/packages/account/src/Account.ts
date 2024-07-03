@@ -15,6 +15,7 @@ import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
+import { Elliptic } from './Elliptic'
 import { KeyPair } from './Key'
 
 const nameOf = <T>(name: keyof T) => name
@@ -98,11 +99,6 @@ export class Account extends KeyPair implements AccountInstance {
     return await instance.initialize()
   }
 
-  /** @deprecated use random instead */
-  static randomSync(): AccountInstance {
-    return new Account(Account._protectedConstructorKey, { privateKey: randomBytes(32) })
-  }
-
   async initialize(): Promise<this> {
     //TODO: Add initialization of public key and address
     return await Promise.resolve(this)
@@ -123,7 +119,7 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async sign(hash: ArrayBuffer, previousHash: ArrayBuffer | undefined): Promise<ArrayBuffer> {
-    await KeyPair.wasmInitialized()
+    await Elliptic.initialize()
     return await this._signingMutex.runExclusive(async () => {
       const currentPreviousHash = this.previousHash
       const passedCurrentHash =
@@ -146,8 +142,8 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
-    await KeyPair.wasmInitialized()
-    return this.public.address.verify(msg, signature)
+    await Elliptic.initialize()
+    return await Elliptic.verify(msg, signature, this.addressBytes)
   }
 
   verifyUniqueAddress() {

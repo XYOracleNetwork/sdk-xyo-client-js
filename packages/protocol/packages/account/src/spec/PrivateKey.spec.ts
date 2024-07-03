@@ -50,11 +50,11 @@ describe('PrivateKey', () => {
       const data = toUint8Array(hash)
       const jsSignature = await jsPrivateKey.sign(data)
       const wasmSignature = await wasmPrivateKey.sign(data)
-      const jsVerifyJs = jsPrivateKey.verify(data, jsSignature)
+      const jsVerifyJs = await jsPrivateKey.verify(data, jsSignature)
       expect(jsVerifyJs).toBeTrue()
-      expect(jsPrivateKey.verify(data, wasmSignature)).toBeTrue()
-      expect(wasmPrivateKey.verify(data, jsSignature)).resolves.toBeTrue()
-      expect(wasmPrivateKey.verify(data, wasmSignature)).resolves.toBeTrue()
+      expect(await jsPrivateKey.verify(data, wasmSignature)).toBeTrue()
+      expect(await wasmPrivateKey.verify(data, jsSignature)).toBeTrue()
+      expect(await wasmPrivateKey.verify(data, wasmSignature)).toBeTrue()
     })
     // TODO: Negative verification testing
     test('wasm vs js (performance-serial)', async () => {

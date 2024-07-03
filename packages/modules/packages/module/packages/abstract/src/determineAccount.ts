@@ -29,7 +29,7 @@ export async function determineAccount(params: DetermineAccountParams, allowRand
   if (isDetermineAccountFromAccountParams(params)) {
     if (params.account === 'random') {
       assertEx(allowRandomAccount, () => 'Random address not allowed')
-      return Account.randomSync()
+      return await Account.random()
     }
     return params.account
   }
@@ -43,5 +43,5 @@ export async function determineAccount(params: DetermineAccountParams, allowRand
 
   //this should eventually be removed/thrown
   console.warn('AbstractModule.determineAccount: No account or wallet provided - Creating Random account')
-  return Account.randomSync()
+  return await Account.random()
 }

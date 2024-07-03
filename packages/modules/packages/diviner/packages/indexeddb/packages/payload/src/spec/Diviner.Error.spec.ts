@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -55,13 +54,13 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
   describe('divine', () => {
     const createTestNode = async (testDbName = 'INCORRECT-DB-NAME', testStoreName = 'INCORRECT-STORE-NAME') => {
       const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storeName },
       })
       await archivist.clear?.()
       await archivist.insert(values)
       const sut = await IndexedDbPayloadDiviner.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: {
           archivist: archivist.address,
           dbName: testDbName,
@@ -70,7 +69,7 @@ describe('IndexedDbPayloadDiviner.Errors', () => {
         },
       })
       const node = await MemoryNode.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { schema: MemoryNode.defaultConfigSchema },
       })
       const modules = [archivist, sut]

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Account } from '@xyo-network/account'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -15,13 +15,13 @@ import { ViewArchivist } from '../ViewArchivist'
  */
 describe('MemoryArchivist', () => {
   it('should return same items inserted', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync() })
+    const node = await MemoryNode.create({ account: 'random' })
     const originArchivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'origin', schema: MemoryArchivist.defaultConfigSchema },
     })
     const viewArchivist = await ViewArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'test', originArchivist: originArchivist.address, schema: ViewArchivist.defaultConfigSchema },
     })
 

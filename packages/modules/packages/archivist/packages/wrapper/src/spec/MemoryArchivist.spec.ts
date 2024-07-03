@@ -14,8 +14,8 @@ import { ArchivistWrapper } from '../ArchivistWrapper'
 describe('MemoryArchivist (Wrapped)', () => {
   it('should return same items inserted (wrapped)', async () => {
     const archivist = ArchivistWrapper.wrap(
-      await MemoryArchivist.create({ account: Account.randomSync(), config: { schema: MemoryArchivist.defaultConfigSchema } }),
-      Account.randomSync(),
+      await MemoryArchivist.create({ account: 'random', config: { schema: MemoryArchivist.defaultConfigSchema } }),
+      await Account.random(),
     )
 
     const payloads = [await PayloadBuilder.build({ schema: 'network.xyo.test' })]

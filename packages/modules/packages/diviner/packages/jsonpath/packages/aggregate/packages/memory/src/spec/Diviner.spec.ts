@@ -56,8 +56,8 @@ describe('JsonPathAggregateDiviner', () => {
       sourceUrl: 'https://explore.xyo.network',
     }
     let account: AccountInstance
-    beforeAll(() => {
-      account = Account.randomSync()
+    beforeAll(async () => {
+      account = await Account.random()
     })
     describe('with only payload schema transforms', () => {
       const validatePayloadResult = async (input: [timestamp: TimeStamp, thumbnail: ImageThumbnail, payload: Payload], result: Payload[]) => {

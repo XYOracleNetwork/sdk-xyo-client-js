@@ -20,11 +20,11 @@ class TestWitness extends AbstractWitness {
 describe('WitnessWrapper', () => {
   test('Is it a WitnessInstance', async () => {
     const witness = await TestWitness.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: WitnessConfigSchema },
     })
     expect(isWitnessInstance(witness)).toBeTrue()
-    const wrapper = WitnessWrapper.wrap(witness, Account.randomSync())
+    const wrapper = WitnessWrapper.wrap(witness, await Account.random())
     expect(isWitnessInstance(wrapper)).toBeTrue()
   })
 })

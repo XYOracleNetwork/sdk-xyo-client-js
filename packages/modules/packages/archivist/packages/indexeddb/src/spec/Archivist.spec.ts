@@ -4,7 +4,7 @@
 
 import { Hash } from '@xylabs/hex'
 import { toJsonString } from '@xylabs/object'
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { ArchivistInstance, isArchivistInstance, isArchivistModule } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import { PayloadBuilder } from '@xyo-network/payload-builder'
@@ -71,7 +71,10 @@ describe('IndexedDbArchivist', () => {
     }
     return shuffled
   }
-  const account = Account.randomSync()
+  let account: AccountInstance
+  beforeAll(async () => {
+    account = await Account.random()
+  })
   describe('config', () => {
     describe('dbName', () => {
       it('supplied via config uses config value', async () => {
@@ -357,24 +360,24 @@ describe('IndexedDbArchivist', () => {
     const storeName = 'f8d14049-2966-4198-a2ab-1c096a949316'
     it('next', async () => {
       const archivist = await IndexedDbArchivist.create({
-        account: Account.randomSync(),
+        account: 'random',
         config: { dbName, schema: IndexedDbArchivistConfigSchema, storeName },
       })
-      const account = Account.randomSync()
+      const account = await Account.random()
 
       const payloads1 = [
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 1 }),
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 2 }),
       ]
 
-      console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
+      //console.log('Payloads1:', toJsonString(await PayloadBuilder.hashPairs(payloads1), 10))
 
       const payloads2 = [
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 3 }),
         await PayloadBuilder.build({ schema: 'network.xyo.test', value: 4 }),
       ]
 
-      console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
+      //console.log('Payloads2:', toJsonString(await PayloadBuilder.hashPairs(payloads2), 10))
 
       await archivist.insert(payloads1)
       console.log(toJsonString(payloads1, 10))
@@ -383,7 +386,7 @@ describe('IndexedDbArchivist', () => {
       expect(payloads).toBeDefined()
       expect(errors).toBeDefined()
 
-      console.log(toJsonString([bw, payloads, errors], 10))
+      //console.log(toJsonString([bw, payloads, errors], 10))
 
       const batch1 = await archivist.next?.({ limit: 2 })
       expect(batch1).toBeArrayOfSize(2)

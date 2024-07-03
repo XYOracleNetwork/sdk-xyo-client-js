@@ -107,7 +107,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
 
           console.log(`ModuleProxyResolver: ${firstPartAddress} | ${this.root.address}`)
           if (firstPartAddress === this.root.address) {
-            const wrapped = wrapModuleWithType(this.root, Account.randomSync()) as unknown as T
+            const wrapped = wrapModuleWithType(this.root, await Account.random()) as unknown as T
             return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
           }
 
@@ -119,7 +119,7 @@ export class ModuleProxyResolver<T extends ModuleProxyResolverOptions = ModulePr
           if (addressToProxy) {
             const proxy = await this.host.resolve(addressToProxy, { ...options, direction: 'down' })
             if (proxy) {
-              const wrapped = wrapModuleWithType(proxy, Account.randomSync()) as unknown as T
+              const wrapped = wrapModuleWithType(proxy, await Account.random()) as unknown as T
               return remainingParts ? wrapped?.resolve(remainingParts, options) : wrapped
             }
             return

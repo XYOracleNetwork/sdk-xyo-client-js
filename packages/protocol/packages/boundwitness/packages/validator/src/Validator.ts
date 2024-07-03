@@ -1,7 +1,7 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { uniq } from '@xylabs/lodash'
 import { validateType } from '@xylabs/typeof'
-import { AddressValue } from '@xyo-network/account'
+import { Elliptic } from '@xyo-network/account'
 import { BoundWitness, BoundWitnessSchema } from '@xyo-network/boundwitness-model'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { PayloadValidator } from '@xyo-network/payload-validator'
@@ -15,12 +15,12 @@ export class BoundWitnessValidator<T extends BoundWitness<{ schema: string }> = 
     return BoundWitnessSchema
   }
 
-  static validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Error[] {
+  static async validateSignature(hash: ArrayBuffer, address: ArrayBuffer, signature?: ArrayBuffer): Promise<Error[]> {
     if (!signature) {
       return [new Error(`Missing signature [${address}]`)]
     }
-    if (!new AddressValue(toUint8Array(address)).verify(hash, signature)) {
-      return [new Error(`Invalid signature [${address}] [${signature}]`)]
+    if (!(await Elliptic.verify(hash, signature, address))) {
+      return [new Error(`Invalid signature [${address}]`)]
     }
     return []
   }

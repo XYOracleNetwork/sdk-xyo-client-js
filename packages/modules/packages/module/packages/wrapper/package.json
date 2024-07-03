@@ -17,7 +17,6 @@
     "@xylabs/logger": "^3.5.2",
     "@xylabs/object": "^3.5.2",
     "@xylabs/promise": "^3.5.2",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/account-model": "workspace:^",
     "@xyo-network/boundwitness-builder": "workspace:^",
     "@xyo-network/boundwitness-model": "workspace:^",

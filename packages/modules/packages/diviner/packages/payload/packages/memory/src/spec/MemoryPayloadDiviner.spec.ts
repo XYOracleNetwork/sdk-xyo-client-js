@@ -1,5 +1,5 @@
 /* eslint-disable max-nested-callbacks */
-import { Account } from '@xyo-network/account'
+
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
 import { MemoryNode } from '@xyo-network/node-memory'
@@ -30,19 +30,19 @@ describe('MemoryPayloadDiviner', () => {
     })
 
     archivist = await MemoryArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { name: 'test', schema: MemoryArchivist.defaultConfigSchema },
     })
     await archivist.insert([payloadA, payloadB])
     sut = await MemoryPayloadDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archivist: archivist.address,
         schema: MemoryPayloadDiviner.defaultConfigSchema,
       },
     })
     node = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]

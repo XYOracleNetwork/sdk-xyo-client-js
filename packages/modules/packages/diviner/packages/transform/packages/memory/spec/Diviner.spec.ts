@@ -43,8 +43,8 @@ const cases: [transform: Transform, payload: Payload, expected: Value][] = [
 describe('MemoryTransformDiviner', () => {
   let sut: MemoryTransformDiviner
   let account: AccountInstance
-  beforeAll(() => {
-    account = Account.randomSync()
+  beforeAll(async () => {
+    account = await Account.random()
   })
   describe('divine', () => {
     it.each(cases)('should transform the input according to the transform', async (transform, payload, expected) => {

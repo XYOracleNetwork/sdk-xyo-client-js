@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Account } from '@xyo-network/account'
+import { Account, AccountInstance } from '@xyo-network/account'
 import { ArchivistInstance } from '@xyo-network/archivist-model'
 import { IdSchema } from '@xyo-network/id-payload-plugin'
 import {
@@ -52,8 +52,12 @@ const fillDb = async (db: ArchivistInstance, count: number = 10) => {
 }
 
 describe('IndexedDbArchivist.Upgrade', () => {
-  const account = Account.randomSync()
+  let account: AccountInstance
   type UpgradeTestData = [oldVersion: number | undefined, newVersion: number | undefined, dbName: string, storeName: string]
+
+  beforeAll(async () => {
+    account = await Account.random()
+  })
 
   describe('with same version specified', () => {
     const cases: UpgradeTestData[] = [

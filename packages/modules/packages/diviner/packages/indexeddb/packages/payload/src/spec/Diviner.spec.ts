@@ -3,7 +3,6 @@
  */
 /* eslint-disable max-nested-callbacks */
 
-import { Account } from '@xyo-network/account'
 import { IndexedDbArchivist } from '@xyo-network/archivist-indexeddb'
 import { IndexDescription } from '@xyo-network/archivist-model'
 import { PayloadDivinerQueryPayload, PayloadDivinerQuerySchema } from '@xyo-network/diviner-payload-model'
@@ -68,12 +67,12 @@ describe('IndexedDbPayloadDiviner', () => {
     payloads = [payloadA, payloadB]
 
     archivist = await IndexedDbArchivist.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { dbName, schema: IndexedDbArchivist.defaultConfigSchema, storage: { indexes: [urlIndex] }, storeName },
     })
     await archivist.insert(payloads)
     sut = await IndexedDbPayloadDiviner.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         archivist: archivist.address,
         dbName,
@@ -82,7 +81,7 @@ describe('IndexedDbPayloadDiviner', () => {
       },
     })
     node = await MemoryNode.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { schema: MemoryNode.defaultConfigSchema },
     })
     const modules = [archivist, sut]

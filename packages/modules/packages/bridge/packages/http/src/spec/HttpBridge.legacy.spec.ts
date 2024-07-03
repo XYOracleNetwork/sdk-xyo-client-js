@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { MemoryNode } from '@xyo-network/node-memory'
 import { NodeConfigSchema, NodeInstance } from '@xyo-network/node-model'
 
@@ -16,10 +15,10 @@ describe('HttpBridge', () => {
   console.log(`HttpBridge:baseUrl ${baseUrl}`)
   it('Discover', async () => {
     const nodeUrl = `${baseUrl}/`
-    const memNode = await MemoryNode.create({ account: Account.randomSync(), config: { name: 'MemoryNode', schema: NodeConfigSchema } })
+    const memNode = await MemoryNode.create({ account: 'random', config: { name: 'MemoryNode', schema: NodeConfigSchema } })
 
     const bridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: { discoverRoots: 'start', name: 'HttpBridge', nodeUrl, schema: HttpBridgeConfigSchema, security: { allowAnonymous: true } },
     })
 

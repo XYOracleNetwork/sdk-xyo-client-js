@@ -5,7 +5,6 @@ import { compact } from '@xylabs/lodash'
 import { Logger } from '@xylabs/logger'
 import { Base } from '@xylabs/object'
 import { Promisable, PromiseEx } from '@xylabs/promise'
-import { Account } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { QueryBoundWitnessBuilder } from '@xyo-network/boundwitness-builder'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
@@ -59,8 +58,6 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
     wrapper?: any,
   ): wrapper is TModuleWrapper
 
-  /** @deprecated pass an account for second parameter */
-  tryWrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper | undefined
   tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     mod: Module | undefined,
@@ -68,8 +65,6 @@ export type ConstructableModuleWrapper<TWrapper extends ModuleWrapper> = {
     checkIdentity?: boolean,
   ): TModuleWrapper | undefined
 
-  /** @deprecated pass an account for second parameter */
-  wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper
   wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     mod: Module | undefined,
@@ -212,28 +207,17 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     )
   }
 
-  /** @deprecated pass an account for second parameter */
-  static tryWrap<TModuleWrapper extends ModuleWrapper>(
-    this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
-  ): TModuleWrapper | undefined
   static tryWrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     mod: Module | undefined,
     account: AccountInstance,
-    checkIdentity?: boolean,
-  ): TModuleWrapper | undefined
-  static tryWrap<TModuleWrapper extends ModuleWrapper>(
-    this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
-    account?: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper | undefined {
     if (!checkIdentity || this.canWrap(mod)) {
       if (!account) {
         this.defaultLogger?.info('Anonymous Module Wrapper Created')
       }
-      return new this({ account: account ?? Account.randomSync(), mod: mod as TModuleWrapper['mod'] })
+      return new this({ account, mod: mod as TModuleWrapper['mod'] })
     }
   }
 
@@ -247,22 +231,14 @@ export class ModuleWrapper<TWrappedModule extends Module = Module>
     return this.is(mod) ? closure(mod) : undefined
   }
 
-  /** @deprecated pass an account for second parameter */
-  static wrap<TModuleWrapper extends ModuleWrapper>(this: ConstructableModuleWrapper<TModuleWrapper>, mod: Module | undefined): TModuleWrapper
   static wrap<TModuleWrapper extends ModuleWrapper>(
     this: ConstructableModuleWrapper<TModuleWrapper>,
     mod: Module | undefined,
     account: AccountInstance,
-    checkIdentity?: boolean,
-  ): TModuleWrapper
-  static wrap<TModuleWrapper extends ModuleWrapper>(
-    this: ConstructableModuleWrapper<TModuleWrapper>,
-    mod: Module | undefined,
-    account?: AccountInstance,
     checkIdentity = true,
   ): TModuleWrapper {
     assertEx(!checkIdentity || (mod && this.moduleIdentityCheck(mod)), () => `Passed mod failed identity check: ${mod?.config?.schema}`)
-    return assertEx(this.tryWrap(mod, account ?? Account.randomSync(), checkIdentity), () => 'Unable to wrap mod as ModuleWrapper')
+    return assertEx(this.tryWrap(mod, account, checkIdentity), () => 'Unable to wrap mod as ModuleWrapper')
   }
 
   addParent(mod: ModuleInstance) {

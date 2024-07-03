@@ -2,6 +2,7 @@ import { toUint8Array } from '@xylabs/arraybuffer'
 import { staticImplements } from '@xylabs/static-implements'
 import { PublicKeyInstance, PublicKeyStatic } from '@xyo-network/key-model'
 
+import { Elliptic } from '../Elliptic'
 import { AddressValue } from './AddressValue'
 import { EllipticKey } from './EllipticKey'
 
@@ -22,7 +23,7 @@ export class PublicKey extends EllipticKey implements PublicKeyInstance {
     return (value as PublicKey)._isPublicKey
   }
 
-  verify(msg: ArrayBuffer, signature: ArrayBuffer): boolean | Promise<boolean> {
-    return this.address.verify(msg, signature)
+  async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
+    return await Elliptic.verify(msg, signature, this.address.bytes)
   }
 }

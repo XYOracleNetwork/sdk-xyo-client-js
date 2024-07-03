@@ -1,4 +1,5 @@
 export * from './Account'
+export * from './Elliptic'
 export * from './HDWallet'
 export * from './Key'
 export * from '@xyo-network/account-model'

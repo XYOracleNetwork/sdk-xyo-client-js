@@ -1,6 +1,6 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
 import { StringKeyObject } from '@xylabs/object'
-import { AddressValue, HDWallet } from '@xyo-network/account'
+import { AddressValue, Elliptic, HDWallet } from '@xyo-network/account'
 import { PayloadBuilder } from '@xyo-network/payload'
 import { Payload } from '@xyo-network/payload-model'
 
@@ -52,10 +52,7 @@ describe('BoundWitnessBuilder', () => {
         if (actual.$meta?.signatures) {
           const addr = new AddressValue(toUint8Array(actual.addresses[0]))
           expect(addr.hex).toBe(actual.addresses[0])
-          const verify = new AddressValue(toUint8Array(actual.addresses[0])).verify(
-            toUint8Array(actual.$hash),
-            toUint8Array(actual.$meta.signatures[0]),
-          )
+          const verify = await Elliptic.verify(toUint8Array(actual.$hash), toUint8Array(actual.$meta.signatures[0]), addr.bytes)
           expect(verify).toBe(true)
         }
       })

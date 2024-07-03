@@ -1,4 +1,3 @@
-import { Account } from '@xyo-network/account'
 import { asDivinerInstance } from '@xyo-network/diviner-model'
 import { ResolveHelper } from '@xyo-network/module-model'
 import { NameRegistrarTransformer } from '@xyo-network/module-resolver'
@@ -15,10 +14,10 @@ import { HttpBridge } from '../HttpBridgeFull'
 
 describe('HttpBridge - Xns', () => {
   it('HttpBridge-Xns: Simple Resolve', async () => {
-    const memNode = await MemoryNode.create({ account: Account.randomSync() })
+    const memNode = await MemoryNode.create({ account: 'random' })
 
     const bridge = await HttpBridge.create({
-      account: Account.randomSync(),
+      account: 'random',
       config: {
         discoverRoots: 'start',
         name: 'TestBridge',

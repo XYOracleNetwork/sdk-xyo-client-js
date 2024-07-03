@@ -11,23 +11,23 @@ import { isNodeInstance, MemoryNode, NodeConfigSchema, NodeWrapper } from '../sr
 
 describe('identity check (is)', () => {
   test('isModuleInstance', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync(), config: { schema: NodeConfigSchema } })
+    const node = await MemoryNode.create({ account: 'random', config: { schema: NodeConfigSchema } })
     expect(isModuleInstance(node)).toBeTrue()
     expect(isModuleInstance(null)).toBeFalse()
     expect(isModuleInstance(undefined)).toBeFalse()
     expect(isModuleInstance({})).toBeFalse()
 
-    const wrapper = NodeWrapper.wrap(node, Account.randomSync())
+    const wrapper = NodeWrapper.wrap(node, await Account.random())
     expect(isModuleInstance(wrapper)).toBeTrue()
   })
   test('isNodeInstance', async () => {
-    const node = await MemoryNode.create({ account: Account.randomSync(), config: { schema: NodeConfigSchema } })
+    const node = await MemoryNode.create({ account: 'random', config: { schema: NodeConfigSchema } })
     expect(isNodeInstance(node)).toBeTrue()
     expect(isNodeInstance(null)).toBeFalse()
     expect(isNodeInstance(undefined)).toBeFalse()
     expect(isNodeInstance({})).toBeFalse()
 
-    const wrapper = NodeWrapper.wrap(node, Account.randomSync())
+    const wrapper = NodeWrapper.wrap(node, await Account.random())
     expect(isNodeInstance(wrapper)).toBeTrue()
   })
 })

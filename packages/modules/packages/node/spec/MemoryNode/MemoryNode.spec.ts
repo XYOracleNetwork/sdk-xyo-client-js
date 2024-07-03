@@ -1,5 +1,5 @@
 import { delay } from '@xylabs/delay'
-import { Account, HDWallet } from '@xyo-network/account'
+import { HDWallet } from '@xyo-network/account'
 import { AccountInstance } from '@xyo-network/account-model'
 import { MemoryArchivist } from '@xyo-network/archivist-memory'
 import { AttachableArchivistInstance } from '@xyo-network/archivist-model'
@@ -83,7 +83,7 @@ describe('MemoryNode', () => {
   })
   describe('register', () => {
     it('registers module', async () => {
-      const mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      const mod = await MemoryArchivist.create({ account: 'random' })
       await node.register(mod)
     })
   })
@@ -97,7 +97,7 @@ describe('MemoryNode', () => {
     describe('with modules registered', () => {
       let mod: AttachableModuleInstance
       beforeEach(async () => {
-        mod = await MemoryArchivist.create({ account: Account.randomSync() })
+        mod = await MemoryArchivist.create({ account: 'random' })
         await node.register(mod)
       })
       it('lists addresses of registered modules', async () => {
@@ -110,7 +110,7 @@ describe('MemoryNode', () => {
   describe('attach', () => {
     let mod: AttachableModuleInstance
     beforeEach(async () => {
-      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      mod = await MemoryArchivist.create({ account: 'random' })
       await node.register(mod)
     })
     it('attaches module', async () => {
@@ -150,7 +150,7 @@ describe('MemoryNode', () => {
   describe('attached', () => {
     let mod: AttachableModuleInstance
     beforeEach(async () => {
-      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      mod = await MemoryArchivist.create({ account: 'random' })
       await node.register(mod)
     })
     describe('with no modules attached', () => {
@@ -171,7 +171,7 @@ describe('MemoryNode', () => {
   describe('detach', () => {
     let mod: AttachableModuleInstance
     beforeEach(async () => {
-      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      mod = await MemoryArchivist.create({ account: 'random' })
       await node.register(mod)
       await node.attach(mod.address, true)
     })
@@ -185,7 +185,7 @@ describe('MemoryNode', () => {
   describe('registeredModules', () => {
     let mod: AttachableModuleInstance
     beforeEach(async () => {
-      mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      mod = await MemoryArchivist.create({ account: 'random' })
     })
     describe('with no mods registered', () => {
       it('returns empty array', () => {
@@ -204,7 +204,7 @@ describe('MemoryNode', () => {
   })
   describe('unregister', () => {
     it('un-registers module', async () => {
-      const mod = await MemoryArchivist.create({ account: Account.randomSync() })
+      const mod = await MemoryArchivist.create({ account: 'random' })
       await node.register(mod)
       expect(node.registeredModules()).toContain(mod)
       await node.unregister(mod)
@@ -281,9 +281,9 @@ describe('MemoryNode', () => {
         )
       })
       it('describes node and all nested nodes and child modules', async () => {
-        const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
-        const archivist1 = await MemoryArchivist.create({ account: Account.randomSync() })
-        const archivist2 = await MemoryArchivist.create({ account: Account.randomSync() })
+        const memoryNode = await MemoryNode.create({ account: 'random' })
+        const archivist1 = await MemoryArchivist.create({ account: 'random' })
+        const archivist2 = await MemoryArchivist.create({ account: 'random' })
         await memoryNode.register(archivist1)
         await memoryNode.attach(archivist1.address, true)
         await memoryNode.register(archivist2)
@@ -306,7 +306,7 @@ describe('MemoryNode', () => {
         expect(newNodeChildren.includes(nodeChildren[0])).toBe(true)
       })
       it('clone-one (public)', async () => {
-        const mod = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModule' } })
+        const mod = await MemoryArchivist.create({ account: 'random', config: { ...archivistConfig, name: 'CloneModule' } })
         await node.register(mod)
         await node.attach(mod.address, true)
 
@@ -318,7 +318,7 @@ describe('MemoryNode', () => {
         expect(newNodeChild).toEqual(nodeChild)
       })
       it('clone-one (private)', async () => {
-        const mod = await MemoryArchivist.create({ account: Account.randomSync(), config: { ...archivistConfig, name: 'CloneModulePrivate' } })
+        const mod = await MemoryArchivist.create({ account: 'random', config: { ...archivistConfig, name: 'CloneModulePrivate' } })
         await node.register(mod)
         await node.attach(mod.address)
 
@@ -356,7 +356,7 @@ describe('MemoryNode', () => {
     })
     describe('node with child modules', () => {
       it('describes node and child modules', async () => {
-        const memoryNode = await MemoryNode.create({ account: Account.randomSync() })
+        const memoryNode = await MemoryNode.create({ account: 'random' })
         const modules = await Promise.all([
           MemoryArchivist.create({ account: testAccount2, config: archivistConfig }),
           MemoryArchivist.create({ account: testAccount3, config: archivistConfig }),
@@ -377,7 +377,7 @@ describe('MemoryNode', () => {
     })
     describe('node with nested nodes and modules', () => {
       beforeEach(async () => {
-        node = await MemoryNode.create({ account: Account.randomSync() })
+        node = await MemoryNode.create({ account: 'random' })
         const attachEvents: Module[] = []
         node.on('moduleAttached', (args) => {
           const { mod } = args as ModuleAttachedEventArgs

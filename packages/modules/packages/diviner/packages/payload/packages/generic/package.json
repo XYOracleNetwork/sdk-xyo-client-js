@@ -26,7 +26,6 @@
   "devDependencies": {
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
-    "@xyo-network/account": "workspace:^",
     "@xyo-network/archivist-indexeddb": "workspace:^",
     "@xyo-network/archivist-memory": "workspace:^",
     "@xyo-network/node-memory": "workspace:^",

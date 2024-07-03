@@ -88,83 +88,104 @@ describe.skip('HttpBridge', () => {
  * @group bridge
  */
 describe('HttpBridge', () => {
+  const account = 'random'
+  const schema = HttpBridgeConfigSchema
+  const security = { allowAnonymous: true }
   let port: number
   let url: string
   let hostBridge: HttpBridge<HttpBridgeParams>
   let clientBridge: HttpBridge<HttpBridgeParams>
+  let hostNode: MemoryNode
+  let clientNode: MemoryNode
+  let hostSibling: MemoryNode
+  let clientSibling: MemoryNode
+  let hostDescendent: MemoryNode
+  let clientDescendent: MemoryNode
   beforeEach(async () => {
+    // Create Host/Client Nodes
+    hostNode = await MemoryNode.create({ account })
+    clientNode = await MemoryNode.create({ account })
+
+    // Create Host/Client Bridges
     port = await getPort()
     url = `http://localhost:${port}`
-    const account = 'random'
-    const schema = HttpBridgeConfigSchema
-    const security = { allowAnonymous: true }
+
     const host: HttpBridgeConfig['host'] = { port }
     const client: HttpBridgeConfig['client'] = { discoverRoots: 'start', url }
     hostBridge = await HttpBridge.create({ account, config: { host, name: 'TestBridgeHost', schema, security } })
     clientBridge = await HttpBridge.create({ account, config: { client, name: 'TestBridgeClient', schema, security } })
+
+    // Register Host/Client Bridges
+    await hostNode.register(hostBridge)
+    await hostNode.attach(hostBridge.address, true)
+    await clientNode.register(clientBridge)
+    await clientNode.attach(clientBridge.address, true)
+
+    // Create Host/Client Sibling Nodes
+    hostSibling = await MemoryNode.create({ account })
+    clientSibling = await MemoryNode.create({ account })
+
+    // Register Host/Client Siblings
+    await hostNode.register(hostSibling)
+    await hostNode.attach(hostSibling.address, true)
+    await clientNode.register(clientSibling)
+    await clientNode.attach(clientSibling.address, true)
+
+    // Create Host/Client Descendent Nodes
+    hostDescendent = await MemoryNode.create({ account })
+    clientDescendent = await MemoryNode.create({ account })
+
+    // Register Host/Client Siblings
+    await hostSibling.register(hostDescendent)
+    await hostSibling.attach(hostDescendent.address, true)
+    await clientSibling.register(clientDescendent)
+    await clientSibling.attach(clientDescendent.address, true)
   })
 
   describe('HttpBridge', () => {
-    describe('By name', () => {
-      it('should handle the case by name', () => {
-        // Add your test logic here
-      })
-    })
-
-    describe('By address', () => {
-      it('should handle the case by address', () => {
-        // Add your test logic here
-      })
-    })
-
-    describe('By exposed/unexposed', () => {
-      describe('Pre Exposed', () => {
-        it('should handle the case when pre exposed', () => {
-          // Add your test logic here
+    const cases: [string, () => MemoryNode][] = [
+      ['parent', () => hostNode],
+      ['sibling', () => hostSibling],
+      ['descendent', () => hostDescendent],
+    ]
+    describe.each(cases)('%s module', (_, getModuleMethod) => {
+      hostSibling = getModuleMethod()
+      describe('before expose', () => {
+        it('should not be exposed', async () => {
+          expect(await hostBridge.exposed()).toBeEmpty()
+        })
+        it('should not be resolvable', async () => {
+          expect(await clientBridge.resolve(hostSibling.address)).toBeUndefined()
         })
       })
-
-      describe('Post Exposed', () => {
-        it('should handle the case when post exposed', () => {
-          // Add your test logic here
+      describe('after expose', () => {
+        beforeEach(async () => {
+          await hostBridge.expose(hostSibling.address)
+        })
+        it('should be exposed', async () => {
+          const address = hostBridge.address
+          const exposed = (await hostBridge.exposed()).toSorted()
+          const parents = (await hostBridge.parents()).map((mod) => mod.address).toSorted()
+          const sibblings = (await hostBridge.siblings()).map((mod) => mod.address).toSorted()
+          expect(await hostBridge.exposed()).toContain(hostSibling.address)
+        })
+        it('should be resolvable', async () => {
+          const result = await clientBridge.resolve(hostSibling.address)
+          const foo = await clientBridge.resolve('*')
+          expect(result).toBeDefined()
+          expect(asAttachableNodeInstance(result, () => `Failed to resolve correct object type [${result?.constructor.name}]`)).toBeDefined()
         })
       })
-
-      describe('Post Unexposed', () => {
-        it('should handle the case when post unexposed', () => {
-          // Add your test logic here
+      describe('after unexpose', () => {
+        beforeEach(async () => {
+          await hostBridge.expose(hostSibling.address)
+          await hostBridge.unexpose(hostSibling.address)
         })
-      })
-    })
-
-    describe('By parent/sibling/child/grandchild', () => {
-      describe('ParentNode', () => {
-        it('should handle the case for ParentNode', () => {
-          // Add your test logic here
+        it('should not be exposed', async () => {
+          expect(await hostBridge.exposed()).toBeEmpty()
         })
-
-        describe('Bridge', () => {
-          it('should handle the case for Bridge', () => {
-            // Add your test logic here
-          })
-        })
-
-        describe('SiblingNode', () => {
-          it('should handle the case for SiblingNode', () => {
-            // Add your test logic here
-          })
-
-          describe('ChildNode', () => {
-            it('should handle the case for ChildNode', () => {
-              // Add your test logic here
-            })
-          })
-        })
-      })
-
-      describe('GrandchildNode', () => {
-        it('should handle the case for GrandchildNode', () => {
-          // Add your test logic here
+        it('should not be resolvable', async () => {
+          expect(await clientBridge.resolve(hostSibling.address)).toBeUndefined()
         })
       })
     })

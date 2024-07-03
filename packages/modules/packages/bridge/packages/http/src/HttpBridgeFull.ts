@@ -58,7 +58,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
 
   async exposeChild(mod: ModuleInstance, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     const { maxDepth = 5 } = options ?? {}
-    console.log(`exposeChild: ${mod.address} ${mod?.id} ${maxDepth}`)
     assertEx(this.config.host, () => 'Not configured as a host')
     this._exposedModules.push(new WeakRef(mod))
     const children = maxDepth > 0 ? (await mod.publicChildren?.()) ?? [] : []
@@ -76,7 +75,6 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
   override async exposeHandler(address: Address, options?: BridgeExposeOptions | undefined): Promise<ModuleInstance[]> {
     const { required = true } = options ?? {}
     const mod = await resolveAddressToInstanceUp(this, address)
-    console.log(`exposeHandler: ${address} ${mod?.id}`)
     if (required && !mod) {
       throw new Error(`Unable to find required module: ${address}`)
     }

@@ -7,7 +7,6 @@ import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 
 import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
-import { generateBridgeTests } from './HttpBridge.tests.spec'
 
 /**
  * @group module

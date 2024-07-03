@@ -6,7 +6,7 @@ import { asAttachableNodeInstance } from '@xyo-network/node-model'
 import { isPayloadOfSchemaType } from '@xyo-network/payload-model'
 import { getPort } from 'get-port-please'
 
-import { HttpBridgeConfigSchema } from '../HttpBridgeConfig'
+import { HttpBridgeConfig, HttpBridgeConfigSchema } from '../HttpBridgeConfig'
 import { HttpBridge, HttpBridgeParams } from '../HttpBridgeFull'
 
 /**
@@ -95,27 +95,13 @@ describe('HttpBridge', () => {
   beforeEach(async () => {
     port = await getPort()
     url = `http://localhost:${port}`
-    hostBridge = await HttpBridge.create({
-      account: 'random',
-      config: {
-        host: {
-          port,
-        },
-        name: 'TestBridgeHost',
-        schema: HttpBridgeConfigSchema,
-        security: { allowAnonymous: true },
-      },
-    })
-
-    clientBridge = await HttpBridge.create({
-      account: 'random',
-      config: {
-        client: { discoverRoots: 'start', url },
-        name: 'TestBridgeClient',
-        schema: HttpBridgeConfigSchema,
-        security: { allowAnonymous: true },
-      },
-    })
+    const account = 'random'
+    const schema = HttpBridgeConfigSchema
+    const security = { allowAnonymous: true }
+    const host: HttpBridgeConfig['host'] = { port }
+    const client: HttpBridgeConfig['client'] = { discoverRoots: 'start', url }
+    hostBridge = await HttpBridge.create({ account, config: { host, name: 'TestBridgeHost', schema, security } })
+    clientBridge = await HttpBridge.create({ account, config: { client, name: 'TestBridgeClient', schema, security } })
   })
 
   describe('HttpBridge', () => {

@@ -36,6 +36,13 @@ type AddressPathParams = {
  */
 type PostAddressRequestBody = [QueryBoundWitness, undefined | Payload[]]
 
+// TODO: This does not match the error response shape of the legacy bridge BUT it its the
+// shape this bridge is currently returning.  Massage this into the standard
+// error shape constructed via middleware.
+type ErrorResponseBody = {
+  error: string
+}
+
 export interface HttpBridgeParams extends BridgeParams<AnyConfigSchema<HttpBridgeConfig>> {}
 
 @creatableModule()
@@ -114,7 +121,10 @@ export class HttpBridge<TParams extends HttpBridgeParams> extends HttpBridgeBase
     return mod ? await mod.query(query, payloads) : null
   }
 
-  protected async handleGet(req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>, res: Response) {
+  protected async handleGet(
+    req: Request<AddressPathParams, ModuleQueryResult, PostAddressRequestBody>,
+    res: Response<ModuleQueryResult | ErrorResponseBody>,
+  ) {
     const { address } = req.params
     try {
       if (address == this.address) {

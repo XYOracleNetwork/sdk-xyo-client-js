@@ -2,7 +2,7 @@ import { EllipticKeyInstance } from './EllipticKey'
 import { PublicKeyInstance } from './PublicKey'
 
 export interface PrivateKeyInstance extends EllipticKeyInstance {
-  public: PublicKeyInstance
+  getPublic: () => Promise<PublicKeyInstance>
   sign: (hash: ArrayBuffer) => ArrayBuffer | Promise<ArrayBuffer>
   verify: (msg: ArrayBuffer, signature: ArrayBuffer) => boolean | Promise<boolean>
 }

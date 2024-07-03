@@ -1,7 +1,7 @@
 import { assertEx } from '@xylabs/assert'
 import { exists } from '@xylabs/exists'
 import { forget } from '@xylabs/forget'
-import { isAddress } from '@xylabs/hex'
+import { Address, isAddress } from '@xylabs/hex'
 import { QueryBoundWitness } from '@xyo-network/boundwitness-model'
 import { AbstractModuleProxy, ModuleProxyParams } from '@xyo-network/bridge-abstract'
 import {
@@ -36,12 +36,12 @@ export class AsyncQueryBusModuleProxy<
 {
   static createCount = 0
 
-  constructor(params: TParams) {
+  constructor(params: TParams, address: Address) {
     AsyncQueryBusModuleProxy.createCount = AsyncQueryBusModuleProxy.createCount + 1
     if (Math.floor(AsyncQueryBusModuleProxy.createCount / 10) === AsyncQueryBusModuleProxy.createCount / 10) {
       console.log(`AsyncQueryBusModuleProxy.createCount: ${AsyncQueryBusModuleProxy.createCount}`)
     }
-    super(params)
+    super(params, address)
   }
 
   override get id(): ModuleIdentifier {

@@ -1,12 +1,14 @@
+import { Promisable } from '@xylabs/promise'
+
 import { PrivateKeyInstance } from './PrivateKey'
 import { PublicKeyInstance } from './PublicKey'
 
 export interface KeyPairInstance {
-  private: PrivateKeyInstance
-  public: PublicKeyInstance
+  getPrivate: () => Promisable<PrivateKeyInstance>
+  getPublic: () => Promisable<PublicKeyInstance>
 }
 
 export interface KeyPairStatic {
-  new (privateKeyData?: ArrayBuffer): KeyPairInstance
+  new (privateKey: PrivateKeyInstance): KeyPairInstance
   isXyoKeyPair(value: unknown): boolean
 }

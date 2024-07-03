@@ -71,9 +71,9 @@ export abstract class AbstractModuleProxy<
 
   private _spamTrap = new LRUCache<string, number>({ max: 1000, ttl: 1000 * 60, ttlAutopurge: true })
 
-  constructor(params: TParams) {
+  constructor(params: TParams, address: Address) {
     params.addToResolvers = false
-    super(AbstractModuleProxy.privateConstructorKey, params, params.account)
+    super(AbstractModuleProxy.privateConstructorKey, params, params.account, address)
   }
 
   override get address() {

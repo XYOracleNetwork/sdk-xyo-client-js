@@ -166,12 +166,13 @@ export class IndexingDiviner<
    * preemptions, reboots, etc.
    */
   protected async retrieveState(): Promise<ModuleState<IndexingDivinerState> | undefined> {
+    const accountAddress = await this.account.getAddress()
     if (this._lastState) return this._lastState
     let hash: Hash = ''
     const diviner = await this.getBoundWitnessDivinerForStore('stateStore')
     const query = await new PayloadBuilder<BoundWitnessDivinerQueryPayload>({ schema: BoundWitnessDivinerQuerySchema })
       .fields({
-        address: this.account.address,
+        address: accountAddress,
         limit: 1,
         offset: 0,
         order: 'desc',
@@ -185,7 +186,7 @@ export class IndexingDiviner<
         // Find the index for this address in the BoundWitness that is a ModuleState
         hash = boundWitness.addresses
           .map((address, index) => ({ address, index }))
-          .filter(({ address }) => address === this.account.address)
+          .filter(({ address }) => address === accountAddress)
           // eslint-disable-next-line unicorn/no-array-reduce
           .reduce(
             (prev, curr) => (boundWitness.payload_schemas?.[curr?.index] === ModuleStateSchema ? boundWitness.payload_hashes[curr?.index] : prev),

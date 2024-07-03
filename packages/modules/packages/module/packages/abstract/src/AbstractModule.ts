@@ -89,17 +89,19 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   protected readonly moduleConfigQueryValidator: Queryable
   protected readonly supportedQueryValidator: Queryable
 
+  private _address: Address
   private _busyCount = 0
   private _logger: Logger | undefined = undefined
   private _status: ModuleStatus = 'stopped'
 
-  protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
+  constructor(privateConstructorKey: string, params: TParams, account: AccountInstance, address: Address) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
     super(mutatedParams)
 
     this._account = account
+    this._address = address
 
     this.supportedQueryValidator = new SupportedQueryValidator(this as Module).queryable
     this.moduleConfigQueryValidator = new ModuleConfigQueryValidator(mutatedParams?.config).queryable
@@ -114,7 +116,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get address() {
-    return this.account.address
+    return this._address
   }
 
   get allowAnonymous() {
@@ -230,10 +232,10 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
     const activeLogger = params?.logger ?? AbstractModule.defaultLogger
     const generatedAccount = await AbstractModule.determineAccount({ account })
-    const address = generatedAccount.address
+    const address = await generatedAccount.getAddress()
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
-    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount)
+    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
 
     if (!AbstractModule.enableLazyLoad) {
       await newModule.start?.()

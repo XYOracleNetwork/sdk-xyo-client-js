@@ -1,5 +1,6 @@
 import { Address, Hash } from '@xylabs/hex'
 import { isArrayBuffer } from '@xylabs/lodash'
+import { Promisable } from '@xylabs/promise'
 import { KeyPairInstance } from '@xyo-network/key-model'
 import { PreviousHashStore } from '@xyo-network/previous-hash-store-model'
 
@@ -51,8 +52,8 @@ export const isInitializationConfig = (value: unknown): value is InitializationC
 }
 
 export interface AccountInstance extends KeyPairInstance {
-  readonly address: Address
-  readonly addressBytes: ArrayBuffer
+  getAddress: () => Promisable<Address>
+  getAddressBytes: () => Promisable<ArrayBuffer>
   previousHash: Hash | undefined
   previousHashBytes: ArrayBuffer | undefined
   sign: (hash: ArrayBuffer, previousHash: ArrayBuffer | undefined) => ArrayBuffer | Promise<ArrayBuffer>

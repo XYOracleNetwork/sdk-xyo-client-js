@@ -16,7 +16,7 @@ import { Mutex } from 'async-mutex'
 import { HDNodeWallet, Mnemonic, randomBytes } from 'ethers'
 
 import { Elliptic } from './Elliptic'
-import { KeyPair } from './Key'
+import { KeyPair, PrivateKey } from './Key'
 
 const nameOf = <T>(name: keyof T) => name
 
@@ -57,16 +57,8 @@ export class Account extends KeyPair implements AccountInstance {
       }
     }
     assertEx(!privateKeyToUse || privateKeyToUse?.byteLength === 32, () => `Private key must be 32 bytes [${privateKeyToUse?.byteLength}]`)
-    super(privateKeyToUse)
+    super(new PrivateKey(privateKeyToUse ?? randomBytes(32)))
     this._node = node
-  }
-
-  get address() {
-    return hexFromArrayBuffer(this.addressBytes, { prefix: false }).toLowerCase() as Address
-  }
-
-  get addressBytes() {
-    return this.public.address.bytes
   }
 
   get previousHash() {
@@ -78,7 +70,9 @@ export class Account extends KeyPair implements AccountInstance {
   }
 
   static async create(opts?: AccountConfig): Promise<AccountInstance> {
-    return (await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)).verifyUniqueAddress() as AccountInstance
+    return (await (
+      await new Account(Account._protectedConstructorKey, opts).loadPreviousHash(opts?.previousHash)
+    ).verifyUniqueAddress()) as AccountInstance
   }
 
   static async fromPrivateKey(key: ArrayBuffer | string): Promise<AccountInstance> {
@@ -99,6 +93,14 @@ export class Account extends KeyPair implements AccountInstance {
     return await instance.initialize()
   }
 
+  async getAddress() {
+    return hexFromArrayBuffer(await this.getAddressBytes(), { prefix: false }).toLowerCase() as Address
+  }
+
+  async getAddressBytes() {
+    return (await this.getPublic()).address.bytes
+  }
+
   async initialize(): Promise<this> {
     //TODO: Add initialization of public key and address
     return await Promise.resolve(this)
@@ -109,7 +111,7 @@ export class Account extends KeyPair implements AccountInstance {
       if (previousHash) {
         this._previousHash = previousHash ? toUint8Array(previousHash, 32) : undefined
       } else {
-        const previousHashStoreValue = await Account.previousHashStore?.getItem(this.address)
+        const previousHashStoreValue = await Account.previousHashStore?.getItem(await this.getAddress())
         if (previousHashStoreValue) {
           this._previousHash = toUint8Array(previousHashStoreValue, 32)
         }
@@ -131,11 +133,11 @@ export class Account extends KeyPair implements AccountInstance {
         () => `Used and current previous hashes do not match [${currentPreviousHash} !== ${passedCurrentHash}]`,
       )
 
-      const signature = this.private.sign(hash)
+      const signature = this.getPrivate().sign(hash)
       const newPreviousHash = toUint8Array(hash, 32)
       this._previousHash = newPreviousHash
       if (Account.previousHashStore) {
-        await Account.previousHashStore.setItem(this.address, hexFromArrayBuffer(newPreviousHash, { prefix: false }))
+        await Account.previousHashStore.setItem(await this.getAddress(), hexFromArrayBuffer(newPreviousHash, { prefix: false }))
       }
       return signature
     })
@@ -143,11 +145,11 @@ export class Account extends KeyPair implements AccountInstance {
 
   async verify(msg: ArrayBuffer, signature: ArrayBuffer): Promise<boolean> {
     await Elliptic.initialize()
-    return await Elliptic.verify(msg, signature, this.addressBytes)
+    return await Elliptic.verify(msg, signature, await this.getAddressBytes())
   }
 
-  verifyUniqueAddress() {
-    const address = this.address
+  async verifyUniqueAddress() {
+    const address = await this.getAddress()
     const currentAddressObject = Account._addressMap[address]?.deref()
     if (currentAddressObject === undefined) {
       Account._addressMap[address] = new WeakRef(this)

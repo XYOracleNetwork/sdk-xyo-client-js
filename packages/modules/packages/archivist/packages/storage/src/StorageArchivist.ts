@@ -189,17 +189,17 @@ export class StorageArchivist<
     return resultPayloads
   }
 
-  protected saveAccount() {
+  protected async saveAccount() {
     if (this.persistAccount) {
       const account = this.account
-      this.logger?.log(account.address)
-      this.privateStorage.set('privateKey', account.private.hex)
+      this.logger?.log(await account.getAddress())
+      this.privateStorage.set('privateKey', (await account.getPrivate()).hex)
     }
   }
 
   protected override async startHandler() {
     await super.startHandler()
-    this.saveAccount()
+    await this.saveAccount()
     return true
   }
 }

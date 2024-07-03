@@ -27,12 +27,12 @@ export class WebsocketModuleProxy<
 {
   static createCount = 0
 
-  constructor(params: TParams) {
+  constructor(params: TParams, address: Address) {
     WebsocketModuleProxy.createCount = WebsocketModuleProxy.createCount + 1
     if (Math.floor(WebsocketModuleProxy.createCount / 10) === WebsocketModuleProxy.createCount / 10) {
       console.log(`WebsocketModuleProxy.createCount: ${WebsocketModuleProxy.createCount}`)
     }
-    super(params)
+    super(params, address)
   }
 
   async proxyQueryHandler<T extends QueryBoundWitness = QueryBoundWitness>(query: T, payloads: Payload[] = []): Promise<ModuleQueryResult> {

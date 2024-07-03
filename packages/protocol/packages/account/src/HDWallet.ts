@@ -31,14 +31,6 @@ export class HDWallet extends Account implements WalletInstance {
     super(key, privateKey ? { privateKey } : undefined)
   }
 
-  override get address(): Address {
-    return hexFromHexString(this.node.address, { prefix: false })
-  }
-
-  override get addressBytes(): ArrayBuffer {
-    return toUint8Array(this.address, undefined, 16)
-  }
-
   get chainCode(): string {
     return this.node.chainCode
   }
@@ -132,16 +124,16 @@ export class HDWallet extends Account implements WalletInstance {
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
     const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
-    return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
+    return HDWallet._addressMap[await newWallet.getAddress()]?.deref() ?? newWallet
   }
 
-  protected static getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): HDWallet {
-    const existingWallet = this._addressMap[createdWallet.address]?.deref()
+  protected static async getCachedWalletOrCacheNewWallet(createdWallet: HDWallet): Promise<HDWallet> {
+    const existingWallet = this._addressMap[await createdWallet.getAddress()]?.deref()
     if (existingWallet) {
       return existingWallet
     }
     const ref = new WeakRef(createdWallet)
-    this._addressMap[createdWallet.address] = ref
+    this._addressMap[await createdWallet.getAddress()] = ref
     return createdWallet
   }
 
@@ -156,6 +148,14 @@ export class HDWallet extends Account implements WalletInstance {
       throw new Error(`Invalid absolute path ${path} for wallet with path ${parentPath}`)
     }
     return await HDWallet.createFromNode(this.node.derivePath(path))
+  }
+
+  override async getAddress(): Promise<Address> {
+    return await Promise.resolve(hexFromHexString(this.node.address, { prefix: false }))
+  }
+
+  override async getAddressBytes(): Promise<ArrayBuffer> {
+    return toUint8Array(await this.getAddress(), undefined, 16)
   }
 
   neuter: () => HDWallet = () => {

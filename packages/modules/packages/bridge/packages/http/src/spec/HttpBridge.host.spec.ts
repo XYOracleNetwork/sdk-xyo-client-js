@@ -28,7 +28,7 @@ describe('HttpBridge', () => {
   let hostDescendent: MemoryNode
   let clientDescendent: MemoryNode
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     // Create Host/Client Nodes
     hostNode = await MemoryNode.create({ account })
     clientNode = await MemoryNode.create({ account })
@@ -72,8 +72,8 @@ describe('HttpBridge', () => {
   describe('exposed module behavior', () => {
     const cases: [string, () => MemoryNode][] = [
       // ['parent', () => hostNode],
-      // ['sibling', () => hostSibling],
-      ['descendent', () => hostDescendent],
+      ['sibling', () => hostSibling],
+      // ['descendent', () => hostDescendent],
     ]
     describe.each(cases)('with %s module', (_, getSutModule) => {
       let exposedMod: MemoryNode

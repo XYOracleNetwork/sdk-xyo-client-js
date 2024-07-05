@@ -48,6 +48,9 @@ export class IndexedDbArchivist<
   // eslint-disable-next-line @typescript-eslint/member-ordering
   static readonly schemaIndexName = buildStandardIndexName(IndexedDbArchivist.schemaIndex)
 
+  private _dbName?: string
+  private _storeName?: string
+
   /**
    * The database name. If not supplied via config, it defaults
    * to the module name (not guaranteed to be unique) and if module
@@ -56,7 +59,20 @@ export class IndexedDbArchivist<
    * make the most sense for 99% of use cases.
    */
   get dbName() {
-    return this.config?.dbName ?? this.config?.name ?? IndexedDbArchivist.defaultDbName
+    if (!this._dbName) {
+      if (this.config?.dbName) {
+        this._dbName = this.config?.dbName
+      } else {
+        if (this.config?.name) {
+          this.logger.warn('No dbName provided, using module name: ', this.config?.name)
+          this._dbName = this.config?.name
+        } else {
+          this.logger.warn('No dbName provided, using default name: ', IndexedDbArchivist.defaultDbName)
+          this._dbName = IndexedDbArchivist.defaultDbName
+        }
+      }
+    }
+    return assertEx(this._dbName)
   }
 
   /**
@@ -82,7 +98,15 @@ export class IndexedDbArchivist<
    * to `payloads`.
    */
   get storeName() {
-    return this.config?.storeName ?? IndexedDbArchivist.defaultStoreName
+    if (!this._storeName) {
+      if (this.config?.storeName) {
+        this._storeName = this.config?.storeName
+      } else {
+        this.logger.warn('No storeName provided, using default name: ', IndexedDbArchivist.defaultStoreName)
+        this._storeName = IndexedDbArchivist.defaultStoreName
+      }
+    }
+    return assertEx(this._storeName)
   }
 
   /**

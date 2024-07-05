@@ -15,7 +15,10 @@ export const resolveAddressToInstanceDown = async (
   const cache = root.addressCache?.('up', !!includePrivate)
   const privateChildren = (includePrivate ? await root.privateChildren?.() : []) ?? []
   const publicChildren = (await root.publicChildren?.()) ?? []
-  const children = [...privateChildren, ...publicChildren]
+  const children = [...privateChildren, ...publicChildren].filter((child) => !ignore.includes(child.address))
+  // NOTE: Debug output for detecting recursive calls
+  // const childAddresses = children.map((child) => child.address)
+  // console.log([root.constructor.name, root.address, address, childAddresses])
   for (const child of children) {
     const found = await resolveAddressToInstanceDown(child, address, includePrivate, ignore)
     if (found) {

@@ -1,3 +1,4 @@
+import { Address } from '@xylabs/hex'
 import { Logger } from '@xylabs/logger'
 import { AccountInstance } from '@xyo-network/account-model'
 import { Schema } from '@xyo-network/payload-model'
@@ -15,7 +16,7 @@ export interface CreatableModule<T extends AttachableModuleInstance = Attachable
   configSchemas: Schema[]
   defaultConfigSchema: Schema
   defaultLogger?: Logger
-  new (privateConstructorKey: string, params: T['params'], account: AccountInstance): T
+  new (privateConstructorKey: string, params: T['params'], account: AccountInstance, address: Address): T
   _noOverride(functionName: string): void
   create<T extends AttachableModuleInstance>(this: CreatableModule<T>, params?: T['params']): Promise<T>
   factory<T extends AttachableModuleInstance>(this: CreatableModule<T>, params?: T['params']): CreatableModuleFactory<T>

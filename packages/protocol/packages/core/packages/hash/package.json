@@ -27,7 +27,7 @@
     "@xylabs/delay": "^3.5.2",
     "@xylabs/ts-scripts-yarn3": "^3.11.12",
     "@xylabs/tsconfig": "^3.11.12",
-    "esbuild": "^0.22.0",
+    "esbuild": "^0.23.0",
     "typescript": "^5.5.3"
   },
   "exports": {
@@ -75,6 +75,6 @@
     "package-compile": "package-compile-only && yarn bundle"
   },
   "sideEffects": false,
-  "version": "2.108.0",
+  "version": "2.109.0",
   "type": "module"
 }

@@ -12,10 +12,12 @@ import {
   isPhraseInitializationConfig,
   isPrivateKeyInitializationConfig,
 } from '@xyo-network/account-model'
+import { PrivateKeyInstance } from '@xyo-network/key-model'
 import { WalletInstance, WalletStatic } from '@xyo-network/wallet-model'
 import { defaultPath, HDNodeWallet, Mnemonic } from 'ethers'
 
 import { Account } from './Account'
+import { PrivateKey } from './Key'
 
 @staticImplements<WalletStatic>()
 export class HDWallet extends Account implements WalletInstance {
@@ -25,10 +27,9 @@ export class HDWallet extends Account implements WalletInstance {
   constructor(
     key: unknown,
     protected readonly node: HDNodeWallet,
+    privateKey: PrivateKeyInstance,
   ) {
-    const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
-    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
-    super(key, privateKey ? { privateKey } : undefined)
+    super(Account._protectedConstructorKey, privateKey)
   }
 
   override get address(): Address {
@@ -122,16 +123,14 @@ export class HDWallet extends Account implements WalletInstance {
     return generateMnemonic(wordlist, strength)
   }
 
-  static override is(value: unknown): HDWallet | undefined {
-    return value instanceof HDWallet ? value : undefined
-  }
-
   static override async random(): Promise<WalletInstance> {
     return await this.fromMnemonic(Mnemonic.fromPhrase(HDWallet.generateMnemonic()))
   }
 
   protected static async createFromNodeInternal(node: HDNodeWallet, previousHash?: string): Promise<HDWallet> {
-    const newWallet = await new HDWallet(Account._protectedConstructorKey, node).loadPreviousHash(previousHash)
+    const privateKey = toUint8Array(node.privateKey.replace('0x', ''))
+    assertEx(!privateKey || privateKey?.length === 32, () => `Private key must be 32 bytes [${privateKey?.length}]`)
+    const newWallet = await new HDWallet(Account._protectedConstructorKey, node, await PrivateKey.create(privateKey)).loadPreviousHash(previousHash)
     return HDWallet._addressMap[newWallet.address]?.deref() ?? newWallet
   }
 

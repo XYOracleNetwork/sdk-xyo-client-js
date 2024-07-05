@@ -1,12 +1,12 @@
 import { toUint8Array } from '@xylabs/arraybuffer'
+import { PrivateKeyInstance } from '@xyo-network/key-model'
 
-import { PrivateKey, WASMPrivateKey } from '../Key'
+import { PrivateKey } from '../Key'
 
-const signTestIterations = 100
 const verifyTestIterations = 10
 
 describe('PrivateKey', () => {
-  const privateKey = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
+  const privateKeyBytes = '7f71bc5644f8f521f7e9b73f7a391e82c05432f8a9d36c44d6b1edbf1d8db62f'
   const hashes = [
     // These hashes are equivalent without malleation
     'a8830c30b02d8b96e6737ae2d785b4474e603ff477f84f5fbf36b24ce01450d9',
@@ -20,65 +20,23 @@ describe('PrivateKey', () => {
   ]
   const hash = hashes[0]
   const data = toUint8Array(hash)
-  const jsPrivateKey = new PrivateKey(toUint8Array(privateKey))
-  const wasmPrivateKey = new WASMPrivateKey(toUint8Array(privateKey))
-  describe('sign', () => {
-    it.each(hashes)('Signatures are consistent', async (hash) => {
-      const data = toUint8Array(hash)
-      const jsSignature = await jsPrivateKey.sign(data)
-      const wasmSignature = await wasmPrivateKey.sign(data)
-      expect(jsSignature).toEqual(wasmSignature)
-    })
-    test('wasm vs js (performance-serial)', async () => {
-      const jsStart = Date.now()
-      for (let x = 0; x < signTestIterations; x++) {
-        await jsPrivateKey.sign(data)
-      }
-      const jsDuration = Date.now() - jsStart
-      const wasmStart = Date.now()
-      for (let x = 0; x < signTestIterations; x++) {
-        await wasmPrivateKey.sign(data)
-      }
-      const wasmDuration = Date.now() - wasmStart
-      expect(wasmDuration).toBeDefined()
-      expect(jsDuration).toBeDefined()
-      logPerformanceResults(jsDuration, wasmDuration)
-    })
-  })
   describe('verify', () => {
+    let privateKey: PrivateKeyInstance
+    beforeAll(async () => {
+      privateKey = await PrivateKey.create(toUint8Array(privateKeyBytes))
+    })
     it.each(hashes)('Verification is consistent', async (hash) => {
       const data = toUint8Array(hash)
-      const jsSignature = await jsPrivateKey.sign(data)
-      const wasmSignature = await wasmPrivateKey.sign(data)
-      const jsVerifyJs = await jsPrivateKey.verify(data, jsSignature)
-      expect(jsVerifyJs).toBeTrue()
-      expect(await jsPrivateKey.verify(data, wasmSignature)).toBeTrue()
-      expect(await wasmPrivateKey.verify(data, jsSignature)).toBeTrue()
-      expect(await wasmPrivateKey.verify(data, wasmSignature)).toBeTrue()
+      const wasmSignature = await privateKey.sign(data)
+      const wasmVerify = await privateKey.verify(data, wasmSignature)
+      expect(wasmVerify).toBeTrue()
     })
     // TODO: Negative verification testing
     test('wasm vs js (performance-serial)', async () => {
-      const jsSignature = await jsPrivateKey.sign(data)
-      const wasmSignature = await wasmPrivateKey.sign(data)
-      const jsStart = Date.now()
+      const wasmSignature = await privateKey.sign(data)
       for (let x = 0; x < verifyTestIterations; x++) {
-        await jsPrivateKey.verify(data, jsSignature)
+        await privateKey.verify(data, wasmSignature)
       }
-      const jsDuration = Date.now() - jsStart
-      const wasmStart = Date.now()
-      for (let x = 0; x < verifyTestIterations; x++) {
-        await wasmPrivateKey.verify(data, wasmSignature)
-      }
-      const wasmDuration = Date.now() - wasmStart
-      logPerformanceResults(jsDuration, wasmDuration)
     }, 60_000)
   })
 })
-
-const logPerformanceResults = (jsDuration: number, wasmDuration: number) => {
-  expect(wasmDuration).toBeDefined()
-  expect(jsDuration).toBeDefined()
-  const delta = jsDuration - wasmDuration
-  const magnitude = (jsDuration / wasmDuration).toPrecision(4)
-  console.log(`Wasm is ${delta}ms (${magnitude} times) faster [${wasmDuration}ms vs ${jsDuration}ms ]`)
-}

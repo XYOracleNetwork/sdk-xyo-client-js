@@ -77,7 +77,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
 
   protected static privateConstructorKey = Date.now().toString()
 
-  protected _account: AccountInstance | undefined = undefined
+  protected _account: AccountInstance
 
   //cache manifest based on maxDepth
   protected _cachedManifests = new LRUCache<number, ModuleManifestPayload>({ max: 10, ttl: 1000 * 60 * 5 })
@@ -93,7 +93,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   private _logger: Logger | undefined = undefined
   private _status: ModuleStatus = 'stopped'
 
-  protected constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
+  constructor(privateConstructorKey: string, params: TParams, account: AccountInstance) {
     assertEx(AbstractModule.privateConstructorKey === privateConstructorKey, () => 'Use create function instead of constructor')
     // Clone params to prevent mutation of the incoming object
     const mutatedParams = { ...params } as TParams
@@ -114,7 +114,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
   }
 
   get address() {
-    return this.account.address
+    return this._account?.address
   }
 
   get allowAnonymous() {
@@ -233,7 +233,7 @@ export abstract class AbstractModule<TParams extends ModuleParams = ModuleParams
     const address = generatedAccount.address
     mutatedParams.logger = activeLogger ? new IdLogger(activeLogger, () => `0x${address}`) : undefined
 
-    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount)
+    const newModule = new this(AbstractModule.privateConstructorKey, mutatedParams, generatedAccount, address)
 
     if (!AbstractModule.enableLazyLoad) {
       await newModule.start?.()

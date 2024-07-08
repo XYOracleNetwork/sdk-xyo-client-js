@@ -28,6 +28,7 @@ import {
   ModuleStateQuerySchema,
   ObjectFilterOptions,
   resolveAddressToInstance,
+  resolveAll,
   ResolveHelper,
   ResolveHelperConfig,
   resolveLocalNameToInstance,
@@ -177,23 +178,17 @@ export abstract class AbstractModuleInstance<TParams extends ModuleParams = Modu
   ): Promise<T | T[] | undefined> {
     if (AbstractModuleInstance.useNewResolver) {
       if (idOrFilter === '*') {
-        return (await this.publicChildren()) as T[]
-      }
-      switch (typeof idOrFilter) {
-        case 'string': {
-          return (await resolvePathToInstance(this, idOrFilter)) as T | undefined
-        }
-        case 'object': {
-          if (isNameModuleFilter(idOrFilter)) {
-            return (await Promise.all(idOrFilter.name.map(async (name) => await resolveLocalNameToInstance(this, name)))) as T[]
-          }
-          if (isAddressModuleFilter(idOrFilter)) {
-            return (await Promise.all(idOrFilter.address.map(async (address) => await resolveAddressToInstance(this, address)))) as T[]
-          }
-          throw new Error('Invalid filter type')
-        }
-        default: {
-          return (await this.publicChildren()) as T[]
+        const { maxDepth = 1 } = options
+        return (await resolveAll(this, maxDepth)) as T[]
+      } else if (typeof idOrFilter === 'string') {
+        return (await resolvePathToInstance(this, idOrFilter, true)) as T
+      } else {
+        if (isNameModuleFilter(idOrFilter)) {
+          return (await Promise.all(idOrFilter.name.map(async (id) => await resolveLocalNameToInstance(this, id)))) as T[]
+        } else if (isAddressModuleFilter(idOrFilter)) {
+          return (await Promise.all(idOrFilter.address.map(async (id) => await resolveAddressToInstance(this, id)))) as T[]
+        } else {
+          throw new TypeError('Invalid filter')
         }
       }
     } else {
